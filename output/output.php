@@ -2,9 +2,11 @@
 
 if (! defined('ABSPATH') ) exit;
 
-add_action('wp_head', 'kb_schema_output');
-function kb_schema_output() {
+add_action('wp_head', 'saswp_kb_schema_output');
+
+function saswp_kb_schema_output() {
 	global $sd_data;
+        print_r($sd_data['sd-for-ampforwp']);die;
 	if( (!ampforwp_sd_non_amp() && $sd_data['sd-for-ampforwp']!=1) || (ampforwp_sd_non_amp() && $sd_data['sd-for-wordpress']!=1) ) {
 		return ;
 	}
@@ -173,7 +175,7 @@ function kb_schema_output() {
 			);
 	}
 
-	echo structured_data_generator($input);	 
+	echo saswp_data_generator($input);	 
     
 }
 
@@ -183,11 +185,11 @@ function sd_is_blog() {
 
 
 
-add_action('wp_head', 'schema_output');
-function schema_output() {
+add_action('wp_head', 'saswp_schema_output');
+function saswp_schema_output() {
 	global $sd_data;
 
-	$schemaConditionals = ampforwp_get_all_schema_posts();
+	$schemaConditionals = saswp_get_all_schema_posts();
 	if(!$schemaConditionals){
 		return ;
 	}
@@ -196,7 +198,7 @@ function schema_output() {
 	}
 	$schema_options = $schemaConditionals['schema_options'];
 	$schema_type = $schemaConditionals['schema_type'];
-	$logo = $sd_data['sd_logo']['url'];
+	$logo = $sd_data['sd_logo']['url'];        
 		if( '' == $logo && empty($logo) && isset($sd_data['sd_default_image'])){
 			$logo = $sd_data['sd_default_image']['url'];
 		}
@@ -295,7 +297,7 @@ function schema_output() {
 				
 				);
 				if(isset($sd_data['breadcrumb_schema']) && $sd_data['breadcrumb_schema'] == 1){
-					$input1['BreadcrumbList'] = schema_breadcrumb_output($sd_data);
+					$input1['BreadcrumbList'] = saswp_schema_breadcrumb_output($sd_data);
 				}
 			}
 
@@ -505,8 +507,8 @@ function schema_output() {
 				$input = array_merge($input1,$input2);
 		}
 		if($schema_options['notAccessibleForFree']==1){
-			add_filter( 'amp_post_template_data', 'ampforwp_structure_data_access_scripts');
-			/*add_action( 'amp_post_template_head', 'ampforwp_structure_data_access_scripts_json');*/
+			add_filter( 'amp_post_template_data', 'saswp_structure_data_access_scripts');
+			/*add_action( 'amp_post_template_head', 'saswp_structure_data_access_scripts_json');*/
 			$paywall_class_name = $schema_options['paywall_class_name'];
 			$isAccessibleForFree = isset($schema_options['isAccessibleForFree'])? $schema_options['isAccessibleForFree']: False;
 			if($paywall_class_name!=""){
@@ -523,12 +525,12 @@ function schema_output() {
 				$input = array_merge($input,$paywallData);
 			}
 		}
-		echo structured_data_generator($input);	 
+		echo saswp_data_generator($input);	 
 	}
 
 }
 
-function ampforwp_structure_data_access_scripts($data){
+function saswp_structure_data_access_scripts($data){
 	if ( empty( $data['amp_component_scripts']['amp-access'] ) ) {
 		$data['amp_component_scripts']['amp-access'] = 'https://cdn.ampproject.org/v0/amp-access-0.1.js';
 	}
@@ -541,13 +543,11 @@ function ampforwp_structure_data_access_scripts($data){
 	return $data;
 }
 
-
 //We have to work on this
 // Output is somewhat different from required output
 
-
 //Breadcrumbs
-function list_items_generator(){
+function saswp_list_items_generator(){
 		global $sd_data;
 		$bc_titles = array();
 		$bc_links = array();
@@ -621,8 +621,8 @@ if(is_archive()){
 
 return $breadcrumbslist;
 }
-add_action( 'wp_head', 'schema_breadcrumb_output');
-function schema_breadcrumb_output($sd_data){
+add_action( 'wp_head', 'saswp_schema_breadcrumb_output');
+function saswp_schema_breadcrumb_output($sd_data){
 	global $sd_data;
 	if( (!ampforwp_sd_non_amp() && $sd_data['sd-for-ampforwp']!=1) || (ampforwp_sd_non_amp() && $sd_data['sd-for-wordpress']!=1) ) {
 		return ;
@@ -644,219 +644,19 @@ function schema_breadcrumb_output($sd_data){
 		$input = array(
 					'@context'			=> 'http://schema.org',
 					'@type'				=> 'BreadcrumbList' ,
-					'itemListElement'	=>list_items_generator(),
+					'itemListElement'	=>saswp_list_items_generator(),
 			);
 		if ( !is_front_page() ) {
-			echo structured_data_generator($input);
+			echo saswp_data_generator($input);
 		 }
 	}
 }
 
-//Output of schema_breadcrumb_output2
-
-/*
-"@context":"http:\/\/schema.org",
-"@type":"BreadcrumbList",
-"itemListElement":
-[
-	{
-	"@type":"ListItem",
-	"position":1,
-	"item":
-		{
-		"@id":"http:\/\/localhost\/wp",
-		"name":"Homepage"
-		}
-	},
-	{
-	"@type":"ListItem",
-	"position":2,
-	"item":
-		{
-		"@id":"http:\/\/localhost\/wp\/call-example\/",
-		"name":"Call example"
-		}
-	}
-]
-*/
-
-
-
-/*Breadcrumbs output 
-
-@context":"http:\/\/schema.org",
-"@type":"BreadcrumbList",
-"itemListElement":
- [
-  {
-	"@type":"ListItem",
-	"position":1,
-	"item":
-   {
-	"@id":"https:\/\/example.com\/dresses",
-	"name":"Dresses"
-   }
-  },
-  {
-	"@type":"ListItem",
-	"position":2,
-	"item":
-   {
-	"@id":"https:\/\/example.com\/dresses\/real",
-	"name":"Real Dresses"
-   }
-  }
-]
-
-*/
-
-/*"@context": "http://schema.org",
- "@type": "BreadcrumbList",
- "itemListElement":
- [
-  {
-   "@type": "ListItem",
-   "position": 1,
-   "item":
-   {
-    "@id": "https://example.com/dresses",
-    "name": "Dresses"
-    }
-  },
-  {
-   "@type": "ListItem",
-  "position": 2,
-  "item":
-   {
-     "@id": "https://example.com/dresses/real",
-     "name": "Real Dresses"
-   }
-  }
- ]*/
-// Example Structured Data for Posts
-/*
-  "@context": "http://schema.org",
-
-  "@type": "NewsArticle",
-
-  "mainEntityOfPage": "https://www.recode.net/2017/6/1/15726132/donald-trump-withdraw-united-states-paris-climate-agreement-silicon-valley",
-
-  "headline": "Apple, Facebook and Google are among the many tech giants angry with Trump’s decision to leave",
-
-  "description": "Many in Silicon Valley urged Trump not to withdraw from the international climate pact.",
-
-    "datePublished": "2017-06-01T15:39:05-04:00",
-
-    "dateModified": "2017-06-01T15:39:05-04:00",
-
-    "image": { 
-    	"@type": "ImageObject", 
-    	"url": "https://cdn.vox-cdn.com/thumbor/n4uZ3AiR_YUmsgqH9VlrN6_5kgw=/974x958:5039x4007/1400x1050/cdn.vox-cdn.com/uploads/chorus_image/image/55051353/688656378.0.jpg", 
-    	"width": 1400, 
-    	"height": 1050 
-    },
-
-  	"author": {
-  		"@type": "Person",
-  		"name": "Tony Romm" 
-  	},
-
-  	"publisher": {
-	  	"@type": "Organization",
-	    "logo": { 
-	    	"@type": "ImageObject", 
-	    	"url": "https://www.recode.net/v/recode/images/logos/google_amp.png", 
-	    	"width": 199, 
-	    	"height": 60 },
-	  	"name": "Recode"
- 	}
-*/
-
-// This was the data generated by us
-/*
-	"@context":"http:\/\/schema.org",
-	"@type":"Blogposting",
-	"mainEntityOfPage":"new post for alignment test",
-	"Publisher":"Organization",
-	"name":null,
-	"logo":{"
-		@type":"ImageObject",
-		"url":null,
-		"height":null,
-		"width":null
-	},
-
-	"headline":"new post for alignment test",
-	"datePublished":"April 8th 2017",
-	"dateModified":"April 23rd 2017",
-	"author":{"
-		@type":"Person",
-		"name":"mohammed kaludi"
-		},
-	"image":{
-		"@type":"ImageObject",
-		"url":"<img alt='' src='http:\/\/1.gravatar.com\/avatar\/?s=96&#038;d=mm&#038;r=g' srcset='http:\/\/1.gravatar.com\/avatar\/?s=192&amp;d=mm&amp;r=g 2x' class='avatar avatar-96 photo avatar-default' height='96' width='96' \/>"
-		}
-
-*/
-
-
-//New Output generated by us
-
-/* 
-	"@context":"http:\/\/schema.org",
-
-	"@type":"Blogposting",
-
-	"mainEntityOfPage":"http:\/\/localhost\/wp\/egddsdgdfg\/",
-
-	"headline":"Title of the post",
-
-	"description":"Short summary or description of the post. ",
-
-	  "datePublished":"May 15, 2017",
-
-	  "dateModified":"June 3, 2017",
-
-	  "image":{
-		"@type":"ImageObject",
-		"url":"http:\/\/localhost\/wp\/wp-content\/uploads\/2012\/07\/cropped-Work-at-Home-Moms.jpg",
-		"width":512,
-		"height":512
-	  },
-	
-	  "author":{
-		"@type":"Person",
-		"name":"MARQAS"
-	  },
-
-	  "Publisher":{
-		"@type":"Organization",
-		"logo":{
-			"@type":"ImageObject",
-			"url":"http:\/\/localhost\/wp\/wp-content\/uploads\/2017\/05\/logo-retina.png",
-			"width":"241",
-			"height":"86"
-	    },
-		"name":"Blog"
-	  }
-
-
-
-
-
-
-
-
-
-
-*/
-
 
 // @type WebSite
-add_action( 'wp_head' , 'kb_website_output' );
+add_action( 'wp_head' , 'saswp_kb_website_output' );
 
-function kb_website_output(){
+function saswp_kb_website_output(){
 	global $sd_data;
 	if( (!ampforwp_sd_non_amp() && $sd_data['sd-for-ampforwp']!=1) || (ampforwp_sd_non_amp() && $sd_data['sd-for-wordpress']!=1) ) {
 		return ;
@@ -876,44 +676,29 @@ function kb_website_output(){
 			 	)
 			);
 	
-	echo structured_data_generator($input);	 
+	echo saswp_data_generator($input);	 
 }
 
-// AMP support
+add_filter( 'amp_init', 'saswp_structured_data' );
 
-
-// add_action('init','remove_amp_sd');
-// 
-// function remove_amp_sd(){
-// 	global $wp_filter;
-// 	var_dump($wp_filter['amp_post_template_head'][10]);
-// 	remove_action( 'amp_post_template_head', 'amp_post_template_add_schemaorg_metadata');
-// 	$loo = has_filter('amp_post_template_head','amp_post_template_add_schemaorg_metadata');
-// 	echo"ye";var_dump($loo);echo"priority";
-// }
-
-add_filter( 'amp_init', 'ampforwp_structured_data' );
-
-function ampforwp_structured_data()
-{
-	
-	
-	add_action( 'amp_post_template_head' , 'kb_schema_output' );
-	add_action( 'amp_post_template_head' , 'kb_website_output' );
-	add_action( 'amp_post_template_head' , 'schema_breadcrumb_output' );
-	add_action( 'amp_post_template_head' , 'schema_output' );
-	add_action( 'amp_post_template_head' , 'sd_archive_output' );
-	add_action( 'amp_post_template_head' , 'sd_archive_output' );
-	add_action( 'amp_post_template_head' , 'sd_about_page_output' );
-	add_action( 'amp_post_template_head' , 'sd_contact_page_output' );
+function saswp_structured_data()
+{		
+	add_action( 'amp_post_template_head' , 'saswp_kb_schema_output' );
+	add_action( 'amp_post_template_head' , 'saswp_kb_website_output' );
+	add_action( 'amp_post_template_head' , 'saswp_schema_breadcrumb_output' );
+	add_action( 'amp_post_template_head' , 'saswp_schema_output' );
+	add_action( 'amp_post_template_head' , 'saswp_archive_output' );
+	add_action( 'amp_post_template_head' , 'saswp_archive_output' );
+	add_action( 'amp_post_template_head' , 'saswp_about_page_output' );
+	add_action( 'amp_post_template_head' , 'saswp_contact_page_output' );
 	remove_action( 'amp_post_template_head', 'amp_post_template_add_schemaorg_metadata',10,1);
 }
 
 	
 // For Archive 
-add_action( 'wp_head' , 'sd_archive_output' );
+add_action( 'wp_head' , 'saswp_archive_output' );
 
-function sd_archive_output(){
+function saswp_archive_output(){
 	global $post, $query_string, $sd_data;
 	if( (!ampforwp_sd_non_amp() && $sd_data['sd-for-ampforwp']!=1) || (ampforwp_sd_non_amp() && $sd_data['sd-for-wordpress']!=1) ) {
 		return ;
@@ -970,7 +755,7 @@ function sd_archive_output(){
 				'sameAs' 		=> '',
 				'hasPart' 		=> $category_posts
        		);
-				echo structured_data_generator($input);	
+				echo saswp_data_generator($input);	
 	endif;
 	
 		
@@ -980,9 +765,9 @@ function sd_archive_output(){
 }
 
 // For Author 
-add_action( 'wp_head' , 'sd_author_output' );
+add_action( 'wp_head' , 'saswp_author_output' );
 
-function sd_author_output()
+function saswp_author_output()
 {
 	global $post;
 	if(isset($sd_data['archive_schema']) && $sd_data['archive_schema'] == 1){
@@ -1027,15 +812,15 @@ function sd_author_output()
 		if ( get_the_author_meta( 'description', $post_author->ID ) ) {
 			$input['description'] = strip_tags( get_the_author_meta( 'description', $post_author->ID ) );
 		}
-		echo structured_data_generator($input);
+		echo saswp_data_generator($input);
 	}
  }
 }
 
 // For About Page
-add_action( 'wp_head' , 'sd_about_page_output' );
+add_action( 'wp_head' , 'saswp_about_page_output' );
 
-function sd_about_page_output()
+function saswp_about_page_output()
 {
 	global $sd_data;
 	$image_id 		= get_post_thumbnail_id();
@@ -1091,15 +876,15 @@ function sd_about_page_output()
 
 			);
 			
-			echo structured_data_generator($input);
+			echo saswp_data_generator($input);
 	}
 	
 }
 
 // For Contact Page
-add_action( 'wp_head' , 'sd_contact_page_output' );
+add_action( 'wp_head' , 'saswp_contact_page_output' );
 
-function sd_contact_page_output()
+function saswp_contact_page_output()
 {
 	global $sd_data;
 	$image_id 		= get_post_thumbnail_id();
@@ -1155,7 +940,7 @@ function sd_contact_page_output()
 
 			);
 			
-			echo structured_data_generator($input);
+			echo saswp_data_generator($input);
 	}
 	
 }

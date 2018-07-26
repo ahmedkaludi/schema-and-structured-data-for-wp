@@ -1,15 +1,11 @@
 <?php
-add_action('wp_ajax_create_ajax_select_sdwp','amp_sdwp_ajax_select_creator');
-function amp_sdwp_ajax_select_creator($data = '', $saved_data= '', $current_number = '') {
+add_action('wp_ajax_create_ajax_select_sdwp','saswp_ajax_select_creator');
+function saswp_ajax_select_creator($data = '', $saved_data= '', $current_number = '') {
  
-    //$response         = $_POST["id"];
- //   $current_number   = $_POST["number"];
       $response         = $data;
-
       if ( isset( $_POST["id"] ) ) {
         $response = $_POST["id"];
       }
-
       if ( isset( $_POST["number"] ) ) {
         $current_number   = $_POST["number"];
       }
@@ -23,13 +19,12 @@ function amp_sdwp_ajax_select_creator($data = '', $saved_data= '', $current_numb
     {
       $options['param'] = "page";
     }
-
     
     switch($options['param'])
     {
       case "post_type":
 
-        $choices = amp_sdwp_post_type_generator();
+        $choices = saswp_post_type_generator();
 
         $choices = apply_filters('amp_acf_modify_select_post_type', $choices );
         break;
@@ -85,20 +80,7 @@ function amp_sdwp_ajax_select_creator($data = '', $saved_data= '', $current_numb
         }
         
         break;
-      
-      // Page Type Deactivated the support for now
-      // case "page_type" :
-        
-      //   $choices = array(
-      //     'front_page'  =>  __("Front Page"),
-      //     'posts_page'  =>  __("Posts Page"),
-      //     'top_level'   =>  __("Top Level Page (parent of 0)"),
-      //     'parent'    =>  __("Parent Page (has children)"),
-      //     'child'     =>  __("Child Page (has parent)"),
-      //   );
-                
-      //   break;
-        
+                   
       case "page_template" :
         
         $choices = array(
@@ -180,21 +162,7 @@ function amp_sdwp_ajax_select_creator($data = '', $saved_data= '', $current_numb
         $choices = get_post_format_strings();
                 
         break;
-      // Post Status Deactivated the support for now
-      // case "post_status" :
-        
-      //   $choices = array(
-      //     'publish' => __( 'Published'),
-      //     'pending' => __( 'Pending Review'),
-      //     'draft'   => __( 'Draft'),
-      //     'future'  => __( 'Future'),
-      //     'private' => __( 'Private'),
-      //     'inherit' => __( 'Revision'),
-      //     'trash'   => __( 'Trash'),
-      //   );
-                
-      //   break;
-      
+            
       case "user_type" :
        global $wp_roles;
         $choices = $wp_roles->get_names();
@@ -205,43 +173,16 @@ function amp_sdwp_ajax_select_creator($data = '', $saved_data= '', $current_numb
         }
                 
         break;
-      // Post Taxonomy Deactivated the support for now
-      // case "taxonomy" :
-        
-      //   $choices = array();
-      //   $simple_value = true;
-      //   $choices = apply_filters('acf/get_taxonomies_for_select', $choices, $simple_value);
-                
-      //   break;
-      
+            
       case "ef_taxonomy" :
         
         $choices = array('all' => esc_attr__('All','structured-data-wp'));
-        $taxonomies = amp_sdwf_post_taxonomy_generator();
-        
-        $choices = array_merge($choices, $taxonomies);
-      
-                
+        $taxonomies = saswp_post_taxonomy_generator();        
+        $choices = array_merge($choices, $taxonomies);                      
         break;
-      // Users Deactivated the support for now
-      // case "ef_user" :
-        
-      //   global $wp_roles;
-        
-      //   $choices = array_merge( array('all' => __('All')), $wp_roles->get_names() );
-      
-      //   break;
-        
-      // Attachment Pages Deactivated the support for now  
-      // case "ef_media" :
-        
-      //   $choices = array('all' => __('All'));
-      
-      //   break;
-        
+              
     }
-    
-    
+        
     // allow custom location rules
     $choices = $choices; 
 
@@ -291,7 +232,7 @@ function amp_sdwp_ajax_select_creator($data = '', $saved_data= '', $current_numb
 
 }
 // Generate Proper Post Taxonomy for select and to add data.
-function amp_sdwf_post_taxonomy_generator(){
+function saswp_post_taxonomy_generator(){
     $taxonomies = '';  
     $choices    = '';
       $taxonomies = get_taxonomies( array('public' => true), 'objects' );
@@ -307,8 +248,8 @@ function amp_sdwf_post_taxonomy_generator(){
 
     return $choices;
 }
-add_action('wp_ajax_create_ajax_select_sdwp_taxonomy','create_ajax_select_sdwp_taxonomy');
-function create_ajax_select_sdwp_taxonomy($selectedParentValue = '',$selectedValue, $current_number =''){
+add_action('wp_ajax_create_ajax_select_sdwp_taxonomy','saswp_create_ajax_select_taxonomy');
+function saswp_create_ajax_select_taxonomy($selectedParentValue = '',$selectedValue, $current_number =''){
   if(isset($_POST['id'])){
     $selectedParentValue = $_POST['id'];
   }

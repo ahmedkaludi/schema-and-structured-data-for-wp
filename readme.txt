@@ -31,7 +31,7 @@ Structured Data for Wordpress is an plugin to get best result in the google sear
 
 * Core default values of sd added.
 * New Functions added for multiple post types
-* Sdwp amp_sdwp_post_type_generator
+* Saswp saswp_post_type_generator
 * Added Array filter codes
 * Added post type to add structure data in specifiv position
 * Added redirect url

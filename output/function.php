@@ -1,11 +1,12 @@
 <?php
-function structured_data_generator($input) {
+function saswp_data_generator($input) {
+    
 	$output =  '';
-	global $sd_data;	 
+	global $sd_data;	        
 	if( (  1 == $sd_data['sd-for-wordpress'] && ampforwp_sd_non_amp() ) || ( 1 == $sd_data['sd-for-ampforwp'] && !ampforwp_sd_non_amp() ) ) {
 		if ($input) {
 			$output .= "\n\n";
-			$output .= '<!-- This site is optimized with the Structured data  plugin v'.STRUCTURED_DATA_VERSION.' - -->';
+			$output .= '<!-- This site is optimized with the Structured data  plugin v'.SASWP_VERSION.' - -->';
 			$output .= "\n";
 			$output .= '<script type="application/ld+json">' . json_encode($input) . '</script>';
 			$output .= "\n\n";
@@ -13,10 +14,6 @@ function structured_data_generator($input) {
 	}
 	return $output;
 }
-if(class_exists('MeprAppCtrl') ){
-	//remove_filter('the_content', 'MeprAppCtrl::page_route', 100);
-}
-
 add_action('wp', function(){
 	if( ampforwp_sd_non_amp() ){
 		return;
@@ -24,14 +21,14 @@ add_action('wp', function(){
 	remove_filter( 'the_content', 'prefix_insert_post_ads' );
 });
 
-add_filter('the_content', 'paywallDataForLogin');
-function paywallDataForLogin($content){
+add_filter('the_content', 'saswp_paywall_data_for_login');
+function saswp_paywall_data_for_login($content){
 	if( ampforwp_sd_non_amp() ){
 		return $content;
 	}
 	remove_filter('the_content', 'MeprAppCtrl::page_route', 60);
 	
-	$schemaConditionals = ampforwp_get_all_schema_posts();
+	$schemaConditionals = saswp_get_all_schema_posts();
 	if(!$schemaConditionals){
 		return $content;
 	}else{
@@ -54,7 +51,6 @@ function paywallDataForLogin($content){
 	}
 	return $content;
 }
-
 add_filter('memberpress_form_update', function($form){
 	if( !ampforwp_sd_non_amp() ){
 		add_action('amp_post_template_css',function(){

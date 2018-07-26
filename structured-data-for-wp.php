@@ -1,10 +1,10 @@
 <?php
 /*
-Plugin Name: Structured Data for WP
+Plugin Name: Schema and Structured Data for Wp
 Plugin URI: http://ampforwp.com/structured-data/
 Description: Add Structured data in your site. 
 Version: 1.2.4
-Text Domain: structured-data
+Text Domain: schema-and-structured-data-for-wp
 Author: Mohammed Kaludi, AMPforWP Team
 Author URI: http://ampforwp.com
 Donate link: https://www.paypal.me/Kaludi/25
@@ -14,36 +14,40 @@ License: GPL2
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-define('STRUCTURED_DATA_VERSION', '1.2.4');
-define('STRUCTURED_DATA_DIR_NAME', dirname( __FILE__ ));
+define('SASWP_VERSION', '1.2.4');
+define('SASWP_DIR_NAME', dirname( __FILE__ ));
 
-if ( ! defined( 'STRUCTURED_DATA_VERSION' ) ) {
-  define( 'STRUCTURED_DATA_VERSION', '1.2.4' );
+if ( ! defined( 'SASWP_VERSION' ) ) {
+  define( 'SASWP_VERSION', '1.2.4' );
 }
 // this is the URL our updater / license checker pings. This should be the URL of the site with EDD installed
-define( 'STRUCTURED_DATA_STORE_URL', 'https://accounts.ampforwp.com/' ); // you should use your own CONSTANT name, and be sure to replace it throughout this file
+define( 'SASWP_STORE_URL', 'https://accounts.ampforwp.com/' ); // you should use your own CONSTANT name, and be sure to replace it throughout this file
 
 // the name of your product. This should match the download name in EDD exactly
-define( 'STRUCTURED_DATA_ITEM_NAME', 'Structured Data for WP' );
+define( 'SASWP_ITEM_NAME', 'Structured Data for WP' );
 
 // the download ID. This is the ID of your product in EDD and should match the download ID visible in your Downloads list (see example below)
 //define( 'AMPFORWP_ITEM_ID', 2502 );
 // the name of the settings page for the license input to be displayed
-define( 'STRUCTURED_DATA_LICENSE_PAGE', 'structured-data-for-wp-license' );
-if(! defined('AMP_STRUCTURED_DATA_ITEM_FOLDER_NAME')){
+define( 'SASWP_LICENSE_PAGE', 'structured-data-for-wp-license' );
+if(! defined('SASWP_ITEM_FOLDER_NAME')){
     $folderName = basename(__DIR__);
-    define( 'AMP_STRUCTURED_DATA_ITEM_FOLDER_NAME', $folderName );
+    define( 'SASWP_ITEM_FOLDER_NAME', $folderName );
 }
+define('SASWP_PLUGIN_URL', plugin_dir_url( __FILE__ ));
 
 // Redux panel inclusion code
-if ( !class_exists( 'ReduxFramework' ) ) {
-    require_once STRUCTURED_DATA_DIR_NAME .'/includes/options/redux-core/framework.php';
-}
+//if ( !class_exists( 'ReduxFramework' ) ) {
+//    require_once SASWP_DIR_NAME .'/includes/options/redux-core/framework.php';
+//}
 // Register all the main options
-require_once STRUCTURED_DATA_DIR_NAME .'/includes/options/admin-config.php';
+require_once SASWP_DIR_NAME .'/includes/options/admin-config.php';
 // including the output file
-require_once STRUCTURED_DATA_DIR_NAME .'/output/function.php';
-require_once STRUCTURED_DATA_DIR_NAME .'/output/output.php';
+require_once SASWP_DIR_NAME .'/output/function.php';
+require_once SASWP_DIR_NAME .'/output/output.php';
+
+
+
 
 
 add_action('init', function() {
@@ -340,10 +344,10 @@ if(is_plugin_active('schema-app-structured-data-for-schemaorg/hunch-schema.php')
   }
 }
 
-add_action('amp_init','ampforwp_with_scheme_app_output',9);
-function ampforwp_with_scheme_app_output(){
+add_action('amp_init','saswp_with_scheme_app_output',9);
+function saswp_with_scheme_app_output(){
   global $sd_data;
-
+  $ampforwp_scheme_app_output ="";
   $url_path = trim(parse_url(add_query_arg(array()), PHP_URL_PATH),'/' );
   $explode_path = explode('/', $url_path); 
   
@@ -351,68 +355,38 @@ function ampforwp_with_scheme_app_output(){
 
         $scheme_amp_app = new SchemaFront;
         $ampforwp_scheme_app_output = $scheme_amp_app->hunch_schema_add(true);
-        remove_filter( 'amp_init', 'ampforwp_structured_data');    
+        remove_filter( 'amp_init', 'saswp_structured_data');    
 
   }
   return $ampforwp_scheme_app_output;
 }
 // Schema App end here
-require_once STRUCTURED_DATA_DIR_NAME.'/admin_section/structure_admin.php';
-require_once dirname( __FILE__ ) . '/updater/EDD_SL_Plugin_Updater.php';
-
-// Check for updates
-function structured_data_plugin_updater() {
-
-  // retrieve our license key from the DB
-  //$license_key = trim( get_option( 'amp_ads_license_key' ) );
-  $selectedOption = get_option('redux_builder_amp',true);
-    $license_key = '';//trim( get_option( 'amp_ads_license_key' ) );
-    $pluginItemName = '';
-    $pluginItemStoreUrl = '';
-    $pluginstatus = '';
-    if( isset($selectedOption['amp-license']) && "" != $selectedOption['amp-license'] && isset($selectedOption['amp-license'][AMP_STRUCTURED_DATA_ITEM_FOLDER_NAME])){
-
-       $pluginsDetail = $selectedOption['amp-license'][AMP_STRUCTURED_DATA_ITEM_FOLDER_NAME];
-       $license_key = $pluginsDetail['license'];
-       $pluginItemName = $pluginsDetail['item_name'];
-       $pluginItemStoreUrl = $pluginsDetail['store_url'];
-       $pluginstatus = $pluginsDetail['status'];
-    }
-  
-  // setup the updater
-  $edd_updater = new Sturctured_Data_EDD_SL_Plugin_Updater( STRUCTURED_DATA_STORE_URL, __FILE__, array(
-      'version'   => STRUCTURED_DATA_VERSION,        // current version number
-      'license'   => $license_key,            // license key (used get_option above to retrieve from DB)
-      'license_status'=>$pluginstatus,
-      'item_name' => STRUCTURED_DATA_ITEM_NAME,      // name of this plugin
-      'author'  => 'Mohammed Kaludi',           // author of this plugin
-      'beta'    => false,
-    )
-  );
-}
-add_action( 'admin_init', 'structured_data_plugin_updater', 0 );
+require_once SASWP_DIR_NAME.'/admin_section/structure_admin.php';
+require_once SASWP_DIR_NAME.'/admin_section/settings.php';
+require_once SASWP_DIR_NAME.'/admin_section/common-function.php';
+require_once SASWP_DIR_NAME.'/admin_section/fields-generator.php';
 
 // Notice to enter license key once activate the plugin
 
 $path = plugin_basename( __FILE__ );
   add_action("after_plugin_row_{$path}", function( $plugin_file, $plugin_data, $status ) {
     global $redux_builder_amp;
-    if(! defined('AMP_STRUCTURED_DATA_ITEM_FOLDER_NAME')){
+    if(! defined('SASWP_ITEM_FOLDER_NAME')){
     $folderName = basename(__DIR__);
-            define( 'AMP_STRUCTURED_DATA_ITEM_FOLDER_NAME', $folderName );
+            define( 'SASWP_ITEM_FOLDER_NAME', $folderName );
         }
-        $pluginsDetail = $redux_builder_amp['amp-license'][AMP_STRUCTURED_DATA_ITEM_FOLDER_NAME];
+        $pluginsDetail = $redux_builder_amp['amp-license'][SASWP_ITEM_FOLDER_NAME];
         $pluginstatus = $pluginsDetail['status'];
 
-        if(empty($redux_builder_amp['amp-license'][AMP_STRUCTURED_DATA_ITEM_FOLDER_NAME]['license'])){
+        if(empty($redux_builder_amp['amp-license'][SASWP_ITEM_FOLDER_NAME]['license'])){
       echo "<tr class='active'><td>&nbsp;</td><td colspan='2'><a href='".esc_url(  self_admin_url( 'admin.php?page=amp_options&tabid=opt-go-premium' )  )."'>Please enter the license key</a> to get the <strong>latest features</strong> and <strong>stable updates</strong></td></tr>";
           }elseif($pluginstatus=="valid"){
             $update_cache = get_site_transient( 'update_plugins' );
             $update_cache = is_object( $update_cache ) ? $update_cache : new stdClass();
-            if(isset($update_cache->response[ AMP_STRUCTURED_DATA_ITEM_FOLDER_NAME ]) 
-                && empty($update_cache->response[ AMP_STRUCTURED_DATA_ITEM_FOLDER_NAME ]->download_link) 
+            if(isset($update_cache->response[ SASWP_ITEM_FOLDER_NAME ]) 
+                && empty($update_cache->response[ SASWP_ITEM_FOLDER_NAME ]->download_link) 
               ){
-               unset($update_cache->response[ AMP_STRUCTURED_DATA_ITEM_FOLDER_NAME ]);
+               unset($update_cache->response[ SASWP_ITEM_FOLDER_NAME ]);
             }
             set_site_transient( 'update_plugins', $update_cache );
             

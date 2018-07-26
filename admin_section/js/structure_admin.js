@@ -19,8 +19,6 @@ jQuery(document).ready(function($){
 	$('body').append("<script type='template/html' id='call_html_template_sdwp'><tr class='toclone cloneya'>"+selectrow+"</tr>");
 	clone();
 	removeHtml();
-
-
 	$(document).on('change', '.select-post-type', function(){
 		var parent = $(this).parents('tr').find('.insert-ajax-select');
 		var selectedValue = $(this).val();

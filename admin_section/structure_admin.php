@@ -1,6 +1,6 @@
 <?php
 //FrontEnd
-function ampforwp_get_all_schema_posts(){
+function saswp_get_all_schema_posts(){
   $post_idArray = array();
   $query = new WP_Query(array(
         'post_type' => 'structured-data-wp',
@@ -18,7 +18,7 @@ function ampforwp_get_all_schema_posts(){
     global $post;
       $returnData = array();
       foreach ($post_idArray as $key => $post_id) {
-        $data = amp_sdwp_generate_field_data( $post_id );
+        $data = saswp_generate_field_data( $post_id );
         $data = array_filter($data);
         $number_of_fields = count($data);
         $unique_checker = 0;
@@ -60,17 +60,17 @@ function ampforwp_get_all_schema_posts(){
   return false;
 }
 
-function amp_sdwp_generate_field_data( $post_id ){
+function saswp_generate_field_data( $post_id ){
   $conditions = get_post_meta( $post_id, 'data_array', true);  
 
   $output = array();
   if ( $conditions ) { 
-    $output = array_map('amp_sdwp_comparison_logic_checker', $conditions); 
+    $output = array_map('saswp_comparison_logic_checker', $conditions); 
   }
   return $output;
 }
 
-function amp_sdwp_comparison_logic_checker($input){
+function saswp_comparison_logic_checker($input){
    global $post;
     $type       = $input['key_1'];
     $comparison = $input['key_2'];
@@ -85,10 +85,7 @@ function amp_sdwp_comparison_logic_checker($input){
     // Basic Controls ------------ 
       // Posts Type
       case 'post_type':   
-            $current_post_type  = $post->post_type;
-            /*if($data=='page'){
-              if(is_page())
-            }else{*/
+            $current_post_type  = $post->post_type;            
               if ( $comparison == 'equal' ) {
                   if ( $current_post_type == $data ) {
                     $result = true;
@@ -98,8 +95,7 @@ function amp_sdwp_comparison_logic_checker($input){
                   if ( $current_post_type != $data ) {
                     $result = true;
                   }
-              }
-            /*}*/
+              }            
         break;
 
       // Logged in User Type
@@ -109,11 +105,11 @@ function amp_sdwp_comparison_logic_checker($input){
                 if ( in_array( $data, (array) $user->roles ) ) {
                     $result = true;
                 }
-            }
+            }            
             if ( $comparison == 'not_equal') {
-
+                require_once ABSPATH . 'wp-admin/includes/user.php';
                 // Get all the registered user roles
-                $roles = get_editable_roles();
+                $roles = get_editable_roles();                
                 $all_user_types = array();
                 foreach ($roles as $key => $value) {
                   $all_user_types[] = $key;
@@ -227,7 +223,7 @@ function amp_sdwp_comparison_logic_checker($input){
       // Taxonomy Term
       case 'ef_taxonomy':
         // Get all the post registered taxonomies
-        $allowed_taxonomies = amp_sdwf_post_taxonomy_generator();
+        $allowed_taxonomies = saswp_post_taxonomy_generator();
         // Get the list of all the taxonomies associated with current post
         $taxonomy_names = get_post_taxonomies( $post->ID );
 
@@ -280,11 +276,7 @@ function amp_sdwp_comparison_logic_checker($input){
 
           }
         break;
-      // 
-      // case 'ef_user':
-
-      //   break;
-
+      
       default:
         $result = false;
         break;
@@ -326,10 +318,11 @@ if(is_admin()){
 
 
   function amp_sdwp_select_callback($post) {
-    $data_array    = esc_sql ( get_post_meta($post->ID, 'data_array', true)  );
+      
+    $data_array    = esc_sql ( get_post_meta($post->ID, 'data_array', true)  );    
     $schema_type    = esc_sql ( get_post_meta($post->ID, 'schema_type', true)  );
     $schema_options    = esc_sql ( get_post_meta($post->ID, 'schema_options', true)  );
-    $data_array = array_values($data_array);
+    $data_array = is_array($data_array)? array_values($data_array): array();      
     if ( empty( $data_array ) ) {
       $data_array = array(
         array(
@@ -411,9 +404,9 @@ if(is_admin()){
             </td>
             <td style="width:31%">
               <div class="insert-ajax-select">              
-                <?php amp_sdwp_ajax_select_creator($selected_val_key_1, $selected_val_key_3, $i );
+                <?php saswp_ajax_select_creator($selected_val_key_1, $selected_val_key_3, $i );
                 if($selected_val_key_1 == 'ef_taxonomy'){
-                  create_ajax_select_sdwp_taxonomy($selected_val_key_3, $selected_val_key_4, $i);
+                  saswp_create_ajax_select_taxonomy($selected_val_key_3, $selected_val_key_4, $i);
                 }
                 ?>
                 <div class="spinner"></div>
@@ -493,7 +486,7 @@ if(is_admin()){
   function amp_sdwp_style_script_include( $hook ) {
      global $pagenow, $typenow;
     if (is_admin() && $pagenow=='post-new.php' OR $pagenow=='post.php' && $typenow=='structured-data-wp') {
-       wp_register_script( 'structure_admin', plugin_dir_url(__FILE__) . '/js/structure_admin.js', array( 'jquery'), STRUCTURED_DATA_VERSION, true );
+       wp_register_script( 'structure_admin', plugin_dir_url(__FILE__) . '/js/structure_admin.js', array( 'jquery'), SASWP_VERSION, true );
        // Localize the script with new data
       $data_array = array(
           'ajax_url'    =>  admin_url( 'admin-ajax.php' ) 
@@ -599,9 +592,9 @@ function amp_admin_sdwp_migration(){
 }//CLosed is_admin
 
 // Generate Proper post types for select and to add data.
-add_action('wp_loaded', 'amp_sdwp_post_type_generator');
+add_action('wp_loaded', 'saswp_post_type_generator');
  
-function amp_sdwp_post_type_generator(){
+function saswp_post_type_generator(){
 
     $post_types = '';
     $post_types = get_post_types( array( 'public' => true ), 'names' );
@@ -611,3 +604,6 @@ function amp_sdwp_post_type_generator(){
 
     return $post_types;
 }
+
+
+
