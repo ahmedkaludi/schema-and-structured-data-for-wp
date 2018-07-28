@@ -3,7 +3,7 @@ function saswp_data_generator($input) {
     
 	$output =  '';
 	global $sd_data;	        
-	if( (  1 == $sd_data['sd-for-wordpress'] && ampforwp_sd_non_amp() ) || ( 1 == $sd_data['sd-for-ampforwp'] && !ampforwp_sd_non_amp() ) ) {
+	if( (  1 == $sd_data['sd-for-wordpress'] && saswp_non_amp() ) || ( 1 == $sd_data['sd-for-ampforwp'] && !saswp_non_amp() ) ) {
 		if ($input) {
 			$output .= "\n\n";
 			$output .= '<!-- This site is optimized with the Structured data  plugin v'.SASWP_VERSION.' - -->';
@@ -15,7 +15,7 @@ function saswp_data_generator($input) {
 	return $output;
 }
 add_action('wp', function(){
-	if( ampforwp_sd_non_amp() ){
+	if( saswp_non_amp() ){
 		return;
 	}
 	remove_filter( 'the_content', 'prefix_insert_post_ads' );
@@ -23,7 +23,7 @@ add_action('wp', function(){
 
 add_filter('the_content', 'saswp_paywall_data_for_login');
 function saswp_paywall_data_for_login($content){
-	if( ampforwp_sd_non_amp() ){
+	if( saswp_non_amp() ){
 		return $content;
 	}
 	remove_filter('the_content', 'MeprAppCtrl::page_route', 60);
@@ -52,7 +52,7 @@ function saswp_paywall_data_for_login($content){
 	return $content;
 }
 add_filter('memberpress_form_update', function($form){
-	if( !ampforwp_sd_non_amp() ){
+	if( !saswp_non_amp() ){
 		add_action('amp_post_template_css',function(){
 			echo '.amp-mem-login{background-color: #fef5c4;padding: 13px 30px 9px 30px;}';
 		},11); 

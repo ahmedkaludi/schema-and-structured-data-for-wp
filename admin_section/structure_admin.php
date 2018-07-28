@@ -289,15 +289,15 @@ function saswp_comparison_logic_checker($input){
   require_once( untrailingslashit( plugin_dir_path( __FILE__ ) ) . '/ajax-selectbox.php' );
 //Back End
 if(is_admin()){
-  add_action( 'init', 'amp_sdwp_create_post_type' );
-  function amp_sdwp_create_post_type() {
+  add_action( 'init', 'saswp_create_post_type' );
+  function saswp_create_post_type() {
 
 
     register_post_type( 'structured-data-wp',
       array(
         'labels' => array(
-            'name'          => esc_attr__( 'Structure data', 'structured-data-wp' ),
-            'singular_name' => esc_attr__( 'Structure data', 'structured-data-wp' )
+            'name'          => esc_attr__( 'Structure data', 'schema-and-structured-data-for-wp' ),
+            'singular_name' => esc_attr__( 'Structure data', 'schema-and-structured-data-for-wp' )
         ),
           'public'                => true,
           'has_archive'           => false,
@@ -308,16 +308,16 @@ if(is_admin()){
       )
     );
   }
-  add_action( 'add_meta_boxes', 'amp_sdwp_create_meta_box_select' );
-  function amp_sdwp_create_meta_box_select(){
+  add_action( 'add_meta_boxes', 'saswp_create_meta_box_select' );
+  function saswp_create_meta_box_select(){
     // Repeater Comparison Field
-    add_meta_box( 'amp_sdwp_select', __( 'Placement','structured-data-wp' ), 'amp_sdwp_select_callback', 'structured-data-wp','normal', 'high' );
+    add_meta_box( 'amp_sdwp_select', esc_html__( 'Placement','schema-and-structured-data-for-wp' ), 'saswp_select_callback', 'structured-data-wp','normal', 'high' );
     
   }
 
 
 
-  function amp_sdwp_select_callback($post) {
+  function saswp_select_callback($post) {
       
     $data_array    = esc_sql ( get_post_meta($post->ID, 'data_array', true)  );    
     $schema_type    = esc_sql ( get_post_meta($post->ID, 'schema_type', true)  );
@@ -333,33 +333,32 @@ if(is_admin()){
       );
     }
     //security check
-    wp_nonce_field( 'amp_sdwp_select_action_nonce', 'amp_sdwp_select_name_nonce' );?>
+    wp_nonce_field( 'saswp_select_action_nonce', 'saswp_select_name_nonce' );?>
 
     <?php 
     // Type Select    
       $choices = array(
-        __("Basic",'amp-acf') => array(
-        //  'none'      =>  __(" -- Select --",'amp-acf'),
-          'post_type'   =>  __("Post Type",'structured-data-wp'),
-          'user_type'   =>  __("Logged in User Type",'structured-data-wp'),
+        esc_html__("Basic",'schema-and-structured-data-for-wp') => array(        
+          'post_type'   =>  esc_html__("Post Type",'schema-and-structured-data-for-wp'),
+          'user_type'   =>  esc_html__("Logged in User Type",'schema-and-structured-data-for-wp'),
         ),
-        __("Post",'amp-acf') => array(
-          'post'      =>  __("Post",'structured-data-wp'),
-          'post_category' =>  __("Post Category",'structured-data-wp'),
-          'post_format' =>  __("Post Format",'structured-data-wp'), 
+        esc_html__("Post",'schema-and-structured-data-for-wp') => array(
+          'post'      =>  esc_html__("Post",'schema-and-structured-data-for-wp'),
+          'post_category' =>  esc_html__("Post Category",'schema-and-structured-data-for-wp'),
+          'post_format' =>  esc_html__("Post Format",'schema-and-structured-data-for-wp'), 
         ),
-        __("Page",'amp-acf') => array(
-          'page'      =>  __("Page",'structured-data-wp'), 
-          'page_template' =>  __("Page Template",'structured-data-wp'),
+        esc_html__("Page",'schema-and-structured-data-for-wp') => array(
+          'page'      =>  esc_html__("Page",'schema-and-structured-data-for-wp'), 
+          'page_template' =>  esc_html__("Page Template",'schema-and-structured-data-for-wp'),
         ),
-        __("Other",'amp-acf') => array( 
-          'ef_taxonomy' =>  __("Taxonomy Term",'structured-data-wp'), 
+        esc_html__("Other",'schema-and-structured-data-for-wp') => array( 
+          'ef_taxonomy' =>  esc_html__("Taxonomy Term",'schema-and-structured-data-for-wp'), 
         )
       ); 
 
       $comparison = array(
-        'equal'   =>  esc_attr__( 'Equal to', 'structured-data-wp'), 
-        'not_equal' =>  esc_attr__( 'Not Equal to', 'structured-data-wp'),     
+        'equal'   =>  esc_attr__( 'Equal to', 'schema-and-structured-data-for-wp'), 
+        'not_equal' =>  esc_attr__( 'Not Equal to', 'schema-and-structured-data-for-wp'),     
       );
 
       $total_fields = count( $data_array ); ?>
@@ -452,29 +451,29 @@ if(is_admin()){
                     if($schema_type==$key){
                       $sel = 'selected';
                     }
-                    echo "<option value='".$key."' ".$sel.">".$value."</option>";
+                    echo "<option value='".$key."' ".$sel.">".esc_html__($value, 'schema-and-structured-data-for-wp' )."</option>";
                   }
                 ?>
             </select></td>
           </tr>
           
           <tr>
-            <td><label for="notAccessibleForFree">Paywall</label></td>
+            <td><label for="notAccessibleForFree"><?php echo esc_html__( 'Paywall', 'schema-and-structured-data-for-wp' ) ?></label></td>
             <td><input type="checkbox" id="notAccessibleForFree" name="notAccessibleForFree" value="1" <?php if(isset($schema_options['notAccessibleForFree']) && $schema_options['notAccessibleForFree']==1){echo 'checked'; }?>>
             </td>
           </tr>
           <tr <?php if(!isset($schema_options['notAccessibleForFree']) || $schema_options['notAccessibleForFree']!=1){echo 'style="display:none"'; }?>>
-            <td><label for="isAccessibleForFree">Is accessible for free</label></td>
+            <td><label for="isAccessibleForFree"><?php echo esc_html__( 'Is accessible for free', 'schema-and-structured-data-for-wp' ) ?></label></td>
             <td>
                 <select name="isAccessibleForFree" id="isAccessibleForFree">
-                  <option value="False" <?php if( isset($schema_options['isAccessibleForFree']) && $schema_options['isAccessibleForFree']=='False'){echo 'selected'; }?>>False</option>
-                  <option value="True" <?php if( isset($schema_options['isAccessibleForFree']) && $schema_options['isAccessibleForFree']=='True'){echo 'selected'; }?>>True</option>
+                  <option value="False" <?php if( isset($schema_options['isAccessibleForFree']) && $schema_options['isAccessibleForFree']=='False'){echo 'selected'; }?>><?php echo esc_html__( 'False', 'schema-and-structured-data-for-wp' ); ?></option>
+                  <option value="True" <?php if( isset($schema_options['isAccessibleForFree']) && $schema_options['isAccessibleForFree']=='True'){echo 'selected'; }?>><?php echo esc_html__( 'True', 'schema-and-structured-data-for-wp' ); ?></option>
                 </select>
             </td>
           </tr>
           <tr <?php if(!isset($schema_options['notAccessibleForFree']) || $schema_options['notAccessibleForFree']!=1){echo 'style="display:none"'; }?>>
             <td>
-              <label for="paywall_class_name">Enter the class name of paywall section</label>  
+              <label for="paywall_class_name"><?php echo esc_html__( 'Enter the class name of paywall section', 'schema-and-structured-data-for-wp' ); ?></label>  
             </td>
             <td><input type="text" id="paywall_class_name" name="paywall_class_name" value="<?php if( isset($schema_options['paywall_class_name']) ){echo $schema_options['paywall_class_name']; }?>"></td>
           </tr>
@@ -482,8 +481,8 @@ if(is_admin()){
       </table>
     <?php
   }
-  add_action( 'admin_enqueue_scripts', 'amp_sdwp_style_script_include' );
-  function amp_sdwp_style_script_include( $hook ) {
+  add_action( 'admin_enqueue_scripts', 'saswp_style_script_include' );
+  function saswp_style_script_include( $hook ) {
      global $pagenow, $typenow;
     if (is_admin() && $pagenow=='post-new.php' OR $pagenow=='post.php' && $typenow=='structured-data-wp') {
        wp_register_script( 'structure_admin', plugin_dir_url(__FILE__) . '/js/structure_admin.js', array( 'jquery'), SASWP_VERSION, true );
@@ -497,12 +496,12 @@ if(is_admin()){
   }
 
   // Save PHP Editor
-  add_action ( 'save_post' , 'amp_sdwp_select_save_data' );
-  function amp_sdwp_select_save_data ( $post_id ) {
+  add_action ( 'save_post' , 'saswp_select_save_data' );
+  function saswp_select_save_data ( $post_id ) {
       if( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
        
       // if our nonce isn't there, or we can't verify it, bail
-      if( !isset( $_POST['amp_sdwp_select_name_nonce'] ) || !wp_verify_nonce( $_POST['amp_sdwp_select_name_nonce'], 'amp_sdwp_select_action_nonce' ) ) return;
+      if( !isset( $_POST['saswp_select_name_nonce'] ) || !wp_verify_nonce( $_POST['saswp_select_name_nonce'], 'saswp_select_action_nonce' ) ) return;
 
       // if our current user can't edit this post, bail
       if( !current_user_can( 'edit_post' ) ) return;
@@ -532,8 +531,8 @@ if(is_admin()){
     }
   }//function amp_sdwp_select_save_data closed
 
-add_action("admin_init",'amp_admin_sdwp_migration');
-function amp_admin_sdwp_migration(){
+add_action("admin_init",'saswp_migration');
+function saswp_migration(){
   $sdwp_migration_posts = get_option("sdwp_migration_posts");
   $sd_data = get_option("sd_data");
   if($sdwp_migration_posts != 'inserted'){

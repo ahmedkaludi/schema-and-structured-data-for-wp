@@ -4,14 +4,13 @@
  * Function saswp_pwa_add_menu_links
  *
  */
-function saswp_pwa_add_menu_links() {
-	
+function saswp_pwa_add_menu_links() {	
 	// Main menu page
-	add_menu_page( esc_html( 'Saswp Progressive Web Apps', 'schema-and-structured-data-for-wp' ), esc_html( 'SASWP', 'schema-and-structured-data-for-wp' ), 'manage_options', 'saswp-options','saswp_admin_interface_render', '', 100 );
+	//add_menu_page( esc_html__( 'Schema And Structured Data For WP', 'schema-and-structured-data-for-wp' ), esc_html__( 'SASWP', 'schema-and-structured-data-for-wp' ), 'manage_options', 'structured_data_options','saswp_admin_interface_render', '', 100 );
 	
 	// Settings page - Same as main menu page
-	add_submenu_page( 'saswp-options', esc_html( 'Schema And Structured Data For Wp', 'schema-and-structured-data-for-wp' ), esc_html( 'Settings', 'schema-and-structured-data-for-wp' ), 'manage_options', 'saswp-options', 'saswp_admin_interface_render' );
-	
+	add_submenu_page( 'edit.php?post_type=structured-data-wp', esc_html__( 'Schema And Structured Data For Wp', 'schema-and-structured-data-for-wp' ), esc_html__( 'Settings', 'schema-and-structured-data-for-wp' ), 'manage_options', 'structured_data_options', 'saswp_admin_interface_render' );	
+        
 }
 add_action( 'admin_menu', 'saswp_pwa_add_menu_links' );
 
@@ -28,24 +27,24 @@ function saswp_admin_interface_render(){
 	$tab = saswp_get_tab('dashboard', array('dashboard','general','knowledge','schema'));
 	?>
 	<div class="wrap">	
-		<h1> Schema And Structured Data For WP</h1>
+		<h1> <?php echo esc_html__( 'Schema And Structured Data For WP', 'schema-and-structured-data-for-wp' ); ?></h1>
 		<h2 class="nav-tab-wrapper amppwa-tabs">
 			<?php
 
-			echo '<a href="' . saswp_pwa_admin_link() . '" class="nav-tab ' . esc_attr( $tab == 'dashboard' ? 'nav-tab-active' : '') . '"><span class="dashicons dashicons-dashboard"></span> ' . esc_html('Dashboard') . '</a>';
+			echo '<a href="' . saswp_pwa_admin_link() . '" class="nav-tab ' . esc_attr( $tab == 'dashboard' ? 'nav-tab-active' : '') . '"><span class="dashicons dashicons-dashboard"></span> ' . esc_html__('Dashboard','schema-and-structured-data-for-wp') . '</a>';
 
-			echo '<a href="' . saswp_pwa_admin_link('general') . '" class="nav-tab ' . esc_attr( $tab == 'general' ? 'nav-tab-active' : '') . '"><span class="dashicons dashicons-welcome-view-site"></span> ' . esc_html('General','schema-and-structured-data-for-wp') . '</a>';
+			echo '<a href="' . saswp_pwa_admin_link('general') . '" class="nav-tab ' . esc_attr( $tab == 'general' ? 'nav-tab-active' : '') . '"><span class="dashicons dashicons-admin-generic"></span> ' . esc_html__('General','schema-and-structured-data-for-wp') . '</a>';
 
-			echo '<a href="' . saswp_pwa_admin_link('knowledge') . '" class="nav-tab ' . esc_attr( $tab == 'knowledge' ? 'nav-tab-active' : '') . '"><span class="dashicons dashicons-welcome-view-site"></span> ' . esc_html('Knowledge Base','schema-and-structured-data-for-wp') . '</a>';
+			echo '<a href="' . saswp_pwa_admin_link('knowledge') . '" class="nav-tab ' . esc_attr( $tab == 'knowledge' ? 'nav-tab-active' : '') . '"><span class="dashicons dashicons-info"></span> ' . esc_html__('Knowledge Base','schema-and-structured-data-for-wp') . '</a>';
 
-			echo '<a href="' . saswp_pwa_admin_link('schema') . '" class="nav-tab ' . esc_attr( $tab == 'schema' ? 'nav-tab-active' : '') . '"><span class="dashicons dashicons-welcome-view-site"></span> ' . esc_html('Schema Type','schema-and-structured-data-for-wp') . '</a>';
+			echo '<a href="' . saswp_pwa_admin_link('schema') . '" class="nav-tab ' . esc_attr( $tab == 'schema' ? 'nav-tab-active' : '') . '"><span class="dashicons dashicons-welcome-view-site"></span> ' . esc_html__('Schema Type','schema-and-structured-data-for-wp') . '</a>';
 			?>
 		</h2>
 		<form action="options.php" method="post" enctype="multipart/form-data">		
 			<div class="form-wrap">
 			<?php
 			// Output nonce, action, and option_page fields for a settings page.
-			settings_fields( 'saswp_setting_dashboard_group' );									
+			settings_fields( 'sd_data_group' );									
 			echo "<div class='saswp-dashboard' ".( $tab != 'dashboard' ? 'style="display:none;"' : '').">";
 			// Status
 			//do_settings_sections( 'saswp_dashboard_section' );	// Page slug
@@ -69,7 +68,7 @@ function saswp_admin_interface_render(){
 			<div class="button-wrapper">
 				<?php
 				// Output save settings button
-			submit_button( esc_html('Save Settings', 'schema-and-structured-data-for-wp') );
+			submit_button( esc_html__('Save Settings', 'schema-and-structured-data-for-wp') );
 				?>
 			</div>
 		</form>
@@ -84,13 +83,12 @@ function saswp_admin_interface_render(){
 add_action('admin_init', 'saswp_pwa_settings_init');
 
 function saswp_pwa_settings_init(){
-	register_setting( 'saswp_setting_dashboard_group', 'sd_data' );
+          	register_setting( 'sd_data_group', 'sd_data' );
+                add_settings_section('saswp_dashboard_section', esc_html__('Installation Status','schema-and-structured-data-for-wp'), '__return_false', 'saswp_dashboard_section');
+                        // Manifest status		
+                add_settings_section('saswp_general_section', __return_false(), '__return_false', 'saswp_general_section');
 
-	add_settings_section('saswp_dashboard_section', esc_html('Installation Status','schema-and-structured-data-for-wp'), '__return_false', 'saswp_dashboard_section');
-		// Manifest status		
-	add_settings_section('saswp_general_section', __return_false(), '__return_false', 'saswp_general_section');
-	
-		add_settings_field(
+                add_settings_field(
 			'general_settings',								// ID
 			'',		// Title
 			'saswp_general_page_callback',								// CB
@@ -117,16 +115,14 @@ function saswp_pwa_settings_init(){
 			'saswp_schema_section'						// Settings Section ID
 		);
 }
-
-
 function saswp_schema_page_callback(){
 	// Get Settings
 	$settings = saswp_defaultSettings(); 
-        $field_objs = new fields_generator();
-        $meta_fields = array(	                
+        $field_objs = new saswp_fields_generator();
+        $meta_fields_schema_type = array(	                
                 array(
 			'label' => 'Post',
-			'id' => 'sd_post_type-select',
+			'id' => 'sd_post_type',
                         'name' => 'sd_data[sd_post_type]',
 			'type' => 'select',
 			'options' => array(
@@ -142,7 +138,7 @@ function saswp_schema_page_callback(){
                     ),
              array(
 			'label' => 'Page',
-			'id' => 'sd_page_type-select',
+			'id' => 'sd_page_type',
                         'name' => 'sd_data[sd_page_type]',
 			'type' => 'select',
 			'options' => array(
@@ -155,9 +151,11 @@ function saswp_schema_page_callback(){
                                 'Product'=>'Product',
                                 'VideoObject'=>'VideoObject',                               
 			)
-                    ),
-		
-             
+                    ),		                                                              
+	);
+         echo '<h2>'.esc_html__('Schema Type','schema-and-structured-data-for-wp').'</h2>';
+         $field_objs->saswp_field_generator($meta_fields_schema_type, $settings);        
+         $meta_fields_default = array(	                                		             
                 array(
 			'label' => 'Default Structured Data Logo',
 			'id' => 'sd-data-logo-ampforwp',
@@ -167,12 +165,13 @@ function saswp_schema_page_callback(){
 		),
                 array(
 			'label' => 'Custom Logo Size',
-			'id' => 'sd-logo-dimensions-ampforwp', 
+			'id' => 'sd-logo-dimensions-ampforwp-check', 
                         'name' => 'sd_data[sd-logo-dimensions-ampforwp]',
 			'type' => 'checkbox',
-                        'class' => 'checkbox checkbox-input',                        
-                        'attributes' => array(
-                            'data-id' => 'test',                            
+                        'class' => 'checkbox checkbox-input', 
+                        'hidden' => array(
+                             'id' => 'sd-logo-dimensions-ampforwp',
+                             'name' => 'sd_data[sd-logo-dimensions-ampforwp]',                             
                         )
 		),
                 array(
@@ -198,14 +197,14 @@ function saswp_schema_page_callback(){
                         'class' => 'saswp-sd_default_image',
 			'type' => 'media',
 		),
-            array(
+                array(
 			'label' => 'Default Post Image Width',
 			'id' => 'sd_default_image_width',
                         'name' => 'sd_data[sd_default_image_width]',
                         'class' => 'regular-text',                        
 			'type' => 'text',
 		),
-            array(
+                array(
 			'label' => 'Default Post Image Height',
 			'id' => 'sd_default_image_height',
                         'name' => 'sd_data[sd_default_image_height]',
@@ -219,31 +218,31 @@ function saswp_schema_page_callback(){
                         'class' => 'saswp-sd_default_video_thumbnail',
 			'type' => 'media',
 		),
-            array(
+                array(
 			'label' => 'Archive',
-			'id' => 'archive_schema', 
-                        'name' => 'sd_data[archive_schema]',
+			'id' => 'archive_schema_checkbox', 
+                        'name' => 'archive_schema_checkbox',
 			'type' => 'checkbox',
                         'class' => 'checkbox checkbox-input',                        
-                        'attributes' => array(
-                            'data-id' => 'test',                            
+                        'hidden' => array(
+                             'id' => 'archive_schema',
+                             'name' => 'sd_data[archive_schema]',                             
                         )
 		),
-            array(
+                array(
 			'label' => 'BreadCrumbs',
-			'id' => 'breadcrumb_schema', 
-                        'name' => 'sd_data[breadcrumb_schema]',
+			'id' => 'breadcrumb_schema_checkbox', 
+                        'name' => 'breadcrumb_schema_checkbox',
 			'type' => 'checkbox',
                         'class' => 'checkbox checkbox-input',                        
-                        'attributes' => array(
-                            'data-id' => 'test',                            
+                        'hidden' => array(
+                             'id' => 'breadcrumb_schema',
+                             'name' => 'sd_data[breadcrumb_schema]',                             
                         )
-		),
-                 
-                  
+		),                                   
 	);
-        
-        $field_objs->saswp_field_generator($meta_fields, $settings);
+          echo '<h2>'.esc_html__('Default Values','schema-and-structured-data-for-wp').'</h2>';
+         $field_objs->saswp_field_generator($meta_fields_default, $settings);
         ?>     
         
 	<?php
@@ -251,50 +250,56 @@ function saswp_schema_page_callback(){
 function saswp_general_page_callback(){
 	// Get Settings
 	$settings = saswp_defaultSettings();         
-        $field_objs = new fields_generator();
+        $field_objs = new saswp_fields_generator();
         $meta_fields = array(		
 		array(
 			'label' => 'Structured Data for WordPress',
-			'id' => 'sd-for-wordpress',
-                        'name' => 'sd_data[sd-for-wordpress]',
+			'id' => 'sd-for-wordpress-checkbox',
+                        'name' => 'sd-for-wordpress-checkbox',
 			'type' => 'checkbox',
                         'class' => 'checkbox checkbox-input',
                         'note'  => '',
-                        'attributes' => array(
-                            'data-id' => 'test'
+                        'hidden' => array(
+                             'id' => 'sd-for-wordpress',
+                             'name' => 'sd_data[sd-for-wordpress]',                             
                         )
 		),
                 array(
 			'label' => 'Structured Data for AMP',
-			'id' => 'sd-for-ampforwp',                        
-                        'name' => 'sd_data[sd-for-ampforwp]',
+			'id' => 'sd-for-ampforwp-checkbox',                        
+                        'name' => 'sd-for-ampforwp-checkbox',
 			'type' => 'checkbox',
                         'class' => 'checkbox checkbox-input',
-                        'attributes' => array(
-                            'data-  id' => 'test'
+                        'hidden' => array(
+                             'id' => 'sd-for-ampforwp',
+                             'name' => 'sd_data[sd-for-ampforwp]',                             
                         )
 		),
                 array(
 			'label' => 'Schema App by Hunch Manifest compatibility in AMP',
-			'id' => 'sd-for-ampforwp-with-scheme-app',  
-                        'name' => 'sd_data[sd-for-ampforwp-with-scheme-app]',
+			'id' => 'sd-for-ampforwp-with-scheme-checkbox',  
+                        'name' => 'sd-for-ampforwp-with-scheme-checkbox',
 			'type' => 'checkbox',
                         'class' => 'checkbox checkbox-input',
                         'note'  => 'Note: It will override the Strucuture Data for AMP option',
-                        'attributes' => array(
-                            'data-id' => 'test',                            
+                        'hidden' => array(
+                             'id' => 'sd-for-ampforwp-with-scheme-app',
+                             'name' => 'sd_data[sd-for-ampforwp-with-scheme-app]',                             
                         )
 		)				
 	);
-        
+        echo '<h2>'.esc_html__('Set Up','schema-and-structured-data-for-wp').'</h2>';
         $field_objs->saswp_field_generator($meta_fields, $settings);
                 
         ?>
-            <table>
-                <tbody>
-                    <tr>
-                <th>About Us</th>
-                <td>
+<div class="saswp-settings-list">
+<h2><?php echo esc_html__('Page Schema','schema-and-structured-data-for-wp') ?></h2>
+<ul><li><div style="width:200px;float:left;clear: both;"><label>
+     <?php echo esc_html__('About Us','schema-and-structured-data-for-wp') ?>
+                </label>
+        </div>
+        <div style="width:60%; float:right;">
+              
                     <label for="sd_about_page-select">
 	<?php        
         echo wp_dropdown_pages( array( 
@@ -305,11 +310,16 @@ function saswp_general_page_callback(){
 			'option_none_value' => '', 
 			'selected' =>  isset($settings['sd_about_page']) ? $settings['sd_about_page'] : '',
 		)); ?>
-	      </label>
-                </td>                  
-            </tr>
-           <tr><th>Contact Us</th>
-               <td>
+	      </label>  
+        </div>
+    </li>
+    <li><div style="width:200px;float:left;clear: both;">
+            <label>
+    <?php echo esc_html__('Contact Us','schema-and-structured-data-for-wp') ?>
+            </label>
+        </div>
+        <div style="width:60%; float:right;">
+          
            <label for="sd_contact_page-select">
 	  <?php echo wp_dropdown_pages( array( 
 			'name' => 'sd_data[sd_contact_page]', 
@@ -319,18 +329,25 @@ function saswp_general_page_callback(){
 			'option_none_value' => '', 
 			'selected' =>  isset($settings['sd_contact_page']) ? $settings['sd_contact_page'] : '',
 		)); ?>
-	      </label>     
-                </td>
-           </tr>
-                </tbody>
-            </table>                	    
+	      </label>       
+        </div>
+    </li>
+</ul>
+   </div>         
+           
+               
+            
+                                
+            
+           
+           
+               
 	<?php
 }
 function saswp_knowledge_page_callback(){
 	// Get Settings
-	$settings = saswp_defaultSettings(); 
-        
-        $field_objs = new fields_generator();
+	$settings = saswp_defaultSettings();         
+        $field_objs = new saswp_fields_generator();
         $meta_fields = array(	                
                 array(
 			'label' => 'Data Type',
@@ -366,19 +383,20 @@ function saswp_knowledge_page_callback(){
 		),
                 array(
 			'label' => 'Logo',
-			'id' => 'sd_data[sd_logo][url]',
+			'id' => 'sd_logo',
                         'name' => 'sd_data[sd_logo][url]',
-                        'class' => 'upload large-text',
-			'type' => 'media',
+                        'class' => 'saswp-icon upload large-text',
+			'type' => 'media',                        
 		),
                 array(
 			'label' => 'Contact details',
-			'id' => 'sd_kb_contact_1', 
-                        'name' => 'sd_data[sd_kb_contact_1]',
+			'id' => 'sd_kb_contact_1_checkbox', 
+                        'name' => 'sd_kb_contact_1_checkbox',
 			'type' => 'checkbox',
                         'class' => 'checkbox checkbox-input',                        
-                        'attributes' => array(
-                            'data-id' => 'test',                            
+                        'hidden' => array(
+                            'id' => 'sd_kb_contact_1',                            
+                            'name' => 'sd_data[sd_kb_contact_1]'
                         )
 		),
                 array(
@@ -422,7 +440,7 @@ function saswp_knowledge_page_callback(){
                         'name' => 'sd_data[sd-person-job-title]',
                         'class' => 'regular-text',                        
 			'type' => 'text',
-		    ),
+		    ),  
                     array(
 			'label' => 'Image',
 			'id' => 'sd-person-image',
@@ -446,9 +464,13 @@ function saswp_knowledge_page_callback(){
 		    ),
                 
 	);
-        
+        echo '<h2>'.esc_html__('Knowledge Base','schema-and-structured-data-for-wp').'</h2>';
+        echo '<div class="saswp-knowledge-base">';
         $field_objs->saswp_field_generator($meta_fields, $settings);
-        //social 
+        echo '</div>';
+        
+        //social
+        echo '<h2>'.esc_html__( 'Social Fields', 'schema-and-structured-data-for-wp' ).'</h2>';
         $social_meta_fields = array(		
 		array(
 			'label' => 'Facebook',
@@ -541,35 +563,28 @@ function saswp_knowledge_page_callback(){
                         )
 		    ),
                 			
-	);
-        
-        echo '<div>'.$field_objs->saswp_field_generator($social_meta_fields, $settings).'</div>'
-        
-        ?>           
-                	     
+	);        
+        $field_objs->saswp_field_generator($social_meta_fields, $settings);
+                
+        ?>            	     
 	<?php
 }
-
 /**
  * Enqueue CSS and JS
  */
 function saswp_enqueue_style_js( $hook ) {
     // Load only on ampforwp-pwa plugin pages
-	if ( strpos( $hook, 'saswp-options' ) === false ) {
+	if ( strpos( $hook, 'structured_data_options' ) === false ) {
 		return;
-	}
-	
+	}	
 	// Color picker CSS
 	// @refer https://make.wordpress.org/core/2012/11/30/new-color-picker-in-wp-3-5/
-    wp_enqueue_style( 'wp-color-picker' );
-	
+        wp_enqueue_style( 'wp-color-picker' );	
 	// Everything needed for media upload
-	wp_enqueue_media();
-	
+	wp_enqueue_media();	
 	// Main JS
-    wp_enqueue_script( 'saswp-main-js', SASWP_PLUGIN_URL . 'admin_section/js/main-script.js', array( 'wp-color-picker' ), SASWP_VERSION, true );
+        wp_enqueue_script( 'saswp-main-js', SASWP_PLUGIN_URL . 'admin_section/js/main-script.js', array( 'wp-color-picker' ), SASWP_VERSION, true );
+        //Main Css 
+        wp_enqueue_style( 'saswp-main-css', SASWP_PLUGIN_URL . 'admin_section/css/main-style.css', false , SASWP_VERSION );
 }
 add_action( 'admin_enqueue_scripts', 'saswp_enqueue_style_js' );
-
-
-

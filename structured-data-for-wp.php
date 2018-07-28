@@ -20,44 +20,25 @@ define('SASWP_DIR_NAME', dirname( __FILE__ ));
 if ( ! defined( 'SASWP_VERSION' ) ) {
   define( 'SASWP_VERSION', '1.2.4' );
 }
-// this is the URL our updater / license checker pings. This should be the URL of the site with EDD installed
-define( 'SASWP_STORE_URL', 'https://accounts.ampforwp.com/' ); // you should use your own CONSTANT name, and be sure to replace it throughout this file
-
-// the name of your product. This should match the download name in EDD exactly
-define( 'SASWP_ITEM_NAME', 'Structured Data for WP' );
-
-// the download ID. This is the ID of your product in EDD and should match the download ID visible in your Downloads list (see example below)
-//define( 'AMPFORWP_ITEM_ID', 2502 );
 // the name of the settings page for the license input to be displayed
-define( 'SASWP_LICENSE_PAGE', 'structured-data-for-wp-license' );
 if(! defined('SASWP_ITEM_FOLDER_NAME')){
     $folderName = basename(__DIR__);
     define( 'SASWP_ITEM_FOLDER_NAME', $folderName );
 }
 define('SASWP_PLUGIN_URL', plugin_dir_url( __FILE__ ));
 
-// Redux panel inclusion code
-//if ( !class_exists( 'ReduxFramework' ) ) {
-//    require_once SASWP_DIR_NAME .'/includes/options/redux-core/framework.php';
-//}
-// Register all the main options
-require_once SASWP_DIR_NAME .'/includes/options/admin-config.php';
 // including the output file
 require_once SASWP_DIR_NAME .'/output/function.php';
 require_once SASWP_DIR_NAME .'/output/output.php';
-
-
-
-
 
 add_action('init', function() {
 });
 
 
-add_action('wp_head','custom_breadcrumbs',99);
+add_action('wp_head','saswp_custom_breadcrumbs',99);
 
 // Breadcrumbs
-function custom_breadcrumbs($sd_data) {
+function saswp_custom_breadcrumbs($sd_data) {
 	global $sd_data;	
 
     $variables1_titles = array();   
@@ -198,13 +179,7 @@ function custom_breadcrumbs($sd_data) {
                   $variables2_links[]=get_category_link( $category_value );
               
               }
-          }
-            // Category page
-           // echo '<li class="item-current item-cat"><strong class="bread-current bread-cat">' . single_cat_title('', false) . '</strong></li>';
-            //$cat_ttile= single_cat_title('', false);    
-            //$variables1_titles[]= $cat_ttile;
-
-               
+          }                          
         } else if ( is_page() ) {
                
             // Standard page
@@ -224,19 +199,11 @@ function custom_breadcrumbs($sd_data) {
                     $variables1_titles[]= get_the_title($ancestor);
                     $variables2_links[]=get_permalink($ancestor);
                 }
+             
+                    $variables1_titles[]= get_the_title();
+                    $variables2_links[]=get_permalink();
                    
-                // Display parent pages
-              //  echo $parents;
-                   
-                // Current page
-              //  echo '<li class="item-current item-' . $post->ID . '"><strong title="' . get_the_title() . '"> ' . get_the_title() . '</strong></li>';
-                $variables1_titles[]= get_the_title();
-                $variables2_links[]=get_permalink();
-                   
-            } else {
-                   
-                // Just display current page if not parents
-               // echo '<li class="item-current item-' . $post->ID . '"><strong class="bread-current bread-' . $post->ID . '"> ' . get_the_title() . '</strong></li>';
+            } else {                                                  
                    $variables1_titles[]=get_the_title();
                    $variables2_links[]=get_permalink();
             }
@@ -258,62 +225,8 @@ function custom_breadcrumbs($sd_data) {
             // Tag name and link
 
             $variables1_titles[] = $get_term_name;
-            $variables2_links[] = $term_link;
-           
-        } elseif ( is_day() ) {
-               
-            // Day archive
-               
-            // Year link
-          //  echo '<li class="item-year item-year-' . get_the_time('Y') . '"><a class="bread-year bread-year-' . get_the_time('Y') . '" href="' . get_year_link( get_the_time('Y') ) . '" title="' . get_the_time('Y') . '">' . get_the_time('Y') . ' Archives</a></li>';
-          //  echo '<li class="separator separator-' . get_the_time('Y') . '"> ' . $separator . ' </li>';
-               
-            // Month link
-          //  echo '<li class="item-month item-month-' . get_the_time('m') . '"><a class="bread-month bread-month-' . get_the_time('m') . '" href="' . get_month_link( get_the_time('Y'), get_the_time('m') ) . '" title="' . get_the_time('M') . '">' . get_the_time('M') . ' Archives</a></li>';
-          //  echo '<li class="separator separator-' . get_the_time('m') . '"> ' . $separator . ' </li>';
-               
-            // Day display
-            //echo '<li class="item-current item-' . get_the_time('j') . '"><strong class="bread-current bread-' . get_the_time('j') . '"> ' . get_the_time('jS') . ' ' . get_the_time('M') . ' Archives</strong></li>';
-               
-        } else if ( is_month() ) {
-               
-            // Month Archive
-               
-            // Year link
-           // echo '<li class="item-year item-year-' . get_the_time('Y') . '"><a class="bread-year bread-year-' . get_the_time('Y') . '" href="' . get_year_link( get_the_time('Y') ) . '" title="' . get_the_time('Y') . '">' . get_the_time('Y') . ' Archives</a></li>';
-           // echo '<li class="separator separator-' . get_the_time('Y') . '"> ' . $separator . ' </li>'//;
-               
-            // Month display
-          //  echo '<li class="item-month item-month-' . get_the_time('m') . '"><strong class="bread-month bread-month-' . get_the_time('m') . '" title="' . get_the_time('M') . '">' . get_the_time('M') . ' Archives</strong></li>';
-               
-        } else if ( is_year() ) {
-               
-            // Display year archive
-           // echo '<li class="item-current item-current-' . get_the_time('Y') . '"><strong class="bread-current bread-current-' . get_the_time('Y') . '" title="' . get_the_time('Y') . '">' . get_the_time('Y') . ' Archives</strong></li>';
-               
-        } else if ( is_author() ) {
-            // Auhor archive
-               
-            // Get the author information
-
-           
-        } else if ( get_query_var('paged') ) {
-
-            // Paginated archives
-          //  echo '<li class="item-current item-current-' . get_query_var('paged') . '"><strong class="bread-current bread-current-' . get_query_var('paged') . '" title="Page ' . get_query_var('paged') . '">'.__('Page') . ' ' . get_query_var('paged') . '</strong></li>';
-               
-        } else if ( is_search() ) {
-           
-            // Search results page
-           // echo '<li class="item-current item-current-' . get_search_query() . '"><strong class="bread-current bread-current-' . get_search_query() . '" title="Search results for: ' . get_search_query() . '">Search results for: ' . get_search_query() . '</strong></li>';
-           
-        } elseif ( is_404() ) {
-               
-            // 404 page
-            //echo '<li>' . 'Error 404' . '</li>';
-        } 
-
-         
+            $variables2_links[] = $term_link;           
+          }         
           $sd_data['titles']= $variables1_titles;
           $sd_data['links']= $variables2_links;
          
@@ -322,8 +235,8 @@ function custom_breadcrumbs($sd_data) {
     
 }
 // Non amp checker
-if ( ! function_exists('ampforwp_sd_non_amp') ){  
-  function ampforwp_sd_non_amp(){
+if ( ! function_exists('saswp_non_amp') ){  
+  function saswp_non_amp(){
     $non_amp = true;
     if(function_exists('ampforwp_is_amp_endpoint') && ampforwp_is_amp_endpoint() ) {
       $non_amp = false;
@@ -331,12 +244,11 @@ if ( ! function_exists('ampforwp_sd_non_amp') ){
     return $non_amp;
   }
 }
-
 // Schema App by Hunch Manifest compatibility
 include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 if(is_plugin_active('schema-app-structured-data-for-schemaorg/hunch-schema.php')) {
-  add_action('amp_post_template_head','ampforwp_scheme_app_remove_hook',9);
-  function ampforwp_scheme_app_remove_hook(){
+  add_action('amp_post_template_head','saswp_scheme_app_remove_hook',9);
+  function saswp_scheme_app_remove_hook(){
     if(function_exists('ampforwp_is_amp_endpoint') && ampforwp_is_amp_endpoint()){
       global $HunchSchemaFront;
       remove_action( 'amp_post_template_head', array( $HunchSchemaFront, 'AMPPostTemplateHead' ),10,1); 
@@ -364,32 +276,4 @@ function saswp_with_scheme_app_output(){
 require_once SASWP_DIR_NAME.'/admin_section/structure_admin.php';
 require_once SASWP_DIR_NAME.'/admin_section/settings.php';
 require_once SASWP_DIR_NAME.'/admin_section/common-function.php';
-require_once SASWP_DIR_NAME.'/admin_section/fields-generator.php';
-
-// Notice to enter license key once activate the plugin
-
-$path = plugin_basename( __FILE__ );
-  add_action("after_plugin_row_{$path}", function( $plugin_file, $plugin_data, $status ) {
-    global $redux_builder_amp;
-    if(! defined('SASWP_ITEM_FOLDER_NAME')){
-    $folderName = basename(__DIR__);
-            define( 'SASWP_ITEM_FOLDER_NAME', $folderName );
-        }
-        $pluginsDetail = $redux_builder_amp['amp-license'][SASWP_ITEM_FOLDER_NAME];
-        $pluginstatus = $pluginsDetail['status'];
-
-        if(empty($redux_builder_amp['amp-license'][SASWP_ITEM_FOLDER_NAME]['license'])){
-      echo "<tr class='active'><td>&nbsp;</td><td colspan='2'><a href='".esc_url(  self_admin_url( 'admin.php?page=amp_options&tabid=opt-go-premium' )  )."'>Please enter the license key</a> to get the <strong>latest features</strong> and <strong>stable updates</strong></td></tr>";
-          }elseif($pluginstatus=="valid"){
-            $update_cache = get_site_transient( 'update_plugins' );
-            $update_cache = is_object( $update_cache ) ? $update_cache : new stdClass();
-            if(isset($update_cache->response[ SASWP_ITEM_FOLDER_NAME ]) 
-                && empty($update_cache->response[ SASWP_ITEM_FOLDER_NAME ]->download_link) 
-              ){
-               unset($update_cache->response[ SASWP_ITEM_FOLDER_NAME ]);
-            }
-            set_site_transient( 'update_plugins', $update_cache );
-            
-        }
-    }, 10, 3 );
-  
+require_once SASWP_DIR_NAME.'/admin_section/fields-generator.php';  

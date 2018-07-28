@@ -6,8 +6,8 @@ add_action('wp_head', 'saswp_kb_schema_output');
 
 function saswp_kb_schema_output() {
 	global $sd_data;
-        print_r($sd_data['sd-for-ampforwp']);die;
-	if( (!ampforwp_sd_non_amp() && $sd_data['sd-for-ampforwp']!=1) || (ampforwp_sd_non_amp() && $sd_data['sd-for-wordpress']!=1) ) {
+        //print_r($sd_data['sd-for-ampforwp']);die;
+	if( (!saswp_non_amp() && $sd_data['sd-for-ampforwp']!=1) || (saswp_non_amp() && $sd_data['sd-for-wordpress']!=1) ) {
 		return ;
 	}
 	// social profile
@@ -18,7 +18,6 @@ function saswp_kb_schema_output() {
 		$sd_facebook[] = $sd_data['sd_facebook'];
 		$sd_social_profile[] = $sd_facebook;
 	}
-
 	$sd_twitter = array();
 	if(isset($sd_data['sd_twitter']) && !empty($sd_data['sd_twitter'])){
 		$sd_twitter[] = $sd_data['sd_twitter'];
@@ -130,12 +129,7 @@ function saswp_kb_schema_output() {
 		if ( isset($sd_data['sd_kb_contact_1'] ) && $sd_data['sd_kb_contact_1'] ) {
 			$input = array_merge($input, $contact_info);
 		}
-
-}
-
-	
-		
-		
+}				
 		// Person
 
 	if ( $sd_data['sd_kb_type']  ==  'Person' ) {
@@ -153,8 +147,7 @@ function saswp_kb_schema_output() {
 		if( '' ==  $width && empty($width) && isset($sd_data['sd_default_image_width'])){
 			$width = $sd_data['sd_default_image_width'];
 		}
-
-		echo $input;
+	
 		$input = array(
 			'@context'		=>'http://schema.org',
 			'@type'			=> $sd_data['sd_kb_type'],
@@ -193,7 +186,7 @@ function saswp_schema_output() {
 	if(!$schemaConditionals){
 		return ;
 	}
-	if( (!ampforwp_sd_non_amp() && $sd_data['sd-for-ampforwp']!=1) || (ampforwp_sd_non_amp() && $sd_data['sd-for-wordpress']!=1) ) {
+	if( (!saswp_non_amp() && $sd_data['sd-for-ampforwp']!=1) || (saswp_non_amp() && $sd_data['sd-for-wordpress']!=1) ) {
 		return ;
 	}
 	$schema_options = $schemaConditionals['schema_options'];
@@ -238,13 +231,13 @@ function saswp_schema_output() {
 			'@context'			=> 'http://schema.org',
 			'@type'				=> $schema_type ,
 
-			'mainEntityOfPage'	=> get_permalink(),
+			'mainEntityOfPage'              => get_permalink(),
 			'headline'			=> get_the_title(),
-			'description'		=> get_the_excerpt(),
+			'description'                   => get_the_excerpt(),
 			'name'				=> get_the_title(),
 			'url'				=> get_permalink(),
-			'datePublished' 	=> $date,
-			'dateModified'		=> $modified_date,
+			'datePublished'                 => $date,
+			'dateModified'                  => $modified_date,
 			'author'			=> array(
 					'@type' 	=> 'Person',
 					'name'		=> $aurthor_name, ),
@@ -270,12 +263,12 @@ function saswp_schema_output() {
 				'@type'				=> $schema_type ,
 				'name'				=> get_the_title(),
 				'url'				=> get_permalink(),
-				'description'		=> get_the_excerpt(),
-				'mainEntity'		=> array(
-						'@type'				=> 'Article',
+				'description'                   => get_the_excerpt(),
+				'mainEntity'                    => array(
+						'@type'			=> 'Article',
 						'mainEntityOfPage'	=> get_permalink(),
-						'image'				=> $image_details[0],
-						'headline'			=> get_the_title(),
+						'image'			=> $image_details[0],
+						'headline'		=> get_the_title(),
 						'description'		=> get_the_excerpt(),
 						'datePublished' 	=> $date,
 						'dateModified'		=> $modified_date,
@@ -307,12 +300,12 @@ function saswp_schema_output() {
 				$input1 = array(
 					'@context'			=> 'http://schema.org',
 					'@type'				=> 'Article',
-					'mainEntityOfPage'	=> get_permalink(),
+					'mainEntityOfPage'              => get_permalink(),
 					'image'				=> $image_details[0],
 					'headline'			=> get_the_title(),
-					'description'		=> get_the_excerpt(),
-					'datePublished' 	=> $date,
-					'dateModified'		=> $modified_date,
+					'description'                   => get_the_excerpt(),
+					'datePublished'                 => $date,
+					'dateModified'                  => $modified_date,
 					'author'			=> array(
 							'@type' 	=> 'Person',
 							'name'		=> $aurthor_name, ),
@@ -339,10 +332,10 @@ function saswp_schema_output() {
 				'@type'				=> $schema_type ,
 				'url'				=> get_permalink(),
 				'headline'			=> get_the_title(),
-				'datePublished' 	=> $date,
-				'dateModified'		=> $modified_date,
-				'description'		=> get_the_excerpt(),
-				'mainEntity'		=> array(
+				'datePublished'                 => $date,
+				'dateModified'                  => $modified_date,
+				'description'                   => get_the_excerpt(),
+				'mainEntity'                    => array(
 						'@type'				=> 'WebPage',
 						'@id'				=> get_permalink(),
 						'author'			=> array(
@@ -381,11 +374,11 @@ function saswp_schema_output() {
 				'@context'			=> 'http://schema.org',
 				'@type'				=> $schema_type ,
 				'url'				=> get_permalink(),
-				'name'			=> get_the_title(),
-				'description'		=> get_the_excerpt(),
-				'mainEntity'		=> array(
-						'@type'				=> 'WebPage',
-						'@id'				=> get_permalink(),
+				'name'                          => get_the_title(),
+				'description'                   => get_the_excerpt(),
+				'mainEntity'                    => array(
+                                                                  '@type'	=> 'WebPage',
+                                                                  '@id'	        => get_permalink(),
 					),
 					
 				
@@ -403,18 +396,17 @@ function saswp_schema_output() {
 					'@context'			=> 'http://schema.org',
 					'@type'				=> $schema_type ,
 					'@type'				=> $schema_type,
-					'mainEntityOfPage'	=> get_permalink(),
+					'mainEntityOfPage'              => get_permalink(),
 					'url'				=> get_permalink(),
 					'headline'			=> get_the_title(),
-					'datePublished' 	=> $date,
-					'dateModified'		=> $modified_date,
-					'description'		=> get_the_excerpt(),
-					'name'				=> get_the_title(), 
-					// 'uploadDate'		=> $date,
-					'thumbnailUrl'		=> $image_details[0],
-					'mainEntity'		=> array(
-								'@type'				=> 'WebPage',
-								'@id'				=> get_permalink(),
+					'datePublished'                 => $date,
+					'dateModified'                  => $modified_date,
+					'description'                   => get_the_excerpt(),
+					'name'				=> get_the_title(), 					
+					'thumbnailUrl'                  => $image_details[0],
+					'mainEntity'                    => array(
+                                                                            '@type' => 'WebPage',
+                                                                            '@id'   => get_permalink(),
 						), 
 					'author'			=> array(
 							'@type' 			=> 'Person',
@@ -445,13 +437,13 @@ function saswp_schema_output() {
 						'@type'				=> $schema_type,
 						'url'				=> get_permalink(),
 						'headline'			=> get_the_title(),
-						'datePublished' 	=> $date,
-						'dateModified'		=> $modified_date,
-						'description'		=> get_the_excerpt(),
+						'datePublished'                 => $date,
+						'dateModified'                  => $modified_date,
+						'description'                   => get_the_excerpt(),
 						'name'				=> get_the_title(),
-						'uploadDate'		=> $date,
-						'thumbnailUrl'		=> $image_details[0],
-						'mainEntity'		=> array(
+						'uploadDate'                    => $date,
+						'thumbnailUrl'                  => $image_details[0],
+						'mainEntity'                    => array(
 								'@type'				=> 'WebPage',
 								'@id'				=> get_permalink(),
 								), 
@@ -488,7 +480,7 @@ function saswp_schema_output() {
 						$height = $image_details[2];
 					}
 			$input2  = array(
-				'image'				=>array(
+				                'image'		=>array(
 						'@type'		=>'ImageObject',
 						'url'		=>$image_details[0],
 						'width'		=>$width,
@@ -498,11 +490,11 @@ function saswp_schema_output() {
 		}
 			else{			
 				$input2  = array(
-				'image'				=>array(
+				                'image'		=>array(
 						'@type'		=>'ImageObject',
 						'url'		=> $sd_data['sd_logo']['url'],
-					'width'		=> $sd_data['sd_logo']['width'],
-					'height'	=> $sd_data['sd_logo']['height'],),
+                                                'width'		=> $sd_data['sd_logo']['width'],
+                                                'height'	=> $sd_data['sd_logo']['height'],),
 				);
 				$input = array_merge($input1,$input2);
 		}
@@ -595,7 +587,7 @@ if(is_page()){
 								'@type'			=> 'ListItem',
 								'position'		=> $j,
 								'item'			=> array(
-									'@id'		=>	$bc_links[$i],
+									'@id'		=> $bc_links[$i],
 									'name'		=> $bc_titles[$i],
 									),
 							);
@@ -607,10 +599,10 @@ if(is_archive()){
 
 	for($i=0;$i<sizeof($bc_titles);$i++){
 		$breadcrumbslist[] = array(
-								'@type'			=> 'ListItem',
-								'position'		=> $j,
-								'item'			=> array(
-									'@id'		=>	$bc_links[$i],
+								        '@type'		=> 'ListItem',
+								        'position'	=> $j,
+								        'item'		=> array(
+									'@id'		=> $bc_links[$i],
 									'name'		=> $bc_titles[$i],
 									),
 							);
@@ -624,7 +616,7 @@ return $breadcrumbslist;
 add_action( 'wp_head', 'saswp_schema_breadcrumb_output');
 function saswp_schema_breadcrumb_output($sd_data){
 	global $sd_data;
-	if( (!ampforwp_sd_non_amp() && $sd_data['sd-for-ampforwp']!=1) || (ampforwp_sd_non_amp() && $sd_data['sd-for-wordpress']!=1) ) {
+	if( (!saswp_non_amp() && $sd_data['sd-for-ampforwp']!=1) || (saswp_non_amp() && $sd_data['sd-for-wordpress']!=1) ) {
 		return ;
 	}
 	if(isset($sd_data['breadcrumb_schema']) && $sd_data['breadcrumb_schema'] == 1){
@@ -639,12 +631,12 @@ function saswp_schema_breadcrumb_output($sd_data){
 		$slug = $post->post_name;
 		$blog_posts_page_slug = '/'.$slug;
 		$site_name = get_bloginfo('blogname');
-	$j=1;
+	        $j=1;
 		
 		$input = array(
 					'@context'			=> 'http://schema.org',
 					'@type'				=> 'BreadcrumbList' ,
-					'itemListElement'	=>saswp_list_items_generator(),
+					'itemListElement'	        =>saswp_list_items_generator(),
 			);
 		if ( !is_front_page() ) {
 			echo saswp_data_generator($input);
@@ -658,7 +650,7 @@ add_action( 'wp_head' , 'saswp_kb_website_output' );
 
 function saswp_kb_website_output(){
 	global $sd_data;
-	if( (!ampforwp_sd_non_amp() && $sd_data['sd-for-ampforwp']!=1) || (ampforwp_sd_non_amp() && $sd_data['sd-for-wordpress']!=1) ) {
+	if( (!saswp_non_amp() && $sd_data['sd-for-ampforwp']!=1) || (saswp_non_amp() && $sd_data['sd-for-wordpress']!=1) ) {
 		return ;
 	}
 		$site_url = get_site_url();
@@ -672,7 +664,7 @@ function saswp_kb_website_output(){
 			 'potentialAction' => array(
 				'@type'			=> 'SearchAction',
 				'target'		=> $site_url.'/?s={search_term_string}',
-				'query-input'	=> 'required name=search_term_string',
+				'query-input'	        => 'required name=search_term_string',
 			 	)
 			);
 	
@@ -700,7 +692,7 @@ add_action( 'wp_head' , 'saswp_archive_output' );
 
 function saswp_archive_output(){
 	global $post, $query_string, $sd_data;
-	if( (!ampforwp_sd_non_amp() && $sd_data['sd-for-ampforwp']!=1) || (ampforwp_sd_non_amp() && $sd_data['sd-for-wordpress']!=1) ) {
+	if( (!saswp_non_amp() && $sd_data['sd-for-ampforwp']!=1) || (saswp_non_amp() && $sd_data['sd-for-wordpress']!=1) ) {
 		return ;
 	}
 	if(isset($sd_data['archive_schema']) && $sd_data['archive_schema'] == 1){
@@ -725,11 +717,11 @@ function saswp_archive_output(){
 					'@type' 			=> 'BlogPosting',
 					'headline' 			=> get_the_title(),
 					'url' 				=> get_the_permalink(),
-					'datePublished' 	=> get_the_date('c'),
-					'dateModified' 		=> get_the_modified_date('c'),
-					'mainEntityOfPage' 	=> get_the_permalink(),
+					'datePublished'                 => get_the_date('c'),
+					'dateModified'                  => get_the_modified_date('c'),
+					'mainEntityOfPage'              => get_the_permalink(),
 					'author' 			=> get_the_author(),
-					'publisher' 		=> $publisher_info,
+					'publisher'                     => $publisher_info,
 					'image' 			=> $image_details[0],
 	            );
 				
@@ -740,26 +732,22 @@ function saswp_archive_output(){
 		$category 			= get_the_category(); 
 		
 		$category_id 		= intval($category[0]->term_id); 
-       	$category_link 		= get_category_link( $category_id );
+                $category_link 		= get_category_link( $category_id );
 		$category_link 	= get_term_link( $category[0]->term_id , 'category' );
-       	$category_headline 	= single_cat_title( '', false ) . __(' Category', 'schema-wp');
+        	$category_headline 	= single_cat_title( '', false ) . __(' Category', 'schema-wp');
 		// $sameAs 			= get_term_meta( $category_id, 'schema_wp_sameAs' );
-
 		$input = array
        		(
 				'@context' 		=> 'http://schema.org/',
 				'@type' 		=> "CollectionPage",
 				'headline' 		=> $category_headline,
-				'description' 	=> strip_tags(category_description()),
+				'description' 	        => strip_tags(category_description()),
 				'url'		 	=> $category_link,
 				'sameAs' 		=> '',
 				'hasPart' 		=> $category_posts
        		);
 				echo saswp_data_generator($input);	
-	endif;
-	
-		
-	
+	endif;				
 	}
 	} 
 }
@@ -784,16 +772,15 @@ function saswp_author_output()
 
 		);
 
-
 		$sd_website 	= esc_attr( stripslashes( get_the_author_meta( 'user_url', $post_author->ID ) ) );
-		$sd_googleplus = esc_attr( stripslashes( get_the_author_meta( 'googleplus', $post_author->ID ) ) );
+		$sd_googleplus  = esc_attr( stripslashes( get_the_author_meta( 'googleplus', $post_author->ID ) ) );
 		$sd_facebook 	= esc_attr( stripslashes( get_the_author_meta( 'facebook', $post_author->ID) ) );
 		$sd_twitter 	= esc_attr( stripslashes( get_the_author_meta( 'twitter', $post_author->ID ) ) );
 		$sd_instagram 	= esc_attr( stripslashes( get_the_author_meta( 'instagram', $post_author->ID ) ) );
 		$sd_youtube 	= esc_attr( stripslashes( get_the_author_meta( 'youtube', $post_author->ID ) ) );
 		$sd_linkedin 	= esc_attr( stripslashes( get_the_author_meta( 'linkedin', $post_author->ID ) ) );
 		$sd_pinterest 	= esc_attr( stripslashes( get_the_author_meta( 'pinterest', $post_author->ID ) ) );
-		$sd_soundcloud = esc_attr( stripslashes( get_the_author_meta( 'soundcloud', $post_author->ID ) ) );
+		$sd_soundcloud  = esc_attr( stripslashes( get_the_author_meta( 'soundcloud', $post_author->ID ) ) );
 		$sd_tumblr 	= esc_attr( stripslashes( get_the_author_meta( 'tumblr', $post_author->ID ) ) );
 		
 		$sd_sameAs_links = array( $sd_website, $sd_googleplus, $sd_facebook, $sd_twitter, $sd_instagram, $sd_youtube, $sd_linkedin, $sd_pinterest, $sd_soundcloud, $sd_tumblr);
@@ -848,32 +835,31 @@ function saswp_about_page_output()
 					$width = $sd_data['sd_default_image_width'];
 				}
 			$input = array(
-				"@context" 	 		=> "http://schema.org",
-				"@type"				=> "AboutPage",
-				"mainEntityOfPage"  => array(
-							"@type" => "WebPage",
-							"@id" 	=> $get_permalink(),
+				"@context" 	 	=> "http://schema.org",
+				"@type"			=> "AboutPage",
+				"mainEntityOfPage"      => array(
+                                                            "@type" => "WebPage",
+                                                            "@id"   => $get_permalink(),
 							),
-				"url"				=> $about_page,
-				"headline"			=> get_the_title(),
-				"image"				=> array(
+				"url"			=> $about_page,
+				"headline"		=> get_the_title(),
+				"image"			=> array(
 							"@type"		=> "ImageObject",
-				    		"url"		=> $image_url,
-				    		"width"		=> $widht,
+                                                        "url"		=> $image_url,
+                                                        "width"		=> $width,
 							"height"	=> $height,
 							),
-				'Publisher'				=> array(
-						'@type'			=> 'Organization',
-						'logo' 			=> array(
+				'Publisher'		=> array(
+                                                        '@type'		=> 'Organization',
+                                                        'logo' 		=> array(
 							'@type'		=> 'ImageObject',
 							'url'		=> $logo,
 							'width'		=> $width,
 							'height'	=> $height,
 							),
-						'name'			=> $sd_data['sd_name'],
+				'name'			=> $sd_data['sd_name'],
 						),
-				'description'			=> get_the_excerpt(),
-
+				'description'		=> get_the_excerpt(),
 			);
 			
 			echo saswp_data_generator($input);
@@ -888,7 +874,7 @@ function saswp_contact_page_output()
 {
 	global $sd_data;
 	$image_id 		= get_post_thumbnail_id();
-	$image_details 	= wp_get_attachment_image_src($image_id, 'full');
+	$image_details 	        = wp_get_attachment_image_src($image_id, 'full');
 	if(isset($image_details['url'])){
 				$image_url		= $image_details['url'];
 			}
@@ -912,32 +898,31 @@ function saswp_contact_page_output()
 					$width = $sd_data['sd_default_image_width'];
 				}
 			$input = array(
-				"@context" 	 		=> "http://schema.org",
-				"@type"				=> "ContactPage",
+				"@context" 	    => "http://schema.org",
+				"@type"		    => "ContactPage",
 				"mainEntityOfPage"  => array(
 							"@type" => "WebPage",
 							"@id" 	=> get_permalink(),
 							),
 				"url"				=> $about_page,
 				"headline"			=> get_the_title(),
-				"image"				=> array(
+				"image"		    => array(
 							"@type"		=> "ImageObject",
-				    		"url"		=> $image_url,
-				    		"width"		=> $widht,
+                                                        "url"		=> $image_url,
+                                                        "width"		=> $width,
 							"height"	=> $height,
 							),
-				'Publisher'				=> array(
-						'@type'			=> 'Organization',
-						'logo' 			=> array(
+				'Publisher'	    => array(
+				'@type'		    => 'Organization',
+				                        'logo' => array(
 							'@type'		=> 'ImageObject',
 							'url'		=> $logo,
 							'width'		=> $width,
 							'height'	=> $height,
 							),
-						'name'			=> $sd_data['sd_name'],
+				'name'		    => $sd_data['sd_name'],
 						),
-				'description'			=> get_the_excerpt(),
-
+				'description'	    => get_the_excerpt(),
 			);
 			
 			echo saswp_data_generator($input);
