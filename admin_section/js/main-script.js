@@ -1,15 +1,17 @@
 function getParameterByName(name, url) {
-    if (!url) url = window.location.href;
+    if (!url){
+    url = window.location.href;    
+    } 
     name = name.replace(/[\[\]]/g, "\\$&");
     var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
         results = regex.exec(url);
     if (!results) return null;
-    if (!results[2]) return '';
+    if (!results[2]) return "";
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
 jQuery(document).ready(function($){
-    $('.ampforwp-pwa-colorpicker').wpColorPicker();	// Color picker
-	$('.ampforwp-pwa-icon-upload').click(function(e) {	// Application Icon upload
+    $(".ampforwp-pwa-colorpicker").wpColorPicker();	// Color picker
+	$(".ampforwp-pwa-icon-upload").click(function(e) {	// Application Icon upload
 		e.preventDefault();
 		var amppwaMediaUploader = wp.media({
 			title: 'Application Icon',
@@ -18,13 +20,13 @@ jQuery(document).ready(function($){
 			},
 			multiple: false  // Set this to true to allow multiple files to be selected
 		})
-		.on('select', function() {
+		.on("select", function() {
 			var attachment = amppwaMediaUploader.state().get('selection').first().toJSON();
-			$('.amppwa-icon').val(attachment.url);
+			$(".amppwa-icon").val(attachment.url);
 		})
 		.open();
 	});
-	$('.amppwa-splash-icon-upload').click(function(e) {	// Splash Screen Icon upload
+	$(".amppwa-splash-icon-upload").click(function(e) {	// Splash Screen Icon upload
 		e.preventDefault();
 		var amppwaMediaUploader = wp.media({
 			title: 'Splash Screen Icon',
@@ -33,29 +35,29 @@ jQuery(document).ready(function($){
 			},
 			multiple: false  // Set this to true to allow multiple files to be selected
 		})
-		.on('select', function() {
+		.on("select", function() {
 			var attachment = amppwaMediaUploader.state().get('selection').first().toJSON();
-			$('.amppwa-splash-icon').val(attachment.url);
+			$(".amppwa-splash-icon").val(attachment.url);
 		})
 		.open();
 	});
 
-	$('.amppwa-tabs a').click(function(e){
+	$(".amppwa-tabs a").click(function(e){
 		var href = $(this).attr('href');                
 		var currentTab = getParameterByName('tab',href);
 		if(!currentTab){
-			currentTab = 'dashboard';
+			currentTab = "dashboard";
 		}
-		$(this).siblings().removeClass('nav-tab-active');
-		$(this).addClass('nav-tab-active');
-		$('.form-wrap').find('.saswp-'+currentTab).siblings().hide();
-		$('.form-wrap .saswp-'+currentTab).show();
+		$(this).siblings().removeClass("nav-tab-active");
+		$(this).addClass("nav-tab-active");
+		$(".form-wrap").find(".saswp-"+currentTab).siblings().hide();
+		$(".form-wrap .saswp-"+currentTab).show();
 		window.history.pushState("", "", href);
 		return false;
 	});                
     //Settings page jquery starts here            
     $(".checkbox-input").change(function(){
-          var id = $(this).attr('id');         
+          var id = $(this).attr("id");         
                   switch(id){
                       case 'sd-for-wordpress-checkbox':  
                           
@@ -121,9 +123,9 @@ jQuery(document).ready(function($){
                       break;                                           
                       default:
                           break;
-                  };
+                  }
                              
-         }).change();; 
+         }).change();
         
          $("#sd_kb_type").change(function(){
           var datatype = $(this).val();        
@@ -144,7 +146,7 @@ jQuery(document).ready(function($){
                        
           }                                           
      }).change();     
-     $('input[data-id=media]').click(function(e) {	// Application Icon upload
+     $("input[data-id=media]").click(function(e) {	// Application Icon upload
 		e.preventDefault();
                 var button = $(this);
                 var id = button.attr('id').replace('_button', '');                
@@ -155,7 +157,7 @@ jQuery(document).ready(function($){
 			},
 			multiple: false  // Set this to true to allow multiple files to be selected
 		})
-		.on('select', function() {
+		.on("select", function() {
 			var attachment = saswpMediaUploader.state().get('selection').first().toJSON();                            
 			
                          $("#"+id).val(attachment.url);

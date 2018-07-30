@@ -31,13 +31,13 @@ function saswp_admin_interface_render(){
 		<h2 class="nav-tab-wrapper amppwa-tabs">
 			<?php
 
-			echo '<a href="' . saswp_pwa_admin_link() . '" class="nav-tab ' . esc_attr( $tab == 'dashboard' ? 'nav-tab-active' : '') . '"><span class="dashicons dashicons-dashboard"></span> ' . esc_html__('Dashboard','schema-and-structured-data-for-wp') . '</a>';
+			echo '<a href="' . esc_attr(saswp_pwa_admin_link()) . '" class="nav-tab ' . esc_attr( $tab == 'dashboard' ? 'nav-tab-active' : '') . '"><span class="dashicons dashicons-dashboard"></span> ' . esc_html__('Dashboard','schema-and-structured-data-for-wp') . '</a>';
 
-			echo '<a href="' . saswp_pwa_admin_link('general') . '" class="nav-tab ' . esc_attr( $tab == 'general' ? 'nav-tab-active' : '') . '"><span class="dashicons dashicons-admin-generic"></span> ' . esc_html__('General','schema-and-structured-data-for-wp') . '</a>';
+			echo '<a href="' . esc_attr(saswp_pwa_admin_link('general')) . '" class="nav-tab ' . esc_attr( $tab == 'general' ? 'nav-tab-active' : '') . '"><span class="dashicons dashicons-admin-generic"></span> ' . esc_html__('General','schema-and-structured-data-for-wp') . '</a>';
 
-			echo '<a href="' . saswp_pwa_admin_link('knowledge') . '" class="nav-tab ' . esc_attr( $tab == 'knowledge' ? 'nav-tab-active' : '') . '"><span class="dashicons dashicons-info"></span> ' . esc_html__('Knowledge Base','schema-and-structured-data-for-wp') . '</a>';
+			echo '<a href="' . esc_attr(saswp_pwa_admin_link('knowledge')) . '" class="nav-tab ' . esc_attr( $tab == 'knowledge' ? 'nav-tab-active' : '') . '"><span class="dashicons dashicons-info"></span> ' . esc_html__('Knowledge Base','schema-and-structured-data-for-wp') . '</a>';
 
-			echo '<a href="' . saswp_pwa_admin_link('schema') . '" class="nav-tab ' . esc_attr( $tab == 'schema' ? 'nav-tab-active' : '') . '"><span class="dashicons dashicons-welcome-view-site"></span> ' . esc_html__('Schema Type','schema-and-structured-data-for-wp') . '</a>';
+			echo '<a href="' . esc_attr(saswp_pwa_admin_link('schema')) . '" class="nav-tab ' . esc_attr( $tab == 'schema' ? 'nav-tab-active' : '') . '"><span class="dashicons dashicons-welcome-view-site"></span> ' . esc_html__('Schema Type','schema-and-structured-data-for-wp') . '</a>';
 			?>
 		</h2>
 		<form action="options.php" method="post" enctype="multipart/form-data">		

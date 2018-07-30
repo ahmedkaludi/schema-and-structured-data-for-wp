@@ -32,8 +32,7 @@ function saswp_paywall_data_for_login($content){
 	if(!$schemaConditionals){
 		return $content;
 	}else{
-		$schema_options = $schemaConditionals['schema_options'];
-		$schema_type = $schemaConditionals['schema_type'];
+		$schema_options = $schemaConditionals['schema_options'];		
 		if($schema_options['paywall_class_name']!=''){
 			$className = $schema_options['paywall_class_name'];
 		}

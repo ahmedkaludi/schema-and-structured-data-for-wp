@@ -76,8 +76,7 @@ function saswp_comparison_logic_checker($input){
     $comparison = $input['key_2'];
     $data       = $input['key_3'];
     $result             = ''; 
-    $allowed_post_types = '';
-
+   
     // Get all the users registered
     $user               = wp_get_current_user();
 
@@ -222,8 +221,7 @@ function saswp_comparison_logic_checker($input){
     // Other Controls ---------------
       // Taxonomy Term
       case 'ef_taxonomy':
-        // Get all the post registered taxonomies
-        $allowed_taxonomies = saswp_post_taxonomy_generator();
+        // Get all the post registered taxonomies        
         // Get the list of all the taxonomies associated with current post
         $taxonomy_names = get_post_taxonomies( $post->ID );
 

@@ -608,7 +608,6 @@ if(is_archive()){
 							);
 		$j++;
 		}
-
 }
 
 return $breadcrumbslist;
@@ -839,7 +838,7 @@ function saswp_about_page_output()
 				"@type"			=> "AboutPage",
 				"mainEntityOfPage"      => array(
                                                             "@type" => "WebPage",
-                                                            "@id"   => $get_permalink(),
+                                                            "@id"   => get_permalink(),
 							),
 				"url"			=> $about_page,
 				"headline"		=> get_the_title(),
@@ -904,7 +903,7 @@ function saswp_contact_page_output()
 							"@type" => "WebPage",
 							"@id" 	=> get_permalink(),
 							),
-				"url"				=> $about_page,
+				"url"				=> $contact_page,
 				"headline"			=> get_the_title(),
 				"image"		    => array(
 							"@type"		=> "ImageObject",
