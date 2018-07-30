@@ -14,8 +14,7 @@ function saswp_get_all_schema_posts(){
     wp_reset_query();
     wp_reset_postdata();
 
-  if(count($post_idArray)>0){
-    global $post;
+  if(count($post_idArray)>0){    
       $returnData = array();
       foreach ($post_idArray as $key => $post_id) {
         $data = saswp_generate_field_data( $post_id );
@@ -98,8 +97,7 @@ function saswp_comparison_logic_checker($input){
         break;
 
       // Logged in User Type
-      case 'user_type':
-            $current_user = $user->roles;
+      case 'user_type':            
             if ( $comparison == 'equal') {
                 if ( in_array( $data, (array) $user->roles ) ) {
                     $result = true;
@@ -294,8 +292,8 @@ if(is_admin()){
     register_post_type( 'structured-data-wp',
       array(
         'labels' => array(
-            'name'          => esc_attr__( 'Structure data', 'schema-and-structured-data-for-wp' ),
-            'singular_name' => esc_attr__( 'Structure data', 'schema-and-structured-data-for-wp' )
+            'name'          => esc_html__( 'Structure data', 'schema-and-structured-data-for-wp' ),
+            'singular_name' => esc_html__( 'Structure data', 'schema-and-structured-data-for-wp' )
         ),
           'public'                => true,
           'has_archive'           => false,
@@ -374,27 +372,27 @@ if(is_admin()){
           ?>
           <tr class="toclone">
             <td style="width:31%" class="post_types"> 
-              <select class="widefat select-post-type <?php echo esc_attr( $i );?>" name="data_array[<?php echo $i?>][key_1]">    
+              <select class="widefat select-post-type <?php echo esc_attr( $i );?>" name="data_array[<?php echo esc_attr( $i) ?>][key_1]">    
                 <?php 
                 foreach ($choices as $choice_key => $choice_value) { ?>         
-                  <option disabled class="pt-heading" value="<?php echo $choice_key;?>"> <?php echo esc_attr( $choice_key );?> </option>
+                  <option disabled class="pt-heading" value="<?php echo esc_attr($choice_key);?>"> <?php echo esc_html__($choice_key,'schema-and-structured-data-for-wp');?> </option>
                   <?php
                   foreach ($choice_value as $sub_key => $sub_value) { ?> 
-                    <option class="pt-child" value="<?php echo esc_attr( $sub_key );?>" <?php selected( $selected_val_key_1, $sub_key );?> > <?php echo esc_attr( $sub_value );?> </option>
+                    <option class="pt-child" value="<?php echo esc_attr( $sub_key );?>" <?php selected( $selected_val_key_1, $sub_key );?> > <?php echo esc_html__($sub_value,'schema-and-structured-data-for-wp');?> </option>
                     <?php
                   }
                 } ?>
               </select>
             </td>
             <td style="width:31%">
-              <select class="widefat comparison" name="data_array[<?php echo $i?>][key_2]"> <?php
+              <select class="widefat comparison" name="data_array[<?php echo esc_attr( $i )?>][key_2]"> <?php
                 foreach ($comparison as $key => $value) { 
                   $selcomp = '';
                   if($key == $selected_val_key_2){
                     $selcomp = 'selected';
                   }
                   ?>
-                  <option class="pt-child" value="<?php echo esc_attr( $key );?>" <?php echo $selcomp; ?> > <?php echo esc_attr( $value );?> </option>
+                  <option class="pt-child" value="<?php echo esc_attr( $key );?>" <?php echo esc_attr($selcomp); ?> > <?php echo esc_html__($value,'schema-and-structured-data-for-wp');?> </option>
                   <?php
                 } ?>
               </select>
@@ -411,10 +409,10 @@ if(is_admin()){
             </td>
 
             <td class="widefat structured-clone" style="width:3.5%">
-            <span> <button type="button"> <?php esc_attr_e( 'Add' ,'structured-data-wp');?> </button> </span> </td>
+            <span> <button type="button"> <?php esc_attr_e( 'Add' ,'schema-and-structured-data-for-wp');?> </button> </span> </td>
             
             <td class="widefat structured-delete" style="width:3.5%">
-            <span> <button  type="button"> <?php esc_attr_e( 'Remove' ,'structured-data-wp');?> </button> </span> </td>         
+            <span> <button  type="button"> <?php esc_attr_e( 'Remove' ,'schema-and-structured-data-for-wp');?> </button> </span> </td>         
           </tr>
           <?php 
         } ?>
@@ -449,7 +447,7 @@ if(is_admin()){
                     if($schema_type==$key){
                       $sel = 'selected';
                     }
-                    echo "<option value='".$key."' ".$sel.">".esc_html__($value, 'schema-and-structured-data-for-wp' )."</option>";
+                    echo "<option value='".esc_attr($key)."' ".esc_attr($sel).">".esc_html__($value, 'schema-and-structured-data-for-wp' )."</option>";
                   }
                 ?>
             </select></td>
@@ -473,14 +471,14 @@ if(is_admin()){
             <td>
               <label for="paywall_class_name"><?php echo esc_html__( 'Enter the class name of paywall section', 'schema-and-structured-data-for-wp' ); ?></label>  
             </td>
-            <td><input type="text" id="paywall_class_name" name="paywall_class_name" value="<?php if( isset($schema_options['paywall_class_name']) ){echo $schema_options['paywall_class_name']; }?>"></td>
+            <td><input type="text" id="paywall_class_name" name="paywall_class_name" value="<?php if( isset($schema_options['paywall_class_name']) ){echo esc_attr($schema_options['paywall_class_name']); }?>"></td>
           </tr>
         </tbody>
       </table>
     <?php
   }
   add_action( 'admin_enqueue_scripts', 'saswp_style_script_include' );
-  function saswp_style_script_include( $hook ) {
+  function saswp_style_script_include() {
      global $pagenow, $typenow;
     if (is_admin() && $pagenow=='post-new.php' OR $pagenow=='post.php' && $typenow=='structured-data-wp') {
        wp_register_script( 'structure_admin', plugin_dir_url(__FILE__) . '/js/structure_admin.js', array( 'jquery'), SASWP_VERSION, true );

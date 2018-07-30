@@ -15,13 +15,15 @@ function saswp_expanded_allowed_tags() {
                     'checked'      => array(),
                     'readonly'     => array(),
                     'disabled'     => array(),
-                    'width'        => array(),                    
+                    'width'        => array(),  
+                    'data-id'      => array()
             );
             $my_allowed['hidden']  = array(                    
                     'id'           => array(),
                     'name'         => array(),
                     'value'        => array(),
-                    'type'         => array(),                    
+                    'type'         => array(), 
+                    'data-id'         => array(), 
             );
             //number
             $my_allowed['number'] = array(

@@ -209,10 +209,7 @@ function saswp_schema_output() {
 
 		// Blogposting Schema 
 			$image_id 		= get_post_thumbnail_id();
-			$image_details 	= wp_get_attachment_image_src($image_id, 'full');
-			if(isset($image_details['url'])){
-				$image_url		= $image_details['url'];
-			}
+			$image_details 	= wp_get_attachment_image_src($image_id, 'full');			
 			$author_details	= get_avatar_data($author_id);
 			$date 			= get_the_date();
 			$modified_date 	= get_the_modified_date();
@@ -548,12 +545,7 @@ function saswp_list_items_generator(){
 		}
 		if(isset($sd_data['links'])){
 			$bc_links = $sd_data['links'];
-		}
-	$post_id = get_option('page_for_posts');
-	$post = get_post($post_id);
-	$slug = $post->post_name;
-	$blog_posts_page_slug = '/'.$slug;
-	$site_name = get_bloginfo('blogname');
+		}		
 $j=1;
 $i = 0;
 $breadcrumbslist = array();
@@ -564,7 +556,7 @@ if(is_single()){
 								'@type'			=> 'ListItem',
 								'position'		=> $j,
 								'item'			=> array(
-									'@id'		=>	$bc_links[$i],
+									'@id'		=> $bc_links[$i],
 									'name'		=> $bc_titles[$i],
 									),
 							);
@@ -619,19 +611,7 @@ function saswp_schema_breadcrumb_output($sd_data){
 		return ;
 	}
 	if(isset($sd_data['breadcrumb_schema']) && $sd_data['breadcrumb_schema'] == 1){
-		if(isset($sd_data['titles'])){		
-			$bc_titles = $sd_data['titles'];
-		}
-		if(isset($sd_data['links'])){
-			$bc_links = $sd_data['links'];
-		}
-		$post_id = get_option('page_for_posts');
-		$post = get_post($post_id);
-		$slug = $post->post_name;
-		$blog_posts_page_slug = '/'.$slug;
-		$site_name = get_bloginfo('blogname');
-	        $j=1;
-		
+					       		
 		$input = array(
 					'@context'			=> 'http://schema.org',
 					'@type'				=> 'BreadcrumbList' ,
@@ -690,7 +670,7 @@ function saswp_structured_data()
 add_action( 'wp_head' , 'saswp_archive_output' );
 
 function saswp_archive_output(){
-	global $post, $query_string, $sd_data;
+	global $query_string, $sd_data;
 	if( (!saswp_non_amp() && $sd_data['sd-for-ampforwp']!=1) || (saswp_non_amp() && $sd_data['sd-for-wordpress']!=1) ) {
 		return ;
 	}
@@ -756,14 +736,13 @@ add_action( 'wp_head' , 'saswp_author_output' );
 
 function saswp_author_output()
 {
-	global $post;
+	global $post, $sd_data;        
 	if(isset($sd_data['archive_schema']) && $sd_data['archive_schema'] == 1){
 	$post_id = $post->ID;
 	if(is_author()){
 		// Get author from post content
-		$post_content	= get_post($post_id);
-		$post_author	= get_userdata($content_post->post_author);
-		$aurthor_name	= $post_author->display_name;
+		$post_content	= get_post($post_id);                
+		$post_author	= get_userdata($post_content->post_author);		
 		$input = array (
 			'@type'	=> 'Person',
 			'name'	=> get_the_author_meta('display_name'),

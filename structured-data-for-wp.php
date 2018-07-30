@@ -44,16 +44,14 @@ function saswp_custom_breadcrumbs($sd_data) {
     $variables1_titles = array();   
     $variables2_links = array();   
     // Settings
-    $separator          = '&gt;';
-    $breadcrums_id      = 'breadcrumbs';
-    $breadcrums_class   = 'breadcrumbs';
+    $separator          = '&gt;';        
     $home_title         = 'Homepage';
       
     // If you have any custom post types with custom taxonomies, put the taxonomy name below (e.g. product_cat)
     $custom_taxonomy    = 'product_cat';
        
     // Get the query & post information
-    global $post,$wp_query;
+    global $post;
        
     // Do not display on the homepage
     if ( !is_front_page() ) {

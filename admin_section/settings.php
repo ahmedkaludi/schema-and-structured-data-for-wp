@@ -4,10 +4,7 @@
  * Function saswp_pwa_add_menu_links
  *
  */
-function saswp_pwa_add_menu_links() {	
-	// Main menu page
-	//add_menu_page( esc_html__( 'Schema And Structured Data For WP', 'schema-and-structured-data-for-wp' ), esc_html__( 'SASWP', 'schema-and-structured-data-for-wp' ), 'manage_options', 'structured_data_options','saswp_admin_interface_render', '', 100 );
-	
+function saswp_pwa_add_menu_links() {				
 	// Settings page - Same as main menu page
 	add_submenu_page( 'edit.php?post_type=structured-data-wp', esc_html__( 'Schema And Structured Data For Wp', 'schema-and-structured-data-for-wp' ), esc_html__( 'Settings', 'schema-and-structured-data-for-wp' ), 'manage_options', 'structured_data_options', 'saswp_admin_interface_render' );	
         
