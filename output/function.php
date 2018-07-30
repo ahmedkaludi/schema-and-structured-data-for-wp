@@ -1,18 +1,73 @@
 <?php
-function saswp_data_generator($input) {
-    
-	$output =  '';
-	global $sd_data;	        
-	if( (  1 == $sd_data['sd-for-wordpress'] && saswp_non_amp() ) || ( 1 == $sd_data['sd-for-ampforwp'] && !saswp_non_amp() ) ) {
-		if ($input) {
-			$output .= "\n\n";
-			$output .= '<!-- This site is optimized with the Structured data  plugin v'.SASWP_VERSION.' - -->';
+add_action('wp_head', 'saswp_data_generator');
+function saswp_data_generator() {
+   global $sd_data;	        
+   
+   $output ='';
+   $contact_page_output =   saswp_contact_page_output();  	
+   $about_page_output   =  saswp_about_page_output();
+   $author_output       = saswp_author_output();
+   $archive_output      = saswp_archive_output();
+   $kb_website_output   = saswp_kb_website_output();
+   $schema_breadcrumb_output = saswp_schema_breadcrumb_output($sd_data);
+   $schema_output       = saswp_schema_output();
+   $kb_schema_output    = saswp_kb_schema_output();
+   
+	if( (  1 == $sd_data['saswp-for-wordpress'] && saswp_non_amp() ) || ( 1 == $sd_data['saswp-for-amp'] && !saswp_non_amp() ) ) {
+		
+			
+			$output .= '<!-- Schema And Structured Data For WP v'.SASWP_VERSION.' - -->';
 			$output .= "\n";
-			$output .= '<script type="application/ld+json">' . json_encode($input) . '</script>';
+                        $output .= '<script type="application/ld+json">'; 
+                        $output .= "\n\n";
+                        if(!empty($contact_page_output)){
+                        $output .= "//Contact page Schema\n";    
+                        $output .= $contact_page_output; 
+                        $output .= "\n\n";
+                        }			                        
+                        if(!empty($about_page_output)){
+                        $output .= "//About page Schema\n"; 
+                        $output .= $about_page_output;    
+                        $output .= "\n\n";
+                        }                        
+                        if(!empty($author_output)){
+                        $output .= "//Author Schema\n";     
+                        $output .= $author_output; 
+                        $output .= "\n\n";
+                        }
+                      
+                        if(!empty($archive_output)){
+                        $output .= "//Archive Schema\n";     
+                        $output .= $archive_output;   
+                        $output .= "\n\n";
+                        }                        
+                        if(!empty($kb_website_output)){
+                        $output .= "//Website Schema\n";     
+                        $output .= $kb_website_output;  
+                        $output .= "\n\n";
+                        }                       
+                        if(!empty($schema_breadcrumb_output)){
+                        $output .= "//Breadcrumbs navigation Schema\n";     
+                        $output .= $schema_breadcrumb_output;   
+                        $output .= "\n\n";
+                        }
+                        
+                        if(!empty($schema_output)){
+                        $output .= "// Type Schmea\n";         
+                        $output .= $schema_output; 
+                        $output .= "\n\n";
+                        }
+                        
+                        if(!empty($kb_schema_output)){
+                        $output .= "//Organization Schema\n";    
+                        $output .= $kb_schema_output;  
+                         $output .= "\n\n";
+                        }                       
+                        $output .= '</script>';
 			$output .= "\n\n";
-		}
+		
 	}
-	return $output;
+	echo $output;
 }
 add_action('wp', function(){
 	if( saswp_non_amp() ){

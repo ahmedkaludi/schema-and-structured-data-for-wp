@@ -1,7 +1,7 @@
 <?php
 /**
  * Admin Settings
- * Function saswp_pwa_add_menu_links
+ * Function saswp_add_menu_links
  *
  */
 function saswp_pwa_add_menu_links() {				
@@ -21,32 +21,27 @@ function saswp_admin_interface_render(){
 		// Show Settings Saved Message
 		settings_errors();
 	}
-	$tab = saswp_get_tab('dashboard', array('dashboard','general','knowledge','schema'));
+	$tab = saswp_get_tab('general', array('general','knowledge','schema', 'help'));
 	?>
 	<div class="wrap">	
 		<h1> <?php echo esc_html__( 'Schema And Structured Data For WP', 'schema-and-structured-data-for-wp' ); ?></h1>
-		<h2 class="nav-tab-wrapper amppwa-tabs">
-			<?php
-
-			echo '<a href="' . esc_attr(saswp_pwa_admin_link()) . '" class="nav-tab ' . esc_attr( $tab == 'dashboard' ? 'nav-tab-active' : '') . '"><span class="dashicons dashicons-dashboard"></span> ' . esc_html__('Dashboard','schema-and-structured-data-for-wp') . '</a>';
+		<h2 class="nav-tab-wrapper saswp-tabs">
+			<?php			
 
 			echo '<a href="' . esc_attr(saswp_pwa_admin_link('general')) . '" class="nav-tab ' . esc_attr( $tab == 'general' ? 'nav-tab-active' : '') . '"><span class="dashicons dashicons-admin-generic"></span> ' . esc_html__('General','schema-and-structured-data-for-wp') . '</a>';
 
 			echo '<a href="' . esc_attr(saswp_pwa_admin_link('knowledge')) . '" class="nav-tab ' . esc_attr( $tab == 'knowledge' ? 'nav-tab-active' : '') . '"><span class="dashicons dashicons-info"></span> ' . esc_html__('Knowledge Base','schema-and-structured-data-for-wp') . '</a>';
 
 			echo '<a href="' . esc_attr(saswp_pwa_admin_link('schema')) . '" class="nav-tab ' . esc_attr( $tab == 'schema' ? 'nav-tab-active' : '') . '"><span class="dashicons dashicons-welcome-view-site"></span> ' . esc_html__('Schema Type','schema-and-structured-data-for-wp') . '</a>';
+                        
+                        echo '<a href="' . esc_attr(saswp_pwa_admin_link('help')) . '" class="nav-tab ' . esc_attr( $tab == 'help' ? 'nav-tab-active' : '') . '"><span class="dashicons dashicons-dashboard"></span> ' . esc_html__('Help','schema-and-structured-data-for-wp') . '</a>';
 			?>
 		</h2>
 		<form action="options.php" method="post" enctype="multipart/form-data">		
 			<div class="form-wrap">
 			<?php
 			// Output nonce, action, and option_page fields for a settings page.
-			settings_fields( 'sd_data_group' );									
-			echo "<div class='saswp-dashboard' ".( $tab != 'dashboard' ? 'style="display:none;"' : '').">";
-			// Status
-			//do_settings_sections( 'saswp_dashboard_section' );	// Page slug
-			echo "</div>";
-
+			settings_fields( 'sd_data_group' );												
 			echo "<div class='saswp-general' ".( $tab != 'general' ? 'style="display:none;"' : '').">";
 				// general Application Settings
 				do_settings_sections( 'saswp_general_section' );	// Page slug
@@ -58,6 +53,11 @@ function saswp_admin_interface_render(){
 			echo "</div>";
 			echo "<div class='saswp-schema' ".( $tab != 'schema' ? 'style="display:none;"' : '').">";				
 				do_settings_sections( 'saswp_schema_section' );	// Page slug
+			echo "</div>";
+                        
+                        echo "<div class='saswp-help' ".( $tab != 'help' ? 'style="display:none;"' : '').">";
+			// Status
+			do_settings_sections( 'saswp_help_section' );	// Page slug
 			echo "</div>";
 
 			?>
@@ -81,7 +81,7 @@ add_action('admin_init', 'saswp_pwa_settings_init');
 
 function saswp_pwa_settings_init(){
           	register_setting( 'sd_data_group', 'sd_data' );
-                add_settings_section('saswp_dashboard_section', esc_html__('Installation Status','schema-and-structured-data-for-wp'), '__return_false', 'saswp_dashboard_section');
+               // add_settings_section('saswp_dashboard_section', esc_html__('Installation Status','schema-and-structured-data-for-wp'), '__return_false', 'saswp_dashboard_section');
                         // Manifest status		
                 add_settings_section('saswp_general_section', __return_false(), '__return_false', 'saswp_general_section');
 
@@ -110,6 +110,15 @@ function saswp_pwa_settings_init(){
 			'saswp_schema_page_callback',								// CB
 			'saswp_schema_section',						// Page slug
 			'saswp_schema_section'						// Settings Section ID
+		);                
+                add_settings_section('saswp_help_section', __return_false(), '__return_false', 'saswp_help_section');
+
+                add_settings_field(
+			'saswp_help_settings',								// ID
+			'',		// Title
+			'saswp_help_page_callback',								// CB
+			'saswp_help_section',						// Page slug
+			'saswp_help_section'						// Settings Section ID
 		);
 }
 function saswp_schema_page_callback(){
@@ -162,27 +171,27 @@ function saswp_schema_page_callback(){
 		),
                 array(
 			'label' => 'Custom Logo Size',
-			'id' => 'sd-logo-dimensions-ampforwp-check', 
-                        'name' => 'sd_data[sd-logo-dimensions-ampforwp]',
+			'id' => 'saswp-logo-dimensions-check', 
+                        'name' => 'sd_data[saswp-logo-dimensions]',
 			'type' => 'checkbox',
-                        'class' => 'checkbox checkbox-input', 
+                        'class' => 'checkbox saswp-checkbox', 
                         'hidden' => array(
-                             'id' => 'sd-logo-dimensions-ampforwp',
-                             'name' => 'sd_data[sd-logo-dimensions-ampforwp]',                             
+                             'id' => 'saswp-logo-dimensions',
+                             'name' => 'sd_data[saswp-logo-dimensions]',                             
                         )
 		),
                 array(
 			'label' => 'Logo Width',
-			'id' => 'sd-logo-width-ampforwp',
-                        'name' => 'sd_data[sd-logo-width-ampforwp]',
+			'id' => 'saswp-logo-width',
+                        'name' => 'sd_data[saswp-logo-width]',
                         'class' => 'regular-text',                        
 			'type' => 'text',
                         'note' => 'Default width is 600 pixels'
 		),
                 array(
 			'label' => 'Logo Height',
-			'id' => 'sd-logo-height-ampforwp',
-                        'name' => 'sd_data[sd-logo-height-ampforwp]',
+			'id' => 'saswp-logo-height',
+                        'name' => 'sd_data[saswp-logo-height]',
                         'class' => 'regular-text',                        
 			'type' => 'text',
                         'note' => 'Default height is 60 pixels'
@@ -217,24 +226,24 @@ function saswp_schema_page_callback(){
 		),
                 array(
 			'label' => 'Archive',
-			'id' => 'archive_schema_checkbox', 
-                        'name' => 'archive_schema_checkbox',
+			'id' => 'saswp_archive_schema_checkbox', 
+                        'name' => 'saswp_archive_schema_checkbox',
 			'type' => 'checkbox',
-                        'class' => 'checkbox checkbox-input',                        
+                        'class' => 'checkbox saswp-checkbox',                        
                         'hidden' => array(
-                             'id' => 'archive_schema',
-                             'name' => 'sd_data[archive_schema]',                             
+                             'id' => 'saswp_archive_schema',
+                             'name' => 'sd_data[saswp_archive_schema]',                             
                         )
 		),
                 array(
 			'label' => 'BreadCrumbs',
-			'id' => 'breadcrumb_schema_checkbox', 
-                        'name' => 'breadcrumb_schema_checkbox',
+			'id' => 'saswp_breadcrumb_schema_checkbox', 
+                        'name' => 'saswp_breadcrumb_schema_checkbox',
 			'type' => 'checkbox',
-                        'class' => 'checkbox checkbox-input',                        
+                        'class' => 'checkbox saswp-checkbox',                        
                         'hidden' => array(
-                             'id' => 'breadcrumb_schema',
-                             'name' => 'sd_data[breadcrumb_schema]',                             
+                             'id' => 'saswp_breadcrumb_schema',
+                             'name' => 'sd_data[saswp_breadcrumb_schema]',                             
                         )
 		),                                   
 	);
@@ -251,37 +260,37 @@ function saswp_general_page_callback(){
         $meta_fields = array(		
 		array(
 			'label' => 'Structured Data for WordPress',
-			'id' => 'sd-for-wordpress-checkbox',
-                        'name' => 'sd-for-wordpress-checkbox',
+			'id' => 'saswp-for-wordpress-checkbox',
+                        'name' => 'saswp-for-wordpress-checkbox',
 			'type' => 'checkbox',
-                        'class' => 'checkbox checkbox-input',
+                        'class' => 'checkbox saswp-checkbox',
                         'note'  => '',
                         'hidden' => array(
-                             'id' => 'sd-for-wordpress',
-                             'name' => 'sd_data[sd-for-wordpress]',                             
+                             'id' => 'saswp-for-wordpress',
+                             'name' => 'sd_data[saswp-for-wordpress]',                             
                         )
 		),
                 array(
 			'label' => 'Structured Data for AMP',
-			'id' => 'sd-for-ampforwp-checkbox',                        
-                        'name' => 'sd-for-ampforwp-checkbox',
+			'id' => 'saswp-for-amp-checkbox',                        
+                        'name' => 'saswp-for-amp-checkbox',
 			'type' => 'checkbox',
-                        'class' => 'checkbox checkbox-input',
+                        'class' => 'checkbox saswp-checkbox',
                         'hidden' => array(
-                             'id' => 'sd-for-ampforwp',
-                             'name' => 'sd_data[sd-for-ampforwp]',                             
+                             'id' => 'saswp-for-amp',
+                             'name' => 'sd_data[saswp-for-amp]',                             
                         )
 		),
                 array(
 			'label' => 'Schema App by Hunch Manifest compatibility in AMP',
-			'id' => 'sd-for-ampforwp-with-scheme-checkbox',  
-                        'name' => 'sd-for-ampforwp-with-scheme-checkbox',
+			'id' => 'saswp-for-amp-with-scheme-checkbox',  
+                        'name' => 'saswp-for-amp-with-scheme-checkbox',
 			'type' => 'checkbox',
-                        'class' => 'checkbox checkbox-input',
+                        'class' => 'checkbox saswp-checkbox',
                         'note'  => 'Note: It will override the Strucuture Data for AMP option',
                         'hidden' => array(
-                             'id' => 'sd-for-ampforwp-with-scheme-app',
-                             'name' => 'sd_data[sd-for-ampforwp-with-scheme-app]',                             
+                             'id' => 'saswp-for-amp-with-scheme-app',
+                             'name' => 'sd_data[saswp-for-amp-with-scheme-app]',                             
                         )
 		)				
 	);
@@ -295,7 +304,8 @@ function saswp_general_page_callback(){
      <?php echo esc_html__('About Us','schema-and-structured-data-for-wp') ?>
                 </label>
         </div>
-        <div style="width:60%; float:right;">
+        <div style="width:85%">
+        <div style="width:75%; float:right;">
               
                     <label for="sd_about_page-select">
 	<?php        
@@ -309,13 +319,15 @@ function saswp_general_page_callback(){
 		)); ?>
 	      </label>  
         </div>
+       </div>
     </li>
     <li><div style="width:200px;float:left;clear: both;">
             <label>
     <?php echo esc_html__('Contact Us','schema-and-structured-data-for-wp') ?>
             </label>
         </div>
-        <div style="width:60%; float:right;">
+        <div style="width:85%">
+        <div style="width:75%; float:right;">
           
            <label for="sd_contact_page-select">
 	  <?php echo wp_dropdown_pages( array( 
@@ -328,6 +340,7 @@ function saswp_general_page_callback(){
 		)); ?>
 	      </label>       
         </div>
+         </div>
     </li>
 </ul>
    </div>         
@@ -348,8 +361,8 @@ function saswp_knowledge_page_callback(){
         $meta_fields = array(	                
                 array(
 			'label' => 'Data Type',
-			'id' => 'sd_kb_type',
-                        'name' => 'sd_data[sd_kb_type]',
+			'id' => 'saswp_kb_type',
+                        'name' => 'sd_data[saswp_kb_type]',
 			'type' => 'select',
 			'options' => array(
 				'Organization'=>'Organization',
@@ -387,26 +400,26 @@ function saswp_knowledge_page_callback(){
 		),
                 array(
 			'label' => 'Contact details',
-			'id' => 'sd_kb_contact_1_checkbox', 
-                        'name' => 'sd_kb_contact_1_checkbox',
+			'id' => 'saswp_kb_contact_1_checkbox', 
+                        'name' => 'saswp_kb_contact_1_checkbox',
 			'type' => 'checkbox',
-                        'class' => 'checkbox checkbox-input',                        
+                        'class' => 'checkbox saswp-checkbox',                        
                         'hidden' => array(
-                            'id' => 'sd_kb_contact_1',                            
-                            'name' => 'sd_data[sd_kb_contact_1]'
+                            'id' => 'saswp_kb_contact_1',                            
+                            'name' => 'sd_data[saswp_kb_contact_1]'
                         )
 		),
                 array(
 			'label' => 'Telephone Number',
-			'id' => 'sd_kb_telephone',
-                        'name' => 'sd_data[sd_kb_telephone]',
+			'id' => 'saswp_kb_telephone',
+                        'name' => 'sd_data[saswp_kb_telephone]',
                         'class' => 'regular-text',                        
 			'type' => 'text',
 		),
                 array(
 			'label' => 'Contact Type',
-			'id' => 'sd_contact_type',
-                        'name' => 'sd_data[sd_contact_type]',
+			'id' => 'saswp_contact_type',
+                        'name' => 'sd_data[saswp_contact_type]',
                         'class' => '',
 			'type' => 'select',
 			'options' => array(
@@ -566,6 +579,10 @@ function saswp_knowledge_page_callback(){
         ?>            	     
 	<?php
 }
+function saswp_help_page_callback(){
+    echo 'd';
+}
+
 /**
  * Enqueue CSS and JS
  */

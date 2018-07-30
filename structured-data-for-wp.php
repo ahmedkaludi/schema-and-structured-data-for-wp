@@ -142,8 +142,7 @@ function saswp_custom_breadcrumbs($sd_data) {
             if(empty($last_category) && !empty($custom_taxonomy) && $taxonomy_exists) {
                    
                 $taxonomy_terms = get_the_terms( $post->ID, $custom_taxonomy );
-                $cat_id         = $taxonomy_terms[0]->term_id;
-                $cat_nicename   = $taxonomy_terms[0]->slug;
+                $cat_id         = $taxonomy_terms[0]->term_id;                
                 $cat_link       = get_term_link($taxonomy_terms[0]->term_id, $custom_taxonomy);
                 $cat_name       = $taxonomy_terms[0]->name;
 
@@ -215,8 +214,7 @@ function saswp_custom_breadcrumbs($sd_data) {
             $taxonomy       = 'post_tag';
             $args           = 'include=' . $term_id;
             $terms          = get_terms( $taxonomy, $args );
-            $get_term_id    = $terms[0]->term_id;
-            $get_term_slug  = $terms[0]->slug;
+            $get_term_id    = $terms[0]->term_id;            
             $get_term_name  = $terms[0]->name;
             $term_link      = get_term_link($get_term_id );
                
@@ -261,7 +259,7 @@ function saswp_with_scheme_app_output(){
   $url_path = trim(parse_url(add_query_arg(array()), PHP_URL_PATH),'/' );
   $explode_path = explode('/', $url_path); 
   
-  if(isset($sd_data['sd-for-ampforwp-with-scheme-app']) && 1 == $sd_data['sd-for-ampforwp-with-scheme-app'] && 'amp' === end( $explode_path) ){ 
+  if(isset($sd_data['saswp-for-amp-with-scheme-app']) && 1 == $sd_data['saswp-for-amp-with-scheme-app'] && 'amp' === end( $explode_path) ){ 
 
         $scheme_amp_app = new SchemaFront;
         $ampforwp_scheme_app_output = $scheme_amp_app->hunch_schema_add(true);
@@ -275,3 +273,5 @@ require_once SASWP_DIR_NAME.'/admin_section/structure_admin.php';
 require_once SASWP_DIR_NAME.'/admin_section/settings.php';
 require_once SASWP_DIR_NAME.'/admin_section/common-function.php';
 require_once SASWP_DIR_NAME.'/admin_section/fields-generator.php';  
+//Loading Metaboxes
+require SASWP_DIR_NAME.'/metaboxes/help.php';  

@@ -9,44 +9,12 @@ function getParameterByName(name, url) {
     if (!results[2]) return "";
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
-jQuery(document).ready(function($){
-    $(".ampforwp-pwa-colorpicker").wpColorPicker();	// Color picker
-	$(".ampforwp-pwa-icon-upload").click(function(e) {	// Application Icon upload
-		e.preventDefault();
-		var amppwaMediaUploader = wp.media({
-			title: 'Application Icon',
-			button: {
-				text: 'Select Icon'
-			},
-			multiple: false  // Set this to true to allow multiple files to be selected
-		})
-		.on("select", function() {
-			var attachment = amppwaMediaUploader.state().get('selection').first().toJSON();
-			$(".amppwa-icon").val(attachment.url);
-		})
-		.open();
-	});
-	$(".amppwa-splash-icon-upload").click(function(e) {	// Splash Screen Icon upload
-		e.preventDefault();
-		var amppwaMediaUploader = wp.media({
-			title: 'Splash Screen Icon',
-			button: {
-				text: 'Select Icon'
-			},
-			multiple: false  // Set this to true to allow multiple files to be selected
-		})
-		.on("select", function() {
-			var attachment = amppwaMediaUploader.state().get('selection').first().toJSON();
-			$(".amppwa-splash-icon").val(attachment.url);
-		})
-		.open();
-	});
-
-	$(".amppwa-tabs a").click(function(e){
+jQuery(document).ready(function($){   
+	$(".saswp-tabs a").click(function(e){
 		var href = $(this).attr('href');                
 		var currentTab = getParameterByName('tab',href);
 		if(!currentTab){
-			currentTab = "dashboard";
+			currentTab = "general";
 		}
 		$(this).siblings().removeClass("nav-tab-active");
 		$(this).addClass("nav-tab-active");
@@ -56,69 +24,69 @@ jQuery(document).ready(function($){
 		return false;
 	});                
     //Settings page jquery starts here            
-    $(".checkbox-input").change(function(){
+    $(".saswp-checkbox").change(function(){
           var id = $(this).attr("id");         
                   switch(id){
-                      case 'sd-for-wordpress-checkbox':  
+                      case 'saswp-for-wordpress-checkbox':  
                           
                           if ($(this).is(':checked')) {              
-                            $("#sd-for-wordpress").val(1);  
+                            $("#saswp-for-wordpress").val(1);  
                           }else{
-                            $("#sd-for-wordpress").val(0);  
+                            $("#saswp-for-wordpress").val(0);  
                           }                          
                           break;
-                      case 'sd-for-ampforwp-checkbox':
+                      case 'saswp-for-amp-checkbox':
                           
                           if ($(this).is(':checked')) {              
-                            $("#sd-for-ampforwp").val(1);  
+                            $("#saswp-for-amp").val(1);  
                           }else{
-                            $("#sd-for-ampforwp").val(0);  
+                            $("#saswp-for-amp").val(0);  
                           }
                       break;
-                      case 'sd-for-ampforwp-with-scheme-checkbox':
+                      case 'saswp-for-amp-with-scheme-checkbox':
                           
                         if ($(this).is(':checked')) {              
-                          $("#sd-for-ampforwp-with-scheme-app").val(1);
-                          $("#sd-for-ampforwp").parent().parent('li').hide();  
+                          $("#saswp-for-amp-with-scheme-app").val(1);
+                          $("#saswp-for-amp").parent().parent('li').hide();  
                         }else{
-                          $("#sd-for-ampforwp-with-scheme-app").val(0);
-                          $("#sd-for-ampforwp").parent().parent('li').show();
+                          $("#saswp-for-amp-with-scheme-app").val(0);
+                          $("#saswp-for-amp").parent().parent('li').show();
                         }
                       break;
-                      case 'sd_kb_contact_1_checkbox':
+                      case 'saswp_kb_contact_1_checkbox':
                           
                         if ($(this).is(':checked')) {              
-                         $("#sd_kb_contact_1").val(1); 
-                         $("#sd_kb_telephone, #sd_contact_type").parent().parent('li').show(); 
+                         $("#saswp_kb_contact_1").val(1); 
+                         $("#saswp_kb_telephone, #saswp_contact_type").parent().parent('li').show(); 
                        }else{
-                         $("#sd_kb_contact_1").val(0);  
-                         $("#sd_kb_telephone, #sd_contact_type").parent().parent('li').hide(); 
+                         $("#saswp_kb_contact_1").val(0);  
+                         $("#saswp_kb_telephone, #saswp_contact_type").parent().parent('li').hide(); 
                        }
                       break;
-                      case 'sd-logo-dimensions-ampforwp-check':
+                      case 'saswp-logo-dimensions-check':
                           
                         if ($(this).is(':checked')) {              
-                           $("#sd-logo-dimensions-ampforwp").val(1);  
-                           $("#sd-logo-width-ampforwp, #sd-logo-height-ampforwp").parent().parent('li').show();
+                           $("#saswp-logo-dimensions").val(1);  
+                           $("#saswp-logo-width, #saswp-logo-height").parent().parent('li').show();
                          }else{
-                           $("#sd-logo-dimensions-ampforwp").val(0);            
-                           $("#sd-logo-width-ampforwp, #sd-logo-height-ampforwp").parent().parent('li').hide();
+                           $("#saswp-logo-dimensions").val(0);            
+                           $("#saswp-logo-width, #saswp-logo-height").parent().parent('li').hide();
                          }
                       break;
-                      case 'archive_schema_checkbox':
+                      case 'saswp_archive_schema_checkbox':
                           
                             if ($(this).is(':checked')) {              
-                                $("#archive_schema").val(1);             
+                                $("#saswp_archive_schema").val(1);             
                               }else{
-                                $("#archive_schema").val(0);           
+                                $("#saswp_archive_schema").val(0);           
                               }
                       break;
-                      case 'breadcrumb_schema_checkbox':
+                      case 'saswp_breadcrumb_schema_checkbox':
                           
                             if ($(this).is(':checked')) {              
-                              $("#breadcrumb_schema").val(1);             
+                              $("#saswp_breadcrumb_schema").val(1);             
                             }else{
-                              $("#breadcrumb_schema").val(0);           
+                              $("#saswp_breadcrumb_schema").val(0);           
                             }
                       break;                                           
                       default:
@@ -127,7 +95,7 @@ jQuery(document).ready(function($){
                              
          }).change();
         
-         $("#sd_kb_type").change(function(){
+         $("#saswp_kb_type").change(function(){
           var datatype = $(this).val();        
           for(var i=1;i<=12;i++){
             if(datatype ==="Person"){
@@ -151,9 +119,9 @@ jQuery(document).ready(function($){
                 var button = $(this);
                 var id = button.attr('id').replace('_button', '');                
 		var saswpMediaUploader = wp.media({
-			title: 'Application Icon',
+			title: "Application Icon",
 			button: {
-				text: 'Select Icon'
+				text: "Select Icon"
 			},
 			multiple: false  // Set this to true to allow multiple files to be selected
 		})

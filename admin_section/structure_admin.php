@@ -292,15 +292,17 @@ if(is_admin()){
     register_post_type( 'structured-data-wp',
       array(
         'labels' => array(
-            'name'          => esc_html__( 'Structure data', 'schema-and-structured-data-for-wp' ),
-            'singular_name' => esc_html__( 'Structure data', 'schema-and-structured-data-for-wp' )
+            'name'              => esc_html__( 'Structured Data', 'schema-and-structured-data-for-wp' ),
+            'singular_name'     => esc_html__( 'Structured Data', 'schema-and-structured-data-for-wp' ),
+            'add_new' 		=> esc_html__( 'Add New', 'schema-and-structured-data-for-wp' ),
+	    'add_new_item'  	=> esc_html__( 'Add New', 'schema-and-structured-data-for-wp' ),
+            'edit_item'         => esc_html__( 'Edit Structured Data','schema-and-structured-data-for-wp')
         ),
           'public'                => true,
           'has_archive'           => false,
           'exclude_from_search'   => true,
           'publicly_queryable'    => false,
-          'supports'              => array('title'),
-          //'show_in_menu'          => 'admin.php?page=structured_data_options&tab=2'
+          'supports'              => array('title'),          
       )
     );
   }

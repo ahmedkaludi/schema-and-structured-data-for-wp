@@ -2,12 +2,9 @@
 
 if (! defined('ABSPATH') ) exit;
 
-add_action('wp_head', 'saswp_kb_schema_output');
-
 function saswp_kb_schema_output() {
-	global $sd_data;
-        //print_r($sd_data['sd-for-ampforwp']);die;
-	if( (!saswp_non_amp() && $sd_data['sd-for-ampforwp']!=1) || (saswp_non_amp() && $sd_data['sd-for-wordpress']!=1) ) {
+	global $sd_data;        
+	if( (!saswp_non_amp() && $sd_data['saswp-for-amp']!=1) || (saswp_non_amp() && $sd_data['saswp-for-wordpress']!=1) ) {
 		return ;
 	}
 	// social profile
@@ -74,10 +71,10 @@ function saswp_kb_schema_output() {
 	// Organization Schema 
 
 
-	if ( $sd_data['sd_kb_type']  ==  'Organization' ) {
+	if ( $sd_data['saswp_kb_type']  ==  'Organization' ) {
 		$logo = $sd_data['sd_logo']['url'];
-		$contact_1 = $sd_data['sd_contact_type'];
-		$telephone_1 = $sd_data['sd_kb_telephone'];
+		$contact_1 = $sd_data['saswp_contact_type'];
+		$telephone_1 = $sd_data['saswp_kb_telephone'];
 		$height = $sd_data['sd_logo']['height'];
 		$width = $sd_data['sd_logo']['width'];
 
@@ -93,12 +90,12 @@ function saswp_kb_schema_output() {
 			$width = $sd_data['sd_default_image_width'];
 		}
 
-		if( '' ==  $contact_1 && empty($contact_1) && isset($sd_data['sd_contact_type'])){
-			$contact_1 = $sd_data['sd_contact_type'];
+		if( '' ==  $contact_1 && empty($contact_1) && isset($sd_data['saswp_contact_type'])){
+			$contact_1 = $sd_data['saswp_contact_type'];
 		}
 
-		if( '' ==  $telephone_1 && empty($telephone_1) && isset($sd_data['sd_kb_telephone'])){
-			$telephone_1 = $sd_data['sd_kb_telephone'];
+		if( '' ==  $telephone_1 && empty($telephone_1) && isset($sd_data['saswp_kb_telephone'])){
+			$telephone_1 = $sd_data['saswp_kb_telephone'];
 		}
 
 		// Contact Information
@@ -113,7 +110,7 @@ function saswp_kb_schema_output() {
 
 		$input = array(
 		'@context'		=>'http://schema.org',
-		'@type'			=> $sd_data['sd_kb_type'],
+		'@type'			=> $sd_data['saswp_kb_type'],
 		'name'			=> $sd_data['sd_name'],
 		'url'			=> $sd_data['sd_url'],
 		'sameAs'		=> $platform,
@@ -126,13 +123,13 @@ function saswp_kb_schema_output() {
 		'alternateName'	=> $sd_data['sd_alt_name']
 		);
 
-		if ( isset($sd_data['sd_kb_contact_1'] ) && $sd_data['sd_kb_contact_1'] ) {
+		if ( isset($sd_data['saswp_kb_contact_1'] ) && $sd_data['saswp_kb_contact_1'] ) {
 			$input = array_merge($input, $contact_info);
 		}
 }				
 		// Person
 
-	if ( $sd_data['sd_kb_type']  ==  'Person' ) {
+	if ( $sd_data['saswp_kb_type']  ==  'Person' ) {
 		$image = $sd_data['sd-person-image']['url'];
 		$height = $sd_data['sd-person-image']['height'];
 		$width = $sd_data['sd-person-image']['width'];
@@ -150,7 +147,7 @@ function saswp_kb_schema_output() {
 	
 		$input = array(
 			'@context'		=>'http://schema.org',
-			'@type'			=> $sd_data['sd_kb_type'],
+			'@type'			=> $sd_data['saswp_kb_type'],
 			'name'			=> $sd_data['sd-person-name'],
 			'url'			=> $sd_data['sd-person-url'],
 			'Image' 			=> array(
@@ -168,7 +165,8 @@ function saswp_kb_schema_output() {
 			);
 	}
 
-	echo saswp_data_generator($input);	 
+	return json_encode($input);	 
+        
     
 }
 
@@ -176,9 +174,6 @@ function sd_is_blog() {
     return ( is_author() || is_category() || is_tag() || is_date() || is_home() || is_single() ) && 'post' == get_post_type();
 }
 
-
-
-add_action('wp_head', 'saswp_schema_output');
 function saswp_schema_output() {
 	global $sd_data;
 
@@ -186,7 +181,7 @@ function saswp_schema_output() {
 	if(!$schemaConditionals){
 		return ;
 	}
-	if( (!saswp_non_amp() && $sd_data['sd-for-ampforwp']!=1) || (saswp_non_amp() && $sd_data['sd-for-wordpress']!=1) ) {
+	if( (!saswp_non_amp() && $sd_data['saswp-for-amp']!=1) || (saswp_non_amp() && $sd_data['saswp-for-wordpress']!=1) ) {
 		return ;
 	}
 	$schema_options = $schemaConditionals['schema_options'];
@@ -286,9 +281,9 @@ function saswp_schema_output() {
 					
 				
 				);
-				if(isset($sd_data['breadcrumb_schema']) && $sd_data['breadcrumb_schema'] == 1){
-					$input1['BreadcrumbList'] = saswp_schema_breadcrumb_output($sd_data);
-				}
+//				if(isset($sd_data['saswp_breadcrumb_schema']) && $sd_data['saswp_breadcrumb_schema'] == 1){
+//					$input1['BreadcrumbList'] = saswp_schema_breadcrumb_output($sd_data);
+//				}
 			}
 
 		// For Article
@@ -514,7 +509,7 @@ function saswp_schema_output() {
 				$input = array_merge($input,$paywallData);
 			}
 		}
-		echo saswp_data_generator($input);	 
+		return json_encode($input);	                
 	}
 
 }
@@ -532,10 +527,6 @@ function saswp_structure_data_access_scripts($data){
 	return $data;
 }
 
-//We have to work on this
-// Output is somewhat different from required output
-
-//Breadcrumbs
 function saswp_list_items_generator(){
 		global $sd_data;
 		$bc_titles = array();
@@ -604,13 +595,13 @@ if(is_archive()){
 
 return $breadcrumbslist;
 }
-add_action( 'wp_head', 'saswp_schema_breadcrumb_output');
+
 function saswp_schema_breadcrumb_output($sd_data){
 	global $sd_data;
-	if( (!saswp_non_amp() && $sd_data['sd-for-ampforwp']!=1) || (saswp_non_amp() && $sd_data['sd-for-wordpress']!=1) ) {
+	if( (!saswp_non_amp() && $sd_data['saswp-for-amp']!=1) || (saswp_non_amp() && $sd_data['saswp-for-wordpress']!=1) ) {
 		return ;
 	}
-	if(isset($sd_data['breadcrumb_schema']) && $sd_data['breadcrumb_schema'] == 1){
+	if(isset($sd_data['saswp_breadcrumb_schema']) && $sd_data['saswp_breadcrumb_schema'] == 1){
 					       		
 		$input = array(
 					'@context'			=> 'http://schema.org',
@@ -618,18 +609,14 @@ function saswp_schema_breadcrumb_output($sd_data){
 					'itemListElement'	        =>saswp_list_items_generator(),
 			);
 		if ( !is_front_page() ) {
-			echo saswp_data_generator($input);
+			return json_encode($input);                    
 		 }
 	}
 }
 
-
-// @type WebSite
-add_action( 'wp_head' , 'saswp_kb_website_output' );
-
 function saswp_kb_website_output(){
 	global $sd_data;
-	if( (!saswp_non_amp() && $sd_data['sd-for-ampforwp']!=1) || (saswp_non_amp() && $sd_data['sd-for-wordpress']!=1) ) {
+	if( (!saswp_non_amp() && $sd_data['saswp-for-amp']!=1) || (saswp_non_amp() && $sd_data['saswp-for-wordpress']!=1) ) {
 		return ;
 	}
 		$site_url = get_site_url();
@@ -647,7 +634,7 @@ function saswp_kb_website_output(){
 			 	)
 			);
 	
-	echo saswp_data_generator($input);	 
+	return json_encode($input);        
 }
 
 add_filter( 'amp_init', 'saswp_structured_data' );
@@ -667,14 +654,12 @@ function saswp_structured_data()
 
 	
 // For Archive 
-add_action( 'wp_head' , 'saswp_archive_output' );
-
 function saswp_archive_output(){
 	global $query_string, $sd_data;
-	if( (!saswp_non_amp() && $sd_data['sd-for-ampforwp']!=1) || (saswp_non_amp() && $sd_data['sd-for-wordpress']!=1) ) {
+	if( (!saswp_non_amp() && $sd_data['saswp-for-amp']!=1) || (saswp_non_amp() && $sd_data['saswp-for-wordpress']!=1) ) {
 		return ;
 	}
-	if(isset($sd_data['archive_schema']) && $sd_data['archive_schema'] == 1){
+	if(isset($sd_data['saswp_archive_schema']) && $sd_data['saswp_archive_schema'] == 1){
 					
 	if ( is_category() ) {
 		$category_posts = array();
@@ -725,19 +710,17 @@ function saswp_archive_output(){
 				'sameAs' 		=> '',
 				'hasPart' 		=> $category_posts
        		);
-				echo saswp_data_generator($input);	
+				return json_encode($input);	                                 
 	endif;				
 	}
 	} 
 }
 
 // For Author 
-add_action( 'wp_head' , 'saswp_author_output' );
-
 function saswp_author_output()
 {
 	global $post, $sd_data;        
-	if(isset($sd_data['archive_schema']) && $sd_data['archive_schema'] == 1){
+	if(isset($sd_data['saswp_archive_schema']) && $sd_data['saswp_archive_schema'] == 1){
 	$post_id = $post->ID;
 	if(is_author()){
 		// Get author from post content
@@ -777,14 +760,12 @@ function saswp_author_output()
 		if ( get_the_author_meta( 'description', $post_author->ID ) ) {
 			$input['description'] = strip_tags( get_the_author_meta( 'description', $post_author->ID ) );
 		}
-		echo saswp_data_generator($input);
+		return json_encode($input);                 
 	}
  }
 }
 
 // For About Page
-add_action( 'wp_head' , 'saswp_about_page_output' );
-
 function saswp_about_page_output()
 {
 	global $sd_data;
@@ -840,14 +821,12 @@ function saswp_about_page_output()
 				'description'		=> get_the_excerpt(),
 			);
 			
-			echo saswp_data_generator($input);
+			return json_encode($input);                        
 	}
 	
 }
 
 // For Contact Page
-add_action( 'wp_head' , 'saswp_contact_page_output' );
-
 function saswp_contact_page_output()
 {
 	global $sd_data;
@@ -903,7 +882,8 @@ function saswp_contact_page_output()
 				'description'	    => get_the_excerpt(),
 			);
 			
-			echo saswp_data_generator($input);
+			return json_encode($input);
+                         
 	}
 	
 }

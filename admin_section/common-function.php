@@ -109,8 +109,8 @@ function saswp_get_tab( $default = '', $available = array() ) {
 function saswp_defaultSettings(){
             global $sd_data;
             $defaults = array(
-                    'sd-for-wordpress' => 0,
-                    'sd-for-ampforwp'  => 0,                
+                    'saswp-for-wordpress' => 0,
+                    'saswp-for-amp'  => 0,                
             );	
             $sd_data = $settings = get_option( 'sd_data', $defaults);                
             return $settings;

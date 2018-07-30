@@ -96,8 +96,8 @@ class saswp_fields_generator {
 			}
                         
                         $allowed_html = saswp_expanded_allowed_tags();
-			$output .= '<li><div style="width:200px;float:left;clear: both;">'.$label.'</div><div style="width:60%; float:right;">'.$input.'<p>'.esc_html__($note,'schema-and-structured-data-for-wp').'</p></div></li>';
+			$output .= '<li><div style="width:200px;float:left;clear: both;">'.$label.'</div><div style="width:75%; float:right;">'.$input.'<p>'.esc_html__($note,'schema-and-structured-data-for-wp').'</p></div></li>';
 		}
-		echo '<div class="saswp-settings-list"><ul>' . wp_kses($output, $allowed_html) . '</ul></div>';
+		echo '<div style="width:85%;"><div class="saswp-settings-list"><ul>' . wp_kses($output, $allowed_html) . '</ul></div></div>';
 	}	        
 }

@@ -6,7 +6,7 @@ function saswp_ajax_select_creator($data = '', $saved_data= '', $current_number 
     $is_ajax = false;
     if( $_SERVER['REQUEST_METHOD']=='POST'){
         $is_ajax = true;
-        if(wp_verify_nonce($_POST["cell_nonce"],'saswp_select_action_nonce')){
+        if(wp_verify_nonce($_POST["saswp_call_nonce"],'saswp_select_action_nonce')){
             
             if ( isset( $_POST["id"] ) ) {
               $response = $_POST["id"];
@@ -18,8 +18,7 @@ function saswp_ajax_select_creator($data = '', $saved_data= '', $current_number 
             exit;
         }
        
-    }
-        
+    }        
         // send the response back to the front end
        // vars
     $choices = array();    
@@ -261,7 +260,7 @@ function saswp_create_ajax_select_taxonomy($selectedParentValue = '',$selectedVa
     $is_ajax = false;
     if( $_SERVER['REQUEST_METHOD']=='POST'){
         $is_ajax = true;
-        if(wp_verify_nonce($_POST["cell_nonce"],'saswp_select_action_nonce')){
+        if(wp_verify_nonce($_POST["saswp_call_nonce"],'saswp_select_action_nonce')){
               if(isset($_POST['id'])){
                 $selectedParentValue = $_POST['id'];
               }
@@ -276,16 +275,16 @@ function saswp_create_ajax_select_taxonomy($selectedParentValue = '',$selectedVa
     $taxonomies =  get_terms( $selectedParentValue, array(
                         'hide_empty' => true,
                     ) );
-    $choices = '<option value="all">'.esc_attr__('All','schema-and-structured-data-for-wp').'</option>';
+    $choices = '<option value="all">'.esc_html__('All','schema-and-structured-data-for-wp').'</option>';
     foreach($taxonomies as $taxonomy) {
       $sel="";
       if($selectedValue == $taxonomy->slug){
         $sel = "selected";
       }
-      $choices .= '<option value="'.$taxonomy->slug.'" '.$sel.'>'.esc_attr__($taxonomy->name,'schema-and-structured-data-for-wp').'</option>';
+      $choices .= '<option value="'.$taxonomy->slug.'" '.$sel.'>'.esc_html__($taxonomy->name,'schema-and-structured-data-for-wp').'</option>';
     }
     $allowed_html = saswp_expanded_allowed_tags();    
-    echo '<select  class="widefat ajax-output-child" name="data_array['. $current_number .'][key_4]">'. wp_kses($choices, $allowed_html).'</select>';
+    echo '<select  class="widefat ajax-output-child" name="data_array['. esc_attr($current_number) .'][key_4]">'. wp_kses($choices, $allowed_html).'</select>';
     if($is_ajax){
       die;
     }

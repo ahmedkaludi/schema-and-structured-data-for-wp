@@ -23,7 +23,7 @@ jQuery(document).ready(function($){
 		var parent = $(this).parents('tr').find(".insert-ajax-select");
 		var selectedValue = $(this).val();
 		var currentFiledNumber = $(this).attr("class").split(" ")[2];
-                var cell_nonce = $("#saswp_select_name_nonce").val();
+                var saswp_call_nonce = $("#saswp_select_name_nonce").val();
 		
 		parent.find(".ajax-output").remove();
 		parent.find(".ajax-output-child").remove();
@@ -38,7 +38,7 @@ jQuery(document).ready(function($){
           action: "create_ajax_select_sdwp", 
           id: selectedValue,
           number : currentFiledNumber,
-          cell_nonce : cell_nonce
+          saswp_call_nonce : saswp_call_nonce
         },
         beforeSend: function(){ 
         },
@@ -75,7 +75,7 @@ function texonomyDataCall(){
 			parentSelector = jQuery(this).parents("td").find(".insert-ajax-select");
 			var selectedValue = jQuery(this).val();
 			var currentFiledNumber = jQuery(this).attr("name").split("[")[1].replace("]",'');
-                        var cell_nonce = $("#saswp_select_name_nonce").val();
+                        var saswp_call_nonce = $("#saswp_select_name_nonce").val();
 			
 			parentSelector.find(".ajax-output-child").remove();
 			parentSelector.find(".spinner").attr("style","visibility:visible");
@@ -90,7 +90,7 @@ function texonomyDataCall(){
 	          action: "create_ajax_select_sdwp_taxonomy", 
 	          id: selectedValue,
 	          number : currentFiledNumber,
-                  cell_nonce: cell_nonce
+                  saswp_call_nonce: saswp_call_nonce
 	        },
 	        beforeSend: function(){ 
 	        },

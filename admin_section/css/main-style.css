@@ -22,10 +22,23 @@ and open the template in the editor.
     width:100%
 }
 .saswp-settings-list li{
-padding:25px;
+padding:15px;
+padding-left:0px;
 }
 .saswp-settings-list li div label{
     font-weight: 600;
+}
+.saswp-general h2{
+    margin-bottom: 0px;
+}
+.saswp-knowledge h2{
+    margin-bottom: 0px;
+}
+.saswp-schema h2{
+    margin-bottom: 0px;
+}
+.saswp-help h2{
+    margin-bottom: 0px;
 }
 
 
