@@ -568,7 +568,20 @@ function saswp_knowledge_page_callback(){
 	<?php
 }
 function saswp_help_page_callback(){
-    echo 'We will help you sure';
+   echo '<h3>Here are some Q&A which helps you to understand and setup the Schema and Structured data for wp. 
+<br><br>
+	 <b>1Q)How can I setup the Schema and Structured data for individual pages and posts?<b><br>
+	  <b>A)Just with one click on the Structured data option, you will find an add new options window in the structured data option panel. Secondly, you need to write the name of the title where, if you would like to set the individual Page/Post then you can set the Page/Post type equal to the Page/Post(Name).<br><br><br>
+
+	<b>2Q)How can I check the code whether the structured data is working or not?<br>
+	  <b>A)To check the code, the first step we need to take is to copy the code of a page or post then visit the <a href="https://search.google.com/structured-data/testing-tool" target="_blank">Structured data testing tool</a> by clicking on code snippet. Once we paste the snippet we can run the test.<br><br><br>
+
+	<b>3Q) How can I check whether the pages or posts are valid or not?<br>
+	<b>A) To check the page and post validation, please visit the <a href="https://search.google.com/structured-data/testing-tool" target="_blank">Structured data testing tool</a> and paste the link of your website. Once we click on run test we can see the result whether the page or post is a valid one or not.<br><br><br>
+
+	<b>4Q) Where should users contact if they faced any issues?<br>
+	<b> A) We always welcome all our users to share their issues and get them fixed just with one click to the link team@magazine3.com or <a href="https://ampforwp.com/support/" target="_blank">Support link</a><br></h3> ';
+
 }
 /**
  * Enqueue CSS and JS
