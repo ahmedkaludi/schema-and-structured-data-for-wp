@@ -1,8 +1,16 @@
 <?php
+
+add_filter( 'amp_init', 'saswp_structured_data' );
+
+function saswp_structured_data()
+{		
+	add_action( 'amp_post_template_head' , 'saswp_data_generator' );	
+	remove_action( 'amp_post_template_head', 'amp_post_template_add_schemaorg_metadata',10,1);
+}
+
 add_action('wp_head', 'saswp_data_generator');
 function saswp_data_generator() {
-   global $sd_data;	        
-   
+   global $sd_data;	           
    $output ='';
    $contact_page_output =   saswp_contact_page_output();  	
    $about_page_output   =  saswp_about_page_output();
@@ -14,8 +22,7 @@ function saswp_data_generator() {
    $kb_schema_output    = saswp_kb_schema_output();
    
 	if( (  1 == $sd_data['saswp-for-wordpress'] && saswp_non_amp() ) || ( 1 == $sd_data['saswp-for-amp'] && !saswp_non_amp() ) ) {
-		
-			
+					
 			$output .= '<!-- Schema And Structured Data For WP v'.SASWP_VERSION.' - -->';
 			$output .= "\n";
                         $output .= '<script type="application/ld+json">'; 

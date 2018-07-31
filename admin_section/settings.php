@@ -23,7 +23,7 @@ function saswp_admin_interface_render(){
 	}
 	$tab = saswp_get_tab('general', array('general','knowledge','schema', 'help'));
 	?>
-	<div class="wrap">	
+	<div class="wrap saswp-settings-form">	
 		<h1> <?php echo esc_html__( 'Schema And Structured Data For WP', 'schema-and-structured-data-for-wp' ); ?></h1>
 		<h2 class="nav-tab-wrapper saswp-tabs">
 			<?php			
@@ -280,19 +280,7 @@ function saswp_general_page_callback(){
                              'id' => 'saswp-for-amp',
                              'name' => 'sd_data[saswp-for-amp]',                             
                         )
-		),
-                array(
-			'label' => 'Schema App by Hunch Manifest compatibility in AMP',
-			'id' => 'saswp-for-amp-with-scheme-checkbox',  
-                        'name' => 'saswp-for-amp-with-scheme-checkbox',
-			'type' => 'checkbox',
-                        'class' => 'checkbox saswp-checkbox',
-                        'note'  => 'Note: It will override the Strucuture Data for AMP option',
-                        'hidden' => array(
-                             'id' => 'saswp-for-amp-with-scheme-app',
-                             'name' => 'sd_data[saswp-for-amp-with-scheme-app]',                             
-                        )
-		)				
+		),                				
 	);
         echo '<h2>'.esc_html__('Set Up','schema-and-structured-data-for-wp').'</h2>';
         $field_objs->saswp_field_generator($meta_fields, $settings);
@@ -580,9 +568,8 @@ function saswp_knowledge_page_callback(){
 	<?php
 }
 function saswp_help_page_callback(){
-    echo 'd';
+    echo 'We will help you sure';
 }
-
 /**
  * Enqueue CSS and JS
  */

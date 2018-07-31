@@ -251,23 +251,6 @@ if(is_plugin_active('schema-app-structured-data-for-schemaorg/hunch-schema.php')
     }
   }
 }
-
-add_action('amp_init','saswp_with_scheme_app_output',9);
-function saswp_with_scheme_app_output(){
-  global $sd_data;
-  $ampforwp_scheme_app_output ="";
-  $url_path = trim(parse_url(add_query_arg(array()), PHP_URL_PATH),'/' );
-  $explode_path = explode('/', $url_path); 
-  
-  if(isset($sd_data['saswp-for-amp-with-scheme-app']) && 1 == $sd_data['saswp-for-amp-with-scheme-app'] && 'amp' === end( $explode_path) ){ 
-
-        $scheme_amp_app = new SchemaFront;
-        $ampforwp_scheme_app_output = $scheme_amp_app->hunch_schema_add(true);
-        remove_filter( 'amp_init', 'saswp_structured_data');    
-
-  }
-  return $ampforwp_scheme_app_output;
-}
 // Schema App end here
 require_once SASWP_DIR_NAME.'/admin_section/structure_admin.php';
 require_once SASWP_DIR_NAME.'/admin_section/settings.php';

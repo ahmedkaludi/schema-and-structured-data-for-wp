@@ -10,13 +10,20 @@ and open the template in the editor.
 .saswp-general table th{
     width: auto;
     font-weight: 600;
+    padding: 0px;
 } 
 .saswp-knowledge table th{    
     width: auto;
+    padding: 0px;
 } 
 .saswp-schema table th{    
     width: auto;
-} 
+    padding: 0px;
+}
+.saswp-help table th{    
+    width: auto;
+    padding: 0px;
+}
 .saswp-settings-list{
     display:inline-block;
     width:100%
@@ -39,6 +46,9 @@ padding-left:0px;
 }
 .saswp-help h2{
     margin-bottom: 0px;
+}
+.saswp-settings-form p.submit{
+    margin-top:0px;
 }
 
 

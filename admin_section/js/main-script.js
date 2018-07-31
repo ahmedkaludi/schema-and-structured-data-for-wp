@@ -41,17 +41,7 @@ jQuery(document).ready(function($){
                             $("#saswp-for-amp").val(1);  
                           }else{
                             $("#saswp-for-amp").val(0);  
-                          }
-                      break;
-                      case 'saswp-for-amp-with-scheme-checkbox':
-                          
-                        if ($(this).is(':checked')) {              
-                          $("#saswp-for-amp-with-scheme-app").val(1);
-                          $("#saswp-for-amp").parent().parent('li').hide();  
-                        }else{
-                          $("#saswp-for-amp-with-scheme-app").val(0);
-                          $("#saswp-for-amp").parent().parent('li').show();
-                        }
+                          }                                           
                       break;
                       case 'saswp_kb_contact_1_checkbox':
                           

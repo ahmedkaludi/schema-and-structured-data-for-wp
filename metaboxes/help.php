@@ -9,10 +9,10 @@
 add_action( 'add_meta_boxes', 'saswp_help_meta_box' );
 function saswp_help_meta_box()
 {
-    add_meta_box( 'my-meta-box-id', 'Help', 'saswp_help_meta_box_cb', 'structured-data-wp', 'advanced', 'low' );
+    add_meta_box( 'saswp_help_meta_box_id', 'Help', 'saswp_help_meta_box_cb', 'structured-data-wp', 'advanced', 'low' );
 }
 
 function saswp_help_meta_box_cb()
 {
-    echo 'Need Help';   
+    echo '<a href="admin.php?page=structured_data_options&tab=help">'.esc_html__('Need Help', 'schema-and-structured-data-for-wp').'</a>';   
 }

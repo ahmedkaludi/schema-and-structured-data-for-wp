@@ -635,24 +635,7 @@ function saswp_kb_website_output(){
 			);
 	
 	return json_encode($input);        
-}
-
-add_filter( 'amp_init', 'saswp_structured_data' );
-
-function saswp_structured_data()
-{		
-	add_action( 'amp_post_template_head' , 'saswp_kb_schema_output' );
-	add_action( 'amp_post_template_head' , 'saswp_kb_website_output' );
-	add_action( 'amp_post_template_head' , 'saswp_schema_breadcrumb_output' );
-	add_action( 'amp_post_template_head' , 'saswp_schema_output' );
-	add_action( 'amp_post_template_head' , 'saswp_archive_output' );
-	add_action( 'amp_post_template_head' , 'saswp_archive_output' );
-	add_action( 'amp_post_template_head' , 'saswp_about_page_output' );
-	add_action( 'amp_post_template_head' , 'saswp_contact_page_output' );
-	remove_action( 'amp_post_template_head', 'amp_post_template_add_schemaorg_metadata',10,1);
-}
-
-	
+}	
 // For Archive 
 function saswp_archive_output(){
 	global $query_string, $sd_data;
