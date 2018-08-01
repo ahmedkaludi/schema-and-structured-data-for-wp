@@ -4,12 +4,12 @@
  * Function saswp_add_menu_links
  *
  */
-function saswp_pwa_add_menu_links() {				
+function saswp_add_menu_links() {				
 	// Settings page - Same as main menu page
 	add_submenu_page( 'edit.php?post_type=structured-data-wp', esc_html__( 'Schema And Structured Data For Wp', 'schema-and-structured-data-for-wp' ), esc_html__( 'Settings', 'schema-and-structured-data-for-wp' ), 'manage_options', 'structured_data_options', 'saswp_admin_interface_render' );	
         
 }
-add_action( 'admin_menu', 'saswp_pwa_add_menu_links' );
+add_action( 'admin_menu', 'saswp_add_menu_links' );
 
 function saswp_admin_interface_render(){
 	// Authentication
@@ -28,13 +28,13 @@ function saswp_admin_interface_render(){
 		<h2 class="nav-tab-wrapper saswp-tabs">
 			<?php			
 
-			echo '<a href="' . esc_attr(saswp_pwa_admin_link('general')) . '" class="nav-tab ' . esc_attr( $tab == 'general' ? 'nav-tab-active' : '') . '"><span class="dashicons dashicons-admin-generic"></span> ' . esc_html__('General','schema-and-structured-data-for-wp') . '</a>';
+			echo '<a href="' . esc_attr(saswp_admin_link('general')) . '" class="nav-tab ' . esc_attr( $tab == 'general' ? 'nav-tab-active' : '') . '"><span class="dashicons dashicons-admin-generic"></span> ' . esc_html__('General','schema-and-structured-data-for-wp') . '</a>';
 
-			echo '<a href="' . esc_attr(saswp_pwa_admin_link('knowledge')) . '" class="nav-tab ' . esc_attr( $tab == 'knowledge' ? 'nav-tab-active' : '') . '"><span class="dashicons dashicons-info"></span> ' . esc_html__('Knowledge Base','schema-and-structured-data-for-wp') . '</a>';
+			echo '<a href="' . esc_attr(saswp_admin_link('knowledge')) . '" class="nav-tab ' . esc_attr( $tab == 'knowledge' ? 'nav-tab-active' : '') . '"><span class="dashicons dashicons-info"></span> ' . esc_html__('Knowledge Base','schema-and-structured-data-for-wp') . '</a>';
 
-			echo '<a href="' . esc_attr(saswp_pwa_admin_link('schema')) . '" class="nav-tab ' . esc_attr( $tab == 'schema' ? 'nav-tab-active' : '') . '"><span class="dashicons dashicons-welcome-view-site"></span> ' . esc_html__('Schema Type','schema-and-structured-data-for-wp') . '</a>';
+			echo '<a href="' . esc_attr(saswp_admin_link('schema')) . '" class="nav-tab ' . esc_attr( $tab == 'schema' ? 'nav-tab-active' : '') . '"><span class="dashicons dashicons-welcome-view-site"></span> ' . esc_html__('Schema Type','schema-and-structured-data-for-wp') . '</a>';
                         
-                        echo '<a href="' . esc_attr(saswp_pwa_admin_link('help')) . '" class="nav-tab ' . esc_attr( $tab == 'help' ? 'nav-tab-active' : '') . '"><span class="dashicons dashicons-dashboard"></span> ' . esc_html__('Help','schema-and-structured-data-for-wp') . '</a>';
+                        echo '<a href="' . esc_attr(saswp_admin_link('help')) . '" class="nav-tab ' . esc_attr( $tab == 'help' ? 'nav-tab-active' : '') . '"><span class="dashicons dashicons-dashboard"></span> ' . esc_html__('Help','schema-and-structured-data-for-wp') . '</a>';
 			?>
 		</h2>
 		<form action="options.php" method="post" enctype="multipart/form-data">		
@@ -77,9 +77,9 @@ function saswp_admin_interface_render(){
 /*
 	WP Settings API
 */
-add_action('admin_init', 'saswp_pwa_settings_init');
+add_action('admin_init', 'saswp_settings_init');
 
-function saswp_pwa_settings_init(){
+function saswp_settings_init(){
           	register_setting( 'sd_data_group', 'sd_data' );
                // add_settings_section('saswp_dashboard_section', esc_html__('Installation Status','schema-and-structured-data-for-wp'), '__return_false', 'saswp_dashboard_section');
                         // Manifest status		
@@ -585,8 +585,7 @@ function saswp_help_page_callback(){
 /**
  * Enqueue CSS and JS
  */
-function saswp_enqueue_style_js( $hook ) {
-    // Load only on ampforwp-pwa plugin pages
+function saswp_enqueue_style_js( $hook ) {    
 	if ( strpos( $hook, 'structured_data_options' ) === false ) {
 		return;
 	}	

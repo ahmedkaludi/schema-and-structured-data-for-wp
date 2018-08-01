@@ -72,9 +72,9 @@ function saswp_expanded_allowed_tags() {
             );
             return $my_allowed;
         }    
-function saswp_pwa_admin_link($tab = '', $args = array()){
-            //return add_query_arg(array('record_id'=>$record_id,'mode'=>'view_record'),admin_url('admin.php?page=storage'));
-            $page = 'structured_data_options';// Menu Slug name "While change please, Change in ampforwp_pwa_add_menu_links also"
+function saswp_admin_link($tab = '', $args = array()){
+           
+            $page = 'structured_data_options';
             if ( ! is_multisite() ) {
                     $link = admin_url( 'admin.php?page=' . $page );
             }
