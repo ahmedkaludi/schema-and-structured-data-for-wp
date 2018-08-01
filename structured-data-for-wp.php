@@ -1,9 +1,8 @@
 <?php
 /*
-Plugin Name: Schema and Structured Data for Wp
-Plugin URI: http://ampforwp.com/structured-data/
+Plugin Name: Schema and Structured Data for WP
 Description: Add Structured data in your site. 
-Version: 1.2.4
+Version: 1.0
 Text Domain: schema-and-structured-data-for-wp
 Author: Mohammed Kaludi, AMPforWP Team
 Author URI: http://ampforwp.com
@@ -14,11 +13,11 @@ License: GPL2
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-define('SASWP_VERSION', '1.2.4');
+define('SASWP_VERSION', '1.0');
 define('SASWP_DIR_NAME', dirname( __FILE__ ));
 
 if ( ! defined( 'SASWP_VERSION' ) ) {
-  define( 'SASWP_VERSION', '1.2.4' );
+  define( 'SASWP_VERSION', '1.0' );
 }
 // the name of the settings page for the license input to be displayed
 if(! defined('SASWP_ITEM_FOLDER_NAME')){
@@ -240,17 +239,7 @@ if ( ! function_exists('saswp_non_amp') ){
     return $non_amp;
   }
 }
-// Schema App by Hunch Manifest compatibility
-include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
-if(is_plugin_active('schema-app-structured-data-for-schemaorg/hunch-schema.php')) {
-  add_action('amp_post_template_head','saswp_scheme_app_remove_hook',9);
-  function saswp_scheme_app_remove_hook(){
-    if(function_exists('ampforwp_is_amp_endpoint') && ampforwp_is_amp_endpoint()){
-      global $HunchSchemaFront;
-      remove_action( 'amp_post_template_head', array( $HunchSchemaFront, 'AMPPostTemplateHead' ),10,1); 
-    }
-  }
-}
+
 // Schema App end here
 require_once SASWP_DIR_NAME.'/admin_section/structure_admin.php';
 require_once SASWP_DIR_NAME.'/admin_section/settings.php';
