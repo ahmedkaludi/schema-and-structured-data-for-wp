@@ -81,8 +81,6 @@ add_action('admin_init', 'saswp_settings_init');
 
 function saswp_settings_init(){
           	register_setting( 'sd_data_group', 'sd_data' );
-               // add_settings_section('saswp_dashboard_section', esc_html__('Installation Status','schema-and-structured-data-for-wp'), '__return_false', 'saswp_dashboard_section');
-                        // Manifest status		
                 add_settings_section('saswp_general_section', __return_false(), '__return_false', 'saswp_general_section');
 
                 add_settings_field(
