@@ -96,8 +96,7 @@ function saswp_admin_link($tab = '', $args = array()){
 }
 function saswp_get_tab( $default = '', $available = array() ) {
 
-            $tab = isset( $_GET['tab'] ) ? $_GET['tab'] : $default;
-
+            $tab = isset( $_GET['tab'] ) ? sanitize_text_field(wp_unslash($_GET['tab'])) : $default;            
             if ( ! in_array( $tab, $available ) ) {
                     $tab = $default;
             }

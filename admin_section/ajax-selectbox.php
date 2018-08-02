@@ -9,10 +9,10 @@ function saswp_ajax_select_creator($data = '', $saved_data= '', $current_number 
         if(wp_verify_nonce($_POST["saswp_call_nonce"],'saswp_select_action_nonce')){
             
             if ( isset( $_POST["id"] ) ) {
-              $response = $_POST["id"];
+              $response = sanitize_text_field(wp_unslash($_POST["id"]));
             }
             if ( isset( $_POST["number"] ) ) {
-              $current_number   = $_POST["number"];
+              $current_number   = intval($_POST["number"]);
             }
         }else{
             exit;
@@ -91,7 +91,7 @@ function saswp_ajax_select_creator($data = '', $saved_data= '', $current_number 
           case "page_template" :
 
             $choices = array(
-              'default' =>  esc_attr__('Default Template','schema-and-structured-data-for-wp'),
+              'default' =>  esc_html__('Default Template','schema-and-structured-data-for-wp'),
             );
 
             $templates = get_page_templates();
@@ -176,14 +176,14 @@ function saswp_ajax_select_creator($data = '', $saved_data= '', $current_number 
 
             if( is_multisite() )
             {
-              $choices['super_admin'] = esc_attr__('Super Admin','schema-and-structured-data-for-wp');
+              $choices['super_admin'] = esc_html__('Super Admin','schema-and-structured-data-for-wp');
             }
 
             break;
 
           case "ef_taxonomy" :
 
-            $choices = array('all' => esc_attr__('All','schema-and-structured-data-for-wp'));
+            $choices = array('all' => esc_html__('All','schema-and-structured-data-for-wp'));
             $taxonomies = saswp_post_taxonomy_generator();        
             $choices = array_merge($choices, $taxonomies);                      
             break;
@@ -194,12 +194,12 @@ function saswp_ajax_select_creator($data = '', $saved_data= '', $current_number 
 
     // Add None if no elements found in the current selected items
     if ( empty( $choices) ) {
-      $choices = array('none' => esc_attr__('No Items', 'schema-and-structured-data-for-wp') );
+      $choices = array('none' => esc_html__('No Items', 'schema-and-structured-data-for-wp') );
     }
      //  echo $current_number;
     // echo $saved_data;
 
-      $output = '<select  class="widefat ajax-output" name="data_array['. $current_number .'][key_3]">'; 
+      $output = '<select  class="widefat ajax-output" name="data_array['. esc_attr($current_number) .'][key_3]">'; 
 
         // Generate Options for Posts
         if ( $options['param'] == 'post' ) {
@@ -211,7 +211,7 @@ function saswp_ajax_select_creator($data = '', $saved_data= '', $current_number 
                   $selected = '';
                 }
 
-                $output .= '<option '. $selected .' value="' .  $key .'"> ' .  $value .'  </option>';            
+                $output .= '<option '. esc_attr($selected) .' value="' .  esc_attr($key) .'"> ' .  esc_html__($value, 'schema-and-structured-data-for-wp') .'  </option>';            
             }
           }
          // Options for Other then posts
@@ -223,7 +223,7 @@ function saswp_ajax_select_creator($data = '', $saved_data= '', $current_number 
                   $selected = '';
                 }
 
-            $output .= '<option '. $selected .' value="' .  $key .'"> ' .  $value .'  </option>';            
+            $output .= '<option '. esc_attr($selected) .' value="' . esc_attr($key) .'"> ' .  esc_html__($value, 'schema-and-structured-data-for-wp') .'  </option>';            
           } 
         }
       $output .= ' </select> '; 
@@ -262,26 +262,32 @@ function saswp_create_ajax_select_taxonomy($selectedParentValue = '',$selectedVa
         $is_ajax = true;
         if(wp_verify_nonce($_POST["saswp_call_nonce"],'saswp_select_action_nonce')){
               if(isset($_POST['id'])){
-                $selectedParentValue = $_POST['id'];
+                $selectedParentValue = sanitize_text_field(wp_unslash($_POST['id']));
               }
               if(isset($_POST['number'])){
-                $current_number = $_POST['number'];
+                $current_number = intval($_POST['number']);
               }
         }else{
             exit;
         }       
     }
-        
-    $taxonomies =  get_terms( $selectedParentValue, array(
+    $taxonomies = array(); 
+    if($selectedParentValue == 'all'){
+    $taxonomies =  get_terms( array(
                         'hide_empty' => true,
-                    ) );
+                    ) );    
+    }else{
+    $taxonomies =  get_terms($selectedParentValue, array(
+                        'hide_empty' => true,
+                    ) );    
+    }     
     $choices = '<option value="all">'.esc_html__('All','schema-and-structured-data-for-wp').'</option>';
     foreach($taxonomies as $taxonomy) {
       $sel="";
       if($selectedValue == $taxonomy->slug){
         $sel = "selected";
       }
-      $choices .= '<option value="'.$taxonomy->slug.'" '.$sel.'>'.esc_html__($taxonomy->name,'schema-and-structured-data-for-wp').'</option>';
+      $choices .= '<option value="'.esc_attr($taxonomy->slug).'" '.esc_attr($sel).'>'.esc_html__($taxonomy->name,'schema-and-structured-data-for-wp').'</option>';
     }
     $allowed_html = saswp_expanded_allowed_tags();    
     echo '<select  class="widefat ajax-output-child" name="data_array['. esc_attr($current_number) .'][key_4]">'. wp_kses($choices, $allowed_html).'</select>';

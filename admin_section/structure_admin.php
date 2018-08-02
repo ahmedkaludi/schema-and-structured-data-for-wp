@@ -411,10 +411,10 @@ if(is_admin()){
             </td>
 
             <td class="widefat structured-clone" style="width:3.5%">
-            <span> <button type="button"> <?php esc_attr_e( 'Add' ,'schema-and-structured-data-for-wp');?> </button> </span> </td>
+            <span> <button type="button"> <?php echo esc_html__('Add' ,'schema-and-structured-data-for-wp');?> </button> </span> </td>
             
             <td class="widefat structured-delete" style="width:3.5%">
-            <span> <button  type="button"> <?php esc_attr_e( 'Remove' ,'schema-and-structured-data-for-wp');?> </button> </span> </td>         
+            <span> <button  type="button"> <?php echo esc_html__( 'Remove' ,'schema-and-structured-data-for-wp');?> </button> </span> </td>         
           </tr>
           <?php 
         } ?>
@@ -431,7 +431,7 @@ if(is_admin()){
       <table class="option-table-class">
         <tbody>
           <tr>
-            <td><label for="schema_type">Schema Type</label></td>
+            <td><label for="schema_type"><?php echo esc_html__( 'Schema Type' ,'schema-and-structured-data-for-wp');?></label></td>
             <td><select id="schema_type" name="schema_type">
                 <?php
                   
@@ -496,18 +496,23 @@ if(is_admin()){
   // Save PHP Editor
   add_action ( 'save_post' , 'saswp_select_save_data' );
   function saswp_select_save_data ( $post_id ) {
+      //print_r('save_post');die;
       if( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
        
       // if our nonce isn't there, or we can't verify it, bail
       if( !isset( $_POST['saswp_select_name_nonce'] ) || !wp_verify_nonce( $_POST['saswp_select_name_nonce'], 'saswp_select_action_nonce' ) ) return;
-
+      
       // if our current user can't edit this post, bail
-      if( !current_user_can( 'edit_post' ) ) return;
-    $post_data_array = $_POST['data_array'];
-    $post_schema_type = $_POST['schema_type'];
-    $notAccessibleForFree = $_POST['notAccessibleForFree'];
-    $isAccessibleForFree = $_POST['isAccessibleForFree'];
-    $paywall_class_name = $_POST['paywall_class_name'];
+      if( !current_user_can( 'edit_post' ) ) return;      
+      $post_data_array = array();
+      
+    foreach($_POST['data_array'] as $post){
+    $post_data_array[] = array_map('sanitize_text_field', $post);  
+    }          
+    $post_schema_type =         sanitize_text_field($_POST['schema_type']);  
+    $notAccessibleForFree =     sanitize_text_field($_POST['notAccessibleForFree']);    
+    $isAccessibleForFree =      sanitize_text_field($_POST['isAccessibleForFree']);   
+    $paywall_class_name =       sanitize_text_field($_POST['paywall_class_name']);
 
     // Data
     if(isset($_POST['data_array'])){
