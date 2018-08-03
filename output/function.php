@@ -1,7 +1,5 @@
 <?php
-
 add_filter( 'amp_init', 'saswp_structured_data' );
-
 function saswp_structured_data()
 {		
 	add_action( 'amp_post_template_head' , 'saswp_data_generator' );	
@@ -12,8 +10,8 @@ add_action('wp_head', 'saswp_data_generator');
 function saswp_data_generator() {
    global $sd_data;	           
    $output ='';
-   $contact_page_output =   saswp_contact_page_output();  	
-   $about_page_output   =  saswp_about_page_output();
+   $contact_page_output = saswp_contact_page_output();  	
+   $about_page_output   = saswp_about_page_output();   
    $author_output       = saswp_author_output();
    $archive_output      = saswp_archive_output();
    $kb_website_output   = saswp_kb_website_output();
@@ -71,17 +69,19 @@ function saswp_data_generator() {
                          $output .= "\n\n";
                         }                       
                         $output .= '</script>';
-			$output .= "\n\n";
+			               $output .= "\n\n";
 		
 	}
 	echo $output;
 }
-add_action('wp', function(){
-	if( saswp_non_amp() ){
+add_action('wp', 'saswp_on_wp_hook');
+
+function saswp_on_wp_hook(){
+        if( saswp_non_amp() ){
 		return;
 	}
 	remove_filter( 'the_content', 'prefix_insert_post_ads' );
-});
+}
 
 add_filter('the_content', 'saswp_paywall_data_for_login');
 function saswp_paywall_data_for_login($content){
@@ -102,7 +102,7 @@ function saswp_paywall_data_for_login($content){
 			global $wp;
 			$redirect =  home_url( $wp->request );
 			$breakedContent = explode("<!--more-->", $content);
-			$content = $breakedContent[0].'<a href="'.wp_login_url( $redirect ) .'">Login</a>';
+			$content = $breakedContent[0].'<a href="'.wp_login_url( $redirect ) .'">'.esc_html__( 'Login', 'schema-and-structured-data-for-wp' ).'</a>';
 		}elseif(strpos($content, '<!--more-->')!==false && is_user_logged_in()){
 			global $wp;
 			$redirect =  home_url( $wp->request );
@@ -112,14 +112,17 @@ function saswp_paywall_data_for_login($content){
 	}
 	return $content;
 }
-add_filter('memberpress_form_update', function($form){
+
+add_filter('memberpress_form_update', 'saswp_memberpress_form_update'); 
+        
+function saswp_memberpress_form_update($form){
 	if( !saswp_non_amp() ){
 		add_action('amp_post_template_css',function(){
 			echo '.amp-mem-login{background-color: #fef5c4;padding: 13px 30px 9px 30px;}';
 		},11); 
 		global $wp;
 		$redirect =  home_url( $wp->request );
-		$form = '<a class="amp-mem-login" href="'.wp_login_url( $redirect ) .'">Login</a>';
+		$form = '<a class="amp-mem-login" href="'.wp_login_url( $redirect ) .'">'.esc_html__( 'Login', 'schema-and-structured-data-for-wp' ).'</a>';
 	}
 	return $form;
-});
+}

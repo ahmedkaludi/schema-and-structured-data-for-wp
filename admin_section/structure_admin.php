@@ -1,90 +1,101 @@
 <?php
 //FrontEnd
 function saswp_get_all_schema_posts(){
-  $post_idArray = array();
-  $query = new WP_Query(array(
-        'post_type' => 'structured-data-wp',
-        'post_status' => 'publish',
-        'posts_per_page' => -1,
-    ));
-    while ($query->have_posts()) {
-        $query->the_post();
-        $post_idArray[] = get_the_ID();
-    }
-    wp_reset_query();
-    wp_reset_postdata();
-
-  if(count($post_idArray)>0){    
-      $returnData = array();
-      foreach ($post_idArray as $key => $post_id) {
-        $data = saswp_generate_field_data( $post_id );
-        $data = array_filter($data);
-        $number_of_fields = count($data);
-        $unique_checker = 0;
-        // Check if we have more then 1 fields.
-        if ( $number_of_fields > 0 ) {
-          // Check if all the arrays have TRUE setup, then send the value 1, if all the 
-          // values are same.
-          $unique_checker = count( array_unique($data) );
-          // Check and make sure only all TRUE values only passed on, if all values are FALSE,
-          // then making sure all FALSE are converting to 0, and returing false.
-          // Code will not run.
-          $array_is_false =  in_array(false, $data);
-          if (  $array_is_false ) {
-            $unique_checker = 0;
+        $post_idArray = array();
+        $query = new WP_Query(
+          array(
+              'post_type' => 'saswp',
+              'post_status' => 'publish',
+              'posts_per_page' => -1,
+          ));
+          while ($query->have_posts()) {
+              $query->the_post();
+              $post_idArray[] = get_the_ID();
           }
-        }
+          wp_reset_query();
+          wp_reset_postdata();
 
-        if ( $unique_checker === 1 || $unique_checker === true) {
-          $conditions = get_post_meta( $post_id, 'data_array', true);
-          $conditions = $conditions[0];
-         $returnData[] = array(
-                'schema_type' => get_post_meta( $post_id, 'schema_type', true),
-                'schema_options' => get_post_meta( $post_id, 'schema_options', true),
-                'conditions'  => $conditions, 
-              );
-        }
+    if(count($post_idArray)>0){    
+      $returnData = array();
+      foreach ($post_idArray as $key => $post_id) 
+        {
+          $data = saswp_generate_field_data( $post_id );
+          $data = array_filter($data);
+          $number_of_fields = count($data);
+          $unique_checker = 0;
+          // Check if we have more then 1 fields.
+          if ( $number_of_fields > 0 ) {
+            // Check if all the arrays have TRUE setup, then send the value 1, if all the 
+            // values are same.
+            $unique_checker = count( array_unique($data) );
+            // Check and make sure only all TRUE values only passed on, if all values are FALSE,
+            // then making sure all FALSE are converting to 0, and returing false.
+            // Code will not run.
+            $array_is_false =  in_array(false, $data);
+            if (  $array_is_false ) {
+              $unique_checker = 0;
+            }
+          }
+
+          if ( $unique_checker === 1 || $unique_checker === true) {
+              $conditions = get_post_meta( $post_id, 'data_array', true);
+              $conditions = $conditions[0];
+              $returnData[] = array(
+                    'schema_type' => get_post_meta( $post_id, 'schema_type', true),
+                    'schema_options' => get_post_meta( $post_id, 'schema_options', true),
+                    'conditions'  => $conditions, 
+                  );
+            }
       }//foreach closed post_idArray
       //Prioritize
       if(count($returnData)>0){
-        $priority = array('post_type'=>1,  'user_type'=>2, 'post'=> 3 , 'post_category'=> 4,'post_format'=> 5, 'Page'=> 6,  'page_template'=>7,  'ef_taxonomy'=>8);
-        $actualReturnData = array();
-        foreach ($returnData as $key => $value) {
-          $actualReturnData[$priority[$value['conditions']['key_1']]] = $value;
-        }
-        $maxs = array_keys($actualReturnData, max($actualReturnData));
-        return $actualReturnData[$maxs[0]];
+          $priority = array(
+            'post_type'=>1,  
+            'user_type'=>2, 
+            'post'=> 3 , 
+            'post_category'=> 4,
+            'post_format'=> 5, 
+            'Page'=> 6,  
+            'page_template'=>7,  
+            'ef_taxonomy'=>8
+          );
+            $actualReturnData = array();
+            foreach ($returnData as $key => $value) {
+              $actualReturnData[$priority[$value['conditions']['key_1']]] = $value;
+            }
+            $maxs = array_keys($actualReturnData, max($actualReturnData));
+            return $actualReturnData[$maxs[0]];
       }
   }//iF Closed post_idArray
-  return false;
+   return false;
 }
 
 function saswp_generate_field_data( $post_id ){
-  $conditions = get_post_meta( $post_id, 'data_array', true);  
+      $conditions = get_post_meta( $post_id, 'data_array', true);  
 
-  $output = array();
-  if ( $conditions ) { 
-    $output = array_map('saswp_comparison_logic_checker', $conditions); 
-  }
-  return $output;
+      $output = array();
+      if ( $conditions ) { 
+        $output = array_map('saswp_comparison_logic_checker', $conditions); 
+      }
+      return $output;
 }
 
 function saswp_comparison_logic_checker($input){
-   global $post;
-    $type       = $input['key_1'];
-    $comparison = $input['key_2'];
-    $data       = $input['key_3'];
-    $result             = ''; 
-   
-    // Get all the users registered
-    $user               = wp_get_current_user();
+       global $post;
+        $type       = $input['key_1'];
+        $comparison = $input['key_2'];
+        $data       = $input['key_3'];
+        $result             = ''; 
+       
+        // Get all the users registered
+        $user               = wp_get_current_user();
 
-    switch ($type) {
-    // Basic Controls ------------ 
-      // Posts Type
-      case 'post_type':   
-            $current_post_type  = $post->post_type;            
-              if ( $comparison == 'equal' ) {
+        switch ($type) {
+        // Basic Controls ------------ 
+          // Posts Type
+          case 'post_type':   
+                $current_post_type  = $post->post_type;            
+                  if ( $comparison == 'equal' ) {
                   if ( $current_post_type == $data ) {
                     $result = true;
                   }
@@ -94,10 +105,10 @@ function saswp_comparison_logic_checker($input){
                     $result = true;
                   }
               }            
-        break;
+          break;
 
       // Logged in User Type
-      case 'user_type':            
+         case 'user_type':            
             if ( $comparison == 'equal') {
                 if ( in_array( $data, (array) $user->roles ) ) {
                     $result = true;
@@ -123,7 +134,7 @@ function saswp_comparison_logic_checker($input){
                 }
             }
             
-        break; 
+           break; 
 
     // Post Controls  ------------ 
       // Posts
@@ -289,13 +300,13 @@ if(is_admin()){
   function saswp_create_post_type() {
 
 
-    register_post_type( 'structured-data-wp',
+    register_post_type( 'saswp',
       array(
-        'labels' => array(
+            'labels' => array(
             'name'              => esc_html__( 'Structured Data', 'schema-and-structured-data-for-wp' ),
             'singular_name'     => esc_html__( 'Structured Data', 'schema-and-structured-data-for-wp' ),
-            'add_new' 		=> esc_html__( 'Add New', 'schema-and-structured-data-for-wp' ),
-	    'add_new_item'  	=> esc_html__( 'Add New', 'schema-and-structured-data-for-wp' ),
+            'add_new' 		      => esc_html__( 'Add New', 'schema-and-structured-data-for-wp' ),
+	          'add_new_item'  	  => esc_html__( 'Add New', 'schema-and-structured-data-for-wp' ),
             'edit_item'         => esc_html__( 'Edit Structured Data','schema-and-structured-data-for-wp')
         ),
           'public'                => true,
@@ -309,7 +320,7 @@ if(is_admin()){
   add_action( 'add_meta_boxes', 'saswp_create_meta_box_select' );
   function saswp_create_meta_box_select(){
     // Repeater Comparison Field
-    add_meta_box( 'amp_sdwp_select', esc_html__( 'Placement','schema-and-structured-data-for-wp' ), 'saswp_select_callback', 'structured-data-wp','normal', 'high' );
+    add_meta_box( 'amp_sdwp_select', esc_html__( 'Placement','schema-and-structured-data-for-wp' ), 'saswp_select_callback', 'saswp','normal', 'high' );
     
   }
 
@@ -355,8 +366,8 @@ if(is_admin()){
       ); 
 
       $comparison = array(
-        'equal'   =>  esc_attr__( 'Equal to', 'schema-and-structured-data-for-wp'), 
-        'not_equal' =>  esc_attr__( 'Not Equal to', 'schema-and-structured-data-for-wp'),     
+        'equal'   =>  esc_html__( 'Equal to', 'schema-and-structured-data-for-wp'), 
+        'not_equal' =>  esc_html__( 'Not Equal to', 'schema-and-structured-data-for-wp'),     
       );
 
       $total_fields = count( $data_array ); ?>
@@ -482,7 +493,7 @@ if(is_admin()){
   add_action( 'admin_enqueue_scripts', 'saswp_style_script_include' );
   function saswp_style_script_include() {
      global $pagenow, $typenow;
-    if (is_admin() && $pagenow=='post-new.php' OR $pagenow=='post.php' && $typenow=='structured-data-wp') {
+    if (is_admin() && $pagenow=='post-new.php' OR $pagenow=='post.php' && $typenow=='saswp') {
        wp_register_script( 'structure_admin', plugin_dir_url(__FILE__) . '/js/structure_admin.js', array( 'jquery'), SASWP_VERSION, true );
        // Localize the script with new data
       $data_array = array(
@@ -495,8 +506,7 @@ if(is_admin()){
 
   // Save PHP Editor
   add_action ( 'save_post' , 'saswp_select_save_data' );
-  function saswp_select_save_data ( $post_id ) {
-      //print_r('save_post');die;
+  function saswp_select_save_data ( $post_id ) {      
       if( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
        
       // if our nonce isn't there, or we can't verify it, bail
@@ -513,8 +523,8 @@ if(is_admin()){
     $notAccessibleForFree =     sanitize_text_field($_POST['notAccessibleForFree']);    
     $isAccessibleForFree =      sanitize_text_field($_POST['isAccessibleForFree']);   
     $paywall_class_name =       sanitize_text_field($_POST['paywall_class_name']);
-
-    // Data
+    $saswp_schema_options  =    array('isAccessibleForFree'=>$isAccessibleForFree,'notAccessibleForFree'=>$notAccessibleForFree,'paywall_class_name'=>$paywall_class_name);
+    
     if(isset($_POST['data_array'])){
       update_post_meta(
         $post_id, 
@@ -529,19 +539,18 @@ if(is_admin()){
       update_post_meta(
         $post_id, 
         'schema_options', 
-        array('isAccessibleForFree'=>$isAccessibleForFree,'notAccessibleForFree'=>$notAccessibleForFree,'paywall_class_name'=>$paywall_class_name) 
+        $saswp_schema_options
       );
     }
-  }//function amp_sdwp_select_save_data closed
-
+  }
 add_action("admin_init",'saswp_migration');
 function saswp_migration(){
-  $sdwp_migration_posts = get_option("sdwp_migration_posts");
-  $sd_data = get_option("sd_data");
-  if($sdwp_migration_posts != 'inserted'){
-    if(isset($sd_data['sd_page_type'])){
-      $postarr = array(
-                  'post_type'=>'structured-data-wp',
+    $sdwp_migration_posts = get_option("sdwp_migration_posts");
+    $sd_data = get_option("sd_data");
+    if($sdwp_migration_posts != 'inserted'){
+      if(isset($sd_data['sd_page_type'])){
+        $postarr = array(
+                    'post_type'=>'saswp',
                   'post_title'=>'Default page type',
                   'post_status'=>'publish',
 
@@ -563,7 +572,7 @@ function saswp_migration(){
     }
     if(isset($sd_data['sd_post_type'])){
       $postarr = array(
-                  'post_type'=>'structured-data-wp',
+                  'post_type'=>'saswp',
                   'post_title'=>'Default post type',
                   'post_status'=>'publish',
 
@@ -589,8 +598,6 @@ function saswp_migration(){
   } 
 }
 
-
-
 }//CLosed is_admin
 
 // Generate Proper post types for select and to add data.
@@ -607,5 +614,187 @@ function saswp_post_type_generator(){
     return $post_types;
 }
 
+add_action('wp_head','saswp_custom_breadcrumbs',99);
+
+// Breadcrumbs
+function saswp_custom_breadcrumbs() {
+    global $sd_data;	
+    $variables1_titles = array();   
+    $variables2_links = array();   
+    // Settings
+    $separator          = '&gt;';        
+    $home_title         = esc_html__('Homepage', 'schema-and-structured-data-for-wp' );
+      
+    // If you have any custom post types with custom taxonomies, put the taxonomy name below (e.g. product_cat)
+    $custom_taxonomy    = 'product_cat';
+       
+    // Get the query & post information
+    global $post;
+       
+    // Do not display on the homepage
+    if ( !is_front_page() ) {
+       
+        // Build the breadcrums
+        // Home page
+        $variables1_titles[] = $home_title;
+        $variables2_links[] = get_home_url();
 
 
+        if ( is_archive() && !is_tax() && !is_category() && !is_tag() && !is_author() ) {
+            $archive_title = post_type_archive_title($prefix, false);
+              $variables1_titles[] = $archive_title;
+
+
+        } else if  ( is_author() ) {
+	    		global $author;
+	    		
+	            $userdata = get_userdata( $author ); 
+	            $author_url= get_author_posts_url($userdata->ID);
+
+	            // author name
+	            $variables1_titles[]= $userdata->display_name;
+	            $variables2_links[]= $author_url;
+
+        } else if ( is_archive() && is_tax() && !is_category() && !is_tag() ) {
+              
+            // If post is a custom post type
+            $post_type = get_post_type();
+              
+            // If it is a custom post type display name and link
+            if($post_type != 'post') {
+                  
+                $post_type_object = get_post_type_object($post_type);
+                $post_type_archive = get_post_type_archive_link($post_type);
+                $variables1_titles[] = $post_type_object->labels->name;
+                $variables2_links[] = $post_type_archive;
+              
+            }
+              
+            $custom_tax_name = get_queried_object()->name;
+              $variables1_titles[] = $custom_tax_name;
+
+        } else if ( is_single() ) {
+              
+            // If post is a custom post type
+            $post_type = get_post_type();
+              
+            // If it is a custom post type display name and link
+            if($post_type != 'post') {
+                  
+                $post_type_object = get_post_type_object($post_type);
+                $post_type_archive = get_post_type_archive_link($post_type);
+              
+                $variables1_titles[]= $post_type_object->labels->name;
+                $variables2_links[]= $post_type_archive;              
+            }
+              
+            // Get post category info
+            $category = get_the_category();
+             
+            if(!empty($category)) {
+              $category_values = array_values( $category );
+              foreach ($category_values as $category_value) {
+                  $category_name = get_category($category_value);
+                  $cat_name = $category_name->name;
+                  $variables1_titles[]=$cat_name;
+                  $variables2_links[]=get_category_link( $category_value );
+              
+              }
+                // Get last category post is in
+                $last_category = end(($category));
+                  $category_name = get_category($last_category);
+                // Get parent any categories and create array
+                $get_cat_parents = rtrim(get_category_parents($last_category->term_id, true, ','),',');
+                $cat_parents = explode(',',$get_cat_parents);
+                  
+                // Loop through parent categories and store in variable $cat_display
+                $cat_display = '';
+                foreach($cat_parents as $parents) {
+                    $cat_display .= '<li class="item-cat">'.esc_html__( $parents, 'schema-and-structured-data-for-wp' ).'</li>';
+                    $cat_display .= '<li class="separator"> ' . esc_html__( $separator, 'schema-and-structured-data-for-wp' ) . ' </li>';
+                }
+            }
+              
+            // If it's a custom post type within a custom taxonomy
+            $taxonomy_exists = taxonomy_exists($custom_taxonomy);
+            if(empty($last_category) && !empty($custom_taxonomy) && $taxonomy_exists) {
+                   
+                $taxonomy_terms = get_the_terms( $post->ID, $custom_taxonomy );
+                $cat_id         = $taxonomy_terms[0]->term_id;                
+                $cat_link       = get_term_link($taxonomy_terms[0]->term_id, $custom_taxonomy);
+                $cat_name       = $taxonomy_terms[0]->name;
+
+            }
+              
+             if(!empty($cat_id)) {
+              $variables1_titles[]= $cat_name;
+              $variables2_links[]=$cat_link;
+
+            } else {
+                if($post_type == 'post') { 
+                     $variables1_titles[]= get_the_title();
+                }
+            }
+              
+        } else if ( is_category() ) {
+                $category = get_the_category();
+             
+            if(!empty($category)) {
+              $category_values = array_values( $category );
+              foreach ($category_values as $category_value) {
+                  $category_name = get_category($category_value);
+                  $cat_name = $category_name->name;
+                  $variables1_titles[]=$cat_name;
+                  $variables2_links[]=get_category_link( $category_value );
+              
+              }
+          }                          
+        } else if ( is_page() ) {
+               
+            // Standard page
+            if( $post->post_parent ){
+                   
+                // If child page, get parents 
+                $anc = get_post_ancestors( $post->ID );
+                   
+                // Get parents in the right order
+                $anc = array_reverse($anc);
+                   
+                // Parent page loop
+                if ( !isset( $parents ) ) $parents = null;
+                foreach ( $anc as $ancestor ) {
+                    $parents .= '<li class="item-parent item-parent-' . esc_attr($ancestor) . '"><a class="bread-parent bread-parent-' . esc_attr($ancestor) . '" href="' . esc_url(get_permalink($ancestor)) . '" title="' . esc_attr(get_the_title($ancestor)) . '">' . esc_html__(get_the_title($ancestor), 'schema-and-structured-data-for-wp' ) . '</a></li>';
+                    $parents .= '<li class="separator separator-' . esc_attr($ancestor) . '"> ' . esc_html__($separator, 'schema-and-structured-data-for-wp' ) . ' </li>';
+                    $variables1_titles[]= get_the_title($ancestor);
+                    $variables2_links[]=get_permalink($ancestor);
+                }
+             
+                    $variables1_titles[]= get_the_title();
+                    $variables2_links[]=get_permalink();
+                   
+            } else {                                                  
+                   $variables1_titles[]=get_the_title();
+                   $variables2_links[]=get_permalink();
+            }
+               
+        } else if ( is_tag() ) {               
+            // Tag page               
+            // Get tag information
+            $term_id        = get_query_var('tag_id');
+            $taxonomy       = 'post_tag';
+            $args           = 'include=' . $term_id;
+            $terms          = get_terms( $taxonomy, $args );
+            $get_term_id    = $terms[0]->term_id;            
+            $get_term_name  = $terms[0]->name;
+            $term_link      = get_term_link($get_term_id );
+               
+            // Tag name and link
+
+            $variables1_titles[] = $get_term_name;
+            $variables2_links[] = $term_link;           
+          }         
+          $sd_data['titles']= $variables1_titles;
+          $sd_data['links']= $variables2_links;         
+    }
+       
+}

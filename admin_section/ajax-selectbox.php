@@ -35,8 +35,8 @@ function saswp_ajax_select_creator($data = '', $saved_data= '', $current_number 
           case "post_type":
 
             $choices = saswp_post_type_generator();
-
-            $choices = apply_filters('amp_acf_modify_select_post_type', $choices );
+            
+            $choices = apply_filters('saswp_modify_select_post_type', $choices );           
             break;
 
           case "page":

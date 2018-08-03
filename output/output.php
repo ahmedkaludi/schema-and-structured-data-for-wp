@@ -1,5 +1,4 @@
 <?php
-
 if (! defined('ABSPATH') ) exit;
 
 function saswp_kb_schema_output() {
@@ -157,17 +156,11 @@ function saswp_kb_schema_output() {
 					'height'	=> $height,
 					),
 			'telephone'		=> $sd_data['sd-person-phone-number'],
-
-			/*'sameAs'		=> array(
-				'https://twitter.com/verticalmeasure',
-				'https://www.facebook.com/verticalmeasures'
-			)*/
 			);
 	}
 
 	return json_encode($input);	 
-        
-    
+            
 }
 
 function sd_is_blog() {
@@ -281,9 +274,6 @@ function saswp_schema_output() {
 					
 				
 				);
-//				if(isset($sd_data['saswp_breadcrumb_schema']) && $sd_data['saswp_breadcrumb_schema'] == 1){
-//					$input1['BreadcrumbList'] = saswp_schema_breadcrumb_output($sd_data);
-//				}
 			}
 
 		// For Article
@@ -473,28 +463,31 @@ function saswp_schema_output() {
 					}
 			$input2  = array(
 				                'image'		=>array(
-						'@type'		=>'ImageObject',
-						'url'		=>$image_details[0],
-						'width'		=>$width,
-						'height'	=>$height,),
+									'@type'		=>'ImageObject',
+									'url'		=>$image_details[0],
+									'width'		=>$width,
+									'height'	=>$height,
+									),
 				);
 			$input = array_merge($input1,$input2);
 		}
 			else{			
 				$input2  = array(
 				                'image'		=>array(
-						'@type'		=>'ImageObject',
-						'url'		=> $sd_data['sd_logo']['url'],
-                                                'width'		=> $sd_data['sd_logo']['width'],
-                                                'height'	=> $sd_data['sd_logo']['height'],),
+									'@type'		=>'ImageObject',
+									'url'		=> $sd_data['sd_logo']['url'],
+                                	'width'		=> $sd_data['sd_logo']['width'],
+                                	'height'	=> $sd_data['sd_logo']['height'],
+                               		 ),
 				);
 				$input = array_merge($input1,$input2);
 		}
 		if($schema_options['notAccessibleForFree']==1){
-			add_filter( 'amp_post_template_data', 'saswp_structure_data_access_scripts');
-			/*add_action( 'amp_post_template_head', 'saswp_structure_data_access_scripts_json');*/
+
+			add_filter( 'amp_post_template_data', 'saswp_structure_data_access_scripts');			
 			$paywall_class_name = $schema_options['paywall_class_name'];
 			$isAccessibleForFree = isset($schema_options['isAccessibleForFree'])? $schema_options['isAccessibleForFree']: False;
+
 			if($paywall_class_name!=""){
 				if(strpos($paywall_class_name, ".")==-1){
 					$paywall_class_name = ".".$paywall_class_name;
@@ -531,19 +524,19 @@ function saswp_list_items_generator(){
 		global $sd_data;
 		$bc_titles = array();
 		$bc_links = array();
-	if(isset($sd_data['titles'])){		
+                if(isset($sd_data['titles'])){		
 			$bc_titles = $sd_data['titles'];
 		}
 		if(isset($sd_data['links'])){
 			$bc_links = $sd_data['links'];
 		}		
-$j=1;
-$i = 0;
-$breadcrumbslist = array();
-if(is_single()){
-	if(isset($bc_titles)){
-	for($i=0;$i<sizeof($bc_titles);$i++){
-		$breadcrumbslist[] = array(
+                $j=1;
+                $i = 0;
+                $breadcrumbslist = array();
+        if(is_single()){
+			if(isset($bc_titles)){
+				for($i=0;$i<sizeof($bc_titles);$i++){
+					$breadcrumbslist[] = array(
 								'@type'			=> 'ListItem',
 								'position'		=> $j,
 								'item'			=> array(
@@ -563,10 +556,10 @@ if(is_single()){
 								),
 							);
 }
-if(is_page()){
+        if(is_page()){
 
-	for($i=0;$i<sizeof($bc_titles);$i++){
-		$breadcrumbslist[] = array(
+			for($i=0;$i<sizeof($bc_titles);$i++){
+				$breadcrumbslist[] = array(
 								'@type'			=> 'ListItem',
 								'position'		=> $j,
 								'item'			=> array(
@@ -578,10 +571,10 @@ if(is_page()){
 		}
 
 }
-if(is_archive()){
+        if(is_archive()){
 
 	for($i=0;$i<sizeof($bc_titles);$i++){
-		$breadcrumbslist[] = array(
+				$breadcrumbslist[] = array(
 								        '@type'		=> 'ListItem',
 								        'position'	=> $j,
 								        'item'		=> array(
@@ -664,11 +657,11 @@ function saswp_archive_output(){
 					'@type' 			=> 'BlogPosting',
 					'headline' 			=> get_the_title(),
 					'url' 				=> get_the_permalink(),
-					'datePublished'                 => get_the_date('c'),
-					'dateModified'                  => get_the_modified_date('c'),
-					'mainEntityOfPage'              => get_the_permalink(),
+					'datePublished'     => get_the_date('c'),
+					'dateModified'      => get_the_modified_date('c'),
+					'mainEntityOfPage'  => get_the_permalink(),
 					'author' 			=> get_the_author(),
-					'publisher'                     => $publisher_info,
+					'publisher'         => $publisher_info,
 					'image' 			=> $image_details[0],
 	            );
 				
@@ -676,19 +669,17 @@ function saswp_archive_output(){
 
 		wp_reset_postdata();
 			
-		$category 			= get_the_category(); 
-		
+		$category 			= get_the_category(); 		
 		$category_id 		= intval($category[0]->term_id); 
-                $category_link 		= get_category_link( $category_id );
+        $category_link 		= get_category_link( $category_id );
 		$category_link 	= get_term_link( $category[0]->term_id , 'category' );
-        	$category_headline 	= single_cat_title( '', false ) . __(' Category', 'schema-wp');
-		// $sameAs 			= get_term_meta( $category_id, 'schema_wp_sameAs' );
+        $category_headline 	= single_cat_title( '', false ) . __(' Category', 'schema-wp');		
 		$input = array
        		(
 				'@context' 		=> 'http://schema.org/',
 				'@type' 		=> "CollectionPage",
 				'headline' 		=> $category_headline,
-				'description' 	        => strip_tags(category_description()),
+				'description' 	=> strip_tags(category_description()),
 				'url'		 	=> $category_link,
 				'sameAs' 		=> '',
 				'hasPart' 		=> $category_posts
@@ -751,9 +742,9 @@ function saswp_author_output()
 // For About Page
 function saswp_about_page_output()
 {
-	global $sd_data;
-	$image_id 		= get_post_thumbnail_id();
-	$image_details 	= wp_get_attachment_image_src($image_id, 'full');
+	global $sd_data;        
+	$image_id 		= get_post_thumbnail_id();              
+	$image_details 	= wp_get_attachment_image_src($image_id, 'full');        
 	if(isset($image_details['url'])){
 				$image_url		= $image_details['url'];
 			}
@@ -779,26 +770,26 @@ function saswp_about_page_output()
 			$input = array(
 				"@context" 	 	=> "http://schema.org",
 				"@type"			=> "AboutPage",
-				"mainEntityOfPage"      => array(
-                                                            "@type" => "WebPage",
-                                                            "@id"   => get_permalink(),
-							),
+				"mainEntityOfPage" => array(
+                                                 "@type" => "WebPage",
+                                                 "@id"   => get_permalink(),
+											    ),
 				"url"			=> $about_page,
 				"headline"		=> get_the_title(),
 				"image"			=> array(
-							"@type"		=> "ImageObject",
-                                                        "url"		=> $image_url,
-                                                        "width"		=> $width,
-							"height"	=> $height,
+										"@type"		=> "ImageObject",
+                                        "url"		=> $image_url,
+                                        "width"		=> $width,
+										"height"	=> $height,
 							),
 				'Publisher'		=> array(
-                                                        '@type'		=> 'Organization',
-                                                        'logo' 		=> array(
-							'@type'		=> 'ImageObject',
-							'url'		=> $logo,
-							'width'		=> $width,
-							'height'	=> $height,
-							),
+                                         '@type'		=> 'Organization',
+                                          'logo' 		=> array(
+												'@type'		=> 'ImageObject',
+												'url'		=> $logo,
+												'width'		=> $width,
+												'height'	=> $height,
+												),
 				'name'			=> $sd_data['sd_name'],
 						),
 				'description'		=> get_the_excerpt(),
@@ -848,8 +839,8 @@ function saswp_contact_page_output()
 				"headline"			=> get_the_title(),
 				"image"		    => array(
 							"@type"		=> "ImageObject",
-                                                        "url"		=> $image_url,
-                                                        "width"		=> $width,
+                            "url"		=> $image_url,
+                            "width"		=> $width,
 							"height"	=> $height,
 							),
 				'Publisher'	    => array(

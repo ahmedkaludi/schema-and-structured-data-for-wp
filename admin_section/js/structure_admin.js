@@ -48,7 +48,7 @@ jQuery(document).ready(function($){
       			parent.children(".spinner").removeClass("show");
       			parent.find(".spinner").attr("style","visibility:hidden").hide();
       			parent.append(data);
-      			texonomyDataCall();
+      			taxonomyDataCall();
         },
         error: function(data){
           console.log("Failed Ajax Request");
@@ -56,7 +56,7 @@ jQuery(document).ready(function($){
         }
       }); 
 	});
-	texonomyDataCall();
+	taxonomyDataCall();
 	$("#notAccessibleForFree").click(function(){
 		if($(this).is(':checked')){
 			$("#paywall_class_name").parents("tr").show();
@@ -68,7 +68,7 @@ jQuery(document).ready(function($){
 	})
 	
 });//jQuery(document) closed
-function texonomyDataCall(){
+function taxonomyDataCall(){
 	jQuery('select.ajax-output').change(function(){
 		var mainSelectedValue = jQuery(".select-post-type").val();
 		if(mainSelectedValue=="ef_taxonomy"){
@@ -100,7 +100,7 @@ function texonomyDataCall(){
 	      			parentSelector.children(".spinner").removeClass("show");
 	      			parentSelector.find(".spinner").attr("style","visibility:hidden").hide();
 	      			parentSelector.append(data);
-	      			texonomyDataCall();
+	      			taxonomyDataCall();
 	        },
 	        error: function(data){
 	          console.log("Failed Ajax Request");

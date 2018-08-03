@@ -6,7 +6,7 @@
  */
 function saswp_add_menu_links() {				
 	// Settings page - Same as main menu page
-	add_submenu_page( 'edit.php?post_type=structured-data-wp', esc_html__( 'Schema And Structured Data For Wp', 'schema-and-structured-data-for-wp' ), esc_html__( 'Settings', 'schema-and-structured-data-for-wp' ), 'manage_options', 'structured_data_options', 'saswp_admin_interface_render' );	
+	add_submenu_page( 'edit.php?post_type=saswp', esc_html__( 'Schema And Structured Data For Wp', 'schema-and-structured-data-for-wp' ), esc_html__( 'Settings', 'schema-and-structured-data-for-wp' ), 'manage_options', 'structured_data_options', 'saswp_admin_interface_render' );	
         
 }
 add_action( 'admin_menu', 'saswp_add_menu_links' );
@@ -324,20 +324,12 @@ function saswp_general_page_callback(){
 			'option_none_value' => '', 
 			'selected' =>  isset($settings['sd_contact_page']) ? $settings['sd_contact_page'] : '',
 		)); ?>
-	      </label>       
-        </div>
-         </div>
-    </li>
-</ul>
-   </div>         
-           
-               
-            
-                                
-            
-           
-           
-               
+	     		 </label>       
+       	 		</div>
+        	 </div>
+   			 </li>
+			</ul>
+		</div>                                                                                                                                
 	<?php
 }
 function saswp_knowledge_page_callback(){
@@ -591,7 +583,7 @@ function saswp_enqueue_style_js( $hook ) {
 	// @refer https://make.wordpress.org/core/2012/11/30/new-color-picker-in-wp-3-5/
         wp_enqueue_style( 'wp-color-picker' );	
 	// Everything needed for media upload
-	wp_enqueue_media();	
+		wp_enqueue_media();	
 	// Main JS
         wp_enqueue_script( 'saswp-main-js', SASWP_PLUGIN_URL . 'admin_section/js/main-script.js', array( 'wp-color-picker' ), SASWP_VERSION, true );
         //Main Css 
