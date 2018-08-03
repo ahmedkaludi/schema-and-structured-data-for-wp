@@ -20,10 +20,7 @@ function saswp_data_generator() {
    $kb_schema_output    = saswp_kb_schema_output();
    
 	if( (  1 == $sd_data['saswp-for-wordpress'] && saswp_non_amp() ) || ( 1 == $sd_data['saswp-for-amp'] && !saswp_non_amp() ) ) {
-					
-			$output .= '<!-- Schema And Structured Data For WP v'.SASWP_VERSION.' - -->';
-			$output .= "\n";
-                        $output .= '<script type="application/ld+json">'; 
+								
                         $output .= "\n\n";
                         if(!empty($contact_page_output)){
                         $output .= "//Contact page Schema\n";    
@@ -66,21 +63,16 @@ function saswp_data_generator() {
                         if(!empty($kb_schema_output)){
                         $output .= "//Organization Schema\n";    
                         $output .= $kb_schema_output;  
-                         $output .= "\n\n";
+                        $output .= "\n\n";
                         }                       
-                        $output .= '</script>';
-			               $output .= "\n\n";
-		
+                        			              		
 	}
-	echo $output;
-}
-add_action('wp', 'saswp_on_wp_hook');
-
-function saswp_on_wp_hook(){
-        if( saswp_non_amp() ){
-		return;
-	}
-	remove_filter( 'the_content', 'prefix_insert_post_ads' );
+        echo '<!-- Schema And Structured Data For WP v'.SASWP_VERSION.' - -->';
+	echo "\n";
+        echo '<script type="application/ld+json">'; 
+	echo html_entity_decode(esc_html($output));
+        echo '</script>';
+        echo "\n\n";
 }
 
 add_filter('the_content', 'saswp_paywall_data_for_login');
