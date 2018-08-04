@@ -1,11 +1,9 @@
 <?php
-
 if (! defined('ABSPATH') ) exit;
 
-add_action('wp_head', 'kb_schema_output');
-function kb_schema_output() {
-	global $sd_data;
-	if( (!ampforwp_sd_non_amp() && $sd_data['sd-for-ampforwp']!=1) || (ampforwp_sd_non_amp() && $sd_data['sd-for-wordpress']!=1) ) {
+function saswp_kb_schema_output() {
+	global $sd_data;        
+	if( (!saswp_non_amp() && $sd_data['saswp-for-amp']!=1) || (saswp_non_amp() && $sd_data['saswp-for-wordpress']!=1) ) {
 		return ;
 	}
 	// social profile
@@ -16,7 +14,6 @@ function kb_schema_output() {
 		$sd_facebook[] = $sd_data['sd_facebook'];
 		$sd_social_profile[] = $sd_facebook;
 	}
-
 	$sd_twitter = array();
 	if(isset($sd_data['sd_twitter']) && !empty($sd_data['sd_twitter'])){
 		$sd_twitter[] = $sd_data['sd_twitter'];
@@ -73,10 +70,10 @@ function kb_schema_output() {
 	// Organization Schema 
 
 
-	if ( $sd_data['sd_kb_type']  ==  'Organization' ) {
+	if ( $sd_data['saswp_kb_type']  ==  'Organization' ) {
 		$logo = $sd_data['sd_logo']['url'];
-		$contact_1 = $sd_data['sd_contact_type'];
-		$telephone_1 = $sd_data['sd_kb_telephone'];
+		$contact_1 = $sd_data['saswp_contact_type'];
+		$telephone_1 = $sd_data['saswp_kb_telephone'];
 		$height = $sd_data['sd_logo']['height'];
 		$width = $sd_data['sd_logo']['width'];
 
@@ -92,12 +89,12 @@ function kb_schema_output() {
 			$width = $sd_data['sd_default_image_width'];
 		}
 
-		if( '' ==  $contact_1 && empty($contact_1) && isset($sd_data['sd_contact_type'])){
-			$contact_1 = $sd_data['sd_contact_type'];
+		if( '' ==  $contact_1 && empty($contact_1) && isset($sd_data['saswp_contact_type'])){
+			$contact_1 = $sd_data['saswp_contact_type'];
 		}
 
-		if( '' ==  $telephone_1 && empty($telephone_1) && isset($sd_data['sd_kb_telephone'])){
-			$telephone_1 = $sd_data['sd_kb_telephone'];
+		if( '' ==  $telephone_1 && empty($telephone_1) && isset($sd_data['saswp_kb_telephone'])){
+			$telephone_1 = $sd_data['saswp_kb_telephone'];
 		}
 
 		// Contact Information
@@ -112,7 +109,7 @@ function kb_schema_output() {
 
 		$input = array(
 		'@context'		=>'http://schema.org',
-		'@type'			=> $sd_data['sd_kb_type'],
+		'@type'			=> $sd_data['saswp_kb_type'],
 		'name'			=> $sd_data['sd_name'],
 		'url'			=> $sd_data['sd_url'],
 		'sameAs'		=> $platform,
@@ -125,18 +122,13 @@ function kb_schema_output() {
 		'alternateName'	=> $sd_data['sd_alt_name']
 		);
 
-		if ( isset($sd_data['sd_kb_contact_1'] ) && $sd_data['sd_kb_contact_1'] ) {
+		if ( isset($sd_data['saswp_kb_contact_1'] ) && $sd_data['saswp_kb_contact_1'] ) {
 			$input = array_merge($input, $contact_info);
 		}
-
-}
-
-	
-		
-		
+}				
 		// Person
 
-	if ( $sd_data['sd_kb_type']  ==  'Person' ) {
+	if ( $sd_data['saswp_kb_type']  ==  'Person' ) {
 		$image = $sd_data['sd-person-image']['url'];
 		$height = $sd_data['sd-person-image']['height'];
 		$width = $sd_data['sd-person-image']['width'];
@@ -151,11 +143,10 @@ function kb_schema_output() {
 		if( '' ==  $width && empty($width) && isset($sd_data['sd_default_image_width'])){
 			$width = $sd_data['sd_default_image_width'];
 		}
-
-		echo $input;
+	
 		$input = array(
 			'@context'		=>'http://schema.org',
-			'@type'			=> $sd_data['sd_kb_type'],
+			'@type'			=> $sd_data['saswp_kb_type'],
 			'name'			=> $sd_data['sd-person-name'],
 			'url'			=> $sd_data['sd-person-url'],
 			'Image' 			=> array(
@@ -165,38 +156,30 @@ function kb_schema_output() {
 					'height'	=> $height,
 					),
 			'telephone'		=> $sd_data['sd-person-phone-number'],
-
-			/*'sameAs'		=> array(
-				'https://twitter.com/verticalmeasure',
-				'https://www.facebook.com/verticalmeasures'
-			)*/
 			);
 	}
 
-	echo structured_data_generator($input);	 
-    
+	return json_encode($input);	 
+            
 }
 
 function sd_is_blog() {
     return ( is_author() || is_category() || is_tag() || is_date() || is_home() || is_single() ) && 'post' == get_post_type();
 }
 
-
-
-add_action('wp_head', 'schema_output');
-function schema_output() {
+function saswp_schema_output() {
 	global $sd_data;
 
-	$schemaConditionals = ampforwp_get_all_schema_posts();
+	$schemaConditionals = saswp_get_all_schema_posts();
 	if(!$schemaConditionals){
 		return ;
 	}
-	if( (!ampforwp_sd_non_amp() && $sd_data['sd-for-ampforwp']!=1) || (ampforwp_sd_non_amp() && $sd_data['sd-for-wordpress']!=1) ) {
+	if( (!saswp_non_amp() && $sd_data['saswp-for-amp']!=1) || (saswp_non_amp() && $sd_data['saswp-for-wordpress']!=1) ) {
 		return ;
 	}
 	$schema_options = $schemaConditionals['schema_options'];
 	$schema_type = $schemaConditionals['schema_type'];
-	$logo = $sd_data['sd_logo']['url'];
+	$logo = $sd_data['sd_logo']['url'];        
 		if( '' == $logo && empty($logo) && isset($sd_data['sd_default_image'])){
 			$logo = $sd_data['sd_default_image']['url'];
 		}
@@ -214,10 +197,7 @@ function schema_output() {
 
 		// Blogposting Schema 
 			$image_id 		= get_post_thumbnail_id();
-			$image_details 	= wp_get_attachment_image_src($image_id, 'full');
-			if(isset($image_details['url'])){
-				$image_url		= $image_details['url'];
-			}
+			$image_details 	= wp_get_attachment_image_src($image_id, 'full');			
 			$author_details	= get_avatar_data($author_id);
 			$date 			= get_the_date();
 			$modified_date 	= get_the_modified_date();
@@ -236,13 +216,13 @@ function schema_output() {
 			'@context'			=> 'http://schema.org',
 			'@type'				=> $schema_type ,
 
-			'mainEntityOfPage'	=> get_permalink(),
+			'mainEntityOfPage'              => get_permalink(),
 			'headline'			=> get_the_title(),
-			'description'		=> get_the_excerpt(),
+			'description'                   => get_the_excerpt(),
 			'name'				=> get_the_title(),
 			'url'				=> get_permalink(),
-			'datePublished' 	=> $date,
-			'dateModified'		=> $modified_date,
+			'datePublished'                 => $date,
+			'dateModified'                  => $modified_date,
 			'author'			=> array(
 					'@type' 	=> 'Person',
 					'name'		=> $aurthor_name, ),
@@ -268,12 +248,12 @@ function schema_output() {
 				'@type'				=> $schema_type ,
 				'name'				=> get_the_title(),
 				'url'				=> get_permalink(),
-				'description'		=> get_the_excerpt(),
-				'mainEntity'		=> array(
-						'@type'				=> 'Article',
+				'description'                   => get_the_excerpt(),
+				'mainEntity'                    => array(
+						'@type'			=> 'Article',
 						'mainEntityOfPage'	=> get_permalink(),
-						'image'				=> $image_details[0],
-						'headline'			=> get_the_title(),
+						'image'			=> $image_details[0],
+						'headline'		=> get_the_title(),
 						'description'		=> get_the_excerpt(),
 						'datePublished' 	=> $date,
 						'dateModified'		=> $modified_date,
@@ -294,9 +274,6 @@ function schema_output() {
 					
 				
 				);
-				if(isset($sd_data['breadcrumb_schema']) && $sd_data['breadcrumb_schema'] == 1){
-					$input1['BreadcrumbList'] = schema_breadcrumb_output($sd_data);
-				}
 			}
 
 		// For Article
@@ -305,12 +282,12 @@ function schema_output() {
 				$input1 = array(
 					'@context'			=> 'http://schema.org',
 					'@type'				=> 'Article',
-					'mainEntityOfPage'	=> get_permalink(),
+					'mainEntityOfPage'              => get_permalink(),
 					'image'				=> $image_details[0],
 					'headline'			=> get_the_title(),
-					'description'		=> get_the_excerpt(),
-					'datePublished' 	=> $date,
-					'dateModified'		=> $modified_date,
+					'description'                   => get_the_excerpt(),
+					'datePublished'                 => $date,
+					'dateModified'                  => $modified_date,
 					'author'			=> array(
 							'@type' 	=> 'Person',
 							'name'		=> $aurthor_name, ),
@@ -337,10 +314,10 @@ function schema_output() {
 				'@type'				=> $schema_type ,
 				'url'				=> get_permalink(),
 				'headline'			=> get_the_title(),
-				'datePublished' 	=> $date,
-				'dateModified'		=> $modified_date,
-				'description'		=> get_the_excerpt(),
-				'mainEntity'		=> array(
+				'datePublished'                 => $date,
+				'dateModified'                  => $modified_date,
+				'description'                   => get_the_excerpt(),
+				'mainEntity'                    => array(
 						'@type'				=> 'WebPage',
 						'@id'				=> get_permalink(),
 						'author'			=> array(
@@ -379,11 +356,11 @@ function schema_output() {
 				'@context'			=> 'http://schema.org',
 				'@type'				=> $schema_type ,
 				'url'				=> get_permalink(),
-				'name'			=> get_the_title(),
-				'description'		=> get_the_excerpt(),
-				'mainEntity'		=> array(
-						'@type'				=> 'WebPage',
-						'@id'				=> get_permalink(),
+				'name'                          => get_the_title(),
+				'description'                   => get_the_excerpt(),
+				'mainEntity'                    => array(
+                                                                  '@type'	=> 'WebPage',
+                                                                  '@id'	        => get_permalink(),
 					),
 					
 				
@@ -401,18 +378,17 @@ function schema_output() {
 					'@context'			=> 'http://schema.org',
 					'@type'				=> $schema_type ,
 					'@type'				=> $schema_type,
-					'mainEntityOfPage'	=> get_permalink(),
+					'mainEntityOfPage'              => get_permalink(),
 					'url'				=> get_permalink(),
 					'headline'			=> get_the_title(),
-					'datePublished' 	=> $date,
-					'dateModified'		=> $modified_date,
-					'description'		=> get_the_excerpt(),
-					'name'				=> get_the_title(), 
-					// 'uploadDate'		=> $date,
-					'thumbnailUrl'		=> $image_details[0],
-					'mainEntity'		=> array(
-								'@type'				=> 'WebPage',
-								'@id'				=> get_permalink(),
+					'datePublished'                 => $date,
+					'dateModified'                  => $modified_date,
+					'description'                   => get_the_excerpt(),
+					'name'				=> get_the_title(), 					
+					'thumbnailUrl'                  => $image_details[0],
+					'mainEntity'                    => array(
+                                                                            '@type' => 'WebPage',
+                                                                            '@id'   => get_permalink(),
 						), 
 					'author'			=> array(
 							'@type' 			=> 'Person',
@@ -443,13 +419,13 @@ function schema_output() {
 						'@type'				=> $schema_type,
 						'url'				=> get_permalink(),
 						'headline'			=> get_the_title(),
-						'datePublished' 	=> $date,
-						'dateModified'		=> $modified_date,
-						'description'		=> get_the_excerpt(),
+						'datePublished'                 => $date,
+						'dateModified'                  => $modified_date,
+						'description'                   => get_the_excerpt(),
 						'name'				=> get_the_title(),
-						'uploadDate'		=> $date,
-						'thumbnailUrl'		=> $image_details[0],
-						'mainEntity'		=> array(
+						'uploadDate'                    => $date,
+						'thumbnailUrl'                  => $image_details[0],
+						'mainEntity'                    => array(
 								'@type'				=> 'WebPage',
 								'@id'				=> get_permalink(),
 								), 
@@ -486,29 +462,32 @@ function schema_output() {
 						$height = $image_details[2];
 					}
 			$input2  = array(
-				'image'				=>array(
-						'@type'		=>'ImageObject',
-						'url'		=>$image_details[0],
-						'width'		=>$width,
-						'height'	=>$height,),
+				                'image'		=>array(
+									'@type'		=>'ImageObject',
+									'url'		=>$image_details[0],
+									'width'		=>$width,
+									'height'	=>$height,
+									),
 				);
 			$input = array_merge($input1,$input2);
 		}
 			else{			
 				$input2  = array(
-				'image'				=>array(
-						'@type'		=>'ImageObject',
-						'url'		=> $sd_data['sd_logo']['url'],
-					'width'		=> $sd_data['sd_logo']['width'],
-					'height'	=> $sd_data['sd_logo']['height'],),
+				                'image'		=>array(
+									'@type'		=>'ImageObject',
+									'url'		=> $sd_data['sd_logo']['url'],
+                                	'width'		=> $sd_data['sd_logo']['width'],
+                                	'height'	=> $sd_data['sd_logo']['height'],
+                               		 ),
 				);
 				$input = array_merge($input1,$input2);
 		}
 		if($schema_options['notAccessibleForFree']==1){
-			add_filter( 'amp_post_template_data', 'ampforwp_structure_data_access_scripts');
-			/*add_action( 'amp_post_template_head', 'ampforwp_structure_data_access_scripts_json');*/
+
+			add_filter( 'amp_post_template_data', 'saswp_structure_data_access_scripts');			
 			$paywall_class_name = $schema_options['paywall_class_name'];
 			$isAccessibleForFree = isset($schema_options['isAccessibleForFree'])? $schema_options['isAccessibleForFree']: False;
+
 			if($paywall_class_name!=""){
 				if(strpos($paywall_class_name, ".")==-1){
 					$paywall_class_name = ".".$paywall_class_name;
@@ -523,12 +502,12 @@ function schema_output() {
 				$input = array_merge($input,$paywallData);
 			}
 		}
-		echo structured_data_generator($input);	 
+		return json_encode($input);	                
 	}
 
 }
 
-function ampforwp_structure_data_access_scripts($data){
+function saswp_structure_data_access_scripts($data){
 	if ( empty( $data['amp_component_scripts']['amp-access'] ) ) {
 		$data['amp_component_scripts']['amp-access'] = 'https://cdn.ampproject.org/v0/amp-access-0.1.js';
 	}
@@ -541,38 +520,27 @@ function ampforwp_structure_data_access_scripts($data){
 	return $data;
 }
 
-
-//We have to work on this
-// Output is somewhat different from required output
-
-
-//Breadcrumbs
-function list_items_generator(){
+function saswp_list_items_generator(){
 		global $sd_data;
 		$bc_titles = array();
 		$bc_links = array();
-	if(isset($sd_data['titles'])){		
+                if(isset($sd_data['titles'])){		
 			$bc_titles = $sd_data['titles'];
 		}
 		if(isset($sd_data['links'])){
 			$bc_links = $sd_data['links'];
-		}
-	$post_id = get_option('page_for_posts');
-	$post = get_post($post_id);
-	$slug = $post->post_name;
-	$blog_posts_page_slug = '/'.$slug;
-	$site_name = get_bloginfo('blogname');
-$j=1;
-$i = 0;
-$breadcrumbslist = array();
-if(is_single()){
-	if(isset($bc_titles)){
-	for($i=0;$i<sizeof($bc_titles);$i++){
-		$breadcrumbslist[] = array(
+		}		
+                $j=1;
+                $i = 0;
+                $breadcrumbslist = array();
+        if(is_single()){
+			if(isset($bc_titles)){
+				for($i=0;$i<sizeof($bc_titles);$i++){
+					$breadcrumbslist[] = array(
 								'@type'			=> 'ListItem',
 								'position'		=> $j,
 								'item'			=> array(
-									'@id'		=>	$bc_links[$i],
+									'@id'		=> $bc_links[$i],
 									'name'		=> $bc_titles[$i],
 									),
 							);
@@ -588,14 +556,14 @@ if(is_single()){
 								),
 							);
 }
-if(is_page()){
+        if(is_page()){
 
-	for($i=0;$i<sizeof($bc_titles);$i++){
-		$breadcrumbslist[] = array(
+			for($i=0;$i<sizeof($bc_titles);$i++){
+				$breadcrumbslist[] = array(
 								'@type'			=> 'ListItem',
 								'position'		=> $j,
 								'item'			=> array(
-									'@id'		=>	$bc_links[$i],
+									'@id'		=> $bc_links[$i],
 									'name'		=> $bc_titles[$i],
 									),
 							);
@@ -603,262 +571,45 @@ if(is_page()){
 		}
 
 }
-if(is_archive()){
+        if(is_archive()){
 
 	for($i=0;$i<sizeof($bc_titles);$i++){
-		$breadcrumbslist[] = array(
-								'@type'			=> 'ListItem',
-								'position'		=> $j,
-								'item'			=> array(
-									'@id'		=>	$bc_links[$i],
+				$breadcrumbslist[] = array(
+								        '@type'		=> 'ListItem',
+								        'position'	=> $j,
+								        'item'		=> array(
+									'@id'		=> $bc_links[$i],
 									'name'		=> $bc_titles[$i],
 									),
 							);
 		$j++;
 		}
-
 }
 
 return $breadcrumbslist;
 }
-add_action( 'wp_head', 'schema_breadcrumb_output');
-function schema_breadcrumb_output($sd_data){
+
+function saswp_schema_breadcrumb_output($sd_data){
 	global $sd_data;
-	if( (!ampforwp_sd_non_amp() && $sd_data['sd-for-ampforwp']!=1) || (ampforwp_sd_non_amp() && $sd_data['sd-for-wordpress']!=1) ) {
+	if( (!saswp_non_amp() && $sd_data['saswp-for-amp']!=1) || (saswp_non_amp() && $sd_data['saswp-for-wordpress']!=1) ) {
 		return ;
 	}
-	if(isset($sd_data['breadcrumb_schema']) && $sd_data['breadcrumb_schema'] == 1){
-		if(isset($sd_data['titles'])){		
-			$bc_titles = $sd_data['titles'];
-		}
-		if(isset($sd_data['links'])){
-			$bc_links = $sd_data['links'];
-		}
-		$post_id = get_option('page_for_posts');
-		$post = get_post($post_id);
-		$slug = $post->post_name;
-		$blog_posts_page_slug = '/'.$slug;
-		$site_name = get_bloginfo('blogname');
-	$j=1;
-		
+	if(isset($sd_data['saswp_breadcrumb_schema']) && $sd_data['saswp_breadcrumb_schema'] == 1){
+					       		
 		$input = array(
 					'@context'			=> 'http://schema.org',
 					'@type'				=> 'BreadcrumbList' ,
-					'itemListElement'	=>list_items_generator(),
+					'itemListElement'	        =>saswp_list_items_generator(),
 			);
 		if ( !is_front_page() ) {
-			echo structured_data_generator($input);
+			return json_encode($input);                    
 		 }
 	}
 }
 
-//Output of schema_breadcrumb_output2
-
-/*
-"@context":"http:\/\/schema.org",
-"@type":"BreadcrumbList",
-"itemListElement":
-[
-	{
-	"@type":"ListItem",
-	"position":1,
-	"item":
-		{
-		"@id":"http:\/\/localhost\/wp",
-		"name":"Homepage"
-		}
-	},
-	{
-	"@type":"ListItem",
-	"position":2,
-	"item":
-		{
-		"@id":"http:\/\/localhost\/wp\/call-example\/",
-		"name":"Call example"
-		}
-	}
-]
-*/
-
-
-
-/*Breadcrumbs output 
-
-@context":"http:\/\/schema.org",
-"@type":"BreadcrumbList",
-"itemListElement":
- [
-  {
-	"@type":"ListItem",
-	"position":1,
-	"item":
-   {
-	"@id":"https:\/\/example.com\/dresses",
-	"name":"Dresses"
-   }
-  },
-  {
-	"@type":"ListItem",
-	"position":2,
-	"item":
-   {
-	"@id":"https:\/\/example.com\/dresses\/real",
-	"name":"Real Dresses"
-   }
-  }
-]
-
-*/
-
-/*"@context": "http://schema.org",
- "@type": "BreadcrumbList",
- "itemListElement":
- [
-  {
-   "@type": "ListItem",
-   "position": 1,
-   "item":
-   {
-    "@id": "https://example.com/dresses",
-    "name": "Dresses"
-    }
-  },
-  {
-   "@type": "ListItem",
-  "position": 2,
-  "item":
-   {
-     "@id": "https://example.com/dresses/real",
-     "name": "Real Dresses"
-   }
-  }
- ]*/
-// Example Structured Data for Posts
-/*
-  "@context": "http://schema.org",
-
-  "@type": "NewsArticle",
-
-  "mainEntityOfPage": "https://www.recode.net/2017/6/1/15726132/donald-trump-withdraw-united-states-paris-climate-agreement-silicon-valley",
-
-  "headline": "Apple, Facebook and Google are among the many tech giants angry with Trump’s decision to leave",
-
-  "description": "Many in Silicon Valley urged Trump not to withdraw from the international climate pact.",
-
-    "datePublished": "2017-06-01T15:39:05-04:00",
-
-    "dateModified": "2017-06-01T15:39:05-04:00",
-
-    "image": { 
-    	"@type": "ImageObject", 
-    	"url": "https://cdn.vox-cdn.com/thumbor/n4uZ3AiR_YUmsgqH9VlrN6_5kgw=/974x958:5039x4007/1400x1050/cdn.vox-cdn.com/uploads/chorus_image/image/55051353/688656378.0.jpg", 
-    	"width": 1400, 
-    	"height": 1050 
-    },
-
-  	"author": {
-  		"@type": "Person",
-  		"name": "Tony Romm" 
-  	},
-
-  	"publisher": {
-	  	"@type": "Organization",
-	    "logo": { 
-	    	"@type": "ImageObject", 
-	    	"url": "https://www.recode.net/v/recode/images/logos/google_amp.png", 
-	    	"width": 199, 
-	    	"height": 60 },
-	  	"name": "Recode"
- 	}
-*/
-
-// This was the data generated by us
-/*
-	"@context":"http:\/\/schema.org",
-	"@type":"Blogposting",
-	"mainEntityOfPage":"new post for alignment test",
-	"Publisher":"Organization",
-	"name":null,
-	"logo":{"
-		@type":"ImageObject",
-		"url":null,
-		"height":null,
-		"width":null
-	},
-
-	"headline":"new post for alignment test",
-	"datePublished":"April 8th 2017",
-	"dateModified":"April 23rd 2017",
-	"author":{"
-		@type":"Person",
-		"name":"mohammed kaludi"
-		},
-	"image":{
-		"@type":"ImageObject",
-		"url":"<img alt='' src='http:\/\/1.gravatar.com\/avatar\/?s=96&#038;d=mm&#038;r=g' srcset='http:\/\/1.gravatar.com\/avatar\/?s=192&amp;d=mm&amp;r=g 2x' class='avatar avatar-96 photo avatar-default' height='96' width='96' \/>"
-		}
-
-*/
-
-
-//New Output generated by us
-
-/* 
-	"@context":"http:\/\/schema.org",
-
-	"@type":"Blogposting",
-
-	"mainEntityOfPage":"http:\/\/localhost\/wp\/egddsdgdfg\/",
-
-	"headline":"Title of the post",
-
-	"description":"Short summary or description of the post. ",
-
-	  "datePublished":"May 15, 2017",
-
-	  "dateModified":"June 3, 2017",
-
-	  "image":{
-		"@type":"ImageObject",
-		"url":"http:\/\/localhost\/wp\/wp-content\/uploads\/2012\/07\/cropped-Work-at-Home-Moms.jpg",
-		"width":512,
-		"height":512
-	  },
-	
-	  "author":{
-		"@type":"Person",
-		"name":"MARQAS"
-	  },
-
-	  "Publisher":{
-		"@type":"Organization",
-		"logo":{
-			"@type":"ImageObject",
-			"url":"http:\/\/localhost\/wp\/wp-content\/uploads\/2017\/05\/logo-retina.png",
-			"width":"241",
-			"height":"86"
-	    },
-		"name":"Blog"
-	  }
-
-
-
-
-
-
-
-
-
-
-*/
-
-
-// @type WebSite
-add_action( 'wp_head' , 'kb_website_output' );
-
-function kb_website_output(){
+function saswp_kb_website_output(){
 	global $sd_data;
-	if( (!ampforwp_sd_non_amp() && $sd_data['sd-for-ampforwp']!=1) || (ampforwp_sd_non_amp() && $sd_data['sd-for-wordpress']!=1) ) {
+	if( (!saswp_non_amp() && $sd_data['saswp-for-amp']!=1) || (saswp_non_amp() && $sd_data['saswp-for-wordpress']!=1) ) {
 		return ;
 	}
 		$site_url = get_site_url();
@@ -872,53 +623,19 @@ function kb_website_output(){
 			 'potentialAction' => array(
 				'@type'			=> 'SearchAction',
 				'target'		=> $site_url.'/?s={search_term_string}',
-				'query-input'	=> 'required name=search_term_string',
+				'query-input'	        => 'required name=search_term_string',
 			 	)
 			);
 	
-	echo structured_data_generator($input);	 
-}
-
-// AMP support
-
-
-// add_action('init','remove_amp_sd');
-// 
-// function remove_amp_sd(){
-// 	global $wp_filter;
-// 	var_dump($wp_filter['amp_post_template_head'][10]);
-// 	remove_action( 'amp_post_template_head', 'amp_post_template_add_schemaorg_metadata');
-// 	$loo = has_filter('amp_post_template_head','amp_post_template_add_schemaorg_metadata');
-// 	echo"ye";var_dump($loo);echo"priority";
-// }
-
-add_filter( 'amp_init', 'ampforwp_structured_data' );
-
-function ampforwp_structured_data()
-{
-	
-	
-	add_action( 'amp_post_template_head' , 'kb_schema_output' );
-	add_action( 'amp_post_template_head' , 'kb_website_output' );
-	add_action( 'amp_post_template_head' , 'schema_breadcrumb_output' );
-	add_action( 'amp_post_template_head' , 'schema_output' );
-	add_action( 'amp_post_template_head' , 'sd_archive_output' );
-	add_action( 'amp_post_template_head' , 'sd_archive_output' );
-	add_action( 'amp_post_template_head' , 'sd_about_page_output' );
-	add_action( 'amp_post_template_head' , 'sd_contact_page_output' );
-	remove_action( 'amp_post_template_head', 'amp_post_template_add_schemaorg_metadata',10,1);
-}
-
-	
+	return json_encode($input);        
+}	
 // For Archive 
-add_action( 'wp_head' , 'sd_archive_output' );
-
-function sd_archive_output(){
-	global $post, $query_string, $sd_data;
-	if( (!ampforwp_sd_non_amp() && $sd_data['sd-for-ampforwp']!=1) || (ampforwp_sd_non_amp() && $sd_data['sd-for-wordpress']!=1) ) {
+function saswp_archive_output(){
+	global $query_string, $sd_data;
+	if( (!saswp_non_amp() && $sd_data['saswp-for-amp']!=1) || (saswp_non_amp() && $sd_data['saswp-for-wordpress']!=1) ) {
 		return ;
 	}
-	if(isset($sd_data['archive_schema']) && $sd_data['archive_schema'] == 1){
+	if(isset($sd_data['saswp_archive_schema']) && $sd_data['saswp_archive_schema'] == 1){
 					
 	if ( is_category() ) {
 		$category_posts = array();
@@ -940,11 +657,11 @@ function sd_archive_output(){
 					'@type' 			=> 'BlogPosting',
 					'headline' 			=> get_the_title(),
 					'url' 				=> get_the_permalink(),
-					'datePublished' 	=> get_the_date('c'),
-					'dateModified' 		=> get_the_modified_date('c'),
-					'mainEntityOfPage' 	=> get_the_permalink(),
+					'datePublished'     => get_the_date('c'),
+					'dateModified'      => get_the_modified_date('c'),
+					'mainEntityOfPage'  => get_the_permalink(),
 					'author' 			=> get_the_author(),
-					'publisher' 		=> $publisher_info,
+					'publisher'         => $publisher_info,
 					'image' 			=> $image_details[0],
 	            );
 				
@@ -952,14 +669,11 @@ function sd_archive_output(){
 
 		wp_reset_postdata();
 			
-		$category 			= get_the_category(); 
-		
+		$category 			= get_the_category(); 		
 		$category_id 		= intval($category[0]->term_id); 
-       	$category_link 		= get_category_link( $category_id );
+        $category_link 		= get_category_link( $category_id );
 		$category_link 	= get_term_link( $category[0]->term_id , 'category' );
-       	$category_headline 	= single_cat_title( '', false ) . __(' Category', 'schema-wp');
-		// $sameAs 			= get_term_meta( $category_id, 'schema_wp_sameAs' );
-
+        $category_headline 	= single_cat_title( '', false ) . __(' Category', 'schema-wp');		
 		$input = array
        		(
 				'@context' 		=> 'http://schema.org/',
@@ -970,28 +684,22 @@ function sd_archive_output(){
 				'sameAs' 		=> '',
 				'hasPart' 		=> $category_posts
        		);
-				echo structured_data_generator($input);	
-	endif;
-	
-		
-	
+				return json_encode($input);	                                 
+	endif;				
 	}
 	} 
 }
 
 // For Author 
-add_action( 'wp_head' , 'sd_author_output' );
-
-function sd_author_output()
+function saswp_author_output()
 {
-	global $post;
-	if(isset($sd_data['archive_schema']) && $sd_data['archive_schema'] == 1){
+	global $post, $sd_data;        
+	if(isset($sd_data['saswp_archive_schema']) && $sd_data['saswp_archive_schema'] == 1){
 	$post_id = $post->ID;
 	if(is_author()){
 		// Get author from post content
-		$post_content	= get_post($post_id);
-		$post_author	= get_userdata($content_post->post_author);
-		$aurthor_name	= $post_author->display_name;
+		$post_content	= get_post($post_id);                
+		$post_author	= get_userdata($post_content->post_author);		
 		$input = array (
 			'@type'	=> 'Person',
 			'name'	=> get_the_author_meta('display_name'),
@@ -999,16 +707,15 @@ function sd_author_output()
 
 		);
 
-
 		$sd_website 	= esc_attr( stripslashes( get_the_author_meta( 'user_url', $post_author->ID ) ) );
-		$sd_googleplus = esc_attr( stripslashes( get_the_author_meta( 'googleplus', $post_author->ID ) ) );
+		$sd_googleplus  = esc_attr( stripslashes( get_the_author_meta( 'googleplus', $post_author->ID ) ) );
 		$sd_facebook 	= esc_attr( stripslashes( get_the_author_meta( 'facebook', $post_author->ID) ) );
 		$sd_twitter 	= esc_attr( stripslashes( get_the_author_meta( 'twitter', $post_author->ID ) ) );
 		$sd_instagram 	= esc_attr( stripslashes( get_the_author_meta( 'instagram', $post_author->ID ) ) );
 		$sd_youtube 	= esc_attr( stripslashes( get_the_author_meta( 'youtube', $post_author->ID ) ) );
 		$sd_linkedin 	= esc_attr( stripslashes( get_the_author_meta( 'linkedin', $post_author->ID ) ) );
 		$sd_pinterest 	= esc_attr( stripslashes( get_the_author_meta( 'pinterest', $post_author->ID ) ) );
-		$sd_soundcloud = esc_attr( stripslashes( get_the_author_meta( 'soundcloud', $post_author->ID ) ) );
+		$sd_soundcloud  = esc_attr( stripslashes( get_the_author_meta( 'soundcloud', $post_author->ID ) ) );
 		$sd_tumblr 	= esc_attr( stripslashes( get_the_author_meta( 'tumblr', $post_author->ID ) ) );
 		
 		$sd_sameAs_links = array( $sd_website, $sd_googleplus, $sd_facebook, $sd_twitter, $sd_instagram, $sd_youtube, $sd_linkedin, $sd_pinterest, $sd_soundcloud, $sd_tumblr);
@@ -1027,19 +734,17 @@ function sd_author_output()
 		if ( get_the_author_meta( 'description', $post_author->ID ) ) {
 			$input['description'] = strip_tags( get_the_author_meta( 'description', $post_author->ID ) );
 		}
-		echo structured_data_generator($input);
+		return json_encode($input);                 
 	}
  }
 }
 
 // For About Page
-add_action( 'wp_head' , 'sd_about_page_output' );
-
-function sd_about_page_output()
+function saswp_about_page_output()
 {
-	global $sd_data;
-	$image_id 		= get_post_thumbnail_id();
-	$image_details 	= wp_get_attachment_image_src($image_id, 'full');
+	global $sd_data;        
+	$image_id 		= get_post_thumbnail_id();              
+	$image_details 	= wp_get_attachment_image_src($image_id, 'full');        
 	if(isset($image_details['url'])){
 				$image_url		= $image_details['url'];
 			}
@@ -1063,47 +768,44 @@ function sd_about_page_output()
 					$width = $sd_data['sd_default_image_width'];
 				}
 			$input = array(
-				"@context" 	 		=> "http://schema.org",
-				"@type"				=> "AboutPage",
-				"mainEntityOfPage"  => array(
-							"@type" => "WebPage",
-							"@id" 	=> $get_permalink(),
+				"@context" 	 	=> "http://schema.org",
+				"@type"			=> "AboutPage",
+				"mainEntityOfPage" => array(
+                                                 "@type" => "WebPage",
+                                                 "@id"   => get_permalink(),
+											    ),
+				"url"			=> $about_page,
+				"headline"		=> get_the_title(),
+				"image"			=> array(
+										"@type"		=> "ImageObject",
+                                        "url"		=> $image_url,
+                                        "width"		=> $width,
+										"height"	=> $height,
 							),
-				"url"				=> $about_page,
-				"headline"			=> get_the_title(),
-				"image"				=> array(
-							"@type"		=> "ImageObject",
-				    		"url"		=> $image_url,
-				    		"width"		=> $widht,
-							"height"	=> $height,
-							),
-				'Publisher'				=> array(
-						'@type'			=> 'Organization',
-						'logo' 			=> array(
-							'@type'		=> 'ImageObject',
-							'url'		=> $logo,
-							'width'		=> $width,
-							'height'	=> $height,
-							),
-						'name'			=> $sd_data['sd_name'],
+				'Publisher'		=> array(
+                                         '@type'		=> 'Organization',
+                                          'logo' 		=> array(
+												'@type'		=> 'ImageObject',
+												'url'		=> $logo,
+												'width'		=> $width,
+												'height'	=> $height,
+												),
+				'name'			=> $sd_data['sd_name'],
 						),
-				'description'			=> get_the_excerpt(),
-
+				'description'		=> get_the_excerpt(),
 			);
 			
-			echo structured_data_generator($input);
+			return json_encode($input);                        
 	}
 	
 }
 
 // For Contact Page
-add_action( 'wp_head' , 'sd_contact_page_output' );
-
-function sd_contact_page_output()
+function saswp_contact_page_output()
 {
 	global $sd_data;
 	$image_id 		= get_post_thumbnail_id();
-	$image_details 	= wp_get_attachment_image_src($image_id, 'full');
+	$image_details 	        = wp_get_attachment_image_src($image_id, 'full');
 	if(isset($image_details['url'])){
 				$image_url		= $image_details['url'];
 			}
@@ -1127,35 +829,35 @@ function sd_contact_page_output()
 					$width = $sd_data['sd_default_image_width'];
 				}
 			$input = array(
-				"@context" 	 		=> "http://schema.org",
-				"@type"				=> "ContactPage",
+				"@context" 	    => "http://schema.org",
+				"@type"		    => "ContactPage",
 				"mainEntityOfPage"  => array(
 							"@type" => "WebPage",
 							"@id" 	=> get_permalink(),
 							),
-				"url"				=> $about_page,
+				"url"				=> $contact_page,
 				"headline"			=> get_the_title(),
-				"image"				=> array(
+				"image"		    => array(
 							"@type"		=> "ImageObject",
-				    		"url"		=> $image_url,
-				    		"width"		=> $widht,
+                            "url"		=> $image_url,
+                            "width"		=> $width,
 							"height"	=> $height,
 							),
-				'Publisher'				=> array(
-						'@type'			=> 'Organization',
-						'logo' 			=> array(
+				'Publisher'	    => array(
+				'@type'		    => 'Organization',
+				                        'logo' => array(
 							'@type'		=> 'ImageObject',
 							'url'		=> $logo,
 							'width'		=> $width,
 							'height'	=> $height,
 							),
-						'name'			=> $sd_data['sd_name'],
+				'name'		    => $sd_data['sd_name'],
 						),
-				'description'			=> get_the_excerpt(),
-
+				'description'	    => get_the_excerpt(),
 			);
 			
-			echo structured_data_generator($input);
+			return json_encode($input);
+                         
 	}
 	
 }
