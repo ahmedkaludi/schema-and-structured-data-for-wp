@@ -24,5 +24,5 @@ Schema and Structured Data for WP is a Google Rich Snippet plugin to get best re
 
 == Changelog ==
 
-= 1.2.4 (1 August 2018) =
+= 1.0 (6 August 2018) =
 * Version 1.0 Released
