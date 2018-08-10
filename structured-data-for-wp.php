@@ -1,10 +1,10 @@
 <?php
 /*
 Plugin Name: Schema and Structured Data for WP
-Description: Add Structured data in your site. 
+Description: Schema & Structured Data adds Google Rich Snippets markup according to Schema.org guidelines to structure your site for SEO. (AMP Compatible) 
 Version: 1.0
 Text Domain: schema-and-structured-data-for-wp
-Author: Mohammed Kaludi, AMPforWP Team
+Author: Mohammed Kaludi, Ahmed Kaludi
 Author URI: http://ampforwp.com
 Donate link: https://www.paypal.me/Kaludi/25
 License: GPL2
