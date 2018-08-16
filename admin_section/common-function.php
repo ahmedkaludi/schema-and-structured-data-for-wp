@@ -109,9 +109,8 @@ add_action('plugins_loaded', 'saswp_defaultSettings' );
              $sd_data=array();                
 function saswp_defaultSettings(){
             global $sd_data;    
-            $current_user = wp_get_current_user();
-            global $wp;
-            $current_url = home_url( add_query_arg( array(), $wp->request ) );
+            $current_user = wp_get_current_user();           
+            $current_url = get_home_url();           
             $custom_logo_id = get_theme_mod( 'custom_logo' );
             $logo = wp_get_attachment_image_src( $custom_logo_id , 'full' );                            
             $defaults = array(
