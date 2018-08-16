@@ -84,6 +84,19 @@ class saswp_fields_generator {
 					$input .= '</select>';
 					break;                                
 				default:
+					$socialfield = array('sd_facebook', 'sd_twitter', 'sd_google_plus', 'sd_instagram', 'sd_youtube', 'sd_linkedin', 'sd_pinterest', 'sd_soundcloud', 'sd_tumblr');
+
+					if(in_array($meta_field['id'], $socialfield)){
+						$input = sprintf(
+						'<input data-id="'.esc_attr($meta_field['id']).'" type="checkbox" class="saswp-social-field-check" ><input class="%s saswp-social-fields" %s id="%s" name="%s" type="%s" value="%s">',
+                                                $class,
+						$meta_field['type'] !== 'color' ? 'style="width: 100%"' : '',
+						esc_attr($meta_field['id']),
+						esc_attr($meta_field['name']),
+						esc_attr($meta_field['type']),
+						esc_attr($settings[$meta_field['id']])
+					);
+					}else{
 					$input = sprintf(
 						'<input class="%s" %s id="%s" name="%s" type="%s" value="%s">',
                                                 $class,
@@ -92,7 +105,10 @@ class saswp_fields_generator {
 						esc_attr($meta_field['name']),
 						esc_attr($meta_field['type']),
 						esc_attr($settings[$meta_field['id']])
-					);
+					);	
+					}
+
+					
 			}
                         
                         $allowed_html = saswp_expanded_allowed_tags();

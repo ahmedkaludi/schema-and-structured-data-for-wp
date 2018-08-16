@@ -343,6 +343,7 @@ function saswp_knowledge_page_callback(){
                         'name' => 'sd_data[saswp_kb_type]',
 			'type' => 'select',
 			'options' => array(
+                                ''=>'Select an item',
 				'Organization'=>'Organization',
 				'Person'=>'Person',
 			)
