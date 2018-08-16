@@ -22,6 +22,16 @@ Schema & Structured Data adds Google Rich Snippets markup according to Schema.or
 * <strong>JSON-LD</strong> Format
 * <strong>Breadcrumbs</strong> Listing Support
 * <strong>Constant Development & New Features</strong>: We’ll be releasing the constant updates along with the more handy features as soon as we get the feedback from the users.
+* <strong>Constant Development & New Features</strong>: We’ll be releasing the constant updates along with the more handy features as soon as we get the feedback from the users.
+
+= Supported Schema & Structured Data Types: =
+* BlogPosting Schema
+* News Article Schema
+* WebPage Schema
+* NewsArticle Schema
+* Recipe Schema
+* Product Schema
+* VideoObject Schema
 
 **We Act Fast on Feedback!**
 We are actively developing this plugin and our aim is to make this plugin into the #1 solution for Schema and Google Structured Data in the world. You can [Request a Feature](https://github.com/ahmedkaludi/schema-and-structured-data-for-wp/issues) or [Report a Bug](http://magazine3.company/contact/).
@@ -30,17 +40,17 @@ We are actively developing this plugin and our aim is to make this plugin into t
 Support is provided in [Forum](https://wordpress.org/support/plugin/schema-and-structured-data-for-wp). You can also [Contact us](http://magazine3.company/contact/), our turn around time on email is around 12 hours. 
 
 **Would you like to contribute?**
-You may now contribute to the plugin on Github: [View repository](https://github.com/ahmedkaludi/schema-and-structured-data-for-wp) on Github
+You may now contribute to this Schema plugin on Github: [View repository](https://github.com/ahmedkaludi/schema-and-structured-data-for-wp) on Github
 
 == Frequently Asked Questions ==
 
-= How to install and use this plugin? =
+= How to install and use this Schema plugin? =
 
 After you Active this plugin, just go to Dashboard > Structured data > Settings, and then setup the default settings, after that, just go back to 'Structured Data' click on Add New and add any data that you like!  
 
 = How do I report bugs and suggest new features? =
 
-You can report the bugs [here](https://github.com/ahmedkaludi/schema-and-structured-data-for-wp/issues)
+You can report the bugs for this Schema plugin [here](https://github.com/ahmedkaludi/schema-and-structured-data-for-wp/issues)
 
 = Will you include features to my request? =
 
