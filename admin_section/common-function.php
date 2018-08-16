@@ -124,10 +124,8 @@ function saswp_defaultSettings(){
                     'saswp_kb_contact_1' => 0,                    
                     'sd_name' => $current_user->user_login,   
                     'sd_alt_name' => $current_user->user_login,                                       
-                    'sd-person-name' => $current_user->user_nicename,
-                    'sd-person-job-title' => 'abc',
-                    'sd-person-url' => $current_url,
-                    'sd-person-phone-number' => 'abc',                                        
+                    'sd-person-name' => $current_user->user_nicename,                    
+                    'sd-person-url' => $current_url,                                                          
                     'saswp-logo-width' => '600',
                     'saswp-logo-height' => '60',
                     'sd_logo' => array(
