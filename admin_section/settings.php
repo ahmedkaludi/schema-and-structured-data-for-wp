@@ -18,7 +18,7 @@ function saswp_admin_interface_render(){
 	}
 	// Handing save settings
 	if ( isset( $_GET['settings-updated'] ) ) {					
-		// Show Settings Saved Message
+		// Show Settings Saved Message            
 		settings_errors();
 	}
 	$tab = saswp_get_tab('general', array('general','knowledge','schema', 'help'));
