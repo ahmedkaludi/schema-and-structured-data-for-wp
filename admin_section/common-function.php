@@ -104,14 +104,54 @@ function saswp_get_tab( $default = '', $available = array() ) {
             return $tab;
         }
 
-           $sd_data=array();
+add_action('plugins_loaded', 'saswp_defaultSettings' );
+
+             $sd_data=array();                
 function saswp_defaultSettings(){
-            global $sd_data;
+            global $sd_data;    
+            $current_user = wp_get_current_user();           
+            $current_url = get_home_url();           
+            $custom_logo_id = get_theme_mod( 'custom_logo' );
+            $logo = wp_get_attachment_image_src( $custom_logo_id , 'full' );                            
             $defaults = array(
                     'saswp-for-wordpress' => 0,
-                    'saswp-for-amp'  => 0,                
+                    'saswp-for-amp'  => 1, 
+                    'saswp-for-wordpress'=>1,
+                    'sd_post_type'=> 'Blogposting',
+                    'sd_page_type'=> 'WebPage',
+                    'saswp_kb_type' => 'Organization',    
+                    'saswp_kb_contact_1' => 0,                    
+                    'sd_name' => $current_user->user_login,   
+                    'sd_alt_name' => $current_user->user_login,                                       
+                    'sd-person-name' => $current_user->user_nicename,                    
+                    'sd-person-url' => $current_url,                                                          
+                    'saswp-logo-width' => '600',
+                    'saswp-logo-height' => '60',
+                    'sd_logo' => array(
+                        'url'=>$logo[0],
+                        'id'=>$custom_logo_id,
+                        'height'=>$logo[2],
+                        'width'=>$logo[1],
+                        'thumbnail'=>$logo[0]        
+                    ),
+                    'sd-data-logo-ampforwp' => array(
+                        'url'=>$logo[0],
+                        'id'=>$custom_logo_id,
+                        'height'=>$logo[2],
+                        'width'=>$logo[1],
+                        'thumbnail'=>$logo[0]        
+                    ),
+                    'sd_default_image' => array(
+                        'url'=>$logo[0],
+                        'id'=>$custom_logo_id,
+                        'height'=>$logo[2],
+                        'width'=>$logo[1],
+                        'thumbnail'=>$logo[0]        
+                    ),
+                    'sd_default_image_width' =>$logo[1],
+                    'sd_default_image_height' =>$logo[2]
+
             );	
-            $sd_data = $settings = get_option( 'sd_data', $defaults);                
+            $sd_data = $settings = get_option( 'sd_data', $defaults);                     
             return $settings;
         }
-saswp_defaultSettings();

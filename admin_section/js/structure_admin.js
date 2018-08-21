@@ -31,7 +31,7 @@ jQuery(document).ready(function($){
 		parent.children(".spinner").addClass("show");
 		var ajaxURL = amp_sdwp_field_data.ajax_url;
 		//ajax call
-		$.ajax({
+        $.ajax({
         url : ajaxURL,
         method : "POST",
         data: { 

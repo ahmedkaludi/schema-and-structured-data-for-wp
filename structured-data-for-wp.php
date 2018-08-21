@@ -45,5 +45,6 @@ require_once SASWP_DIR_NAME.'/admin_section/structure_admin.php';
 require_once SASWP_DIR_NAME.'/admin_section/settings.php';
 require_once SASWP_DIR_NAME.'/admin_section/common-function.php';
 require_once SASWP_DIR_NAME.'/admin_section/fields-generator.php';  
+require_once SASWP_DIR_NAME.'/admin_section/newsletter.php';  
 //Loading Metaboxes
 require SASWP_DIR_NAME.'/metaboxes/help.php';  

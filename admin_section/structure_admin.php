@@ -81,7 +81,7 @@ function saswp_generate_field_data( $post_id ){
 }
 
 function saswp_comparison_logic_checker($input){
-       global $post;
+        global $post;
         $type       = $input['key_1'];
         $comparison = $input['key_2'];
         $data       = $input['key_3'];
@@ -513,9 +513,9 @@ if(is_admin()){
       if( !isset( $_POST['saswp_select_name_nonce'] ) || !wp_verify_nonce( $_POST['saswp_select_name_nonce'], 'saswp_select_action_nonce' ) ) return;
       
       // if our current user can't edit this post, bail
-      if( !current_user_can( 'edit_post' ) ) return;      
-      $post_data_array = array();
-      
+      if( !current_user_can( 'edit_post' ) ) return;  
+       $meta_value = get_post_meta( $post_id, null, true );       
+      $post_data_array = array();      
     foreach($_POST['data_array'] as $post){
     $post_data_array[] = array_map('sanitize_text_field', $post);  
     }          

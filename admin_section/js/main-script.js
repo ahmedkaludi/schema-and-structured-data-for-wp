@@ -23,7 +23,21 @@ jQuery(document).ready(function($){
 		window.history.pushState("", "", href);
 		return false;
 	});                
-    //Settings page jquery starts here            
+    //Settings page jquery starts here    
+
+    $(".saswp-social-fields").each(function(){
+      var val =  $(this).val();
+      if(val){
+        $(this).parent().find(".saswp-social-field-check").hide();
+      }else{
+       $(this).hide(); 
+      }            
+    });
+    $(".saswp-social-field-check").change(function(){
+          var socialtype = $(this).attr("data-id");          
+          $(".saswp-social-fields[id="+socialtype+"]").show();
+          $(this).hide();                
+    });
     $(".saswp-checkbox").change(function(){
           var id = $(this).attr("id");         
                   switch(id){
@@ -47,18 +61,18 @@ jQuery(document).ready(function($){
                           
                         if ($(this).is(':checked')) {              
                          $("#saswp_kb_contact_1").val(1); 
-                         $("#saswp_kb_telephone, #saswp_contact_type").parent().parent('li').show(); 
-                       }else{
+                         $("#saswp_kb_telephone, #saswp_contact_type").parent().parent('li').removeClass("saswp-display-none");  
+                       }else{                                                
                          $("#saswp_kb_contact_1").val(0);  
-                         $("#saswp_kb_telephone, #saswp_contact_type").parent().parent('li').hide(); 
+                         $("#saswp_kb_telephone, #saswp_contact_type").parent().parent('li').addClass("saswp-display-none"); 
                        }
                       break;
                       case 'saswp-logo-dimensions-check':
                           
                         if ($(this).is(':checked')) {              
                            $("#saswp-logo-dimensions").val(1);  
-                           $("#saswp-logo-width, #saswp-logo-height").parent().parent('li').show();
-                         }else{
+                           $("#saswp-logo-width, #saswp-logo-height").parent().parent('li').show();                           
+                         }else{                             
                            $("#saswp-logo-dimensions").val(0);            
                            $("#saswp-logo-width, #saswp-logo-height").parent().parent('li').hide();
                          }
@@ -94,12 +108,14 @@ jQuery(document).ready(function($){
               }else{
                 $( ".saswp-knowledge-base li:eq('"+i+"')" ).show();            
               }    
-            }else{
+            }else if(datatype ==="Organization"){
               if(i<8){
                 $( ".saswp-knowledge-base li:eq('"+i+"')" ).show();          
               }else{
                 $( ".saswp-knowledge-base li:eq('"+i+"')" ).hide();            
               }    
+            }else{
+               $( ".saswp-knowledge-base li:eq('"+i+"')" ).hide(); 
             }
                        
           }                                           

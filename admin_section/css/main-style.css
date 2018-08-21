@@ -29,8 +29,8 @@ and open the template in the editor.
     width:100%
 }
 .saswp-settings-list li{
-padding:15px;
-padding-left:0px;
+    padding:15px;
+    padding-left:0px;
 }
 .saswp-settings-list li div label{
     font-weight: 600;
@@ -52,6 +52,9 @@ padding-left:0px;
 }
 .saswp_qanda_p{
     font-weight: 500;
+}
+.saswp-display-none{
+display: none !important;    
 }
 
 
