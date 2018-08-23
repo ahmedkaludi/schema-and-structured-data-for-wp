@@ -62,7 +62,7 @@
                         </div>','schema-and-structured-data-for-wp');
                                     $options = array (
                                             'content' => $content,
-                                            'position' => array ('edge' => 'top', 'align' => 'left')
+                                            'position' => array ('edge' => 'left', 'align' => 'left')
                                             );
 		}
 		if ($show_pointer) {
@@ -97,8 +97,8 @@
 							action: 'dismiss-wp-pointer'
 						});
 					},
-                                        show: function(event, t){
-                                         t.pointer.css({'left':'170px', 'top':'160px'});
+                                        show: function(event, t){                                           
+                                         t.pointer.css({'left':'170px', 'top':'197px', 'position':'fixed'});
                                       }                                               
 				});
 				setup = function () {
