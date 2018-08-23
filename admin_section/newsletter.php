@@ -110,7 +110,7 @@
 						});
 						jQuery ('#pointer-close').click (function () {
 							$.post (ajaxurl, {
-								pointer: 'asaswp_subscribe_pointer',
+								pointer: 'saswp_subscribe_pointer',
 								action: 'dismiss-wp-pointer'
 							});
 						})
