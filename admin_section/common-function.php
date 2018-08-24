@@ -116,9 +116,7 @@ function saswp_defaultSettings(){
             $defaults = array(
                     'saswp-for-wordpress' => 0,
                     'saswp-for-amp'  => 1, 
-                    'saswp-for-wordpress'=>1,
-                    'sd_post_type'=> 'Blogposting',
-                    'sd_page_type'=> 'WebPage',
+                    'saswp-for-wordpress'=>1,                                        
                     'saswp_kb_type' => 'Organization',    
                     'saswp_kb_contact_1' => 0,                    
                     'sd_name' => $current_user->user_login,   

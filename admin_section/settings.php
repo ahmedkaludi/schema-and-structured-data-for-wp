@@ -122,43 +122,7 @@ function saswp_settings_init(){
 function saswp_schema_page_callback(){
 	// Get Settings
 	$settings = saswp_defaultSettings(); 
-        $field_objs = new saswp_fields_generator();
-        $meta_fields_schema_type = array(	                
-                array(
-			'label' => 'Post',
-			'id' => 'sd_post_type',
-                        'name' => 'sd_data[sd_post_type]',
-			'type' => 'select',
-			'options' => array(
-				''=>'Select an item',
-				'Blogposting'=>'Blogposting',
-                                'NewsArticle'=>'NewsArticle',
-                                'WebPage'=>'WebPage',
-                                'Article'=>'Article',
-                                'Recipe'=>'Recipe',
-                                'Product'=>'Product',
-                                'VideoObject'=>'VideoObject',                               
-			)
-                    ),
-             array(
-			'label' => 'Page',
-			'id' => 'sd_page_type',
-                        'name' => 'sd_data[sd_page_type]',
-			'type' => 'select',
-			'options' => array(
-				''=>'Select an item',
-				'Blogposting'=>'Blogposting',
-                                'NewsArticle'=>'NewsArticle',
-                                'WebPage'=>'WebPage',
-                                'Article'=>'Article',
-                                'Recipe'=>'Recipe',
-                                'Product'=>'Product',
-                                'VideoObject'=>'VideoObject',                               
-			)
-                    ),		                                                              
-	);
-         echo '<h2>'.esc_html__('Schema Type','schema-and-structured-data-for-wp').'</h2>';
-         $field_objs->saswp_field_generator($meta_fields_schema_type, $settings);        
+        $field_objs = new saswp_fields_generator();                 
          $meta_fields_default = array(	                                		             
                 array(
 			'label' => 'Default Structured Data Logo',
