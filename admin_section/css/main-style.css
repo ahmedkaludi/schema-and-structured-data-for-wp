@@ -20,6 +20,10 @@ and open the template in the editor.
     width: auto;
     padding: 0px;
 }
+.saswp-amp table th{    
+    width: auto;
+    padding: 0px;
+}
 .saswp-help table th{    
     width: auto;
     padding: 0px;

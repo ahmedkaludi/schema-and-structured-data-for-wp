@@ -113,8 +113,7 @@ function saswp_defaultSettings(){
             $current_url = get_home_url();           
             $custom_logo_id = get_theme_mod( 'custom_logo' );
             $logo = wp_get_attachment_image_src( $custom_logo_id , 'full' );                            
-            $defaults = array(
-                    'saswp-for-wordpress' => 0,
+            $defaults = array(                    
                     'saswp-for-amp'  => 1, 
                     'saswp-for-wordpress'=>1,                                        
                     'saswp_kb_type' => 'Organization',    

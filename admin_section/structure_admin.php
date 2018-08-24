@@ -191,8 +191,12 @@ function saswp_comparison_logic_checker($input){
       // Page
       case 'page': 
         global $redux_builder_amp;
-        if(ampforwp_is_front_page()){
-          $current_post = $redux_builder_amp['amp-frontpage-select-option-pages'];
+        if(function_exists('ampforwp_is_front_page')){
+          if(ampforwp_is_front_page()){
+          $current_post = $redux_builder_amp['amp-frontpage-select-option-pages'];    
+          } else{
+          $current_post = $post->ID;    
+          }           
         }else{
           $current_post = $post->ID;
         }

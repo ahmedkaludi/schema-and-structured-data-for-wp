@@ -21,7 +21,16 @@ function saswp_admin_interface_render(){
 		// Show Settings Saved Message            
 		settings_errors();
 	}
-	$tab = saswp_get_tab('general', array('general','knowledge','schema', 'help'));
+        $is_amp =false;
+        if ( is_plugin_active('accelerated-mobile-pages/accelerated-moblie-pages.php') || is_plugin_active('amp/amp.php') ) {
+	$is_amp = true;			
+        }   
+        if($is_amp){
+        $tab = saswp_get_tab('general', array('general','knowledge','schema','amp', 'help'));    
+        }else{
+        $tab = saswp_get_tab('general', array('general','knowledge','schema', 'help'));    
+        }
+	
 	?>
 	<div class="wrap saswp-settings-form">	
 		<h1> <?php echo esc_html__( 'Schema And Structured Data For WP', 'schema-and-structured-data-for-wp' ); ?></h1>
@@ -34,6 +43,10 @@ function saswp_admin_interface_render(){
 
 			echo '<a href="' . esc_url(saswp_admin_link('schema')) . '" class="nav-tab ' . esc_attr( $tab == 'schema' ? 'nav-tab-active' : '') . '"><span class="dashicons dashicons-welcome-view-site"></span> ' . esc_html__('Schema Type','schema-and-structured-data-for-wp') . '</a>';
                         
+                        if($is_amp){
+                        echo '<a href="' . esc_url(saswp_admin_link('amp')) . '" class="nav-tab ' . esc_attr( $tab == 'amp' ? 'nav-tab-active' : '') . '"><span class="dashicons dashicons-welcome-view-site"></span> ' . esc_html__('AMP','schema-and-structured-data-for-wp') . '</a>';    
+                        }
+                                                
                         echo '<a href="' . esc_url(saswp_admin_link('help')) . '" class="nav-tab ' . esc_attr( $tab == 'help' ? 'nav-tab-active' : '') . '"><span class="dashicons dashicons-dashboard"></span> ' . esc_html__('Help','schema-and-structured-data-for-wp') . '</a>';
 			?>
 		</h2>
@@ -54,6 +67,10 @@ function saswp_admin_interface_render(){
 			echo "<div class='saswp-schema' ".( $tab != 'schema' ? 'style="display:none;"' : '').">";				
 				do_settings_sections( 'saswp_schema_section' );	// Page slug
 			echo "</div>";
+                                                
+                        echo "<div class='saswp-amp' ".( $tab != 'amp' ? 'style="display:none;"' : '').">";				
+				do_settings_sections( 'saswp_amp_section' );	// Page slug
+			echo "</div>";
                         
                         echo "<div class='saswp-help' ".( $tab != 'help' ? 'style="display:none;"' : '').">";
 			// Status
@@ -72,8 +89,6 @@ function saswp_admin_interface_render(){
 	</div>
 	<?php
 }
-
-
 /*
 	WP Settings API
 */
@@ -108,7 +123,18 @@ function saswp_settings_init(){
 			'saswp_schema_page_callback',								// CB
 			'saswp_schema_section',						// Page slug
 			'saswp_schema_section'						// Settings Section ID
-		);                
+		); 
+                
+                add_settings_section('saswp_amp_section', __return_false(), '__return_false', 'saswp_amp_section');
+	
+		add_settings_field(
+			'saswp_amp_settings',								// ID
+			'',		// Title
+			'saswp_amp_page_callback',								// CB
+			'saswp_amp_section',						// Page slug
+			'saswp_amp_section'						// Settings Section ID
+		); 
+                
                 add_settings_section('saswp_help_section', __return_false(), '__return_false', 'saswp_help_section');
 
                 add_settings_field(
@@ -215,13 +241,13 @@ function saswp_schema_page_callback(){
         
 	<?php
 }
-function saswp_general_page_callback(){
-	// Get Settings
-	$settings = saswp_defaultSettings();         
+
+function saswp_amp_page_callback(){
+    $settings = saswp_defaultSettings();         
         $field_objs = new saswp_fields_generator();
         $meta_fields = array(		
 		array(
-			'label' => 'Structured Data for WordPress',
+			'label' => 'Structured Data for Non AMP',
 			'id' => 'saswp-for-wordpress-checkbox',
                         'name' => 'saswp-for-wordpress-checkbox',
 			'type' => 'checkbox',
@@ -245,8 +271,11 @@ function saswp_general_page_callback(){
 		),                				
 	);
         echo '<h2>'.esc_html__('Set Up','schema-and-structured-data-for-wp').'</h2>';
-        $field_objs->saswp_field_generator($meta_fields, $settings);
-                
+        $field_objs->saswp_field_generator($meta_fields, $settings);    
+}
+
+function saswp_general_page_callback(){	
+	$settings = saswp_defaultSettings();                         
         ?>
 <div class="saswp-settings-list">
 <h2><?php echo esc_html__('Page Schema','schema-and-structured-data-for-wp') ?></h2>
