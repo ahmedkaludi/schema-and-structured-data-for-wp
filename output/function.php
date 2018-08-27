@@ -21,56 +21,70 @@ function saswp_data_generator() {
    
 	if( (  1 == $sd_data['saswp-for-wordpress'] && saswp_non_amp() ) || ( 1 == $sd_data['saswp-for-amp'] && !saswp_non_amp() ) ) {
 								
-                        $output .= "\n\n";
+                        
                         if(!empty($contact_page_output)){
-                        $output .= "//Contact page Schema\n";    
+                          
                         $output .= $contact_page_output; 
+                        $output .= ",";
                         $output .= "\n\n";
+                        
                         }			                        
                         if(!empty($about_page_output)){
-                        $output .= "//About page Schema\n"; 
+                        
                         $output .= $about_page_output;    
+                        $output .= ",";
                         $output .= "\n\n";
                         }                        
                         if(!empty($author_output)){
-                        $output .= "//Author Schema\n";     
+                           
                         $output .= $author_output; 
+                        $output .= ",";
                         $output .= "\n\n";
                         }
                       
                         if(!empty($archive_output)){
-                        $output .= "//Archive Schema\n";     
+                        
                         $output .= $archive_output;   
+                        $output .= ",";
                         $output .= "\n\n";
                         }                        
                         if(!empty($kb_website_output)){
-                        $output .= "//Website Schema\n";     
+                        
                         $output .= $kb_website_output;  
+                        $output .= ",";
                         $output .= "\n\n";
                         }                       
                         if(!empty($schema_breadcrumb_output)){
-                        $output .= "//Breadcrumbs navigation Schema\n";     
+                        
                         $output .= $schema_breadcrumb_output;   
+                        $output .= ",";
                         $output .= "\n\n";
                         }
                         
                         if(!empty($schema_output)){
-                        $output .= "// Type Schema\n";         
+                              
                         $output .= $schema_output; 
+                        $output .= ",";
                         $output .= "\n\n";
                         }
                         
                         if(!empty($kb_schema_output)){
-                        $output .= "//Organization Schema\n";    
-                        $output .= $kb_schema_output;  
-                        $output .= "\n\n";
+                            
+                        $output .= $kb_schema_output;
+                        $output .= ",";
+                        
                         }                       
                         			              		
 	}
+        $stroutput = '['. $output. ']';
+        $filter_string = str_replace(',]', ']',$stroutput);
+        
         echo '<!-- Schema And Structured Data For WP v'.SASWP_VERSION.' - -->';
 	echo "\n";
         echo '<script type="application/ld+json">'; 
-	echo html_entity_decode(esc_html($output));
+        echo "\n";       
+	echo html_entity_decode(esc_html($filter_string));       
+        echo "\n";
         echo '</script>';
         echo "\n\n";
 }
