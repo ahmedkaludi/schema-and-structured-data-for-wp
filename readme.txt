@@ -1,9 +1,9 @@
 === Schema and Structured Data for WP & AMP ===
 Contributors: mohammed_kaludi, ahmedkaludi, ampforwp
-Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO
+Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 4.9.8
-Stable tag: 1.0
+Stable tag: 1.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -61,5 +61,11 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](https://ampforwp.com/contact/)
 
 == Changelog ==
+
+= 1.0.1 (27 August 2018) =
+* AMP Compatibility improved for Schema 
+* Default Schema compatibility added, which means the posts and pages will be set by default. 
+* Minor bugs fixed  
+
 = 1.0 (6 August 2018) =
 * Version 1.0 Released
