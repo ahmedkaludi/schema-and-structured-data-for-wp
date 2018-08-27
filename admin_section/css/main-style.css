@@ -12,21 +12,51 @@ and open the template in the editor.
     font-weight: 600;
     padding: 0px;
 } 
+.saswp-general table{
+    margin-top: 0px;   
+} 
+.saswp-general table td{
+    padding: 5px;   
+} 
 .saswp-knowledge table th{    
     width: auto;
     padding: 0px;
+}
+.saswp-knowledge table{
+    margin-top: 0px;   
+} 
+.saswp-knowledge table td{
+    padding: 5px;   
 } 
 .saswp-schema table th{    
     width: auto;
     padding: 0px;
 }
+.saswp-schema table{
+    margin-top: 0px;   
+} 
+.saswp-schema table td{
+    padding: 5px;   
+}
 .saswp-amp table th{    
     width: auto;
     padding: 0px;
 }
+.saswp-amp table{
+    margin-top: 0px;   
+} 
+.saswp-amp table td{
+    padding: 5px;   
+}
 .saswp-help table th{    
     width: auto;
     padding: 0px;
+}
+.saswp-help table{
+    margin-top: 0px;   
+} 
+.saswp-help table td{
+    padding: 5px;   
 }
 .saswp-settings-list{
     display:inline-block;

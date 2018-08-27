@@ -246,7 +246,19 @@ function saswp_amp_page_callback(){
     $settings = saswp_defaultSettings();         
         $field_objs = new saswp_fields_generator();
         $meta_fields = array(		
-		array(
+		
+                array(
+			'label' => 'Structured Data for AMP',
+			'id' => 'saswp-for-amp-checkbox',                        
+                        'name' => 'saswp-for-amp-checkbox',
+			'type' => 'checkbox',
+                        'class' => 'checkbox saswp-checkbox',
+                        'hidden' => array(
+                             'id' => 'saswp-for-amp',
+                             'name' => 'sd_data[saswp-for-amp]',                             
+                        )
+		),  
+                array(
 			'label' => 'Structured Data for Non AMP',
 			'id' => 'saswp-for-wordpress-checkbox',
                         'name' => 'saswp-for-wordpress-checkbox',
@@ -258,17 +270,6 @@ function saswp_amp_page_callback(){
                              'name' => 'sd_data[saswp-for-wordpress]',                             
                         )
 		),
-                array(
-			'label' => 'Structured Data for AMP',
-			'id' => 'saswp-for-amp-checkbox',                        
-                        'name' => 'saswp-for-amp-checkbox',
-			'type' => 'checkbox',
-                        'class' => 'checkbox saswp-checkbox',
-                        'hidden' => array(
-                             'id' => 'saswp-for-amp',
-                             'name' => 'sd_data[saswp-for-amp]',                             
-                        )
-		),                				
 	);
         echo '<h2>'.esc_html__('Set Up','schema-and-structured-data-for-wp').'</h2>';
         $field_objs->saswp_field_generator($meta_fields, $settings);    
@@ -453,9 +454,20 @@ function saswp_knowledge_page_callback(){
         
         //social
         echo '<h2>'.esc_html__( 'Social Fields', 'schema-and-structured-data-for-wp' ).'</h2>';
-        $social_meta_fields = array(		
-		array(
+        $social_meta_fields = array(	
+                array(
 			'label' => 'Facebook',
+			'id' => 'saswp-facebook-enable-checkbox', 
+                        'name' => 'saswp-facebook-enable-checkbox',
+			'type' => 'checkbox',
+                        'class' => 'checkbox saswp-checkbox', 
+                        'hidden' => array(
+                             'id' => 'saswp-facebook-enable',
+                             'name' => 'sd_data[saswp-facebook-enable]',                             
+                        )
+		),            
+		array(
+			'label' => '',
 			'id' => 'sd_facebook',
                         'name' => 'sd_data[sd_facebook]',
                         'class' => 'regular-text',                        
@@ -466,6 +478,17 @@ function saswp_knowledge_page_callback(){
 		    ),
                 array(
 			'label' => 'Twitter',
+			'id' => 'saswp-twitter-enable-checkbox', 
+                        'name' => 'saswp-twitter-enable-checkbox',
+			'type' => 'checkbox',
+                        'class' => 'checkbox saswp-checkbox', 
+                        'hidden' => array(
+                             'id' => 'saswp-twitter-enable',
+                             'name' => 'sd_data[saswp-twitter-enable]',                             
+                        )
+		),    
+                array(
+			'label' => '',
 			'id' => 'sd_twitter',
                         'name' => 'sd_data[sd_twitter]',
                         'class' => 'regular-text',                        
@@ -474,8 +497,19 @@ function saswp_knowledge_page_callback(){
                             'placeholder' => 'https://'
                         )
 		    ),
-                array(
+              array(
 			'label' => 'Google+',
+			'id' => 'saswp-google-plus-enable-checkbox', 
+                        'name' => 'saswp-google-plus-enable-checkbox',
+			'type' => 'checkbox',
+                        'class' => 'checkbox saswp-checkbox', 
+                        'hidden' => array(
+                             'id' => 'saswp-google-plus-enable',
+                             'name' => 'sd_data[saswp-google-plus-enable]',                             
+                        )
+		),
+                array(
+			'label' => '',
 			'id' => 'sd_google_plus',
                         'name' => 'sd_data[sd_google_plus]',
                         'class' => 'regular-text',                        
@@ -483,9 +517,20 @@ function saswp_knowledge_page_callback(){
                         'attributes' => array(
                             'placeholder' => 'https://'
                         )
-		    ), 
+		    ),
                 array(
 			'label' => 'Instagram',
+			'id' => 'saswp-instagram-enable-checkbox', 
+                        'name' => 'saswp-instagram-enable-checkbox',
+			'type' => 'checkbox',
+                        'class' => 'checkbox saswp-checkbox', 
+                        'hidden' => array(
+                             'id' => 'saswp-instagram-enable',
+                             'name' => 'sd_data[saswp-instagram-enable]',                             
+                        )
+		),
+                array(
+			'label' => '',
 			'id' => 'sd_instagram',
                         'name' => 'sd_data[sd_instagram]',
                         'class' => 'regular-text',                        
@@ -496,6 +541,17 @@ function saswp_knowledge_page_callback(){
 		    ), 
                 array(
 			'label' => 'Youtube',
+			'id' => 'saswp-youtube-enable-checkbox', 
+                        'name' => 'saswp-youtube-enable-checkbox',
+			'type' => 'checkbox',
+                        'class' => 'checkbox saswp-checkbox', 
+                        'hidden' => array(
+                             'id' => 'saswp-youtube-enable',
+                             'name' => 'sd_data[saswp-youtube-enable]',                             
+                        )
+		),    
+                array(
+			'label' => '',
 			'id' => 'sd_youtube',
                         'name' => 'sd_data[sd_youtube]',
                         'class' => 'regular-text',                        
@@ -506,6 +562,17 @@ function saswp_knowledge_page_callback(){
 		    ),
                array(
 			'label' => 'LinkedIn',
+			'id' => 'saswp-linkedin-enable-checkbox', 
+                        'name' => 'saswp-linkedin-enable-checkbox',
+			'type' => 'checkbox',
+                        'class' => 'checkbox saswp-checkbox', 
+                        'hidden' => array(
+                             'id' => 'saswp-linkedin-enable',
+                             'name' => 'sd_data[saswp-linkedin-enable]',                             
+                        )
+		),      
+               array(
+			'label' => '',
 			'id' => 'sd_linkedin',
                         'name' => 'sd_data[sd_linkedin]',
                         'class' => 'regular-text',                        
@@ -516,6 +583,17 @@ function saswp_knowledge_page_callback(){
 		    ),
                 array(
 			'label' => 'Pinterest',
+			'id' => 'saswp-pinterest-enable-checkbox', 
+                        'name' => 'saswp-pinterest-enable-checkbox',
+			'type' => 'checkbox',
+                        'class' => 'checkbox saswp-checkbox', 
+                        'hidden' => array(
+                             'id' => 'saswp-pinterest-enable',
+                             'name' => 'sd_data[saswp-pinterest-enable]',                             
+                        )
+		), 
+                array(
+			'label' => '',
 			'id' => 'sd_pinterest',
                         'name' => 'sd_data[sd_pinterest]',
                         'class' => 'regular-text',                        
@@ -526,6 +604,17 @@ function saswp_knowledge_page_callback(){
 		    ),
                 array(
 			'label' => 'SoundCloud',
+			'id' => 'saswp-soundcloud-enable-checkbox', 
+                        'name' => 'saswp-soundcloud-enable-checkbox',
+			'type' => 'checkbox',
+                        'class' => 'checkbox saswp-checkbox', 
+                        'hidden' => array(
+                             'id' => 'saswp-soundcloud-enable',
+                             'name' => 'sd_data[saswp-soundcloud-enable]',                             
+                        )
+		),     
+                array(
+			'label' => '',
 			'id' => 'sd_soundcloud',
                         'name' => 'sd_data[sd_soundcloud]',
                         'class' => 'regular-text',                        
@@ -534,8 +623,19 @@ function saswp_knowledge_page_callback(){
                             'placeholder' => 'https://'
                         )
 		    ),
-                array(
+             array(
 			'label' => 'Tumblr',
+			'id' => 'saswp-tumblr-enable-checkbox', 
+                        'name' => 'saswp-tumblr-enable-checkbox',
+			'type' => 'checkbox',
+                        'class' => 'checkbox saswp-checkbox', 
+                        'hidden' => array(
+                             'id' => 'saswp-tumblr-enable',
+                             'name' => 'sd_data[saswp-tumblr-enable]',                             
+                        )
+		),
+                array(
+			'label' => '',
 			'id' => 'sd_tumblr',
                         'name' => 'sd_data[sd_tumblr]',
                         'class' => 'regular-text',                        
