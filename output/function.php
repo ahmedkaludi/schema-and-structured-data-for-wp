@@ -55,7 +55,7 @@ function saswp_data_generator() {
                         }
                         
                         if(!empty($schema_output)){
-                        $output .= "// Type Schmea\n";         
+                        $output .= "// Type Schema\n";         
                         $output .= $schema_output; 
                         $output .= "\n\n";
                         }

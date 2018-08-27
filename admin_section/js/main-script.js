@@ -24,22 +24,10 @@ jQuery(document).ready(function($){
 		return false;
 	});                
     //Settings page jquery starts here    
-
-    $(".saswp-social-fields").each(function(){
-      var val =  $(this).val();
-      if(val){
-        $(this).parent().find(".saswp-social-field-check").hide();
-      }else{
-       $(this).hide(); 
-      }            
-    });
-    $(".saswp-social-field-check").change(function(){
-          var socialtype = $(this).attr("data-id");          
-          $(".saswp-social-fields[id="+socialtype+"]").show();
-          $(this).hide();                
-    });
+ 
     $(".saswp-checkbox").change(function(){
-          var id = $(this).attr("id");         
+          var id = $(this).attr("id");  
+          console.log(id);
                   switch(id){
                       case 'saswp-for-wordpress-checkbox':  
                           
@@ -49,6 +37,96 @@ jQuery(document).ready(function($){
                             $("#saswp-for-wordpress").val(0);  
                           }                          
                           break;
+                      case 'saswp-facebook-enable-checkbox':  
+                          
+                          if ($(this).is(':checked')) {              
+                            $("#saswp-facebook-enable").val(1); 
+                            $("#sd_facebook").show();
+                          }else{
+                            $("#saswp-facebook-enable").val(0);  
+                            $("#sd_facebook").hide();
+                          }                          
+                          break;   
+                      case 'saswp-twitter-enable-checkbox':  
+                          
+                          if ($(this).is(':checked')) {              
+                            $("#saswp-twitter-enable").val(1);
+                            $("#sd_twitter").show();
+                          }else{
+                            $("#saswp-twitter-enable").val(0);  
+                            $("#sd_twitter").hide();
+                          }                          
+                          break;
+                      case 'saswp-google-plus-enable-checkbox':  
+                          
+                          if ($(this).is(':checked')) {              
+                            $("#saswp-google-plus-enable").val(1);  
+                            $("#sd_google_plus").show();
+                          }else{
+                            $("#saswp-google-plus-enable").val(0); 
+                            $("#sd_google_plus").hide();
+                          }                          
+                          break;
+                      case 'saswp-instagram-enable-checkbox':  
+                          
+                          if ($(this).is(':checked')) {              
+                            $("#saswp-instagram-enable").val(1);  
+                            $("#sd_instagram").show();
+                          }else{
+                            $("#saswp-instagram-enable").val(0);  
+                            $("#sd_instagram").hide();
+                          }                          
+                          break;
+                      case 'saswp-youtube-enable-checkbox':  
+                          
+                          if ($(this).is(':checked')) {
+                            $("#sd_youtube").show();  
+                            $("#saswp-youtube-enable").val(1);  
+                          }else{
+                            $("#saswp-youtube-enable").val(0);
+                            $("#sd_youtube").hide();
+                          }                          
+                          break;
+                      case 'saswp-linkedin-enable-checkbox':  
+                          
+                          if ($(this).is(':checked')) {              
+                            $("#saswp-linkedin-enable").val(1);  
+                            $("#sd_linkedin").show();
+                          }else{
+                            $("#saswp-linkedin-enable").val(0);
+                            $("#sd_linkedin").hide();
+                          }                          
+                          break; 
+                      case 'saswp-pinterest-enable-checkbox':  
+                          
+                          if ($(this).is(':checked')) {              
+                            $("#saswp-pinterest-enable").val(1);  
+                            $("#sd_pinterest").show();
+                          }else{
+                            $("#saswp-pinterest-enable").val(0); 
+                            $("#sd_pinterest").hide();
+                          }                          
+                          break; 
+                      case 'saswp-soundcloud-enable-checkbox':  
+                          
+                          if ($(this).is(':checked')) {              
+                            $("#saswp-soundcloud-enable").val(1);  
+                            $("#sd_soundcloud").show();
+                          }else{
+                            $("#saswp-soundcloud-enable").val(0);
+                            $("#sd_soundcloud").hide();
+                          }                          
+                          break; 
+                      case 'saswp-tumblr-enable-checkbox':  
+                          
+                          if ($(this).is(':checked')) {              
+                            $("#saswp-tumblr-enable").val(1);  
+                            $("#sd_tumblr").show();
+                          }else{
+                            $("#saswp-tumblr-enable").val(0);  
+                            $("#sd_tumblr").hide();
+                          }                          
+                          break; 
                       case 'saswp-for-amp-checkbox':
                           
                           if ($(this).is(':checked')) {              

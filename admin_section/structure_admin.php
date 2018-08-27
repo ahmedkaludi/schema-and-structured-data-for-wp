@@ -191,8 +191,12 @@ function saswp_comparison_logic_checker($input){
       // Page
       case 'page': 
         global $redux_builder_amp;
-        if(ampforwp_is_front_page()){
-          $current_post = $redux_builder_amp['amp-frontpage-select-option-pages'];
+        if(function_exists('ampforwp_is_front_page')){
+          if(ampforwp_is_front_page()){
+          $current_post = $redux_builder_amp['amp-frontpage-select-option-pages'];    
+          } else{
+          $current_post = $post->ID;    
+          }           
         }else{
           $current_post = $post->ID;
         }
@@ -306,7 +310,7 @@ if(is_admin()){
             'name'              => esc_html__( 'Structured Data', 'schema-and-structured-data-for-wp' ),
             'singular_name'     => esc_html__( 'Structured Data', 'schema-and-structured-data-for-wp' ),
             'add_new' 		      => esc_html__( 'Add New', 'schema-and-structured-data-for-wp' ),
-	          'add_new_item'  	  => esc_html__( 'Add New', 'schema-and-structured-data-for-wp' ),
+	    'add_new_item'  	  => esc_html__( 'Add New', 'schema-and-structured-data-for-wp' ),
             'edit_item'         => esc_html__( 'Edit Structured Data','schema-and-structured-data-for-wp')
         ),
           'public'                => true,
@@ -401,7 +405,7 @@ if(is_admin()){
               <select class="widefat comparison" name="data_array[<?php echo esc_attr( $i )?>][key_2]"> <?php
                 foreach ($comparison as $key => $value) { 
                   $selcomp = '';
-                  if($key == $selected_val_key_2){
+                  if($key == $selected_val_key_1){
                     $selcomp = 'selected';
                   }
                   ?>
@@ -507,6 +511,7 @@ if(is_admin()){
   // Save PHP Editor
   add_action ( 'save_post' , 'saswp_select_save_data' );
   function saswp_select_save_data ( $post_id ) {      
+     // print_r($_POST);die;
       if( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
        
       // if our nonce isn't there, or we can't verify it, bail
@@ -545,13 +550,11 @@ if(is_admin()){
   }
 add_action("admin_init",'saswp_migration');
 function saswp_migration(){
-    $sdwp_migration_posts = get_option("sdwp_migration_posts");
-    $sd_data = get_option("sd_data");
-    if($sdwp_migration_posts != 'inserted'){
-      if(isset($sd_data['sd_page_type'])){
-        $postarr = array(
-                    'post_type'=>'saswp',
-                  'post_title'=>'Default page type',
+    $sdwp_migration_posts = get_option("sdwp_migration_posts");        
+    if($sdwp_migration_posts != 'inserted'){      
+      $postarr = array(
+                  'post_type'=>'saswp',
+                  'post_title'=>'Default Page Type',
                   'post_status'=>'publish',
 
                     );
@@ -566,14 +569,13 @@ function saswp_migration(){
                               );
         $schema_options_array = array('isAccessibleForFree'=>False,'notAccessibleForFree'=>0,'paywall_class_name'=>'');
         update_post_meta( $insertedPageId, 'data_array', $post_data_array);
-        update_post_meta( $insertedPageId, 'schema_type', $sd_data['sd_page_type']);
+        update_post_meta( $insertedPageId, 'schema_type', 'WebPage');
         update_post_meta( $insertedPageId, 'schema_options', $schema_options_array);
       }
-    }
-    if(isset($sd_data['sd_post_type'])){
+        
       $postarr = array(
                   'post_type'=>'saswp',
-                  'post_title'=>'Default post type',
+                  'post_title'=>'Default Post Type',
                   'post_status'=>'publish',
 
                     );
@@ -588,11 +590,10 @@ function saswp_migration(){
                               );
         $schema_options_array = array('isAccessibleForFree'=>False,'notAccessibleForFree'=>0,'paywall_class_name'=>'');
         update_post_meta( $insertedPageId, 'data_array', $post_data_array);
-        update_post_meta( $insertedPageId, 'schema_type', $sd_data['sd_post_type']);
+        update_post_meta( $insertedPageId, 'schema_type', 'Blogposting');
         update_post_meta( $insertedPageId, 'schema_options', $schema_options_array);
       }
-    }
-
+    
     update_option( "sdwp_migration_posts", "inserted");
 
   } 

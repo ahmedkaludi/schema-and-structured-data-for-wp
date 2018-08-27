@@ -21,7 +21,16 @@ function saswp_admin_interface_render(){
 		// Show Settings Saved Message            
 		settings_errors();
 	}
-	$tab = saswp_get_tab('general', array('general','knowledge','schema', 'help'));
+        $is_amp =false;
+        if ( is_plugin_active('accelerated-mobile-pages/accelerated-moblie-pages.php') || is_plugin_active('amp/amp.php') ) {
+	$is_amp = true;			
+        }   
+        if($is_amp){
+        $tab = saswp_get_tab('general', array('general','knowledge','schema','amp', 'help'));    
+        }else{
+        $tab = saswp_get_tab('general', array('general','knowledge','schema', 'help'));    
+        }
+	
 	?>
 	<div class="wrap saswp-settings-form">	
 		<h1> <?php echo esc_html__( 'Schema And Structured Data For WP', 'schema-and-structured-data-for-wp' ); ?></h1>
@@ -34,6 +43,10 @@ function saswp_admin_interface_render(){
 
 			echo '<a href="' . esc_url(saswp_admin_link('schema')) . '" class="nav-tab ' . esc_attr( $tab == 'schema' ? 'nav-tab-active' : '') . '"><span class="dashicons dashicons-welcome-view-site"></span> ' . esc_html__('Schema Type','schema-and-structured-data-for-wp') . '</a>';
                         
+                        if($is_amp){
+                        echo '<a href="' . esc_url(saswp_admin_link('amp')) . '" class="nav-tab ' . esc_attr( $tab == 'amp' ? 'nav-tab-active' : '') . '"><span class="dashicons dashicons-welcome-view-site"></span> ' . esc_html__('AMP','schema-and-structured-data-for-wp') . '</a>';    
+                        }
+                                                
                         echo '<a href="' . esc_url(saswp_admin_link('help')) . '" class="nav-tab ' . esc_attr( $tab == 'help' ? 'nav-tab-active' : '') . '"><span class="dashicons dashicons-dashboard"></span> ' . esc_html__('Help','schema-and-structured-data-for-wp') . '</a>';
 			?>
 		</h2>
@@ -54,6 +67,10 @@ function saswp_admin_interface_render(){
 			echo "<div class='saswp-schema' ".( $tab != 'schema' ? 'style="display:none;"' : '').">";				
 				do_settings_sections( 'saswp_schema_section' );	// Page slug
 			echo "</div>";
+                                                
+                        echo "<div class='saswp-amp' ".( $tab != 'amp' ? 'style="display:none;"' : '').">";				
+				do_settings_sections( 'saswp_amp_section' );	// Page slug
+			echo "</div>";
                         
                         echo "<div class='saswp-help' ".( $tab != 'help' ? 'style="display:none;"' : '').">";
 			// Status
@@ -72,8 +89,6 @@ function saswp_admin_interface_render(){
 	</div>
 	<?php
 }
-
-
 /*
 	WP Settings API
 */
@@ -108,7 +123,18 @@ function saswp_settings_init(){
 			'saswp_schema_page_callback',								// CB
 			'saswp_schema_section',						// Page slug
 			'saswp_schema_section'						// Settings Section ID
-		);                
+		); 
+                
+                add_settings_section('saswp_amp_section', __return_false(), '__return_false', 'saswp_amp_section');
+	
+		add_settings_field(
+			'saswp_amp_settings',								// ID
+			'',		// Title
+			'saswp_amp_page_callback',								// CB
+			'saswp_amp_section',						// Page slug
+			'saswp_amp_section'						// Settings Section ID
+		); 
+                
                 add_settings_section('saswp_help_section', __return_false(), '__return_false', 'saswp_help_section');
 
                 add_settings_field(
@@ -122,43 +148,7 @@ function saswp_settings_init(){
 function saswp_schema_page_callback(){
 	// Get Settings
 	$settings = saswp_defaultSettings(); 
-        $field_objs = new saswp_fields_generator();
-        $meta_fields_schema_type = array(	                
-                array(
-			'label' => 'Post',
-			'id' => 'sd_post_type',
-                        'name' => 'sd_data[sd_post_type]',
-			'type' => 'select',
-			'options' => array(
-				''=>'Select an item',
-				'Blogposting'=>'Blogposting',
-                                'NewsArticle'=>'NewsArticle',
-                                'WebPage'=>'WebPage',
-                                'Article'=>'Article',
-                                'Recipe'=>'Recipe',
-                                'Product'=>'Product',
-                                'VideoObject'=>'VideoObject',                               
-			)
-                    ),
-             array(
-			'label' => 'Page',
-			'id' => 'sd_page_type',
-                        'name' => 'sd_data[sd_page_type]',
-			'type' => 'select',
-			'options' => array(
-				''=>'Select an item',
-				'Blogposting'=>'Blogposting',
-                                'NewsArticle'=>'NewsArticle',
-                                'WebPage'=>'WebPage',
-                                'Article'=>'Article',
-                                'Recipe'=>'Recipe',
-                                'Product'=>'Product',
-                                'VideoObject'=>'VideoObject',                               
-			)
-                    ),		                                                              
-	);
-         echo '<h2>'.esc_html__('Schema Type','schema-and-structured-data-for-wp').'</h2>';
-         $field_objs->saswp_field_generator($meta_fields_schema_type, $settings);        
+        $field_objs = new saswp_fields_generator();                 
          $meta_fields_default = array(	                                		             
                 array(
 			'label' => 'Default Structured Data Logo',
@@ -251,23 +241,12 @@ function saswp_schema_page_callback(){
         
 	<?php
 }
-function saswp_general_page_callback(){
-	// Get Settings
-	$settings = saswp_defaultSettings();         
+
+function saswp_amp_page_callback(){
+    $settings = saswp_defaultSettings();         
         $field_objs = new saswp_fields_generator();
         $meta_fields = array(		
-		array(
-			'label' => 'Structured Data for WordPress',
-			'id' => 'saswp-for-wordpress-checkbox',
-                        'name' => 'saswp-for-wordpress-checkbox',
-			'type' => 'checkbox',
-                        'class' => 'checkbox saswp-checkbox',
-                        'note'  => '',
-                        'hidden' => array(
-                             'id' => 'saswp-for-wordpress',
-                             'name' => 'sd_data[saswp-for-wordpress]',                             
-                        )
-		),
+		
                 array(
 			'label' => 'Structured Data for AMP',
 			'id' => 'saswp-for-amp-checkbox',                        
@@ -278,11 +257,26 @@ function saswp_general_page_callback(){
                              'id' => 'saswp-for-amp',
                              'name' => 'sd_data[saswp-for-amp]',                             
                         )
-		),                				
+		),  
+                array(
+			'label' => 'Structured Data for Non AMP',
+			'id' => 'saswp-for-wordpress-checkbox',
+                        'name' => 'saswp-for-wordpress-checkbox',
+			'type' => 'checkbox',
+                        'class' => 'checkbox saswp-checkbox',
+                        'note'  => '',
+                        'hidden' => array(
+                             'id' => 'saswp-for-wordpress',
+                             'name' => 'sd_data[saswp-for-wordpress]',                             
+                        )
+		),
 	);
         echo '<h2>'.esc_html__('Set Up','schema-and-structured-data-for-wp').'</h2>';
-        $field_objs->saswp_field_generator($meta_fields, $settings);
-                
+        $field_objs->saswp_field_generator($meta_fields, $settings);    
+}
+
+function saswp_general_page_callback(){	
+	$settings = saswp_defaultSettings();                         
         ?>
 <div class="saswp-settings-list">
 <h2><?php echo esc_html__('Page Schema','schema-and-structured-data-for-wp') ?></h2>
@@ -460,9 +454,20 @@ function saswp_knowledge_page_callback(){
         
         //social
         echo '<h2>'.esc_html__( 'Social Fields', 'schema-and-structured-data-for-wp' ).'</h2>';
-        $social_meta_fields = array(		
-		array(
+        $social_meta_fields = array(	
+                array(
 			'label' => 'Facebook',
+			'id' => 'saswp-facebook-enable-checkbox', 
+                        'name' => 'saswp-facebook-enable-checkbox',
+			'type' => 'checkbox',
+                        'class' => 'checkbox saswp-checkbox', 
+                        'hidden' => array(
+                             'id' => 'saswp-facebook-enable',
+                             'name' => 'sd_data[saswp-facebook-enable]',                             
+                        )
+		),            
+		array(
+			'label' => '',
 			'id' => 'sd_facebook',
                         'name' => 'sd_data[sd_facebook]',
                         'class' => 'regular-text',                        
@@ -473,6 +478,17 @@ function saswp_knowledge_page_callback(){
 		    ),
                 array(
 			'label' => 'Twitter',
+			'id' => 'saswp-twitter-enable-checkbox', 
+                        'name' => 'saswp-twitter-enable-checkbox',
+			'type' => 'checkbox',
+                        'class' => 'checkbox saswp-checkbox', 
+                        'hidden' => array(
+                             'id' => 'saswp-twitter-enable',
+                             'name' => 'sd_data[saswp-twitter-enable]',                             
+                        )
+		),    
+                array(
+			'label' => '',
 			'id' => 'sd_twitter',
                         'name' => 'sd_data[sd_twitter]',
                         'class' => 'regular-text',                        
@@ -481,8 +497,19 @@ function saswp_knowledge_page_callback(){
                             'placeholder' => 'https://'
                         )
 		    ),
-                array(
+              array(
 			'label' => 'Google+',
+			'id' => 'saswp-google-plus-enable-checkbox', 
+                        'name' => 'saswp-google-plus-enable-checkbox',
+			'type' => 'checkbox',
+                        'class' => 'checkbox saswp-checkbox', 
+                        'hidden' => array(
+                             'id' => 'saswp-google-plus-enable',
+                             'name' => 'sd_data[saswp-google-plus-enable]',                             
+                        )
+		),
+                array(
+			'label' => '',
 			'id' => 'sd_google_plus',
                         'name' => 'sd_data[sd_google_plus]',
                         'class' => 'regular-text',                        
@@ -490,9 +517,20 @@ function saswp_knowledge_page_callback(){
                         'attributes' => array(
                             'placeholder' => 'https://'
                         )
-		    ), 
+		    ),
                 array(
 			'label' => 'Instagram',
+			'id' => 'saswp-instagram-enable-checkbox', 
+                        'name' => 'saswp-instagram-enable-checkbox',
+			'type' => 'checkbox',
+                        'class' => 'checkbox saswp-checkbox', 
+                        'hidden' => array(
+                             'id' => 'saswp-instagram-enable',
+                             'name' => 'sd_data[saswp-instagram-enable]',                             
+                        )
+		),
+                array(
+			'label' => '',
 			'id' => 'sd_instagram',
                         'name' => 'sd_data[sd_instagram]',
                         'class' => 'regular-text',                        
@@ -503,6 +541,17 @@ function saswp_knowledge_page_callback(){
 		    ), 
                 array(
 			'label' => 'Youtube',
+			'id' => 'saswp-youtube-enable-checkbox', 
+                        'name' => 'saswp-youtube-enable-checkbox',
+			'type' => 'checkbox',
+                        'class' => 'checkbox saswp-checkbox', 
+                        'hidden' => array(
+                             'id' => 'saswp-youtube-enable',
+                             'name' => 'sd_data[saswp-youtube-enable]',                             
+                        )
+		),    
+                array(
+			'label' => '',
 			'id' => 'sd_youtube',
                         'name' => 'sd_data[sd_youtube]',
                         'class' => 'regular-text',                        
@@ -513,6 +562,17 @@ function saswp_knowledge_page_callback(){
 		    ),
                array(
 			'label' => 'LinkedIn',
+			'id' => 'saswp-linkedin-enable-checkbox', 
+                        'name' => 'saswp-linkedin-enable-checkbox',
+			'type' => 'checkbox',
+                        'class' => 'checkbox saswp-checkbox', 
+                        'hidden' => array(
+                             'id' => 'saswp-linkedin-enable',
+                             'name' => 'sd_data[saswp-linkedin-enable]',                             
+                        )
+		),      
+               array(
+			'label' => '',
 			'id' => 'sd_linkedin',
                         'name' => 'sd_data[sd_linkedin]',
                         'class' => 'regular-text',                        
@@ -523,6 +583,17 @@ function saswp_knowledge_page_callback(){
 		    ),
                 array(
 			'label' => 'Pinterest',
+			'id' => 'saswp-pinterest-enable-checkbox', 
+                        'name' => 'saswp-pinterest-enable-checkbox',
+			'type' => 'checkbox',
+                        'class' => 'checkbox saswp-checkbox', 
+                        'hidden' => array(
+                             'id' => 'saswp-pinterest-enable',
+                             'name' => 'sd_data[saswp-pinterest-enable]',                             
+                        )
+		), 
+                array(
+			'label' => '',
 			'id' => 'sd_pinterest',
                         'name' => 'sd_data[sd_pinterest]',
                         'class' => 'regular-text',                        
@@ -533,6 +604,17 @@ function saswp_knowledge_page_callback(){
 		    ),
                 array(
 			'label' => 'SoundCloud',
+			'id' => 'saswp-soundcloud-enable-checkbox', 
+                        'name' => 'saswp-soundcloud-enable-checkbox',
+			'type' => 'checkbox',
+                        'class' => 'checkbox saswp-checkbox', 
+                        'hidden' => array(
+                             'id' => 'saswp-soundcloud-enable',
+                             'name' => 'sd_data[saswp-soundcloud-enable]',                             
+                        )
+		),     
+                array(
+			'label' => '',
 			'id' => 'sd_soundcloud',
                         'name' => 'sd_data[sd_soundcloud]',
                         'class' => 'regular-text',                        
@@ -541,8 +623,19 @@ function saswp_knowledge_page_callback(){
                             'placeholder' => 'https://'
                         )
 		    ),
-                array(
+             array(
 			'label' => 'Tumblr',
+			'id' => 'saswp-tumblr-enable-checkbox', 
+                        'name' => 'saswp-tumblr-enable-checkbox',
+			'type' => 'checkbox',
+                        'class' => 'checkbox saswp-checkbox', 
+                        'hidden' => array(
+                             'id' => 'saswp-tumblr-enable',
+                             'name' => 'sd_data[saswp-tumblr-enable]',                             
+                        )
+		),
+                array(
+			'label' => '',
 			'id' => 'sd_tumblr',
                         'name' => 'sd_data[sd_tumblr]',
                         'class' => 'regular-text',                        
