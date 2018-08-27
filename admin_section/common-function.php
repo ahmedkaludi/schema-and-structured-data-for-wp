@@ -109,7 +109,11 @@ add_action('plugins_loaded', 'saswp_defaultSettings' );
              $sd_data=array();                
 function saswp_defaultSettings(){
             global $sd_data;    
-            $sd_name = get_bloginfo($show = '');                                   
+            $sd_name = 'default';
+            $bloginfo = get_bloginfo( $show = '', $filter = 'raw' ); 
+            if($bloginfo){
+            $sd_name =$bloginfo;
+            }            
             $current_url = get_home_url();           
             $custom_logo_id = get_theme_mod( 'custom_logo' );
             $logo = wp_get_attachment_image_src( $custom_logo_id , 'full' );                            
