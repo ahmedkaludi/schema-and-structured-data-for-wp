@@ -109,7 +109,11 @@ add_action('plugins_loaded', 'saswp_defaultSettings' );
              $sd_data=array();                
 function saswp_defaultSettings(){
             global $sd_data;    
-            $current_user = wp_get_current_user();           
+            $sd_name = 'default';
+            $bloginfo = get_bloginfo( $show = '', $filter = 'raw' ); 
+            if($bloginfo){
+            $sd_name =$bloginfo;
+            }            
             $current_url = get_home_url();           
             $custom_logo_id = get_theme_mod( 'custom_logo' );
             $logo = wp_get_attachment_image_src( $custom_logo_id , 'full' );                            
@@ -118,11 +122,11 @@ function saswp_defaultSettings(){
                     'saswp-for-wordpress'=>1,                                        
                     'saswp_kb_type' => 'Organization',    
                     'saswp_kb_contact_1' => 0,                    
-                    'sd_name' => $current_user->user_login,   
-                    'sd_alt_name' => $current_user->user_login,                                       
-                    'sd-person-name' => $current_user->user_nicename,                    
+                    'sd_name' => $sd_name,   
+                    'sd_alt_name' => $sd_name,                                       
+                    'sd-person-name' => $sd_name,                    
                     'sd-person-url' => $current_url,                                                          
-                    'saswp-logo-width' => '600',
+                    'saswp-logo-width' => '60',
                     'saswp-logo-height' => '60',
                     'sd_logo' => array(
                         'url'=>$logo[0],
