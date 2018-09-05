@@ -9,7 +9,7 @@ function saswp_structured_data()
 add_action('wp_head', 'saswp_data_generator');
 function saswp_data_generator() {
    global $sd_data;	           
-   $output ='';
+   $output              = [];
    $contact_page_output = saswp_contact_page_output();  	
    $about_page_output   = saswp_about_page_output();   
    $author_output       = saswp_author_output();
@@ -24,69 +24,64 @@ function saswp_data_generator() {
                         
                         if(!empty($contact_page_output)){
                           
-                        $output .= $contact_page_output; 
-                        $output .= ",";
-                        $output .= "\n\n";
+                                array_push($output, $contact_page_output); 
                         
                         }			                        
                         if(!empty($about_page_output)){
                         
-                        $output .= $about_page_output;    
-                        $output .= ",";
-                        $output .= "\n\n";
+                                array_push($output, $about_page_output); 
+
                         }                        
                         if(!empty($author_output)){
                            
-                        $output .= $author_output; 
-                        $output .= ",";
-                        $output .= "\n\n";
+                                array_push($output, $author_output); 
+                        
                         }
-                      
                         if(!empty($archive_output)){
                         
-                        $output .= $archive_output;   
-                        $output .= ",";
-                        $output .= "\n\n";
+                                array_push($output, $archive_output); 
+                                
                         }                        
                         if(!empty($kb_website_output)){
                         
-                        $output .= $kb_website_output;  
-                        $output .= ",";
-                        $output .= "\n\n";
+                                array_push($output, $kb_website_output); 
+                        
                         }                       
                         if(!empty($schema_breadcrumb_output)){
                         
-                        $output .= $schema_breadcrumb_output;   
-                        $output .= ",";
-                        $output .= "\n\n";
-                        }
+                                array_push($output, $schema_breadcrumb_output); 
                         
+                        }
                         if(!empty($schema_output)){
                               
-                        $output .= $schema_output; 
-                        $output .= ",";
-                        $output .= "\n\n";
+                                array_push($output, $schema_output); 
+                        
                         }
                         
                         if(!empty($kb_schema_output)){
                             
-                        $output .= $kb_schema_output;
-                        $output .= ",";
+                                array_push($output, $schema_output); 
                         
                         }                       
                         			              		
 	}
-        $stroutput = '['. $output. ']';
-        $filter_string = str_replace(',]', ']',$stroutput);
-        
+        // $stroutput = '['. $output. ']';
+        // $filter_string = str_replace(',]', ']',$stroutput);
+
         echo '<!-- Schema And Structured Data For WP v'.SASWP_VERSION.' - -->';
-	echo "\n";
-        echo '<script type="application/ld+json">'; 
-        echo "\n";       
-	echo html_entity_decode(esc_html($filter_string));       
-        echo "\n";
-        echo '</script>';
-        echo "\n\n";
+        foreach ($output as $key => $block) {
+                if (!empty($block)) {
+                        echo "\n";
+                        echo '<script type="application/ld+json">'; 
+                        echo "\n";       
+                        echo html_entity_decode(esc_html($block));       
+                        echo "\n";
+                        echo '</script>';
+                        echo "\n\n";
+                }
+        }
+        
+	
 }
 
 add_filter('the_content', 'saswp_paywall_data_for_login');
