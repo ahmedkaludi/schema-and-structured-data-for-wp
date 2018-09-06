@@ -58,12 +58,15 @@ function saswp_data_generator() {
     echo '<!-- Schema And Structured Data For WP v'.SASWP_VERSION.' - -->';
 
     // create a seperate <script> block for each structured data ld+json output
-    foreach ($output as $key => $block) {
+    foreach ($output as $block) {
+        $stroutput = '['. $block. ']';
+        $filter_string = str_replace(',]', ']',$stroutput);
+
         if (!empty($block)) {
             echo "\n";
             echo '<script type="application/ld+json">';
             echo "\n";
-            echo html_entity_decode(esc_html($block));
+            echo html_entity_decode(esc_html($filter_string));
             echo "\n";
             echo '</script>';
             echo "\n\n";
