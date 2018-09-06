@@ -192,16 +192,16 @@ function saswp_schema_output() {
             $width = $sd_data['sd_default_image_width'];
         }
     if(is_singular()){
-        // Generate author id
-               $author_id = get_the_author_meta('ID');
+            // Generate author id
+            $author_id = get_the_author_meta('ID');
 
-        // Blogposting Schema
-            $image_id 		= get_post_thumbnail_id();
-            $image_details 	= wp_get_attachment_image_src($image_id, 'full');
-            $author_details	= get_avatar_data($author_id);
-            $date 			= get_the_date();
-            $modified_date 	= get_the_modified_date();
-            $aurthor_name 	= get_the_author();
+            // Blogposting Schema
+            $image_id        = get_post_thumbnail_id();
+            $image_details   = wp_get_attachment_image_src($image_id, 'full');
+            $author_details  = get_avatar_data($author_id);
+            $date            = get_the_date("Y-m-d\TH:i:s\Z");
+            $modified_date   = get_the_modified_date("Y-m-d\TH:i:s\Z");
+            $author_name     = get_the_author();
 
             if(is_page()){
                 $schema_type = $schema_type; //$sd_data['sd_page_type'];
@@ -213,28 +213,28 @@ function saswp_schema_output() {
                 $schema_type = $schema_type; // $sd_data['sd_page_type'];
             }
             $input1 = array(
-            '@context'			=> 'http://schema.org',
-            '@type'				=> $schema_type ,
-
-            'mainEntityOfPage'              => get_permalink(),
-            'headline'			=> get_the_title(),
-            'description'                   => get_the_excerpt(),
-            'name'				=> get_the_title(),
-            'url'				=> get_permalink(),
-            'datePublished'                 => $date,
-            'dateModified'                  => $modified_date,
-            'author'			=> array(
-                    '@type' 	=> 'Person',
-                    'name'		=> $aurthor_name, ),
-            'Publisher'			=> array(
-                '@type'			=> 'Organization',
-                'logo' 			=> array(
-                    '@type'		=> 'ImageObject',
-                    'url'		=> $logo,
-                    'width'		=> $width,
-                    'height'	=> $height,
+                '@context'          => 'http://schema.org',
+                '@type'             => $schema_type,
+                'mainEntityOfPage'  => get_permalink(),
+                'headline'          => get_the_title(),
+                'description'       => get_the_excerpt(),
+                'name'              => get_the_title(),
+                'url'               => get_permalink(),
+                'datePublished'     => $date,
+                'dateModified'      => $modified_date,
+                'author'            => array(
+                    '@type' => 'Person',
+                    'name'  => $author_name,
+                ),
+                'Publisher'         => array(
+                    '@type'         => 'Organization',
+                    'name'          => $sd_data['sd_name'],
+                    'logo'          => array(
+                        '@type'         => 'ImageObject',
+                        'url'           => $logo,
+                        'width'         => $width,
+                        'height'        => $height,
                     ),
-                'name'			=> $sd_data['sd_name'],
                 ),
             );
             // For WebPage
@@ -259,7 +259,7 @@ function saswp_schema_output() {
                         'dateModified'		=> $modified_date,
                         'author'			=> array(
                                 '@type' 	=> 'Person',
-                                'name'		=> $aurthor_name, ),
+                                'name'		=> $author_name, ),
                         'Publisher'			=> array(
                             '@type'			=> 'Organization',
                             'logo' 			=> array(
@@ -290,7 +290,7 @@ function saswp_schema_output() {
                     'dateModified'                  => $modified_date,
                     'author'			=> array(
                             '@type' 	=> 'Person',
-                            'name'		=> $aurthor_name, ),
+                            'name'		=> $author_name, ),
                     'Publisher'			=> array(
                         '@type'			=> 'Organization',
                         'logo' 			=> array(
@@ -304,7 +304,7 @@ function saswp_schema_output() {
                 );
             }
 
-        // Recipe
+            // Recipe
             if( 'Recipe' === $schema_type){
                 if(empty($image_details[0]) || $image_details[0] === NULL ){
                     $image_details[0] = $sd_data['sd_logo']['url'];
@@ -322,7 +322,7 @@ function saswp_schema_output() {
                         '@id'				=> get_permalink(),
                         'author'			=> array(
                                 '@type' 	=> 'Person',
-                                'name'		=> $aurthor_name,
+                                'name'		=> $author_name,
                                 'Image'		=> array(
                                     '@type'			=> 'ImageObject',
                                     'url'			=> $author_details['url'],
@@ -392,7 +392,7 @@ function saswp_schema_output() {
                         ),
                     'author'			=> array(
                             '@type' 			=> 'Person',
-                            'name'				=> $aurthor_name,
+                            'name'				=> $author_name,
                             'Image'				=> array(
                             '@type'				=> 'ImageObject',
                             'url'				=> $author_details['url'],
@@ -431,7 +431,7 @@ function saswp_schema_output() {
                                 ),
                         'author'			=> array(
                                 '@type' 			=> 'Person',
-                                'name'				=> $aurthor_name,
+                                'name'				=> $author_name,
                                 'Image'				=> array(
                                 '@type'				=> 'ImageObject',
                                 'url'				=> $author_details['url'],
