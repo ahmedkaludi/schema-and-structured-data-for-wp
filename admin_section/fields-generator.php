@@ -1,105 +1,105 @@
 <?php
 /*
-  Metabox to show ads type such as custom and adsense 
+  Metabox to show ads type such as custom and adsense
  */
 class saswp_fields_generator {
-					
-	public function saswp_field_generator( $meta_fields, $settings ) {            
-		$output = '';
-		foreach ( $meta_fields as $meta_field ) {
-                    
+
+    public function saswp_field_generator( $meta_fields, $settings ) {
+        $output = '';
+        foreach ( $meta_fields as $meta_field ) {
+
                         $class = "";
                         $note = "";
                         $hidden = array();
                         if(array_key_exists('class', $meta_field)){
-                        $class = $meta_field['class'];    
+                        $class = $meta_field['class'];
                         }
                         if(array_key_exists('note', $meta_field)){
-                        $note = $meta_field['note'];     
+                        $note = $meta_field['note'];
                         }
                         if(array_key_exists('hidden', $meta_field)){
-                        $hidden = $meta_field['hidden'];     
+                        $hidden = $meta_field['hidden'];
                         }
-			$label = '<label for="' . esc_attr($meta_field['id']) . '">' . esc_html__( $meta_field['label'], 'schema-and-structured-data-for-wp' ) . '</label>';			
-			
-			switch ( $meta_field['type'] ) {
-				case 'media':
-                                        $mediavalue = $settings[$meta_field['id']];                                          
-					$input = sprintf(
-						'<fieldset><input class="%s" style="width: 80%%" id="%s" name="%s" type="text" value="%s"> <input data-id="media" style="width: 19%%" class="button" id="%s_button" name="%s_button" type="button" value="Upload" />'
+            $label = '<label for="' . esc_attr($meta_field['id']) . '">' . esc_html__( $meta_field['label'], 'schema-and-structured-data-for-wp' ) . '</label>';
+
+            switch ( $meta_field['type'] ) {
+                case 'media':
+                                        $mediavalue = $settings[$meta_field['id']];
+                    $input = sprintf(
+                        '<fieldset><input class="%s" style="width: 80%%" id="%s" name="%s" type="text" value="%s"> <input data-id="media" style="width: 19%%" class="button" id="%s_button" name="%s_button" type="button" value="Upload" />'
                                                 . '<input type="hidden" data-id="'.esc_attr($meta_field['id']).'_id" class="upload-id " name="sd_data['.esc_attr($meta_field['id']).'][id]" id="sd_data['.esc_attr($meta_field['id']).'][id]" value="'.esc_attr($mediavalue['id']).'">'
                                                 . '<input type="hidden" data-id="'.esc_attr($meta_field['id']).'_height" class="upload-height" name="sd_data['.esc_attr($meta_field['id']).'][height]" id="sd_data['.esc_attr($meta_field['id']).'][height]" value="'.esc_attr($mediavalue['height']).'">'
                                                 . '<input type="hidden" data-id="'.esc_attr($meta_field['id']).'_width" class="upload-width" name="sd_data['.esc_attr($meta_field['id']).'][width]" id="sd_data['.esc_attr($meta_field['id']).'][width]" value="'.esc_attr($mediavalue['width']).'">'
                                                 . '<input type="hidden" data-id="'.esc_attr($meta_field['id']).'_thumbnail" class="upload-thumbnail" name="sd_data['.esc_attr($meta_field['id']).'][thumbnail]" id="sd_data['.esc_attr($meta_field['id']).'][thumbnail]" value="'.esc_attr($mediavalue['thumbnail']).'">'
                                                 . '</fieldset>',
                                                 $class,
-						esc_attr($meta_field['id']),
-						esc_attr($meta_field['name']),
-                                                esc_url($mediavalue['url']),
-						esc_attr($meta_field['id']),
-						esc_attr($meta_field['id'])                                                
-					);
-					break;
-				case 'checkbox':
+                        esc_attr($meta_field['id']),
+                        esc_attr($meta_field['name']),
+                        esc_url($mediavalue['url']),
+                        esc_attr($meta_field['id']),
+                        esc_attr($meta_field['id'])
+                    );
+                    break;
+                case 'checkbox':
                                         $hiddenvalue ="";
                                         if(array_key_exists('id', $hidden)){
-                                         $hiddenvalue = $settings[$hidden['id']];                                    
+                                         $hiddenvalue = $settings[$hidden['id']];
                                         }
                                         $hiddenfield="";
-                                        if(!empty($hidden)){                                             
+                                        if(!empty($hidden)){
                                           $hiddenfield = sprintf(
-						'<input id="%s" name="%s" type="hidden" value="%s">',                                                						
-						esc_attr($hidden['id']),
-						esc_attr($hidden['name']),					
-						esc_attr($hiddenvalue)
-					 );   
-                                         }
-                                         
-					$input = sprintf(
-						'<input class="%s" id="%s" name="%s" type="checkbox" %s>',
+                        '<input id="%s" name="%s" type="hidden" value="%s">',
+                        esc_attr($hidden['id']),
+                        esc_attr($hidden['name']),
+                        esc_attr($hiddenvalue)
+                     );
+                    }
+
+                    $input = sprintf(
+                        '<input class="%s" id="%s" name="%s" type="checkbox" %s>',
                                                 esc_attr($class),
-                                                esc_attr($meta_field['id']),    
-						esc_attr($meta_field['name']),                                              
+                                                esc_attr($meta_field['id']),
+                        esc_attr($meta_field['name']),
                                                 $hiddenvalue == 1 ? 'checked' : ''
-						);
-                                           
+                        );
+
                                          $input .=$hiddenfield;
-					break;
-                                    
-				case 'select':
-					$input = sprintf(
-						'<select class="%s" id="%s" name="%s">',
+                    break;
+
+                case 'select':
+                    $input = sprintf(
+                        '<select class="%s" id="%s" name="%s">',
                                                 $class,
-						esc_attr($meta_field['id']),
-						esc_attr($meta_field['name'])
-					);                                    
-					foreach ( $meta_field['options'] as $key => $value ) {	                                            
-						$input .= sprintf(
-							'<option %s value="%s">%s</option>',
-							$settings[$meta_field['id']] == $key ? 'selected' : '',                                                        
-							$key,
-							esc_html__( $value, 'schema-and-structured-data-for-wp' )
-						);
-					}
-					$input .= '</select>';
-					break;                                
-				default:
-					
-					$input = sprintf(
-						'<input class="%s" %s id="%s" name="%s" type="%s" value="%s">',
+                        esc_attr($meta_field['id']),
+                        esc_attr($meta_field['name'])
+                    );
+                    foreach ( $meta_field['options'] as $key => $value ) {
+                        $input .= sprintf(
+                            '<option %s value="%s">%s</option>',
+                            $settings[$meta_field['id']] == $key ? 'selected' : '',
+                            $key,
+                            esc_html__( $value, 'schema-and-structured-data-for-wp' )
+                        );
+                    }
+                    $input .= '</select>';
+                    break;
+                default:
+
+                    $input = sprintf(
+                        '<input class="%s" %s id="%s" name="%s" type="%s" value="%s">',
                                                 $class,
-						$meta_field['type'] !== 'color' ? 'style="width: 100%"' : '',
-						esc_attr($meta_field['id']),
-						esc_attr($meta_field['name']),
-						esc_attr($meta_field['type']),
-						esc_attr($settings[$meta_field['id']])
-					);	
-									
-			}
-                        
-                        $allowed_html = saswp_expanded_allowed_tags();
-			$output .= '<li><div style="width:200px;float:left;clear: both;">'.$label.'</div><div style="width:75%; float:right;">'.$input.'<p>'.esc_html__($note,'schema-and-structured-data-for-wp').'</p></div></li>';
-		}
-		echo '<div style="width:85%;"><div class="saswp-settings-list"><ul>' . wp_kses($output, $allowed_html) . '</ul></div></div>';
-	}	        
+                        $meta_field['type'] !== 'color' ? 'style="width: 100%"' : '',
+                        esc_attr($meta_field['id']),
+                        esc_attr($meta_field['name']),
+                        esc_attr($meta_field['type']),
+                        esc_attr($settings[$meta_field['id']])
+                    );
+
+            }
+
+            $allowed_html = saswp_expanded_allowed_tags();
+            $output .= '<li><div style="width:200px;float:left;clear: both;">'.$label.'</div><div style="width:75%; float:right;">'.$input.'<p>'.esc_html__($note,'schema-and-structured-data-for-wp').'</p></div></li>';
+        }
+        echo '<div style="width:85%;"><div class="saswp-settings-list"><ul>' . wp_kses($output, $allowed_html) . '</ul></div></div>';
+    }
 }
