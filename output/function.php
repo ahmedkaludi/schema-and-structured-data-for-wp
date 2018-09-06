@@ -50,7 +50,7 @@ function saswp_data_generator() {
                 array_push($output, $schema_output);
             }
             if(!empty($kb_schema_output)) {
-                array_push($output, $schema_output);
+                array_push($output, $kb_schema_output);
             }
     }
 

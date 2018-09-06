@@ -213,8 +213,6 @@ function saswp_schema_output() {
                 $schema_type = $schema_type; // $sd_data['sd_page_type'];
             }
 
-            // echo $schema_type;
-
             // defaults..
             $input1 = array(
                 '@context'          => 'http://schema.org',
