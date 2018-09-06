@@ -159,7 +159,7 @@ function saswp_kb_schema_output() {
             );
     }
 
-    return json_encode($input);
+    return json_encode($input, JSON_PRETTY_PRINT);
 
 }
 
@@ -192,7 +192,7 @@ function saswp_schema_output() {
             $width = $sd_data['sd_default_image_width'];
         }
     if(is_singular()){
-            // Generate author id
+           // Generate author id
             $author_id = get_the_author_meta('ID');
 
             // Blogposting Schema
@@ -212,6 +212,10 @@ function saswp_schema_output() {
             if(is_front_page()){
                 $schema_type = $schema_type; // $sd_data['sd_page_type'];
             }
+
+            // echo $schema_type;
+
+            // defaults..
             $input1 = array(
                 '@context'          => 'http://schema.org',
                 '@type'             => $schema_type,
@@ -237,6 +241,7 @@ function saswp_schema_output() {
                     ),
                 ),
             );
+
             // For WebPage
             if( 'WebPage' === $schema_type){
                 if(empty($image_details[0]) || $image_details[0] === NULL ){
@@ -374,7 +379,7 @@ function saswp_schema_output() {
                 }
 
                 if( 'NewsArticle' === $schema_type ){
-                        $input1 = array(
+                    $input1 = array(
                     '@context'			=> 'http://schema.org',
                     '@type'				=> $schema_type ,
                     '@type'				=> $schema_type,
@@ -387,9 +392,9 @@ function saswp_schema_output() {
                     'name'				=> get_the_title(),
                     'thumbnailUrl'                  => $image_details[0],
                     'mainEntity'                    => array(
-                                                                            '@type' => 'WebPage',
-                                                                            '@id'   => get_permalink(),
-                        ),
+                        '@type' => 'WebPage',
+                        '@id'   => get_permalink(),
+                    ),
                     'author'			=> array(
                             '@type' 			=> 'Person',
                             'name'				=> $author_name,
@@ -502,7 +507,7 @@ function saswp_schema_output() {
                 $input = array_merge($input,$paywallData);
             }
         }
-        return json_encode($input);
+        return json_encode($input, JSON_PRETTY_PRINT);
     }
 
 }
@@ -602,7 +607,7 @@ function saswp_schema_breadcrumb_output($sd_data){
                     'itemListElement'	        =>saswp_list_items_generator(),
             );
         if ( !is_front_page() ) {
-            return json_encode($input);
+            return json_encode($input, JSON_PRETTY_PRINT);
          }
     }
 }
@@ -627,7 +632,7 @@ function saswp_kb_website_output(){
                  )
             );
 
-    return json_encode($input);
+    return json_encode($input, JSON_PRETTY_PRINT);
 }
 // For Archive
 function saswp_archive_output(){
@@ -684,7 +689,7 @@ function saswp_archive_output(){
                 'sameAs' 		=> '',
                 'hasPart' 		=> $category_posts
                );
-                return json_encode($input);
+                return json_encode($input, JSON_PRETTY_PRINT);
     endif;
     }
     }
@@ -734,7 +739,7 @@ function saswp_author_output()
         if ( get_the_author_meta( 'description', $post_author->ID ) ) {
             $input['description'] = strip_tags( get_the_author_meta( 'description', $post_author->ID ) );
         }
-        return json_encode($input);
+        return json_encode($input, JSON_PRETTY_PRINT);
     }
  }
 }
@@ -795,7 +800,7 @@ function saswp_about_page_output()
                 'description'		=> get_the_excerpt(),
             );
 
-            return json_encode($input);
+            return json_encode($input, JSON_PRETTY_PRINT);
     }
 
 }
@@ -856,7 +861,7 @@ function saswp_contact_page_output()
                 'description'	    => get_the_excerpt(),
             );
 
-            return json_encode($input);
+            return json_encode($input, JSON_PRETTY_PRINT);
 
     }
 
