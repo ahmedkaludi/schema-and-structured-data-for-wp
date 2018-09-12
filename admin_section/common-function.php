@@ -110,31 +110,61 @@ add_action('plugins_loaded', 'saswp_defaultSettings' );
 function saswp_defaultSettings(){
             global $sd_data;    
             $sd_name = 'default';
-            $bloginfo = get_bloginfo( $show = '', $filter = 'raw' ); 
+            $bloginfo = get_bloginfo('name', 'display'); 
             if($bloginfo){
             $sd_name =$bloginfo;
             }            
             $current_url = get_home_url();           
             $custom_logo_id = get_theme_mod( 'custom_logo' );
-            $logo = wp_get_attachment_image_src( $custom_logo_id , 'full' );                            
-            $defaults = array(                    
-                    'saswp-for-amp'  => 1, 
-                    'saswp-for-wordpress'=>1,                                        
-                    'saswp_kb_type' => 'Organization',    
-                    'saswp_kb_contact_1' => 0,                    
-                    'sd_name' => $sd_name,   
-                    'sd_alt_name' => $sd_name,                                       
-                    'sd-person-name' => $sd_name,                    
-                    'sd-person-url' => $current_url,                                                          
-                    'saswp-logo-width' => '60',
-                    'saswp-logo-height' => '60',
-                    'sd_logo' => array(
-                        'url'=>$logo[0],
-                        'id'=>$custom_logo_id,
-                        'height'=>$logo[2],
-                        'width'=>$logo[1],
-                        'thumbnail'=>$logo[0]        
-                    ),
+            $logo = wp_get_attachment_image_src( $custom_logo_id , 'full' );
+
+            $user_id = get_current_user_id();
+            $username = '';
+            if($user_id>0){
+                $user_info = get_userdata($user_id);
+                $username = $user_info->data->display_name;
+            }
+            $defaults = array(
+                    //General Block
+                    'sd_about_page'     => '',
+                    'sd_contact_page'   => '',         
+                    //knowledge Block
+                    'saswp_kb_type'     => 'Organization',    
+                    'sd_name'           => $sd_name,   
+                    'sd_alt_name'       => $sd_name,
+                    'sd_url'            => $current_url,
+                    'sd_logo'           => array(
+                                'url'           =>$logo[0],
+                                'id'            =>$custom_logo_id,
+                                'height'        =>$logo[2],
+                                'width'         =>$logo[1],
+                                'thumbnail'     =>$logo[0]        
+                            ),
+                    'sd-person-name'    => $username,                    
+                    'sd-person-job-title'=> '',
+                    'sd-person-url'     => $current_url,
+                    'sd-person-image'   => array(
+                                'url'           =>'',
+                                'id'            =>'',
+                                'height'        =>'',
+                                'width'         =>'',
+                                'thumbnail'     =>'' ),
+                    'sd-person-phone-number'=> '',
+                    'saswp_kb_telephone'=> '',
+                    'saswp_contact_type'=> '',
+                    'saswp_kb_contact_1'=> 0,
+                    //Social
+                    'sd_facebook'=> '',
+                    'sd_twitter'=> '',
+                    'sd_google_plus'=> '',
+                    'sd_instagram'=> '',
+                    'sd_youtube'=> '',
+                    'sd_linkedin'=> '',
+                    'sd_pinterest'=> '',
+                    'sd_soundcloud'=> '',
+                    'sd_tumblr'=> '',
+
+
                     'sd-data-logo-ampforwp' => array(
                         'url'=>$logo[0],
                         'id'=>$custom_logo_id,
@@ -142,6 +172,13 @@ function saswp_defaultSettings(){
                         'width'=>$logo[1],
                         'thumbnail'=>$logo[0]        
                     ),
+
+                    //AMP Block           
+                    'saswp-for-amp'  => 1, 
+                    'saswp-for-wordpress'=>1,      
+                    'saswp-logo-width' => '60',
+                    'saswp-logo-height' => '60',
+                    
                     'sd_default_image' => array(
                         'url'=>$logo[0],
                         'id'=>$custom_logo_id,
@@ -150,7 +187,9 @@ function saswp_defaultSettings(){
                         'thumbnail'=>$logo[0]        
                     ),
                     'sd_default_image_width' =>$logo[1],
-                    'sd_default_image_height' =>$logo[2]
+                    'sd_default_image_height' =>$logo[2],
+                    
+                    
 
             );	
             $sd_data = $settings = get_option( 'sd_data', $defaults);                     
