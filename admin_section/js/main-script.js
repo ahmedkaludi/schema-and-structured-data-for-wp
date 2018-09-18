@@ -221,4 +221,27 @@ jQuery(document).ready(function($){
 		.open();
 	});
         //Settings page jquery ends here
+
+
+      $("#finalized-import-structure-data-from-amp").click(function(){
+      var self = $(this);
+        $.ajax({
+          url : ajaxurl,
+          method : "POST",
+          data: { 
+            action: "ampforwp_import_structure_data",
+            from: 'ampforwp_basic_settings'
+          },
+          datatype: 'json',
+          success: function(data){ 
+              if(data.status==200){
+                self.text("Migration completed please wait...");
+                location.reload(); 
+              }else{
+                alert(data.message)
+              }
+          }
+        });
+  });
+      
 });

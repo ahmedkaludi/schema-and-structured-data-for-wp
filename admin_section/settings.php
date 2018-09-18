@@ -4,6 +4,13 @@
  * Function saswp_add_menu_links
  *
  */
+add_action( 'plugin_action_links_' . plugin_basename( SASWP_DIR_NAME_FILE ), 'saswp_plugin_action_links' );
+function saswp_plugin_action_links( $links ) {
+	$links[] = '<a href="' . esc_url( admin_url( 'edit.php?post_type=saswp&page=structured_data_options' ) ) . '">' . esc_html__( 'Settings', 'schema-and-structured-data-for-wp' ) . '</a>';
+	$links[] = '<a href="'.  esc_url( admin_url( 'plugins.php?page=saswp-setup-wizard' ) ).'">' . esc_html__( 'Start setup wizard &raquo;', 'schema-and-structured-data-for-wp' ) . '</a>';
+  	return $links;
+}
+
 function saswp_add_menu_links() {				
 	// Settings page - Same as main menu page
 	add_submenu_page( 'edit.php?post_type=saswp', esc_html__( 'Schema And Structured Data For Wp', 'schema-and-structured-data-for-wp' ), esc_html__( 'Settings', 'schema-and-structured-data-for-wp' ), 'manage_options', 'structured_data_options', 'saswp_admin_interface_render' );	
@@ -33,7 +40,8 @@ function saswp_admin_interface_render(){
 	
 	?>
 	<div class="wrap saswp-settings-form">	
-		<h1> <?php echo esc_html__( 'Schema And Structured Data For WP', 'schema-and-structured-data-for-wp' ); ?></h1>
+		<h1 class="wp-heading-inline"> <?php echo esc_html__( 'Schema And Structured Data For WP', 'schema-and-structured-data-for-wp' ); ?></h1>
+		<a href="<?php echo esc_url( admin_url( 'edit.php?post_type=saswp' ) ); ?>" class="page-title-action"><?php echo esc_html__( 'Data type', 'schema-and-structured-data-for-wp' ); ?></a>
 		<h2 class="nav-tab-wrapper saswp-tabs">
 			<?php			
 
@@ -344,7 +352,7 @@ function saswp_knowledge_page_callback(){
                     ),
 		
                 array(
-			'label' => 'Data Name',
+			'label' => 'Name',
 			'id' => 'sd_name',
                         'name' => 'sd_data[sd_name]',
                         'class' => 'regular-text',                        
@@ -358,7 +366,7 @@ function saswp_knowledge_page_callback(){
 			'type' => 'text',
 		),
                 array(
-			'label' => 'Data url',
+			'label' => 'Url',
 			'id' => 'sd_url',
                         'name' => 'sd_data[sd_url]',
                         'class' => 'regular-text',                        

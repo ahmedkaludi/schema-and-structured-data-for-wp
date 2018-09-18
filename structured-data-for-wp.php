@@ -14,7 +14,9 @@ License: GPL2
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 define('SASWP_VERSION', '1.0.1');
+define('SASWP_DIR_NAME_FILE', __FILE__ );
 define('SASWP_DIR_NAME', dirname( __FILE__ ));
+define('SASWP_DIR_URI', plugin_dir_url(__FILE__));
 
 if ( ! defined( 'SASWP_VERSION' ) ) {
   define( 'SASWP_VERSION', '1.0.1' );
@@ -46,5 +48,7 @@ require_once SASWP_DIR_NAME.'/admin_section/settings.php';
 require_once SASWP_DIR_NAME.'/admin_section/common-function.php';
 require_once SASWP_DIR_NAME.'/admin_section/fields-generator.php';  
 require_once SASWP_DIR_NAME.'/admin_section/newsletter.php';  
+require_once SASWP_DIR_NAME.'/admin_section/plugin-installer/install.php';  
 //Loading Metaboxes
 require SASWP_DIR_NAME.'/metaboxes/help.php';  
+require SASWP_DIR_NAME.'/admin_section/add-schema/add_new.php';  

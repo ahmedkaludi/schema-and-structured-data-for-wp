@@ -309,8 +309,8 @@ if(is_admin()){
             'labels' => array(
             'name'              => esc_html__( 'Structured Data', 'schema-and-structured-data-for-wp' ),
             'singular_name'     => esc_html__( 'Structured Data', 'schema-and-structured-data-for-wp' ),
-            'add_new' 		      => esc_html__( 'Add New', 'schema-and-structured-data-for-wp' ),
-	    'add_new_item'  	  => esc_html__( 'Add New', 'schema-and-structured-data-for-wp' ),
+            'add_new' 		      => esc_html__( 'Add Data Type', 'schema-and-structured-data-for-wp' ),
+	           'add_new_item'  	  => esc_html__( '', 'schema-and-structured-data-for-wp' ),
             'edit_item'         => esc_html__( 'Edit Structured Data','schema-and-structured-data-for-wp')
         ),
           'public'                => true,
@@ -371,7 +371,7 @@ if(is_admin()){
 
       $comparison = array(
         'equal'   =>  esc_html__( 'Equal to', 'schema-and-structured-data-for-wp'), 
-        'not_equal' =>  esc_html__( 'Not Equal to', 'schema-and-structured-data-for-wp'),     
+        'not_equal' =>  esc_html__( 'Not Equal to (Exclude)', 'schema-and-structured-data-for-wp'),     
       );
 
       $total_fields = count( $data_array ); ?>
@@ -426,7 +426,7 @@ if(is_admin()){
             </td>
 
             <td class="widefat structured-clone" style="width:3.5%">
-            <span> <button type="button"> <?php echo esc_html__('Add' ,'schema-and-structured-data-for-wp');?> </button> </span> </td>
+            <span> <button type="button"> <?php echo esc_html__('And' ,'schema-and-structured-data-for-wp');?> </button> </span> </td>
             
             <td class="widefat structured-delete" style="width:3.5%">
             <span> <button  type="button"> <?php echo esc_html__( 'Remove' ,'schema-and-structured-data-for-wp');?> </button> </span> </td>         

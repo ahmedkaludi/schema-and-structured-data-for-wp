@@ -37,6 +37,7 @@ function saswp_ajax_select_creator($data = '', $saved_data= '', $current_number 
             $choices = saswp_post_type_generator();
             
             $choices = apply_filters('saswp_modify_select_post_type', $choices );           
+            unset($choices['saswp']);
             break;
 
           case "page":
@@ -106,7 +107,7 @@ function saswp_ajax_select_creator($data = '', $saved_data= '', $current_number 
 
             $post_types = get_post_types();
 
-            unset( $post_types['page'], $post_types['attachment'], $post_types['revision'] , $post_types['nav_menu_item'], $post_types['acf'] , $post_types['amp_acf']  );
+            unset( $post_types['page'], $post_types['attachment'], $post_types['revision'] , $post_types['nav_menu_item'], $post_types['acf'] , $post_types['amp_acf'],$post_types['saswp']  );
 
             if( $post_types )
             {
