@@ -408,6 +408,7 @@ function saswp_defaultSettings(){
                     ),
                     'sd_default_image_width' =>$logo[1],
                     'sd_default_image_height' =>$logo[2],
+                    'sd_initial_wizard_status' =>1,
                     
                     
 

@@ -875,3 +875,16 @@ function saswp_import_plugin_data(){
 
 add_action('wp_ajax_saswp_import_plugin_data', 'saswp_import_plugin_data');
 
+
+function saswp_feeback_no_thanks(){                         
+        $result = update_option( "saswp_activation_date", date("Y-m-d"));        
+        if($result){
+        echo json_encode(array('status'=>'t'));            
+        }else{
+        echo json_encode(array('status'=>'f'));            
+        }        
+        wp_die();           
+}
+
+add_action('wp_ajax_saswp_feeback_no_thanks', 'saswp_feeback_no_thanks');
+

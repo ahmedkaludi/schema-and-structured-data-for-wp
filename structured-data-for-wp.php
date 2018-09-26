@@ -13,13 +13,13 @@ License: GPL2
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-define('SASWP_VERSION', '1.0.1');
+define('SASWP_VERSION', '1.0.2');
 define('SASWP_DIR_NAME_FILE', __FILE__ );
 define('SASWP_DIR_NAME', dirname( __FILE__ ));
 define('SASWP_DIR_URI', plugin_dir_url(__FILE__));
 
 if ( ! defined( 'SASWP_VERSION' ) ) {
-  define( 'SASWP_VERSION', '1.0.1' );
+  define( 'SASWP_VERSION', '1.0.2' );
 }
 // the name of the settings page for the license input to be displayed
 if(! defined('SASWP_ITEM_FOLDER_NAME')){
@@ -62,6 +62,7 @@ require_once SASWP_DIR_NAME.'/admin_section/add-schema/add_new.php';
 register_activation_hook( __FILE__, 'saswp_admin_notice_activation_hook' );
 function saswp_admin_notice_activation_hook() {
     set_transient( 'saswp_admin_notice_transient', true, 5 );
+    update_option( "saswp_activation_date", date("Y-m-d"));
 }
 add_action( 'admin_notices', 'saswp_admin_notice' );
 
@@ -70,6 +71,12 @@ function saswp_admin_notice(){
     <div class="updated notice is-dismissible message update-message notice notice-alt saswp-setup-notice saswp_hide">
             <p><?php echo esc_html__('Thank you for using Schema & Structured Data For WP plugin!', 'schema-and-structured-data-for-wp') ?>
                 <a href="<?php echo esc_url( admin_url( 'plugins.php?page=saswp-setup-wizard' ) ); ?>"> <?php echo esc_html__('Start Quick Setup', 'schema-and-structured-data-for-wp') ?></a>
+            </p>
+        </div>
+     
+        <div class="updated notice is-dismissible message update-message notice notice-alt saswp-feedback-notice saswp_hide">
+            <p><?php echo esc_html__('You have been using the Schema & structured data for wp plugin for some time now, do you like it?, If so,', 'schema-and-structured-data-for-wp') ?>
+                <a target="_blank" href="https://wordpress.org/plugins/schema-and-structured-data-for-wp"> <?php echo esc_html__('please write us a review', 'schema-and-structured-data-for-wp') ?></a>&nbsp;&nbsp;&nbsp;&nbsp;<a  class="saswp-feedback-no-thanks button button-primary"><?php echo esc_html__('No Thanks', 'schema-and-structured-data-for-wp') ?></a>
             </p>
         </div>
     <?php
@@ -98,5 +105,21 @@ function saswp_admin_notice(){
         </script>                
     <?php
      }
+     
+     //Feedback notice
+    $activation_date =  get_option("saswp_activation_date");  
+    $next_days = strtotime("+30 day", strtotime($activation_date));
+    $next_days = date('Y-m-d', $next_days);   
+    $current_date = date("Y-m-d");
+    
+    if($next_days < $current_date){
+      ?>
+         <script type="text/javascript">  
+             jQuery(document).ready( function($) {
+                 $(".saswp-feedback-notice").show();                
+             });
+        </script> 
+        <?php
+    }
     
 }

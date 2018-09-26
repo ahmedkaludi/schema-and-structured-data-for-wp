@@ -8,7 +8,7 @@ class saswp_fields_generator {
         $tooltip_message='';
         switch ($meta_field_id) {
             case 'saswp_kb_type':
-               // $tooltip_message = esc_html__('ss','schema-and-structured-data-for-wp');
+               $tooltip_message = esc_html__('ss','schema-and-structured-data-for-wp');
                 break;
 
             default:

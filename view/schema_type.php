@@ -37,6 +37,8 @@
                 $business_name    = esc_sql ( get_post_meta($post->ID, 'saswp_business_name', true)  ); 
                 $business_details = esc_sql ( get_post_meta($post->ID, 'saswp_local_business_details', true)  ); 
                 
+                $custom_logo_id = get_theme_mod( 'custom_logo' );
+                $logo = wp_get_attachment_image_src( $custom_logo_id , 'full' );
                 
                 if($schema_type != 'local_business'){
                  $style_business_type = 'style="display:none"';
@@ -480,10 +482,10 @@
                         <tr class="saswp-business-text-field-tr" <?php echo $style_business_type; ?>>
                             <td><?php echo esc_html__('Logo', 'schema-and-structured-data-for-wp' ); ?></td>
                             <td style="display: flex;">
-                                <input value="<?php if(isset($business_details['local_business_logo'])) { echo $business_details['local_business_logo']['url'];} ?>" id="local_business_logo" type="text" name="local_business_logo[url]" placeholder="<?php echo esc_html__('Logo', 'schema-and-structured-data-for-wp' ); ?>" readonly="readonly" style="background: #FFF;">
-                                <input value="<?php if(isset($business_details['local_business_logo'])) { echo $business_details['local_business_logo']['id'];} ?>" data-id="local_business_logo_id" type="hidden" name="local_business_logo[id]">
-                                <input value="<?php if(isset($business_details['local_business_logo'])) { echo $business_details['local_business_logo']['width'];} ?>" data-id="local_business_logo_width" type="hidden" name="local_business_logo[width]">
-                                <input value="<?php if(isset($business_details['local_business_logo'])) { echo $business_details['local_business_logo']['height'];} ?>" data-id="local_business_logo_height" type="hidden" name="local_business_logo[height]">
+                                <input value="<?php if(isset($business_details['local_business_logo'])) { echo $business_details['local_business_logo']['url'];} else { echo $logo[0]; } ?>" id="local_business_logo" type="text" name="local_business_logo[url]" placeholder="<?php echo esc_html__('Logo', 'schema-and-structured-data-for-wp' ); ?>" readonly="readonly" style="background: #FFF;">
+                                <input value="<?php if(isset($business_details['local_business_logo'])) { echo $business_details['local_business_logo']['id'];} else { echo $custom_logo_id; }?>" data-id="local_business_logo_id" type="hidden" name="local_business_logo[id]">
+                                <input value="<?php if(isset($business_details['local_business_logo'])) { echo $business_details['local_business_logo']['width'];} else { echo $logo[1]; } ?>" data-id="local_business_logo_width" type="hidden" name="local_business_logo[width]">
+                                <input value="<?php if(isset($business_details['local_business_logo'])) { echo $business_details['local_business_logo']['height'];} else { echo $logo[2]; } ?>" data-id="local_business_logo_height" type="hidden" name="local_business_logo[height]">
                                 <input data-id="media" class="button" id="local_business_logo_button" type="button" value="Upload"></td>
                         </tr>
                         <tr class="saswp-business-text-field-tr" <?php echo $style_business_type; ?>>

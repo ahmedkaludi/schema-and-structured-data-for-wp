@@ -38,6 +38,7 @@ function saswp_admin_interface_render(){
         }
 	
 	?>
+<div class="saswp-settings-container">
 	<div class="wrap saswp-settings-form">	
 		<h1 class="wp-heading-inline"> <?php echo esc_html__( 'Schema & Structured Data For WP', 'schema-and-structured-data-for-wp' ); ?> <a href="<?php echo esc_url( admin_url( 'edit.php?post_type=saswp' ) ); ?>" class="page-title-action"><?php echo esc_html__( 'Schema Types', 'schema-and-structured-data-for-wp' ); ?></a></h1>		
                 <div style="display: inline-flex;">
@@ -62,7 +63,7 @@ function saswp_admin_interface_render(){
 		</h2><a href="<?php echo esc_url( admin_url( 'plugins.php?page=saswp-setup-wizard' ) ); ?>" style="top:9px; margin-bottom: 9px;" class="page-title-action saswp-start-quck-setup"><?php echo esc_html('Start Quick Setup', 'schema-and-structured-data-for-wp'); ?></a>
                 </div>
                 <form action="options.php" method="post" enctype="multipart/form-data" class="saswp-settings-form">		
-			<div class="form-wrap">
+			<div class="form-wrap saswp-settings-form-wrap">
 			<?php
 			// Output nonce, action, and option_page fields for a settings page.
 			settings_fields( 'sd_data_group' );												
@@ -106,8 +107,33 @@ function saswp_admin_interface_render(){
                                 submit_button( esc_html__('Save Settings', 'schema-and-structured-data-for-wp') );
 				?>
 			</div>
+                    <input type="hidden" name="sd_data[sd_initial_wizard_status]" value="1">
 		</form>
 	</div>
+    <div class="saswp-feedback-panel">
+        <h2><?php echo esc_html__( 'Leave A Feedback', 'schema-and-structured-data-for-wp' ); ?></h2>
+        <div class="saswp-social-sharing-buttons">
+        <a href="https://www.facebook.com/sharer/sharer.php?u=https://ampforwp.com/" target="_blank">
+        <div id="fb-share-button">
+    <svg viewBox="0 0 12 12" preserveAspectRatio="xMidYMid meet">
+        <path class="svg-icon-path" d="M9.1,0.1V2H8C7.6,2,7.3,2.1,7.1,2.3C7,2.4,6.9,2.7,6.9,3v1.4H9L8.8,6.5H6.9V12H4.7V6.5H2.9V4.4h1.8V2.8 c0-0.9,0.3-1.6,0.7-2.1C6,0.2,6.6,0,7.5,0C8.2,0,8.7,0,9.1,0.1z"></path>
+    </svg>
+    <span>Share</span>
+</div>
+       </a>
+        <a target="_blank" class="twitter-share-button"
+        href="https://twitter.com/intent/tweet?url=https://ampforwp.com">
+            <span class="dashicons dashicons-twitter"></span>Tweet</a>
+        </div>
+        <ul>
+            <li><a target="_blanl" href="https://wordpress.org/plugins/schema-and-structured-data-for-wp"><?php echo esc_html__( 'I would like to review this plugin', 'schema-and-structured-data-for-wp' ); ?></a></li>    
+            <li><a target="_blanl" href="http://structured-data-for-wp.com/contact-us/"><?php echo esc_html__( 'I have ideas to improve this plugin', 'schema-and-structured-data-for-wp' ); ?></a></li>
+            <li><a href="<?php echo esc_url( admin_url( 'admin.php?page=structured_data_options&tab=support' ) ); ?>"><?php echo esc_html__( 'I need help this plugin', 'schema-and-structured-data-for-wp' ); ?></a></li>
+              
+        </ul>  
+    </div>
+</div>
+
 	<?php
 }
 /*
@@ -721,10 +747,7 @@ function saswp_import_callback(){
                         <?php echo $import_message; ?>    
                     </div>
                 </li>               
-            </ul>
-       
-            
-
+            </ul>                   
 	<?php        
 }
 

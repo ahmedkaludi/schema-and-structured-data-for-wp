@@ -310,6 +310,19 @@ jQuery(document).ready(function($){
                               }       		   		
                              },'json');
         });
+        
+        
+        $(".saswp-feedback-no-thanks").on("click", function(e){
+            e.preventDefault();               
+                         $.get(ajaxurl, 
+                             { action:"saswp_feeback_no_thanks"},
+                              function(response){                                  
+                              if(response['status'] =='t'){                                  
+                                 $(".saswp-feedback-notice").hide();                                 
+                              }       		   		
+                             },'json');
+        });
+        
         //Importer from schema plugin ends here
       
 });

@@ -177,7 +177,7 @@ Tooltip css ends here
 }
 .saswp-social-fileds ul{
        display: grid;
-       grid-template-columns: 270px 1fr;
+       grid-template-columns: 247px  1fr;
 }
 .saswp-social-fileds li{
        display: flex;    
@@ -197,4 +197,82 @@ Tooltip css ends here
 .saswp-schema-type-fields .saswp-knowledge-field{
     width:75%; 
     float:right;
+}
+.saswp-feedback-panel{
+    height: 200px;
+    width: 280px;
+    background: #ffffff;
+    float: right;
+    top: 20px;   
+    margin-top: 2px;
+    position: absolute;
+    right: 20px;        
+}
+.saswp-feedback-panel ul{
+    list-style-type: circle;
+    list-style:decimal;
+    padding-left: 30px;
+    font-size: 15px;
+    
+}
+.saswp-feedback-panel a{
+    text-decoration: none;
+    
+}
+.saswp-feedback-panel h2{
+    text-align: center;
+    
+}
+.saswp-social-sharing-buttons {
+    text-align: center;
+}
+.saswp-knowledge-base .saswp-settings-list{
+    width: 90%;
+}
+.saswp-social-fileds .saswp-settings-list{
+   width: 90%;
+}
+.saswp-schema-type-fields .saswp-settings-list{
+   width: 90%;
+}
+.saswp-help{
+    width: 76%;
+}
+.saswp-support{
+  width: 76%;  
+}
+#fb-share-button {
+    background: #3b5998;
+    border-radius: 3px;
+    font-weight: 400;
+    margin-right: 15px;
+    display: inline-block;
+    position: static;
+    height: 18px;
+}
+#fb-share-button:hover {
+    cursor: pointer;
+    background: #213A6F
+}
+
+#fb-share-button svg {
+    width: 18px;
+    fill: white;
+    vertical-align: middle;
+    border-radius: 2px
+}
+
+#fb-share-button span {
+    vertical-align: middle;
+    color: white;
+    font-size: 14px;
+    padding: 0 3px
+}
+.twitter-share-button{
+    background: #1b95e0 !important;
+    box-shadow: 0 0px 0 #1b95e0 !important;
+    color:#fff !important;
+    line-height: 20px !important;
+    height: 21px !important;
+    border-radius: 3px
 }
