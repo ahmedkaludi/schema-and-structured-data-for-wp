@@ -14,7 +14,7 @@
 	$saswp_settings = saswp_defaultSettings();
 	$saswp_installer_config = array(
 					'installer_dir' => 'plugin-installer',
-					'plugin_title'  => esc_html__( ucfirst( 'Schema and Structured Data for WP' ), 'schema-and-structured-data-for-wp'),
+					'plugin_title'  => esc_html__( ucfirst( 'Schema & Structured Data for WP' ), 'schema-and-structured-data-for-wp'),
 					'start_steps' => 1,
 					'total_steps' => 5,
 					'installerpage' => 'saswp-setup-wizard',
@@ -32,12 +32,12 @@
 									),
 									3=>array(
 									'title'=>esc_html__('Social Profiles', 'schema-and-structured-data-for-wp'),
-									'description'=>esc_html__('Where you would like social connect', 'schema-and-structured-data-for-wp'),
+									'description'=>esc_html__('Where would you like social connect?', 'schema-and-structured-data-for-wp'),
 									'fields'=>saswp_social_profile_fields_callback(),
 									),
 									4=>array(
 									'title'=>esc_html__('Select Schema', 'schema-and-structured-data-for-wp'),
-									'description'=>'Enter your Google Analytics Tracking code',
+									'description'=>'',
 									'fields'=>saswp_select_schema_fields_callback(),
 									),
 									5=>array(
@@ -84,9 +84,9 @@
 		// Use minified libraries if dev mode is turned on.
 		$suffix = '';
 		// Enqueue styles.
-		wp_enqueue_style( 'saswp_install', SASWP_PLUGIN_URL. '/admin_section/css/saswp-install' . $suffix . '.css' , array( 'wp-admin' ), '0.1');
+		wp_enqueue_style( 'saswp_install', SASWP_PLUGIN_URL. '/admin_section/css/saswp-install' . $suffix . '.css' , array( 'wp-admin' ), SASWP_VERSION );
 		// Enqueue javascript.
-		wp_enqueue_script( 'saswp_install', SASWP_PLUGIN_URL. '/admin_section/js/saswp-install' . $suffix . '.js' , array( 'jquery-core' ), '0.1' );
+		wp_enqueue_script( 'saswp_install', SASWP_PLUGIN_URL. '/admin_section/js/saswp-install' . $suffix . '.js' , array( 'jquery-core' ), SASWP_VERSION );
 		//wp_enqueue_script( 'saswp_install_script', SASWP_PLUGIN_URL. '/admin_section/js/main-script.js' , array( 'jquery-core' ), '0.1' );
 		
 		wp_localize_script( 'saswp_install', 'saswp_install_params', array(
@@ -99,7 +99,7 @@
 		ob_start();
 		saswp_install_header(); ?>
 		<div class="merlin__wrapper">
-            <div class="amp_install_wizard"><?php esc_html_e('Schema and Structured Data Installation Wizard','schema-and-structured-data-for-wp'); ?></div>
+            <div class="saswp_install_wizard"><?php esc_html_e('Schema and Structured Data Installation Wizard','schema-and-structured-data-for-wp'); ?></div>
 			<div class="merlin__content merlin__content--<?php echo esc_attr( strtolower( $title ) ); ?>">
 				<?php
 				// Content Handlers.
@@ -145,14 +145,14 @@
 		?>
 		<div class="merlin__content--transition">
 
-			<div class="amp_branding"></div>
+			<!--<div class="saswp_branding"></div>-->
 			<svg class="icon icon--checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
 				<circle class="icon--checkmark__circle" cx="26" cy="26" r="25" fill="none"/><path class="icon--checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
 			</svg>
 
 			<h1><?php echo $stepDetails['title']; ?></h1>
 
-			<p><?php echo esc_html( 'This Installation Wizard helps you to setup the necessary options for AMP. It is optional & should take only a few minutes.' ); ?></p>
+			<p><?php echo esc_html( 'This Installation Wizard helps you to setup the necessary options for schema & structured data. It is optional & should take only a few minutes.' ); ?></p>
 	
 		</div>
 
@@ -173,7 +173,7 @@
 
 		<div class="merlin__content--transition">
 
-			<div class="amp_branding"></div>
+			<!--<div class="saswp_branding"></div>-->
 			<svg class="icon icon--checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
 				<circle class="icon--checkmark__circle" cx="26" cy="26" r="25" fill="none"/><path class="icon--checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
 			</svg>
@@ -217,7 +217,7 @@
 
 		<div class="merlin__content--transition">
 
-			<div class="amp_branding"></div>
+			<!--<div class="saswp_branding"></div>-->
 			<svg class="icon icon--checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
 				<circle class="icon--checkmark__circle" cx="26" cy="26" r="25" fill="none"/><path class="icon--checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
 			</svg>
@@ -261,7 +261,7 @@
 
 		<div class="merlin__content--transition">
 
-			<div class="amp_branding"></div>
+			<!--<div class="saswp_branding"></div>-->
 			<svg class="icon icon--checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
 				<circle class="icon--checkmark__circle" cx="26" cy="26" r="25" fill="none"/><path class="icon--checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
 			</svg>
@@ -304,7 +304,7 @@
 
 		<div class="merlin__content--transition">
 
-			<div class="amp_branding"></div>
+			<!--<div class="saswp_branding"></div>-->
 			<svg class="icon icon--checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
 				<circle class="icon--checkmark__circle" cx="26" cy="26" r="25" fill="none"/><path class="icon--checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
 			</svg>
@@ -348,13 +348,17 @@
 	
 	
 	function saswp_save_steps_data(){
-		$pre_sd_data = get_option('sd_data');
-		$sd_data = $_POST['sd_data'];
-		if($pre_sd_data){
+                
+                if(isset($_POST['sd_data'])){
+                $pre_sd_data = get_option('sd_data'); 
+                $pre_sd_data['sd_initial_wizard_status'] =1;                
+                $sd_data = $_POST['sd_data'];
+                if($pre_sd_data){
 			$sd_data = array_merge($pre_sd_data,$sd_data);
 		}
-		update_option('sd_data',$sd_data);
-		//
+                update_option('sd_data',$sd_data);
+                }
+		
 		if(isset($_POST['sd_data_create__post_schema']) && isset($_POST['sd_data_create__post_schema_checkbox'])){
 			$checkbox = array_filter($_POST['sd_data_create__post_schema_checkbox']);
 			if(count($checkbox)>0){
@@ -363,21 +367,24 @@
 					$schemaType = $_POST['sd_data_create__post_schema'][$key]['schema_type'];
 					
 					$postarr = array(
-		                  'post_type'=>'saswp',
-		                  'post_title'=>'Default '.$postType.' Type',
-		                  'post_status'=>'publish',
+                                            'post_type'=>'saswp',
+                                            'post_title'=>'Default '.$postType.' Type',
+                                            'post_status'=>'publish',
 		                     );
 					$insertedPageId = wp_insert_post(  $postarr );
 					if($insertedPageId){
-					$post_data_array  = array(
-					                      array(
-					                          'key_1'=>'post_type',
-					                          'key_2'=>'equal',
-					                          'key_3'=>$postType,
-					                        )
-					                      );
+                                        $data_group_array = array();                                       
+					$data_group_array['group-0'] =array(
+                                            'data_array' => array(
+                                                        array(
+                                                        'key_1' => 'post_type',
+                                                        'key_2' => 'equal',
+                                                        'key_3' => $postType,
+                                              )
+                                            )               
+                                           );
 					$schema_options_array = array('isAccessibleForFree'=>False,'notAccessibleForFree'=>0,'paywall_class_name'=>'');
-					update_post_meta( $insertedPageId, 'data_array', $post_data_array);
+					update_post_meta( $insertedPageId, 'data_group_array', $data_group_array);
 					update_post_meta( $insertedPageId, 'schema_type', $schemaType);
 					update_post_meta( $insertedPageId, 'schema_options', $schema_options_array);
 					}
@@ -419,23 +426,22 @@
 			),
 		);
 
-		update_option( 'ampforwp_installer_completed', time() ); ?>
+		update_option( 'saswp_installer_completed', time() ); ?>
 
 		<div class="merlin__content--transition">
 
-			<div class="amp_branding"></div>
+			<!--<div class="saswp_branding"></div>-->
 			
-			<h1><?php echo esc_html( 'Setup Done. Have fun!' ); ?></h1>
+			<h1><?php echo esc_html__( 'Setup Done. Have fun!', 'schema-and-structured-data-for-wp' ); ?></h1>
 
-			<p><?php echo wp_kses(  'Basic Setup has been done. Navigate to AMP options panel to access all the options.','ampforwp_install' ); ?></p>
+			<p><?php echo esc_html__(  'Basic Setup has been done. Navigate to plugin options panel to access all the options.','schema-and-structured-data-for-wp' ); ?></p>
 
 		</div> 
 
 		<footer class="merlin__content__footer merlin__content__footer--fullwidth">
 			
 			<a href="<?php echo esc_url( admin_url( 'edit.php?post_type=saswp&page=structured_data_options' ) ); ?>" class="merlin__button merlin__button--blue merlin__button--fullwidth merlin__button--popin"><?php echo esc_html( 'Let\'s Go' ); ?></a>
-			
-			
+						
 			<ul class="merlin__drawer merlin__drawer--extras">
 
 				<li><?php //echo wp_kses( $link_1, $allowed_html_array ); ?></li>
@@ -448,19 +454,6 @@
 
 	<?php
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	function saswp_loading_spinner(){
@@ -633,17 +626,17 @@ function saswp_general_setting_fields_callback(){
 	global $sd_data;
 	$settings = $sd_data;
 	$returnHtml = '<li class="saswp_fields">
-			<label>Data type</label>
+			<label>'.esc_html__('Data Type', 'schema-and-structured-data-for-wp').'</label>
 			<select name="sd_data[saswp_kb_type]">
-				<option value="Organization" '.($sd_data['saswp_kb_type']=='Organization'? 'selected' : '').'>Organization</option>
-				<option value="Person" '.($sd_data['saswp_kb_type']=='Person'? 'selected' : '').'>Person</option>
+				<option value="Organization" '.($sd_data['saswp_kb_type']=='Organization'? 'selected' : '').'>'.esc_html__('Organization', 'schema-and-structured-data-for-wp').'</option>
+				<option value="Person" '.($sd_data['saswp_kb_type']=='Person'? 'selected' : '').'>'.esc_html__('Person', 'schema-and-structured-data-for-wp').'</option>
 			</select>
 		</li>
 		<li class="saswp_fields">
-			<label>About Us Page</label>
+			<label>'.esc_html__('About Us Page', 'schema-and-structured-data-for-wp').'</label>
 			 '. wp_dropdown_pages( array( 
 								'name' => 'sd_data[sd_about_page]', 
-					            'id' => 'sd_about_page',
+                                                                'id' => 'sd_about_page',
 								'echo' => 0, 
 								'show_option_none' => esc_attr( 'Select an item' ), 
 								'option_none_value' => '', 
@@ -651,7 +644,7 @@ function saswp_general_setting_fields_callback(){
 							)).'
 		</li>
 		<li class="saswp_fields">
-			<label>Contact Us Page</label>
+			<label>'.esc_html__('Contact Us Page', 'schema-and-structured-data-for-wp').'</label>
 			'.wp_dropdown_pages( array( 
 					'name' => 'sd_data[sd_contact_page]', 
 		                        'id' => 'sd_contact_page-select',
@@ -667,26 +660,43 @@ function saswp_general_setting_fields_callback(){
 function saswp_social_profile_fields_callback(){
 	global $sd_data;
 	$settings = $sd_data;
+        $sd_facebook ='';
+        $sd_twitter ='';
+        $sd_linkedin ='';
+        $sd_instagram ='';
+        
+        if(isset($settings['sd_facebook'])){
+            $sd_facebook = $settings['sd_facebook'];
+        }
+        if(isset($settings['sd_twitter'])){
+            $sd_twitter = $settings['sd_twitter'];
+        }
+        if(isset($settings['sd_linkedin'])){
+            $sd_linkedin = $settings['sd_linkedin'];
+        }
+        if(isset($settings['sd_instagram'])){
+            $sd_instagram = $settings['sd_instagram'];
+        }
 	$returnHtml = '
 		<li class="merlin__drawer--import-content__list-item status social-fields">
-			<input type="checkbox" name="sd_facebook_checkbox" id="sd_facebook_checkbox" class="checkbox" value="1" '.($sd_data['sd_facebook']!=''? 'checked': '').'>
-			<label for="sd_facebook_checkbox"><i></i><span>Facebook</span></label>
-			<input type="text"  name="sd_data[sd_facebook]" value="'.$settings['sd_facebook'].'">
+			<input type="checkbox" name="sd_data[saswp-facebook-enable]" id="saswp-facebook-enable" class="checkbox" value="1" '.($sd_facebook!=''? 'checked': '').'>
+			<label for="sd_facebook_checkbox"><i></i><span>'.esc_html__('Facebook', 'schema-and-structured-data-for-wp').'</span></label>
+			<input type="text"  name="sd_data[sd_facebook]" value="'.$sd_facebook.'">
 		</li>
 		<li class="merlin__drawer--import-content__list-item status social-fields">
-			<input type="checkbox" name="sd_twitter_checkbox" id="sd_twitter_checkbox" class="checkbox" value="1" '.($sd_data['sd_twitter']!=''? 'checked': '').'>
-			<label for="sd_twitter_checkbox"><i></i><span>Twitter</span></label>
-			<input type="text" name="sd_data[sd_twitter]" value="'.$settings['sd_twitter'].'">
+			<input type="checkbox" name="sd_data[saswp-twitter-enable]" id="saswp-twitter-enable" class="checkbox" value="1" '.($sd_twitter!=''? 'checked': '').'>
+			<label for="sd_twitter_checkbox"><i></i><span>'.esc_html__('Twitter', 'schema-and-structured-data-for-wp').'</span></label>
+			<input type="text" name="sd_data[sd_twitter]" value="'.$sd_twitter.'">
 		</li>
 		<li class="merlin__drawer--import-content__list-item status social-fields">
-			<input type="checkbox" name="sd_linkedin_checkbox" id="sd_linkedin_checkbox" class="checkbox" value="1" '.($sd_data['sd_linkedin']!=''? 'checked': '').'>
-			<label for="sd_linkedin_checkbox"><i></i><span>LinkedIn</span></label>
-			<input type="text" name="sd_data[sd_linkedin]" value="'.$settings['sd_linkedin'].'">
+			<input type="checkbox" name="sd_data[saswp-linkedin-enable]" id="saswp-linkedin-enable" class="checkbox" value="1" '.($sd_linkedin!=''? 'checked': '').'>
+			<label for="sd_linkedin_checkbox"><i></i><span>'.esc_html__('Linkedin', 'schema-and-structured-data-for-wp').'</span></label>
+			<input type="text" name="sd_data[sd_linkedin]" value="'.$sd_linkedin.'">
 		</li>
 		<li class="merlin__drawer--import-content__list-item status social-fields">
-			<input type="checkbox" name="sd_instagram_checkbox" id="sd_instagram_checkbox" class="checkbox" value="1" '.($sd_data['sd_instagram']!=''? 'checked': '').'>
-			<label for="sd_instagram_checkbox"><i></i><span>Instagram</span></label>
-			<input type="text" name="sd_data[sd_instagram]" value="'.$settings['sd_instagram'].'">
+			<input type="checkbox" name="sd_data[saswp-instagram-enable]" id="saswp-instagram-enable" class="checkbox" value="1" '.($sd_instagram!=''? 'checked': '').'>
+			<label for="sd_instagram_checkbox"><i></i><span>'.esc_html__('Instagram', 'schema-and-structured-data-for-wp').'</span></label>
+			<input type="text" name="sd_data[sd_instagram]" value="'.$sd_instagram.'">
 		</li>';
 		return $returnHtml;
 }
@@ -694,27 +704,26 @@ function saswp_social_profile_fields_callback(){
 function saswp_select_schema_fields_callback(){
 	global $sd_data;
 	$returnHtml = $post_types = '';
-    $post_types = get_post_types( array( 'public' => true ), 'names' );
-
+        $post_types = get_post_types( array( 'public' => true ), 'names' );
     // Remove Unsupported Post types
-    unset($post_types['attachment'], $post_types['amp_acf'], $post_types['saswp']);
-    $option = '';
-    if(count($post_types)>0){
+        unset($post_types['attachment'], $post_types['amp_acf'], $post_types['saswp']);
+        $option = '';
+        if(count($post_types)>0){
     	foreach ($post_types as $key => $value) {
     		$returnHtml .= '<li class="merlin__drawer--import-content__list-item status post-type-fields">
     					<input type="checkbox" name="sd_data_create__post_schema_checkbox['.$key.']" id="sd_data_create__post_schema_'.$key.'" class="checkbox" value="1" >
-    					<label for="sd_data_create__post_schema_'.$key.'"><i></i><span>'.$value.'</span></label>
+    					<label for="sd_data_create__post_schema_'.$key.'"><i></i><span>'.ucfirst($value).'</span></label>
     					<input type="hidden" name="sd_data_create__post_schema['.$key.'][posttype]" class="checkbox" value="'.$key.'" >
 
     					<select id="schema_type" name="sd_data_create__post_schema['.$key.'][schema_type]">
-                			<option value="">Select Schema Type</option>
-                			<option value="Blogposting">Blogposting</option>
-                			<option value="NewsArticle">NewsArticle</option>
-                			<option value="WebPage">WebPage</option>
-                			<option value="Article">Article</option>
-                			<option value="Recipe">Recipe</option>
-                			<option value="Product">Product</option>
-                			<option value="VideoObject">VideoObject</option>
+                			<option value="">'.esc_html__('Select Schema Type', 'schema-and-structured-data-for-wp').'</option>
+                			<option value="Blogposting">'.esc_html__('Blogposting', 'schema-and-structured-data-for-wp').'</option>
+                			<option value="NewsArticle">'.esc_html__('NewsArticl', 'schema-and-structured-data-for-wp').'e</option>
+                			<option value="WebPage">'.esc_html__('WebPage', 'schema-and-structured-data-for-wp').'</option>
+                			<option value="Article">'.esc_html__('Article', 'schema-and-structured-data-for-wp').'</option>
+                			<option value="Recipe">'.esc_html__('Recipe', 'schema-and-structured-data-for-wp').'</option>
+                			<option value="Product">'.esc_html__('Product', 'schema-and-structured-data-for-wp').'</option>
+                			<option value="VideoObject">'.esc_html__('VideoObject', 'schema-and-structured-data-for-wp').'</option>
                 		</select>
     				</li>';
     	}

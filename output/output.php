@@ -158,9 +158,7 @@ function saswp_kb_schema_output() {
 			'telephone'		=> $sd_data['sd-person-phone-number'],
 			);
 	}
-
-	return json_encode($input);	 
-            
+	return json_encode($input);	             
 }
 
 function sd_is_blog() {
@@ -170,15 +168,18 @@ function sd_is_blog() {
 function saswp_schema_output() {
 	global $sd_data;
 
-	$schemaConditionals = saswp_get_all_schema_posts();
+	$schemaConditionals = saswp_get_all_schema_posts();  
+        
+        
 	if(!$schemaConditionals){
 		return ;
 	}
-	if( (!saswp_non_amp() && $sd_data['saswp-for-amp']!=1) || (saswp_non_amp() && $sd_data['saswp-for-wordpress']!=1) ) {
-		return ;
-	}
+//	if( (!saswp_non_amp() && $sd_data['saswp-for-amp']!=1) || (saswp_non_amp() && $sd_data['saswp-for-wordpress']!=1) ) {
+//		return ;
+//	}
 	$schema_options = $schemaConditionals['schema_options'];
-	$schema_type = $schemaConditionals['schema_type'];
+	$schema_type = $schemaConditionals['schema_type'];  
+        $schema_post_id = $schemaConditionals['post_id'];  
 	$logo = $sd_data['sd_logo']['url'];        
 		if( '' == $logo && empty($logo) && isset($sd_data['sd_default_image'])){
 			$logo = $sd_data['sd_default_image']['url'];
@@ -196,10 +197,10 @@ function saswp_schema_output() {
 	   		$author_id = get_the_author_meta('ID');
 
 		// Blogposting Schema 
-			$image_id 		= get_post_thumbnail_id();
+			$image_id 	= get_post_thumbnail_id();
 			$image_details 	= wp_get_attachment_image_src($image_id, 'full');			
 			$author_details	= get_avatar_data($author_id);
-			$date 			= get_the_date();
+			$date 		= get_the_date();
 			$modified_date 	= get_the_modified_date();
 			$aurthor_name 	= get_the_author();
 			
@@ -452,7 +453,66 @@ function saswp_schema_output() {
 						);
 					}
 				}
-
+                        
+                        if( 'local_business' === $schema_type){
+                            
+                                $business_type    = esc_sql ( get_post_meta($schema_post_id, 'saswp_business_type', true)  );                                 
+                                $business_name    = esc_sql ( get_post_meta($schema_post_id, 'saswp_business_name', true)  );                                 
+                                $business_details = esc_sql ( get_post_meta($schema_post_id, 'saswp_local_business_details', true)  );                                                                                                
+				if(empty($image_details[0]) || $image_details[0] === NULL ){
+					$image_details[0] = $logo;
+				}
+                                if(isset($business_details['local_business_logo'])){
+                                    unset($image_details);  
+                                    $image_details[0] = $business_details['local_business_logo']['url'];
+                                    $image_details[1] = $business_details['local_business_logo']['width'];
+                                    $image_details[2] = $business_details['local_business_logo']['height'];
+                                }
+                                if($business_name){
+                                $local_business = $business_name;    
+                                }else{
+                                $local_business = $business_type;        
+                                }                                
+				$input1 = array(
+				'@context'			=> 'http://schema.org',
+				'@type'				=> $local_business ,
+				'url'				=> get_permalink(),
+				'name'                          => $business_details['local_business_name'],
+				'description'                   => get_the_excerpt(),
+				'@id'                           => get_permalink(),
+				'address'                       => array(
+                                                                "@type"          => "PostalAddress",
+                                                                "streetAddress"  => $business_details['local_street_address'],
+                                                                "addressLocality"=> $business_details['local_city'],
+                                                                "addressRegion"  => $business_details['local_state'],
+                                                                "postalCode"     => $business_details['local_postal_code'],                                                                                                                                  
+                                                                 ),	
+				'telephone'                   => $business_details['local_phone'],
+                                'openingHoursSpecification'   => array(                                                                
+                                                                 '@type' => 'OpeningHoursSpecification',
+                                                                 'dayOfWeek'  => $business_details['saswp_dayofweek'],                                                                       
+                                                                 'opens' => $business_details['local_opens_time'],
+                                                                 'closes'=> $business_details['local_closes_time'],
+                                                                ),                                                                                                     
+				);
+                                
+                                    if(isset($business_details['local_price_range'])){
+                                      $input1['priceRange'] = $business_details['local_price_range'];   
+                                    }
+                                    
+                                    if(isset($business_details['local_accepts_reservations'])){
+                                      $input1['acceptsReservations'] = $business_details['local_accepts_reservations'];   
+                                    }
+                                    
+                                    if(isset($business_details['local_serves_cuisine'])){
+                                      $input1['servesCuisine'] = $business_details['local_serves_cuisine'];   
+                                    }
+                                    
+                                    if(isset($business_details['local_menu'])){
+                                      $input1['menu'] = $business_details['local_menu'];   
+                                    }                                                          
+			}
+                                
 		//Check for Featured Image
 			if( is_array($image_details) ){
 				if(isset($image_details[1]) ){
@@ -470,7 +530,7 @@ function saswp_schema_output() {
 									),
 				);
 			$input = array_merge($input1,$input2);
-		}
+		     }
 			else{			
 				$input2  = array(
 				                'image'		=>array(
@@ -501,9 +561,10 @@ function saswp_schema_output() {
 										);
 				$input = array_merge($input,$paywallData);
 			}
-		}
+		}                
 		return json_encode($input);	                
 	}
+    
 
 }
 

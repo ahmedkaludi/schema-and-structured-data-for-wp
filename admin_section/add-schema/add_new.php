@@ -2,12 +2,12 @@
 add_action( 'admin_menu', 'saswp_add_new_data_menu' );
 add_action( 'admin_init', 'saswp_add_new_init');
 add_action( 'admin_footer', 'saswp_add_new_svg_sprite');
-add_action( 'wp_ajax_saswp_add_new_save_installer', 'saswp_add_new_save_steps_data', 10, 0 );
+add_action( 'wp_ajax_saswp_add_new_save_steps_data', 'saswp_add_new_save_steps_data', 10, 0 );
 $saswp_add_data_type_config = array(
 				'installer_dir' => 'admin_section',
-				'plugin_title'  => esc_html__( ucfirst( 'Schema and Structured Data for WP' ), 'schema-and-structured-data-for-wp'),
+				'plugin_title'  => esc_html__( ucfirst( 'Schema & Structured Data for WP' ), 'schema-and-structured-data-for-wp'),
 				'start_steps' => 1,
-				'total_steps' => 2,
+				'total_steps' => 3,
 				'installerpage' => 'saswp_add_new_data_type',
 				'dev_mode' => false, 
 				'steps' => array(
@@ -16,11 +16,17 @@ $saswp_add_data_type_config = array(
 								'description'=>esc_html__('','schema-and-structured-data-for-wp'),
 								'fields'=>saswp_add_new_schema_type_selection(),
 								),
-								2=>array(
-								'title'=>esc_html__('Enjoy', 'schema-and-structured-data-for-wp'),
-								'description'=>esc_html__('Navigate to ', 'schema-and-structured-data-for-wp'),
-								'fields'=>'',
+                                                                2=>array(
+								'title'=>esc_html__('Choose Placement', 'schema-and-structured-data-for-wp'),
+								'description'=>esc_html__('','schema-and-structured-data-for-wp'),
+								'fields'=>saswp_add_new_placement_selection(),
 								),
+                                                                3=>array(
+									'title'=>esc_html__('Enjoy', 'schema-and-structured-data-for-wp'),
+									'description'=>esc_html__('Navigate to ', 'schema-and-structured-data-for-wp'),
+									'fields'=>'',
+									),
+								
 							),
 				'current_step'=>array(
 							'title'=>'',
@@ -30,15 +36,15 @@ $saswp_add_data_type_config = array(
 	
 	function saswp_add_new_data_menu(){
 		saswp_add_new_init();
+                
 	}
 
 	function saswp_add_new_init(){
 		// Exit if the user does not have proper permissions
 		if(! current_user_can( 'manage_options' ) ) {
 			return ;
-		}
-		global $saswp_add_data_type_config;
-		saswp_add_new_steps_call();
+		}		
+		saswp_add_new_steps_call();                
 	}
 
 	function saswp_add_new_steps_call(){
@@ -55,23 +61,39 @@ $saswp_add_data_type_config = array(
 		
 		// Use minified libraries if dev mode is turned on.
 		$suffix = '';
-		// Enqueue styles.
-		wp_enqueue_style( 'saswp_install', SASWP_PLUGIN_URL. $saswp_add_data_type_config['installer_dir']. '/css/saswp-install' . $suffix . '.css' , array( 'wp-admin' ), '0.1');
+                wp_enqueue_media ();
+                
+                
+                // Enqueue styles.
+		wp_enqueue_style( 'saswp-timepicker-js', SASWP_PLUGIN_URL. $saswp_add_data_type_config['installer_dir']. '/css/jquery.timepicker' . $suffix . '.css' , array( 'wp-admin' ), '0.1');
 		// Enqueue javascript.
-		wp_enqueue_script( 'saswp_install', SASWP_PLUGIN_URL. $saswp_add_data_type_config['installer_dir']. '/js/saswp-install' . $suffix . '.js' , array( 'jquery-core' ), '0.1' );
+		wp_enqueue_script( 'saswp-timepicker-css', SASWP_PLUGIN_URL. $saswp_add_data_type_config['installer_dir']. '/js/jquery.timepicker' . $suffix . '.js' , array( 'jquery-core' ), '0.1' );
+                
+                
+		// Enqueue styles.
+		wp_enqueue_style( 'saswp_add_new', SASWP_PLUGIN_URL. $saswp_add_data_type_config['installer_dir']. '/css/saswp-add-new' . $suffix . '.css' , array( 'wp-admin' ), '0.1');
+		// Enqueue javascript.
+		wp_enqueue_script( 'saswp_add_new', SASWP_PLUGIN_URL. $saswp_add_data_type_config['installer_dir']. '/js/saswp-add-new' . $suffix . '.js' , array( 'jquery-core' ), '0.1' );
 		//wp_enqueue_script( 'saswp_install_script', SASWP_PLUGIN_URL. '/admin_section/js/main-script.js' , array( 'jquery-core' ), '0.1' );
+                
+                wp_enqueue_script( 'structure_admin', SASWP_PLUGIN_URL. $saswp_add_data_type_config['installer_dir']. '/js/structure_admin' . $suffix . '.js' , array( 'jquery' ), '0.1' );
 		
-		wp_localize_script( 'saswp_install', 'saswp_install_params', array(
+                wp_localize_script( 'structure_admin', 'saswp_app_object', array(
+			'ajax_url'      		=> admin_url( 'admin-ajax.php' ),						
+		) );
+                
+                
+		wp_localize_script( 'saswp_add_new', 'saswp_add_new_params', array(
 			'ajaxurl'      		=> admin_url( 'admin-ajax.php' ),
-			'wpnonce'      		=> wp_create_nonce( 'saswp_install_nonce' ),
-			'pluginurl'			=> SASWP_DIR_URI,
+			'wpnonce'      		=> wp_create_nonce( 'saswp_add_new_nonce' ),
+			'pluginurl'		=> SASWP_DIR_URI,
 		) );
 		
 
 		ob_start();
 		saswp_add_new_header(); ?>
 		<div class="merlin__wrapper">
-            <div class="amp_install_wizard"><?php esc_html_e('Schema and Structured Data Installation Wizard','schema-and-structured-data-for-wp'); ?></div>
+            <div class="saswp_install_wizard"><?php esc_html_e('ADD NEW SCHEMA','schema-and-structured-data-for-wp'); ?></div>
 			<div class="merlin__content merlin__content--<?php echo esc_attr( strtolower( $title ) ); ?>">
 				<?php
 				// Content Handlers.
@@ -89,7 +111,7 @@ $saswp_add_data_type_config = array(
 
 			</div>
 
-			<?php echo sprintf( '<a class="return-to-dashboard" href="%s">%s</a>', esc_url( admin_url( 'admin.php?page=amp_options' ) ), esc_html( 'Return to dashboard' ) ); ?>
+			<?php echo sprintf( '<a class="return-to-dashboard" href="%s">%s</a>', esc_url( admin_url( 'edit.php?post_type=saswp' ) ), esc_html( 'Return to dashboard' ) ); ?>
 
 		</div>
 
@@ -129,40 +151,127 @@ $saswp_add_data_type_config = array(
 		<?php
 	}
 	
+	
+	
 	function saswp_add_new_step1(){
 		global $saswp_add_data_type_config;
 		$stepDetails = $saswp_add_data_type_config['steps'][$saswp_add_data_type_config['current_step']['step_id']];
 		?>
+
 		<div class="merlin__content--transition">
 
-			<div class="amp_branding"></div>
+			<!--<div class="saswp_branding"></div>-->
 			<svg class="icon icon--checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
 				<circle class="icon--checkmark__circle" cx="26" cy="26" r="25" fill="none"/><path class="icon--checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
 			</svg>
-
+			
 			<h1><?php echo $stepDetails['title']; ?></h1>
 
-			<p><?php echo esc_html( 'This Installation Wizard helps you to setup the necessary options for AMP. It is optional & should take only a few minutes.' ); ?></p>
-	
-		</div>
-
-		<footer class="merlin__content__footer">
-			<a href="<?php echo esc_url( admin_url( 'admin.php?page=amp_options' ) ); ?>" class="merlin__button merlin__button--skip"><?php echo esc_html( 'Cancel' ); ?></a>
+			<p><?php echo isset($stepDetails['description'])? $stepDetails['description'] : ''; ?></p>
 			
-			<a href="<?php echo esc_url( saswp_add_new_step_next_link() ); ?>" class="merlin__button merlin__button--next merlin__button--proceed merlin__button--colorchange"><?php echo esc_html( 'Start' ); ?></a>
-			<?php wp_nonce_field( 'saswp_install_nonce' ); ?>
-		</footer>
+			
+			
+		</div>
+		<form action="" method="post">
+			
+			<ul class="merlin__drawer--import-content">
+                            
+                            <li>
+                             <?php 
+                                     $post =array();
+                                     echo saswp_schema_type_meta_box_callback($post);
+					
+				?>   
+                            </li>
+				
+			</ul>
+			
+
+			<footer class="merlin__content__footer">
+				<?php saswp_add_new_skip_button(); ?>
+				
+				<a id="skip" href="<?php echo esc_url( saswp_add_new_step_next_link() ); ?>" class="merlin__button merlin__button--skip merlin__button--proceed"><?php echo esc_html( 'Skip' ); ?></a>
+				
+				<a href="<?php echo esc_url( saswp_add_new_step_next_link() ); ?>" class="merlin__button merlin__button--next button-next" data-callback="save_logo">
+					<span class="merlin__button--loading__text"><?php echo esc_html( 'Save' ); ?></span><?php echo saswp_add_new_loading_spinner(); ?>
+				</a>
+				
+				<?php wp_nonce_field( 'saswp_add_new_nonce' ); ?>
+			</footer>
+		</form>
 	<?php
 	}
-	
-	function saswp_add_new_step2(){
+        
+        function saswp_add_new_step2(){
 		global $saswp_add_data_type_config;
 		$stepDetails = $saswp_add_data_type_config['steps'][$saswp_add_data_type_config['current_step']['step_id']];
 		?>
 
 		<div class="merlin__content--transition">
 
-			<div class="amp_branding"></div>
+			<!--<div class="saswp_branding"></div>-->
+			<svg class="icon icon--checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+				<circle class="icon--checkmark__circle" cx="26" cy="26" r="25" fill="none"/><path class="icon--checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+			</svg>
+			
+			<h1><?php echo $stepDetails['title']; ?></h1>
+			
+		</div>
+		<form action="" method="post">
+			
+                    <div id="saswp_amp_select" class="postbox">
+                        <ul class="merlin__drawer--import-content">
+                            
+                            <li>
+                    
+				<?php 
+                                        $last_post_id ='';
+                                        if(isset($_GET['step'])){
+                                        $step =     $_GET['step']; 
+                                        
+                                        if($step == 2){
+                                        $last_post_id = json_decode(get_transient('saswp_last_post_id'), true); 
+                                        $last_post_id =  $last_post_id['post_id'];       
+                                        }                                        
+                                        $post = get_post($last_post_id);
+                                        if($post){
+                                         echo saswp_select_callback($post);                                               
+                                        }
+                                        }
+				?>   
+                             
+                            </li>
+                            <li>
+                                 <input type="hidden" name="saswp_post_id" id="saswp_post_id" value="<?php echo $last_post_id; ?>">   
+                            </li>
+			</ul>
+                        </div>
+                   
+
+			<footer class="merlin__content__footer">
+				<?php saswp_add_new_skip_button(); ?>
+				
+				<a id="skip" href="<?php echo esc_url( saswp_add_new_step_next_link() ); ?>" class="merlin__button merlin__button--skip merlin__button--proceed"><?php echo esc_html( 'Skip' ); ?></a>
+				
+				<a href="<?php echo esc_url( saswp_add_new_step_next_link() ); ?>" class="merlin__button merlin__button--next button-next" data-callback="save_logo">
+					<span class="merlin__button--loading__text"><?php echo esc_html( 'Save' ); ?></span><?php echo saswp_add_new_loading_spinner(); ?>
+				</a>
+				
+				<?php wp_nonce_field( 'saswp_add_new_nonce' ); ?>
+			</footer>
+		</form>
+	<?php
+	}
+	
+	
+        function saswp_add_new_step3(){
+		global $saswp_add_data_type_config;
+		$stepDetails = $saswp_add_data_type_config['steps'][$saswp_add_data_type_config['current_step']['step_id']];
+		?>
+
+		<div class="merlin__content--transition">
+
+			<!--<div class="saswp_branding"></div>-->
 			<svg class="icon icon--checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
 				<circle class="icon--checkmark__circle" cx="26" cy="26" r="25" fill="none"/><path class="icon--checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
 			</svg>
@@ -189,70 +298,76 @@ $saswp_add_data_type_config = array(
 				<a id="skip" href="<?php echo esc_url( saswp_add_new_step_next_link() ); ?>" class="merlin__button merlin__button--skip merlin__button--proceed"><?php echo esc_html( 'Skip' ); ?></a>
 				
 				<a href="<?php echo esc_url( saswp_add_new_step_next_link() ); ?>" class="merlin__button merlin__button--next button-next" data-callback="save_logo">
-					<span class="merlin__button--loading__text"><?php echo esc_html( 'Save' ); ?></span><?php echo ampforwp_loading_spinner(); ?>
+					<span class="merlin__button--loading__text"><?php echo esc_html( 'Save' ); ?></span><?php echo saswp_add_new_loading_spinner(); ?>
 				</a>
 				
-				<?php wp_nonce_field( 'ampforwp_install_nonce' ); ?>
+				<?php wp_nonce_field( 'saswp_add_new_nonce' ); ?>
 			</footer>
 		</form>
 	<?php
 	}
-	
-	
 
+       
 
-
-
-	
-	
-	function saswp_add_new_save_steps_data(){
-		$pre_sd_data = get_option('sd_data');
-		$sd_data = $_POST['sd_data'];
-		if($pre_sd_data){
-			$sd_data = array_merge($pre_sd_data,$sd_data);
-		}
-		update_option('sd_data',$sd_data);
-		//
-		if(isset($_POST['sd_data_create__post_schema']) && isset($_POST['sd_data_create__post_schema_checkbox'])){
-			$checkbox = array_filter($_POST['sd_data_create__post_schema_checkbox']);
-			if(count($checkbox)>0){
-				foreach ($checkbox as $key => $value) {
-					$postType = $_POST['sd_data_create__post_schema'][$key]['posttype'];
-					$schemaType = $_POST['sd_data_create__post_schema'][$key]['schema_type'];
-					
-					$postarr = array(
-		                  'post_type'=>'saswp',
-		                  'post_title'=>'Default '.$postType.' Type',
-		                  'post_status'=>'publish',
-		                     );
-					$insertedPageId = wp_insert_post(  $postarr );
-					if($insertedPageId){
-					$post_data_array  = array(
-					                      array(
-					                          'key_1'=>'post_type',
-					                          'key_2'=>'equal',
-					                          'key_3'=>$postType,
-					                        )
-					                      );
-					$schema_options_array = array('isAccessibleForFree'=>False,'notAccessibleForFree'=>0,'paywall_class_name'=>'');
-					update_post_meta( $insertedPageId, 'data_array', $post_data_array);
-					update_post_meta( $insertedPageId, 'schema_type', $schemaType);
-					update_post_meta( $insertedPageId, 'schema_options', $schema_options_array);
-					}
-				}
-				
-			}
-			/**/
-
-
-
-		}
+		
+	function saswp_add_new_save_steps_data(){    
+                
+                if(isset($_POST['schema_type'])){                    
+                $schema_type = $_POST['schema_type'];    
+                $user_id = get_current_user_id();
+                $schema_post = array(
+                    'post_author' => $user_id,
+                    'post_date' => date("Y-m-d"),                                        
+                    'post_title' => $schema_type.' '.'POST',                    
+                    'post_status' => 'publish',                    
+                    'post_name' =>  $schema_type.' '.'POST',                    
+                    'post_type' => 'saswp',                                                            
+                );                                      
+                $post_id = wp_insert_post($schema_post);                                  
+                      update_post_meta( $post_id, 'schema_type', esc_attr( $schema_type ) );
+                
+                if ( isset( $_POST['saswp_business_type'] ) ){
+                     update_post_meta( $post_id, 'saswp_business_type', esc_attr( $_POST['saswp_business_type'] ) );    
+                }                    
+                if ( isset( $_POST['saswp_business_name'] ) ){
+                     update_post_meta( $post_id, 'saswp_business_name', esc_attr( $_POST['saswp_business_name'] ) );   
+                }                    
+                set_transient('saswp_last_post_id', json_encode(array('post_id'=>$post_id))); 
+                }    
+                                
+                if(isset($_POST['data_group_array']) && isset($_POST['saswp_post_id'])){
+                $post_id = sanitize_text_field($_POST['saswp_post_id']);    
+                $post_data_group_array = array();
+                $temp_condition_array  = array();
+                $show_globally =false;
+                $post_data_group_array = $_POST['data_group_array'];
+                foreach($post_data_group_array as $groups){        
+                    foreach($groups['data_array'] as $group ){              
+                      if(array_search('show_globally', $group))
+                      {
+                        $temp_condition_array[0] =  $group;  
+                        $show_globally = true;              
+                      }
+                    }
+                }
+                if($show_globally){
+                unset($post_data_group_array);
+                $post_data_group_array['group-0']['data_array'] = $temp_condition_array;                 
+                }                                
+                update_post_meta(
+                    $post_id, 
+                    'data_group_array', 
+                    $post_data_group_array 
+                  );                         
+                }                
 		wp_send_json(
 			array(
 				'done' => 1,
 				'message' => "Stored Successfully",
+                                'post_id' => $post_id
 			)
 		);
+                
 	}
 	
 	
@@ -277,21 +392,19 @@ $saswp_add_data_type_config = array(
 			),
 		);
 
-		update_option( 'ampforwp_installer_completed', time() ); ?>
+		update_option( 'saswp_installer_completed', time() ); ?>
 
 		<div class="merlin__content--transition">
 
-			<div class="amp_branding"></div>
+			<!--<div class="saswp_branding"></div>-->
 			
-			<h1><?php echo esc_html( 'Setup Done. Have fun!' ); ?></h1>
-
-			<p><?php echo wp_kses(  'Basic Setup has been done. Navigate to AMP options panel to access all the options.','ampforwp_install' ); ?></p>
+			<h1><?php echo esc_html( 'Schema Added Successfully. Have fun!' ); ?></h1>		
 
 		</div> 
 
 		<footer class="merlin__content__footer merlin__content__footer--fullwidth">
 			
-			<a href="<?php echo esc_url( admin_url( 'edit.php?post_type=saswp&page=structured_data_options' ) ); ?>" class="merlin__button merlin__button--blue merlin__button--fullwidth merlin__button--popin"><?php echo esc_html( 'Let\'s Go' ); ?></a>
+			<a href="<?php echo esc_url( admin_url( 'edit.php?post_type=saswp' ) ); ?>" class="merlin__button merlin__button--blue merlin__button--fullwidth merlin__button--popin"><?php echo esc_html( 'Let\'s Go' ); ?></a>
 			
 			
 			<ul class="merlin__drawer merlin__drawer--extras">
@@ -326,10 +439,14 @@ $saswp_add_data_type_config = array(
 		}
 	}
 	function saswp_add_new_step_next_link() {
+            
 		global $saswp_add_data_type_config;
+                
 		$step = $saswp_add_data_type_config['current_step']['step_id'] + 1;
-
-		return add_query_arg( 'step', $step );
+                
+                $query_string = add_query_arg( 'step', $step ); 
+                
+                return $query_string;                                        
 	}
 	
 	function saswp_add_new_install_header() {
@@ -473,39 +590,12 @@ $saswp_add_data_type_config = array(
 	}
 
 
-function saswp_add_new_schema_type_selection(){
-	global $sd_data;
-	$settings = $sd_data;
-	$returnHtml = '<li class="saswp_fields">
-			<label>Data type</label>
-			<select name="sd_data[saswp_kb_type]">
-				<option value="Organization" '.($sd_data['saswp_kb_type']=='Organization'? 'selected' : '').'>Organization</option>
-				<option value="Person" '.($sd_data['saswp_kb_type']=='Person'? 'selected' : '').'>Person</option>
-			</select>
-		</li>
-		<li class="saswp_fields">
-			<label>About Us Page</label>
-			 '. wp_dropdown_pages( array( 
-								'name' => 'sd_data[sd_about_page]', 
-					            'id' => 'sd_about_page',
-								'echo' => 0, 
-								'show_option_none' => esc_attr( 'Select an item' ), 
-								'option_none_value' => '', 
-								'selected' =>  isset($settings['sd_about_page']) ? $settings['sd_about_page'] : '',
-							)).'
-		</li>
-		<li class="saswp_fields">
-			<label>Contact Us Page</label>
-			'.wp_dropdown_pages( array( 
-					'name' => 'sd_data[sd_contact_page]', 
-		                        'id' => 'sd_contact_page-select',
-					'echo' => 0, 
-					'show_option_none' => esc_attr( 'Select an item' ), 
-					'option_none_value' => '', 
-					'selected' =>  isset($settings['sd_contact_page']) ? $settings['sd_contact_page'] : '',
-				)).'
-		</li>';
-		return $returnHtml;
-}
+        function saswp_add_new_schema_type_selection(){
+               
+        }
+        function saswp_add_new_placement_selection(){
+               
+        }
+        
 
 ?>

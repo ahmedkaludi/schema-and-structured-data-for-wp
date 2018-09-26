@@ -821,10 +821,10 @@ svg:not(:root) {
 	zoom: 1;
 	position: relative;
 	box-sizing: border-box;
-	width: 350px;
+	width: 650px;
 	margin: 0.5em auto 0;
 	padding: 120px 33px 35px;
-	border-radius: 7px;
+	border-radiuwidth: 600s: 7px;
 	color: #444;
 	background: #fff;
 	box-shadow: 0 5px 20px rgba(0, 0, 0, 0.07);
@@ -2392,4 +2392,27 @@ body .amp_install_center {text-align: center}
 }
 .saswp_fields select{
 	width: 50%;
+}
+.saswp-placement-or-group{
+    text-decoration: none;
+    margin-left: 8px;
+    margin-bottom: 8px;
+    align-items: flex-start;
+    text-align: center;
+    cursor: pointer;
+    color: buttontext;
+    background-color: buttonface;
+    box-sizing: border-box;
+    padding: 2px 6px 3px;
+    border-width: 2px;
+    border-style: outset;
+}
+.option-table-class select{
+    width: 100%;
+}
+.option-table-class input[type=text]{
+    width: 100%;
+}
+.option-table-class{
+    width: 100%;
 }

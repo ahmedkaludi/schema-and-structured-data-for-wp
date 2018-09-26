@@ -14,38 +14,64 @@ function saswp_get_all_schema_posts(){
           }
           wp_reset_query();
           wp_reset_postdata();
-
+          
     if(count($post_idArray)>0){    
       $returnData = array();
       foreach ($post_idArray as $key => $post_id) 
         {
-          $data = saswp_generate_field_data( $post_id );
-          $data = array_filter($data);
+          $unique_checker ='';
+          $resultset = saswp_generate_field_data( $post_id );
+          
+          if($resultset){
+              
+          $condition_array = array();    
+              
+          foreach ($resultset as $result){
+              
+          $data = array_filter($result);
           $number_of_fields = count($data);
-          $unique_checker = 0;
+          $checker = 0;
           // Check if we have more then 1 fields.
           if ( $number_of_fields > 0 ) {
             // Check if all the arrays have TRUE setup, then send the value 1, if all the 
             // values are same.
-            $unique_checker = count( array_unique($data) );
+            $checker = count( array_unique($data) );
             // Check and make sure only all TRUE values only passed on, if all values are FALSE,
             // then making sure all FALSE are converting to 0, and returing false.
             // Code will not run.
-            $array_is_false =  in_array(false, $data);
+            $array_is_false =  in_array(false, $result);
             if (  $array_is_false ) {
-              $unique_checker = 0;
+              $checker = 0;
             }
+          }  
+          $condition_array[] = $checker;
+          }          
+          $array_is_true = in_array(true,$condition_array);
+          if($array_is_true){
+          $unique_checker = 1;    
+          }                    
+          }else{
+          $unique_checker ='notset';    
           }
-
-          if ( $unique_checker === 1 || $unique_checker === true) {
-              $conditions = get_post_meta( $post_id, 'data_array', true);
-              $conditions = $conditions[0];
+                    
+          if ( $unique_checker === 1 || $unique_checker === true || $unique_checker == 'notset') {
+              $conditions = array();
+              
+              $data_group_array = get_post_meta( $post_id, 'data_group_array', true);                                         
+              if(isset($data_group_array['group-0'])){
+              $conditions = $data_group_array['group-0']['data_array'];                  
+              }
+              if(isset($conditions[0])){
+              $conditions = $conditions[0];    
+              }                          
               $returnData[] = array(
                     'schema_type' => get_post_meta( $post_id, 'schema_type', true),
                     'schema_options' => get_post_meta( $post_id, 'schema_options', true),
-                    'conditions'  => $conditions, 
+                    'conditions'  => $conditions,
+                    'post_id'  => $post_id,
                   );
             }
+            
       }//foreach closed post_idArray
       //Prioritize
       if(count($returnData)>0){
@@ -61,7 +87,10 @@ function saswp_get_all_schema_posts(){
           );
             $actualReturnData = array();
             foreach ($returnData as $key => $value) {
-              $actualReturnData[$priority[$value['conditions']['key_1']]] = $value;
+                
+              if(isset($value['conditions']['key_1'])){
+              $actualReturnData[$priority[$value['conditions']['key_1']]] = $value;    
+              }                
             }
             $maxs = array_keys($actualReturnData, max($actualReturnData));
             return $actualReturnData[$maxs[0]];
@@ -71,12 +100,14 @@ function saswp_get_all_schema_posts(){
 }
 
 function saswp_generate_field_data( $post_id ){
-      $conditions = get_post_meta( $post_id, 'data_array', true);  
-
+      $data_group_array = get_post_meta( $post_id, 'data_group_array', true);  
       $output = array();
-      if ( $conditions ) { 
-        $output = array_map('saswp_comparison_logic_checker', $conditions); 
-      }
+      if($data_group_array){          
+      foreach ($data_group_array as $gropu){
+         $output[] = array_map('saswp_comparison_logic_checker', $gropu['data_array']);     
+      }   
+      
+      }         
       return $output;
 }
 
@@ -91,6 +122,9 @@ function saswp_comparison_logic_checker($input){
         $user               = wp_get_current_user();
 
         switch ($type) {
+          case 'show_globally':   
+               $result = true;      
+          break;            
         // Basic Controls ------------ 
           // Posts Type
           case 'post_type':   
@@ -309,40 +343,57 @@ if(is_admin()){
             'labels' => array(
             'name'              => esc_html__( 'Structured Data', 'schema-and-structured-data-for-wp' ),
             'singular_name'     => esc_html__( 'Structured Data', 'schema-and-structured-data-for-wp' ),
-            'add_new' 		      => esc_html__( 'Add Data Type', 'schema-and-structured-data-for-wp' ),
-	           'add_new_item'  	  => esc_html__( '', 'schema-and-structured-data-for-wp' ),
-            'edit_item'         => esc_html__( 'Edit Structured Data','schema-and-structured-data-for-wp')
+            'add_new' 		 => esc_html__( 'Add Schema Type', 'schema-and-structured-data-for-wp' ),
+	    'add_new_item'  	=> esc_html__( '', 'schema-and-structured-data-for-wp' ),
+            'edit_item'         => esc_html__( 'Edit Schema Type','schema-and-structured-data-for-wp'),           
+            'all_items'          => esc_html__( 'Schema Types', 'schema-and-structured-data-for-wp' ),                
         ),
           'public'                => true,
           'has_archive'           => false,
           'exclude_from_search'   => true,
           'publicly_queryable'    => false,
-          'supports'              => array('title'),          
+          'supports'              => array('title'),  
+          'menu_position'         => 80 
+          
       )
     );
   }
   add_action( 'add_meta_boxes', 'saswp_create_meta_box_select' );
   function saswp_create_meta_box_select(){
     // Repeater Comparison Field
-    add_meta_box( 'amp_sdwp_select', esc_html__( 'Placement','schema-and-structured-data-for-wp' ), 'saswp_select_callback', 'saswp','normal', 'high' );
+    add_meta_box( 'saswp_amp_select', esc_html__( 'Placement','schema-and-structured-data-for-wp' ), 'saswp_select_callback', 'saswp','normal', 'high' );
     
   }
 
 
+add_action( 'admin_head','saswp_change_add_new_url'); 
+function saswp_change_add_new_url() {
+$admin_url = admin_url();   
+    ?>
+
+    <script type="text/javascript">
+    jQuery(function($) {
+        $('a[href="<?php echo $admin_url;  ?>post-new.php?post_type=saswp"]').attr( 'href', '<?php echo $admin_url; ?>index.php?page=saswp_add_new_data_type' );
+    });
+    </script>
+    <?php
+} 
+ 
+
 
   function saswp_select_callback($post) {
-      
-    $data_array    = esc_sql ( get_post_meta($post->ID, 'data_array', true)  );    
-    $schema_type    = esc_sql ( get_post_meta($post->ID, 'schema_type', true)  );
-    $schema_options    = esc_sql ( get_post_meta($post->ID, 'schema_options', true)  );
-    $data_array = is_array($data_array)? array_values($data_array): array();      
-    if ( empty( $data_array ) ) {
-      $data_array = array(
-        array(
-        'key_1' => 'post_type',
-        'key_2' => 'not_equal',
-        'key_3' => 'none',
-        )
+    
+    $data_group_array =  esc_sql ( get_post_meta($post->ID, 'data_group_array', true)  );                 
+    $data_group_array = is_array($data_group_array)? array_values($data_group_array): array();      
+    if ( empty( $data_group_array ) ) {
+               $data_group_array[0] =array(
+                   'data_array' => array(
+                            array(
+                            'key_1' => 'post_type',
+                            'key_2' => 'not_equal',
+                            'key_3' => 'none',
+                            )
+               )               
       );
     }
     //security check
@@ -353,6 +404,7 @@ if(is_admin()){
       $choices = array(
         esc_html__("Basic",'schema-and-structured-data-for-wp') => array(        
           'post_type'   =>  esc_html__("Post Type",'schema-and-structured-data-for-wp'),
+          'show_globally'   =>  esc_html__("Show Globally",'ads-for-wp'),    
           'user_type'   =>  esc_html__("Logged in User Type",'schema-and-structured-data-for-wp'),
         ),
         esc_html__("Post",'schema-and-structured-data-for-wp') => array(
@@ -374,9 +426,21 @@ if(is_admin()){
         'not_equal' =>  esc_html__( 'Not Equal to (Exclude)', 'schema-and-structured-data-for-wp'),     
       );
 
-      $total_fields = count( $data_array ); ?>
-
-      <table class="widefat">
+      $total_group_fields = count( $data_group_array ); ?>
+<div class="saswp-placement-groups">
+    
+    <?php for ($j=0; $j < $total_group_fields; $j++) {
+        $data_array = $data_group_array[$j]['data_array'];
+        
+        $total_fields = count( $data_array );
+        ?>
+    <div class="saswp-placement-group" name="data_group_array[<?php echo esc_attr( $j) ?>]" data-id="<?php echo esc_attr($j); ?>">           
+     <?php 
+     if($j>0){
+     echo '<span style="margin-left:10px;font-weight:600">Or</span>';    
+     }     
+     ?>   
+     <table class="widefat saswp-placement-table" style="border:0px;">
         <tbody id="sdwp-repeater-tbody" class="fields-wrapper-1">
         <?php  for ($i=0; $i < $total_fields; $i++) {  
           $selected_val_key_1 = $data_array[$i]['key_1']; 
@@ -389,7 +453,7 @@ if(is_admin()){
           ?>
           <tr class="toclone">
             <td style="width:31%" class="post_types"> 
-              <select class="widefat select-post-type <?php echo esc_attr( $i );?>" name="data_array[<?php echo esc_attr( $i) ?>][key_1]">    
+              <select class="widefat select-post-type <?php echo esc_attr( $i );?>" name="data_group_array[group-<?php echo esc_attr( $j) ?>][data_array][<?php echo esc_attr( $i) ?>][key_1]">    
                 <?php 
                 foreach ($choices as $choice_key => $choice_value) { ?>         
                   <option disabled class="pt-heading" value="<?php echo esc_attr($choice_key);?>"> <?php echo esc_html__($choice_key,'schema-and-structured-data-for-wp');?> </option>
@@ -401,11 +465,11 @@ if(is_admin()){
                 } ?>
               </select>
             </td>
-            <td style="width:31%">
-              <select class="widefat comparison" name="data_array[<?php echo esc_attr( $i )?>][key_2]"> <?php
+            <td style="width:31%; <?php if (  $selected_val_key_1 =='show_globally' ) { echo 'display:none;'; }  ?>">
+              <select class="widefat comparison" name="data_group_array[group-<?php echo esc_attr( $j) ?>][data_array][<?php echo esc_attr( $i )?>][key_2]"> <?php
                 foreach ($comparison as $key => $value) { 
                   $selcomp = '';
-                  if($key == $selected_val_key_1){
+                  if($key == $selected_val_key_2){
                     $selcomp = 'selected';
                   }
                   ?>
@@ -414,84 +478,33 @@ if(is_admin()){
                 } ?>
               </select>
             </td>
-            <td style="width:31%">
+            <td style="width:31%; <?php if (  $selected_val_key_1 =='show_globally' ) { echo 'display:none;'; }  ?>">
               <div class="insert-ajax-select">              
-                <?php saswp_ajax_select_creator($selected_val_key_1, $selected_val_key_3, $i );
+                <?php saswp_ajax_select_creator($selected_val_key_1, $selected_val_key_3, $i, $j );
                 if($selected_val_key_1 == 'ef_taxonomy'){
-                  saswp_create_ajax_select_taxonomy($selected_val_key_3, $selected_val_key_4, $i);
+                  saswp_create_ajax_select_taxonomy($selected_val_key_3, $selected_val_key_4, $i, $j);
                 }
                 ?>
                 <div class="spinner"></div>
               </div>
             </td>
 
-            <td class="widefat structured-clone" style="width:3.5%">
+            <td class="widefat structured-clone" style="width:3.5%; <?php if (  $selected_val_key_1 =='show_globally' ) { echo 'display:none;'; }  ?>">
             <span> <button type="button"> <?php echo esc_html__('And' ,'schema-and-structured-data-for-wp');?> </button> </span> </td>
             
-            <td class="widefat structured-delete" style="width:3.5%">
+            <td class="widefat structured-delete" style="width:3.5%; <?php if (  $selected_val_key_1 =='show_globally' ) { echo 'display:none;'; }  ?>">
             <span> <button  type="button"> <?php echo esc_html__( 'Remove' ,'schema-and-structured-data-for-wp');?> </button> </span> </td>         
           </tr>
           <?php 
         } ?>
         </tbody>
-      </table>
-      <br/>
-      <style type="text/css">
-        .option-table-class{width:100%;}
-         .option-table-class tr td {padding: 10px 10px 10px 10px ;}
-         .option-table-class tr > td{width: 30%;}
-         .option-table-class tr td:last-child{width: 60%;}
-         .option-table-class input[type="text"], select{width:100%;}
-      </style>
-      <table class="option-table-class">
-        <tbody>
-          <tr>
-            <td><label for="schema_type"><?php echo esc_html__( 'Schema Type' ,'schema-and-structured-data-for-wp');?></label></td>
-            <td><select id="schema_type" name="schema_type">
-                <?php
-                  
-                  $all_schema_array = array(
-                     'Blogposting' => 'Blogposting',
-                     'NewsArticle' => 'NewsArticle',
-                     'WebPage'     => 'WebPage',
-                     'Article'     => 'Article',
-                     'Recipe'      => 'Recipe',
-                     'Product'     => 'Product',
-                     'VideoObject' => 'VideoObject'
-                 );
-                  foreach ($all_schema_array as $key => $value) {
-                    $sel = '';
-                    if($schema_type==$key){
-                      $sel = 'selected';
-                    }
-                    echo "<option value='".esc_attr($key)."' ".esc_attr($sel).">".esc_html__($value, 'schema-and-structured-data-for-wp' )."</option>";
-                  }
-                ?>
-            </select></td>
-          </tr>
-          
-          <tr>
-            <td><label for="notAccessibleForFree"><?php echo esc_html__( 'Paywall', 'schema-and-structured-data-for-wp' ) ?></label></td>
-            <td><input type="checkbox" id="notAccessibleForFree" name="notAccessibleForFree" value="1" <?php if(isset($schema_options['notAccessibleForFree']) && $schema_options['notAccessibleForFree']==1){echo 'checked'; }?>>
-            </td>
-          </tr>
-          <tr <?php if(!isset($schema_options['notAccessibleForFree']) || $schema_options['notAccessibleForFree']!=1){echo 'style="display:none"'; }?>>
-            <td><label for="isAccessibleForFree"><?php echo esc_html__( 'Is accessible for free', 'schema-and-structured-data-for-wp' ) ?></label></td>
-            <td>
-                <select name="isAccessibleForFree" id="isAccessibleForFree">
-                  <option value="False" <?php if( isset($schema_options['isAccessibleForFree']) && $schema_options['isAccessibleForFree']=='False'){echo 'selected'; }?>><?php echo esc_html__( 'False', 'schema-and-structured-data-for-wp' ); ?></option>
-                  <option value="True" <?php if( isset($schema_options['isAccessibleForFree']) && $schema_options['isAccessibleForFree']=='True'){echo 'selected'; }?>><?php echo esc_html__( 'True', 'schema-and-structured-data-for-wp' ); ?></option>
-                </select>
-            </td>
-          </tr>
-          <tr <?php if(!isset($schema_options['notAccessibleForFree']) || $schema_options['notAccessibleForFree']!=1){echo 'style="display:none"'; }?>>
-            <td>
-              <label for="paywall_class_name"><?php echo esc_html__( 'Enter the class name of paywall section', 'schema-and-structured-data-for-wp' ); ?></label>  
-            </td>
-            <td><input type="text" id="paywall_class_name" name="paywall_class_name" value="<?php if( isset($schema_options['paywall_class_name']) ){echo esc_attr($schema_options['paywall_class_name']); }?>"></td>
-          </tr>
-        </tbody>
-      </table>
+      </table>   
+    </div>
+    <?php } ?>
+    
+    
+    <a style="margin-left: 8px; margin-bottom: 8px;" class="button saswp-placement-or-group" href="#">Or</a>
+</div>        
     <?php
   }
   add_action( 'admin_enqueue_scripts', 'saswp_style_script_include' );
@@ -503,15 +516,20 @@ if(is_admin()){
       $data_array = array(
           'ajax_url'    =>  admin_url( 'admin-ajax.php' ) 
       );
-      wp_localize_script( 'structure_admin', 'amp_sdwp_field_data', $data_array );
+      wp_localize_script( 'structure_admin', 'saswp_app_object', $data_array );
       wp_enqueue_script('structure_admin');
+      
+       wp_enqueue_script( 'saswp-timepicker-js', SASWP_PLUGIN_URL . 'admin_section/js/jquery.timepicker.js', false, SASWP_VERSION);
+        //Main Css 
+       wp_enqueue_style( 'saswp-timepicker-css', SASWP_PLUGIN_URL . 'admin_section/css/jquery.timepicker.css', false , SASWP_VERSION );
+      
+      
     }
   }
 
   // Save PHP Editor
   add_action ( 'save_post' , 'saswp_select_save_data' );
-  function saswp_select_save_data ( $post_id ) {      
-     // print_r($_POST);die;
+  function saswp_select_save_data ( $post_id ) {           
       if( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
        
       // if our nonce isn't there, or we can't verify it, bail
@@ -519,85 +537,34 @@ if(is_admin()){
       
       // if our current user can't edit this post, bail
       if( !current_user_can( 'edit_post' ) ) return;  
-       $meta_value = get_post_meta( $post_id, null, true );       
-      $post_data_array = array();      
-    foreach($_POST['data_array'] as $post){
-    $post_data_array[] = array_map('sanitize_text_field', $post);  
-    }          
-    $post_schema_type =         sanitize_text_field($_POST['schema_type']);  
-    $notAccessibleForFree =     sanitize_text_field($_POST['notAccessibleForFree']);    
-    $isAccessibleForFree =      sanitize_text_field($_POST['isAccessibleForFree']);   
-    $paywall_class_name =       sanitize_text_field($_POST['paywall_class_name']);
-    $saswp_schema_options  =    array('isAccessibleForFree'=>$isAccessibleForFree,'notAccessibleForFree'=>$notAccessibleForFree,'paywall_class_name'=>$paywall_class_name);
-    
-    if(isset($_POST['data_array'])){
+    $meta_value = get_post_meta( $post_id, null, true );       
+    $post_data_group_array = array();  
+    $temp_condition_array  = array();
+    $show_globally =false;
+    if(isset($_POST['data_group_array'])){        
+    $post_data_group_array = $_POST['data_group_array'];    
+    foreach($post_data_group_array as $groups){        
+          foreach($groups['data_array'] as $group ){              
+            if(array_search('show_globally', $group))
+            {
+              $temp_condition_array[0] =  $group;  
+              $show_globally = true;              
+            }
+          }
+      }    
+      if($show_globally){
+      unset($post_data_group_array);
+      $post_data_group_array['group-0']['data_array'] = $temp_condition_array;       
+      }      
+    }                      
+    if(isset($_POST['data_group_array'])){
       update_post_meta(
         $post_id, 
-        'data_array', 
-        $post_data_array 
-      );
-      update_post_meta(
-        $post_id, 
-        'schema_type', 
-        $post_schema_type 
-      );
-      update_post_meta(
-        $post_id, 
-        'schema_options', 
-        $saswp_schema_options
-      );
+        'data_group_array', 
+        $post_data_group_array 
+      );     
     }
   }
-add_action("admin_init",'saswp_migration');
-function saswp_migration(){
-    $sdwp_migration_posts = get_option("sdwp_migration_posts");        
-    if($sdwp_migration_posts != 'inserted'){      
-      $postarr = array(
-                  'post_type'=>'saswp',
-                  'post_title'=>'Default Page Type',
-                  'post_status'=>'publish',
-
-                    );
-      $insertedPageId = wp_insert_post(  $postarr );
-      if($insertedPageId){
-        $post_data_array  = array(
-                              array(
-                                  'key_1'=>'post_type',
-                                  'key_2'=>'equal',
-                                  'key_3'=>'page',
-                                )
-                              );
-        $schema_options_array = array('isAccessibleForFree'=>False,'notAccessibleForFree'=>0,'paywall_class_name'=>'');
-        update_post_meta( $insertedPageId, 'data_array', $post_data_array);
-        update_post_meta( $insertedPageId, 'schema_type', 'WebPage');
-        update_post_meta( $insertedPageId, 'schema_options', $schema_options_array);
-      }
-        
-      $postarr = array(
-                  'post_type'=>'saswp',
-                  'post_title'=>'Default Post Type',
-                  'post_status'=>'publish',
-
-                    );
-      $insertedPageId = wp_insert_post(  $postarr );
-      if($insertedPageId){
-        $post_data_array  = array(
-                              array(
-                                  'key_1'=>'post_type',
-                                  'key_2'=>'equal',
-                                  'key_3'=>'post',
-                                )
-                              );
-        $schema_options_array = array('isAccessibleForFree'=>False,'notAccessibleForFree'=>0,'paywall_class_name'=>'');
-        update_post_meta( $insertedPageId, 'data_array', $post_data_array);
-        update_post_meta( $insertedPageId, 'schema_type', 'Blogposting');
-        update_post_meta( $insertedPageId, 'schema_options', $schema_options_array);
-      }
-    
-    update_option( "sdwp_migration_posts", "inserted");
-
-  } 
-}
 
 }//CLosed is_admin
 
@@ -799,3 +766,112 @@ function saswp_custom_breadcrumbs() {
     }
        
 }
+
+
+//Adding extra columns and displaying its data starts here
+function saswp_custom_column_set( $column, $post_id ) {
+                
+            switch ( $column ) {        
+                case 'saswp_schema_type' :
+                    
+                    $schema_type = get_post_meta( $post_id, $key='schema_type', true);
+                    echo $schema_type;
+                    
+                    break; 
+                case 'saswp_target_location' :
+                    $enabled ='';
+                    $exclude ='';
+                    $data_group_array = get_post_meta( $post_id, $key='data_group_array', true);
+                    if($data_group_array){
+                    foreach ($data_group_array as $groups){
+                        foreach($groups['data_array'] as $group){                           
+                           if($group['key_2'] == 'equal'){
+                            $enabled .= $group['key_3'].', ';   
+                           }else{
+                            $exclude .= $group['key_3']. ', ';   
+                           }
+                        }
+                    }    
+                    }                    
+                    echo '<div><strong>'.esc_html__( 'Enable On :', 'schema-and-structured-data-for-wp' ).'</strong> '.$enabled.'</div>';
+                    echo '<div><strong>'.esc_html__( 'Exclude From :', 'schema-and-structured-data-for-wp' ).'</strong>'.$exclude.'</div>';
+                                     
+                    break;
+               
+            }
+}
+add_action( 'manage_saswp_posts_custom_column' , 'saswp_custom_column_set', 10, 2 );
+
+/**
+ * Add the custom columns to the Ads post type:
+ * @param array $columns
+ * @return string
+ */
+
+function saswp_custom_columns($columns) {    
+    unset($columns['date']);
+    $columns['saswp_schema_type'] = '<a>'.esc_html__( 'Type', 'schema-and-structured-data-for-wp' ).'<a>';
+    $columns['saswp_target_location'] = '<a>'.esc_html__( 'Target Location', 'schema-and-structured-data-for-wp' ).'<a>';    
+    
+    return $columns;
+}
+add_filter( 'manage_saswp_posts_columns', 'saswp_custom_columns' );
+
+//Adding extra columns and displaying its data ends here
+
+
+   /**
+     * This is a ajax handler function for sending email from user admin panel to us. 
+     * @return type json string
+     */
+function saswp_send_query_message(){                  
+        $message    = sanitize_text_field($_POST['message']); 
+        
+        $user       = wp_get_current_user();
+        $user_data  = $user->data;        
+        $user_email = $user_data->user_email;       
+        //php mailer variables        
+        $to = 'team@magazine3.com';
+        $subject = "Customer Query";
+        $headers = 'From: '. $user_email . "\r\n" .
+        'Reply-To: ' . $user_email . "\r\n";
+        // Load WP components, no themes.                      
+        $sent = wp_mail($to, $subject, strip_tags($message), $headers);        
+        if($sent){
+        echo json_encode(array('status'=>'t'));            
+        }else{
+        echo json_encode(array('status'=>'f'));            
+        }        
+           wp_die();           
+}
+
+add_action('wp_ajax_saswp_send_query_message', 'saswp_send_query_message');
+
+
+   /**
+     * This is a ajax handler function for sending email from user admin panel to us. 
+     * @return type json string
+     */
+function saswp_import_plugin_data(){                  
+        $plugin_name   = sanitize_text_field($_GET['plugin_name']); 
+        $result = '';
+        switch ($plugin_name) {
+            case 'schema':
+                if ( is_plugin_active('schema/schema.php')) {
+                $result = saswp_import_schema_plugin_data();      
+                }                
+                break;
+
+            default:
+                break;
+        }                             
+        if($result){
+        echo json_encode(array('status'=>'t', 'message'=>esc_html__('Data has been imported succeessfully','schema-and-structured-data-for-wp')));            
+        }else{
+        echo json_encode(array('status'=>'f', 'message'=>esc_html__('Plugin data is not available or it is not activated','schema-and-structured-data-for-wp')));            
+        }        
+           wp_die();           
+}
+
+add_action('wp_ajax_saswp_import_plugin_data', 'saswp_import_plugin_data');
+

@@ -9,15 +9,17 @@ function saswp_structured_data()
 add_action('wp_head', 'saswp_data_generator');
 function saswp_data_generator() {
    global $sd_data;	           
-   $output ='';
-   $contact_page_output = saswp_contact_page_output();  	
-   $about_page_output   = saswp_about_page_output();   
-   $author_output       = saswp_author_output();
-   $archive_output      = saswp_archive_output();
-   $kb_website_output   = saswp_kb_website_output();
+   $output =[];
+   $contact_page_output      = saswp_contact_page_output();  	
+   $about_page_output        = saswp_about_page_output();   
+   $author_output            = saswp_author_output();
+   $archive_output           = saswp_archive_output();
+   $kb_website_output        = saswp_kb_website_output();
    $schema_breadcrumb_output = saswp_schema_breadcrumb_output($sd_data);
-   $schema_output       = saswp_schema_output();
-   $kb_schema_output    = saswp_kb_schema_output();
+   $schema_output            = saswp_schema_output();
+   
+   
+   $kb_schema_output         = saswp_kb_schema_output();
    
 	if( (  1 == $sd_data['saswp-for-wordpress'] && saswp_non_amp() ) || ( 1 == $sd_data['saswp-for-amp'] && !saswp_non_amp() ) ) {
 								
@@ -79,7 +81,7 @@ function saswp_data_generator() {
         $stroutput = '['. $output. ']';
         $filter_string = str_replace(',]', ']',$stroutput);
         
-        echo '<!-- Schema And Structured Data For WP v'.SASWP_VERSION.' - -->';
+        echo '<!-- Schema & Structured Data For WP v'.SASWP_VERSION.' - -->';
 	echo "\n";
         echo '<script type="application/ld+json">'; 
         echo "\n";       

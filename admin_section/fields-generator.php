@@ -3,13 +3,29 @@
   Metabox to show ads type such as custom and adsense 
  */
 class saswp_fields_generator {
-					
-	public function saswp_field_generator( $meta_fields, $settings ) {            
+    
+    public function saswp_tooltip_message($meta_field_id){
+        $tooltip_message='';
+        switch ($meta_field_id) {
+            case 'saswp_kb_type':
+               // $tooltip_message = esc_html__('ss','schema-and-structured-data-for-wp');
+                break;
+
+            default:
+                break;
+        }
+        return $tooltip_message;
+    }
+    public function saswp_field_generator( $meta_fields, $settings ) {            
 		$output = '';
+                $tooltip_message='';
 		foreach ( $meta_fields as $meta_field ) {
                     
+                        $tooltip_message = $this->saswp_tooltip_message($meta_field['id']);
+                        
                         $class = "";
                         $note = "";
+                        $tooltip_element="";
                         $hidden = array();
                         if(array_key_exists('class', $meta_field)){
                         $class = $meta_field['class'];    
@@ -20,7 +36,10 @@ class saswp_fields_generator {
                         if(array_key_exists('hidden', $meta_field)){
                         $hidden = $meta_field['hidden'];     
                         }
-			$label = '<label for="' . esc_attr($meta_field['id']) . '">' . esc_html__( $meta_field['label'], 'schema-and-structured-data-for-wp' ) . '</label>';			
+                        if($tooltip_message){
+                        $tooltip_element = '<span class="saswp-tooltiptext">'.$tooltip_message.'</span>';    
+                        }
+			$label = '<label class="saswp-tooltip" for="' . esc_attr($meta_field['id']) . '">' . esc_html__( $meta_field['label'], 'schema-and-structured-data-for-wp' ) .$tooltip_element.'</label>';			
 			
 			switch ( $meta_field['type'] ) {
 				case 'media':
@@ -98,7 +117,7 @@ class saswp_fields_generator {
 			}
                         
                         $allowed_html = saswp_expanded_allowed_tags();
-			$output .= '<li><div style="width:200px;float:left;clear: both;">'.$label.'</div><div style="width:75%; float:right;">'.$input.'<p>'.esc_html__($note,'schema-and-structured-data-for-wp').'</p></div></li>';
+			$output .= '<li><div class="saswp-knowledge-label">'.$label.'</div><div class="saswp-knowledge-field">'.$input.'<p>'.esc_html__($note,'schema-and-structured-data-for-wp').'</p></div></li>';
 		}
 		echo '<div style="width:85%;"><div class="saswp-settings-list"><ul>' . wp_kses($output, $allowed_html) . '</ul></div></div>';
 	}	        

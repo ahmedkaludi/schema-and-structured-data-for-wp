@@ -15,19 +15,62 @@ jQuery(document).ready(function($){
 		var currentTab = getParameterByName('tab',href);
 		if(!currentTab){
 			currentTab = "general";
-		}
+		}                
+                if(currentTab == 'support' || currentTab == 'tools'){
+                     $(".saswp-settings-form #submit").hide();   
+                }else{
+                     $(".saswp-settings-form #submit").show();
+                }                                
 		$(this).siblings().removeClass("nav-tab-active");
 		$(this).addClass("nav-tab-active");
 		$(".form-wrap").find(".saswp-"+currentTab).siblings().hide();
 		$(".form-wrap .saswp-"+currentTab).show();
 		window.history.pushState("", "", href);
 		return false;
-	});                
+	});     
+        
+        $(".saswp-schame-type-select").change(function(){
+            var schematype = $  (this).val(); 
+            
+           $(".saswp-option-table-class tr").each(function(index,value){                
+               if(index>0){
+                   $(this).hide(); 
+                   $(this).find('select').attr('disabled', true);
+               }                               
+            }); 
+            if(schematype == 'local_business'){
+             $(".saswp-option-table-class tr").eq(1).show();   
+             $(".saswp-business-text-field-tr").show();
+             $(".saswp-option-table-class tr").find('select').attr('disabled', false);
+             $("#saswp_dayofweek").attr('disabled', false);
+             $('.select-post-type').val('show_globally').trigger('change');             
+             }            
+        }); 
+        
+        $("#saswp_business_type").change(function(){
+            var businesstype = $  (this).val(); 
+            var schematype = $(".saswp-schame-type-select").val();
+            
+           $(".saswp-option-table-class tr").each(function(index,value){                
+               if(index>1){
+                   $(this).hide(); 
+                   $(this).find('select').attr('disabled', true);
+               }                               
+            }); 
+            if(schematype == 'local_business'){
+            $(".saswp-"+businesstype+'-tr').show(); 
+            $(".saswp-business-text-field-tr").show(); 
+            $(".saswp-"+businesstype+'-tr').find('select').attr('disabled', false); 
+            $("#saswp_dayofweek").attr('disabled', false);
+            }            
+            
+        }).change(); 
+        
+        
     //Settings page jquery starts here    
  
     $(".saswp-checkbox").change(function(){
-          var id = $(this).attr("id");  
-          console.log(id);
+          var id = $(this).attr("id");            
                   switch(id){
                       case 'saswp-for-wordpress-checkbox':  
                           
@@ -222,26 +265,51 @@ jQuery(document).ready(function($){
 	});
         //Settings page jquery ends here
 
+  //query form send starts here
 
-      $("#finalized-import-structure-data-from-amp").click(function(){
-      var self = $(this);
-        $.ajax({
-          url : ajaxurl,
-          method : "POST",
-          data: { 
-            action: "ampforwp_import_structure_data",
-            from: 'ampforwp_basic_settings'
-          },
-          datatype: 'json',
-          success: function(data){ 
-              if(data.status==200){
-                self.text("Migration completed please wait...");
-                location.reload(); 
-              }else{
-                alert(data.message)
-              }
-          }
+        $(".saswp-send-query").on("click", function(e){
+            e.preventDefault();   
+            var message = $("#saswp_query_message").val();           
+                        $.ajax({
+                            type: "POST",    
+                            url:ajaxurl,                    
+                            dataType: "json",
+                            data:{action:"saswp_send_query_message", message:message},
+                            success:function(response){                       
+                              if(response['status'] =='t'){
+                                $(".saswp-query-success").show();
+                                $(".saswp-query-error").hide();
+                              }else{
+                                  console.log('dd');
+                                $(".saswp-query-success").hide();  
+                                $(".saswp-query-error").show();
+                              }
+                            },
+                            error: function(response){                    
+                            console.log(response);
+                            }
+                            });
+
         });
-  });
+        
+        //Importer from schema plugin starts here
+
+        $(".saswp-import-plugins").on("click", function(e){
+            e.preventDefault();   
+            var plugin_name = $(this).attr('data-id');                      
+                         $.get(ajaxurl, 
+                             { action:"saswp_import_plugin_data", plugin_name:plugin_name},
+                              function(response){                                  
+                              if(response['status'] =='t'){                                  
+                                  $(".saswp-imported-message").text(response['message']);
+                                  $(".saswp-imported-message").removeClass('saswp-error');
+                                   setTimeout(function(){ location.reload(); }, 2000);
+                              }else{
+                                  $(".saswp-imported-message").addClass('saswp-error');
+                                  $(".saswp-imported-message").text(response['message']);                                  
+                              }       		   		
+                             },'json');
+        });
+        //Importer from schema plugin ends here
       
 });

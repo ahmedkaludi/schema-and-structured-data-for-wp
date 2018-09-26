@@ -7,6 +7,9 @@ and open the template in the editor.
     Created on : Jul 27, 2018, 5:36:26 PM
     Author     : Magazine3
 */
+.saswp_hide{
+    display: none;
+}
 .saswp-general table th{
     width: auto;
     font-weight: 600;
@@ -52,6 +55,10 @@ and open the template in the editor.
     width: auto;
     padding: 0px;
 }
+.saswp-support table th{    
+    width: auto;
+    padding: 0px;
+}
 .saswp-help table{
     margin-top: 0px;   
 } 
@@ -90,9 +97,104 @@ and open the template in the editor.
 .saswp-display-none{
 display: none !important;    
 }
+.saswp-placement-groups{
+    border: 1px solid #e5e5e5;
+}
+.saswp-query-success{
+    color: #006600;
+}
+.saswp-query-error{
+    color: #bf3322;
+}
 
+.saswp-tools table th{    
+    width: auto;
+    padding: 0px;
+}
+.saswp-tools table{
+    margin-top: 0px;   
+} 
+.saswp-tools table td{
+    padding: 5px;   
+}
+.saswp-tools-field-title strong{
+    padding-right: 130px;
+}
+.saswp-error{
+    color: #ff0000 !important;
+}
+/*
+Tooltip css starts here
 
+*/
+.saswp-tooltip {
+    position: relative;
+    display: inline-block;   
+}
+.saswp-tooltip .saswp-tooltiptext {
+    visibility: hidden;
+    width: 200px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -60px;
+}
+.saswp-tooltip:hover .saswp-tooltiptext {
+    visibility: visible;
+}
 
+.saswp-tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 10%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: black transparent transparent transparent;
+}
 
+/*
+Tooltip css ends here
 
-
+*/
+.saswp-knowledge-base .saswp-knowledge-label{
+    width:200px;
+    float:left;
+    clear: both;
+}
+.saswp-knowledge-base .saswp-knowledge-field{
+    width:75%; 
+    float:right;
+}
+.saswp-social-fileds ul{
+       display: grid;
+       grid-template-columns: 270px 1fr;
+}
+.saswp-social-fileds li{
+       display: flex;    
+}
+.saswp-social-fileds .saswp-knowledge-field{
+    width: 100%;
+}
+.saswp-social-fileds .saswp-knowledge-field input{
+    float: right;
+    margin: inherit;
+}
+.saswp-schema-type-fields .saswp-knowledge-label{
+    width:200px;
+    float:left;
+    clear: both;
+}
+.saswp-schema-type-fields .saswp-knowledge-field{
+    width:75%; 
+    float:right;
+}
