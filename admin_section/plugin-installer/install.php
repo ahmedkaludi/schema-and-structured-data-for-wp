@@ -201,10 +201,10 @@
 				<a id="skip" href="<?php echo esc_url( saswp_step_next_link() ); ?>" class="merlin__button merlin__button--skip merlin__button--proceed"><?php echo esc_html( 'Skip' ); ?></a>
 				
 				<a href="<?php echo esc_url( saswp_step_next_link() ); ?>" class="merlin__button merlin__button--next button-next" data-callback="save_logo">
-					<span class="merlin__button--loading__text"><?php echo esc_html( 'Next' ); ?></span><?php echo ampforwp_loading_spinner(); ?>
+					<span class="merlin__button--loading__text"><?php echo esc_html( 'Next' ); ?></span><?php echo saswp_loading_spinner(); ?>
 				</a>
 				
-				<?php wp_nonce_field( 'ampforwp_install_nonce' ); ?>
+				<?php wp_nonce_field( 'saswp_install_nonce' ); ?>
 			</footer>
 		</form>
 	<?php
@@ -244,11 +244,11 @@
 				<a id="skip" href="<?php echo esc_url( saswp_step_next_link() ); ?>" class="merlin__button merlin__button--skip merlin__button--proceed"><?php echo esc_html( 'Skip' ); ?></a>
 				
 				<a href="<?php echo esc_url( saswp_step_next_link() ); ?>" class="merlin__button merlin__button--next button-next" data-callback="save_logo">
-					<span class="merlin__button--loading__text"><?php echo esc_html( 'Next' ); ?></span><?php echo ampforwp_loading_spinner(); ?>
+					<span class="merlin__button--loading__text"><?php echo esc_html( 'Next' ); ?></span><?php echo saswp_loading_spinner(); ?>
 				</a>
 				
 				
-				<?php wp_nonce_field( 'ampforwp_install_nonce' ); ?>
+				<?php wp_nonce_field( 'saswp_install_nonce' ); ?>
 			</footer>
 		</form>
 	<?php
@@ -287,11 +287,11 @@
 				<a id="skip" href="<?php echo esc_url( saswp_step_next_link() ); ?>" class="merlin__button merlin__button--skip merlin__button--proceed"><?php echo esc_html( 'Skip' ); ?></a>
 				
 				<a href="<?php echo esc_url( saswp_step_next_link() ); ?>" class="merlin__button merlin__button--next button-next" data-callback="save_logo">
-					<span class="merlin__button--loading__text"><?php echo esc_html( 'Next' ); ?></span><?php echo ampforwp_loading_spinner(); ?>
+					<span class="merlin__button--loading__text"><?php echo esc_html( 'Next' ); ?></span><?php echo saswp_loading_spinner(); ?>
 				</a>
 				
 				
-				<?php wp_nonce_field( 'ampforwp_install_nonce' ); ?>
+				<?php wp_nonce_field( 'saswp_install_nonce' ); ?>
 			</footer>
 		</form>
 	<?php
@@ -331,10 +331,10 @@
 				<a id="skip" href="<?php echo esc_url( saswp_step_next_link() ); ?>" class="merlin__button merlin__button--skip merlin__button--proceed"><?php echo esc_html( 'Skip' ); ?></a>
 				
 				<a href="<?php echo esc_url( saswp_step_next_link() ); ?>" class="merlin__button merlin__button--next button-next" data-callback="save_logo">
-					<span class="merlin__button--loading__text"><?php echo esc_html( 'Next' ); ?></span><?php echo ampforwp_loading_spinner(); ?>
+					<span class="merlin__button--loading__text"><?php echo esc_html( 'Next' ); ?></span><?php echo saswp_loading_spinner(); ?>
 				</a>
 				
-				<?php wp_nonce_field( 'ampforwp_install_nonce' ); ?>
+				<?php wp_nonce_field( 'saswp_install_nonce' ); ?>
 			</footer>
 		</form>
 	<?php
@@ -368,7 +368,7 @@
 					
 					$postarr = array(
                                             'post_type'=>'saswp',
-                                            'post_title'=>'Default '.$postType.' Type',
+                                            'post_title'=> ucfirst($postType),
                                             'post_status'=>'publish',
 		                     );
 					$insertedPageId = wp_insert_post(  $postarr );
@@ -681,22 +681,22 @@ function saswp_social_profile_fields_callback(){
 		<li class="merlin__drawer--import-content__list-item status saswp-social-fields">
 			<input type="checkbox" name="sd_data[saswp-facebook-enable]" id="saswp-facebook-enable" class="checkbox" value="1" '.($sd_facebook!=''? 'checked': '').'>
 			<label for="saswp-facebook-enable"><i></i><span>'.esc_html__('Facebook', 'schema-and-structured-data-for-wp').'</span></label>
-			<input type="text"  name="sd_data[sd_facebook]" value="'.$sd_facebook.'">
+			<input type="text"  name="sd_data[sd_facebook]" value="'.$sd_facebook.'" placeholder="'.esc_html__('Enter Facebook Page UR', 'schema-and-structured-data-for-wp').'">
 		</li>
 		<li class="merlin__drawer--import-content__list-item status saswp-social-fields">
 			<input type="checkbox" name="sd_data[saswp-twitter-enable]" id="saswp-twitter-enable" class="checkbox" value="1" '.($sd_twitter!=''? 'checked': '').'>
 			<label for="saswp-twitter-enable"><i></i><span>'.esc_html__('Twitter', 'schema-and-structured-data-for-wp').'</span></label>
-			<input type="text" name="sd_data[sd_twitter]" value="'.$sd_twitter.'">
+			<input type="text" name="sd_data[sd_twitter]" value="'.$sd_twitter.'" placeholder="'.esc_html__('Enter Twitter Page UR', 'schema-and-structured-data-for-wp').'">
 		</li>
 		<li class="merlin__drawer--import-content__list-item status saswp-social-fields">
 			<input type="checkbox" name="sd_data[saswp-linkedin-enable]" id="saswp-linkedin-enable" class="checkbox" value="1" '.($sd_linkedin!=''? 'checked': '').'>
 			<label for="saswp-linkedin-enable"><i></i><span>'.esc_html__('Linkedin', 'schema-and-structured-data-for-wp').'</span></label>
-			<input type="text" name="sd_data[sd_linkedin]" value="'.$sd_linkedin.'">
+			<input type="text" name="sd_data[sd_linkedin]" value="'.$sd_linkedin.'" placeholder="'.esc_html__('Enter Linkedin Page UR', 'schema-and-structured-data-for-wp').'">
 		</li>
 		<li class="merlin__drawer--import-content__list-item status saswp-social-fields">
 			<input type="checkbox" name="sd_data[saswp-instagram-enable]" id="saswp-instagram-enable" class="checkbox" value="1" '.($sd_instagram!=''? 'checked': '').'>
 			<label for="saswp-instagram-enable"><i></i><span>'.esc_html__('Instagram', 'schema-and-structured-data-for-wp').'</span></label>
-			<input type="text" name="sd_data[sd_instagram]" value="'.$sd_instagram.'">
+			<input type="text" name="sd_data[sd_instagram]" value="'.$sd_instagram.'" placeholder="'.esc_html__('Enter Linkedin Page UR', 'schema-and-structured-data-for-wp').'">
 		</li>';
 		return $returnHtml;
 }

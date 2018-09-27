@@ -480,8 +480,8 @@
                             <td><input value="<?php if(isset($business_details['local_website'])){echo $business_details['local_website']; }else{ echo site_url();} ?>" type="text" name="local_website" placeholder="<?php echo esc_html__('Website', 'schema-and-structured-data-for-wp' ); ?>"></td>
                         </tr>
                         <tr class="saswp-business-text-field-tr" <?php echo $style_business_type; ?>>
-                            <td><?php echo esc_html__('Logo', 'schema-and-structured-data-for-wp' ); ?></td>
-                            <td style="display: flex;">
+                            <td><?php echo esc_html__('Image', 'schema-and-structured-data-for-wp' ); ?></td>
+                            <td style="display: flex; width: 97%">
                                 <input value="<?php if(isset($business_details['local_business_logo'])) { echo $business_details['local_business_logo']['url'];} else { echo $logo[0]; } ?>" id="local_business_logo" type="text" name="local_business_logo[url]" placeholder="<?php echo esc_html__('Logo', 'schema-and-structured-data-for-wp' ); ?>" readonly="readonly" style="background: #FFF;">
                                 <input value="<?php if(isset($business_details['local_business_logo'])) { echo $business_details['local_business_logo']['id'];} else { echo $custom_logo_id; }?>" data-id="local_business_logo_id" type="hidden" name="local_business_logo[id]">
                                 <input value="<?php if(isset($business_details['local_business_logo'])) { echo $business_details['local_business_logo']['width'];} else { echo $logo[1]; } ?>" data-id="local_business_logo_width" type="hidden" name="local_business_logo[width]">

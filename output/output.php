@@ -541,7 +541,7 @@ function saswp_schema_output() {
 				);
 				$input = array_merge($input1,$input2);
 		}
-		if($schema_options['notAccessibleForFree']==1){
+		if(isset($schema_options['notAccessibleForFree'])==1){
 
 			add_filter( 'amp_post_template_data', 'saswp_structure_data_access_scripts');			
 			$paywall_class_name = $schema_options['paywall_class_name'];
@@ -593,7 +593,7 @@ function saswp_list_items_generator(){
                 $j=1;
                 $i = 0;
                 $breadcrumbslist = array();
-        if(is_single()){
+        if(is_single()){    
 			if(isset($bc_titles)){
 				for($i=0;$i<sizeof($bc_titles);$i++){
 					$breadcrumbslist[] = array(

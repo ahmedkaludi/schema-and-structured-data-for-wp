@@ -390,7 +390,7 @@ $admin_url = admin_url();
                    'data_array' => array(
                             array(
                             'key_1' => 'post_type',
-                            'key_2' => 'not_equal',
+                            'key_2' => 'equal',
                             'key_3' => 'none',
                             )
                )               
@@ -792,8 +792,12 @@ function saswp_custom_column_set( $column, $post_id ) {
                            }
                         }
                     } 
-                    echo '<div><strong>'.esc_html__( 'Enable On :', 'schema-and-structured-data-for-wp' ).'</strong> '.$enabled.'</div>';
-                    echo '<div><strong>'.esc_html__( 'Exclude From :', 'schema-and-structured-data-for-wp' ).'</strong>'.$exclude.'</div>';
+                    if($enabled){
+                    echo '<div><strong>'.esc_html__( 'Enable on: ', 'schema-and-structured-data-for-wp' ).'</strong> '.$enabled.'</div>';    
+                    }
+                    if($exclude){
+                    echo '<div><strong>'.esc_html__( 'Exclude from: ', 'schema-and-structured-data-for-wp' ).'</strong>'.$exclude.'</div>';   
+                    }                    
                     }                    
                     
                                      

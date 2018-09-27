@@ -58,7 +58,7 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 
 
 = How do I get in touch? =
-You can contact us from [here](https://ampforwp.com/contact/)
+You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
 

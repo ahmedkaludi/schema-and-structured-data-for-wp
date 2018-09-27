@@ -222,15 +222,15 @@ jQuery(document).ready(function($){
         
          $("#saswp_kb_type").change(function(){
           var datatype = $(this).val();        
-          for(var i=1;i<=12;i++){
+          for(var i=1;i<=11;i++){
             if(datatype ==="Person"){
-             if(i<8){
+             if(i<7){
                 $( ".saswp-knowledge-base li:eq('"+i+"')" ).hide();          
               }else{
                 $( ".saswp-knowledge-base li:eq('"+i+"')" ).show();            
               }    
             }else if(datatype ==="Organization"){
-              if(i<8){
+              if(i<7){
                 $( ".saswp-knowledge-base li:eq('"+i+"')" ).show();          
               }else{
                 $( ".saswp-knowledge-base li:eq('"+i+"')" ).hide();            

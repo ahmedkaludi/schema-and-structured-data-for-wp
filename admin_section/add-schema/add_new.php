@@ -318,9 +318,9 @@ $saswp_add_data_type_config = array(
                 $schema_post = array(
                     'post_author' => $user_id,
                     'post_date' => date("Y-m-d"),                                        
-                    'post_title' => $schema_type.' '.'POST',                    
+                    'post_title' => ucfirst($schema_type),                    
                     'post_status' => 'publish',                    
-                    'post_name' =>  $schema_type.' '.'POST',                    
+                    'post_name' =>  ucfirst($schema_type),                    
                     'post_type' => 'saswp',                                                            
                 );                                      
                 $post_id = wp_insert_post($schema_post);                                  

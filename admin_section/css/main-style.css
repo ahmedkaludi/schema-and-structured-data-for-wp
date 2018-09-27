@@ -70,7 +70,7 @@ and open the template in the editor.
     width:100%
 }
 .saswp-settings-list li{
-    padding:15px;
+    
     padding-left:0px;
     display: contents;
 }
@@ -171,6 +171,7 @@ Tooltip css ends here
     width:200px;
     float:left;
     clear: both;
+    
 }
 .saswp-knowledge-base .saswp-knowledge-field{
     width:75%; 
@@ -179,13 +180,14 @@ Tooltip css ends here
 
 .saswp-social-fileds ul{
        display: grid;
-       grid-template-columns: 230px  1fr;
+       grid-template-columns: 26.5%  1fr;
 }
 .saswp-social-fileds li{
        display: flex;    
 }
 .saswp-social-fileds .saswp-knowledge-field{
     width: 100%;
+    margin-left: 10px;
 }
 .saswp-social-fileds .saswp-knowledge-field input{
     float: right;
@@ -222,7 +224,10 @@ Tooltip css ends here
   
 }
 .saswp-start-quck-setup{
-    
+   position: relative;
+   float: inherit;
+   top: 7px;
+   left:15px;
 }
 .saswp-feedback-panel ul{
     list-style-type: circle;
@@ -237,18 +242,23 @@ Tooltip css ends here
 }
 .saswp-feedback-panel h2{
     text-align: center;
-    padding-top: 10px;
+    padding-top: 18px;
     
 }
 .saswp-social-sharing-buttons {
     text-align: center;
     padding-top: 20px;
     
+    
 }
 .saswp-facebook-share{
     background: #3B5998;
-    color:#fff;
-    border-radius:2px;
+    box-shadow: 0 0px 0 #1b95e0 !important;
+    color: #fff !important;
+    line-height: 20px !important;
+    height: 21px !important;
+    border-radius: 3px;
+    margin-right: 5px;
 }
 .saswp-social-sharing-buttons a{
     text-align: center;
@@ -256,42 +266,15 @@ Tooltip css ends here
     
     
 }
-
-
-#fb-share-button {
-    background: #3b5998;
-    border-radius: 3px;
-    font-weight: 400;
-    margin-right: 15px;
-    display: inline-block;
-    position: static;
-    height: 18px;
-}
-#fb-share-button:hover {
-    cursor: pointer;
-    background: #213A6F
-}
-
-#fb-share-button svg {
-    width: 18px;
-    fill: white;
-    vertical-align: middle;
-    border-radius: 2px
-}
-
-#fb-share-button span {
-    vertical-align: middle;
-    color: white;
-    font-size: 14px;
-    padding: 0 3px
-}
 .twitter-share-button{
     background: #1b95e0 !important;
     box-shadow: 0 0px 0 #1b95e0 !important;
     color:#fff !important;
     line-height: 20px !important;
     height: 21px !important;
-    border-radius: 3px
+    border-radius: 3px;
+    margin-left: 5px;
+    
 }
 .saswp-placement-button{
     padding: 3px 10px; 
@@ -307,8 +290,19 @@ Tooltip css ends here
 .saswp-archive-div .saswp-knowledge-field{
 float: right;
 width: 75%;
+padding-bottom: 10px;
 }
 .saswp-archive-div .saswp-knowledge-label{
+float:left;
+clear: both;
+}
+
+.saswp-amp .saswp-knowledge-field{
+float: right;
+width: 75%;
+padding-bottom: 10px;
+}
+.saswp-amp .saswp-knowledge-label{
 float:left;
 clear: both;
 }

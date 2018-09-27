@@ -1998,7 +1998,7 @@ body.loaded .merlin__content--welcome {
 }
 
 .merlin__drawer--import-content li {
-	padding: 2px 20px;
+	padding: 2px 10px;
 	text-align: left;
 }
 
@@ -2390,4 +2390,10 @@ body .amp_install_center {text-align: center}
 }
 .saswp_fields select{
 	width: 50%;
+}
+.saswp-social-fields input{
+    width: 100%;
+}
+.merlin__drawer--import-content__list-item #schema_type{
+    width: 100%;
 }
