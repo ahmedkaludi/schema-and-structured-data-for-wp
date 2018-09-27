@@ -68,14 +68,14 @@ add_action( 'admin_notices', 'saswp_admin_notice' );
 
 function saswp_admin_notice(){
     ?>
-    <div class="updated notice is-dismissible message update-message notice notice-alt saswp-setup-notice saswp_hide">
-            <p><?php echo esc_html__('Thank you for using Schema & Structured Data For WP plugin!', 'schema-and-structured-data-for-wp') ?>
+    <div class="updated notice is-dismissible message notice notice-alt saswp-setup-notice saswp_hide">
+         <p><span class="dashicons dashicons-thumbs-up"></span> <?php echo esc_html__('Thank you for using Schema & Structured Data For WP plugin!', 'schema-and-structured-data-for-wp') ?>
                 <a href="<?php echo esc_url( admin_url( 'plugins.php?page=saswp-setup-wizard' ) ); ?>"> <?php echo esc_html__('Start Quick Setup', 'schema-and-structured-data-for-wp') ?></a>
             </p>
         </div>
      
-        <div class="updated notice is-dismissible message update-message notice notice-alt saswp-feedback-notice saswp_hide">
-            <p><?php echo esc_html__('You have been using the Schema & structured data for wp plugin for some time now, do you like it?, If so,', 'schema-and-structured-data-for-wp') ?>
+        <div class="updated notice is-dismissible message notice notice-alt saswp-feedback-notice saswp_hide">
+            <p><span class="dashicons dashicons-feedback"></span> <?php echo esc_html__('You have been using the Schema & structured data for wp plugin for some time now, do you like it?, If so,', 'schema-and-structured-data-for-wp') ?>
                 <a target="_blank" href="https://wordpress.org/plugins/schema-and-structured-data-for-wp"> <?php echo esc_html__('please write us a review', 'schema-and-structured-data-for-wp') ?></a>&nbsp;&nbsp;&nbsp;&nbsp;<a  class="saswp-feedback-no-thanks button button-primary"><?php echo esc_html__('No Thanks', 'schema-and-structured-data-for-wp') ?></a>
             </p>
         </div>

@@ -102,10 +102,11 @@ function saswp_paywall_data_for_login($content){
 	if(!$schemaConditionals){
 		return $content;
 	}else{
-		$schema_options = $schemaConditionals['schema_options'];		
-		if($schema_options['paywall_class_name']!=''){
-			$className = $schema_options['paywall_class_name'];
-		}
+		$schema_options = $schemaConditionals['schema_options'];
+                $className ='';
+                if(array_key_exists('paywall_class_name', $schema_options)){
+                $className = $schema_options['paywall_class_name'];    
+                }					
 		if(strpos($content, '<!--more-->')!==false && !is_user_logged_in()){
 			global $wp;
 			$redirect =  home_url( $wp->request );

@@ -493,7 +493,7 @@ $admin_url = admin_url();
                 <span> <button class="saswp-placement-button" type="button"> <?php echo esc_html__('And' ,'schema-and-structured-data-for-wp');?> </button> </span> </td>
             
             <td class="widefat structured-delete" style="width:3.5%; <?php if (  $selected_val_key_1 =='show_globally' ) { echo 'display:none;'; }  ?>">
-                <span> <button class="saswp-placement-button" type="button"> <?php echo esc_html__( 'Remove' ,'schema-and-structured-data-for-wp');?> </button> </span> </td>         
+                <button class="saswp-placement-button" type="button"><span class="dashicons dashicons-trash"></span>  </button></td>         
           </tr>
           <?php 
         } ?>

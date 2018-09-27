@@ -18,7 +18,7 @@ $saswp_add_data_type_config = array(
 								),
                                                                 2=>array(
 								'title'=>esc_html__('Placement', 'schema-and-structured-data-for-wp'),
-								'description'=>esc_html__('where would you like this to be displayed?','schema-and-structured-data-for-wp'),
+								'description'=>esc_html__('Where would you like this to be displayed?','schema-and-structured-data-for-wp'),
 								'fields'=>saswp_add_new_placement_selection(),
 								),
                                                                 3=>array(
@@ -215,7 +215,7 @@ $saswp_add_data_type_config = array(
 			</svg>
 			
 			<h1><?php echo $stepDetails['title']; ?></h1>
-			
+			<p><?php echo isset($stepDetails['description'])? $stepDetails['description'] : ''; ?></p>
 		</div>
 		<form action="" method="post">
 			
