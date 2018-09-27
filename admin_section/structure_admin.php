@@ -353,7 +353,7 @@ if(is_admin()){
           'exclude_from_search'   => true,
           'publicly_queryable'    => false,
           'supports'              => array('title'),  
-          'menu_position'         => 80 
+          'menu_position'         => 100
           
       )
     );
@@ -485,15 +485,15 @@ $admin_url = admin_url();
                   saswp_create_ajax_select_taxonomy($selected_val_key_3, $selected_val_key_4, $i, $j);
                 }
                 ?>
-                <div class="spinner"></div>
+                  <div style="display:none;" class="spinner"></div>
               </div>
             </td>
 
             <td class="widefat structured-clone" style="width:3.5%; <?php if (  $selected_val_key_1 =='show_globally' ) { echo 'display:none;'; }  ?>">
-            <span> <button type="button"> <?php echo esc_html__('And' ,'schema-and-structured-data-for-wp');?> </button> </span> </td>
+                <span> <button class="saswp-placement-button" type="button"> <?php echo esc_html__('And' ,'schema-and-structured-data-for-wp');?> </button> </span> </td>
             
             <td class="widefat structured-delete" style="width:3.5%; <?php if (  $selected_val_key_1 =='show_globally' ) { echo 'display:none;'; }  ?>">
-            <span> <button  type="button"> <?php echo esc_html__( 'Remove' ,'schema-and-structured-data-for-wp');?> </button> </span> </td>         
+                <span> <button class="saswp-placement-button" type="button"> <?php echo esc_html__( 'Remove' ,'schema-and-structured-data-for-wp');?> </button> </span> </td>         
           </tr>
           <?php 
         } ?>
@@ -503,7 +503,7 @@ $admin_url = admin_url();
     <?php } ?>
     
     
-    <a style="margin-left: 8px; margin-bottom: 8px;" class="button saswp-placement-or-group" href="#">Or</a>
+    <a style="margin-left: 8px; margin-bottom: 8px;" class="button saswp-placement-or-group saswp-placement-button" href="#">Or</a>
 </div>        
     <?php
   }
@@ -791,10 +791,11 @@ function saswp_custom_column_set( $column, $post_id ) {
                             $exclude .= $group['key_3']. ', ';   
                            }
                         }
-                    }    
-                    }                    
+                    } 
                     echo '<div><strong>'.esc_html__( 'Enable On :', 'schema-and-structured-data-for-wp' ).'</strong> '.$enabled.'</div>';
                     echo '<div><strong>'.esc_html__( 'Exclude From :', 'schema-and-structured-data-for-wp' ).'</strong>'.$exclude.'</div>';
+                    }                    
+                    
                                      
                     break;
                

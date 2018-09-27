@@ -28,7 +28,7 @@
                     'post_date' => $schema->post_date,
                     'post_date_gmt' => $schema->post_date_gmt,
                     'post_content' => $schema->post_content,
-                    'post_title' => $schema->post_title,
+                    'post_title' => $schema->post_title. ' (Migrated from Schema plugin)',
                     'post_excerpt' => $schema->post_excerpt,
                     'post_status' => $schema->post_status,
                     'comment_status' => $schema->comment_status,
@@ -110,29 +110,12 @@
                                 'width'         =>'60',
                                 'thumbnail'     =>$schema_plugin_options['logo']        
                             ),                                                                                                                                                             
-                    'saswp_kb_contact_1'=> 0,                                                        
-                    'sd-data-logo-ampforwp' => array(
-                        'url'=>$logo[0],
-                        'id'=>$custom_logo_id,
-                        'height'=>$logo[2],
-                        'width'=>$logo[1],
-                        'thumbnail'=>$logo[0]        
-                    ),
+                    'saswp_kb_contact_1'=> 0,                                                                            
                     //AMP Block           
                     'saswp-for-amp'  => 1, 
                     'saswp-for-wordpress'=>1,      
                     'saswp-logo-width' => '60',
-                    'saswp-logo-height' => '60',
-                    
-                    'sd_default_image' => array(
-                        'url'=>$logo[0],
-                        'id'=>$custom_logo_id,
-                        'height'=>$logo[2],
-                        'width'=>$logo[1],
-                        'thumbnail'=>$logo[0]        
-                    ),
-                    'sd_default_image_width' =>$logo[1],
-                    'sd_default_image_height' =>$logo[2],
+                    'saswp-logo-height' => '60',                    
                     'sd_initial_wizard_status' =>1,
                                         
                );
@@ -174,7 +157,10 @@
                   $saswp_plugin_options['saswp-tumblr-enable'] =  1;
                 }                
                 if(isset($schema_plugin_options['organization_or_person'])){
+                                                           
                   $saswp_plugin_options['saswp_kb_type'] = ucfirst($schema_plugin_options['organization_or_person']);  
+                  $saswp_plugin_options['sd_name'] = $schema_plugin_options['name'];
+                  $saswp_plugin_options['sd-person-name'] = $schema_plugin_options['name'];
                 }                
                 if(isset($schema_plugin_options['about_page'])){
                   $saswp_plugin_options['sd_about_page'] = $schema_plugin_options['about_page'];  
@@ -183,7 +169,7 @@
                   $saswp_plugin_options['sd_contact_page'] = $schema_plugin_options['contact_page'];  
                 }
                 if(isset($schema_plugin_options['site_name'])){
-                  $saswp_plugin_options['sd_name'] = $schema_plugin_options['site_name'];  
+                   
                 }
                 if(isset($schema_plugin_options['site_alternate_name'])){
                   $saswp_plugin_options['sd_alt_name'] = $schema_plugin_options['site_alternate_name'];  

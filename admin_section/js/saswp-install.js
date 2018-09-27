@@ -72,7 +72,7 @@ var Merlin = (function($){
 		    },1100);   
         });
 
-        $(".button-next").on( "click", function(e) {
+        $(".button-next").on( "click", function(e) {            
             e.preventDefault();
             var loading_button = merlin_loading_button(this);
             if ( ! loading_button ) {
@@ -82,8 +82,9 @@ var Merlin = (function($){
             if( data_callback && typeof callbacks[data_callback] !== "undefined"){
                 // We have to process a callback before continue with form submission.
                 callbacks[data_callback](this);
+                $(".saswp_branding").hide();
                 return false;
-            } else {
+            } else {                
                 return true;
             }
         });
@@ -214,19 +215,19 @@ Merlin.init();
 
 
 jQuery(document).ready(function($) {
-   $(".social-fields input[type=checkbox]").change(function(){
+   $(".saswp-social-fields input[type=checkbox]").change(function(){       
         socialFields($(this));
    })
-   $(".social-fields input[type=checkbox]").each(function(){
+   $(".saswp-social-fields input[type=checkbox]").each(function(){
         socialFields($(this));
    }) 
    function socialFields(self){
         if(self.prop('checked')){
             var field_name = self.attr('name');
             field_name = field_name.replace("_checkbox",'');
-            self.parent('.social-fields').find('input[type=text]').show();
+            self.parent('.saswp-social-fields').find('input[type=text]').show();
         }else{
-            self.parent('.social-fields').find('input[type=text]').val('').hide();
+            self.parent('.saswp-social-fields').find('input[type=text]').val('').hide();
         }
    }
 

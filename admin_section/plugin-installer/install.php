@@ -32,12 +32,12 @@
 									),
 									3=>array(
 									'title'=>esc_html__('Social Profiles', 'schema-and-structured-data-for-wp'),
-									'description'=>esc_html__('Where would you like social connect?', 'schema-and-structured-data-for-wp'),
+									'description'=>esc_html__('Would you like to setup Social Profiles?', 'schema-and-structured-data-for-wp'),
 									'fields'=>saswp_social_profile_fields_callback(),
 									),
 									4=>array(
 									'title'=>esc_html__('Select Schema', 'schema-and-structured-data-for-wp'),
-									'description'=>'',
+									'description'=>esc_html__('Where would you like to enable the schema?', 'schema-and-structured-data-for-wp'),
 									'fields'=>saswp_select_schema_fields_callback(),
 									),
 									5=>array(
@@ -117,7 +117,7 @@
 
 			</div>
 
-			<?php echo sprintf( '<a class="return-to-dashboard" href="%s">%s</a>', esc_url( admin_url( 'admin.php?page=amp_options' ) ), esc_html( 'Return to dashboard' ) ); ?>
+			<?php echo sprintf( '<a class="return-to-dashboard" href="%s">%s</a>', esc_url( admin_url( 'admin.php?page=structured_data_options' ) ), esc_html( 'Return to dashboard' ) ); ?>
 
 		</div>
 
@@ -145,7 +145,7 @@
 		?>
 		<div class="merlin__content--transition">
 
-			<!--<div class="saswp_branding"></div>-->
+			<div class="saswp_branding"></div>
 			<svg class="icon icon--checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
 				<circle class="icon--checkmark__circle" cx="26" cy="26" r="25" fill="none"/><path class="icon--checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
 			</svg>
@@ -157,7 +157,7 @@
 		</div>
 
 		<footer class="merlin__content__footer">
-			<a href="<?php echo esc_url( admin_url( 'admin.php?page=amp_options' ) ); ?>" class="merlin__button merlin__button--skip"><?php echo esc_html( 'Cancel' ); ?></a>
+			<a href="<?php echo esc_url( admin_url( 'admin.php?page=structured_data_options' ) ); ?>" class="merlin__button merlin__button--skip"><?php echo esc_html( 'Cancel' ); ?></a>
 			
 			<a href="<?php echo esc_url( saswp_step_next_link() ); ?>" class="merlin__button merlin__button--next merlin__button--proceed merlin__button--colorchange"><?php echo esc_html( 'Start' ); ?></a>
 			<?php wp_nonce_field( 'saswp_install_nonce' ); ?>
@@ -173,7 +173,7 @@
 
 		<div class="merlin__content--transition">
 
-			<!--<div class="saswp_branding"></div>-->
+			<div class="saswp_branding"></div>
 			<svg class="icon icon--checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
 				<circle class="icon--checkmark__circle" cx="26" cy="26" r="25" fill="none"/><path class="icon--checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
 			</svg>
@@ -201,7 +201,7 @@
 				<a id="skip" href="<?php echo esc_url( saswp_step_next_link() ); ?>" class="merlin__button merlin__button--skip merlin__button--proceed"><?php echo esc_html( 'Skip' ); ?></a>
 				
 				<a href="<?php echo esc_url( saswp_step_next_link() ); ?>" class="merlin__button merlin__button--next button-next" data-callback="save_logo">
-					<span class="merlin__button--loading__text"><?php echo esc_html( 'Save' ); ?></span><?php echo ampforwp_loading_spinner(); ?>
+					<span class="merlin__button--loading__text"><?php echo esc_html( 'Next' ); ?></span><?php echo ampforwp_loading_spinner(); ?>
 				</a>
 				
 				<?php wp_nonce_field( 'ampforwp_install_nonce' ); ?>
@@ -217,7 +217,7 @@
 
 		<div class="merlin__content--transition">
 
-			<!--<div class="saswp_branding"></div>-->
+			<div class="saswp_branding"></div>
 			<svg class="icon icon--checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
 				<circle class="icon--checkmark__circle" cx="26" cy="26" r="25" fill="none"/><path class="icon--checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
 			</svg>
@@ -244,7 +244,7 @@
 				<a id="skip" href="<?php echo esc_url( saswp_step_next_link() ); ?>" class="merlin__button merlin__button--skip merlin__button--proceed"><?php echo esc_html( 'Skip' ); ?></a>
 				
 				<a href="<?php echo esc_url( saswp_step_next_link() ); ?>" class="merlin__button merlin__button--next button-next" data-callback="save_logo">
-					<span class="merlin__button--loading__text"><?php echo esc_html( 'Save' ); ?></span><?php echo ampforwp_loading_spinner(); ?>
+					<span class="merlin__button--loading__text"><?php echo esc_html( 'Next' ); ?></span><?php echo ampforwp_loading_spinner(); ?>
 				</a>
 				
 				
@@ -261,7 +261,7 @@
 
 		<div class="merlin__content--transition">
 
-			<!--<div class="saswp_branding"></div>-->
+			<div class="saswp_branding"></div>
 			<svg class="icon icon--checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
 				<circle class="icon--checkmark__circle" cx="26" cy="26" r="25" fill="none"/><path class="icon--checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
 			</svg>
@@ -287,7 +287,7 @@
 				<a id="skip" href="<?php echo esc_url( saswp_step_next_link() ); ?>" class="merlin__button merlin__button--skip merlin__button--proceed"><?php echo esc_html( 'Skip' ); ?></a>
 				
 				<a href="<?php echo esc_url( saswp_step_next_link() ); ?>" class="merlin__button merlin__button--next button-next" data-callback="save_logo">
-					<span class="merlin__button--loading__text"><?php echo esc_html( 'Save' ); ?></span><?php echo ampforwp_loading_spinner(); ?>
+					<span class="merlin__button--loading__text"><?php echo esc_html( 'Next' ); ?></span><?php echo ampforwp_loading_spinner(); ?>
 				</a>
 				
 				
@@ -304,7 +304,7 @@
 
 		<div class="merlin__content--transition">
 
-			<!--<div class="saswp_branding"></div>-->
+			<div class="saswp_branding"></div>
 			<svg class="icon icon--checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
 				<circle class="icon--checkmark__circle" cx="26" cy="26" r="25" fill="none"/><path class="icon--checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
 			</svg>
@@ -331,7 +331,7 @@
 				<a id="skip" href="<?php echo esc_url( saswp_step_next_link() ); ?>" class="merlin__button merlin__button--skip merlin__button--proceed"><?php echo esc_html( 'Skip' ); ?></a>
 				
 				<a href="<?php echo esc_url( saswp_step_next_link() ); ?>" class="merlin__button merlin__button--next button-next" data-callback="save_logo">
-					<span class="merlin__button--loading__text"><?php echo esc_html( 'Save' ); ?></span><?php echo ampforwp_loading_spinner(); ?>
+					<span class="merlin__button--loading__text"><?php echo esc_html( 'Next' ); ?></span><?php echo ampforwp_loading_spinner(); ?>
 				</a>
 				
 				<?php wp_nonce_field( 'ampforwp_install_nonce' ); ?>
@@ -430,7 +430,7 @@
 
 		<div class="merlin__content--transition">
 
-			<!--<div class="saswp_branding"></div>-->
+			<div class="saswp_branding"></div>
 			
 			<h1><?php echo esc_html__( 'Setup Done. Have fun!', 'schema-and-structured-data-for-wp' ); ?></h1>
 
@@ -633,7 +633,7 @@ function saswp_general_setting_fields_callback(){
 			</select>
 		</li>
 		<li class="saswp_fields">
-			<label>'.esc_html__('About Us Page', 'schema-and-structured-data-for-wp').'</label>
+			<label>'.esc_html__('About', 'schema-and-structured-data-for-wp').'</label>
 			 '. wp_dropdown_pages( array( 
 								'name' => 'sd_data[sd_about_page]', 
                                                                 'id' => 'sd_about_page',
@@ -644,7 +644,7 @@ function saswp_general_setting_fields_callback(){
 							)).'
 		</li>
 		<li class="saswp_fields">
-			<label>'.esc_html__('Contact Us Page', 'schema-and-structured-data-for-wp').'</label>
+			<label>'.esc_html__('Contact', 'schema-and-structured-data-for-wp').'</label>
 			'.wp_dropdown_pages( array( 
 					'name' => 'sd_data[sd_contact_page]', 
 		                        'id' => 'sd_contact_page-select',
@@ -678,24 +678,24 @@ function saswp_social_profile_fields_callback(){
             $sd_instagram = $settings['sd_instagram'];
         }
 	$returnHtml = '
-		<li class="merlin__drawer--import-content__list-item status social-fields">
+		<li class="merlin__drawer--import-content__list-item status saswp-social-fields">
 			<input type="checkbox" name="sd_data[saswp-facebook-enable]" id="saswp-facebook-enable" class="checkbox" value="1" '.($sd_facebook!=''? 'checked': '').'>
-			<label for="sd_facebook_checkbox"><i></i><span>'.esc_html__('Facebook', 'schema-and-structured-data-for-wp').'</span></label>
+			<label for="saswp-facebook-enable"><i></i><span>'.esc_html__('Facebook', 'schema-and-structured-data-for-wp').'</span></label>
 			<input type="text"  name="sd_data[sd_facebook]" value="'.$sd_facebook.'">
 		</li>
-		<li class="merlin__drawer--import-content__list-item status social-fields">
+		<li class="merlin__drawer--import-content__list-item status saswp-social-fields">
 			<input type="checkbox" name="sd_data[saswp-twitter-enable]" id="saswp-twitter-enable" class="checkbox" value="1" '.($sd_twitter!=''? 'checked': '').'>
-			<label for="sd_twitter_checkbox"><i></i><span>'.esc_html__('Twitter', 'schema-and-structured-data-for-wp').'</span></label>
+			<label for="saswp-twitter-enable"><i></i><span>'.esc_html__('Twitter', 'schema-and-structured-data-for-wp').'</span></label>
 			<input type="text" name="sd_data[sd_twitter]" value="'.$sd_twitter.'">
 		</li>
-		<li class="merlin__drawer--import-content__list-item status social-fields">
+		<li class="merlin__drawer--import-content__list-item status saswp-social-fields">
 			<input type="checkbox" name="sd_data[saswp-linkedin-enable]" id="saswp-linkedin-enable" class="checkbox" value="1" '.($sd_linkedin!=''? 'checked': '').'>
-			<label for="sd_linkedin_checkbox"><i></i><span>'.esc_html__('Linkedin', 'schema-and-structured-data-for-wp').'</span></label>
+			<label for="saswp-linkedin-enable"><i></i><span>'.esc_html__('Linkedin', 'schema-and-structured-data-for-wp').'</span></label>
 			<input type="text" name="sd_data[sd_linkedin]" value="'.$sd_linkedin.'">
 		</li>
-		<li class="merlin__drawer--import-content__list-item status social-fields">
+		<li class="merlin__drawer--import-content__list-item status saswp-social-fields">
 			<input type="checkbox" name="sd_data[saswp-instagram-enable]" id="saswp-instagram-enable" class="checkbox" value="1" '.($sd_instagram!=''? 'checked': '').'>
-			<label for="sd_instagram_checkbox"><i></i><span>'.esc_html__('Instagram', 'schema-and-structured-data-for-wp').'</span></label>
+			<label for="saswp-instagram-enable"><i></i><span>'.esc_html__('Instagram', 'schema-and-structured-data-for-wp').'</span></label>
 			<input type="text" name="sd_data[sd_instagram]" value="'.$sd_instagram.'">
 		</li>';
 		return $returnHtml;

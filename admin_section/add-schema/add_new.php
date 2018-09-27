@@ -12,13 +12,13 @@ $saswp_add_data_type_config = array(
 				'dev_mode' => false, 
 				'steps' => array(
 								1=>array(
-								'title'=>esc_html__('Choose Schema type', 'schema-and-structured-data-for-wp'),
-								'description'=>esc_html__('','schema-and-structured-data-for-wp'),
+								'title'=>esc_html__('Select Schema', 'schema-and-structured-data-for-wp'),
+								'description'=>esc_html__('Where would you like to enable the schema?','schema-and-structured-data-for-wp'),
 								'fields'=>saswp_add_new_schema_type_selection(),
 								),
                                                                 2=>array(
-								'title'=>esc_html__('Choose Placement', 'schema-and-structured-data-for-wp'),
-								'description'=>esc_html__('','schema-and-structured-data-for-wp'),
+								'title'=>esc_html__('Placement', 'schema-and-structured-data-for-wp'),
+								'description'=>esc_html__('where would you like this to be displayed?','schema-and-structured-data-for-wp'),
 								'fields'=>saswp_add_new_placement_selection(),
 								),
                                                                 3=>array(
@@ -160,7 +160,7 @@ $saswp_add_data_type_config = array(
 
 		<div class="merlin__content--transition">
 
-			<!--<div class="saswp_branding"></div>-->
+			<div class="saswp_branding"></div>
 			<svg class="icon icon--checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
 				<circle class="icon--checkmark__circle" cx="26" cy="26" r="25" fill="none"/><path class="icon--checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
 			</svg>
@@ -193,7 +193,7 @@ $saswp_add_data_type_config = array(
 				<a id="skip" href="<?php echo esc_url( saswp_add_new_step_next_link() ); ?>" class="merlin__button merlin__button--skip merlin__button--proceed"><?php echo esc_html( 'Skip' ); ?></a>
 				
 				<a href="<?php echo esc_url( saswp_add_new_step_next_link() ); ?>" class="merlin__button merlin__button--next button-next" data-callback="save_logo">
-					<span class="merlin__button--loading__text"><?php echo esc_html( 'Save' ); ?></span><?php echo saswp_add_new_loading_spinner(); ?>
+					<span class="merlin__button--loading__text"><?php echo esc_html( 'Next' ); ?></span><?php echo saswp_add_new_loading_spinner(); ?>
 				</a>
 				
 				<?php wp_nonce_field( 'saswp_add_new_nonce' ); ?>
@@ -209,7 +209,7 @@ $saswp_add_data_type_config = array(
 
 		<div class="merlin__content--transition">
 
-			<!--<div class="saswp_branding"></div>-->
+			<div class="saswp_branding"></div>
 			<svg class="icon icon--checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
 				<circle class="icon--checkmark__circle" cx="26" cy="26" r="25" fill="none"/><path class="icon--checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
 			</svg>
@@ -254,7 +254,7 @@ $saswp_add_data_type_config = array(
 				<a id="skip" href="<?php echo esc_url( saswp_add_new_step_next_link() ); ?>" class="merlin__button merlin__button--skip merlin__button--proceed"><?php echo esc_html( 'Skip' ); ?></a>
 				
 				<a href="<?php echo esc_url( saswp_add_new_step_next_link() ); ?>" class="merlin__button merlin__button--next button-next" data-callback="save_logo">
-					<span class="merlin__button--loading__text"><?php echo esc_html( 'Save' ); ?></span><?php echo saswp_add_new_loading_spinner(); ?>
+					<span class="merlin__button--loading__text"><?php echo esc_html( 'Next' ); ?></span><?php echo saswp_add_new_loading_spinner(); ?>
 				</a>
 				
 				<?php wp_nonce_field( 'saswp_add_new_nonce' ); ?>
@@ -271,7 +271,7 @@ $saswp_add_data_type_config = array(
 
 		<div class="merlin__content--transition">
 
-			<!--<div class="saswp_branding"></div>-->
+			<div class="saswp_branding"></div>
 			<svg class="icon icon--checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
 				<circle class="icon--checkmark__circle" cx="26" cy="26" r="25" fill="none"/><path class="icon--checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
 			</svg>
@@ -298,7 +298,7 @@ $saswp_add_data_type_config = array(
 				<a id="skip" href="<?php echo esc_url( saswp_add_new_step_next_link() ); ?>" class="merlin__button merlin__button--skip merlin__button--proceed"><?php echo esc_html( 'Skip' ); ?></a>
 				
 				<a href="<?php echo esc_url( saswp_add_new_step_next_link() ); ?>" class="merlin__button merlin__button--next button-next" data-callback="save_logo">
-					<span class="merlin__button--loading__text"><?php echo esc_html( 'Save' ); ?></span><?php echo saswp_add_new_loading_spinner(); ?>
+					<span class="merlin__button--loading__text"><?php echo esc_html( 'Next' ); ?></span><?php echo saswp_add_new_loading_spinner(); ?>
 				</a>
 				
 				<?php wp_nonce_field( 'saswp_add_new_nonce' ); ?>
@@ -396,7 +396,7 @@ $saswp_add_data_type_config = array(
 
 		<div class="merlin__content--transition">
 
-			<!--<div class="saswp_branding"></div>-->
+			<div class="saswp_branding"></div>
 			
 			<h1><?php echo esc_html( 'Schema Added Successfully. Have fun!' ); ?></h1>		
 

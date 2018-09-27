@@ -118,8 +118,7 @@ function saswp_kb_schema_output() {
 					'url'		=> $logo,
 					'width'		=> $width,
 					'height'	=> $height,
-					), 
-		'alternateName'	=> $sd_data['sd_alt_name']
+					), 		
 		);
 
 		if ( isset($sd_data['saswp_kb_contact_1'] ) && $sd_data['saswp_kb_contact_1'] ) {
@@ -478,7 +477,7 @@ function saswp_schema_output() {
 				'@type'				=> $local_business ,
 				'url'				=> get_permalink(),
 				'name'                          => $business_details['local_business_name'],
-				'description'                   => get_the_excerpt(),
+				//'description'                   => get_the_excerpt(),
 				'@id'                           => get_permalink(),
 				'address'                       => array(
                                                                 "@type"          => "PostalAddress",
@@ -809,10 +808,9 @@ function saswp_about_page_output()
 	if(isset($image_details['url'])){
 				$image_url		= $image_details['url'];
 			}
-	$about_page = $sd_data['sd_about_page'];
-
-	if(isset($sd_data['sd_about_page']) && $sd_data['sd_about_page'] === get_the_ID()){
-
+	$about_page = $sd_data['sd_about_page'];        
+        
+	if((isset($sd_data['sd_about_page'])) && $sd_data['sd_about_page'] == get_the_ID()){            
 			$logo = $sd_data['sd_logo']['url'];	
 			$height = $sd_data['sd_logo']['height'];
 			$width = $sd_data['sd_logo']['width'];
@@ -871,8 +869,7 @@ function saswp_contact_page_output()
 				$image_url		= $image_details['url'];
 			}
 	$contact_page = $sd_data['sd_contact_page'];
-
-	if(isset($sd_data['sd_contact_page']) && $sd_data['sd_contact_page'] === get_the_ID()){
+	if(isset($sd_data['sd_contact_page']) && $sd_data['sd_contact_page'] == get_the_ID()){
 
 			$logo = $sd_data['sd_logo']['url'];	
 			$height = $sd_data['sd_logo']['height'];

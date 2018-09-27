@@ -9,9 +9,9 @@ function saswp_structured_data()
 add_action('wp_head', 'saswp_data_generator');
 function saswp_data_generator() {
    global $sd_data;	           
-   $output =[];
+   $output ='';
    $contact_page_output      = saswp_contact_page_output();  	
-   $about_page_output        = saswp_about_page_output();   
+   $about_page_output        = saswp_about_page_output();     
    $author_output            = saswp_author_output();
    $archive_output           = saswp_archive_output();
    $kb_website_output        = saswp_kb_website_output();

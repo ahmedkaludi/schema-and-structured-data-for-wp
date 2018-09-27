@@ -60,7 +60,7 @@ var Merlin = (function($){
 
         	body.removeClass( drawer_opened );
 
-            e.preventDefault();
+                 e.preventDefault();
 		    var goTo = this.getAttribute("href");
 
 		    setTimeout(function(){
@@ -82,6 +82,7 @@ var Merlin = (function($){
             if( data_callback && typeof callbacks[data_callback] !== "undefined"){
                 // We have to process a callback before continue with form submission.
                 callbacks[data_callback](this);
+                $(".saswp_branding").hide();
                 return false;
             } else {
                 return true;

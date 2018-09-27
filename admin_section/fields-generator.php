@@ -8,7 +8,7 @@ class saswp_fields_generator {
         $tooltip_message='';
         switch ($meta_field_id) {
             case 'saswp_kb_type':
-               $tooltip_message = esc_html__('ss','schema-and-structured-data-for-wp');
+               //$tooltip_message = esc_html__('ss','schema-and-structured-data-for-wp');
                 break;
 
             default:
@@ -119,6 +119,6 @@ class saswp_fields_generator {
                         $allowed_html = saswp_expanded_allowed_tags();
 			$output .= '<li><div class="saswp-knowledge-label">'.$label.'</div><div class="saswp-knowledge-field">'.$input.'<p>'.esc_html__($note,'schema-and-structured-data-for-wp').'</p></div></li>';
 		}
-		echo '<div style="width:85%;"><div class="saswp-settings-list"><ul>' . wp_kses($output, $allowed_html) . '</ul></div></div>';
+		echo '<div><div class="saswp-settings-list"><ul>' . wp_kses($output, $allowed_html) . '</ul></div></div>';
 	}	        
 }
