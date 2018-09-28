@@ -1,27 +1,79 @@
 var clone = function(){
 		jQuery(".structured-clone").off("click").click(function(){
-			var selectrow = jQuery(document).find("#call_html_template_sdwp").html();
-			nextId = jQuery(this).parents("tbody").find("tr").length;
-			selectrow = selectrow.replace(/\[0\]/g, "["+nextId+"]");
-			console.log(selectrow);
+                        var group_index = jQuery(this).closest(".saswp-placement-group").attr('data-id');                                                
+			var selectrow = jQuery(document).find("#call_html_template_sdwp").html();                        
+			nextId = jQuery(this).parents("tbody").find("tr").length;			
+                        selectrow = selectrow.replace(/\[0\]/g, "["+nextId+"]"); 
+                        selectrow = selectrow.replace(/\[group-0\]/g, "[group-"+group_index+"]"); 			
 			jQuery(this).parents("tr").after(selectrow);removeHtml();clone();
 		});
 	}
 	var removeHtml = function(){
 		jQuery(".structured-delete").off("click").click(function(){
-			if(jQuery(this).parents("tbody").find("tr").length>1){
+                      var class_count = jQuery(".saswp-placement-group").length;  
+                      
+                      if(class_count==1){
+                       if(jQuery(this).parents("tbody").find("tr").length>1){
 				jQuery(this).parents("tr").remove();
-			}
+			}   
+                      }else{
+                         if(jQuery(this).parents("tbody").find("tr").length == 1){
+				jQuery(this).parents(".saswp-placement-group").remove();
+			} else{
+                                jQuery(this).parents("tr").remove();
+                        }
+                      }
+			
 		});
 	}
-jQuery(document).ready(function($){
-	var selectrow = $("#amp_sdwp_select").find("table.widefat tr").html();
+jQuery(document).ready(function($){            
+        if(saswp_app_object.post_type ==='saswp' && saswp_app_object.post_found_status ==='not_found'){
+            var html = '<div>';
+                html += '<p><span class="dashicons dashicons-thumbs-up"></span>'+saswp_app_object.thankyou+' <a href="'+saswp_app_object.wizard_url+'">'+saswp_app_object.quicksetup+'</a></p>';                
+                html += '</div>';
+          $(".wp-list-table .colspanchange").html(html);  
+        }        
+        $('#saswp-dayofweek-opens-time').timepicker({ 'timeFormat': 'H:i:s'});
+        $('#saswp-dayofweek-closes-time').timepicker({ 'timeFormat': 'H:i:s'});
+        
+        $(".saswp-placement-or-group").on("click", function(e){
+            e.preventDefault();
+            var group_index ='';
+            var group_index = $(".saswp-placement-group").length;             
+                        
+          var selectrow = jQuery(document).find("#call_html_template_sdwp").html();
+              selectrow = selectrow.replace(/\[group-0\]/g, "[group-"+group_index+"]");
+          var placement_group_html = '';
+              placement_group_html +='<table class="widefat saswp-placement-table" style="border:0px;">';
+              placement_group_html += selectrow; 
+              placement_group_html +='</table>';  
+                              
+          var html='';  
+              html +='<div class="saswp-placement-group" name="data_group_array['+group_index+']" data-id="'+group_index+'">';
+              html +='<span style="margin-left:10px;font-weight:600">Or</span>';
+              html +=placement_group_html;
+              html +='</div>';                
+           $(".saswp-placement-group[data-id="+(group_index-1)+"]").after(html); 
+           group_index++;
+           clone();
+           removeHtml();
+        });
+    
+	var selectrow = $("#saswp_amp_select").find("table.widefat tr").html();
 	$("body").append("<script type='template/html' id='call_html_template_sdwp'><tr class='toclone cloneya'>"+selectrow+"</tr>");
 	clone();
 	removeHtml();
 	$(document).on("change", ".select-post-type", function(){
+                var current_change = $(this);
 		var parent = $(this).parents('tr').find(".insert-ajax-select");
 		var selectedValue = $(this).val();
+                var tdindex = [1,2,3,4]; 
+                if(selectedValue !='show_globally'){
+                    
+                $.each(tdindex, function(i,e){  
+                    $(current_change).closest('tr').find('td').eq(e).show();  
+                 });    
+                
 		var currentFiledNumber = $(this).attr("class").split(" ")[2];
                 var saswp_call_nonce = $("#saswp_select_name_nonce").val();
 		
@@ -29,7 +81,8 @@ jQuery(document).ready(function($){
 		parent.find(".ajax-output-child").remove();
 		parent.find(".spinner").attr("style","visibility:visible");
 		parent.children(".spinner").addClass("show");
-		var ajaxURL = amp_sdwp_field_data.ajax_url;
+		var ajaxURL = saswp_app_object.ajax_url;
+                var group_index = jQuery(this).closest(".saswp-placement-group").attr('data-id'); 
 		//ajax call
         $.ajax({
         url : ajaxURL,
@@ -38,6 +91,7 @@ jQuery(document).ready(function($){
           action: "create_ajax_select_sdwp", 
           id: selectedValue,
           number : currentFiledNumber,
+          group_number : group_index,
           saswp_call_nonce : saswp_call_nonce
         },
         beforeSend: function(){ 
@@ -55,6 +109,13 @@ jQuery(document).ready(function($){
           console.log(data);
         }
       }); 
+                }else{
+                    $.each(tdindex, function(i,e){   
+             $(current_change).closest('tr').find('td').eq(e).hide(); 
+            
+            
+            });
+                }
 	});
 	taxonomyDataCall();
 	$("#notAccessibleForFree").click(function(){
@@ -81,7 +142,8 @@ function taxonomyDataCall(){
 			parentSelector.find(".spinner").attr("style","visibility:visible");
 			parentSelector.children(".spinner").addClass("show");
 			
-			var ajaxURL = amp_sdwp_field_data.ajax_url;
+			var ajaxURL = saswp_app_object.ajax_url;
+                         var group_index = jQuery(this).closest(".saswp-placement-group").attr('data-id'); 
 			//ajax call
 			jQuery.ajax({
 	        url : ajaxURL,
@@ -90,6 +152,7 @@ function taxonomyDataCall(){
 	          action: "create_ajax_select_sdwp_taxonomy", 
 	          id: selectedValue,
 	          number : currentFiledNumber,
+                  group_number : group_index,
                   saswp_call_nonce: saswp_call_nonce
 	        },
 	        beforeSend: function(){ 

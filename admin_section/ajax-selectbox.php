@@ -1,6 +1,6 @@
 <?php
 add_action('wp_ajax_create_ajax_select_sdwp','saswp_ajax_select_creator');
-function saswp_ajax_select_creator($data = '', $saved_data= '', $current_number = '') {
+function saswp_ajax_select_creator($data = '', $saved_data= '', $current_number = '', $current_group_number ='') {
  
     $response = $data;
     $is_ajax = false;
@@ -14,11 +14,14 @@ function saswp_ajax_select_creator($data = '', $saved_data= '', $current_number 
             if ( isset( $_POST["number"] ) ) {
               $current_number   = intval($_POST["number"]);
             }
+            if ( isset( $_POST["group_number"] ) ) {
+              $current_group_number   = intval($_POST["group_number"]);
+            }
         }else{
             exit;
         }
        
-    }        
+    }          
         // send the response back to the front end
        // vars
     $choices = array();    
@@ -37,6 +40,7 @@ function saswp_ajax_select_creator($data = '', $saved_data= '', $current_number 
             $choices = saswp_post_type_generator();
             
             $choices = apply_filters('saswp_modify_select_post_type', $choices );           
+            unset($choices['saswp']);
             break;
 
           case "page":
@@ -106,7 +110,7 @@ function saswp_ajax_select_creator($data = '', $saved_data= '', $current_number 
 
             $post_types = get_post_types();
 
-            unset( $post_types['page'], $post_types['attachment'], $post_types['revision'] , $post_types['nav_menu_item'], $post_types['acf'] , $post_types['amp_acf']  );
+            unset( $post_types['page'], $post_types['attachment'], $post_types['revision'] , $post_types['nav_menu_item'], $post_types['acf'] , $post_types['amp_acf'],$post_types['saswp']  );
 
             if( $post_types )
             {
@@ -199,7 +203,7 @@ function saswp_ajax_select_creator($data = '', $saved_data= '', $current_number 
      //  echo $current_number;
     // echo $saved_data;
 
-      $output = '<select  class="widefat ajax-output" name="data_array['. esc_attr($current_number) .'][key_3]">'; 
+      $output = '<select  class="widefat ajax-output" name="data_group_array[group-'.esc_attr($current_group_number).'][data_array]['. esc_attr($current_number) .'][key_3]">'; 
 
         // Generate Options for Posts
         if ( $options['param'] == 'post' ) {
@@ -256,7 +260,7 @@ function saswp_post_taxonomy_generator(){
 }
 add_action('wp_ajax_create_ajax_select_sdwp_taxonomy','saswp_create_ajax_select_taxonomy');
 
-function saswp_create_ajax_select_taxonomy($selectedParentValue = '',$selectedValue='', $current_number =''){
+function saswp_create_ajax_select_taxonomy($selectedParentValue = '',$selectedValue='', $current_number ='', $current_group_number  = ''){
     $is_ajax = false;
     if( $_SERVER['REQUEST_METHOD']=='POST'){
         $is_ajax = true;
@@ -266,6 +270,9 @@ function saswp_create_ajax_select_taxonomy($selectedParentValue = '',$selectedVa
               }
               if(isset($_POST['number'])){
                 $current_number = intval($_POST['number']);
+              }
+              if ( isset( $_POST["group_number"] ) ) {
+              $current_group_number   = intval($_POST["group_number"]);
               }
         }else{
             exit;
@@ -290,7 +297,7 @@ function saswp_create_ajax_select_taxonomy($selectedParentValue = '',$selectedVa
       $choices .= '<option value="'.esc_attr($taxonomy->slug).'" '.esc_attr($sel).'>'.esc_html__($taxonomy->name,'schema-and-structured-data-for-wp').'</option>';
     }
     $allowed_html = saswp_expanded_allowed_tags();    
-    echo '<select  class="widefat ajax-output-child" name="data_array['. esc_attr($current_number) .'][key_4]">'. wp_kses($choices, $allowed_html).'</select>';
+    echo '<select  class="widefat ajax-output-child" name="data_group_array[group-'. esc_attr($current_group_number) .'][data_array]['.esc_attr($current_number).'][key_4]">'. wp_kses($choices, $allowed_html).'</select>';
     if($is_ajax){
       die;
     }

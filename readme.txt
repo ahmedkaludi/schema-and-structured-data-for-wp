@@ -1,9 +1,9 @@
-=== Schema and Structured Data for WP & AMP ===
+=== Schema & Structured Data for WP & AMP ===
 Contributors: mohammed_kaludi, ahmedkaludi, ampforwp
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 4.9.8
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -12,7 +12,8 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Schema & Structured Data adds Google Rich Snippets markup according to Schema.org guidelines to structure your site for SEO. (AMP Compatible) 
 
 = Features =
-* <strong>Schema Types</strong>: are divided into 7 types such as Blog Posting, News article, Web page, Article, Recipe, Product, and Video Object. We are going to add all the schema types in the future. You can request the one you want and we will add it for you! 
+
+* <strong>Schema Types</strong>: are divided into 8 types such as Blog Posting, News article, Local Business, Web page, Article, Recipe, Product, and Video Object. We are going to add all the schema types in the future. You can request the one you want and we will add it for you! 
 * <strong>Conditional Display Feilds</strong>: Meaning you include or exclude any posts, pages, post types, taxonomies and more! 
 * <strong>Knowlegde Base Support</strong>: Recognize the content based on the organization or a person via data type option.
 * <strong>Full AMP Compatiblity</strong>: Supports the AMP for WP and AMP by Automattic plugins.  
@@ -20,11 +21,13 @@ Schema & Structured Data adds Google Rich Snippets markup according to Schema.or
 * <strong>Easy to use</strong> with Minimal Settings
 * <strong>Archive Page Listing</strong> Support 
 * <strong>JSON-LD</strong> Format
+* <strong>Easy to use</strong> Setup Wizard
 * <strong>Breadcrumbs</strong> Listing Support
 * <strong>Constant Development & New Features</strong>: We’ll be releasing the constant updates along with the more handy features as soon as we get the feedback from the users.
 * <strong>Constant Development & New Features</strong>: We’ll be releasing the constant updates along with the more handy features as soon as we get the feedback from the users.
 
 = Supported Schema & Structured Data Types: =
+* LocalBusiness Schema with all the sub categories
 * BlogPosting Schema
 * News Article Schema
 * WebPage Schema
@@ -58,9 +61,22 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 
 
 = How do I get in touch? =
-You can contact us from [here](https://ampforwp.com/contact/)
+You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.0.2 (28 August 2018) =
+* First Time Installation Setup Wizard
+* Added a Support form to provide faster support
+* Full Local Business Schema Markup Support
+* Schema Press Migrator - You can easy switch from Schema Press plugin with just one-click.
+* Moved the options panel to the bottom for better UX
+* Asks for review after a week.
+* Shows Schema type next to the name of the post
+* Knowledge Graph typo
+* Debug errors
+* Date format has been fixed via PR. Thanks to @thetoine
+* minor Bugs Fixed
 
 = 1.0.1 (27 August 2018) =
 * AMP Compatibility improved for Schema 

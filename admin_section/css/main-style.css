@@ -7,6 +7,9 @@ and open the template in the editor.
     Created on : Jul 27, 2018, 5:36:26 PM
     Author     : Magazine3
 */
+.saswp_hide{
+    display: none;
+}
 .saswp-general table th{
     width: auto;
     font-weight: 600;
@@ -52,6 +55,10 @@ and open the template in the editor.
     width: auto;
     padding: 0px;
 }
+.saswp-support table th{    
+    width: auto;
+    padding: 0px;
+}
 .saswp-help table{
     margin-top: 0px;   
 } 
@@ -63,8 +70,9 @@ and open the template in the editor.
     width:100%
 }
 .saswp-settings-list li{
-    padding:15px;
+    
     padding-left:0px;
+    display: contents;
 }
 .saswp-settings-list li div label{
     font-weight: 600;
@@ -90,9 +98,212 @@ and open the template in the editor.
 .saswp-display-none{
 display: none !important;    
 }
+.saswp-placement-groups{
+    border: 1px solid #e5e5e5;
+}
+.saswp-query-success{
+    color: #006600;
+}
+.saswp-query-error{
+    color: #bf3322;
+}
 
+.saswp-tools table th{    
+    width: auto;
+    padding: 0px;
+}
+.saswp-tools table{
+    margin-top: 0px;   
+} 
+.saswp-tools table td{
+    padding: 5px;   
+}
+.saswp-tools-field-title strong{
+    padding-right: 130px;
+}
+.saswp-error{
+    color: #ff0000 !important;
+}
+/*
+Tooltip css starts here
 
+*/
+.saswp-tooltip {
+    position: relative;
+    display: inline-block;   
+}
+.saswp-tooltip .saswp-tooltiptext {
+    visibility: hidden;
+    width: 200px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -25px;
+}
+.saswp-tooltip:hover .saswp-tooltiptext {
+    visibility: visible;
+}
 
+.saswp-tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 10%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: black transparent transparent transparent;
+}
 
+/*
+Tooltip css ends here
 
+*/
+.saswp-knowledge-base .saswp-knowledge-label{
+    width:200px;
+    float:left;
+    clear: both;
+    
+}
+.saswp-knowledge-base .saswp-knowledge-field{
+    width:75%; 
+    float:right;
+}
+
+.saswp-social-fileds ul{
+       display: grid;
+       grid-template-columns: 26.5%  1fr;
+}
+.saswp-social-fileds li{
+       display: flex;    
+}
+.saswp-social-fileds .saswp-knowledge-field{
+    width: 100%;
+    margin-left: 10px;
+}
+.saswp-social-fileds .saswp-knowledge-field input{
+    float: right;
+    margin: inherit;
+}
+.saswp-schema-type-fields .saswp-knowledge-label{
+    width:200px;
+    float:left;
+    clear: both;
+}
+.saswp-schema-type-fields .saswp-knowledge-field{
+    width:75%; 
+    float:right;
+}
+.saswp-settings-first-div{
+    width: 70%;
+}
+.saswp-settings-container{
+    display: inline-flex;
+    width: 100%;
+}
+.saswp-settings-second-div{
+    float: right; 
+    position: relative;
+    top: 20px;
+    margin-right: 30px;
+    margin-top: 37px;
+}
+.saswp-feedback-panel{
+    height: 200px;
+    width: 280px;
+    background: #ffffff;    
+    position: relative;
+  
+}
+.saswp-start-quck-setup{
+   position: relative;
+   float: inherit;
+   top: 7px;
+   left:15px;
+}
+.saswp-feedback-panel ul{
+    list-style-type: circle;
+    list-style:decimal;
+    padding-left: 30px;
+    font-size: 15px;
+    
+}
+.saswp-feedback-panel a{
+    text-decoration: none;
+    
+}
+.saswp-feedback-panel h2{
+    text-align: center;
+    padding-top: 18px;
+    
+}
+.saswp-social-sharing-buttons {
+    text-align: center;
+    padding-top: 20px;
+    
+    
+}
+.saswp-facebook-share{
+    background: #3B5998;
+    box-shadow: 0 0px 0 #1b95e0 !important;
+    color: #fff !important;
+    line-height: 20px !important;
+    height: 21px !important;
+    border-radius: 3px;
+    margin-right: 5px;
+}
+.saswp-social-sharing-buttons a{
+    text-align: center;
+    padding: 8px;
+    
+    
+}
+.twitter-share-button{
+    background: #1b95e0 !important;
+    box-shadow: 0 0px 0 #1b95e0 !important;
+    color:#fff !important;
+    line-height: 20px !important;
+    height: 21px !important;
+    border-radius: 3px;
+    margin-left: 5px;
+    
+}
+.saswp-placement-button{
+    padding: 3px 10px; 
+    color: #0d0d0d; 
+    font-size: 14px; 
+    border: 1px solid #aaa; 
+    border-radius: 2px; 
+    background: linear-gradient(#ededed, #ffffff);
+}
+.saswp-placement-table td {
+    padding: 5px 10px !important;
+}
+.saswp-archive-div .saswp-knowledge-field{
+float: right;
+width: 75%;
+padding-bottom: 10px;
+}
+.saswp-archive-div .saswp-knowledge-label{
+float:left;
+clear: both;
+}
+
+.saswp-amp .saswp-knowledge-field{
+float: right;
+width: 75%;
+padding-bottom: 10px;
+}
+.saswp-amp .saswp-knowledge-label{
+float:left;
+clear: both;
+}
 
