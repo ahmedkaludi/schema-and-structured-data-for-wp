@@ -202,8 +202,8 @@ function saswp_schema_output() {
 			$image_id 	= get_post_thumbnail_id();
 			$image_details 	= wp_get_attachment_image_src($image_id, 'full');			
 			$author_details	= get_avatar_data($author_id);
-			$date 		= get_the_date();
-			$modified_date 	= get_the_modified_date();
+			$date 		= get_the_date("Y-m-d\TH:i:s\Z");
+			$modified_date 	= get_the_modified_date("Y-m-d\TH:i:s\Z");
 			$aurthor_name 	= get_the_author();
 			
 			if(is_page()){
