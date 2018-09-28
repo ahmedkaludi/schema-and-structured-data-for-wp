@@ -111,7 +111,7 @@ function saswp_admin_interface_render(){
         <h2><?php echo esc_html__( 'Leave A Feedback', 'schema-and-structured-data-for-wp' ); ?></h2>
         
         <ul>
-            <li><a target="_blanl" href="https://wordpress.org/plugins/schema-and-structured-data-for-wp"><?php echo esc_html__( 'I would like to review this plugin', 'schema-and-structured-data-for-wp' ); ?></a></li>    
+            <li><a target="_blanl" href="https://wordpress.org/support/plugin/schema-and-structured-data-for-wp/reviews/#new-post"><?php echo esc_html__( 'I would like to review this plugin', 'schema-and-structured-data-for-wp' ); ?></a></li>    
             <li><a target="_blanl" href="http://structured-data-for-wp.com/contact-us/"><?php echo esc_html__( 'I have ideas to improve this plugin', 'schema-and-structured-data-for-wp' ); ?></a></li>
             <li><a href="<?php echo esc_url( admin_url( 'admin.php?page=structured_data_options&tab=support' ) ); ?>"><?php echo esc_html__( 'I need help this plugin', 'schema-and-structured-data-for-wp' ); ?></a></li>              
         </ul>  
@@ -121,7 +121,7 @@ function saswp_admin_interface_render(){
         <?php echo esc_html__( 'Share', 'schema-and-structured-data-for-wp' ); ?>
        </a>
         <a target="_blank" class="twitter-share-button"
-        href="https://twitter.com/intent/tweet?url=http://structured-data-for-wp.com/">
+        href="https://twitter.com/home?status=I'm%20using%20this%20Structured%20data%20WordPress%20plugin%20for%20implementing%20Schema%20on%20my%20site!%20http%3A//structured-data-for-wp.com/%20via%20%40WPF_community">
             <span class="dashicons dashicons-twitter"></span>
                 <?php echo esc_html__( 'Tweet', 'schema-and-structured-data-for-wp' ); ?>
         </a>
