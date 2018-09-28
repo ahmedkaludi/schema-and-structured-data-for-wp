@@ -1,11 +1,15 @@
 <?php
+
+function saswp_remove_amp_default_structure_data($metadata){
+    return '';
+}
+
 add_filter( 'amp_init', 'saswp_structured_data' );
 function saswp_structured_data()
 {		
 	add_action( 'amp_post_template_head' , 'saswp_data_generator' );	
 	remove_action( 'amp_post_template_head', 'amp_post_template_add_schemaorg_metadata',10,1);
 }
-
 add_action('wp_head', 'saswp_data_generator');
 function saswp_data_generator() {
    global $sd_data;	           
@@ -14,9 +18,13 @@ function saswp_data_generator() {
    $about_page_output        = saswp_about_page_output();     
    $author_output            = saswp_author_output();
    $archive_output           = saswp_archive_output();
-   $kb_website_output        = saswp_kb_website_output();
+   $kb_website_output        = saswp_kb_website_output();   
    $schema_breadcrumb_output = saswp_schema_breadcrumb_output($sd_data);
-   $schema_output            = saswp_schema_output();
+   $schema_output            = saswp_schema_output();   
+   
+   if($schema_output){       
+       add_filter( 'amp_post_template_metadata', 'saswp_remove_amp_default_structure_data');
+   }
    
    
    $kb_schema_output         = saswp_kb_schema_output();
@@ -61,15 +69,15 @@ function saswp_data_generator() {
                         $output .= $schema_breadcrumb_output;   
                         $output .= ",";
                         $output .= "\n\n";
-                        }
-                        
-                        if(!empty($schema_output)){
-                              
-                        $output .= $schema_output; 
+                        }                        
+                        if(!empty($schema_output)){                            
+                        foreach($schema_output as $schema){
+                        $schema = json_encode($schema);
+                        $output .= $schema; 
                         $output .= ",";
-                        $output .= "\n\n";
-                        }
-                        
+                        $output .= "\n\n";   
+                        }                            
+                        }                        
                         if(!empty($kb_schema_output)){
                             
                         $output .= $kb_schema_output;
@@ -96,17 +104,21 @@ function saswp_paywall_data_for_login($content){
 	if( saswp_non_amp() ){
 		return $content;
 	}
-	remove_filter('the_content', 'MeprAppCtrl::page_route', 60);
-	
-	$schemaConditionals = saswp_get_all_schema_posts();
-	if(!$schemaConditionals){
+	remove_filter('the_content', 'MeprAppCtrl::page_route', 60);	
+	$Conditionals = saswp_get_all_schema_posts();     
+        
+	if(!$Conditionals){
 		return $content;
 	}else{
-		$schema_options = $schemaConditionals['schema_options'];
+               
                 $className ='';
-                if(array_key_exists('paywall_class_name', $schema_options)){
-                $className = $schema_options['paywall_class_name'];    
-                }					
+                foreach($Conditionals as $schemaConditionals){
+                $schema_options = $schemaConditionals['schema_options'];                
+                if(isset($schema_options['paywall_class_name'])){
+                $className = $schema_options['paywall_class_name'];  
+                 break;
+                }   
+                }                
 		if(strpos($content, '<!--more-->')!==false && !is_user_logged_in()){
 			global $wp;
 			$redirect =  home_url( $wp->request );

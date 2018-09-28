@@ -167,15 +167,18 @@ function sd_is_blog() {
 function saswp_schema_output() {
 	global $sd_data;
 
-	$schemaConditionals = saswp_get_all_schema_posts();  
+	$Conditionals = saswp_get_all_schema_posts();  
+       
         
-        
-	if(!$schemaConditionals){
+	if(!$Conditionals){
 		return ;
 	}
-//	if( (!saswp_non_amp() && $sd_data['saswp-for-amp']!=1) || (saswp_non_amp() && $sd_data['saswp-for-wordpress']!=1) ) {
-//		return ;
-//	}
+	if( (!saswp_non_amp() && $sd_data['saswp-for-amp']!=1) || (saswp_non_amp() && $sd_data['saswp-for-wordpress']!=1) ) {
+		return ;
+	}
+        $all_schema_output = array();
+        foreach($Conditionals as $schemaConditionals){
+           
 	$schema_options = $schemaConditionals['schema_options'];
 	$schema_type = $schemaConditionals['schema_type'];  
         $schema_post_id = $schemaConditionals['post_id'];  
@@ -560,11 +563,11 @@ function saswp_schema_output() {
 										);
 				$input = array_merge($input,$paywallData);
 			}
-		}                
-		return json_encode($input);	                
+		}  
+                $all_schema_output[] = $input;		                
 	}
-    
-
+        }              
+        return $all_schema_output;	
 }
 
 function saswp_structure_data_access_scripts($data){

@@ -73,28 +73,7 @@ function saswp_get_all_schema_posts(){
             }
             
       }//foreach closed post_idArray
-      //Prioritize
-      if(count($returnData)>0){
-          $priority = array(
-            'post_type'=>1,  
-            'user_type'=>2, 
-            'post'=> 3 , 
-            'post_category'=> 4,
-            'post_format'=> 5, 
-            'Page'=> 6,  
-            'page_template'=>7,  
-            'ef_taxonomy'=>8
-          );
-            $actualReturnData = array();
-            foreach ($returnData as $key => $value) {
-                
-              if(isset($value['conditions']['key_1'])){
-              $actualReturnData[$priority[$value['conditions']['key_1']]] = $value;    
-              }                
-            }
-            $maxs = array_keys($actualReturnData, max($actualReturnData));
-            return $actualReturnData[$maxs[0]];
-      }
+      return $returnData;      
   }//iF Closed post_idArray
    return false;
 }
@@ -510,14 +489,34 @@ $admin_url = admin_url();
   add_action( 'admin_enqueue_scripts', 'saswp_style_script_include' );
   function saswp_style_script_include() {
      global $pagenow, $typenow;
-    if (is_admin() && $pagenow=='post-new.php' OR $pagenow=='post.php' && $typenow=='saswp') {
+    if (is_admin()) {
        wp_register_script( 'structure_admin', plugin_dir_url(__FILE__) . '/js/structure_admin.js', array( 'jquery'), SASWP_VERSION, true );
-       // Localize the script with new data
+       $post_type='';
+       $current_screen = get_Current_screen(); 
+       if(isset($current_screen->post_type)){
+       $post_type = $current_screen->post_type;     
+       }      
+       $saswp_posts = get_posts(
+                    array(
+                            'post_type' 	 => 'saswp',                                                                                   
+                            'posts_per_page' => -1,   
+                            'post_status' => 'publish',                            
+                    )
+                 ); 
+       $post_found_status ='';
+       if(!$saswp_posts){
+        $post_found_status ='not_found';   
+       }       
       $data_array = array(
-          'ajax_url'    =>  admin_url( 'admin-ajax.php' ) 
+          'ajax_url'    =>  admin_url( 'admin-ajax.php' ), 
+          'post_found_status' => $post_found_status,
+          'post_type' =>$post_type,
+          'wizard_url' => esc_url( admin_url( 'plugins.php?page=saswp-setup-wizard' ) ),
+          'thankyou'   => esc_html__("Thank you for using Schema & Structured Data For WP plugin!",'schema-and-structured-data-for-wp'),
+          'quicksetup'   => esc_html__("Start Quick Setup?",'schema-and-structured-data-for-wp')
       );
-      wp_localize_script( 'structure_admin', 'saswp_app_object', $data_array );
-      wp_enqueue_script('structure_admin');
+       wp_localize_script( 'structure_admin', 'saswp_app_object', $data_array );
+       wp_enqueue_script('structure_admin');
       
        wp_enqueue_script( 'saswp-timepicker-js', SASWP_PLUGIN_URL . 'admin_section/js/jquery.timepicker.js', false, SASWP_VERSION);
         //Main Css 

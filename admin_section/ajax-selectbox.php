@@ -21,9 +21,7 @@ function saswp_ajax_select_creator($data = '', $saved_data= '', $current_number 
             exit;
         }
        
-    }    
-   // print_r($is_ajax);die;
-   // wp_die();
+    }          
         // send the response back to the front end
        // vars
     $choices = array();    
