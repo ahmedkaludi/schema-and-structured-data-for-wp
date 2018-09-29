@@ -625,11 +625,15 @@
 function saswp_general_setting_fields_callback(){
 	global $sd_data;
 	$settings = $sd_data;
+        $saswp_kb_type ='';
+        if(isset($sd_data['saswp_kb_type'])){
+          $saswp_kb_type =  $sd_data['saswp_kb_type']; 
+        }
 	$returnHtml = '<li class="saswp_fields">
 			<label>'.esc_html__('Data Type', 'schema-and-structured-data-for-wp').'</label>
 			<select name="sd_data[saswp_kb_type]">
-				<option value="Organization" '.($sd_data['saswp_kb_type']=='Organization'? 'selected' : '').'>'.esc_html__('Organization', 'schema-and-structured-data-for-wp').'</option>
-				<option value="Person" '.($sd_data['saswp_kb_type']=='Person'? 'selected' : '').'>'.esc_html__('Person', 'schema-and-structured-data-for-wp').'</option>
+				<option value="Organization" '.($saswp_kb_type=='Organization'? 'selected' : '').'>'.esc_html__('Organization', 'schema-and-structured-data-for-wp').'</option>
+				<option value="Person" '.($saswp_kb_type=='Person'? 'selected' : '').'>'.esc_html__('Person', 'schema-and-structured-data-for-wp').'</option>
 			</select>
 		</li>
 		<li class="saswp_fields">
