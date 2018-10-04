@@ -15,12 +15,7 @@ jQuery(document).ready(function($){
 		var currentTab = getParameterByName('tab',href);
 		if(!currentTab){
 			currentTab = "general";
-		}                
-                if(currentTab == 'support' || currentTab == 'tools'){
-                     $(".saswp-settings-form #submit").hide();   
-                }else{
-                     $(".saswp-settings-form #submit").show();
-                }                                
+		}                                                                
 		$(this).siblings().removeClass("nav-tab-active");
 		$(this).addClass("nav-tab-active");
 		$(".form-wrap").find(".saswp-"+currentTab).siblings().hide();
@@ -213,7 +208,16 @@ jQuery(document).ready(function($){
                             }else{
                               $("#saswp_breadcrumb_schema").val(0);           
                             }
-                      break;                                           
+                      break;
+                      
+                      case 'saswp_compativility_checkbox':
+                          
+                            if ($(this).is(':checked')) {              
+                              $("#saswp_compativility").val(1);             
+                            }else{
+                              $("#saswp_compativility").val(0);           
+                            }
+                      break;
                       default:
                           break;
                   }
@@ -296,17 +300,18 @@ jQuery(document).ready(function($){
 
         $(".saswp-import-plugins").on("click", function(e){
             e.preventDefault();   
+            var current_selection = $(this);
             var plugin_name = $(this).attr('data-id');                      
                          $.get(ajaxurl, 
                              { action:"saswp_import_plugin_data", plugin_name:plugin_name},
                               function(response){                                  
                               if(response['status'] =='t'){                                  
-                                  $(".saswp-imported-message").text(response['message']);
-                                  $(".saswp-imported-message").removeClass('saswp-error');
+                                  $(current_selection).parent().find(".saswp-imported-message").text(response['message']);
+                                  $(current_selection).parent().find(".saswp-imported-message").removeClass('saswp-error');
                                    setTimeout(function(){ location.reload(); }, 2000);
                               }else{
-                                  $(".saswp-imported-message").addClass('saswp-error');
-                                  $(".saswp-imported-message").text(response['message']);                                  
+                                  $(current_selection).parent().find(".saswp-imported-message").addClass('saswp-error');
+                                  $(current_selection).parent().find(".saswp-imported-message").text(response['message']);                                  
                               }       		   		
                              },'json');
         });

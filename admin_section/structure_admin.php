@@ -865,6 +865,12 @@ function saswp_import_plugin_data(){
                 $result = saswp_import_schema_plugin_data();      
                 }                
                 break;
+                
+            case 'schema_pro':                
+                if ( is_plugin_active('wp-schema-pro/wp-schema-pro.php')) {
+                $result = saswp_import_schema_pro_plugin_data();      
+                }                
+                break;    
 
             default:
                 break;

@@ -32,6 +32,10 @@ define('SASWP_PLUGIN_URL', plugin_dir_url( __FILE__ ));
 require_once SASWP_DIR_NAME .'/output/function.php';
 require_once SASWP_DIR_NAME .'/output/output.php';
 
+if ( is_plugin_active('flexmls-idx/flexmls_connect.php')) {
+require_once SASWP_DIR_NAME .'/output/flexmls.php';    
+}
+
 // Non amp checker
 if ( ! function_exists('saswp_non_amp') ){  
   function saswp_non_amp(){
