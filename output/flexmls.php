@@ -5,6 +5,7 @@ if (!class_exists('flexmlsConnectPageCore')) {
 class saswp_flexmls_list extends flexmlsConnectPageCore{
     
         public $shorcode = array();
+        protected $search_criteria;
 	function __construct() {  
             global $fmc_api;             
             parent::__construct($fmc_api);
@@ -150,6 +151,7 @@ class saswp_flexmls_list extends flexmlsConnectPageCore{
                   $custom_page->input_source = 'shortcode'; 
                   $custom_page->input_data = $pure_conditions;
                   list($params, $cleaned_raw_criteria, $context) =  $custom_page->parse_search_parameters_into_api_request();                  
+                  $this->search_criteria = $cleaned_raw_criteria;
                   
                    require_once( ABSPATH . '/wp-content/plugins/flexmls-idx/lib/flexmlsAPI/Core.php' );
                   $flexcoreApi = new flexmlsAPI_Core();
@@ -194,12 +196,16 @@ class saswp_flexmls_list extends flexmlsConnectPageCore{
             $this->shorcode = $matches;
             return $content;
         }
-        public function saswp_generate_schema_markup($result){
+        public function saswp_generate_schema_markup($result){            
           global $sd_data;
           $sellername ='';
           $sellerurl ='';
           $sellerimage ='';
-          if(isset($sd_data['saswp_compativility'])){
+          $selleraddress ='';
+          $sellertelephone ='';
+          $sellerpricerange ='';
+          
+          if(isset($sd_data['saswp_compativility']) &&  $sd_data['saswp_compativility']==1){
            
               if(isset($sd_data['sd-seller-name'])){
                 $sellername  =$sd_data['sd-seller-name'];
@@ -209,8 +215,19 @@ class saswp_flexmls_list extends flexmlsConnectPageCore{
               }
               if(isset($sd_data['sd_seller_image']['thumbnail'])){
                  $sellerimage = $sd_data['sd_seller_image']['thumbnail'];
-              }                            
-          }          
+              } 
+              if(isset($sd_data['sd-seller-address'])){
+                 $selleraddress =$sd_data['sd-seller-address'];
+              }
+              if(isset($sd_data['sd-seller-telephone'])){
+                 $sellertelephone =$sd_data['sd-seller-telephone'];
+              }
+              if(isset($sd_data['sd-seller-price-range'])){
+                 $sellerpricerange =$sd_data['sd-seller-price-range'];
+              }
+               
+          $link_to_details_criteria = $this->search_criteria;
+          $link_to_details = flexmlsConnect::make_nice_address_url($result['StandardFields'], $link_to_details_criteria, 'fmc_tag');
           $photos = array();
           if($result['StandardFields']['Photos']){              
               foreach ($result['StandardFields']['Photos'] as $photo){
@@ -218,14 +235,13 @@ class saswp_flexmls_list extends flexmlsConnectPageCore{
                    'url' => $photo['UriThumb']
                );   
               }              
-          }
-            //print_r($photos);die;
+          }            
             $input = array();
             $input = array(
 				"@context" 	    => "http://schema.org",
 				"@type"		    => ["Product", "Apartment"],
 				"name"              => $result['StandardFields']['UnparsedFirstLineAddress'],
-				"url"		    => "https://housing.com/in/buy/resale/page/2264557-2-bhk-apartment-in-vivek-nagar-for-rs-4175000",				
+				"url"		    => $link_to_details,				
 				"offers"            => array(
 							"priceCurrency"		=> "USD",
                                                         "price"		=> $result['StandardFields']['ListPrice'],
@@ -235,7 +251,10 @@ class saswp_flexmls_list extends flexmlsConnectPageCore{
                                                              "@type" => "RealEstateAgent",
                                                              "name"  => $sellername, 
                                                              "url"   => $sellerurl,
-                                                             "image" => $sellerimage   
+                                                             "image" => $sellerimage,   
+                                                             "address" => $selleraddress,
+                                                             "priceRange" => $sellerpricerange,  
+                                                             "telephone" => $sellertelephone,         
                                                             )
                                                         ),
 							),
@@ -243,13 +262,14 @@ class saswp_flexmls_list extends flexmlsConnectPageCore{
 				'geo'		    => array(
                                                             "@type" => "GeoCoordinates",
                                                              "address"  => $result['StandardFields']['UnparsedFirstLineAddress'], 
-                                                             "addressCountry"   => $sellerurl,                                                             
+                                                             "addressCountry"   => $result['StandardFields']['UnparsedFirstLineAddress'],                                                             
                                                      ),
 						
 				'photos'	    => $photos,
 			);
            
              return $input;
+             }  
         }        		
 }
 if (class_exists('saswp_flexmls_list')) {

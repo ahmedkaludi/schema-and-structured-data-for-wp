@@ -760,6 +760,27 @@ function saswp_import_callback(){
                         'class' => 'regular-text',                        
 			'type' => 'text',
         );
+         $meta_fields_text[] = array(
+                        'label' => 'Addres',
+			'id' => 'sd-seller-address',
+                        'name' => 'sd_data[sd-seller-address]',
+                        'class' => 'regular-text',                        
+			'type' => 'text',
+        );
+         $meta_fields_text[] = array(
+                        'label' => 'Telephone',
+			'id' => 'sd-seller-telephone',
+                        'name' => 'sd_data[sd-seller-telephone]',
+                        'class' => 'regular-text',                        
+			'type' => 'text',
+        );
+         $meta_fields_text[] = array(
+                        'label' => 'Price Range',
+			'id' => 'sd-seller-price-range',
+                        'name' => 'sd_data[sd-seller-price-range]',
+                        'class' => 'regular-text',                        
+			'type' => 'text',
+        );
         $meta_fields_text[] = array(
 			'label' => 'URL',
 			'id' => 'sd-seller-url',
