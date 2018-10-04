@@ -79,8 +79,8 @@ function saswp_admin_notice(){
         </div>
      
         <div class="updated notice is-dismissible message notice notice-alt saswp-feedback-notice saswp_hide">
-            <p><span class="dashicons dashicons-feedback"></span> <?php echo esc_html__('You have been using the Schema & structured data for wp plugin for some time now, do you like it?, If so,', 'schema-and-structured-data-for-wp') ?>
-                <a target="_blank" href="https://wordpress.org/plugins/schema-and-structured-data-for-wp"> <?php echo esc_html__('please write us a review', 'schema-and-structured-data-for-wp') ?></a>&nbsp;&nbsp;&nbsp;&nbsp;<a  class="saswp-feedback-no-thanks button button-primary"><?php echo esc_html__('No Thanks', 'schema-and-structured-data-for-wp') ?></a>
+            <p><span class="dashicons dashicons-thumbs-up"></span> <?php echo esc_html__('You have been using the Schema & structured data for wp plugin for some time now, do you like it?, If so,', 'schema-and-structured-data-for-wp') ?>
+                <a target="_blank" href="https://wordpress.org/plugins/schema-and-structured-data-for-wp/#reviews"> <?php echo esc_html__('please write us a review', 'schema-and-structured-data-for-wp') ?></a>&nbsp;&nbsp;&nbsp;&nbsp;<a  class="saswp-feedback-no-thanks button button-primary"><?php echo esc_html__('No Thanks', 'schema-and-structured-data-for-wp') ?></a>
             </p>
         </div>
     <?php
@@ -112,7 +112,7 @@ function saswp_admin_notice(){
      
      //Feedback notice
     $activation_date =  get_option("saswp_activation_date");  
-    $next_days = strtotime("+30 day", strtotime($activation_date));
+    $next_days = strtotime("+7 day", strtotime($activation_date));
     $next_days = date('Y-m-d', $next_days);   
     $current_date = date("Y-m-d");
     
