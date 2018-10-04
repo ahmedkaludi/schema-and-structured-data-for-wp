@@ -252,9 +252,10 @@
                 $schema_post_meta = get_post_meta($schema->ID, $key='', true ); 
                 
                 $schema_post_types = get_post_meta($schema->ID, $key='bsf-aiosrs-schema-type', true );                   
-                $schema_post_meta_box = get_post_meta($schema->ID, $key='bsf-aiosrs-'.$schema_post_types, true );
-                $schema_enable_location = get_post_meta(3491, $key='bsf-aiosrs-schema-location', true );
-                $schema_exclude_location = get_post_meta(3491, $key='bsf-aiosrs-schema-exclusion', true );
+                $schema_post_meta_box = get_post_meta($schema->ID, $key='bsf-aiosrs-'.$schema_post_types, true );                
+                $schema_enable_location = get_post_meta($schema->ID, $key='bsf-aiosrs-schema-location', true );
+                $schema_exclude_location = get_post_meta($schema->ID, $key='bsf-aiosrs-schema-exclusion', true );
+                
                 $data_array = array();
                 if($schema_exclude_location){
                     
@@ -313,10 +314,26 @@
                        }
                                                                                                                                                                                                                                      
                     }
-                   
-                   
-                //  print_r(array_unique($data_array['data_array']));die;     
-                }
+                    
+                    $temp_data_array = $data_array['data_array'];
+                    $temp_two_array = $data_array['data_array'];                
+                    $j =0;                
+                    foreach($temp_two_array as $key => $val){
+                        $index =0;                    
+                        foreach($temp_data_array as $t=>$tval){
+
+                        if(($val['key_1'] == $tval['key_1']) && ($val['key_2'] == $tval['key_2']) && ($val['key_3'] == $tval['key_3'])){
+                          $index++;   
+                            if($index>1 ){
+                                unset($temp_two_array[$t]);
+                            }
+                         }                    
+
+                        }
+                    } 
+                   $data_array['data_array'] =  array_values($temp_two_array);
+                }               
+                             
                 
                 
                 $data_group_array = array();
@@ -351,8 +368,10 @@
                             )
                           )               
                          );                          
-                      }                                                                                              
-                                                                      
+                      } 
+                       if(isset($data_array['data_array'])){
+                    $data_group_array['group-'.$i]['data_array'] = array_merge($data_group_array['group-'.$i]['data_array'],$data_array['data_array']);                                                                      
+                       }
                     $i++;  
                     
                     }
@@ -388,13 +407,20 @@
                           )               
                          );
                        }
-                                                                                                                                                                                             
+                       if(isset($data_array['data_array'])){
+                       $data_group_array['group-'.$i]['data_array'] = array_merge($data_group_array['group-'.$i]['data_array'],$data_array['data_array']);                                                                                                                                                                           
+                       }
+                     
                     $i++;  
                     
                     }                  
                 }                                
-                $schema_type ='';                                                          
-                
+                $schema_type ='';  
+                $local_name ='';
+                $local_image ='';
+                $local_phone ='';
+                $local_url ='';
+                $local_url ='';
                 if(isset($schema_post_types)){
                   $schema_type = ucfirst($schema_post_types);  
                   
@@ -402,28 +428,49 @@
                 if($schema_type =='Video-object'){
                     $schema_type = 'VideoObject';
                 }
+                $local_business_details = array();
                 if($schema_type =='Local-business'){
                     $schema_type = 'local_business';
-                }
-                                              
+                    
+                    if(isset($schema_post_meta_box['telephone'])){
+                        $local_business_details['local_phone'] = $schema_post_meta_box['telephone'];
+                    }
+                    if(isset($schema_post_meta_box['image'])){
+                        $local_business_details['local_business_logo']['url'] = $schema_post_meta_box['image'];
+                    }
+                     if(isset($schema_post_meta_box['price-range'])){
+                        $local_business_details['local_price_range'] = $schema_post_meta_box['price-range'];
+                    }
+                    if(isset($schema_post_meta_box['location-postal'])){
+                        $local_business_details['local_postal_code'] = $schema_post_meta_box['location-postal'];
+                    }
+                    if(isset($schema_post_meta_box['location-region'])){
+                        $local_business_details['local_state'] = $schema_post_meta_box['location-region']; 
+                    }
+                    if(isset($schema_post_meta_box['location-street'])){
+                        $local_business_details['local_street_address'] = $schema_post_meta_box['location-street']; 
+                    }
+                    if(isset($schema_post_meta_box['url'])){
+                       $local_business_details['local_website'] = $schema_post_meta_box['url'];  
+                    }                                        
+                }                  
                 $saswp_meta_key = array(
                     'schema_type' => $schema_type,
                     'data_group_array'=>$data_group_array,
-                    'imported_from' => 'schema_pro'
+                    'imported_from' => 'schema_pro',
+                    'saswp_local_business_details' => $local_business_details
                 );
                 
                 foreach ($saswp_meta_key as $key => $val){                     
                     update_post_meta($post_id, $key, $val);  
                 }                                                        
-              }          
-                            
+              }                                      
               //Importing settings starts here              
               
                 $schema_pro_general_settings = get_option('wp-schema-pro-general-settings');  
                 $schema_pro_social_profile = get_option('wp-schema-pro-social-profiles');
                 $schema_pro_global_schemas = get_option('wp-schema-pro-global-schemas');
-                $schema_pro_settings = get_option('aiosrs-pro-settings');
-                 //print_r($schema_pro_settings);die;  
+                $schema_pro_settings = get_option('aiosrs-pro-settings');                 
                 
                 $logo = wp_get_attachment_image_src( $schema_pro_general_settings['site-logo-custom'] , 'full' );
                              
@@ -443,8 +490,7 @@
                     'saswp-logo-height' => '60',                    
                     'sd_initial_wizard_status' =>1,
                                         
-               );
-                
+               );                
                 if(isset($schema_pro_social_profile['facebook'])){
                   $saswp_plugin_options['sd_facebook'] =  $schema_pro_social_profile['facebook']; 
                   $saswp_plugin_options['saswp-facebook-enable'] =  1; 
@@ -495,25 +541,11 @@
                 }
                 if(isset($schema_pro_global_schemas['breadcrumb'])){
                   $saswp_plugin_options['saswp_breadcrumb_schema'] = $schema_pro_global_schemas['breadcrumb'];  
-                } 
-                
-                
-                
-//                
-//                if(isset($schema_plugin_options['url'])){
-//                  $saswp_plugin_options['sd_url'] = $schema_plugin_options['url'];  
-//                  $saswp_plugin_options['sd-person-url'] = $schema_plugin_options['url'];  
-//                }
-//               
-//                if(isset($schema_plugin_options['corporate_contacts_telephone'])){
-//                  $saswp_plugin_options['saswp_kb_telephone'] = $schema_plugin_options['corporate_contacts_telephone'];  
-//                }
-//                if(isset($schema_plugin_options['corporate_contacts_contact_type'])){
-//                  $saswp_plugin_options['saswp_contact_type'] = $schema_plugin_options['corporate_contacts_contact_type'];  
-//                }                
-//                               
-                update_option('sd_data', $saswp_plugin_options);
-                //Importing settings ends here
+                }                                              
+                $get_options = get_option('sd_data');
+                $merge_options = array_merge($get_options, $saswp_plugin_options);
+                update_option('sd_data', $merge_options);
+               
               
             if (is_wp_error($result) ){
               echo $result->get_error_message();              
