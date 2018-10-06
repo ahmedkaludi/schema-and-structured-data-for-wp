@@ -111,14 +111,20 @@ function saswp_paywall_data_for_login($content){
 		return $content;
 	}else{
                
-                $className ='';
+                $paywallenable ='';
+                $className ='paywall';
                 foreach($Conditionals as $schemaConditionals){
-                $schema_options = $schemaConditionals['schema_options'];                
+                $schema_options = $schemaConditionals['schema_options'];    
+               
                 if(isset($schema_options['paywall_class_name'])){
-                $className = $schema_options['paywall_class_name'];  
-                 break;
-                }   
+                $className = $schema_options['paywall_class_name'];                                 
+                }
+                if(isset($schema_options['notAccessibleForFree'])){               
+                $paywallenable = $schema_options['notAccessibleForFree'];
+                break;
                 }                
+                }                
+                if($paywallenable){
 		if(strpos($content, '<!--more-->')!==false && !is_user_logged_in()){
 			global $wp;
 			$redirect =  home_url( $wp->request );
@@ -130,6 +136,8 @@ function saswp_paywall_data_for_login($content){
 			$breakedContent = explode("<!--more-->", $content);
 			$content = $breakedContent[0].'<div class="'.$className.'">'.$breakedContent[1].'</div>';
 		}
+                }
+                
 	}
 	return $content;
 }
