@@ -25,7 +25,7 @@ function saswp_admin_interface_render(){
 	}
 	// Handing save settings
 	if ( isset( $_GET['settings-updated'] ) ) {							                                                 
-		settings_errors();
+		settings_errors();               
 	}
         $is_amp =false;
         if ( is_plugin_active('accelerated-mobile-pages/accelerated-moblie-pages.php') || is_plugin_active('amp/amp.php') ) {
@@ -138,7 +138,7 @@ function saswp_admin_interface_render(){
 add_action('admin_init', 'saswp_settings_init');
 
 function saswp_settings_init(){
-          	register_setting( 'sd_data_group', 'sd_data' );
+          	register_setting( 'sd_data_group', 'sd_data', 'saswp_handle_file_upload' );
                 add_settings_section('saswp_general_section', __return_false(), '__return_false', 'saswp_general_section');
 
                 add_settings_field(
@@ -202,6 +202,29 @@ function saswp_settings_init(){
                                                      
                  
 }
+
+function saswp_custom_upload_mimes($mimes = array()) {
+	
+	$mimes['json'] = "application/json";
+
+	return $mimes;
+}
+
+add_action('upload_mimes', 'saswp_custom_upload_mimes');
+
+function saswp_handle_file_upload($option)
+{
+  if(!empty($_FILES["saswp_import_backup"]["tmp_name"]))
+  {
+    $urls = wp_handle_upload($_FILES["saswp_import_backup"], array('test_form' => FALSE));    
+    $url = $urls["url"];
+    update_option('saswp-file-upload_url',esc_url($url));
+  }
+  
+  return $option;
+}
+
+
 function saswp_schema_page_callback(){
 	// Get Settings
 	$settings = saswp_defaultSettings(); 
@@ -716,7 +739,22 @@ function saswp_import_callback(){
                     </div>
                 </li>
             </ul>                   
-	<?php    
+	<?php   
+        echo '<h2>'.esc_html__('Import / Export','schema-and-structured-data-for-wp').'</h2>'; 
+        $url =  admin_url('admin-ajax.php?action=saswp_export_all_settings_and_schema');
+        ?>
+        <ul>
+                <li>
+                    <div class="saswp-tools-field-title"><div class="saswp-tooltip"><strong><?php echo esc_html__('Export All Settings & Schema','schema-and-structured-data-for-wp'); ?></strong></div><a href="<?php echo esc_url($url); ?>"class="button saswp-export-data"><?php echo esc_html__('Export','schema-and-structured-data-for-wp'); ?></a>                         
+                    </div>
+                </li> 
+                <li>
+                    <div class="saswp-tools-field-title"><div class="saswp-tooltip"><strong><?php echo esc_html__('Import All Settings & Schema','schema-and-structured-data-for-wp'); ?></strong></div><input type="file" name="saswp_import_backup" id="saswp_import_backup">                         
+                    </div>
+                </li> 
+            </ul>
+        <?php
+        
         $settings = saswp_defaultSettings();
         
         if ( is_plugin_active('flexmls-idx/flexmls_connect.php')) {
