@@ -25,7 +25,6 @@ function saswp_kb_schema_output() {
 		$sd_google_plus[] = $sd_data['sd_google_plus'];	
 		$sd_social_profile[] = $sd_google_plus;
 	}
-
 	$sd_instagram = array();
 	if(isset($sd_data['sd_instagram']) && !empty($sd_data['sd_instagram'])){
 		$sd_instagram[] = $sd_data['sd_instagram'];

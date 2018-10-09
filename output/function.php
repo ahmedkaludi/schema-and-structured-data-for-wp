@@ -1,14 +1,12 @@
 <?php
-
 function saswp_remove_amp_default_structure_data($metadata){
     return '';
 }
-
 add_filter( 'amp_init', 'saswp_structured_data' );
 function saswp_structured_data()
 {		
 	add_action( 'amp_post_template_head' , 'saswp_data_generator' );	
-	remove_action( 'amp_post_template_head', 'amp_post_template_add_schemaorg_metadata',10,1);
+	remove_action( 'amp_post_template_head', 'amp_post_template_add_schemaorg_metadata',99,1);
 }
 add_action('wp_head', 'saswp_data_generator');
 function saswp_data_generator() {
@@ -23,10 +21,9 @@ function saswp_data_generator() {
    $schema_output            = saswp_schema_output();   
    
    if($schema_output){       
-       add_filter( 'amp_post_template_metadata', 'saswp_remove_amp_default_structure_data');
+      add_filter( 'amp_post_template_metadata', 'saswp_remove_amp_default_structure_data');
    }
-   
-   
+      
    $kb_schema_output         = saswp_kb_schema_output();
    
 	if( (  1 == $sd_data['saswp-for-wordpress'] && saswp_non_amp() ) || ( 1 == $sd_data['saswp-for-amp'] && !saswp_non_amp() ) ) {
