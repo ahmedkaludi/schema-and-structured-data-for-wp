@@ -1,7 +1,4 @@
 <?php 
-if (!class_exists('flexmlsConnectPageCore')) {
-	return false;
-};
 class saswp_flexmls_list extends flexmlsConnectPageCore{
     
         public $shorcode = array();
@@ -23,7 +20,9 @@ class saswp_flexmls_list extends flexmlsConnectPageCore{
             foreach ($this->shorcode[1] as $shortcodeAttr){
                 
                if (preg_match_all('/(\b\w+)="(.*?(?="\s\w+=|$))/', $shortcodeAttr, $matches)) {
-                $settings = array_combine ( $matches[1], $matches[2] );                                
+                   
+                $settings = array_combine ( $matches[1], $matches[2] ); 
+                
                 }
                 
                 $title              = isset($settings['title']) ? ($settings['title']) : '';
@@ -35,8 +34,7 @@ class saswp_flexmls_list extends flexmlsConnectPageCore{
                 $link               = isset($settings['link']) ? trim($settings['link']) : '';
                 $sort               = isset($settings['sort']) ? trim($settings['sort']) : '';
                 $agent              = isset($settings['agent']) ? trim($settings['agent']) : '';
-                $status             = isset($settings['status']) ? trim($settings['status']) : '';
-                
+                $status             = isset($settings['status']) ? trim($settings['status'], '"') : '';                
                 $locations = '';
 
                 if ( isset($settings['location']) ) {
@@ -66,7 +64,7 @@ class saswp_flexmls_list extends flexmlsConnectPageCore{
                     $specific_time = date("Y-m-d\TH:i:s.u",strtotime("-".$days." days"));
                     date_default_timezone_set($flexmls_temp_date);
                 
-                    if ($display == "new") {
+                  if ($display == "new") {
                     $pure_conditions["OriginalOnMarketTimestamp"] = $specific_time;
                   }
                   elseif ($display == "open_houses") {
@@ -108,6 +106,8 @@ class saswp_flexmls_list extends flexmlsConnectPageCore{
                   if ($source == 'agent') {
                     $pure_conditions['ListAgentId'] = $agent;
                   }
+                   // parse location search settings
+                  $locations = flexmlsConnect::parse_location_search_string($locations);
                   if($locations){
                   foreach ($locations as $loc) {
                         if(array_key_exists($loc['f'], $pure_conditions)) {
@@ -145,12 +145,13 @@ class saswp_flexmls_list extends flexmlsConnectPageCore{
                       if ($status) {
                         $pure_conditions["StandardStatus"] = $status;
                       }
-                  
+                 
                   $custom_page = new flexmlsConnectPageSearchResults($fmc_api);
                   $custom_page->title = $title;
                   $custom_page->input_source = 'shortcode'; 
                   $custom_page->input_data = $pure_conditions;
                   list($params, $cleaned_raw_criteria, $context) =  $custom_page->parse_search_parameters_into_api_request();                  
+                  unset($params['_select']);
                   $this->search_criteria = $cleaned_raw_criteria;
                   
                    require_once( ABSPATH . '/wp-content/plugins/flexmls-idx/lib/flexmlsAPI/Core.php' );
@@ -192,7 +193,8 @@ class saswp_flexmls_list extends flexmlsConnectPageCore{
                                                                                                                            
         }
         public function saswp_content($content){
-            preg_match_all("/[[]idx_listing_summary(.*?)[]]/", $content,$matches);          
+            preg_match_all("/[[]idx_listing_summary(.*?)[]]/", $content,$matches);  
+            
             $this->shorcode = $matches;
             return $content;
         }
@@ -275,8 +277,3 @@ class saswp_flexmls_list extends flexmlsConnectPageCore{
 if (class_exists('saswp_flexmls_list')) {
 	new saswp_flexmls_list;
 };
-
-  
-        
-       
-                

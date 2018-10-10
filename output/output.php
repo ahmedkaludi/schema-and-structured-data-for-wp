@@ -166,8 +166,7 @@ function sd_is_blog() {
 function saswp_schema_output() {
 	global $sd_data;
 
-	$Conditionals = saswp_get_all_schema_posts();  
-       
+	$Conditionals = saswp_get_all_schema_posts();         
         
 	if(!$Conditionals){
 		return ;

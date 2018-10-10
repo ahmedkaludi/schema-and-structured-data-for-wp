@@ -18,9 +18,8 @@ function saswp_data_generator() {
    $archive_output           = saswp_archive_output();
    $kb_website_output        = saswp_kb_website_output();   
    $schema_breadcrumb_output = saswp_schema_breadcrumb_output($sd_data);
-   $schema_output            = saswp_schema_output();   
-   
-   if($schema_output){       
+   $schema_output            = saswp_schema_output();      
+   if($schema_output || $schema_breadcrumb_output || $kb_website_output || $archive_output || $author_output || $about_page_output || $contact_page_output){       
       add_filter( 'amp_post_template_metadata', 'saswp_remove_amp_default_structure_data');
    }
       
