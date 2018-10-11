@@ -581,7 +581,7 @@ function saswp_post_type_generator(){
     return $post_types;
 }
 
-add_action('wp_head','saswp_custom_breadcrumbs',99);
+add_action('wp','saswp_custom_breadcrumbs',99);
 
 // Breadcrumbs
 function saswp_custom_breadcrumbs() {
@@ -596,8 +596,7 @@ function saswp_custom_breadcrumbs() {
     $custom_taxonomy    = 'product_cat';
        
     // Get the query & post information
-    global $post;
-       
+    global $post;       
     // Do not display on the homepage
     if ( !is_front_page() ) {
        
@@ -717,7 +716,7 @@ function saswp_custom_breadcrumbs() {
               }
           }                          
         } else if ( is_page() ) {
-               
+              
             // Standard page
             if( $post->post_parent ){
                    

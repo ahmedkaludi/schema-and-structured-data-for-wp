@@ -593,7 +593,7 @@ function saswp_list_items_generator(){
 		}		
                 $j=1;
                 $i = 0;
-                $breadcrumbslist = array();
+        $breadcrumbslist = array();
         if(is_single()){    
 			if(isset($bc_titles)){
 				for($i=0;$i<sizeof($bc_titles);$i++){
@@ -604,7 +604,7 @@ function saswp_list_items_generator(){
 									'@id'		=> $bc_links[$i],
 									'name'		=> $bc_titles[$i],
 									),
-							);
+							          );
 		$j++;
 		}}
 		$breadcrumbslist[] = array(
@@ -647,24 +647,31 @@ function saswp_list_items_generator(){
 		}
 }
 
-return $breadcrumbslist;
+       return $breadcrumbslist;
 }
 
 function saswp_schema_breadcrumb_output($sd_data){
 	global $sd_data;
+        
 	if( (!saswp_non_amp() && $sd_data['saswp-for-amp']!=1) || (saswp_non_amp() && $sd_data['saswp-for-wordpress']!=1) ) {
 		return ;
 	}
+        
 	if(isset($sd_data['saswp_breadcrumb_schema']) && $sd_data['saswp_breadcrumb_schema'] == 1){
-					       		
-		$input = array(
+				       				
+        if(is_single() || is_page() ||is_archive()){
+        $bread_crumb_list =   saswp_list_items_generator();        
+        if(!empty($bread_crumb_list)){            
+           $input = array(
 					'@context'			=> 'http://schema.org',
 					'@type'				=> 'BreadcrumbList' ,
-					'itemListElement'	        =>saswp_list_items_generator(),
-			);
-		if ( !is_front_page() ) {
-			return json_encode($input);                    
-		 }
+					'itemListElement'	        =>$bread_crumb_list,
+			);    
+         return json_encode($input);           	    
+        }
+               
+        }         
+	
 	}
 }
 
