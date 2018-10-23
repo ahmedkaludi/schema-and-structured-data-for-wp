@@ -347,8 +347,13 @@
 
 	
 	
-	function saswp_save_steps_data(){
-                
+	function saswp_save_steps_data(){                
+                 if ( ! isset( $_POST['wpnonce'] ) ){
+                    return; 
+                 }
+                 if ( !wp_verify_nonce( $_POST['wpnonce'], 'saswp_install_nonce' ) ){
+                    return;  
+                 }                                 
                 if(isset($_POST['sd_data'])){
                 $pre_sd_data = get_option('sd_data'); 
                 $pre_sd_data['sd_initial_wizard_status'] =1;                

@@ -311,7 +311,12 @@ $saswp_add_data_type_config = array(
 
 		
 	function saswp_add_new_save_steps_data(){    
-                
+                 if ( ! isset( $_POST['wpnonce'] ) ){
+                 return; 
+                 }
+                 if ( !wp_verify_nonce( $_POST['wpnonce'], 'saswp_add_new_nonce' ) ){
+                    return;  
+                 }                 
                 if(isset($_POST['schema_type'])){                    
                 $schema_type = $_POST['schema_type'];    
                 $user_id = get_current_user_id();
