@@ -150,7 +150,7 @@
 				<circle class="icon--checkmark__circle" cx="26" cy="26" r="25" fill="none"/><path class="icon--checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
 			</svg>
 
-			<h1><?php echo $stepDetails['title']; ?></h1>
+			<h1><?php echo esc_attr($stepDetails['title']); ?></h1>
 
 			<p><?php echo esc_html( 'This Installation Wizard helps you to setup the necessary options for schema & structured data. It is optional & should take only a few minutes.' ); ?></p>
 	
@@ -178,7 +178,7 @@
 				<circle class="icon--checkmark__circle" cx="26" cy="26" r="25" fill="none"/><path class="icon--checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
 			</svg>
 			
-			<h1><?php echo $stepDetails['title']; ?></h1>
+			<h1><?php echo esc_attr($stepDetails['title']); ?></h1>
 
 			<p><?php echo isset($stepDetails['description'])? $stepDetails['description'] : ''; ?></p>
 			
@@ -222,7 +222,7 @@
 				<circle class="icon--checkmark__circle" cx="26" cy="26" r="25" fill="none"/><path class="icon--checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
 			</svg>
 			
-			<h1><?php echo $stepDetails['title']; ?></h1>
+			<h1><?php echo esc_attr($stepDetails['title']); ?></h1>
 
 			<p><?php echo isset($stepDetails['description'])? $stepDetails['description'] : ''; ?></p>
 			
@@ -266,7 +266,7 @@
 				<circle class="icon--checkmark__circle" cx="26" cy="26" r="25" fill="none"/><path class="icon--checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
 			</svg>
 			
-			<h1><?php echo $stepDetails['title']; ?></h1>
+			<h1><?php echo esc_attr($stepDetails['title']); ?></h1>
 
 			<p><?php echo isset($stepDetails['description'])? $stepDetails['description'] : ''; ?></p>
 		</div>
@@ -309,7 +309,7 @@
 				<circle class="icon--checkmark__circle" cx="26" cy="26" r="25" fill="none"/><path class="icon--checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
 			</svg>
 			
-			<h1><?php echo $stepDetails['title']; ?></h1>
+			<h1><?php echo esc_attr($stepDetails['title']); ?></h1>
 
 			<p><?php echo isset($stepDetails['description'])? $stepDetails['description'] : ''; ?></p>
 			

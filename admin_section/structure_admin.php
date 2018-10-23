@@ -773,7 +773,7 @@ function saswp_custom_column_set( $column, $post_id ) {
                 case 'saswp_schema_type' :
                     
                     $schema_type = get_post_meta( $post_id, $key='schema_type', true);
-                    echo $schema_type;
+                    echo esc_attr($schema_type);
                     
                     break; 
                 case 'saswp_target_location' :
@@ -791,10 +791,10 @@ function saswp_custom_column_set( $column, $post_id ) {
                         }
                     } 
                     if($enabled){
-                    echo '<div><strong>'.esc_html__( 'Enable on: ', 'schema-and-structured-data-for-wp' ).'</strong> '.$enabled.'</div>';    
+                    echo '<div><strong>'.esc_html__( 'Enable on: ', 'schema-and-structured-data-for-wp' ).'</strong> '.esc_attr($enabled).'</div>';    
                     }
                     if($exclude){
-                    echo '<div><strong>'.esc_html__( 'Exclude from: ', 'schema-and-structured-data-for-wp' ).'</strong>'.$exclude.'</div>';   
+                    echo '<div><strong>'.esc_html__( 'Exclude from: ', 'schema-and-structured-data-for-wp' ).'</strong>'.esc_attr($exclude).'</div>';   
                     }                    
                     }                    
                     
@@ -840,12 +840,12 @@ function saswp_send_query_message(){
         $user_data  = $user->data;        
         $user_email = $user_data->user_email;       
         //php mailer variables        
-        $to = 'team@magazine3.com';
+        $sendto = 'team@magazine3.com';
         $subject = "Customer Query";
-        $headers = 'From: '. $user_email . "\r\n" .
-        'Reply-To: ' . $user_email . "\r\n";
+        $headers = 'From: '. esc_attr($user_email) . "\r\n" .
+        'Reply-To: ' . esc_attr($user_email) . "\r\n";
         // Load WP components, no themes.                      
-        $sent = wp_mail($to, $subject, strip_tags($message), $headers);        
+        $sent = wp_mail($sendto, $subject, strip_tags($message), $headers);        
         if($sent){
         echo json_encode(array('status'=>'t'));            
         }else{

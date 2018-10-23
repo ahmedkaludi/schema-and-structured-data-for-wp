@@ -165,7 +165,7 @@ $saswp_add_data_type_config = array(
 				<circle class="icon--checkmark__circle" cx="26" cy="26" r="25" fill="none"/><path class="icon--checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
 			</svg>
 			
-			<h1><?php echo $stepDetails['title']; ?></h1>
+			<h1><?php echo esc_attr($stepDetails['title']); ?></h1>
 
 			<p><?php echo isset($stepDetails['description'])? $stepDetails['description'] : ''; ?></p>
 			
@@ -214,7 +214,7 @@ $saswp_add_data_type_config = array(
 				<circle class="icon--checkmark__circle" cx="26" cy="26" r="25" fill="none"/><path class="icon--checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
 			</svg>
 			
-			<h1><?php echo $stepDetails['title']; ?></h1>
+			<h1><?php echo esc_attr($stepDetails['title']); ?></h1>
 			<p><?php echo isset($stepDetails['description'])? $stepDetails['description'] : ''; ?></p>
 		</div>
 		<form action="" method="post">
@@ -242,7 +242,7 @@ $saswp_add_data_type_config = array(
                              
                             </li>
                             <li>
-                                 <input type="hidden" name="saswp_post_id" id="saswp_post_id" value="<?php echo $last_post_id; ?>">   
+                                 <input type="hidden" name="saswp_post_id" id="saswp_post_id" value="<?php echo esc_attr($last_post_id); ?>">   
                             </li>
 			</ul>
                         </div>
@@ -276,7 +276,7 @@ $saswp_add_data_type_config = array(
 				<circle class="icon--checkmark__circle" cx="26" cy="26" r="25" fill="none"/><path class="icon--checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
 			</svg>
 			
-			<h1><?php echo $stepDetails['title']; ?></h1>
+			<h1><?php echo esc_attr($stepDetails['title']); ?></h1>
 
 			<p><?php echo isset($stepDetails['description'])? $stepDetails['description'] : ''; ?></p>
 			
