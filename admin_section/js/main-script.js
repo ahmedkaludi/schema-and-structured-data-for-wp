@@ -254,7 +254,8 @@ jQuery(document).ready(function($){
 			button: {
 				text: "Select Icon"
 			},
-			multiple: false  // Set this to true to allow multiple files to be selected
+			multiple: false,  // Set this to true to allow multiple files to be selected
+                        library:{type : 'image'}
 		})
 		.on("select", function() {
 			var attachment = saswpMediaUploader.state().get('selection').first().toJSON();                            
