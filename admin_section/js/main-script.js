@@ -278,7 +278,7 @@ jQuery(document).ready(function($){
                             type: "POST",    
                             url:ajaxurl,                    
                             dataType: "json",
-                            data:{action:"saswp_send_query_message", message:message},
+                            data:{action:"saswp_send_query_message", message:message, saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
                             success:function(response){                       
                               if(response['status'] =='t'){
                                 $(".saswp-query-success").show();
@@ -303,7 +303,7 @@ jQuery(document).ready(function($){
             var current_selection = $(this);
             var plugin_name = $(this).attr('data-id');                      
                          $.get(ajaxurl, 
-                             { action:"saswp_import_plugin_data", plugin_name:plugin_name},
+                             { action:"saswp_import_plugin_data", plugin_name:plugin_name, saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
                               function(response){                                  
                               if(response['status'] =='t'){                                  
                                   $(current_selection).parent().find(".saswp-imported-message").text(response['message']);

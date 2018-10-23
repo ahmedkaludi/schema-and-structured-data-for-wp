@@ -897,7 +897,17 @@ function saswp_enqueue_style_js( $hook ) {
 	// Everything needed for media upload
         wp_enqueue_media();	
 	// Main JS
-        wp_enqueue_script( 'saswp-main-js', SASWP_PLUGIN_URL . 'admin_section/js/main-script.js', array( 'wp-color-picker' ), SASWP_VERSION, true );
+        
+        wp_register_script( 'saswp-main-js', SASWP_PLUGIN_URL . 'admin_section/js/main-script.js', array('jquery'), SASWP_VERSION , true );
+        
+        $data = array(
+            'ajax_url'                  => admin_url( 'admin-ajax.php' ),            
+            'saswp_security_nonce'      => wp_create_nonce('saswp_ajax_check_nonce')            
+        );
+        
+        wp_localize_script( 'saswp-main-js', 'saswp_localize_data', $data );
+        
+        wp_enqueue_script( 'saswp-main-js' );
         //Main Css 
         wp_enqueue_style( 'saswp-main-css', SASWP_PLUGIN_URL . 'admin_section/css/main-style.css', false , SASWP_VERSION );
 }

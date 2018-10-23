@@ -827,9 +827,15 @@ add_filter( 'manage_saswp_posts_columns', 'saswp_custom_columns' );
      * This is a ajax handler function for sending email from user admin panel to us. 
      * @return type json string
      */
-function saswp_send_query_message(){                  
-        $message    = sanitize_text_field($_POST['message']); 
-        
+function saswp_send_query_message(){   
+    
+        if ( ! isset( $_POST['saswp_security_nonce'] ) ){
+           return; 
+        }
+        if ( !wp_verify_nonce( $_POST['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
+           return;  
+        }            
+        $message    = sanitize_text_field($_POST['message']);       
         $user       = wp_get_current_user();
         $user_data  = $user->data;        
         $user_email = $user_data->user_email;       
@@ -856,7 +862,14 @@ add_action('wp_ajax_saswp_send_query_message', 'saswp_send_query_message');
      * @return type json string
      */
 function saswp_import_plugin_data(){                  
-        $plugin_name   = sanitize_text_field($_GET['plugin_name']); 
+    
+        if ( ! isset( $_GET['saswp_security_nonce'] ) ){
+           return; 
+        }
+        if ( !wp_verify_nonce( $_GET['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
+           return;  
+        }    
+        $plugin_name   = sanitize_text_field($_GET['plugin_name']);         
         $result = '';
         switch ($plugin_name) {
             case 'schema':
