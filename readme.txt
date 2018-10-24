@@ -65,6 +65,16 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
 
+= 1.0.3 (24 October 2018) =
+* Schema Pro migrator
+* Import / export functionality, so it can be transferred from staging to live website
+* Added WP Recipe Maker and WP Ultimate Recipe plugins compatibility
+* Added compatibility with FlexMLS® IDX plugin
+* Tested security issue and fixed
+* Breadcrumbs bug fixed
+* Debug errors
+* Minor Bugs Fixed
+
 = 1.0.2 (28 August 2018) =
 * First Time Installation Setup Wizard
 * Added a Support form to provide faster support
