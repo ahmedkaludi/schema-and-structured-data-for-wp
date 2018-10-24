@@ -314,7 +314,7 @@ function saswp_schema_output() {
 				'@context'			=> 'http://schema.org',
 				'@type'				=> $schema_type ,
 				'url'				=> get_permalink(),
-				'headline'			=> get_the_title(),
+				'name'			        => get_the_title(),
 				'datePublished'                 => $date,
 				'dateModified'                  => $modified_date,
 				'description'                   => get_the_excerpt(),
@@ -595,7 +595,9 @@ function saswp_list_items_generator(){
                 $i = 0;
         $breadcrumbslist = array();
         if(is_single()){    
+            
 			if(isset($bc_titles)){
+                            //print_r($bc_links);die;
 				for($i=0;$i<sizeof($bc_titles);$i++){
 					$breadcrumbslist[] = array(
 								'@type'			=> 'ListItem',

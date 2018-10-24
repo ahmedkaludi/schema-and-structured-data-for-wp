@@ -173,7 +173,7 @@ class saswp_flexmls_list extends flexmlsConnectPageCore{
                   }                  
                    $count = count($results); 
                     echo "\n";
-                    echo '<!-- Schema & Structured Data For WP v'.SASWP_VERSION.' IDX - -->';
+                    echo '<!-- Schema & Structured Data For WP v'.esc_attr(SASWP_VERSION)   .' IDX - -->';
                     echo "\n";
                     echo '<script type="application/ld+json">'; 
                     echo "\n";

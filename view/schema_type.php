@@ -482,13 +482,13 @@
                         <tr class="saswp-business-text-field-tr" <?php echo $style_business_type; ?>>
                             <td><?php echo esc_html__('Image', 'schema-and-structured-data-for-wp' ); ?></td>
                             <td style="display: flex; width: 97%">
-                                <input value="<?php if(isset($business_details['local_business_logo'])) { echo esc_url($business_details['local_business_logo']['url']);} else { echo $logo[0]; } ?>" id="local_business_logo" type="text" name="local_business_logo[url]" placeholder="<?php echo esc_html__('Logo', 'schema-and-structured-data-for-wp' ); ?>" readonly="readonly" style="background: #FFF;">
-                                <input value="<?php if(isset($business_details['local_business_logo'])) { echo esc_attr($business_details['local_business_logo']['id']);} else { echo $custom_logo_id; }?>" data-id="local_business_logo_id" type="hidden" name="local_business_logo[id]">
-                                <input value="<?php if(isset($business_details['local_business_logo'])) { echo esc_attr($business_details['local_business_logo']['width']);} else { echo $logo[1]; } ?>" data-id="local_business_logo_width" type="hidden" name="local_business_logo[width]">
-                                <input value="<?php if(isset($business_details['local_business_logo'])) { echo esc_attr($business_details['local_business_logo']['height']);} else { echo $logo[2]; } ?>" data-id="local_business_logo_height" type="hidden" name="local_business_logo[height]">
+                                <input value="<?php if(isset($business_details['local_business_logo'])) { echo esc_url($business_details['local_business_logo']['url']);} else { echo esc_url($logo[0]); } ?>" id="local_business_logo" type="text" name="local_business_logo[url]" placeholder="<?php echo esc_html__('Logo', 'schema-and-structured-data-for-wp' ); ?>" readonly="readonly" style="background: #FFF;">
+                                <input value="<?php if(isset($business_details['local_business_logo'])) { echo esc_attr($business_details['local_business_logo']['id']);} else { echo esc_attr($custom_logo_id); }?>" data-id="local_business_logo_id" type="hidden" name="local_business_logo[id]">
+                                <input value="<?php if(isset($business_details['local_business_logo'])) { echo esc_attr($business_details['local_business_logo']['width']);} else { echo esc_attr($logo[1]); } ?>" data-id="local_business_logo_width" type="hidden" name="local_business_logo[width]">
+                                <input value="<?php if(isset($business_details['local_business_logo'])) { echo esc_attr($business_details['local_business_logo']['height']);} else { echo esc_attr($logo[2]); } ?>" data-id="local_business_logo_height" type="hidden" name="local_business_logo[height]">
                                 <input data-id="media" class="button" id="local_business_logo_button" type="button" value="Upload"></td>
                         </tr>
-                        <tr class="saswp-business-text-field-tr" <?php echo esc_attr($style_business_type); ?>>
+                        <tr class="saswp-business-text-field-tr" <?php echo $style_business_type; ?>>
                             <td><?php echo esc_html__('Operation Days', 'schema-and-structured-data-for-wp' ); ?></td>
                             <td>
                                 <select multiple id="saswp_dayofweek" name="saswp_dayofweek[]">
@@ -515,7 +515,7 @@
                             <td><?php echo esc_html__('Closes', 'schema-and-structured-data-for-wp' ); ?></td>
                             <td><input id="saswp-dayofweek-closes-time" value="<?php if(isset($business_details['local_closes_time'])){echo esc_attr($business_details['local_closes_time']); } ?>" type="text" name="local_closes_time" ></td>
                         </tr>
-                        <tr class="saswp-business-text-field-tr" <?php echo esc_attr($style_business_type); ?>>
+                        <tr class="saswp-business-text-field-tr" <?php echo $style_business_type; ?>>
                             <td><?php echo esc_html__('Price Range', 'schema-and-structured-data-for-wp' ); ?></td>
                             <td><input  value="<?php if(isset($business_details['local_price_range'])){echo esc_attr($business_details['local_price_range']); } ?>" type="text" name="local_price_range" placeholder="<?php echo esc_html__('$10-$50 or $$$ ', 'schema-and-structured-data-for-wp' ); ?>" ></td>
                         </tr>

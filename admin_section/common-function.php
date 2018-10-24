@@ -49,7 +49,7 @@
              update_option('saswp-file-upload_url','');
             }                                    
             if (is_wp_error($result) ){
-              echo $result->get_error_message();              
+              echo esc_attr($result->get_error_message());              
               $wpdb->query('ROLLBACK');             
             }else{
               $wpdb->query('COMMIT'); 
@@ -321,7 +321,7 @@
                 //Importing settings ends here
               
             if (is_wp_error($result) ){
-              echo $result->get_error_message();              
+              echo esc_attr($result->get_error_message());              
               $wpdb->query('ROLLBACK');             
             }else{
               $wpdb->query('COMMIT'); 
@@ -669,7 +669,7 @@
                
               
             if (is_wp_error($result) ){
-              echo $result->get_error_message();              
+              echo esc_attr($result->get_error_message());              
               $wpdb->query('ROLLBACK');             
             }else{
               $wpdb->query('COMMIT'); 
