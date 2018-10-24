@@ -598,17 +598,16 @@ function saswp_custom_breadcrumbs() {
     // Get the query & post information
     global $post;       
     // Do not display on the homepage
-    if ( !is_front_page() ) {
-       
+    if ( !is_front_page() ) {      
         // Build the breadcrums
         // Home page
         $variables1_titles[] = $home_title;
         $variables2_links[] = get_home_url();
 
-
+        
         if ( is_archive() && !is_tax() && !is_category() && !is_tag() && !is_author() ) {
             $archive_title = post_type_archive_title($prefix, false);
-              $variables1_titles[] = $archive_title;
+             $variables1_titles[] = $archive_title;
 
 
         } else if  ( is_author() ) {
@@ -620,7 +619,7 @@ function saswp_custom_breadcrumbs() {
 	            // author name
 	            $variables1_titles[]= $userdata->display_name;
 	            $variables2_links[]= $author_url;
-
+                    
         } else if ( is_archive() && is_tax() && !is_category() && !is_tag() ) {
               
             // If post is a custom post type
@@ -652,7 +651,7 @@ function saswp_custom_breadcrumbs() {
                 $variables1_titles[]= $post_type_object->labels->name;
                 $variables2_links[]= $post_type_archive;              
             }
-              
+             
             // Get post category info
             $category = get_the_category();
              
@@ -665,6 +664,7 @@ function saswp_custom_breadcrumbs() {
                   $variables2_links[]=get_category_link( $category_value );
               
               }
+               
                 // Get last category post is in
                 $last_category = end(($category));
                   $category_name = get_category($last_category);
@@ -678,13 +678,14 @@ function saswp_custom_breadcrumbs() {
                     $cat_display .= '<li class="item-cat">'.esc_html__( $parents, 'schema-and-structured-data-for-wp' ).'</li>';
                     $cat_display .= '<li class="separator"> ' . esc_html__( $separator, 'schema-and-structured-data-for-wp' ) . ' </li>';
                 }
+                
             }
               
             // If it's a custom post type within a custom taxonomy
             $taxonomy_exists = taxonomy_exists($custom_taxonomy);
             if(empty($last_category) && !empty($custom_taxonomy) && $taxonomy_exists) {
                    
-                $taxonomy_terms = get_the_terms( $post->ID, $custom_taxonomy );
+                $taxonomy_terms = get_the_terms( $post->ID, $custom_taxonomy );                
                 $cat_id         = $taxonomy_terms[0]->term_id;                
                 $cat_link       = get_term_link($taxonomy_terms[0]->term_id, $custom_taxonomy);
                 $cat_name       = $taxonomy_terms[0]->name;
@@ -698,6 +699,7 @@ function saswp_custom_breadcrumbs() {
             } else {
                 if($post_type == 'post') { 
                      $variables1_titles[]= get_the_title();
+                     $variables2_links[] = get_permalink();                     
                 }
             }
               
@@ -741,7 +743,7 @@ function saswp_custom_breadcrumbs() {
                    $variables1_titles[]=get_the_title();
                    $variables2_links[]=get_permalink();
             }
-               
+              
         } else if ( is_tag() ) {               
             // Tag page               
             // Get tag information
@@ -759,7 +761,8 @@ function saswp_custom_breadcrumbs() {
             $variables2_links[] = $term_link;           
           }         
           $sd_data['titles']= $variables1_titles;
-          $sd_data['links']= $variables2_links;         
+          $sd_data['links']= $variables2_links;   
+          
     }
        
 }

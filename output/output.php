@@ -590,7 +590,8 @@ function saswp_list_items_generator(){
 		}
 		if(isset($sd_data['links'])){
 			$bc_links = $sd_data['links'];
-		}		
+		}	
+                
                 $j=1;
                 $i = 0;
         $breadcrumbslist = array();
@@ -617,6 +618,7 @@ function saswp_list_items_generator(){
 
 								),
 							);
+               
 }
         if(is_page()){
 
