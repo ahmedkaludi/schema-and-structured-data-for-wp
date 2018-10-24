@@ -596,8 +596,7 @@ function saswp_list_items_generator(){
         $breadcrumbslist = array();
         if(is_single()){    
             
-			if(isset($bc_titles)){
-                            //print_r($bc_links);die;
+			if(isset($bc_titles)){                           
 				for($i=0;$i<sizeof($bc_titles);$i++){
 					$breadcrumbslist[] = array(
 								'@type'			=> 'ListItem',
