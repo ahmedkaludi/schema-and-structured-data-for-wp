@@ -581,7 +581,7 @@ function saswp_post_type_generator(){
     return $post_types;
 }
 
-add_action('wp_head','saswp_custom_breadcrumbs',99);
+add_action('wp','saswp_custom_breadcrumbs',99);
 
 // Breadcrumbs
 function saswp_custom_breadcrumbs() {
@@ -596,20 +596,18 @@ function saswp_custom_breadcrumbs() {
     $custom_taxonomy    = 'product_cat';
        
     // Get the query & post information
-    global $post;
-       
+    global $post;       
     // Do not display on the homepage
-    if ( !is_front_page() ) {
-       
+    if ( !is_front_page() ) {      
         // Build the breadcrums
         // Home page
         $variables1_titles[] = $home_title;
         $variables2_links[] = get_home_url();
 
-
+        
         if ( is_archive() && !is_tax() && !is_category() && !is_tag() && !is_author() ) {
             $archive_title = post_type_archive_title($prefix, false);
-              $variables1_titles[] = $archive_title;
+             $variables1_titles[] = $archive_title;
 
 
         } else if  ( is_author() ) {
@@ -621,7 +619,7 @@ function saswp_custom_breadcrumbs() {
 	            // author name
 	            $variables1_titles[]= $userdata->display_name;
 	            $variables2_links[]= $author_url;
-
+                    
         } else if ( is_archive() && is_tax() && !is_category() && !is_tag() ) {
               
             // If post is a custom post type
@@ -649,12 +647,11 @@ function saswp_custom_breadcrumbs() {
             if($post_type != 'post') {
                   
                 $post_type_object = get_post_type_object($post_type);
-                $post_type_archive = get_post_type_archive_link($post_type);
-              
+                $post_type_archive = get_post_type_archive_link($post_type);              
                 $variables1_titles[]= $post_type_object->labels->name;
                 $variables2_links[]= $post_type_archive;              
             }
-              
+             
             // Get post category info
             $category = get_the_category();
              
@@ -667,6 +664,7 @@ function saswp_custom_breadcrumbs() {
                   $variables2_links[]=get_category_link( $category_value );
               
               }
+               
                 // Get last category post is in
                 $last_category = end(($category));
                   $category_name = get_category($last_category);
@@ -680,13 +678,14 @@ function saswp_custom_breadcrumbs() {
                     $cat_display .= '<li class="item-cat">'.esc_html__( $parents, 'schema-and-structured-data-for-wp' ).'</li>';
                     $cat_display .= '<li class="separator"> ' . esc_html__( $separator, 'schema-and-structured-data-for-wp' ) . ' </li>';
                 }
+                
             }
               
             // If it's a custom post type within a custom taxonomy
             $taxonomy_exists = taxonomy_exists($custom_taxonomy);
             if(empty($last_category) && !empty($custom_taxonomy) && $taxonomy_exists) {
                    
-                $taxonomy_terms = get_the_terms( $post->ID, $custom_taxonomy );
+                $taxonomy_terms = get_the_terms( $post->ID, $custom_taxonomy );                
                 $cat_id         = $taxonomy_terms[0]->term_id;                
                 $cat_link       = get_term_link($taxonomy_terms[0]->term_id, $custom_taxonomy);
                 $cat_name       = $taxonomy_terms[0]->name;
@@ -700,6 +699,7 @@ function saswp_custom_breadcrumbs() {
             } else {
                 if($post_type == 'post') { 
                      $variables1_titles[]= get_the_title();
+                     $variables2_links[] = get_permalink();                     
                 }
             }
               
@@ -717,7 +717,7 @@ function saswp_custom_breadcrumbs() {
               }
           }                          
         } else if ( is_page() ) {
-               
+              
             // Standard page
             if( $post->post_parent ){
                    
@@ -743,7 +743,7 @@ function saswp_custom_breadcrumbs() {
                    $variables1_titles[]=get_the_title();
                    $variables2_links[]=get_permalink();
             }
-               
+              
         } else if ( is_tag() ) {               
             // Tag page               
             // Get tag information
@@ -761,7 +761,8 @@ function saswp_custom_breadcrumbs() {
             $variables2_links[] = $term_link;           
           }         
           $sd_data['titles']= $variables1_titles;
-          $sd_data['links']= $variables2_links;         
+          $sd_data['links']= $variables2_links;   
+          
     }
        
 }
@@ -774,7 +775,7 @@ function saswp_custom_column_set( $column, $post_id ) {
                 case 'saswp_schema_type' :
                     
                     $schema_type = get_post_meta( $post_id, $key='schema_type', true);
-                    echo $schema_type;
+                    echo esc_attr($schema_type);
                     
                     break; 
                 case 'saswp_target_location' :
@@ -792,10 +793,10 @@ function saswp_custom_column_set( $column, $post_id ) {
                         }
                     } 
                     if($enabled){
-                    echo '<div><strong>'.esc_html__( 'Enable on: ', 'schema-and-structured-data-for-wp' ).'</strong> '.$enabled.'</div>';    
+                    echo '<div><strong>'.esc_html__( 'Enable on: ', 'schema-and-structured-data-for-wp' ).'</strong> '.esc_attr($enabled).'</div>';    
                     }
                     if($exclude){
-                    echo '<div><strong>'.esc_html__( 'Exclude from: ', 'schema-and-structured-data-for-wp' ).'</strong>'.$exclude.'</div>';   
+                    echo '<div><strong>'.esc_html__( 'Exclude from: ', 'schema-and-structured-data-for-wp' ).'</strong>'.esc_attr($exclude).'</div>';   
                     }                    
                     }                    
                     
@@ -828,19 +829,25 @@ add_filter( 'manage_saswp_posts_columns', 'saswp_custom_columns' );
      * This is a ajax handler function for sending email from user admin panel to us. 
      * @return type json string
      */
-function saswp_send_query_message(){                  
-        $message    = sanitize_text_field($_POST['message']); 
-        
+function saswp_send_query_message(){   
+    
+        if ( ! isset( $_POST['saswp_security_nonce'] ) ){
+           return; 
+        }
+        if ( !wp_verify_nonce( $_POST['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
+           return;  
+        }            
+        $message    = sanitize_text_field($_POST['message']);       
         $user       = wp_get_current_user();
         $user_data  = $user->data;        
         $user_email = $user_data->user_email;       
         //php mailer variables        
-        $to = 'team@magazine3.com';
+        $sendto = 'team@magazine3.com';
         $subject = "Customer Query";
-        $headers = 'From: '. $user_email . "\r\n" .
-        'Reply-To: ' . $user_email . "\r\n";
+        $headers = 'From: '. esc_attr($user_email) . "\r\n" .
+        'Reply-To: ' . esc_attr($user_email) . "\r\n";
         // Load WP components, no themes.                      
-        $sent = wp_mail($to, $subject, strip_tags($message), $headers);        
+        $sent = wp_mail($sendto, $subject, strip_tags($message), $headers);        
         if($sent){
         echo json_encode(array('status'=>'t'));            
         }else{
@@ -857,7 +864,14 @@ add_action('wp_ajax_saswp_send_query_message', 'saswp_send_query_message');
      * @return type json string
      */
 function saswp_import_plugin_data(){                  
-        $plugin_name   = sanitize_text_field($_GET['plugin_name']); 
+    
+        if ( ! isset( $_GET['saswp_security_nonce'] ) ){
+           return; 
+        }
+        if ( !wp_verify_nonce( $_GET['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
+           return;  
+        }    
+        $plugin_name   = sanitize_text_field($_GET['plugin_name']);         
         $result = '';
         switch ($plugin_name) {
             case 'schema':
@@ -865,6 +879,12 @@ function saswp_import_plugin_data(){
                 $result = saswp_import_schema_plugin_data();      
                 }                
                 break;
+                
+            case 'schema_pro':                
+                if ( is_plugin_active('wp-schema-pro/wp-schema-pro.php')) {
+                $result = saswp_import_schema_pro_plugin_data();      
+                }                
+                break;    
 
             default:
                 break;

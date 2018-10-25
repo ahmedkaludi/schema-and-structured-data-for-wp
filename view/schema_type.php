@@ -68,99 +68,99 @@
                                      'local_business' => 'Local Business'
                                  );
                                  $all_business_type = array(
-                                    'animalshelter' => 'AnimalShelter',
-                                    'automotivebusiness' => 'AutomotiveBusiness',
+                                    'animalshelter' => 'Animal Shelter',
+                                    'automotivebusiness' => 'Automotive Business',
                                     'childcare' => 'ChildCare',
                                     'dentist' => 'Dentist',
-                                    'drycleaningorlaundry' => 'DryCleaningOrLaundry',
-                                    'emergencyservice' => 'EmergencyService',
-                                    'employmentagency' => 'EmploymentAgency',
-                                    'entertainmentbusiness' => 'EntertainmentBusiness',
-                                    'financialservice' => 'FinancialService',
-                                    'foodestablishment' => 'FoodEstablishment',
-                                    'governmentoffice' => 'GovernmentOffice',
-                                    'healthandbeautybusiness' => 'HealthAndBeautyBusiness',
-                                    'homeandconstructionbusiness' => 'HomeAndConstructionBusiness',
-                                    'internetcafe' => 'InternetCafe',
-                                    'legalservice' => 'LegalService',
+                                    'drycleaningorlaundry' => 'Dry Cleaning Or Laundry',
+                                    'emergencyservice' => 'Emergency Service',
+                                    'employmentagency' => 'Employment Agency',
+                                    'entertainmentbusiness' => 'Entertainment Business',
+                                    'financialservice' => 'Financial Service',
+                                    'foodestablishment' => 'Food Establishment',
+                                    'governmentoffice' => 'Government Office',
+                                    'healthandbeautybusiness' => 'Health And Beauty Business',
+                                    'homeandconstructionbusiness' => 'Home And Construction Business',
+                                    'internetcafe' => 'Internet Cafe',
+                                    'legalservice' => 'Legal Service',
                                     'library' => 'Library',
-                                    'lodgingbusiness' => 'LodgingBusiness',
-                                    'professionalservice' => 'ProfessionalService',
-                                    'radiostation' => 'RadioStation',
-                                    'realestateagent' => 'RealEstateAgent',
-                                    'recyclingcenter' => 'RecyclingCenter',
-                                    'selfstorage' => 'SelfStorage',
-                                    'shoppingcenter' => 'ShoppingCenter',
-                                    'sportsactivitylocation' => 'SportsActivityLocation',
+                                    'lodgingbusiness' => 'Lodging Business',
+                                    'professionalservice' => 'Professional Service',
+                                    'radiostation' => 'Radio Station',
+                                    'realestateagent' => 'Real Estate Agent',
+                                    'recyclingcenter' => 'Recycling Center',
+                                    'selfstorage' => 'Self Storage',
+                                    'shoppingcenter' => 'Shopping Center',
+                                    'sportsactivitylocation' => 'Sports Activity Location',
                                     'store' => 'Store',
-                                    'televisionstation' => 'TelevisionStation',
-                                    'touristinformationcenter' => 'TouristInformationCenter',
-                                    'travelagency' => 'TravelAgency',
+                                    'televisionstation' => 'Television Station',
+                                    'touristinformationcenter' => 'Tourist Information Center',
+                                    'travelagency' => 'Travel Agency',
                                  );
                 
                                   $all_automotive_array = array(
-                                     'autobodyshop' => 'AutoBodyShop',
-                                     'autodealer' => 'AutoDealer',
-                                     'autopartsstore'     => 'AutoPartsStore',
-                                     'autorental'     => 'AutoRental',
-                                     'autorepair'      => 'AutoRepair',
-                                     'autowash'     => 'AutoWash',
-                                     'gasstation' => 'GasStation',
-                                     'motorcycledealer' => 'MotorcycleDealer',
-                                     'motorcyclerepair' => 'MotorcycleRepair'
+                                     'autobodyshop' => 'Auto Body Shop',
+                                     'autodealer' => 'Auto Dealer',
+                                     'autopartsstore'     => 'Auto Parts Store',
+                                     'autorental'     => 'Auto Rental',
+                                     'autorepair'      => 'Auto Repair',
+                                     'autowash'     => 'Auto Wash',
+                                     'gasstation' => 'Gas Station',
+                                     'motorcycledealer' => 'Motorcycle Dealer',
+                                     'motorcyclerepair' => 'Motorcycle Repair'
                                  );
                                   
                                   $all_emergency_array = array(
-                                     'firestation' => 'FireStation',
+                                     'firestation' => 'Fire Station',
                                      'hospital' => 'Hospital',
-                                     'policestation'     => 'PoliceStation',                                    
+                                     'policestation'     => 'Police Station',                                    
                                  );
                                   $all_entertainment_array = array(
-                                      'adultentertainment' => 'AdultEntertainment',
-                                      'amusementpark' => 'AmusementPark',
-                                      'artgallery'     => 'ArtGallery',
+                                      'adultentertainment' => 'Adult Entertainment',
+                                      'amusementpark' => 'Amusement Park',
+                                      'artgallery'     => 'Art Gallery',
                                       'casino'     => 'Casino',
-                                      'comedyclub'     => 'ComedyClub',
-                                      'movietheater'     => 'MovieTheater',
-                                      'nightclub'     => 'NightClub',
+                                      'comedyclub'     => 'Comedy Club',
+                                      'movietheater'     => 'Movie Theater',
+                                      'nightclub'     => 'Night Club',
                                       
                                  );
                                   $all_financial_array = array(
-                                      'accountingservice' => 'AccountingService',
-                                      'automatedteller' => 'AutomatedTeller',
-                                      'bankorcredit_union'     => 'BankOrCreditUnion',
-                                      'insuranceagency'     => 'InsuranceAgency',                                      
+                                      'accountingservice' => 'Accounting Service',
+                                      'automatedteller' => 'Automated Teller',
+                                      'bankorcredit_union'     => 'Bank Or Credit Union',
+                                      'insuranceagency'     => 'Insurance Agency',                                      
                                       
                                  );
                                   
                                   $all_food_establishment_array = array(
                                       'bakery' => 'Bakery',
-                                      'barorpub' => 'BarOrPub',
+                                      'barorpub' => 'Bar Or Pub',
                                       'brewery'     => 'Brewery',
-                                      'cafeorcoffee_shop'     => 'CafeOrCoffeeShop', 
-                                      'fastfoodrestaurant' => 'FastFoodRestaurant',
-                                      'icecreamshop' => 'IceCreamShop',
+                                      'cafeorcoffee_shop'     => 'Cafe Or Coffee Shop', 
+                                      'fastfoodrestaurant' => 'Fast Food Restaurant',
+                                      'icecreamshop' => 'Ice Cream Shop',
                                       'restaurant'     => 'Restaurant',
                                       'winery'     => 'Winery', 
                                       
                                  );
                                   $all_health_and_beauty_array = array(
-                                      'beautysalon' => 'BeautySalon',
+                                      'beautysalon' => 'Beauty Salon',
                                       'dayspa' => 'DaySpa',
-                                      'hairsalon'     => 'HairSalon',
-                                      'healthclub'     => 'HealthClub', 
-                                      'nailsalon' => 'NailSalon',
-                                      'tattooparlor' => 'TattooParlor',                                                                          
+                                      'hairsalon'     => 'Hair Salon',
+                                      'healthclub'     => 'Health Club', 
+                                      'nailsalon' => 'Nail Salon',
+                                      'tattooparlor' => 'Tattoo Parlor',                                                                          
                                  );
                                   
                                   $all_home_and_construction_array = array(
                                       'electrician' => 'Electrician',
-                                      'generalcontractor' => 'GeneralContractor',
-                                      'hvacbusiness'     => 'HVACBusiness',
+                                      'generalcontractor' => 'General Contractor',
+                                      'hvacbusiness'     => 'HVAC Business',
                                       'locksmith'     => 'Locksmith', 
-                                      'movingcompany' => 'MovingCompany',
+                                      'movingcompany' => 'Moving Company',
                                       'plumber' => 'Plumber',       
-                                      'roofingcontractor' => 'RoofingContractor',       
+                                      'roofingcontractor' => 'Roofing Contractor',       
                                  );
                                   
                                   $all_legal_service_array = array(
@@ -169,7 +169,7 @@
                                  );
                                   
                                   $all_lodging_array = array(
-                                      'bedandbreakfast' => 'BedAndBreakfast',
+                                      'bedandbreakfast' => 'Bed And Breakfast',
                                       'campground' => 'Campground',
                                       'hostel' => 'Hostel',
                                       'hotel' => 'Hotel',
@@ -178,47 +178,47 @@
                                  );
                                   
                                   $all_sports_activity_location = array(
-                                      'bowlingalley' => 'BowlingAlley',
-                                      'exercisegym' => 'ExerciseGym',
-                                      'golfcourse' => 'GolfCourse',
-                                      'healthclub' => 'HealthClub',
-                                      'publicswimming_pool' => 'PublicSwimmingPool',
-                                      'skiresort' => 'SkiResort',
-                                      'sportsclub' => 'SportsClub',
-                                      'stadiumorarena' => 'StadiumOrArena',
-                                      'tenniscomplex' => 'TennisComplex'
+                                      'bowlingalley' => 'Bowling Alley',
+                                      'exercisegym' => 'Exercise Gym',
+                                      'golfcourse' => 'Golf Course',
+                                      'healthclub' => 'Health Club',
+                                      'publicswimming_pool' => 'Public Swimming Pool',
+                                      'skiresort' => 'Ski Resort',
+                                      'sportsclub' => 'Sports Club',
+                                      'stadiumorarena' => 'Stadium Or Arena',
+                                      'tenniscomplex' => 'Tennis Complex'
                                  );
                                   $all_store = array(
-                                        'autopartsstore'=>'AutoPartsStore',
-                                        'bikestore'=>'BikeStore',
-                                        'bookstore'=>'BookStore',
-                                        'clothingstore'=>'ClothingStore',
-                                        'computerstore'=>'ComputerStore',
-                                        'conveniencestore'=>'ConvenienceStore',
-                                        'departmentstore'=>'DepartmentStore',
-                                        'electronicsstore'=>'ElectronicsStore',
+                                        'autopartsstore'=>'Auto Parts Store',
+                                        'bikestore'=>'Bike Store',
+                                        'bookstore'=>'Book Store',
+                                        'clothingstore'=>'Clothing Store',
+                                        'computerstore'=>'Computer Store',
+                                        'conveniencestore'=>'Convenience Store',
+                                        'departmentstore'=>'Department Store',
+                                        'electronicsstore'=>'Electronics Store',
                                         'florist'=>'Florist',
-                                        'furniturestore'=>'FurnitureStore',
-                                        'gardenstore'=>'GardenStore',
-                                        'grocerystore'=>'GroceryStore',
-                                        'hardwarestore'=>'HardwareStore',
-                                        'hobbyshop'=>'HobbyShop',
-                                        'homegoodsstore'=>'HomeGoodsStore',
-                                        'jewelrystore'=>'JewelryStore',
-                                        'liquorstore'=>'LiquorStore',
-                                        'mensclothingstore'=>'MensClothingStore',
-                                        'mobilephonestore'=>'MobilePhoneStore',
-                                        'movierentalstore'=>'MovieRentalStore',
-                                        'musicstore'=>'MusicStore',
-                                        'officeequipmentstore'=>'OfficeEquipmentStore',
-                                        'outletstore'=>'OutletStore',
-                                        'pawnshop'=>'PawnShop',
-                                        'petstore'=>'PetStore',
-                                        'shoestore'=>'ShoeStore',
-                                        'sportinggoodsstore'=>'SportingGoodsStore',
-                                        'tireshop'=>'TireShop',
-                                        'toystore'=>'ToyStore',
-                                        'wholesalestore'=>'WholesaleStore'
+                                        'furniturestore'=>'Furniture Store',
+                                        'gardenstore'=>'Garden Store',
+                                        'grocerystore'=>'Grocery Store',
+                                        'hardwarestore'=>'Hardware Store',
+                                        'hobbyshop'=>'Hobby Shop',
+                                        'homegoodsstore'=>'HomeGoods Store',
+                                        'jewelrystore'=>'Jewelry Store',
+                                        'liquorstore'=>'Liquor Store',
+                                        'mensclothingstore'=>'Mens Clothing Store',
+                                        'mobilephonestore'=>'Mobile Phone Store',
+                                        'movierentalstore'=>'Movie Rental Store',
+                                        'musicstore'=>'Music Store',
+                                        'officeequipmentstore'=>'Office Equipment Store',
+                                        'outletstore'=>'Outlet Store',
+                                        'pawnshop'=>'Pawn Shop',
+                                        'petstore'=>'Pet Store',
+                                        'shoestore'=>'Shoe Store',
+                                        'sportinggoodsstore'=>'Sporting Goods Store',
+                                        'tireshop'=>'Tire Shop',
+                                        'toystore'=>'Toy Store',
+                                        'wholesalestore'=>'Wholesale Store'
                                  );
                 ?>                                               
                 <div class="misc-pub-section">
@@ -453,39 +453,39 @@
                         </tr>
                         <tr class="saswp-business-text-field-tr" <?php echo $style_business_type; ?>>
                             <td><?php echo esc_html__('Business Name', 'schema-and-structured-data-for-wp' ); ?></td>
-                            <td><input value="<?php if(isset($business_details['local_business_name'])) { echo $business_details['local_business_name']; }  ?>" type="text" name="local_business_name" placeholder="<?php echo esc_html__('Business Name', 'schema-and-structured-data-for-wp' ); ?>"></td>
+                            <td><input value="<?php if(isset($business_details['local_business_name'])) { echo esc_attr($business_details['local_business_name']); }  ?>" type="text" name="local_business_name" placeholder="<?php echo esc_html__('Business Name', 'schema-and-structured-data-for-wp' ); ?>"></td>
                         </tr>
                         <tr class="saswp-business-text-field-tr" <?php echo $style_business_type; ?>>
                             <td><?php echo esc_html__('Street Address', 'schema-and-structured-data-for-wp' ); ?></td>
-                            <td><input value="<?php if(isset($business_details['local_street_address'])) { echo $business_details['local_street_address']; } ?>" type="text" name="local_street_address" placeholder="<?php echo esc_html__('Street Address', 'schema-and-structured-data-for-wp' ); ?>"></td>
+                            <td><input value="<?php if(isset($business_details['local_street_address'])) { echo esc_attr($business_details['local_street_address']); } ?>" type="text" name="local_street_address" placeholder="<?php echo esc_html__('Street Address', 'schema-and-structured-data-for-wp' ); ?>"></td>
                         </tr>
                         <tr class="saswp-business-text-field-tr" <?php echo $style_business_type; ?>>
                             <td><?php echo esc_html__('City', 'schema-and-structured-data-for-wp' ); ?></td>
-                            <td><input value="<?php if(isset($business_details['local_city'])){ echo $business_details['local_city'];} ?>" type="text" name="local_city" placeholder="<?php echo esc_html__('City', 'schema-and-structured-data-for-wp' ); ?>"></td>
+                            <td><input value="<?php if(isset($business_details['local_city'])){ echo esc_attr($business_details['local_city']);} ?>" type="text" name="local_city" placeholder="<?php echo esc_html__('City', 'schema-and-structured-data-for-wp' ); ?>"></td>
                         </tr>
                         <tr class="saswp-business-text-field-tr" <?php echo $style_business_type; ?>>
                             <td><?php echo esc_html__('State', 'schema-and-structured-data-for-wp' ); ?></td>
-                            <td><input value="<?php if(isset($business_details['local_state'])){echo $business_details['local_state'];} ?>" type="text" name="local_state" placeholder="<?php echo esc_html__('State', 'schema-and-structured-data-for-wp' ); ?>"></td>
+                            <td><input value="<?php if(isset($business_details['local_state'])){echo esc_attr($business_details['local_state']);} ?>" type="text" name="local_state" placeholder="<?php echo esc_html__('State', 'schema-and-structured-data-for-wp' ); ?>"></td>
                         </tr>
                         <tr class="saswp-business-text-field-tr" <?php echo $style_business_type; ?>>
                             <td><?php echo esc_html__('Postal Code', 'schema-and-structured-data-for-wp' ); ?></td>
-                            <td><input value="<?php if(isset($business_details['local_postal_code'])) {echo $business_details['local_postal_code']; } ?>" type="text" name="local_postal_code" placeholder="<?php echo esc_html__('Postal Code', 'schema-and-structured-data-for-wp' ); ?>"></td>
+                            <td><input value="<?php if(isset($business_details['local_postal_code'])) {echo esc_attr($business_details['local_postal_code']); } ?>" type="text" name="local_postal_code" placeholder="<?php echo esc_html__('Postal Code', 'schema-and-structured-data-for-wp' ); ?>"></td>
                         </tr>
                         <tr class="saswp-business-text-field-tr" <?php echo $style_business_type; ?>>
                             <td><?php echo esc_html__('Phone', 'schema-and-structured-data-for-wp' ); ?></td>
-                            <td><input value="<?php if(isset($business_details['local_phone'])){echo $business_details['local_phone']; } ?>" type="text" name="local_phone" placeholder="<?php echo esc_html__('Phone', 'schema-and-structured-data-for-wp' ); ?>"></td>
+                            <td><input value="<?php if(isset($business_details['local_phone'])){echo esc_attr($business_details['local_phone']); } ?>" type="text" name="local_phone" placeholder="<?php echo esc_html__('Phone', 'schema-and-structured-data-for-wp' ); ?>"></td>
                         </tr>
                         <tr class="saswp-business-text-field-tr" <?php echo $style_business_type; ?>>
                             <td><?php echo esc_html__('Website', 'schema-and-structured-data-for-wp' ); ?></td>
-                            <td><input value="<?php if(isset($business_details['local_website'])){echo $business_details['local_website']; }else{ echo site_url();} ?>" type="text" name="local_website" placeholder="<?php echo esc_html__('Website', 'schema-and-structured-data-for-wp' ); ?>"></td>
+                            <td><input value="<?php if(isset($business_details['local_website'])){echo esc_attr($business_details['local_website']); }else{ echo site_url();} ?>" type="text" name="local_website" placeholder="<?php echo esc_html__('Website', 'schema-and-structured-data-for-wp' ); ?>"></td>
                         </tr>
                         <tr class="saswp-business-text-field-tr" <?php echo $style_business_type; ?>>
                             <td><?php echo esc_html__('Image', 'schema-and-structured-data-for-wp' ); ?></td>
                             <td style="display: flex; width: 97%">
-                                <input value="<?php if(isset($business_details['local_business_logo'])) { echo $business_details['local_business_logo']['url'];} else { echo $logo[0]; } ?>" id="local_business_logo" type="text" name="local_business_logo[url]" placeholder="<?php echo esc_html__('Logo', 'schema-and-structured-data-for-wp' ); ?>" readonly="readonly" style="background: #FFF;">
-                                <input value="<?php if(isset($business_details['local_business_logo'])) { echo $business_details['local_business_logo']['id'];} else { echo $custom_logo_id; }?>" data-id="local_business_logo_id" type="hidden" name="local_business_logo[id]">
-                                <input value="<?php if(isset($business_details['local_business_logo'])) { echo $business_details['local_business_logo']['width'];} else { echo $logo[1]; } ?>" data-id="local_business_logo_width" type="hidden" name="local_business_logo[width]">
-                                <input value="<?php if(isset($business_details['local_business_logo'])) { echo $business_details['local_business_logo']['height'];} else { echo $logo[2]; } ?>" data-id="local_business_logo_height" type="hidden" name="local_business_logo[height]">
+                                <input value="<?php if(isset($business_details['local_business_logo'])) { echo esc_url($business_details['local_business_logo']['url']);} else { echo esc_url($logo[0]); } ?>" id="local_business_logo" type="text" name="local_business_logo[url]" placeholder="<?php echo esc_html__('Logo', 'schema-and-structured-data-for-wp' ); ?>" readonly="readonly" style="background: #FFF;">
+                                <input value="<?php if(isset($business_details['local_business_logo'])) { echo esc_attr($business_details['local_business_logo']['id']);} else { echo esc_attr($custom_logo_id); }?>" data-id="local_business_logo_id" type="hidden" name="local_business_logo[id]">
+                                <input value="<?php if(isset($business_details['local_business_logo'])) { echo esc_attr($business_details['local_business_logo']['width']);} else { echo esc_attr($logo[1]); } ?>" data-id="local_business_logo_width" type="hidden" name="local_business_logo[width]">
+                                <input value="<?php if(isset($business_details['local_business_logo'])) { echo esc_attr($business_details['local_business_logo']['height']);} else { echo esc_attr($logo[2]); } ?>" data-id="local_business_logo_height" type="hidden" name="local_business_logo[height]">
                                 <input data-id="media" class="button" id="local_business_logo_button" type="button" value="Upload"></td>
                         </tr>
                         <tr class="saswp-business-text-field-tr" <?php echo $style_business_type; ?>>
@@ -509,15 +509,15 @@
                         </tr>
                          <tr class="saswp-business-text-field-tr" <?php echo $style_business_type; ?>>
                             <td><?php echo esc_html__('Opens', 'schema-and-structured-data-for-wp' ); ?></td>
-                            <td><input id="saswp-dayofweek-opens-time" value="<?php if(isset($business_details['local_opens_time'])){echo $business_details['local_opens_time']; } ?>" type="text" name="local_opens_time" ></td>
+                            <td><input id="saswp-dayofweek-opens-time" value="<?php if(isset($business_details['local_opens_time'])){echo esc_attr($business_details['local_opens_time']); } ?>" type="text" name="local_opens_time" ></td>
                         </tr>
                         <tr class="saswp-business-text-field-tr" <?php echo $style_business_type; ?>>
                             <td><?php echo esc_html__('Closes', 'schema-and-structured-data-for-wp' ); ?></td>
-                            <td><input id="saswp-dayofweek-closes-time" value="<?php if(isset($business_details['local_closes_time'])){echo $business_details['local_closes_time']; } ?>" type="text" name="local_closes_time" ></td>
+                            <td><input id="saswp-dayofweek-closes-time" value="<?php if(isset($business_details['local_closes_time'])){echo esc_attr($business_details['local_closes_time']); } ?>" type="text" name="local_closes_time" ></td>
                         </tr>
                         <tr class="saswp-business-text-field-tr" <?php echo $style_business_type; ?>>
                             <td><?php echo esc_html__('Price Range', 'schema-and-structured-data-for-wp' ); ?></td>
-                            <td><input  value="<?php if(isset($business_details['local_price_range'])){echo $business_details['local_price_range']; } ?>" type="text" name="local_price_range" placeholder="<?php echo esc_html__('$10-$50 or $$$ ', 'schema-and-structured-data-for-wp' ); ?>" ></td>
+                            <td><input  value="<?php if(isset($business_details['local_price_range'])){echo esc_attr($business_details['local_price_range']); } ?>" type="text" name="local_price_range" placeholder="<?php echo esc_html__('$10-$50 or $$$ ', 'schema-and-structured-data-for-wp' ); ?>" ></td>
                         </tr>
                     </table>  
                    

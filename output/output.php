@@ -25,7 +25,6 @@ function saswp_kb_schema_output() {
 		$sd_google_plus[] = $sd_data['sd_google_plus'];	
 		$sd_social_profile[] = $sd_google_plus;
 	}
-
 	$sd_instagram = array();
 	if(isset($sd_data['sd_instagram']) && !empty($sd_data['sd_instagram'])){
 		$sd_instagram[] = $sd_data['sd_instagram'];
@@ -167,8 +166,7 @@ function sd_is_blog() {
 function saswp_schema_output() {
 	global $sd_data;
 
-	$Conditionals = saswp_get_all_schema_posts();  
-       
+	$Conditionals = saswp_get_all_schema_posts();         
         
 	if(!$Conditionals){
 		return ;
@@ -316,7 +314,7 @@ function saswp_schema_output() {
 				'@context'			=> 'http://schema.org',
 				'@type'				=> $schema_type ,
 				'url'				=> get_permalink(),
-				'headline'			=> get_the_title(),
+				'name'			        => get_the_title(),
 				'datePublished'                 => $date,
 				'dateModified'                  => $modified_date,
 				'description'                   => get_the_excerpt(),
@@ -592,12 +590,14 @@ function saswp_list_items_generator(){
 		}
 		if(isset($sd_data['links'])){
 			$bc_links = $sd_data['links'];
-		}		
+		}	
+                
                 $j=1;
                 $i = 0;
-                $breadcrumbslist = array();
+        $breadcrumbslist = array();
         if(is_single()){    
-			if(isset($bc_titles)){
+            
+			if(isset($bc_titles)){                           
 				for($i=0;$i<sizeof($bc_titles);$i++){
 					$breadcrumbslist[] = array(
 								'@type'			=> 'ListItem',
@@ -606,7 +606,7 @@ function saswp_list_items_generator(){
 									'@id'		=> $bc_links[$i],
 									'name'		=> $bc_titles[$i],
 									),
-							);
+							          );
 		$j++;
 		}}
 		$breadcrumbslist[] = array(
@@ -618,6 +618,7 @@ function saswp_list_items_generator(){
 
 								),
 							);
+               
 }
         if(is_page()){
 
@@ -649,24 +650,31 @@ function saswp_list_items_generator(){
 		}
 }
 
-return $breadcrumbslist;
+       return $breadcrumbslist;
 }
 
 function saswp_schema_breadcrumb_output($sd_data){
 	global $sd_data;
+        
 	if( (!saswp_non_amp() && $sd_data['saswp-for-amp']!=1) || (saswp_non_amp() && $sd_data['saswp-for-wordpress']!=1) ) {
 		return ;
 	}
+        
 	if(isset($sd_data['saswp_breadcrumb_schema']) && $sd_data['saswp_breadcrumb_schema'] == 1){
-					       		
-		$input = array(
+				       				
+        if(is_single() || is_page() ||is_archive()){
+        $bread_crumb_list =   saswp_list_items_generator();        
+        if(!empty($bread_crumb_list)){            
+           $input = array(
 					'@context'			=> 'http://schema.org',
 					'@type'				=> 'BreadcrumbList' ,
-					'itemListElement'	        =>saswp_list_items_generator(),
-			);
-		if ( !is_front_page() ) {
-			return json_encode($input);                    
-		 }
+					'itemListElement'	        =>$bread_crumb_list,
+			);    
+         return json_encode($input);           	    
+        }
+               
+        }         
+	
 	}
 }
 
