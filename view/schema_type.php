@@ -525,8 +525,7 @@
                     <?php
         }
    
-        function saswp_schema_type_add_meta_box_save( $post_id ) {     
-            
+        function saswp_schema_type_add_meta_box_save( $post_id ) {                    
                 if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
                 if ( ! isset( $_POST['saswp_schema_type_nonce'] ) || ! wp_verify_nonce( $_POST['saswp_schema_type_nonce'], 'saswp_schema_type_nonce' ) ) return;
                 if ( ! current_user_can( 'edit_post', $post_id ) ) return;
@@ -537,10 +536,14 @@
                                 
                 if ( isset( $_POST['saswp_business_type'] ) ){
                         update_post_meta( $post_id, 'saswp_business_type', esc_attr( $_POST['saswp_business_type'] ) );
+                }else{
+                        update_post_meta( $post_id, 'saswp_business_type','');
                 }
                 
                 if ( isset( $_POST['saswp_business_name'] ) ){
                         update_post_meta( $post_id, 'saswp_business_name', esc_attr( $_POST['saswp_business_name'] ) );
+                }else{
+                        update_post_meta( $post_id, 'saswp_business_name', '' );
                 }
                 
                 $local_business_details = array();
