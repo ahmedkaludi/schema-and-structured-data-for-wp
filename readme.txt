@@ -3,7 +3,7 @@ Contributors: mohammed_kaludi, ahmedkaludi, ampforwp
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 4.9.8
-Stable tag: 1.0.2.1
+Stable tag: 1.0.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -65,11 +65,17 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
 
-= 1.0.2.1 (06 October 2018) =
-* Bug fix: Login button was appearing without paywall enable. 
-* Bug fix: Local business schema bug fix.
+= 1.0.3 (24 October 2018) =
+* Schema Pro migrator
+* Import / export functionality, so it can be transferred from staging to live website
+* Added WP Recipe Maker and WP Ultimate Recipe plugins compatibility
+* Added compatibility with FlexMLS® IDX plugin
+* Tested security issue and fixed
+* Breadcrumbs bug fixed
+* Debug errors
+* Minor Bugs Fixed
 
-= 1.0.2 (28 September 2018) =
+= 1.0.2 (28 August 2018) =
 * First Time Installation Setup Wizard
 * Added a Support form to provide faster support
 * Full Local Business Schema Markup Support

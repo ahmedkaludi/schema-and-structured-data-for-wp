@@ -27,6 +27,7 @@ class saswp_fields_generator {
                         $note = "";
                         $tooltip_element="";
                         $hidden = array();
+                        $attribute = array();
                         if(array_key_exists('class', $meta_field)){
                         $class = $meta_field['class'];    
                         }
@@ -35,6 +36,9 @@ class saswp_fields_generator {
                         }
                         if(array_key_exists('hidden', $meta_field)){
                         $hidden = $meta_field['hidden'];     
+                        }
+                        if(array_key_exists('attributes', $meta_field)){
+                        $attribute = $meta_field['attributes'];     
                         }
                         if($tooltip_message){
                         $tooltip_element = '<span class="saswp-tooltiptext">'.$tooltip_message.'</span>';    
@@ -60,6 +64,10 @@ class saswp_fields_generator {
 					);
 					break;
 				case 'checkbox':
+                                        $attribute_str ='';
+                                        foreach ($attribute as $key => $attr ){
+                                           $attribute_str .=''.$key.'="'.$attr.'"';
+                                        }
                                         $hiddenvalue ="";
                                         if(array_key_exists('id', $hidden)){
                                          $hiddenvalue = $settings[$hidden['id']];                                    
@@ -72,14 +80,21 @@ class saswp_fields_generator {
 						esc_attr($hidden['name']),					
 						esc_attr($hiddenvalue)
 					 );   
-                                         }
-                                         
+                                         }   
+                                        $message =''; 
+                                        if (! is_plugin_active('flexmls-idx/flexmls_connect.php')) {
+                                        if($meta_field['id'] =='saswp_compativility_checkbox'){
+                                        $note = 'Plugin is not activated';     
+                                        }   
+                                        }
+                                                                                                                         
 					$input = sprintf(
-						'<input class="%s" id="%s" name="%s" type="checkbox" %s>',
+						'<input class="%s" id="%s" name="%s" type="checkbox" %s %s><p>'.$message.'</p>',
                                                 esc_attr($class),
                                                 esc_attr($meta_field['id']),    
 						esc_attr($meta_field['name']),                                              
-                                                $hiddenvalue == 1 ? 'checked' : ''
+                                                $hiddenvalue == 1 ? 'checked' : '',
+                                                $attribute_str
 						);
                                            
                                          $input .=$hiddenfield;

@@ -25,7 +25,7 @@ function saswp_admin_interface_render(){
 	}
 	// Handing save settings
 	if ( isset( $_GET['settings-updated'] ) ) {							                                                 
-		settings_errors();
+		settings_errors();               
 	}
         $is_amp =false;
         if ( is_plugin_active('accelerated-mobile-pages/accelerated-moblie-pages.php') || is_plugin_active('amp/amp.php') ) {
@@ -138,7 +138,7 @@ function saswp_admin_interface_render(){
 add_action('admin_init', 'saswp_settings_init');
 
 function saswp_settings_init(){
-          	register_setting( 'sd_data_group', 'sd_data' );
+          	register_setting( 'sd_data_group', 'sd_data', 'saswp_handle_file_upload' );
                 add_settings_section('saswp_general_section', __return_false(), '__return_false', 'saswp_general_section');
 
                 add_settings_field(
@@ -202,6 +202,29 @@ function saswp_settings_init(){
                                                      
                  
 }
+
+function saswp_custom_upload_mimes($mimes = array()) {
+	
+	$mimes['json'] = "application/json";
+
+	return $mimes;
+}
+
+add_action('upload_mimes', 'saswp_custom_upload_mimes');
+
+function saswp_handle_file_upload($option)
+{
+  if(!empty($_FILES["saswp_import_backup"]["tmp_name"]))
+  {
+    $urls = wp_handle_upload($_FILES["saswp_import_backup"], array('test_form' => FALSE));    
+    $url = $urls["url"];
+    update_option('saswp-file-upload_url',esc_url($url));
+  }
+  
+  return $option;
+}
+
+
 function saswp_schema_page_callback(){
 	// Get Settings
 	$settings = saswp_defaultSettings(); 
@@ -679,28 +702,149 @@ function saswp_knowledge_page_callback(){
 	<?php
 }
 
-function saswp_import_callback(){
-        $import_message = '';
-        $cc_args = array(
+function saswp_check_data_imported_from($plugin_post_type_name){
+       $cc_args = array(
                         'posts_per_page'   => -1,
                         'post_type'        => 'saswp',
                         'meta_key'         => 'imported_from',
-                        'meta_value'         => 'schema',
+                        'meta_value'         => $plugin_post_type_name,
                     );					
-	$imported_from = new WP_Query( $cc_args );   					
-	if($imported_from->post_count !=0){
-         $import_message ='<p>'.esc_html__('This plugin\'s data already has been imported. Do you want to import again?. click on button','schema-and-structured-data-for-wp').'</p>';   
-        }            
+	$imported_from = new WP_Query( $cc_args ); 
+        return $imported_from;
+}
+function saswp_import_callback(){
+        $message = '<p>'.esc_html__('This plugin\'s data already has been imported. Do you want to import again?. click on button above button.','schema-and-structured-data-for-wp').'</p>';
+        $schema_message = '';
+        $schema_pro_message = '';
+        $schema_plugin = saswp_check_data_imported_from('schema'); 
+        $schema_pro_plugin = saswp_check_data_imported_from('schema_pro'); 
+	if($schema_plugin->post_count !=0){
+         $schema_message =$message;
+        }
+        if($schema_pro_plugin->post_count !=0){
+         $schema_pro_message =$message;   
+        }
+        
 	 echo '<h2>'.esc_html__('Migration','schema-and-structured-data-for-wp').'</h2>';       	                  
         ?>	
             <ul>
                 <li><div class="saswp-tools-field-title"><div class="saswp-tooltip"><span class="saswp-tooltiptext"><?php echo esc_html__('All the settings and data you can import from this plugin when you click start importing','schema-and-structured-data-for-wp') ?></span><strong><?php echo esc_html__('Schema Plugin','schema-and-structured-data-for-wp'); ?></strong></div><button data-id="schema" class="button saswp-import-plugins"><?php echo esc_html__('Start Importing','schema-and-structured-data-for-wp'); ?></button>
                         <p class="saswp-imported-message"></p>
-                        <?php echo $import_message; ?>    
+                        <?php echo $schema_message; ?>    
                     </div>
-                </li>               
+                </li>
+                <li><div class="saswp-tools-field-title"><div class="saswp-tooltip"><span class="saswp-tooltiptext"><?php echo esc_html__('All the settings and data you can import from this plugin when you click start importing','schema-and-structured-data-for-wp') ?></span><strong><?php echo esc_html__('Schema Pro','schema-and-structured-data-for-wp'); ?></strong></div><button data-id="schema_pro" class="button saswp-import-plugins"><?php echo esc_html__('Start Importing','schema-and-structured-data-for-wp'); ?></button>
+                        <p class="saswp-imported-message"></p>
+                        <?php echo $schema_pro_message; ?>    
+                    </div>
+                </li>
             </ul>                   
-	<?php        
+	<?php   
+        echo '<h2>'.esc_html__('Import / Export','schema-and-structured-data-for-wp').'</h2>'; 
+        $url =  admin_url('admin-ajax.php?action=saswp_export_all_settings_and_schema');
+        ?>
+        <ul>
+                <li>
+                    <div class="saswp-tools-field-title"><div class="saswp-tooltip"><strong><?php echo esc_html__('Export All Settings & Schema','schema-and-structured-data-for-wp'); ?></strong></div><a href="<?php echo esc_url($url); ?>"class="button saswp-export-data"><?php echo esc_html__('Export','schema-and-structured-data-for-wp'); ?></a>                         
+                    </div>
+                </li> 
+                <li>
+                    <div class="saswp-tools-field-title"><div class="saswp-tooltip"><strong><?php echo esc_html__('Import All Settings & Schema','schema-and-structured-data-for-wp'); ?></strong></div><input type="file" name="saswp_import_backup" id="saswp_import_backup">                         
+                    </div>
+                </li> 
+            </ul>
+        <?php
+        
+        $settings = saswp_defaultSettings();
+        
+        if ( is_plugin_active('flexmls-idx/flexmls_connect.php')) {
+         $meta_fields_default = array(	
+		array(
+			'label' => 'FlexMLS IDX Plugin',
+			'id' => 'saswp_compativility_checkbox', 
+                        'name' => 'saswp_compativility_checkbox',
+			'type' => 'checkbox',
+                        'class' => 'checkbox saswp-checkbox',                       
+                        'hidden' => array(
+                             'id' => 'saswp_compativility',
+                             'name' => 'sd_data[saswp_compativility]',                             
+                        )
+		),
+		);   
+        }else{
+        $settings['saswp_compativility'] =0; 
+        $meta_fields_default = array(	
+		array(
+			'label' => 'FlexMLS IDX',
+			'id' => 'saswp_compativility_checkbox', 
+                        'name' => 'saswp_compativility_checkbox',
+			'type' => 'checkbox',
+                        'class' => 'checkbox saswp-checkbox', 
+                        'attributes' => array(
+                            'disabled' => 'disabled'
+                        ),
+                        'hidden' => array(
+                             'id' => 'saswp_compativility',
+                             'name' => 'sd_data[saswp_compativility]',                             
+                        )
+		),
+		);          
+        }
+         $meta_fields_text = array();
+         $meta_fields_text[] = array(
+                        'label' => 'Name',
+			'id' => 'sd-seller-name',
+                        'name' => 'sd_data[sd-seller-name]',
+                        'class' => 'regular-text',                        
+			'type' => 'text',
+        );
+         $meta_fields_text[] = array(
+                        'label' => 'Addres',
+			'id' => 'sd-seller-address',
+                        'name' => 'sd_data[sd-seller-address]',
+                        'class' => 'regular-text',                        
+			'type' => 'text',
+        );
+         $meta_fields_text[] = array(
+                        'label' => 'Telephone',
+			'id' => 'sd-seller-telephone',
+                        'name' => 'sd_data[sd-seller-telephone]',
+                        'class' => 'regular-text',                        
+			'type' => 'text',
+        );
+         $meta_fields_text[] = array(
+                        'label' => 'Price Range',
+			'id' => 'sd-seller-price-range',
+                        'name' => 'sd_data[sd-seller-price-range]',
+                        'class' => 'regular-text',                        
+			'type' => 'text',
+        );
+        $meta_fields_text[] = array(
+			'label' => 'URL',
+			'id' => 'sd-seller-url',
+                        'name' => 'sd_data[sd-seller-url]',
+                        'class' => 'regular-text',
+			'type' => 'text',
+		);                                
+        $meta_fields_text[] = array(
+			'label' => 'Image',
+			'id' => 'sd_seller_image',
+                        'name' => 'sd_data[sd_seller_image][url]',
+                        'class' => 'saswp-sd_seller_image',
+			'type' => 'media',
+	);                
+        echo '<h2>'.esc_html__('Compatibility','schema-and-structured-data-for-wp').'</h2>';        
+        $field_objs = new saswp_fields_generator(); 
+        echo '<div class="saswp-compativility-div">';
+        $field_objs->saswp_field_generator($meta_fields_default, $settings);
+        echo '</div>';
+        if ( is_plugin_active('flexmls-idx/flexmls_connect.php')) {
+        echo '<div class="saswp-seller-div">';
+        echo '<strong>'.esc_html__('Real estate agent info :','schema-and-structured-data-for-wp').'</strong>';
+        $field_objs->saswp_field_generator($meta_fields_text, $settings);
+        echo '</div>';    
+        }
+                                
 }
 
 function saswp_imported_callback(){	        
@@ -753,7 +897,17 @@ function saswp_enqueue_style_js( $hook ) {
 	// Everything needed for media upload
         wp_enqueue_media();	
 	// Main JS
-        wp_enqueue_script( 'saswp-main-js', SASWP_PLUGIN_URL . 'admin_section/js/main-script.js', array( 'wp-color-picker' ), SASWP_VERSION, true );
+        
+        wp_register_script( 'saswp-main-js', SASWP_PLUGIN_URL . 'admin_section/js/main-script.js', array('jquery'), SASWP_VERSION , true );
+        
+        $data = array(
+            'ajax_url'                  => admin_url( 'admin-ajax.php' ),            
+            'saswp_security_nonce'      => wp_create_nonce('saswp_ajax_check_nonce')            
+        );
+        
+        wp_localize_script( 'saswp-main-js', 'saswp_localize_data', $data );
+        
+        wp_enqueue_script( 'saswp-main-js' );
         //Main Css 
         wp_enqueue_style( 'saswp-main-css', SASWP_PLUGIN_URL . 'admin_section/css/main-style.css', false , SASWP_VERSION );
 }

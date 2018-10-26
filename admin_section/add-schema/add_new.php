@@ -111,7 +111,7 @@ $saswp_add_data_type_config = array(
 
 			</div>
 
-			<?php echo sprintf( '<a class="return-to-dashboard" href="%s">%s</a>', esc_url( admin_url( 'edit.php?post_type=saswp' ) ), esc_html( 'Return to dashboard' ) ); ?>
+			<?php echo sprintf( '<a class="return-to-dashboard" href="%s">%s</a>', esc_url( admin_url( 'edit.php?post_type=saswp' ) ), esc_html__( 'Return to dashboard', 'schema-and-structured-data-for-wp' ) ); ?>
 
 		</div>
 
@@ -142,7 +142,7 @@ $saswp_add_data_type_config = array(
 		<head>
 			<meta name="viewport" content="width=device-width"/>
 			<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-			<title><?php echo ucwords($current_step); ?></title>
+			<title><?php echo esc_attr(ucwords($current_step)); ?></title>
 			<?php do_action( 'admin_print_styles' ); ?>
 			<?php do_action( 'admin_print_scripts' ); ?>
 			<?php do_action( 'admin_head' ); ?>
@@ -165,7 +165,7 @@ $saswp_add_data_type_config = array(
 				<circle class="icon--checkmark__circle" cx="26" cy="26" r="25" fill="none"/><path class="icon--checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
 			</svg>
 			
-			<h1><?php echo $stepDetails['title']; ?></h1>
+			<h1><?php echo esc_attr($stepDetails['title']); ?></h1>
 
 			<p><?php echo isset($stepDetails['description'])? $stepDetails['description'] : ''; ?></p>
 			
@@ -190,10 +190,10 @@ $saswp_add_data_type_config = array(
 			<footer class="merlin__content__footer">
 				<?php saswp_add_new_skip_button(); ?>
 				
-				<a id="skip" href="<?php echo esc_url( saswp_add_new_step_next_link() ); ?>" class="merlin__button merlin__button--skip merlin__button--proceed"><?php echo esc_html( 'Skip' ); ?></a>
+				<a id="skip" href="<?php echo esc_url( saswp_add_new_step_next_link() ); ?>" class="merlin__button merlin__button--skip merlin__button--proceed"><?php echo esc_html__( 'Skip', 'schema-and-structured-data-for-wp' ); ?></a>
 				
 				<a href="<?php echo esc_url( saswp_add_new_step_next_link() ); ?>" class="merlin__button merlin__button--next button-next" data-callback="save_logo">
-					<span class="merlin__button--loading__text"><?php echo esc_html( 'Next' ); ?></span><?php echo saswp_add_new_loading_spinner(); ?>
+					<span class="merlin__button--loading__text"><?php echo esc_html__( 'Next', 'schema-and-structured-data-for-wp' ); ?></span><?php echo saswp_add_new_loading_spinner(); ?>
 				</a>
 				
 				<?php wp_nonce_field( 'saswp_add_new_nonce' ); ?>
@@ -214,7 +214,7 @@ $saswp_add_data_type_config = array(
 				<circle class="icon--checkmark__circle" cx="26" cy="26" r="25" fill="none"/><path class="icon--checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
 			</svg>
 			
-			<h1><?php echo $stepDetails['title']; ?></h1>
+			<h1><?php echo esc_attr($stepDetails['title']); ?></h1>
 			<p><?php echo isset($stepDetails['description'])? $stepDetails['description'] : ''; ?></p>
 		</div>
 		<form action="" method="post">
@@ -242,7 +242,7 @@ $saswp_add_data_type_config = array(
                              
                             </li>
                             <li>
-                                 <input type="hidden" name="saswp_post_id" id="saswp_post_id" value="<?php echo $last_post_id; ?>">   
+                                 <input type="hidden" name="saswp_post_id" id="saswp_post_id" value="<?php echo esc_attr($last_post_id); ?>">   
                             </li>
 			</ul>
                         </div>
@@ -251,10 +251,10 @@ $saswp_add_data_type_config = array(
 			<footer class="merlin__content__footer">
 				<?php saswp_add_new_skip_button(); ?>
 				
-				<a id="skip" href="<?php echo esc_url( saswp_add_new_step_next_link() ); ?>" class="merlin__button merlin__button--skip merlin__button--proceed"><?php echo esc_html( 'Skip' ); ?></a>
+				<a id="skip" href="<?php echo esc_url( saswp_add_new_step_next_link() ); ?>" class="merlin__button merlin__button--skip merlin__button--proceed"><?php echo esc_html__( 'Skip', 'schema-and-structured-data-for-wp' ); ?></a>
 				
 				<a href="<?php echo esc_url( saswp_add_new_step_next_link() ); ?>" class="merlin__button merlin__button--next button-next" data-callback="save_logo">
-					<span class="merlin__button--loading__text"><?php echo esc_html( 'Next' ); ?></span><?php echo saswp_add_new_loading_spinner(); ?>
+					<span class="merlin__button--loading__text"><?php echo esc_html__( 'Next', 'schema-and-structured-data-for-wp' ); ?></span><?php echo saswp_add_new_loading_spinner(); ?>
 				</a>
 				
 				<?php wp_nonce_field( 'saswp_add_new_nonce' ); ?>
@@ -276,7 +276,7 @@ $saswp_add_data_type_config = array(
 				<circle class="icon--checkmark__circle" cx="26" cy="26" r="25" fill="none"/><path class="icon--checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
 			</svg>
 			
-			<h1><?php echo $stepDetails['title']; ?></h1>
+			<h1><?php echo esc_attr($stepDetails['title']); ?></h1>
 
 			<p><?php echo isset($stepDetails['description'])? $stepDetails['description'] : ''; ?></p>
 			
@@ -295,10 +295,10 @@ $saswp_add_data_type_config = array(
 			<footer class="merlin__content__footer">
 				<?php saswp_add_new_skip_button(); ?>
 				
-				<a id="skip" href="<?php echo esc_url( saswp_add_new_step_next_link() ); ?>" class="merlin__button merlin__button--skip merlin__button--proceed"><?php echo esc_html( 'Skip' ); ?></a>
+				<a id="skip" href="<?php echo esc_url( saswp_add_new_step_next_link() ); ?>" class="merlin__button merlin__button--skip merlin__button--proceed"><?php echo esc_html__( 'Skip', 'schema-and-structured-data-for-wp' ); ?></a>
 				
 				<a href="<?php echo esc_url( saswp_add_new_step_next_link() ); ?>" class="merlin__button merlin__button--next button-next" data-callback="save_logo">
-					<span class="merlin__button--loading__text"><?php echo esc_html( 'Next' ); ?></span><?php echo saswp_add_new_loading_spinner(); ?>
+					<span class="merlin__button--loading__text"><?php echo esc_html__( 'Next', 'schema-and-structured-data-for-wp' ); ?></span><?php echo saswp_add_new_loading_spinner(); ?>
 				</a>
 				
 				<?php wp_nonce_field( 'saswp_add_new_nonce' ); ?>
@@ -311,7 +311,12 @@ $saswp_add_data_type_config = array(
 
 		
 	function saswp_add_new_save_steps_data(){    
-                
+                 if ( ! isset( $_POST['wpnonce'] ) ){
+                 return; 
+                 }
+                 if ( !wp_verify_nonce( $_POST['wpnonce'], 'saswp_add_new_nonce' ) ){
+                    return;  
+                 }                 
                 if(isset($_POST['schema_type'])){                    
                 $schema_type = $_POST['schema_type'];    
                 $user_id = get_current_user_id();
@@ -373,7 +378,7 @@ $saswp_add_data_type_config = array(
 	
 	function saswp_add_new_skip_button(){
 		?>
-		<a href="<?php echo esc_url(  saswp_add_new_step_next_link() ); ?>" class="merlin__button merlin__button--skip"><?php echo esc_html( 'Skip' ); ?></a>
+		<a href="<?php echo esc_url(  saswp_add_new_step_next_link() ); ?>" class="merlin__button merlin__button--skip"><?php echo esc_html__( 'Skip', 'schema-and-structured-data-for-wp' ); ?></a>
 		<?php
 	}
 	function saswp_add_new_finish_page() {
@@ -460,7 +465,7 @@ $saswp_add_data_type_config = array(
 		<head>
 			<meta name="viewport" content="width=device-width"/>
 			<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-			<title><?php echo ucwords($current_step); ?></title>
+			<title><?php echo esc_attr(ucwords($current_step)); ?></title>
 			<?php do_action( 'admin_print_styles' ); ?>
 			<?php do_action( 'admin_print_scripts' ); ?>
 			<?php do_action( 'admin_head' ); ?>
