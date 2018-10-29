@@ -476,10 +476,9 @@ function saswp_schema_output() {
 				$input1 = array(
 				'@context'			=> 'http://schema.org',
 				'@type'				=> $local_business ,
-				'url'				=> get_permalink(),
-				'name'                          => $business_details['local_business_name'],
-				//'description'                   => get_the_excerpt(),
-				'@id'                           => get_permalink(),
+                                'name'                          => $business_details['local_business_name'],                                   
+				'url'				=> get_permalink(),				
+				'description'                   => get_the_excerpt(),				
 				'address'                       => array(
                                                                 "@type"          => "PostalAddress",
                                                                 "streetAddress"  => $business_details['local_street_address'],
@@ -609,15 +608,6 @@ function saswp_list_items_generator(){
 							          );
 		$j++;
 		}}
-		$breadcrumbslist[] = array(
-								'@type' 		=>'ListItem',
-								'position'		=> $j,
-								'item'			=> array(
-									'@id'		=> get_permalink(),
-									'name'		=> get_the_title(),
-
-								),
-							);
                
 }
         if(is_page()){
