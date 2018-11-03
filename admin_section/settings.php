@@ -61,7 +61,7 @@ function saswp_admin_interface_render(){
                     
 		</h2>
                 </div>
-                <form action="options.php" method="post" enctype="multipart/form-data" class="saswp-settings-form">		
+                <form action="<?php echo admin_url("options.php") ?>" method="post" enctype="multipart/form-data" class="saswp-settings-form">		
 			<div class="form-wrap saswp-settings-form-wrap">
 			<?php
 			// Output nonce, action, and option_page fields for a settings page.
@@ -901,6 +901,7 @@ function saswp_enqueue_style_js( $hook ) {
         wp_register_script( 'saswp-main-js', SASWP_PLUGIN_URL . 'admin_section/js/main-script.js', array('jquery'), SASWP_VERSION , true );
         
         $data = array(
+            'post_id'                        => get_the_ID(),
             'ajax_url'                  => admin_url( 'admin-ajax.php' ),            
             'saswp_security_nonce'      => wp_create_nonce('saswp_ajax_check_nonce')            
         );

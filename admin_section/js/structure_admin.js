@@ -36,6 +36,8 @@ jQuery(document).ready(function($){
         $('#saswp-dayofweek-opens-time').timepicker({ 'timeFormat': 'H:i:s'});
         $('#saswp-dayofweek-closes-time').timepicker({ 'timeFormat': 'H:i:s'});
         
+               
+        
         $(".saswp-placement-or-group").on("click", function(e){
             e.preventDefault();
             var group_index ='';

@@ -49,7 +49,8 @@ class saswp_fields_generator {
 				case 'media':
                                         $mediavalue = $settings[$meta_field['id']];                                          
 					$input = sprintf(
-						'<fieldset><input class="%s" style="width: 80%%" id="%s" name="%s" type="text" value="%s"> <input data-id="media" style="width: 19%%" class="button" id="%s_button" name="%s_button" type="button" value="Upload" />'
+						'<fieldset><input class="%s" style="width: 80%%" id="%s" name="%s" type="text" value="%s">'
+                                                . '<input data-id="media" style="width: 19%%" class="button" id="%s_button" name="%s_button" type="button" value="Upload" />'
                                                 . '<input type="hidden" data-id="'.esc_attr($meta_field['id']).'_id" class="upload-id " name="sd_data['.esc_attr($meta_field['id']).'][id]" id="sd_data['.esc_attr($meta_field['id']).'][id]" value="'.esc_attr($mediavalue['id']).'">'
                                                 . '<input type="hidden" data-id="'.esc_attr($meta_field['id']).'_height" class="upload-height" name="sd_data['.esc_attr($meta_field['id']).'][height]" id="sd_data['.esc_attr($meta_field['id']).'][height]" value="'.esc_attr($mediavalue['height']).'">'
                                                 . '<input type="hidden" data-id="'.esc_attr($meta_field['id']).'_width" class="upload-width" name="sd_data['.esc_attr($meta_field['id']).'][width]" id="sd_data['.esc_attr($meta_field['id']).'][width]" value="'.esc_attr($mediavalue['width']).'">'

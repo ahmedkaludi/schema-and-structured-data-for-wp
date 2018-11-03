@@ -521,6 +521,10 @@ $admin_url = admin_url();
        wp_enqueue_script( 'saswp-timepicker-js', SASWP_PLUGIN_URL . 'admin_section/js/jquery.timepicker.js', false, SASWP_VERSION);
         //Main Css 
        wp_enqueue_style( 'saswp-timepicker-css', SASWP_PLUGIN_URL . 'admin_section/css/jquery.timepicker.css', false , SASWP_VERSION );
+       
+       wp_enqueue_script( 'jquery-ui-datepicker' );
+       wp_register_style( 'jquery-ui', 'http://code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css' );
+       wp_enqueue_style( 'jquery-ui' );
       
       
     }

@@ -328,6 +328,39 @@ clear: both;
 }
 .saswp-seller-div .saswp-knowledge-field{
     float: left;
-    width: 70%;
-   
+    width: 70%;   
+}
+.saswp-post-specific-tab-wrapper{
+   display: inline-block;
+    width: 25%;
+    vertical-align: top; 
+    
+}
+.saswp-post-specific-container{
+    display: inline-block;
+    width: calc(75% - 1px );
+    border-left: 1px solid #eee;       
+}
+.saswp-post-specific-wrapper{
+    padding: 10px;
+}
+.saswp-tab a.selected {
+    background-color: #ccc;
+}
+.saswp-tab-links{
+    display: block;
+    background-color: inherit;
+    color: black;
+    padding: 10px 16px;    
+    outline: none;
+    text-align: left;
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 17px;  
+}
+.saswp-star-rating{
+    cursor: pointer;
+}
+.saswp-post-specific-wrapper select{
+    width: 100%;
 }

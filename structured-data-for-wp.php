@@ -55,6 +55,7 @@ require_once SASWP_DIR_NAME.'/view/help.php';
 require_once SASWP_DIR_NAME.'/view/schema_type.php';  
 require_once SASWP_DIR_NAME.'/view/paywall.php';  
 require_once SASWP_DIR_NAME.'/admin_section/add-schema/add_new.php';  
+require_once SASWP_DIR_NAME.'/view/post_specific.php';  
 
 
 /**
