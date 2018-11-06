@@ -218,6 +218,16 @@ jQuery(document).ready(function($){
                               $("#saswp_compativility").val(0);           
                             }
                       break;
+                      
+                      case 'saswp-review-module-checkbox':
+                          
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-review-module").val(1);             
+                            }else{
+                              $("#saswp-review-module").val(0);           
+                            }
+                      break;
+                      
                       default:
                           break;
                   }
@@ -368,7 +378,59 @@ jQuery(document).ready(function($){
                              });
         });
         
+        $('.saswp-local-schema-datepicker-picker').datepicker({
+         dateFormat: "yy-mm-dd",
+         minDate: 0
+
+     });
         
+        //Review js starts here
+        
+        $(document).on("click", ".saswp-add-more-item",function(e){
+            e.preventDefault();
+            var rows = $('.saswp-review-item-list-table tr').length;
+            console.log(rows);
+            var html = '<tr class="saswp-review-item-tr">';
+                html += '<td>Review Item Feature</td>';
+                html += '<td><input type="text" name="saswp-review-item-feature[]"></td>';
+                html += '<td>Rating</td>';
+                html += '<td><input step="0.1" min="0" max="5" type="number" name="saswp-review-item-star-rating[]"></td>';
+                html += '<td><a type="button" class="saswp-remove-review-item button">x</a></td>';
+                html += '</tr>';                
+                $(".saswp-review-item-list-table").append(html);
+                
+        });
+        
+        $(document).on("click", ".saswp-remove-review-item", function(e){
+            e.preventDefault();        
+            $(this).parent().parent('tr').remove();
+       });
+        
+        $(document).on("focusout", ".saswp-review-item-tr input[type=number]", function(e){
+            e.preventDefault();    
+            var total_rating = 0;
+            var element_count = $(".saswp-review-item-tr input[type=number]").length;            
+            $(".saswp-review-item-tr input[type=number]").each(function(index, element){
+                if($(element).val() ==''){
+                  total_rating += parseFloat(0);  
+                }else{
+                  total_rating += parseFloat($(element).val());  
+                }
+                           
+            });
+            var over_all_rating = total_rating / element_count;
+            $("#saswp-review-item-over-all").val(over_all_rating);
+       });
+       
+       $("#saswp-review-location").change(function(){
+          var location = $(this).val();
+          $(".saswp-review-shortcode").addClass('saswp_hide');
+          if(location == 3){  
+              $(".saswp-review-shortcode").removeClass('saswp_hide');
+          }                                          
+        }).change();                         
+        //Review js ends here
+                
         $(document).on("click","div.saswp-tab ul.saswp-tab-nav a", function(e){
             e.preventDefault();
             var attr = $(this).attr('data-id');

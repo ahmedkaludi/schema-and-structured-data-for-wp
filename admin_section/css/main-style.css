@@ -59,6 +59,10 @@ and open the template in the editor.
     width: auto;
     padding: 0px;
 }
+.saswp-review table th{    
+    width: auto;
+    padding: 0px;
+}
 .saswp-help table{
     margin-top: 0px;   
 } 
@@ -309,6 +313,17 @@ padding-bottom: 10px;
 float:left;
 clear: both;
 }
+
+.saswp-review .saswp-knowledge-field{
+float: right;
+width: 75%;
+padding-bottom: 10px;
+}
+.saswp-review .saswp-knowledge-label{
+float:left;
+clear: both;
+}
+
 .saswp-compativility-div .saswp-knowledge-field{
 float: right;
 width: 75%;
@@ -363,4 +378,49 @@ clear: both;
 }
 .saswp-post-specific-wrapper select{
     width: 100%;
+}
+.saswp-review-tables{
+    width: 100%;
+}
+.saswp-over-all-raring{
+    float: right;
+}
+
+.saswp-review-pros-and-cons{
+    position: relative;
+    clear:both;
+}
+.saswp-review-pros-and-cons > div:first{
+    padding-left: 10px;
+}
+.saswp-review-pros-and-cons > div{
+    width: 49%;
+    display: inline-block;
+}
+.saswp-review-pros-and-cons > div:nth-child(2){
+    padding-left: 12px;
+}
+.saswp-wp-ediot-desc{
+    margin-bottom: -23px;
+    display: block;   
+}
+.saswp-review-description{
+    margin-top: 40px;
+    padding-top: 10px;
+    border-top:  1px solid #eee;
+}
+.saswp-review-pros-and-cons{
+    margin-top: 40px;
+     padding-top: 10px;
+    border-top:  1px solid #eee;
+}
+.saspw-review-item-list{
+    margin-top: 20px;   
+    border-top:  1px solid #eee;
+}
+.saswp-review-item-list-table{
+    padding-bottom: 10px;
+}
+#sasw-review input {
+    width: 180px;
 }

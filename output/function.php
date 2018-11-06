@@ -159,3 +159,4 @@ function saswp_memberpress_form_update($form){
 	}
 	return $form;
 }
+

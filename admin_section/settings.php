@@ -32,9 +32,9 @@ function saswp_admin_interface_render(){
 	$is_amp = true;			
         }   
         if($is_amp){
-        $tab = saswp_get_tab('general', array('general','knowledge','schema', 'tools', 'amp','support'));    
+        $tab = saswp_get_tab('general', array('general','knowledge','schema', 'tools', 'amp','review','support'));    
         }else{
-        $tab = saswp_get_tab('general', array('general','knowledge','schema','tools' ,'support'));    
+        $tab = saswp_get_tab('general', array('general','knowledge','schema','tools' ,'review','support'));    
         }
 	
 	?>
@@ -56,6 +56,8 @@ function saswp_admin_interface_render(){
                          
 			echo '<a href="' . esc_url(saswp_admin_link('schema')) . '" class="nav-tab ' . esc_attr( $tab == 'schema' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . esc_html__('Misc','schema-and-structured-data-for-wp') . '</a>';
                                                                                                                                                                                               
+                        echo '<a href="' . esc_url(saswp_admin_link('review')) . '" class="nav-tab ' . esc_attr( $tab == 'review' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . esc_html__('Review','schema-and-structured-data-for-wp') . '</a>';
+                        
                         echo '<a href="' . esc_url(saswp_admin_link('support')) . '" class="nav-tab ' . esc_attr( $tab == 'support' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . esc_html__('Support','schema-and-structured-data-for-wp') . '</a>';
 			?>
                     
@@ -87,7 +89,12 @@ function saswp_admin_interface_render(){
 			     // Status
 			        do_settings_sections( 'saswp_tools_section' );	// Page slug
 			echo "</div>";
-                                                                                               
+                        
+                        echo "<div class='saswp-review' ".( $tab != 'review' ? 'style="display:none;"' : '').">";
+			     // Status
+			        do_settings_sections( 'saswp_review_section' );	// Page slug
+			echo "</div>";
+                        
                         echo "<div class='saswp-support' ".( $tab != 'support' ? 'style="display:none;"' : '').">";
 			     // Status
 			        do_settings_sections( 'saswp_support_section' );	// Page slug
@@ -177,6 +184,18 @@ function saswp_settings_init(){
 			'saswp_amp_section',						// Page slug
 			'saswp_amp_section'						// Settings Section ID
 		); 
+                
+                
+                add_settings_section('saswp_review_section', __return_false(), '__return_false', 'saswp_review_section');
+
+                add_settings_field(
+			'saswp_review_settings',								// ID
+			'',		// Title
+			'saswp_review_page_callback',								// CB
+			'saswp_review_section',						// Page slug
+			'saswp_review_section'						// Settings Section ID
+		);
+                
                 
                 add_settings_section('saswp_support_section', __return_false(), '__return_false', 'saswp_support_section');
 
@@ -269,7 +288,7 @@ function saswp_schema_page_callback(){
 }
 
 function saswp_amp_page_callback(){
-    $settings = saswp_defaultSettings();         
+        $settings = saswp_defaultSettings();         
         $field_objs = new saswp_fields_generator();
         $meta_fields = array(		
 		
@@ -852,6 +871,31 @@ function saswp_imported_callback(){
         ?>		
 	<?php        
 }
+
+function saswp_review_page_callback(){
+    
+    
+     $settings = saswp_defaultSettings();         
+        $field_objs = new saswp_fields_generator();
+        $meta_fields = array(				
+                array(
+			'label' => 'Review Module',
+			'id' => 'saswp-review-module-checkbox',                        
+                        'name' => 'saswp-review-module-checkbox',
+			'type' => 'checkbox',
+                        'class' => 'checkbox saswp-checkbox',
+                        'hidden' => array(
+                             'id' => 'saswp-review-module',
+                             'name' => 'sd_data[saswp-review-module]',                             
+                        )
+		),  
+                
+	);
+        //echo '<h2>'.esc_html__('Set Up','schema-and-structured-data-for-wp').'</h2>';
+        $field_objs->saswp_field_generator($meta_fields, $settings);    
+       
+}
+
 function saswp_support_page_callback(){
     
     ?>
@@ -865,7 +909,7 @@ function saswp_support_page_callback(){
                     <span class="saswp-query-success saswp_hide"><?php echo esc_html__('Message sent successfully, Please wait we will get back to you shortly', 'schema-and-structured-data-for-wp'); ?></span>
                     <span class="saswp-query-error saswp_hide"><?php echo esc_html__('Message not sent. please check your network connection', 'schema-and-structured-data-for-wp'); ?></span>
                 </li> 
-                <li><button class="button saswp-send-query"><?php echo esc_html('Send Message', 'schema-and-structured-data-for-wp'); ?></button></li>
+                <li><button class="button saswp-send-query"><?php echo esc_html__('Send Message', 'schema-and-structured-data-for-wp'); ?></button></li>
             </ul>            
                    
         </div>

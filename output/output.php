@@ -631,7 +631,7 @@ function saswp_post_specific_schema_output() {
 						'headline'		=> $all_post_meta['saswp_webpage_headline_'.$schema_id][0],
 						'description'		=> $all_post_meta['saswp_webpage_description_'.$schema_id][0],
 						'datePublished' 	=> $all_post_meta['saswp_webpage_date_published_'.$schema_id][0],
-						'dateModified'		=> $all_post_meta['saswp_webpage_date_Modified_'.$schema_id][0],
+						'dateModified'		=> $all_post_meta['saswp_webpage_date_modified_'.$schema_id][0],
 						'author'			=> array(
 								'@type' 	=> 'Person',
 								'name'		=> $all_post_meta['saswp_webpage_author_name_'.$schema_id][0], ),
@@ -660,10 +660,10 @@ function saswp_post_specific_schema_output() {
 					'headline'			=> $all_post_meta['saswp_article_headline_'.$schema_id][0],
 					'description'                   => $all_post_meta['saswp_article_description_'.$schema_id][0],
 					'datePublished'                 => $all_post_meta['saswp_article_date_published_'.$schema_id][0],
-					'dateModified'                  => $all_post_meta['saswp_article_date_published_'.$schema_id][0],
+					'dateModified'                  => $all_post_meta['saswp_article_date_modified_'.$schema_id][0],
 					'author'			=> array(
 							'@type' 	=> 'Person',
-							'name'		=> $all_post_meta['saswp_article_date_published_'.$schema_id][0] 
+							'name'		=> $all_post_meta['saswp_article_author_name_'.$schema_id][0] 
                                                          ),
 					'Publisher'			=> array(
 						'@type'			=> 'Organization',
@@ -743,7 +743,7 @@ function saswp_post_specific_schema_output() {
 					'url'				=> $all_post_meta['saswp_newsarticle_URL_'.$schema_id][0],
 					'headline'			=> $all_post_meta['saswp_newsarticle_headline_'.$schema_id][0],
 					'datePublished'                 => $all_post_meta['saswp_newsarticle_date_published_'.$schema_id][0],
-					'dateModified'                  => $all_post_meta['saswp_newsarticle_date_Modified_'.$schema_id][0],
+					'dateModified'                  => $all_post_meta['saswp_newsarticle_date_modified_'.$schema_id][0],
 					'description'                   => $all_post_meta['saswp_newsarticle_description_'.$schema_id][0],
 					'name'				=> $all_post_meta['saswp_newsarticle_name_'.$schema_id][0], 					
 					'thumbnailUrl'                  => $all_post_meta['saswp_newsarticle_thumbnailurl_'.$schema_id][0],

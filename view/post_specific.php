@@ -273,6 +273,9 @@ class saswp_post_specific {
                                              if (strpos($meta_field['id'], 'closes_time') !== false || strpos($meta_field['id'], 'opens_time') !== false){
                                              $class='saswp-local-schema-time-picker';    
                                              }
+                                             if (strpos($meta_field['id'], 'date_modified') !== false || strpos($meta_field['id'], 'date_published') !== false){
+                                             $class='saswp-local-schema-datepicker-picker';    
+                                             }
                                             $input = sprintf(
 						'<input class="%s" %s id="%s" name="%s" type="%s" value="%s">',
                                                 $class,    
@@ -759,13 +762,13 @@ class saswp_post_specific {
                             'label' => 'Date Published',
                             'id' => 'saswp_blogposting_date_published_'.$schema_id,
                             'type' => 'text',
-                            'default' => get_the_date("Y-m-d\TH:i:s\Z")
+                            'default' => get_the_date("Y-m-d")
                     ), 
                     array(
                             'label' => 'Date Modified',
                             'id' => 'saswp_blogposting_date_modified_'.$schema_id,
                             'type' => 'text',
-                            'default' => get_the_modified_date("Y-m-d\TH:i:s\Z")
+                            'default' => get_the_modified_date("Y-m-d")
                     ),     
                     array(
                             'label' => 'Author Name',
@@ -812,13 +815,13 @@ class saswp_post_specific {
                             'label' => 'Date Published',
                             'id' => 'saswp_newsarticle_date_published_'.$schema_id,
                             'type' => 'text',
-                            'default' => get_the_date("Y-m-d\TH:i:s\Z")
+                            'default' => get_the_date("Y-m-d")
                     ),
                     array(
                             'label' => 'Date Modified',
-                            'id' => 'saswp_newsarticle_date_Modified_'.$schema_id,
+                            'id' => 'saswp_newsarticle_date_modified_'.$schema_id,
                             'type' => 'text',
-                            'default' => get_the_modified_date("Y-m-d\TH:i:s\Z")
+                            'default' => get_the_modified_date("Y-m-d")
                     ),
                      array(
                             'label' => 'Description',
@@ -919,13 +922,13 @@ class saswp_post_specific {
                             'label' => 'Date Published',
                             'id' => 'saswp_webpage_date_published_'.$schema_id,
                             'type' => 'text',
-                            'default' => get_the_date("Y-m-d\TH:i:s\Z")
+                            'default' => get_the_date("Y-m-d")
                     ),
                     array(
                             'label' => 'Date Modified',
-                            'id' => 'saswp_webpage_date_Modified_'.$schema_id,
+                            'id' => 'saswp_webpage_date_modified_'.$schema_id,
                             'type' => 'text',
-                            'default' => get_the_modified_date("Y-m-d\TH:i:s\Z")
+                            'default' => get_the_modified_date("Y-m-d")
                     ),
                     array(
                             'label' => 'Author Name',
@@ -978,17 +981,17 @@ class saswp_post_specific {
                             'label' => 'Date Published',
                             'id' => 'saswp_article_date_published_'.$schema_id,
                             'type' => 'text',
-                            'default' => get_the_date("Y-m-d\TH:i:s\Z")
+                            'default' => get_the_date("Y-m-d")
                     ), 
                     array(
                             'label' => 'Date Modified',
-                            'id' => 'saswp_article_date_published_'.$schema_id,
+                            'id' => 'saswp_article_date_modified_'.$schema_id,
                             'type' => 'text',
-                            'default' => get_the_modified_date("Y-m-d\TH:i:s\Z")
+                            'default' => get_the_modified_date("Y-m-d")
                     ),
                     array(
                             'label' => 'Author Name',
-                            'id' => 'saswp_article_date_published_'.$schema_id,
+                            'id' => 'saswp_article_author_name_'.$schema_id,
                             'type' => 'text',
                             'default' => $current_user->display_name
                     ),
@@ -1025,13 +1028,13 @@ class saswp_post_specific {
                             'label' => 'Date Published',
                             'id' => 'saswp_recipe_date_published_'.$schema_id,
                             'type' => 'text',
-                            'default' => get_the_date("Y-m-d\TH:i:s\Z")
+                            'default' => get_the_date("Y-m-d")
                     ),
                     array(
                             'label' => 'Date Modified',
                             'id' => 'saswp_recipe_date_modified_'.$schema_id,
                             'type' => 'text',
-                            'default' => get_the_modified_date("Y-m-d\TH:i:s\Z")
+                            'default' => get_the_modified_date("Y-m-d")
                     ),
                     array(
                             'label' => 'Description',
@@ -1119,13 +1122,13 @@ class saswp_post_specific {
                             'label' => 'Date Published',
                             'id' => 'saswp_video_object_date_published_'.$schema_id,
                             'type' => 'text',
-                             'default' => get_the_date("Y-m-d\TH:i:s\Z")
+                             'default' => get_the_date("Y-m-d")
                     ), 
                     array(
                             'label' => 'Date date Modified',
                             'id' => 'saswp_video_object_date_modified_'.$schema_id,
                             'type' => 'text',
-                            'default' => get_the_modified_date("Y-m-d\TH:i:s\Z")
+                            'default' => get_the_modified_date("Y-m-d")
                     ),
                     array(
                             'label' => 'Description',
@@ -1143,7 +1146,7 @@ class saswp_post_specific {
                             'label' => 'Upload Date',
                             'id' => 'saswp_video_object_upload_date_'.$schema_id,
                             'type' => 'text',
-                            'default' => get_the_date("Y-m-d\TH:i:s\Z")
+                            'default' => get_the_date("Y-m-d")
                     ),
                     array(
                             'label' => 'Thumbnail Url',
