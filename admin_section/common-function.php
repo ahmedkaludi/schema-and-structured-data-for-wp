@@ -878,3 +878,17 @@ function saswp_defaultSettings(){
             $sd_data = $settings = get_option( 'sd_data', $defaults);                     
             return $settings;
         }
+function saswp_frontend_enqueue(){      
+      wp_enqueue_style( 'saswp-style', SASWP_PLUGIN_URL . 'admin_section/css/saswp-style.css', false , SASWP_VERSION );       
+                
+  }
+  add_action( 'wp_enqueue_scripts', 'saswp_frontend_enqueue' );
+  
+ function saswp_enque_amp_script($data){
+        if ( empty( $data['amp_component_scripts']['amp-saswp-front-script'] ) ) {
+                $data['amp_component_scripts']['amp-saswp-front-script'] = SASWP_PLUGIN_URL.'admin_section/css/saswp-style.css';
+        }
+        
+        return $data;         
+    }
+  add_action('amp_post_template_data','saswp_enque_amp_script'); 
