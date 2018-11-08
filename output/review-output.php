@@ -54,28 +54,135 @@ Class saswp_review_output{
             $saswp_over_all_rating = $saswp_review_details['saswp-review-item-over-all'];    
             }
             
-            $boxdata = '<div class="saswp-review-wrapper" style="border: 1px solid #e7e7e7;width: 100%;float: left;padding:10px">
-                <h5>'.esc_attr($saswp_review_title).'</h5>'
-                     . '<ul class="saswp-review-list">';
-            if(!empty($saswp_review_details)){
-             for($i=0; $i<count($saswp_review_details); $i++){
-              $boxdata .='<li><span>'.esc_attr($saswp_review_item_feature[$i]).'</span><div>'.esc_attr($saswp_review_item_star_rating[$i]).'</div></li>';  
-            }   
-            }                                                            
-              $boxdata .=  '</ul>
-                <div>Over All rating: '.esc_attr($saswp_over_all_rating).'</div>  
-                <div class="saswp-review-summary">
-                  <h5>'.esc_attr($saswp_review_description_title).'</h5>  
-                    '.esc_attr($saswp_review_description).'  
-                </div>                
-                <div class="saswp-review-props-and-cons">
-                <div class="sasw-review-props">'.esc_attr($saswp_review_props).'</div>
-                <div class="sasw-review-cons">'.esc_attr($saswp_review_cons).'</div>  
-                </div>
+            // $boxdata = '<div class="saswp-review-wrapper" style="border: 1px solid #e7e7e7;width: 100%;float: left;padding:10px">
+            //     <h5>'.esc_attr($saswp_review_title).'</h5>'
+            //          . '<ul class="saswp-review-list">';
+            // if(!empty($saswp_review_details)){
+            //  for($i=0; $i<count($saswp_review_details); $i++){
+            //   $boxdata .='<li><span>'.esc_attr($saswp_review_item_feature[$i]).'</span><div>'.esc_attr($saswp_review_item_star_rating[$i]).'</div></li>';  
+            // }   
+            // }                                                            
+            //   $boxdata .=  '</ul>
+            //     <div>Over All rating: '.esc_attr($saswp_over_all_rating).'</div>  
+            //     <div class="saswp-review-summary">
+            //       <h5>'.esc_attr($saswp_review_description_title).'</h5>  
+            //         '.esc_attr($saswp_review_description).'  
+            //     </div>                
+            //     <div class="saswp-review-props-and-cons">
+            //     <div class="sasw-review-props">'.esc_attr($saswp_review_props).'</div>
+            //     <div class="sasw-review-cons">'.esc_attr($saswp_review_cons).'</div>  
+            //     </div>
                 
-            </div>';
+            // </div>';
 
-            
+            $boxdata ='
+                <div class="pc-wrap">
+                    <div class="lst">
+                        <span>Pros</span>
+                        <ul>
+                            <li>Full-screen display</li>
+                            <li>Huge Battery</li>
+                            <li>Light Weight</li>
+                        </ul>
+                    </div>
+                    <div class="lst">
+                        <span>Cons</span>
+                        <ul>
+                            <li>Older Chipset</li>
+                            <li>Low light camera performance</li>
+                            <li>Slow charging</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <table class="rvw">
+                    <tbody>
+                        <div class="rvw-hd">
+                            <span>REVIEW OVERVIEW</span>
+                        </div>
+                        <tr>
+                            <td>Nutrition</td>
+                            <td>
+                                <div class="rvw-str">
+                                    <span class="str-ic"></span>
+                                    <span class="str-ic"></span>
+                                    <span class="str-ic"></span>
+                                    <span class="str-ic"></span>
+                                    <span class="half-str"></span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Easy to cook</td>
+                            <td>
+                                <div class="rvw-str">
+                                    <span class="str-ic"></span>
+                                    <span class="str-ic"></span>
+                                    <span class="half-str"></span>
+                                    <span class="df-clr"></span>
+                                    <span class="df-clr"></span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Taste</td>
+                            <td>
+                                <div class="rvw-str">
+                                    <span class="str-ic"></span>
+                                    <span class="str-ic"></span>
+                                    <span class="str-ic"></span>
+                                    <span class="str-ic"></span>
+                                    <span class="str-ic"></span>
+                                </div>
+                            </td>    
+                        </tr>
+                        <tr>
+                            <td>Cost</td>
+                            <td>
+                                <div class="rvw-str">
+                                    <span class="str-ic"></span>
+                                    <span class="str-ic"></span>
+                                    <span class="str-ic"></span>
+                                    <span class="str-ic"></span>
+                                    <span class="str-ic"></span>
+                                </div>
+                            </td>    
+                        </tr>
+                        <tr>
+                            <td>Price</td>
+                            <td>
+                              <div class="rvw-str">
+                                <span class="str-ic"></span>
+                                <span class="str-ic"></span>
+                                <span class="str-ic"></span>
+                                <span class="str-ic"></span>
+                                <span class="str-ic"></span>
+                            </div>
+                            </td>    
+                        </tr>
+                        <tr>
+                            <td class="rvw-sm">
+                                <span>SUMMARY</span>
+                                <div class="rvw-dsc">My fellow Earthicans, as I have explained in my book Earth in the Balance, and the much more popular <strong>Harry Potter</strong> and the Balance of Earth, we need to defend our planet against pollution. Also dark wizards but I know you in the future back in our hands.
+                                </div>
+                            </td>
+                            <td>
+                                <div class="rvw-ov">
+                                    <div class="rvw-fs">3.8</div>
+                                    <div class="tvw-fnl-str rvw-str">
+                                        <span class="str-ic dyamic"></span>
+                                        <span class="str-ic dyamic"></span>
+                                        <span class="str-ic dyamic"></span>
+                                        <span class="str-ic"></span>
+                                        <span class="str-ic"></span>
+                                    </div>
+                                    <span class="ovs">OVERALL SCORE</span>
+                                </div>
+                            </td>
+                        <tr>
+                    </tbody>
+                </table>
+            ';
             
             return $boxdata;
             
