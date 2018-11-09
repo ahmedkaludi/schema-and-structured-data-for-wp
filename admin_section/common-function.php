@@ -885,7 +885,7 @@ function saswp_frontend_enqueue(){
   add_action( 'wp_enqueue_scripts', 'saswp_frontend_enqueue' );
   
  function saswp_enque_amp_script(){ ?>
-.pc-wrap{
+.saswp-pc-wrap{
     background-color: #004f74;
     padding: 15px;
     color: #fff;
@@ -894,20 +894,20 @@ function saswp_frontend_enqueue(){
     flex-wrap: wrap;
     margin-bottom: 20px;
 }
-.pc-wrap .lst span{
+.saswp-pc-wrap .lst span{
     font-size: 18px;
     font-weight: 500;
     margin-bottom: 10px;
     display: inline-block;
     line-height: 1.3;
 }
-.pc-wrap .lst{
+.saswp-pc-wrap .lst{
     flex:1 0 42%;
 }
-.pc-wrap .lst ul{
+.saswp-pc-wrap .lst ul{
     margin:0;
 }
-.pc-wrap .lst ul li{
+.saswp-pc-wrap .lst ul li{
     list-style-type: none;
     font-size: 15px;
     font-weight: lighter;
@@ -917,7 +917,7 @@ function saswp_frontend_enqueue(){
     padding-left: 25px;
     color:#eee;
 }
-.pc-wrap .lst ul li:before{
+.saswp-pc-wrap .lst ul li:before{
     content: '';
     position: absolute;
     width: 8px;

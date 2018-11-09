@@ -25,9 +25,9 @@ Class saswp_review_output{
             $saswp_review_item_star_rating = array();
             $saswp_review_title = '';
             $saswp_review_description_title = '';
-            $saswp_review_description = '';
-            $saswp_review_props = '';
-            $saswp_review_cons = '';
+            $saswp_review_description = get_post_meta( get_the_ID(), 'saswp-review-item-description', true );
+            $saswp_review_props = get_post_meta( get_the_ID(), 'saswp-review-item-props', true );
+            $saswp_review_cons = get_post_meta( get_the_ID(), 'saswp-review-item-cons', true );
             $saswp_over_all_rating = '';
             if(isset($saswp_review_details['saswp-review-item-feature'])){
             $saswp_review_item_feature = $saswp_review_details['saswp-review-item-feature'];    
@@ -41,158 +41,109 @@ Class saswp_review_output{
             if(isset($saswp_review_details['saswp-review-item-description-title'])){
             $saswp_review_description_title = $saswp_review_details['saswp-review-item-description-title'];    
             }
-            if(isset($saswp_review_details['saswp-review-item-description'])){
-            $saswp_review_description = $saswp_review_details['saswp-review-item-description'];    
-            }
-            if(isset($saswp_review_details['saswp-review-item-props'])){
-            $saswp_review_props = $saswp_review_details['saswp-review-item-props'];    
-            }
-            if(isset($saswp_review_details['saswp-review-item-cons'])){
-            $saswp_review_cons = $saswp_review_details['saswp-review-item-cons'];    
-            }
+           
             if(isset($saswp_review_details['saswp-review-item-over-all'])){
             $saswp_over_all_rating = $saswp_review_details['saswp-review-item-over-all'];    
+            }    
+            $boxdata ='';
+            if($saswp_review_props !='' || $saswp_review_cons != '' ){
+             $boxdata .='
+                <div class="saswp-pc-wrap">
+                    <div class="lst">
+                        <span>'.esc_html__('Pros', 'schema-and-structured-data-for-wp').'</span><br>
+                         '.wpautop( stripslashes ( $saswp_review_props ) ).'
+                    </div>
+                    <div class="lst">   
+                        <span>'.esc_html__('Cons', 'schema-and-structured-data-for-wp').'</span><br>
+                        '.wpautop( stripslashes ( $saswp_review_cons ) ).'
+                    </div>
+                </div>';   
             }
-            
-            // $boxdata = '<div class="saswp-review-wrapper" style="border: 1px solid #e7e7e7;width: 100%;float: left;padding:10px">
-            //     <h5>'.esc_attr($saswp_review_title).'</h5>'
-            //          . '<ul class="saswp-review-list">';
-            // if(!empty($saswp_review_details)){
-            //  for($i=0; $i<count($saswp_review_details); $i++){
-            //   $boxdata .='<li><span>'.esc_attr($saswp_review_item_feature[$i]).'</span><div>'.esc_attr($saswp_review_item_star_rating[$i]).'</div></li>';  
-            // }   
-            // }                                                            
-            //   $boxdata .=  '</ul>
-            //     <div>Over All rating: '.esc_attr($saswp_over_all_rating).'</div>  
-            //     <div class="saswp-review-summary">
-            //       <h5>'.esc_attr($saswp_review_description_title).'</h5>  
-            //         '.esc_attr($saswp_review_description).'  
-            //     </div>                
-            //     <div class="saswp-review-props-and-cons">
-            //     <div class="sasw-review-props">'.esc_attr($saswp_review_props).'</div>
-            //     <div class="sasw-review-cons">'.esc_attr($saswp_review_cons).'</div>  
-            //     </div>
-                
-            // </div>';
-
-            $boxdata ='
-                <div class="pc-wrap">
-                    <div class="lst">
-                        <span>Pros</span>
-                        <ul>
-                            <li>Full-screen display</li>
-                            <li>Huge Battery</li>
-                            <li>Light Weight</li>
-                        </ul>
-                    </div>
-                    <div class="lst">
-                        <span>Cons</span>
-                        <ul>
-                            <li>Older Chipset</li>
-                            <li>Low light camera performance</li>
-                            <li>Slow charging</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <table class="rvw">
-                    <tbody>
+                  
+            if(!empty($saswp_review_item_feature) || $saswp_review_description !=''){
+                  $boxdata.='<table class="rvw">
+                        <tbody>
                         <div class="rvw-hd">
-                            <span>REVIEW OVERVIEW</span>
-                        </div>
-                        <tr>
-                            <td>Nutrition</td>
+                            <span>'.esc_html__('REVIEW OVERVIEW', 'schema-and-structured-data-for-wp').'</span>
+                        </div>';                   
+                if(isset($saswp_review_item_feature)){
+                    for($i=0; $i<count($saswp_review_item_feature); $i++){
+                     $boxdata.='<tr>
+                            <td>'.esc_attr($saswp_review_item_feature[$i]).'</td>
                             <td>
-                                <div class="rvw-str">
-                                    <span class="str-ic"></span>
-                                    <span class="str-ic"></span>
-                                    <span class="str-ic"></span>
-                                    <span class="str-ic"></span>
-                                    <span class="half-str"></span>
-                                </div>
+                                <div class="rvw-str">';                                                                  
+                                    for($j=0; $j<5; $j++){                                                                               
+                                      if($saswp_review_item_star_rating[$i] >$j){
+                                      
+                                       $explod = explode('.', $saswp_review_item_star_rating[$i]);
+                                       if(isset($explod[1])){
+                                       if($j <$explod[0]){
+                                       $boxdata.='<span class="str-ic"></span>';                   
+                                       }else{
+                                       $boxdata.='<span class="half-str"></span>';                       
+                                       }                                           
+                                       }else{
+                                       $boxdata.='<span class="str-ic"></span>';           
+                                       }
+                                                                                                                           
+                                      } else{
+                                       $boxdata.='<span class="df-clr"></span>';   
+                                      }                                                                                                                                
+                                    }       
+                                   
+                    $boxdata.='</div>
                             </td>
-                        </tr>
-                        <tr>
-                            <td>Easy to cook</td>
-                            <td>
-                                <div class="rvw-str">
-                                    <span class="str-ic"></span>
-                                    <span class="str-ic"></span>
-                                    <span class="half-str"></span>
-                                    <span class="df-clr"></span>
-                                    <span class="df-clr"></span>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Taste</td>
-                            <td>
-                                <div class="rvw-str">
-                                    <span class="str-ic"></span>
-                                    <span class="str-ic"></span>
-                                    <span class="str-ic"></span>
-                                    <span class="str-ic"></span>
-                                    <span class="str-ic"></span>
-                                </div>
-                            </td>    
-                        </tr>
-                        <tr>
-                            <td>Cost</td>
-                            <td>
-                                <div class="rvw-str">
-                                    <span class="str-ic"></span>
-                                    <span class="str-ic"></span>
-                                    <span class="str-ic"></span>
-                                    <span class="str-ic"></span>
-                                    <span class="str-ic"></span>
-                                </div>
-                            </td>    
-                        </tr>
-                        <tr>
-                            <td>Price</td>
-                            <td>
-                              <div class="rvw-str">
-                                <span class="str-ic"></span>
-                                <span class="str-ic"></span>
-                                <span class="str-ic"></span>
-                                <span class="str-ic"></span>
-                                <span class="str-ic"></span>
-                            </div>
-                            </td>    
-                        </tr>
-                        <tr>
+                        </tr>'; 
+                   }   
+                }                                                                                                              
+                $boxdata.='<tr>
                             <td class="rvw-sm">
-                                <span>SUMMARY</span>
-                                <div class="rvw-dsc">My fellow Earthicans, as I have explained in my book Earth in the Balance, and the much more popular <strong>Harry Potter</strong> and the Balance of Earth, we need to defend our planet against pollution. Also dark wizards but I know you in the future back in our hands.
+                                <span>'.esc_html__('SUMMARY', 'schema-and-structured-data-for-wp').'</span>
+                                <div class="rvw-dsc">
+                                '.wpautop( stripslashes ( $saswp_review_description ) ).'
                                 </div>
                             </td>
                             <td>
                                 <div class="rvw-ov">
-                                    <div class="rvw-fs">3.8</div>
-                                    <div class="tvw-fnl-str rvw-str">
-                                        <span class="str-ic dyamic"></span>
-                                        <span class="str-ic dyamic"></span>
-                                        <span class="str-ic dyamic"></span>
-                                        <span class="str-ic"></span>
-                                        <span class="str-ic"></span>
-                                    </div>
-                                    <span class="ovs">OVERALL SCORE</span>
-                                </div>
+                                    <div class="rvw-fs">'.esc_attr(number_format($saswp_over_all_rating, 2, '.', '')).'</div>';
+                                                                        
+                                    if($saswp_over_all_rating !=''){
+                                      $boxdata.='<div class="tvw-fnl-str rvw-str">';                                            
+                                      $explod = explode('.', $saswp_over_all_rating);                                                                            
+                                      for($x=0;$x<5;$x++) { 
+                                          
+                                       if(isset($explod[1])){
+                                        if($x <$explod[0]){
+                                        $boxdata.='<span class="str-ic"></span>';                   
+                                        }else{
+                                        $boxdata.='<span class="half-str"></span>';                       
+                                        }                                            
+                                        }else{
+                                        if($saswp_over_all_rating >$x){
+                                        $boxdata.='<span class="str-ic"></span>';      
+                                        } else{
+                                        $boxdata.='<span class="df-clr"></span>';          
+                                        }                                        
+                                        }    
+                                        }                                      
+                                       $boxdata.='</div><span class="ovs">'.esc_html__('OVERALL SCORE', 'schema-and-structured-data-for-wp').'</span>';
+                                    }                                                                                                                                                                                       
+                               $boxdata.=' </div>
                             </td>
                         <tr>
                     </tbody>
-                </table>
-            ';
-            
+                </table>'; 
+               }
+                                           
             return $boxdata;
             
         }
         public function saswp_display_review_box($content){
-            global $sd_data;
+            global $sd_data;            
             if($sd_data['saswp-review-module']==0){
                 return $content;
             }
-            $result = $this->saswp_get_review_box_content();           
+            $result = $this->saswp_get_review_box_content();                 
             $saswp_review_details = esc_sql ( get_post_meta(get_the_ID(), 'saswp_review_details', true)); 
             if(isset($saswp_review_details['saswp-review-location'])){
             switch ($saswp_review_details['saswp-review-location']) {

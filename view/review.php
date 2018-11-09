@@ -94,34 +94,48 @@ class saswp_metaboxes_review {
                     <div class="saswp-review-description">
                         <div><label><?php echo esc_html__('Summary Title', 'schema-and-structured-data-for-wp'); ?></label> <input type="text" id="saswp-review-item-description-title" name="saswp-review-item-description-title" value="<?php if ( isset( $saswp_review_details['saswp-review-item-description-title'] ) && ( ! empty( $saswp_review_details['saswp-review-item-description-title'] ) ) ) echo esc_attr( $saswp_review_details['saswp-review-item-description-title'] ); ?>"></div>  
                         <div class="saswp-wp-ediot-desc"><label>Description</label></div>
-                        <?php
-                        $content ='';
-                        if(isset($saswp_review_details['saswp-review-item-description'])){
-                        $content = $saswp_review_details['saswp-review-item-description'];    
-                        }
+                        <?php                        
+                        $content       = get_post_meta( $post->ID, 'saswp-review-item-description', true );                        
                         wp_editor( $content, 'saswp-review-item-description', array('textarea_rows'=> '5', 'media_buttons' => FALSE,) );                   
                        ?>
                     </div>
 
                     <div class="saswp-review-pros-and-cons">                        
                     <div class="saswp-props">
-                        <div class="saswp-wp-ediot-desc"><label>Props</label></div>
+                        <div class="saswp-wp-ediot-desc"><label>Pros</label></div>
                         <?php
-                        $content ='';
-                        if(isset($saswp_review_details['saswp-review-item-props'])){
-                        $content = $saswp_review_details['saswp-review-item-props'];    
-                        }                    
-                        wp_editor( $content, 'saswp-review-item-props',array('textarea_rows'=> '5', 'media_buttons' => FALSE,) );                   
+                        $content       = get_post_meta( $post->ID, 'saswp-review-item-props', true );                                         
+                        wp_editor( $content, 'saswp-review-item-props',
+                                array(
+						'tinymce'       => array(
+							'toolbar1' => 'bold,italic,underline,bullist,numlist,separator,separator,link,unlink,undo,redo,removeformat',
+							'toolbar2' => '',
+							'toolbar3' => '',
+						),
+						'quicktags'     => true,
+						'media_buttons' => false,
+						'textarea_rows' => 6,
+					)
+                                );                   
                    ?> 
                     </div>
                     <div class="saswp-cons">
                         <div class="saswp-wp-ediot-desc"><label>Cons</label></div>
                          <?php
-                        $content ='';
-                        if(isset($saswp_review_details['saswp-review-item-cons'])){
-                        $content = $saswp_review_details['saswp-review-item-cons'];    
-                        } 
-                    wp_editor( $content, 'saswp-review-item-cons', array('textarea_rows'=> '5', 'media_buttons' => FALSE,) );                   
+                        $content       = get_post_meta( $post->ID, 'saswp-review-item-cons', true );  
+                        wp_editor( $content, 
+                            'saswp-review-item-cons', 
+                                  array(
+						'tinymce'       => array(
+							'toolbar1' => 'bold,italic,underline,bullist,numlist,separator,separator,link,unlink,undo,redo,removeformat',
+							'toolbar2' => '',
+							'toolbar3' => '',
+						),
+						'quicktags'     => true,
+						'media_buttons' => false,
+						'textarea_rows' => 6,
+					)
+                            );                   
                    ?>
                     </div>
                     <div class="clearfix"></div>
@@ -156,13 +170,14 @@ class saswp_metaboxes_review {
                     $saswp_review_details['saswp-review-item-description-title'] = sanitize_text_field($_POST['saswp-review-item-description-title']);
                 }
                 if(isset($_POST['saswp-review-item-description'])){
-                    $saswp_review_details['saswp-review-item-description'] = sanitize_textarea_field($_POST['saswp-review-item-description']);
+                    update_post_meta( $post_id, 'saswp-review-item-description', wp_kses_post( wp_unslash( $_POST['saswp-review-item-description'] )) );
+                    
                 }
                 if(isset($_POST['saswp-review-item-props'])){
-                    $saswp_review_details['saswp-review-item-props'] = sanitize_textarea_field($_POST['saswp-review-item-props']);
+                    update_post_meta( $post_id, 'saswp-review-item-props', wp_kses_post( wp_unslash( $_POST['saswp-review-item-props'] )) );                    
                 }
                 if(isset($_POST['saswp-review-item-cons'])){
-                    $saswp_review_details['saswp-review-item-cons'] = sanitize_textarea_field($_POST['saswp-review-item-cons']);
+                    update_post_meta( $post_id, 'saswp-review-item-cons', wp_kses_post( wp_unslash( $_POST['saswp-review-item-cons'] )) );                    
                 }                          
                 if(!empty($saswp_review_details)){
                   update_post_meta( $post_id, 'saswp_review_details', $saswp_review_details );   
