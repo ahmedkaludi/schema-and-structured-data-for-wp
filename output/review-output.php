@@ -49,11 +49,11 @@ Class saswp_review_output{
             if($saswp_review_props !='' || $saswp_review_cons != '' ){
              $boxdata .='
                 <div class="saswp-pc-wrap">
-                    <div class="lst">
+                    <div class="saswp-lst">
                         <span>'.esc_html__('Pros', 'schema-and-structured-data-for-wp').'</span><br>
                          '.wpautop( stripslashes ( $saswp_review_props ) ).'
                     </div>
-                    <div class="lst">   
+                    <div class="saswp-lst">   
                         <span>'.esc_html__('Cons', 'schema-and-structured-data-for-wp').'</span><br>
                         '.wpautop( stripslashes ( $saswp_review_cons ) ).'
                     </div>
@@ -61,9 +61,9 @@ Class saswp_review_output{
             }
                   
             if(!empty($saswp_review_item_feature) || $saswp_review_description !=''){
-                  $boxdata.='<table class="rvw">
+                  $boxdata.='<table class="saswp-rvw">
                         <tbody>
-                        <div class="rvw-hd">
+                        <div class="saswp-rvw-hd">
                             <span>'.esc_html__('REVIEW OVERVIEW', 'schema-and-structured-data-for-wp').'</span>
                         </div>';                   
                 if(isset($saswp_review_item_feature)){
@@ -71,7 +71,7 @@ Class saswp_review_output{
                      $boxdata.='<tr>
                             <td>'.esc_attr($saswp_review_item_feature[$i]).'</td>
                             <td>
-                                <div class="rvw-str">';                                                                  
+                                <div class="saswp-rvw-str">';                                                                  
                                     for($j=0; $j<5; $j++){                                                                               
                                       if($saswp_review_item_star_rating[$i] >$j){
                                       
@@ -97,27 +97,34 @@ Class saswp_review_output{
                    }   
                 }                                                                                                              
                 $boxdata.='<tr>
-                            <td class="rvw-sm">
+                            <td class="saswp-rvw-sm">
                                 <span>'.esc_html__('SUMMARY', 'schema-and-structured-data-for-wp').'</span>
                                 <div class="rvw-dsc">
                                 '.wpautop( stripslashes ( $saswp_review_description ) ).'
                                 </div>
                             </td>
                             <td>
-                                <div class="rvw-ov">
-                                    <div class="rvw-fs">'.esc_attr(number_format($saswp_over_all_rating, 2, '.', '')).'</div>';
+                                <div class="saswp-rvw-ov">
+                                    <div class="saswp-rvw-fs">'.esc_attr(number_format($saswp_over_all_rating, 2, '.', '')).'</div>';
                                                                         
                                     if($saswp_over_all_rating !=''){
-                                      $boxdata.='<div class="tvw-fnl-str rvw-str">';                                            
+                                      $boxdata.='<div class="tvw-fnl-str saswp-rvw-str">';                                            
                                       $explod = explode('.', $saswp_over_all_rating);                                                                            
                                       for($x=0;$x<5;$x++) { 
                                           
                                        if(isset($explod[1])){
+                                        
+                                         if($saswp_over_all_rating >$x){
+                                           
                                         if($x <$explod[0]){
                                         $boxdata.='<span class="str-ic"></span>';                   
                                         }else{
                                         $boxdata.='<span class="half-str"></span>';                       
-                                        }                                            
+                                        }  
+                                        
+                                        }else{
+                                        $boxdata.='<span class="df-clr"></span>';        
+                                        }
                                         }else{
                                         if($saswp_over_all_rating >$x){
                                         $boxdata.='<span class="str-ic"></span>';      
