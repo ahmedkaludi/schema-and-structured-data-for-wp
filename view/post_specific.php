@@ -20,14 +20,20 @@ class saswp_post_specific {
                 add_action( 'wp_ajax_saswp_modify_schema_post_enable', array($this,'saswp_modify_schema_post_enable'));
         }
         public function saswp_get_all_schema_list(){
-               $all_schema = get_posts(
+            
+                if($this->all_schema == null){
+                    
+                 $all_schema = get_posts(
                     array(
                             'post_type' 	 => 'saswp',
                             'posts_per_page' => -1,   
                             'post_status' => 'publish',
                     )
-                 );  
-                 $this->all_schema = $all_schema;                             
+                 ); 
+                 
+                 $this->all_schema = $all_schema;    
+                }
+                                           
         }
 
         public function saswp_post_specifc_add_meta_boxes($post) {

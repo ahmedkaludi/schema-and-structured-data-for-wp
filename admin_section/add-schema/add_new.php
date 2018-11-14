@@ -44,7 +44,7 @@ $saswp_add_data_type_config = array(
 		if(! current_user_can( 'manage_options' ) ) {
 			return ;
 		}		
-		saswp_add_new_steps_call();                
+		saswp_add_new_steps_call();                 
 	}
 
 	function saswp_add_new_steps_call(){

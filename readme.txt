@@ -65,7 +65,7 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
 
-= 1.0.4 (11 November 2018) =
+= 1.0.4 (14 November 2018) =
 * Post Specific Meta box to override the schema on posts
 * Review rating for the rich snippet
 * Minor Bugs Fixed

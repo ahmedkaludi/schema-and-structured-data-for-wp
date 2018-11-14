@@ -771,7 +771,7 @@ function saswp_import_callback(){
                     <div class="saswp-tools-field-title"><div class="saswp-tooltip"><strong><?php echo esc_html__('Import All Settings & Schema','schema-and-structured-data-for-wp'); ?></strong></div><input type="file" name="saswp_import_backup" id="saswp_import_backup">                         
                     </div>
                 </li> 
-            </ul>
+        </ul>
         <?php
         
         $settings = saswp_defaultSettings();
@@ -873,9 +873,8 @@ function saswp_imported_callback(){
 }
 
 function saswp_review_page_callback(){
-    
-    
-     $settings = saswp_defaultSettings();         
+        
+        $settings = saswp_defaultSettings();         
         $field_objs = new saswp_fields_generator();
         $meta_fields = array(				
                 array(
