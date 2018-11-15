@@ -66,9 +66,9 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 == Changelog ==
 
 = 1.0.4 (15 November 2018) =
-* Post Specific Meta box to override the schema on posts
-* Review rating for the rich snippet
-* Minor Bugs Fixed
+* Post Specific Meta boxes to override the schemas on posts
+* Rich Snippets for Reviews and Ratings
+* Security and other bug fixed
 
 = 1.0.3 (24 October 2018) =
 * Schema Pro migrator
