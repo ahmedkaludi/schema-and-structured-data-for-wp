@@ -347,12 +347,12 @@ if(is_admin()){
 
 add_action( 'admin_head','saswp_change_add_new_url'); 
 function saswp_change_add_new_url() {
-$admin_url = admin_url();   
+
     ?>
 
     <script type="text/javascript">
     jQuery(function($) {
-        $('a[href="<?php echo $admin_url;  ?>post-new.php?post_type=saswp"]').attr( 'href', '<?php echo $admin_url; ?>index.php?page=saswp_add_new_data_type' );
+        $('a[href="<?php echo esc_url(admin_url());  ?>post-new.php?post_type=saswp"]').attr( 'href', '<?php echo htmlspecialchars_decode(wp_nonce_url(admin_url('index.php?page=saswp_add_new_data_type&'), '_wpnonce')); ?>');
     });
     </script>
     <?php

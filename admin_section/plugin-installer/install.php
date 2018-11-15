@@ -66,12 +66,16 @@
 			return ;
 		}
 		global $saswp_installer_config;
-		saswp_steps_call();
+                
+                 if( wp_verify_nonce($_GET['_wpnonce'], '_wpnonce')){
+			saswp_steps_call(); 		
+		}                                
+		
 	}
 
 	function saswp_steps_call(){
 		global $saswp_installer_config;
-		if ( empty( $_GET['page'] ) || $saswp_installer_config['installerpage'] !== $_GET['page'] ) {
+		if ( !wp_verify_nonce($_GET['_wpnonce'], '_wpnonce') || empty( $_GET['page'] ) || $saswp_installer_config['installerpage'] !== $_GET['page'] ) {
 			return;
 		}
 		 if ( ob_get_length() ) {
