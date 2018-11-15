@@ -20,17 +20,17 @@
 .saswp-pc-wrap .saswp-lst ul{
     margin:0;
 }
-.saswp-pc-wrap .saswp-lst ul li{
+.saswp-pc-wrap .saswp-lst p{
     list-style-type: none;
     font-size: 15px;
     font-weight: lighter;
     line-height: 1.2;
     margin-bottom: 10px;
     position: relative;
-    padding-left: 25px;
+    padding-left: 20px;
     color:#eee;
 }
-.saswp-pc-wrap .saswp-lst ul li:before{
+.saswp-pc-wrap .saswp-lst p:before{
     content: '';
     position: absolute;
     width: 8px;
@@ -61,6 +61,10 @@
 .sgl table td, .saswp-rvw td {
     border: 1px solid #ededed;
 }
+.saswp-rvw tbody{
+    width:100%;
+    display:inline-block;
+}
 .saswp-rvw-sm span{
     background-color: #222;
     color: #fff;
@@ -83,6 +87,7 @@
 }
 .sgl .saswp-rvw tr td{
     background:#fff;
+    width:100%;
 }
 .sgl .saswp-rvw tr:hover td {
     background-color: #fcfcfc;
