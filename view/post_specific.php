@@ -18,6 +18,8 @@ class saswp_post_specific {
                 add_action( 'wp_ajax_saswp_get_sub_business_ajax', array($this,'saswp_get_sub_business_ajax'));
                 
                 add_action( 'wp_ajax_saswp_modify_schema_post_enable', array($this,'saswp_modify_schema_post_enable'));
+                
+                add_action( 'wp_ajax_saswp_restore_schema', array($this,'saswp_restore_schema'));
         }
         public function saswp_get_all_schema_list(){
             
@@ -39,14 +41,20 @@ class saswp_post_specific {
         public function saswp_post_specifc_add_meta_boxes($post) {
             if(count($this->all_schema)>0 && get_post_status($post->ID)=='publish'){
              foreach ( $this->screen as $single_screen ) {
+                 $post_title ='';
+                 if(count($this->all_schema)==1){
+                    $all_schemas = $this->all_schema;
+                    $post_title = '('.$all_schemas[0]->post_title.')';                                      
+                     }
 			add_meta_box(
 				'post_specific',
-				__( 'Post Specific Schema', 'schema-and-structured-data-for-wp' ),
+				__( 'Post Specific Schema '.$post_title, 'schema-and-structured-data-for-wp' ),
 				array( $this, 'saswp_post_meta_box_callback' ),
 				$single_screen,
 				'advanced',
 				'default'
 			);
+                        
 		}   
             }		
 	}
@@ -55,7 +63,7 @@ class saswp_post_specific {
              if(count($this->all_schema)>1){
                     $tabs = '';
                     $tabs_fields = '';
-                    
+                    $schema_ids = array();
                  foreach($this->all_schema as $key => $schema){
                      $response = $this->saswp_get_fields_by_schema_type($schema->ID);                     
                      $this->meta_fields = $response;
@@ -71,9 +79,12 @@ class saswp_post_specific {
                      $tabs_fields .= '<table class="form-table"><tbody>' . $output . '</tbody></table>';
                      $tabs_fields .= '</div>';
                      
-                     }                                          
+                     } 
+                     $schema_ids[] =$schema->ID;
                  }   
                                   
+                echo '<div>';  
+                echo '<div><a href="#" class="saswp-restore-post-schema button">Restore Default Schama</a></div>';  
                 echo '<div class="saswp-tab saswp-post-specific-tab-wrapper">';                
 		echo '<ul class="saswp-tab-nav">';
                 echo $tabs;                
@@ -82,17 +93,25 @@ class saswp_post_specific {
                 echo '<div class="saswp-post-specific-container">';                
                 echo $tabs_fields;                                 
                 echo '</div>';
+                echo '<input class="saswp-post-specific-schema-ids" type="hidden" value="'. json_encode($schema_ids).'">';
+                echo '</div>'; 
                                   
                 }else{
                     
                  $all_schema = $this->all_schema;                  
                  $response = $this->saswp_get_fields_by_schema_type($all_schema[0]->ID); 
                 
+                 $schema_ids[] =$all_schema[0]->ID;
+                 
                  $this->meta_fields = $response;
-                 $output = $this->saswp_saswp_post_specific( $post, $all_schema[0]->ID );                    
+                 $output = $this->saswp_saswp_post_specific( $post, $all_schema[0]->ID );  
+                 $tabs_fields .= '<div>';
+                 $tabs_fields .= '<div><a href="#" class="saswp-restore-post-schema button">Restore Default Schama</a></div>';
                  $tabs_fields .= '<div id="saswp_specific_'.esc_attr($all_schema[0]->ID).'" class="saswp-post-specific-wrapper">';
                  $tabs_fields .= '<table class="form-table"><tbody>' . $output . '</tbody></table>';
-                 $tabs_fields .= '</div>';                                                                                                                                                                                     
+                 $tabs_fields .= '</div>';
+                 $tabs_fields .= '<input class="saswp-post-specific-schema-ids" type="hidden" value="'. json_encode($schema_ids).'">';
+                 $tabs_fields .= '</div>';
                  echo $tabs_fields;                                                  
                 }
         }
@@ -108,6 +127,32 @@ class saswp_post_specific {
                 }                               
                                                                                                                                                                    		
 	}
+        
+        public function saswp_restore_schema(){
+                if ( ! isset( $_POST['saswp_security_nonce'] ) ){
+                return; 
+                }
+                if ( !wp_verify_nonce( $_POST['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
+                   return;  
+                } 
+                $result ='';
+                $post_id = sanitize_text_field($_POST['post_id']); 
+                $schema_ids = $_POST['schema_ids'];
+                foreach($schema_ids as $id){
+                  $meta_field = $this->saswp_get_fields_by_schema_type($id);
+                  foreach($meta_field as $field){
+                   $result = delete_post_meta($post_id, $field['id']);   
+                  }                      
+                }                
+                if($result){
+                    echo json_encode(array('status'=> 't', 'msg'=>esc_html__( 'Schema has been restored', 'schema-and-structured-data-for-wp' )));
+                }else{
+                    echo json_encode(array('status'=> 'f', 'msg'=>esc_html__( 'Schema has already been restored', 'schema-and-structured-data-for-wp' )));
+                }
+                                              
+                 wp_die();
+                }
+        
         public function saswp_modify_schema_post_enable(){
                 if ( ! isset( $_GET['saswp_security_nonce'] ) ){
                 return; 
@@ -647,7 +692,7 @@ class saswp_post_specific {
                             'type' => 'text',
                             'default' => get_permalink()
                          ),
-					 array(
+			array(
                             'label' => 'Description',
                             'id' => 'local_business_description_'.$schema_id,
                             'type' => 'text',
@@ -1100,13 +1145,7 @@ class saswp_post_specific {
                             'id' => 'saswp_product_description_'.$schema_id,
                             'type' => 'text',
                             'default' => $post->post_excerpt
-                    ),
-                    array(
-                            'label' => 'Main Entity Id',
-                            'id' => 'saswp_product_main_entity_id_'.$schema_id,
-                            'type' => 'text',
-                            'default' => get_permalink()
-                    )    
+                    ),                      
                     );
                     break;
                 
@@ -1203,3 +1242,5 @@ if (class_exists('saswp_post_specific')) {
 	$object = new saswp_post_specific();
         $object->saswp_post_specific_hooks();
 };
+
+

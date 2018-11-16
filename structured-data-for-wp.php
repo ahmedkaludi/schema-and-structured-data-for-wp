@@ -71,10 +71,11 @@ function saswp_admin_notice_activation_hook() {
 add_action( 'admin_notices', 'saswp_admin_notice' );
 
 function saswp_admin_notice(){
+    $nonce = wp_create_nonce( 'saswp_install_wizard_nonce' );  
     ?>
        <div class="updated notice is-dismissible message notice notice-alt saswp-setup-notice saswp_hide">
          <p><span class="dashicons dashicons-thumbs-up"></span> <?php echo esc_html__('Thank you for using Schema & Structured Data For WP plugin!', 'schema-and-structured-data-for-wp') ?>
-                <a href="<?php echo esc_url( admin_url( 'plugins.php?page=saswp-setup-wizard' ) ); ?>"> <?php echo esc_html__('Start Quick Setup', 'schema-and-structured-data-for-wp') ?></a>
+                <a href="<?php echo esc_url(admin_url( 'plugins.php?page=saswp-setup-wizard' ).'&_saswp_nonce='.$nonce); ?>"> <?php echo esc_html__('Start Quick Setup', 'schema-and-structured-data-for-wp') ?></a>
             </p>
         </div>
      

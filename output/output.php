@@ -178,7 +178,7 @@ function saswp_schema_output() {
         foreach($Conditionals as $schemaConditionals){
            
 	$schema_options = $schemaConditionals['schema_options'];
-	$schema_type = $schemaConditionals['schema_type'];  
+	$schema_type = $schemaConditionals['schema_type'];         
         $schema_post_id = $schemaConditionals['post_id'];  
 	$logo = $sd_data['sd_logo']['url'];        
 		if( '' == $logo && empty($logo) && isset($sd_data['sd_default_image'])){
@@ -203,7 +203,28 @@ function saswp_schema_output() {
 			$date 		= get_the_date("Y-m-d\TH:i:s\Z");
 			$modified_date 	= get_the_modified_date("Y-m-d\TH:i:s\Z");
 			$aurthor_name 	= get_the_author();
-			
+                        
+                        $saswp_review_details = esc_sql ( get_post_meta(get_the_ID(), 'saswp_review_details', true)); 
+                        $aggregateRating = array();
+                         
+                        if(isset($saswp_review_details['saswp-review-item-over-all'])){
+                        $saswp_over_all_rating = $saswp_review_details['saswp-review-item-over-all'];    
+                        } 
+                        $saswp_review_item_enable = 0;
+                        if(isset($saswp_review_details['saswp-review-item-enable'])){
+                         $saswp_review_item_enable =  $saswp_review_details['saswp-review-item-enable'];  
+                        }  
+                        $saswp_review_count = "1";
+                       
+                        
+                        if($saswp_over_all_rating && $saswp_review_count && $saswp_review_item_enable ==1){
+                           $aggregateRating =       array(
+                                                            "@type"=> "AggregateRating",
+                                                            "ratingValue" => $saswp_over_all_rating,
+                                                            "reviewCount" => $saswp_review_count
+                                                         ); 
+                        }
+                                                                                                                                                                                                   			
 			if(is_page()){
 				$schema_type = $schema_type; //$sd_data['sd_page_type'];
 			}
@@ -240,6 +261,7 @@ function saswp_schema_output() {
 			);
 			// For WebPage
 			if( 'WebPage' === $schema_type){
+                            
 				if(empty($image_details[0]) || $image_details[0] === NULL ){
 					$image_details[0] = $logo;
 				}
@@ -271,15 +293,20 @@ function saswp_schema_output() {
 								),
 							'name'			=> $sd_data['sd_name'],
 						),
+                                               
 					),
 					
 				
 				);
+                                if(!empty($aggregateRating)){
+                                    $input1['mainEntity']['aggregateRating'] = $aggregateRating;
+                                }
 			}
 
 		// For Article
 		
 			if( 'Article' === $schema_type ){
+                            
 				$input1 = array(
 					'@context'			=> 'http://schema.org',
 					'@type'				=> 'Article',
@@ -309,6 +336,7 @@ function saswp_schema_output() {
 
 		// Recipe
 			if( 'Recipe' === $schema_type){
+                            
 				if(empty($image_details[0]) || $image_details[0] === NULL ){
 					$image_details[0] = $sd_data['sd_logo']['url'];
 				}
@@ -343,15 +371,20 @@ function saswp_schema_output() {
 								),
 							'name'			=> $sd_data['sd_name'],
 						),
-					),
-					
+                                                
+                                    
+					),                                        					
 				
 				);
+                                if(!empty($aggregateRating)){
+                                    $input1['aggregateRating'] = $aggregateRating;
+                                }
 			}
 
 			// Product
 			
 			if(  'Product' === $schema_type){
+                            
 				if(empty($image_details[0]) || $image_details[0] === NULL ){
 					$image_details[0] = $logo;
 				}
@@ -360,27 +393,17 @@ function saswp_schema_output() {
 				'@type'				=> $schema_type ,
 				'url'				=> get_permalink(),
 				'name'                          => get_the_title(),
-				'description'                   => get_the_excerpt(),
-				'mainEntity'                    => array(
-                                                                  '@type'	=> 'WebPage',
-                                                                  '@id'	        => get_permalink(),
-					),
-					
-				
+				'description'                   => get_the_excerpt(),													
 				);
+                                if(!empty($aggregateRating)){
+                                    $input1['aggregateRating'] = $aggregateRating;
+                                }
 			}
-
-			// VideoObject
-			if( 'VideoObject' === $schema_type){
-				if(empty($image_details[0]) || $image_details[0] === NULL ){
-					$image_details[0] = $sd_data['sd_logo']['url'];
-				}
-				
-				if( 'NewsArticle' === $schema_type ){  
+                        
+                        if( 'NewsArticle' === $schema_type ){                             
 						$input1 = array(
 					'@context'			=> 'http://schema.org',
-					'@type'				=> $schema_type ,
-					'@type'				=> $schema_type,
+					'@type'				=> $schema_type ,					
 					'mainEntityOfPage'              => get_permalink(),
 					'url'				=> get_permalink(),
 					'headline'			=> get_the_title(),
@@ -412,10 +435,19 @@ function saswp_schema_output() {
 							'height'			=> $sd_data['sd_logo']['height'],
 										),
 							'name'				=> $sd_data['sd_name'],
-							),
+							),                                                     
 					);
+                                if(!empty($aggregateRating)){
+                                    $input1['aggregateRating'] = $aggregateRating;
+                                }
 				}
-				else {
+
+			// VideoObject
+			if( 'VideoObject' === $schema_type){
+                            
+				if(empty($image_details[0]) || $image_details[0] === NULL ){
+					$image_details[0] = $sd_data['sd_logo']['url'];
+				}												
 					
 						$input1 = array(
 						'@context'			=> 'http://schema.org',
@@ -451,9 +483,13 @@ function saswp_schema_output() {
 								'height'			=> $sd_data['sd_logo']['height'],
 										),
 								'name'			=> $sd_data['sd_name'],
-							),
+							),                                                    
+                                                    
 						);
-					}
+                                                if(!empty($aggregateRating)){
+                                                       $input1['aggregateRating'] = $aggregateRating;
+                                             }
+					
 				}
                         
                         if( 'local_business' === $schema_type){
@@ -494,8 +530,12 @@ function saswp_schema_output() {
                                                                  'dayOfWeek'  => $business_details['saswp_dayofweek'],                                                                       
                                                                  'opens' => $business_details['local_opens_time'],
                                                                  'closes'=> $business_details['local_closes_time'],
-                                                                ),                                                                                                     
+                                                                ),
+                                
 				);
+                                    if(!empty($aggregateRating)){
+                                    $input1['aggregateRating'] = $aggregateRating;
+                                    }
                                 
                                     if(isset($business_details['local_price_range'])){
                                       $input1['priceRange'] = $business_details['local_price_range'];   
@@ -587,6 +627,26 @@ function saswp_post_specific_schema_output() {
 	
 	if(is_singular()){
 		
+                        $saswp_review_details = esc_sql ( get_post_meta(get_the_ID(), 'saswp_review_details', true)); 
+                        $aggregateRating = array();
+                         
+                        if(isset($saswp_review_details['saswp-review-item-over-all'])){
+                        $saswp_over_all_rating = $saswp_review_details['saswp-review-item-over-all'];    
+                        }                
+                        $saswp_review_item_enable = 0;
+                        if(isset($saswp_review_details['saswp-review-item-enable'])){
+                         $saswp_review_item_enable =  $saswp_review_details['saswp-review-item-enable'];  
+                        } 
+                        $saswp_review_count = "1";                            
+                        
+                        if($saswp_over_all_rating && $saswp_review_count && $saswp_review_item_enable ==1){
+                           $aggregateRating =       array(
+                                                            "@type"=> "AggregateRating",
+                                                            "ratingValue" => $saswp_over_all_rating,
+                                                            "reviewCount" => $saswp_review_count
+                                                         ); 
+                        }
+            
                          if( 'Blogposting' === $schema_type){
                     // Blogposting Schema 									
 			$input1 = array(
@@ -649,6 +709,9 @@ function saswp_post_specific_schema_output() {
 					
 				
 				);
+                                if(!empty($aggregateRating)){
+                                    $input1['mainEntity']['aggregateRating'] = $aggregateRating;
+                                }
 			}
 			
 			 if( 'Article' === $schema_type ){
@@ -716,6 +779,9 @@ function saswp_post_specific_schema_output() {
 					
 				
 				);
+                                if(!empty($aggregateRating)){
+                                    $input1['aggregateRating'] = $aggregateRating;
+                                }
 			}
 						
 			 if( 'Product' === $schema_type){
@@ -725,14 +791,12 @@ function saswp_post_specific_schema_output() {
 				'@type'				=> $schema_type ,
 				'url'				=> $all_post_meta['saswp_product_url_'.$schema_id][0],
 				'name'                          => $all_post_meta['saswp_product_name_'.$schema_id][0],
-				'description'                   => $all_post_meta['saswp_product_description_'.$schema_id][0],
-				'mainEntity'                    => array(
-                                                                  '@type'	=> 'WebPage',
-                                                                  '@id'	        => $all_post_meta['saswp_product_main_entity_id_'.$schema_id][0],
-					),
-					
+				'description'                   => $all_post_meta['saswp_product_description_'.$schema_id][0],									
 				
 				);
+                                if(!empty($aggregateRating)){
+                                    $input1['aggregateRating'] = $aggregateRating;
+                                }
 			}
                         
                          if( 'NewsArticle' === $schema_type ){  
@@ -772,6 +836,9 @@ function saswp_post_specific_schema_output() {
 							'name'				=> $all_post_meta['saswp_newsarticle_organization_name_'.$schema_id][0],
 							),
 					);
+                                                if(!empty($aggregateRating)){
+                                                    $input1['aggregateRating'] = $aggregateRating;
+                                                }
 				}
 			
 			 if( 'VideoObject' === $schema_type){
@@ -812,6 +879,9 @@ function saswp_post_specific_schema_output() {
 								'name'                          => $all_post_meta['saswp_video_object_organization_name_'.$schema_id][0],
 							),
 						);
+                                                if(!empty($aggregateRating)){
+                                                   $input1['aggregateRating'] = $aggregateRating;
+                                                }    
 					
 				}
                         
@@ -850,7 +920,10 @@ function saswp_post_specific_schema_output() {
                                                                  'closes'=> $all_post_meta['local_closes_time_'.$schema_id][0],
                                                                 ),                                                                                                     
 				);
-                                
+                                    
+                                    if(!empty($aggregateRating)){
+                                    $input1['aggregateRating'] = $aggregateRating;
+                                    }
                                     if(isset($all_post_meta['local_price_range_'.$schema_id][0])){
                                       $input1['priceRange'] = $all_post_meta['local_price_range_'.$schema_id][0];   
                                     }
@@ -1069,11 +1142,11 @@ function saswp_archive_output(){
 
 		wp_reset_postdata();
 			
-		$category 			= get_the_category(); 		
+		$category 		= get_the_category(); 		
 		$category_id 		= intval($category[0]->term_id); 
-        $category_link 		= get_category_link( $category_id );
-		$category_link 	= get_term_link( $category[0]->term_id , 'category' );
-        $category_headline 	= single_cat_title( '', false ) . __(' Category', 'schema-wp');		
+                $category_link 		= get_category_link( $category_id );
+		$category_link          = get_term_link( $category[0]->term_id , 'category' );
+                $category_headline 	= single_cat_title( '', false ) . __(' Category', 'schema-wp');		
 		$input = array
        		(
 				'@context' 		=> 'http://schema.org/',

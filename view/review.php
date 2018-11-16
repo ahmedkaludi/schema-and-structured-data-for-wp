@@ -44,7 +44,10 @@ class saswp_metaboxes_review {
                 }
                 
                 ?>                     
+                <div>
+                    <div class="saswp-enable-review-on-post"><label><?php echo esc_html__('Enable/Disable', 'schema-and-structured-data-for-wp'); ?>   <input type="checkbox" id="saswp-review-item-enable" name="saswp-review-item-enable" <?php echo (isset( $saswp_review_details['saswp-review-item-enable'] ) &&  $saswp_review_details['saswp-review-item-enable'] == 1 ? 'checked="checked"' : ''); ?> value="1"></label></div>
                     
+                    <div class="saswp-review-fields">
                     <div class="saswp-review-item">
                         <table class="saswp-review-tables">
                         <tr>
@@ -87,7 +90,7 @@ class saswp_metaboxes_review {
                             }
                             ?>
                         </table>
-                        <div class="saswp-over-all-raring"><label><?php echo esc_html__('Over All Rating', 'schema-and-structured-data-for-wp'); ?></label><input type="text" id="saswp-review-item-over-all" name="saswp-review-item-over-all" value="<?php if ( isset( $saswp_review_details['saswp-review-item-over-all'] ) && ( ! empty( $saswp_review_details['saswp-review-item-over-all'] ) ) ) echo esc_attr( $saswp_review_details['saswp-review-item-over-all'] ); ?>"></div>
+                        <div class="saswp-over-all-raring"><label><?php echo esc_html__('Over All Rating', 'schema-and-structured-data-for-wp'); ?></label><input type="text" id="saswp-review-item-over-all" name="saswp-review-item-over-all" value="<?php if ( isset( $saswp_review_details['saswp-review-item-over-all'] ) && ( ! empty( $saswp_review_details['saswp-review-item-over-all'] ) ) ) echo esc_attr( $saswp_review_details['saswp-review-item-over-all'] ); ?>" readonly></div>
                         <div><a class="button saswp-add-more-item"><?php echo esc_html__('Add Item', 'schema-and-structured-data-for-wp'); ?></a></div>
                     </div>
                 
@@ -140,7 +143,8 @@ class saswp_metaboxes_review {
                     </div>
                     <div class="clearfix"></div>
                     </div>
-                
+                    </div>
+                    </div>
                     <?php
         }
    
@@ -168,6 +172,9 @@ class saswp_metaboxes_review {
                 }
                 if(isset($_POST['saswp-review-item-description-title'])){
                     $saswp_review_details['saswp-review-item-description-title'] = sanitize_text_field($_POST['saswp-review-item-description-title']);
+                }
+                if(isset($_POST['saswp-review-item-enable'])){
+                    $saswp_review_details['saswp-review-item-enable'] = sanitize_text_field($_POST['saswp-review-item-enable']);
                 }
                 if(isset($_POST['saswp-review-item-description'])){
                     update_post_meta( $post_id, 'saswp-review-item-description', wp_kses_post( wp_unslash( $_POST['saswp-review-item-description'] )) );

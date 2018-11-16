@@ -421,6 +421,18 @@ clear: both;
 .saswp-review-item-list-table{
     padding-bottom: 10px;
 }
-#sasw-review input {
+#sasw-review input[type=text] {
     width: 180px;
+}
+#sasw-review input[type=number] {
+    width: 180px;
+}
+#saswp-review-item-enable{
+    width: 10px;
+}
+.saswp-enable-review-on-post{
+    padding-bottom: 10px;
+}
+.saswp-enable-review-on-post label{
+    font-weight: 500;
 }

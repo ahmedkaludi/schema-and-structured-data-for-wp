@@ -315,8 +315,8 @@ function saswp_comparison_logic_checker($input){
 if(is_admin()){
   add_action( 'init', 'saswp_create_post_type' );
   function saswp_create_post_type() {
-
-
+    $nonce = wp_create_nonce( 'saswp_install_wizard_nonce' );      
+    $not_found_button = '<div><span class="dashicons dashicons-thumbs-up"></span>'.esc_html__("Thank you for using Schema & Structured Data For WP plugin!",'schema-and-structured-data-for-wp').' <a href="'.esc_url(admin_url( 'plugins.php?page=saswp-setup-wizard' ).'&_saswp_nonce='.$nonce).'">'.esc_html__("Start Quick Setup?",'schema-and-structured-data-for-wp').'</a></div>';       
     register_post_type( 'saswp',
       array(
             'labels' => array(
@@ -325,7 +325,8 @@ if(is_admin()){
             'add_new' 		 => esc_html__( 'Add Schema Type', 'schema-and-structured-data-for-wp' ),
 	    'add_new_item'  	=> esc_html__( '', 'schema-and-structured-data-for-wp' ),
             'edit_item'         => esc_html__( 'Edit Schema Type','schema-and-structured-data-for-wp'),           
-            'all_items'          => esc_html__( 'Schema Types', 'schema-and-structured-data-for-wp' ),                
+            'all_items'          => esc_html__( 'Schema Types', 'schema-and-structured-data-for-wp' ),  
+            'not_found'             => $not_found_button    
         ),
           'public'                => true,
           'has_archive'           => false,
@@ -510,10 +511,7 @@ function saswp_change_add_new_url() {
       $data_array = array(
           'ajax_url'    =>  admin_url( 'admin-ajax.php' ), 
           'post_found_status' => $post_found_status,
-          'post_type' =>$post_type,
-          'wizard_url' => esc_url( admin_url( 'plugins.php?page=saswp-setup-wizard' ) ),
-          'thankyou'   => esc_html__("Thank you for using Schema & Structured Data For WP plugin!",'schema-and-structured-data-for-wp'),
-          'quicksetup'   => esc_html__("Start Quick Setup?",'schema-and-structured-data-for-wp')
+          'post_type' =>$post_type,                              
       );
        wp_localize_script( 'structure_admin', 'saswp_app_object', $data_array );
        wp_enqueue_script('structure_admin');

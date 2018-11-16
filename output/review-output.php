@@ -146,12 +146,17 @@ Class saswp_review_output{
             
         }
         public function saswp_display_review_box($content){
-            global $sd_data;            
-            if($sd_data['saswp-review-module']==0){
+            global $sd_data;  
+            $saswp_review_details = esc_sql ( get_post_meta(get_the_ID(), 'saswp_review_details', true)); 
+            $saswp_review_item_enable = 0;
+            if(isset($saswp_review_details['saswp-review-item-enable'])){
+             $saswp_review_item_enable =  $saswp_review_details['saswp-review-item-enable'];  
+            }            
+            if($sd_data['saswp-review-module']==0 || $saswp_review_item_enable ==0){
                 return $content;
             }
             $result = $this->saswp_get_review_box_content();                 
-            $saswp_review_details = esc_sql ( get_post_meta(get_the_ID(), 'saswp_review_details', true)); 
+            
             if(isset($saswp_review_details['saswp-review-location'])){
             switch ($saswp_review_details['saswp-review-location']) {
                 case 1: 

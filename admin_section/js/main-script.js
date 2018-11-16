@@ -428,7 +428,30 @@ jQuery(document).ready(function($){
           if(location == 3){  
               $(".saswp-review-shortcode").removeClass('saswp_hide');
           }                                          
-        }).change();                         
+        }).change();  
+        
+        $("#saswp-review-item-enable").change(function(){
+                          if ($(this).is(':checked')) {              
+                            $(".saswp-review-fields").show();  
+                          }else{
+                            $(".saswp-review-fields").hide();  
+                          }                                        
+        }).change();  
+        
+        $(".saswp-restore-post-schema").on("click", function(e){
+            e.preventDefault();   
+            var schema_ids = JSON.parse($(".saswp-post-specific-schema-ids").val());                           
+                         $.post(ajaxurl, 
+                             { action:"saswp_restore_schema", schema_ids:schema_ids,post_id: saswp_localize_data.post_id, saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
+                              function(response){                                  
+                              if(response['status'] =='t'){                                                                    
+                                   setTimeout(function(){ location.reload(); }, 1000);
+                              }else{
+                                  alert(response['msg']);
+                              }       		   		
+                             },'json');
+        });
+                
         //Review js ends here
                 
         $(document).on("click","div.saswp-tab ul.saswp-tab-nav a", function(e){
