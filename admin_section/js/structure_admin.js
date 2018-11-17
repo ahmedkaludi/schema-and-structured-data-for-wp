@@ -27,14 +27,11 @@ var clone = function(){
 		});
 	}
 jQuery(document).ready(function($){            
-        if(saswp_app_object.post_type ==='saswp' && saswp_app_object.post_found_status ==='not_found'){
-            var html = '<div>';
-                html += '<p><span class="dashicons dashicons-thumbs-up"></span>'+saswp_app_object.thankyou+' <a href="'+saswp_app_object.wizard_url+'">'+saswp_app_object.quicksetup+'</a></p>';                
-                html += '</div>';
-          $(".wp-list-table .colspanchange").html(html);  
-        }        
+                
         $('#saswp-dayofweek-opens-time').timepicker({ 'timeFormat': 'H:i:s'});
         $('#saswp-dayofweek-closes-time').timepicker({ 'timeFormat': 'H:i:s'});
+        
+               
         
         $(".saswp-placement-or-group").on("click", function(e){
             e.preventDefault();

@@ -173,12 +173,12 @@ function saswp_schema_output() {
 	}
 	if( (!saswp_non_amp() && $sd_data['saswp-for-amp']!=1) || (saswp_non_amp() && $sd_data['saswp-for-wordpress']!=1) ) {
 		return ;
-	}
+	}        
         $all_schema_output = array();
         foreach($Conditionals as $schemaConditionals){
            
 	$schema_options = $schemaConditionals['schema_options'];
-	$schema_type = $schemaConditionals['schema_type'];  
+	$schema_type = $schemaConditionals['schema_type'];         
         $schema_post_id = $schemaConditionals['post_id'];  
 	$logo = $sd_data['sd_logo']['url'];        
 		if( '' == $logo && empty($logo) && isset($sd_data['sd_default_image'])){
@@ -203,7 +203,28 @@ function saswp_schema_output() {
 			$date 		= get_the_date("Y-m-d\TH:i:s\Z");
 			$modified_date 	= get_the_modified_date("Y-m-d\TH:i:s\Z");
 			$aurthor_name 	= get_the_author();
-			
+                        
+                        $saswp_review_details = esc_sql ( get_post_meta(get_the_ID(), 'saswp_review_details', true)); 
+                        $aggregateRating = array();
+                         
+                        if(isset($saswp_review_details['saswp-review-item-over-all'])){
+                        $saswp_over_all_rating = $saswp_review_details['saswp-review-item-over-all'];    
+                        } 
+                        $saswp_review_item_enable = 0;
+                        if(isset($saswp_review_details['saswp-review-item-enable'])){
+                         $saswp_review_item_enable =  $saswp_review_details['saswp-review-item-enable'];  
+                        }  
+                        $saswp_review_count = "1";
+                       
+                        
+                        if($saswp_over_all_rating && $saswp_review_count && $saswp_review_item_enable ==1){
+                           $aggregateRating =       array(
+                                                            "@type"=> "AggregateRating",
+                                                            "ratingValue" => $saswp_over_all_rating,
+                                                            "reviewCount" => $saswp_review_count
+                                                         ); 
+                        }
+                                                                                                                                                                                                   			
 			if(is_page()){
 				$schema_type = $schema_type; //$sd_data['sd_page_type'];
 			}
@@ -240,6 +261,7 @@ function saswp_schema_output() {
 			);
 			// For WebPage
 			if( 'WebPage' === $schema_type){
+                            
 				if(empty($image_details[0]) || $image_details[0] === NULL ){
 					$image_details[0] = $logo;
 				}
@@ -271,15 +293,20 @@ function saswp_schema_output() {
 								),
 							'name'			=> $sd_data['sd_name'],
 						),
+                                               
 					),
 					
 				
 				);
+                                if(!empty($aggregateRating)){
+                                    $input1['mainEntity']['aggregateRating'] = $aggregateRating;
+                                }
 			}
 
 		// For Article
 		
 			if( 'Article' === $schema_type ){
+                            
 				$input1 = array(
 					'@context'			=> 'http://schema.org',
 					'@type'				=> 'Article',
@@ -291,7 +318,8 @@ function saswp_schema_output() {
 					'dateModified'                  => $modified_date,
 					'author'			=> array(
 							'@type' 	=> 'Person',
-							'name'		=> $aurthor_name, ),
+							'name'		=> $aurthor_name 
+                                                         ),
 					'Publisher'			=> array(
 						'@type'			=> 'Organization',
 						'logo' 			=> array(
@@ -302,11 +330,13 @@ function saswp_schema_output() {
 							),
 						'name'			=> $sd_data['sd_name'],
 					),
+                                    
 				);
 			}
 
 		// Recipe
 			if( 'Recipe' === $schema_type){
+                            
 				if(empty($image_details[0]) || $image_details[0] === NULL ){
 					$image_details[0] = $sd_data['sd_logo']['url'];
 				}
@@ -341,15 +371,20 @@ function saswp_schema_output() {
 								),
 							'name'			=> $sd_data['sd_name'],
 						),
-					),
-					
+                                                
+                                    
+					),                                        					
 				
 				);
+                                if(!empty($aggregateRating)){
+                                    $input1['aggregateRating'] = $aggregateRating;
+                                }
 			}
 
 			// Product
 			
 			if(  'Product' === $schema_type){
+                            
 				if(empty($image_details[0]) || $image_details[0] === NULL ){
 					$image_details[0] = $logo;
 				}
@@ -358,27 +393,17 @@ function saswp_schema_output() {
 				'@type'				=> $schema_type ,
 				'url'				=> get_permalink(),
 				'name'                          => get_the_title(),
-				'description'                   => get_the_excerpt(),
-				'mainEntity'                    => array(
-                                                                  '@type'	=> 'WebPage',
-                                                                  '@id'	        => get_permalink(),
-					),
-					
-				
+				'description'                   => get_the_excerpt(),													
 				);
+                                if(!empty($aggregateRating)){
+                                    $input1['aggregateRating'] = $aggregateRating;
+                                }
 			}
-
-			// VideoObject
-			if( 'VideoObject' === $schema_type){
-				if(empty($image_details[0]) || $image_details[0] === NULL ){
-					$image_details[0] = $sd_data['sd_logo']['url'];
-				}
-				
-				if( 'NewsArticle' === $schema_type ){  
+                        
+                        if( 'NewsArticle' === $schema_type ){                             
 						$input1 = array(
 					'@context'			=> 'http://schema.org',
-					'@type'				=> $schema_type ,
-					'@type'				=> $schema_type,
+					'@type'				=> $schema_type ,					
 					'mainEntityOfPage'              => get_permalink(),
 					'url'				=> get_permalink(),
 					'headline'			=> get_the_title(),
@@ -410,10 +435,19 @@ function saswp_schema_output() {
 							'height'			=> $sd_data['sd_logo']['height'],
 										),
 							'name'				=> $sd_data['sd_name'],
-							),
+							),                                                     
 					);
+                                if(!empty($aggregateRating)){
+                                    $input1['aggregateRating'] = $aggregateRating;
+                                }
 				}
-				else {
+
+			// VideoObject
+			if( 'VideoObject' === $schema_type){
+                            
+				if(empty($image_details[0]) || $image_details[0] === NULL ){
+					$image_details[0] = $sd_data['sd_logo']['url'];
+				}												
 					
 						$input1 = array(
 						'@context'			=> 'http://schema.org',
@@ -449,9 +483,13 @@ function saswp_schema_output() {
 								'height'			=> $sd_data['sd_logo']['height'],
 										),
 								'name'			=> $sd_data['sd_name'],
-							),
+							),                                                    
+                                                    
 						);
-					}
+                                                if(!empty($aggregateRating)){
+                                                       $input1['aggregateRating'] = $aggregateRating;
+                                             }
+					
 				}
                         
                         if( 'local_business' === $schema_type){
@@ -476,10 +514,9 @@ function saswp_schema_output() {
 				$input1 = array(
 				'@context'			=> 'http://schema.org',
 				'@type'				=> $local_business ,
-				'url'				=> get_permalink(),
-				'name'                          => $business_details['local_business_name'],
-				//'description'                   => get_the_excerpt(),
-				'@id'                           => get_permalink(),
+                                'name'                          => $business_details['local_business_name'],                                   
+				'url'				=> get_permalink(),				
+				'description'                   => get_the_excerpt(),				
 				'address'                       => array(
                                                                 "@type"          => "PostalAddress",
                                                                 "streetAddress"  => $business_details['local_street_address'],
@@ -493,8 +530,12 @@ function saswp_schema_output() {
                                                                  'dayOfWeek'  => $business_details['saswp_dayofweek'],                                                                       
                                                                  'opens' => $business_details['local_opens_time'],
                                                                  'closes'=> $business_details['local_closes_time'],
-                                                                ),                                                                                                     
+                                                                ),
+                                
 				);
+                                    if(!empty($aggregateRating)){
+                                    $input1['aggregateRating'] = $aggregateRating;
+                                    }
                                 
                                     if(isset($business_details['local_price_range'])){
                                       $input1['priceRange'] = $business_details['local_price_range'];   
@@ -568,6 +609,376 @@ function saswp_schema_output() {
         return $all_schema_output;	
 }
 
+function saswp_post_specific_schema_output() {
+	global $post;
+        $all_schemas = get_posts(
+                    array(
+                            'post_type' 	 => 'saswp',
+                            'posts_per_page' => -1,   
+                            'post_status' => 'publish',
+                    )
+                 );            
+        $all_schema_output = array();
+        foreach($all_schemas as $schema){
+        $schema_id = $schema->ID;   	
+	$schema_type = esc_sql ( get_post_meta($schema_id, 'schema_type', true)  );        
+        $schema_post_id = $post->ID;  
+	$all_post_meta = esc_sql ( get_post_meta($schema_post_id, $key='', true)  );     
+	
+	if(is_singular()){
+		
+                        $saswp_review_details = esc_sql ( get_post_meta(get_the_ID(), 'saswp_review_details', true)); 
+                        $aggregateRating = array();
+                         
+                        if(isset($saswp_review_details['saswp-review-item-over-all'])){
+                        $saswp_over_all_rating = $saswp_review_details['saswp-review-item-over-all'];    
+                        }                
+                        $saswp_review_item_enable = 0;
+                        if(isset($saswp_review_details['saswp-review-item-enable'])){
+                         $saswp_review_item_enable =  $saswp_review_details['saswp-review-item-enable'];  
+                        } 
+                        $saswp_review_count = "1";                            
+                        
+                        if($saswp_over_all_rating && $saswp_review_count && $saswp_review_item_enable ==1){
+                           $aggregateRating =       array(
+                                                            "@type"=> "AggregateRating",
+                                                            "ratingValue" => $saswp_over_all_rating,
+                                                            "reviewCount" => $saswp_review_count
+                                                         ); 
+                        }
+            
+                         if( 'Blogposting' === $schema_type){
+                    // Blogposting Schema 									
+			$input1 = array(
+			'@context'			=> 'http://schema.org',
+			'@type'				=> $schema_type ,
+
+			'mainEntityOfPage'              => $all_post_meta['saswp_blogposting_main_entity_of_page_'.$schema_id][0],
+			'headline'			=> $all_post_meta['saswp_blogposting_headline_'.$schema_id][0],
+			'description'                   => $all_post_meta['saswp_blogposting_description'.$schema_id][0],
+			'name'				=> $all_post_meta['saswp_blogposting_name_'.$schema_id][0],
+			'url'				=> $all_post_meta['saswp_blogposting_url_'.$schema_id][0],
+			'datePublished'                 => $all_post_meta['saswp_blogposting_date_published_'.$schema_id][0],
+			'dateModified'                  => $all_post_meta['saswp_blogposting_date_modified_'.$schema_id][0],
+			'author'			=> array(
+					'@type' 	=> 'Person',
+					'name'		=> $all_post_meta['saswp_blogposting_author_name_'.$schema_id][0], ),
+			'Publisher'			=> array(
+				'@type'			=> 'Organization',
+				'logo' 			=> array(
+					'@type'		=> 'ImageObject',
+					'url'		=> $all_post_meta['saswp_blogposting_organization_logo_'.$schema_id][0],
+					'width'		=> $all_post_meta['saswp_blogposting_organization_logo_'.$schema_id.'_width'][0],
+					'height'	=> $all_post_meta['saswp_blogposting_organization_logo_'.$schema_id.'_height'][0],
+					),
+				'name'			=> $all_post_meta['saswp_blogposting_organization_name_'.$schema_id][0],
+				),
+			);
+                     }
+			
+			 if( 'WebPage' === $schema_type){
+				
+				$input1 = array(
+				'@context'			=> 'http://schema.org',
+				'@type'				=> $schema_type ,
+				'name'				=> $all_post_meta['saswp_webpage_name_'.$schema_id][0],
+				'url'				=> $all_post_meta['saswp_webpage_url_'.$schema_id][0],
+				'description'                   => $all_post_meta['saswp_webpage_description_'.$schema_id][0],
+				'mainEntity'                    => array(
+						'@type'			=> 'Article',
+						'mainEntityOfPage'	=> $all_post_meta['saswp_webpage_main_entity_of_page_'.$schema_id][0],
+						'image'			=> $all_post_meta['saswp_webpage_image_'.$schema_id][0],
+						'headline'		=> $all_post_meta['saswp_webpage_headline_'.$schema_id][0],
+						'description'		=> $all_post_meta['saswp_webpage_description_'.$schema_id][0],
+						'datePublished' 	=> $all_post_meta['saswp_webpage_date_published_'.$schema_id][0],
+						'dateModified'		=> $all_post_meta['saswp_webpage_date_modified_'.$schema_id][0],
+						'author'			=> array(
+								'@type' 	=> 'Person',
+								'name'		=> $all_post_meta['saswp_webpage_author_name_'.$schema_id][0], ),
+						'Publisher'			=> array(
+							'@type'			=> 'Organization',
+							'logo' 			=> array(
+								'@type'		=> 'ImageObject',
+								'url'		=> $all_post_meta['saswp_webpage_organization_logo_'.$schema_id][0],
+								'width'		=> $all_post_meta['saswp_webpage_organization_logo_'.$schema_id.'_width'][0],
+								'height'	=> $all_post_meta['saswp_webpage_organization_logo_'.$schema_id.'_height'][0],
+								),
+							'name'			=> $all_post_meta['saswp_webpage_organization_name_'.$schema_id][0],
+						),
+					),
+					
+				
+				);
+                                if(!empty($aggregateRating)){
+                                    $input1['mainEntity']['aggregateRating'] = $aggregateRating;
+                                }
+			}
+			
+			 if( 'Article' === $schema_type ){
+				$input1 = array(
+					'@context'			=> 'http://schema.org',
+					'@type'				=> 'Article',
+					'mainEntityOfPage'              => $all_post_meta['saswp_article_main_entity_of_page_'.$schema_id][0],
+					'image'				=> $all_post_meta['saswp_article_image_'.$schema_id][0],
+					'headline'			=> $all_post_meta['saswp_article_headline_'.$schema_id][0],
+					'description'                   => $all_post_meta['saswp_article_description_'.$schema_id][0],
+					'datePublished'                 => $all_post_meta['saswp_article_date_published_'.$schema_id][0],
+					'dateModified'                  => $all_post_meta['saswp_article_date_modified_'.$schema_id][0],
+					'author'			=> array(
+							'@type' 	=> 'Person',
+							'name'		=> $all_post_meta['saswp_article_author_name_'.$schema_id][0] 
+                                                         ),
+					'Publisher'			=> array(
+						'@type'			=> 'Organization',
+						'logo' 			=> array(
+							'@type'		=> 'ImageObject',
+							'url'		=> $all_post_meta['saswp_article_organization_logo_'.$schema_id][0],
+							'width'		=> $all_post_meta['saswp_article_organization_logo_'.$schema_id.'_width'][0],
+							'height'	=> $all_post_meta['saswp_article_organization_logo_'.$schema_id.'_height'][0],
+							),
+						'name'			=> $all_post_meta['saswp_article_organization_name_'.$schema_id][0],
+					),
+                                    
+				);
+			}
+	
+			 if( 'Recipe' === $schema_type){
+				
+				$input1 = array(
+				'@context'			=> 'http://schema.org',
+				'@type'				=> $schema_type ,
+				'url'				=> $all_post_meta['saswp_recipe_url_'.$schema_id][0],
+				'name'			        => $all_post_meta['saswp_recipe_name_'.$schema_id][0],
+				'datePublished'                 => $all_post_meta['saswp_recipe_date_published_'.$schema_id][0],
+				'dateModified'                  => $all_post_meta['saswp_recipe_date_modified_'.$schema_id][0],
+				'description'                   => $all_post_meta['saswp_recipe_description_'.$schema_id][0],
+				'mainEntity'                    => array(
+						'@type'				=> 'WebPage',
+						'@id'				=> $all_post_meta['saswp_recipe_main_entity_'.$schema_id][0],
+						'author'			=> array(
+								'@type' 	=> 'Person',
+								'name'		=> $all_post_meta['saswp_recipe_author_name_'.$schema_id][0],
+								'Image'		=> array(
+									'@type'			=> 'ImageObject',
+									'url'			=> $all_post_meta['saswp_recipe_author_image_'.$schema_id][0],
+									'height'		=> $all_post_meta['saswp_recipe_author_image_'.$schema_id.'_height'][0],
+									'width'			=> $all_post_meta['saswp_recipe_author_image_'.$schema_id.'_width'][0]
+								),
+							),
+						'Publisher'			=> array(
+							'@type'			=> 'Organization',
+							'logo' 			=> array(
+								'@type'		=> 'ImageObject',
+								'url'		=> $all_post_meta['saswp_recipe_organization_logo_'.$schema_id][0],
+								'width'		=> $all_post_meta['saswp_recipe_organization_logo_'.$schema_id.'_width'][0],
+								'height'	=> $all_post_meta['saswp_recipe_organization_logo_'.$schema_id.'_height'][0],
+								),
+							'name'			=> $all_post_meta['saswp_recipe_organization_name_'.$schema_id][0],
+						),
+					),
+					
+				
+				);
+                                if(!empty($aggregateRating)){
+                                    $input1['aggregateRating'] = $aggregateRating;
+                                }
+			}
+						
+			 if( 'Product' === $schema_type){
+				
+				$input1 = array(
+				'@context'			=> 'http://schema.org',
+				'@type'				=> $schema_type ,
+				'url'				=> $all_post_meta['saswp_product_url_'.$schema_id][0],
+				'name'                          => $all_post_meta['saswp_product_name_'.$schema_id][0],
+				'description'                   => $all_post_meta['saswp_product_description_'.$schema_id][0],									
+				
+				);
+                                if(!empty($aggregateRating)){
+                                    $input1['aggregateRating'] = $aggregateRating;
+                                }
+			}
+                        
+                         if( 'NewsArticle' === $schema_type ){  
+						$input1 = array(
+					'@context'			=> 'http://schema.org',
+					'@type'				=> $schema_type ,					
+					'mainEntityOfPage'              => $all_post_meta['saswp_newsarticle_main_entity_of_page_'.$schema_id][0],
+					'url'				=> $all_post_meta['saswp_newsarticle_URL_'.$schema_id][0],
+					'headline'			=> $all_post_meta['saswp_newsarticle_headline_'.$schema_id][0],
+					'datePublished'                 => $all_post_meta['saswp_newsarticle_date_published_'.$schema_id][0],
+					'dateModified'                  => $all_post_meta['saswp_newsarticle_date_modified_'.$schema_id][0],
+					'description'                   => $all_post_meta['saswp_newsarticle_description_'.$schema_id][0],
+					'name'				=> $all_post_meta['saswp_newsarticle_name_'.$schema_id][0], 					
+					'thumbnailUrl'                  => $all_post_meta['saswp_newsarticle_thumbnailurl_'.$schema_id][0],
+					'mainEntity'                    => array(
+                                                                            '@type' => 'WebPage',
+                                                                            '@id'   => $all_post_meta['saswp_newsarticle_main_entity_id_'.$schema_id][0],
+						), 
+					'author'			=> array(
+							'@type' 			=> 'Person',
+							'name'				=> $all_post_meta['saswp_newsarticle_author_name_'.$schema_id][0],
+							'Image'				=> array(
+							'@type'				=> 'ImageObject',
+							'url'				=> $all_post_meta['saswp_newsarticle_author_image_'.$schema_id][0],
+							'height'			=> $all_post_meta['saswp_newsarticle_author_image_'.$schema_id.'_height'][0],
+							'width'				=> $all_post_meta['saswp_newsarticle_author_image_'.$schema_id.'_width'][0]
+										),
+							),
+					'Publisher'			=> array(
+							'@type'				=> 'Organization',
+							'logo' 				=> array(
+							'@type'				=> 'ImageObject',
+							'url'				=> $all_post_meta['saswp_newsarticle_organization_logo_'.$schema_id][0],
+							'width'				=> $all_post_meta['saswp_newsarticle_organization_logo_'.$schema_id.'_width'][0],
+							'height'			=> $all_post_meta['saswp_newsarticle_organization_logo_'.$schema_id.'_height'][0],
+										),
+							'name'				=> $all_post_meta['saswp_newsarticle_organization_name_'.$schema_id][0],
+							),
+					);
+                                                if(!empty($aggregateRating)){
+                                                    $input1['aggregateRating'] = $aggregateRating;
+                                                }
+				}
+			
+			 if( 'VideoObject' === $schema_type){
+																					
+						$input1 = array(
+						'@context'			=> 'http://schema.org',
+						'@type'				=> $schema_type,
+						'url'				=> $all_post_meta['saswp_video_object_url_'.$schema_id][0],
+						'headline'			=> $all_post_meta['saswp_video_object_headline_'.$schema_id][0],
+						'datePublished'                 => $all_post_meta['saswp_video_object_date_published_'.$schema_id][0],
+						'dateModified'                  => $all_post_meta['saswp_video_object_date_modified_'.$schema_id][0],
+						'description'                   => $all_post_meta['saswp_video_object_description_'.$schema_id][0],
+						'name'				=> $all_post_meta['saswp_video_object_name_'.$schema_id][0],
+						'uploadDate'                    => $all_post_meta['saswp_video_object_upload_date_'.$schema_id][0],
+						'thumbnailUrl'                  => $all_post_meta['saswp_video_object_thumbnail_url_'.$schema_id][0],
+						'mainEntity'                    => array(
+								'@type'				=> 'WebPage',
+								'@id'				=> $all_post_meta['saswp_video_object_main_entity_id_'.$schema_id][0],
+								), 
+						'author'			=> array(
+								'@type' 			=> 'Person',
+								'name'				=> $all_post_meta['saswp_video_object_author_name_'.$schema_id][0],
+								'Image'				=> array(
+								'@type'				=> 'ImageObject',
+								'url'				=> $all_post_meta['saswp_video_object_author_image_'.$schema_id][0],
+								'height'			=> $all_post_meta['saswp_video_object_author_image_'.$schema_id.'_height'][0],
+								'width'				=> $all_post_meta['saswp_video_object_author_image_'.$schema_id.'_width'][0]
+								),
+							),
+						'Publisher'			=> array(
+								'@type'				=> 'Organization',
+								'logo' 				=> array(
+								'@type'				=> 'ImageObject',
+								'url'				=> $all_post_meta['saswp_video_object_organization_logo_'.$schema_id][0],
+								'width'				=> $all_post_meta['saswp_video_object_organization_logo_'.$schema_id.'_width'][0],
+								'height'			=> $all_post_meta['saswp_video_object_organization_logo_'.$schema_id.'_height'][0],
+										),
+								'name'                          => $all_post_meta['saswp_video_object_organization_name_'.$schema_id][0],
+							),
+						);
+                                                if(!empty($aggregateRating)){
+                                                   $input1['aggregateRating'] = $aggregateRating;
+                                                }    
+					
+				}
+                        
+                         if( 'local_business' === $schema_type){
+                            
+                                $business_sub_name ='';
+                                $business_type = $all_post_meta['saswp_business_type_'.$schema_id][0]; 
+                                $post_specific_obj = new saswp_post_specific();
+                                $check_business_type = $post_specific_obj->saswp_get_sub_business_array($business_type);
+                                if(!empty($check_business_type)){
+                                 $business_sub_name = $all_post_meta['saswp_business_name_'.$schema_id][0];   
+                                }                                
+                                if($business_sub_name){
+                                $local_business = $business_sub_name;    
+                                }else{
+                                $local_business = $business_type;        
+                                }                                
+				$input1 = array(
+				'@context'			=> 'http://schema.org',
+				'@type'				=> $local_business ,
+                                'name'                          => $all_post_meta['local_business_name_'.$schema_id][0],                                   
+				'url'				=> $all_post_meta['local_business_name_url_'.$schema_id][0],				
+				'description'                   => $all_post_meta['local_business_description_'.$schema_id][0],				
+				'address'                       => array(
+                                                                "@type"          => "PostalAddress",
+                                                                "streetAddress"  => $all_post_meta['local_street_address_'.$schema_id][0],
+                                                                "addressLocality"=> $all_post_meta['local_city_'.$schema_id][0],
+                                                                "addressRegion"  => $all_post_meta['local_state_'.$schema_id][0],
+                                                                "postalCode"     => $all_post_meta['local_postal_code_'.$schema_id][0],                                                                                                                                  
+                                                                 ),	
+				'telephone'                   => $all_post_meta['local_phone_'.$schema_id][0],
+                                'openingHoursSpecification'   => array(                                                                
+                                                                 '@type' => 'OpeningHoursSpecification',
+                                                                 'dayOfWeek'  => $all_post_meta['saswp_dayofweek_'.$schema_id][0],                                                                       
+                                                                 'opens' => $all_post_meta['local_opens_time_'.$schema_id][0],
+                                                                 'closes'=> $all_post_meta['local_closes_time_'.$schema_id][0],
+                                                                ),                                                                                                     
+				);
+                                    
+                                    if(!empty($aggregateRating)){
+                                    $input1['aggregateRating'] = $aggregateRating;
+                                    }
+                                    if(isset($all_post_meta['local_price_range_'.$schema_id][0])){
+                                      $input1['priceRange'] = $all_post_meta['local_price_range_'.$schema_id][0];   
+                                    }
+                                    
+                                    if(isset($all_post_meta['local_accepts_reservations_'.$schema_id][0])){
+                                      $input1['acceptsReservations'] = $all_post_meta['local_price_accepts_reservations_'.$schema_id][0];   
+                                    }
+                                    
+                                    if(isset($all_post_meta['local_serves_cuisine_'.$schema_id][0])){
+                                      $input1['servesCuisine'] = $all_post_meta['local_price_serves_cuisine_'.$schema_id][0];   
+                                    }
+                                    
+                                    if(isset($all_post_meta['local_menu_'.$schema_id][0])){
+                                      $input1['menu'] = $all_post_meta['local_menu_'.$schema_id][0];   
+                                    }                                                          
+			}
+                                		
+                        $image_id 	= get_post_thumbnail_id();
+			$image_details 	= wp_get_attachment_image_src($image_id, 'full');
+			global $sd_data;
+			if( is_array($image_details) ){
+				if(isset($image_details[1]) ){
+						$width = $image_details[1];	
+					}
+					if(isset($image_details[2])){
+						$height = $image_details[2];
+					}
+			$input2  = array(
+				                'image'		=>array(
+									'@type'		=>'ImageObject',
+									'url'		=>$image_details[0],
+									'width'		=>$width,
+									'height'	=>$height,
+									),
+				);
+			$input = array_merge($input1,$input2);
+		     }
+			else{			
+				$input2  = array(
+				                'image'		=>array(
+									'@type'		=>'ImageObject',
+									'url'		=> $sd_data['sd_logo']['url'],
+                                	'width'		=> $sd_data['sd_logo']['width'],
+                                	'height'	=> $sd_data['sd_logo']['height'],
+                               		 ),
+				);
+				$input = array_merge($input1,$input2);
+		}
+		
+                $all_schema_output[] = $input;		                
+	}
+        }              
+        return $all_schema_output;	
+}
+
 function saswp_structure_data_access_scripts($data){
 	if ( empty( $data['amp_component_scripts']['amp-access'] ) ) {
 		$data['amp_component_scripts']['amp-access'] = 'https://cdn.ampproject.org/v0/amp-access-0.1.js';
@@ -609,15 +1020,6 @@ function saswp_list_items_generator(){
 							          );
 		$j++;
 		}}
-		$breadcrumbslist[] = array(
-								'@type' 		=>'ListItem',
-								'position'		=> $j,
-								'item'			=> array(
-									'@id'		=> get_permalink(),
-									'name'		=> get_the_title(),
-
-								),
-							);
                
 }
         if(is_page()){
@@ -740,11 +1142,11 @@ function saswp_archive_output(){
 
 		wp_reset_postdata();
 			
-		$category 			= get_the_category(); 		
+		$category 		= get_the_category(); 		
 		$category_id 		= intval($category[0]->term_id); 
-        $category_link 		= get_category_link( $category_id );
-		$category_link 	= get_term_link( $category[0]->term_id , 'category' );
-        $category_headline 	= single_cat_title( '', false ) . __(' Category', 'schema-wp');		
+                $category_link 		= get_category_link( $category_id );
+		$category_link          = get_term_link( $category[0]->term_id , 'category' );
+                $category_headline 	= single_cat_title( '', false ) . __(' Category', 'schema-wp');		
 		$input = array
        		(
 				'@context' 		=> 'http://schema.org/',

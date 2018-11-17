@@ -6,8 +6,9 @@
  */
 add_action( 'plugin_action_links_' . plugin_basename( SASWP_DIR_NAME_FILE ), 'saswp_plugin_action_links' );
 function saswp_plugin_action_links( $links ) {
+        $nonce = wp_create_nonce( 'saswp_install_wizard_nonce' );  
 	$links[] = '<a href="' . esc_url( admin_url( 'edit.php?post_type=saswp&page=structured_data_options' ) ) . '">' . esc_html__( 'Settings', 'schema-and-structured-data-for-wp' ) . '</a>';
-	$links[] = '<a href="'.  esc_url( admin_url( 'plugins.php?page=saswp-setup-wizard' ) ).'">' . esc_html__( 'Start setup wizard &raquo;', 'schema-and-structured-data-for-wp' ) . '</a>';
+	$links[] = '<a href="'.  esc_url(admin_url( 'plugins.php?page=saswp-setup-wizard' ).'&_saswp_nonce='.$nonce).'">' . esc_html__( 'Start setup wizard &raquo;', 'schema-and-structured-data-for-wp' ) . '</a>';
   	return $links;
 }
 
@@ -32,9 +33,9 @@ function saswp_admin_interface_render(){
 	$is_amp = true;			
         }   
         if($is_amp){
-        $tab = saswp_get_tab('general', array('general','knowledge','schema', 'tools', 'amp','support'));    
+        $tab = saswp_get_tab('general', array('general','knowledge','schema', 'tools', 'amp','review','support'));    
         }else{
-        $tab = saswp_get_tab('general', array('general','knowledge','schema','tools' ,'support'));    
+        $tab = saswp_get_tab('general', array('general','knowledge','schema','tools' ,'review','support'));    
         }
 	
 	?>
@@ -56,12 +57,14 @@ function saswp_admin_interface_render(){
                          
 			echo '<a href="' . esc_url(saswp_admin_link('schema')) . '" class="nav-tab ' . esc_attr( $tab == 'schema' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . esc_html__('Misc','schema-and-structured-data-for-wp') . '</a>';
                                                                                                                                                                                               
+                        echo '<a href="' . esc_url(saswp_admin_link('review')) . '" class="nav-tab ' . esc_attr( $tab == 'review' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . esc_html__('Review','schema-and-structured-data-for-wp') . '</a>';
+                        
                         echo '<a href="' . esc_url(saswp_admin_link('support')) . '" class="nav-tab ' . esc_attr( $tab == 'support' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . esc_html__('Support','schema-and-structured-data-for-wp') . '</a>';
 			?>
                     
 		</h2>
                 </div>
-                <form action="options.php" method="post" enctype="multipart/form-data" class="saswp-settings-form">		
+                <form action="<?php echo admin_url("options.php") ?>" method="post" enctype="multipart/form-data" class="saswp-settings-form">		
 			<div class="form-wrap saswp-settings-form-wrap">
 			<?php
 			// Output nonce, action, and option_page fields for a settings page.
@@ -87,7 +90,12 @@ function saswp_admin_interface_render(){
 			     // Status
 			        do_settings_sections( 'saswp_tools_section' );	// Page slug
 			echo "</div>";
-                                                                                               
+                        
+                        echo "<div class='saswp-review' ".( $tab != 'review' ? 'style="display:none;"' : '').">";
+			     // Status
+			        do_settings_sections( 'saswp_review_section' );	// Page slug
+			echo "</div>";
+                        
                         echo "<div class='saswp-support' ".( $tab != 'support' ? 'style="display:none;"' : '').">";
 			     // Status
 			        do_settings_sections( 'saswp_support_section' );	// Page slug
@@ -105,7 +113,9 @@ function saswp_admin_interface_render(){
 		</form>
 	</div>
     <div class="saswp-settings-second-div">
-        <p style="float:left;"><?php echo esc_html('Need Quick Setup?', 'schema-and-structured-data-for-wp'); ?></p><a href="<?php echo esc_url( admin_url( 'plugins.php?page=saswp-setup-wizard' ) ); ?>" class="page-title-action saswp-start-quck-setup button button-primary"><?php echo esc_html('Try Installation Wizard', 'schema-and-structured-data-for-wp'); ?></a>
+        <p style="float:left;"><?php 
+        $nonce = wp_create_nonce( 'saswp_install_wizard_nonce' );          
+        echo esc_html('Need Quick Setup?', 'schema-and-structured-data-for-wp'); ?></p><a href="<?php echo esc_url(admin_url( 'plugins.php?page=saswp-setup-wizard' ).'&_saswp_nonce='.$nonce); ?>" class="page-title-action saswp-start-quck-setup button button-primary"><?php echo esc_html('Try Installation Wizard', 'schema-and-structured-data-for-wp'); ?></a>
     <div class="saswp-feedback-panel">
         
         <h2><?php echo esc_html__( 'Leave A Feedback', 'schema-and-structured-data-for-wp' ); ?></h2>
@@ -177,6 +187,18 @@ function saswp_settings_init(){
 			'saswp_amp_section',						// Page slug
 			'saswp_amp_section'						// Settings Section ID
 		); 
+                
+                
+                add_settings_section('saswp_review_section', __return_false(), '__return_false', 'saswp_review_section');
+
+                add_settings_field(
+			'saswp_review_settings',								// ID
+			'',		// Title
+			'saswp_review_page_callback',								// CB
+			'saswp_review_section',						// Page slug
+			'saswp_review_section'						// Settings Section ID
+		);
+                
                 
                 add_settings_section('saswp_support_section', __return_false(), '__return_false', 'saswp_support_section');
 
@@ -269,7 +291,7 @@ function saswp_schema_page_callback(){
 }
 
 function saswp_amp_page_callback(){
-    $settings = saswp_defaultSettings();         
+        $settings = saswp_defaultSettings();         
         $field_objs = new saswp_fields_generator();
         $meta_fields = array(		
 		
@@ -752,7 +774,7 @@ function saswp_import_callback(){
                     <div class="saswp-tools-field-title"><div class="saswp-tooltip"><strong><?php echo esc_html__('Import All Settings & Schema','schema-and-structured-data-for-wp'); ?></strong></div><input type="file" name="saswp_import_backup" id="saswp_import_backup">                         
                     </div>
                 </li> 
-            </ul>
+        </ul>
         <?php
         
         $settings = saswp_defaultSettings();
@@ -852,6 +874,30 @@ function saswp_imported_callback(){
         ?>		
 	<?php        
 }
+
+function saswp_review_page_callback(){
+        
+        $settings = saswp_defaultSettings();         
+        $field_objs = new saswp_fields_generator();
+        $meta_fields = array(				
+                array(
+			'label' => 'Review Module',
+			'id' => 'saswp-review-module-checkbox',                        
+                        'name' => 'saswp-review-module-checkbox',
+			'type' => 'checkbox',
+                        'class' => 'checkbox saswp-checkbox',
+                        'hidden' => array(
+                             'id' => 'saswp-review-module',
+                             'name' => 'sd_data[saswp-review-module]',                             
+                        )
+		),  
+                
+	);
+        //echo '<h2>'.esc_html__('Set Up','schema-and-structured-data-for-wp').'</h2>';
+        $field_objs->saswp_field_generator($meta_fields, $settings);    
+       
+}
+
 function saswp_support_page_callback(){
     
     ?>
@@ -865,7 +911,7 @@ function saswp_support_page_callback(){
                     <span class="saswp-query-success saswp_hide"><?php echo esc_html__('Message sent successfully, Please wait we will get back to you shortly', 'schema-and-structured-data-for-wp'); ?></span>
                     <span class="saswp-query-error saswp_hide"><?php echo esc_html__('Message not sent. please check your network connection', 'schema-and-structured-data-for-wp'); ?></span>
                 </li> 
-                <li><button class="button saswp-send-query"><?php echo esc_html('Send Message', 'schema-and-structured-data-for-wp'); ?></button></li>
+                <li><button class="button saswp-send-query"><?php echo esc_html__('Send Message', 'schema-and-structured-data-for-wp'); ?></button></li>
             </ul>            
                    
         </div>
@@ -901,6 +947,7 @@ function saswp_enqueue_style_js( $hook ) {
         wp_register_script( 'saswp-main-js', SASWP_PLUGIN_URL . 'admin_section/js/main-script.js', array('jquery'), SASWP_VERSION , true );
         
         $data = array(
+            'post_id'                        => get_the_ID(),
             'ajax_url'                  => admin_url( 'admin-ajax.php' ),            
             'saswp_security_nonce'      => wp_create_nonce('saswp_ajax_check_nonce')            
         );

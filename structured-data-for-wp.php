@@ -2,7 +2,7 @@
 /*
 Plugin Name: Schema & Structured Data for WP
 Description: Schema & Structured Data adds Google Rich Snippets markup according to Schema.org guidelines to structure your site for SEO. (AMP Compatible) 
-Version: 1.0.3
+Version: 1.0.4
 Text Domain: schema-and-structured-data-for-wp
 Author: Mohammed Kaludi, Ahmed Kaludi
 Author URI: http://structured-data-for-wp.com/
@@ -12,7 +12,7 @@ License: GPL2
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-define('SASWP_VERSION', '1.0.3');
+define('SASWP_VERSION', '1.0.4');
 define('SASWP_DIR_NAME_FILE', __FILE__ );
 define('SASWP_DIR_NAME', dirname( __FILE__ ));
 define('SASWP_DIR_URI', plugin_dir_url(__FILE__));
@@ -55,6 +55,9 @@ require_once SASWP_DIR_NAME.'/view/help.php';
 require_once SASWP_DIR_NAME.'/view/schema_type.php';  
 require_once SASWP_DIR_NAME.'/view/paywall.php';  
 require_once SASWP_DIR_NAME.'/admin_section/add-schema/add_new.php';  
+require_once SASWP_DIR_NAME.'/view/post_specific.php';  
+require_once SASWP_DIR_NAME.'/view/review.php';  
+require_once SASWP_DIR_NAME.'/output/review-output.php';  
 
 
 /**
@@ -68,10 +71,11 @@ function saswp_admin_notice_activation_hook() {
 add_action( 'admin_notices', 'saswp_admin_notice' );
 
 function saswp_admin_notice(){
+    $nonce = wp_create_nonce( 'saswp_install_wizard_nonce' );  
     ?>
        <div class="updated notice is-dismissible message notice notice-alt saswp-setup-notice saswp_hide">
          <p><span class="dashicons dashicons-thumbs-up"></span> <?php echo esc_html__('Thank you for using Schema & Structured Data For WP plugin!', 'schema-and-structured-data-for-wp') ?>
-                <a href="<?php echo esc_url( admin_url( 'plugins.php?page=saswp-setup-wizard' ) ); ?>"> <?php echo esc_html__('Start Quick Setup', 'schema-and-structured-data-for-wp') ?></a>
+                <a href="<?php echo esc_url(admin_url( 'plugins.php?page=saswp-setup-wizard' ).'&_saswp_nonce='.$nonce); ?>"> <?php echo esc_html__('Start Quick Setup', 'schema-and-structured-data-for-wp') ?></a>
             </p>
         </div>
      

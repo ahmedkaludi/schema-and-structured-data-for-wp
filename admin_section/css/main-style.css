@@ -59,6 +59,10 @@ and open the template in the editor.
     width: auto;
     padding: 0px;
 }
+.saswp-review table th{    
+    width: auto;
+    padding: 0px;
+}
 .saswp-help table{
     margin-top: 0px;   
 } 
@@ -309,6 +313,17 @@ padding-bottom: 10px;
 float:left;
 clear: both;
 }
+
+.saswp-review .saswp-knowledge-field{
+float: right;
+width: 75%;
+padding-bottom: 10px;
+}
+.saswp-review .saswp-knowledge-label{
+float:left;
+clear: both;
+}
+
 .saswp-compativility-div .saswp-knowledge-field{
 float: right;
 width: 75%;
@@ -328,6 +343,96 @@ clear: both;
 }
 .saswp-seller-div .saswp-knowledge-field{
     float: left;
-    width: 70%;
-   
+    width: 70%;   
+}
+.saswp-post-specific-tab-wrapper{
+   display: inline-block;
+    width: 25%;
+    vertical-align: top; 
+    
+}
+.saswp-post-specific-container{
+    display: inline-block;
+    width: calc(75% - 1px );
+    border-left: 1px solid #eee;       
+}
+.saswp-post-specific-wrapper{
+    padding: 10px;
+}
+.saswp-tab a.selected {
+    background-color: #ccc;
+}
+.saswp-tab-links{
+    display: block;
+    background-color: inherit;
+    color: black;
+    padding: 10px 16px;    
+    outline: none;
+    text-align: left;
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 17px;  
+}
+.saswp-star-rating{
+    cursor: pointer;
+}
+.saswp-post-specific-wrapper select{
+    width: 100%;
+}
+.saswp-review-tables{
+    width: 100%;
+}
+.saswp-over-all-raring{
+    float: right;
+}
+
+.saswp-review-pros-and-cons{
+    position: relative;
+    clear:both;
+}
+.saswp-review-pros-and-cons > div:first{
+    padding-left: 10px;
+}
+.saswp-review-pros-and-cons > div{
+    width: 49%;
+    display: inline-block;
+}
+.saswp-review-pros-and-cons > div:nth-child(2){
+    padding-left: 12px;
+}
+.saswp-wp-ediot-desc{
+    margin-bottom: -23px;
+    display: block;   
+}
+.saswp-review-description{
+    margin-top: 40px;
+    padding-top: 10px;
+    border-top:  1px solid #eee;
+}
+.saswp-review-pros-and-cons{
+    margin-top: 40px;
+     padding-top: 10px;
+    border-top:  1px solid #eee;
+}
+.saspw-review-item-list{
+    margin-top: 20px;   
+    border-top:  1px solid #eee;
+}
+.saswp-review-item-list-table{
+    padding-bottom: 10px;
+}
+#sasw-review input[type=text] {
+    width: 180px;
+}
+#sasw-review input[type=number] {
+    width: 180px;
+}
+#saswp-review-item-enable{
+    width: 10px;
+}
+.saswp-enable-review-on-post{
+    padding-bottom: 10px;
+}
+.saswp-enable-review-on-post label{
+    font-weight: 500;
 }

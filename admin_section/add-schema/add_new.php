@@ -43,13 +43,16 @@ $saswp_add_data_type_config = array(
 		// Exit if the user does not have proper permissions
 		if(! current_user_can( 'manage_options' ) ) {
 			return ;
-		}		
-		saswp_add_new_steps_call();                
+		}
+                if( wp_verify_nonce($_GET['_wpnonce'], '_wpnonce')){
+			saswp_add_new_steps_call(); 		
+		}
+		                
 	}
 
 	function saswp_add_new_steps_call(){
 		global $saswp_add_data_type_config;
-		if ( empty( $_GET['page'] ) || $saswp_add_data_type_config['installerpage'] !== $_GET['page'] ) {
+		if ( !wp_verify_nonce($_GET['_wpnonce'], '_wpnonce') ||empty( $_GET['page'] ) || $saswp_add_data_type_config['installerpage'] !== $_GET['page'] ) {
 			return;
 		}
 		 if ( ob_get_length() ) {

@@ -218,6 +218,16 @@ jQuery(document).ready(function($){
                               $("#saswp_compativility").val(0);           
                             }
                       break;
+                      
+                      case 'saswp-review-module-checkbox':
+                          
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-review-module").val(1);             
+                            }else{
+                              $("#saswp-review-module").val(0);           
+                            }
+                      break;
+                      
                       default:
                           break;
                   }
@@ -245,7 +255,7 @@ jQuery(document).ready(function($){
                        
           }                                           
      }).change();     
-     $("input[data-id=media]").click(function(e) {	// Application Icon upload
+     $(document).on("click", "input[data-id=media]" ,function(e) {	// Application Icon upload
 		e.preventDefault();
                 var button = $(this);
                 var id = button.attr('id').replace('_button', '');                
@@ -327,6 +337,130 @@ jQuery(document).ready(function($){
                                  $(".saswp-feedback-notice").hide();                                 
                               }       		   		
                              },'json');
+        });
+        
+         $(document).on("change",'.saswp-local-business-type-select', function(e){
+            e.preventDefault();    
+                        var current = $(this);    
+                        var business_type = $(this).val();
+                         $.get(ajaxurl, 
+                             { action:"saswp_get_sub_business_ajax", business_type:business_type, saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
+                              function(response){    
+                                  
+                              if(response['status'] =='t'){ 
+                                   $(".saswp-local-business-name-select").parents('tr').remove();  
+                                var schema_id = current.parents('.saswp-post-specific-wrapper').attr('data-id');                                
+                                var html ='<tr><th><label for="saswp_business_name_'+schema_id+'">Sub Business Type</label></th>';
+                                    html +='<td><select class="saswp-local-business-name-select" id="saswp_business_name_'+schema_id+'" name="saswp_business_name_'+schema_id+'">';    
+                                    $.each(response['result'], function(index, element){
+                                        html +='<option value="'+index+'">'+element+'</option>';      
+                                    });                                    
+                                    html +='</select></td>';    
+                                    html +='</tr>'; 
+                                    current.parents('.form-table tr:first').after(html);
+                              }else{
+                                    $(".saswp-local-business-name-select").parents('tr').remove();
+                              }       		   		
+                             },'json');
+        });
+        function saswpAddTimepicker(){
+         $('.saswp-local-schema-time-picker').timepicker({ 'timeFormat': 'H:i:s'});
+        }
+        $('.saswp-local-schema-time-picker').timepicker({ 'timeFormat': 'H:i:s'});
+        $(".saswp-modify_schema_post_enable").on("click", function(e){
+            $(this).remove();
+            e.preventDefault();                                                    
+                         $.get(ajaxurl, 
+                             { action:"saswp_modify_schema_post_enable", post_id: saswp_localize_data.post_id,saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
+                              function(response){    
+                               $("#post_specific .inside").append(response); 
+                               saswpAddTimepicker();
+                             });
+        });
+        
+        $('.saswp-local-schema-datepicker-picker').datepicker({
+         dateFormat: "yy-mm-dd",
+         minDate: 0
+
+     });
+        
+        //Review js starts here
+        
+        $(document).on("click", ".saswp-add-more-item",function(e){
+            e.preventDefault();
+            var rows = $('.saswp-review-item-list-table tr').length;
+            console.log(rows);
+            var html = '<tr class="saswp-review-item-tr">';
+                html += '<td>Review Item Feature</td>';
+                html += '<td><input type="text" name="saswp-review-item-feature[]"></td>';
+                html += '<td>Rating</td>';
+                html += '<td><input step="0.1" min="0" max="5" type="number" name="saswp-review-item-star-rating[]"></td>';
+                html += '<td><a type="button" class="saswp-remove-review-item button">x</a></td>';
+                html += '</tr>';                
+                $(".saswp-review-item-list-table").append(html);
+                
+        });
+        
+        $(document).on("click", ".saswp-remove-review-item", function(e){
+            e.preventDefault();        
+            $(this).parent().parent('tr').remove();
+       });
+        
+        $(document).on("focusout", ".saswp-review-item-tr input[type=number]", function(e){
+            e.preventDefault();    
+            var total_rating = 0;
+            var element_count = $(".saswp-review-item-tr input[type=number]").length;            
+            $(".saswp-review-item-tr input[type=number]").each(function(index, element){
+                if($(element).val() ==''){
+                  total_rating += parseFloat(0);  
+                }else{
+                  total_rating += parseFloat($(element).val());  
+                }
+                           
+            });
+            var over_all_rating = total_rating / element_count;
+            $("#saswp-review-item-over-all").val(over_all_rating);
+       });
+       
+       $("#saswp-review-location").change(function(){
+          var location = $(this).val();
+          $(".saswp-review-shortcode").addClass('saswp_hide');
+          if(location == 3){  
+              $(".saswp-review-shortcode").removeClass('saswp_hide');
+          }                                          
+        }).change();  
+        
+        $("#saswp-review-item-enable").change(function(){
+                          if ($(this).is(':checked')) {              
+                            $(".saswp-review-fields").show();  
+                          }else{
+                            $(".saswp-review-fields").hide();  
+                          }                                        
+        }).change();  
+        
+        $(".saswp-restore-post-schema").on("click", function(e){
+            e.preventDefault();   
+            var schema_ids = JSON.parse($(".saswp-post-specific-schema-ids").val());                           
+                         $.post(ajaxurl, 
+                             { action:"saswp_restore_schema", schema_ids:schema_ids,post_id: saswp_localize_data.post_id, saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
+                              function(response){                                  
+                              if(response['status'] =='t'){                                                                    
+                                   setTimeout(function(){ location.reload(); }, 1000);
+                              }else{
+                                  alert(response['msg']);
+                              }       		   		
+                             },'json');
+        });
+                
+        //Review js ends here
+                
+        $(document).on("click","div.saswp-tab ul.saswp-tab-nav a", function(e){
+            e.preventDefault();
+            var attr = $(this).attr('data-id');
+            $(".saswp-post-specific-wrapper").hide();            
+            $("#"+attr).show();           
+            $('div.saswp-tab ul.saswp-tab-nav a').removeClass('selected');
+            $(this).addClass('selected');                                                
         });
         
         //Importer from schema plugin ends here
