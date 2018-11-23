@@ -1118,10 +1118,15 @@ function saswp_archive_output(){
 				$image_id 		= get_post_thumbnail_id();
 				$image_details 	= wp_get_attachment_image_src($image_id, 'full');
 				$publisher_info = array(
-					"type" => "Organization",
+				"type" => "Organization",
 			        "name" => $sd_data['sd_name'],
-			        "id"   => $sd_data['sd_url'],
-			        "logo" => $sd_data['sd_logo']['url'],
+                                "logo" => array(
+                                    "@type" => "ImageObject",
+                                    "name" => $sd_data['sd_name'],
+                                    "width" => $sd_data['sd_logo']['width'],
+                                    "height"=> $sd_data['sd_logo']['height'],
+                                    "url"=> $sd_data['sd_logo']['url']
+                                )                                        			        
 				);
 				$publisher_info['name'] = get_bloginfo('name');
 				$publisher_info['id']	= get_the_permalink();
