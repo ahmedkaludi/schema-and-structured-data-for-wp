@@ -1152,7 +1152,7 @@ function saswp_archive_output(){
 				'@context' 		=> 'http://schema.org/',
 				'@type' 		=> "CollectionPage",
 				'headline' 		=> $category_headline,
-				'description' 	=> strip_tags(category_description()),
+				'description' 	        => strip_tags(category_description()),
 				'url'		 	=> $category_link,
 				'sameAs' 		=> '',
 				'hasPart' 		=> $category_posts

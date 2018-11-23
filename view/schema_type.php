@@ -52,7 +52,7 @@
                                      'wednesday'     => 'Wednesday',
                                      'thursday'     => 'Thursday',
                                      'friday'      => 'Friday',
-                                     'staturday'     => 'Staturday',  
+                                     'saturday'     => 'Saturday',  
                                      'sunday'     => 'Sunday',  
                                  );
                 
@@ -494,14 +494,17 @@
                                 <select multiple id="saswp_dayofweek" name="saswp_dayofweek[]">
                                 <?php
 
-                                  $selected_days = $business_details['saswp_dayofweek'];
-                                  
+                                  $selected_days = $business_details['saswp_dayofweek'];                                 
                                   foreach ($all_dayofweek_array as $key => $value) {
                                     $sel = '';
-                                    if(array_search($key, $selected_days)){
+                                    if(isset($selected_days)){
+                                     if(in_array($key, $selected_days)){
                                       $sel = 'selected';
-                                    }
-                                    echo "<option value='".esc_attr($key)."' ".esc_attr($sel).">".esc_html__($value, 'schema-and-structured-data-for-wp' )."</option>";
+                                    }                                    
+                                    echo "<option value='".esc_attr($key)."' ".esc_attr($sel).">".esc_html__($value, 'schema-and-structured-data-for-wp' )."</option>";   
+                                    }else{
+                                    echo "<option value='".esc_attr($key)."'>".esc_html__($value, 'schema-and-structured-data-for-wp' )."</option>";       
+                                    }                                    
                                   }
                                 ?>
                                </select>
