@@ -66,10 +66,14 @@
 			return ;
 		}
 		global $saswp_installer_config;
-                
-                 if( wp_verify_nonce($_GET['_saswp_nonce'], 'saswp_install_wizard_nonce')){
+                if(!isset($_GET['_saswp_nonce'])){
+                    return;
+                }else{
+                 $wp_nonce = $_GET['_saswp_nonce'];   
+                 if( wp_verify_nonce($wp_nonce, 'saswp_install_wizard_nonce')){
 			saswp_steps_call(); 		
-		}                                
+		}     
+                }                                              
 		
 	}
 

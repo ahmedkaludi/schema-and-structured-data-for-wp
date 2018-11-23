@@ -1007,21 +1007,21 @@ function saswp_frontend_enqueue(){
             width: 20px;
             height: 16px;
             background-repeat: no-repeat;
-            background-image: url(data:image/svg+xml;utf8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMTkuMC4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogNi4wMCBCdWlsZCAwKSAgLS0+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0iTGF5ZXJfMSIgeD0iMHB4IiB5PSIwcHgiIHZpZXdCb3g9IjAgMCA0ODIuMjA3IDQ4Mi4yMDciIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDQ4Mi4yMDcgNDgyLjIwNzsiIHhtbDpzcGFjZT0icHJlc2VydmUiIHdpZHRoPSIxNnB4IiBoZWlnaHQ9IjE2cHgiPgo8cGF0aCBkPSJNNDgyLjIwNywxODYuOTczbC0xNTkuNjk5LTMzLjcwNUwyNDEuMTA0LDExLjgwM2wtODEuNDA0LDE0MS40NjVMMCwxODYuOTczbDEwOS4zODgsMTIxLjEzNEw5Mi4wOTQsNDcwLjQwNGwxNDkuMDEtNjYuNiAgbDE0OS4wMSw2Ni42bC0xNy4yOTQtMTYyLjI5Nkw0ODIuMjA3LDE4Ni45NzN6IE0yNDEuMTA0LDM3MC45NDNWNzEuOTUzbDYyLjA5LDEwNy45TDQyNSwyMDUuNTYxbC04My40MzMsOTIuMzkzbDEzLjE5MSwxMjMuNzg4ICBMMjQxLjEwNCwzNzAuOTQzeiIgZmlsbD0iI2ZmZDcwMCIvPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8L3N2Zz4K);
+            background-image: url(<?php echo SASWP_DIR_URI.'/admin_section/images/half_star.png'; ?>);
         }
         .saswp-rvw-str .str-ic{
             display:inline-block;
             width: 20px;
             height: 16px;
             background-repeat: no-repeat;
-            background-image: url(data:image/svg+xml;utf8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMTkuMC4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogNi4wMCBCdWlsZCAwKSAgLS0+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0iTGF5ZXJfMSIgeD0iMHB4IiB5PSIwcHgiIHZpZXdCb3g9IjAgMCA0ODIuMjA3IDQ4Mi4yMDciIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDQ4Mi4yMDcgNDgyLjIwNzsiIHhtbDpzcGFjZT0icHJlc2VydmUiIHdpZHRoPSIxNnB4IiBoZWlnaHQ9IjE2cHgiPgo8cG9seWdvbiBwb2ludHM9IjQ4Mi4yMDcsMTg2Ljk3MyAzMjIuNTA4LDE1My4yNjkgMjQxLjEwNCwxMS44MDMgMTU5LjY5OSwxNTMuMjY5IDAsMTg2Ljk3MyAxMDkuMzg4LDMwOC4xMDggOTIuMDk0LDQ3MC40MDQgICAyNDEuMTA0LDQwMy44MDMgMzkwLjExMyw0NzAuNDA0IDM3Mi44MTgsMzA4LjEwOCAiIGZpbGw9IiNmZmQ3MDAiLz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPC9zdmc+Cg==);
+            background-image: url(<?php echo SASWP_DIR_URI.'/admin_section/images/full_star.png'; ?>);
         }
         .saswp-rvw-str .df-clr{
             display:inline-block;
             width: 20px;
             height: 16px;
             background-repeat: no-repeat;
-            background-image: url(data:image/svg+xml;utf8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMTkuMC4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogNi4wMCBCdWlsZCAwKSAgLS0+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0iTGF5ZXJfMSIgeD0iMHB4IiB5PSIwcHgiIHZpZXdCb3g9IjAgMCA0ODIuMjA3IDQ4Mi4yMDciIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDQ4Mi4yMDcgNDgyLjIwNzsiIHhtbDpzcGFjZT0icHJlc2VydmUiIHdpZHRoPSIxNnB4IiBoZWlnaHQ9IjE2cHgiPgo8cG9seWdvbiBwb2ludHM9IjQ4Mi4yMDcsMTg2Ljk3MyAzMjIuNTA4LDE1My4yNjkgMjQxLjEwNCwxMS44MDMgMTU5LjY5OSwxNTMuMjY5IDAsMTg2Ljk3MyAxMDkuMzg4LDMwOC4xMDggOTIuMDk0LDQ3MC40MDQgICAyNDEuMTA0LDQwMy44MDMgMzkwLjExMyw0NzAuNDA0IDM3Mi44MTgsMzA4LjEwOCAiIGZpbGw9IiM2MzVlNjMiLz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPC9zdmc+Cg==);
+            background-image: url(<?php echo SASWP_DIR_URI.'/admin_section/images/blank_star.png'; ?>);
         }
         @media(max-width:500px){
             .saswp-pc-wrap{

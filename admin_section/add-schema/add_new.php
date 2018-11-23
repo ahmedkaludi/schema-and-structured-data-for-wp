@@ -44,10 +44,15 @@ $saswp_add_data_type_config = array(
 		if(! current_user_can( 'manage_options' ) ) {
 			return ;
 		}
-                if( wp_verify_nonce($_GET['_wpnonce'], '_wpnonce')){
+                if(!isset($_GET['_wpnonce'])){
+                    return ;
+                }else{
+                 $wp_nonce = $_GET['_wpnonce'];    
+                 if( wp_verify_nonce($wp_nonce, '_wpnonce')){
 			saswp_add_new_steps_call(); 		
-		}
-		                
+		}   
+                }
+                		                
 	}
 
 	function saswp_add_new_steps_call(){
