@@ -163,7 +163,7 @@ function sd_is_blog() {
     return ( is_author() || is_category() || is_tag() || is_date() || is_home() || is_single() ) && 'post' == get_post_type();
 }
 
-function saswp_schema_output() {
+function saswp_schema_output() {        
 	global $sd_data;
 
 	$Conditionals = saswp_get_all_schema_posts();         
@@ -259,6 +259,9 @@ function saswp_schema_output() {
 				'name'			=> $sd_data['sd_name'],
 				),
 			);
+                        if(isset($sd_data['saswp_comments_schema']) && $sd_data['saswp_comments_schema'] ==1){
+                                    $input1['comment'] = saswp_get_comments(get_the_ID());
+                        }
 			// For WebPage
 			if( 'WebPage' === $schema_type){
                             
@@ -298,6 +301,9 @@ function saswp_schema_output() {
 					
 				
 				);
+                                if(isset($sd_data['saswp_comments_schema']) && $sd_data['saswp_comments_schema'] ==1){
+                                    $input1['comment'] = saswp_get_comments(get_the_ID());
+                                }
                                 if(!empty($aggregateRating)){
                                     $input1['mainEntity']['aggregateRating'] = $aggregateRating;
                                 }
@@ -332,6 +338,9 @@ function saswp_schema_output() {
 					),
                                     
 				);
+                                if(isset($sd_data['saswp_comments_schema']) && $sd_data['saswp_comments_schema'] ==1){
+                                    $input1['comment'] = saswp_get_comments(get_the_ID());
+                                }
 			}
 
 		// Recipe
@@ -376,6 +385,9 @@ function saswp_schema_output() {
 					),                                        					
 				
 				);
+                                if(isset($sd_data['saswp_comments_schema']) && $sd_data['saswp_comments_schema'] ==1){
+                                    $input1['comment'] = saswp_get_comments(get_the_ID());
+                                }
                                 if(!empty($aggregateRating)){
                                     $input1['aggregateRating'] = $aggregateRating;
                                 }
@@ -394,24 +406,37 @@ function saswp_schema_output() {
 				'url'				=> get_permalink(),
 				'name'                          => get_the_title(),
 				'description'                   => get_the_excerpt(),													
-				);
+				);                                
                                 if(!empty($aggregateRating)){
                                     $input1['aggregateRating'] = $aggregateRating;
                                 }
 			}
                         
-                        if( 'NewsArticle' === $schema_type ){                             
-						$input1 = array(
+                        if( 'NewsArticle' === $schema_type ){  
+                            $word_number =0;
+                            $text        = trim( strip_tags( get_the_content() ) );
+                            $word_number = substr_count( "$text ", ' ' );
+                            $category_detail=get_the_category(get_the_ID());//$post->ID
+                            $article_section = '';
+                            foreach($category_detail as $cd){
+                            $article_section =  $cd->cat_name;
+                            }
+                            
+				$input1 = array(
 					'@context'			=> 'http://schema.org',
-					'@type'				=> $schema_type ,					
-					'mainEntityOfPage'              => get_permalink(),
+					'@type'				=> $schema_type ,										
 					'url'				=> get_permalink(),
 					'headline'			=> get_the_title(),
+                                        'mainEntityOfPage'	        => get_the_permalink(),            
 					'datePublished'                 => $date,
 					'dateModified'                  => $modified_date,
 					'description'                   => get_the_excerpt(),
+                                        'articleSection'                => $article_section,            
+                                        'articleBody'                   => get_the_content(),            
 					'name'				=> get_the_title(), 					
 					'thumbnailUrl'                  => $image_details[0],
+                                        'wordCount'                     => $word_number,
+                                       // 'timeRequired'                  => $image_details[0],            
 					'mainEntity'                    => array(
                                                                             '@type' => 'WebPage',
                                                                             '@id'   => get_permalink(),
@@ -437,6 +462,11 @@ function saswp_schema_output() {
 							'name'				=> $sd_data['sd_name'],
 							),                                                     
 					);
+                                
+                                if(isset($sd_data['saswp_comments_schema']) && $sd_data['saswp_comments_schema'] ==1){
+                                    $input1['comment'] = saswp_get_comments(get_the_ID());
+                                }                
+                                                
                                 if(!empty($aggregateRating)){
                                     $input1['aggregateRating'] = $aggregateRating;
                                 }
@@ -486,6 +516,9 @@ function saswp_schema_output() {
 							),                                                    
                                                     
 						);
+                                                if(isset($sd_data['saswp_comments_schema']) && $sd_data['saswp_comments_schema'] ==1){
+                                                 $input1['comment'] = saswp_get_comments(get_the_ID());
+                                                }
                                                 if(!empty($aggregateRating)){
                                                        $input1['aggregateRating'] = $aggregateRating;
                                              }
@@ -532,7 +565,7 @@ function saswp_schema_output() {
                                                                  'closes'=> $business_details['local_closes_time'],
                                                                 ),
                                 
-				);
+				);                                    
                                     if(!empty($aggregateRating)){
                                     $input1['aggregateRating'] = $aggregateRating;
                                     }
@@ -1336,4 +1369,41 @@ function saswp_contact_page_output()
                          
 	}
 	
+}
+
+
+function saswp_get_comments($post_id){
+    
+        $comment_count = get_comments_number( $post_id );
+	if ( $comment_count < 1 ) {
+		return array();
+	}
+        $comments = array();
+        
+        $count	= apply_filters( 'saswp_do_comments', '10'); // default = 10
+        
+        $post_comments = get_comments( array( 
+                                            'post_id' => $post_id,
+                                            'number' => $count, 
+                                            'status' => 'approve',
+                                            'type' => 'comment' 
+                                        ) 
+                                    );
+        
+        if ( count( $post_comments ) ) {
+		foreach ( $post_comments as $comment ) {
+			$comments[] = array (
+					'@type' => 'Comment',
+					'dateCreated' => $comment->comment_date,
+					'description' => $comment->comment_content,
+					'author' => array (
+						'@type' => 'Person',
+						'name' => $comment->comment_author,
+						'url' => $comment->comment_author_url,
+				),
+			);
+		}
+		return apply_filters( 'saswp_filter_comments', $comments );
+	}
+        
 }

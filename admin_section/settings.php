@@ -348,7 +348,19 @@ function saswp_general_page_callback(){
                              'id' => 'saswp_breadcrumb_schema',
                              'name' => 'sd_data[saswp_breadcrumb_schema]',                             
                         )
-		))
+		),
+                array(
+			'label' => 'Comments',
+			'id' => 'saswp_comments_schema_checkbox', 
+                        'name' => 'saswp_comments_schema_checkbox',
+			'type' => 'checkbox',
+                        'class' => 'checkbox saswp-checkbox',                        
+                        'hidden' => array(
+                             'id' => 'saswp_comments_schema',
+                             'name' => 'sd_data[saswp_comments_schema]',                             
+                        )
+		)
+            )
         
         ?>
 <div class="saswp-settings-list">
@@ -738,13 +750,18 @@ function saswp_import_callback(){
         $message = '<p>'.esc_html__('This plugin\'s data already has been imported. Do you want to import again?. click on button above button.','schema-and-structured-data-for-wp').'</p>';
         $schema_message = '';
         $schema_pro_message = '';
+        $wp_seo_schema_message = '';
         $schema_plugin = saswp_check_data_imported_from('schema'); 
-        $schema_pro_plugin = saswp_check_data_imported_from('schema_pro'); 
+        $schema_pro_plugin = saswp_check_data_imported_from('schema_pro');
+        $wp_seo_schema_plugin = saswp_check_data_imported_from('wp_seo_schema');
 	if($schema_plugin->post_count !=0){
          $schema_message =$message;
         }
         if($schema_pro_plugin->post_count !=0){
          $schema_pro_message =$message;   
+        }
+        if($wp_seo_schema_plugin->post_count !=0){
+         $wp_seo_schema_message =$message;   
         }
         
 	 echo '<h2>'.esc_html__('Migration','schema-and-structured-data-for-wp').'</h2>';       	                  
@@ -758,6 +775,11 @@ function saswp_import_callback(){
                 <li><div class="saswp-tools-field-title"><div class="saswp-tooltip"><span class="saswp-tooltiptext"><?php echo esc_html__('All the settings and data you can import from this plugin when you click start importing','schema-and-structured-data-for-wp') ?></span><strong><?php echo esc_html__('Schema Pro','schema-and-structured-data-for-wp'); ?></strong></div><button data-id="schema_pro" class="button saswp-import-plugins"><?php echo esc_html__('Start Importing','schema-and-structured-data-for-wp'); ?></button>
                         <p class="saswp-imported-message"></p>
                         <?php echo $schema_pro_message; ?>    
+                    </div>
+                </li>
+                <li><div class="saswp-tools-field-title"><div class="saswp-tooltip"><span class="saswp-tooltiptext"><?php echo esc_html__('All the settings and data you can import from this plugin when you click start importing','schema-and-structured-data-for-wp') ?></span><strong><?php echo esc_html__('WP SEO Schema','schema-and-structured-data-for-wp'); ?></strong></div><button data-id="wp_seo_schema" class="button saswp-import-plugins"><?php echo esc_html__('Start Importing','schema-and-structured-data-for-wp'); ?></button>
+                        <p class="saswp-imported-message"></p>
+                        <?php echo $wp_seo_schema_message; ?>    
                     </div>
                 </li>
             </ul>                   

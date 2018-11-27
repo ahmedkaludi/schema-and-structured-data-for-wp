@@ -886,6 +886,11 @@ function saswp_import_plugin_data(){
                 if ( is_plugin_active('wp-schema-pro/wp-schema-pro.php')) {
                 $result = saswp_import_schema_pro_plugin_data();      
                 }                
+                break;
+            case 'wp_seo_schema':                
+                if ( is_plugin_active('wp-seo-structured-data-schema/wp-seo-structured-data-schema.php')) {
+                $result = saswp_import_wp_seo_schema_plugin_data();      
+                }                
                 break;    
 
             default:
