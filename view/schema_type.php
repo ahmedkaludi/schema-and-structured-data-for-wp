@@ -64,6 +64,7 @@
                                      'Article'     => 'Article',
                                      'Recipe'      => 'Recipe',
                                      'Product'     => 'Product',
+                                     'Service'     => 'Service',
                                      'VideoObject' => 'VideoObject',
                                      'local_business' => 'Local Business'
                                  );
@@ -519,6 +520,10 @@
                             <td><input id="saswp-dayofweek-closes-time" value="<?php if(isset($business_details['local_closes_time'])){echo esc_attr($business_details['local_closes_time']); } ?>" type="text" name="local_closes_time" ></td>
                         </tr>
                         <tr class="saswp-business-text-field-tr" <?php echo $style_business_type; ?>>
+                            <td><?php echo esc_html__('Price Range', 'schema-and-structured-data-for-wp' ); ?></td>
+                            <td><input  value="<?php if(isset($business_details['local_price_range'])){echo esc_attr($business_details['local_price_range']); } ?>" type="text" name="local_price_range" placeholder="<?php echo esc_html__('$10-$50 or $$$ ', 'schema-and-structured-data-for-wp' ); ?>" ></td>
+                        </tr>
+                        <tr class="saswp-service-text-field-tr" <?php echo $style_business_type; ?>>
                             <td><?php echo esc_html__('Price Range', 'schema-and-structured-data-for-wp' ); ?></td>
                             <td><input  value="<?php if(isset($business_details['local_price_range'])){echo esc_attr($business_details['local_price_range']); } ?>" type="text" name="local_price_range" placeholder="<?php echo esc_html__('$10-$50 or $$$ ', 'schema-and-structured-data-for-wp' ); ?>" ></td>
                         </tr>

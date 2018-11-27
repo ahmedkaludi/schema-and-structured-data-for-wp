@@ -471,6 +471,68 @@ function saswp_schema_output() {
                                     $input1['aggregateRating'] = $aggregateRating;
                                 }
 				}
+                        
+                        
+                        if( 'Service' === $schema_type ){  
+                                if(empty($image_details[0]) || $image_details[0] === NULL ){
+					$image_details[0] = $sd_data['sd_logo']['url'];
+				}
+                            
+				$input1 = array(
+					'@context'			=> 'http://schema.org',
+					'@type'				=> $schema_type ,
+                                        'name'				=> get_the_title(), 
+					'serviceType'                   => 'Weekly home cleaning',
+					'provider'                      => array(
+                                                                        '@type' => 'LocalBusiness',
+                                                                        'name'  => 'CME Home Cleaning',
+                                                                        'image' => 'https://www.masaztantrycznywarszawa.pl/wp-content/uploads/2017/04/kama-marma.jpg',
+                                                                        '@id'   => get_permalink(),
+                                                                        'address' => array(
+                                                                            '@type' => 'PostalAddress',
+                                                                            'addressLocality' => 'Warsaw',
+                                                                            'postalCode'      =>'00-712',  
+                                                                            'telephone'       => '+48730486823'
+                                                                        ),
+                                                                        'priceRange'         => '$$$',                                                                        
+                                                                        ),                                        										                                                                     
+					'description'                   => get_the_excerpt(),
+                                        
+                                        'areaServed'                  => array(
+                                                                         array(
+                                                                             '@type' => 'City',
+                                                                             'name'  => 'Delhi'
+                                                                         ),
+                                                                         array(
+                                                                             '@type' => 'City',
+                                                                             'name'  => 'Hyderabad'
+                                                                         ),
+                                                                        ),
+                                        'hasOfferCatalog'             => array(
+                                                        '@type' => 'OfferCatalog',
+                                                        'name'  => 'Cleaning services',
+                                                        'itemListElement' => array(
+                                                                array(
+                                                                    '@type' => 'Offer',
+                                                                    'name'  => 'Apartment light cleaning'
+                                                                ),
+                                                                array(
+                                                                    '@type' => 'Offer',
+                                                                    'name'  => 'House light cleaning up to 2 bedrooms'
+                                                                ),
+                                                                array(
+                                                                    '@type' => 'Offer',
+                                                                    'name'  => 'Carpet cleaning'
+                                                                ),
+                                            ),
+                                        ),                                
+                                    										                                                    
+					);                                                                               
+                                                
+                                if(!empty($aggregateRating)){
+                                    $input1['aggregateRating'] = $aggregateRating;
+                                }
+				}        
 
 			// VideoObject
 			if( 'VideoObject' === $schema_type){

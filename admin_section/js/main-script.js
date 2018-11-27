@@ -39,7 +39,10 @@ jQuery(document).ready(function($){
              $(".saswp-option-table-class tr").find('select').attr('disabled', false);
              $("#saswp_dayofweek").attr('disabled', false);
              $('.select-post-type').val('show_globally').trigger('change');             
-             }            
+             }
+             if(schematype == 'Service'){            
+             $(".saswp-service-text-field-tr").show();                                          
+             }
         }); 
         
         $("#saswp_business_type").change(function(){
