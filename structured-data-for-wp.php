@@ -39,7 +39,8 @@ if ( ! function_exists('saswp_non_amp') ){
     $non_amp = true;
     if(function_exists('ampforwp_is_amp_endpoint') && ampforwp_is_amp_endpoint() ) {
       $non_amp = false;
-    }
+       
+    }      
     return $non_amp;
   }
 }

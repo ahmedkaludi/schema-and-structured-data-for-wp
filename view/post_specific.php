@@ -1149,6 +1149,78 @@ class saswp_post_specific {
                     );
                     break;
                 
+                case 'Service':
+                    $service_schema_details = esc_sql ( get_post_meta($schema_id, 'saswp_service_schema_details', true)  );
+                    $meta_field = array(
+                    array(
+                            'label' => 'Name',
+                            'id' => 'saswp_service_schema_name_'.$schema_id,
+                            'type' => 'text',
+                            'default' => $service_schema_details['saswp_service_schema_name']
+                    ),
+                    array(
+                            'label' => 'Service Type',
+                            'id' => 'saswp_service_schema_type_'.$schema_id,
+                            'type' => 'text',
+                            'default' => $service_schema_details['saswp_service_schema_type']
+                    ),
+                    array(
+                            'label' => 'Provider Name',
+                            'id' => 'saswp_service_schema_provider_name_'.$schema_id,
+                            'type' => 'text',
+                            'default' => $service_schema_details['saswp_service_schema_provider_name']
+                    ), 
+                    array(
+                            'label' => 'Image',
+                            'id' => 'saswp_service_schema_image_'.$schema_id,
+                            'type' => 'media',
+                            'default' => $service_schema_details['saswp_service_schema_image']['url']
+                    ),
+                    array(
+                            'label' => 'Locality',
+                            'id' => 'saswp_service_schema_locality_'.$schema_id,
+                            'type' => 'text',
+                            'default' => $service_schema_details['saswp_service_schema_locality']
+                    ),
+                    array(
+                            'label' => 'Postal Code',
+                            'id' => 'saswp_service_schema_postal_code_'.$schema_id,
+                            'type' => 'text',
+                            'default' => $service_schema_details['saswp_service_schema_postal_code']
+                    ),
+                    array(
+                            'label' => 'Telephone',
+                            'id' => 'saswp_service_schema_telephone_'.$schema_id,
+                            'type' => 'text',
+                            'default' => $service_schema_details['saswp_service_schema_telephone']
+                    ),
+                    array(
+                            'label' => 'Price Range',
+                            'id' => 'saswp_service_schema_price_range_'.$schema_id,
+                            'type' => 'text',
+                            'default' => $service_schema_details['saswp_service_schema_price_range']
+                    ),
+                    array(
+                            'label' => 'Description',
+                            'id' => 'saswp_service_schema_description_'.$schema_id,
+                            'type' => 'textarea',
+                            'default' => $service_schema_details['saswp_service_schema_description']
+                    ),
+                    array(
+                            'label' => 'Area Served',
+                            'id' => 'saswp_service_schema_area_served_'.$schema_id,
+                            'type' => 'textarea',
+                            'default' => $service_schema_details['saswp_service_schema_area_served']
+                    ),
+                    array(
+                            'label' => 'Service Offer',
+                            'id' => 'saswp_service_schema_service_offer_'.$schema_id,
+                            'type' => 'textarea',
+                            'default' => $service_schema_details['saswp_service_schema_service_offer']
+                    ),    
+                    );
+                    break;
+                
                 case 'VideoObject':
                     $meta_field = array(
                     array(

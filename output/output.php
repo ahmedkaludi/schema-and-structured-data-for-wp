@@ -2,10 +2,7 @@
 if (! defined('ABSPATH') ) exit;
 
 function saswp_kb_schema_output() {
-	global $sd_data;        
-	if( (!saswp_non_amp() && $sd_data['saswp-for-amp']!=1) || (saswp_non_amp() && $sd_data['saswp-for-wordpress']!=1) ) {
-		return ;
-	}
+	global $sd_data;        	
 	// social profile
 	$sd_social_profile = array();
 
@@ -170,10 +167,7 @@ function saswp_schema_output() {
         
 	if(!$Conditionals){
 		return ;
-	}
-	if( (!saswp_non_amp() && $sd_data['saswp-for-amp']!=1) || (saswp_non_amp() && $sd_data['saswp-for-wordpress']!=1) ) {
-		return ;
-	}        
+	}	        
         $all_schema_output = array();
         foreach($Conditionals as $schemaConditionals){
            
@@ -206,6 +200,7 @@ function saswp_schema_output() {
                         
                         $saswp_review_details = esc_sql ( get_post_meta(get_the_ID(), 'saswp_review_details', true)); 
                         $aggregateRating = array();
+                        $kkstar_aggregateRating = array();
                          
                         if(isset($saswp_review_details['saswp-review-item-over-all'])){
                         $saswp_over_all_rating = $saswp_review_details['saswp-review-item-over-all'];    
@@ -223,6 +218,16 @@ function saswp_schema_output() {
                                                             "ratingValue" => $saswp_over_all_rating,
                                                             "reviewCount" => $saswp_review_count
                                                          ); 
+                        }
+                        
+                        $kkstar_rating_data = saswp_extract_kk_star_ratings(get_the_ID());
+                        if(isset($kkstar_rating_data)){
+                            $kkstar_aggregateRating =       array(
+                                                            "@type"=> "AggregateRating",
+                                                            "bestRating" => $kkstar_rating_data['best'],
+                                                            "ratingCount" => $kkstar_rating_data['votes'],
+                                                            "ratingValue" => $kkstar_rating_data['avg']
+                                                         );     
                         }
                                                                                                                                                                                                    			
 			if(is_page()){
@@ -259,6 +264,13 @@ function saswp_schema_output() {
 				'name'			=> $sd_data['sd_name'],
 				),
 			);
+                                if(!empty($aggregateRating)){
+                                    $input1['aggregateRating'] = $aggregateRating;
+                                }
+                                if(!empty($kkstar_aggregateRating)){
+                                   $input1['aggregateRating'] = $kkstar_aggregateRating;  
+                                }
+                                                        
                         if(isset($sd_data['saswp_comments_schema']) && $sd_data['saswp_comments_schema'] ==1){
                                     $input1['comment'] = saswp_get_comments(get_the_ID());
                         }
@@ -303,9 +315,12 @@ function saswp_schema_output() {
 				);
                                 if(isset($sd_data['saswp_comments_schema']) && $sd_data['saswp_comments_schema'] ==1){
                                     $input1['comment'] = saswp_get_comments(get_the_ID());
-                                }
+                                }                                
                                 if(!empty($aggregateRating)){
                                     $input1['mainEntity']['aggregateRating'] = $aggregateRating;
+                                }
+                                if(!empty($kkstar_aggregateRating)){
+                                   $input1['mainEntity']['aggregateRating'] = $kkstar_aggregateRating;  
                                 }
 			}
 
@@ -387,9 +402,12 @@ function saswp_schema_output() {
 				);
                                 if(isset($sd_data['saswp_comments_schema']) && $sd_data['saswp_comments_schema'] ==1){
                                     $input1['comment'] = saswp_get_comments(get_the_ID());
-                                }
+                                }                                 
                                 if(!empty($aggregateRating)){
                                     $input1['aggregateRating'] = $aggregateRating;
+                                }
+                                if(!empty($kkstar_aggregateRating)){
+                                   $input1['aggregateRating'] = $kkstar_aggregateRating;  
                                 }
 			}
 
@@ -406,9 +424,12 @@ function saswp_schema_output() {
 				'url'				=> get_permalink(),
 				'name'                          => get_the_title(),
 				'description'                   => get_the_excerpt(),													
-				);                                
+				);                                  
                                 if(!empty($aggregateRating)){
                                     $input1['aggregateRating'] = $aggregateRating;
+                                }
+                                if(!empty($kkstar_aggregateRating)){
+                                   $input1['aggregateRating'] = $kkstar_aggregateRating;  
                                 }
 			}
                         
@@ -466,71 +487,72 @@ function saswp_schema_output() {
                                 if(isset($sd_data['saswp_comments_schema']) && $sd_data['saswp_comments_schema'] ==1){
                                     $input1['comment'] = saswp_get_comments(get_the_ID());
                                 }                
-                                                
+                                                                
                                 if(!empty($aggregateRating)){
                                     $input1['aggregateRating'] = $aggregateRating;
+                                }
+                                if(!empty($kkstar_aggregateRating)){
+                                   $input1['aggregateRating'] = $kkstar_aggregateRating;  
                                 }
 				}
                         
                         
                         if( 'Service' === $schema_type ){  
-                                if(empty($image_details[0]) || $image_details[0] === NULL ){
-					$image_details[0] = $sd_data['sd_logo']['url'];
-				}
-                            
+                                 
+                                $schema_data = saswp_get_schema_data($schema_post_id, 'saswp_service_schema_details');                                
+                                
+                                $area_served_str = $schema_data['saswp_service_schema_area_served'];
+                                $area_served_arr = explode(',', $area_served_str);
+                                                                
+                                $service_offer_str = $schema_data['saswp_service_schema_service_offer'];
+                                $service_offer_arr = explode(',', $service_offer_str);
+                                
 				$input1 = array(
 					'@context'			=> 'http://schema.org',
 					'@type'				=> $schema_type ,
-                                        'name'				=> get_the_title(), 
-					'serviceType'                   => 'Weekly home cleaning',
+                                        'name'				=> $schema_data['saswp_service_schema_name'], 
+					'serviceType'                   => $schema_data['saswp_service_schema_type'],
 					'provider'                      => array(
                                                                         '@type' => 'LocalBusiness',
-                                                                        'name'  => 'CME Home Cleaning',
-                                                                        'image' => 'https://www.masaztantrycznywarszawa.pl/wp-content/uploads/2017/04/kama-marma.jpg',
+                                                                        'name'  => $schema_data['saswp_service_schema_provider_name'],
+                                                                        'image' => $schema_data['saswp_service_schema_image']['url'],
                                                                         '@id'   => get_permalink(),
                                                                         'address' => array(
                                                                             '@type' => 'PostalAddress',
-                                                                            'addressLocality' => 'Warsaw',
-                                                                            'postalCode'      =>'00-712',  
-                                                                            'telephone'       => '+48730486823'
+                                                                            'addressLocality' => $schema_data['saswp_service_schema_locality'],
+                                                                            'postalCode'      => $schema_data['saswp_service_schema_postal_code'],  
+                                                                            'telephone'       => $schema_data['saswp_service_schema_telephone']
                                                                         ),
-                                                                        'priceRange'         => '$$$',                                                                        
+                                                                        'priceRange'         => $schema_data['saswp_service_schema_price_range'],                                                                        
                                                                         ),                                        										                                                                     
-					'description'                   => get_the_excerpt(),
-                                        
-                                        'areaServed'                  => array(
-                                                                         array(
-                                                                             '@type' => 'City',
-                                                                             'name'  => 'Delhi'
-                                                                         ),
-                                                                         array(
-                                                                             '@type' => 'City',
-                                                                             'name'  => 'Hyderabad'
-                                                                         ),
-                                                                        ),
-                                        'hasOfferCatalog'             => array(
-                                                        '@type' => 'OfferCatalog',
-                                                        'name'  => 'Cleaning services',
-                                                        'itemListElement' => array(
-                                                                array(
-                                                                    '@type' => 'Offer',
-                                                                    'name'  => 'Apartment light cleaning'
-                                                                ),
-                                                                array(
-                                                                    '@type' => 'Offer',
-                                                                    'name'  => 'House light cleaning up to 2 bedrooms'
-                                                                ),
-                                                                array(
-                                                                    '@type' => 'Offer',
-                                                                    'name'  => 'Carpet cleaning'
-                                                                ),
-                                            ),
-                                        ),                                
-                                    										                                                    
-					);                                                                               
-                                                
+					'description'                   => $schema_data['saswp_service_schema_description'],
+                                        ); 
+                                        $areaServed = array();
+                                        foreach($area_served_arr as $area){
+                                            $areaServed[] = array(
+                                                '@type' => 'City',
+                                                'name'  => $area
+                                            );
+                                        }
+                                        $serviceOffer = array();
+                                        foreach($service_offer_arr as $offer){
+                                            $serviceOffer[] = array(
+                                                '@type' => 'Offer',
+                                                'name'  => $offer
+                                            );
+                                        }
+                                       $input1['areaServed'] = $areaServed;
+                                       $input1['hasOfferCatalog'] = array(
+                                           '@type' => 'OfferCatalog',
+                                            'name'  => $schema_data['saswp_service_schema_name'],
+                                            'itemListElement' => $serviceOffer
+                                       );
+                                                                       
                                 if(!empty($aggregateRating)){
                                     $input1['aggregateRating'] = $aggregateRating;
+                                }
+                                if(!empty($kkstar_aggregateRating)){
+                                   $input1['aggregateRating'] = $kkstar_aggregateRating;  
                                 }
 				}        
 
@@ -580,10 +602,13 @@ function saswp_schema_output() {
 						);
                                                 if(isset($sd_data['saswp_comments_schema']) && $sd_data['saswp_comments_schema'] ==1){
                                                  $input1['comment'] = saswp_get_comments(get_the_ID());
-                                                }
+                                                }                                                
                                                 if(!empty($aggregateRating)){
                                                        $input1['aggregateRating'] = $aggregateRating;
-                                             }
+                                               }
+                                               if(!empty($kkstar_aggregateRating)){
+                                                 $input1['aggregateRating'] = $kkstar_aggregateRating;  
+                                                }
 					
 				}
                         
@@ -627,11 +652,13 @@ function saswp_schema_output() {
                                                                  'closes'=> $business_details['local_closes_time'],
                                                                 ),
                                 
-				);                                    
+				);                                       
                                     if(!empty($aggregateRating)){
                                     $input1['aggregateRating'] = $aggregateRating;
                                     }
-                                
+                                    if(!empty($kkstar_aggregateRating)){
+                                    $input1['aggregateRating'] = $kkstar_aggregateRating;  
+                                    }                                
                                     if(isset($business_details['local_price_range'])){
                                       $input1['priceRange'] = $business_details['local_price_range'];   
                                     }
@@ -741,6 +768,15 @@ function saswp_post_specific_schema_output() {
                                                             "reviewCount" => $saswp_review_count
                                                          ); 
                         }
+                        $kkstar_rating_data = saswp_extract_kk_star_ratings(get_the_ID());
+                        if(isset($kkstar_rating_data)){
+                            $kkstar_aggregateRating =       array(
+                                                            "@type"=> "AggregateRating",
+                                                            "bestRating" => $kkstar_rating_data['best'],
+                                                            "ratingCount" => $kkstar_rating_data['votes'],
+                                                            "ratingValue" => $kkstar_rating_data['avg']
+                                                         );     
+                        }
             
                          if( 'Blogposting' === $schema_type){
                     // Blogposting Schema 									
@@ -769,6 +805,12 @@ function saswp_post_specific_schema_output() {
 				'name'			=> $all_post_meta['saswp_blogposting_organization_name_'.$schema_id][0],
 				),
 			);
+                               if(!empty($aggregateRating)){
+                                    $input1['aggregateRating'] = $aggregateRating;
+                                }
+                                if(!empty($kkstar_aggregateRating)){
+                                   $input1['aggregateRating'] = $kkstar_aggregateRating;  
+                                }
                      }
 			
 			 if( 'WebPage' === $schema_type){
@@ -807,6 +849,9 @@ function saswp_post_specific_schema_output() {
                                 if(!empty($aggregateRating)){
                                     $input1['mainEntity']['aggregateRating'] = $aggregateRating;
                                 }
+                                if(!empty($kkstar_aggregateRating)){
+                                   $input1['mainEntity']['aggregateRating'] = $kkstar_aggregateRating;  
+                                }                               
 			}
 			
 			 if( 'Article' === $schema_type ){
@@ -877,6 +922,9 @@ function saswp_post_specific_schema_output() {
                                 if(!empty($aggregateRating)){
                                     $input1['aggregateRating'] = $aggregateRating;
                                 }
+                                if(!empty($kkstar_aggregateRating)){
+                                   $input1['aggregateRating'] = $kkstar_aggregateRating;  
+                                } 
 			}
 						
 			 if( 'Product' === $schema_type){
@@ -891,6 +939,9 @@ function saswp_post_specific_schema_output() {
 				);
                                 if(!empty($aggregateRating)){
                                     $input1['aggregateRating'] = $aggregateRating;
+                                }
+                                if(!empty($kkstar_aggregateRating)){
+                                   $input1['aggregateRating'] = $kkstar_aggregateRating;  
                                 }
 			}
                         
@@ -932,7 +983,10 @@ function saswp_post_specific_schema_output() {
 							),
 					);
                                                 if(!empty($aggregateRating)){
-                                                    $input1['aggregateRating'] = $aggregateRating;
+                                                $input1['aggregateRating'] = $aggregateRating;
+                                                }
+                                                if(!empty($kkstar_aggregateRating)){
+                                                   $input1['aggregateRating'] = $kkstar_aggregateRating;  
                                                 }
 				}
 			
@@ -975,11 +1029,70 @@ function saswp_post_specific_schema_output() {
 							),
 						);
                                                 if(!empty($aggregateRating)){
-                                                   $input1['aggregateRating'] = $aggregateRating;
-                                                }    
+                                                    $input1['aggregateRating'] = $aggregateRating;
+                                                }
+                                                if(!empty($kkstar_aggregateRating)){
+                                                   $input1['aggregateRating'] = $kkstar_aggregateRating;  
+                                                }   
 					
 				}
                         
+                         if( 'Service' === $schema_type ){                                                   
+                                $area_served_str = $all_post_meta['saswp_service_schema_area_served_'.$schema_id][0];
+                                $area_served_arr = explode(',', $area_served_str);
+                                                                
+                                $service_offer_str = $all_post_meta['saswp_service_schema_service_offer_'.$schema_id][0];
+                                $service_offer_arr = explode(',', $service_offer_str);
+                                
+				$input1 = array(
+					'@context'			=> 'http://schema.org',
+					'@type'				=> $schema_type ,
+                                        'name'				=> $all_post_meta['saswp_service_schema_name_'.$schema_id][0], 
+					'serviceType'                   => $all_post_meta['saswp_service_schema_type_'.$schema_id][0],
+					'provider'                      => array(
+                                                                        '@type' => 'LocalBusiness',
+                                                                        'name'  => $all_post_meta['saswp_service_schema_provider_name_'.$schema_id][0],
+                                                                        'image' => $all_post_meta['saswp_service_schema_image_'.$schema_id][0],
+                                                                        '@id'   => get_permalink(),
+                                                                        'address' => array(
+                                                                            '@type' => 'PostalAddress',
+                                                                            'addressLocality' => $all_post_meta['saswp_service_schema_locality_'.$schema_id][0],
+                                                                            'postalCode'      => $all_post_meta['saswp_service_schema_postal_code_'.$schema_id][0],  
+                                                                            'telephone'       => $all_post_meta['saswp_service_schema_telephone_'.$schema_id][0]
+                                                                        ),
+                                                                        'priceRange'         => $all_post_meta['saswp_service_schema_price_range_'.$schema_id][0],                                                                        
+                                                                        ),                                        										                                                                     
+					'description'                   => $all_post_meta['saswp_service_schema_description_'.$schema_id][0],
+                                        ); 
+                                        $areaServed = array();
+                                        foreach($area_served_arr as $area){
+                                            $areaServed[] = array(
+                                                '@type' => 'City',
+                                                'name'  => $area
+                                            );
+                                        }
+                                        $serviceOffer = array();
+                                        foreach($service_offer_arr as $offer){
+                                            $serviceOffer[] = array(
+                                                '@type' => 'Offer',
+                                                'name'  => $offer
+                                            );
+                                        }
+                                       $input1['areaServed'] = $areaServed;
+                                       $input1['hasOfferCatalog'] = array(
+                                           '@type' => 'OfferCatalog',
+                                            'name'  => $schema_data['saswp_service_schema_name'],
+                                            'itemListElement' => $serviceOffer
+                                       );
+                                    										                                                    					                                                                                                                               
+                                if(!empty($aggregateRating)){
+                                    $input1['aggregateRating'] = $aggregateRating;
+                                }
+                                if(!empty($kkstar_aggregateRating)){
+                                   $input1['aggregateRating'] = $kkstar_aggregateRating;  
+                                }
+                         }       
+                                
                          if( 'local_business' === $schema_type){
                             
                                 $business_sub_name ='';
@@ -1018,6 +1131,9 @@ function saswp_post_specific_schema_output() {
                                     
                                     if(!empty($aggregateRating)){
                                     $input1['aggregateRating'] = $aggregateRating;
+                                    }
+                                    if(!empty($kkstar_aggregateRating)){
+                                       $input1['aggregateRating'] = $kkstar_aggregateRating;  
                                     }
                                     if(isset($all_post_meta['local_price_range_'.$schema_id][0])){
                                       $input1['priceRange'] = $all_post_meta['local_price_range_'.$schema_id][0];   
@@ -1151,11 +1267,7 @@ function saswp_list_items_generator(){
 }
 
 function saswp_schema_breadcrumb_output($sd_data){
-	global $sd_data;
-        
-	if( (!saswp_non_amp() && $sd_data['saswp-for-amp']!=1) || (saswp_non_amp() && $sd_data['saswp-for-wordpress']!=1) ) {
-		return ;
-	}
+	global $sd_data;        
         
 	if(isset($sd_data['saswp_breadcrumb_schema']) && $sd_data['saswp_breadcrumb_schema'] == 1){
 				       				
@@ -1176,10 +1288,7 @@ function saswp_schema_breadcrumb_output($sd_data){
 }
 
 function saswp_kb_website_output(){
-	global $sd_data;
-	if( (!saswp_non_amp() && $sd_data['saswp-for-amp']!=1) || (saswp_non_amp() && $sd_data['saswp-for-wordpress']!=1) ) {
-		return ;
-	}
+	global $sd_data;	
 		$site_url = get_site_url();
 		$site_name = get_bloginfo();
 		$input = array(
@@ -1200,9 +1309,7 @@ function saswp_kb_website_output(){
 // For Archive 
 function saswp_archive_output(){
 	global $query_string, $sd_data;
-	if( (!saswp_non_amp() && $sd_data['saswp-for-amp']!=1) || (saswp_non_amp() && $sd_data['saswp-for-wordpress']!=1) ) {
-		return ;
-	}
+	
 	if(isset($sd_data['saswp_archive_schema']) && $sd_data['saswp_archive_schema'] == 1){
 					
 	if ( is_category() ) {
@@ -1469,3 +1576,22 @@ function saswp_get_comments($post_id){
 	}
         
 }
+
+function saswp_get_schema_data($schema_id, $schema_key){
+    $details = array();
+    if($schema_id && $schema_key){
+     $details = esc_sql ( get_post_meta($schema_id, $schema_key, true));    
+    }  
+    return $details;
+}
+
+function saswp_extract_kk_star_ratings($id)
+        {
+            $best = get_option('kksr_stars');
+            $score = get_post_meta($id, '_kksr_ratings', true) ? ((int) get_post_meta($id, '_kksr_ratings', true)) : 0;
+            $votes = get_post_meta($id, '_kksr_casts', true) ? ((int) get_post_meta($id, '_kksr_casts', true)) : 0;
+            $avg = $score && $votes ? round((float)(($score/$votes)*($best/5)), 1) : 0;
+            $per = $score && $votes ? round((float)((($score/$votes)/5)*100), 2) : 0;
+
+            return compact('best', 'score', 'votes', 'avg', 'per');
+       }

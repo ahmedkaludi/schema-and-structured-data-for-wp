@@ -60,7 +60,10 @@ jQuery(document).ready(function($){
             $(".saswp-business-text-field-tr").show(); 
             $(".saswp-"+businesstype+'-tr').find('select').attr('disabled', false); 
             $("#saswp_dayofweek").attr('disabled', false);
-            }            
+            } 
+             if(schematype == 'Service'){            
+             $(".saswp-service-text-field-tr").show();                                          
+             }
             
         }).change(); 
         
