@@ -948,14 +948,17 @@ function saswp_compatibility_page_callback(){
 			'type' => 'checkbox',
                         'class' => 'checkbox saswp-checkbox',
                         'hidden' => array(
-                             'id' => 'saswp-kk-star-raring-module',
-                             'name' => 'sd_data[saswp-kk-star-raring-module]',                             
+                             'id' => 'saswp-kk-star-raring',
+                             'name' => 'sd_data[saswp-kk-star-raring]',                             
                         )
 		),  
                 
 	);
         //echo '<h2>'.esc_html__('Set Up','schema-and-structured-data-for-wp').'</h2>';
-        $field_objs->saswp_field_generator($meta_fields, $settings);    
+        if(is_plugin_active('kk-star-ratings/index.php')){
+          $field_objs->saswp_field_generator($meta_fields, $settings);      
+        }
+        
        
 }
 

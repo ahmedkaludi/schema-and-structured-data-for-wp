@@ -220,8 +220,8 @@ function saswp_schema_output() {
                                                          ); 
                         }
                         
-                        $kkstar_rating_data = saswp_extract_kk_star_ratings(get_the_ID());
-                        if(isset($kkstar_rating_data)){
+                        $kkstar_rating_data = saswp_extract_kk_star_ratings(get_the_ID());                        
+                        if(!empty($kkstar_rating_data)){
                             $kkstar_aggregateRating =       array(
                                                             "@type"=> "AggregateRating",
                                                             "bestRating" => $kkstar_rating_data['best'],
@@ -768,8 +768,8 @@ function saswp_post_specific_schema_output() {
                                                             "reviewCount" => $saswp_review_count
                                                          ); 
                         }
-                        $kkstar_rating_data = saswp_extract_kk_star_ratings(get_the_ID());
-                        if(isset($kkstar_rating_data)){
+                        $kkstar_rating_data = saswp_extract_kk_star_ratings(get_the_ID());                       
+                        if(!empty($kkstar_rating_data)){
                             $kkstar_aggregateRating =       array(
                                                             "@type"=> "AggregateRating",
                                                             "bestRating" => $kkstar_rating_data['best'],
@@ -1587,11 +1587,18 @@ function saswp_get_schema_data($schema_id, $schema_key){
 
 function saswp_extract_kk_star_ratings($id)
         {
-            $best = get_option('kksr_stars');
-            $score = get_post_meta($id, '_kksr_ratings', true) ? ((int) get_post_meta($id, '_kksr_ratings', true)) : 0;
-            $votes = get_post_meta($id, '_kksr_casts', true) ? ((int) get_post_meta($id, '_kksr_casts', true)) : 0;
-            $avg = $score && $votes ? round((float)(($score/$votes)*($best/5)), 1) : 0;
-            $per = $score && $votes ? round((float)((($score/$votes)/5)*100), 2) : 0;
+            global $sd_data;    
+            
+            if(isset($sd_data['saswp-kk-star-raring']) && $sd_data['saswp-kk-star-raring'] ==1){
+               
+                $best = get_option('kksr_stars');
+                $score = get_post_meta($id, '_kksr_ratings', true) ? ((int) get_post_meta($id, '_kksr_ratings', true)) : 0;
+                $votes = get_post_meta($id, '_kksr_casts', true) ? ((int) get_post_meta($id, '_kksr_casts', true)) : 0;
+                $avg = $score && $votes ? round((float)(($score/$votes)*($best/5)), 1) : 0;
+                $per = $score && $votes ? round((float)((($score/$votes)/5)*100), 2) : 0;
 
-            return compact('best', 'score', 'votes', 'avg', 'per');
+                return compact('best', 'score', 'votes', 'avg', 'per');
+            }else{
+                return array();
+            }                        
        }

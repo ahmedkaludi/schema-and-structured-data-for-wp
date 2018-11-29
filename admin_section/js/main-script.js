@@ -243,6 +243,15 @@ jQuery(document).ready(function($){
                             }
                       break;
                       
+                      case 'saswp-kk-star-raring-checkbox':
+                          
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-kk-star-raring").val(1);             
+                            }else{
+                              $("#saswp-kk-star-raring").val(0);           
+                            }
+                      break;
+                      
                       default:
                           break;
                   }
