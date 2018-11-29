@@ -953,10 +953,11 @@ function saswp_compatibility_page_callback(){
                         )
 		),  
                 
-	);
-        //echo '<h2>'.esc_html__('Set Up','schema-and-structured-data-for-wp').'</h2>';
+	);        
         if(is_plugin_active('kk-star-ratings/index.php')){
           $field_objs->saswp_field_generator($meta_fields, $settings);      
+        }else{
+            echo '<p>'.esc_html__('None of the plugin is active which has compatibility with Schema & Structured Data For WP', 'schema-and-structured-data-for-wp').'</p>';
         }
         
        

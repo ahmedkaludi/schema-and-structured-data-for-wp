@@ -433,16 +433,13 @@ function saswp_schema_output() {
                                 }
 			}
                         
-                        if( 'NewsArticle' === $schema_type ){  
-                            $word_number =0;
-                            $text        = trim( strip_tags( get_the_content() ) );
-                            $word_number = substr_count( "$text ", ' ' );
+                        if( 'NewsArticle' === $schema_type ){                              
                             $category_detail=get_the_category(get_the_ID());//$post->ID
                             $article_section = '';
                             foreach($category_detail as $cd){
                             $article_section =  $cd->cat_name;
                             }
-                            
+                            $word_count = saswp_reading_time_and_word_count();
 				$input1 = array(
 					'@context'			=> 'http://schema.org',
 					'@type'				=> $schema_type ,										
@@ -456,8 +453,8 @@ function saswp_schema_output() {
                                         'articleBody'                   => get_the_content(),            
 					'name'				=> get_the_title(), 					
 					'thumbnailUrl'                  => $image_details[0],
-                                        'wordCount'                     => $word_number,
-                                       // 'timeRequired'                  => $image_details[0],            
+                                        'wordCount'                     => $word_count['word_count'],
+                                        'timeRequired'                  => $word_count['timerequired'],            
 					'mainEntity'                    => array(
                                                                             '@type' => 'WebPage',
                                                                             '@id'   => get_permalink(),
@@ -946,7 +943,8 @@ function saswp_post_specific_schema_output() {
 			}
                         
                          if( 'NewsArticle' === $schema_type ){  
-						$input1 = array(
+                             
+				        $input1 = array(
 					'@context'			=> 'http://schema.org',
 					'@type'				=> $schema_type ,					
 					'mainEntityOfPage'              => $all_post_meta['saswp_newsarticle_main_entity_of_page_'.$schema_id][0],
@@ -955,8 +953,12 @@ function saswp_post_specific_schema_output() {
 					'datePublished'                 => $all_post_meta['saswp_newsarticle_date_published_'.$schema_id][0],
 					'dateModified'                  => $all_post_meta['saswp_newsarticle_date_modified_'.$schema_id][0],
 					'description'                   => $all_post_meta['saswp_newsarticle_description_'.$schema_id][0],
+                                        'articleSection'                => $all_post_meta['saswp_newsarticle_section_'.$schema_id][0],
+                                        'articleBody'                   => $all_post_meta['saswp_newsarticle_body_'.$schema_id][0],     
 					'name'				=> $all_post_meta['saswp_newsarticle_name_'.$schema_id][0], 					
 					'thumbnailUrl'                  => $all_post_meta['saswp_newsarticle_thumbnailurl_'.$schema_id][0],
+                                        'wordCount'                     => $all_post_meta['saswp_newsarticle_word_count_'.$schema_id][0],
+                                        'timeRequired'                  => $all_post_meta['saswp_newsarticle_timerequired_'.$schema_id][0],    
 					'mainEntity'                    => array(
                                                                             '@type' => 'WebPage',
                                                                             '@id'   => $all_post_meta['saswp_newsarticle_main_entity_id_'.$schema_id][0],
@@ -1595,10 +1597,31 @@ function saswp_extract_kk_star_ratings($id)
                 $score = get_post_meta($id, '_kksr_ratings', true) ? ((int) get_post_meta($id, '_kksr_ratings', true)) : 0;
                 $votes = get_post_meta($id, '_kksr_casts', true) ? ((int) get_post_meta($id, '_kksr_casts', true)) : 0;
                 $avg = $score && $votes ? round((float)(($score/$votes)*($best/5)), 1) : 0;
-                $per = $score && $votes ? round((float)((($score/$votes)/5)*100), 2) : 0;
-
-                return compact('best', 'score', 'votes', 'avg', 'per');
+                $per = $score && $votes ? round((float)((($score/$votes)/5)*100), 2) : 0;                
+                if($votes>0){
+                return compact('best', 'score', 'votes', 'avg', 'per');    
+                }else{
+                return array();    
+                }
+                
             }else{
                 return array();
             }                        
        }
+       
+function saswp_reading_time_and_word_count() {
+
+    // Predefined words-per-minute rate.
+    $words_per_minute = 225;
+    $words_per_second = $words_per_minute / 60;
+
+    // Count the words in the content.
+    $word_count      =0;
+    $text            = trim( strip_tags( get_the_content() ) );
+    $word_count      = substr_count( "$text ", ' ' );
+
+    // How many seconds (total)?
+    $seconds = floor( $word_count / $words_per_second );
+
+    return array('word_count' => $word_count, 'timerequired' => $seconds);
+}
