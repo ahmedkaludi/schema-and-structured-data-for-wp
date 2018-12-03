@@ -26,24 +26,29 @@
         function saswp_schema_type_meta_box_callback( $post) {
                 wp_nonce_field( 'saswp_schema_type_nonce', 'saswp_schema_type_nonce' );  
                 $style_business_type ='';
-                $style_business_name ='';   
+                $style_business_name =''; 
+                $style_service_name =''; 
                 $business_name ='';
                 $schema_type ='';
                 $business_type ='';
                 $business_details ='';
                 if($post){
-                $schema_type      = esc_sql ( get_post_meta($post->ID, 'schema_type', true)  );    
+                $schema_type      = esc_sql ( get_post_meta($post->ID, 'schema_type', true)  );                  
                 $business_type    = esc_sql ( get_post_meta($post->ID, 'saswp_business_type', true)  ); 
                 $business_name    = esc_sql ( get_post_meta($post->ID, 'saswp_business_name', true)  ); 
                 $business_details = esc_sql ( get_post_meta($post->ID, 'saswp_local_business_details', true)  ); 
+                $service_details  = esc_sql ( get_post_meta($post->ID, 'saswp_service_schema_details', true)  );                 
                 
                 $custom_logo_id = get_theme_mod( 'custom_logo' );
                 $logo = wp_get_attachment_image_src( $custom_logo_id , 'full' );
-                
+                                
                 if($schema_type != 'local_business'){
                  $style_business_type = 'style="display:none"';
                  $style_business_name = 'style="display:none"';
                 }
+                if($schema_type != 'Service'){
+                // $style_service_name = 'style="display:none"';                
+                }               
                 }   
                         
                                 $all_dayofweek_array = array(
@@ -64,6 +69,7 @@
                                      'Article'     => 'Article',
                                      'Recipe'      => 'Recipe',
                                      'Product'     => 'Product',
+                                     'Service'     => 'Service',
                                      'VideoObject' => 'VideoObject',
                                      'local_business' => 'Local Business'
                                  );
@@ -522,6 +528,59 @@
                             <td><?php echo esc_html__('Price Range', 'schema-and-structured-data-for-wp' ); ?></td>
                             <td><input  value="<?php if(isset($business_details['local_price_range'])){echo esc_attr($business_details['local_price_range']); } ?>" type="text" name="local_price_range" placeholder="<?php echo esc_html__('$10-$50 or $$$ ', 'schema-and-structured-data-for-wp' ); ?>" ></td>
                         </tr>
+                        <!-- Service Schema type starts here -->
+                        
+                        <tr class="saswp-service-text-field-tr" <?php echo $style_service_name; ?>>
+                            <td><?php echo esc_html__('Name', 'schema-and-structured-data-for-wp' ); ?></td>
+                            <td><input  value="<?php if(isset($service_details['saswp_service_schema_name'])){echo esc_attr($service_details['saswp_service_schema_name']); } ?>" type="text" name="saswp_service_schema_name" placeholder="<?php echo esc_html__('Name', 'schema-and-structured-data-for-wp' ); ?>" ></td>
+                        </tr>
+                        <tr class="saswp-service-text-field-tr" <?php echo $style_service_name; ?>>
+                            <td><?php echo esc_html__('Service Type', 'schema-and-structured-data-for-wp' ); ?></td>
+                            <td><input  value="<?php if(isset($service_details['saswp_service_schema_type'])){echo esc_attr($service_details['saswp_service_schema_type']); } ?>" type="text" name="saswp_service_schema_type" placeholder="<?php echo esc_html__('Service Type', 'schema-and-structured-data-for-wp' ); ?>" ></td>
+                        </tr>
+                        <tr class="saswp-service-text-field-tr" <?php echo $style_service_name; ?>>
+                            <td><?php echo esc_html__('Provider Name', 'schema-and-structured-data-for-wp' ); ?></td>
+                            <td><input  value="<?php if(isset($service_details['saswp_service_schema_provider_name'])){echo esc_attr($service_details['saswp_service_schema_provider_name']); } ?>" type="text" name="saswp_service_schema_provider_name" placeholder="<?php echo esc_html__('Provider Name', 'schema-and-structured-data-for-wp' ); ?>" ></td>
+                        </tr>
+                        <tr class="saswp-service-text-field-tr" <?php echo $style_service_name; ?>>
+                            <td><?php echo esc_html__('Image', 'schema-and-structured-data-for-wp' ); ?></td>
+                            <td style="display: flex; width: 97%">
+                                <input value="<?php if(isset($service_details['saswp_service_schema_image'])) { echo esc_url($service_details['saswp_service_schema_image']['url']);} else { echo esc_url($logo[0]); } ?>" id="saswp_service_schema_image" type="text" name="saswp_service_schema_image[url]" placeholder="<?php echo esc_html__('Image', 'schema-and-structured-data-for-wp' ); ?>" readonly="readonly" style="background: #FFF;">
+                                <input value="<?php if(isset($service_details['saswp_service_schema_image'])) { echo esc_attr($service_details['saswp_service_schema_image']['id']);} else { echo esc_attr($custom_logo_id); }?>" data-id="saswp_service_schema_image_id" type="hidden" name="saswp_service_schema_image[id]">
+                                <input value="<?php if(isset($service_details['saswp_service_schema_image'])) { echo esc_attr($service_details['saswp_service_schema_image']['width']);} else { echo esc_attr($logo[1]); } ?>" data-id="saswp_service_schema_image_width" type="hidden" name="saswp_service_schema_image[width]">
+                                <input value="<?php if(isset($service_details['saswp_service_schema_image'])) { echo esc_attr($service_details['saswp_service_schema_image']['height']);} else { echo esc_attr($logo[2]); } ?>" data-id="saswp_service_schema_image_height" type="hidden" name="saswp_service_schema_image[height]">
+                                <input data-id="media" class="button" id="saswp_service_schema_image_button" type="button" value="Upload"></td>
+                        </tr>
+                        <tr class="saswp-service-text-field-tr" <?php echo $style_service_name; ?>>
+                            <td><?php echo esc_html__('Locality', 'schema-and-structured-data-for-wp' ); ?></td>
+                            <td><input  value="<?php if(isset($service_details['saswp_service_schema_locality'])){echo esc_attr($service_details['saswp_service_schema_locality']); } ?>" type="text" name="saswp_service_schema_locality" placeholder="<?php echo esc_html__('Locality', 'schema-and-structured-data-for-wp' ); ?>" ></td>
+                        </tr>
+                        <tr class="saswp-service-text-field-tr" <?php echo $style_service_name; ?>>
+                            <td><?php echo esc_html__('PostalCode', 'schema-and-structured-data-for-wp' ); ?></td>
+                            <td><input  value="<?php if(isset($service_details['saswp_service_schema_postal_code'])){echo esc_attr($service_details['saswp_service_schema_postal_code']); } ?>" type="text" name="saswp_service_schema_postal_code" placeholder="<?php echo esc_html__('Postal Code', 'schema-and-structured-data-for-wp' ); ?>" ></td>
+                        </tr>
+                        <tr class="saswp-service-text-field-tr" <?php echo $style_service_name; ?>>
+                            <td><?php echo esc_html__('Telephone', 'schema-and-structured-data-for-wp' ); ?></td>
+                            <td><input  value="<?php if(isset($service_details['saswp_service_schema_telephone'])){echo esc_attr($service_details['saswp_service_schema_telephone']); } ?>" type="text" name="saswp_service_schema_telephone" placeholder="<?php echo esc_html__('Telephone', 'schema-and-structured-data-for-wp' ); ?>" ></td>
+                        </tr>
+                        <tr class="saswp-service-text-field-tr" <?php echo $style_service_name; ?>>
+                            <td><?php echo esc_html__('Price Range', 'schema-and-structured-data-for-wp' ); ?></td>
+                            <td><input  value="<?php if(isset($service_details['saswp_service_schema_price_range'])){echo esc_attr($service_details['saswp_service_schema_price_range']); } ?>" type="text" name="saswp_service_schema_price_range" placeholder="<?php echo esc_html__('$10-$50 or $$$ ', 'schema-and-structured-data-for-wp' ); ?>" ></td>
+                        </tr>
+                        <tr class="saswp-service-text-field-tr" <?php echo $style_service_name; ?>>
+                            <td><?php echo esc_html__('Description', 'schema-and-structured-data-for-wp' ); ?></td>
+                            <td><textarea placeholder="Description" rows="3" cols="70" name="saswp_service_schema_description"><?php if(isset($service_details['saswp_service_schema_description'])){echo esc_attr($service_details['saswp_service_schema_description']); } ?></textarea></td>
+                        </tr>
+                        <tr class="saswp-service-text-field-tr" <?php echo $style_service_name; ?>>
+                            <td><?php echo esc_html__('Area Served (City)', 'schema-and-structured-data-for-wp' ); ?></td>
+                            <td><textarea placeholder="New York, Los Angeles" rows="3" cols="70" name="saswp_service_schema_area_served"><?php if(isset($service_details['saswp_service_schema_area_served'])){echo esc_attr($service_details['saswp_service_schema_area_served']); } ?></textarea><p>Note: Enter all the City name in comma separated</p></td>
+                        </tr>
+                        <tr class="saswp-service-text-field-tr" <?php echo $style_service_name; ?>>
+                            <td><?php echo esc_html__('Service Offer', 'schema-and-structured-data-for-wp' ); ?></td>
+                            <td><textarea placeholder="Apartment light cleaning, Carpet cleaning" rows="3" cols="70" name="saswp_service_schema_service_offer"><?php if(isset($service_details['saswp_service_schema_service_offer'])){echo esc_attr($service_details['saswp_service_schema_service_offer']); } ?></textarea><p>Note: Enter all the service offer in comma separated</p></td>
+                        </tr>
+                        
+                        <!-- Service Schema type ends here -->
                     </table>  
                    
                 </div>
@@ -593,6 +652,53 @@
                 }
                               
                 update_post_meta( $post_id, 'saswp_local_business_details', $local_business_details );
+                
+                //Service schema details starts here
+                $service_schema_details = array();
+                $schema_type = $_POST['schema_type'];               
+               
+                if($schema_type =='Service'){
+                    if ( isset( $_POST['saswp_service_schema_name'] ) ){
+                     $service_schema_details['saswp_service_schema_name'] = $_POST['saswp_service_schema_name'];        
+                   }
+                   if ( isset( $_POST['saswp_service_schema_type'] ) ){
+                     $service_schema_details['saswp_service_schema_type'] = $_POST['saswp_service_schema_type'];        
+                   }
+                   if ( isset( $_POST['saswp_service_schema_provider_name'] ) ){
+                     $service_schema_details['saswp_service_schema_provider_name'] = $_POST['saswp_service_schema_provider_name'];        
+                   }
+                   if ( isset( $_POST['saswp_service_schema_image'] ) ){
+                    $service_schema_details['saswp_service_schema_image']['id'] = $_POST['saswp_service_schema_image']['id'];    
+                    $service_schema_details['saswp_service_schema_image']['url'] = $_POST['saswp_service_schema_image']['url'];
+                    $service_schema_details['saswp_service_schema_image']['width'] = $_POST['saswp_service_schema_image']['width'];
+                    $service_schema_details['saswp_service_schema_image']['height'] = $_POST['saswp_service_schema_image']['height'];
+                   }
+                   if ( isset( $_POST['saswp_service_schema_locality'] ) ){
+                     $service_schema_details['saswp_service_schema_locality'] = $_POST['saswp_service_schema_locality'];        
+                   }
+                   if ( isset( $_POST['saswp_service_schema_postal_code'] ) ){
+                     $service_schema_details['saswp_service_schema_postal_code'] = $_POST['saswp_service_schema_postal_code'];        
+                   }
+                   if ( isset( $_POST['saswp_service_schema_telephone'] ) ){
+                     $service_schema_details['saswp_service_schema_telephone'] = $_POST['saswp_service_schema_telephone'];        
+                   }
+                   if ( isset( $_POST['saswp_service_schema_price_range'] ) ){
+                     $service_schema_details['saswp_service_schema_price_range'] = $_POST['saswp_service_schema_price_range'];        
+                   }
+                   if ( isset( $_POST['saswp_service_schema_description'] ) ){
+                     $service_schema_details['saswp_service_schema_description'] = $_POST['saswp_service_schema_description'];        
+                   }
+                   if ( isset( $_POST['saswp_service_schema_area_served'] ) ){
+                     $service_schema_details['saswp_service_schema_area_served'] = $_POST['saswp_service_schema_area_served'];        
+                   }
+                   if ( isset( $_POST['saswp_service_schema_service_offer'] ) ){
+                     $service_schema_details['saswp_service_schema_service_offer'] = $_POST['saswp_service_schema_service_offer'];        
+                   }                   
+                   update_post_meta( $post_id, 'saswp_service_schema_details', $service_schema_details );
+                }
+                
+                //Service schema details ends here
+                
                               
         }           
 

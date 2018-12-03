@@ -39,7 +39,10 @@ jQuery(document).ready(function($){
              $(".saswp-option-table-class tr").find('select').attr('disabled', false);
              $("#saswp_dayofweek").attr('disabled', false);
              $('.select-post-type').val('show_globally').trigger('change');             
-             }            
+             }
+             if(schematype == 'Service'){            
+             $(".saswp-service-text-field-tr").show();                                          
+             }
         }); 
         
         $("#saswp_business_type").change(function(){
@@ -57,7 +60,10 @@ jQuery(document).ready(function($){
             $(".saswp-business-text-field-tr").show(); 
             $(".saswp-"+businesstype+'-tr').find('select').attr('disabled', false); 
             $("#saswp_dayofweek").attr('disabled', false);
-            }            
+            } 
+             if(schematype == 'Service'){            
+             $(".saswp-service-text-field-tr").show();                                          
+             }
             
         }).change(); 
         
@@ -210,6 +216,15 @@ jQuery(document).ready(function($){
                             }
                       break;
                       
+                      case 'saswp_comments_schema_checkbox':
+                          
+                            if ($(this).is(':checked')) {              
+                              $("#saswp_comments_schema").val(1);             
+                            }else{
+                              $("#saswp_comments_schema").val(0);           
+                            }
+                      break;
+                      
                       case 'saswp_compativility_checkbox':
                           
                             if ($(this).is(':checked')) {              
@@ -225,6 +240,15 @@ jQuery(document).ready(function($){
                               $("#saswp-review-module").val(1);             
                             }else{
                               $("#saswp-review-module").val(0);           
+                            }
+                      break;
+                      
+                      case 'saswp-kk-star-raring-checkbox':
+                          
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-kk-star-raring").val(1);             
+                            }else{
+                              $("#saswp-kk-star-raring").val(0);           
                             }
                       break;
                       
@@ -284,8 +308,9 @@ jQuery(document).ready(function($){
 
         $(".saswp-send-query").on("click", function(e){
             e.preventDefault();   
-            var message = $("#saswp_query_message").val();           
-                        $.ajax({
+            var message = $("#saswp_query_message").val();              
+            if($.trim(message) !=''){
+             $.ajax({
                             type: "POST",    
                             url:ajaxurl,                    
                             dataType: "json",
@@ -303,7 +328,10 @@ jQuery(document).ready(function($){
                             error: function(response){                    
                             console.log(response);
                             }
-                            });
+                            });   
+            }else{
+                alert('Please enter the message');
+            }                        
 
         });
         

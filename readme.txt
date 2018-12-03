@@ -65,6 +65,14 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
 
+= 1.0.5 (30 November 2018) =
+
+* New Feature: Service schema type add to the schema type list
+* New Feature: Comments Markup, The comments on post will also appear in schema markup
+* New Feature: WP SEO Structured Data Schema migration tool 
+* New Feature: Compatibility with kk Star Ratings plugin, Now the ratings will be indexed in google search and results will be appearing in the form of a rich snippet
+* Bug Fixed: Some of the missing fields added in NewsArticle schema type markup( articleSection, articleBody, wordCount & timeRequired ).
+
 = 1.0.4.1 (17 November 2018) =
 
 * Bug Fixed: Load review css only when review is enable for that post. #67

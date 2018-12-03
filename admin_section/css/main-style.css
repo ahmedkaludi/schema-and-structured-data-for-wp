@@ -436,3 +436,22 @@ clear: both;
 .saswp-enable-review-on-post label{
     font-weight: 500;
 }
+/*
+Compatibility tab css starts here
+*/
+.saswp-compatibility table th{    
+    width: auto;
+    padding: 0px;
+}
+.saswp-compatibility .saswp-knowledge-label {
+    float: left;
+    clear: both;
+}
+.saswp-compatibility .saswp-knowledge-field {
+    float: right;
+    width: 75%;
+    padding-bottom: 10px;
+}
+/*
+Compatibility tab css ends
+*/
