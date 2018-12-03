@@ -78,11 +78,6 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Bug Fixed: Load review css only when review is enable for that post. #67
 * Menified review css in amp to put under amp css limitation. 
 
-= 1.0.5 (26 November 2018) =
-* Major Feature: Post Specific Meta boxes to override the schemas on posts
-* Major Feature: Rich Snippets for Reviews and Ratings
-* Security and other bug fixed
-
 = 1.0.4 (16 November 2018) =
 * Major Feature: Post Specific Meta boxes to override the schemas on posts
 * Major Feature: Rich Snippets for Reviews and Ratings

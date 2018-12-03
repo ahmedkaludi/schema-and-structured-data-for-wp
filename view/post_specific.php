@@ -1,9 +1,6 @@
 <?php
 class saswp_post_specific {
-	private $screen = array(
-		'post',
-                'page'
-	);
+	private $screen = array();
 	private $meta_fields = array(
 			
 	);
@@ -41,6 +38,11 @@ class saswp_post_specific {
 
         public function saswp_post_specifc_add_meta_boxes($post) {
             if(count($this->all_schema)>0 && get_post_status($post->ID)=='publish'){
+                
+            $show_post_types = get_post_types();
+            unset($show_post_types['adsforwp'],$show_post_types['saswp'],$show_post_types['attachment'], $show_post_types['revision'], $show_post_types['nav_menu_item'], $show_post_types['user_request'], $show_post_types['custom_css']);            
+            $this->screen = $show_post_types;
+                
              foreach ( $this->screen as $single_screen ) {
                  $post_title ='';
                  if(count($this->all_schema)==1){
