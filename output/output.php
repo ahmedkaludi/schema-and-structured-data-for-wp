@@ -414,10 +414,7 @@ function saswp_schema_output() {
 			// Product
 			
 			if(  'Product' === $schema_type){
-                            
-				if(empty($image_details[0]) || $image_details[0] === NULL ){
-					$image_details[0] = $logo;
-				}
+                            				
 				$input1 = array(
 				'@context'			=> 'http://schema.org',
 				'@type'				=> $schema_type ,
@@ -430,6 +427,54 @@ function saswp_schema_output() {
                                 }
                                 if(!empty($kkstar_aggregateRating)){
                                    $input1['aggregateRating'] = $kkstar_aggregateRating;  
+                                }
+                                
+                                $service = new saswp_output_service();
+                                $product_details = $service->saswp_woocommerce_product_details(get_the_ID());  
+                               
+                                if((isset($sd_data['saswp-woocommerce']) && $sd_data['saswp-woocommerce'] ==1) && !empty($product_details)){
+                                    
+                                    $input1 = array(
+                                    '@context'			=> 'http://schema.org',
+                                    '@type'				=> 'Product',
+                                    'url'				=> get_permalink(),
+                                    'name'                              => $product_details['product_name'],
+                                    'description'                       => $product_details['product_description'],
+                                    'image'                             => $product_details['product_image'],    
+                                    'offers'                            => array(
+                                                                        '@type'	=> 'Offer',
+                                                                        'availability'	=> $product_details['product_availability'],
+                                                                        'price'	=> $product_details['product_price'],
+                                                                        'priceCurrency'	=> $product_details['product_currency'],
+                                                                             ),
+                                        
+				  ); 
+                                     
+                                  if(isset($product_details['product_review_count']) && isset($product_details['product_average_rating'])){
+                                       $input1['aggregateRating'] =  array(
+                                                                        '@type'         => 'AggregateRating',
+                                                                        'ratingValue'	=> $product_details['product_average_rating'],
+                                                                        'reviewCount'   => (int)$product_details['product_review_count'],       
+                                       );
+                                  }                                      
+                                  if(!empty($product_details['product_reviews'])){
+                                      $reviews = array();
+                                      foreach ($product_details['product_reviews'] as $review){
+                                          $reviews[] = array(
+                                                                        '@type'	=> 'Review',
+                                                                        'author'	=> $review['author'],
+                                                                        'datePublished'	=> $review['datePublished'],
+                                                                        'description'	=> $review['description'],  
+                                                                        'reviewRating'  => array(
+                                                                                '@type'	=> 'Rating',
+                                                                                'bestRating'	=> '5',
+                                                                                'ratingValue'	=> $review['reviewRating'],
+                                                                                'worstRating'	=> '1',
+                                                                        )  
+                                          );
+                                      }
+                                      $input1['review'] =  $reviews;
+                                  } 
                                 }
 			}
                         
@@ -730,6 +775,7 @@ function saswp_schema_output() {
 
 function saswp_post_specific_schema_output() {
 	global $post;
+        global $sd_data;   
         $all_schemas = get_posts(
                     array(
                             'post_type' 	 => 'saswp',
@@ -939,6 +985,52 @@ function saswp_post_specific_schema_output() {
                                 }
                                 if(!empty($kkstar_aggregateRating)){
                                    $input1['aggregateRating'] = $kkstar_aggregateRating;  
+                                }
+                                $service = new saswp_output_service();
+                                $product_details = $service->saswp_woocommerce_product_details($post->ID);  
+                               
+                                if((isset($sd_data['saswp-woocommerce']) && $sd_data['saswp-woocommerce'] ==1) && !empty($product_details)){                                    
+                                    $input1 = array(
+                                    '@context'			=> 'http://schema.org',
+                                    '@type'				=> 'Product',
+                                    'url'				=> get_permalink(),
+                                    'name'                              => $product_details['product_name'],
+                                    'description'                       => $product_details['product_description'],
+                                    'image'                             => $product_details['product_image'],    
+                                    'offers'                            => array(
+                                                                        '@type'	=> 'Offer',
+                                                                        'availability'	=> $product_details['product_availability'],
+                                                                        'price'	=> $product_details['product_price'],
+                                                                        'priceCurrency'	=> $product_details['product_currency'],
+                                                                             ),
+                                        
+				  ); 
+                                     
+                                  if(isset($product_details['product_review_count']) && isset($product_details['product_average_rating'])){
+                                       $input1['aggregateRating'] =  array(
+                                                                        '@type'         => 'AggregateRating',
+                                                                        'ratingValue'	=> $product_details['product_average_rating'],
+                                                                        'reviewCount'   => (int)$product_details['product_review_count'],       
+                                       );
+                                  }                                      
+                                  if(!empty($product_details['product_reviews'])){
+                                      $reviews = array();
+                                      foreach ($product_details['product_reviews'] as $review){
+                                          $reviews[] = array(
+                                                                        '@type'	=> 'Review',
+                                                                        'author'	=> $review['author'],
+                                                                        'datePublished'	=> $review['datePublished'],
+                                                                        'description'	=> $review['description'],  
+                                                                        'reviewRating'  => array(
+                                                                                '@type'	=> 'Rating',
+                                                                                'bestRating'	=> '5',
+                                                                                'ratingValue'	=> $review['reviewRating'],
+                                                                                'worstRating'	=> '1',
+                                                                        )  
+                                          );
+                                      }
+                                      $input1['review'] =  $reviews;
+                                  } 
                                 }
 			}
                         

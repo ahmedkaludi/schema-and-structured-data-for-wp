@@ -956,8 +956,24 @@ function saswp_compatibility_page_callback(){
 	);        
         if(is_plugin_active('kk-star-ratings/index.php')){
           $field_objs->saswp_field_generator($meta_fields, $settings);      
-        }else{
-            echo '<p>'.esc_html__('None of the plugin is active which has compatibility with Schema & Structured Data For WP', 'schema-and-structured-data-for-wp').'</p>';
+        }
+        
+        $meta_fields = array(				
+                array(
+			'label' => 'Woocommerce',
+			'id' => 'saswp-woocommerce-checkbox',                        
+                        'name' => 'saswp-woocommerce-checkbox',
+			'type' => 'checkbox',
+                        'class' => 'checkbox saswp-checkbox',
+                        'hidden' => array(
+                             'id' => 'saswp-woocommerce',
+                             'name' => 'sd_data[saswp-woocommerce]',                             
+                        )
+		),  
+                
+	);        
+        if(is_plugin_active('woocommerce/woocommerce.php')){
+          $field_objs->saswp_field_generator($meta_fields, $settings);      
         }
         
        

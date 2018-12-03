@@ -251,6 +251,14 @@ jQuery(document).ready(function($){
                               $("#saswp-kk-star-raring").val(0);           
                             }
                       break;
+                      case 'saswp-woocommerce-checkbox':
+                          
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-woocommerce").val(1);             
+                            }else{
+                              $("#saswp-woocommerce").val(0);           
+                            }
+                      break;
                       
                       default:
                           break;

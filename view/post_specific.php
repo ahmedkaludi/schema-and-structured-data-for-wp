@@ -1162,6 +1162,10 @@ class saswp_post_specific {
                     break;
                 
                 case 'Product':
+                    
+                   
+                    
+                    
                     $meta_field = array(
                     array(
                             'label' => 'URL',
@@ -1182,6 +1186,34 @@ class saswp_post_specific {
                             'default' => $post->post_excerpt
                     ),                      
                     );
+                     
+                    if(get_post_type() == 'product'){
+                                                               
+                       $meta_field[]  = array(
+                            'label' => 'Image',
+                            'id' => 'saswp_product_image_'.$schema_id,
+                            'type' => 'media',
+                            //'default' => $post->post_excerpt
+                     ); 
+                       $meta_field[]  = array(
+                            'label' => 'Availability',
+                            'id' => 'saswp_product_availability_'.$schema_id,
+                            'type' => 'text',
+                            //'default' => $post->post_excerpt
+                     ); 
+                       $meta_field[]  = array(
+                            'label' => 'Price',
+                            'id' => 'saswp_product_price_'.$schema_id,
+                            'type' => 'text',
+                            //'default' => $post->post_excerpt
+                     ); 
+                       $meta_field[]  = array(
+                            'label' => 'Price Currency',
+                            'id' => 'saswp_product_currency_'.$schema_id,
+                            'type' => 'text',
+                            //'default' => $post->post_excerpt
+                     ); 
+                    }                   
                     break;
                 
                 case 'Service':
