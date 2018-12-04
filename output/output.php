@@ -991,17 +991,17 @@ function saswp_post_specific_schema_output() {
                                
                                 if((isset($sd_data['saswp-woocommerce']) && $sd_data['saswp-woocommerce'] ==1) && !empty($product_details)){                                    
                                     $input1 = array(
-                                    '@context'			=> 'http://schema.org',
+                                    '@context'			        => 'http://schema.org',
                                     '@type'				=> 'Product',
-                                    'url'				=> get_permalink(),
-                                    'name'                              => $product_details['product_name'],
-                                    'description'                       => $product_details['product_description'],
-                                    'image'                             => $product_details['product_image'],    
+                                    'url'				=> $all_post_meta['saswp_product_url_'.$schema_id][0],
+                                    'name'                              => $all_post_meta['saswp_product_name_'.$schema_id][0],
+                                    'description'                       => $all_post_meta['saswp_product_description_'.$schema_id][0],
+                                    'image'                             => $all_post_meta['saswp_product_image_'.$schema_id][0],    
                                     'offers'                            => array(
                                                                         '@type'	=> 'Offer',
-                                                                        'availability'	=> $product_details['product_availability'],
-                                                                        'price'	=> $product_details['product_price'],
-                                                                        'priceCurrency'	=> $product_details['product_currency'],
+                                                                        'availability'	=> $all_post_meta['saswp_product_availability_'.$schema_id][0],
+                                                                        'price'	=> $all_post_meta['saswp_product_price_'.$schema_id][0],
+                                                                        'priceCurrency'	=> $all_post_meta['saswp_product_currency_'.$schema_id][0],
                                                                              ),
                                         
 				  ); 

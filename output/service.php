@@ -1,15 +1,14 @@
 <?php 
 Class saswp_output_service{
-        public function __construct() {  
-            
-        
-           
+        public function __construct() {                                 
 	}
-            
-        
+                    
         public function saswp_woocommerce_product_details($post_id){           
-             $product_details = array();                            
-             $product = new WC_Product($post_id);           
+             $product_details = array();   
+             $product;
+             if (class_exists('WC_Product')) {
+	     $product = new WC_Product($post_id);      
+             }                              
              if(is_object($product)){                 
              $availability = $product->get_availability();
              $product_details['product_name'] = $product->get_title();
