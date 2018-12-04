@@ -260,6 +260,15 @@ jQuery(document).ready(function($){
                             }
                       break;
                       
+                      case 'saswp-extra-checkbox':
+                          
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-extra").val(1);             
+                            }else{
+                              $("#saswp-extra").val(0);           
+                            }
+                      break;
+                      
                       default:
                           break;
                   }

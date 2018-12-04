@@ -938,7 +938,9 @@ function saswp_review_page_callback(){
 }
 function saswp_compatibility_page_callback(){
         
-        $settings = saswp_defaultSettings();         
+        $settings = saswp_defaultSettings();  
+        
+        //KK Star rating
         $field_objs = new saswp_fields_generator();
         $meta_fields = array(				
                 array(
@@ -957,7 +959,7 @@ function saswp_compatibility_page_callback(){
         if(is_plugin_active('kk-star-ratings/index.php')){
           $field_objs->saswp_field_generator($meta_fields, $settings);      
         }
-        
+        //Woocommerce
         $meta_fields = array(				
                 array(
 			'label' => 'Woocommerce',
@@ -975,7 +977,25 @@ function saswp_compatibility_page_callback(){
         if(is_plugin_active('woocommerce/woocommerce.php')){
           $field_objs->saswp_field_generator($meta_fields, $settings);      
         }
+        //Extra theme by elegant themes
+        $meta_fields = array(				
+                array(
+			'label' => 'Extra Theme By Elegant',
+			'id' => 'saswp-extra-checkbox',                        
+                        'name' => 'saswp-extra-checkbox',
+			'type' => 'checkbox',
+                        'class' => 'checkbox saswp-checkbox',
+                        'hidden' => array(
+                             'id' => 'saswp-extra',
+                             'name' => 'sd_data[saswp-extra]',                             
+                        )
+		),  
+                
+	);        
         
+        if(get_template() == 'Extra'){
+          $field_objs->saswp_field_generator($meta_fields, $settings);      
+        }
        
 }
 

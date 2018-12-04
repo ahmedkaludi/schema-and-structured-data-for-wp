@@ -38,4 +38,49 @@ Class saswp_output_service{
                        
              return $product_details;                       
         }
+        
+        public function saswp_extra_theme_review_details($post_id){
+            global $sd_data;
+           
+            $review_data = array();
+            $rating_value =0;
+            $post_review_title ='';
+            $post_review_desc ='';
+            
+            $post_meta   = esc_sql ( get_post_meta($post_id, $key='', true)  );                                       
+            
+            if(isset($post_meta['_post_review_box_breakdowns_score'])){
+              $rating_value = bcdiv($post_meta['_post_review_box_breakdowns_score'][0], 20, 2);        
+            }
+            if(isset($post_meta['_post_review_box_title'])){
+              $post_review_title = $post_meta['_post_review_box_title'][0];     
+            }
+            if(isset($post_meta['_post_review_box_summary'])){
+              $post_review_desc = $post_meta['_post_review_box_summary'][0];        
+            }                            
+            if($post_review_title && $rating_value>0 &&  (isset($sd_data['saswp-extra']) && $sd_data['saswp-extra'] ==1) && get_template()=='Extra'){
+            
+            $review_data['aggregateRating'] = array(
+                '@type' => 'AggregateRating',
+                'ratingValue' => $rating_value,
+                'reviewCount' => 1,
+            );
+            
+            $review_data['review'] = array(
+                '@type' => 'Review',
+                'author' => get_the_author(),
+                'datePublished' => get_the_date("Y-m-d\TH:i:s\Z"),
+                'name' => $post_review_title,
+                'reviewBody' => $post_review_desc,
+                'reviewRating' => array(
+                    '@type' => 'Rating',
+                    'ratingValue' => $rating_value,
+                ),
+                
+            );
+            
+           }
+           return $review_data;
+            
+        }
 }

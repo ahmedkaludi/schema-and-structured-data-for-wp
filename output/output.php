@@ -201,7 +201,7 @@ function saswp_schema_output() {
                         $saswp_review_details = esc_sql ( get_post_meta(get_the_ID(), 'saswp_review_details', true)); 
                         $aggregateRating = array();
                         $kkstar_aggregateRating = array();
-                         
+                        $saswp_over_all_rating ='';
                         if(isset($saswp_review_details['saswp-review-item-over-all'])){
                         $saswp_over_all_rating = $saswp_review_details['saswp-review-item-over-all'];    
                         } 
@@ -229,7 +229,11 @@ function saswp_schema_output() {
                                                             "ratingValue" => $kkstar_rating_data['avg']
                                                          );     
                         }
-                                                                                                                                                                                                   			
+                        $extra_theme_review = array();
+                        $service_object = new saswp_output_service();
+                        $extra_theme_review = $service_object->saswp_extra_theme_review_details(get_the_ID());
+                       
+                        
 			if(is_page()){
 				$schema_type = $schema_type; //$sd_data['sd_page_type'];
 			}
@@ -270,7 +274,9 @@ function saswp_schema_output() {
                                 if(!empty($kkstar_aggregateRating)){
                                    $input1['aggregateRating'] = $kkstar_aggregateRating;  
                                 }
-                                                        
+                                if(!empty($extra_theme_review)){
+                                   $input1 = array_merge($input1, $extra_theme_review);
+                                }                               
                         if(isset($sd_data['saswp_comments_schema']) && $sd_data['saswp_comments_schema'] ==1){
                                     $input1['comment'] = saswp_get_comments(get_the_ID());
                         }
@@ -322,6 +328,9 @@ function saswp_schema_output() {
                                 if(!empty($kkstar_aggregateRating)){
                                    $input1['mainEntity']['aggregateRating'] = $kkstar_aggregateRating;  
                                 }
+                                if(!empty($extra_theme_review)){
+                                   $input1 = array_merge($input1, $extra_theme_review);
+                                }
 			}
 
 		// For Article
@@ -355,6 +364,9 @@ function saswp_schema_output() {
 				);
                                 if(isset($sd_data['saswp_comments_schema']) && $sd_data['saswp_comments_schema'] ==1){
                                     $input1['comment'] = saswp_get_comments(get_the_ID());
+                                }
+                                if(!empty($extra_theme_review)){
+                                   $input1 = array_merge($input1, $extra_theme_review);
                                 }
 			}
 
@@ -409,6 +421,9 @@ function saswp_schema_output() {
                                 if(!empty($kkstar_aggregateRating)){
                                    $input1['aggregateRating'] = $kkstar_aggregateRating;  
                                 }
+                                if(!empty($extra_theme_review)){
+                                   $input1 = array_merge($input1, $extra_theme_review);
+                                }
 			}
 
 			// Product
@@ -427,6 +442,9 @@ function saswp_schema_output() {
                                 }
                                 if(!empty($kkstar_aggregateRating)){
                                    $input1['aggregateRating'] = $kkstar_aggregateRating;  
+                                }
+                                if(!empty($extra_theme_review)){
+                                   $input1 = array_merge($input1, $extra_theme_review);
                                 }
                                 
                                 $service = new saswp_output_service();
@@ -536,6 +554,9 @@ function saswp_schema_output() {
                                 if(!empty($kkstar_aggregateRating)){
                                    $input1['aggregateRating'] = $kkstar_aggregateRating;  
                                 }
+                                if(!empty($extra_theme_review)){
+                                   $input1 = array_merge($input1, $extra_theme_review);
+                                }
 				}
                         
                         
@@ -596,6 +617,9 @@ function saswp_schema_output() {
                                 if(!empty($kkstar_aggregateRating)){
                                    $input1['aggregateRating'] = $kkstar_aggregateRating;  
                                 }
+                                if(!empty($extra_theme_review)){
+                                   $input1 = array_merge($input1, $extra_theme_review);
+                                }
 				}        
 
 			// VideoObject
@@ -651,6 +675,9 @@ function saswp_schema_output() {
                                                if(!empty($kkstar_aggregateRating)){
                                                  $input1['aggregateRating'] = $kkstar_aggregateRating;  
                                                 }
+                                                if(!empty($extra_theme_review)){
+                                                  $input1 = array_merge($input1, $extra_theme_review);
+                                                 }
 					
 				}
                         
@@ -700,7 +727,10 @@ function saswp_schema_output() {
                                     }
                                     if(!empty($kkstar_aggregateRating)){
                                     $input1['aggregateRating'] = $kkstar_aggregateRating;  
-                                    }                                
+                                    } 
+                                    if(!empty($extra_theme_review)){
+                                    $input1 = array_merge($input1, $extra_theme_review);
+                                    }
                                     if(isset($business_details['local_price_range'])){
                                       $input1['priceRange'] = $business_details['local_price_range'];   
                                     }
@@ -820,6 +850,9 @@ function saswp_post_specific_schema_output() {
                                                             "ratingValue" => $kkstar_rating_data['avg']
                                                          );     
                         }
+                        $extra_theme_review = array();
+                        $service_object = new saswp_output_service();
+                        $extra_theme_review = $service_object->saswp_extra_theme_review_details(get_the_ID());
             
                          if( 'Blogposting' === $schema_type){
                     // Blogposting Schema 									
@@ -853,6 +886,9 @@ function saswp_post_specific_schema_output() {
                                 }
                                 if(!empty($kkstar_aggregateRating)){
                                    $input1['aggregateRating'] = $kkstar_aggregateRating;  
+                                }
+                                if(!empty($extra_theme_review)){
+                                   $input1 = array_merge($input1, $extra_theme_review);
                                 }
                      }
 			
@@ -894,7 +930,10 @@ function saswp_post_specific_schema_output() {
                                 }
                                 if(!empty($kkstar_aggregateRating)){
                                    $input1['mainEntity']['aggregateRating'] = $kkstar_aggregateRating;  
-                                }                               
+                                }
+                                if(!empty($extra_theme_review)){
+                                   $input1 = array_merge($input1, $extra_theme_review);
+                                }
 			}
 			
 			 if( 'Article' === $schema_type ){
@@ -923,6 +962,12 @@ function saswp_post_specific_schema_output() {
 					),
                                     
 				);
+                                if(!empty($kkstar_aggregateRating)){
+                                   $input1['aggregateRating'] = $kkstar_aggregateRating;  
+                                }
+                                if(!empty($extra_theme_review)){
+                                   $input1 = array_merge($input1, $extra_theme_review);
+                                }
 			}
 	
 			 if( 'Recipe' === $schema_type){
@@ -967,7 +1012,10 @@ function saswp_post_specific_schema_output() {
                                 }
                                 if(!empty($kkstar_aggregateRating)){
                                    $input1['aggregateRating'] = $kkstar_aggregateRating;  
-                                } 
+                                }
+                                if(!empty($extra_theme_review)){
+                                   $input1 = array_merge($input1, $extra_theme_review);
+                                }
 			}
 						
 			 if( 'Product' === $schema_type){
@@ -985,6 +1033,9 @@ function saswp_post_specific_schema_output() {
                                 }
                                 if(!empty($kkstar_aggregateRating)){
                                    $input1['aggregateRating'] = $kkstar_aggregateRating;  
+                                }
+                                if(!empty($extra_theme_review)){
+                                   $input1 = array_merge($input1, $extra_theme_review);
                                 }
                                 $service = new saswp_output_service();
                                 $product_details = $service->saswp_woocommerce_product_details($post->ID);  
@@ -1127,7 +1178,10 @@ function saswp_post_specific_schema_output() {
                                                 }
                                                 if(!empty($kkstar_aggregateRating)){
                                                    $input1['aggregateRating'] = $kkstar_aggregateRating;  
-                                                }   
+                                                } 
+                                                if(!empty($extra_theme_review)){
+                                                    $input1 = array_merge($input1, $extra_theme_review);
+                                                }
 					
 				}
                         
@@ -1185,6 +1239,9 @@ function saswp_post_specific_schema_output() {
                                 if(!empty($kkstar_aggregateRating)){
                                    $input1['aggregateRating'] = $kkstar_aggregateRating;  
                                 }
+                                if(!empty($extra_theme_review)){
+                                   $input1 = array_merge($input1, $extra_theme_review);
+                                }
                          }       
                                 
                          if( 'local_business' === $schema_type){
@@ -1228,6 +1285,9 @@ function saswp_post_specific_schema_output() {
                                     }
                                     if(!empty($kkstar_aggregateRating)){
                                        $input1['aggregateRating'] = $kkstar_aggregateRating;  
+                                    }
+                                    if(!empty($extra_theme_review)){
+                                       $input1 = array_merge($input1, $extra_theme_review);
                                     }
                                     if(isset($all_post_meta['local_price_range_'.$schema_id][0])){
                                       $input1['priceRange'] = $all_post_meta['local_price_range_'.$schema_id][0];   
