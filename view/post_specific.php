@@ -196,11 +196,18 @@ class saswp_post_specific {
                 $this->meta_fields = array_filter($this->meta_fields);
 		foreach ( $this->meta_fields as $meta_field ) {
                         $input ='';
+                        $attributes ='';
 			$label = '<label for="' . $meta_field['id'] . '">' . $meta_field['label'] . '</label>';
 			$meta_value = get_post_meta( $post->ID, $meta_field['id'], true );
 			if ( empty( $meta_value ) ) {
 				$meta_value = $meta_field['default'];                                 
                         }
+                        if(isset($meta_field['attributes'])){
+                            foreach ($meta_field['attributes'] as $key => $attr ){
+                                           $attributes .=''.$key.'="'.$attr.'"';
+                                }
+                        }                        
+                        
 			switch ( $meta_field['type'] ) {
 				case 'media':
                                         $media_value = array();
@@ -315,11 +322,15 @@ class saswp_post_specific {
                                         
 				case 'textarea':
 					$input = sprintf(
-						'<textarea style="width: 100%%" id="%s" name="%s" rows="5">%s</textarea>',
+						'<textarea %s style="width: 100%%" id="%s" name="%s" rows="5">%s</textarea>',
+                                                $attributes,
 						$meta_field['id'],
 						$meta_field['id'],
 						$meta_value
 					);
+                                        if(isset($meta_field['note'])){
+                                          $input .='<p>'.$meta_field['note'].'</p>';  
+                                        }
 					break;
                                 case 'text':
                                 case 'number':    
@@ -327,11 +338,13 @@ class saswp_post_specific {
                                              if (strpos($meta_field['id'], 'closes_time') !== false || strpos($meta_field['id'], 'opens_time') !== false){
                                              $class='saswp-local-schema-time-picker';    
                                              }
-                                             if (strpos($meta_field['id'], 'date_modified') !== false || strpos($meta_field['id'], 'date_published') !== false){
+                                             if (strpos($meta_field['id'], 'date_modified') !== false || strpos($meta_field['id'], 'date_published') !== false  || strpos($meta_field['id'], 'recipe_video_upload_date') !== false){
                                              $class='saswp-local-schema-datepicker-picker';    
                                              }
+                                             
                                             $input = sprintf(
-						'<input class="%s" %s id="%s" name="%s" type="%s" value="%s">',
+						'<input %s class="%s" %s id="%s" name="%s" type="%s" value="%s">',
+                                                $attributes,    
                                                 $class,    
 						$meta_field['type'] !== 'color' ? 'style="width: 100%"' : '',
 						$meta_field['id'],
@@ -1157,7 +1170,143 @@ class saswp_post_specific {
                             'id' => 'saswp_recipe_organization_logo_'.$schema_id,
                             'type' => 'media',
                             'default' => $sd_data['sd_logo']['url']
+                    ),                                                                                            
+                    array(
+                            'label' => 'Prepare Time',
+                            'id' => 'saswp_recipe_preptime_'.$schema_id,
+                            'type' => 'text', 
+                            'attributes' => array(
+                                'placeholder' => 'PT20M'
+                            ),
                     ),    
+                    array(
+                            'label' => 'Cook Time',
+                            'id' => 'saswp_recipe_cooktime_'.$schema_id,
+                            'type' => 'text', 
+                            'attributes' => array(
+                                'placeholder' => 'PT30M'
+                            ),
+                    ),
+                    array(
+                            'label' => 'Total Time',
+                            'id' => 'saswp_recipe_totaltime_'.$schema_id,
+                            'type' => 'text', 
+                            'attributes' => array(
+                                'placeholder' => 'PT50M'
+                            ),
+                    ),    
+                    array(
+                            'label' => 'Keywords',
+                            'id' => 'saswp_recipe_keywords_'.$schema_id,
+                            'type' => 'text',  
+                            'attributes' => array(
+                                'placeholder' => 'cake for a party, coffee'
+                            ),
+                    ),    
+                    array(
+                            'label' => 'Recipe Yield',
+                            'id' => 'saswp_recipe_recipeyield_'.$schema_id,
+                            'type' => 'text', 
+                            'attributes' => array(
+                                'placeholder' => '10 servings'
+                            ),
+                    ),    
+                    array(
+                            'label' => 'Recipe Category',
+                            'id' => 'saswp_recipe_category_'.$schema_id,
+                            'type' => 'text',
+                            'attributes' => array(
+                                'placeholder' => 'Dessert'
+                            ),
+                    ),
+                    array(
+                            'label' => 'Recipe Cuisine',
+                            'id' => 'saswp_recipe_cuisine_'.$schema_id,
+                            'type' => 'text', 
+                            'attributes' => array(
+                                'placeholder' => 'American'
+                            ),
+                    ),    
+                    array(
+                            'label' => 'Nutrition',
+                            'id' => 'saswp_recipe_nutrition_'.$schema_id,
+                            'type' => 'text',
+                            'attributes' => array(
+                                'placeholder' => '270 calories'
+                            ),
+                    ),
+                    array(
+                            'label' => 'Recipe Ingredient',
+                            'id' => 'saswp_recipe_ingredient_'.$schema_id,
+                            'type' => 'textarea',
+                            'attributes' => array(
+                                'placeholder' => '2 cups of flour; 3/4 cup white sugar;'
+                            ),
+                            'note' => 'Note: Separate Ingredient list by semicolon ( ; )'  
+                    ), 
+                    array(
+                            'label' => 'Recipe Instructions',
+                            'id' => 'saswp_recipe_instructions_'.$schema_id,
+                            'type' => 'textarea',
+                            'attributes' => array(
+                                'placeholder' => 'Preheat the oven to 350 degrees F. Grease and flour a 9x9 inch pan; large bowl, combine flour, sugar, baking powder, and salt. pan.;'
+                            ),
+                            'note' => 'Note: Separate Ingredient step by semicolon ( ; )'  
+                    ), 
+                    array(
+                            'label' => 'Video Name',
+                            'id' => 'saswp_recipe_video_name_'.$schema_id,
+                            'type' => 'text', 
+                            'attributes' => array(
+                                'placeholder' => 'Video Name'
+                            ),
+                    ),
+                    array(
+                            'label' => 'Video Description',
+                            'id' => 'saswp_recipe_video_description_'.$schema_id,
+                            'type' => 'text', 
+                            'attributes' => array(
+                                'placeholder' => 'Video Description'
+                            ),
+                    ),
+                    array(
+                            'label' => 'Video ThumbnailUrl',
+                            'id' => 'saswp_recipe_video_thumbnailurl_'.$schema_id,
+                            'type' => 'media',
+                            
+                    ),
+                    array(
+                            'label' => 'Video ContentUrl',
+                            'id' => 'saswp_recipe_video_contenturl_'.$schema_id,
+                            'type' => 'text',                            
+                            'attributes' => array(
+                                'placeholder' => 'http://www.example.com/video123.mp4'
+                            ),
+                    ),
+                    array(
+                            'label' => 'Video EmbedUrl',
+                            'id' => 'saswp_recipe_video_embedurl_'.$schema_id,
+                            'type' => 'text', 
+                            'attributes' => array(
+                                'placeholder' => 'http://www.example.com/videoplayer?video=123'
+                            ),
+                    ),
+                    array(
+                            'label' => 'Video Upload Date',
+                            'id' => 'saswp_recipe_video_upload_date_'.$schema_id,
+                            'type' => 'text', 
+                            'attributes' => array(
+                                'placeholder' => '2018-12-18'
+                            ),
+                    ),
+                    array(
+                            'label' => 'Video Duration',
+                            'id' => 'saswp_recipe_video_duration_'.$schema_id,
+                            'type' => 'text',
+                            'attributes' => array(
+                                'placeholder' => 'PT1M33S'
+                            ),
+                    ),                                                                            
                     );
                     break;
                 
@@ -1274,16 +1423,24 @@ class saswp_post_specific {
                             'default' => $service_schema_details['saswp_service_schema_description']
                     ),
                     array(
-                            'label' => 'Area Served',
+                            'label' => 'Area Served (City)',
                             'id' => 'saswp_service_schema_area_served_'.$schema_id,
                             'type' => 'textarea',
-                            'default' => $service_schema_details['saswp_service_schema_area_served']
+                            'default' => $service_schema_details['saswp_service_schema_area_served'],
+                            'note'   => 'Note: Enter all the City name in comma separated',
+                            'attributes' => array(
+                                'placeholder' => 'New York, Los Angeles'
+                            ),
                     ),
                     array(
                             'label' => 'Service Offer',
                             'id' => 'saswp_service_schema_service_offer_'.$schema_id,
                             'type' => 'textarea',
-                            'default' => $service_schema_details['saswp_service_schema_service_offer']
+                            'default' => $service_schema_details['saswp_service_schema_service_offer'],
+                            'note'   => 'Note: Enter all the service offer in comma separated',
+                            'attributes' => array(
+                                'placeholder' => 'Apartment light cleaning, carpet cleaning'
+                            ),                                                        
                     ),    
                     );
                     break;

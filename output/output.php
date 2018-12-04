@@ -513,7 +513,7 @@ function saswp_schema_output() {
 					'dateModified'                  => $modified_date,
 					'description'                   => get_the_excerpt(),
                                         'articleSection'                => $article_section,            
-                                        'articleBody'                   => get_the_content(),            
+                                        'articleBody'                   => get_the_excerpt(),            
 					'name'				=> get_the_title(), 					
 					'thumbnailUrl'                  => $image_details[0],
                                         'wordCount'                     => $word_count['word_count'],
@@ -972,18 +972,32 @@ function saswp_post_specific_schema_output() {
 	
 			 if( 'Recipe' === $schema_type){
 				
+                                $ingredient = array();
+                                $instruction = array();
+                                
+                                if(isset($all_post_meta['saswp_recipe_ingredient_'.$schema_id])){
+                                    $explod = explode(';', $all_post_meta['saswp_recipe_ingredient_'.$schema_id][0]);                                    
+                                    foreach ($explod as $val){
+                                      $ingredient[] = $val;  
+                                    }                                   
+                                }
+                                
+                                if(isset($all_post_meta['saswp_recipe_instructions_'.$schema_id])){
+                                    $explod = explode(';', $all_post_meta['saswp_recipe_instructions_'.$schema_id][0]);                                    
+                                    foreach ($explod as $val){
+                                      $instruction[] = array(
+                                                                 '@type'  => "HowToStep",
+                                                                 'text'  => $val,                                                                                                                            
+                                                                 );  
+                                    }                                   
+                                }
+                                                             
 				$input1 = array(
 				'@context'			=> 'http://schema.org',
 				'@type'				=> $schema_type ,
 				'url'				=> $all_post_meta['saswp_recipe_url_'.$schema_id][0],
 				'name'			        => $all_post_meta['saswp_recipe_name_'.$schema_id][0],
-				'datePublished'                 => $all_post_meta['saswp_recipe_date_published_'.$schema_id][0],
-				'dateModified'                  => $all_post_meta['saswp_recipe_date_modified_'.$schema_id][0],
-				'description'                   => $all_post_meta['saswp_recipe_description_'.$schema_id][0],
-				'mainEntity'                    => array(
-						'@type'				=> 'WebPage',
-						'@id'				=> $all_post_meta['saswp_recipe_main_entity_'.$schema_id][0],
-						'author'			=> array(
+                                'author'			=> array(
 								'@type' 	=> 'Person',
 								'name'		=> $all_post_meta['saswp_recipe_author_name_'.$schema_id][0],
 								'Image'		=> array(
@@ -993,6 +1007,37 @@ function saswp_post_specific_schema_output() {
 									'width'			=> $all_post_meta['saswp_recipe_author_image_'.$schema_id.'_width'][0]
 								),
 							),
+                                                                        
+                                    
+                                'prepTime'                       => $all_post_meta['saswp_recipe_preptime_'.$schema_id][0],  
+                                'cookTime'                       => $all_post_meta['saswp_recipe_cooktime_'.$schema_id][0],  
+                                'totalTime'                      => $all_post_meta['saswp_recipe_totaltime_'.$schema_id][0],  
+                                'keywords'                       => $all_post_meta['saswp_recipe_keywords_'.$schema_id][0],  
+                                'recipeYield'                    => $all_post_meta['saswp_recipe_recipeyield_'.$schema_id][0],  
+                                'recipeCategory'                 => $all_post_meta['saswp_recipe_category_'.$schema_id][0],
+                                'recipeCuisine'                  => $all_post_meta['saswp_recipe_cuisine_'.$schema_id][0],  
+                                'nutrition'                      => array(
+                                                                 '@type'  => "NutritionInformation",
+                                                                 'calories'  => $all_post_meta['saswp_recipe_nutrition_'.$schema_id][0],                                                                 
+                                                                 ), 
+                                'recipeIngredient'               => $ingredient, 
+                                'recipeInstructions'             => $instruction,  
+                                'video'                          => array(
+                                                                        'name'  => $all_post_meta['saswp_recipe_video_name_'.$schema_id][0],
+                                                                        'description'  => $all_post_meta['saswp_recipe_video_description_'.$schema_id][0],
+                                                                        'thumbnailUrl'  => $all_post_meta['saswp_recipe_video_thumbnailurl_'.$schema_id][0],  
+                                                                        'contentUrl'  => $all_post_meta['saswp_recipe_video_contenturl_'.$schema_id][0],  
+                                                                        'embedUrl'  => $all_post_meta['saswp_recipe_video_embedurl_'.$schema_id][0],  
+                                                                        'uploadDate'  => $all_post_meta['saswp_recipe_video_upload_date_'.$schema_id][0],
+                                                                        'duration'  => $all_post_meta['saswp_recipe_video_duration_'.$schema_id][0],                                                                 
+                                                                 ),                                                                                                             
+                                    
+				'datePublished'                 => $all_post_meta['saswp_recipe_date_published_'.$schema_id][0],
+				'dateModified'                  => $all_post_meta['saswp_recipe_date_modified_'.$schema_id][0],
+				'description'                   => $all_post_meta['saswp_recipe_description_'.$schema_id][0],
+				'mainEntity'                    => array(
+						'@type'				=> 'WebPage',
+						'@id'				=> $all_post_meta['saswp_recipe_main_entity_'.$schema_id][0],						
 						'Publisher'			=> array(
 							'@type'			=> 'Organization',
 							'logo' 			=> array(
