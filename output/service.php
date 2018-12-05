@@ -83,4 +83,78 @@ Class saswp_output_service{
            return $review_data;
             
         }
+        
+        public function saswp_dw_question_answers_details($post_id){
+                global $sd_data;
+                $dw_qa = array();
+                $qa_page = array();
+               
+                $post_type = get_post_type($post_id);
+                if($post_type =='dwqa-question' && isset($sd_data['saswp-dw-question-answer']) && $sd_data['saswp-dw-question-answer'] ==1 ){
+                 
+                $post_meta = get_post_meta($post_id, $key='', true);
+                $best_answer_id = $post_meta['_dwqa_best_answer'][0];
+                                               
+                $userid = get_post_field( 'post_author', $post_id );
+                $userinfo = get_userdata($userid);
+                               
+                $dw_qa['@type'] = 'Question';
+                $dw_qa['name'] = get_the_title(); 
+                $dw_qa['upvoteCount'] = get_post_meta( $post_id, '_dwqa_votes', true );                                             
+                $args = array(
+                    'p'         => $post_id, // ID of a page, post, or custom type
+                    'post_type' => 'dwqa-question'
+                  );
+                
+                $my_posts = new WP_Query($args);
+                if ( $my_posts->have_posts() ) {
+                  while ( $my_posts->have_posts() ) : $my_posts->the_post();                   
+                   $dw_qa['text'] = get_the_content();
+                  endwhile;
+                } 
+                $dw_qa['dateCreated'] = get_the_date("Y-m-d\TH:i:s\Z");
+                $dw_qa['author'] = array('@type' => 'Person','name' =>$userinfo->data->user_nicename);   
+                $dw_qa['answerCount'] = $post_meta['_dwqa_answers_count'][0];                  
+                
+                $args = array(
+			'post_type' => 'dwqa-answer',
+			'post_parent' => $post_id,
+			'post_per_page' => '-1',
+			'post_status' => array('publish')
+		);
+                
+                $answer_array = get_posts($args);
+               
+                $accepted_answer = array();
+                $suggested_answer = array();
+                foreach($answer_array as $answer){
+                    $authorinfo = get_userdata($answer->post_author);                    
+                    if($answer->ID == $best_answer_id){
+                        $accepted_answer['@type'] = 'Answer';
+                        $accepted_answer['upvoteCount'] = get_post_meta( $answer->ID, '_dwqa_votes', true );
+                        $accepted_answer['url'] = get_permalink($answer->ID);
+                        $accepted_answer['text'] = $answer->post_content;
+                        $accepted_answer['dateCreated'] = get_the_date("Y-m-d\TH:i:s\Z", $answer);
+                        $accepted_answer['author'] = array('@type' => 'Person', 'name' => $authorinfo->data->user_nicename);
+                    }else{
+                        $suggested_answer[] =  array(
+                            '@type' => 'Answer',
+                            'upvoteCount' => get_post_meta( $answer->ID, '_dwqa_votes', true ),
+                            'url' => get_permalink($answer->ID),
+                            'text' => $answer->post_content,
+                            'dateCreated' => get_the_date("Y-m-d\TH:i:s\Z", $answer),
+                            'author' => array('@type' => 'Person', 'name' => $authorinfo->data->user_nicename),
+                        );
+                    }
+                }
+                $dw_qa['acceptedAnswer'] = $accepted_answer;
+                $dw_qa['suggestedAnswer'] = $suggested_answer;
+                    
+                $qa_page['@context'] = 'http://schema.org';
+                $qa_page['@type'] = 'QAPage';
+                $qa_page['mainEntity'] = $dw_qa;
+                
+                }                
+                 return $qa_page;
+        }
 }

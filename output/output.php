@@ -370,7 +370,7 @@ function saswp_schema_output() {
                                 }
 			}
 
-		// Recipe
+		       // Recipe
 			if( 'Recipe' === $schema_type){
                             
 				if(empty($image_details[0]) || $image_details[0] === NULL ){
@@ -425,7 +425,11 @@ function saswp_schema_output() {
                                    $input1 = array_merge($input1, $extra_theme_review);
                                 }
 			}
-
+                       
+                        if( 'qanda' === $schema_type){
+                            $service_object = new saswp_output_service();
+                            $input1  = $service_object->saswp_dw_question_answers_details(get_the_ID());                               
+			}
 			// Product
 			
 			if(  'Product' === $schema_type){
@@ -749,24 +753,26 @@ function saswp_schema_output() {
 			}
                                 
 		//Check for Featured Image
-			if( is_array($image_details) ){
-				if(isset($image_details[1]) ){
-						$width = $image_details[1];	
-					}
-					if(isset($image_details[2])){
-						$height = $image_details[2];
-					}
-			$input2  = array(
-				                'image'		=>array(
-									'@type'		=>'ImageObject',
-									'url'		=>$image_details[0],
-									'width'		=>$width,
-									'height'	=>$height,
-									),
-				);
-			$input = array_merge($input1,$input2);
-		     }
-			else{			
+                         if( !empty($input1)){
+                        
+                            if( is_array($image_details) ){
+                                    if(isset($image_details[1]) ){
+                                                    $width = $image_details[1];	
+                                            }
+                                            if(isset($image_details[2])){
+                                                    $height = $image_details[2];
+                                            }
+                            $input2  = array(
+                                                    'image'		=>array(
+                                                                            '@type'		=>'ImageObject',
+                                                                            'url'		=>$image_details[0],
+                                                                            'width'		=>$width,
+                                                                            'height'	=>$height,
+                                                                            ),
+                                    );
+                            $input = array_merge($input1,$input2);
+                         }
+                            else{			
 				$input2  = array(
 				                'image'		=>array(
 									'@type'		=>'ImageObject',
@@ -777,6 +783,9 @@ function saswp_schema_output() {
 				);
 				$input = array_merge($input1,$input2);
 		}
+                
+                        }
+                
 		if(isset($schema_options['notAccessibleForFree'])==1){
 
 			add_filter( 'amp_post_template_data', 'saswp_structure_data_access_scripts');			
@@ -797,7 +806,10 @@ function saswp_schema_output() {
 				$input = array_merge($input,$paywallData);
 			}
 		}  
-                $all_schema_output[] = $input;		                
+                
+                if(!empty($input)){
+                $all_schema_output[] = $input;		                    
+                }                
 	}
         }              
         return $all_schema_output;	
@@ -854,6 +866,17 @@ function saswp_post_specific_schema_output() {
                         $service_object = new saswp_output_service();
                         $extra_theme_review = $service_object->saswp_extra_theme_review_details(get_the_ID());
             
+                        
+                        
+                        if( 'qanda' === $schema_type){           
+                            print_r($all_post_meta['saswp_qa_question_title_'.$schema_id][0]);die;
+                            if(trim($all_post_meta['saswp_qa_question_title_'.$schema_id][0]) ==''){
+                                $service_object = new saswp_output_service();
+                                $input1  = $service_object->saswp_dw_question_answers_details(get_the_ID());                               
+                            }else{
+                                
+                            }                                                                                   
+			}                            
                          if( 'Blogposting' === $schema_type){
                     // Blogposting Schema 									
 			$input1 = array(
@@ -1354,6 +1377,9 @@ function saswp_post_specific_schema_output() {
                         $image_id 	= get_post_thumbnail_id();
 			$image_details 	= wp_get_attachment_image_src($image_id, 'full');
 			global $sd_data;
+                        
+                        if(!empty($input)){
+                        
 			if( is_array($image_details) ){
 				if(isset($image_details[1]) ){
 						$width = $image_details[1];	
@@ -1370,8 +1396,7 @@ function saswp_post_specific_schema_output() {
 									),
 				);
 			$input = array_merge($input1,$input2);
-		     }
-			else{			
+		     }else{			
 				$input2  = array(
 				                'image'		=>array(
 									'@type'		=>'ImageObject',
@@ -1382,8 +1407,12 @@ function saswp_post_specific_schema_output() {
 				);
 				$input = array_merge($input1,$input2);
 		}
-		
-                $all_schema_output[] = $input;		                
+                        
+                        }
+                
+                if(!empty($input)){
+                   $all_schema_output[] = $input;		                 
+                }                
 	}
         }              
         return $all_schema_output;	

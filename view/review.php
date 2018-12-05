@@ -8,7 +8,13 @@ class saswp_metaboxes_review {
 	}
         function saswp_review_add_meta_box($post) {
              global $sd_data;          
-          if(get_post_status($post->ID)=='publish' && $sd_data['saswp-review-module']==1){
+             
+            $review_post_id = '';
+            if(is_object($post)){
+                $review_post_id = $post->ID;
+            } 
+             
+          if(get_post_status($review_post_id)=='publish' && $sd_data['saswp-review-module']==1){
               
            $show_post_types = get_post_types();
            unset($show_post_types['adsforwp'],$show_post_types['saswp'],$show_post_types['attachment'], $show_post_types['revision'], $show_post_types['nav_menu_item'], $show_post_types['user_request'], $show_post_types['custom_css']);            

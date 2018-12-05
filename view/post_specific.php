@@ -37,7 +37,12 @@ class saswp_post_specific {
         }
 
         public function saswp_post_specifc_add_meta_boxes($post) {
-            if(count($this->all_schema)>0 && get_post_status($post->ID)=='publish'){
+            
+            $post_specific_id = '';
+            if(is_object($post)){
+                $post_specific_id = $post->ID;
+            }           
+            if(count($this->all_schema)>0 && get_post_status($post_specific_id)=='publish'){
                 
             $show_post_types = get_post_types();
             unset($show_post_types['adsforwp'],$show_post_types['saswp'],$show_post_types['attachment'], $show_post_types['revision'], $show_post_types['nav_menu_item'], $show_post_types['user_request'], $show_post_types['custom_css']);            
@@ -63,10 +68,10 @@ class saswp_post_specific {
 	}
         
         public function saswp_post_meta_box_fields($post){            
-             if(count($this->all_schema)>1){
-                    $tabs = '';
-                    $tabs_fields = '';
-                    $schema_ids = array();
+                $tabs = '';
+                $tabs_fields = '';
+                $schema_ids = array();
+             if(count($this->all_schema)>1){                    
                  foreach($this->all_schema as $key => $schema){
                      $response = $this->saswp_get_fields_by_schema_type($schema->ID);                     
                      $this->meta_fields = $response;
@@ -1525,6 +1530,88 @@ class saswp_post_specific {
                             'type' => 'media',
                             'default' => $sd_data['sd_logo']['url']
                     ),    
+                   );
+                    break;
+                
+                case 'qanda':
+                    $meta_field = array(
+                    array(
+                            'label' => 'Question Title',
+                            'id' => 'saswp_qa_question_title_'.$schema_id,
+                            'type' => 'text',                           
+                    ),
+                    array(
+                            'label' => 'Question Description',
+                            'id' => 'saswp_qa_question_description_'.$schema_id,
+                            'type' => 'text',                           
+                    ),                    
+                    array(
+                            'label' => 'Question Upvote Count',
+                            'id' => 'saswp_qa_upvote_count_'.$schema_id,
+                            'type' => 'text',                           
+                    ),
+                    array(
+                            'label' => 'Question Date Created',
+                            'id' => 'saswp_qa_date_created_'.$schema_id,
+                            'type' => 'text',                           
+                    ),    
+                    array(
+                            'label' => 'Author Name',
+                            'id' => 'saswp_qa_question_author_name_'.$schema_id,
+                            'type' => 'text',                           
+                    ),    
+                    array(
+                            'label' => 'Accepted Answer Text',
+                            'id' => 'saswp_qa_accepted_answer_text'.$schema_id,
+                            'type' => 'text',                           
+                    ),
+                    array(
+                            'label' => 'Accepted Answer Date Created',
+                            'id' => 'saswp_qa_accepted_answer_date_created'.$schema_id,
+                            'type' => 'text',                           
+                    ),
+                    array(
+                            'label' => 'Accepted Answer Upvote Count',
+                            'id' => 'saswp_qa_accepted_answer_upvote_count'.$schema_id,
+                            'type' => 'text',                           
+                    ),
+                    array(
+                            'label' => 'Accepted Answer Url',
+                            'id' => 'saswp_qa_accepted_answer_url'.$schema_id,
+                            'type' => 'text',                           
+                    ),
+                    array(
+                            'label' => 'Accepted Answer Author Name',
+                            'id' => 'saswp_qa_accepted_author_name'.$schema_id,
+                            'type' => 'text',                           
+                    ),    
+                                                
+                    array(
+                            'label' => 'Suggested Answer Text',
+                            'id' => 'saswp_qa_suggested_answer_text'.$schema_id,
+                            'type' => 'text',                           
+                    ),
+                    array(
+                            'label' => 'Suggested Answer Date Created',
+                            'id' => 'saswp_qa_suggested_answer_date_created'.$schema_id,
+                            'type' => 'text',                           
+                    ),
+                    array(
+                            'label' => 'Suggested Answer Upvote Count',
+                            'id' => 'saswp_qa_suggested_answer_upvote_count'.$schema_id,
+                            'type' => 'text',                           
+                    ),
+                    array(
+                            'label' => 'Suggested Answer Url',
+                            'id' => 'saswp_qa_suggested_answer_url'.$schema_id,
+                            'type' => 'text',                           
+                    ),
+                    array(
+                            'label' => 'Suggested Answer Author Name',
+                            'id' => 'saswp_qa_suggested_author_name'.$schema_id,
+                            'type' => 'text',                           
+                    ),                        
+                        
                    );
                     break;
                 

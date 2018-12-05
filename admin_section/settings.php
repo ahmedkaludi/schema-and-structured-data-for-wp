@@ -996,6 +996,26 @@ function saswp_compatibility_page_callback(){
         if(get_template() == 'Extra'){
           $field_objs->saswp_field_generator($meta_fields, $settings);      
         }
+        
+        //DW Question Answer
+        $meta_fields = array(				
+                array(
+			'label' => 'DW Question Answer',
+			'id' => 'saswp-dw-question-answer-checkbox',                        
+                        'name' => 'saswp-dw-question-answer-checkbox',
+			'type' => 'checkbox',
+                        'class' => 'checkbox saswp-checkbox',
+                        'hidden' => array(
+                             'id' => 'saswp-dw-question-answer',
+                             'name' => 'sd_data[saswp-dw-question-answer]',                             
+                        )
+		),  
+                
+	);        
+        
+         if(is_plugin_active('dw-question-answer/dw-question-answer.php')){
+          $field_objs->saswp_field_generator($meta_fields, $settings);      
+        }
        
 }
 

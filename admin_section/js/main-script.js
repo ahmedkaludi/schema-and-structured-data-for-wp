@@ -269,6 +269,15 @@ jQuery(document).ready(function($){
                             }
                       break;
                       
+                      case 'saswp-dw-question-answer-checkbox':
+                          
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-dw-question-answer").val(1);             
+                            }else{
+                              $("#saswp-dw-question-answer").val(0);           
+                            }
+                      break;
+                      
                       default:
                           break;
                   }

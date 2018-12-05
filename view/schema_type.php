@@ -70,6 +70,7 @@
                                      'Recipe'      => 'Recipe',
                                      'Product'     => 'Product',
                                      'Service'     => 'Service',
+                                     'qanda'       => 'Q&A',   
                                      'VideoObject' => 'VideoObject',
                                      'local_business' => 'Local Business'
                                  );
