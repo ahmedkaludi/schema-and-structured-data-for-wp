@@ -599,6 +599,7 @@ class saswp_post_specific {
             $business_type    = esc_sql ( get_post_meta($schema_id, 'saswp_business_type', true)  ); 
             $business_name    = esc_sql ( get_post_meta($schema_id, 'saswp_business_name', true)  ); 
             $business_details = esc_sql ( get_post_meta($schema_id, 'saswp_local_business_details', true)  );
+            $dayoftheweek = get_post_meta ($schema_id, 'saswp_dayofweek', true); 
             $saswp_business_type_key = 'saswp_business_type_'.$schema_id;
             $saved_business_type = get_post_meta( $post->ID, $saswp_business_type_key, true );
             $saved_saswp_business_name = get_post_meta( $post->ID, 'saswp_business_name_'.$schema_id, true );            
@@ -764,30 +765,9 @@ class saswp_post_specific {
                         array(
                             'label' => 'Operation Days',
                             'id' => 'saswp_dayofweek_'.$schema_id,
-                            'type' => 'multiselect',
-                            'options' => array(
-                                     'monday'       => 'Monday',
-                                     'tuesday'      => 'Tuesday',
-                                     'wednesday'    => 'Wednesday',
-                                     'thursday'     => 'Thursday',
-                                     'friday'       => 'Friday',
-                                     'staturday'    => 'Staturday',
-                                     'sunday'       => 'Sunday',                                      
-                            ),
-                            'default' => $business_details['saswp_dayofweek']
-                       ),
-                        array(
-                            'label' => 'Opens',
-                            'id' => 'local_opens_time_'.$schema_id,
-                            'type' => 'text',
-                            'default' => $business_details['local_opens_time']    
-                       ),
-                        array(
-                            'label' => 'Closes',
-                            'id' => 'local_closes_time_'.$schema_id,
-                            'type' => 'text',
-                            'default' => $business_details['local_closes_time']
-                       ),
+                            'type' => 'textarea',                                                           
+                            'default' => $dayoftheweek
+                       ),                        
                         array(
                             'label' => 'Price Range',
                             'id' => 'local_price_range_'.$schema_id,

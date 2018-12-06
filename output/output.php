@@ -690,6 +690,8 @@ function saswp_schema_output() {
                                 $business_type    = esc_sql ( get_post_meta($schema_post_id, 'saswp_business_type', true)  );                                 
                                 $business_name    = esc_sql ( get_post_meta($schema_post_id, 'saswp_business_name', true)  );                                 
                                 $business_details = esc_sql ( get_post_meta($schema_post_id, 'saswp_local_business_details', true)  );                                                                                                
+                                $dayoftheweek = get_post_meta($schema_post_id, 'saswp_dayofweek', true); 
+                                $dayoftheweek = explode( "\r\n", $dayoftheweek);                               
 				if(empty($image_details[0]) || $image_details[0] === NULL ){
 					$image_details[0] = $logo;
 				}
@@ -718,12 +720,7 @@ function saswp_schema_output() {
                                                                 "postalCode"     => $business_details['local_postal_code'],                                                                                                                                  
                                                                  ),	
 				'telephone'                   => $business_details['local_phone'],
-                                'openingHoursSpecification'   => array(                                                                
-                                                                 '@type' => 'OpeningHoursSpecification',
-                                                                 'dayOfWeek'  => $business_details['saswp_dayofweek'],                                                                       
-                                                                 'opens' => $business_details['local_opens_time'],
-                                                                 'closes'=> $business_details['local_closes_time'],
-                                                                ),
+                                'openingHours'   => $dayoftheweek,
                                 
 				);                                       
                                     if(!empty($aggregateRating)){
@@ -1340,7 +1337,7 @@ function saswp_post_specific_schema_output() {
                          }       
                                 
                          if( 'local_business' === $schema_type){
-                            
+                                $operation_days = explode( "rn", esc_html( stripslashes($all_post_meta['saswp_dayofweek_'.$schema_id][0])) );;                               
                                 $business_sub_name ='';
                                 $business_type = $all_post_meta['saswp_business_type_'.$schema_id][0]; 
                                 $post_specific_obj = new saswp_post_specific();
@@ -1367,12 +1364,7 @@ function saswp_post_specific_schema_output() {
                                                                 "postalCode"     => $all_post_meta['local_postal_code_'.$schema_id][0],                                                                                                                                  
                                                                  ),	
 				'telephone'                   => $all_post_meta['local_phone_'.$schema_id][0],
-                                'openingHoursSpecification'   => array(                                                                
-                                                                 '@type' => 'OpeningHoursSpecification',
-                                                                 'dayOfWeek'  => $all_post_meta['saswp_dayofweek_'.$schema_id][0],                                                                       
-                                                                 'opens' => $all_post_meta['local_opens_time_'.$schema_id][0],
-                                                                 'closes'=> $all_post_meta['local_closes_time_'.$schema_id][0],
-                                                                ),                                                                                                     
+                                'openingHours'                => $operation_days,                                                                                                     
 				);
                                     
                                     if(!empty($aggregateRating)){

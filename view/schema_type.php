@@ -37,8 +37,8 @@
                 $business_type    = esc_sql ( get_post_meta($post->ID, 'saswp_business_type', true)  ); 
                 $business_name    = esc_sql ( get_post_meta($post->ID, 'saswp_business_name', true)  ); 
                 $business_details = esc_sql ( get_post_meta($post->ID, 'saswp_local_business_details', true)  ); 
-                $service_details  = esc_sql ( get_post_meta($post->ID, 'saswp_service_schema_details', true)  );                 
-                
+                $service_details  = esc_sql ( get_post_meta($post->ID, 'saswp_service_schema_details', true)  );                                                 
+                $dayoftheweek = get_post_meta($post->ID, 'saswp_dayofweek', true);                                                                  
                 $custom_logo_id = get_theme_mod( 'custom_logo' );
                 $logo = wp_get_attachment_image_src( $custom_logo_id , 'full' );
                                 
@@ -503,34 +503,12 @@
                         </tr>
                         <tr class="saswp-business-text-field-tr" <?php echo $style_business_type; ?>>
                             <td><?php echo esc_html__('Operation Days', 'schema-and-structured-data-for-wp' ); ?></td>
-                            <td>
-                                <select multiple id="saswp_dayofweek" name="saswp_dayofweek[]">
-                                <?php
-
-                                  $selected_days = $business_details['saswp_dayofweek'];                                 
-                                  foreach ($all_dayofweek_array as $key => $value) {
-                                    $sel = '';
-                                    if(isset($selected_days)){
-                                     if(in_array($key, $selected_days)){
-                                      $sel = 'selected';
-                                    }                                    
-                                    echo "<option value='".esc_attr($key)."' ".esc_attr($sel).">".esc_html__($value, 'schema-and-structured-data-for-wp' )."</option>";   
-                                    }else{
-                                    echo "<option value='".esc_attr($key)."'>".esc_html__($value, 'schema-and-structured-data-for-wp' )."</option>";       
-                                    }                                    
-                                  }
-                                ?>
-                               </select>
+                            <td>                                
+                                <textarea id="saswp_dayofweek" placeholder="Mo-Sa 11:00-14:30 <?="\n"?>Mo-Th 17:00-21:30 <?="\n"?>Fr-Sa 17:00-22:00" rows="5" cols="70" name="saswp_dayofweek"><?php if(isset($dayoftheweek)){echo $dayoftheweek; } ?></textarea>
+                                <p>Note: Enter days and time in given format.</p>
                             </td>
                         </tr>
-                         <tr class="saswp-business-text-field-tr" <?php echo $style_business_type; ?>>
-                            <td><?php echo esc_html__('Opens', 'schema-and-structured-data-for-wp' ); ?></td>
-                            <td><input id="saswp-dayofweek-opens-time" value="<?php if(isset($business_details['local_opens_time'])){echo esc_attr($business_details['local_opens_time']); } ?>" type="text" name="local_opens_time" ></td>
-                        </tr>
-                        <tr class="saswp-business-text-field-tr" <?php echo $style_business_type; ?>>
-                            <td><?php echo esc_html__('Closes', 'schema-and-structured-data-for-wp' ); ?></td>
-                            <td><input id="saswp-dayofweek-closes-time" value="<?php if(isset($business_details['local_closes_time'])){echo esc_attr($business_details['local_closes_time']); } ?>" type="text" name="local_closes_time" ></td>
-                        </tr>
+                       
                         <tr class="saswp-business-text-field-tr" <?php echo $style_business_type; ?>>
                             <td><?php echo esc_html__('Price Range', 'schema-and-structured-data-for-wp' ); ?></td>
                             <td><input  value="<?php if(isset($business_details['local_price_range'])){echo esc_attr($business_details['local_price_range']); } ?>" type="text" name="local_price_range" placeholder="<?php echo esc_html__('$10-$50 or $$$ ', 'schema-and-structured-data-for-wp' ); ?>" ></td>
@@ -645,14 +623,9 @@
                 $local_business_details['local_business_logo']['width'] = $_POST['local_business_logo']['width'];
                 $local_business_details['local_business_logo']['height'] = $_POST['local_business_logo']['height'];
                 }
-                if ( isset( $_POST['local_opens_time'] ) ){
-                $local_business_details['local_opens_time'] = $_POST['local_opens_time'];        
-                }
-                if ( isset( $_POST['local_closes_time'] ) ){
-                $local_business_details['local_closes_time'] = $_POST['local_closes_time'];        
-                }
+                
                 if ( isset( $_POST['saswp_dayofweek'] ) ){
-                $local_business_details['saswp_dayofweek'] = $_POST['saswp_dayofweek'];        
+                update_post_meta( $post_id, 'saswp_dayofweek', esc_textarea( stripslashes($_POST['saswp_dayofweek'])) );                
                 }
                 if ( isset( $_POST['local_price_range'] ) ){
                 $local_business_details['local_price_range'] = $_POST['local_price_range'];        
