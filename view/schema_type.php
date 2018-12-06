@@ -244,6 +244,12 @@
                                   }
                                 ?>
                             </select>
+                               <?php if($schema_type == 'qanda') { ?>
+                               <span class="saswp-schem-type-note">Note: Currently supported with DW Question & Answer <a target="_blank" href="https://wordpress.org/plugins/dw-question-answer/">Link</a></span>
+                               <?php }else{ ?>
+                               <span class="saswp-schem-type-note saswp_hide">Note: Currently supported with DW Question & Answer <a target="_blank" href="https://wordpress.org/plugins/dw-question-answer/">Link</a></span>
+                               <?php } ?>
+                               
                            </td>
                         </tr>    
                         <tr class="saswp-business-type-tr" <?php echo $style_business_type; ?>>

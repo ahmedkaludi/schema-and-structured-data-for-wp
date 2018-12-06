@@ -43,6 +43,10 @@ jQuery(document).ready(function($){
              if(schematype == 'Service'){            
              $(".saswp-service-text-field-tr").show();                                          
              }
+              $(".saswp-schem-type-note").addClass('saswp_hide');
+             if(schematype == 'qanda'){
+              $(".saswp-schem-type-note").removeClass('saswp_hide');   
+             }
         }); 
         
         $("#saswp_business_type").change(function(){

@@ -343,7 +343,7 @@ class saswp_post_specific {
                                              if (strpos($meta_field['id'], 'closes_time') !== false || strpos($meta_field['id'], 'opens_time') !== false){
                                              $class='saswp-local-schema-time-picker';    
                                              }
-                                             if (strpos($meta_field['id'], 'date_modified') !== false || strpos($meta_field['id'], 'date_published') !== false  || strpos($meta_field['id'], 'recipe_video_upload_date') !== false){
+                                             if (strpos($meta_field['id'], 'date_modified') !== false || strpos($meta_field['id'], 'date_published') !== false  || strpos($meta_field['id'], 'recipe_video_upload_date') !== false|| strpos($meta_field['id'], 'saswp_qa_date_created') !== false || strpos($meta_field['id'], 'saswp_qa_accepted_answer_date_created') !== false || strpos($meta_field['id'], 'saswp_qa_suggested_answer_date_created') !== false) {
                                              $class='saswp-local-schema-datepicker-picker';    
                                              }
                                              
@@ -1562,53 +1562,53 @@ class saswp_post_specific {
                     ),    
                     array(
                             'label' => 'Accepted Answer Text',
-                            'id' => 'saswp_qa_accepted_answer_text'.$schema_id,
+                            'id' => 'saswp_qa_accepted_answer_text_'.$schema_id,
                             'type' => 'text',                           
                     ),
                     array(
                             'label' => 'Accepted Answer Date Created',
-                            'id' => 'saswp_qa_accepted_answer_date_created'.$schema_id,
+                            'id' => 'saswp_qa_accepted_answer_date_created_'.$schema_id,
                             'type' => 'text',                           
                     ),
                     array(
                             'label' => 'Accepted Answer Upvote Count',
-                            'id' => 'saswp_qa_accepted_answer_upvote_count'.$schema_id,
+                            'id' => 'saswp_qa_accepted_answer_upvote_count_'.$schema_id,
                             'type' => 'text',                           
                     ),
                     array(
                             'label' => 'Accepted Answer Url',
-                            'id' => 'saswp_qa_accepted_answer_url'.$schema_id,
+                            'id' => 'saswp_qa_accepted_answer_url_'.$schema_id,
                             'type' => 'text',                           
                     ),
                     array(
                             'label' => 'Accepted Answer Author Name',
-                            'id' => 'saswp_qa_accepted_author_name'.$schema_id,
+                            'id' => 'saswp_qa_accepted_author_name_'.$schema_id,
                             'type' => 'text',                           
                     ),    
                                                 
                     array(
                             'label' => 'Suggested Answer Text',
-                            'id' => 'saswp_qa_suggested_answer_text'.$schema_id,
+                            'id' => 'saswp_qa_suggested_answer_text_'.$schema_id,
                             'type' => 'text',                           
                     ),
                     array(
                             'label' => 'Suggested Answer Date Created',
-                            'id' => 'saswp_qa_suggested_answer_date_created'.$schema_id,
+                            'id' => 'saswp_qa_suggested_answer_date_created_'.$schema_id,
                             'type' => 'text',                           
                     ),
                     array(
                             'label' => 'Suggested Answer Upvote Count',
-                            'id' => 'saswp_qa_suggested_answer_upvote_count'.$schema_id,
+                            'id' => 'saswp_qa_suggested_answer_upvote_count_'.$schema_id,
                             'type' => 'text',                           
                     ),
                     array(
                             'label' => 'Suggested Answer Url',
-                            'id' => 'saswp_qa_suggested_answer_url'.$schema_id,
+                            'id' => 'saswp_qa_suggested_answer_url_'.$schema_id,
                             'type' => 'text',                           
                     ),
                     array(
                             'label' => 'Suggested Answer Author Name',
-                            'id' => 'saswp_qa_suggested_author_name'.$schema_id,
+                            'id' => 'saswp_qa_suggested_author_name_'.$schema_id,
                             'type' => 'text',                           
                     ),                        
                         

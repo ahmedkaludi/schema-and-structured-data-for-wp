@@ -869,13 +869,41 @@ function saswp_post_specific_schema_output() {
                         
                         
                         if( 'qanda' === $schema_type){           
-                            print_r($all_post_meta['saswp_qa_question_title_'.$schema_id][0]);die;
+                           // print_r($all_post_meta['saswp_qa_question_title_'.$schema_id][0]);die;
                             if(trim($all_post_meta['saswp_qa_question_title_'.$schema_id][0]) ==''){
                                 $service_object = new saswp_output_service();
                                 $input1  = $service_object->saswp_dw_question_answers_details(get_the_ID());                               
                             }else{
-                                
-                            }                                                                                   
+                                $input1 = array(
+                                    '@context'		  => 'http://schema.org',
+                                    '@type'		  => 'QAPage' ,
+                                    'mainEntity'         => array(
+                                            '@type'		  => 'Question' ,
+                                            'name'		  => $all_post_meta['saswp_qa_question_title_'.$schema_id][0],
+                                            'text'		  => $all_post_meta['saswp_qa_question_description_'.$schema_id][0],
+                                            'upvoteCount'         => $all_post_meta['saswp_qa_upvote_count_'.$schema_id][0] ,
+                                            'dateCreated'         => $all_post_meta['saswp_qa_date_created_'.$schema_id][0],
+                                            'author'         => array('@type' => 'Person','name' =>$all_post_meta['saswp_qa_question_author_name_'.$schema_id][0]) ,
+                                            'answerCount'         => 2 ,
+                                            'acceptedAnswer'         => array(
+                                                        '@type' => 'Answer',
+                                                        'upvoteCount' => $all_post_meta['saswp_qa_accepted_answer_upvote_count_'.$schema_id][0],
+                                                        'url' => $all_post_meta['saswp_qa_accepted_answer_url_'.$schema_id][0],
+                                                        'text' => $all_post_meta['saswp_qa_accepted_answer_text_'.$schema_id][0],
+                                                        'dateCreated' => $all_post_meta['saswp_qa_accepted_answer_date_created_'.$schema_id][0],
+                                                        'author' => array('@type' => 'Person', 'name' => $all_post_meta['saswp_qa_accepted_author_name_'.$schema_id][0]),
+                                            ) ,
+                                            'suggestedAnswer'         => array(
+                                                        '@type' => 'Answer',
+                                                        'upvoteCount' => $all_post_meta['saswp_qa_suggested_answer_upvote_count_'.$schema_id][0],
+                                                        'url' => $all_post_meta['saswp_qa_suggested_answer_url_'.$schema_id][0],
+                                                        'text' => $all_post_meta['saswp_qa_suggested_answer_text_'.$schema_id][0],
+                                                        'dateCreated' => $all_post_meta['saswp_qa_suggested_answer_date_created_'.$schema_id][0],
+                                                        'author' => array('@type' => 'Person', 'name' => $all_post_meta['saswp_qa_suggested_author_name_'.$schema_id][0]),
+                                            ) ,                                            
+                                    )
+                                );
+                            }                                
 			}                            
                          if( 'Blogposting' === $schema_type){
                     // Blogposting Schema 									
@@ -1378,7 +1406,7 @@ function saswp_post_specific_schema_output() {
 			$image_details 	= wp_get_attachment_image_src($image_id, 'full');
 			global $sd_data;
                         
-                        if(!empty($input)){
+                        if(!empty($input1)){
                         
 			if( is_array($image_details) ){
 				if(isset($image_details[1]) ){
@@ -1408,8 +1436,7 @@ function saswp_post_specific_schema_output() {
 				$input = array_merge($input1,$input2);
 		}
                         
-                        }
-                
+                        }               
                 if(!empty($input)){
                    $all_schema_output[] = $input;		                 
                 }                
