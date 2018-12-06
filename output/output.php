@@ -868,8 +868,7 @@ function saswp_post_specific_schema_output() {
             
                         
                         
-                        if( 'qanda' === $schema_type){           
-                           // print_r($all_post_meta['saswp_qa_question_title_'.$schema_id][0]);die;
+                        if( 'qanda' === $schema_type){                                      
                             if(trim($all_post_meta['saswp_qa_question_title_'.$schema_id][0]) ==''){
                                 $service_object = new saswp_output_service();
                                 $input1  = $service_object->saswp_dw_question_answers_details(get_the_ID());                               
