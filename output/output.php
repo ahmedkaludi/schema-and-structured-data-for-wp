@@ -624,7 +624,67 @@ function saswp_schema_output() {
                                 if(!empty($extra_theme_review)){
                                    $input1 = array_merge($input1, $extra_theme_review);
                                 }
-				}        
+				}  
+                        
+                        if( 'Review' === $schema_type ){  
+                                 
+                                $schema_data = saswp_get_schema_data($schema_post_id, 'saswp_review_schema_details');                                                              
+                                
+				$input1 = array(
+					'@context'			=> 'http://schema.org',
+					'@type'				=> $schema_type ,                                        
+					'url'                           => get_permalink(),
+                                        'description'                   => $schema_data['saswp_review_schema_description'],
+                                        'itemReviewed'                  => array(
+                                                                '@type'  => $schema_data['saswp_review_schema_item_type'],
+                                                                'name'  => $schema_data['saswp_review_schema_name'],
+                                                                'image'  => $schema_data['saswp_review_schema_image']['url'],
+                                                                'priceRange'  => $schema_data['saswp_review_schema_price_range'],
+                                                                'address'  => array(
+                                                                   '@type'  => 'PostalAddress',  
+                                                                   'streetAddress'  => $schema_data['saswp_review_schema_street_address'],  
+                                                                   'addressLocality'  => $schema_data['saswp_review_schema_locality'],  
+                                                                   'addressRegion'  => $schema_data['saswp_review_schema_region'],  
+                                                                   'postalCode'  => $schema_data['saswp_review_schema_postal_code'],  
+                                                                   'addressCountry'  => $schema_data['saswp_review_schema_country'],       
+                                                                ),
+                                                                 'telephone'                 => $schema_data['saswp_review_schema_telephone'],
+                                        ),                                         
+                                        'datePublished'                 => $date,
+                                        'dateModified'                  => $modified_date,
+                                        'author'			=> array(
+								'@type' 			=> 'Person',
+								'name'				=> $aurthor_name,
+								'Image'				=> array(
+								'@type'				=> 'ImageObject',
+								'url'				=> $author_details['url'],
+								'height'			=> $author_details['height'],
+								'width'				=> $author_details['width']
+								),
+							),
+						'Publisher'			=> array(
+								'@type'				=> 'Organization',
+								'logo' 				=> array(
+								'@type'				=> 'ImageObject',
+								'url'				=> $sd_data['sd_logo']['url'],
+								'width'				=> $sd_data['sd_logo']['width'],
+								'height'			=> $sd_data['sd_logo']['height'],
+										),
+								'name'			        => $sd_data['sd_name'],
+							),
+					                                       										                                                                     
+					
+                                        ); 
+                                       
+                                                                       
+                                if(!empty($aggregateRating)){
+                                    $input1['aggregateRating'] = $aggregateRating;
+                                }
+                                if(!empty($kkstar_aggregateRating)){
+                                   $input1['aggregateRating'] = $kkstar_aggregateRating;  
+                                }                                
+				}          
+                                
 
 			// VideoObject
 			if( 'VideoObject' === $schema_type){
@@ -865,7 +925,7 @@ function saswp_post_specific_schema_output() {
             
                         
                         
-                        if( 'qanda' === $schema_type){                                      
+                         if( 'qanda' === $schema_type){                                      
                             if(trim($all_post_meta['saswp_qa_question_title_'.$schema_id][0]) ==''){
                                 $service_object = new saswp_output_service();
                                 $input1  = $service_object->saswp_dw_question_answers_details(get_the_ID());                               
@@ -1334,7 +1394,59 @@ function saswp_post_specific_schema_output() {
                                 if(!empty($extra_theme_review)){
                                    $input1 = array_merge($input1, $extra_theme_review);
                                 }
-                         }       
+                         }     
+                         
+                         if( 'Review' === $schema_type ){                                                                  
+                               
+				$input1 = array(
+					'@context'			=> 'http://schema.org',
+					'@type'				=> 'Review' ,                                        
+					'url'                           => get_permalink(),
+                                        'description'                   => $all_post_meta['saswp_review_schema_description_'.$schema_id][0],
+                                        'itemReviewed'                  => array(
+                                                                '@type'  => $all_post_meta['saswp_review_schema_item_type_'.$schema_id][0],
+                                                                'name'  => $all_post_meta['saswp_review_schema_name_'.$schema_id][0],
+                                                                'image'  => $all_post_meta['saswp_review_schema_image_'.$schema_id][0],
+                                                                'priceRange'  => $all_post_meta['saswp_review_schema_price_range_'.$schema_id][0],
+                                                                'address'  => array(
+                                                                   '@type'  => 'PostalAddress',  
+                                                                   'streetAddress'  => $all_post_meta['saswp_review_schema_street_address_'.$schema_id][0], 
+                                                                   'addressLocality'  => $all_post_meta['saswp_review_schema_locality_'.$schema_id][0],  
+                                                                   'addressRegion'  => $all_post_meta['saswp_review_schema_region_'.$schema_id][0],  
+                                                                   'postalCode'  => $all_post_meta['saswp_review_schema_postal_code_'.$schema_id][0],  
+                                                                   'addressCountry'  => $all_post_meta['saswp_review_schema_country_'.$schema_id][0],       
+                                                                ),
+                                             'telephone'                 => $all_post_meta['saswp_review_schema_telephone_'.$schema_id][0],
+                                        ), 
+                                       
+                                        'datePublished'                 => $all_post_meta['saswp_review_schema_date_published_'.$schema_id][0],
+                                        'dateModified'                  => $all_post_meta['saswp_review_schema_date_modified_'.$schema_id][0],
+                                        'author'			=> array(
+								'@type' 			=> 'Person',
+								'name'				=> get_the_author(),								
+							),
+						'Publisher'			=> array(
+								'@type'				=> 'Organization',
+								'logo' 				=> array(
+								'@type'				=> 'ImageObject',
+								'url'				=> $sd_data['sd_logo']['url'],
+								'width'				=> $sd_data['sd_logo']['width'],
+								'height'			=> $sd_data['sd_logo']['height'],
+										),
+								'name'			        => $sd_data['sd_name'],
+							),
+					                                       										                                                                     
+					
+                                        ); 
+                                       
+                                                                       
+                                if(!empty($aggregateRating)){
+                                    $input1['aggregateRating'] = $aggregateRating;
+                                }
+                                if(!empty($kkstar_aggregateRating)){
+                                   $input1['aggregateRating'] = $kkstar_aggregateRating;  
+                                }                                
+				}    
                                 
                          if( 'local_business' === $schema_type){
                                 $operation_days = explode( "rn", esc_html( stripslashes($all_post_meta['saswp_dayofweek_'.$schema_id][0])) );;                               
