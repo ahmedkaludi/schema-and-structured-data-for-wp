@@ -524,6 +524,14 @@ function saswp_change_add_new_url() {
        wp_register_style( 'jquery-ui', 'https://code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css' );
        wp_enqueue_style( 'jquery-ui' );
       
+      //Enque select 2 script starts here
+       
+       wp_enqueue_style('select2', 'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css' );
+       wp_enqueue_script('select2', 'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js', array('jquery') );
+       
+      //Enque select 2 script ends here
+       
+       
       
     }
   }

@@ -232,18 +232,10 @@ function saswp_schema_output() {
                         $extra_theme_review = array();
                         $service_object = new saswp_output_service();
                         $extra_theme_review = $service_object->saswp_extra_theme_review_details(get_the_ID());
-                       
-                        
-			if(is_page()){
-				$schema_type = $schema_type; //$sd_data['sd_page_type'];
-			}
-			if(is_single()){
-				$schema_type = $schema_type; //$sd_data['sd_post_type'];
-			}
-			if(is_front_page()){
-				$schema_type = $schema_type; // $sd_data['sd_page_type'];
-			}
-			$input1 = array(
+                                              
+                        if( 'Blogposting' === $schema_type){
+                         
+                        $input1 = array(
 			'@context'			=> 'http://schema.org',
 			'@type'				=> $schema_type ,
 
@@ -267,7 +259,11 @@ function saswp_schema_output() {
 					),
 				'name'			=> $sd_data['sd_name'],
 				),
-			);
+                            );
+                                if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){                                   
+                                    $service = new saswp_output_service();
+                                    $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
+                                }
                                 if(!empty($aggregateRating)){
                                     $input1['aggregateRating'] = $aggregateRating;
                                 }
@@ -277,10 +273,12 @@ function saswp_schema_output() {
                                 if(!empty($extra_theme_review)){
                                    $input1 = array_merge($input1, $extra_theme_review);
                                 }                               
-                        if(isset($sd_data['saswp_comments_schema']) && $sd_data['saswp_comments_schema'] ==1){
-                                    $input1['comment'] = saswp_get_comments(get_the_ID());
-                        }
-			// For WebPage
+                                if(isset($sd_data['saswp_comments_schema']) && $sd_data['saswp_comments_schema'] ==1){
+                                            $input1['comment'] = saswp_get_comments(get_the_ID());
+                                }
+                            
+                        }			
+			
 			if( 'WebPage' === $schema_type){
                             
 				if(empty($image_details[0]) || $image_details[0] === NULL ){
@@ -319,6 +317,10 @@ function saswp_schema_output() {
 					
 				
 				);
+                                if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){
+                                    $service = new saswp_output_service();
+                                    $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
+                                }
                                 if(isset($sd_data['saswp_comments_schema']) && $sd_data['saswp_comments_schema'] ==1){
                                     $input1['comment'] = saswp_get_comments(get_the_ID());
                                 }                                
@@ -331,9 +333,7 @@ function saswp_schema_output() {
                                 if(!empty($extra_theme_review)){
                                    $input1 = array_merge($input1, $extra_theme_review);
                                 }
-			}
-
-		// For Article
+			}	
 		
 			if( 'Article' === $schema_type ){
                             
@@ -362,6 +362,10 @@ function saswp_schema_output() {
 					),
                                     
 				);
+                                if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){
+                                    $service = new saswp_output_service();
+                                    $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
+                                }
                                 if(isset($sd_data['saswp_comments_schema']) && $sd_data['saswp_comments_schema'] ==1){
                                     $input1['comment'] = saswp_get_comments(get_the_ID());
                                 }
@@ -369,8 +373,7 @@ function saswp_schema_output() {
                                    $input1 = array_merge($input1, $extra_theme_review);
                                 }
 			}
-
-		       // Recipe
+		      
 			if( 'Recipe' === $schema_type){
                             
 				if(empty($image_details[0]) || $image_details[0] === NULL ){
@@ -412,6 +415,10 @@ function saswp_schema_output() {
 					),                                        					
 				
 				);
+                                if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){
+                                    $service = new saswp_output_service();
+                                    $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
+                                }
                                 if(isset($sd_data['saswp_comments_schema']) && $sd_data['saswp_comments_schema'] ==1){
                                     $input1['comment'] = saswp_get_comments(get_the_ID());
                                 }                                 
@@ -428,11 +435,15 @@ function saswp_schema_output() {
                        
                         if( 'qanda' === $schema_type){
                             $service_object = new saswp_output_service();
-                            $input1  = $service_object->saswp_dw_question_answers_details(get_the_ID());                               
-			}
-			// Product
-			
-			if(  'Product' === $schema_type){
+                            $input1  = $service_object->saswp_dw_question_answers_details(get_the_ID()); 
+                            
+                            if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){
+                                    $service = new saswp_output_service();
+                                    $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
+                            }
+			}	
+                        
+			if( 'Product' === $schema_type){
                             				
 				$input1 = array(
 				'@context'			=> 'http://schema.org',
@@ -498,6 +509,11 @@ function saswp_schema_output() {
                                       $input1['review'] =  $reviews;
                                   } 
                                 }
+                                
+                                if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){
+                                    $service = new saswp_output_service();
+                                    $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
+                                }
 			}
                         
                         if( 'NewsArticle' === $schema_type ){                              
@@ -547,7 +563,10 @@ function saswp_schema_output() {
 							'name'				=> $sd_data['sd_name'],
 							),                                                     
 					);
-                                
+                                if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){
+                                    $service = new saswp_output_service();
+                                    $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
+                                }
                                 if(isset($sd_data['saswp_comments_schema']) && $sd_data['saswp_comments_schema'] ==1){
                                     $input1['comment'] = saswp_get_comments(get_the_ID());
                                 }                
@@ -562,8 +581,7 @@ function saswp_schema_output() {
                                    $input1 = array_merge($input1, $extra_theme_review);
                                 }
 				}
-                        
-                        
+                                                
                         if( 'Service' === $schema_type ){  
                                  
                                 $schema_data = saswp_get_schema_data($schema_post_id, 'saswp_service_schema_details');                                
@@ -614,7 +632,11 @@ function saswp_schema_output() {
                                             'name'  => $schema_data['saswp_service_schema_name'],
                                             'itemListElement' => $serviceOffer
                                        );
-                                                                       
+                                
+                                if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){
+                                    $service = new saswp_output_service();
+                                    $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
+                                }       
                                 if(!empty($aggregateRating)){
                                     $input1['aggregateRating'] = $aggregateRating;
                                 }
@@ -676,7 +698,11 @@ function saswp_schema_output() {
 					
                                         ); 
                                        
-                                                                       
+                                if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){
+                                    $service = new saswp_output_service();
+                                    $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
+                                }
+                                
                                 if(!empty($aggregateRating)){
                                     $input1['aggregateRating'] = $aggregateRating;
                                 }
@@ -684,9 +710,7 @@ function saswp_schema_output() {
                                    $input1['aggregateRating'] = $kkstar_aggregateRating;  
                                 }                                
 				}          
-                                
-
-			// VideoObject
+                                			
 			if( 'VideoObject' === $schema_type){
                             
 				if(empty($image_details[0]) || $image_details[0] === NULL ){
@@ -730,6 +754,10 @@ function saswp_schema_output() {
 							),                                                    
                                                     
 						);
+                                                if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){
+                                                    $service = new saswp_output_service();
+                                                    $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
+                                                }
                                                 if(isset($sd_data['saswp_comments_schema']) && $sd_data['saswp_comments_schema'] ==1){
                                                  $input1['comment'] = saswp_get_comments(get_the_ID());
                                                 }                                                
@@ -782,7 +810,11 @@ function saswp_schema_output() {
 				'telephone'                   => $business_details['local_phone'],
                                 'openingHours'   => $dayoftheweek,
                                 
-				);                                       
+				);  
+                                    if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){
+                                    $service = new saswp_output_service();
+                                    $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
+                                    }                                
                                     if(!empty($aggregateRating)){
                                     $input1['aggregateRating'] = $aggregateRating;
                                     }
@@ -962,7 +994,7 @@ function saswp_post_specific_schema_output() {
                             }                                
 			}                            
                          if( 'Blogposting' === $schema_type){
-                    // Blogposting Schema 									
+                    									
 			$input1 = array(
 			'@context'			=> 'http://schema.org',
 			'@type'				=> $schema_type ,

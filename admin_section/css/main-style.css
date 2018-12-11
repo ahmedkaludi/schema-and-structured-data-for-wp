@@ -455,6 +455,10 @@ Compatibility tab css starts here
 .saswp-schem-type-note{
     color: chocolate;
 }
+.saswp-custom-fields-name{
+    border: 1px solid #aaa;    
+    border-radius: 4px;
+}
 /*
 Compatibility tab css ends
 */
