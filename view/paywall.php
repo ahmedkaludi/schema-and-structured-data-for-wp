@@ -84,9 +84,9 @@
                             echo '<td><select class="saswp-custom-fields-name">';
                             foreach ($meta_fields as $key =>$val){
                                 if( $fieldkey == $key){
-                                 $option .='<option value="'.$key.'" selected>'.$val.'</option>';   
+                                 $option .='<option value="'.esc_attr($key).'" selected>'.esc_attr($val).'</option>';   
                                 }else{
-                                 $option .='<option value="'.$key.'">'.$val.'</option>';   
+                                 $option .='<option value="'.esc_attr($key).'">'.esc_attr($val).'</option>';   
                                 }
                                 
                             }
@@ -94,7 +94,7 @@
                             echo '</select></td>';
                             
                             echo '<td><select class="saswp-custom-fields-select2" name="saswp_custom_fields['.$fieldkey.']">';
-                            echo '<option value="'.$fieldval.'">'.preg_replace( '/^_/', '', esc_html( str_replace( '_', ' ', $fieldval ) ) ).'</option>';
+                            echo '<option value="'.esc_attr($fieldval).'">'.preg_replace( '/^_/', '', esc_html( str_replace( '_', ' ', $fieldval ) ) ).'</option>';
                             echo '</select></td>';
                             
                             echo '</tr>';
@@ -121,22 +121,20 @@
                 if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
                 if ( ! isset( $_POST['saswp_schema_options_nonce'] ) || ! wp_verify_nonce( $_POST['saswp_schema_options_nonce'], 'saswp_schema_options_nonce' ) ) return;
                 if ( ! current_user_can( 'edit_post', $post_id ) ) return;
-                  
-                
-                
+                                                  
                 $notAccessibleForFree ='';
                 $isAccessibleForFree ='';
                 $paywall_class_name ='';
                 $enable_custom_field ='';
                 $custom_fields ='';
                 if ( isset( $_POST['notAccessibleForFree'] ) )
-                        $notAccessibleForFree = $_POST['notAccessibleForFree'];
+                        $notAccessibleForFree = sanitize_text_field($_POST['notAccessibleForFree']);
                 if ( isset( $_POST['isAccessibleForFree'] ) )
-                        $isAccessibleForFree = $_POST['isAccessibleForFree'];
+                        $isAccessibleForFree = sanitize_text_field($_POST['isAccessibleForFree']);
                 if ( isset( $_POST['paywall_class_name'] ) )
                         $paywall_class_name = sanitize_text_field($_POST['paywall_class_name']);
                 if ( isset( $_POST['saswp_enable_custom_field'] ) )
-                        $enable_custom_field = $_POST['saswp_enable_custom_field'];
+                        $enable_custom_field = sanitize_text_field($_POST['saswp_enable_custom_field']);
                 if ( isset( $_POST['saswp_custom_fields'] ) )
                         $custom_fields = array_map ('sanitize_text_field', $_POST['saswp_custom_fields']);
                 

@@ -170,22 +170,38 @@ function saswp_schema_output() {
 	}	        
         $all_schema_output = array();
         foreach($Conditionals as $schemaConditionals){
-           
+        
+        $logo =''; 
+        $height ='';
+        $width ='';
+        $site_name ='';
 	$schema_options = $schemaConditionals['schema_options'];
 	$schema_type = $schemaConditionals['schema_type'];         
         $schema_post_id = $schemaConditionals['post_id'];  
-	$logo = $sd_data['sd_logo']['url'];        
-		if( '' == $logo && empty($logo) && isset($sd_data['sd_default_image'])){
-			$logo = $sd_data['sd_default_image']['url'];
-		}
-		$height = $sd_data['sd_logo']['height'];
-		if( '' == $height && empty($height) && isset($sd_data['sd_default_image_height'])){
-			$height = $sd_data['sd_default_image_height'];
-		}
-		$width = $sd_data['sd_logo']['width'];
-		if( '' == $width && empty($width) && isset($sd_data['sd_default_image_width'])){
-			$width = $sd_data['sd_default_image_width'];
-		}
+	$logo = $sd_data['sd_logo']['url']; 
+        
+        if(isset($sd_data['sd_name']) && $sd_data['sd_name'] !=''){
+          $site_name = $sd_data['sd_name'];  
+        }else{
+          $site_name = get_bloginfo();    
+        }                                                
+        
+        if('' != $logo && !empty($logo)){
+         $height = $sd_data['sd_logo']['height'];  
+         $width = $sd_data['sd_logo']['width'];
+        }else{            
+            $sizes = array(
+					'width'  => 600,
+					'height' => 60,
+					'crop'   => false,
+				);            
+            $custom_logo_id = get_theme_mod( 'custom_logo' );           
+            $custom_logo = wp_get_attachment_image_src( $custom_logo_id, $sizes); 
+            $logo   = $custom_logo[0];
+            $height =$custom_logo[1];
+            $width  =$custom_logo[2];            
+        }       
+        
 	if(is_singular()){
 		// Generate author id
 	   		$author_id = get_the_author_meta('ID');
@@ -257,7 +273,7 @@ function saswp_schema_output() {
 					'width'		=> $width,
 					'height'	=> $height,
 					),
-				'name'			=> $sd_data['sd_name'],
+				'name'			=> $site_name,
 				),
                             );
                                 if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){                                   
@@ -310,7 +326,7 @@ function saswp_schema_output() {
 								'width'		=> $width,
 								'height'	=> $height,
 								),
-							'name'			=> $sd_data['sd_name'],
+							'name'			=> $site_name,
 						),
                                                
 					),
@@ -354,11 +370,11 @@ function saswp_schema_output() {
 						'@type'			=> 'Organization',
 						'logo' 			=> array(
 							'@type'		=> 'ImageObject',
-							'url'		=> $sd_data['sd_logo']['url'],
-							'width'		=> $sd_data['sd_logo']['width'],
-							'height'	=> $sd_data['sd_logo']['height'],
+							'url'		=> $logo,
+							'width'		=> $width,
+							'height'	=> $height,
 							),
-						'name'			=> $sd_data['sd_name'],
+						'name'			=> $site_name,
 					),
                                     
 				);
@@ -404,11 +420,11 @@ function saswp_schema_output() {
 							'@type'			=> 'Organization',
 							'logo' 			=> array(
 								'@type'		=> 'ImageObject',
-								'url'		=> $sd_data['sd_logo']['url'],
-								'width'		=> $sd_data['sd_logo']['width'],
-								'height'	=> $sd_data['sd_logo']['height'],
+								'url'		=> $logo,
+								'width'		=> $width,
+								'height'	=> $height,
 								),
-							'name'			=> $sd_data['sd_name'],
+							'name'			=> $site_name,
 						),
                                                 
                                     
@@ -556,11 +572,11 @@ function saswp_schema_output() {
 							'@type'				=> 'Organization',
 							'logo' 				=> array(
 							'@type'				=> 'ImageObject',
-							'url'				=> $sd_data['sd_logo']['url'],
-							'width'				=> $sd_data['sd_logo']['width'],
-							'height'			=> $sd_data['sd_logo']['height'],
+							'url'				=> $logo,
+							'width'				=> $width,
+							'height'			=> $height,
 										),
-							'name'				=> $sd_data['sd_name'],
+							'name'				=> $site_name,
 							),                                                     
 					);
                                 if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){
@@ -688,11 +704,11 @@ function saswp_schema_output() {
 								'@type'				=> 'Organization',
 								'logo' 				=> array(
 								'@type'				=> 'ImageObject',
-								'url'				=> $sd_data['sd_logo']['url'],
-								'width'				=> $sd_data['sd_logo']['width'],
-								'height'			=> $sd_data['sd_logo']['height'],
+								'url'				=> $logo,
+								'width'				=> $width,
+								'height'			=> $height,
 										),
-								'name'			        => $sd_data['sd_name'],
+								'name'			        => $site_name,
 							),
 					                                       										                                                                     
 					
@@ -746,11 +762,11 @@ function saswp_schema_output() {
 								'@type'				=> 'Organization',
 								'logo' 				=> array(
 								'@type'				=> 'ImageObject',
-								'url'				=> $sd_data['sd_logo']['url'],
-								'width'				=> $sd_data['sd_logo']['width'],
-								'height'			=> $sd_data['sd_logo']['height'],
+								'url'				=> $logo,
+								'width'				=> $width,
+								'height'			=> $height,
 										),
-								'name'			=> $sd_data['sd_name'],
+								'name'			=> $site_name,
 							),                                                    
                                                     
 						);
@@ -865,9 +881,9 @@ function saswp_schema_output() {
 				$input2  = array(
 				                'image'		=>array(
 									'@type'		=>'ImageObject',
-									'url'		=> $sd_data['sd_logo']['url'],
-                                	'width'		=> $sd_data['sd_logo']['width'],
-                                	'height'	=> $sd_data['sd_logo']['height'],
+									'url'		=> $logo,
+                                                                        'width'		=> $width,
+                                                                        'height'	=> $height,
                                		 ),
 				);
 				$input = array_merge($input1,$input2);
@@ -1698,7 +1714,37 @@ function saswp_kb_website_output(){
 }	
 // For Archive 
 function saswp_archive_output(){
-	global $query_string, $sd_data;
+	global $query_string, $sd_data;                        
+        $logo =''; 
+        $height ='';
+        $width ='';
+        $site_name ='';
+				
+	$logo = $sd_data['sd_logo']['url']; 
+		
+        if(isset($sd_data['sd_name']) && $sd_data['sd_name'] !=''){
+          $site_name = $sd_data['sd_name'];  
+        }else{
+          $site_name = get_bloginfo();    
+        } 
+		
+		
+	if('' != $logo && !empty($logo)){
+         $height = $sd_data['sd_logo']['height'];  
+         $width = $sd_data['sd_logo']['width'];
+        }else{            
+            $sizes = array(
+					'width'  => 600,
+					'height' => 60,
+					'crop'   => false,
+				);            
+            $custom_logo_id = get_theme_mod( 'custom_logo' );           
+            $custom_logo = wp_get_attachment_image_src( $custom_logo_id, 'homepage-thumb'); 
+            $logo   = $custom_logo[0];
+            $height =$custom_logo[1];
+            $width  =$custom_logo[2];            
+        }
+        
 	
 	if(isset($sd_data['saswp_archive_schema']) && $sd_data['saswp_archive_schema'] == 1){
 					
@@ -1711,13 +1757,13 @@ function saswp_archive_output(){
 				$image_details 	= wp_get_attachment_image_src($image_id, 'full');
 				$publisher_info = array(
 				"type" => "Organization",
-			        "name" => $sd_data['sd_name'],
+			        "name" => $site_name,
                                 "logo" => array(
                                     "@type" => "ImageObject",
-                                    "name" => $sd_data['sd_name'],
-                                    "width" => $sd_data['sd_logo']['width'],
-                                    "height"=> $sd_data['sd_logo']['height'],
-                                    "url"=> $sd_data['sd_logo']['url']
+                                    "name" => $site_name,
+                                    "width" => $width,
+                                    "height"=> $height,
+                                    "url"=> $logo
                                 )                                        			        
 				);
 				$publisher_info['name'] = get_bloginfo('name');
