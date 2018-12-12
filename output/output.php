@@ -1739,7 +1739,7 @@ function saswp_archive_output(){
 					'crop'   => false,
 				);            
             $custom_logo_id = get_theme_mod( 'custom_logo' );           
-            $custom_logo = wp_get_attachment_image_src( $custom_logo_id, 'homepage-thumb'); 
+            $custom_logo = wp_get_attachment_image_src( $custom_logo_id, $sizes); 
             $logo   = $custom_logo[0];
             $height =$custom_logo[1];
             $width  =$custom_logo[2];            
