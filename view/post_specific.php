@@ -357,6 +357,9 @@ class saswp_post_specific {
 						$meta_field['type'],
 						$meta_value                                                                                                 
 					   );
+                                            if(isset($meta_field['note'])){
+                                            $input .='<p>'.$meta_field['note'].'</p>';  
+                                           }
                                          break;	
                                 
 				default:       
@@ -1327,26 +1330,64 @@ class saswp_post_specific {
                             'label' => 'Image',
                             'id' => 'saswp_product_image_'.$schema_id,
                             'type' => 'media',
-                            //'default' => $post->post_excerpt
+                            'default' => '' 
                      ); 
                        $meta_field[]  = array(
                             'label' => 'Availability',
                             'id' => 'saswp_product_availability_'.$schema_id,
                             'type' => 'text',
-                            //'default' => $post->post_excerpt
+                            'default' => '' 
                      ); 
                        $meta_field[]  = array(
                             'label' => 'Price',
                             'id' => 'saswp_product_price_'.$schema_id,
                             'type' => 'text',
-                            //'default' => $post->post_excerpt
+                            'default' => '' 
                      ); 
                        $meta_field[]  = array(
                             'label' => 'Price Currency',
                             'id' => 'saswp_product_currency_'.$schema_id,
                             'type' => 'text',
-                            //'default' => $post->post_excerpt
-                     ); 
+                            'default' => '' 
+                     );
+                       $meta_field[]  = array(
+                            'label' => 'SKU',
+                            'id' => 'saswp_product_sku_'.$schema_id,
+                            'type' => 'text',
+                            'default' => '' 
+                     );
+                       $meta_field[]  = array(
+                            'label' => 'Brand',
+                            'id' => 'saswp_product_brand_'.$schema_id,
+                            'type' => 'text',
+                            'default' => '' 
+                     );
+                       $meta_field[]  = array(
+                            'label' => 'Price Valid Until',
+                            'id' => 'saswp_product_priceValidUntil_'.$schema_id,
+                            'type' => 'text',
+                             'default' => '' 
+                     );
+                       $meta_field[]  = array(
+                            'label' => 'MPN',
+                            'id' => 'saswp_product_mpn_'.$schema_id,
+                            'type' => 'text',
+                            'note'   => 'OR',
+                            'default' => '' 
+                     );
+                       $meta_field[]  = array(
+                            'label' => 'ISBN',
+                            'id' => 'saswp_product_isbn_'.$schema_id,
+                            'type' => 'text',
+                            'note'   => 'OR',
+                            'default' => '' 
+                     );
+                       $meta_field[]  = array(
+                            'label' => 'GTIN8',
+                            'id' => 'saswp_product_gtin8_'.$schema_id,
+                            'type' => 'text', 
+                            'default' => ''                           
+                     );
                     }                   
                     break;
                 

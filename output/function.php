@@ -55,14 +55,7 @@ function saswp_data_generator() {
                         $output .= $author_output; 
                         $output .= ",";
                         $output .= "\n\n";
-                        }
-                        if(count(json_decode($dw_qa,1))!=0){
-                           
-                        $output .= $dw_qa; 
-                        $output .= ",";
-                        $output .= "\n\n";
-                        }
-                      
+                        }                                              
                         if(!empty($archive_output)){
                         
                         $output .= $archive_output;   

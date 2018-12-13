@@ -488,6 +488,7 @@ function saswp_schema_output() {
                                     '@type'				=> 'Product',
                                     'url'				=> get_permalink(),
                                     'name'                              => $product_details['product_name'],
+                                    'sku'                               => $product_details['product_sku'],    
                                     'description'                       => $product_details['product_description'],
                                     'image'                             => $product_details['product_image'],    
                                     'offers'                            => array(
@@ -495,10 +496,23 @@ function saswp_schema_output() {
                                                                         'availability'	=> $product_details['product_availability'],
                                                                         'price'	=> $product_details['product_price'],
                                                                         'priceCurrency'	=> $product_details['product_currency'],
+                                                                        'url'           => get_permalink(),
+                                                                        'priceValidUntil'=> $product_details['product_priceValidUntil'],
                                                                              ),
                                         
 				  ); 
-                                     
+                                  if(isset($product_details['product_gtin8']) && $product_details['product_gtin8'] !=''){
+                                    $input1['gtin8'] = $product_details['product_gtin8'];  
+                                  }
+                                  if(isset($product_details['product_mpn']) && $product_details['product_mpn'] !=''){
+                                    $input1['mpn'] = $product_details['product_mpn'];  
+                                  }
+                                  if(isset($product_details['product_isbn']) && $product_details['product_isbn'] !=''){
+                                    $input1['isbn'] = $product_details['product_isbn'];  
+                                  }
+                                  if(isset($product_details['product_brand']) && $product_details['product_brand'] !=''){
+                                    $input1['brand'] =  array('@type'=>'Thing','name'=>$product_details['product_brand']);  
+                                  }                                     
                                   if(isset($product_details['product_review_count']) && isset($product_details['product_average_rating'])){
                                        $input1['aggregateRating'] =  array(
                                                                         '@type'         => 'AggregateRating',
@@ -1246,17 +1260,31 @@ function saswp_post_specific_schema_output() {
                                     '@type'				=> 'Product',
                                     'url'				=> $all_post_meta['saswp_product_url_'.$schema_id][0],
                                     'name'                              => $all_post_meta['saswp_product_name_'.$schema_id][0],
+                                    'sku'                               => $all_post_meta['saswp_product_sku_'.$schema_id][0],        
                                     'description'                       => $all_post_meta['saswp_product_description_'.$schema_id][0],
                                     'image'                             => $all_post_meta['saswp_product_image_'.$schema_id][0],    
                                     'offers'                            => array(
-                                                                        '@type'	=> 'Offer',
-                                                                        'availability'	=> $all_post_meta['saswp_product_availability_'.$schema_id][0],
-                                                                        'price'	=> $all_post_meta['saswp_product_price_'.$schema_id][0],
-                                                                        'priceCurrency'	=> $all_post_meta['saswp_product_currency_'.$schema_id][0],
+                                                                            '@type'	=> 'Offer',
+                                                                            'availability'	=> $all_post_meta['saswp_product_availability_'.$schema_id][0],
+                                                                            'price'	=> $all_post_meta['saswp_product_price_'.$schema_id][0],
+                                                                            'priceCurrency'	=> $all_post_meta['saswp_product_currency_'.$schema_id][0],
+                                                                            'url'           => $all_post_meta['saswp_product_url_'.$schema_id][0],
+                                                                            'priceValidUntil'=> $all_post_meta['saswp_product_priceValidUntil_'.$schema_id][0],
                                                                              ),
                                         
 				  ); 
-                                     
+                                  if(isset($all_post_meta['saswp_product_gtin8_'.$schema_id])){
+                                    $input1['gtin8'] = $all_post_meta['saswp_product_gtin8_'.$schema_id][0];  
+                                  }
+                                  if(isset($all_post_meta['saswp_product_mpn_'.$schema_id])){
+                                    $input1['mpn'] = $all_post_meta['saswp_product_mpn_'.$schema_id][0];  
+                                  }
+                                  if(isset($all_post_meta['saswp_product_isbn_'.$schema_id][0])){
+                                    $input1['isbn'] = $all_post_meta['saswp_product_isbn_'.$schema_id][0];  
+                                  }
+                                  if(isset($all_post_meta['saswp_product_brand_'.$schema_id])){
+                                    $input1['brand'] =  array('@type'=>'Thing','name'=>$all_post_meta['saswp_product_brand_'.$schema_id][0]);  
+                                  }                                       
                                   if(isset($product_details['product_review_count']) && isset($product_details['product_average_rating'])){
                                        $input1['aggregateRating'] =  array(
                                                                         '@type'         => 'AggregateRating',
