@@ -513,6 +513,7 @@ jQuery(document).ready(function($){
                                    setTimeout(function(){ location.reload(); }, 1000);
                               }else{
                                   alert(response['msg']);
+                                  setTimeout(function(){ location.reload(); }, 1000);
                               }       		   		
                              },'json');
         });
