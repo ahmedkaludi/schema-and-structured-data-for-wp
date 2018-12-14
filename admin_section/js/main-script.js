@@ -433,13 +433,14 @@ jQuery(document).ready(function($){
         }
         $('.saswp-local-schema-time-picker').timepicker({ 'timeFormat': 'H:i:s'});
         $(".saswp-modify_schema_post_enable").on("click", function(e){
-            $(this).remove();
+            var current = $(this);
             e.preventDefault();                                                    
                          $.get(ajaxurl, 
                              { action:"saswp_modify_schema_post_enable", post_id: saswp_localize_data.post_id,saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
-                              function(response){    
+                              function(response){   
+                               current.remove();   
                                $("#post_specific .inside").append(response); 
-                               saswpAddTimepicker();
+                               saswpAddTimepicker();                               
                              });
         });
         
