@@ -706,7 +706,7 @@
                    }
                    if ( isset( $_POST['saswp_service_schema_image'] ) ){
                     $service_schema_details['saswp_service_schema_image']['id'] = sanitize_text_field($_POST['saswp_service_schema_image']['id']);    
-                    $service_schema_details['saswp_service_schema_image']['url'] = sanitize_text_field($_POST['saswp_service_schema_image']['url']);
+                    $service_schema_details['saswp_service_schema_image']['url'] = esc_url_raw($_POST['saswp_service_schema_image']['url']);
                     $service_schema_details['saswp_service_schema_image']['width'] = sanitize_text_field($_POST['saswp_service_schema_image']['width']);
                     $service_schema_details['saswp_service_schema_image']['height'] = sanitize_text_field($_POST['saswp_service_schema_image']['height']);
                    }
@@ -747,7 +747,7 @@
                    }
                    if ( isset( $_POST['saswp_review_schema_image'] ) ){
                     $review_schema_details['saswp_review_schema_image']['id'] = sanitize_text_field($_POST['saswp_review_schema_image']['id']);    
-                    $review_schema_details['saswp_review_schema_image']['url'] = sanitize_text_field($_POST['saswp_review_schema_image']['url']);
+                    $review_schema_details['saswp_review_schema_image']['url'] = esc_url_raw($_POST['saswp_review_schema_image']['url']);
                     $review_schema_details['saswp_review_schema_image']['width'] = sanitize_text_field($_POST['saswp_review_schema_image']['width']);
                     $review_schema_details['saswp_review_schema_image']['height'] = sanitize_text_field($_POST['saswp_review_schema_image']['height']);
                    }

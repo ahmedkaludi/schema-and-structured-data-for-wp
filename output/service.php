@@ -630,8 +630,10 @@ Class saswp_output_service{
              $product_details['product_image'] = $product->get_image();
              $product_details['product_availability'] = $product->get_stock_status();
              $product_details['product_price'] = $product->get_price();
-             $product_details['product_sku'] = $product->get_sku();
-             $product_details['product_priceValidUntil'] = $date_on_sale->date('Y-m-d G:i:s');
+             $product_details['product_sku'] = $product->get_sku();             
+             if(isset($date_on_sale)){
+             $product_details['product_priceValidUntil'] = $date_on_sale->date('Y-m-d G:i:s');    
+             }                          
              $product_details['product_currency'] = get_option( 'woocommerce_currency' );             
              
              $reviews_arr = array();

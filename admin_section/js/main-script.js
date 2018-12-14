@@ -503,7 +503,7 @@ jQuery(document).ready(function($){
                           }                                        
         }).change();  
         
-        $(".saswp-restore-post-schema").on("click", function(e){
+        $(document).on("click", ".saswp-restore-post-schema", function(e){
             e.preventDefault();   
             var schema_ids = JSON.parse($(".saswp-post-specific-schema-ids").val());                           
                          $.post(ajaxurl, 

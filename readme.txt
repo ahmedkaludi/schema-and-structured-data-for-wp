@@ -3,7 +3,7 @@ Contributors: mohammed_kaludi, ahmedkaludi, ampforwp
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 4.9.8
-Stable tag: 1.0.5
+Stable tag: 1.0.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -64,6 +64,20 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.0.6 (14 December 2018) =
+
+* New Feature: Review schema type add to the schema type list
+* New Feature: Compatibility with extra theme by elegant, Now extra theme built in review and rating will be indexed in google after enabling option
+* New Feature: Compatibility with Woocommerce product, Now the product schema with its woocommerce product details will be indexed in google search
+* New Feature: Q&A schema type add to the schema type list, Currently it is compatible with DW Question & Answer plugin
+* New Feature: Modify Schema output, custom fields can be selected for schema fields
+* Modified: Different opening and closing hours for different days of the week in local business schema type
+* Modified: Now post specific modify schema will support on page and custom post type
+* Bug Fixed: Compatibility issue with the Blackbar plugin #83
+* Bug Fixed: Added missing recipe fields in the post specific metabox #81
+
+
 
 = 1.0.5 (30 November 2018) =
 

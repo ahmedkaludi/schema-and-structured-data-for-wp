@@ -343,7 +343,7 @@ class saswp_post_specific {
                                              if (strpos($meta_field['id'], 'closes_time') !== false || strpos($meta_field['id'], 'opens_time') !== false){
                                              $class='saswp-local-schema-time-picker';    
                                              }
-                                             if (strpos($meta_field['id'], 'date_modified') !== false || strpos($meta_field['id'], 'date_published') !== false  || strpos($meta_field['id'], 'recipe_video_upload_date') !== false|| strpos($meta_field['id'], 'saswp_qa_date_created') !== false || strpos($meta_field['id'], 'saswp_qa_accepted_answer_date_created') !== false || strpos($meta_field['id'], 'saswp_qa_suggested_answer_date_created') !== false) {
+                                             if (strpos($meta_field['id'], 'date_modified') !== false || strpos($meta_field['id'], 'date_published') !== false  || strpos($meta_field['id'], 'recipe_video_upload_date') !== false|| strpos($meta_field['id'], 'saswp_qa_date_created') !== false || strpos($meta_field['id'], 'saswp_qa_accepted_answer_date_created') !== false || strpos($meta_field['id'], 'saswp_qa_suggested_answer_date_created') !== false || 'product_priceValidUntil' !== false) {
                                              $class='saswp-local-schema-datepicker-picker';    
                                              }
                                              
