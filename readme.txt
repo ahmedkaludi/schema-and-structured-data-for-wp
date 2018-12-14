@@ -68,9 +68,9 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 = 1.0.6 (14 December 2018) =
 
 * New Feature: Review schema type add to the schema type list
-* New Feature: Compatibility with Extra theme by Elegant Themes (https://www.elegantthemes.com) , Now extra theme built in review and rating will be indexed in google after enabling option
-* New Feature: Compatibility with WooCommerce (https://wordpress.org/plugins/woocommerce), Now the product schema with its WooCommerce product details will be indexed in google search
-* New Feature: Q&A schema type add to the schema type list, Currently it is compatible with DW Question & Answer plugin (https://wordpress.org/plugins/dw-question-answer) 
+* New Feature: Compatibility with Extra theme by Elegant Themes ( https://www.elegantthemes.com ) , Now extra theme built in review and rating will be indexed in google after enabling option
+* New Feature: Compatibility with WooCommerce ( https://wordpress.org/plugins/woocommerce ), Now the product schema with its WooCommerce product details will be indexed in google search
+* New Feature: Q&A schema type add to the schema type list, Currently it is compatible with DW Question & Answer plugin ( https://wordpress.org/plugins/dw-question-answer ) 
 * New Feature: Modify Schema output, custom fields can be selected for schema fields
 * Improvement: Different opening and closing hours for different days of the week in local business schema type
 * Improvement: Now post specific modify schema will support on page and custom post type
