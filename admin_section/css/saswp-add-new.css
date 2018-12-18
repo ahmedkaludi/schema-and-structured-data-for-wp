@@ -2431,3 +2431,9 @@ body .amp_install_center {text-align: center}
 #saswp_amp_select{
     border: 0px;
 }
+.saswp_hide{
+    display: none;
+}
+.saswp-schem-type-note{
+    color: chocolate;
+}

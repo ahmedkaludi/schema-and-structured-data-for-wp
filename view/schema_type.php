@@ -28,6 +28,7 @@
                 $style_business_type ='';
                 $style_business_name =''; 
                 $style_service_name =''; 
+                $style_review_name =''; 
                 $business_name ='';
                 $schema_type ='';
                 $business_type ='';
@@ -37,8 +38,9 @@
                 $business_type    = esc_sql ( get_post_meta($post->ID, 'saswp_business_type', true)  ); 
                 $business_name    = esc_sql ( get_post_meta($post->ID, 'saswp_business_name', true)  ); 
                 $business_details = esc_sql ( get_post_meta($post->ID, 'saswp_local_business_details', true)  ); 
-                $service_details  = esc_sql ( get_post_meta($post->ID, 'saswp_service_schema_details', true)  );                 
-                
+                $service_details  = esc_sql ( get_post_meta($post->ID, 'saswp_service_schema_details', true)  );
+                $review_details   = esc_sql ( get_post_meta($post->ID, 'saswp_review_schema_details', true)  );
+                $dayoftheweek = get_post_meta($post->ID, 'saswp_dayofweek', true);                                                                  
                 $custom_logo_id = get_theme_mod( 'custom_logo' );
                 $logo = wp_get_attachment_image_src( $custom_logo_id , 'full' );
                                 
@@ -70,6 +72,8 @@
                                      'Recipe'      => 'Recipe',
                                      'Product'     => 'Product',
                                      'Service'     => 'Service',
+                                     'Review'      => 'Review',
+                                     'qanda'       => 'Q&A',   
                                      'VideoObject' => 'VideoObject',
                                      'local_business' => 'Local Business'
                                  );
@@ -243,6 +247,12 @@
                                   }
                                 ?>
                             </select>
+                               <?php if($schema_type == 'qanda') { ?>
+                               <span class="saswp-schem-type-note">Note: Currently supported with DW Question & Answer <a target="_blank" href="https://wordpress.org/plugins/dw-question-answer/">Link</a></span>
+                               <?php }else{ ?>
+                               <span class="saswp-schem-type-note saswp_hide">Note: Currently supported with DW Question & Answer <a target="_blank" href="https://wordpress.org/plugins/dw-question-answer/">Link</a></span>
+                               <?php } ?>
+                               
                            </td>
                         </tr>    
                         <tr class="saswp-business-type-tr" <?php echo $style_business_type; ?>>
@@ -496,34 +506,12 @@
                         </tr>
                         <tr class="saswp-business-text-field-tr" <?php echo $style_business_type; ?>>
                             <td><?php echo esc_html__('Operation Days', 'schema-and-structured-data-for-wp' ); ?></td>
-                            <td>
-                                <select multiple id="saswp_dayofweek" name="saswp_dayofweek[]">
-                                <?php
-
-                                  $selected_days = $business_details['saswp_dayofweek'];                                 
-                                  foreach ($all_dayofweek_array as $key => $value) {
-                                    $sel = '';
-                                    if(isset($selected_days)){
-                                     if(in_array($key, $selected_days)){
-                                      $sel = 'selected';
-                                    }                                    
-                                    echo "<option value='".esc_attr($key)."' ".esc_attr($sel).">".esc_html__($value, 'schema-and-structured-data-for-wp' )."</option>";   
-                                    }else{
-                                    echo "<option value='".esc_attr($key)."'>".esc_html__($value, 'schema-and-structured-data-for-wp' )."</option>";       
-                                    }                                    
-                                  }
-                                ?>
-                               </select>
+                            <td>                                
+                                <textarea id="saswp_dayofweek" placeholder="Mo-Sa 11:00-14:30 <?="\n"?>Mo-Th 17:00-21:30 <?="\n"?>Fr-Sa 17:00-22:00" rows="5" cols="70" name="saswp_dayofweek"><?php if(isset($dayoftheweek)){echo $dayoftheweek; } ?></textarea>
+                                <p>Note: Enter days and time in given format.</p>
                             </td>
                         </tr>
-                         <tr class="saswp-business-text-field-tr" <?php echo $style_business_type; ?>>
-                            <td><?php echo esc_html__('Opens', 'schema-and-structured-data-for-wp' ); ?></td>
-                            <td><input id="saswp-dayofweek-opens-time" value="<?php if(isset($business_details['local_opens_time'])){echo esc_attr($business_details['local_opens_time']); } ?>" type="text" name="local_opens_time" ></td>
-                        </tr>
-                        <tr class="saswp-business-text-field-tr" <?php echo $style_business_type; ?>>
-                            <td><?php echo esc_html__('Closes', 'schema-and-structured-data-for-wp' ); ?></td>
-                            <td><input id="saswp-dayofweek-closes-time" value="<?php if(isset($business_details['local_closes_time'])){echo esc_attr($business_details['local_closes_time']); } ?>" type="text" name="local_closes_time" ></td>
-                        </tr>
+                       
                         <tr class="saswp-business-text-field-tr" <?php echo $style_business_type; ?>>
                             <td><?php echo esc_html__('Price Range', 'schema-and-structured-data-for-wp' ); ?></td>
                             <td><input  value="<?php if(isset($business_details['local_price_range'])){echo esc_attr($business_details['local_price_range']); } ?>" type="text" name="local_price_range" placeholder="<?php echo esc_html__('$10-$50 or $$$ ', 'schema-and-structured-data-for-wp' ); ?>" ></td>
@@ -581,6 +569,59 @@
                         </tr>
                         
                         <!-- Service Schema type ends here -->
+                        
+                        <!-- Review Schema type starts here -->
+                        <tr class="saswp-review-text-field-tr" <?php echo $style_review_name; ?>>
+                            <td><?php echo esc_html__('Item Reviewed Type', 'schema-and-structured-data-for-wp' ); ?></td>
+                            <td><input  value="<?php if(isset($review_details['saswp_review_schema_item_type'])){echo esc_attr($review_details['saswp_review_schema_item_type']); } ?>" type="text" name="saswp_review_schema_item_type" placeholder="<?php echo esc_html__('Restaurant', 'schema-and-structured-data-for-wp' ); ?>" ></td>
+                        </tr>
+                        <tr class="saswp-review-text-field-tr" <?php echo $style_review_name; ?>>
+                            <td><?php echo esc_html__('Name', 'schema-and-structured-data-for-wp' ); ?></td>
+                            <td><input  value="<?php if(isset($review_details['saswp_review_schema_name'])){echo esc_attr($review_details['saswp_review_schema_name']); } ?>" type="text" name="saswp_review_schema_name" placeholder="<?php echo esc_html__('Name', 'schema-and-structured-data-for-wp' ); ?>" ></td>
+                        </tr>
+                        <tr class="saswp-review-text-field-tr" <?php echo $style_review_name; ?>>
+                            <td><?php echo esc_html__('Description', 'schema-and-structured-data-for-wp' ); ?></td>
+                            <td><textarea placeholder="Description" rows="3" cols="70" name="saswp_review_schema_description"><?php if(isset($review_details['saswp_review_schema_description'])){echo esc_attr($review_details['saswp_review_schema_description']); } ?></textarea></td>
+                        </tr>
+                        <tr class="saswp-review-text-field-tr" <?php echo $style_review_name; ?>>
+                            <td><?php echo esc_html__('Image', 'schema-and-structured-data-for-wp' ); ?></td>
+                            <td style="display: flex; width: 97%">
+                                <input value="<?php if(isset($review_details['saswp_review_schema_image'])) { echo esc_url($review_details['saswp_review_schema_image']['url']);} else { echo esc_url($logo[0]); } ?>" id="saswp_review_schema_image" type="text" name="saswp_review_schema_image[url]" placeholder="<?php echo esc_html__('Image', 'schema-and-structured-data-for-wp' ); ?>" readonly="readonly" style="background: #FFF;">
+                                <input value="<?php if(isset($review_details['saswp_review_schema_image'])) { echo esc_attr($review_details['saswp_review_schema_image']['id']);} else { echo esc_attr($custom_logo_id); }?>" data-id="saswp_review_schema_image_id" type="hidden" name="saswp_review_schema_image[id]">
+                                <input value="<?php if(isset($review_details['saswp_review_schema_image'])) { echo esc_attr($review_details['saswp_review_schema_image']['width']);} else { echo esc_attr($logo[1]); } ?>" data-id="saswp_review_schema_image_width" type="hidden" name="saswp_review_schema_image[width]">
+                                <input value="<?php if(isset($review_details['saswp_review_schema_image'])) { echo esc_attr($review_details['saswp_review_schema_image']['height']);} else { echo esc_attr($logo[2]); } ?>" data-id="saswp_review_schema_image_height" type="hidden" name="saswp_review_schema_image[height]">
+                                <input data-id="media" class="button" id="saswp_review_schema_image_button" type="button" value="Upload"></td>
+                        </tr>
+                        <tr class="saswp-review-text-field-tr" <?php echo $style_review_name; ?>>
+                            <td><?php echo esc_html__('Price Range', 'schema-and-structured-data-for-wp' ); ?></td>
+                            <td><input  value="<?php if(isset($review_details['saswp_review_schema_price_range'])){echo esc_attr($review_details['saswp_review_schema_price_range']); } ?>" type="text" name="saswp_review_schema_price_range" placeholder="<?php echo esc_html__('Price Range', 'schema-and-structured-data-for-wp' ); ?>" ></td>
+                        </tr>
+                        <tr class="saswp-review-text-field-tr" <?php echo $style_review_name; ?>>
+                            <td><?php echo esc_html__('Street Address', 'schema-and-structured-data-for-wp' ); ?></td>
+                            <td><input  value="<?php if(isset($review_details['saswp_review_schema_street_address'])){echo esc_attr($review_details['saswp_review_schema_street_address']); } ?>" type="text" name="saswp_review_schema_street_address" placeholder="<?php echo esc_html__('Street Address', 'schema-and-structured-data-for-wp' ); ?>" ></td>
+                        </tr>
+                        <tr class="saswp-review-text-field-tr" <?php echo $style_review_name; ?>>
+                            <td><?php echo esc_html__('Address Locality', 'schema-and-structured-data-for-wp' ); ?></td>
+                            <td><input  value="<?php if(isset($review_details['saswp_review_schema_locality'])){echo esc_attr($review_details['saswp_review_schema_locality']); } ?>" type="text" name="saswp_review_schema_locality" placeholder="<?php echo esc_html__('Address Locality', 'schema-and-structured-data-for-wp' ); ?>" ></td>
+                        </tr>
+                        <tr class="saswp-review-text-field-tr" <?php echo $style_review_name; ?>>
+                            <td><?php echo esc_html__('Address Region', 'schema-and-structured-data-for-wp' ); ?></td>
+                            <td><input  value="<?php if(isset($review_details['saswp_review_schema_region'])){echo esc_attr($review_details['saswp_review_schema_region']); } ?>" type="text" name="saswp_review_schema_region" placeholder="<?php echo esc_html__('Address Region', 'schema-and-structured-data-for-wp' ); ?>" ></td>
+                        </tr>
+                        <tr class="saswp-review-text-field-tr" <?php echo $style_review_name; ?>>
+                            <td><?php echo esc_html__('Postal Code', 'schema-and-structured-data-for-wp' ); ?></td>
+                            <td><input  value="<?php if(isset($review_details['saswp_review_schema_postal_code'])){echo esc_attr($review_details['saswp_review_schema_postal_code']); } ?>" type="text" name="saswp_review_schema_postal_code" placeholder="<?php echo esc_html__('Postal Code', 'schema-and-structured-data-for-wp' ); ?>" ></td>
+                        </tr>
+                        <tr class="saswp-review-text-field-tr" <?php echo $style_review_name; ?>>
+                            <td><?php echo esc_html__('Address Country', 'schema-and-structured-data-for-wp' ); ?></td>
+                            <td><input  value="<?php if(isset($review_details['saswp_review_schema_country'])){echo esc_attr($review_details['saswp_review_schema_country']); } ?>" type="text" name="saswp_review_schema_country" placeholder="<?php echo esc_html__('Address Country', 'schema-and-structured-data-for-wp' ); ?>" ></td>
+                        </tr>
+                        <tr class="saswp-review-text-field-tr" <?php echo $style_review_name; ?>>
+                            <td><?php echo esc_html__('Telephone', 'schema-and-structured-data-for-wp' ); ?></td>
+                            <td><input  value="<?php if(isset($review_details['saswp_review_schema_telephone'])){echo esc_attr($review_details['saswp_review_schema_telephone']); } ?>" type="text" name="saswp_review_schema_telephone" placeholder="<?php echo esc_html__('Telephone', 'schema-and-structured-data-for-wp' ); ?>" ></td>
+                        </tr>
+                        
+                        <!-- Review Schema type ends here -->
                     </table>  
                    
                 </div>
@@ -611,92 +652,128 @@
                 
                 $local_business_details = array();
                 if ( isset( $_POST['local_business_name'] ) ){
-                $local_business_details['local_business_name'] = $_POST['local_business_name'];        
+                $local_business_details['local_business_name'] = sanitize_text_field($_POST['local_business_name']);        
                 }
                 if ( isset( $_POST['local_street_address'] ) ){
-                $local_business_details['local_street_address'] = $_POST['local_street_address'];        
+                $local_business_details['local_street_address'] = sanitize_text_field($_POST['local_street_address']);        
                 }
                 if ( isset( $_POST['local_city'] ) ){
-                $local_business_details['local_city'] = $_POST['local_city'];        
+                $local_business_details['local_city'] = sanitize_text_field($_POST['local_city']);        
                 }
                 if ( isset( $_POST['local_state'] ) ){
-                $local_business_details['local_state'] = $_POST['local_state'];        
+                $local_business_details['local_state'] = sanitize_text_field($_POST['local_state']);        
                 }
                 if ( isset( $_POST['local_postal_code'] ) ){
-                $local_business_details['local_postal_code'] = $_POST['local_postal_code'];        
+                $local_business_details['local_postal_code'] = sanitize_text_field($_POST['local_postal_code']);        
                 }
                 if ( isset( $_POST['local_phone'] ) ){
-                $local_business_details['local_phone'] = $_POST['local_phone'];        
+                $local_business_details['local_phone'] = sanitize_text_field($_POST['local_phone']);        
                 }
                 if ( isset( $_POST['local_website'] ) ){
-                $local_business_details['local_website'] = $_POST['local_website'];        
+                $local_business_details['local_website'] = esc_url_raw($_POST['local_website']);        
                 }
                 if ( isset( $_POST['local_business_logo'] ) ){
                  
-                $local_business_details['local_business_logo']['id'] = $_POST['local_business_logo']['id'];    
-                $local_business_details['local_business_logo']['url'] = $_POST['local_business_logo']['url'];
-                $local_business_details['local_business_logo']['width'] = $_POST['local_business_logo']['width'];
-                $local_business_details['local_business_logo']['height'] = $_POST['local_business_logo']['height'];
+                $local_business_details['local_business_logo']['id'] = sanitize_text_field($_POST['local_business_logo']['id']);    
+                $local_business_details['local_business_logo']['url'] = sanitize_text_field($_POST['local_business_logo']['url']);
+                $local_business_details['local_business_logo']['width'] = sanitize_text_field($_POST['local_business_logo']['width']);
+                $local_business_details['local_business_logo']['height'] = sanitize_text_field($_POST['local_business_logo']['height']);
                 }
-                if ( isset( $_POST['local_opens_time'] ) ){
-                $local_business_details['local_opens_time'] = $_POST['local_opens_time'];        
-                }
-                if ( isset( $_POST['local_closes_time'] ) ){
-                $local_business_details['local_closes_time'] = $_POST['local_closes_time'];        
-                }
+                
                 if ( isset( $_POST['saswp_dayofweek'] ) ){
-                $local_business_details['saswp_dayofweek'] = $_POST['saswp_dayofweek'];        
+                update_post_meta( $post_id, 'saswp_dayofweek', esc_textarea( stripslashes($_POST['saswp_dayofweek'])) );                
                 }
                 if ( isset( $_POST['local_price_range'] ) ){
-                $local_business_details['local_price_range'] = $_POST['local_price_range'];        
+                $local_business_details['local_price_range'] = sanitize_text_field($_POST['local_price_range']);        
                 }
                               
                 update_post_meta( $post_id, 'saswp_local_business_details', $local_business_details );
                 
                 //Service schema details starts here
                 $service_schema_details = array();
+                $review_schema_details = array();
                 $schema_type = $_POST['schema_type'];               
                
                 if($schema_type =='Service'){
                     if ( isset( $_POST['saswp_service_schema_name'] ) ){
-                     $service_schema_details['saswp_service_schema_name'] = $_POST['saswp_service_schema_name'];        
+                     $service_schema_details['saswp_service_schema_name'] = sanitize_text_field($_POST['saswp_service_schema_name']);        
                    }
                    if ( isset( $_POST['saswp_service_schema_type'] ) ){
-                     $service_schema_details['saswp_service_schema_type'] = $_POST['saswp_service_schema_type'];        
+                     $service_schema_details['saswp_service_schema_type'] = sanitize_text_field($_POST['saswp_service_schema_type']);        
                    }
                    if ( isset( $_POST['saswp_service_schema_provider_name'] ) ){
-                     $service_schema_details['saswp_service_schema_provider_name'] = $_POST['saswp_service_schema_provider_name'];        
+                     $service_schema_details['saswp_service_schema_provider_name'] = sanitize_text_field($_POST['saswp_service_schema_provider_name']);        
                    }
                    if ( isset( $_POST['saswp_service_schema_image'] ) ){
-                    $service_schema_details['saswp_service_schema_image']['id'] = $_POST['saswp_service_schema_image']['id'];    
-                    $service_schema_details['saswp_service_schema_image']['url'] = $_POST['saswp_service_schema_image']['url'];
-                    $service_schema_details['saswp_service_schema_image']['width'] = $_POST['saswp_service_schema_image']['width'];
-                    $service_schema_details['saswp_service_schema_image']['height'] = $_POST['saswp_service_schema_image']['height'];
+                    $service_schema_details['saswp_service_schema_image']['id'] = sanitize_text_field($_POST['saswp_service_schema_image']['id']);    
+                    $service_schema_details['saswp_service_schema_image']['url'] = esc_url_raw($_POST['saswp_service_schema_image']['url']);
+                    $service_schema_details['saswp_service_schema_image']['width'] = sanitize_text_field($_POST['saswp_service_schema_image']['width']);
+                    $service_schema_details['saswp_service_schema_image']['height'] = sanitize_text_field($_POST['saswp_service_schema_image']['height']);
                    }
                    if ( isset( $_POST['saswp_service_schema_locality'] ) ){
-                     $service_schema_details['saswp_service_schema_locality'] = $_POST['saswp_service_schema_locality'];        
+                     $service_schema_details['saswp_service_schema_locality'] = sanitize_text_field($_POST['saswp_service_schema_locality']);        
                    }
                    if ( isset( $_POST['saswp_service_schema_postal_code'] ) ){
-                     $service_schema_details['saswp_service_schema_postal_code'] = $_POST['saswp_service_schema_postal_code'];        
+                     $service_schema_details['saswp_service_schema_postal_code'] = sanitize_text_field($_POST['saswp_service_schema_postal_code']);        
                    }
                    if ( isset( $_POST['saswp_service_schema_telephone'] ) ){
-                     $service_schema_details['saswp_service_schema_telephone'] = $_POST['saswp_service_schema_telephone'];        
+                     $service_schema_details['saswp_service_schema_telephone'] = sanitize_text_field($_POST['saswp_service_schema_telephone']);        
                    }
                    if ( isset( $_POST['saswp_service_schema_price_range'] ) ){
-                     $service_schema_details['saswp_service_schema_price_range'] = $_POST['saswp_service_schema_price_range'];        
+                     $service_schema_details['saswp_service_schema_price_range'] = sanitize_text_field($_POST['saswp_service_schema_price_range']);        
                    }
                    if ( isset( $_POST['saswp_service_schema_description'] ) ){
-                     $service_schema_details['saswp_service_schema_description'] = $_POST['saswp_service_schema_description'];        
+                     $service_schema_details['saswp_service_schema_description'] = sanitize_textarea_field($_POST['saswp_service_schema_description']);        
                    }
                    if ( isset( $_POST['saswp_service_schema_area_served'] ) ){
-                     $service_schema_details['saswp_service_schema_area_served'] = $_POST['saswp_service_schema_area_served'];        
+                     $service_schema_details['saswp_service_schema_area_served'] = sanitize_textarea_field($_POST['saswp_service_schema_area_served']);        
                    }
                    if ( isset( $_POST['saswp_service_schema_service_offer'] ) ){
-                     $service_schema_details['saswp_service_schema_service_offer'] = $_POST['saswp_service_schema_service_offer'];        
+                     $service_schema_details['saswp_service_schema_service_offer'] = sanitize_textarea_field($_POST['saswp_service_schema_service_offer']);        
                    }                   
                    update_post_meta( $post_id, 'saswp_service_schema_details', $service_schema_details );
                 }
                 
+                
+                if($schema_type =='Review'){
+                    if ( isset( $_POST['saswp_review_schema_item_type'] ) ){
+                     $review_schema_details['saswp_review_schema_item_type'] = sanitize_text_field($_POST['saswp_review_schema_item_type']);        
+                   }
+                   if ( isset( $_POST['saswp_review_schema_name'] ) ){
+                     $review_schema_details['saswp_review_schema_name'] = sanitize_text_field($_POST['saswp_review_schema_name']);        
+                   }
+                   if ( isset( $_POST['saswp_review_schema_description'] ) ){
+                     $review_schema_details['saswp_review_schema_description'] = sanitize_textarea_field($_POST['saswp_review_schema_description']);        
+                   }
+                   if ( isset( $_POST['saswp_review_schema_image'] ) ){
+                    $review_schema_details['saswp_review_schema_image']['id'] = sanitize_text_field($_POST['saswp_review_schema_image']['id']);    
+                    $review_schema_details['saswp_review_schema_image']['url'] = esc_url_raw($_POST['saswp_review_schema_image']['url']);
+                    $review_schema_details['saswp_review_schema_image']['width'] = sanitize_text_field($_POST['saswp_review_schema_image']['width']);
+                    $review_schema_details['saswp_review_schema_image']['height'] = sanitize_text_field($_POST['saswp_review_schema_image']['height']);
+                   }
+                   if ( isset( $_POST['saswp_review_schema_price_range'] ) ){
+                     $review_schema_details['saswp_review_schema_price_range'] = sanitize_text_field($_POST['saswp_review_schema_price_range']);        
+                   }
+                   if ( isset( $_POST['saswp_review_schema_street_address'] ) ){
+                     $review_schema_details['saswp_review_schema_street_address'] = sanitize_text_field($_POST['saswp_review_schema_street_address']);        
+                   }
+                   if ( isset( $_POST['saswp_review_schema_locality'] ) ){
+                     $review_schema_details['saswp_review_schema_locality'] = sanitize_text_field($_POST['saswp_review_schema_locality']);        
+                   }
+                   if ( isset( $_POST['saswp_review_schema_region'] ) ){
+                     $review_schema_details['saswp_review_schema_region'] = sanitize_text_field($_POST['saswp_review_schema_region']);        
+                   }
+                   if ( isset( $_POST['saswp_review_schema_postal_code'] ) ){
+                     $review_schema_details['saswp_review_schema_postal_code'] = sanitize_text_field($_POST['saswp_review_schema_postal_code']);        
+                   }
+                   if ( isset( $_POST['saswp_review_schema_country'] ) ){
+                     $review_schema_details['saswp_review_schema_country'] = sanitize_text_field($_POST['saswp_review_schema_country']);        
+                   }
+                   if ( isset( $_POST['saswp_review_schema_telephone'] ) ){
+                     $review_schema_details['saswp_review_schema_telephone'] = sanitize_text_field($_POST['saswp_review_schema_telephone']);        
+                   }                   
+                   update_post_meta( $post_id, 'saswp_review_schema_details', $review_schema_details );
+                }                
                 //Service schema details ends here
                 
                               

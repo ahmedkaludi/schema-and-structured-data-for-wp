@@ -170,22 +170,38 @@ function saswp_schema_output() {
 	}	        
         $all_schema_output = array();
         foreach($Conditionals as $schemaConditionals){
-           
+        
+        $logo =''; 
+        $height ='';
+        $width ='';
+        $site_name ='';
 	$schema_options = $schemaConditionals['schema_options'];
 	$schema_type = $schemaConditionals['schema_type'];         
         $schema_post_id = $schemaConditionals['post_id'];  
-	$logo = $sd_data['sd_logo']['url'];        
-		if( '' == $logo && empty($logo) && isset($sd_data['sd_default_image'])){
-			$logo = $sd_data['sd_default_image']['url'];
-		}
-		$height = $sd_data['sd_logo']['height'];
-		if( '' == $height && empty($height) && isset($sd_data['sd_default_image_height'])){
-			$height = $sd_data['sd_default_image_height'];
-		}
-		$width = $sd_data['sd_logo']['width'];
-		if( '' == $width && empty($width) && isset($sd_data['sd_default_image_width'])){
-			$width = $sd_data['sd_default_image_width'];
-		}
+	$logo = $sd_data['sd_logo']['url']; 
+        
+        if(isset($sd_data['sd_name']) && $sd_data['sd_name'] !=''){
+          $site_name = $sd_data['sd_name'];  
+        }else{
+          $site_name = get_bloginfo();    
+        }                                                
+        
+        if('' != $logo && !empty($logo)){
+         $height = $sd_data['sd_logo']['height'];  
+         $width = $sd_data['sd_logo']['width'];
+        }else{            
+            $sizes = array(
+					'width'  => 600,
+					'height' => 60,
+					'crop'   => false,
+				);            
+            $custom_logo_id = get_theme_mod( 'custom_logo' );           
+            $custom_logo = wp_get_attachment_image_src( $custom_logo_id, $sizes); 
+            $logo   = $custom_logo[0];
+            $height =$custom_logo[1];
+            $width  =$custom_logo[2];            
+        }       
+        
 	if(is_singular()){
 		// Generate author id
 	   		$author_id = get_the_author_meta('ID');
@@ -201,7 +217,7 @@ function saswp_schema_output() {
                         $saswp_review_details = esc_sql ( get_post_meta(get_the_ID(), 'saswp_review_details', true)); 
                         $aggregateRating = array();
                         $kkstar_aggregateRating = array();
-                         
+                        $saswp_over_all_rating ='';
                         if(isset($saswp_review_details['saswp-review-item-over-all'])){
                         $saswp_over_all_rating = $saswp_review_details['saswp-review-item-over-all'];    
                         } 
@@ -229,17 +245,13 @@ function saswp_schema_output() {
                                                             "ratingValue" => $kkstar_rating_data['avg']
                                                          );     
                         }
-                                                                                                                                                                                                   			
-			if(is_page()){
-				$schema_type = $schema_type; //$sd_data['sd_page_type'];
-			}
-			if(is_single()){
-				$schema_type = $schema_type; //$sd_data['sd_post_type'];
-			}
-			if(is_front_page()){
-				$schema_type = $schema_type; // $sd_data['sd_page_type'];
-			}
-			$input1 = array(
+                        $extra_theme_review = array();
+                        $service_object = new saswp_output_service();
+                        $extra_theme_review = $service_object->saswp_extra_theme_review_details(get_the_ID());
+                                              
+                        if( 'Blogposting' === $schema_type){
+                         
+                        $input1 = array(
 			'@context'			=> 'http://schema.org',
 			'@type'				=> $schema_type ,
 
@@ -261,20 +273,28 @@ function saswp_schema_output() {
 					'width'		=> $width,
 					'height'	=> $height,
 					),
-				'name'			=> $sd_data['sd_name'],
+				'name'			=> $site_name,
 				),
-			);
+                            );
+                                if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){                                   
+                                    $service = new saswp_output_service();
+                                    $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
+                                }
                                 if(!empty($aggregateRating)){
                                     $input1['aggregateRating'] = $aggregateRating;
                                 }
                                 if(!empty($kkstar_aggregateRating)){
                                    $input1['aggregateRating'] = $kkstar_aggregateRating;  
                                 }
-                                                        
-                        if(isset($sd_data['saswp_comments_schema']) && $sd_data['saswp_comments_schema'] ==1){
-                                    $input1['comment'] = saswp_get_comments(get_the_ID());
-                        }
-			// For WebPage
+                                if(!empty($extra_theme_review)){
+                                   $input1 = array_merge($input1, $extra_theme_review);
+                                }                               
+                                if(isset($sd_data['saswp_comments_schema']) && $sd_data['saswp_comments_schema'] ==1){
+                                            $input1['comment'] = saswp_get_comments(get_the_ID());
+                                }
+                            
+                        }			
+			
 			if( 'WebPage' === $schema_type){
                             
 				if(empty($image_details[0]) || $image_details[0] === NULL ){
@@ -306,13 +326,17 @@ function saswp_schema_output() {
 								'width'		=> $width,
 								'height'	=> $height,
 								),
-							'name'			=> $sd_data['sd_name'],
+							'name'			=> $site_name,
 						),
                                                
 					),
 					
 				
 				);
+                                if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){
+                                    $service = new saswp_output_service();
+                                    $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
+                                }
                                 if(isset($sd_data['saswp_comments_schema']) && $sd_data['saswp_comments_schema'] ==1){
                                     $input1['comment'] = saswp_get_comments(get_the_ID());
                                 }                                
@@ -322,9 +346,10 @@ function saswp_schema_output() {
                                 if(!empty($kkstar_aggregateRating)){
                                    $input1['mainEntity']['aggregateRating'] = $kkstar_aggregateRating;  
                                 }
-			}
-
-		// For Article
+                                if(!empty($extra_theme_review)){
+                                   $input1 = array_merge($input1, $extra_theme_review);
+                                }
+			}	
 		
 			if( 'Article' === $schema_type ){
                             
@@ -345,20 +370,26 @@ function saswp_schema_output() {
 						'@type'			=> 'Organization',
 						'logo' 			=> array(
 							'@type'		=> 'ImageObject',
-							'url'		=> $sd_data['sd_logo']['url'],
-							'width'		=> $sd_data['sd_logo']['width'],
-							'height'	=> $sd_data['sd_logo']['height'],
+							'url'		=> $logo,
+							'width'		=> $width,
+							'height'	=> $height,
 							),
-						'name'			=> $sd_data['sd_name'],
+						'name'			=> $site_name,
 					),
                                     
 				);
+                                if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){
+                                    $service = new saswp_output_service();
+                                    $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
+                                }
                                 if(isset($sd_data['saswp_comments_schema']) && $sd_data['saswp_comments_schema'] ==1){
                                     $input1['comment'] = saswp_get_comments(get_the_ID());
                                 }
+                                if(!empty($extra_theme_review)){
+                                   $input1 = array_merge($input1, $extra_theme_review);
+                                }
 			}
-
-		// Recipe
+		      
 			if( 'Recipe' === $schema_type){
                             
 				if(empty($image_details[0]) || $image_details[0] === NULL ){
@@ -389,17 +420,21 @@ function saswp_schema_output() {
 							'@type'			=> 'Organization',
 							'logo' 			=> array(
 								'@type'		=> 'ImageObject',
-								'url'		=> $sd_data['sd_logo']['url'],
-								'width'		=> $sd_data['sd_logo']['width'],
-								'height'	=> $sd_data['sd_logo']['height'],
+								'url'		=> $logo,
+								'width'		=> $width,
+								'height'	=> $height,
 								),
-							'name'			=> $sd_data['sd_name'],
+							'name'			=> $site_name,
 						),
                                                 
                                     
 					),                                        					
 				
 				);
+                                if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){
+                                    $service = new saswp_output_service();
+                                    $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
+                                }
                                 if(isset($sd_data['saswp_comments_schema']) && $sd_data['saswp_comments_schema'] ==1){
                                     $input1['comment'] = saswp_get_comments(get_the_ID());
                                 }                                 
@@ -409,15 +444,23 @@ function saswp_schema_output() {
                                 if(!empty($kkstar_aggregateRating)){
                                    $input1['aggregateRating'] = $kkstar_aggregateRating;  
                                 }
+                                if(!empty($extra_theme_review)){
+                                   $input1 = array_merge($input1, $extra_theme_review);
+                                }
 			}
-
-			// Product
-			
-			if(  'Product' === $schema_type){
+                       
+                        if( 'qanda' === $schema_type){
+                            $service_object = new saswp_output_service();
+                            $input1  = $service_object->saswp_dw_question_answers_details(get_the_ID()); 
                             
-				if(empty($image_details[0]) || $image_details[0] === NULL ){
-					$image_details[0] = $logo;
-				}
+                            if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){
+                                    $service = new saswp_output_service();
+                                    $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
+                            }
+			}	
+                        
+			if( 'Product' === $schema_type){
+                            				
 				$input1 = array(
 				'@context'			=> 'http://schema.org',
 				'@type'				=> $schema_type ,
@@ -430,6 +473,76 @@ function saswp_schema_output() {
                                 }
                                 if(!empty($kkstar_aggregateRating)){
                                    $input1['aggregateRating'] = $kkstar_aggregateRating;  
+                                }
+                                if(!empty($extra_theme_review)){
+                                   $input1 = array_merge($input1, $extra_theme_review);
+                                }
+                                
+                                $service = new saswp_output_service();
+                                $product_details = $service->saswp_woocommerce_product_details(get_the_ID());  
+                               
+                                if((isset($sd_data['saswp-woocommerce']) && $sd_data['saswp-woocommerce'] ==1) && !empty($product_details)){
+                                    
+                                    $input1 = array(
+                                    '@context'			=> 'http://schema.org',
+                                    '@type'				=> 'Product',
+                                    'url'				=> get_permalink(),
+                                    'name'                              => $product_details['product_name'],
+                                    'sku'                               => $product_details['product_sku'],    
+                                    'description'                       => $product_details['product_description'],
+                                    'image'                             => $product_details['product_image'],    
+                                    'offers'                            => array(
+                                                                        '@type'	=> 'Offer',
+                                                                        'availability'	=> $product_details['product_availability'],
+                                                                        'price'	=> $product_details['product_price'],
+                                                                        'priceCurrency'	=> $product_details['product_currency'],
+                                                                        'url'           => get_permalink(),
+                                                                        'priceValidUntil'=> $product_details['product_priceValidUntil'],
+                                                                             ),
+                                        
+				  ); 
+                                  if(isset($product_details['product_gtin8']) && $product_details['product_gtin8'] !=''){
+                                    $input1['gtin8'] = $product_details['product_gtin8'];  
+                                  }
+                                  if(isset($product_details['product_mpn']) && $product_details['product_mpn'] !=''){
+                                    $input1['mpn'] = $product_details['product_mpn'];  
+                                  }
+                                  if(isset($product_details['product_isbn']) && $product_details['product_isbn'] !=''){
+                                    $input1['isbn'] = $product_details['product_isbn'];  
+                                  }
+                                  if(isset($product_details['product_brand']) && $product_details['product_brand'] !=''){
+                                    $input1['brand'] =  array('@type'=>'Thing','name'=>$product_details['product_brand']);  
+                                  }                                     
+                                  if(isset($product_details['product_review_count']) && isset($product_details['product_average_rating'])){
+                                       $input1['aggregateRating'] =  array(
+                                                                        '@type'         => 'AggregateRating',
+                                                                        'ratingValue'	=> $product_details['product_average_rating'],
+                                                                        'reviewCount'   => (int)$product_details['product_review_count'],       
+                                       );
+                                  }                                      
+                                  if(!empty($product_details['product_reviews'])){
+                                      $reviews = array();
+                                      foreach ($product_details['product_reviews'] as $review){
+                                          $reviews[] = array(
+                                                                        '@type'	=> 'Review',
+                                                                        'author'	=> $review['author'],
+                                                                        'datePublished'	=> $review['datePublished'],
+                                                                        'description'	=> $review['description'],  
+                                                                        'reviewRating'  => array(
+                                                                                '@type'	=> 'Rating',
+                                                                                'bestRating'	=> '5',
+                                                                                'ratingValue'	=> $review['reviewRating'],
+                                                                                'worstRating'	=> '1',
+                                                                        )  
+                                          );
+                                      }
+                                      $input1['review'] =  $reviews;
+                                  } 
+                                }
+                                
+                                if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){
+                                    $service = new saswp_output_service();
+                                    $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
                                 }
 			}
                         
@@ -450,7 +563,7 @@ function saswp_schema_output() {
 					'dateModified'                  => $modified_date,
 					'description'                   => get_the_excerpt(),
                                         'articleSection'                => $article_section,            
-                                        'articleBody'                   => get_the_content(),            
+                                        'articleBody'                   => get_the_excerpt(),            
 					'name'				=> get_the_title(), 					
 					'thumbnailUrl'                  => $image_details[0],
                                         'wordCount'                     => $word_count['word_count'],
@@ -473,14 +586,17 @@ function saswp_schema_output() {
 							'@type'				=> 'Organization',
 							'logo' 				=> array(
 							'@type'				=> 'ImageObject',
-							'url'				=> $sd_data['sd_logo']['url'],
-							'width'				=> $sd_data['sd_logo']['width'],
-							'height'			=> $sd_data['sd_logo']['height'],
+							'url'				=> $logo,
+							'width'				=> $width,
+							'height'			=> $height,
 										),
-							'name'				=> $sd_data['sd_name'],
+							'name'				=> $site_name,
 							),                                                     
 					);
-                                
+                                if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){
+                                    $service = new saswp_output_service();
+                                    $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
+                                }
                                 if(isset($sd_data['saswp_comments_schema']) && $sd_data['saswp_comments_schema'] ==1){
                                     $input1['comment'] = saswp_get_comments(get_the_ID());
                                 }                
@@ -491,9 +607,11 @@ function saswp_schema_output() {
                                 if(!empty($kkstar_aggregateRating)){
                                    $input1['aggregateRating'] = $kkstar_aggregateRating;  
                                 }
+                                if(!empty($extra_theme_review)){
+                                   $input1 = array_merge($input1, $extra_theme_review);
+                                }
 				}
-                        
-                        
+                                                
                         if( 'Service' === $schema_type ){  
                                  
                                 $schema_data = saswp_get_schema_data($schema_post_id, 'saswp_service_schema_details');                                
@@ -544,16 +662,85 @@ function saswp_schema_output() {
                                             'name'  => $schema_data['saswp_service_schema_name'],
                                             'itemListElement' => $serviceOffer
                                        );
-                                                                       
+                                
+                                if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){
+                                    $service = new saswp_output_service();
+                                    $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
+                                }       
                                 if(!empty($aggregateRating)){
                                     $input1['aggregateRating'] = $aggregateRating;
                                 }
                                 if(!empty($kkstar_aggregateRating)){
                                    $input1['aggregateRating'] = $kkstar_aggregateRating;  
                                 }
-				}        
-
-			// VideoObject
+                                if(!empty($extra_theme_review)){
+                                   $input1 = array_merge($input1, $extra_theme_review);
+                                }
+				}  
+                        
+                        if( 'Review' === $schema_type ){  
+                                 
+                                $schema_data = saswp_get_schema_data($schema_post_id, 'saswp_review_schema_details');                                                              
+                                
+				$input1 = array(
+					'@context'			=> 'http://schema.org',
+					'@type'				=> $schema_type ,                                        
+					'url'                           => get_permalink(),
+                                        'description'                   => $schema_data['saswp_review_schema_description'],
+                                        'itemReviewed'                  => array(
+                                                                '@type'  => $schema_data['saswp_review_schema_item_type'],
+                                                                'name'  => $schema_data['saswp_review_schema_name'],
+                                                                'image'  => $schema_data['saswp_review_schema_image']['url'],
+                                                                'priceRange'  => $schema_data['saswp_review_schema_price_range'],
+                                                                'address'  => array(
+                                                                   '@type'  => 'PostalAddress',  
+                                                                   'streetAddress'  => $schema_data['saswp_review_schema_street_address'],  
+                                                                   'addressLocality'  => $schema_data['saswp_review_schema_locality'],  
+                                                                   'addressRegion'  => $schema_data['saswp_review_schema_region'],  
+                                                                   'postalCode'  => $schema_data['saswp_review_schema_postal_code'],  
+                                                                   'addressCountry'  => $schema_data['saswp_review_schema_country'],       
+                                                                ),
+                                                                 'telephone'                 => $schema_data['saswp_review_schema_telephone'],
+                                        ),                                         
+                                        'datePublished'                 => $date,
+                                        'dateModified'                  => $modified_date,
+                                        'author'			=> array(
+								'@type' 			=> 'Person',
+								'name'				=> $aurthor_name,
+								'Image'				=> array(
+								'@type'				=> 'ImageObject',
+								'url'				=> $author_details['url'],
+								'height'			=> $author_details['height'],
+								'width'				=> $author_details['width']
+								),
+							),
+						'Publisher'			=> array(
+								'@type'				=> 'Organization',
+								'logo' 				=> array(
+								'@type'				=> 'ImageObject',
+								'url'				=> $logo,
+								'width'				=> $width,
+								'height'			=> $height,
+										),
+								'name'			        => $site_name,
+							),
+					                                       										                                                                     
+					
+                                        ); 
+                                       
+                                if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){
+                                    $service = new saswp_output_service();
+                                    $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
+                                }
+                                
+                                if(!empty($aggregateRating)){
+                                    $input1['aggregateRating'] = $aggregateRating;
+                                }
+                                if(!empty($kkstar_aggregateRating)){
+                                   $input1['aggregateRating'] = $kkstar_aggregateRating;  
+                                }                                
+				}          
+                                			
 			if( 'VideoObject' === $schema_type){
                             
 				if(empty($image_details[0]) || $image_details[0] === NULL ){
@@ -589,14 +776,18 @@ function saswp_schema_output() {
 								'@type'				=> 'Organization',
 								'logo' 				=> array(
 								'@type'				=> 'ImageObject',
-								'url'				=> $sd_data['sd_logo']['url'],
-								'width'				=> $sd_data['sd_logo']['width'],
-								'height'			=> $sd_data['sd_logo']['height'],
+								'url'				=> $logo,
+								'width'				=> $width,
+								'height'			=> $height,
 										),
-								'name'			=> $sd_data['sd_name'],
+								'name'			=> $site_name,
 							),                                                    
                                                     
 						);
+                                                if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){
+                                                    $service = new saswp_output_service();
+                                                    $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
+                                                }
                                                 if(isset($sd_data['saswp_comments_schema']) && $sd_data['saswp_comments_schema'] ==1){
                                                  $input1['comment'] = saswp_get_comments(get_the_ID());
                                                 }                                                
@@ -606,6 +797,9 @@ function saswp_schema_output() {
                                                if(!empty($kkstar_aggregateRating)){
                                                  $input1['aggregateRating'] = $kkstar_aggregateRating;  
                                                 }
+                                                if(!empty($extra_theme_review)){
+                                                  $input1 = array_merge($input1, $extra_theme_review);
+                                                 }
 					
 				}
                         
@@ -614,6 +808,8 @@ function saswp_schema_output() {
                                 $business_type    = esc_sql ( get_post_meta($schema_post_id, 'saswp_business_type', true)  );                                 
                                 $business_name    = esc_sql ( get_post_meta($schema_post_id, 'saswp_business_name', true)  );                                 
                                 $business_details = esc_sql ( get_post_meta($schema_post_id, 'saswp_local_business_details', true)  );                                                                                                
+                                $dayoftheweek = get_post_meta($schema_post_id, 'saswp_dayofweek', true); 
+                                $dayoftheweek = explode( "\r\n", $dayoftheweek);                               
 				if(empty($image_details[0]) || $image_details[0] === NULL ){
 					$image_details[0] = $logo;
 				}
@@ -642,20 +838,22 @@ function saswp_schema_output() {
                                                                 "postalCode"     => $business_details['local_postal_code'],                                                                                                                                  
                                                                  ),	
 				'telephone'                   => $business_details['local_phone'],
-                                'openingHoursSpecification'   => array(                                                                
-                                                                 '@type' => 'OpeningHoursSpecification',
-                                                                 'dayOfWeek'  => $business_details['saswp_dayofweek'],                                                                       
-                                                                 'opens' => $business_details['local_opens_time'],
-                                                                 'closes'=> $business_details['local_closes_time'],
-                                                                ),
+                                'openingHours'   => $dayoftheweek,
                                 
-				);                                       
+				);  
+                                    if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){
+                                    $service = new saswp_output_service();
+                                    $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
+                                    }                                
                                     if(!empty($aggregateRating)){
                                     $input1['aggregateRating'] = $aggregateRating;
                                     }
                                     if(!empty($kkstar_aggregateRating)){
                                     $input1['aggregateRating'] = $kkstar_aggregateRating;  
-                                    }                                
+                                    } 
+                                    if(!empty($extra_theme_review)){
+                                    $input1 = array_merge($input1, $extra_theme_review);
+                                    }
                                     if(isset($business_details['local_price_range'])){
                                       $input1['priceRange'] = $business_details['local_price_range'];   
                                     }
@@ -674,34 +872,39 @@ function saswp_schema_output() {
 			}
                                 
 		//Check for Featured Image
-			if( is_array($image_details) ){
-				if(isset($image_details[1]) ){
-						$width = $image_details[1];	
-					}
-					if(isset($image_details[2])){
-						$height = $image_details[2];
-					}
-			$input2  = array(
-				                'image'		=>array(
-									'@type'		=>'ImageObject',
-									'url'		=>$image_details[0],
-									'width'		=>$width,
-									'height'	=>$height,
-									),
-				);
-			$input = array_merge($input1,$input2);
-		     }
-			else{			
+                         if( !empty($input1)){
+                        
+                            if( is_array($image_details) ){
+                                    if(isset($image_details[1]) ){
+                                                    $width = $image_details[1];	
+                                            }
+                                            if(isset($image_details[2])){
+                                                    $height = $image_details[2];
+                                            }
+                            $input2  = array(
+                                                    'image'		=>array(
+                                                                            '@type'		=>'ImageObject',
+                                                                            'url'		=>$image_details[0],
+                                                                            'width'		=>$width,
+                                                                            'height'	=>$height,
+                                                                            ),
+                                    );
+                            $input = array_merge($input1,$input2);
+                         }
+                            else{			
 				$input2  = array(
 				                'image'		=>array(
 									'@type'		=>'ImageObject',
-									'url'		=> $sd_data['sd_logo']['url'],
-                                	'width'		=> $sd_data['sd_logo']['width'],
-                                	'height'	=> $sd_data['sd_logo']['height'],
+									'url'		=> $logo,
+                                                                        'width'		=> $width,
+                                                                        'height'	=> $height,
                                		 ),
 				);
 				$input = array_merge($input1,$input2);
 		}
+                
+                        }
+                
 		if(isset($schema_options['notAccessibleForFree'])==1){
 
 			add_filter( 'amp_post_template_data', 'saswp_structure_data_access_scripts');			
@@ -722,7 +925,10 @@ function saswp_schema_output() {
 				$input = array_merge($input,$paywallData);
 			}
 		}  
-                $all_schema_output[] = $input;		                
+                
+                if(!empty($input)){
+                $all_schema_output[] = $input;		                    
+                }                
 	}
         }              
         return $all_schema_output;	
@@ -730,6 +936,7 @@ function saswp_schema_output() {
 
 function saswp_post_specific_schema_output() {
 	global $post;
+        global $sd_data;   
         $all_schemas = get_posts(
                     array(
                             'post_type' 	 => 'saswp',
@@ -748,7 +955,7 @@ function saswp_post_specific_schema_output() {
 		
                         $saswp_review_details = esc_sql ( get_post_meta(get_the_ID(), 'saswp_review_details', true)); 
                         $aggregateRating = array();
-                         
+                        $saswp_over_all_rating ='';
                         if(isset($saswp_review_details['saswp-review-item-over-all'])){
                         $saswp_over_all_rating = $saswp_review_details['saswp-review-item-over-all'];    
                         }                
@@ -774,16 +981,59 @@ function saswp_post_specific_schema_output() {
                                                             "ratingValue" => $kkstar_rating_data['avg']
                                                          );     
                         }
+                        $extra_theme_review = array();
+                        $service_object = new saswp_output_service();
+                        $extra_theme_review = $service_object->saswp_extra_theme_review_details(get_the_ID());
             
+                        
+                        
+                         if( 'qanda' === $schema_type){                                      
+                            if(trim($all_post_meta['saswp_qa_question_title_'.$schema_id][0]) ==''){
+                                $service_object = new saswp_output_service();
+                                $input1  = $service_object->saswp_dw_question_answers_details(get_the_ID());                               
+                            }else{
+                                $input1 = array(
+                                    '@context'		  => 'http://schema.org',
+                                    '@type'		  => 'QAPage' ,
+                                    'mainEntity'         => array(
+                                            '@type'		  => 'Question' ,
+                                            'name'		  => $all_post_meta['saswp_qa_question_title_'.$schema_id][0],
+                                            'text'		  => $all_post_meta['saswp_qa_question_description_'.$schema_id][0],
+                                            'upvoteCount'         => $all_post_meta['saswp_qa_upvote_count_'.$schema_id][0] ,
+                                            'dateCreated'         => $all_post_meta['saswp_qa_date_created_'.$schema_id][0],
+                                            'author'         => array('@type' => 'Person','name' =>$all_post_meta['saswp_qa_question_author_name_'.$schema_id][0]) ,
+                                            'answerCount'         => 2 ,
+                                            'acceptedAnswer'         => array(
+                                                        '@type' => 'Answer',
+                                                        'upvoteCount' => $all_post_meta['saswp_qa_accepted_answer_upvote_count_'.$schema_id][0],
+                                                        'url' => $all_post_meta['saswp_qa_accepted_answer_url_'.$schema_id][0],
+                                                        'text' => $all_post_meta['saswp_qa_accepted_answer_text_'.$schema_id][0],
+                                                        'dateCreated' => $all_post_meta['saswp_qa_accepted_answer_date_created_'.$schema_id][0],
+                                                        'author' => array('@type' => 'Person', 'name' => $all_post_meta['saswp_qa_accepted_author_name_'.$schema_id][0]),
+                                            ) ,
+                                            'suggestedAnswer'         => array(
+                                                        '@type' => 'Answer',
+                                                        'upvoteCount' => $all_post_meta['saswp_qa_suggested_answer_upvote_count_'.$schema_id][0],
+                                                        'url' => $all_post_meta['saswp_qa_suggested_answer_url_'.$schema_id][0],
+                                                        'text' => $all_post_meta['saswp_qa_suggested_answer_text_'.$schema_id][0],
+                                                        'dateCreated' => $all_post_meta['saswp_qa_suggested_answer_date_created_'.$schema_id][0],
+                                                        'author' => array('@type' => 'Person', 'name' => $all_post_meta['saswp_qa_suggested_author_name_'.$schema_id][0]),
+                                            ) ,                                            
+                                    )
+                                );
+                            }                                
+			}   
+                        
                          if( 'Blogposting' === $schema_type){
-                    // Blogposting Schema 									
+                    		
+                        $logo = get_post_meta( get_the_ID(), 'saswp_blogposting_organization_logo_'.$schema_id.'_detail',true);                                 
 			$input1 = array(
 			'@context'			=> 'http://schema.org',
 			'@type'				=> $schema_type ,
 
 			'mainEntityOfPage'              => $all_post_meta['saswp_blogposting_main_entity_of_page_'.$schema_id][0],
 			'headline'			=> $all_post_meta['saswp_blogposting_headline_'.$schema_id][0],
-			'description'                   => $all_post_meta['saswp_blogposting_description'.$schema_id][0],
+			'description'                   => $all_post_meta['saswp_blogposting_description_'.$schema_id][0],
 			'name'				=> $all_post_meta['saswp_blogposting_name_'.$schema_id][0],
 			'url'				=> $all_post_meta['saswp_blogposting_url_'.$schema_id][0],
 			'datePublished'                 => $all_post_meta['saswp_blogposting_date_published_'.$schema_id][0],
@@ -796,8 +1046,8 @@ function saswp_post_specific_schema_output() {
 				'logo' 			=> array(
 					'@type'		=> 'ImageObject',
 					'url'		=> $all_post_meta['saswp_blogposting_organization_logo_'.$schema_id][0],
-					'width'		=> $all_post_meta['saswp_blogposting_organization_logo_'.$schema_id.'_width'][0],
-					'height'	=> $all_post_meta['saswp_blogposting_organization_logo_'.$schema_id.'_height'][0],
+					'width'		=> $logo['width'],
+					'height'	=> $logo['height'],
 					),
 				'name'			=> $all_post_meta['saswp_blogposting_organization_name_'.$schema_id][0],
 				),
@@ -808,10 +1058,13 @@ function saswp_post_specific_schema_output() {
                                 if(!empty($kkstar_aggregateRating)){
                                    $input1['aggregateRating'] = $kkstar_aggregateRating;  
                                 }
+                                if(!empty($extra_theme_review)){
+                                   $input1 = array_merge($input1, $extra_theme_review);
+                                }
                      }
 			
 			 if( 'WebPage' === $schema_type){
-				
+				$logo = get_post_meta( get_the_ID(), 'saswp_webpage_organization_logo_'.$schema_id.'_detail',true);
 				$input1 = array(
 				'@context'			=> 'http://schema.org',
 				'@type'				=> $schema_type ,
@@ -834,8 +1087,8 @@ function saswp_post_specific_schema_output() {
 							'logo' 			=> array(
 								'@type'		=> 'ImageObject',
 								'url'		=> $all_post_meta['saswp_webpage_organization_logo_'.$schema_id][0],
-								'width'		=> $all_post_meta['saswp_webpage_organization_logo_'.$schema_id.'_width'][0],
-								'height'	=> $all_post_meta['saswp_webpage_organization_logo_'.$schema_id.'_height'][0],
+								'width'		=> $logo['width'],
+								'height'	=> $logo['height'],
 								),
 							'name'			=> $all_post_meta['saswp_webpage_organization_name_'.$schema_id][0],
 						),
@@ -848,10 +1101,15 @@ function saswp_post_specific_schema_output() {
                                 }
                                 if(!empty($kkstar_aggregateRating)){
                                    $input1['mainEntity']['aggregateRating'] = $kkstar_aggregateRating;  
-                                }                               
+                                }
+                                if(!empty($extra_theme_review)){
+                                   $input1 = array_merge($input1, $extra_theme_review);
+                                }
 			}
 			
 			 if( 'Article' === $schema_type ){
+                             
+                             $logo = get_post_meta( get_the_ID(), 'saswp_article_organization_logo_'.$schema_id.'_detail',true);
 				$input1 = array(
 					'@context'			=> 'http://schema.org',
 					'@type'				=> 'Article',
@@ -870,45 +1128,97 @@ function saswp_post_specific_schema_output() {
 						'logo' 			=> array(
 							'@type'		=> 'ImageObject',
 							'url'		=> $all_post_meta['saswp_article_organization_logo_'.$schema_id][0],
-							'width'		=> $all_post_meta['saswp_article_organization_logo_'.$schema_id.'_width'][0],
-							'height'	=> $all_post_meta['saswp_article_organization_logo_'.$schema_id.'_height'][0],
+							'width'		=> $logo['width'],
+							'height'	=> $logo['height'],
 							),
 						'name'			=> $all_post_meta['saswp_article_organization_name_'.$schema_id][0],
 					),
                                     
 				);
+                                if(!empty($kkstar_aggregateRating)){
+                                   $input1['aggregateRating'] = $kkstar_aggregateRating;  
+                                }
+                                if(!empty($extra_theme_review)){
+                                   $input1 = array_merge($input1, $extra_theme_review);
+                                }
 			}
 	
 			 if( 'Recipe' === $schema_type){
-				
+				$recipe_logo = get_post_meta( get_the_ID(), 'saswp_article_organization_logo_'.$schema_id.'_detail',true);
+                                $recipe_image = get_post_meta( get_the_ID(), 'saswp_recipe_author_image_'.$schema_id.'_detail',true);
+                                $ingredient = array();
+                                $instruction = array();
+                                
+                                if(isset($all_post_meta['saswp_recipe_ingredient_'.$schema_id])){
+                                    $explod = explode(';', $all_post_meta['saswp_recipe_ingredient_'.$schema_id][0]);                                    
+                                    foreach ($explod as $val){
+                                      $ingredient[] = $val;  
+                                    }                                   
+                                }
+                                
+                                if(isset($all_post_meta['saswp_recipe_instructions_'.$schema_id])){
+                                    $explod = explode(';', $all_post_meta['saswp_recipe_instructions_'.$schema_id][0]);                                    
+                                    foreach ($explod as $val){
+                                      $instruction[] = array(
+                                                                 '@type'  => "HowToStep",
+                                                                 'text'  => $val,                                                                                                                            
+                                                                 );  
+                                    }                                   
+                                }
+                                                             
 				$input1 = array(
 				'@context'			=> 'http://schema.org',
 				'@type'				=> $schema_type ,
 				'url'				=> $all_post_meta['saswp_recipe_url_'.$schema_id][0],
 				'name'			        => $all_post_meta['saswp_recipe_name_'.$schema_id][0],
-				'datePublished'                 => $all_post_meta['saswp_recipe_date_published_'.$schema_id][0],
-				'dateModified'                  => $all_post_meta['saswp_recipe_date_modified_'.$schema_id][0],
-				'description'                   => $all_post_meta['saswp_recipe_description_'.$schema_id][0],
-				'mainEntity'                    => array(
-						'@type'				=> 'WebPage',
-						'@id'				=> $all_post_meta['saswp_recipe_main_entity_'.$schema_id][0],
-						'author'			=> array(
+                                'author'			=> array(
 								'@type' 	=> 'Person',
 								'name'		=> $all_post_meta['saswp_recipe_author_name_'.$schema_id][0],
 								'Image'		=> array(
 									'@type'			=> 'ImageObject',
 									'url'			=> $all_post_meta['saswp_recipe_author_image_'.$schema_id][0],
-									'height'		=> $all_post_meta['saswp_recipe_author_image_'.$schema_id.'_height'][0],
-									'width'			=> $all_post_meta['saswp_recipe_author_image_'.$schema_id.'_width'][0]
+									'height'		=> $recipe_image['height'],
+									'width'			=> $recipe_image['width']
 								),
 							),
+                                                                        
+                                    
+                                'prepTime'                       => $all_post_meta['saswp_recipe_preptime_'.$schema_id][0],  
+                                'cookTime'                       => $all_post_meta['saswp_recipe_cooktime_'.$schema_id][0],  
+                                'totalTime'                      => $all_post_meta['saswp_recipe_totaltime_'.$schema_id][0],  
+                                'keywords'                       => $all_post_meta['saswp_recipe_keywords_'.$schema_id][0],  
+                                'recipeYield'                    => $all_post_meta['saswp_recipe_recipeyield_'.$schema_id][0],  
+                                'recipeCategory'                 => $all_post_meta['saswp_recipe_category_'.$schema_id][0],
+                                'recipeCuisine'                  => $all_post_meta['saswp_recipe_cuisine_'.$schema_id][0],  
+                                'nutrition'                      => array(
+                                                                 '@type'  => "NutritionInformation",
+                                                                 'calories'  => $all_post_meta['saswp_recipe_nutrition_'.$schema_id][0],                                                                 
+                                                                 ), 
+                                'recipeIngredient'               => $ingredient, 
+                                'recipeInstructions'             => $instruction,  
+                                'video'                          => array(
+                                                                        'name'  => $all_post_meta['saswp_recipe_video_name_'.$schema_id][0],
+                                                                        'description'  => $all_post_meta['saswp_recipe_video_description_'.$schema_id][0],
+                                                                        'thumbnailUrl'  => $all_post_meta['saswp_recipe_video_thumbnailurl_'.$schema_id][0],  
+                                                                        'contentUrl'  => $all_post_meta['saswp_recipe_video_contenturl_'.$schema_id][0],  
+                                                                        'embedUrl'  => $all_post_meta['saswp_recipe_video_embedurl_'.$schema_id][0],  
+                                                                        'uploadDate'  => $all_post_meta['saswp_recipe_video_upload_date_'.$schema_id][0],
+                                                                        'duration'  => $all_post_meta['saswp_recipe_video_duration_'.$schema_id][0],                                                                 
+                                                                 ),                                                                                                             
+                                    
+				'datePublished'                 => $all_post_meta['saswp_recipe_date_published_'.$schema_id][0],
+				'dateModified'                  => $all_post_meta['saswp_recipe_date_modified_'.$schema_id][0],
+				'description'                   => $all_post_meta['saswp_recipe_description_'.$schema_id][0],
+				'mainEntity'                    => array(
+						'@type'				=> 'WebPage',
+						'@id'				=> $all_post_meta['saswp_recipe_main_entity_'.$schema_id][0],						
 						'Publisher'			=> array(
 							'@type'			=> 'Organization',
 							'logo' 			=> array(
 								'@type'		=> 'ImageObject',
 								'url'		=> $all_post_meta['saswp_recipe_organization_logo_'.$schema_id][0],
-								'width'		=> $all_post_meta['saswp_recipe_organization_logo_'.$schema_id.'_width'][0],
-								'height'	=> $all_post_meta['saswp_recipe_organization_logo_'.$schema_id.'_height'][0],
+								'width'		=> $recipe_logo['width'],
+								'height'	=> $recipe_logo['height'],
 								),
 							'name'			=> $all_post_meta['saswp_recipe_organization_name_'.$schema_id][0],
 						),
@@ -921,11 +1231,14 @@ function saswp_post_specific_schema_output() {
                                 }
                                 if(!empty($kkstar_aggregateRating)){
                                    $input1['aggregateRating'] = $kkstar_aggregateRating;  
-                                } 
+                                }
+                                if(!empty($extra_theme_review)){
+                                   $input1 = array_merge($input1, $extra_theme_review);
+                                }
 			}
 						
-			 if( 'Product' === $schema_type){
-				
+			 if( 'Product' === $schema_type){				
+                             
 				$input1 = array(
 				'@context'			=> 'http://schema.org',
 				'@type'				=> $schema_type ,
@@ -940,9 +1253,75 @@ function saswp_post_specific_schema_output() {
                                 if(!empty($kkstar_aggregateRating)){
                                    $input1['aggregateRating'] = $kkstar_aggregateRating;  
                                 }
+                                if(!empty($extra_theme_review)){
+                                   $input1 = array_merge($input1, $extra_theme_review);
+                                }
+                                $service = new saswp_output_service();
+                                $product_details = $service->saswp_woocommerce_product_details($post->ID);  
+                               
+                                if((isset($sd_data['saswp-woocommerce']) && $sd_data['saswp-woocommerce'] ==1) && !empty($product_details)){                                    
+                                    $input1 = array(
+                                    '@context'			        => 'http://schema.org',
+                                    '@type'				=> 'Product',
+                                    'url'				=> $all_post_meta['saswp_product_url_'.$schema_id][0],
+                                    'name'                              => $all_post_meta['saswp_product_name_'.$schema_id][0],
+                                    'sku'                               => $all_post_meta['saswp_product_sku_'.$schema_id][0],        
+                                    'description'                       => $all_post_meta['saswp_product_description_'.$schema_id][0],
+                                    'image'                             => $all_post_meta['saswp_product_image_'.$schema_id][0],    
+                                    'offers'                            => array(
+                                                                            '@type'	=> 'Offer',
+                                                                            'availability'	=> $all_post_meta['saswp_product_availability_'.$schema_id][0],
+                                                                            'price'	=> $all_post_meta['saswp_product_price_'.$schema_id][0],
+                                                                            'priceCurrency'	=> $all_post_meta['saswp_product_currency_'.$schema_id][0],
+                                                                            'url'           => $all_post_meta['saswp_product_url_'.$schema_id][0],
+                                                                            'priceValidUntil'=> $all_post_meta['saswp_product_priceValidUntil_'.$schema_id][0],
+                                                                             ),
+                                        
+				  ); 
+                                  if(isset($all_post_meta['saswp_product_gtin8_'.$schema_id])){
+                                    $input1['gtin8'] = $all_post_meta['saswp_product_gtin8_'.$schema_id][0];  
+                                  }
+                                  if(isset($all_post_meta['saswp_product_mpn_'.$schema_id])){
+                                    $input1['mpn'] = $all_post_meta['saswp_product_mpn_'.$schema_id][0];  
+                                  }
+                                  if(isset($all_post_meta['saswp_product_isbn_'.$schema_id][0])){
+                                    $input1['isbn'] = $all_post_meta['saswp_product_isbn_'.$schema_id][0];  
+                                  }
+                                  if(isset($all_post_meta['saswp_product_brand_'.$schema_id])){
+                                    $input1['brand'] =  array('@type'=>'Thing','name'=>$all_post_meta['saswp_product_brand_'.$schema_id][0]);  
+                                  }                                       
+                                  if(isset($product_details['product_review_count']) && isset($product_details['product_average_rating'])){
+                                       $input1['aggregateRating'] =  array(
+                                                                        '@type'         => 'AggregateRating',
+                                                                        'ratingValue'	=> $product_details['product_average_rating'],
+                                                                        'reviewCount'   => (int)$product_details['product_review_count'],       
+                                       );
+                                  }                                      
+                                  if(!empty($product_details['product_reviews'])){
+                                      $reviews = array();
+                                      foreach ($product_details['product_reviews'] as $review){
+                                          $reviews[] = array(
+                                                                        '@type'	=> 'Review',
+                                                                        'author'	=> $review['author'],
+                                                                        'datePublished'	=> $review['datePublished'],
+                                                                        'description'	=> $review['description'],  
+                                                                        'reviewRating'  => array(
+                                                                                '@type'	=> 'Rating',
+                                                                                'bestRating'	=> '5',
+                                                                                'ratingValue'	=> $review['reviewRating'],
+                                                                                'worstRating'	=> '1',
+                                                                        )  
+                                          );
+                                      }
+                                      $input1['review'] =  $reviews;
+                                  } 
+                                }
 			}
                         
                          if( 'NewsArticle' === $schema_type ){  
+                             
+                                $logo = get_post_meta( get_the_ID(), 'saswp_newsarticle_organization_logo_'.$schema_id.'_detail',true);
+                                $author_image = get_post_meta( get_the_ID(), 'saswp_newsarticle_author_image_'.$schema_id.'_detail',true);
                              
 				        $input1 = array(
 					'@context'			=> 'http://schema.org',
@@ -969,8 +1348,8 @@ function saswp_post_specific_schema_output() {
 							'Image'				=> array(
 							'@type'				=> 'ImageObject',
 							'url'				=> $all_post_meta['saswp_newsarticle_author_image_'.$schema_id][0],
-							'height'			=> $all_post_meta['saswp_newsarticle_author_image_'.$schema_id.'_height'][0],
-							'width'				=> $all_post_meta['saswp_newsarticle_author_image_'.$schema_id.'_width'][0]
+							'height'			=> $author_image['height'],
+							'width'				=> $author_image['width']
 										),
 							),
 					'Publisher'			=> array(
@@ -978,8 +1357,8 @@ function saswp_post_specific_schema_output() {
 							'logo' 				=> array(
 							'@type'				=> 'ImageObject',
 							'url'				=> $all_post_meta['saswp_newsarticle_organization_logo_'.$schema_id][0],
-							'width'				=> $all_post_meta['saswp_newsarticle_organization_logo_'.$schema_id.'_width'][0],
-							'height'			=> $all_post_meta['saswp_newsarticle_organization_logo_'.$schema_id.'_height'][0],
+							'width'				=> $logo['width'],
+							'height'			=> $logo['height'],
 										),
 							'name'				=> $all_post_meta['saswp_newsarticle_organization_name_'.$schema_id][0],
 							),
@@ -993,7 +1372,10 @@ function saswp_post_specific_schema_output() {
 				}
 			
 			 if( 'VideoObject' === $schema_type){
-																					
+				
+                                $logo = get_post_meta( get_the_ID(), 'saswp_video_object_organization_logo_'.$schema_id.'_detail',true);
+                                $author_image = get_post_meta( get_the_ID(), 'saswp_video_object_author_image_'.$schema_id.'_detail',true);
+                             
 						$input1 = array(
 						'@context'			=> 'http://schema.org',
 						'@type'				=> $schema_type,
@@ -1015,8 +1397,8 @@ function saswp_post_specific_schema_output() {
 								'Image'				=> array(
 								'@type'				=> 'ImageObject',
 								'url'				=> $all_post_meta['saswp_video_object_author_image_'.$schema_id][0],
-								'height'			=> $all_post_meta['saswp_video_object_author_image_'.$schema_id.'_height'][0],
-								'width'				=> $all_post_meta['saswp_video_object_author_image_'.$schema_id.'_width'][0]
+								'height'			=> $author_image['height'],
+								'width'				=> $author_image['width']
 								),
 							),
 						'Publisher'			=> array(
@@ -1024,8 +1406,8 @@ function saswp_post_specific_schema_output() {
 								'logo' 				=> array(
 								'@type'				=> 'ImageObject',
 								'url'				=> $all_post_meta['saswp_video_object_organization_logo_'.$schema_id][0],
-								'width'				=> $all_post_meta['saswp_video_object_organization_logo_'.$schema_id.'_width'][0],
-								'height'			=> $all_post_meta['saswp_video_object_organization_logo_'.$schema_id.'_height'][0],
+								'width'				=> $logo['width'],
+								'height'			=> $logo['height'],
 										),
 								'name'                          => $all_post_meta['saswp_video_object_organization_name_'.$schema_id][0],
 							),
@@ -1035,7 +1417,10 @@ function saswp_post_specific_schema_output() {
                                                 }
                                                 if(!empty($kkstar_aggregateRating)){
                                                    $input1['aggregateRating'] = $kkstar_aggregateRating;  
-                                                }   
+                                                } 
+                                                if(!empty($extra_theme_review)){
+                                                    $input1 = array_merge($input1, $extra_theme_review);
+                                                }
 					
 				}
                         
@@ -1093,10 +1478,65 @@ function saswp_post_specific_schema_output() {
                                 if(!empty($kkstar_aggregateRating)){
                                    $input1['aggregateRating'] = $kkstar_aggregateRating;  
                                 }
-                         }       
+                                if(!empty($extra_theme_review)){
+                                   $input1 = array_merge($input1, $extra_theme_review);
+                                }
+                         }     
+                         
+                         if( 'Review' === $schema_type ){                                                                  
+                               
+				$input1 = array(
+					'@context'			=> 'http://schema.org',
+					'@type'				=> 'Review' ,                                        
+					'url'                           => get_permalink(),
+                                        'description'                   => $all_post_meta['saswp_review_schema_description_'.$schema_id][0],
+                                        'itemReviewed'                  => array(
+                                                                '@type'  => $all_post_meta['saswp_review_schema_item_type_'.$schema_id][0],
+                                                                'name'  => $all_post_meta['saswp_review_schema_name_'.$schema_id][0],
+                                                                'image'  => $all_post_meta['saswp_review_schema_image_'.$schema_id][0],
+                                                                'priceRange'  => $all_post_meta['saswp_review_schema_price_range_'.$schema_id][0],
+                                                                'address'  => array(
+                                                                   '@type'  => 'PostalAddress',  
+                                                                   'streetAddress'  => $all_post_meta['saswp_review_schema_street_address_'.$schema_id][0], 
+                                                                   'addressLocality'  => $all_post_meta['saswp_review_schema_locality_'.$schema_id][0],  
+                                                                   'addressRegion'  => $all_post_meta['saswp_review_schema_region_'.$schema_id][0],  
+                                                                   'postalCode'  => $all_post_meta['saswp_review_schema_postal_code_'.$schema_id][0],  
+                                                                   'addressCountry'  => $all_post_meta['saswp_review_schema_country_'.$schema_id][0],       
+                                                                ),
+                                             'telephone'                 => $all_post_meta['saswp_review_schema_telephone_'.$schema_id][0],
+                                        ), 
+                                       
+                                        'datePublished'                 => $all_post_meta['saswp_review_schema_date_published_'.$schema_id][0],
+                                        'dateModified'                  => $all_post_meta['saswp_review_schema_date_modified_'.$schema_id][0],
+                                        'author'			=> array(
+								'@type' 			=> 'Person',
+								'name'				=> get_the_author(),								
+							),
+						'Publisher'			=> array(
+								'@type'				=> 'Organization',
+								'logo' 				=> array(
+								'@type'				=> 'ImageObject',
+								'url'				=> $sd_data['sd_logo']['url'],
+								'width'				=> $sd_data['sd_logo']['width'],
+								'height'			=> $sd_data['sd_logo']['height'],
+										),
+								'name'			        => $sd_data['sd_name'],
+							),
+					                                       										                                                                     
+					
+                                        ); 
+                                       
+                                                                       
+                                if(!empty($aggregateRating)){
+                                    $input1['aggregateRating'] = $aggregateRating;
+                                }
+                                if(!empty($kkstar_aggregateRating)){
+                                   $input1['aggregateRating'] = $kkstar_aggregateRating;  
+                                }                                
+				}    
                                 
                          if( 'local_business' === $schema_type){
-                            
+                                $operation_days = explode( "rn", esc_html( stripslashes($all_post_meta['saswp_dayofweek_'.$schema_id][0])) );;                               
                                 $business_sub_name ='';
                                 $business_type = $all_post_meta['saswp_business_type_'.$schema_id][0]; 
                                 $post_specific_obj = new saswp_post_specific();
@@ -1123,12 +1563,7 @@ function saswp_post_specific_schema_output() {
                                                                 "postalCode"     => $all_post_meta['local_postal_code_'.$schema_id][0],                                                                                                                                  
                                                                  ),	
 				'telephone'                   => $all_post_meta['local_phone_'.$schema_id][0],
-                                'openingHoursSpecification'   => array(                                                                
-                                                                 '@type' => 'OpeningHoursSpecification',
-                                                                 'dayOfWeek'  => $all_post_meta['saswp_dayofweek_'.$schema_id][0],                                                                       
-                                                                 'opens' => $all_post_meta['local_opens_time_'.$schema_id][0],
-                                                                 'closes'=> $all_post_meta['local_closes_time_'.$schema_id][0],
-                                                                ),                                                                                                     
+                                'openingHours'                => $operation_days,                                                                                                     
 				);
                                     
                                     if(!empty($aggregateRating)){
@@ -1136,6 +1571,9 @@ function saswp_post_specific_schema_output() {
                                     }
                                     if(!empty($kkstar_aggregateRating)){
                                        $input1['aggregateRating'] = $kkstar_aggregateRating;  
+                                    }
+                                    if(!empty($extra_theme_review)){
+                                       $input1 = array_merge($input1, $extra_theme_review);
                                     }
                                     if(isset($all_post_meta['local_price_range_'.$schema_id][0])){
                                       $input1['priceRange'] = $all_post_meta['local_price_range_'.$schema_id][0];   
@@ -1157,6 +1595,9 @@ function saswp_post_specific_schema_output() {
                         $image_id 	= get_post_thumbnail_id();
 			$image_details 	= wp_get_attachment_image_src($image_id, 'full');
 			global $sd_data;
+                        
+                        if(!empty($input1)){
+                        
 			if( is_array($image_details) ){
 				if(isset($image_details[1]) ){
 						$width = $image_details[1];	
@@ -1173,8 +1614,7 @@ function saswp_post_specific_schema_output() {
 									),
 				);
 			$input = array_merge($input1,$input2);
-		     }
-			else{			
+		     }else{			
 				$input2  = array(
 				                'image'		=>array(
 									'@type'		=>'ImageObject',
@@ -1185,8 +1625,11 @@ function saswp_post_specific_schema_output() {
 				);
 				$input = array_merge($input1,$input2);
 		}
-		
-                $all_schema_output[] = $input;		                
+                        
+                        }               
+                if(!empty($input)){
+                   $all_schema_output[] = $input;		                 
+                }                
 	}
         }              
         return $all_schema_output;	
@@ -1310,7 +1753,37 @@ function saswp_kb_website_output(){
 }	
 // For Archive 
 function saswp_archive_output(){
-	global $query_string, $sd_data;
+	global $query_string, $sd_data;                        
+        $logo =''; 
+        $height ='';
+        $width ='';
+        $site_name ='';
+				
+	$logo = $sd_data['sd_logo']['url']; 
+		
+        if(isset($sd_data['sd_name']) && $sd_data['sd_name'] !=''){
+          $site_name = $sd_data['sd_name'];  
+        }else{
+          $site_name = get_bloginfo();    
+        } 
+		
+		
+	if('' != $logo && !empty($logo)){
+         $height = $sd_data['sd_logo']['height'];  
+         $width = $sd_data['sd_logo']['width'];
+        }else{            
+            $sizes = array(
+					'width'  => 600,
+					'height' => 60,
+					'crop'   => false,
+				);            
+            $custom_logo_id = get_theme_mod( 'custom_logo' );           
+            $custom_logo = wp_get_attachment_image_src( $custom_logo_id, $sizes); 
+            $logo   = $custom_logo[0];
+            $height =$custom_logo[1];
+            $width  =$custom_logo[2];            
+        }
+        
 	
 	if(isset($sd_data['saswp_archive_schema']) && $sd_data['saswp_archive_schema'] == 1){
 					
@@ -1323,13 +1796,13 @@ function saswp_archive_output(){
 				$image_details 	= wp_get_attachment_image_src($image_id, 'full');
 				$publisher_info = array(
 				"type" => "Organization",
-			        "name" => $sd_data['sd_name'],
+			        "name" => $site_name,
                                 "logo" => array(
                                     "@type" => "ImageObject",
-                                    "name" => $sd_data['sd_name'],
-                                    "width" => $sd_data['sd_logo']['width'],
-                                    "height"=> $sd_data['sd_logo']['height'],
-                                    "url"=> $sd_data['sd_logo']['url']
+                                    "name" => $site_name,
+                                    "width" => $width,
+                                    "height"=> $height,
+                                    "url"=> $logo
                                 )                                        			        
 				);
 				$publisher_info['name'] = get_bloginfo('name');

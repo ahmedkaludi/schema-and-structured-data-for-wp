@@ -1,9 +1,9 @@
-=== Schema & Structured Data for WP & AMP ===
+﻿=== Schema & Structured Data for WP & AMP ===
 Contributors: mohammed_kaludi, ahmedkaludi, ampforwp
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 4.9.8
-Stable tag: 1.0.5
+Stable tag: 1.0.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -65,6 +65,20 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
 
+= 1.0.6 (14 December 2018) =
+
+* New Feature: Review schema type add to the schema type list
+* New Feature: Compatibility with Extra theme by Elegant Themes ( https://www.elegantthemes.com ) , Now extra theme built in review and rating will be indexed in google after enabling option
+* New Feature: Compatibility with WooCommerce ( https://wordpress.org/plugins/woocommerce ), Now the product schema with its WooCommerce product details will be indexed in google search
+* New Feature: Q&A schema type add to the schema type list, Currently it is compatible with DW Question & Answer plugin ( https://wordpress.org/plugins/dw-question-answer ) 
+* New Feature: Modify Schema output, custom fields can be selected for schema fields
+* Improvement: Different opening and closing hours for different days of the week in local business schema type
+* Improvement: Now post specific modify schema will support on page and custom post type
+* Improvement: Added missing recipe fields in the post specific metabox #81
+* Bug Fixed: Compatibility issue with the Blackbar plugin #83
+* Bug Fixed: Restore schema button was not working on first load #81
+
+
 = 1.0.5 (30 November 2018) =
 
 * New Feature: Service schema type add to the schema type list
@@ -77,11 +91,6 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 * Bug Fixed: Load review css only when review is enable for that post. #67
 * Menified review css in amp to put under amp css limitation. 
-
-= 1.0.5 (26 November 2018) =
-* Major Feature: Post Specific Meta boxes to override the schemas on posts
-* Major Feature: Rich Snippets for Reviews and Ratings
-* Security and other bug fixed
 
 = 1.0.4 (16 November 2018) =
 * Major Feature: Post Specific Meta boxes to override the schemas on posts

@@ -1,4 +1,9 @@
 <?php
+//compatible with the Blackbar plugin starts here
+if( in_array( filter_input( INPUT_GET, 'page' ), array( 'saswp-setup-wizard', 'saswp_add_new_data_type' ))) {
+    add_filter( 'blackbar/enabled', '__return_false' );
+}
+//compatible with the Blackbar plugin ends here
 add_action( 'admin_menu', 'saswp_add_new_data_menu' );
 add_action( 'admin_init', 'saswp_add_new_init');
 add_action( 'admin_footer', 'saswp_add_new_svg_sprite');

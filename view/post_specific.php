@@ -1,9 +1,6 @@
 <?php
 class saswp_post_specific {
-	private $screen = array(
-		'post',
-                'page'
-	);
+	private $screen = array();
 	private $meta_fields = array(
 			
 	);
@@ -40,7 +37,17 @@ class saswp_post_specific {
         }
 
         public function saswp_post_specifc_add_meta_boxes($post) {
-            if(count($this->all_schema)>0 && get_post_status($post->ID)=='publish'){
+            
+            $post_specific_id = '';
+            if(is_object($post)){
+                $post_specific_id = $post->ID;
+            }           
+            if(count($this->all_schema)>0 && get_post_status($post_specific_id)=='publish'){
+                
+            $show_post_types = get_post_types();
+            unset($show_post_types['adsforwp'],$show_post_types['saswp'],$show_post_types['attachment'], $show_post_types['revision'], $show_post_types['nav_menu_item'], $show_post_types['user_request'], $show_post_types['custom_css']);            
+            $this->screen = $show_post_types;
+                
              foreach ( $this->screen as $single_screen ) {
                  $post_title ='';
                  if(count($this->all_schema)==1){
@@ -61,10 +68,10 @@ class saswp_post_specific {
 	}
         
         public function saswp_post_meta_box_fields($post){            
-             if(count($this->all_schema)>1){
-                    $tabs = '';
-                    $tabs_fields = '';
-                    $schema_ids = array();
+                $tabs = '';
+                $tabs_fields = '';
+                $schema_ids = array();
+             if(count($this->all_schema)>1){                    
                  foreach($this->all_schema as $key => $schema){
                      $response = $this->saswp_get_fields_by_schema_type($schema->ID);                     
                      $this->meta_fields = $response;
@@ -85,7 +92,7 @@ class saswp_post_specific {
                  }   
                                   
                 echo '<div>';  
-                echo '<div><a href="#" class="saswp-restore-post-schema button">Restore Default Schama</a></div>';  
+                echo '<div><a href="#" class="saswp-restore-post-schema button">'.esc_html__( 'Restore Default Schema', 'schema-and-structured-data-for-wp' ).'</a></div>';  
                 echo '<div class="saswp-tab saswp-post-specific-tab-wrapper">';                
 		echo '<ul class="saswp-tab-nav">';
                 echo $tabs;                
@@ -107,7 +114,7 @@ class saswp_post_specific {
                  $this->meta_fields = $response;
                  $output = $this->saswp_saswp_post_specific( $post, $all_schema[0]->ID );  
                  $tabs_fields .= '<div>';
-                 $tabs_fields .= '<div><a href="#" class="saswp-restore-post-schema button">Restore Default Schama</a></div>';
+                 $tabs_fields .= '<div><a href="#" class="saswp-restore-post-schema button">'.esc_html__( 'Restore Default Schema', 'schema-and-structured-data-for-wp' ).'</a></div>';
                  $tabs_fields .= '<div id="saswp_specific_'.esc_attr($all_schema[0]->ID).'" class="saswp-post-specific-wrapper">';
                  $tabs_fields .= '<table class="form-table"><tbody>' . $output . '</tbody></table>';
                  $tabs_fields .= '</div>';
@@ -144,13 +151,13 @@ class saswp_post_specific {
                   foreach($meta_field as $field){
                    $result = delete_post_meta($post_id, $field['id']);   
                   }                      
-                }                
-                if($result){
+                }           
+                update_option('modify_schema_post_enable_'.$post_id, 'disable'); 
+                if($result){                     
                     echo json_encode(array('status'=> 't', 'msg'=>esc_html__( 'Schema has been restored', 'schema-and-structured-data-for-wp' )));
                 }else{
                     echo json_encode(array('status'=> 'f', 'msg'=>esc_html__( 'Schema has already been restored', 'schema-and-structured-data-for-wp' )));
-                }
-                                              
+                }                                              
                  wp_die();
                 }
         
@@ -194,11 +201,20 @@ class saswp_post_specific {
                 $this->meta_fields = array_filter($this->meta_fields);
 		foreach ( $this->meta_fields as $meta_field ) {
                         $input ='';
+                        $attributes ='';
+                        
 			$label = '<label for="' . $meta_field['id'] . '">' . $meta_field['label'] . '</label>';
 			$meta_value = get_post_meta( $post->ID, $meta_field['id'], true );
-			if ( empty( $meta_value ) ) {
+			if ( empty( $meta_value ) && isset($meta_field['default'])) {
+                            
 				$meta_value = $meta_field['default'];                                 
                         }
+                        if(isset($meta_field['attributes'])){
+                            foreach ($meta_field['attributes'] as $key => $attr ){
+                                           $attributes .=''.$key.'="'.$attr.'"';
+                                }
+                        }                        
+                        
 			switch ( $meta_field['type'] ) {
 				case 'media':
                                         $media_value = array();
@@ -225,14 +241,29 @@ class saswp_post_specific {
                                                 $media_value['width'] = $business_details['local_business_logo']['width'];                                                                                         
                                                 $media_value['thumbnail'] = $business_details['local_business_logo']['url'];                                             
                                         }
-                                                                                
+                                             
+                                        $media_height ='';
+                                        $media_width ='';
+                                        $media_thumbnail ='';
+                                        
+                                        if(isset($media_value['thumbnail'])){
+                                            $media_thumbnail =$media_value['thumbnail'];
+                                        }
+                                        if(isset($media_value['height'])){
+                                           $media_height =$media_value['height']; 
+                                        }
+                                        if(isset($media_value['width'])){
+                                             $media_width =$media_value['width'];
+                                        }
+                                        
+                                        
 					$input = sprintf(
 						'<fieldset><input style="width: 80%%" id="%s" name="%s" type="text" value="%s">'
                                                 . '<input data-id="media" style="width: 19%%" class="button" id="%s_button" name="%s_button" type="button" value="Upload" />'
 //                                                . '<input type="hidden" data-id="'.esc_attr($meta_field['id']).'_id" class="upload-id " name="'.esc_attr($meta_field['id']).'_id" id="'.esc_attr($meta_field['id']).'_id" value="'.esc_attr($media_value['id']).'">'
-                                                . '<input type="hidden" data-id="'.esc_attr($meta_field['id']).'_height" class="upload-height" name="'.esc_attr($meta_field['id']).'_height" id="'.esc_attr($meta_field['id']).'_height" value="'.esc_attr($media_value['height']).'">'
-                                                . '<input type="hidden" data-id="'.esc_attr($meta_field['id']).'_width" class="upload-width" name="'.esc_attr($meta_field['id']).'_width" id="'.esc_attr($meta_field['id']).'_width" value="'.esc_attr($media_value['width']).'">'
-                                                . '<input type="hidden" data-id="'.esc_attr($meta_field['id']).'_thumbnail" class="upload-thumbnail" name="'.esc_attr($meta_field['id']).'_thumbnail" id="'.esc_attr($meta_field['id']).'_thumbnail" value="'.esc_attr($media_value['thumbnail']).'">'                                                
+                                                . '<input type="hidden" data-id="'.esc_attr($meta_field['id']).'_height" class="upload-height" name="'.esc_attr($meta_field['id']).'_height" id="'.esc_attr($meta_field['id']).'_height" value="'.esc_attr($media_height).'">'
+                                                . '<input type="hidden" data-id="'.esc_attr($meta_field['id']).'_width" class="upload-width" name="'.esc_attr($meta_field['id']).'_width" id="'.esc_attr($meta_field['id']).'_width" value="'.esc_attr($media_width).'">'
+                                                . '<input type="hidden" data-id="'.esc_attr($meta_field['id']).'_thumbnail" class="upload-thumbnail" name="'.esc_attr($meta_field['id']).'_thumbnail" id="'.esc_attr($meta_field['id']).'_thumbnail" value="'.esc_attr($media_thumbnail).'">'                                                
                                                 .'</fieldset>',
 						$meta_field['id'],
 						$meta_field['id'],
@@ -313,11 +344,15 @@ class saswp_post_specific {
                                         
 				case 'textarea':
 					$input = sprintf(
-						'<textarea style="width: 100%%" id="%s" name="%s" rows="5">%s</textarea>',
+						'<textarea %s style="width: 100%%" id="%s" name="%s" rows="5">%s</textarea>',
+                                                $attributes,
 						$meta_field['id'],
 						$meta_field['id'],
 						$meta_value
 					);
+                                        if(isset($meta_field['note'])){
+                                          $input .='<p>'.$meta_field['note'].'</p>';  
+                                        }
 					break;
                                 case 'text':
                                 case 'number':    
@@ -325,11 +360,13 @@ class saswp_post_specific {
                                              if (strpos($meta_field['id'], 'closes_time') !== false || strpos($meta_field['id'], 'opens_time') !== false){
                                              $class='saswp-local-schema-time-picker';    
                                              }
-                                             if (strpos($meta_field['id'], 'date_modified') !== false || strpos($meta_field['id'], 'date_published') !== false){
+                                             if (strpos($meta_field['id'], 'date_modified') !== false || strpos($meta_field['id'], 'date_published') !== false  || strpos($meta_field['id'], 'video_upload_date') !== false|| strpos($meta_field['id'], 'qa_date_created') !== false || strpos($meta_field['id'], 'accepted_answer_date_created') !== false || strpos($meta_field['id'], 'suggested_answer_date_created') !== false || strpos($meta_field['id'], 'priceValidUntil') !== false) {
                                              $class='saswp-local-schema-datepicker-picker';    
                                              }
+                                             
                                             $input = sprintf(
-						'<input class="%s" %s id="%s" name="%s" type="%s" value="%s">',
+						'<input %s class="%s" %s id="%s" name="%s" type="%s" value="%s">',
+                                                $attributes,    
                                                 $class,    
 						$meta_field['type'] !== 'color' ? 'style="width: 100%"' : '',
 						$meta_field['id'],
@@ -337,6 +374,9 @@ class saswp_post_specific {
 						$meta_field['type'],
 						$meta_value                                                                                                 
 					   );
+                                            if(isset($meta_field['note'])){
+                                            $input .='<p>'.$meta_field['note'].'</p>';  
+                                           }
                                          break;	
                                 
 				default:       
@@ -368,7 +408,7 @@ class saswp_post_specific {
 			if ( isset( $_POST[ $meta_field['id'] ] ) ) {
 				switch ( $meta_field['type'] ) {
                                         case 'media':                                                                                                  
-                                                $media_key = $meta_field['id'].'detail';
+                                                $media_key = $meta_field['id'].'_detail';                                            
                                                 //$media_id = sanitize_text_field( $_POST[ $meta_field['id'].'_id' ] );
                                                 $media_height = sanitize_text_field( $_POST[ $meta_field['id'].'_height' ] );
                                                 $media_width = sanitize_text_field( $_POST[ $meta_field['id'].'_width' ] );
@@ -579,6 +619,7 @@ class saswp_post_specific {
             $business_type    = esc_sql ( get_post_meta($schema_id, 'saswp_business_type', true)  ); 
             $business_name    = esc_sql ( get_post_meta($schema_id, 'saswp_business_name', true)  ); 
             $business_details = esc_sql ( get_post_meta($schema_id, 'saswp_local_business_details', true)  );
+            $dayoftheweek = get_post_meta ($schema_id, 'saswp_dayofweek', true); 
             $saswp_business_type_key = 'saswp_business_type_'.$schema_id;
             $saved_business_type = get_post_meta( $post->ID, $saswp_business_type_key, true );
             $saved_saswp_business_name = get_post_meta( $post->ID, 'saswp_business_name_'.$schema_id, true );            
@@ -744,30 +785,9 @@ class saswp_post_specific {
                         array(
                             'label' => 'Operation Days',
                             'id' => 'saswp_dayofweek_'.$schema_id,
-                            'type' => 'multiselect',
-                            'options' => array(
-                                     'monday'       => 'Monday',
-                                     'tuesday'      => 'Tuesday',
-                                     'wednesday'    => 'Wednesday',
-                                     'thursday'     => 'Thursday',
-                                     'friday'       => 'Friday',
-                                     'staturday'    => 'Staturday',
-                                     'sunday'       => 'Sunday',                                      
-                            ),
-                            'default' => $business_details['saswp_dayofweek']
-                       ),
-                        array(
-                            'label' => 'Opens',
-                            'id' => 'local_opens_time_'.$schema_id,
-                            'type' => 'text',
-                            'default' => $business_details['local_opens_time']    
-                       ),
-                        array(
-                            'label' => 'Closes',
-                            'id' => 'local_closes_time_'.$schema_id,
-                            'type' => 'text',
-                            'default' => $business_details['local_closes_time']
-                       ),
+                            'type' => 'textarea',                                                           
+                            'default' => $dayoftheweek
+                       ),                        
                         array(
                             'label' => 'Price Range',
                             'id' => 'local_price_range_'.$schema_id,
@@ -996,12 +1016,7 @@ class saswp_post_specific {
                             'type' => 'text',
                             'default' => get_the_title(),
                     ),
-                    array(
-                            'label' => 'Description',
-                            'id' => 'saswp_webpage_description_'.$schema_id,
-                            'type' => 'textarea',
-                            'default' => $post->post_excerpt
-                    ), 
+                   
                     array(
                             'label' => 'Date Published',
                             'id' => 'saswp_webpage_date_published_'.$schema_id,
@@ -1155,11 +1170,151 @@ class saswp_post_specific {
                             'id' => 'saswp_recipe_organization_logo_'.$schema_id,
                             'type' => 'media',
                             'default' => $sd_data['sd_logo']['url']
+                    ),                                                                                            
+                    array(
+                            'label' => 'Prepare Time',
+                            'id' => 'saswp_recipe_preptime_'.$schema_id,
+                            'type' => 'text', 
+                            'attributes' => array(
+                                'placeholder' => 'PT20M'
+                            ),
                     ),    
+                    array(
+                            'label' => 'Cook Time',
+                            'id' => 'saswp_recipe_cooktime_'.$schema_id,
+                            'type' => 'text', 
+                            'attributes' => array(
+                                'placeholder' => 'PT30M'
+                            ),
+                    ),
+                    array(
+                            'label' => 'Total Time',
+                            'id' => 'saswp_recipe_totaltime_'.$schema_id,
+                            'type' => 'text', 
+                            'attributes' => array(
+                                'placeholder' => 'PT50M'
+                            ),
+                    ),    
+                    array(
+                            'label' => 'Keywords',
+                            'id' => 'saswp_recipe_keywords_'.$schema_id,
+                            'type' => 'text',  
+                            'attributes' => array(
+                                'placeholder' => 'cake for a party, coffee'
+                            ),
+                    ),    
+                    array(
+                            'label' => 'Recipe Yield',
+                            'id' => 'saswp_recipe_recipeyield_'.$schema_id,
+                            'type' => 'text', 
+                            'attributes' => array(
+                                'placeholder' => '10 servings'
+                            ),
+                    ),    
+                    array(
+                            'label' => 'Recipe Category',
+                            'id' => 'saswp_recipe_category_'.$schema_id,
+                            'type' => 'text',
+                            'attributes' => array(
+                                'placeholder' => 'Dessert'
+                            ),
+                    ),
+                    array(
+                            'label' => 'Recipe Cuisine',
+                            'id' => 'saswp_recipe_cuisine_'.$schema_id,
+                            'type' => 'text', 
+                            'attributes' => array(
+                                'placeholder' => 'American'
+                            ),
+                    ),    
+                    array(
+                            'label' => 'Nutrition',
+                            'id' => 'saswp_recipe_nutrition_'.$schema_id,
+                            'type' => 'text',
+                            'attributes' => array(
+                                'placeholder' => '270 calories'
+                            ),
+                    ),
+                    array(
+                            'label' => 'Recipe Ingredient',
+                            'id' => 'saswp_recipe_ingredient_'.$schema_id,
+                            'type' => 'textarea',
+                            'attributes' => array(
+                                'placeholder' => '2 cups of flour; 3/4 cup white sugar;'
+                            ),
+                            'note' => 'Note: Separate Ingredient list by semicolon ( ; )'  
+                    ), 
+                    array(
+                            'label' => 'Recipe Instructions',
+                            'id' => 'saswp_recipe_instructions_'.$schema_id,
+                            'type' => 'textarea',
+                            'attributes' => array(
+                                'placeholder' => 'Preheat the oven to 350 degrees F. Grease and flour a 9x9 inch pan; large bowl, combine flour, sugar, baking powder, and salt. pan.;'
+                            ),
+                            'note' => 'Note: Separate Ingredient step by semicolon ( ; )'  
+                    ), 
+                    array(
+                            'label' => 'Video Name',
+                            'id' => 'saswp_recipe_video_name_'.$schema_id,
+                            'type' => 'text', 
+                            'attributes' => array(
+                                'placeholder' => 'Video Name'
+                            ),
+                    ),
+                    array(
+                            'label' => 'Video Description',
+                            'id' => 'saswp_recipe_video_description_'.$schema_id,
+                            'type' => 'text', 
+                            'attributes' => array(
+                                'placeholder' => 'Video Description'
+                            ),
+                    ),
+                    array(
+                            'label' => 'Video ThumbnailUrl',
+                            'id' => 'saswp_recipe_video_thumbnailurl_'.$schema_id,
+                            'type' => 'media',
+                            
+                    ),
+                    array(
+                            'label' => 'Video ContentUrl',
+                            'id' => 'saswp_recipe_video_contenturl_'.$schema_id,
+                            'type' => 'text',                            
+                            'attributes' => array(
+                                'placeholder' => 'http://www.example.com/video123.mp4'
+                            ),
+                    ),
+                    array(
+                            'label' => 'Video EmbedUrl',
+                            'id' => 'saswp_recipe_video_embedurl_'.$schema_id,
+                            'type' => 'text', 
+                            'attributes' => array(
+                                'placeholder' => 'http://www.example.com/videoplayer?video=123'
+                            ),
+                    ),
+                    array(
+                            'label' => 'Video Upload Date',
+                            'id' => 'saswp_recipe_video_upload_date_'.$schema_id,
+                            'type' => 'text', 
+                            'attributes' => array(
+                                'placeholder' => '2018-12-18'
+                            ),
+                    ),
+                    array(
+                            'label' => 'Video Duration',
+                            'id' => 'saswp_recipe_video_duration_'.$schema_id,
+                            'type' => 'text',
+                            'attributes' => array(
+                                'placeholder' => 'PT1M33S'
+                            ),
+                    ),                                                                            
                     );
                     break;
                 
                 case 'Product':
+                    
+                   
+                    
+                    
                     $meta_field = array(
                     array(
                             'label' => 'URL',
@@ -1180,6 +1335,72 @@ class saswp_post_specific {
                             'default' => $post->post_excerpt
                     ),                      
                     );
+                     
+                    if(get_post_type() == 'product'){
+                                                               
+                       $meta_field[]  = array(
+                            'label' => 'Image',
+                            'id' => 'saswp_product_image_'.$schema_id,
+                            'type' => 'media',
+                            'default' => '' 
+                     ); 
+                       $meta_field[]  = array(
+                            'label' => 'Availability',
+                            'id' => 'saswp_product_availability_'.$schema_id,
+                            'type' => 'text',
+                            'default' => '' 
+                     ); 
+                       $meta_field[]  = array(
+                            'label' => 'Price',
+                            'id' => 'saswp_product_price_'.$schema_id,
+                            'type' => 'text',
+                            'default' => '' 
+                     ); 
+                       $meta_field[]  = array(
+                            'label' => 'Price Currency',
+                            'id' => 'saswp_product_currency_'.$schema_id,
+                            'type' => 'text',
+                            'default' => '' 
+                     );
+                       $meta_field[]  = array(
+                            'label' => 'SKU',
+                            'id' => 'saswp_product_sku_'.$schema_id,
+                            'type' => 'text',
+                            'default' => '' 
+                     );
+                       $meta_field[]  = array(
+                            'label' => 'Brand',
+                            'id' => 'saswp_product_brand_'.$schema_id,
+                            'type' => 'text',
+                            'default' => '' 
+                     );
+                       $meta_field[]  = array(
+                            'label' => 'Price Valid Until',
+                            'id' => 'saswp_product_priceValidUntil_'.$schema_id,
+                            'type' => 'text',
+                             'default' => '' 
+                     );
+                       $meta_field[]  = array(
+                            'label' => 'MPN',
+                            'id' => 'saswp_product_mpn_'.$schema_id,
+                            'type' => 'text',
+                            'note'   => 'OR',
+                            'default' => '' 
+                     );
+                       $meta_field[]  = array(
+                            'label' => 'ISBN',
+                            'id' => 'saswp_product_isbn_'.$schema_id,
+                            'type' => 'text',
+                            'note'   => 'OR',
+                            'default' => '' 
+                     );
+                       $meta_field[]  = array(
+                            'label' => 'GTIN8',
+                            'id' => 'saswp_product_gtin8_'.$schema_id,
+                            'type' => 'text', 
+                            'default' => ''                           
+                     );
+                    }                   
                     break;
                 
                 case 'Service':
@@ -1240,16 +1461,109 @@ class saswp_post_specific {
                             'default' => $service_schema_details['saswp_service_schema_description']
                     ),
                     array(
-                            'label' => 'Area Served',
+                            'label' => 'Area Served (City)',
                             'id' => 'saswp_service_schema_area_served_'.$schema_id,
                             'type' => 'textarea',
-                            'default' => $service_schema_details['saswp_service_schema_area_served']
+                            'default' => $service_schema_details['saswp_service_schema_area_served'],
+                            'note'   => 'Note: Enter all the City name in comma separated',
+                            'attributes' => array(
+                                'placeholder' => 'New York, Los Angeles'
+                            ),
                     ),
                     array(
                             'label' => 'Service Offer',
                             'id' => 'saswp_service_schema_service_offer_'.$schema_id,
                             'type' => 'textarea',
-                            'default' => $service_schema_details['saswp_service_schema_service_offer']
+                            'default' => $service_schema_details['saswp_service_schema_service_offer'],
+                            'note'   => 'Note: Enter all the service offer in comma separated',
+                            'attributes' => array(
+                                'placeholder' => 'Apartment light cleaning, carpet cleaning'
+                            ),                                                        
+                    ),    
+                    );
+                    break;
+                
+                case 'Review':
+                    $service_schema_details = esc_sql ( get_post_meta($schema_id, 'saswp_review_schema_details', true)  );
+                    $meta_field = array(
+                    array(
+                            'label' => 'Item Reviewed Type',
+                            'id' => 'saswp_review_schema_item_type_'.$schema_id,
+                            'type' => 'text',
+                            'default' => $service_schema_details['saswp_review_schema_item_type']
+                    ),
+                    array(
+                            'label' => 'Name',
+                            'id' => 'saswp_review_schema_name_'.$schema_id,
+                            'type' => 'text',
+                            'default' => $service_schema_details['saswp_review_schema_name']
+                    ),
+                    array(
+                            'label' => 'Description',
+                            'id' => 'saswp_review_schema_description_'.$schema_id,
+                            'type' => 'textarea',
+                            'default' => $service_schema_details['saswp_review_schema_description']
+                    ),
+                    array(
+                            'label' => 'Date Published',
+                            'id' => 'saswp_review_schema_date_published_'.$schema_id,
+                            'type' => 'text',
+                            'default' => get_the_date("Y-m-d")
+                    ),
+                    array(
+                            'label' => 'Date Modified',
+                            'id' => 'saswp_review_schema_date_modified_'.$schema_id,
+                            'type' => 'text',
+                            'default' => get_the_modified_date("Y-m-d")
+                    ),    
+                    array(
+                            'label' => 'Image',
+                            'id' => 'saswp_review_schema_image_'.$schema_id,
+                            'type' => 'media',
+                            'default' => $service_schema_details['saswp_review_schema_image']['url']
+                    ),
+                    array(
+                            'label' => 'Price Range',
+                            'id' => 'saswp_review_schema_price_range_'.$schema_id,
+                            'type' => 'text',
+                            'default' => $service_schema_details['saswp_review_schema_price_range']
+                    ),
+                    array(
+                            'label' => 'Street Address',
+                            'id' => 'saswp_review_schema_street_address_'.$schema_id,
+                            'type' => 'text',
+                            'default' => $service_schema_details['saswp_review_schema_street_address']
+                    ),
+                    array(
+                            'label' => 'Address Locality',
+                            'id' => 'saswp_review_schema_locality_'.$schema_id,
+                            'type' => 'text',
+                            'default' => $service_schema_details['saswp_review_schema_locality']
+                    ),
+                    array(
+                            'label' => 'Address Region',
+                            'id' => 'saswp_review_schema_region_'.$schema_id,
+                            'type' => 'text',
+                            'default' => $service_schema_details['saswp_review_schema_region']
+                    ),
+                    array(
+                            'label' => 'Postal Code',
+                            'id' => 'saswp_review_schema_postal_code_'.$schema_id,
+                            'type' => 'text',
+                            'default' => $service_schema_details['saswp_review_schema_postal_code']
+                    ),
+                    array(
+                            'label' => 'Address Country',
+                            'id' => 'saswp_review_schema_country_'.$schema_id,
+                            'type' => 'text',
+                            'default' => $service_schema_details['saswp_review_schema_country'],                            
+                    ),
+                    array(
+                            'label' => 'Telephone',
+                            'id' => 'saswp_review_schema_telephone_'.$schema_id,
+                            'type' => 'text',
+                            'default' => $service_schema_details['saswp_review_schema_telephone'],
+                                                                                   
                     ),    
                     );
                     break;
@@ -1334,6 +1648,88 @@ class saswp_post_specific {
                             'type' => 'media',
                             'default' => $sd_data['sd_logo']['url']
                     ),    
+                   );
+                    break;
+                
+                case 'qanda':
+                    $meta_field = array(
+                    array(
+                            'label' => 'Question Title',
+                            'id' => 'saswp_qa_question_title_'.$schema_id,
+                            'type' => 'text',                           
+                    ),
+                    array(
+                            'label' => 'Question Description',
+                            'id' => 'saswp_qa_question_description_'.$schema_id,
+                            'type' => 'text',                           
+                    ),                    
+                    array(
+                            'label' => 'Question Upvote Count',
+                            'id' => 'saswp_qa_upvote_count_'.$schema_id,
+                            'type' => 'text',                           
+                    ),
+                    array(
+                            'label' => 'Question Date Created',
+                            'id' => 'saswp_qa_date_created_'.$schema_id,
+                            'type' => 'text',                           
+                    ),    
+                    array(
+                            'label' => 'Author Name',
+                            'id' => 'saswp_qa_question_author_name_'.$schema_id,
+                            'type' => 'text',                           
+                    ),    
+                    array(
+                            'label' => 'Accepted Answer Text',
+                            'id' => 'saswp_qa_accepted_answer_text_'.$schema_id,
+                            'type' => 'text',                           
+                    ),
+                    array(
+                            'label' => 'Accepted Answer Date Created',
+                            'id' => 'saswp_qa_accepted_answer_date_created_'.$schema_id,
+                            'type' => 'text',                           
+                    ),
+                    array(
+                            'label' => 'Accepted Answer Upvote Count',
+                            'id' => 'saswp_qa_accepted_answer_upvote_count_'.$schema_id,
+                            'type' => 'text',                           
+                    ),
+                    array(
+                            'label' => 'Accepted Answer Url',
+                            'id' => 'saswp_qa_accepted_answer_url_'.$schema_id,
+                            'type' => 'text',                           
+                    ),
+                    array(
+                            'label' => 'Accepted Answer Author Name',
+                            'id' => 'saswp_qa_accepted_author_name_'.$schema_id,
+                            'type' => 'text',                           
+                    ),    
+                                                
+                    array(
+                            'label' => 'Suggested Answer Text',
+                            'id' => 'saswp_qa_suggested_answer_text_'.$schema_id,
+                            'type' => 'text',                           
+                    ),
+                    array(
+                            'label' => 'Suggested Answer Date Created',
+                            'id' => 'saswp_qa_suggested_answer_date_created_'.$schema_id,
+                            'type' => 'text',                           
+                    ),
+                    array(
+                            'label' => 'Suggested Answer Upvote Count',
+                            'id' => 'saswp_qa_suggested_answer_upvote_count_'.$schema_id,
+                            'type' => 'text',                           
+                    ),
+                    array(
+                            'label' => 'Suggested Answer Url',
+                            'id' => 'saswp_qa_suggested_answer_url_'.$schema_id,
+                            'type' => 'text',                           
+                    ),
+                    array(
+                            'label' => 'Suggested Answer Author Name',
+                            'id' => 'saswp_qa_suggested_author_name_'.$schema_id,
+                            'type' => 'text',                           
+                    ),                        
+                        
                    );
                     break;
                 

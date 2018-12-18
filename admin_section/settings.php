@@ -938,7 +938,9 @@ function saswp_review_page_callback(){
 }
 function saswp_compatibility_page_callback(){
         
-        $settings = saswp_defaultSettings();         
+        $settings = saswp_defaultSettings();  
+        
+        //KK Star rating
         $field_objs = new saswp_fields_generator();
         $meta_fields = array(				
                 array(
@@ -956,10 +958,64 @@ function saswp_compatibility_page_callback(){
 	);        
         if(is_plugin_active('kk-star-ratings/index.php')){
           $field_objs->saswp_field_generator($meta_fields, $settings);      
-        }else{
-            echo '<p>'.esc_html__('None of the plugin is active which has compatibility with Schema & Structured Data For WP', 'schema-and-structured-data-for-wp').'</p>';
+        }
+        //Woocommerce
+        $meta_fields = array(				
+                array(
+			'label' => 'Woocommerce',
+			'id' => 'saswp-woocommerce-checkbox',                        
+                        'name' => 'saswp-woocommerce-checkbox',
+			'type' => 'checkbox',
+                        'class' => 'checkbox saswp-checkbox',
+                        'hidden' => array(
+                             'id' => 'saswp-woocommerce',
+                             'name' => 'sd_data[saswp-woocommerce]',                             
+                        )
+		),  
+                
+	);        
+        if(is_plugin_active('woocommerce/woocommerce.php')){
+          $field_objs->saswp_field_generator($meta_fields, $settings);      
+        }
+        //Extra theme by elegant themes
+        $meta_fields = array(				
+                array(
+			'label' => 'Extra Theme By Elegant',
+			'id' => 'saswp-extra-checkbox',                        
+                        'name' => 'saswp-extra-checkbox',
+			'type' => 'checkbox',
+                        'class' => 'checkbox saswp-checkbox',
+                        'hidden' => array(
+                             'id' => 'saswp-extra',
+                             'name' => 'sd_data[saswp-extra]',                             
+                        )
+		),  
+                
+	);        
+        
+        if(get_template() == 'Extra'){
+          $field_objs->saswp_field_generator($meta_fields, $settings);      
         }
         
+        //DW Question Answer
+        $meta_fields = array(				
+                array(
+			'label' => 'DW Question Answer',
+			'id' => 'saswp-dw-question-answer-checkbox',                        
+                        'name' => 'saswp-dw-question-answer-checkbox',
+			'type' => 'checkbox',
+                        'class' => 'checkbox saswp-checkbox',
+                        'hidden' => array(
+                             'id' => 'saswp-dw-question-answer',
+                             'name' => 'sd_data[saswp-dw-question-answer]',                             
+                        )
+		),  
+                
+	);        
+        
+         if(is_plugin_active('dw-question-answer/dw-question-answer.php')){
+          $field_objs->saswp_field_generator($meta_fields, $settings);      
+        }
        
 }
 

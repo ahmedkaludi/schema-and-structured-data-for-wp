@@ -25,6 +25,7 @@ jQuery(document).ready(function($){
 	});     
         
         $(".saswp-schame-type-select").change(function(){
+            $(".saswp-custom-fields-table").html('');
             var schematype = $  (this).val(); 
             
            $(".saswp-option-table-class tr").each(function(index,value){                
@@ -42,6 +43,13 @@ jQuery(document).ready(function($){
              }
              if(schematype == 'Service'){            
              $(".saswp-service-text-field-tr").show();                                          
+             }
+             if(schematype == 'Review'){            
+             $(".saswp-review-text-field-tr").show();                                          
+             }
+              $(".saswp-schem-type-note").addClass('saswp_hide');
+             if(schematype == 'qanda'){
+              $(".saswp-schem-type-note").removeClass('saswp_hide');   
              }
         }); 
         
@@ -63,6 +71,9 @@ jQuery(document).ready(function($){
             } 
              if(schematype == 'Service'){            
              $(".saswp-service-text-field-tr").show();                                          
+             }
+             if(schematype == 'Review'){            
+             $(".saswp-review-text-field-tr").show();                                          
              }
             
         }).change(); 
@@ -251,6 +262,32 @@ jQuery(document).ready(function($){
                               $("#saswp-kk-star-raring").val(0);           
                             }
                       break;
+                      case 'saswp-woocommerce-checkbox':
+                          
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-woocommerce").val(1);             
+                            }else{
+                              $("#saswp-woocommerce").val(0);           
+                            }
+                      break;
+                      
+                      case 'saswp-extra-checkbox':
+                          
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-extra").val(1);             
+                            }else{
+                              $("#saswp-extra").val(0);           
+                            }
+                      break;
+                      
+                      case 'saswp-dw-question-answer-checkbox':
+                          
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-dw-question-answer").val(1);             
+                            }else{
+                              $("#saswp-dw-question-answer").val(0);           
+                            }
+                      break;
                       
                       default:
                           break;
@@ -396,13 +433,14 @@ jQuery(document).ready(function($){
         }
         $('.saswp-local-schema-time-picker').timepicker({ 'timeFormat': 'H:i:s'});
         $(".saswp-modify_schema_post_enable").on("click", function(e){
-            $(this).remove();
+            var current = $(this);
             e.preventDefault();                                                    
                          $.get(ajaxurl, 
                              { action:"saswp_modify_schema_post_enable", post_id: saswp_localize_data.post_id,saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
-                              function(response){    
+                              function(response){   
+                               current.remove();   
                                $("#post_specific .inside").append(response); 
-                               saswpAddTimepicker();
+                               saswpAddTimepicker();                               
                              });
         });
         
@@ -466,7 +504,7 @@ jQuery(document).ready(function($){
                           }                                        
         }).change();  
         
-        $(".saswp-restore-post-schema").on("click", function(e){
+        $(document).on("click", ".saswp-restore-post-schema", function(e){
             e.preventDefault();   
             var schema_ids = JSON.parse($(".saswp-post-specific-schema-ids").val());                           
                          $.post(ajaxurl, 
@@ -476,6 +514,7 @@ jQuery(document).ready(function($){
                                    setTimeout(function(){ location.reload(); }, 1000);
                               }else{
                                   alert(response['msg']);
+                                  setTimeout(function(){ location.reload(); }, 1000);
                               }       		   		
                              },'json');
         });
@@ -492,5 +531,97 @@ jQuery(document).ready(function($){
         });
         
         //Importer from schema plugin ends here
+        
+        //custom fields modify schema starts here
+        
+        
+        $("#saswp_enable_custom_field").change(function(){
+            if ($(this).is(':checked')) { 
+                $(".saswp-custom-fields-div").show();
+            }else{
+                $(".saswp-custom-fields-div").hide();
+            }
+        });
+       $(document).on('change','.saswp-custom-fields-name',function(){
+           
+           $(this).parent().parent('tr').find("td:eq(1)").html('');
+           var field_name = $(this).val();
+           var html = '';
+               html += '<select class="saswp-custom-fields-select2" name="saswp_custom_fields['+field_name+']">';
+               html += '</select>'; 
+               $(this).parent().parent('tr').find("td:eq(1)").html(html);
+               saswpCustomSelect2();           
+       } ); 
+        
+       $(document).on("click", '.saswp-add-custom-fields', function(){          
+          var schema_type = $('select#schema_type option:selected').val();
+          var post_id = $('#post_ID').val();
+          if(schema_type !=''){
+              $.ajax({
+                            type: "POST",    
+                            url:ajaxurl,                    
+                            dataType: "json",
+                            data:{action:"saswp_get_schema_type_fields",post_id:post_id, schema_type:schema_type, saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
+                            success:function(response){    
+                                
+                             if(response.length !=0){
+                                 var i =0;
+                                 var name ='';
+                                 var html = '<tr>';
+                                     html += '<td>';
+                                     
+                                     html += '<select class="saswp-custom-fields-name">';
+                                     $.each(response, function(key,value){ 
+                                         if(i==0){
+                                           name = key;  
+                                         }
+                                         html += '<option value="'+key+'">'+value+'</option>';
+                                         i++;
+                                     });                                     
+                                     html += '</select>';
+                                     
+                                     html += '</td>';
+                                     html += '<td>';
+                                     html += '<select class="saswp-custom-fields-select2" name="saswp_custom_fields['+name+']">';
+                                     html += '</select>';                                     
+                                     html += '</td>';
+                                     html += '</tr>';
+                                     $(".saswp-custom-fields-table").append(html);
+                                     saswpCustomSelect2();
+                             }
+                            },
+                            error: function(response){                    
+                            console.log(response);
+                            }
+                            });
+          }
+       });
+       saswpCustomSelect2();
+       function saswpCustomSelect2(){
+       $('.saswp-custom-fields-select2').select2({
+  		ajax: {
+                        type: "POST",    
+    			url: ajaxurl, // AJAX URL is predefined in WordPress admin
+    			dataType: 'json',
+    			delay: 250, // delay in ms while typing when to perform a AJAX search
+    			data: function (params) {
+      				return {
+                                        saswp_security_nonce: saswp_localize_data.saswp_security_nonce,
+        				q: params.term, // search query
+        				action: 'saswp_get_custom_meta_fields' // AJAX action for admin-ajax.php
+      				};
+    			},
+    			processResults: function( data ) {
+				return {
+					results: data
+				};
+			},
+			cache: true
+		},
+		minimumInputLength: 2 // the minimum of symbols to input before perform a search
+	});    
+       }           
+       
+        //custom fields modify schema ends here
       
 });
