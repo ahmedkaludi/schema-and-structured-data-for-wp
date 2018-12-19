@@ -487,6 +487,20 @@ function saswp_change_add_new_url() {
 </div>        
     <?php
   }
+  
+  /**
+ * Dequeue the jQuery UI script.
+ *
+ * Hooked to the wp_print_scripts action, with a late priority (100),
+ * so that it is after the script was enqueued.
+ */
+function saswp_dequeue_script() {
+    if(get_post_type() == 'saswp'){
+        wp_dequeue_script( 'avada-fusion-options' );
+    }   
+}
+add_action( 'wp_print_scripts', 'saswp_dequeue_script', 100 );
+  
   add_action( 'admin_enqueue_scripts', 'saswp_style_script_include' );
   function saswp_style_script_include() {
      global $pagenow, $typenow;
@@ -521,18 +535,15 @@ function saswp_change_add_new_url() {
        wp_enqueue_style( 'saswp-timepicker-css', SASWP_PLUGIN_URL . 'admin_section/css/jquery.timepicker.css', false , SASWP_VERSION );
        
        wp_enqueue_script( 'jquery-ui-datepicker' );
-       wp_register_style( 'jquery-ui', 'https://code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css' );
+       wp_register_style( 'jquery-ui', SASWP_PLUGIN_URL. 'admin_section/css/jquery-ui.css' );
        wp_enqueue_style( 'jquery-ui' );
       
-      //Enque select 2 script starts here
+      //Enque select 2 script starts here      
        
-       wp_enqueue_style('select2', 'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css' );
-       wp_enqueue_script('select2', 'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js', array('jquery') );
+       wp_enqueue_style('saswp-select2-style', SASWP_PLUGIN_URL. 'admin_section/css/select2.min.css' , false, SASWP_VERSION);
+       wp_enqueue_script('saswp-select2-script', SASWP_PLUGIN_URL. 'admin_section/js/select2.min.js', false, SASWP_VERSION);
        
-      //Enque select 2 script ends here
-       
-       
-      
+      //Enque select 2 script ends here                    
     }
   }
   
