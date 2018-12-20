@@ -611,11 +611,12 @@ Class saswp_output_service{
             wp_die();
         }
         public function saswp_woocommerce_product_details($post_id){     
-                                                   
+                 
+            
              $product_details = array();                
              if (class_exists('WC_Product')) {
-	     $product = new WC_Product($post_id);      
-              if(is_object($product)){                                 
+	     $product = wc_get_product($post_id);             
+             if(is_object($product)){                                 
              $gtin = get_post_meta($post_id, $key='hwp_product_gtin', true);
              if($gtin !=''){
              $product_details['product_gtin8'] = $gtin;   

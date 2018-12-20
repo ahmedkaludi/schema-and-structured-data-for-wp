@@ -539,10 +539,10 @@ add_action( 'wp_print_scripts', 'saswp_dequeue_script', 100 );
        wp_enqueue_style( 'jquery-ui' );
       
       //Enque select 2 script starts here      
-        if(get_post_type() == 'saswp'){
+        
             wp_enqueue_style('saswp-select2-style', SASWP_PLUGIN_URL. 'admin_section/css/select2.min.css' , false, SASWP_VERSION);
             wp_enqueue_script('saswp-select2-script', SASWP_PLUGIN_URL. 'admin_section/js/select2.min.js', false, SASWP_VERSION);
-        }
+        
       //Enque select 2 script ends here                    
     }
   }
