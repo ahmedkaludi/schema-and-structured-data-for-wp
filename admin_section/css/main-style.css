@@ -462,3 +462,9 @@ Compatibility tab css starts here
 /*
 Compatibility tab css ends
 */
+.saswp-option-table-class p{
+    margin: auto;
+    font-style: italic;
+    color: #666;
+}
+

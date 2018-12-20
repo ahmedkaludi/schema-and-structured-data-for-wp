@@ -1423,7 +1423,24 @@ class saswp_post_specific {
                             'id' => 'saswp_service_schema_provider_name_'.$schema_id,
                             'type' => 'text',
                             'default' => $service_schema_details['saswp_service_schema_provider_name']
-                    ), 
+                    ),
+                    array(
+                            'label' => 'Provider Type',
+                            'id' => 'saswp_service_schema_provider_type_'.$schema_id,
+                            'type' => 'select',
+                            'options' => array(
+                                     'Airline'                      => 'Airline',
+                                     'Corporation'                  => 'Corporation',
+                                     'EducationalOrganization'      => 'Educational Organization',
+                                     'GovernmentOrganization'       => 'Government Organization',
+                                     'LocalBusiness'                => 'Local Business',
+                                     'MedicalOrganization'          => 'Medical Organization',  
+                                     'NGO'                          => 'NGO', 
+                                     'PerformingGroup'              => 'Performing Group', 
+                                     'SportsOrganization'           => 'Sports Organization',
+                            ),
+                            'default' => $service_schema_details['saswp_service_schema_provider_type']
+                    ),    
                     array(
                             'label' => 'Image',
                             'id' => 'saswp_service_schema_image_'.$schema_id,

@@ -955,6 +955,7 @@ Class saswp_output_service{
                         'saswp_service_schema_name' => 'Name',
                         'saswp_service_schema_type' => 'Service Type',
                         'saswp_service_schema_provider_name' => 'Provider Name',
+                        'saswp_service_schema_provider_type' => 'Provider Type',
                         'saswp_service_schema_image' => 'Image',
                         'saswp_service_schema_locality' => 'Locality',
                         'saswp_service_schema_postal_code' => 'Postal Code',

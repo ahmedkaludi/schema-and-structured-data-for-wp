@@ -53,6 +53,18 @@
                 }               
                 }   
                         
+                                $provider_type = array(
+                                     'Airline'                      => 'Airline',
+                                     'Corporation'                  => 'Corporation',
+                                     'EducationalOrganization'      => 'Educational Organization',
+                                     'GovernmentOrganization'       => 'Government Organization',
+                                     'LocalBusiness'                => 'Local Business',
+                                     'MedicalOrganization'          => 'Medical Organization',  
+                                     'NGO'                          => 'NGO', 
+                                     'PerformingGroup'              => 'Performing Group', 
+                                     'SportsOrganization'           => 'Sports Organization',  
+                                );
+                
                                 $all_dayofweek_array = array(
                                      'monday' => 'Monday',
                                      'tuesday' => 'Tuesday',
@@ -524,11 +536,32 @@
                         </tr>
                         <tr class="saswp-service-text-field-tr" <?php echo $style_service_name; ?>>
                             <td><?php echo esc_html__('Service Type', 'schema-and-structured-data-for-wp' ); ?></td>
-                            <td><input  value="<?php if(isset($service_details['saswp_service_schema_type'])){echo esc_attr($service_details['saswp_service_schema_type']); } ?>" type="text" name="saswp_service_schema_type" placeholder="<?php echo esc_html__('Service Type', 'schema-and-structured-data-for-wp' ); ?>" ></td>
+                            <td>
+                              <input  value="<?php if(isset($service_details['saswp_service_schema_type'])){echo esc_attr($service_details['saswp_service_schema_type']); } ?>" type="text" name="saswp_service_schema_type" placeholder="<?php echo esc_html__('Service Type', 'schema-and-structured-data-for-wp' ); ?>" >
+                              <p><?php echo esc_html__('The type of service being offered, e.g. veterans benefits, emergency relief, etc.', 'schema-and-structured-data-for-wp' ); ?></p>
+                            </td>
                         </tr>
                         <tr class="saswp-service-text-field-tr" <?php echo $style_service_name; ?>>
                             <td><?php echo esc_html__('Provider Name', 'schema-and-structured-data-for-wp' ); ?></td>
                             <td><input  value="<?php if(isset($service_details['saswp_service_schema_provider_name'])){echo esc_attr($service_details['saswp_service_schema_provider_name']); } ?>" type="text" name="saswp_service_schema_provider_name" placeholder="<?php echo esc_html__('Provider Name', 'schema-and-structured-data-for-wp' ); ?>" ></td>
+                        </tr>
+                        <tr class="saswp-service-text-field-tr" <?php echo $style_service_name; ?>>
+                            <td><?php echo esc_html__('Provider Type', 'schema-and-structured-data-for-wp' ); ?></td>
+                            <td>
+                            <select name="saswp_service_schema_provider_type">
+                                <?php
+                                  
+                                  foreach ($provider_type as $key => $value) {
+                                    $sel = '';
+                                    if($service_details['saswp_service_schema_provider_type']==$key){
+                                      $sel = 'selected';
+                                    }
+                                    echo "<option value='".esc_attr($key)."' ".esc_attr($sel).">".esc_html__($value, 'schema-and-structured-data-for-wp' )."</option>";
+                                  }
+                                ?>
+                            </select>
+                                
+                            </td>
                         </tr>
                         <tr class="saswp-service-text-field-tr" <?php echo $style_service_name; ?>>
                             <td><?php echo esc_html__('Image', 'schema-and-structured-data-for-wp' ); ?></td>
@@ -703,6 +736,9 @@
                    }
                    if ( isset( $_POST['saswp_service_schema_provider_name'] ) ){
                      $service_schema_details['saswp_service_schema_provider_name'] = sanitize_text_field($_POST['saswp_service_schema_provider_name']);        
+                   }
+                   if ( isset( $_POST['saswp_service_schema_provider_type'] ) ){
+                     $service_schema_details['saswp_service_schema_provider_type'] = sanitize_text_field($_POST['saswp_service_schema_provider_type']);        
                    }
                    if ( isset( $_POST['saswp_service_schema_image'] ) ){
                     $service_schema_details['saswp_service_schema_image']['id'] = sanitize_text_field($_POST['saswp_service_schema_image']['id']);    

@@ -42,7 +42,8 @@ jQuery(document).ready(function($){
              $('.select-post-type').val('show_globally').trigger('change');             
              }
              if(schematype == 'Service'){            
-             $(".saswp-service-text-field-tr").show();                                          
+             $(".saswp-service-text-field-tr").show();
+             $(".saswp-option-table-class tr").find('select').attr('disabled', false);
              }
              if(schematype == 'Review'){            
              $(".saswp-review-text-field-tr").show();                                          
@@ -70,7 +71,8 @@ jQuery(document).ready(function($){
             $("#saswp_dayofweek").attr('disabled', false);
             } 
              if(schematype == 'Service'){            
-             $(".saswp-service-text-field-tr").show();                                          
+             $(".saswp-service-text-field-tr").show();  
+             $(".saswp-service-text-field-tr").find('select').attr('disabled', false); 
              }
              if(schematype == 'Review'){            
              $(".saswp-review-text-field-tr").show();                                          

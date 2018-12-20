@@ -625,22 +625,22 @@ function saswp_schema_output() {
 				$input1 = array(
 					'@context'			=> 'http://schema.org',
 					'@type'				=> $schema_type ,
-                                        'name'				=> $schema_data['saswp_service_schema_name'], 
-					'serviceType'                   => $schema_data['saswp_service_schema_type'],
+                                        'name'				=> saswp_remove_warnings($schema_data, 'saswp_service_schema_name', 'saswp_string'), 
+					'serviceType'                   => saswp_remove_warnings($schema_data, 'saswp_service_schema_type', 'saswp_string'),
 					'provider'                      => array(
-                                                                        '@type' => 'LocalBusiness',
-                                                                        'name'  => $schema_data['saswp_service_schema_provider_name'],
+                                                                        '@type' => saswp_remove_warnings($schema_data, 'saswp_service_schema_provider_type', 'saswp_string'),
+                                                                        'name'  => saswp_remove_warnings($schema_data, 'saswp_service_schema_provider_name', 'saswp_string'),
                                                                         'image' => $schema_data['saswp_service_schema_image']['url'],
                                                                         '@id'   => get_permalink(),
                                                                         'address' => array(
                                                                             '@type' => 'PostalAddress',
-                                                                            'addressLocality' => $schema_data['saswp_service_schema_locality'],
-                                                                            'postalCode'      => $schema_data['saswp_service_schema_postal_code'],  
-                                                                            'telephone'       => $schema_data['saswp_service_schema_telephone']
+                                                                            'addressLocality' => saswp_remove_warnings($schema_data, 'saswp_service_schema_locality', 'saswp_string'),
+                                                                            'postalCode'      => saswp_remove_warnings($schema_data, 'saswp_service_schema_postal_code', 'saswp_string'),  
+                                                                            'telephone'       => saswp_remove_warnings($schema_data, 'saswp_service_schema_telephone', 'saswp_string')
                                                                         ),
-                                                                        'priceRange'         => $schema_data['saswp_service_schema_price_range'],                                                                        
+                                                                        'priceRange'         => saswp_remove_warnings($schema_data, 'saswp_service_schema_price_range', 'saswp_string'),                                                                        
                                                                         ),                                        										                                                                     
-					'description'                   => $schema_data['saswp_service_schema_description'],
+					'description'                   => saswp_remove_warnings($schema_data, 'saswp_service_schema_description', 'saswp_string'),
                                         ); 
                                         $areaServed = array();
                                         foreach($area_served_arr as $area){
@@ -832,12 +832,12 @@ function saswp_schema_output() {
 				'description'                   => get_the_excerpt(),				
 				'address'                       => array(
                                                                 "@type"          => "PostalAddress",
-                                                                "streetAddress"  => $business_details['local_street_address'],
-                                                                "addressLocality"=> $business_details['local_city'],
-                                                                "addressRegion"  => $business_details['local_state'],
-                                                                "postalCode"     => $business_details['local_postal_code'],                                                                                                                                  
+                                                                "streetAddress"  => saswp_remove_warnings($business_details, 'local_street_address', 'saswp_string'),
+                                                                "addressLocality"=> saswp_remove_warnings($business_details, 'local_city', 'saswp_string'),
+                                                                "addressRegion"  => saswp_remove_warnings($business_details, 'local_state', 'saswp_string'),
+                                                                "postalCode"     => saswp_remove_warnings($business_details, 'local_postal_code', 'saswp_string'),                                                                                                                                  
                                                                  ),	
-				'telephone'                   => $business_details['local_phone'],
+				'telephone'                   => saswp_remove_warnings($business_details, 'local_phone', 'saswp_string'),
                                 'openingHours'   => $dayoftheweek,
                                 
 				);  
@@ -1437,7 +1437,7 @@ function saswp_post_specific_schema_output() {
                                         'name'				=> saswp_remove_warnings($all_post_meta, 'saswp_service_schema_name_'.$schema_id, 'saswp_array'), 
 					'serviceType'                   => saswp_remove_warnings($all_post_meta, 'saswp_service_schema_type_'.$schema_id, 'saswp_array'),
 					'provider'                      => array(
-                                                                        '@type' => 'LocalBusiness',
+                                                                        '@type' => saswp_remove_warnings($all_post_meta, 'saswp_service_schema_provider_type_'.$schema_id, 'saswp_array'),
                                                                         'name'  => saswp_remove_warnings($all_post_meta, 'saswp_service_schema_provider_name_'.$schema_id, 'saswp_array'),
                                                                         'image' => saswp_remove_warnings($all_post_meta, 'saswp_service_schema_image_'.$schema_id, 'saswp_array'),
                                                                         '@id'   => get_permalink(),
