@@ -18,7 +18,30 @@ class saswp_post_specific {
                 add_action( 'wp_ajax_saswp_modify_schema_post_enable', array($this,'saswp_modify_schema_post_enable'));
                 
                 add_action( 'wp_ajax_saswp_restore_schema', array($this,'saswp_restore_schema'));
+                
+                add_action( 'wp_ajax_saswp_enable_disable_schema_on_post', array($this,'saswp_enable_disable_schema_on_post'));
         }
+        public function saswp_enable_disable_schema_on_post(){
+            
+                if ( ! isset( $_POST['saswp_security_nonce'] ) ){
+                return; 
+                }
+                if ( !wp_verify_nonce( $_POST['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
+                   return;  
+                } 
+                $schema_enable = array();
+                $post_id = sanitize_text_field($_POST['post_id']);
+                $schema_id = sanitize_text_field($_POST['schema_id']);
+                $status = sanitize_text_field($_POST['status']);
+                
+                $schema_enable = get_post_meta($post_id, 'saswp_enable_disable_schema', true);                                
+                $schema_enable[$schema_id] = $status;                                 
+                update_post_meta( $post_id, 'saswp_enable_disable_schema', $schema_enable);                   
+                echo json_encode(array('status'=>'t'));
+                wp_die();                        
+                
+        }
+
         public function saswp_get_all_schema_list(){
             
                 if($this->all_schema == null){
@@ -71,18 +94,35 @@ class saswp_post_specific {
                 $tabs = '';
                 $tabs_fields = '';
                 $schema_ids = array();
+                
+                $schema_enable = get_post_meta($post->ID, 'saswp_enable_disable_schema', true);
+                
              if(count($this->all_schema)>1){                    
                  foreach($this->all_schema as $key => $schema){
+                     
+                     $checked = '';
+                     if(isset($schema_enable[$schema->ID]) && $schema_enable[$schema->ID] == 1){
+                     $checked = 'checked';    
+                     }                     
                      $response = $this->saswp_get_fields_by_schema_type($schema->ID);                     
                      $this->meta_fields = $response;
                      $output = $this->saswp_saswp_post_specific( $post, $schema->ID );                    
                      if($key==0){
-                     $tabs .='<li><a data-id="saswp_specific_'.esc_attr($schema->ID).'" class="saswp-tab-links selected">'.esc_attr($schema->post_title).'</a></li>';    
+                     $tabs .='<li><a data-id="saswp_specific_'.esc_attr($schema->ID).'" class="saswp-tab-links selected">'.esc_attr($schema->post_title).'</a>'
+                             . '<label class="saswp-switch">'
+                             . '<input type="checkbox" class="saswp-schema-type-toggle" value="1" data-schema-id="'.esc_attr($schema->ID).'" data-post-id="'.esc_attr($post->ID).'" '.$checked.'>'
+                             . '<span class="saswp-slider"></span>'
+                             . '</li>';    
                      $tabs_fields .= '<div data-id="'.esc_attr($schema->ID).'" id="saswp_specific_'.esc_attr($schema->ID).'" class="saswp-post-specific-wrapper">';
                      $tabs_fields .= '<table class="form-table"><tbody>' . $output . '</tbody></table>';
                      $tabs_fields .= '</div>';
                      }else{
-                     $tabs .='<li><a data-id="saswp_specific_'.esc_attr($schema->ID).'" class="saswp-tab-links">'.esc_attr($schema->post_title).'</a></li>';    
+                     $tabs .='<li>'
+                             . '<a data-id="saswp_specific_'.esc_attr($schema->ID).'" class="saswp-tab-links">'.esc_attr($schema->post_title).'</a>'
+                             . '<label class="saswp-switch">'
+                             . '<input type="checkbox" class="saswp-schema-type-toggle" value="1" data-schema-id="'.esc_attr($schema->ID).'" data-post-id="'.esc_attr($post->ID).'" '.$checked.'>'
+                             . '<span class="saswp-slider"></span>'
+                             . '</li>';    
                      $tabs_fields .= '<div data-id="'.esc_attr($schema->ID).'" id="saswp_specific_'.esc_attr($schema->ID).'" class="saswp-post-specific-wrapper saswp_hide">';
                      $tabs_fields .= '<table class="form-table"><tbody>' . $output . '</tbody></table>';
                      $tabs_fields .= '</div>';
@@ -106,6 +146,10 @@ class saswp_post_specific {
                                   
                 }else{
                     
+                 $checked = '';
+                 if(isset($schema_enable[$schema->ID]) && $schema_enable[$schema->ID] == 1){
+                 $checked = 'checked';    
+                 }                       
                  $all_schema = $this->all_schema;                  
                  $response = $this->saswp_get_fields_by_schema_type($all_schema[0]->ID); 
                 
@@ -114,7 +158,11 @@ class saswp_post_specific {
                  $this->meta_fields = $response;
                  $output = $this->saswp_saswp_post_specific( $post, $all_schema[0]->ID );  
                  $tabs_fields .= '<div>';
-                 $tabs_fields .= '<div><a href="#" class="saswp-restore-post-schema button">'.esc_html__( 'Restore Default Schema', 'schema-and-structured-data-for-wp' ).'</a></div>';
+                 $tabs_fields .= '<div><a href="#" class="saswp-restore-post-schema button">'.esc_html__( 'Restore Default Schema', 'schema-and-structured-data-for-wp' ).'</a>'
+                              . '<label class="saswp-switch">'
+                              . '<input type="checkbox" class="saswp-schema-type-toggle" value="1" data-schema-id="'.esc_attr($schema->ID).'" data-post-id="'.esc_attr($post->ID).'" '.$checked.'>'
+                              . '<span class="saswp-slider"></span>'
+                              . '</div>';
                  $tabs_fields .= '<div id="saswp_specific_'.esc_attr($all_schema[0]->ID).'" class="saswp-post-specific-wrapper">';
                  $tabs_fields .= '<table class="form-table"><tbody>' . $output . '</tbody></table>';
                  $tabs_fields .= '</div>';
@@ -1506,7 +1554,27 @@ class saswp_post_specific {
                     array(
                             'label' => 'Item Reviewed Type',
                             'id' => 'saswp_review_schema_item_type_'.$schema_id,
-                            'type' => 'text',
+                            'type' => 'select',
+                            'options' => array(
+                                     'Article'               => 'Article',
+                                     'Blog'                  => 'Blog',
+                                     'Book'                  => 'Book',
+                                     'Diet'                  => 'Diet',
+                                     'Episode'               => 'Episode',
+                                     'ExercisePlan'          => 'Exercise Plan',  
+                                     'Game'                  => 'Game', 
+                                     'Movie'                 => 'Movie', 
+                                     'MusicPlaylist'         => 'Music Playlist',                                      
+                                     'MusicRecording'        => 'MusicRecording',
+                                     'Photograph'            => 'Photograph',
+                                     'Recipe'                => 'Recipe',
+                                     'Restaurant'            => 'Restaurant', 
+                                     'Series'                => 'Series',
+                                     'SoftwareApplication'   => 'Software Application',
+                                     'VisualArtwork'         => 'Visual Artwork',  
+                                     'Webpage'               => 'Webpage', 
+                                     'WebSite'               => 'WebSite',
+                            ),                            
                             'default' => $service_schema_details['saswp_review_schema_item_type']
                     ),
                     array(

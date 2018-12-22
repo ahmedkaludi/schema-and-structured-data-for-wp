@@ -945,6 +945,7 @@ function saswp_post_specific_schema_output() {
                     )
                  );            
         $all_schema_output = array();
+        
         foreach($all_schemas as $schema){
         $schema_id = $schema->ID;   	
 	$schema_type = esc_sql ( get_post_meta($schema_id, 'schema_type', true)  );        

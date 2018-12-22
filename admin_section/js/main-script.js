@@ -46,7 +46,8 @@ jQuery(document).ready(function($){
              $(".saswp-option-table-class tr").find('select').attr('disabled', false);
              }
              if(schematype == 'Review'){            
-             $(".saswp-review-text-field-tr").show();                                          
+             $(".saswp-review-text-field-tr").show();  
+             $(".saswp-option-table-class tr").find('select').attr('disabled', false);
              }
               $(".saswp-schem-type-note").addClass('saswp_hide');
              if(schematype == 'qanda'){
@@ -75,7 +76,8 @@ jQuery(document).ready(function($){
              $(".saswp-service-text-field-tr").find('select').attr('disabled', false); 
              }
              if(schematype == 'Review'){            
-             $(".saswp-review-text-field-tr").show();                                          
+             $(".saswp-review-text-field-tr").show(); 
+             $(".saswp-review-text-field-tr").find('select').attr('disabled', false);
              }
             
         }).change(); 
@@ -342,6 +344,31 @@ jQuery(document).ready(function($){
 		.open();
 	});
         //Settings page jquery ends here
+
+
+        $(document).on("change",".saswp-schema-type-toggle", function(e){
+               var schema_id = $(this).attr("data-schema-id"); 
+               var post_id =   $(this).attr("data-post-id");     
+               if($(this).is(':checked')){
+               var status = 1;    
+               }else{
+               var status = 0;    
+               }
+             $.ajax({
+                            type: "POST",    
+                            url:ajaxurl,                    
+                            dataType: "json",
+                            data:{action:"saswp_enable_disable_schema_on_post",status:status, schema_id:schema_id, post_id:post_id, saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
+                            success:function(response){                                                     
+                            },
+                            error: function(response){                    
+                            console.log(response);
+                            }
+                            });                                      
+
+        });
+
+
 
   //query form send starts here
 

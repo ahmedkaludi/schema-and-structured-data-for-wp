@@ -422,7 +422,17 @@ $saswp_add_data_type_config = array(
 
 		<footer class="merlin__content__footer merlin__content__footer--fullwidth">
 			
-			<a href="<?php echo esc_url( admin_url( 'edit.php?post_type=saswp' ) ); ?>" class="merlin__button merlin__button--blue merlin__button--fullwidth merlin__button--popin"><?php echo esc_html( 'Let\'s Go' ); ?></a>
+                        <?php 
+                        $last_post_id = json_decode(get_transient('saswp_last_post_id'), true); 
+                                               
+                        if(isset($last_post_id['post_id'])){
+                        $lets_go = esc_url( admin_url( 'post.php?post='.$last_post_id['post_id'].'&action=edit' ) );    
+                        }else{
+                        $lets_go = esc_url( admin_url( 'edit.php?post_type=saswp' ) );        
+                        }
+                        ?>
+                        
+			<a href="<?php echo $lets_go; ?>" class="merlin__button merlin__button--blue merlin__button--fullwidth merlin__button--popin"><?php echo esc_html( 'Let\'s Go' ); ?></a>
 			
 			
 			<ul class="merlin__drawer merlin__drawer--extras">

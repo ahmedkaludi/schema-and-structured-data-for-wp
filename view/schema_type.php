@@ -64,6 +64,27 @@
                                      'PerformingGroup'              => 'Performing Group', 
                                      'SportsOrganization'           => 'Sports Organization',  
                                 );
+                                
+                                $item_reviewed = array(
+                                     'Article'               => 'Article',
+                                     'Blog'                  => 'Blog',
+                                     'Book'                  => 'Book',
+                                     'Diet'                  => 'Diet',
+                                     'Episode'               => 'Episode',
+                                     'ExercisePlan'          => 'Exercise Plan',  
+                                     'Game'                  => 'Game', 
+                                     'Movie'                 => 'Movie', 
+                                     'MusicPlaylist'         => 'Music Playlist',                                      
+                                     'MusicRecording'        => 'MusicRecording',
+                                     'Photograph'            => 'Photograph',
+                                     'Recipe'                => 'Recipe',
+                                     'Restaurant'            => 'Restaurant', 
+                                     'Series'                => 'Series',
+                                     'SoftwareApplication'   => 'Software Application',
+                                     'VisualArtwork'         => 'Visual Artwork',  
+                                     'Webpage'               => 'Webpage', 
+                                     'WebSite'               => 'WebSite',                                                                                                                                                   
+                                );
                 
                                 $all_dayofweek_array = array(
                                      'monday' => 'Monday',
@@ -606,7 +627,20 @@
                         <!-- Review Schema type starts here -->
                         <tr class="saswp-review-text-field-tr" <?php echo $style_review_name; ?>>
                             <td><?php echo esc_html__('Item Reviewed Type', 'schema-and-structured-data-for-wp' ); ?></td>
-                            <td><input  value="<?php if(isset($review_details['saswp_review_schema_item_type'])){echo esc_attr($review_details['saswp_review_schema_item_type']); } ?>" type="text" name="saswp_review_schema_item_type" placeholder="<?php echo esc_html__('Restaurant', 'schema-and-structured-data-for-wp' ); ?>" ></td>
+                            <td>
+                                
+                            <select name="saswp_review_schema_item_type">
+                                <?php                                  
+                                  foreach ($item_reviewed as $key => $value) {
+                                    $sel = '';
+                                    if($review_details['saswp_review_schema_item_type']==$key){
+                                      $sel = 'selected';
+                                    }
+                                    echo "<option value='".esc_attr($key)."' ".esc_attr($sel).">".esc_html__($value, 'schema-and-structured-data-for-wp' )."</option>";
+                                  }
+                                ?>
+                            </select>                                                                
+                            </td>
                         </tr>
                         <tr class="saswp-review-text-field-tr" <?php echo $style_review_name; ?>>
                             <td><?php echo esc_html__('Name', 'schema-and-structured-data-for-wp' ); ?></td>

@@ -265,10 +265,11 @@ jQuery(document).ready(function($) {
             }
             if(schematype == 'Service'){            
              $(".saswp-service-text-field-tr").show();  
-             $(".saswp-service-text-field-tr").find('select').attr('disabled', false);
+             $(".saswp-option-table-class tr").find('select').attr('disabled', false);
              }
            if(schematype == 'Review'){            
-             $(".saswp-review-text-field-tr").show();                                          
+             $(".saswp-review-text-field-tr").show(); 
+             $(".saswp-option-table-class tr").find('select').attr('disabled', false);
              }  
             $(".saswp-schem-type-note").addClass('saswp_hide');
              if(schematype == 'qanda'){
@@ -298,7 +299,8 @@ jQuery(document).ready(function($) {
              $(".saswp-service-text-field-tr").find('select').attr('disabled', false);
             }
             if(schematype == 'Review'){            
-             $(".saswp-review-text-field-tr").show();                                          
+             $(".saswp-review-text-field-tr").show(); 
+             $(".saswp-review-text-field-tr").find('select').attr('disabled', false);
             }            
         }).change(); 
         
