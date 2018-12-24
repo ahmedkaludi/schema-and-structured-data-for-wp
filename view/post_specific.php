@@ -24,7 +24,7 @@ class saswp_post_specific {
         public function saswp_enable_disable_schema_on_post(){
             
                 if ( ! isset( $_POST['saswp_security_nonce'] ) ){
-                return; 
+                   return; 
                 }
                 if ( !wp_verify_nonce( $_POST['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
                    return;  
@@ -108,7 +108,7 @@ class saswp_post_specific {
                      $this->meta_fields = $response;
                      $output = $this->saswp_saswp_post_specific( $post, $schema->ID );                    
                      if($key==0){
-                     $tabs .='<li><a data-id="saswp_specific_'.esc_attr($schema->ID).'" class="saswp-tab-links selected">'.esc_attr($schema->post_title).'</a>'
+                     $tabs .='<li class="selected"><a data-id="saswp_specific_'.esc_attr($schema->ID).'" class="saswp-tab-links selected">'.esc_attr($schema->post_title).'</a>'
                              . '<label class="saswp-switch">'
                              . '<input type="checkbox" class="saswp-schema-type-toggle" value="1" data-schema-id="'.esc_attr($schema->ID).'" data-post-id="'.esc_attr($post->ID).'" '.$checked.'>'
                              . '<span class="saswp-slider"></span>'
@@ -145,22 +145,23 @@ class saswp_post_specific {
                 echo '</div>'; 
                                   
                 }else{
-                    
-                 $checked = '';
-                 if(isset($schema_enable[$schema->ID]) && $schema_enable[$schema->ID] == 1){
-                 $checked = 'checked';    
-                 }                       
+                                                            
                  $all_schema = $this->all_schema;                  
                  $response = $this->saswp_get_fields_by_schema_type($all_schema[0]->ID); 
                 
                  $schema_ids[] =$all_schema[0]->ID;
+                 
+                 $checked = '';
+                 if(isset($schema_enable[$all_schema[0]->ID]) && $schema_enable[$all_schema[0]->ID] == 1){
+                 $checked = 'checked';    
+                 }
                  
                  $this->meta_fields = $response;
                  $output = $this->saswp_saswp_post_specific( $post, $all_schema[0]->ID );  
                  $tabs_fields .= '<div>';
                  $tabs_fields .= '<div><a href="#" class="saswp-restore-post-schema button">'.esc_html__( 'Restore Default Schema', 'schema-and-structured-data-for-wp' ).'</a>'
                               . '<label class="saswp-switch">'
-                              . '<input type="checkbox" class="saswp-schema-type-toggle" value="1" data-schema-id="'.esc_attr($schema->ID).'" data-post-id="'.esc_attr($post->ID).'" '.$checked.'>'
+                              . '<input type="checkbox" class="saswp-schema-type-toggle" value="1" data-schema-id="'.esc_attr($all_schema[0]->ID).'" data-post-id="'.esc_attr($post->ID).'" '.$checked.'>'
                               . '<span class="saswp-slider"></span>'
                               . '</div>';
                  $tabs_fields .= '<div id="saswp_specific_'.esc_attr($all_schema[0]->ID).'" class="saswp-post-specific-wrapper">';
@@ -1458,19 +1459,19 @@ class saswp_post_specific {
                             'label' => 'Name',
                             'id' => 'saswp_service_schema_name_'.$schema_id,
                             'type' => 'text',
-                            'default' => $service_schema_details['saswp_service_schema_name']
+                            'default' => saswp_remove_warnings($service_schema_details, 'saswp_service_schema_name', 'saswp_string')
                     ),
                     array(
                             'label' => 'Service Type',
                             'id' => 'saswp_service_schema_type_'.$schema_id,
                             'type' => 'text',
-                            'default' => $service_schema_details['saswp_service_schema_type']
+                            'default' => saswp_remove_warnings($service_schema_details, 'saswp_service_schema_type', 'saswp_string')
                     ),
                     array(
                             'label' => 'Provider Name',
                             'id' => 'saswp_service_schema_provider_name_'.$schema_id,
                             'type' => 'text',
-                            'default' => $service_schema_details['saswp_service_schema_provider_name']
+                            'default' => saswp_remove_warnings($service_schema_details, 'saswp_service_schema_provider_name', 'saswp_string')
                     ),
                     array(
                             'label' => 'Provider Type',
@@ -1487,7 +1488,7 @@ class saswp_post_specific {
                                      'PerformingGroup'              => 'Performing Group', 
                                      'SportsOrganization'           => 'Sports Organization',
                             ),
-                            'default' => $service_schema_details['saswp_service_schema_provider_type']
+                            'default' => saswp_remove_warnings($service_schema_details, 'saswp_service_schema_provider_type', 'saswp_string')
                     ),    
                     array(
                             'label' => 'Image',
@@ -1499,37 +1500,37 @@ class saswp_post_specific {
                             'label' => 'Locality',
                             'id' => 'saswp_service_schema_locality_'.$schema_id,
                             'type' => 'text',
-                            'default' => $service_schema_details['saswp_service_schema_locality']
+                            'default' => saswp_remove_warnings($service_schema_details, 'saswp_service_schema_locality', 'saswp_string')
                     ),
                     array(
                             'label' => 'Postal Code',
                             'id' => 'saswp_service_schema_postal_code_'.$schema_id,
                             'type' => 'text',
-                            'default' => $service_schema_details['saswp_service_schema_postal_code']
+                            'default' => saswp_remove_warnings($service_schema_details, 'saswp_service_schema_postal_code', 'saswp_string')
                     ),
                     array(
                             'label' => 'Telephone',
                             'id' => 'saswp_service_schema_telephone_'.$schema_id,
                             'type' => 'text',
-                            'default' => $service_schema_details['saswp_service_schema_telephone']
+                            'default' => saswp_remove_warnings($service_schema_details, 'saswp_service_schema_telephone', 'saswp_string')
                     ),
                     array(
                             'label' => 'Price Range',
                             'id' => 'saswp_service_schema_price_range_'.$schema_id,
                             'type' => 'text',
-                            'default' => $service_schema_details['saswp_service_schema_price_range']
+                            'default' => saswp_remove_warnings($service_schema_details, 'saswp_service_schema_price_range', 'saswp_string')
                     ),
                     array(
                             'label' => 'Description',
                             'id' => 'saswp_service_schema_description_'.$schema_id,
                             'type' => 'textarea',
-                            'default' => $service_schema_details['saswp_service_schema_description']
+                            'default' => saswp_remove_warnings($service_schema_details, 'saswp_service_schema_description', 'saswp_string')
                     ),
                     array(
                             'label' => 'Area Served (City)',
                             'id' => 'saswp_service_schema_area_served_'.$schema_id,
                             'type' => 'textarea',
-                            'default' => $service_schema_details['saswp_service_schema_area_served'],
+                            'default' => saswp_remove_warnings($service_schema_details, 'saswp_service_schema_area_served', 'saswp_string'),
                             'note'   => 'Note: Enter all the City name in comma separated',
                             'attributes' => array(
                                 'placeholder' => 'New York, Los Angeles'
@@ -1539,7 +1540,7 @@ class saswp_post_specific {
                             'label' => 'Service Offer',
                             'id' => 'saswp_service_schema_service_offer_'.$schema_id,
                             'type' => 'textarea',
-                            'default' => $service_schema_details['saswp_service_schema_service_offer'],
+                            'default' => saswp_remove_warnings($service_schema_details, 'saswp_service_schema_service_offer', 'saswp_string'),
                             'note'   => 'Note: Enter all the service offer in comma separated',
                             'attributes' => array(
                                 'placeholder' => 'Apartment light cleaning, carpet cleaning'
@@ -1575,19 +1576,19 @@ class saswp_post_specific {
                                      'Webpage'               => 'Webpage', 
                                      'WebSite'               => 'WebSite',
                             ),                            
-                            'default' => $service_schema_details['saswp_review_schema_item_type']
+                            'default' => saswp_remove_warnings($service_schema_details, 'saswp_review_schema_item_type', 'saswp_string')
                     ),
                     array(
                             'label' => 'Name',
                             'id' => 'saswp_review_schema_name_'.$schema_id,
                             'type' => 'text',
-                            'default' => $service_schema_details['saswp_review_schema_name']
+                            'default' => saswp_remove_warnings($service_schema_details, 'saswp_review_schema_name', 'saswp_string')
                     ),
                     array(
                             'label' => 'Description',
                             'id' => 'saswp_review_schema_description_'.$schema_id,
                             'type' => 'textarea',
-                            'default' => $service_schema_details['saswp_review_schema_description']
+                            'default' => saswp_remove_warnings($service_schema_details, 'saswp_review_schema_description', 'saswp_string')
                     ),
                     array(
                             'label' => 'Date Published',
@@ -1611,43 +1612,43 @@ class saswp_post_specific {
                             'label' => 'Price Range',
                             'id' => 'saswp_review_schema_price_range_'.$schema_id,
                             'type' => 'text',
-                            'default' => $service_schema_details['saswp_review_schema_price_range']
+                            'default' => saswp_remove_warnings($service_schema_details, 'saswp_review_schema_price_range', 'saswp_string')
                     ),
                     array(
                             'label' => 'Street Address',
                             'id' => 'saswp_review_schema_street_address_'.$schema_id,
                             'type' => 'text',
-                            'default' => $service_schema_details['saswp_review_schema_street_address']
+                            'default' => saswp_remove_warnings($service_schema_details, 'saswp_review_schema_street_address', 'saswp_string')
                     ),
                     array(
                             'label' => 'Address Locality',
                             'id' => 'saswp_review_schema_locality_'.$schema_id,
                             'type' => 'text',
-                            'default' => $service_schema_details['saswp_review_schema_locality']
+                            'default' => saswp_remove_warnings($service_schema_details, 'saswp_review_schema_locality', 'saswp_string')
                     ),
                     array(
                             'label' => 'Address Region',
                             'id' => 'saswp_review_schema_region_'.$schema_id,
                             'type' => 'text',
-                            'default' => $service_schema_details['saswp_review_schema_region']
+                            'default' => saswp_remove_warnings($service_schema_details, 'saswp_review_schema_region', 'saswp_string')
                     ),
                     array(
                             'label' => 'Postal Code',
                             'id' => 'saswp_review_schema_postal_code_'.$schema_id,
                             'type' => 'text',
-                            'default' => $service_schema_details['saswp_review_schema_postal_code']
+                            'default' => saswp_remove_warnings($service_schema_details, 'saswp_review_schema_postal_code', 'saswp_string')
                     ),
                     array(
                             'label' => 'Address Country',
                             'id' => 'saswp_review_schema_country_'.$schema_id,
                             'type' => 'text',
-                            'default' => $service_schema_details['saswp_review_schema_country'],                            
+                            'default' => saswp_remove_warnings($service_schema_details, 'saswp_review_schema_country', 'saswp_string'),                            
                     ),
                     array(
                             'label' => 'Telephone',
                             'id' => 'saswp_review_schema_telephone_'.$schema_id,
                             'type' => 'text',
-                            'default' => $service_schema_details['saswp_review_schema_telephone'],
+                            'default' => saswp_remove_warnings($service_schema_details, 'saswp_review_schema_telephone', 'saswp_string'),
                                                                                    
                     ),    
                     );

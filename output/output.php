@@ -616,10 +616,10 @@ function saswp_schema_output() {
                                  
                                 $schema_data = saswp_get_schema_data($schema_post_id, 'saswp_service_schema_details');                                
                                 
-                                $area_served_str = $schema_data['saswp_service_schema_area_served'];
+                                $area_served_str = saswp_remove_warnings($schema_data, 'saswp_service_schema_area_served', 'saswp_string');
                                 $area_served_arr = explode(',', $area_served_str);
                                                                 
-                                $service_offer_str = $schema_data['saswp_service_schema_service_offer'];
+                                $service_offer_str = saswp_remove_warnings($schema_data, 'saswp_service_schema_service_offer', 'saswp_string');
                                 $service_offer_arr = explode(',', $service_offer_str);
                                 
 				$input1 = array(
@@ -946,13 +946,15 @@ function saswp_post_specific_schema_output() {
                  );            
         $all_schema_output = array();
         
+        $schema_enable = get_post_meta($post->ID, 'saswp_enable_disable_schema', true);
+       
         foreach($all_schemas as $schema){
         $schema_id = $schema->ID;   	
 	$schema_type = esc_sql ( get_post_meta($schema_id, 'schema_type', true)  );        
         $schema_post_id = $post->ID;  
 	$all_post_meta = esc_sql ( get_post_meta($schema_post_id, $key='', true)  );     
 	
-	if(is_singular()){
+	if(is_singular() && isset($schema_enable[$schema_id]) && $schema_enable[$schema_id] == 1 ){
 		
                         $saswp_review_details = esc_sql ( get_post_meta(get_the_ID(), 'saswp_review_details', true)); 
                         $aggregateRating = array();

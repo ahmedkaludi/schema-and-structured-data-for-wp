@@ -475,7 +475,7 @@ On/Off Buttons starts here
   position: relative;
   display: inline-block;
   width: 60px;
-  height: 34px;
+  height: 36px;
 }
 
 .saswp-switch input { 
@@ -509,7 +509,7 @@ On/Off Buttons starts here
 }
 
 input:checked + .saswp-slider {
-  background-color: #2196F3;
+  background-color: #61bd3b;
 }
 
 input:focus + .saswp-slider {
@@ -532,9 +532,11 @@ input:checked + .saswp-slider:before {
 }
 
 .saswp-tab-nav li{
-    display: flex;
-    background: red;
+    display: flex;    
     align-items: center;
+}
+.saswp-tab-nav .selected{
+    background-color: #ccc;
 }
 .saswp-tab-links{
     display: flex;

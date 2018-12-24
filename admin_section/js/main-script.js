@@ -406,6 +406,7 @@ jQuery(document).ready(function($){
         $(".saswp-import-plugins").on("click", function(e){
             e.preventDefault();   
             var current_selection = $(this);
+            current_selection.addClass('updating-message');
             var plugin_name = $(this).attr('data-id');                      
                          $.get(ajaxurl, 
                              { action:"saswp_import_plugin_data", plugin_name:plugin_name, saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
@@ -417,7 +418,8 @@ jQuery(document).ready(function($){
                               }else{
                                   $(current_selection).parent().find(".saswp-imported-message").addClass('saswp-error');
                                   $(current_selection).parent().find(".saswp-imported-message").text(response['message']);                                  
-                              }       		   		
+                              }  
+                              current_selection.removeClass('updating-message');
                              },'json');
         });
         
@@ -463,21 +465,29 @@ jQuery(document).ready(function($){
         $('.saswp-local-schema-time-picker').timepicker({ 'timeFormat': 'H:i:s'});
         $(".saswp-modify_schema_post_enable").on("click", function(e){
             var current = $(this);
+            current.addClass('updating-message');
             e.preventDefault();                                                    
                          $.get(ajaxurl, 
                              { action:"saswp_modify_schema_post_enable", post_id: saswp_localize_data.post_id,saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
                               function(response){   
                                current.remove();   
                                $("#post_specific .inside").append(response); 
-                               saswpAddTimepicker();                               
+                               current.removeClass('updating-message');
+                               saswpAddTimepicker();  
+                               saswp_schema_datepicker();
                              });
+                             
         });
+        saswp_schema_datepicker();
+        function saswp_schema_datepicker(){
         
-        $('.saswp-local-schema-datepicker-picker').datepicker({
-         dateFormat: "yy-mm-dd",
-         minDate: 0
-
-     });
+            $('.saswp-local-schema-datepicker-picker').datepicker({
+             dateFormat: "yy-mm-dd",
+             minDate: 0
+          });
+        }
+        
+        
         
         //Review js starts here
         
@@ -534,7 +544,9 @@ jQuery(document).ready(function($){
         }).change();  
         
         $(document).on("click", ".saswp-restore-post-schema", function(e){
-            e.preventDefault();   
+            e.preventDefault(); 
+            var current = $(this);
+            current.addClass('updating-message');
             var schema_ids = JSON.parse($(".saswp-post-specific-schema-ids").val());                           
                          $.post(ajaxurl, 
                              { action:"saswp_restore_schema", schema_ids:schema_ids,post_id: saswp_localize_data.post_id, saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
@@ -544,7 +556,8 @@ jQuery(document).ready(function($){
                               }else{
                                   alert(response['msg']);
                                   setTimeout(function(){ location.reload(); }, 1000);
-                              }       		   		
+                              }  
+                              current.removeClass('updating-message');
                              },'json');
         });
                 
@@ -556,7 +569,9 @@ jQuery(document).ready(function($){
             $(".saswp-post-specific-wrapper").hide();            
             $("#"+attr).show();           
             $('div.saswp-tab ul.saswp-tab-nav a').removeClass('selected');
-            $(this).addClass('selected');                                                
+            $('div.saswp-tab ul.saswp-tab-nav li').removeClass('selected');
+            $(this).addClass('selected'); 
+            $(this).parent().addClass('selected'); 
         });
         
         //Importer from schema plugin ends here
