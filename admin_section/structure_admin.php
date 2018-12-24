@@ -1,4 +1,9 @@
 <?php
+function saswp_load_plugin_textdomain() {
+    load_plugin_textdomain( 'schema-and-structured-data-for-wp', FALSE, basename( dirname( __FILE__ ) ) . '/languages/' );
+}
+add_action( 'plugins_loaded', 'saswp_load_plugin_textdomain' );
+
 //FrontEnd
 function saswp_get_all_schema_posts(){
         $post_idArray = array();
