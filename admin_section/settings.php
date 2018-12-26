@@ -1003,8 +1003,7 @@ function saswp_compatibility_page_callback(){
              $settings['saswp-woocommerce'] = 0;
             
         }
-                 
-        
+                         
         if(get_template() != 'Extra'){
 
              $extratheme['attributes'] = array(

@@ -460,24 +460,7 @@ function saswp_schema_output() {
 			}	
                         
 			if( 'Product' === $schema_type){
-                            				
-				$input1 = array(
-				'@context'			=> 'http://schema.org',
-				'@type'				=> $schema_type ,
-				'url'				=> get_permalink(),
-				'name'                          => get_the_title(),
-				'description'                   => get_the_excerpt(),													
-				);                                  
-                                if(!empty($aggregateRating)){
-                                    $input1['aggregateRating'] = $aggregateRating;
-                                }
-                                if(!empty($kkstar_aggregateRating)){
-                                   $input1['aggregateRating'] = $kkstar_aggregateRating;  
-                                }
-                                if(!empty($extra_theme_review)){
-                                   $input1 = array_merge($input1, $extra_theme_review);
-                                }
-                                
+                            		                                                                
                                 $service = new saswp_output_service();
                                 $product_details = $service->saswp_woocommerce_product_details(get_the_ID());  
                                
@@ -538,6 +521,57 @@ function saswp_schema_output() {
                                       }
                                       $input1['review'] =  $reviews;
                                   } 
+                                }else{
+                                    
+                                $schema_data = saswp_get_schema_data($schema_post_id, 'saswp_product_schema_details');
+                                                           
+				$input1 = array(
+				'@context'			=> 'http://schema.org',
+				'@type'				=> 'Product',
+				'url'				=> get_permalink(),
+				'name'                          => saswp_remove_warnings($schema_data, 'saswp_product_schema_name', 'saswp_string'),
+                                'sku'                           => saswp_remove_warnings($schema_data, 'saswp_product_schema_sku', 'saswp_string'),
+				'description'                   => saswp_remove_warnings($schema_data, 'saswp_product_schema_description', 'saswp_string'),													
+                                'image'                         =>array(
+                                                                            '@type'		=>'ImageObject',
+                                                                            'url'		=>$schema_data['saswp_product_schema_image']['url'],
+                                                                            'width'		=>$schema_data['saswp_product_schema_image']['width'],
+                                                                            'height'            =>$schema_data['saswp_product_schema_image']['height'],
+                                                                            ),
+                                'offers'                        => array(
+                                                                        '@type'	=> 'Offer',
+                                                                        'availability'	=> saswp_remove_warnings($schema_data, 'saswp_product_schema_availability', 'saswp_string'),													
+                                                                        'itemCondition'=> saswp_remove_warnings($schema_data, 'saswp_product_schema_condition', 'saswp_string'),
+                                                                        'price'	=> saswp_remove_warnings($schema_data, 'saswp_product_schema_price', 'saswp_string'),
+                                                                        'priceCurrency'	=> saswp_remove_warnings($schema_data, 'saswp_product_schema_currency', 'saswp_string'),
+                                                                        'url'           => get_permalink(),
+                                                                        'priceValidUntil'=> saswp_remove_warnings($schema_data, 'saswp_product_schema_priceValidUntil', 'saswp_string'),
+                                                                        ), 
+                                'brand'                         => array('@type'=>'Thing',
+                                                                         'name'=>saswp_remove_warnings($schema_data, 'saswp_product_schema_brand_name', 'saswp_string'),
+                                                                        )    
+				); 
+                                
+                                if(isset($schema_data['saswp_product_schema_gtin8']) && $schema_data['saswp_product_schema_gtin8'] !=''){
+                                    $input1['gtin8'] = $schema_data['saswp_product_schema_gtin8'];  
+                                }
+                                if(isset($schema_data['saswp_product_schema_mpn']) && $schema_data['saswp_product_schema_mpn'] !=''){
+                                  $input1['mpn'] = $schema_data['saswp_product_schema_mpn'];  
+                                }
+                                if(isset($schema_data['saswp_product_schema_isbn']) && $schema_data['saswp_product_schema_isbn'] !=''){
+                                  $input1['isbn'] = $schema_data['saswp_product_schema_isbn'];  
+                                }
+                                                                
+                                if(!empty($aggregateRating)){
+                                    $input1['aggregateRating'] = $aggregateRating;
+                                }
+                                if(!empty($kkstar_aggregateRating)){
+                                   $input1['aggregateRating'] = $kkstar_aggregateRating;  
+                                }
+                                if(!empty($extra_theme_review)){
+                                   $input1 = array_merge($input1, $extra_theme_review);
+                                }
+                                    
                                 }
                                 
                                 if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){
@@ -690,7 +724,12 @@ function saswp_schema_output() {
                                         'itemReviewed'                  => array(
                                                                 '@type'  => saswp_remove_warnings($schema_data, 'saswp_review_schema_item_type', 'saswp_string'),
                                                                 'name'  => saswp_remove_warnings($schema_data, 'saswp_review_schema_name', 'saswp_string'),
-                                                                'image'  => $schema_data['saswp_review_schema_image']['url'],
+                                                                'image'  => array(
+                                                                            '@type'		=>'ImageObject',
+                                                                            'url'		=>$schema_data['saswp_review_schema_image']['url'],
+                                                                            'width'		=>$schema_data['saswp_review_schema_image']['width'],
+                                                                            'height'            =>$schema_data['saswp_review_schema_image']['height'],
+                                                                            ),
                                                                 'priceRange'  => saswp_remove_warnings($schema_data, 'saswp_review_schema_price_range', 'saswp_string'),
                                                                 'address'  => array(
                                                                    '@type'  => 'PostalAddress',  
@@ -872,7 +911,8 @@ function saswp_schema_output() {
 			}
                                 
 		//Check for Featured Image
-                         if( !empty($input1)){
+                        
+                         if( !empty($input1) && !isset($input1['image'])){
                         
                             if( is_array($image_details) ){
                                     if(isset($image_details[1]) ){
@@ -886,10 +926,10 @@ function saswp_schema_output() {
                                                                             '@type'		=>'ImageObject',
                                                                             'url'		=>$image_details[0],
                                                                             'width'		=>$width,
-                                                                            'height'	=>$height,
+                                                                            'height'            =>$height,
                                                                             ),
                                     );
-                            $input = array_merge($input1,$input2);
+                            $input1 = array_merge($input1,$input2);
                          }
                             else{			
 				$input2  = array(
@@ -900,7 +940,7 @@ function saswp_schema_output() {
                                                                         'height'	=> $height,
                                		 ),
 				);
-				$input = array_merge($input1,$input2);
+				$input1 = array_merge($input1,$input2);
 		}
                 
                         }
@@ -922,12 +962,12 @@ function saswp_schema_output() {
 										    "cssSelector" => $paywall_class_name
 										    )
 										);
-				$input = array_merge($input,$paywallData);
+				$input1 = array_merge($input1,$paywallData);
 			}
 		}  
                 
-                if(!empty($input)){
-                $all_schema_output[] = $input;		                    
+                if(!empty($input1)){
+                $all_schema_output[] = $input1;		                    
                 }                
 	}
         }              
@@ -1242,24 +1282,7 @@ function saswp_post_specific_schema_output() {
 			}
 						
 			 if( 'Product' === $schema_type){				
-                             
-				$input1 = array(
-				'@context'			=> 'http://schema.org',
-				'@type'				=> $schema_type ,
-				'url'				=> saswp_remove_warnings($all_post_meta, 'saswp_product_url_'.$schema_id, 'saswp_array'),
-				'name'                          => saswp_remove_warnings($all_post_meta, 'saswp_product_name_'.$schema_id, 'saswp_array'),
-				'description'                   => saswp_remove_warnings($all_post_meta, 'saswp_product_description_'.$schema_id, 'saswp_array'),									
-				
-				);
-                                if(!empty($aggregateRating)){
-                                    $input1['aggregateRating'] = $aggregateRating;
-                                }
-                                if(!empty($kkstar_aggregateRating)){
-                                   $input1['aggregateRating'] = $kkstar_aggregateRating;  
-                                }
-                                if(!empty($extra_theme_review)){
-                                   $input1 = array_merge($input1, $extra_theme_review);
-                                }
+                             				
                                 $service = new saswp_output_service();
                                 $product_details = $service->saswp_woocommerce_product_details($post->ID);                                 
                                 if((isset($sd_data['saswp-woocommerce']) && $sd_data['saswp-woocommerce'] ==1) && !empty($product_details)){                                    
@@ -1318,6 +1341,54 @@ function saswp_post_specific_schema_output() {
                                       }
                                       $input1['review'] =  $reviews;
                                   } 
+                                }else{
+                                       $product_image = get_post_meta( get_the_ID(), 'saswp_product_schema_image_'.$schema_id.'_detail',true);                                                                           
+                                        $input1 = array(
+                                        '@context'			=> 'http://schema.org',
+                                        '@type'				=> 'Product',
+                                        'url'				=> get_permalink(),
+                                        'name'                          => saswp_remove_warnings($all_post_meta, 'saswp_product_schema_name_'.$schema_id, 'saswp_array'),
+                                        'sku'                           => saswp_remove_warnings($all_post_meta, 'saswp_product_schema_sku_'.$schema_id, 'saswp_array'),
+                                        'description'                   => saswp_remove_warnings($all_post_meta, 'saswp_product_schema_description_'.$schema_id, 'saswp_array'),													
+                                        'image'                         =>array(
+                                                                                    '@type'		=>'ImageObject',
+                                                                                    'url'		=>saswp_remove_warnings($product_image, 'thumbnail', 'saswp_string'),
+                                                                                    'width'		=>saswp_remove_warnings($product_image, 'width', 'saswp_string'),
+                                                                                    'height'            =>saswp_remove_warnings($product_image, 'height', 'saswp_string'),
+                                                                                    ),
+                                        'offers'                        => array(
+                                                                                '@type'	=> 'Offer',
+                                                                                'availability'	=> saswp_remove_warnings($all_post_meta, 'saswp_product_schema_availability_'.$schema_id, 'saswp_array'),													
+                                                                                'itemCondition'=> saswp_remove_warnings($all_post_meta, 'saswp_product_schema_condition_'.$schema_id, 'saswp_array'),
+                                                                                'price'	=> saswp_remove_warnings($all_post_meta, 'saswp_product_schema_price_'.$schema_id, 'saswp_array'),
+                                                                                'priceCurrency'	=> saswp_remove_warnings($all_post_meta, 'saswp_product_schema_currency_'.$schema_id, 'saswp_array'),
+                                                                                'url'           => get_permalink(),
+                                                                                'priceValidUntil'=> saswp_remove_warnings($all_post_meta, 'saswp_product_schema_priceValidUntil_'.$schema_id, 'saswp_array'),
+                                                                                ), 
+                                        'brand'                         => array('@type'=>'Thing',
+                                                                                 'name'=>saswp_remove_warnings($all_post_meta, 'saswp_product_schema_brand_name_'.$schema_id, 'saswp_array'),
+                                                                                )    
+                                        ); 
+                                        
+                                        if(isset($all_post_meta['saswp_product_schema_gtin8_'.$schema_id])){
+                                            $input1['gtin8'] = $all_post_meta['saswp_product_schema_gtin8_'.$schema_id][0];  
+                                        }
+                                        if(isset($all_post_meta['saswp_product_schema_mpn_'.$schema_id])){
+                                          $input1['mpn'] = $all_post_meta['saswp_product_schema_mpn_'.$schema_id][0];  
+                                        }
+                                        if(isset($all_post_meta['saswp_product_schema_isbn_'.$schema_id])){
+                                          $input1['isbn'] = $all_post_meta['saswp_product_schema_isbn_'.$schema_id][0];  
+                                        }                                        
+                                        if(!empty($aggregateRating)){
+                                            $input1['aggregateRating'] = $aggregateRating;
+                                        }
+                                        if(!empty($kkstar_aggregateRating)){
+                                           $input1['aggregateRating'] = $kkstar_aggregateRating;  
+                                        }
+                                        if(!empty($extra_theme_review)){
+                                           $input1 = array_merge($input1, $extra_theme_review);
+                                        }
+                                    
                                 }
 			}
                         
@@ -1599,7 +1670,7 @@ function saswp_post_specific_schema_output() {
 			$image_details 	= wp_get_attachment_image_src($image_id, 'full');
 			global $sd_data;
                         
-                        if(!empty($input1)){
+                        if(!empty($input1) && !isset($input1['image'])){
                         
 			if( is_array($image_details) ){
 				if(isset($image_details[1]) ){
@@ -1616,7 +1687,7 @@ function saswp_post_specific_schema_output() {
 									'height'	=>$height,
 									),
 				);
-			$input = array_merge($input1,$input2);
+			$input1 = array_merge($input1,$input2);
 		     }else{			
 				$input2  = array(
 				                'image'		=>array(
@@ -1626,12 +1697,12 @@ function saswp_post_specific_schema_output() {
                                 	'height'	=> $sd_data['sd_logo']['height'],
                                		 ),
 				);
-				$input = array_merge($input1,$input2);
+				$input1 = array_merge($input1,$input2);
 		}
                         
                         }               
-                if(!empty($input)){
-                   $all_schema_output[] = $input;		                 
+                if(!empty($input1)){
+                   $all_schema_output[] = $input1;		                 
                 }                
 	}
         }              

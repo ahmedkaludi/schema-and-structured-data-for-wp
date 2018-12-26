@@ -267,7 +267,11 @@ jQuery(document).ready(function($) {
              $(".saswp-service-text-field-tr").show();  
              $(".saswp-option-table-class tr").find('select').attr('disabled', false);
              }
-           if(schematype == 'Review'){            
+             if(schematype == 'Product'){            
+             $(".saswp-product-text-field-tr").show();               
+             $(".saswp-option-table-class tr").find('select').attr('disabled', false);
+             }
+             if(schematype == 'Review'){            
              $(".saswp-review-text-field-tr").show(); 
              $(".saswp-option-table-class tr").find('select').attr('disabled', false);
              }  
@@ -298,11 +302,25 @@ jQuery(document).ready(function($) {
              $(".saswp-service-text-field-tr").show();  
              $(".saswp-service-text-field-tr").find('select').attr('disabled', false);
             }
+            if(schematype == 'Product'){            
+             $(".saswp-product-text-field-tr").show();  
+             $(".saswp-product-text-field-tr").find('select').attr('disabled', false);
+             }
             if(schematype == 'Review'){            
              $(".saswp-review-text-field-tr").show(); 
              $(".saswp-review-text-field-tr").find('select').attr('disabled', false);
             }            
         }).change(); 
+        
+        saswp_schema_datepicker();
+        function saswp_schema_datepicker(){
+        
+            $('.saswp-local-schema-datepicker-picker').datepicker({
+             dateFormat: "yy-mm-dd",
+             minDate: 0
+          });
+        }
+        
         
         $("input[data-id=media]").click(function(e) {	// Application Icon upload
 		e.preventDefault();

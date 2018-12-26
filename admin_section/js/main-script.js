@@ -49,6 +49,10 @@ jQuery(document).ready(function($){
              $(".saswp-review-text-field-tr").show();  
              $(".saswp-option-table-class tr").find('select').attr('disabled', false);
              }
+             if(schematype == 'Product'){            
+             $(".saswp-product-text-field-tr").show();  
+             $(".saswp-option-table-class tr").find('select').attr('disabled', false);
+             }
               $(".saswp-schem-type-note").addClass('saswp_hide');
              if(schematype == 'qanda'){
               $(".saswp-schem-type-note").removeClass('saswp_hide');   
@@ -74,6 +78,10 @@ jQuery(document).ready(function($){
              if(schematype == 'Service'){            
              $(".saswp-service-text-field-tr").show();  
              $(".saswp-service-text-field-tr").find('select').attr('disabled', false); 
+             }
+             if(schematype == 'Product'){            
+             $(".saswp-product-text-field-tr").show(); 
+             $(".saswp-product-text-field-tr").find('select').attr('disabled', false); 
              }
              if(schematype == 'Review'){            
              $(".saswp-review-text-field-tr").show(); 
