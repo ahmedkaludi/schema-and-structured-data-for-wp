@@ -96,8 +96,7 @@ class saswp_fields_generator {
 						esc_attr($meta_field['name']),                                              
                                                 $hiddenvalue == 1 ? 'checked' : '',
                                                 $attribute_str
-						);
-                                           
+						);                                          
                                          $input .=$hiddenfield;
 					break;
                                     

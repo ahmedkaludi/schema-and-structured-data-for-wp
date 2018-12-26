@@ -939,11 +939,7 @@ function saswp_review_page_callback(){
 function saswp_compatibility_page_callback(){
         
         $settings = saswp_defaultSettings();  
-        
-        //KK Star rating
-        $field_objs = new saswp_fields_generator();
-        $meta_fields = array(				
-                array(
+        $kk_star = array(
 			'label' => 'kk Star Ratings',
 			'id' => 'saswp-kk-star-raring-checkbox',                        
                         'name' => 'saswp-kk-star-raring-checkbox',
@@ -953,15 +949,8 @@ function saswp_compatibility_page_callback(){
                              'id' => 'saswp-kk-star-raring',
                              'name' => 'sd_data[saswp-kk-star-raring]',                             
                         )
-		),  
-                
-	);        
-        if(is_plugin_active('kk-star-ratings/index.php')){
-          $field_objs->saswp_field_generator($meta_fields, $settings);      
-        }
-        //Woocommerce
-        $meta_fields = array(				
-                array(
+		);
+        $woocommerce = array(
 			'label' => 'Woocommerce',
 			'id' => 'saswp-woocommerce-checkbox',                        
                         'name' => 'saswp-woocommerce-checkbox',
@@ -971,15 +960,8 @@ function saswp_compatibility_page_callback(){
                              'id' => 'saswp-woocommerce',
                              'name' => 'sd_data[saswp-woocommerce]',                             
                         )
-		),  
-                
-	);        
-        if(is_plugin_active('woocommerce/woocommerce.php')){
-          $field_objs->saswp_field_generator($meta_fields, $settings);      
-        }
-        //Extra theme by elegant themes
-        $meta_fields = array(				
-                array(
+		);
+        $extratheme = array(
 			'label' => 'Extra Theme By Elegant',
 			'id' => 'saswp-extra-checkbox',                        
                         'name' => 'saswp-extra-checkbox',
@@ -989,17 +971,8 @@ function saswp_compatibility_page_callback(){
                              'id' => 'saswp-extra',
                              'name' => 'sd_data[saswp-extra]',                             
                         )
-		),  
-                
-	);        
-        
-        if(get_template() == 'Extra'){
-          $field_objs->saswp_field_generator($meta_fields, $settings);      
-        }
-        
-        //DW Question Answer
-        $meta_fields = array(				
-                array(
+		);
+        $dwquestiton = array(
 			'label' => 'DW Question Answer',
 			'id' => 'saswp-dw-question-answer-checkbox',                        
                         'name' => 'saswp-dw-question-answer-checkbox',
@@ -1009,14 +982,59 @@ function saswp_compatibility_page_callback(){
                              'id' => 'saswp-dw-question-answer',
                              'name' => 'sd_data[saswp-dw-question-answer]',                             
                         )
-		),  
-                
-	);        
+		);
         
-         if(is_plugin_active('dw-question-answer/dw-question-answer.php')){
-          $field_objs->saswp_field_generator($meta_fields, $settings);      
+        
+        if(!is_plugin_active('kk-star-ratings/index.php')){
+             $kk_star['attributes'] = array(
+                 'disabled' => 'disabled'
+             );
+             $kk_star['note'] = esc_html__('Plugin is not activated','schema-and-structured-data-for-wp');
+             $settings['saswp-kk-star-raring'] = 0;
         }
        
+             
+        if(!is_plugin_active('woocommerce/woocommerce.php')){
+         
+             $woocommerce['attributes'] = array(
+                 'disabled' => 'disabled'
+             );
+             $woocommerce['note'] = esc_html__('Plugin is not activated','schema-and-structured-data-for-wp');
+             $settings['saswp-woocommerce'] = 0;
+            
+        }
+                 
+        
+        if(get_template() != 'Extra'){
+
+             $extratheme['attributes'] = array(
+                 'disabled' => 'disabled'
+             );
+             $extratheme['note'] = esc_html__('Theme is not activated','schema-and-structured-data-for-wp');
+             $settings['saswp-extra'] = 0;  
+        }
+                 
+        
+         if(!is_plugin_active('dw-question-answer/dw-question-answer.php')){
+             
+             $dwquestiton['attributes'] = array(
+                 'disabled' => 'disabled'
+             );
+             $dwquestiton['note'] = esc_html__('Plugin is not activated','schema-and-structured-data-for-wp');
+             $settings['saswp-dw-question-answer'] = 0; 
+         }
+                        
+        $field_objs = new saswp_fields_generator();
+        $meta_fields = array(				
+                $kk_star,  
+                $woocommerce, 
+                $extratheme,
+                $dwquestiton, 
+                
+	);       
+        
+        $field_objs->saswp_field_generator($meta_fields, $settings); 
+                        
 }
 
 

@@ -499,17 +499,25 @@ function saswp_change_add_new_url() {
  * Hooked to the wp_print_scripts action, with a late priority (100),
  * so that it is after the script was enqueued.
  */
-function saswp_dequeue_script() {
-    if(get_post_type() == 'saswp'){
-        wp_dequeue_script( 'avada-fusion-options' );
-    }   
-}
-add_action( 'wp_print_scripts', 'saswp_dequeue_script', 100 );
+//function saswp_dequeue_script() {
+//    if(get_post_type() == 'saswp'){
+//        wp_dequeue_script( 'avada-fusion-options' );
+//    }   
+//}
+//add_action( 'wp_print_scripts', 'saswp_dequeue_script', 100 );
   
   add_action( 'admin_enqueue_scripts', 'saswp_style_script_include' );
-  function saswp_style_script_include() {
+  
+      
+  function saswp_style_script_include($hook) {
      global $pagenow, $typenow;
+               
     if (is_admin()) {
+        
+        if($hook == 'saswp'){
+        wp_dequeue_script( 'avada-fusion-options' );
+        }
+        
        wp_register_script( 'structure_admin', plugin_dir_url(__FILE__) . '/js/structure_admin.js', array( 'jquery'), SASWP_VERSION, true );
        $post_type='';
        $current_screen = get_Current_screen(); 
@@ -544,10 +552,10 @@ add_action( 'wp_print_scripts', 'saswp_dequeue_script', 100 );
        wp_enqueue_style( 'jquery-ui' );
       
       //Enque select 2 script starts here      
-        
-            wp_enqueue_style('saswp-select2-style', SASWP_PLUGIN_URL. 'admin_section/css/select2.min.css' , false, SASWP_VERSION);
-            wp_enqueue_script('saswp-select2-script', SASWP_PLUGIN_URL. 'admin_section/js/select2.min.js', false, SASWP_VERSION);
-        
+         if($hook == 'saswp'){
+        wp_enqueue_style('saswp-select2-style', SASWP_PLUGIN_URL. 'admin_section/css/select2.min.css' , false, SASWP_VERSION);
+        wp_enqueue_script('saswp-select2-script', SASWP_PLUGIN_URL. 'admin_section/js/select2.min.js', false, SASWP_VERSION);
+        }
       //Enque select 2 script ends here                    
     }
   }
