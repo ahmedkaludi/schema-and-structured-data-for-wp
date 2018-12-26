@@ -513,8 +513,8 @@ function saswp_change_add_new_url() {
      global $pagenow, $typenow;
                
     if (is_admin()) {
-        
-        if($hook == 'saswp'){
+      
+        if($hook == 'saswp' || get_post_type() == 'saswp'){
         wp_dequeue_script( 'avada-fusion-options' );
         }
         
@@ -552,7 +552,7 @@ function saswp_change_add_new_url() {
        wp_enqueue_style( 'jquery-ui' );
       
       //Enque select 2 script starts here      
-         if($hook == 'saswp'){
+       if($hook == 'saswp' || get_post_type() == 'saswp'){
         wp_enqueue_style('saswp-select2-style', SASWP_PLUGIN_URL. 'admin_section/css/select2.min.css' , false, SASWP_VERSION);
         wp_enqueue_script('saswp-select2-script', SASWP_PLUGIN_URL. 'admin_section/js/select2.min.js', false, SASWP_VERSION);
         }
