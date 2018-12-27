@@ -38,7 +38,7 @@ jQuery(document).ready(function($){
              $(".saswp-option-table-class tr").eq(1).show();   
              $(".saswp-business-text-field-tr").show();
              $(".saswp-option-table-class tr").find('select').attr('disabled', false);
-             $("#saswp_dayofweek").attr('disabled', false);
+            // $("#saswp_dayofweek").attr('disabled', false);
              $('.select-post-type').val('show_globally').trigger('change');             
              }
              if(schematype == 'Service'){            
@@ -73,7 +73,7 @@ jQuery(document).ready(function($){
             $(".saswp-"+businesstype+'-tr').show(); 
             $(".saswp-business-text-field-tr").show(); 
             $(".saswp-"+businesstype+'-tr').find('select').attr('disabled', false); 
-            $("#saswp_dayofweek").attr('disabled', false);
+           // $("#saswp_dayofweek").attr('disabled', false);
             } 
              if(schematype == 'Service'){            
              $(".saswp-service-text-field-tr").show();  

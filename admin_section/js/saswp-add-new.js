@@ -118,7 +118,7 @@ var Merlin = (function($){
                 action: "saswp_add_new_save_steps_data",
                 wpnonce: saswp_add_new_params.wpnonce,
 				}
-			jQuery('ul.merlin__drawer--import-content').find('input, select').each(function(key, fields){
+			jQuery('ul.merlin__drawer--import-content').find('input, select, textarea').each(function(key, fields){
 				
 				switch(jQuery(this).attr('type')){
 					case 'text':
@@ -131,12 +131,15 @@ var Merlin = (function($){
 						}else{
 							params[jQuery(this).attr('name')] = 0;
 						}
-					break;
-					default: 
-						params[jQuery(this).attr('name')] = jQuery(this).val();
+					break;                                                                                                                           					
+                                        
+					default:                                                                                                                                         
+						if(jQuery(this).prop('disabled')== false){
+						params[jQuery(this).attr('name')] = jQuery(this).val();	
+						}                                            
 					break;
 				}
-			});
+			});                         
             jQuery.post(saswp_add_new_params.ajaxurl, params, ajax_callback).fail(ajax_callback);
         }
 
@@ -260,7 +263,7 @@ jQuery(document).ready(function($) {
              $(".saswp-option-table-class tr").eq(1).show();   
              $(".saswp-business-text-field-tr").show(); 
              $(".saswp-option-table-class tr").find('select').attr('disabled', false);
-             $("#saswp_dayofweek").attr('disabled', false);
+            // $("#saswp_dayofweek").attr('disabled', false);
              $('.select-post-type').val('show_globally').trigger('change'); 
             }
             if(schematype == 'Service'){            
@@ -296,7 +299,7 @@ jQuery(document).ready(function($) {
             $(".saswp-"+businesstype+'-tr').show();
             $(".saswp-business-text-field-tr").show(); 
             $(".saswp-"+businesstype+'-tr').find('select').attr('disabled', false); 
-            $("#saswp_dayofweek").attr('disabled', false);
+           // $("#saswp_dayofweek").attr('disabled', false);
             }
             if(schematype == 'Service'){            
              $(".saswp-service-text-field-tr").show();  

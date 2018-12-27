@@ -89,6 +89,12 @@ $saswp_add_data_type_config = array(
 		wp_enqueue_script( 'saswp_add_new', SASWP_PLUGIN_URL. $saswp_add_data_type_config['installer_dir']. '/js/saswp-add-new' . $suffix . '.js' , array( 'jquery-core' ), '0.1' );
 		//wp_enqueue_script( 'saswp_install_script', SASWP_PLUGIN_URL. '/admin_section/js/main-script.js' , array( 'jquery-core' ), '0.1' );
                 
+                //Enque datepicker
+                wp_enqueue_script( 'jquery-ui-datepicker' );
+                wp_register_style( 'jquery-ui', SASWP_PLUGIN_URL. 'admin_section/css/jquery-ui.css' );
+                wp_enqueue_style( 'jquery-ui' );
+                
+                
                 wp_enqueue_script( 'structure_admin', SASWP_PLUGIN_URL. $saswp_add_data_type_config['installer_dir']. '/js/structure_admin' . $suffix . '.js' , array( 'jquery' ), '0.1' );
 		
                 wp_localize_script( 'structure_admin', 'saswp_app_object', array(
@@ -342,14 +348,7 @@ $saswp_add_data_type_config = array(
                     'post_type' => 'saswp',                                                            
                 );                                      
                 $post_id = wp_insert_post($schema_post);                                  
-                      update_post_meta( $post_id, 'schema_type', esc_attr( $schema_type ) );
-                
-                if ( isset( $_POST['saswp_business_type'] ) ){
-                     update_post_meta( $post_id, 'saswp_business_type', esc_attr( $_POST['saswp_business_type'] ) );    
-                }                    
-                if ( isset( $_POST['saswp_business_name'] ) ){
-                     update_post_meta( $post_id, 'saswp_business_name', esc_attr( $_POST['saswp_business_name'] ) );   
-                }                    
+
                 set_transient('saswp_last_post_id', json_encode(array('post_id'=>$post_id))); 
                 }    
                                 
