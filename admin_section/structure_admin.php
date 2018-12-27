@@ -624,7 +624,7 @@ function saswp_custom_breadcrumbs() {
     $variables2_links = array();   
     // Settings
     $separator          = '&gt;';        
-    $home_title         = esc_html__('Homepage', 'schema-and-structured-data-for-wp' );
+    $home_title         = get_bloginfo();
       
     // If you have any custom post types with custom taxonomies, put the taxonomy name below (e.g. product_cat)
     $custom_taxonomy    = 'product_cat';
