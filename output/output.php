@@ -2,7 +2,8 @@
 if (! defined('ABSPATH') ) exit;
 
 function saswp_kb_schema_output() {
-	global $sd_data;        	
+	global $sd_data;   
+        $input = array();        
 	// social profile
 	$sd_social_profile = array();
 
@@ -66,7 +67,7 @@ function saswp_kb_schema_output() {
 	// Organization Schema 
 
 
-	if ( $sd_data['saswp_kb_type']  ==  'Organization' ) {
+	if ( saswp_remove_warnings($sd_data, 'saswp_kb_type', 'saswp_string')  ==  'Organization' ) {
 		$logo = $sd_data['sd_logo']['url'];
 		$contact_1 = $sd_data['saswp_contact_type'];
 		$telephone_1 = $sd_data['saswp_kb_telephone'];
@@ -123,7 +124,7 @@ function saswp_kb_schema_output() {
 }				
 		// Person
 
-	if ( $sd_data['saswp_kb_type']  ==  'Person' ) {
+	if ( saswp_remove_warnings($sd_data, 'saswp_kb_type', 'saswp_string')  ==  'Person' ) {
 		$image = $sd_data['sd-person-image']['url'];
 		$height = $sd_data['sd-person-image']['height'];
 		$width = $sd_data['sd-person-image']['width'];
@@ -144,7 +145,7 @@ function saswp_kb_schema_output() {
 			'@type'			=> $sd_data['saswp_kb_type'],
 			'name'			=> $sd_data['sd-person-name'],
 			'url'			=> $sd_data['sd-person-url'],
-			'Image' 			=> array(
+			'image' 			=> array(
 					'@type'		=> 'ImageObject',
 					'url'		=> $image,
 					'width'		=> $width,
@@ -1916,8 +1917,10 @@ function saswp_archive_output(){
         $height ='';
         $width ='';
         $site_name ='';
-				
-	$logo = $sd_data['sd_logo']['url']; 
+		
+        if(isset($sd_data['sd_logo'])){
+            $logo = $sd_data['sd_logo']['url']; 
+        }	
 		
         if(isset($sd_data['sd_name']) && $sd_data['sd_name'] !=''){
           $site_name = $sd_data['sd_name'];  
@@ -2061,7 +2064,7 @@ function saswp_about_page_output()
 	if(isset($image_details['url'])){
 				$image_url		= $image_details['url'];
 			}
-	$about_page = $sd_data['sd_about_page'];        
+	$about_page = saswp_remove_warnings($sd_data, 'sd_about_page', 'saswp_string');        
         
 	if((isset($sd_data['sd_about_page'])) && $sd_data['sd_about_page'] == get_the_ID()){            
 			$logo = $sd_data['sd_logo']['url'];	
@@ -2121,7 +2124,7 @@ function saswp_contact_page_output()
 	if(isset($image_details['url'])){
 				$image_url		= $image_details['url'];
 			}
-	$contact_page = $sd_data['sd_contact_page'];
+	$contact_page = saswp_remove_warnings($sd_data, 'sd_contact_page', 'saswp_string');
 	if(isset($sd_data['sd_contact_page']) && $sd_data['sd_contact_page'] == get_the_ID()){
 
 			$logo = $sd_data['sd_logo']['url'];	

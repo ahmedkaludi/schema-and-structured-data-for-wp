@@ -151,8 +151,12 @@ Class saswp_review_output{
             $saswp_review_item_enable = 0;
             if(isset($saswp_review_details['saswp-review-item-enable'])){
              $saswp_review_item_enable =  $saswp_review_details['saswp-review-item-enable'];  
-            }            
-            if($sd_data['saswp-review-module']==0 || $saswp_review_item_enable ==0){
+            }  
+            $review_module = 0;
+            if(isset($sd_data['saswp-review-module'])){
+               $review_module =  $sd_data['saswp-review-module'];
+            }
+            if($review_module==0 || $saswp_review_item_enable ==0){
                 return $content;
             }
             $result = $this->saswp_get_review_box_content();                 
