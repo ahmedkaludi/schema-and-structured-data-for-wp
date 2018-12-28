@@ -542,6 +542,12 @@ input:checked + .saswp-slider:before {
     flex-grow: 1;
     background: transparent;
 }
+.saswp-single-post-restore .saswp-switch{
+    height: 28px;
+}
+.saswp-single-post-restore .saswp-slider:before{
+    height: 20px;
+}
 /*
 On/Off Buttons ends here
 */
