@@ -682,15 +682,16 @@ jQuery(document).ready(function($){
        }           
       
      function saswp_enable_rating_review(){
-                                 
+           var schema_type ="";                      
            if($('select#schema_type option:selected').val()){
-           var schema_type = $('select#schema_type option:selected').val();    
+              schema_type = $('select#schema_type option:selected').val();    
            }       
            if($(".saswp-tab-links.selected").attr('saswp-schema-type')){
-           var schema_type = $(".saswp-tab-links.selected").attr('saswp-schema-type');    
+              schema_type = $(".saswp-tab-links.selected").attr('saswp-schema-type');    
            }
-                                                        
-      $(".saswp-enable-rating-review-"+schema_type.toLowerCase()).change(function(){
+          
+         if(schema_type){
+             $(".saswp-enable-rating-review-"+schema_type.toLowerCase()).change(function(){
                                
             if($(this).is(':checked')){
             $(this).parent().parent().siblings('.saswp-rating-review-'+schema_type.toLowerCase()).show();            
@@ -698,7 +699,10 @@ jQuery(document).ready(function($){
             $(this).parent().parent().siblings('.saswp-rating-review-'+schema_type.toLowerCase()).hide(); 
              }
          
-     }).change();   
+            }).change();   
+         }
+         
+      
      }      
      saswp_enable_rating_review();
     

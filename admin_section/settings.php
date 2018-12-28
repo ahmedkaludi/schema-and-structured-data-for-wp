@@ -814,98 +814,8 @@ function saswp_import_callback(){
                     </div>
                 </li> 
         </ul>
-        <?php
-        
-        $settings = saswp_defaultSettings();
-        
-        if ( is_plugin_active('flexmls-idx/flexmls_connect.php')) {
-         $meta_fields_default = array(	
-		array(
-			'label' => 'FlexMLS IDX Plugin',
-			'id' => 'saswp_compativility_checkbox', 
-                        'name' => 'saswp_compativility_checkbox',
-			'type' => 'checkbox',
-                        'class' => 'checkbox saswp-checkbox',                       
-                        'hidden' => array(
-                             'id' => 'saswp_compativility',
-                             'name' => 'sd_data[saswp_compativility]',                             
-                        )
-		),
-		);   
-        }else{
-        $settings['saswp_compativility'] =0; 
-        $meta_fields_default = array(	
-		array(
-			'label' => 'FlexMLS IDX',
-			'id' => 'saswp_compativility_checkbox', 
-                        'name' => 'saswp_compativility_checkbox',
-			'type' => 'checkbox',
-                        'class' => 'checkbox saswp-checkbox', 
-                        'attributes' => array(
-                            'disabled' => 'disabled'
-                        ),
-                        'hidden' => array(
-                             'id' => 'saswp_compativility',
-                             'name' => 'sd_data[saswp_compativility]',                             
-                        )
-		),
-		);          
-        }
-         $meta_fields_text = array();
-         $meta_fields_text[] = array(
-                        'label' => 'Name',
-			'id' => 'sd-seller-name',
-                        'name' => 'sd_data[sd-seller-name]',
-                        'class' => 'regular-text',                        
-			'type' => 'text',
-        );
-         $meta_fields_text[] = array(
-                        'label' => 'Addres',
-			'id' => 'sd-seller-address',
-                        'name' => 'sd_data[sd-seller-address]',
-                        'class' => 'regular-text',                        
-			'type' => 'text',
-        );
-         $meta_fields_text[] = array(
-                        'label' => 'Telephone',
-			'id' => 'sd-seller-telephone',
-                        'name' => 'sd_data[sd-seller-telephone]',
-                        'class' => 'regular-text',                        
-			'type' => 'text',
-        );
-         $meta_fields_text[] = array(
-                        'label' => 'Price Range',
-			'id' => 'sd-seller-price-range',
-                        'name' => 'sd_data[sd-seller-price-range]',
-                        'class' => 'regular-text',                        
-			'type' => 'text',
-        );
-        $meta_fields_text[] = array(
-			'label' => 'URL',
-			'id' => 'sd-seller-url',
-                        'name' => 'sd_data[sd-seller-url]',
-                        'class' => 'regular-text',
-			'type' => 'text',
-		);                                
-        $meta_fields_text[] = array(
-			'label' => 'Image',
-			'id' => 'sd_seller_image',
-                        'name' => 'sd_data[sd_seller_image][url]',
-                        'class' => 'saswp-sd_seller_image',
-			'type' => 'media',
-	);                
-        echo '<h2>'.esc_html__('Compatibility','schema-and-structured-data-for-wp').'</h2>';        
-        $field_objs = new saswp_fields_generator(); 
-        echo '<div class="saswp-compativility-div">';
-        $field_objs->saswp_field_generator($meta_fields_default, $settings);
-        echo '</div>';
-        if ( is_plugin_active('flexmls-idx/flexmls_connect.php')) {
-        echo '<div class="saswp-seller-div">';
-        echo '<strong>'.esc_html__('Real estate agent info :','schema-and-structured-data-for-wp').'</strong>';
-        $field_objs->saswp_field_generator($meta_fields_text, $settings);
-        echo '</div>';    
-        }
-                                
+        <?php                
+                                                
 }
 
 function saswp_imported_callback(){	        
@@ -1032,7 +942,99 @@ function saswp_compatibility_page_callback(){
                 
 	);       
         
-        $field_objs->saswp_field_generator($meta_fields, $settings); 
+        $field_objs->saswp_field_generator($meta_fields, $settings);
+        
+        
+        if ( is_plugin_active('flexmls-idx/flexmls_connect.php')) {
+         $meta_fields_default = array(	
+		array(
+			'label' => 'FlexMLS IDX Plugin',
+			'id' => 'saswp_compativility_checkbox', 
+                        'name' => 'saswp_compativility_checkbox',
+			'type' => 'checkbox',
+                        'class' => 'checkbox saswp-checkbox',                       
+                        'hidden' => array(
+                             'id' => 'saswp_compativility',
+                             'name' => 'sd_data[saswp_compativility]',                             
+                        )
+		),
+		);   
+        }else{
+        $settings['saswp_compativility'] =0; 
+        $meta_fields_default = array(	
+		array(
+			'label' => 'FlexMLS IDX',
+			'id' => 'saswp_compativility_checkbox', 
+                        'name' => 'saswp_compativility_checkbox',
+			'type' => 'checkbox',
+                        'class' => 'checkbox saswp-checkbox', 
+                        'attributes' => array(
+                            'disabled' => 'disabled'
+                        ),
+                        'hidden' => array(
+                             'id' => 'saswp_compativility',
+                             'name' => 'sd_data[saswp_compativility]',                             
+                        )
+		),
+		);          
+        }
+         $meta_fields_text = array();
+         $meta_fields_text[] = array(
+                        'label' => 'Name',
+			'id' => 'sd-seller-name',
+                        'name' => 'sd_data[sd-seller-name]',
+                        'class' => 'regular-text',                        
+			'type' => 'text',
+        );
+         $meta_fields_text[] = array(
+                        'label' => 'Addres',
+			'id' => 'sd-seller-address',
+                        'name' => 'sd_data[sd-seller-address]',
+                        'class' => 'regular-text',                        
+			'type' => 'text',
+        );
+         $meta_fields_text[] = array(
+                        'label' => 'Telephone',
+			'id' => 'sd-seller-telephone',
+                        'name' => 'sd_data[sd-seller-telephone]',
+                        'class' => 'regular-text',                        
+			'type' => 'text',
+        );
+         $meta_fields_text[] = array(
+                        'label' => 'Price Range',
+			'id' => 'sd-seller-price-range',
+                        'name' => 'sd_data[sd-seller-price-range]',
+                        'class' => 'regular-text',                        
+			'type' => 'text',
+        );
+        $meta_fields_text[] = array(
+			'label' => 'URL',
+			'id' => 'sd-seller-url',
+                        'name' => 'sd_data[sd-seller-url]',
+                        'class' => 'regular-text',
+			'type' => 'text',
+		);                                
+        $meta_fields_text[] = array(
+			'label' => 'Image',
+			'id' => 'sd_seller_image',
+                        'name' => 'sd_data[sd_seller_image][url]',
+                        'class' => 'saswp-sd_seller_image',
+			'type' => 'media',
+	);                
+              
+        $field_objs = new saswp_fields_generator(); 
+        //echo '<div class="saswp-compativility-div">';
+        $field_objs->saswp_field_generator($meta_fields_default, $settings);
+        //echo '</div>';
+        if ( is_plugin_active('flexmls-idx/flexmls_connect.php')) {
+        echo '<div class="saswp-seller-div">';
+        echo '<strong>'.esc_html__('Real estate agent info :','schema-and-structured-data-for-wp').'</strong>';
+        $field_objs->saswp_field_generator($meta_fields_text, $settings);
+        echo '</div>';    
+        }
+        
+        
+        
                         
 }
 
