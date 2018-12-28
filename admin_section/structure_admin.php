@@ -538,7 +538,8 @@ function saswp_change_add_new_url() {
       $data_array = array(
           'ajax_url'    =>  admin_url( 'admin-ajax.php' ), 
           'post_found_status' => $post_found_status,
-          'post_type' =>$post_type,                              
+          'post_type' =>$post_type,   
+          'page_now' => $hook,
       );
        wp_localize_script( 'structure_admin', 'saswp_app_object', $data_array );
        wp_enqueue_script('structure_admin');

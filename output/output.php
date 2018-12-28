@@ -552,6 +552,7 @@ function saswp_schema_output() {
                                                                         )    
 				); 
                                 
+                                
                                 if(isset($schema_data['saswp_product_schema_gtin8']) && $schema_data['saswp_product_schema_gtin8'] !=''){
                                     $input1['gtin8'] = $schema_data['saswp_product_schema_gtin8'];  
                                 }
@@ -561,7 +562,17 @@ function saswp_schema_output() {
                                 if(isset($schema_data['saswp_product_schema_isbn']) && $schema_data['saswp_product_schema_isbn'] !=''){
                                   $input1['isbn'] = $schema_data['saswp_product_schema_isbn'];  
                                 }
-                                                                
+                                
+                                if(isset($schema_data['saswp_product_schema_enable_rating'])){
+                                 
+                                  $input1['aggregateRating'] = array(
+                                                            "@type"=> "AggregateRating",
+                                                            "ratingValue" => saswp_remove_warnings($schema_data, 'saswp_product_schema_rating', 'saswp_string'),
+                                                            "reviewCount" => saswp_remove_warnings($schema_data, 'saswp_product_schema_review_count', 'saswp_string')
+                                                         );                                       
+                                }
+                                
+                                
                                 if(!empty($aggregateRating)){
                                     $input1['aggregateRating'] = $aggregateRating;
                                 }
@@ -663,8 +674,13 @@ function saswp_schema_output() {
 					'serviceType'                   => saswp_remove_warnings($schema_data, 'saswp_service_schema_type', 'saswp_string'),
 					'provider'                      => array(
                                                                         '@type' => saswp_remove_warnings($schema_data, 'saswp_service_schema_provider_type', 'saswp_string'),
-                                                                        'name'  => saswp_remove_warnings($schema_data, 'saswp_service_schema_provider_name', 'saswp_string'),
-                                                                        'image' => $schema_data['saswp_service_schema_image']['url'],
+                                                                        'name'  => saswp_remove_warnings($schema_data, 'saswp_service_schema_provider_name', 'saswp_string'),                                                                        
+                                                                        'image'  => array(
+                                                                            '@type'		=>'ImageObject',
+                                                                            'url'		=>$schema_data['saswp_service_schema_image']['url'],
+                                                                            'width'		=>$schema_data['saswp_service_schema_image']['width'],
+                                                                            'height'            =>$schema_data['saswp_service_schema_image']['height'],
+                                                                            ),
                                                                         '@id'   => get_permalink(),
                                                                         'address' => array(
                                                                             '@type' => 'PostalAddress',
@@ -700,7 +716,17 @@ function saswp_schema_output() {
                                 if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){
                                     $service = new saswp_output_service();
                                     $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
-                                }       
+                                } 
+                                
+                                if(isset($schema_data['saswp_service_schema_enable_rating'])){
+                                 
+                                  $input1['aggregateRating'] = array(
+                                                            "@type"=> "AggregateRating",
+                                                            "ratingValue" => saswp_remove_warnings($schema_data, 'saswp_service_schema_rating', 'saswp_string'),
+                                                            "reviewCount" => saswp_remove_warnings($schema_data, 'saswp_service_schema_review_count', 'saswp_string')
+                                                         );                                       
+                                }
+                                
                                 if(!empty($aggregateRating)){
                                     $input1['aggregateRating'] = $aggregateRating;
                                 }
@@ -770,6 +796,15 @@ function saswp_schema_output() {
                                 if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){
                                     $service = new saswp_output_service();
                                     $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
+                                }
+                                
+                                if(isset($schema_data['saswp_review_schema_enable_rating'])){
+                                 
+                                  $input1['aggregateRating'] = array(
+                                                            "@type"=> "AggregateRating",
+                                                            "ratingValue" => saswp_remove_warnings($schema_data, 'saswp_review_schema_rating', 'saswp_string'),
+                                                            "reviewCount" => saswp_remove_warnings($schema_data, 'saswp_review_schema_review_count', 'saswp_string')
+                                                         );                                       
                                 }
                                 
                                 if(!empty($aggregateRating)){
@@ -883,7 +918,19 @@ function saswp_schema_output() {
                                     if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){
                                     $service = new saswp_output_service();
                                     $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
-                                    }                                
+                                    }     
+                                    
+                                    
+                                    if(isset($business_details['local_enable_rating'])){
+                                 
+                                    $input1['aggregateRating'] = array(
+                                                            "@type"=> "AggregateRating",
+                                                            "ratingValue" => saswp_remove_warnings($business_details, 'local_rating', 'saswp_string'),
+                                                            "reviewCount" => saswp_remove_warnings($business_details, 'local_review_count', 'saswp_string')
+                                                         );                                       
+                                     }
+                                    
+                                    
                                     if(!empty($aggregateRating)){
                                     $input1['aggregateRating'] = $aggregateRating;
                                     }
@@ -1378,7 +1425,18 @@ function saswp_post_specific_schema_output() {
                                         }
                                         if(isset($all_post_meta['saswp_product_schema_isbn_'.$schema_id])){
                                           $input1['isbn'] = $all_post_meta['saswp_product_schema_isbn_'.$schema_id][0];  
-                                        }                                        
+                                        }   
+                                        
+                                        if(saswp_remove_warnings($all_post_meta, 'saswp_product_schema_enable_rating_'.$schema_id, 'saswp_array') == 1){   
+                                 
+                                          $input1['aggregateRating'] = array(
+                                                            "@type"=> "AggregateRating",
+                                                            "ratingValue" => saswp_remove_warnings($all_post_meta, 'saswp_product_schema_rating_'.$schema_id, 'saswp_array'),
+                                                            "reviewCount" => saswp_remove_warnings($all_post_meta, 'saswp_product_schema_review_count_'.$schema_id, 'saswp_array')
+                                                         );                                       
+                                         }
+                                        
+                                        
                                         if(!empty($aggregateRating)){
                                             $input1['aggregateRating'] = $aggregateRating;
                                         }
@@ -1545,7 +1603,14 @@ function saswp_post_specific_schema_output() {
                                             'name'  => saswp_remove_warnings($all_post_meta, 'saswp_service_schema_name_'.$schema_id, 'saswp_array'),
                                             'itemListElement' => $serviceOffer
                                        );
-                                    										                                                    					                                                                                                                               
+                                
+                                if(saswp_remove_warnings($all_post_meta, 'saswp_service_schema_enable_rating_'.$schema_id, 'saswp_array') == 1){                                                                        
+                                          $input1['aggregateRating'] = array(
+                                                            "@type"=> "AggregateRating",
+                                                            "ratingValue" => saswp_remove_warnings($all_post_meta, 'saswp_service_schema_rating_'.$schema_id, 'saswp_array'),
+                                                            "reviewCount" => saswp_remove_warnings($all_post_meta, 'saswp_service_schema_review_count_'.$schema_id, 'saswp_array')
+                                                         );                                       
+                                         }       
                                 if(!empty($aggregateRating)){
                                     $input1['aggregateRating'] = $aggregateRating;
                                 }
@@ -1600,7 +1665,15 @@ function saswp_post_specific_schema_output() {
 					
                                         ); 
                                        
-                                                                       
+                                if(saswp_remove_warnings($all_post_meta, 'saswp_review_schema_enable_rating_'.$schema_id, 'saswp_array') == 1){   
+                                 
+                                          $input1['aggregateRating'] = array(
+                                                            "@type"=> "AggregateRating",
+                                                            "ratingValue" => saswp_remove_warnings($all_post_meta, 'saswp_review_schema_rating_'.$schema_id, 'saswp_array'),
+                                                            "reviewCount" => saswp_remove_warnings($all_post_meta, 'saswp_review_schema_review_count_'.$schema_id, 'saswp_array')
+                                                         );                                       
+                                         }  
+                                
                                 if(!empty($aggregateRating)){
                                     $input1['aggregateRating'] = $aggregateRating;
                                 }
@@ -1640,6 +1713,17 @@ function saswp_post_specific_schema_output() {
                                 'openingHours'                => $operation_days,                                                                                                     
 				);
                                     
+                                
+                                
+                                    if(isset($all_post_meta['local_enable_rating_'.$schema_id])){
+                                 
+                                          $input1['aggregateRating'] = array(
+                                                            "@type"=> "AggregateRating",
+                                                            "ratingValue" => saswp_remove_warnings($all_post_meta, 'local_rating_'.$schema_id, 'saswp_array'),
+                                                            "reviewCount" => saswp_remove_warnings($all_post_meta, 'local_review_count_'.$schema_id, 'saswp_array')
+                                                         );                                       
+                                         } 
+                                
                                     if(!empty($aggregateRating)){
                                     $input1['aggregateRating'] = $aggregateRating;
                                     }

@@ -106,9 +106,10 @@ class saswp_post_specific {
                      }                     
                      $response = $this->saswp_get_fields_by_schema_type($schema->ID);                     
                      $this->meta_fields = $response;
-                     $output = $this->saswp_saswp_post_specific( $post, $schema->ID );                    
+                     $output = $this->saswp_saswp_post_specific( $post, $schema->ID ); 
+                     $schema_type  = esc_sql ( get_post_meta($schema->ID, 'schema_type', true)  ); 
                      if($key==0){
-                     $tabs .='<li class="selected"><a data-id="saswp_specific_'.esc_attr($schema->ID).'" class="saswp-tab-links selected">'.esc_attr($schema->post_title).'</a>'
+                     $tabs .='<li class="selected"><a saswp-schema-type="'.$schema_type.'" data-id="saswp_specific_'.esc_attr($schema->ID).'" class="saswp-tab-links selected">'.esc_attr($schema->post_title).'</a>'
                              . '<label class="saswp-switch">'
                              . '<input type="checkbox" class="saswp-schema-type-toggle" value="1" data-schema-id="'.esc_attr($schema->ID).'" data-post-id="'.esc_attr($post->ID).'" '.$checked.'>'
                              . '<span class="saswp-slider"></span>'
@@ -118,7 +119,7 @@ class saswp_post_specific {
                      $tabs_fields .= '</div>';
                      }else{
                      $tabs .='<li>'
-                             . '<a data-id="saswp_specific_'.esc_attr($schema->ID).'" class="saswp-tab-links">'.esc_attr($schema->post_title).'</a>'
+                             . '<a saswp-schema-type="'.$schema_type.'" data-id="saswp_specific_'.esc_attr($schema->ID).'" class="saswp-tab-links">'.esc_attr($schema->post_title).'</a>'
                              . '<label class="saswp-switch">'
                              . '<input type="checkbox" class="saswp-schema-type-toggle" value="1" data-schema-id="'.esc_attr($schema->ID).'" data-post-id="'.esc_attr($post->ID).'" '.$checked.'>'
                              . '<span class="saswp-slider"></span>'
@@ -367,6 +368,21 @@ class saswp_post_specific {
 					$input .= '</select>';
 					break;
                                 
+                                case 'checkbox':
+                                    
+                                        $rating_class = 'class="saswp-enable-rating-review-'.strtolower($schema_type).'"';
+                                        
+                                        
+                                        
+					$input = sprintf(
+						'<input %s %s id="%s" name="%s" type="checkbox" value="1">',
+                                                $rating_class,
+						$meta_value === '1' ? 'checked' : '',
+						$meta_field['id'],
+						$meta_field['id']
+						);
+					break;        
+                                        
                                 case 'multiselect':                                       
 					$input = sprintf(
 						'<select multiple id="%s" name="%s[]">',
@@ -431,7 +447,25 @@ class saswp_post_specific {
 				default:       
                                             			
 			}
-			$output .= '<tr><th>'.$label.'</th><td>'.$input.'</td></tr>';
+                        
+                        
+                        if($meta_field['id'] == 'saswp_service_schema_rating_'.$schema_id || 
+                           $meta_field['id'] == 'saswp_product_schema_rating_'.$schema_id ||
+                           $meta_field['id'] == 'saswp_review_schema_rating_'.$schema_id ||
+                           $meta_field['id'] == 'local_rating_'.$schema_id               ||
+                           
+                           $meta_field['id'] == 'saswp_service_schema_review_count_'.$schema_id || 
+                           $meta_field['id'] == 'saswp_product_schema_review_count_'.$schema_id ||
+                           $meta_field['id'] == 'saswp_review_schema_review_count_'.$schema_id ||
+                           $meta_field['id'] == 'local_review_count_'.$schema_id     
+                                
+                          )
+                          {
+                            $output .= '<tr class="saswp-rating-review-'.strtolower($schema_type).'"><th>'.$label.'</th><td>'.$input.'</td></tr>'; 
+                          }else{
+                             $output .= '<tr><th>'.$label.'</th><td>'.$input.'</td></tr>';  
+                          }                                                                       
+			
 		}
                 return $output;                                               
 	}	
@@ -843,6 +877,24 @@ class saswp_post_specific {
                             'type' => 'text',
                             'default' => $business_details['local_price_range']
                        ),
+                        array(
+                            'label' => 'Rating & Review',
+                            'id' => 'local_enable_rating_'.$schema_id,
+                            'type' => 'checkbox',
+                          //  'default' => saswp_remove_warnings($business_details, 'local_enable_rating', 'saswp_string')
+                        ),
+                        array(
+                            'label' => 'Rating',
+                            'id' => 'local_rating_'.$schema_id,
+                            'type' => 'text',
+                            'default' => saswp_remove_warnings($business_details, 'local_rating', 'saswp_string')
+                        ),
+                        array(
+                            'label' => 'Number of Reviews',
+                            'id' => 'local_review_count_'.$schema_id,
+                            'type' => 'text',
+                            'default' => saswp_remove_warnings($business_details, 'local_review_count', 'saswp_string')
+                        ),
                     );
                     
                     break;
@@ -1454,7 +1506,25 @@ class saswp_post_specific {
                             'id' => 'saswp_product_schema_gtin8_'.$schema_id,
                             'type' => 'text', 
                             'default' => saswp_remove_warnings($product_schema_details, 'saswp_product_schema_gtin8', 'saswp_string'),                           
-                     )
+                       ),
+                        array(
+                            'label' => 'Rating & Review',
+                            'id' => 'saswp_product_schema_enable_rating_'.$schema_id,
+                            'type' => 'checkbox',
+                            //'default' => saswp_remove_warnings($product_schema_details, 'saswp_product_schema_enable_rating', 'saswp_string')
+                        ),
+                        array(
+                            'label' => 'Rating',
+                            'id' => 'saswp_product_schema_rating_'.$schema_id,
+                            'type' => 'text',
+                            'default' => saswp_remove_warnings($product_schema_details, 'saswp_product_schema_rating', 'saswp_string')
+                        ),
+                        array(
+                            'label' => 'Number of Reviews',
+                            'id' => 'saswp_product_schema_review_count_'.$schema_id,
+                            'type' => 'text',
+                            'default' => saswp_remove_warnings($product_schema_details, 'saswp_product_schema_review_count', 'saswp_string')
+                        ),
                         
                     );
                                                                                                         
@@ -1555,7 +1625,29 @@ class saswp_post_specific {
                             'attributes' => array(
                                 'placeholder' => 'Apartment light cleaning, carpet cleaning'
                             ),                                                        
-                    ),    
+                    ),
+                        
+                        array(
+                            'label' => 'Rating & Review',
+                            'id' => 'saswp_service_schema_enable_rating_'.$schema_id,
+                            'type' => 'checkbox',
+                           // 'default' => saswp_remove_warnings($service_schema_details, 'saswp_service_schema_enable_rating', 'saswp_string')
+                        ),
+                        array(
+                            'label' => 'Rating',
+                            'id' => 'saswp_service_schema_rating_'.$schema_id,
+                            'type' => 'text',
+                            'default' => saswp_remove_warnings($service_schema_details, 'saswp_service_schema_rating', 'saswp_string')
+                        ),
+                        array(
+                            'label' => 'Number of Reviews',
+                            'id' => 'saswp_service_schema_review_count_'.$schema_id,
+                            'type' => 'text',
+                            'default' => saswp_remove_warnings($service_schema_details, 'saswp_service_schema_review_count', 'saswp_string')
+                        ),
+                        
+                        
+                        
                     );
                     break;
                 
@@ -1660,7 +1752,28 @@ class saswp_post_specific {
                             'type' => 'text',
                             'default' => saswp_remove_warnings($service_schema_details, 'saswp_review_schema_telephone', 'saswp_string'),
                                                                                    
-                    ),    
+                    ),  
+                    
+                        array(
+                            'label' => 'Rating & Review',
+                            'id' => 'saswp_review_schema_enable_rating_'.$schema_id,
+                            'type' => 'checkbox',
+                           // 'default' => saswp_remove_warnings($service_schema_details, 'saswp_review_schema_enable_rating', 'saswp_string')
+                        ),
+                        array(
+                            'label' => 'Rating',
+                            'id' => 'saswp_review_schema_rating_'.$schema_id,
+                            'type' => 'text',
+                            'default' => saswp_remove_warnings($service_schema_details, 'saswp_review_schema_rating', 'saswp_string')
+                        ),
+                        array(
+                            'label' => 'Number of Reviews',
+                            'id' => 'saswp_review_schema_review_count_'.$schema_id,
+                            'type' => 'text',
+                            'default' => saswp_remove_warnings($service_schema_details, 'saswp_review_schema_review_count', 'saswp_string')
+                        ),
+                        
+                        
                     );
                     break;
                 

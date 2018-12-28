@@ -57,6 +57,7 @@ jQuery(document).ready(function($){
              if(schematype == 'qanda'){
               $(".saswp-schem-type-note").removeClass('saswp_hide');   
              }
+             saswp_enable_rating_review();
         }); 
         
         $("#saswp_business_type").change(function(){
@@ -87,7 +88,7 @@ jQuery(document).ready(function($){
              $(".saswp-review-text-field-tr").show(); 
              $(".saswp-review-text-field-tr").find('select').attr('disabled', false);
              }
-            
+            saswp_enable_rating_review();
         }).change(); 
         
         
@@ -580,6 +581,7 @@ jQuery(document).ready(function($){
             $('div.saswp-tab ul.saswp-tab-nav li').removeClass('selected');
             $(this).addClass('selected'); 
             $(this).parent().addClass('selected'); 
+            saswp_enable_rating_review();
         });
         
         //Importer from schema plugin ends here
@@ -649,8 +651,10 @@ jQuery(document).ready(function($){
           }
        });
        saswpCustomSelect2();
-       function saswpCustomSelect2(){
-       $('.saswp-custom-fields-select2').select2({
+       function saswpCustomSelect2(){          
+       if(saswp_app_object.post_type == 'saswp' || saswp_app_object.page_now =='saswp'){
+           
+           $('.saswp-custom-fields-select2').select2({
   		ajax: {
                         type: "POST",    
     			url: ajaxurl, // AJAX URL is predefined in WordPress admin
@@ -671,8 +675,35 @@ jQuery(document).ready(function($){
 			cache: true
 		},
 		minimumInputLength: 2 // the minimum of symbols to input before perform a search
-	});    
+	});   
+           
+       }    
+           
        }           
+      
+     function saswp_enable_rating_review(){
+                                 
+           if($('select#schema_type option:selected').val()){
+           var schema_type = $('select#schema_type option:selected').val();    
+           }       
+           if($(".saswp-tab-links.selected").attr('saswp-schema-type')){
+           var schema_type = $(".saswp-tab-links.selected").attr('saswp-schema-type');    
+           }
+                                                        
+      $(".saswp-enable-rating-review-"+schema_type.toLowerCase()).change(function(){
+                               
+            if($(this).is(':checked')){
+            $(this).parent().parent().siblings('.saswp-rating-review-'+schema_type.toLowerCase()).show();            
+             }else{
+            $(this).parent().parent().siblings('.saswp-rating-review-'+schema_type.toLowerCase()).hide(); 
+             }
+         
+     }).change();   
+     }      
+     saswp_enable_rating_review();
+    
+     
+       
        
         //custom fields modify schema ends here
       

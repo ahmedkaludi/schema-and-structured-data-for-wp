@@ -564,6 +564,23 @@
                             <td><?php echo esc_html__('Price Range', 'schema-and-structured-data-for-wp' ); ?></td>
                             <td><input  value="<?php if(isset($business_details['local_price_range'])){echo esc_attr($business_details['local_price_range']); } ?>" type="text" name="local_price_range" placeholder="<?php echo esc_html__('$10-$50 or $$$ ', 'schema-and-structured-data-for-wp' ); ?>" ></td>
                         </tr>
+                        
+                        
+                        <tr class="saswp-business-text-field-tr" <?php echo $style_business_type; ?>>
+                            <td><?php echo esc_html__('Rating & Review', 'schema-and-structured-data-for-wp' ); ?></td>
+                            <td>
+                                <input class="saswp-enable-rating-review-local_business" type="checkbox" name="local_enable_rating" value="1" <?php if(isset($business_details['local_enable_rating'])){echo 'checked'; }else{ echo ''; } ?>>
+                            </td>
+                        </tr>                        
+                        <tr class="saswp-business-text-field-tr saswp-rating-review-local_business">
+                            <td><?php echo esc_html__('Rating', 'schema-and-structured-data-for-wp' ); ?></td>
+                            <td><input  value="<?php if(isset($business_details['local_rating'])){echo esc_attr($business_details['local_rating']); } ?>" type="text" name="local_rating" placeholder="<?php echo esc_html__('5.0', 'schema-and-structured-data-for-wp' ); ?>" ></td>
+                        </tr>
+                        <tr class="saswp-business-text-field-tr saswp-rating-review-local_business" <?php echo $style_business_type; ?>>
+                            <td><?php echo esc_html__('Number of Reviews', 'schema-and-structured-data-for-wp' ); ?></td>
+                            <td><input  value="<?php if(isset($business_details['local_review_count'])){echo esc_attr($business_details['local_review_count']); } ?>" type="text" name="local_review_count" placeholder="<?php echo esc_html__('10', 'schema-and-structured-data-for-wp' ); ?>" ></td>
+                        </tr>
+                        
                         <!-- Service Schema type starts here -->
                         
                         <tr class="saswp-service-text-field-tr" <?php echo $style_service_name; ?>>
@@ -637,6 +654,25 @@
                             <td><textarea placeholder="Apartment light cleaning, Carpet cleaning" rows="3" cols="70" name="saswp_service_schema_service_offer"><?php if(isset($service_details['saswp_service_schema_service_offer'])){echo esc_attr($service_details['saswp_service_schema_service_offer']); } ?></textarea><p>Note: Enter all the service offer in comma separated</p></td>
                         </tr>
                         
+                        
+                        
+                        <tr class="saswp-service-text-field-tr" <?php echo $style_service_name; ?>>
+                            <td><?php echo esc_html__('Rating & Review', 'schema-and-structured-data-for-wp' ); ?></td>
+                            <td>
+                                <input class="saswp-enable-rating-review-service" type="checkbox" name="saswp_service_schema_enable_rating" value="1" <?php if(isset($service_details['saswp_service_schema_enable_rating'])){echo 'checked'; }else{ echo ''; } ?>>
+                            </td>
+                        </tr>
+                        
+                        <tr class="saswp-service-text-field-tr saswp-rating-review-service" <?php echo $style_service_name; ?>>
+                            <td><?php echo esc_html__('Rating', 'schema-and-structured-data-for-wp' ); ?></td>
+                            <td><input  value="<?php if(isset($service_details['saswp_service_schema_rating'])){echo esc_attr($service_details['saswp_service_schema_rating']); } ?>" type="text" name="saswp_service_schema_rating" placeholder="<?php echo esc_html__('5.0', 'schema-and-structured-data-for-wp' ); ?>" ></td>
+                        </tr>
+                        <tr class="saswp-service-text-field-tr saswp-rating-review-service" <?php echo $style_business_type; ?>>
+                            <td><?php echo esc_html__('Number of Reviews', 'schema-and-structured-data-for-wp' ); ?></td>
+                            <td><input  value="<?php if(isset($service_details['saswp_service_schema_review_count'])){echo esc_attr($service_details['saswp_service_schema_review_count']); } ?>" type="text" name="saswp_service_schema_review_count" placeholder="<?php echo esc_html__('10', 'schema-and-structured-data-for-wp' ); ?>" ></td>
+                        </tr>
+                        
+                        
                         <!-- Service Schema type ends here -->
                         
                         <!-- Review Schema type starts here -->
@@ -702,6 +738,24 @@
                             <td><?php echo esc_html__('Telephone', 'schema-and-structured-data-for-wp' ); ?></td>
                             <td><input  value="<?php if(isset($review_details['saswp_review_schema_telephone'])){echo esc_attr($review_details['saswp_review_schema_telephone']); } ?>" type="text" name="saswp_review_schema_telephone" placeholder="<?php echo esc_html__('Telephone', 'schema-and-structured-data-for-wp' ); ?>" ></td>
                         </tr>
+                        
+                        
+                        
+                        <tr class="saswp-review-text-field-tr" <?php echo $style_review_name; ?>>
+                            <td><?php echo esc_html__('Rating & Review', 'schema-and-structured-data-for-wp' ); ?></td>
+                            <td>
+                                <input class="saswp-enable-rating-review-review" type="checkbox" name="saswp_review_schema_enable_rating" value="1" <?php if(isset($review_details['saswp_review_schema_enable_rating'])){echo 'checked'; }else{ echo ''; } ?>>
+                            </td>
+                        </tr>
+                        <tr class="saswp-review-text-field-tr saswp-rating-review-review" <?php echo $style_review_name; ?>>
+                            <td><?php echo esc_html__('Rating', 'schema-and-structured-data-for-wp' ); ?></td>
+                            <td><input  value="<?php if(isset($review_details['saswp_review_schema_rating'])){echo esc_attr($review_details['saswp_review_schema_rating']); } ?>" type="text" name="saswp_review_schema_rating" placeholder="<?php echo esc_html__('5.0', 'schema-and-structured-data-for-wp' ); ?>" ></td>
+                        </tr>
+                        <tr class="saswp-review-text-field-tr saswp-rating-review-review" <?php echo $style_business_type; ?>>
+                            <td><?php echo esc_html__('Number of Reviews', 'schema-and-structured-data-for-wp' ); ?></td>
+                            <td><input  value="<?php if(isset($review_details['saswp_review_schema_review_count'])){echo esc_attr($review_details['saswp_review_schema_review_count']); } ?>" type="text" name="saswp_review_schema_review_count" placeholder="<?php echo esc_html__('10', 'schema-and-structured-data-for-wp' ); ?>" ></td>
+                        </tr>
+                        
                         
                         <!-- Review Schema type ends here -->
                         
@@ -804,10 +858,28 @@
                             <td><?php echo esc_html__('GTIN8', 'schema-and-structured-data-for-wp' ); ?></td>
                             <td><input  value="<?php if(isset($product_details['saswp_product_schema_gtin8'])){echo esc_attr($product_details['saswp_product_schema_gtin8']); } ?>" type="text" name="saswp_product_schema_gtin8" >                                
                             </td>
-                        </tr>                                                                        
+                        </tr>    
+                        
+                        
+                        
+                        <tr class="saswp-product-text-field-tr">
+                            <td><?php echo esc_html__('Rating & Review', 'schema-and-structured-data-for-wp' ); ?></td>
+                            <td>
+                                <input class="saswp-enable-rating-review-product" type="checkbox" name="saswp_product_schema_enable_rating" value="1" <?php if(isset($product_details['saswp_product_schema_enable_rating'])){echo 'checked'; }else{ echo ''; } ?>>
+                            </td>
+                        </tr>
+                        
+                        <tr class="saswp-product-text-field-tr saswp-rating-review-product">
+                            <td><?php echo esc_html__('Rating', 'schema-and-structured-data-for-wp' ); ?></td>
+                            <td><input  value="<?php if(isset($product_details['saswp_product_schema_rating'])){echo esc_attr($product_details['saswp_product_schema_rating']); } ?>" type="text" name="saswp_product_schema_rating" placeholder="<?php echo esc_html__('5.0', 'schema-and-structured-data-for-wp' ); ?>" ></td>
+                        </tr>
+                        <tr class="saswp-product-text-field-tr saswp-rating-review-product">
+                            <td><?php echo esc_html__('Number of Reviews', 'schema-and-structured-data-for-wp' ); ?></td>
+                            <td><input  value="<?php if(isset($product_details['saswp_product_schema_review_count'])){echo esc_attr($product_details['saswp_product_schema_review_count']); } ?>" type="text" name="saswp_product_schema_review_count" placeholder="<?php echo esc_html__('10', 'schema-and-structured-data-for-wp' ); ?>" ></td>
+                        </tr>
+                        
                         <!-- Product Schema type ends here -->
-                        
-                        
+                                                
                         
                     </table>  
                    
@@ -873,6 +945,17 @@
                 if ( isset( $_POST['local_price_range'] ) ){
                 $local_business_details['local_price_range'] = sanitize_text_field($_POST['local_price_range']);        
                 }
+                
+                if ( isset( $_POST['local_enable_rating'] ) ){
+                $local_business_details['local_enable_rating'] = sanitize_text_field($_POST['local_enable_rating']);        
+                }
+                if ( isset( $_POST['local_rating'] ) ){
+                $local_business_details['local_rating'] = sanitize_text_field($_POST['local_rating']);        
+                }
+                if ( isset( $_POST['local_review_count'] ) ){
+                $local_business_details['local_review_count'] = sanitize_text_field($_POST['local_review_count']);        
+                }
+                
                               
                 update_post_meta( $post_id, 'saswp_local_business_details', $local_business_details );
                 
@@ -921,9 +1004,19 @@
                    }
                    if ( isset( $_POST['saswp_service_schema_service_offer'] ) ){
                      $service_schema_details['saswp_service_schema_service_offer'] = sanitize_textarea_field($_POST['saswp_service_schema_service_offer']);        
-                   }                   
-                   update_post_meta( $post_id, 'saswp_service_schema_details', $service_schema_details );
-                }
+                   } 
+                   
+                   if ( isset( $_POST['saswp_service_schema_enable_rating'] ) ){
+                    $service_schema_details['saswp_service_schema_enable_rating'] = sanitize_text_field($_POST['saswp_service_schema_enable_rating']);        
+                    }
+                    if ( isset( $_POST['saswp_service_schema_rating'] ) ){
+                    $service_schema_details['saswp_service_schema_rating'] = sanitize_text_field($_POST['saswp_service_schema_rating']);        
+                    }
+                    if ( isset( $_POST['saswp_service_schema_review_count'] ) ){
+                    $service_schema_details['saswp_service_schema_review_count'] = sanitize_text_field($_POST['saswp_service_schema_review_count']);        
+                    }                                      
+                    update_post_meta( $post_id, 'saswp_service_schema_details', $service_schema_details );
+                  }
                 
                 
                 if($schema_type =='Review'){
@@ -962,7 +1055,18 @@
                    }
                    if ( isset( $_POST['saswp_review_schema_telephone'] ) ){
                      $review_schema_details['saswp_review_schema_telephone'] = sanitize_text_field($_POST['saswp_review_schema_telephone']);        
-                   }                   
+                   }   
+                   
+                   if ( isset( $_POST['saswp_review_schema_enable_rating'] ) ){
+                    $review_schema_details['saswp_review_schema_enable_rating'] = sanitize_text_field($_POST['saswp_review_schema_enable_rating']);        
+                    }
+                    if ( isset( $_POST['saswp_review_schema_rating'] ) ){
+                    $review_schema_details['saswp_review_schema_rating'] = sanitize_text_field($_POST['saswp_review_schema_rating']);        
+                    }
+                    if ( isset( $_POST['saswp_review_schema_review_count'] ) ){
+                    $review_schema_details['saswp_review_schema_review_count'] = sanitize_text_field($_POST['saswp_review_schema_review_count']);        
+                    }
+                   
                    update_post_meta( $post_id, 'saswp_review_schema_details', $review_schema_details );
                 }
 
@@ -1013,6 +1117,16 @@
                    if ( isset( $_POST['saswp_product_schema_priceValidUntil'] ) ){
                      $product_schema_details['saswp_product_schema_priceValidUntil'] = sanitize_text_field($_POST['saswp_product_schema_priceValidUntil']);        
                    }
+                   
+                    if ( isset( $_POST['saswp_product_schema_enable_rating'] ) ){
+                    $product_schema_details['saswp_product_schema_enable_rating'] = sanitize_text_field($_POST['saswp_product_schema_enable_rating']);        
+                    }
+                    if ( isset( $_POST['saswp_product_schema_rating'] ) ){
+                    $product_schema_details['saswp_product_schema_rating'] = sanitize_text_field($_POST['saswp_product_schema_rating']);        
+                    }
+                    if ( isset( $_POST['saswp_product_schema_review_count'] ) ){
+                    $product_schema_details['saswp_product_schema_review_count'] = sanitize_text_field($_POST['saswp_product_schema_review_count']);        
+                    }
                    
                    update_post_meta( $post_id, 'saswp_product_schema_details', $product_schema_details );
                 }
