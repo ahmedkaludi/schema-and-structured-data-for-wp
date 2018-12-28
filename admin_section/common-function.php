@@ -126,6 +126,10 @@
                 header('Content-type: application/json');
                 header('Content-disposition: attachment; filename=structuredatabackup.json');
                 echo json_encode($export_data_all);                                       
+        }else{
+                header('Content-type: application/json');
+                header('Content-disposition: attachment; filename=structuredatabackup.json');
+                echo json_encode(array('message'=> 'Data is not available'));  
         }                          
         wp_die();
     }

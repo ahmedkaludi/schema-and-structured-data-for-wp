@@ -1,4 +1,30 @@
 <?php
+function saswp_reset_all_settings(){   
+    
+        if ( ! isset( $_POST['saswp_security_nonce'] ) ){
+           return; 
+        }
+        if ( !wp_verify_nonce( $_POST['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
+           return;  
+        }            
+        $result ='';
+        
+        update_option( 'sd_data', array());                   
+        $allposts= get_posts( array('post_type'=>'saswp','numberposts'=>-1) );
+        foreach ($allposts as $eachpost) {
+        $result = wp_delete_post( $eachpost->ID, true );
+        }
+                        
+        if($result){
+        echo json_encode(array('status'=>'t'));            
+        }else{
+        echo json_encode(array('status'=>'f'));            
+        }        
+           wp_die();           
+}
+
+add_action('wp_ajax_saswp_reset_all_settings', 'saswp_reset_all_settings');
+
 function saswp_load_plugin_textdomain() {
     load_plugin_textdomain( 'schema-and-structured-data-for-wp', FALSE, basename( dirname( __FILE__ ) ) . '/languages/' );
 }
@@ -794,8 +820,9 @@ function saswp_custom_breadcrumbs() {
 
             $variables1_titles[] = $get_term_name;
             $variables2_links[] = $term_link;           
-          }         
-          $sd_data['titles']= $variables1_titles;
+          }    
+          
+          $sd_data['titles']= $variables1_titles;                        
           $sd_data['links']= $variables2_links;   
           
     }

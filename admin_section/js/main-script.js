@@ -378,6 +378,31 @@ jQuery(document).ready(function($){
         });
 
 
+         $(document).on("click",".saswp-reset-data", function(e){
+                e.preventDefault();
+             
+                var saswp_confirm = confirm("Are you sure?");
+             
+                if(saswp_confirm == true){
+                    
+                $.ajax({
+                            type: "POST",    
+                            url:ajaxurl,                    
+                            dataType: "json",
+                            data:{action:"saswp_reset_all_settings", saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
+                            success:function(response){                               
+                                setTimeout(function(){ location.reload(); }, 1000);
+                            },
+                            error: function(response){                    
+                            console.log(response);
+                            }
+                            }); 
+                
+                }
+                                                                 
+
+        });
+
 
   //query form send starts here
 

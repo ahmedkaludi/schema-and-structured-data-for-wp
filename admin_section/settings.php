@@ -815,7 +815,18 @@ function saswp_import_callback(){
                 </li> 
         </ul>
         <?php                
-                                                
+         echo '<h2>'.esc_html__('Reset','schema-and-structured-data-for-wp').'</h2>'; 
+         ?>
+            <ul>
+                <li>
+                    <div class="saswp-tools-field-title"><div class="saswp-tooltip"><strong><?php echo esc_html__('Reset Plugin','schema-and-structured-data-for-wp'); ?></strong></div><a href="#"class="button saswp-reset-data"><?php echo esc_html__('Reset','schema-and-structured-data-for-wp'); ?></a>                         
+                        <p>This will reset your settings and schema types</p>
+                    </div>
+                </li> 
+                
+            </ul>
+<?php
+         
 }
 
 function saswp_imported_callback(){	        
@@ -841,8 +852,7 @@ function saswp_review_page_callback(){
                         )
 		),  
                 
-	);
-        //echo '<h2>'.esc_html__('Set Up','schema-and-structured-data-for-wp').'</h2>';
+	);        
         $field_objs->saswp_field_generator($meta_fields, $settings);    
        
 }
@@ -1022,10 +1032,8 @@ function saswp_compatibility_page_callback(){
 			'type' => 'media',
 	);                
               
-        $field_objs = new saswp_fields_generator(); 
-        //echo '<div class="saswp-compativility-div">';
-        $field_objs->saswp_field_generator($meta_fields_default, $settings);
-        //echo '</div>';
+        $field_objs = new saswp_fields_generator();         
+        $field_objs->saswp_field_generator($meta_fields_default, $settings);        
         if ( is_plugin_active('flexmls-idx/flexmls_connect.php')) {
         echo '<div class="saswp-seller-div">';
         echo '<strong>'.esc_html__('Real estate agent info :','schema-and-structured-data-for-wp').'</strong>';
