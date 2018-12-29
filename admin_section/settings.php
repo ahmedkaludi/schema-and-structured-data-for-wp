@@ -768,9 +768,15 @@ function saswp_import_callback(){
         $schema_message = '';
         $schema_pro_message = '';
         $wp_seo_schema_message = '';
+        $seo_pressor_message = '';
         $schema_plugin = saswp_check_data_imported_from('schema'); 
         $schema_pro_plugin = saswp_check_data_imported_from('schema_pro');
         $wp_seo_schema_plugin = saswp_check_data_imported_from('wp_seo_schema');
+        $seo_pressor = saswp_check_data_imported_from('seo_pressor');
+        
+        if($seo_pressor->post_count !=0){
+         $seo_pressor_message =$message;
+        }        
 	if($schema_plugin->post_count !=0){
          $schema_message =$message;
         }
@@ -799,6 +805,12 @@ function saswp_import_callback(){
                         <?php echo $wp_seo_schema_message; ?>    
                     </div>
                 </li>
+                <li><div class="saswp-tools-field-title"><div class="saswp-tooltip"><span class="saswp-tooltiptext"><?php echo esc_html__('All the settings and data you can import from this plugin when you click start importing','schema-and-structured-data-for-wp') ?></span><strong><?php echo esc_html__('SEO Pressor','schema-and-structured-data-for-wp'); ?></strong></div><button data-id="seo_pressor" class="button saswp-import-plugins"><?php echo esc_html__('Start Importing','schema-and-structured-data-for-wp'); ?></button>
+                        <p class="saswp-imported-message"></p>
+                        <?php echo $seo_pressor_message; ?>    
+                    </div>
+                </li>
+                
             </ul>                   
 	<?php   
         echo '<h2>'.esc_html__('Import / Export','schema-and-structured-data-for-wp').'</h2>'; 

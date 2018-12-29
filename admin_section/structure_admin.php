@@ -950,6 +950,10 @@ function saswp_import_plugin_data(){
             case 'wp_seo_schema':                
                 if ( is_plugin_active('wp-seo-structured-data-schema/wp-seo-structured-data-schema.php')) {
                 $result = saswp_import_wp_seo_schema_plugin_data();      
+                }
+            case 'seo_pressor':                
+                if ( is_plugin_active('seo-pressor/seo-pressor.php')) {
+                $result = saswp_import_seo_pressor_plugin_data();      
                 }                
                 break;    
 
