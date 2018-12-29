@@ -1709,7 +1709,7 @@ function saswp_post_specific_schema_output() {
                                                                 "addressRegion"  => saswp_remove_warnings($all_post_meta, 'local_state_'.$schema_id, 'saswp_array'),
                                                                 "postalCode"     => saswp_remove_warnings($all_post_meta, 'local_postal_code_'.$schema_id, 'saswp_array'),                                                                                                                                  
                                                                  ),	
-				'telephone'                   => saswp_remove_warnings($all_post_meta, 'saswp_article_organization_name_'.$schema_id, 'saswp_array'),
+				'telephone'                   => saswp_remove_warnings($all_post_meta, 'local_phone_'.$schema_id, 'saswp_array'),
                                 'openingHours'                => $operation_days,                                                                                                     
 				);
                                     
