@@ -282,7 +282,7 @@ jQuery(document).ready(function($) {
              if(schematype == 'qanda'){
               $(".saswp-schem-type-note").removeClass('saswp_hide');   
              }
-            
+           saswp_enable_rating_review(); 
         }).change(); 
         
         $("#saswp_business_type").change(function(){
@@ -312,7 +312,8 @@ jQuery(document).ready(function($) {
             if(schematype == 'Review'){            
              $(".saswp-review-text-field-tr").show(); 
              $(".saswp-review-text-field-tr").find('select').attr('disabled', false);
-            }            
+            }  
+            saswp_enable_rating_review();
         }).change(); 
         
         saswp_schema_datepicker();
@@ -350,6 +351,30 @@ jQuery(document).ready(function($) {
     
         $('#saswp-dayofweek-opens-time').timepicker({ 'timeFormat': 'H:i:s'});
         $('#saswp-dayofweek-closes-time').timepicker({ 'timeFormat': 'H:i:s'});
+        
+        function saswp_enable_rating_review(){
+           var schema_type ="";                      
+           if($('select#schema_type option:selected').val()){
+              schema_type = $('select#schema_type option:selected').val();    
+           }       
+           if($(".saswp-tab-links.selected").attr('saswp-schema-type')){
+              schema_type = $(".saswp-tab-links.selected").attr('saswp-schema-type');    
+           }
+          
+         if(schema_type){
+             $(".saswp-enable-rating-review-"+schema_type.toLowerCase()).change(function(){
+                               
+            if($(this).is(':checked')){
+            $(this).parent().parent().siblings('.saswp-rating-review-'+schema_type.toLowerCase()).show();            
+             }else{
+            $(this).parent().parent().siblings('.saswp-rating-review-'+schema_type.toLowerCase()).hide(); 
+             }
+         
+            }).change();   
+         }
+               
+     }      
+     saswp_enable_rating_review();
     
     
 });

@@ -33,6 +33,11 @@
                 $schema_type ='';
                 $business_type ='';
                 $business_details ='';
+                $custom_logo_id ='';
+                $logo = array();
+                $service_details = array();
+                $review_details = array();
+                $product_details = array();
                 if($post){
                 $schema_type      = esc_sql ( get_post_meta($post->ID, 'schema_type', true)  );                  
                 $business_type    = esc_sql ( get_post_meta($post->ID, 'saswp_business_type', true)  ); 
@@ -41,10 +46,12 @@
                 $service_details  = esc_sql ( get_post_meta($post->ID, 'saswp_service_schema_details', true)  );
                 $review_details   = esc_sql ( get_post_meta($post->ID, 'saswp_review_schema_details', true)  );
                 $product_details  = esc_sql ( get_post_meta($post->ID, 'saswp_product_schema_details', true)  );
-                $dayoftheweek = get_post_meta($post->ID, 'saswp_dayofweek', true);                                                                  
+                $dayoftheweek = get_post_meta($post->ID, 'saswp_dayofweek', true); 
                 $custom_logo_id = get_theme_mod( 'custom_logo' );
-                $logo = wp_get_attachment_image_src( $custom_logo_id , 'full' );
-                                
+                if($custom_logo_id){
+                $logo = wp_get_attachment_image_src( $custom_logo_id , 'full' );    
+                }
+                
                 if($schema_type != 'local_business'){
                  $style_business_type = 'style="display:none"';
                  $style_business_name = 'style="display:none"';
@@ -82,8 +89,10 @@
                                 
                                 $item_reviewed = array(
                                      'Article'               => 'Article',
+                                     'adultentertainment'    => 'Adult Entertainment',
                                      'Blog'                  => 'Blog',
                                      'Book'                  => 'Book',
+                                     'casino'                => 'Casino',   
                                      'Diet'                  => 'Diet',
                                      'Episode'               => 'Episode',
                                      'ExercisePlan'          => 'Exercise Plan',  
@@ -546,10 +555,10 @@
                         <tr class="saswp-business-text-field-tr" <?php echo $style_business_type; ?>>
                             <td><?php echo esc_html__('Image', 'schema-and-structured-data-for-wp' ); ?></td>
                             <td style="display: flex; width: 97%">
-                                <input value="<?php if(isset($business_details['local_business_logo'])) { echo esc_url($business_details['local_business_logo']['url']);} else { echo esc_url($logo[0]); } ?>" id="local_business_logo" type="text" name="local_business_logo[url]" placeholder="<?php echo esc_html__('Logo', 'schema-and-structured-data-for-wp' ); ?>" readonly="readonly" style="background: #FFF;">
+                                <input value="<?php if(isset($business_details['local_business_logo'])) { echo esc_url($business_details['local_business_logo']['url']);} else { echo esc_url(saswp_remove_warnings($logo, 0, 'saswp_string')); } ?>" id="local_business_logo" type="text" name="local_business_logo[url]" placeholder="<?php echo esc_html__('Logo', 'schema-and-structured-data-for-wp' ); ?>" readonly="readonly" style="background: #FFF;">
                                 <input value="<?php if(isset($business_details['local_business_logo'])) { echo esc_attr($business_details['local_business_logo']['id']);} else { echo esc_attr($custom_logo_id); }?>" data-id="local_business_logo_id" type="hidden" name="local_business_logo[id]">
-                                <input value="<?php if(isset($business_details['local_business_logo'])) { echo esc_attr($business_details['local_business_logo']['width']);} else { echo esc_attr($logo[1]); } ?>" data-id="local_business_logo_width" type="hidden" name="local_business_logo[width]">
-                                <input value="<?php if(isset($business_details['local_business_logo'])) { echo esc_attr($business_details['local_business_logo']['height']);} else { echo esc_attr($logo[2]); } ?>" data-id="local_business_logo_height" type="hidden" name="local_business_logo[height]">
+                                <input value="<?php if(isset($business_details['local_business_logo'])) { echo esc_attr($business_details['local_business_logo']['width']);} else { echo esc_attr(saswp_remove_warnings($logo, 1, 'saswp_string')); } ?>" data-id="local_business_logo_width" type="hidden" name="local_business_logo[width]">
+                                <input value="<?php if(isset($business_details['local_business_logo'])) { echo esc_attr($business_details['local_business_logo']['height']);} else { echo esc_attr(saswp_remove_warnings($logo, 2, 'saswp_string')); } ?>" data-id="local_business_logo_height" type="hidden" name="local_business_logo[height]">
                                 <input data-id="media" class="button" id="local_business_logo_button" type="button" value="Upload"></td>
                         </tr>
                         <tr class="saswp-business-text-field-tr" <?php echo $style_business_type; ?>>
@@ -567,7 +576,7 @@
                         
                         
                         <tr class="saswp-business-text-field-tr" <?php echo $style_business_type; ?>>
-                            <td><?php echo esc_html__('Rating & Review', 'schema-and-structured-data-for-wp' ); ?></td>
+                            <td><?php echo esc_html__('Aggregate Rating', 'schema-and-structured-data-for-wp' ); ?></td>
                             <td>
                                 <input class="saswp-enable-rating-review-local_business" type="checkbox" name="local_enable_rating" value="1" <?php if(isset($business_details['local_enable_rating'])){echo 'checked'; }else{ echo ''; } ?>>
                             </td>
@@ -606,7 +615,7 @@
                                   
                                   foreach ($provider_type as $key => $value) {
                                     $sel = '';
-                                    if($service_details['saswp_service_schema_provider_type']==$key){
+                                    if(saswp_remove_warnings($service_details, 'saswp_service_schema_provider_type', 'saswp_string')==$key){
                                       $sel = 'selected';
                                     }
                                     echo "<option value='".esc_attr($key)."' ".esc_attr($sel).">".esc_html__($value, 'schema-and-structured-data-for-wp' )."</option>";
@@ -619,10 +628,10 @@
                         <tr class="saswp-service-text-field-tr" <?php echo $style_service_name; ?>>
                             <td><?php echo esc_html__('Image', 'schema-and-structured-data-for-wp' ); ?></td>
                             <td style="display: flex; width: 97%">
-                                <input value="<?php if(isset($service_details['saswp_service_schema_image'])) { echo esc_url($service_details['saswp_service_schema_image']['url']);} else { echo esc_url($logo[0]); } ?>" id="saswp_service_schema_image" type="text" name="saswp_service_schema_image[url]" placeholder="<?php echo esc_html__('Image', 'schema-and-structured-data-for-wp' ); ?>" readonly="readonly" style="background: #FFF;">
+                                <input value="<?php if(isset($service_details['saswp_service_schema_image'])) { echo esc_url($service_details['saswp_service_schema_image']['url']);} else { echo esc_url(saswp_remove_warnings($logo, 0, 'saswp_string')); } ?>" id="saswp_service_schema_image" type="text" name="saswp_service_schema_image[url]" placeholder="<?php echo esc_html__('Image', 'schema-and-structured-data-for-wp' ); ?>" readonly="readonly" style="background: #FFF;">
                                 <input value="<?php if(isset($service_details['saswp_service_schema_image'])) { echo esc_attr($service_details['saswp_service_schema_image']['id']);} else { echo esc_attr($custom_logo_id); }?>" data-id="saswp_service_schema_image_id" type="hidden" name="saswp_service_schema_image[id]">
-                                <input value="<?php if(isset($service_details['saswp_service_schema_image'])) { echo esc_attr($service_details['saswp_service_schema_image']['width']);} else { echo esc_attr($logo[1]); } ?>" data-id="saswp_service_schema_image_width" type="hidden" name="saswp_service_schema_image[width]">
-                                <input value="<?php if(isset($service_details['saswp_service_schema_image'])) { echo esc_attr($service_details['saswp_service_schema_image']['height']);} else { echo esc_attr($logo[2]); } ?>" data-id="saswp_service_schema_image_height" type="hidden" name="saswp_service_schema_image[height]">
+                                <input value="<?php if(isset($service_details['saswp_service_schema_image'])) { echo esc_attr($service_details['saswp_service_schema_image']['width']);} else { echo esc_attr(saswp_remove_warnings($logo, 1, 'saswp_string')); } ?>" data-id="saswp_service_schema_image_width" type="hidden" name="saswp_service_schema_image[width]">
+                                <input value="<?php if(isset($service_details['saswp_service_schema_image'])) { echo esc_attr($service_details['saswp_service_schema_image']['height']);} else { echo esc_attr(saswp_remove_warnings($logo, 2, 'saswp_string')); } ?>" data-id="saswp_service_schema_image_height" type="hidden" name="saswp_service_schema_image[height]">
                                 <input data-id="media" class="button" id="saswp_service_schema_image_button" type="button" value="Upload"></td>
                         </tr>
                         <tr class="saswp-service-text-field-tr" <?php echo $style_service_name; ?>>
@@ -657,7 +666,7 @@
                         
                         
                         <tr class="saswp-service-text-field-tr" <?php echo $style_service_name; ?>>
-                            <td><?php echo esc_html__('Rating & Review', 'schema-and-structured-data-for-wp' ); ?></td>
+                            <td><?php echo esc_html__('Aggregate Rating', 'schema-and-structured-data-for-wp' ); ?></td>
                             <td>
                                 <input class="saswp-enable-rating-review-service" type="checkbox" name="saswp_service_schema_enable_rating" value="1" <?php if(isset($service_details['saswp_service_schema_enable_rating'])){echo 'checked'; }else{ echo ''; } ?>>
                             </td>
@@ -684,7 +693,7 @@
                                 <?php                                  
                                   foreach ($item_reviewed as $key => $value) {
                                     $sel = '';
-                                    if($review_details['saswp_review_schema_item_type']==$key){
+                                    if(saswp_remove_warnings($review_details, 'saswp_review_schema_item_type', 'saswp_string')==$key){
                                       $sel = 'selected';
                                     }
                                     echo "<option value='".esc_attr($key)."' ".esc_attr($sel).">".esc_html__($value, 'schema-and-structured-data-for-wp' )."</option>";
@@ -698,18 +707,22 @@
                             <td><input  value="<?php if(isset($review_details['saswp_review_schema_name'])){echo esc_attr($review_details['saswp_review_schema_name']); } ?>" type="text" name="saswp_review_schema_name" placeholder="<?php echo esc_html__('Name', 'schema-and-structured-data-for-wp' ); ?>" ></td>
                         </tr>
                         <tr class="saswp-review-text-field-tr" <?php echo $style_review_name; ?>>
-                            <td><?php echo esc_html__('Description', 'schema-and-structured-data-for-wp' ); ?></td>
-                            <td><textarea placeholder="Description" rows="3" cols="70" name="saswp_review_schema_description"><?php if(isset($review_details['saswp_review_schema_description'])){echo esc_attr($review_details['saswp_review_schema_description']); } ?></textarea></td>
+                            <td><?php echo esc_html__('Review Body', 'schema-and-structured-data-for-wp' ); ?></td>
+                            <td><textarea placeholder="Review Body" rows="3" cols="70" name="saswp_review_schema_description"><?php if(isset($review_details['saswp_review_schema_description'])){echo esc_attr($review_details['saswp_review_schema_description']); } ?></textarea></td>
                         </tr>
                         <tr class="saswp-review-text-field-tr" <?php echo $style_review_name; ?>>
                             <td><?php echo esc_html__('Image', 'schema-and-structured-data-for-wp' ); ?></td>
                             <td style="display: flex; width: 97%">
-                                <input value="<?php if(isset($review_details['saswp_review_schema_image'])) { echo esc_url($review_details['saswp_review_schema_image']['url']);} else { echo esc_url($logo[0]); } ?>" id="saswp_review_schema_image" type="text" name="saswp_review_schema_image[url]" placeholder="<?php echo esc_html__('Image', 'schema-and-structured-data-for-wp' ); ?>" readonly="readonly" style="background: #FFF;">
+                                <input value="<?php if(isset($review_details['saswp_review_schema_image'])) { echo esc_url($review_details['saswp_review_schema_image']['url']);} else { echo esc_url(saswp_remove_warnings($logo, 0, 'saswp_string')); } ?>" id="saswp_review_schema_image" type="text" name="saswp_review_schema_image[url]" placeholder="<?php echo esc_html__('Image', 'schema-and-structured-data-for-wp' ); ?>" readonly="readonly" style="background: #FFF;">
                                 <input value="<?php if(isset($review_details['saswp_review_schema_image'])) { echo esc_attr($review_details['saswp_review_schema_image']['id']);} else { echo esc_attr($custom_logo_id); }?>" data-id="saswp_review_schema_image_id" type="hidden" name="saswp_review_schema_image[id]">
-                                <input value="<?php if(isset($review_details['saswp_review_schema_image'])) { echo esc_attr($review_details['saswp_review_schema_image']['width']);} else { echo esc_attr($logo[1]); } ?>" data-id="saswp_review_schema_image_width" type="hidden" name="saswp_review_schema_image[width]">
-                                <input value="<?php if(isset($review_details['saswp_review_schema_image'])) { echo esc_attr($review_details['saswp_review_schema_image']['height']);} else { echo esc_attr($logo[2]); } ?>" data-id="saswp_review_schema_image_height" type="hidden" name="saswp_review_schema_image[height]">
+                                <input value="<?php if(isset($review_details['saswp_review_schema_image'])) { echo esc_attr($review_details['saswp_review_schema_image']['width']);} else { echo esc_attr(saswp_remove_warnings($logo, 1, 'saswp_string')); } ?>" data-id="saswp_review_schema_image_width" type="hidden" name="saswp_review_schema_image[width]">
+                                <input value="<?php if(isset($review_details['saswp_review_schema_image'])) { echo esc_attr($review_details['saswp_review_schema_image']['height']);} else { echo esc_attr(saswp_remove_warnings($logo, 2, 'saswp_string')); } ?>" data-id="saswp_review_schema_image_height" type="hidden" name="saswp_review_schema_image[height]">
                                 <input data-id="media" class="button" id="saswp_review_schema_image_button" type="button" value="Upload"></td>
                         </tr>
+                        <tr class="saswp-review-text-field-tr" <?php echo $style_review_name; ?>>
+                            <td><?php echo esc_html__('Author', 'schema-and-structured-data-for-wp' ); ?></td>
+                            <td><input  value="<?php if(isset($review_details['saswp_review_schema_author'])){echo esc_attr($review_details['saswp_review_schema_author']); } ?>" type="text" name="saswp_review_schema_author" placeholder="<?php echo esc_html__('Author', 'schema-and-structured-data-for-wp' ); ?>" ></td>
+                        </tr>                        
                         <tr class="saswp-review-text-field-tr" <?php echo $style_review_name; ?>>
                             <td><?php echo esc_html__('Price Range', 'schema-and-structured-data-for-wp' ); ?></td>
                             <td><input  value="<?php if(isset($review_details['saswp_review_schema_price_range'])){echo esc_attr($review_details['saswp_review_schema_price_range']); } ?>" type="text" name="saswp_review_schema_price_range" placeholder="<?php echo esc_html__('Price Range', 'schema-and-structured-data-for-wp' ); ?>" ></td>
@@ -742,18 +755,18 @@
                         
                         
                         <tr class="saswp-review-text-field-tr" <?php echo $style_review_name; ?>>
-                            <td><?php echo esc_html__('Rating & Review', 'schema-and-structured-data-for-wp' ); ?></td>
+                            <td><?php echo esc_html__('Review Rating', 'schema-and-structured-data-for-wp' ); ?></td>
                             <td>
                                 <input class="saswp-enable-rating-review-review" type="checkbox" name="saswp_review_schema_enable_rating" value="1" <?php if(isset($review_details['saswp_review_schema_enable_rating'])){echo 'checked'; }else{ echo ''; } ?>>
                             </td>
                         </tr>
                         <tr class="saswp-review-text-field-tr saswp-rating-review-review" <?php echo $style_review_name; ?>>
-                            <td><?php echo esc_html__('Rating', 'schema-and-structured-data-for-wp' ); ?></td>
+                            <td><?php echo esc_html__('Rating Value', 'schema-and-structured-data-for-wp' ); ?></td>
                             <td><input  value="<?php if(isset($review_details['saswp_review_schema_rating'])){echo esc_attr($review_details['saswp_review_schema_rating']); } ?>" type="text" name="saswp_review_schema_rating" placeholder="<?php echo esc_html__('5.0', 'schema-and-structured-data-for-wp' ); ?>" ></td>
                         </tr>
                         <tr class="saswp-review-text-field-tr saswp-rating-review-review" <?php echo $style_business_type; ?>>
-                            <td><?php echo esc_html__('Number of Reviews', 'schema-and-structured-data-for-wp' ); ?></td>
-                            <td><input  value="<?php if(isset($review_details['saswp_review_schema_review_count'])){echo esc_attr($review_details['saswp_review_schema_review_count']); } ?>" type="text" name="saswp_review_schema_review_count" placeholder="<?php echo esc_html__('10', 'schema-and-structured-data-for-wp' ); ?>" ></td>
+                            <td><?php echo esc_html__('Best Rating', 'schema-and-structured-data-for-wp' ); ?></td>
+                            <td><input  value="<?php if(isset($review_details['saswp_review_schema_review_count'])){echo esc_attr($review_details['saswp_review_schema_review_count']); } ?>" type="text" name="saswp_review_schema_review_count" placeholder="<?php echo esc_html__('5.0', 'schema-and-structured-data-for-wp' ); ?>" ></td>
                         </tr>
                         
                         
@@ -772,10 +785,10 @@
                         <tr class="saswp-product-text-field-tr">
                             <td><?php echo esc_html__('Image', 'schema-and-structured-data-for-wp' ); ?></td>
                             <td style="display: flex; width: 97%">
-                                <input value="<?php if(isset($product_details['saswp_product_schema_image'])) { echo esc_url($product_details['saswp_product_schema_image']['url']);} else { echo esc_url($logo[0]); } ?>" id="saswp_product_schema_image" type="text" name="saswp_product_schema_image[url]" placeholder="<?php echo esc_html__('Image', 'schema-and-structured-data-for-wp' ); ?>" readonly="readonly" style="background: #FFF;">
+                                <input value="<?php if(isset($product_details['saswp_product_schema_image'])) { echo esc_url($product_details['saswp_product_schema_image']['url']);} else { echo esc_url(saswp_remove_warnings($logo, 0, 'saswp_string')); } ?>" id="saswp_product_schema_image" type="text" name="saswp_product_schema_image[url]" placeholder="<?php echo esc_html__('Image', 'schema-and-structured-data-for-wp' ); ?>" readonly="readonly" style="background: #FFF;">
                                 <input value="<?php if(isset($product_details['saswp_product_schema_image'])) { echo esc_attr($product_details['saswp_product_schema_image']['id']);} else { echo esc_attr($custom_logo_id); }?>" data-id="saswp_product_schema_image_id" type="hidden" name="saswp_product_schema_image[id]">
-                                <input value="<?php if(isset($product_details['saswp_product_schema_image'])) { echo esc_attr($product_details['saswp_product_schema_image']['width']);} else { echo esc_attr($logo[1]); } ?>" data-id="saswp_product_schema_image_width" type="hidden" name="saswp_product_schema_image[width]">
-                                <input value="<?php if(isset($product_details['saswp_product_schema_image'])) { echo esc_attr($product_details['saswp_product_schema_image']['height']);} else { echo esc_attr($logo[2]); } ?>" data-id="saswp_product_schema_image_height" type="hidden" name="saswp_product_schema_image[height]">
+                                <input value="<?php if(isset($product_details['saswp_product_schema_image'])) { echo esc_attr($product_details['saswp_product_schema_image']['width']);} else { echo esc_attr(saswp_remove_warnings($logo, 1, 'saswp_string')); } ?>" data-id="saswp_product_schema_image_width" type="hidden" name="saswp_product_schema_image[width]">
+                                <input value="<?php if(isset($product_details['saswp_product_schema_image'])) { echo esc_attr($product_details['saswp_product_schema_image']['height']);} else { echo esc_attr(saswp_remove_warnings($logo, 2, 'saswp_string')); } ?>" data-id="saswp_product_schema_image_height" type="hidden" name="saswp_product_schema_image[height]">
                                 <input data-id="media" class="button" id="saswp_product_schema_image_button" type="button" value="Upload">
                             </td>
                         </tr>
@@ -808,7 +821,7 @@
                                   
                                   foreach ($availability as $key => $value) {
                                     $sel = '';
-                                    if($product_details['saswp_product_schema_availability']==$key){
+                                    if(saswp_remove_warnings($product_details, 'saswp_product_schema_availability', 'saswp_string')==$key){
                                       $sel = 'selected';
                                     }
                                     echo "<option value='".esc_attr($key)."' ".esc_attr($sel).">".esc_html__($value, 'schema-and-structured-data-for-wp' )."</option>";
@@ -826,7 +839,7 @@
                                   
                                   foreach ($item_condition as $key => $value) {
                                     $sel = '';
-                                    if($product_details['saswp_product_schema_condition']==$key){
+                                    if(saswp_remove_warnings($product_details, 'saswp_product_schema_condition', 'saswp_string')==$key){
                                       $sel = 'selected';
                                     }
                                     echo "<option value='".esc_attr($key)."' ".esc_attr($sel).">".esc_html__($value, 'schema-and-structured-data-for-wp' )."</option>";
@@ -863,7 +876,7 @@
                         
                         
                         <tr class="saswp-product-text-field-tr">
-                            <td><?php echo esc_html__('Rating & Review', 'schema-and-structured-data-for-wp' ); ?></td>
+                            <td><?php echo esc_html__('Aggregate Rating', 'schema-and-structured-data-for-wp' ); ?></td>
                             <td>
                                 <input class="saswp-enable-rating-review-product" type="checkbox" name="saswp_product_schema_enable_rating" value="1" <?php if(isset($product_details['saswp_product_schema_enable_rating'])){echo 'checked'; }else{ echo ''; } ?>>
                             </td>
@@ -1034,6 +1047,9 @@
                     $review_schema_details['saswp_review_schema_image']['url'] = esc_url_raw($_POST['saswp_review_schema_image']['url']);
                     $review_schema_details['saswp_review_schema_image']['width'] = sanitize_text_field($_POST['saswp_review_schema_image']['width']);
                     $review_schema_details['saswp_review_schema_image']['height'] = sanitize_text_field($_POST['saswp_review_schema_image']['height']);
+                   }
+                   if ( isset( $_POST['saswp_review_schema_author'] ) ){
+                     $review_schema_details['saswp_review_schema_author'] = sanitize_text_field($_POST['saswp_review_schema_author']);        
                    }
                    if ( isset( $_POST['saswp_review_schema_price_range'] ) ){
                      $review_schema_details['saswp_review_schema_price_range'] = sanitize_text_field($_POST['saswp_review_schema_price_range']);        

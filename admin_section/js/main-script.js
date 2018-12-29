@@ -509,6 +509,7 @@ jQuery(document).ready(function($){
                                current.removeClass('updating-message');
                                saswpAddTimepicker();  
                                saswp_schema_datepicker();
+                               saswp_enable_rating_review();
                              });
                              
         });
@@ -726,8 +727,7 @@ jQuery(document).ready(function($){
          
             }).change();   
          }
-         
-      
+               
      }      
      saswp_enable_rating_review();
     

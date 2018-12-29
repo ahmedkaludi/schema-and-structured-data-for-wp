@@ -742,12 +742,17 @@ function saswp_schema_output() {
                         if( 'Review' === $schema_type ){  
                                  
                                 $schema_data = saswp_get_schema_data($schema_post_id, 'saswp_review_schema_details');                                                              
+                                $review_author = get_the_author();
+                                if(isset($schema_data['saswp_review_schema_author'])){
+                                 $review_author = $schema_data['saswp_review_schema_author'];   
+                                }
                                 
 				$input1 = array(
 					'@context'			=> 'http://schema.org',
 					'@type'				=> $schema_type ,                                        
 					'url'                           => get_permalink(),
-                                        'description'                   => saswp_remove_warnings($schema_data, 'saswp_review_schema_description', 'saswp_string'),
+                                        'description'                   => get_the_excerpt(),    
+                                        'reviewBody'                   => saswp_remove_warnings($schema_data, 'saswp_review_schema_description', 'saswp_string'),
                                         'itemReviewed'                  => array(
                                                                 '@type'  => saswp_remove_warnings($schema_data, 'saswp_review_schema_item_type', 'saswp_string'),
                                                                 'name'  => saswp_remove_warnings($schema_data, 'saswp_review_schema_name', 'saswp_string'),
@@ -772,13 +777,13 @@ function saswp_schema_output() {
                                         'dateModified'                  => $modified_date,
                                         'author'			=> array(
 								'@type' 			=> 'Person',
-								'name'				=> $aurthor_name,
-								'Image'				=> array(
-								'@type'				=> 'ImageObject',
-								'url'				=> $author_details['url'],
-								'height'			=> $author_details['height'],
-								'width'				=> $author_details['width']
-								),
+								'name'				=> $review_author,
+//								'Image'				=> array(
+//								'@type'				=> 'ImageObject',
+//								'url'				=> $author_details['url'],
+//								'height'			=> $author_details['height'],
+//								'width'				=> $author_details['width']
+//								),
 							),
 						'Publisher'			=> array(
 								'@type'				=> 'Organization',
@@ -801,19 +806,13 @@ function saswp_schema_output() {
                                 
                                 if(isset($schema_data['saswp_review_schema_enable_rating'])){
                                  
-                                  $input1['aggregateRating'] = array(
-                                                            "@type"=> "AggregateRating",
+                                  $input1['reviewRating'] = array(
+                                                            "@type"=> "Rating",
                                                             "ratingValue" => saswp_remove_warnings($schema_data, 'saswp_review_schema_rating', 'saswp_string'),
-                                                            "reviewCount" => saswp_remove_warnings($schema_data, 'saswp_review_schema_review_count', 'saswp_string')
+                                                            "bestRating" => saswp_remove_warnings($schema_data, 'saswp_review_schema_review_count', 'saswp_string')
                                                          );                                       
                                 }
-                                
-                                if(!empty($aggregateRating)){
-                                    $input1['aggregateRating'] = $aggregateRating;
-                                }
-                                if(!empty($kkstar_aggregateRating)){
-                                   $input1['aggregateRating'] = $kkstar_aggregateRating;  
-                                }                                
+                                                                                               
 				}          
                                 			
 			if( 'VideoObject' === $schema_type){
@@ -1624,12 +1623,18 @@ function saswp_post_specific_schema_output() {
                          }     
                          
                          if( 'Review' === $schema_type ){                                                                  
-                               
+                                $review_author = get_the_author();
+                                
+                                if(isset($all_post_meta['saswp_review_schema_author_'.$schema_id])){
+                                   $review_author = $all_post_meta['saswp_review_schema_author_'.$schema_id][0];  
+                                }
+                             
 				$input1 = array(
 					'@context'			=> 'http://schema.org',
 					'@type'				=> 'Review' ,                                        
 					'url'                           => get_permalink(),
-                                        'description'                   => saswp_remove_warnings($all_post_meta, 'saswp_review_schema_description_'.$schema_id, 'saswp_array'),
+                                        'description'                   => get_the_excerpt(),
+                                        'reviewBody'                    => saswp_remove_warnings($all_post_meta, 'saswp_review_schema_description_'.$schema_id, 'saswp_array'),
                                         'itemReviewed'                  => array(
                                                                 '@type'  => saswp_remove_warnings($all_post_meta, 'saswp_review_schema_item_type_'.$schema_id, 'saswp_array'),
                                                                 'name'  => saswp_remove_warnings($all_post_meta, 'saswp_review_schema_name_'.$schema_id, 'saswp_array'),
@@ -1650,7 +1655,7 @@ function saswp_post_specific_schema_output() {
                                         'dateModified'                  => saswp_remove_warnings($all_post_meta, 'saswp_review_schema_date_modified_'.$schema_id, 'saswp_array'),
                                         'author'			=> array(
 								'@type' 			=> 'Person',
-								'name'				=> get_the_author(),								
+								'name'				=> $review_author,								
 							),
 						'Publisher'			=> array(
 								'@type'				=> 'Organization',
@@ -1668,19 +1673,13 @@ function saswp_post_specific_schema_output() {
                                        
                                 if(saswp_remove_warnings($all_post_meta, 'saswp_review_schema_enable_rating_'.$schema_id, 'saswp_array') == 1){   
                                  
-                                          $input1['aggregateRating'] = array(
-                                                            "@type"=> "AggregateRating",
+                                          $input1['reviewRating'] = array(
+                                                            "@type"=> "Rating",
                                                             "ratingValue" => saswp_remove_warnings($all_post_meta, 'saswp_review_schema_rating_'.$schema_id, 'saswp_array'),
-                                                            "reviewCount" => saswp_remove_warnings($all_post_meta, 'saswp_review_schema_review_count_'.$schema_id, 'saswp_array')
+                                                            "bestRating" => saswp_remove_warnings($all_post_meta, 'saswp_review_schema_review_count_'.$schema_id, 'saswp_array')
                                                          );                                       
                                          }  
-                                
-                                if(!empty($aggregateRating)){
-                                    $input1['aggregateRating'] = $aggregateRating;
-                                }
-                                if(!empty($kkstar_aggregateRating)){
-                                   $input1['aggregateRating'] = $kkstar_aggregateRating;  
-                                }                                
+                                                                                                
 				}    
                                 
                          if( 'local_business' === $schema_type){
