@@ -2,8 +2,8 @@
 Contributors: mohammed_kaludi, ahmedkaludi, ampforwp
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
-Tested up to: 5.0.1
-Stable tag: 1.0.6.1
+Tested up to: 5.0.2
+Stable tag: 1.0.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -64,6 +64,27 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.0.7 (31 December 2018) =
+
+* New Feature: Option to reset plugin's settings #104
+* New Feature: Fields to enter Aggregate Rating below schema type #95
+* New Feature: SEO Pressor plugin importer #93
+* Improvement: Changed default "Homepage" to site name in Breadcrumbs. #87
+* Improvement: Product fields have been added when selecting product schema type #94
+* Improvement: Added provider type in service schema #103
+* Improvement: On/Off button has been added to post specific schema list #99
+* Improvement: List of compatible plugins should always be shown in compatibility tab  #102
+* Improvement: Inside review schema type, item reviewed should be in dropdown #97
+* Improvement: Moved FlexMLS IDX compatibilty from tool tab to compatibility tab #112
+* Improvement: Properly prepared for localization to make plugin translatable #105
+* Bug Fixed: Modify Schema : - In Local Business schema type phone number is not being added in schema markup output  #114
+* Bug Fixed: Local Business -> Food Establishment -> Bakery is buggy #111
+* Bug Fixed: select 2 conflicts with avada theme #92
+* Bug Fixed: warning issues on product/apartment schema #88
+
+
+* Bug Fixed: Other bug fixed
 
 = 1.0.6.1 (22 December 2018) =
 

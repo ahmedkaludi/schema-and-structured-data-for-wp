@@ -337,7 +337,10 @@ $saswp_add_data_type_config = array(
                     return;  
                  }                 
                 if(isset($_POST['schema_type'])){                    
-                $schema_type = $_POST['schema_type'];    
+                $schema_type = $_POST['schema_type'];  
+                if($schema_type == 'local_business'){
+                $schema_type = 'Local Business';   
+                }
                 $user_id = get_current_user_id();
                 $schema_post = array(
                     'post_author' => $user_id,
