@@ -337,38 +337,109 @@
     }
     
     function saswp_import_seo_pressor_plugin_data(){
-//         global $KcSeoWPSchema;
-//         global $wpdb;
-//         $settings = get_option($KcSeoWPSchema->options['settings']); 
-        
-//        $social_fields = array();
-//        $settings = WPPostsRateKeys_Settings::get_options();
-//        if(isset($settings['seop_home_social'])){
-//            foreach ()  
-//        }
-        
          
-         if(isset($settings)){
-          $saswp_plugin_options = array();   
+        global $wpdb;
+        $social_fields = array();
+        $opening_hours = '';
+        $settings = WPPostsRateKeys_Settings::get_options();
+        
+        if(isset($settings['seop_home_social'])){
+            foreach($settings['seop_home_social'] as $social){
+               
+                switch ($social['social_type']) {
+                    case 'Facebook':
+                        
+                        $social_fields['saswp-facebook-enable'] = 1;
+                        $social_fields['sd_facebook'] = $social['social'];
+                        
+                        break;
+                    case 'Twitter':
+                        
+                        $social_fields['saswp-twitter-enable'] = 1;
+                        $social_fields['sd_twitter'] = $social['social'];
+                        
+                        break;
+                    case 'Google+':
+                        $social_fields['saswp-google-plus-enable'] = 1;
+                        $social_fields['sd_google_plus'] = $social['social'];
+                        break;
+                    case 'Instagram':
+                        $social_fields['saswp-instagram-enable'] = 1;
+                        $social_fields['sd_instagram'] = $social['social'];
+                        break;
+                    case 'YouTube':
+                        $social_fields['saswp-youtube-enable'] = 1;
+                        $social_fields['sd_youtube'] = $social['social'];
+                        break;
+                    case 'LinkedIn':
+                        $social_fields['saswp-linkedin-enable'] = 1;
+                        $social_fields['sd_linkedin'] = $social['social'];
+                        break;                    
+                    case 'Pinterest':
+                        $social_fields['saswp-pinterest-enable'] = 1;
+                        $social_fields['sd_pinterest'] = $social['social'];
+                        break;
+                    case 'SoundCloud':
+                        $social_fields['saswp-soundcloud-enable'] = 1;
+                        $social_fields['sd_soundcloud'] = $social['social'];
+                        break;
+                    case 'Tumblr':
+                        $social_fields['saswp-tumblr-enable'] = 1;
+                        $social_fields['sd_tumblr'] = $social['social'];
+                        break;
+
+                    default:
+                        break;
+                }
+                                                
+            }         
+        }
+       
+        if(isset($settings['seop_operating_hour'])){
+           $hours = $settings['seop_operating_hour'];
+           if(isset($hours['Mo'])){
+             $opening_hours .='Mo-Mo'.' '.$hours['Mo']['from'].'-'.$hours['Mo']['to'].' '; 
+           }
+           if(isset($hours['Tu'])){
+              $opening_hours .='Tu-Tu'.' '.$hours['Tu']['from'].'-'.$hours['Tu']['to'].' '; 
+           }
+           if(isset($hours['We'])){
+              $opening_hours .='We-We'.' '.$hours['We']['from'].'-'.$hours['We']['to'].' '; 
+           }
+           if(isset($hours['Th'])){
+              $opening_hours .='Th-Th'.' '.$hours['Th']['from'].'-'.$hours['Th']['to'].' '; 
+           }
+           if(isset($hours['Fr'])){
+             $opening_hours .='Fr-Fr'.' '.$hours['Fr']['from'].'-'.$hours['Fr']['to'].' ';  
+           }
+           if(isset($hours['Sa'])){
+             $opening_hours .='Sa-Sa'.' '.$hours['Sa']['from'].'-'.$hours['Sa']['to'].' '; 
+           }
+           if(isset($hours['Su'])){
+             $opening_hours .='Su-Su'.' '.$hours['Su']['from'].'-'.$hours['Su']['to'];
+           }
+        } 
+        
+        
+         if(isset($settings)){          
           $local_business_details = array();          
           $wpdb->query('START TRANSACTION');
           
           $user_id = get_current_user_id();
-          
-                    if($settings['site_type'] !='Organization'){
-                        
+           
+                    if($settings['seop_local_name'] !=''){                   
                          $schema_post = array(
                             'post_author' => $user_id,                                                            
                             'post_status' => 'publish',                    
                             'post_type' => 'saswp',                    
                         );                        
-                    $schema_post['post_title'] = 'Organization (Migrated from WP SEO Plugin)';
+                    $schema_post['post_title'] = 'Organization (Migrated from SEO Pressor)';
                                       
-                    if(isset($settings['type_name'])){
-                     $schema_post['post_title'] = $settings['type_name'].'(Migrated from WP SEO Plugin)';    
+                    if(isset($settings['seop_local_name'])){
+                     $schema_post['post_title'] = $settings['seop_local_name'].'(Migrated from WP SEO Plugin)';    
                     }
-                    if(isset($settings['site_image'])){
-                       $image_details 	= wp_get_attachment_image_src($settings['site_image'], 'full');
+                    if(isset($settings['seop_home_logo'])){
+                       $image_details 	= wp_get_attachment_image_src($settings['seop_home_logo'], 'full');
               
                        $local_business_details['local_business_logo'] = array(
                                 'url'           =>$image_details[0],  
@@ -378,35 +449,23 @@
                                 'thumbnail'     =>$image_details[0]        
                             ); 
                     }
-                    if(isset($settings['site_price_range'])){
-                        $local_business_details['local_price_range'] = $settings['site_price_range']; 
-                    }
-                    if(isset($settings['site_telephone'])){
-                        $local_business_details['local_phone'] = $settings['site_telephone'];
-                    }                                        
-//                    if(isset($settings['business_info']['openingHours'])){
-//
-//                    }
-//                    if(isset($settings['business_info']['openingHours'])){
-//                        
-//                    }
-                    if(isset($settings['web_url'])){
-                      $local_business_details['local_website'] = $settings['web_url'];  
+                                                          
+                    if(isset($settings['seop_local_website'])){
+                      $local_business_details['local_website'] = $settings['seop_local_website'];  
                     }
                     
-                    if(isset($settings['address']['locality'])){
-                        $local_business_details['local_city'] = $settings['site_telephone'];
+                    if(isset($settings['seop_local_city'])){
+                        $local_business_details['local_city'] = $settings['seop_local_city'];
                     }
-                    if(isset($settings['address']['region'])){
-                        $local_business_details['local_state'] = $settings['address']['region'];
+                    if(isset($settings['seop_local_state'])){
+                        $local_business_details['local_state'] = $settings['seop_local_state'];
                     }
-                    if(isset($settings['address']['postalcode'])){
-                        $local_business_details['local_postal_code'] = $settings['address']['postalcode'];
+                    if(isset($settings['seop_local_postcode'])){
+                        $local_business_details['local_postal_code'] = $settings['seop_local_postcode'];
                     }
-                    if(isset($settings['address']['street'])){
-                        $local_business_details['local_street_address'] = $settings['site_telephone'];
-                    }
-                        
+                    if(isset($settings['seop_local_address'])){
+                        $local_business_details['local_street_address'] = $settings['seop_local_address'];
+                    }                                                                               
                     $post_id = wp_insert_post($schema_post);
                     $result = $post_id;
                     $guid = get_option('siteurl') .'/?post_type=saswp&p='.$post_id;                
@@ -427,7 +486,8 @@
                     'schema_type' => 'local_business',
                     'data_group_array'=>$data_group_array,
                     'imported_from' => 'wp_seo_schema',
-                    'saswp_local_business_details' => $local_business_details
+                    'saswp_local_business_details' => $local_business_details,
+                    'saswp_dayofweek' => $opening_hours,        
                      );
                 
                     foreach ($saswp_meta_key as $key => $val){                     
@@ -435,54 +495,9 @@
                     }
                     
                     }
-                                                                
-          if(isset($settings['person']['name'])){
-           $saswp_plugin_options['sd-person-name'] =  $settings['person']['name'];     
-          }
-          
-          if(isset($settings['person']['jobTitle'])){
-           $saswp_plugin_options['sd-person-job-title'] =  $settings['person']['jobTitle'];        
-          }
-           
-          if(isset($settings['person']['image'])){
-              $image_details 	= wp_get_attachment_image_src($settings['person']['image'], 'full');
-              
-              $saswp_plugin_options['sd-person-image'] = array(
-                                'url'           =>$image_details[0],  
-                                'id'            =>$settings['organization_logo'],
-                                'height'        =>$image_details[1],
-                                'width'         =>$image_details[2],
-                                'thumbnail'     =>$image_details[0]        
-                            );                                                  
-          }         
-               
-          if(isset($settings['organization_logo'])){
-              $image_details 	= wp_get_attachment_image_src($settings['organization_logo'], 'full');	   
-              
-              $saswp_plugin_options['sd_logo'] = array(
-                                'url'           =>$image_details[0],  
-                                'id'            =>$settings['organization_logo'],
-                                'height'        =>$image_details[1],
-                                'width'         =>$image_details[2],
-                                'thumbnail'     =>$image_details[0]        
-                            );                               
-          }          
-          if(isset($settings['contact']['contactType'])){
-              $saswp_plugin_options['saswp_contact_type'] =  $settings['contact']['contactType']; 
-              $saswp_plugin_options['saswp_kb_contact_1'] =  1; 
-          }
-          if(isset($settings['contact']['telephone'])){
-              $saswp_plugin_options['saswp_kb_telephone'] =  $settings['contact']['telephone'];    
-          }                   
-          if(isset($settings['sitename'])){
-              $saswp_plugin_options['sd_name'] =  $settings['sitename']; 
-          }
-          
-          if(isset($settings['siteurl'])){
-              $saswp_plugin_options['sd_url'] =  $settings['sitename'];    
-          }                
+                                                                                                            
                 $get_options = get_option('sd_data');
-                $merge_options = array_merge($get_options, $saswp_plugin_options);
+                $merge_options = array_merge($get_options, $social_fields);
                 $result =  update_option('sd_data', $merge_options);
           
            if (is_wp_error($result) ){
@@ -492,9 +507,7 @@
               $wpdb->query('COMMIT'); 
               return true;
             }               
-         }
-                 
-       
+         }                        
     }
     
     function saswp_import_wp_seo_schema_plugin_data(){

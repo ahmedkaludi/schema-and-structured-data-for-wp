@@ -987,7 +987,7 @@ class saswp_post_specific {
                             'label' => 'Organization Name',
                             'id' => 'saswp_blogposting_organization_name_'.$schema_id,
                             'type' => 'text',
-                            'default' => $sd_data['sd_name'] 
+                            'default' => saswp_remove_warnings($sd_data, 'sd_name', 'saswp_string')
                    ),
                      array(
                             'label' => 'Organization Logo',

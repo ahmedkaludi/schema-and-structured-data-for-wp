@@ -68,11 +68,19 @@ function saswp_kb_schema_output() {
 
 
 	if ( saswp_remove_warnings($sd_data, 'saswp_kb_type', 'saswp_string')  ==  'Organization' ) {
-		$logo = $sd_data['sd_logo']['url'];
-		$contact_1 = $sd_data['saswp_contact_type'];
-		$telephone_1 = $sd_data['saswp_kb_telephone'];
-		$height = $sd_data['sd_logo']['height'];
-		$width = $sd_data['sd_logo']['width'];
+                $logo ='';
+                $height ='';
+                $width ='';
+                if(isset($sd_data['sd_logo'])){
+                $logo = $sd_data['sd_logo']['url'];    
+                }		
+		$contact_1 = saswp_remove_warnings($sd_data, 'saswp_contact_type', 'saswp_string');
+		$telephone_1 = saswp_remove_warnings($sd_data, 'saswp_kb_telephone', 'saswp_string');
+                
+                if(isset($sd_data['sd_logo'])){
+                    $height = $sd_data['sd_logo']['height'];
+		    $width = $sd_data['sd_logo']['width'];
+                }		
 
 		if( '' ==  $logo && empty($logo) && isset($sd_data['sd_default_image'])){
 			$logo = $sd_data['sd_default_image']['url'];
@@ -107,8 +115,8 @@ function saswp_kb_schema_output() {
 		$input = array(
 		'@context'		=>'http://schema.org',
 		'@type'			=> $sd_data['saswp_kb_type'],
-		'name'			=> $sd_data['sd_name'],
-		'url'			=> $sd_data['sd_url'],
+		'name'			=> saswp_remove_warnings($sd_data, 'sd_name', 'saswp_string'),
+		'url'			=> saswp_remove_warnings($sd_data, 'sd_url', 'saswp_string'),
 		'sameAs'		=> $platform,
 		'logo' 			=> array(
 					'@type'		=> 'ImageObject',
@@ -125,9 +133,16 @@ function saswp_kb_schema_output() {
 		// Person
 
 	if ( saswp_remove_warnings($sd_data, 'saswp_kb_type', 'saswp_string')  ==  'Person' ) {
-		$image = $sd_data['sd-person-image']['url'];
-		$height = $sd_data['sd-person-image']['height'];
-		$width = $sd_data['sd-person-image']['width'];
+               $image =''; 
+               $height ='';
+               $width ='';
+               
+               if(isset($sd_data['sd-person-image'])){
+                   $image = $sd_data['sd-person-image']['url'];
+		   $height = $sd_data['sd-person-image']['height'];
+		   $width = $sd_data['sd-person-image']['width'];
+               }
+		
 		if( '' ==  $image && empty($image) && isset($sd_data['sd_default_image'])){
 			$image = $sd_data['sd_default_image']['url'];
 		}
@@ -178,8 +193,12 @@ function saswp_schema_output() {
         $site_name ='';
 	$schema_options = $schemaConditionals['schema_options'];
 	$schema_type = $schemaConditionals['schema_type'];         
-        $schema_post_id = $schemaConditionals['post_id'];  
-	$logo = $sd_data['sd_logo']['url']; 
+        $schema_post_id = $schemaConditionals['post_id'];
+        
+        if(isset($sd_data['sd_logo'])){
+            $logo = $sd_data['sd_logo']['url']; 
+        }
+	
         
         if(isset($sd_data['sd_name']) && $sd_data['sd_name'] !=''){
           $site_name = $sd_data['sd_name'];  
@@ -497,7 +516,7 @@ function saswp_schema_output() {
                                   if(isset($product_details['product_brand']) && $product_details['product_brand'] !=''){
                                     $input1['brand'] =  array('@type'=>'Thing','name'=>$product_details['product_brand']);  
                                   }                                     
-                                  if(isset($product_details['product_review_count']) && isset($product_details['product_average_rating'])){
+                                  if(isset($product_details['product_review_count']) && $product_details['product_review_count'] >0 && isset($product_details['product_average_rating']) && $product_details['product_average_rating'] >0){
                                        $input1['aggregateRating'] =  array(
                                                                         '@type'         => 'AggregateRating',
                                                                         'ratingValue'	=> $product_details['product_average_rating'],
@@ -1363,7 +1382,7 @@ function saswp_post_specific_schema_output() {
                                   if(isset($all_post_meta['saswp_product_brand_'.$schema_id])){
                                     $input1['brand'] =  array('@type'=>'Thing','name'=>$all_post_meta['saswp_product_brand_'.$schema_id][0]);  
                                   }                                       
-                                  if(isset($product_details['product_review_count']) && isset($product_details['product_average_rating'])){
+                                  if(isset($product_details['product_review_count']) && $product_details['product_review_count'] >0 && isset($product_details['product_average_rating']) && $product_details['product_average_rating'] > 0){
                                        $input1['aggregateRating'] =  array(
                                                                         '@type'         => 'AggregateRating',
                                                                         'ratingValue'	=> $product_details['product_average_rating'],
