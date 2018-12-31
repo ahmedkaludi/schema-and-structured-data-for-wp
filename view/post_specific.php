@@ -456,7 +456,16 @@ class saswp_post_specific {
                                              if (strpos($meta_field['id'], 'closes_time') !== false || strpos($meta_field['id'], 'opens_time') !== false){
                                              $class='saswp-local-schema-time-picker';    
                                              }
-                                             if (strpos($meta_field['id'], 'date_modified') !== false || strpos($meta_field['id'], 'date_published') !== false  || strpos($meta_field['id'], 'video_upload_date') !== false|| strpos($meta_field['id'], 'qa_date_created') !== false || strpos($meta_field['id'], 'accepted_answer_date_created') !== false || strpos($meta_field['id'], 'suggested_answer_date_created') !== false || strpos($meta_field['id'], 'priceValidUntil') !== false) {
+                                             if (strpos($meta_field['id'], 'date_modified') !== false 
+                                                     || strpos($meta_field['id'], 'date_published') !== false  
+                                                     || strpos($meta_field['id'], 'video_upload_date') !== false
+                                                     || strpos($meta_field['id'], 'qa_date_created') !== false 
+                                                     || strpos($meta_field['id'], 'accepted_answer_date_created') !== false 
+                                                     || strpos($meta_field['id'], 'suggested_answer_date_created') !== false 
+                                                     || strpos($meta_field['id'], 'priceValidUntil') !== false
+                                                     || strpos($meta_field['id'], 'priceValidUntil') !== false
+                                                     || strpos($meta_field['id'], 'priceValidUntil') !== false
+                                                     ) {
                                              $class='saswp-local-schema-datepicker-picker';    
                                              }
                                              
@@ -1816,6 +1825,62 @@ class saswp_post_specific {
                         ),
                         
                         
+                    );
+                    break;
+                
+                case 'AudioObject':
+                    $service_schema_details = esc_sql ( get_post_meta($schema_id, 'saswp_audio_schema_details', true)  );
+                    $meta_field = array(
+                    
+                    array(
+                            'label' => 'Name',
+                            'id' => 'saswp_audio_schema_name_'.$schema_id,
+                            'type' => 'text',
+                            'default' => saswp_remove_warnings($service_schema_details, 'saswp_audio_schema_name', 'saswp_string')
+                    ),
+                    array(
+                            'label' => 'Description',
+                            'id' => 'saswp_audio_schema_description_'.$schema_id,
+                            'type' => 'textarea',
+                            'default' => saswp_remove_warnings($service_schema_details, 'saswp_audio_schema_description', 'saswp_string')
+                    ),
+                    array(
+                            'label' => 'Content Url',
+                            'id' => 'saswp_audio_schema_contenturl_'.$schema_id,
+                            'type' => 'text',
+                            'default' => saswp_remove_warnings($service_schema_details, 'saswp_audio_schema_contenturl', 'saswp_string')
+                    ),
+                   array(
+                            'label' => 'Duration',
+                            'id' => 'saswp_audio_schema_duration_'.$schema_id,
+                            'type' => 'text',
+                            'default' => saswp_remove_warnings($service_schema_details, 'saswp_audio_schema_duration', 'saswp_string')
+                    ),
+                     array(
+                            'label' => 'Encoding Format',
+                            'id' => 'saswp_audio_schema_encoding_format_'.$schema_id,
+                            'type' => 'text',
+                            'default' => saswp_remove_warnings($service_schema_details, 'saswp_audio_schema_encoding_format', 'saswp_string')
+                    ),                           
+                    array(
+                            'label' => 'Date Published',
+                            'id' => 'saswp_audio_schema_date_published_'.$schema_id,
+                            'type' => 'text',
+                            'default' => get_the_date("Y-m-d")
+                    ),
+                    array(
+                            'label' => 'Date Modified',
+                            'id' => 'saswp_audio_schema_date_modified_'.$schema_id,
+                            'type' => 'text',
+                            'default' => get_the_modified_date("Y-m-d")
+                    ),
+                    array(
+                            'label' => 'Author',
+                            'id' => 'saswp_audio_schema_author_name_'.$schema_id,
+                            'type' => 'text',
+                            'default' => saswp_remove_warnings($service_schema_details, 'saswp_audio_author_name', 'saswp_string')
+                    ),    
+                                                
                     );
                     break;
                 

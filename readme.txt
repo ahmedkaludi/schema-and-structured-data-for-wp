@@ -67,6 +67,7 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 = 1.0.7 (31 December 2018) =
 
+* New Feature: AudioObject schema type add to the schema type list #115
 * New Feature: Option to reset plugin's settings #104
 * New Feature: Fields to enter Aggregate Rating below schema type #95
 * New Feature: SEO Pressor plugin importer #93

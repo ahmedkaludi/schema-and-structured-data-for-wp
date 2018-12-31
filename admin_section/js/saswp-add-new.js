@@ -274,6 +274,9 @@ jQuery(document).ready(function($) {
              $(".saswp-product-text-field-tr").show();               
              $(".saswp-option-table-class tr").find('select').attr('disabled', false);
              }
+             if(schematype == 'AudioObject'){            
+             $(".saswp-audio-text-field-tr").show();               
+             }
              if(schematype == 'Review'){            
              $(".saswp-review-text-field-tr").show(); 
              $(".saswp-option-table-class tr").find('select').attr('disabled', false);
@@ -308,6 +311,9 @@ jQuery(document).ready(function($) {
             if(schematype == 'Product'){            
              $(".saswp-product-text-field-tr").show();  
              $(".saswp-product-text-field-tr").find('select').attr('disabled', false);
+             }
+             if(schematype == 'AudioObject'){            
+             $(".saswp-audio-text-field-tr").show();               
              }
             if(schematype == 'Review'){            
              $(".saswp-review-text-field-tr").show(); 

@@ -46,6 +46,7 @@
                 $service_details  = esc_sql ( get_post_meta($post->ID, 'saswp_service_schema_details', true)  );
                 $review_details   = esc_sql ( get_post_meta($post->ID, 'saswp_review_schema_details', true)  );
                 $product_details  = esc_sql ( get_post_meta($post->ID, 'saswp_product_schema_details', true)  );
+                $audio_details    = esc_sql ( get_post_meta($post->ID, 'saswp_audio_schema_details', true)  );
                 $dayoftheweek = get_post_meta($post->ID, 'saswp_dayofweek', true); 
                 $custom_logo_id = get_theme_mod( 'custom_logo' );
                 if($custom_logo_id){
@@ -55,10 +56,7 @@
                 if($schema_type != 'local_business'){
                  $style_business_type = 'style="display:none"';
                  $style_business_name = 'style="display:none"';
-                }
-                if($schema_type != 'Service'){
-                // $style_service_name = 'style="display:none"';                
-                }               
+                }                            
                 }   
                         
                                 $provider_type = array(
@@ -108,31 +106,21 @@
                                      'VisualArtwork'         => 'Visual Artwork',  
                                      'Webpage'               => 'Webpage', 
                                      'WebSite'               => 'WebSite',                                                                                                                                                   
-                                );
-                
-                                $all_dayofweek_array = array(
-                                     'monday' => 'Monday',
-                                     'tuesday' => 'Tuesday',
-                                     'wednesday'     => 'Wednesday',
-                                     'thursday'     => 'Thursday',
-                                     'friday'      => 'Friday',
-                                     'saturday'     => 'Saturday',  
-                                     'sunday'     => 'Sunday',  
-                                 );
-                
+                                );                                                             
                 
                                 $all_schema_array = array(
-                                     'Blogposting' => 'Blogposting',
-                                     'NewsArticle' => 'NewsArticle',
-                                     'WebPage'     => 'WebPage',
                                      'Article'     => 'Article',
-                                     'Recipe'      => 'Recipe',
+                                     'AudioObject' => 'AudioObject',
+                                     'Blogposting' => 'Blogposting',
+                                     'local_business' => 'Local Business',
+                                     'NewsArticle' => 'NewsArticle',
                                      'Product'     => 'Product',
-                                     'Service'     => 'Service',
-                                     'Review'      => 'Review',
                                      'qanda'       => 'Q&A',   
+                                     'Review'      => 'Review',                                     
+                                     'Recipe'      => 'Recipe',                                     
+                                     'Service'     => 'Service',                                     
                                      'VideoObject' => 'VideoObject',
-                                     'local_business' => 'Local Business'
+                                     'WebPage'     => 'WebPage'                                                                
                                  );
                                  $all_business_type = array(
                                     'animalshelter' => 'Animal Shelter',
@@ -892,6 +880,37 @@
                         </tr>
                         
                         <!-- Product Schema type ends here -->
+                        
+                        <!-- AudioObject Schema type starts here -->
+                        
+                        <tr class="saswp-audio-text-field-tr">
+                            <td><?php echo esc_html__('Name', 'schema-and-structured-data-for-wp' ); ?></td>
+                            <td><input  value="<?php if(isset($audio_details['saswp_audio_schema_name'])){echo esc_attr($audio_details['saswp_audio_schema_name']); } ?>" type="text" name="saswp_audio_schema_name" placeholder="<?php echo esc_html__('Name', 'schema-and-structured-data-for-wp' ); ?>" ></td>
+                        </tr>
+                        
+                        <tr class="saswp-audio-text-field-tr">
+                            <td><?php echo esc_html__('Description', 'schema-and-structured-data-for-wp' ); ?></td>
+                            <td>                               
+                                <textarea  placeholder="Description" rows="5" cols="70" name="saswp_audio_schema_description"><?php if(isset($audio_details['saswp_audio_schema_description'])){echo $audio_details['saswp_audio_schema_description']; } ?></textarea>
+                            </td>
+                        </tr>
+                        
+                        <tr class="saswp-audio-text-field-tr">
+                            <td><?php echo esc_html__('Content Url', 'schema-and-structured-data-for-wp' ); ?></td>
+                            <td><input  value="<?php if(isset($audio_details['saswp_audio_schema_contenturl'])){echo esc_attr($audio_details['saswp_audio_schema_contenturl']); } ?>" type="text" name="saswp_audio_schema_contenturl" placeholder="<?php echo esc_html__('Content Url', 'schema-and-structured-data-for-wp' ); ?>" ></td>
+                        </tr>
+                        
+                        <tr class="saswp-audio-text-field-tr">
+                            <td><?php echo esc_html__('Duration', 'schema-and-structured-data-for-wp' ); ?></td>
+                            <td><input  value="<?php if(isset($audio_details['saswp_audio_schema_duration'])){echo esc_attr($audio_details['saswp_audio_schema_duration']); } ?>" type="text" name="saswp_audio_schema_duration" placeholder="<?php echo esc_html__('T0M15S', 'schema-and-structured-data-for-wp' ); ?>" ></td>
+                        </tr>
+                        
+                        <tr class="saswp-audio-text-field-tr">
+                            <td><?php echo esc_html__('Encoding Format', 'schema-and-structured-data-for-wp' ); ?></td>
+                            <td><input  value="<?php if(isset($audio_details['saswp_audio_schema_encoding_format'])){echo esc_attr($audio_details['saswp_audio_schema_encoding_format']); } ?>" type="text" name="saswp_audio_schema_encoding_format" placeholder="<?php echo esc_html__('audio/mpeg', 'schema-and-structured-data-for-wp' ); ?>" ></td>
+                        </tr>
+                        
+                        <!-- AudioObject Schema type ends here -->
                                                 
                         
                     </table>  
@@ -976,7 +995,8 @@
                 $service_schema_details = array();
                 $review_schema_details = array();
                 $product_schema_details = array();
-                $schema_type = $_POST['schema_type'];               
+                $audio_schema_details = array();
+                $schema_type = sanitize_text_field($_POST['schema_type']);               
                
                 if($schema_type =='Service'){
                     if ( isset( $_POST['saswp_service_schema_name'] ) ){
@@ -1145,6 +1165,29 @@
                     }
                    
                    update_post_meta( $post_id, 'saswp_product_schema_details', $product_schema_details );
+                }
+                
+                if($schema_type =='AudioObject'){
+                    
+                     if ( isset( $_POST['saswp_audio_schema_name'] ) ){
+                      $audio_schema_details['saswp_audio_schema_name'] = sanitize_text_field($_POST['saswp_audio_schema_name']);        
+                    }
+                    if ( isset( $_POST['saswp_audio_schema_description'] ) ){
+                      $audio_schema_details['saswp_audio_schema_description'] = sanitize_textarea_field($_POST['saswp_audio_schema_description']);        
+                    }
+                    if ( isset( $_POST['saswp_audio_schema_contenturl'] ) ){
+                      $audio_schema_details['saswp_audio_schema_contenturl'] = esc_url_raw($_POST['saswp_audio_schema_contenturl']);        
+                    }
+                    if ( isset( $_POST['saswp_audio_schema_duration'] ) ){
+                      $audio_schema_details['saswp_audio_schema_duration'] = sanitize_text_field($_POST['saswp_audio_schema_duration']);        
+                    }
+                    if ( isset( $_POST['saswp_audio_schema_encoding_format'] ) ){
+                      $audio_schema_details['saswp_audio_schema_encoding_format'] = sanitize_text_field($_POST['saswp_audio_schema_encoding_format']);        
+                    }
+                   
+                   update_post_meta( $post_id, 'saswp_audio_schema_details', $audio_schema_details );
+                    
+                    
                 }
                 //Service schema details ends here
                 
