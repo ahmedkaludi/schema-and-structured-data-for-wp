@@ -1,4 +1,35 @@
 <?php
+function saswp_reset_all_settings(){   
+    
+        if ( ! isset( $_POST['saswp_security_nonce'] ) ){
+           return; 
+        }
+        if ( !wp_verify_nonce( $_POST['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
+           return;  
+        }            
+        $result ='';
+        
+        update_option( 'sd_data', array());                   
+        $allposts= get_posts( array('post_type'=>'saswp','numberposts'=>-1) );
+        foreach ($allposts as $eachpost) {
+        $result = wp_delete_post( $eachpost->ID, true );
+        }
+                        
+        if($result){
+        echo json_encode(array('status'=>'t'));            
+        }else{
+        echo json_encode(array('status'=>'f'));            
+        }        
+           wp_die();           
+}
+
+add_action('wp_ajax_saswp_reset_all_settings', 'saswp_reset_all_settings');
+
+function saswp_load_plugin_textdomain() {
+    load_plugin_textdomain( 'schema-and-structured-data-for-wp', FALSE, basename( dirname( __FILE__ ) ) . '/languages/' );
+}
+add_action( 'plugins_loaded', 'saswp_load_plugin_textdomain' );
+
 //FrontEnd
 function saswp_get_all_schema_posts(){
         $post_idArray = array();
@@ -487,10 +518,32 @@ function saswp_change_add_new_url() {
 </div>        
     <?php
   }
+  
+  /**
+ * Dequeue the jQuery UI script.
+ *
+ * Hooked to the wp_print_scripts action, with a late priority (100),
+ * so that it is after the script was enqueued.
+ */
+//function saswp_dequeue_script() {
+//    if(get_post_type() == 'saswp'){
+//        wp_dequeue_script( 'avada-fusion-options' );
+//    }   
+//}
+//add_action( 'wp_print_scripts', 'saswp_dequeue_script', 100 );
+  
   add_action( 'admin_enqueue_scripts', 'saswp_style_script_include' );
-  function saswp_style_script_include() {
+  
+      
+  function saswp_style_script_include($hook) {
      global $pagenow, $typenow;
+               
     if (is_admin()) {
+      
+        if($hook == 'saswp' || get_post_type() == 'saswp'){
+        wp_dequeue_script( 'avada-fusion-options' );
+        }
+        
        wp_register_script( 'structure_admin', plugin_dir_url(__FILE__) . '/js/structure_admin.js', array( 'jquery'), SASWP_VERSION, true );
        $post_type='';
        $current_screen = get_Current_screen(); 
@@ -511,7 +564,8 @@ function saswp_change_add_new_url() {
       $data_array = array(
           'ajax_url'    =>  admin_url( 'admin-ajax.php' ), 
           'post_found_status' => $post_found_status,
-          'post_type' =>$post_type,                              
+          'post_type' =>$post_type,   
+          'page_now' => $hook,
       );
        wp_localize_script( 'structure_admin', 'saswp_app_object', $data_array );
        wp_enqueue_script('structure_admin');
@@ -521,18 +575,15 @@ function saswp_change_add_new_url() {
        wp_enqueue_style( 'saswp-timepicker-css', SASWP_PLUGIN_URL . 'admin_section/css/jquery.timepicker.css', false , SASWP_VERSION );
        
        wp_enqueue_script( 'jquery-ui-datepicker' );
-       wp_register_style( 'jquery-ui', 'https://code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css' );
+       wp_register_style( 'jquery-ui', SASWP_PLUGIN_URL. 'admin_section/css/jquery-ui.css' );
        wp_enqueue_style( 'jquery-ui' );
       
-      //Enque select 2 script starts here
-       
-       wp_enqueue_style('select2', 'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css' );
-       wp_enqueue_script('select2', 'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js', array('jquery') );
-       
-      //Enque select 2 script ends here
-       
-       
-      
+      //Enque select 2 script starts here      
+       if($hook == 'saswp' || get_post_type() == 'saswp'){
+        wp_enqueue_style('saswp-select2-style', SASWP_PLUGIN_URL. 'admin_section/css/select2.min.css' , false, SASWP_VERSION);
+        wp_enqueue_script('saswp-select2-script', SASWP_PLUGIN_URL. 'admin_section/js/select2.min.js', false, SASWP_VERSION);
+        }
+      //Enque select 2 script ends here                    
     }
   }
   
@@ -600,7 +651,7 @@ function saswp_custom_breadcrumbs() {
     $variables2_links = array();   
     // Settings
     $separator          = '&gt;';        
-    $home_title         = esc_html__('Homepage', 'schema-and-structured-data-for-wp' );
+    $home_title         = get_bloginfo();
       
     // If you have any custom post types with custom taxonomies, put the taxonomy name below (e.g. product_cat)
     $custom_taxonomy    = 'product_cat';
@@ -769,8 +820,9 @@ function saswp_custom_breadcrumbs() {
 
             $variables1_titles[] = $get_term_name;
             $variables2_links[] = $term_link;           
-          }         
-          $sd_data['titles']= $variables1_titles;
+          }    
+          
+          $sd_data['titles']= $variables1_titles;                        
           $sd_data['links']= $variables2_links;   
           
     }
@@ -898,6 +950,10 @@ function saswp_import_plugin_data(){
             case 'wp_seo_schema':                
                 if ( is_plugin_active('wp-seo-structured-data-schema/wp-seo-structured-data-schema.php')) {
                 $result = saswp_import_wp_seo_schema_plugin_data();      
+                }
+            case 'seo_pressor':                
+                if ( is_plugin_active('seo-pressor/seo-pressor.php')) {
+                $result = saswp_import_seo_pressor_plugin_data();      
                 }                
                 break;    
 

@@ -205,7 +205,7 @@ class saswp_flexmls_list extends flexmlsConnectPageCore{
           $sellerimage ='';
           $selleraddress ='';
           $sellertelephone ='';
-          $sellerpricerange ='';
+          $sellerpricerange ='';                   
           
           if(isset($sd_data['saswp_compativility']) &&  $sd_data['saswp_compativility']==1){
            
@@ -231,7 +231,7 @@ class saswp_flexmls_list extends flexmlsConnectPageCore{
           $link_to_details_criteria = $this->search_criteria;
           $link_to_details = flexmlsConnect::make_nice_address_url($result['StandardFields'], $link_to_details_criteria, 'fmc_tag');
           $photos = array();
-          if($result['StandardFields']['Photos']){              
+          if(isset($result['StandardFields'])){              
               foreach ($result['StandardFields']['Photos'] as $photo){
                $photos[] = array(
                    'url' => $photo['UriThumb']
@@ -243,11 +243,35 @@ class saswp_flexmls_list extends flexmlsConnectPageCore{
 				"@context" 	    => "http://schema.org",
 				"@type"		    => ["Product", "Apartment"],
 				"name"              => $result['StandardFields']['UnparsedFirstLineAddress'],
-				"url"		    => $link_to_details,				
+                                "description"       => $result['StandardFields']['PublicRemarks'],
+                                "sku"               => $result['StandardFields']['BuildingAreaTotal'],
+                                "brand"             => get_bloginfo(),
+                                "mpn"               => $result['StandardFields']['YearBuilt'],
+				"url"		    => $link_to_details,
+                                "aggregateRating"   => array(
+                                                            "@type"=> "AggregateRating",
+                                                            "ratingValue" => '5.0',
+                                                            "reviewCount" => '1'
+                                                         ),
+                                "review"            => array(
+                                                                        '@type'	=> 'Review',
+                                                                        'author'	=> get_the_author(),
+                                                                        'datePublished'	=> $result['StandardFields']['ListingUpdateTimestamp'],
+                                                                        //'description'	=> '',  
+                                                                        'reviewRating'  => array(
+                                                                                '@type'	=> 'Rating',
+                                                                                'bestRating'	=> '5.0',
+                                                                                'ratingValue'	=> '5.0',
+                                                                                'worstRating'	=> '1.0',
+                                                                        )  
+                                          ),                         
+                                "image" 	    => $result['StandardFields']['Photos'][0]['Uri300'],
 				"offers"            => array(
 							"priceCurrency"		=> "USD",
                                                         "price"		=> $result['StandardFields']['ListPrice'],
                                                         "availability"		=> 'InStock',
+                                                        "url"		=> $link_to_details,
+                                                        "priceValidUntil"=> $result['StandardFields']['ListingUpdateTimestamp'],
 							"seller"	=> array(
                                                             array(
                                                              "@type" => "RealEstateAgent",

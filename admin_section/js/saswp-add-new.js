@@ -118,7 +118,7 @@ var Merlin = (function($){
                 action: "saswp_add_new_save_steps_data",
                 wpnonce: saswp_add_new_params.wpnonce,
 				}
-			jQuery('ul.merlin__drawer--import-content').find('input, select').each(function(key, fields){
+			jQuery('ul.merlin__drawer--import-content').find('input, select, textarea').each(function(key, fields){
 				
 				switch(jQuery(this).attr('type')){
 					case 'text':
@@ -131,12 +131,15 @@ var Merlin = (function($){
 						}else{
 							params[jQuery(this).attr('name')] = 0;
 						}
-					break;
-					default: 
-						params[jQuery(this).attr('name')] = jQuery(this).val();
+					break;                                                                                                                           					
+                                        
+					default:                                                                                                                                         
+						if(jQuery(this).prop('disabled')== false){
+						params[jQuery(this).attr('name')] = jQuery(this).val();	
+						}                                            
 					break;
 				}
-			});
+			});                         
             jQuery.post(saswp_add_new_params.ajaxurl, params, ajax_callback).fail(ajax_callback);
         }
 
@@ -260,20 +263,29 @@ jQuery(document).ready(function($) {
              $(".saswp-option-table-class tr").eq(1).show();   
              $(".saswp-business-text-field-tr").show(); 
              $(".saswp-option-table-class tr").find('select').attr('disabled', false);
-             $("#saswp_dayofweek").attr('disabled', false);
+            // $("#saswp_dayofweek").attr('disabled', false);
              $('.select-post-type').val('show_globally').trigger('change'); 
             }
             if(schematype == 'Service'){            
-             $(".saswp-service-text-field-tr").show();                                          
+             $(".saswp-service-text-field-tr").show();  
+             $(".saswp-option-table-class tr").find('select').attr('disabled', false);
              }
-           if(schematype == 'Review'){            
-             $(".saswp-review-text-field-tr").show();                                          
+             if(schematype == 'Product'){            
+             $(".saswp-product-text-field-tr").show();               
+             $(".saswp-option-table-class tr").find('select').attr('disabled', false);
+             }
+             if(schematype == 'AudioObject'){            
+             $(".saswp-audio-text-field-tr").show();               
+             }
+             if(schematype == 'Review'){            
+             $(".saswp-review-text-field-tr").show(); 
+             $(".saswp-option-table-class tr").find('select').attr('disabled', false);
              }  
             $(".saswp-schem-type-note").addClass('saswp_hide');
              if(schematype == 'qanda'){
               $(".saswp-schem-type-note").removeClass('saswp_hide');   
              }
-            
+           saswp_enable_rating_review(); 
         }).change(); 
         
         $("#saswp_business_type").change(function(){
@@ -290,15 +302,35 @@ jQuery(document).ready(function($) {
             $(".saswp-"+businesstype+'-tr').show();
             $(".saswp-business-text-field-tr").show(); 
             $(".saswp-"+businesstype+'-tr').find('select').attr('disabled', false); 
-            $("#saswp_dayofweek").attr('disabled', false);
+           // $("#saswp_dayofweek").attr('disabled', false);
             }
             if(schematype == 'Service'){            
-             $(".saswp-service-text-field-tr").show();                                          
+             $(".saswp-service-text-field-tr").show();  
+             $(".saswp-service-text-field-tr").find('select').attr('disabled', false);
             }
+            if(schematype == 'Product'){            
+             $(".saswp-product-text-field-tr").show();  
+             $(".saswp-product-text-field-tr").find('select').attr('disabled', false);
+             }
+             if(schematype == 'AudioObject'){            
+             $(".saswp-audio-text-field-tr").show();               
+             }
             if(schematype == 'Review'){            
-             $(".saswp-review-text-field-tr").show();                                          
-            }            
+             $(".saswp-review-text-field-tr").show(); 
+             $(".saswp-review-text-field-tr").find('select').attr('disabled', false);
+            }  
+            saswp_enable_rating_review();
         }).change(); 
+        
+        saswp_schema_datepicker();
+        function saswp_schema_datepicker(){
+        
+            $('.saswp-local-schema-datepicker-picker').datepicker({
+             dateFormat: "yy-mm-dd",
+             minDate: 0
+          });
+        }
+        
         
         $("input[data-id=media]").click(function(e) {	// Application Icon upload
 		e.preventDefault();
@@ -325,6 +357,30 @@ jQuery(document).ready(function($) {
     
         $('#saswp-dayofweek-opens-time').timepicker({ 'timeFormat': 'H:i:s'});
         $('#saswp-dayofweek-closes-time').timepicker({ 'timeFormat': 'H:i:s'});
+        
+        function saswp_enable_rating_review(){
+           var schema_type ="";                      
+           if($('select#schema_type option:selected').val()){
+              schema_type = $('select#schema_type option:selected').val();    
+           }       
+           if($(".saswp-tab-links.selected").attr('saswp-schema-type')){
+              schema_type = $(".saswp-tab-links.selected").attr('saswp-schema-type');    
+           }
+          
+         if(schema_type){
+             $(".saswp-enable-rating-review-"+schema_type.toLowerCase()).change(function(){
+                               
+            if($(this).is(':checked')){
+            $(this).parent().parent().siblings('.saswp-rating-review-'+schema_type.toLowerCase()).show();            
+             }else{
+            $(this).parent().parent().siblings('.saswp-rating-review-'+schema_type.toLowerCase()).hide(); 
+             }
+         
+            }).change();   
+         }
+               
+     }      
+     saswp_enable_rating_review();
     
     
 });

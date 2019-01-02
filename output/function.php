@@ -34,7 +34,7 @@ function saswp_data_generator() {
       
    $kb_schema_output   = saswp_kb_schema_output();
    
-	if( (  1 == $sd_data['saswp-for-wordpress'] && saswp_non_amp() ) || ( 1 == $sd_data['saswp-for-amp'] && !saswp_non_amp() ) ) {
+	if( ( saswp_remove_warnings($sd_data, 'saswp-for-wordpress', 'saswp_string') =='' ||  1 == saswp_remove_warnings($sd_data, 'saswp-for-wordpress', 'saswp_string') && saswp_non_amp() ) || ( 1 == saswp_remove_warnings($sd_data, 'saswp-for-amp', 'saswp_string') && !saswp_non_amp() ) ) {
 								
                         
                         if(!empty($contact_page_output)){

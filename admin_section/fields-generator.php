@@ -47,19 +47,23 @@ class saswp_fields_generator {
 			
 			switch ( $meta_field['type'] ) {
 				case 'media':
-                                        $mediavalue = $settings[$meta_field['id']];                                          
+                                        $mediavalue = array();
+                                            if(isset($settings[$meta_field['id']])){
+                                                $mediavalue = $settings[$meta_field['id']];                                          
+                                            }
+                                        
 					$input = sprintf(
 						'<fieldset><input class="%s" style="width: 80%%" id="%s" name="%s" type="text" value="%s">'
                                                 . '<input data-id="media" style="width: 19%%" class="button" id="%s_button" name="%s_button" type="button" value="Upload" />'
-                                                . '<input type="hidden" data-id="'.esc_attr($meta_field['id']).'_id" class="upload-id " name="sd_data['.esc_attr($meta_field['id']).'][id]" id="sd_data['.esc_attr($meta_field['id']).'][id]" value="'.esc_attr($mediavalue['id']).'">'
-                                                . '<input type="hidden" data-id="'.esc_attr($meta_field['id']).'_height" class="upload-height" name="sd_data['.esc_attr($meta_field['id']).'][height]" id="sd_data['.esc_attr($meta_field['id']).'][height]" value="'.esc_attr($mediavalue['height']).'">'
-                                                . '<input type="hidden" data-id="'.esc_attr($meta_field['id']).'_width" class="upload-width" name="sd_data['.esc_attr($meta_field['id']).'][width]" id="sd_data['.esc_attr($meta_field['id']).'][width]" value="'.esc_attr($mediavalue['width']).'">'
-                                                . '<input type="hidden" data-id="'.esc_attr($meta_field['id']).'_thumbnail" class="upload-thumbnail" name="sd_data['.esc_attr($meta_field['id']).'][thumbnail]" id="sd_data['.esc_attr($meta_field['id']).'][thumbnail]" value="'.esc_attr($mediavalue['thumbnail']).'">'
+                                                . '<input type="hidden" data-id="'.esc_attr($meta_field['id']).'_id" class="upload-id " name="sd_data['.esc_attr($meta_field['id']).'][id]" id="sd_data['.esc_attr($meta_field['id']).'][id]" value="'.esc_attr(saswp_remove_warnings($mediavalue, 'id', 'saswp_string')).'">'
+                                                . '<input type="hidden" data-id="'.esc_attr($meta_field['id']).'_height" class="upload-height" name="sd_data['.esc_attr($meta_field['id']).'][height]" id="sd_data['.esc_attr($meta_field['id']).'][height]" value="'.esc_attr(saswp_remove_warnings($mediavalue, 'height', 'saswp_string')).'">'
+                                                . '<input type="hidden" data-id="'.esc_attr($meta_field['id']).'_width" class="upload-width" name="sd_data['.esc_attr($meta_field['id']).'][width]" id="sd_data['.esc_attr($meta_field['id']).'][width]" value="'.esc_attr(saswp_remove_warnings($mediavalue, 'width', 'saswp_string')).'">'
+                                                . '<input type="hidden" data-id="'.esc_attr($meta_field['id']).'_thumbnail" class="upload-thumbnail" name="sd_data['.esc_attr($meta_field['id']).'][thumbnail]" id="sd_data['.esc_attr($meta_field['id']).'][thumbnail]" value="'.esc_attr(saswp_remove_warnings($mediavalue, 'thumbnail', 'saswp_string')).'">'
                                                 . '</fieldset>',
                                                 $class,
 						esc_attr($meta_field['id']),
 						esc_attr($meta_field['name']),
-                                                esc_url($mediavalue['url']),
+                                                esc_url(saswp_remove_warnings($mediavalue, 'url', 'saswp_string')),
 						esc_attr($meta_field['id']),
 						esc_attr($meta_field['id'])                                                
 					);
@@ -70,7 +74,7 @@ class saswp_fields_generator {
                                            $attribute_str .=''.$key.'="'.$attr.'"';
                                         }
                                         $hiddenvalue ="";
-                                        if(array_key_exists('id', $hidden)){
+                                        if(array_key_exists('id', $hidden) && isset($settings[$hidden['id']])){
                                          $hiddenvalue = $settings[$hidden['id']];                                    
                                         }
                                         $hiddenfield="";
@@ -96,8 +100,7 @@ class saswp_fields_generator {
 						esc_attr($meta_field['name']),                                              
                                                 $hiddenvalue == 1 ? 'checked' : '',
                                                 $attribute_str
-						);
-                                           
+						);                                          
                                          $input .=$hiddenfield;
 					break;
                                     
@@ -108,10 +111,15 @@ class saswp_fields_generator {
 						esc_attr($meta_field['id']),
 						esc_attr($meta_field['name'])
 					);                                    
-					foreach ( $meta_field['options'] as $key => $value ) {	                                            
+					foreach ( $meta_field['options'] as $key => $value ) {	  
+                                                $settings_meta_field = '';
+                                                if(isset($settings[$meta_field['id']])){
+                                                 $settings_meta_field   = $settings[$meta_field['id']];
+                                                }
+                                            
 						$input .= sprintf(
 							'<option %s value="%s">%s</option>',
-							$settings[$meta_field['id']] == $key ? 'selected' : '',                                                        
+							$settings_meta_field == $key ? 'selected' : '',                                                        
 							$key,
 							esc_html__( $value, 'schema-and-structured-data-for-wp' )
 						);
@@ -120,14 +128,20 @@ class saswp_fields_generator {
 					break;                                
 				default:
 					
+                                        $stng_meta_field = '';
+                                    
+                                        if(isset($settings[$meta_field['id']])){
+                                         $stng_meta_field =  $settings[$meta_field['id']];  
+                                        }
+                                    
 					$input = sprintf(
 						'<input class="%s" %s id="%s" name="%s" type="%s" value="%s">',
                                                 $class,
 						$meta_field['type'] !== 'color' ? 'style="width: 100%"' : '',
-						esc_attr($meta_field['id']),
-						esc_attr($meta_field['name']),
-						esc_attr($meta_field['type']),
-						esc_attr($settings[$meta_field['id']])
+						esc_attr(saswp_remove_warnings($meta_field, 'id', 'saswp_string')),
+						esc_attr(saswp_remove_warnings($meta_field, 'name', 'saswp_string')),
+						esc_attr(saswp_remove_warnings($meta_field, 'type', 'saswp_string')),
+						esc_attr($stng_meta_field)
 					);	
 									
 			}

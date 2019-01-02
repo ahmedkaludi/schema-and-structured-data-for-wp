@@ -38,19 +38,30 @@ jQuery(document).ready(function($){
              $(".saswp-option-table-class tr").eq(1).show();   
              $(".saswp-business-text-field-tr").show();
              $(".saswp-option-table-class tr").find('select').attr('disabled', false);
-             $("#saswp_dayofweek").attr('disabled', false);
+            // $("#saswp_dayofweek").attr('disabled', false);
              $('.select-post-type').val('show_globally').trigger('change');             
              }
              if(schematype == 'Service'){            
-             $(".saswp-service-text-field-tr").show();                                          
+             $(".saswp-service-text-field-tr").show();
+             $(".saswp-option-table-class tr").find('select').attr('disabled', false);
              }
              if(schematype == 'Review'){            
-             $(".saswp-review-text-field-tr").show();                                          
+             $(".saswp-review-text-field-tr").show();  
+             $(".saswp-option-table-class tr").find('select').attr('disabled', false);
              }
+             if(schematype == 'Product'){            
+             $(".saswp-product-text-field-tr").show();  
+             $(".saswp-option-table-class tr").find('select').attr('disabled', false);
+             }
+             if(schematype == 'AudioObject'){            
+             $(".saswp-audio-text-field-tr").show();               
+             }
+             
               $(".saswp-schem-type-note").addClass('saswp_hide');
              if(schematype == 'qanda'){
               $(".saswp-schem-type-note").removeClass('saswp_hide');   
              }
+             saswp_enable_rating_review();
         }); 
         
         $("#saswp_business_type").change(function(){
@@ -67,15 +78,24 @@ jQuery(document).ready(function($){
             $(".saswp-"+businesstype+'-tr').show(); 
             $(".saswp-business-text-field-tr").show(); 
             $(".saswp-"+businesstype+'-tr').find('select').attr('disabled', false); 
-            $("#saswp_dayofweek").attr('disabled', false);
+           // $("#saswp_dayofweek").attr('disabled', false);
             } 
              if(schematype == 'Service'){            
-             $(".saswp-service-text-field-tr").show();                                          
+             $(".saswp-service-text-field-tr").show();  
+             $(".saswp-service-text-field-tr").find('select').attr('disabled', false); 
+             }
+             if(schematype == 'Product'){            
+             $(".saswp-product-text-field-tr").show(); 
+             $(".saswp-product-text-field-tr").find('select').attr('disabled', false); 
+             }
+             if(schematype == 'AudioObject'){            
+             $(".saswp-audio-text-field-tr").show();               
              }
              if(schematype == 'Review'){            
-             $(".saswp-review-text-field-tr").show();                                          
+             $(".saswp-review-text-field-tr").show(); 
+             $(".saswp-review-text-field-tr").find('select').attr('disabled', false);
              }
-            
+            saswp_enable_rating_review();
         }).change(); 
         
         
@@ -341,6 +361,56 @@ jQuery(document).ready(function($){
 	});
         //Settings page jquery ends here
 
+
+        $(document).on("change",".saswp-schema-type-toggle", function(e){
+               var schema_id = $(this).attr("data-schema-id"); 
+               var post_id =   $(this).attr("data-post-id");     
+               if($(this).is(':checked')){
+               var status = 1;    
+               }else{
+               var status = 0;    
+               }
+             $.ajax({
+                            type: "POST",    
+                            url:ajaxurl,                    
+                            dataType: "json",
+                            data:{action:"saswp_enable_disable_schema_on_post",status:status, schema_id:schema_id, post_id:post_id, saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
+                            success:function(response){                                                     
+                            },
+                            error: function(response){                    
+                            console.log(response);
+                            }
+                            });                                      
+
+        });
+
+
+         $(document).on("click",".saswp-reset-data", function(e){
+                e.preventDefault();
+             
+                var saswp_confirm = confirm("Are you sure?");
+             
+                if(saswp_confirm == true){
+                    
+                $.ajax({
+                            type: "POST",    
+                            url:ajaxurl,                    
+                            dataType: "json",
+                            data:{action:"saswp_reset_all_settings", saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
+                            success:function(response){                               
+                                setTimeout(function(){ location.reload(); }, 1000);
+                            },
+                            error: function(response){                    
+                            console.log(response);
+                            }
+                            }); 
+                
+                }
+                                                                 
+
+        });
+
+
   //query form send starts here
 
         $(".saswp-send-query").on("click", function(e){
@@ -377,6 +447,7 @@ jQuery(document).ready(function($){
         $(".saswp-import-plugins").on("click", function(e){
             e.preventDefault();   
             var current_selection = $(this);
+            current_selection.addClass('updating-message');
             var plugin_name = $(this).attr('data-id');                      
                          $.get(ajaxurl, 
                              { action:"saswp_import_plugin_data", plugin_name:plugin_name, saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
@@ -388,7 +459,8 @@ jQuery(document).ready(function($){
                               }else{
                                   $(current_selection).parent().find(".saswp-imported-message").addClass('saswp-error');
                                   $(current_selection).parent().find(".saswp-imported-message").text(response['message']);                                  
-                              }       		   		
+                              }  
+                              current_selection.removeClass('updating-message');
                              },'json');
         });
         
@@ -434,21 +506,30 @@ jQuery(document).ready(function($){
         $('.saswp-local-schema-time-picker').timepicker({ 'timeFormat': 'H:i:s'});
         $(".saswp-modify_schema_post_enable").on("click", function(e){
             var current = $(this);
+            current.addClass('updating-message');
             e.preventDefault();                                                    
                          $.get(ajaxurl, 
                              { action:"saswp_modify_schema_post_enable", post_id: saswp_localize_data.post_id,saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
                               function(response){   
                                current.remove();   
                                $("#post_specific .inside").append(response); 
-                               saswpAddTimepicker();                               
+                               current.removeClass('updating-message');
+                               saswpAddTimepicker();  
+                               saswp_schema_datepicker();
+                               saswp_enable_rating_review();
                              });
+                             
         });
+        saswp_schema_datepicker();
+        function saswp_schema_datepicker(){
         
-        $('.saswp-local-schema-datepicker-picker').datepicker({
-         dateFormat: "yy-mm-dd",
-         minDate: 0
-
-     });
+            $('.saswp-local-schema-datepicker-picker').datepicker({
+             dateFormat: "yy-mm-dd",
+             minDate: 0
+          });
+        }
+        
+        
         
         //Review js starts here
         
@@ -505,7 +586,9 @@ jQuery(document).ready(function($){
         }).change();  
         
         $(document).on("click", ".saswp-restore-post-schema", function(e){
-            e.preventDefault();   
+            e.preventDefault(); 
+            var current = $(this);
+            current.addClass('updating-message');
             var schema_ids = JSON.parse($(".saswp-post-specific-schema-ids").val());                           
                          $.post(ajaxurl, 
                              { action:"saswp_restore_schema", schema_ids:schema_ids,post_id: saswp_localize_data.post_id, saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
@@ -515,7 +598,8 @@ jQuery(document).ready(function($){
                               }else{
                                   alert(response['msg']);
                                   setTimeout(function(){ location.reload(); }, 1000);
-                              }       		   		
+                              }  
+                              current.removeClass('updating-message');
                              },'json');
         });
                 
@@ -527,7 +611,10 @@ jQuery(document).ready(function($){
             $(".saswp-post-specific-wrapper").hide();            
             $("#"+attr).show();           
             $('div.saswp-tab ul.saswp-tab-nav a').removeClass('selected');
-            $(this).addClass('selected');                                                
+            $('div.saswp-tab ul.saswp-tab-nav li').removeClass('selected');
+            $(this).addClass('selected'); 
+            $(this).parent().addClass('selected'); 
+            saswp_enable_rating_review();
         });
         
         //Importer from schema plugin ends here
@@ -597,8 +684,10 @@ jQuery(document).ready(function($){
           }
        });
        saswpCustomSelect2();
-       function saswpCustomSelect2(){
-       $('.saswp-custom-fields-select2').select2({
+       function saswpCustomSelect2(){          
+       if(saswp_app_object.post_type == 'saswp' || saswp_app_object.page_now =='saswp'){
+           
+           $('.saswp-custom-fields-select2').select2({
   		ajax: {
                         type: "POST",    
     			url: ajaxurl, // AJAX URL is predefined in WordPress admin
@@ -619,8 +708,38 @@ jQuery(document).ready(function($){
 			cache: true
 		},
 		minimumInputLength: 2 // the minimum of symbols to input before perform a search
-	});    
+	});   
+           
+       }    
+           
        }           
+      
+     function saswp_enable_rating_review(){
+           var schema_type ="";                      
+           if($('select#schema_type option:selected').val()){
+              schema_type = $('select#schema_type option:selected').val();    
+           }       
+           if($(".saswp-tab-links.selected").attr('saswp-schema-type')){
+              schema_type = $(".saswp-tab-links.selected").attr('saswp-schema-type');    
+           }
+          
+         if(schema_type){
+             $(".saswp-enable-rating-review-"+schema_type.toLowerCase()).change(function(){
+                               
+            if($(this).is(':checked')){
+            $(this).parent().parent().siblings('.saswp-rating-review-'+schema_type.toLowerCase()).show();            
+             }else{
+            $(this).parent().parent().siblings('.saswp-rating-review-'+schema_type.toLowerCase()).hide(); 
+             }
+         
+            }).change();   
+         }
+               
+     }      
+     saswp_enable_rating_review();
+    
+     
+       
        
         //custom fields modify schema ends here
       

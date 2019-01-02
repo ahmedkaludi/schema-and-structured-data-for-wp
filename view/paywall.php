@@ -39,7 +39,7 @@
                    <table class="option-table-class">
                         <tbody>
                             <tr>
-                                <td><label for="notAccessibleForFree"><strong><?php echo esc_html__( 'Paywall', 'schema-and-structured-data-for-wp' ) ?></strong></label></td>
+                                <td><label for="notAccessibleForFree"><?php echo esc_html__( 'Paywall', 'schema-and-structured-data-for-wp' ) ?></label></td>
                               <td><input type="checkbox" id="notAccessibleForFree" name="notAccessibleForFree" value="1" <?php if(isset($schema_options['notAccessibleForFree']) && $schema_options['notAccessibleForFree']==1){echo 'checked'; }?>>
                               </td>
                             </tr>
@@ -66,7 +66,7 @@
                
                <div class="misc-pub-section">
                 <table class="option-table-class">
-                        <tr><td><label><strong><?php echo esc_html__( 'Modify Schema Output', 'schema-and-structured-data-for-wp' ) ?></strong></label></td><td><input type="checkbox" id="saswp_enable_custom_field" name="saswp_enable_custom_field" value="1" <?php if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field']==1){echo 'checked'; }?>></td></tr>   
+                        <tr><td><label><?php echo esc_html__( 'Modify Schema Output', 'schema-and-structured-data-for-wp' ) ?></label></td><td><input type="checkbox" id="saswp_enable_custom_field" name="saswp_enable_custom_field" value="1" <?php if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field']==1){echo 'checked'; }?>></td></tr>   
                 </table>  
                    <div class="saswp-custom-fields-div" <?php if(!isset($schema_options['enable_custom_field']) || $schema_options['enable_custom_field'] ==0){echo 'style="display:none;"'; }?>>
                        <table class="option-table-class saswp-custom-fields-table">

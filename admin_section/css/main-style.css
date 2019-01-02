@@ -338,7 +338,7 @@ clear: both;
 }
 .saswp-seller-div .saswp-knowledge-label{
     float: left;
-    width: 230px;
+   
     clear: both;
 }
 .saswp-seller-div .saswp-knowledge-field{
@@ -461,4 +461,93 @@ Compatibility tab css starts here
 }
 /*
 Compatibility tab css ends
+*/
+.saswp-option-table-class p{
+    margin: auto;
+    font-style: italic;
+    color: #666;
+}
+/*
+On/Off Buttons starts here
+*/
+.saswp-switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 36px;
+}
+
+.saswp-switch input { 
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.saswp-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.saswp-slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .saswp-slider {
+  background-color: #61bd3b;
+}
+
+input:focus + .saswp-slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .saswp-slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.saswp-slider.saswp-round {
+  border-radius: 34px;
+}
+
+.saswp-slider.saswp-round:before {
+  border-radius: 50%;
+}
+
+.saswp-tab-nav li{
+    display: flex;    
+    align-items: center;
+}
+.saswp-tab-nav .selected{
+    background-color: #ccc;
+}
+.saswp-tab-links{
+    display: flex;
+    flex-grow: 1;
+    background: transparent;
+}
+.saswp-single-post-restore .saswp-switch{
+    height: 28px;
+}
+.saswp-single-post-restore .saswp-slider:before{
+    height: 20px;
+}
+/*
+On/Off Buttons ends here
 */

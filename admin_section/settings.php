@@ -768,9 +768,15 @@ function saswp_import_callback(){
         $schema_message = '';
         $schema_pro_message = '';
         $wp_seo_schema_message = '';
+        $seo_pressor_message = '';
         $schema_plugin = saswp_check_data_imported_from('schema'); 
         $schema_pro_plugin = saswp_check_data_imported_from('schema_pro');
         $wp_seo_schema_plugin = saswp_check_data_imported_from('wp_seo_schema');
+        $seo_pressor = saswp_check_data_imported_from('seo_pressor');
+        
+        if($seo_pressor->post_count !=0){
+         $seo_pressor_message =$message;
+        }        
 	if($schema_plugin->post_count !=0){
          $schema_message =$message;
         }
@@ -799,6 +805,12 @@ function saswp_import_callback(){
                         <?php echo $wp_seo_schema_message; ?>    
                     </div>
                 </li>
+                <li><div class="saswp-tools-field-title"><div class="saswp-tooltip"><span class="saswp-tooltiptext"><?php echo esc_html__('All the settings and data you can import from this plugin when you click start importing','schema-and-structured-data-for-wp') ?></span><strong><?php echo esc_html__('SEO Pressor','schema-and-structured-data-for-wp'); ?></strong></div><button data-id="seo_pressor" class="button saswp-import-plugins"><?php echo esc_html__('Start Importing','schema-and-structured-data-for-wp'); ?></button>
+                        <p class="saswp-imported-message"></p>
+                        <?php echo $seo_pressor_message; ?>    
+                    </div>
+                </li>
+                
             </ul>                   
 	<?php   
         echo '<h2>'.esc_html__('Import / Export','schema-and-structured-data-for-wp').'</h2>'; 
@@ -814,9 +826,146 @@ function saswp_import_callback(){
                     </div>
                 </li> 
         </ul>
-        <?php
+        <?php                
+         echo '<h2>'.esc_html__('Reset','schema-and-structured-data-for-wp').'</h2>'; 
+         ?>
+            <ul>
+                <li>
+                    <div class="saswp-tools-field-title"><div class="saswp-tooltip"><strong><?php echo esc_html__('Reset Plugin','schema-and-structured-data-for-wp'); ?></strong></div><a href="#"class="button saswp-reset-data"><?php echo esc_html__('Reset','schema-and-structured-data-for-wp'); ?></a>                         
+                        <p>This will reset your settings and schema types</p>
+                    </div>
+                </li> 
+                
+            </ul>
+<?php
+         
+}
+
+function saswp_imported_callback(){	        
+	$settings = saswp_defaultSettings();          
+        ?>		
+	<?php        
+}
+
+function saswp_review_page_callback(){
         
-        $settings = saswp_defaultSettings();
+        $settings = saswp_defaultSettings();         
+        $field_objs = new saswp_fields_generator();
+        $meta_fields = array(				
+                array(
+			'label' => 'Review Module',
+			'id' => 'saswp-review-module-checkbox',                        
+                        'name' => 'saswp-review-module-checkbox',
+			'type' => 'checkbox',
+                        'class' => 'checkbox saswp-checkbox',
+                        'hidden' => array(
+                             'id' => 'saswp-review-module',
+                             'name' => 'sd_data[saswp-review-module]',                             
+                        )
+		),  
+                
+	);        
+        $field_objs->saswp_field_generator($meta_fields, $settings);    
+       
+}
+function saswp_compatibility_page_callback(){
+        
+        $settings = saswp_defaultSettings();  
+        $kk_star = array(
+			'label' => 'kk Star Ratings',
+			'id' => 'saswp-kk-star-raring-checkbox',                        
+                        'name' => 'saswp-kk-star-raring-checkbox',
+			'type' => 'checkbox',
+                        'class' => 'checkbox saswp-checkbox',
+                        'hidden' => array(
+                             'id' => 'saswp-kk-star-raring',
+                             'name' => 'sd_data[saswp-kk-star-raring]',                             
+                        )
+		);
+        $woocommerce = array(
+			'label' => 'Woocommerce',
+			'id' => 'saswp-woocommerce-checkbox',                        
+                        'name' => 'saswp-woocommerce-checkbox',
+			'type' => 'checkbox',
+                        'class' => 'checkbox saswp-checkbox',
+                        'hidden' => array(
+                             'id' => 'saswp-woocommerce',
+                             'name' => 'sd_data[saswp-woocommerce]',                             
+                        )
+		);
+        $extratheme = array(
+			'label' => 'Extra Theme By Elegant',
+			'id' => 'saswp-extra-checkbox',                        
+                        'name' => 'saswp-extra-checkbox',
+			'type' => 'checkbox',
+                        'class' => 'checkbox saswp-checkbox',
+                        'hidden' => array(
+                             'id' => 'saswp-extra',
+                             'name' => 'sd_data[saswp-extra]',                             
+                        )
+		);
+        $dwquestiton = array(
+			'label' => 'DW Question Answer',
+			'id' => 'saswp-dw-question-answer-checkbox',                        
+                        'name' => 'saswp-dw-question-answer-checkbox',
+			'type' => 'checkbox',
+                        'class' => 'checkbox saswp-checkbox',
+                        'hidden' => array(
+                             'id' => 'saswp-dw-question-answer',
+                             'name' => 'sd_data[saswp-dw-question-answer]',                             
+                        )
+		);
+        
+        
+        if(!is_plugin_active('kk-star-ratings/index.php')){
+             $kk_star['attributes'] = array(
+                 'disabled' => 'disabled'
+             );
+             $kk_star['note'] = esc_html__('Plugin is not activated','schema-and-structured-data-for-wp');
+             $settings['saswp-kk-star-raring'] = 0;
+        }
+       
+             
+        if(!is_plugin_active('woocommerce/woocommerce.php')){
+         
+             $woocommerce['attributes'] = array(
+                 'disabled' => 'disabled'
+             );
+             $woocommerce['note'] = esc_html__('Plugin is not activated','schema-and-structured-data-for-wp');
+             $settings['saswp-woocommerce'] = 0;
+            
+        }
+                         
+        if(get_template() != 'Extra'){
+
+             $extratheme['attributes'] = array(
+                 'disabled' => 'disabled'
+             );
+             $extratheme['note'] = esc_html__('Theme is not activated','schema-and-structured-data-for-wp');
+             $settings['saswp-extra'] = 0;  
+        }
+                 
+        
+         if(!is_plugin_active('dw-question-answer/dw-question-answer.php')){
+             
+             $dwquestiton['attributes'] = array(
+                 'disabled' => 'disabled'
+             );
+             $dwquestiton['note'] = esc_html__('Plugin is not activated','schema-and-structured-data-for-wp');
+             $settings['saswp-dw-question-answer'] = 0; 
+         }
+                        
+        $field_objs = new saswp_fields_generator();
+        $meta_fields = array(				
+                $kk_star,  
+                $woocommerce, 
+                $extratheme,
+                $dwquestiton, 
+                
+	);       
+        
+        $field_objs->saswp_field_generator($meta_fields, $settings);
+        
         
         if ( is_plugin_active('flexmls-idx/flexmls_connect.php')) {
          $meta_fields_default = array(	
@@ -894,129 +1043,19 @@ function saswp_import_callback(){
                         'class' => 'saswp-sd_seller_image',
 			'type' => 'media',
 	);                
-        echo '<h2>'.esc_html__('Compatibility','schema-and-structured-data-for-wp').'</h2>';        
-        $field_objs = new saswp_fields_generator(); 
-        echo '<div class="saswp-compativility-div">';
-        $field_objs->saswp_field_generator($meta_fields_default, $settings);
-        echo '</div>';
+              
+        $field_objs = new saswp_fields_generator();         
+        $field_objs->saswp_field_generator($meta_fields_default, $settings);        
         if ( is_plugin_active('flexmls-idx/flexmls_connect.php')) {
         echo '<div class="saswp-seller-div">';
         echo '<strong>'.esc_html__('Real estate agent info :','schema-and-structured-data-for-wp').'</strong>';
         $field_objs->saswp_field_generator($meta_fields_text, $settings);
         echo '</div>';    
         }
-                                
-}
-
-function saswp_imported_callback(){	        
-	$settings = saswp_defaultSettings();          
-        ?>		
-	<?php        
-}
-
-function saswp_review_page_callback(){
         
-        $settings = saswp_defaultSettings();         
-        $field_objs = new saswp_fields_generator();
-        $meta_fields = array(				
-                array(
-			'label' => 'Review Module',
-			'id' => 'saswp-review-module-checkbox',                        
-                        'name' => 'saswp-review-module-checkbox',
-			'type' => 'checkbox',
-                        'class' => 'checkbox saswp-checkbox',
-                        'hidden' => array(
-                             'id' => 'saswp-review-module',
-                             'name' => 'sd_data[saswp-review-module]',                             
-                        )
-		),  
-                
-	);
-        //echo '<h2>'.esc_html__('Set Up','schema-and-structured-data-for-wp').'</h2>';
-        $field_objs->saswp_field_generator($meta_fields, $settings);    
-       
-}
-function saswp_compatibility_page_callback(){
         
-        $settings = saswp_defaultSettings();  
         
-        //KK Star rating
-        $field_objs = new saswp_fields_generator();
-        $meta_fields = array(				
-                array(
-			'label' => 'kk Star Ratings',
-			'id' => 'saswp-kk-star-raring-checkbox',                        
-                        'name' => 'saswp-kk-star-raring-checkbox',
-			'type' => 'checkbox',
-                        'class' => 'checkbox saswp-checkbox',
-                        'hidden' => array(
-                             'id' => 'saswp-kk-star-raring',
-                             'name' => 'sd_data[saswp-kk-star-raring]',                             
-                        )
-		),  
-                
-	);        
-        if(is_plugin_active('kk-star-ratings/index.php')){
-          $field_objs->saswp_field_generator($meta_fields, $settings);      
-        }
-        //Woocommerce
-        $meta_fields = array(				
-                array(
-			'label' => 'Woocommerce',
-			'id' => 'saswp-woocommerce-checkbox',                        
-                        'name' => 'saswp-woocommerce-checkbox',
-			'type' => 'checkbox',
-                        'class' => 'checkbox saswp-checkbox',
-                        'hidden' => array(
-                             'id' => 'saswp-woocommerce',
-                             'name' => 'sd_data[saswp-woocommerce]',                             
-                        )
-		),  
-                
-	);        
-        if(is_plugin_active('woocommerce/woocommerce.php')){
-          $field_objs->saswp_field_generator($meta_fields, $settings);      
-        }
-        //Extra theme by elegant themes
-        $meta_fields = array(				
-                array(
-			'label' => 'Extra Theme By Elegant',
-			'id' => 'saswp-extra-checkbox',                        
-                        'name' => 'saswp-extra-checkbox',
-			'type' => 'checkbox',
-                        'class' => 'checkbox saswp-checkbox',
-                        'hidden' => array(
-                             'id' => 'saswp-extra',
-                             'name' => 'sd_data[saswp-extra]',                             
-                        )
-		),  
-                
-	);        
-        
-        if(get_template() == 'Extra'){
-          $field_objs->saswp_field_generator($meta_fields, $settings);      
-        }
-        
-        //DW Question Answer
-        $meta_fields = array(				
-                array(
-			'label' => 'DW Question Answer',
-			'id' => 'saswp-dw-question-answer-checkbox',                        
-                        'name' => 'saswp-dw-question-answer-checkbox',
-			'type' => 'checkbox',
-                        'class' => 'checkbox saswp-checkbox',
-                        'hidden' => array(
-                             'id' => 'saswp-dw-question-answer',
-                             'name' => 'sd_data[saswp-dw-question-answer]',                             
-                        )
-		),  
-                
-	);        
-        
-         if(is_plugin_active('dw-question-answer/dw-question-answer.php')){
-          $field_objs->saswp_field_generator($meta_fields, $settings);      
-        }
-       
+                        
 }
 
 

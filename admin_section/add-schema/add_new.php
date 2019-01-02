@@ -89,6 +89,12 @@ $saswp_add_data_type_config = array(
 		wp_enqueue_script( 'saswp_add_new', SASWP_PLUGIN_URL. $saswp_add_data_type_config['installer_dir']. '/js/saswp-add-new' . $suffix . '.js' , array( 'jquery-core' ), '0.1' );
 		//wp_enqueue_script( 'saswp_install_script', SASWP_PLUGIN_URL. '/admin_section/js/main-script.js' , array( 'jquery-core' ), '0.1' );
                 
+                //Enque datepicker
+                wp_enqueue_script( 'jquery-ui-datepicker' );
+                wp_register_style( 'jquery-ui', SASWP_PLUGIN_URL. 'admin_section/css/jquery-ui.css' );
+                wp_enqueue_style( 'jquery-ui' );
+                
+                
                 wp_enqueue_script( 'structure_admin', SASWP_PLUGIN_URL. $saswp_add_data_type_config['installer_dir']. '/js/structure_admin' . $suffix . '.js' , array( 'jquery' ), '0.1' );
 		
                 wp_localize_script( 'structure_admin', 'saswp_app_object', array(
@@ -331,7 +337,10 @@ $saswp_add_data_type_config = array(
                     return;  
                  }                 
                 if(isset($_POST['schema_type'])){                    
-                $schema_type = $_POST['schema_type'];    
+                $schema_type = $_POST['schema_type'];  
+                if($schema_type == 'local_business'){
+                $schema_type = 'Local Business';   
+                }
                 $user_id = get_current_user_id();
                 $schema_post = array(
                     'post_author' => $user_id,
@@ -342,14 +351,7 @@ $saswp_add_data_type_config = array(
                     'post_type' => 'saswp',                                                            
                 );                                      
                 $post_id = wp_insert_post($schema_post);                                  
-                      update_post_meta( $post_id, 'schema_type', esc_attr( $schema_type ) );
-                
-                if ( isset( $_POST['saswp_business_type'] ) ){
-                     update_post_meta( $post_id, 'saswp_business_type', esc_attr( $_POST['saswp_business_type'] ) );    
-                }                    
-                if ( isset( $_POST['saswp_business_name'] ) ){
-                     update_post_meta( $post_id, 'saswp_business_name', esc_attr( $_POST['saswp_business_name'] ) );   
-                }                    
+
                 set_transient('saswp_last_post_id', json_encode(array('post_id'=>$post_id))); 
                 }    
                                 
@@ -422,7 +424,17 @@ $saswp_add_data_type_config = array(
 
 		<footer class="merlin__content__footer merlin__content__footer--fullwidth">
 			
-			<a href="<?php echo esc_url( admin_url( 'edit.php?post_type=saswp' ) ); ?>" class="merlin__button merlin__button--blue merlin__button--fullwidth merlin__button--popin"><?php echo esc_html( 'Let\'s Go' ); ?></a>
+                        <?php 
+                        $last_post_id = json_decode(get_transient('saswp_last_post_id'), true); 
+                                               
+                        if(isset($last_post_id['post_id'])){
+                        $lets_go = esc_url( admin_url( 'post.php?post='.$last_post_id['post_id'].'&action=edit' ) );    
+                        }else{
+                        $lets_go = esc_url( admin_url( 'edit.php?post_type=saswp' ) );        
+                        }
+                        ?>
+                        
+			<a href="<?php echo $lets_go; ?>" class="merlin__button merlin__button--blue merlin__button--fullwidth merlin__button--popin"><?php echo esc_html( 'Let\'s Go' ); ?></a>
 			
 			
 			<ul class="merlin__drawer merlin__drawer--extras">

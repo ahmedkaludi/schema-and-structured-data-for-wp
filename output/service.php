@@ -105,6 +105,36 @@ Class saswp_output_service{
                     }
                     
                     break;
+                    
+                case 'AudioObject':
+                    
+                    if(isset($custom_fields['saswp_audio_schema_name'])){
+                     $input1['name'] =    $custom_fields['saswp_audio_schema_name'];
+                    }
+                    if(isset($custom_fields['saswp_audio_schema_description'])){
+                     $input1['description'] =    $custom_fields['saswp_audio_schema_description'];
+                    }
+                    if(isset($custom_fields['saswp_audio_schema_contenturl'])){
+                     $input1['contentUrl'] =    $custom_fields['saswp_audio_schema_contenturl'];
+                    }
+                    if(isset($custom_fields['saswp_audio_schema_duration'])){
+                     $input1['duration'] =    $custom_fields['saswp_audio_schema_duration'];
+                    }
+                    if(isset($custom_fields['saswp_audio_schema_encoding_format'])){
+                     $input1['encodingFormat'] =    $custom_fields['saswp_audio_schema_encoding_format'];
+                    }
+                    
+                    if(isset($custom_fields['saswp_audio_schema_date_published'])){
+                     $input1['datePublished'] =    $custom_fields['saswp_audio_schema_date_published'];
+                    }
+                    if(isset($custom_fields['saswp_audio_schema_date_modified'])){
+                     $input1['dateModified'] =    $custom_fields['saswp_audio_schema_date_modified'];
+                    }
+                    if(isset($custom_fields['saswp_audio_schema_author_name'])){
+                     $input1['author']['name'] =    $custom_fields['saswp_audio_author_name'];
+                    }                    
+                    
+                    break;    
                 
                 case 'NewsArticle':
                                                                   
@@ -611,11 +641,12 @@ Class saswp_output_service{
             wp_die();
         }
         public function saswp_woocommerce_product_details($post_id){     
-                                                   
+                 
+            
              $product_details = array();                
              if (class_exists('WC_Product')) {
-	     $product = new WC_Product($post_id);      
-              if(is_object($product)){                                 
+	     $product = wc_get_product($post_id);             
+             if(is_object($product)){                                 
              $gtin = get_post_meta($post_id, $key='hwp_product_gtin', true);
              if($gtin !=''){
              $product_details['product_gtin8'] = $gtin;   
@@ -954,6 +985,7 @@ Class saswp_output_service{
                         'saswp_service_schema_name' => 'Name',
                         'saswp_service_schema_type' => 'Service Type',
                         'saswp_service_schema_provider_name' => 'Provider Name',
+                        'saswp_service_schema_provider_type' => 'Provider Type',
                         'saswp_service_schema_image' => 'Image',
                         'saswp_service_schema_locality' => 'Locality',
                         'saswp_service_schema_postal_code' => 'Postal Code',
@@ -1004,6 +1036,22 @@ Class saswp_output_service{
                         'saswp_video_object_author_image' => 'Author Image',
                         'saswp_video_object_organization_name' => 'Organization Name',
                         'saswp_video_object_organization_logo' => 'Organization Logo',                                         
+                    );
+                    
+                    break;
+                
+                case 'AudioObject':
+                    
+                    $meta_field = array(
+                        
+                        'saswp_audio_schema_name' => 'Name',
+                        'saswp_audio_schema_description' => 'Description',
+                        'saswp_audio_schema_contenturl' => 'Content Url',
+                        'saswp_audio_schema_duration' => 'Duration',
+                        'saswp_audio_schema_encoding_format' => 'Encoding Format',
+                        'saswp_audio_schema_date_published' => 'Date Published',
+                        'saswp_audio_schema_date_modified' => 'Date Modified',
+                        'saswp_audio_schema_author_name' => 'Author',                        
                     );
                     
                     break;
