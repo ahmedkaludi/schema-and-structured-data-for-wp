@@ -32,11 +32,8 @@ function saswp_admin_interface_render(){
         if ( is_plugin_active('accelerated-mobile-pages/accelerated-moblie-pages.php') || is_plugin_active('amp/amp.php') ) {
 	$is_amp = true;			
         }   
-        if($is_amp){
-        $tab = saswp_get_tab('general', array('general','knowledge','schema', 'tools', 'amp','review','compatibility','support'));    
-        }else{
-        $tab = saswp_get_tab('general', array('general','knowledge','schema','tools' ,'review','compatibility','support'));    
-        }
+       
+        $tab = saswp_get_tab('general', array('general','knowledge','schema', 'tools', 'amp','review','compatibility','support'));            
 	
 	?>
 <div class="saswp-settings-container">
@@ -49,10 +46,9 @@ function saswp_admin_interface_render(){
 			echo '<a href="' . esc_url(saswp_admin_link('general')) . '" class="nav-tab ' . esc_attr( $tab == 'general' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . esc_html__('General','schema-and-structured-data-for-wp') . '</a>';
 
 			echo '<a href="' . esc_url(saswp_admin_link('knowledge')) . '" class="nav-tab ' . esc_attr( $tab == 'knowledge' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . esc_html__('Knowledge Graph','schema-and-structured-data-for-wp') . '</a>';
-                        
-                        if($is_amp){
+                                                
                         echo '<a href="' . esc_url(saswp_admin_link('amp')) . '" class="nav-tab ' . esc_attr( $tab == 'amp' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . esc_html__('AMP','schema-and-structured-data-for-wp') . '</a>';    
-                        }
+                        
                         echo '<a href="' . esc_url(saswp_admin_link('tools')) . '" class="nav-tab ' . esc_attr( $tab == 'tools' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . esc_html__('Tools','schema-and-structured-data-for-wp') . '</a>';
                          
 			echo '<a href="' . esc_url(saswp_admin_link('schema')) . '" class="nav-tab ' . esc_attr( $tab == 'schema' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . esc_html__('Misc','schema-and-structured-data-for-wp') . '</a>';
@@ -310,9 +306,8 @@ function saswp_schema_page_callback(){
 function saswp_amp_page_callback(){
         $settings = saswp_defaultSettings();         
         $field_objs = new saswp_fields_generator();
-        $meta_fields = array(		
-		
-                array(
+        
+        $non_amp_enable_field = array(
 			'label' => 'Structured Data for AMP',
 			'id' => 'saswp-for-amp-checkbox',                        
                         'name' => 'saswp-for-amp-checkbox',
@@ -322,8 +317,20 @@ function saswp_amp_page_callback(){
                              'id' => 'saswp-for-amp',
                              'name' => 'sd_data[saswp-for-amp]',                             
                         )
-		),  
-                array(
+		) ;                                        
+        
+        if ( !is_plugin_active('accelerated-mobile-pages/accelerated-moblie-pages.php') || is_plugin_active('amp/amp.php') ) {
+            
+             $non_amp_enable_field['attributes'] = array(
+                 'disabled' => 'disabled'
+             );
+             $non_amp_enable_field['note'] = esc_html__('AMP Plugin is not activated','schema-and-structured-data-for-wp');
+             $settings['saswp-for-amp'] = 0;	
+        }
+                
+        $meta_fields = array(
+            $non_amp_enable_field,
+		 array(
 			'label' => 'Structured Data for Non AMP',
 			'id' => 'saswp-for-wordpress-checkbox',
                         'name' => 'saswp-for-wordpress-checkbox',
@@ -334,7 +341,7 @@ function saswp_amp_page_callback(){
                              'id' => 'saswp-for-wordpress',
                              'name' => 'sd_data[saswp-for-wordpress]',                             
                         )
-		),
+		)                                         
 	);
         echo '<h2>'.esc_html__('Set Up','schema-and-structured-data-for-wp').'</h2>';
         $field_objs->saswp_field_generator($meta_fields, $settings);    
