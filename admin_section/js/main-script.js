@@ -476,6 +476,17 @@ jQuery(document).ready(function($){
                              },'json');
         });
         
+        $(".saswp-feedback-remindme").on("click", function(e){
+            e.preventDefault();               
+                         $.get(ajaxurl, 
+                             { action:"saswp_feeback_remindme"},
+                              function(response){                                  
+                              if(response['status'] =='t'){                                  
+                                 $(".saswp-feedback-notice").hide();                                 
+                              }       		   		
+                             },'json');
+        });
+        
          $(document).on("change",'.saswp-local-business-type-select', function(e){
             e.preventDefault();    
                         var current = $(this);    

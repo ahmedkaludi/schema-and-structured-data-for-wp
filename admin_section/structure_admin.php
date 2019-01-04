@@ -525,12 +525,12 @@ function saswp_change_add_new_url() {
  * Hooked to the wp_print_scripts action, with a late priority (100),
  * so that it is after the script was enqueued.
  */
-//function saswp_dequeue_script() {
-//    if(get_post_type() == 'saswp'){
-//        wp_dequeue_script( 'avada-fusion-options' );
-//    }   
-//}
-//add_action( 'wp_print_scripts', 'saswp_dequeue_script', 100 );
+function saswp_dequeue_script() {
+    if(get_post_type() == 'saswp'){
+        wp_dequeue_script( 'avada-fusion-options' );
+    }   
+}
+add_action( 'wp_print_scripts', 'saswp_dequeue_script', 100 );
   
   add_action( 'admin_enqueue_scripts', 'saswp_style_script_include' );
   
@@ -972,7 +972,7 @@ add_action('wp_ajax_saswp_import_plugin_data', 'saswp_import_plugin_data');
 
 
 function saswp_feeback_no_thanks(){                         
-        $result = update_option( "saswp_activation_date", date("Y-m-d"));        
+        $result = update_option( "saswp_activation_never", 'never');        
         if($result){
         echo json_encode(array('status'=>'t'));            
         }else{
@@ -982,4 +982,17 @@ function saswp_feeback_no_thanks(){
 }
 
 add_action('wp_ajax_saswp_feeback_no_thanks', 'saswp_feeback_no_thanks');
+
+
+function saswp_feeback_remindme(){                         
+        $result = update_option( "saswp_activation_date", date("Y-m-d"));        
+        if($result){
+        echo json_encode(array('status'=>'t'));            
+        }else{
+        echo json_encode(array('status'=>'f'));            
+        }        
+        wp_die();           
+}
+
+add_action('wp_ajax_saswp_feeback_remindme', 'saswp_feeback_remindme');
 

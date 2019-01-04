@@ -831,7 +831,8 @@ function saswp_import_callback(){
          ?>
             <ul>
                 <li>
-                    <div class="saswp-tools-field-title"><div class="saswp-tooltip"><strong><?php echo esc_html__('Reset Plugin','schema-and-structured-data-for-wp'); ?></strong></div><a href="#"class="button saswp-reset-data"><?php echo esc_html__('Reset','schema-and-structured-data-for-wp'); ?></a>                         
+                    <div class="saswp-tools-field-title">
+                        <div class="saswp-tooltip"><strong><?php echo esc_html__('Reset Plugin','schema-and-structured-data-for-wp'); ?></strong></div><a href="#"class="button saswp-reset-data"><?php echo esc_html__('Reset','schema-and-structured-data-for-wp'); ?></a>                         
                         <p>This will reset your settings and schema types</p>
                     </div>
                 </li> 
