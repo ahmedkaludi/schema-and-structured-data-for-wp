@@ -65,6 +65,13 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
 
+= 1.0.7.1 (5 January 2019) =
+
+* Improvement: AMP tab should always be shown and amp option should be disabled if amp is not activated. #87
+* Improvement: Notice box to ask for review in day interval should not be shown again, if users click no thanks button. #118
+* Bug Fixed: Warnings and Notices fixed
+
+
 = 1.0.7 (31 December 2018) =
 
 * New Feature: AudioObject schema type add to the schema type list #115
