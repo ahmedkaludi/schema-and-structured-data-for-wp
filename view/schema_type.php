@@ -212,6 +212,7 @@
                                       'electrician' => 'Electrician',
                                       'generalcontractor' => 'General Contractor',
                                       'hvacbusiness'     => 'HVAC Business',
+                                      'housepainter' => 'House Painter',
                                       'locksmith'     => 'Locksmith', 
                                       'movingcompany' => 'Moving Company',
                                       'plumber' => 'Plumber',       
