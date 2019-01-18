@@ -81,14 +81,7 @@ function saswp_admin_notice(){
                 <a href="<?php echo esc_url(admin_url( 'plugins.php?page=saswp-setup-wizard' ).'&_saswp_nonce='.$nonce); ?>"> <?php echo esc_html__('Start Quick Setup', 'schema-and-structured-data-for-wp') ?></a>
             </p>
         </div>
-     
-        <div class="updated notice is-dismissible message notice notice-alt saswp-feedback-notice saswp_hide">
-            <p><span class="dashicons dashicons-thumbs-up"></span> <?php echo esc_html__('You have been using the Schema & structured data for wp plugin for some time now, do you like it?, If so,', 'schema-and-structured-data-for-wp') ?>
-                <a target="_blank" href="https://wordpress.org/plugins/schema-and-structured-data-for-wp/#reviews"> <?php echo esc_html__('please write us a review', 'schema-and-structured-data-for-wp') ?></a>&nbsp;&nbsp;&nbsp;&nbsp;
-                <a  class="saswp-feedback-remindme button button-primary"><?php echo esc_html__('Remind Me Later', 'schema-and-structured-data-for-wp') ?></a>
-                <a  class="saswp-feedback-no-thanks button button-primary"><?php echo esc_html__('No Thanks', 'schema-and-structured-data-for-wp') ?></a>
-            </p>
-        </div>
+             
     <?php
     /* Check transient, if available display notice */
     if( get_transient( 'saswp_admin_notice_transient' ) ){
@@ -124,11 +117,13 @@ function saswp_admin_notice(){
     
     if(($next_days < $current_date) && $activation_never !='never' ){
       ?>
-         <script type="text/javascript">  
-             jQuery(document).ready( function($) {
-                 $(".saswp-feedback-notice").show();                
-             });
-        </script> 
+         <div class="updated notice is-dismissible message notice notice-alt saswp-feedback-notice">
+            <p><span class="dashicons dashicons-thumbs-up"></span> <?php echo esc_html__('You have been using the Schema & structured data for wp plugin for some time now, do you like it?, If so,', 'schema-and-structured-data-for-wp') ?>
+                <a target="_blank" href="https://wordpress.org/plugins/schema-and-structured-data-for-wp/#reviews"> <?php echo esc_html__('please write us a review', 'schema-and-structured-data-for-wp') ?></a>&nbsp;&nbsp;&nbsp;&nbsp;
+                <a  class="saswp-feedback-remindme button button-primary"><?php echo esc_html__('Remind Me Later', 'schema-and-structured-data-for-wp') ?></a>
+                <a  class="saswp-feedback-no-thanks button button-primary"><?php echo esc_html__('No Thanks', 'schema-and-structured-data-for-wp') ?></a>
+            </p>
+        </div>
         <?php
     }  
 }
@@ -139,9 +134,9 @@ function saswp_add_plugin_meta_links($meta_fields, $file) {
     if ( plugin_basename(__FILE__) == $file ) {
       $plugin_url = "https://wordpress.org/support/plugin/schema-and-structured-data-for-wp";      
       $hire_url = "https://ampforwp.com/hire/";
-      $meta_fields[] = "<a href='" . esc_url($plugin_url) . "' target='_blank'>" . esc_html__('Support Forum', 'ads-for-wp') . "</a>";
-      $meta_fields[] = "<a href='" . esc_url($hire_url) . "' target='_blank'>" . esc_html__('Hire Us', 'ads-for-wp') . "</a>";
-      $meta_fields[] = "<a href='" . esc_url($plugin_url) . "/reviews#new-post' target='_blank' title='" . esc_html__('Rate', 'ads-for-wp') . "'>
+      $meta_fields[] = "<a href='" . esc_url($plugin_url) . "' target='_blank'>" . esc_html__('Support Forum', 'schema-and-structured-data-for-wp') . "</a>";
+      $meta_fields[] = "<a href='" . esc_url($hire_url) . "' target='_blank'>" . esc_html__('Hire Us', 'schema-and-structured-data-for-wp') . "</a>";
+      $meta_fields[] = "<a href='" . esc_url($plugin_url) . "/reviews#new-post' target='_blank' title='" . esc_html__('Rate', 'schema-and-structured-data-for-wp') . "'>
             <i class='saswp-wdi-rate-stars'>"
         . "<svg xmlns='http://www.w3.org/2000/svg' width='15' height='15' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='feather feather-star'><polygon points='12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2'/></svg>"
         . "<svg xmlns='http://www.w3.org/2000/svg' width='15' height='15' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='feather feather-star'><polygon points='12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2'/></svg>"

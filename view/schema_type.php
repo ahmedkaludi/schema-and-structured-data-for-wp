@@ -5,7 +5,7 @@
         function saswp_schema_type_add_meta_box() {
 	add_meta_box(
 		'schema_type',
-		esc_html__( 'Schema Type', 'ads-for-wp' ),
+		esc_html__( 'Schema Type', 'schema-and-structured-data-for-wp' ),
 		'saswp_schema_type_meta_box_callback',
 		'saswp',
 		'advanced',

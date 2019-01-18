@@ -7,7 +7,8 @@ class saswp_post_specific {
         protected $all_schema = null;
         protected $options_response = array();
         protected $modify_schema_post_enable = false;
-        public function __construct() {                               
+        public function __construct() {
+            
 	}
         public function saswp_post_specific_hooks(){
                 $this->saswp_get_all_schema_list();
@@ -536,8 +537,7 @@ class saswp_post_specific {
                                                 $media_height = sanitize_text_field( $_POST[ $meta_field['id'].'_height' ] );
                                                 $media_width = sanitize_text_field( $_POST[ $meta_field['id'].'_width' ] );
                                                 $media_thumbnail = sanitize_text_field( $_POST[ $meta_field['id'].'_thumbnail' ] );
-                                                $media_detail = array(
-                                                    //'id' =>$media_id,
+                                                $media_detail = array(                                                    
                                                     'height' =>$media_height,
                                                     'width' =>$media_width,
                                                     'thumbnail' =>$media_thumbnail,

@@ -13,15 +13,19 @@ function saswp_data_generator() {
    global $sd_data;
    global $post;
    $output ='';
+   $post_specific_enable ='';
    $contact_page_output      = saswp_contact_page_output();  	
    $about_page_output        = saswp_about_page_output();     
    $author_output            = saswp_author_output();
    $archive_output           = saswp_archive_output();
    $kb_website_output        = saswp_kb_website_output();   
    $schema_breadcrumb_output = saswp_schema_breadcrumb_output($sd_data);
-   
-  
-   $post_specific_enable = $option = get_option('modify_schema_post_enable_'.$post->ID);
+       
+   if(is_singular()){
+       
+       $post_specific_enable  = get_option('modify_schema_post_enable_'.$post->ID);
+       
+   }
    
    if($post_specific_enable =='enable'){
    $schema_output            = saswp_post_specific_schema_output();      

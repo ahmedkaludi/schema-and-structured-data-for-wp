@@ -89,7 +89,7 @@ class saswp_fields_generator {
                                         $message =''; 
                                         if (! is_plugin_active('flexmls-idx/flexmls_connect.php')) {
                                         if($meta_field['id'] =='saswp_compativility_checkbox'){
-                                        $note = 'Plugin is not activated';     
+                                        $note = esc_html__('Plugin is not activated','schema-and-structured-data-for-wp');     
                                         }   
                                         }
                                                                                                                          

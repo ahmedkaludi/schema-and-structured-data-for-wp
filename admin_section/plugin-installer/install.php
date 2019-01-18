@@ -160,14 +160,14 @@
 
 			<h1><?php echo esc_attr($stepDetails['title']); ?></h1>
 
-			<p><?php echo esc_html( 'This Installation Wizard helps you to setup the necessary options for schema & structured data. It is optional & should take only a few minutes.' ); ?></p>
+			<p><?php echo esc_html__( 'This Installation Wizard helps you to setup the necessary options for schema & structured data. It is optional & should take only a few minutes.', 'schema-and-structured-data-for-wp' ); ?></p>
 	
 		</div>
 
 		<footer class="merlin__content__footer">
-			<a href="<?php echo esc_url( admin_url( 'admin.php?page=structured_data_options' ) ); ?>" class="merlin__button merlin__button--skip"><?php echo esc_html( 'Cancel' ); ?></a>
+			<a href="<?php echo esc_url( admin_url( 'admin.php?page=structured_data_options' ) ); ?>" class="merlin__button merlin__button--skip"><?php echo esc_html__( 'Cancel', 'schema-and-structured-data-for-wp' ); ?></a>
 			
-			<a href="<?php echo esc_url( saswp_step_next_link() ); ?>" class="merlin__button merlin__button--next merlin__button--proceed merlin__button--colorchange"><?php echo esc_html( 'Start' ); ?></a>
+			<a href="<?php echo esc_url( saswp_step_next_link() ); ?>" class="merlin__button merlin__button--next merlin__button--proceed merlin__button--colorchange"><?php echo esc_html__( 'Start', 'schema-and-structured-data-for-wp' ); ?></a>
 			<?php wp_nonce_field( 'saswp_install_nonce' ); ?>
 		</footer>
 	<?php
@@ -453,7 +453,7 @@
 
 		<footer class="merlin__content__footer merlin__content__footer--fullwidth">
 			
-			<a href="<?php echo esc_url( admin_url( 'edit.php?post_type=saswp&page=structured_data_options' ) ); ?>" class="merlin__button merlin__button--blue merlin__button--fullwidth merlin__button--popin"><?php echo esc_html( 'Let\'s Go' ); ?></a>
+			<a href="<?php echo esc_url( admin_url( 'edit.php?post_type=saswp&page=structured_data_options' ) ); ?>" class="merlin__button merlin__button--blue merlin__button--fullwidth merlin__button--popin"><?php echo esc_html__( 'Let\'s Go' ,'schema-and-structured-data-for-wp'); ?></a>
 						
 			<ul class="merlin__drawer merlin__drawer--extras">
 
@@ -566,12 +566,12 @@
 
 		// If there is a title, display it.
 		if ( $args['title'] ) {
-			$svg .= '<title>' . esc_html( $args['title'] ) . '</title>';
+			$svg .= '<title>' . esc_html__( $args['title'], 'schema-and-structured-data-for-wp' ) . '</title>';
 		}
 
 		// If there is a description, display it.
 		if ( $args['desc'] ) {
-			$svg .= '<desc>' . esc_html( $args['desc'] ) . '</desc>';
+			$svg .= '<desc>' . esc_html__( $args['desc'], 'schema-and-structured-data-for-wp' ) . '</desc>';
 		}
 
 		$svg .= '<use xlink:href="#icon-' . esc_html( $args['icon'] ) . '"></use>';

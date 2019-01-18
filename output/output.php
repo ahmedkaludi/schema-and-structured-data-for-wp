@@ -179,7 +179,7 @@ function sd_is_blog() {
 function saswp_schema_output() {        
 	global $sd_data;
 
-	$Conditionals = saswp_get_all_schema_posts();         
+	$Conditionals = saswp_get_all_schema_posts();           
         
 	if(!$Conditionals){
 		return ;
@@ -222,7 +222,7 @@ function saswp_schema_output() {
             $width  =$custom_logo[2];            
         }       
         
-	if(is_singular()){
+	//if(is_singular()){
 		// Generate author id
 	   		$author_id = get_the_author_meta('ID');
 
@@ -828,15 +828,7 @@ function saswp_schema_output() {
                                                                             'width'		=> isset($schema_data['saswp_review_schema_image']) ? $schema_data['saswp_review_schema_image']['width']:'' ,
                                                                             'height'            => isset($schema_data['saswp_review_schema_image']) ? $schema_data['saswp_review_schema_image']['height']:'' ,
                                                                             ),
-                                                                'priceRange'  => saswp_remove_warnings($schema_data, 'saswp_review_schema_price_range', 'saswp_string'),
-                                                                'address'  => array(
-                                                                   '@type'  => 'PostalAddress',  
-                                                                   'streetAddress'  => saswp_remove_warnings($schema_data, 'saswp_review_schema_street_address', 'saswp_string'),  
-                                                                   'addressLocality'  => saswp_remove_warnings($schema_data, 'saswp_review_schema_locality', 'saswp_string'),  
-                                                                   'addressRegion'  => saswp_remove_warnings($schema_data, 'saswp_review_schema_region', 'saswp_string'),  
-                                                                   'postalCode'  => saswp_remove_warnings($schema_data, 'saswp_review_schema_postal_code', 'saswp_string'),  
-                                                                   'addressCountry'  => saswp_remove_warnings($schema_data, 'saswp_review_schema_country', 'saswp_string'),       
-                                                                ),
+                                                                'priceRange'  => saswp_remove_warnings($schema_data, 'saswp_review_schema_price_range', 'saswp_string'),                                                                
                                                                  'telephone'        => saswp_remove_warnings($schema_data, 'saswp_review_schema_telephone', 'saswp_string'),
                                         ),                                         
                                         'datePublished'                 => $date,
@@ -844,12 +836,6 @@ function saswp_schema_output() {
                                         'author'			=> array(
 								'@type' 			=> 'Person',
 								'name'				=> $review_author,
-//								'Image'				=> array(
-//								'@type'				=> 'ImageObject',
-//								'url'				=> $author_details['url'],
-//								'height'			=> $author_details['height'],
-//								'width'				=> $author_details['width']
-//								),
 							),
 						'Publisher'			=> array(
 								'@type'				=> 'Organization',
@@ -864,6 +850,20 @@ function saswp_schema_output() {
 					                                       										                                                                     
 					
                                         ); 
+                                
+                                
+                                if(saswp_remove_warnings($schema_data, 'saswp_review_schema_street_address', 'saswp_string') !='' || saswp_remove_warnings($schema_data, 'saswp_review_schema_locality', 'saswp_string') !=''){
+                                    
+                                 $input1['itemReviewed']['address'] = array(
+                                                                   '@type'  => 'PostalAddress',  
+                                                                   'streetAddress'  => saswp_remove_warnings($schema_data, 'saswp_review_schema_street_address', 'saswp_string'),  
+                                                                   'addressLocality'  => saswp_remove_warnings($schema_data, 'saswp_review_schema_locality', 'saswp_string'),  
+                                                                   'addressRegion'  => saswp_remove_warnings($schema_data, 'saswp_review_schema_region', 'saswp_string'),  
+                                                                   'postalCode'  => saswp_remove_warnings($schema_data, 'saswp_review_schema_postal_code', 'saswp_string'),  
+                                                                   'addressCountry'  => saswp_remove_warnings($schema_data, 'saswp_review_schema_country', 'saswp_string'),       
+                                                                );
+                                    
+                                }                                
                                        
                                 if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){
                                     $service = new saswp_output_service();
@@ -1082,7 +1082,7 @@ function saswp_schema_output() {
                 if(!empty($input1)){
                 $all_schema_output[] = $input1;		                    
                 }                
-	}
+	//}
         }              
         return $all_schema_output;	
 }
@@ -1669,19 +1669,11 @@ function saswp_post_specific_schema_output() {
                                         'description'                   => get_the_excerpt(),
                                         'reviewBody'                    => saswp_remove_warnings($all_post_meta, 'saswp_review_schema_description_'.$schema_id, 'saswp_array'),
                                         'itemReviewed'                  => array(
-                                                                '@type'  => saswp_remove_warnings($all_post_meta, 'saswp_review_schema_item_type_'.$schema_id, 'saswp_array'),
-                                                                'name'  => saswp_remove_warnings($all_post_meta, 'saswp_review_schema_name_'.$schema_id, 'saswp_array'),
-                                                                'image'  => saswp_remove_warnings($all_post_meta, 'saswp_review_schema_image_'.$schema_id, 'saswp_array'),
-                                                                'priceRange'  => saswp_remove_warnings($all_post_meta, 'saswp_review_schema_price_range_'.$schema_id, 'saswp_array'),
-                                                                'address'  => array(
-                                                                   '@type'  => 'PostalAddress',  
-                                                                   'streetAddress'  => saswp_remove_warnings($all_post_meta, 'saswp_review_schema_street_address_'.$schema_id, 'saswp_array'), 
-                                                                   'addressLocality'  => saswp_remove_warnings($all_post_meta, 'saswp_review_schema_locality_'.$schema_id, 'saswp_array'),  
-                                                                   'addressRegion'  => saswp_remove_warnings($all_post_meta, 'saswp_review_schema_region_'.$schema_id, 'saswp_array'),  
-                                                                   'postalCode'  => saswp_remove_warnings($all_post_meta, 'saswp_review_schema_postal_code_'.$schema_id, 'saswp_array'),  
-                                                                   'addressCountry'  => saswp_remove_warnings($all_post_meta, 'saswp_review_schema_country_'.$schema_id, 'saswp_array'),       
-                                                                ),
-                                             'telephone'                 => saswp_remove_warnings($all_post_meta, 'saswp_review_schema_telephone_'.$schema_id, 'saswp_array'),
+                                                                '@type'       => saswp_remove_warnings($all_post_meta, 'saswp_review_schema_item_type_'.$schema_id, 'saswp_array'),
+                                                                'name'        => saswp_remove_warnings($all_post_meta, 'saswp_review_schema_name_'.$schema_id, 'saswp_array'),
+                                                                'image'       => saswp_remove_warnings($all_post_meta, 'saswp_review_schema_image_'.$schema_id, 'saswp_array'),
+                                                                'priceRange'  => saswp_remove_warnings($all_post_meta, 'saswp_review_schema_price_range_'.$schema_id, 'saswp_array'),                                                                
+                                                                'telephone'   => saswp_remove_warnings($all_post_meta, 'saswp_review_schema_telephone_'.$schema_id, 'saswp_array'),
                                         ), 
                                        
                                         'datePublished'                 => saswp_remove_warnings($all_post_meta, 'saswp_review_schema_date_published_'.$schema_id, 'saswp_array'),
@@ -1703,6 +1695,20 @@ function saswp_post_specific_schema_output() {
 					                                       										                                                                     
 					
                                         ); 
+                                
+                                
+                                if(saswp_remove_warnings($all_post_meta, 'saswp_review_schema_street_address_'.$schema_id, 'saswp_array') !='' || saswp_remove_warnings($all_post_meta, 'saswp_review_schema_locality_'.$schema_id, 'saswp_array') !=''){
+                                   
+                                    $input1['itemReviewed']['address'] = array(
+                                                                   '@type'  => 'PostalAddress',  
+                                                                   'streetAddress'  => saswp_remove_warnings($all_post_meta, 'saswp_review_schema_street_address_'.$schema_id, 'saswp_array'), 
+                                                                   'addressLocality'  => saswp_remove_warnings($all_post_meta, 'saswp_review_schema_locality_'.$schema_id, 'saswp_array'),  
+                                                                   'addressRegion'  => saswp_remove_warnings($all_post_meta, 'saswp_review_schema_region_'.$schema_id, 'saswp_array'),  
+                                                                   'postalCode'  => saswp_remove_warnings($all_post_meta, 'saswp_review_schema_postal_code_'.$schema_id, 'saswp_array'),  
+                                                                   'addressCountry'  => saswp_remove_warnings($all_post_meta, 'saswp_review_schema_country_'.$schema_id, 'saswp_array'),       
+                                                                );
+                                    
+                                }
                                        
                                 if(saswp_remove_warnings($all_post_meta, 'saswp_review_schema_enable_rating_'.$schema_id, 'saswp_array') == 1){   
                                  
@@ -2090,8 +2096,9 @@ function saswp_author_output()
 // For About Page
 function saswp_about_page_output()
 {
-	global $sd_data;        
-	$image_id 		= get_post_thumbnail_id();              
+	global $sd_data; 
+        $image_url ='';
+	$image_id  = get_post_thumbnail_id();              
 	$image_details 	= wp_get_attachment_image_src($image_id, 'full');        
 	if(isset($image_details['url'])){
 				$image_url		= $image_details['url'];

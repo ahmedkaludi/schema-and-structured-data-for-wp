@@ -8,6 +8,7 @@ add_action( 'admin_menu', 'saswp_add_new_data_menu' );
 add_action( 'admin_init', 'saswp_add_new_init');
 add_action( 'admin_footer', 'saswp_add_new_svg_sprite');
 add_action( 'wp_ajax_saswp_add_new_save_steps_data', 'saswp_add_new_save_steps_data', 10, 0 );
+
 $saswp_add_data_type_config = array(
 				'installer_dir' => 'admin_section',
 				'plugin_title'  => esc_html__( ucfirst( 'Schema & Structured Data for WP' ), 'schema-and-structured-data-for-wp'),
@@ -40,6 +41,7 @@ $saswp_add_data_type_config = array(
 			);
 	
 	function saswp_add_new_data_menu(){
+            
 		saswp_add_new_init();
                 
 	}
@@ -74,9 +76,9 @@ $saswp_add_data_type_config = array(
 		
 		// Use minified libraries if dev mode is turned on.
 		$suffix = '';
+                
                 wp_enqueue_media ();
-                
-                
+                                
                 // Enqueue styles.
 		wp_enqueue_style( 'saswp-timepicker-js', SASWP_PLUGIN_URL. $saswp_add_data_type_config['installer_dir']. '/css/jquery.timepicker' . $suffix . '.css' , array( 'wp-admin' ), '0.1');
 		// Enqueue javascript.
@@ -139,18 +141,27 @@ $saswp_add_data_type_config = array(
 	}
 	
 	function saswp_add_new_show_steps_body(){
+            
 		global $saswp_add_data_type_config;
+                
 		if($saswp_add_data_type_config['total_steps']==$saswp_add_data_type_config['current_step']['step_id']){
-			call_user_func('saswp_add_new_finish_page');
+                    
+                                call_user_func('saswp_add_new_finish_page');
+                        
 		}else{
 			if(function_exists('saswp_add_new_step'.$saswp_add_data_type_config['current_step']['step_id'])){
+                            
 				call_user_func('saswp_add_new_step'.$saswp_add_data_type_config['current_step']['step_id']);
+                                
 			}else{
+                            
 				call_user_func('saswp_add_new_finish_page');
+                                
 			}
 		}
 	}
 	function saswp_add_new_header() {
+            
 		global $saswp_installer_config;
 		
 		// Get the current step.
@@ -173,6 +184,7 @@ $saswp_add_data_type_config = array(
 	
 	
 	function saswp_add_new_step1(){
+                
 		global $saswp_add_data_type_config;
 		$stepDetails = $saswp_add_data_type_config['steps'][$saswp_add_data_type_config['current_step']['step_id']];
 		?>
@@ -222,6 +234,7 @@ $saswp_add_data_type_config = array(
 	}
         
         function saswp_add_new_step2(){
+            
 		global $saswp_add_data_type_config;
 		$stepDetails = $saswp_add_data_type_config['steps'][$saswp_add_data_type_config['current_step']['step_id']];
 		?>
@@ -284,6 +297,7 @@ $saswp_add_data_type_config = array(
 	
 	
         function saswp_add_new_step3(){
+            
 		global $saswp_add_data_type_config;
 		$stepDetails = $saswp_add_data_type_config['steps'][$saswp_add_data_type_config['current_step']['step_id']];
 		?>
@@ -330,6 +344,7 @@ $saswp_add_data_type_config = array(
 
 		
 	function saswp_add_new_save_steps_data(){    
+            
                  if ( ! isset( $_POST['wpnonce'] ) ){
                  return; 
                  }
@@ -418,7 +433,7 @@ $saswp_add_data_type_config = array(
 
 			<div class="saswp_branding"></div>
 			
-			<h1><?php echo esc_html( 'Schema Added Successfully. Have fun!' ); ?></h1>		
+			<h1><?php echo esc_html__( 'Schema Added Successfully. Have fun!', 'schema-and-structured-data-for-wp' ); ?></h1>		
 
 		</div> 
 
@@ -434,7 +449,7 @@ $saswp_add_data_type_config = array(
                         }
                         ?>
                         
-			<a href="<?php echo $lets_go; ?>" class="merlin__button merlin__button--blue merlin__button--fullwidth merlin__button--popin"><?php echo esc_html( 'Let\'s Go' ); ?></a>
+			<a href="<?php echo $lets_go; ?>" class="merlin__button merlin__button--blue merlin__button--fullwidth merlin__button--popin"><?php echo esc_html__( 'Let\'s Go', 'schema-and-structured-data-for-wp' ); ?></a>
 			
 			
 			<ul class="merlin__drawer merlin__drawer--extras">
@@ -551,12 +566,12 @@ $saswp_add_data_type_config = array(
 
 		// If there is a title, display it.
 		if ( $args['title'] ) {
-			$svg .= '<title>' . esc_html( $args['title'] ) . '</title>';
+			$svg .= '<title>' . esc_html__( $args['title'], 'schema-and-structured-data-for-wp' ) . '</title>';
 		}
 
 		// If there is a description, display it.
 		if ( $args['desc'] ) {
-			$svg .= '<desc>' . esc_html( $args['desc'] ) . '</desc>';
+			$svg .= '<desc>' . esc_html__( $args['desc'], 'schema-and-structured-data-for-wp' ) . '</desc>';
 		}
 
 		$svg .= '<use xlink:href="#icon-' . esc_html( $args['icon'] ) . '"></use>';

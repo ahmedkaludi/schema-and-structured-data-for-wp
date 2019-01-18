@@ -5,7 +5,7 @@
         function saswp_schema_options_add_meta_box() {
 	add_meta_box(
 		'schema_options',
-		esc_html__( 'Advance Schema Options', 'ads-for-wp' ),
+		esc_html__( 'Advance Schema Options', 'schema-and-structured-data-for-wp' ),
 		'saswp_schema_options_meta_box_callback',
 		'saswp',
 		'advanced',
