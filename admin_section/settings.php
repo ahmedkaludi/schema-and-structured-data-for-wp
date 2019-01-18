@@ -949,7 +949,7 @@ function saswp_compatibility_page_callback(){
              $extratheme['attributes'] = array(
                  'disabled' => 'disabled'
              );
-             $extratheme['note'] = esc_html__('Theme is not activated','schema-and-structured-data-for-wp');
+             $extratheme['note']      = esc_html__('Theme is not activated','schema-and-structured-data-for-wp');
              $settings['saswp-extra'] = 0;  
         }
                  
@@ -1116,9 +1116,11 @@ function saswp_enqueue_style_js( $hook ) {
         wp_register_script( 'saswp-main-js', SASWP_PLUGIN_URL . 'admin_section/js/main-script.js', array('jquery'), SASWP_VERSION , true );
         
         $data = array(
-            'post_id'                        => get_the_ID(),
+            'post_id'                   => get_the_ID(),
             'ajax_url'                  => admin_url( 'admin-ajax.php' ),            
-            'saswp_security_nonce'      => wp_create_nonce('saswp_ajax_check_nonce')            
+            'saswp_security_nonce'      => wp_create_nonce('saswp_ajax_check_nonce'),  
+            'new_url_selector'          => esc_url(admin_url()).'post-new.php?post_type=saswp',
+            'new_url_href'              => htmlspecialchars_decode(wp_nonce_url(admin_url('index.php?page=saswp_add_new_data_type&'), '_wpnonce'))
         );
         
         wp_localize_script( 'saswp-main-js', 'saswp_localize_data', $data );

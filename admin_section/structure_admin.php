@@ -82,15 +82,15 @@ add_action( 'plugins_loaded', 'saswp_load_plugin_textdomain' );
 
 function saswp_get_all_schema_posts(){
     
-    $post_idArray = array();
+    $schema_id_array = array();
 
-    $post_idArray = json_decode(get_transient('saswp_transient_schema_ids'), true); 
+    $schema_id_array = json_decode(get_transient('saswp_transient_schema_ids'), true); 
                 
-    if(count($post_idArray)>0){    
+    if(count($schema_id_array)>0){    
         
       $returnData = array();
       
-      foreach ($post_idArray as $post_id){ 
+      foreach ($schema_id_array as $post_id){ 
         
           $unique_checker ='';
           
@@ -152,13 +152,15 @@ function saswp_get_all_schema_posts(){
                   
                 $conditions = $conditions[0];    
               
-              }                          
+              }
+              
               $returnData[] = array(
                     'schema_type'      => get_post_meta( $post_id, 'schema_type', true),
                     'schema_options'   => get_post_meta( $post_id, 'schema_options', true),
                     'conditions'       => $conditions,
                     'post_id'          => $post_id,
                   );
+              
             }
             
       }
@@ -187,6 +189,7 @@ function saswp_generate_field_data( $post_id ){
 }
 
 function saswp_comparison_logic_checker($input){
+    
         global $post;
         $type       = $input['key_1'];
         $comparison = $input['key_2'];
@@ -197,8 +200,11 @@ function saswp_comparison_logic_checker($input){
         $user               = wp_get_current_user();
 
         switch ($type) {
-          case 'show_globally':   
+            
+          case 'show_globally':  
+              
                $result = true;      
+              
           break;            
         // Basic Controls ------------ 
           // Posts Type
@@ -433,11 +439,11 @@ if(is_admin()){
             'labels' => array(
             'name'              => esc_html__( 'Structured Data', 'schema-and-structured-data-for-wp' ),
             'singular_name'     => esc_html__( 'Structured Data', 'schema-and-structured-data-for-wp' ),
-            'add_new' 		 => esc_html__( 'Add Schema Type', 'schema-and-structured-data-for-wp' ),
-	    'add_new_item'  	=> esc_html__( '', 'schema-and-structured-data-for-wp' ),
+            'add_new' 		=> esc_html__( 'Add Schema Type', 'schema-and-structured-data-for-wp' ),
+	    'add_new_item'  	=> '',
             'edit_item'         => esc_html__( 'Edit Schema Type','schema-and-structured-data-for-wp'),           
-            'all_items'          => esc_html__( 'Schema Types', 'schema-and-structured-data-for-wp' ),  
-            'not_found'             => $not_found_button    
+            'all_items'         => esc_html__( 'Schema Types', 'schema-and-structured-data-for-wp' ),  
+            'not_found'         => $not_found_button    
         ),
           'public'                => true,
           'has_archive'           => false,
@@ -456,35 +462,27 @@ if(is_admin()){
     
   }
 
-
-add_action( 'admin_head','saswp_change_add_new_url'); 
-function saswp_change_add_new_url() {
-
-    ?>
-
-    <script type="text/javascript">
-    jQuery(function($) {
-        $('a[href="<?php echo esc_url(admin_url());  ?>post-new.php?post_type=saswp"]').attr( 'href', '<?php echo htmlspecialchars_decode(wp_nonce_url(admin_url('index.php?page=saswp_add_new_data_type&'), '_wpnonce')); ?>');
-    });
-    </script>
-    <?php
-} 
- 
-
-
   function saswp_select_callback($post) {
     
     $data_group_array =  esc_sql ( get_post_meta($post->ID, 'data_group_array', true)  );                 
-    $data_group_array = is_array($data_group_array)? array_values($data_group_array): array();      
+    $data_group_array = is_array($data_group_array)? array_values($data_group_array): array();  
+    
     if ( empty( $data_group_array ) ) {
+        
                $data_group_array[0] =array(
+                   
                    'data_array' => array(
+                       
                             array(
+                                
                             'key_1' => 'post_type',
                             'key_2' => 'equal',
                             'key_3' => 'none',
+                                
                             )
-               )               
+                       
+               )    
+                   
       );
     }
     //security check
@@ -521,6 +519,7 @@ function saswp_change_add_new_url() {
 <div class="saswp-placement-groups">
     
     <?php for ($j=0; $j < $total_group_fields; $j++) {
+        
         $data_array = $data_group_array[$j]['data_array'];
         
         $total_fields = count( $data_array );

@@ -632,8 +632,11 @@ jQuery(document).ready(function($){
         
         //custom fields modify schema starts here
         
+        //Changing the url of add new schema type 
+        $('a[href="'+saswp_localize_data.new_url_selector+'"]').attr( 'href', saswp_localize_data.new_url_href); 
         
-        $("#saswp_enable_custom_field").change(function(){
+        
+       $("#saswp_enable_custom_field").change(function(){
             if ($(this).is(':checked')) { 
                 $(".saswp-custom-fields-div").show();
             }else{

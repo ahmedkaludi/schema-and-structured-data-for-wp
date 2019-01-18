@@ -64,59 +64,71 @@
      * @global type $wpdb
      * @return boolean
      */
-    function saswp_export_all_settings_and_schema(){                        
-        $export_data = array();
+    function saswp_export_all_settings_and_schema(){   
+        
+        $export_data     = array();
         $export_data_all = array();
-        $schema_post = array();       
-        $user_id = get_current_user_id();
+        $schema_post     = array();       
+        $user_id         = get_current_user_id();
+        
         $all_schema_post = get_posts(
+                
                     array(
                             'post_type' 	 => 'saswp',                                                                                   
-                            'posts_per_page' => -1,   
-                            'post_status' => 'any',
+                            'posts_per_page'     => -1,   
+                            'post_status'        => 'any',
                     )
-                 );          
-        if($all_schema_post){           
+                
+                 ); 
+        
+        if($all_schema_post){     
+            
             foreach($all_schema_post as $schema){    
                 
-                $schema_post = array(   
-                    'post_author' => $user_id,
-                    'post_date' => $schema->post_date,
-                    'post_date_gmt' => $schema->post_date_gmt,
-                    'post_content' => $schema->post_content,
-                    'post_title' => $schema->post_title,
-                    'post_excerpt' => $schema->post_excerpt,
-                    'post_status' => $schema->post_status,
-                    'comment_status' => $schema->comment_status,
-                    'ping_status' => $schema->ping_status,
-                    'post_password' => $schema->post_password,
-                    'post_name' =>  $schema->post_name,
-                    'to_ping' => $schema->to_ping,
-                    'pinged' => $schema->pinged,
-                    'post_modified' => $schema->post_modified,
-                    'post_modified_gmt' => $schema->post_modified_gmt,
+                $schema_post = array( 
+                    
+                    'post_author'           => $user_id,
+                    'post_date'             => $schema->post_date,
+                    'post_date_gmt'         => $schema->post_date_gmt,
+                    'post_content'          => $schema->post_content,
+                    'post_title'            => $schema->post_title,
+                    'post_excerpt'          => $schema->post_excerpt,
+                    'post_status'           => $schema->post_status,
+                    'comment_status'        => $schema->comment_status,
+                    'ping_status'           => $schema->ping_status,
+                    'post_password'         => $schema->post_password,
+                    'post_name'             => $schema->post_name,
+                    'to_ping'               => $schema->to_ping,
+                    'pinged'                => $schema->pinged,
+                    'post_modified'         => $schema->post_modified,
+                    'post_modified_gmt'     => $schema->post_modified_gmt,
                     'post_content_filtered' => $schema->post_content_filtered,
-                    'post_parent' => $schema->post_parent,                                        
-                    'menu_order' => $schema->menu_order,
-                    'post_type' => 'saswp',
-                    'post_mime_type' => $schema->post_mime_type,
-                    'comment_count' => $schema->comment_count,
-                    'filter' => $schema->filter,                    
+                    'post_parent'           => $schema->post_parent,                                        
+                    'menu_order'            => $schema->menu_order,
+                    'post_type'             => 'saswp',
+                    'post_mime_type'        => $schema->post_mime_type,
+                    'comment_count'         => $schema->comment_count,
+                    'filter'                => $schema->filter, 
+                    
                 ); 
+                
                 $export_data[$schema->ID]['post'] = $schema_post;    
                 
-                $post_meta = get_post_meta($schema->ID, $key='', true );
-                $schema_type =  $post_meta['schema_type'][0];
-                $local_business_type =  $post_meta['saswp_business_type'][0];
-                $local_business_sub_type =  $post_meta['saswp_business_name'][0];
-                $data_group_array = get_post_meta($schema->ID, $key='data_group_array', true );
-                $local_business_details = get_post_meta($schema->ID, $key='saswp_local_business_details', true );
+                $post_meta                 = get_post_meta($schema->ID, $key='', true );
+                
+                $schema_type               =  saswp_remove_warnings($post_meta, 'schema_type', 'saswp_array');
+                $local_business_type       =  saswp_remove_warnings($post_meta, 'saswp_business_type', 'saswp_array');
+                $local_business_sub_type   =  saswp_remove_warnings($post_meta, 'saswp_business_name', 'saswp_array');
                 
                 
-                $export_data[$schema->ID]['schema_type'] = $schema_type; 
-                $export_data[$schema->ID]['saswp_business_type'] = $local_business_type; 
-                $export_data[$schema->ID]['saswp_business_name'] = $local_business_sub_type; 
-                $export_data[$schema->ID]['data_group_array'] = $data_group_array; 
+                $data_group_array          = get_post_meta($schema->ID, $key='data_group_array', true );
+                $local_business_details    = get_post_meta($schema->ID, $key='saswp_local_business_details', true );
+                
+                
+                $export_data[$schema->ID]['schema_type']                  = $schema_type; 
+                $export_data[$schema->ID]['saswp_business_type']          = $local_business_type; 
+                $export_data[$schema->ID]['saswp_business_name']          = $local_business_sub_type; 
+                $export_data[$schema->ID]['data_group_array']             = $data_group_array; 
                 $export_data[$schema->ID]['saswp_local_business_details'] = $local_business_details;                 
               }       
                 
@@ -158,39 +170,42 @@
             foreach($all_schema_post as $schema){    
                 
                 $schema_post = array(
-                    'post_author' => $user_id,
-                    'post_date' => $schema->post_date,
-                    'post_date_gmt' => $schema->post_date_gmt,
-                    'post_content' => $schema->post_content,
-                    'post_title' => $schema->post_title. ' (Migrated from Schema plugin)',
-                    'post_excerpt' => $schema->post_excerpt,
-                    'post_status' => $schema->post_status,
-                    'comment_status' => $schema->comment_status,
-                    'ping_status' => $schema->ping_status,
-                    'post_password' => $schema->post_password,
-                    'post_name' =>  $schema->post_name,
-                    'to_ping' => $schema->to_ping,
-                    'pinged' => $schema->pinged,
-                    'post_modified' => $schema->post_modified,
-                    'post_modified_gmt' => $schema->post_modified_gmt,
+                    
+                    'post_author'           => $user_id,
+                    'post_date'             => $schema->post_date,
+                    'post_date_gmt'         => $schema->post_date_gmt,
+                    'post_content'          => $schema->post_content,
+                    'post_title'            => $schema->post_title. ' (Migrated from Schema plugin)',
+                    'post_excerpt'          => $schema->post_excerpt,
+                    'post_status'           => $schema->post_status,
+                    'comment_status'        => $schema->comment_status,
+                    'ping_status'           => $schema->ping_status,
+                    'post_password'         => $schema->post_password,
+                    'post_name'             => $schema->post_name,
+                    'to_ping'               => $schema->to_ping,
+                    'pinged'                => $schema->pinged,
+                    'post_modified'         => $schema->post_modified,
+                    'post_modified_gmt'     => $schema->post_modified_gmt,
                     'post_content_filtered' => $schema->post_content_filtered,
-                    'post_parent' => $schema->post_parent,                                        
-                    'menu_order' => $schema->menu_order,
-                    'post_type' => 'saswp',
-                    'post_mime_type' => $schema->post_mime_type,
-                    'comment_count' => $schema->comment_count,
-                    'filter' => $schema->filter,                    
+                    'post_parent'           => $schema->post_parent,                                        
+                    'menu_order'            => $schema->menu_order,
+                    'post_type'             => 'saswp',
+                    'post_mime_type'        => $schema->post_mime_type,
+                    'comment_count'         => $schema->comment_count,
+                    'filter'                => $schema->filter, 
+                    
                 );                                      
                 $post_id = wp_insert_post($schema_post);
                 $result = $post_id;
                 $guid = get_option('siteurl') .'/?post_type=saswp&p='.$post_id;                
                 $wpdb->get_results("UPDATE wp_posts SET guid ='".$guid."' WHERE ID ='".$post_id."'");   
                 
-                $schema_post_meta = get_post_meta($schema->ID, $key='', true ); 
-                $schema_post_types = get_post_meta($schema->ID, $key='_schema_post_types', true );                  
-                $schema_post_meta_box = get_post_meta($schema->ID, $key='_schema_post_meta_box', true );
+                $schema_post_meta       = get_post_meta($schema->ID, $key='', true ); 
+                $schema_post_types      = get_post_meta($schema->ID, $key='_schema_post_types', true );                  
+                $schema_post_meta_box   = get_post_meta($schema->ID, $key='_schema_post_meta_box', true );
                 
                 $data_group_array = array();
+                
                 if($schema_post_types){
                                         
                     $i=0;
@@ -421,24 +436,30 @@
         } 
         
         
-         if(isset($settings)){          
+         if(isset($settings)){ 
+             
           $local_business_details = array();          
           $wpdb->query('START TRANSACTION');
           
           $user_id = get_current_user_id();
            
-                    if($settings['seop_local_name'] !=''){                   
+                    if($settings['seop_local_name'] !=''){ 
+                        
                          $schema_post = array(
                             'post_author' => $user_id,                                                            
                             'post_status' => 'publish',                    
                             'post_type' => 'saswp',                    
-                        );                        
+                        );   
+                         
                     $schema_post['post_title'] = 'Organization (Migrated from SEO Pressor)';
                                       
                     if(isset($settings['seop_local_name'])){
-                     $schema_post['post_title'] = $settings['seop_local_name'].'(Migrated from WP SEO Plugin)';    
+                        
+                     $schema_post['post_title'] = $settings['seop_local_name'].'(Migrated from WP SEO Plugin)'; 
+                     
                     }
                     if(isset($settings['seop_home_logo'])){
+                        
                        $image_details 	= wp_get_attachment_image_src($settings['seop_home_logo'], 'full');
               
                        $local_business_details['local_business_logo'] = array(
