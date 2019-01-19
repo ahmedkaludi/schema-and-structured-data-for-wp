@@ -634,23 +634,24 @@ add_action( 'wp_print_scripts', 'saswp_dequeue_script', 100 );
        $current_screen = get_Current_screen(); 
        if(isset($current_screen->post_type)){
        $post_type = $current_screen->post_type;     
-       }      
-       $saswp_posts = get_posts(
-                    array(
-                            'post_type' 	 => 'saswp',                                                                                   
-                            'posts_per_page' => -1,   
-                            'post_status' => 'publish',                            
-                    )
-                 ); 
+       } 
+       
        $post_found_status ='';
-       if(!$saswp_posts){
+       
+       $saswp_posts       = json_decode(get_transient('saswp_transient_schema_ids'), true);
+                            
+       if(empty($saswp_posts)){
+           
         $post_found_status ='not_found';   
+        
        }       
       $data_array = array(
+          
           'ajax_url'    =>  admin_url( 'admin-ajax.php' ), 
           'post_found_status' => $post_found_status,
           'post_type' =>$post_type,   
           'page_now' => $hook,
+          
       );
        wp_localize_script( 'structure_admin', 'saswp_app_object', $data_array );
        wp_enqueue_script( 'structure_admin' );
@@ -665,8 +666,10 @@ add_action( 'wp_print_scripts', 'saswp_dequeue_script', 100 );
       
       //Enque select 2 script starts here      
        if($hook == 'saswp' || get_post_type() == 'saswp'){
+           
         wp_enqueue_style('saswp-select2-style', SASWP_PLUGIN_URL. 'admin_section/css/select2.min.css' , false, SASWP_VERSION);
         wp_enqueue_script('saswp-select2-script', SASWP_PLUGIN_URL. 'admin_section/js/select2.min.js', false, SASWP_VERSION);
+        
         }
       //Enque select 2 script ends here                    
     }
@@ -674,7 +677,9 @@ add_action( 'wp_print_scripts', 'saswp_dequeue_script', 100 );
   
   // Save PHP Editor
   add_action ( 'save_post' , 'saswp_select_save_data' );
+  
   function saswp_select_save_data ( $post_id ) {           
+      
       if( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
        
       // if our nonce isn't there, or we can't verify it, bail
@@ -687,7 +692,7 @@ add_action( 'wp_print_scripts', 'saswp_dequeue_script', 100 );
     
     $post_data_group_array = array();  
     $temp_condition_array  = array();
-    $show_globally =false;
+    $show_globally         = false;
     
     if(isset($_POST['data_group_array'])){        
         
@@ -701,7 +706,7 @@ add_action( 'wp_print_scripts', 'saswp_dequeue_script', 100 );
             {
                 
               $temp_condition_array[0] =  $group;  
-              $show_globally = true;
+              $show_globally           = true;
               
             }
           }
@@ -767,19 +772,19 @@ function saswp_custom_breadcrumbs() {
         
         if ( is_archive() && !is_tax() && !is_category() && !is_tag() && !is_author() ) {
             
-                    $archive_title = post_type_archive_title($prefix, false);
+                    $archive_title       = post_type_archive_title($prefix, false);
                     $variables1_titles[] = $archive_title;
 
 
         } else if  ( is_author() ) {
 	    		global $author;
 	    		
-	            $userdata = get_userdata( $author ); 
-	            $author_url= get_author_posts_url($userdata->ID);
+	            $userdata           = get_userdata( $author ); 
+	            $author_url         = get_author_posts_url($userdata->ID);
 
 	            // author name
-	            $variables1_titles[]= $userdata->display_name;
-	            $variables2_links[]= $author_url;
+	            $variables1_titles[] = $userdata->display_name;
+	            $variables2_links[]  = $author_url;
                     
         } else if ( is_archive() && is_tax() && !is_category() && !is_tag() ) {
               
@@ -789,14 +794,14 @@ function saswp_custom_breadcrumbs() {
             // If it is a custom post type display name and link
                 if($post_type != 'post') {
 
-                    $post_type_object = get_post_type_object($post_type);
-                    $post_type_archive = get_post_type_archive_link($post_type);
+                    $post_type_object    = get_post_type_object($post_type);
+                    $post_type_archive   = get_post_type_archive_link($post_type);
                     $variables1_titles[] = $post_type_object->labels->name;
-                    $variables2_links[] = $post_type_archive;
+                    $variables2_links[]  = $post_type_archive;
 
                 }
               
-                    $custom_tax_name = get_queried_object()->name;
+                    $custom_tax_name     = get_queried_object()->name;
                     $variables1_titles[] = $custom_tax_name;
 
         } else if ( is_single() ) {
@@ -807,10 +812,10 @@ function saswp_custom_breadcrumbs() {
             // If it is a custom post type display name and link
             if($post_type != 'post') {
                   
-                    $post_type_object = get_post_type_object($post_type);
-                    $post_type_archive = get_post_type_archive_link($post_type);              
+                    $post_type_object   = get_post_type_object($post_type);
+                    $post_type_archive  = get_post_type_archive_link($post_type);              
                     $variables1_titles[]= $post_type_object->labels->name;
-                    $variables2_links[]= $post_type_archive;              
+                    $variables2_links[] = $post_type_archive;              
             }
              
             // Get post category info

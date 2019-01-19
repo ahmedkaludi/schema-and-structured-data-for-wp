@@ -100,7 +100,7 @@
 		wp_localize_script( 'saswp_install', 'saswp_install_params', array(
 			'ajaxurl'      		=> admin_url( 'admin-ajax.php' ),
 			'wpnonce'      		=> wp_create_nonce( 'saswp_install_nonce' ),
-			'pluginurl'			=> SASWP_DIR_URI,
+			'pluginurl'	        => SASWP_DIR_URI,
 		) );
 		
 
@@ -125,7 +125,7 @@
 
 			</div>
 
-			<?php echo sprintf( '<a class="return-to-dashboard" href="%s">%s</a>', esc_url( admin_url( 'admin.php?page=structured_data_options' ) ), esc_html( 'Return to dashboard' ) ); ?>
+			<?php echo sprintf( '<a class="return-to-dashboard" href="%s">%s</a>', esc_url( admin_url( 'admin.php?page=structured_data_options' ) ), esc_html__( 'Return to dashboard', 'schema-and-structured-data-for-wp' ) ); ?>
 
 		</div>
 
@@ -527,12 +527,12 @@
 	function saswp_makesvg( $args = array() ){
 		// Make sure $args are an array.
 		if ( empty( $args ) ) {
-			return __( 'Please define default parameters in the form of an array.', 'accelerated-mobile-pages' );
+			return __( 'Please define default parameters in the form of an array.', 'schema-and-structured-data-for-wp' );
 		}
 
 		// Define an icon.
 		if ( false === array_key_exists( 'icon', $args ) ) {
-			return __( 'Please define an SVG icon filename.', 'accelerated-mobile-pages' );
+			return __( 'Please define an SVG icon filename.', 'schema-and-structured-data-for-wp' );
 		}
 
 		// Set defaults.
@@ -675,45 +675,36 @@ function saswp_general_setting_fields_callback(){
 }
 
 function saswp_social_profile_fields_callback(){
+    
 	global $sd_data;
-	$settings = $sd_data;
-        $sd_facebook ='';
-        $sd_twitter ='';
-        $sd_linkedin ='';
-        $sd_instagram ='';
         
-        if(isset($settings['sd_facebook'])){
-            $sd_facebook = $settings['sd_facebook'];
-        }
-        if(isset($settings['sd_twitter'])){
-            $sd_twitter = $settings['sd_twitter'];
-        }
-        if(isset($settings['sd_linkedin'])){
-            $sd_linkedin = $settings['sd_linkedin'];
-        }
-        if(isset($settings['sd_instagram'])){
-            $sd_instagram = $settings['sd_instagram'];
-        }
+	$settings       = $sd_data;
+        $sd_facebook    = saswp_remove_warnings($settings, 'sd_facebook', 'saswp_string');
+        $sd_twitter     = saswp_remove_warnings($settings, 'sd_twitter', 'saswp_string');
+        $sd_linkedin    = saswp_remove_warnings($settings, 'sd_linkedin', 'saswp_string');
+        $sd_instagram   = saswp_remove_warnings($settings, 'sd_instagram', 'saswp_string');
+        
+        
 	$returnHtml = '
 		<li class="merlin__drawer--import-content__list-item status saswp-social-fields">
 			<input type="checkbox" name="sd_data[saswp-facebook-enable]" id="saswp-facebook-enable" class="checkbox" value="1" '.($sd_facebook!=''? 'checked': '').'>
 			<label for="saswp-facebook-enable"><i></i><span>'.esc_html__('Facebook', 'schema-and-structured-data-for-wp').'</span></label>
-			<input type="text"  name="sd_data[sd_facebook]" value="'.$sd_facebook.'" placeholder="'.esc_html__('Enter Facebook Page UR', 'schema-and-structured-data-for-wp').'">
+			<input type="text"  name="sd_data[sd_facebook]" value="'.esc_url($sd_facebook).'" placeholder="'.esc_html__('Enter Facebook Page UR', 'schema-and-structured-data-for-wp').'">
 		</li>
 		<li class="merlin__drawer--import-content__list-item status saswp-social-fields">
 			<input type="checkbox" name="sd_data[saswp-twitter-enable]" id="saswp-twitter-enable" class="checkbox" value="1" '.($sd_twitter!=''? 'checked': '').'>
 			<label for="saswp-twitter-enable"><i></i><span>'.esc_html__('Twitter', 'schema-and-structured-data-for-wp').'</span></label>
-			<input type="text" name="sd_data[sd_twitter]" value="'.$sd_twitter.'" placeholder="'.esc_html__('Enter Twitter Page UR', 'schema-and-structured-data-for-wp').'">
+			<input type="text" name="sd_data[sd_twitter]" value="'.esc_url($sd_twitter).'" placeholder="'.esc_html__('Enter Twitter Page UR', 'schema-and-structured-data-for-wp').'">
 		</li>
 		<li class="merlin__drawer--import-content__list-item status saswp-social-fields">
 			<input type="checkbox" name="sd_data[saswp-linkedin-enable]" id="saswp-linkedin-enable" class="checkbox" value="1" '.($sd_linkedin!=''? 'checked': '').'>
 			<label for="saswp-linkedin-enable"><i></i><span>'.esc_html__('Linkedin', 'schema-and-structured-data-for-wp').'</span></label>
-			<input type="text" name="sd_data[sd_linkedin]" value="'.$sd_linkedin.'" placeholder="'.esc_html__('Enter Linkedin Page UR', 'schema-and-structured-data-for-wp').'">
+			<input type="text" name="sd_data[sd_linkedin]" value="'.esc_url($sd_linkedin).'" placeholder="'.esc_html__('Enter Linkedin Page UR', 'schema-and-structured-data-for-wp').'">
 		</li>
 		<li class="merlin__drawer--import-content__list-item status saswp-social-fields">
 			<input type="checkbox" name="sd_data[saswp-instagram-enable]" id="saswp-instagram-enable" class="checkbox" value="1" '.($sd_instagram!=''? 'checked': '').'>
 			<label for="saswp-instagram-enable"><i></i><span>'.esc_html__('Instagram', 'schema-and-structured-data-for-wp').'</span></label>
-			<input type="text" name="sd_data[sd_instagram]" value="'.$sd_instagram.'" placeholder="'.esc_html__('Enter Linkedin Page UR', 'schema-and-structured-data-for-wp').'">
+			<input type="text" name="sd_data[sd_instagram]" value="'.esc_url($sd_instagram).'" placeholder="'.esc_html__('Enter Linkedin Page UR', 'schema-and-structured-data-for-wp').'">
 		</li>';
 		return $returnHtml;
 }

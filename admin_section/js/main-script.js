@@ -511,6 +511,34 @@ jQuery(document).ready(function($){
                               }       		   		
                              },'json');
         });
+        
+        $(document).on("change",'#saswp-item-reviewed', function(e){
+            e.preventDefault();    
+                        var current = $(this);    
+                        var item    = $(this).val();
+                         $.get(ajaxurl, 
+                             { action:"saswp_get_item_reviewed_fields", item:item, saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
+                              function(response){    
+                                  
+//                              if(response['status'] =='t'){ 
+//                                   $(".saswp-local-business-name-select").parents('tr').remove();  
+//                                var schema_id = current.parents('.saswp-post-specific-wrapper').attr('data-id');                                
+//                                var html ='<tr><th><label for="saswp_business_name_'+schema_id+'">Sub Business Type</label></th>';
+//                                    html +='<td><select class="saswp-local-business-name-select" id="saswp_business_name_'+schema_id+'" name="saswp_business_name_'+schema_id+'">';    
+//                                    $.each(response['result'], function(index, element){
+//                                        html +='<option value="'+index+'">'+element+'</option>';      
+//                                    });                                    
+//                                    html +='</select></td>';    
+//                                    html +='</tr>'; 
+//                                    current.parents('.form-table tr:first').after(html);
+//                              }else{
+//                                    $(".saswp-local-business-name-select").parents('tr').remove();
+//                              }       		   		
+                             },'json');
+        });
+        
+        
+        
         function saswpAddTimepicker(){
          $('.saswp-local-schema-time-picker').timepicker({ 'timeFormat': 'H:i:s'});
         }
