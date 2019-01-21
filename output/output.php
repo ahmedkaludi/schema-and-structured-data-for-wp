@@ -432,31 +432,9 @@ function saswp_schema_output() {
 		
 			if( 'Article' === $schema_type ){
                             
-				$input1 = array(
-					'@context'			=> 'http://schema.org',
-					'@type'				=> 'Article',
-					'mainEntityOfPage'              => get_permalink(),
-					'image'				=> $image_details[0],
-					'headline'			=> get_the_title(),
-					'description'                   => get_the_excerpt(),
-					'datePublished'                 => $date,
-					'dateModified'                  => $modified_date,
-					'author'			=> array(
-							'@type' 	=> 'Person',
-							'name'		=> $aurthor_name 
-                                                         ),
-					'Publisher'			=> array(
-						'@type'			=> 'Organization',
-						'logo' 			=> array(
-							'@type'		=> 'ImageObject',
-							'url'		=> $logo,
-							'width'		=> $width,
-							'height'	=> $height,
-							),
-						'name'			=> $site_name,
-					),
-                                    
-				);
+                                $service = new saswp_output_service();
+                                $input1 = $service->saswp_schema_markup_generator($schema_type);
+				
                                 if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){
                                     $service = new saswp_output_service();
                                     $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
@@ -819,7 +797,11 @@ function saswp_schema_output() {
                         
                         if( 'Review' === $schema_type ){  
                                  
-                                $schema_data = saswp_get_schema_data($schema_post_id, 'saswp_review_schema_details');                                                              
+                            $schema_data = saswp_get_schema_data($schema_post_id, 'saswp_review_schema_details');  
+                                                        
+                            if(isset($schema_data['saswp_review_schema_item_type'])){
+                            
+                                
                                 $review_author = get_the_author();
                                 if(isset($schema_data['saswp_review_schema_author'])){
                                  $review_author = $schema_data['saswp_review_schema_author'];   
@@ -836,19 +818,19 @@ function saswp_schema_output() {
                                                                 'name'  => saswp_remove_warnings($schema_data, 'saswp_review_schema_name', 'saswp_string'),
                                                                 'image'  => array(
                                                                             '@type'		=>'ImageObject',
-                                                                            'url'		=> isset($schema_data['saswp_review_schema_image']) ? $schema_data['saswp_review_schema_image']['url']:'' ,
-                                                                            'width'		=> isset($schema_data['saswp_review_schema_image']) ? $schema_data['saswp_review_schema_image']['width']:'' ,
-                                                                            'height'            => isset($schema_data['saswp_review_schema_image']) ? $schema_data['saswp_review_schema_image']['height']:'' ,
+                                                                            'url'		=> $schema_data['saswp_review_schema_image'],
+                                                                            'width'		=> $schema_data['saswp_review_schema_image_detail']['width'],
+                                                                            'height'            => $schema_data['saswp_review_schema_image_detail']['height']
                                                                             ),
                                                                 'priceRange'  => saswp_remove_warnings($schema_data, 'saswp_review_schema_price_range', 'saswp_string'),                                                                
-                                                                 'telephone'        => saswp_remove_warnings($schema_data, 'saswp_review_schema_telephone', 'saswp_string'),
+                                                                'telephone'        => saswp_remove_warnings($schema_data, 'saswp_review_schema_telephone', 'saswp_string'),
                                         ),                                         
                                         'datePublished'                 => $date,
                                         'dateModified'                  => $modified_date,
                                         'author'			=> array(
 								'@type' 			=> 'Person',
 								'name'				=> $review_author,
-							),
+                                                                                 ),
 						'Publisher'			=> array(
 								'@type'				=> 'Organization',
 								'logo' 				=> array(
@@ -876,13 +858,65 @@ function saswp_schema_output() {
                                                                 );
                                     
                                 }                                
-                                       
-                                if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){
-                                    $service = new saswp_output_service();
-                                    $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
-                                }
+                             
+                            $service = new saswp_output_service();
+                            
                                 
-                                if(isset($schema_data['saswp_review_schema_enable_rating'])){
+                            switch ($schema_data['saswp_review_schema_item_type']) {
+                                
+                                case 'Article':
+                                    
+                                    $markup = $service->saswp_schema_markup_generator($schema_data['saswp_review_schema_item_type']);                                    
+                                    $input1['itemReviewed'] = $markup;
+                                    
+                                    break;
+                                case 'Adultentertainment':
+                                    $input1 = $input1;
+                                    break;
+                                case 'Blog':
+                                    $input1 = $input1;
+                                    break;
+                                case 'Book':
+                                    break;
+                                case 'Casino':
+                                    break;
+                                case 'Diet':
+                                    break;
+                                case 'Episode':
+                                    break;
+                                case 'ExercisePlan':
+                                    break;
+                                case 'Game':
+                                    break;
+                                case 'Movie':
+                                    break;
+                                case 'MusicPlaylist':
+                                    break;
+                                case 'MusicRecording':
+                                    break;
+                                case 'Photograph':
+                                    break;
+                                case 'Recipe':
+                                    break;
+                                case 'Restaurant':
+                                    break;
+                                case 'Series':
+                                    break;
+                                case 'SoftwareApplication':
+                                    break;
+                                case 'VisualArtwork':
+                                    break;
+                                case 'Webpage':
+                                    break;
+                                case 'WebSite':
+                                    break;
+
+
+                                default:
+                                 break;
+                            }
+                                
+                               if(isset($schema_data['saswp_review_schema_enable_rating']) && saswp_remove_warnings($schema_data, 'saswp_review_schema_rating', 'saswp_string') !='' && saswp_remove_warnings($schema_data, 'saswp_review_schema_review_count', 'saswp_string') !=''){
                                  
                                   $input1['reviewRating'] = array(
                                                             "@type"=> "Rating",
@@ -890,8 +924,20 @@ function saswp_schema_output() {
                                                             "bestRating" => saswp_remove_warnings($schema_data, 'saswp_review_schema_review_count', 'saswp_string')
                                                          );                                       
                                 }
+                                
+                                if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){
+                                    $service = new saswp_output_service();
+                                    $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
+                                }
+                            
+                                
+                            }
+                                
+                            
+                               
+                                
                                                                                                
-				}          
+		        }          
                                 			
 			if( 'VideoObject' === $schema_type){
                             

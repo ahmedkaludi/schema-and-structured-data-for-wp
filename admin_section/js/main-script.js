@@ -512,30 +512,45 @@ jQuery(document).ready(function($){
                              },'json');
         });
         
-        $(document).on("change",'#saswp-item-reviewed', function(e){
-            e.preventDefault();    
+        
+        function saswp_item_reviewed_call(){
+            
+            $(".saswp-item-reviewed").change(function(e){
+            e.preventDefault();
+            var schema_type =""; 
+            
+            if($('select#schema_type option:selected').val()){
+               schema_type = $('select#schema_type option:selected').val();    
+            }       
+            if($(".saswp-tab-links.selected").attr('saswp-schema-type')){
+               schema_type = $(".saswp-tab-links.selected").attr('saswp-schema-type');    
+            }
+            
+            if(schema_type === 'Review'){
+                
                         var current = $(this);    
                         var item    = $(this).val();
+                        var post_id = saswp_localize_data.post_id;
+                        var schema_id = $(current).attr('data-id');  
+                        var post_specific = $(current).attr('post-specific');  
                          $.get(ajaxurl, 
-                             { action:"saswp_get_item_reviewed_fields", item:item, saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
+                             { action:"saswp_get_item_reviewed_fields",schema_id:schema_id,  post_specific:post_specific ,item:item, post_id:post_id, saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
                               function(response){    
                                   
-//                              if(response['status'] =='t'){ 
-//                                   $(".saswp-local-business-name-select").parents('tr').remove();  
-//                                var schema_id = current.parents('.saswp-post-specific-wrapper').attr('data-id');                                
-//                                var html ='<tr><th><label for="saswp_business_name_'+schema_id+'">Sub Business Type</label></th>';
-//                                    html +='<td><select class="saswp-local-business-name-select" id="saswp_business_name_'+schema_id+'" name="saswp_business_name_'+schema_id+'">';    
-//                                    $.each(response['result'], function(index, element){
-//                                        html +='<option value="'+index+'">'+element+'</option>';      
-//                                    });                                    
-//                                    html +='</select></td>';    
-//                                    html +='</tr>'; 
-//                                    current.parents('.form-table tr:first').after(html);
-//                              }else{
-//                                    $(".saswp-local-business-name-select").parents('tr').remove();
-//                              }       		   		
-                             },'json');
-        });
+                                $(current).parent().parent().nextAll().remove(".saswp-review-tr");                                    
+                                $(current).parent().parent().after(response);    
+                                
+                             });
+                
+            }
+                        
+                             
+        }).change();
+            
+        }
+        saswp_item_reviewed_call();
+        
+        
         
         
         
@@ -556,6 +571,7 @@ jQuery(document).ready(function($){
                                saswpAddTimepicker();  
                                saswp_schema_datepicker();
                                saswp_enable_rating_review();
+                               saswp_item_reviewed_call();
                              });
                              
         });

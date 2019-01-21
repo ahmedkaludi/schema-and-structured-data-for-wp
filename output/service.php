@@ -1084,6 +1084,104 @@ Class saswp_output_service{
             return $meta_field;
         }
         
+        
+        public function saswp_schema_markup_generator($schema_type){
+            
+                 global $sd_data;
+                        $logo      =''; 
+                        $height    ='';
+                        $width     ='';
+                        $site_name ='';
+                        
+                        $input1 = array();
+            
+                        $author_id = get_the_author_meta('ID');
+                        $image_id 	= get_post_thumbnail_id();
+			$image_details 	= wp_get_attachment_image_src($image_id, 'full');                       
+			$author_details	= get_avatar_data($author_id);
+			$date 		= get_the_date("Y-m-d\TH:i:s\Z");
+			$modified_date 	= get_the_modified_date("Y-m-d\TH:i:s\Z");
+			$aurthor_name 	= get_the_author();
+            
+                        
+                        if(isset($sd_data['sd_logo'])){
+                            
+                            $logo = $sd_data['sd_logo']['url']; 
+                        }
+
+
+                        if(isset($sd_data['sd_name']) && $sd_data['sd_name'] !=''){
+                          $site_name = $sd_data['sd_name'];  
+                        }else{
+                          $site_name = get_bloginfo();    
+                        }    
+                        
+                        if('' != $logo && !empty($logo)){
+                            
+                              $height = $sd_data['sd_logo']['height'];  
+                              $width = $sd_data['sd_logo']['width'];
+                              
+                           }else{            
+                               $sizes = array(
+                                                           'width'  => 600,
+                                                           'height' => 60,
+                                                           'crop'   => false,
+                                              );   
+                               
+                               $custom_logo_id = get_theme_mod( 'custom_logo' );           
+                               $custom_logo    = wp_get_attachment_image_src( $custom_logo_id, $sizes); 
+                               $logo   = $custom_logo[0];
+                               $height = $custom_logo[1];
+                               $width  = $custom_logo[2];            
+                           } 
+                        
+                        
+            
+            switch ($schema_type) {
+                
+                case 'Article':
+                    $input1 = array(
+					'@context'			=> 'http://schema.org',
+					'@type'				=> 'Article',
+					'mainEntityOfPage'              => get_permalink(),
+					'image'  => array(
+                                                                            '@type'		=>'ImageObject',
+                                                                            'url'		=> $image_details[0],
+                                                                            'height'            => $image_details[1],
+                                                                            'width'		=> $image_details[2],                                                                            
+                                                                            ),
+					'headline'			=> get_the_title(),
+					'description'                   => get_the_excerpt(),
+					'datePublished'                 => $date,
+					'dateModified'                  => $modified_date,
+					'author'			=> array(
+							'@type' 	=> 'Person',
+							'name'		=> $aurthor_name 
+                                                         ),
+					'Publisher'			=> array(
+						'@type'			=> 'Organization',
+						'logo' 			=> array(
+							'@type'		=> 'ImageObject',
+							'url'		=> $logo,
+							'width'		=> $width,
+							'height'	=> $height,
+							),
+						'name'			=> $site_name,
+					),
+                                    
+				);
+
+                    break;
+
+                default:
+                    break;
+            }
+            
+            return $input1;
+            
+        }
+        
+        
 }
 if (class_exists('saswp_output_service')) {
 	$object = new saswp_output_service();
