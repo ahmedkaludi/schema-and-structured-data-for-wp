@@ -655,10 +655,32 @@ Class saswp_output_service{
              if($brand !=''){
              $product_details['product_brand'] = $brand;   
              }
+             
+             $product_image_id  = $product->get_image_id(); 
+             
+             if($product_image_id){
+                 
+              $image_details = wp_get_attachment_image_src($product_image_id, 'full');
+              
+             }
+                         
              $date_on_sale =    $product->get_date_on_sale_to();                            
              $product_details['product_name'] = $product->get_title();
              $product_details['product_description'] = $product->get_description();
-             $product_details['product_image'] = $product->get_image();
+             
+             if(!empty($image_details)){
+              
+             $product_details['product_image'] = array(
+                                                        '@type'		=> 'ImageObject',
+                                                        'url'		=> $image_details[0], 
+                                                        'width'		=> $image_details[1], 
+                                                        'height'        => $image_details[2] 
+                                                        );
+                 
+             }else{
+               $product_details['product_image'] = '';  
+             }             
+             
              $product_details['product_availability'] = $product->get_stock_status();
              $product_details['product_price'] = $product->get_price();
              $product_details['product_sku'] = $product->get_sku();             
