@@ -932,7 +932,26 @@ function saswp_compatibility_page_callback(){
                              'name' => 'sd_data[saswp-dw-question-answer]',                             
                         )
 		);
+        $yoast      = array(
+			'label' => 'Yoast SEO Plugin',
+			'id' => 'saswp-yoast-checkbox',                        
+                        'name' => 'saswp-yoast-checkbox',
+			'type' => 'checkbox',
+                        'class' => 'checkbox saswp-checkbox',
+                        'hidden' => array(
+                             'id' => 'saswp-yoast',
+                             'name' => 'sd_data[saswp-yoast]',                             
+                        )
+		);
         
+        
+        if(!is_plugin_active('wordpress-seo/wp-seo.php')){
+             $yoast['attributes'] = array(
+                 'disabled' => 'disabled'
+             );
+             $yoast['note'] = esc_html__('Plugin is not activated','schema-and-structured-data-for-wp');
+             $settings['saswp-yoast'] = 0;
+        }
         
         if(!is_plugin_active('kk-star-ratings/index.php')){
              $kk_star['attributes'] = array(
@@ -977,7 +996,8 @@ function saswp_compatibility_page_callback(){
                 $kk_star,  
                 $woocommerce, 
                 $extratheme,
-                $dwquestiton, 
+                $dwquestiton,
+                $yoast
                 
 	);       
         

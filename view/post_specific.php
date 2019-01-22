@@ -552,8 +552,7 @@ class saswp_post_specific {
                                                     'height' =>$media_height,
                                                     'width' =>$media_width,
                                                     'thumbnail' =>$media_thumbnail,
-                                                );
-                                                
+                                                );                                                
                                                 update_post_meta( $post_id, $media_key, $media_detail);                                                    
                                                 break;
 					case 'email':

@@ -804,7 +804,9 @@ function saswp_schema_output() {
                                 
                                 $review_author = get_the_author();
                                 if(isset($schema_data['saswp_review_schema_author'])){
+                                    
                                  $review_author = $schema_data['saswp_review_schema_author'];   
+                                 
                                 }
                                 
 				$input1 = array(
@@ -812,18 +814,18 @@ function saswp_schema_output() {
 					'@type'				=> $schema_type ,                                        
 					'url'                           => get_permalink(),
                                         'description'                   => get_the_excerpt(),    
-                                        'reviewBody'                   => saswp_remove_warnings($schema_data, 'saswp_review_schema_description', 'saswp_string'),
+                                        'reviewBody'                    => saswp_remove_warnings($schema_data, 'saswp_review_schema_description', 'saswp_string'),
                                         'itemReviewed'                  => array(
-                                                                '@type'  => saswp_remove_warnings($schema_data, 'saswp_review_schema_item_type', 'saswp_string'),
+                                                                '@type' => saswp_remove_warnings($schema_data, 'saswp_review_schema_item_type', 'saswp_string'),
                                                                 'name'  => saswp_remove_warnings($schema_data, 'saswp_review_schema_name', 'saswp_string'),
-                                                                'image'  => array(
+                                                                'image' => array(
                                                                             '@type'		=>'ImageObject',
                                                                             'url'		=> $schema_data['saswp_review_schema_image'],
                                                                             'width'		=> $schema_data['saswp_review_schema_image_detail']['width'],
                                                                             'height'            => $schema_data['saswp_review_schema_image_detail']['height']
                                                                             ),
                                                                 'priceRange'  => saswp_remove_warnings($schema_data, 'saswp_review_schema_price_range', 'saswp_string'),                                                                
-                                                                'telephone'        => saswp_remove_warnings($schema_data, 'saswp_review_schema_telephone', 'saswp_string'),
+                                                                'telephone'   => saswp_remove_warnings($schema_data, 'saswp_review_schema_telephone', 'saswp_string'),
                                         ),                                         
                                         'datePublished'                 => $date,
                                         'dateModified'                  => $modified_date,
@@ -838,11 +840,10 @@ function saswp_schema_output() {
 								'url'				=> $logo,
 								'width'				=> $width,
 								'height'			=> $height,
-										),
+                                                                                               ),
 								'name'			        => $site_name,
 							),
-					                                       										                                                                     
-					
+					                                       										                                                                     					
                                         ); 
                                 
                                 
@@ -850,11 +851,11 @@ function saswp_schema_output() {
                                     
                                  $input1['itemReviewed']['address'] = array(
                                                                    '@type'  => 'PostalAddress',  
-                                                                   'streetAddress'  => saswp_remove_warnings($schema_data, 'saswp_review_schema_street_address', 'saswp_string'),  
+                                                                   'streetAddress'    => saswp_remove_warnings($schema_data, 'saswp_review_schema_street_address', 'saswp_string'),  
                                                                    'addressLocality'  => saswp_remove_warnings($schema_data, 'saswp_review_schema_locality', 'saswp_string'),  
-                                                                   'addressRegion'  => saswp_remove_warnings($schema_data, 'saswp_review_schema_region', 'saswp_string'),  
-                                                                   'postalCode'  => saswp_remove_warnings($schema_data, 'saswp_review_schema_postal_code', 'saswp_string'),  
-                                                                   'addressCountry'  => saswp_remove_warnings($schema_data, 'saswp_review_schema_country', 'saswp_string'),       
+                                                                   'addressRegion'    => saswp_remove_warnings($schema_data, 'saswp_review_schema_region', 'saswp_string'),  
+                                                                   'postalCode'       => saswp_remove_warnings($schema_data, 'saswp_review_schema_postal_code', 'saswp_string'),  
+                                                                   'addressCountry'   => saswp_remove_warnings($schema_data, 'saswp_review_schema_country', 'saswp_string'),       
                                                                 );
                                     
                                 }                                

@@ -309,6 +309,16 @@ jQuery(document).ready(function($){
                             }
                       break;
                       
+                      case 'saswp-yoast-checkbox':
+                          
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-yoast").val(1);             
+                            }else{
+                              $("#saswp-yoast").val(0);           
+                            }
+                      break;
+                      
+                      
                       default:
                           break;
                   }

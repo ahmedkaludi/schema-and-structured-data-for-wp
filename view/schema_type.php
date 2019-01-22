@@ -1,9 +1,13 @@
 <?php       
 
         function item_reviewed_fields($item, $post_specific = null, $schema_id = null){
+            
             $post_fix = '';
+            
             if($post_specific == 1 && isset($schema_id)){
+                
               $post_fix = '_'.$schema_id;  
+              
             }
             
             $reviewed_field = array(
@@ -75,17 +79,16 @@
                                 ),
                        
                             );
-            
-            
-            
-            
+                                                
             switch ($item) {
+                
                         case 'Article':
                             
                         $reviewed_field = array();
                                   
                             break;
                         case 'Adultentertainment':
+                            
                              $reviewed_field; 
                            
                             break;
@@ -163,20 +166,19 @@
         }
                         
         function saswp_get_item_reviewed_fields(){
-                        
-            
+                                    
             if ( ! isset( $_GET['saswp_security_nonce'] ) ){
                 return; 
             }
             if ( !wp_verify_nonce( $_GET['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
                return;  
             } 
-            
+           
             $post_specific = '';
-            $output ='';
-            $item         = sanitize_text_field($_GET['item']);  
-            $schema_id    = sanitize_text_field($_GET['schema_id']);
-            $post_id      = sanitize_text_field($_GET['post_id']);                                                     
+            $output        ='';
+            $item          = sanitize_text_field($_GET['item']);  
+            $schema_id     = sanitize_text_field($_GET['schema_id']);
+            $post_id       = sanitize_text_field($_GET['post_id']);                                                     
             $post_specific = sanitize_text_field($_GET['post_specific']);  
             
                        
@@ -189,6 +191,7 @@
                  if($post_specific == 1){
                      
                      $meta_value = get_post_meta( $post_id, $meta_field['id'], true );
+                     
                      
                      if(!$meta_value){
                          
@@ -209,19 +212,35 @@
                  
                  if ( empty( $meta_value ) ) {
                      
-		    $meta_value = isset($meta_field['default']); 
+		    $meta_value = $meta_field['default'];
                                 
                 }
-                
+               
                  switch ($meta_field['type']) {
                      
                      case 'media':
                          
                          $media_value = array();
-                         $media_key   = $meta_field['id'].'_detail';
+                         $media_key   = $meta_field['id'].'_detail';                                                                            
                          
-                         $media_value_meta = $schema_data[$media_key]; 
+                         if($post_specific == 1){
+                             
+                             $media_value_meta = get_post_meta( $post_id, $media_key, true ); 
+                             
+                             if(empty($media_value_meta)){
+                                                               
+                              $media_key =   chop($meta_field['id'], '_'.$schema_id).'_detail';
+                              $media_value_meta = $schema_data[$media_key];   
+                                 
+                             }                            
+                             
+                         }else{
+                             
+                             $media_value_meta = $schema_data[$media_key];
+                             
+                         }
                          
+                                                  
                          if(!empty($media_value_meta)){
                              
                             $media_value = $media_value_meta;  
@@ -307,21 +326,25 @@
             }
       }
         function saswp_schema_type_meta_box_callback( $post) {
+            
                 wp_nonce_field( 'saswp_schema_type_nonce', 'saswp_schema_type_nonce' );  
-                $style_business_type ='';
-                $style_business_name =''; 
-                $style_service_name =''; 
-                $style_review_name =''; 
-                $business_name ='';
-                $schema_type ='';
-                $business_type ='';
-                $business_details ='';
-                $custom_logo_id ='';
-                $logo = array();
-                $service_details = array();
-                $review_details = array();
-                $product_details = array();
+                
+                $style_business_type = '';
+                $style_business_name = ''; 
+                $style_service_name  = ''; 
+                $style_review_name   = ''; 
+                $business_name       = '';
+                $schema_type         = '';
+                $business_type       = '';
+                $business_details    = '';
+                $custom_logo_id      = '';
+                $logo                = array();
+                $service_details     = array();
+                $review_details      = array();
+                $product_details     = array();
+                
                 if($post){
+                    
                 $schema_type      = esc_sql ( get_post_meta($post->ID, 'schema_type', true)  );                  
                 $business_type    = esc_sql ( get_post_meta($post->ID, 'saswp_business_type', true)  ); 
                 $business_name    = esc_sql ( get_post_meta($post->ID, 'saswp_business_name', true)  ); 
@@ -330,10 +353,13 @@
                 $review_details   = esc_sql ( get_post_meta($post->ID, 'saswp_review_schema_details', true)  );
                 $product_details  = esc_sql ( get_post_meta($post->ID, 'saswp_product_schema_details', true)  );
                 $audio_details    = esc_sql ( get_post_meta($post->ID, 'saswp_audio_schema_details', true)  );
-                $dayoftheweek = get_post_meta($post->ID, 'saswp_dayofweek', true); 
-                $custom_logo_id = get_theme_mod( 'custom_logo' );
+                $dayoftheweek     = get_post_meta($post->ID, 'saswp_dayofweek', true); 
+                $custom_logo_id   = get_theme_mod( 'custom_logo' );
+                
                 if($custom_logo_id){
+                    
                 $logo = wp_get_attachment_image_src( $custom_logo_id , 'full' );    
+                
                 }
                 
                 if($schema_type != 'local_business'){
@@ -1223,7 +1249,7 @@
                               
                 update_post_meta( $post_id, 'saswp_local_business_details', $local_business_details );
                 
-                //Service schema details starts here
+               
                 $service_schema_details = array();
                 $review_schema_details = array();
                 $product_schema_details = array();
@@ -1308,9 +1334,8 @@
                                                                 'height'    => $media_height,
                                                                 'width'     => $media_width,
                                                                 'thumbnail' => $media_thumbnail,
-                                                );
-                                                
-                                                //update_post_meta( $post_id, $media_key, $media_detail);                                                    
+                                                );                                                
+                                                                                               
                                                 $review_schema_details[$media_key] = $media_detail;
                                                 break;
                                     
@@ -1323,10 +1348,9 @@
 						break;
 				}
                                  $review_schema_details[$meta_field['id']] = $_POST[ $meta_field['id'] ];
-                                // update_post_meta( $post_id, $meta_field['id'], $_POST[ $meta_field['id'] ] );                                 
+                                                           
 				
-			} else if ( $meta_field['type'] === 'checkbox' ) {
-				//update_post_meta( $post_id, $meta_field['id'], '0' );
+			} else if ( $meta_field['type'] === 'checkbox' ) {				
                                 $review_schema_details[$meta_field['id']] = '0';
 			}                   
                     }
@@ -1408,6 +1432,7 @@
                     }
                    
                    update_post_meta( $post_id, 'saswp_product_schema_details', $product_schema_details );
+                   
                 }
                 
                 if($schema_type =='AudioObject'){
