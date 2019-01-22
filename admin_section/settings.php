@@ -942,8 +942,7 @@ function saswp_compatibility_page_callback(){
                              'id' => 'saswp-yoast',
                              'name' => 'sd_data[saswp-yoast]',                             
                         )
-		);
-        
+		);        
         
         if(!is_plugin_active('wordpress-seo/wp-seo.php')){
              $yoast['attributes'] = array(

@@ -26,8 +26,7 @@ function saswp_data_generator() {
    if(saswp_remove_warnings($sd_data, 'saswp-yoast', 'saswp_string') != 1){
        
        $kb_website_output        = saswp_kb_website_output();      
-       $kb_schema_output         = saswp_kb_schema_output();   
-       
+       $kb_schema_output         = saswp_kb_schema_output();       
    }         
    
    if(is_singular()){

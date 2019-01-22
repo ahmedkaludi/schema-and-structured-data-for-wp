@@ -4,8 +4,11 @@ function saswp_ajax_select_creator($data = '', $saved_data= '', $current_number 
  
     $response = $data;
     $is_ajax = false;
+    
     if( $_SERVER['REQUEST_METHOD']=='POST'){
+        
         $is_ajax = true;
+        
         if(wp_verify_nonce($_POST["saswp_call_nonce"],'saswp_select_action_nonce')){
             
             if ( isset( $_POST["id"] ) ) {
@@ -17,8 +20,11 @@ function saswp_ajax_select_creator($data = '', $saved_data= '', $current_number 
             if ( isset( $_POST["group_number"] ) ) {
               $current_group_number   = intval($_POST["group_number"]);
             }
+            
         }else{
+            
             exit;
+            
         }
        
     }          
@@ -39,13 +45,16 @@ function saswp_ajax_select_creator($data = '', $saved_data= '', $current_number 
 
             $choices = saswp_post_type_generator();
             
-            $choices = apply_filters('saswp_modify_select_post_type', $choices );           
+            $choices = apply_filters('saswp_modify_select_post_type', $choices );   
+            
             unset($choices['saswp']);
+            
             break;
 
           case "page":
 
             $post_type = 'page';
+              
             $posts = get_posts(array(
               'posts_per_page'          =>  -1,
               'post_type'               => $post_type,
@@ -242,11 +251,11 @@ function saswp_ajax_select_creator($data = '', $saved_data= '', $current_number 
 }
 // Generate Proper Post Taxonomy for select and to add data.
 function saswp_post_taxonomy_generator(){
+    
     $taxonomies = '';  
     $choices    = array();
     $taxonomies = get_taxonomies( array('public' => true), 'objects' );
     
-
       foreach($taxonomies as $taxonomy) {
         $choices[ $taxonomy->name ] = $taxonomy->labels->name;
       }
@@ -258,46 +267,73 @@ function saswp_post_taxonomy_generator(){
       
     return $choices;
 }
+
 add_action('wp_ajax_create_ajax_select_sdwp_taxonomy','saswp_create_ajax_select_taxonomy');
 
 function saswp_create_ajax_select_taxonomy($selectedParentValue = '',$selectedValue='', $current_number ='', $current_group_number  = ''){
+    
     $is_ajax = false;
+    
     if( $_SERVER['REQUEST_METHOD']=='POST'){
+        
         $is_ajax = true;
+        
         if(wp_verify_nonce($_POST["saswp_call_nonce"],'saswp_select_action_nonce')){
+            
               if(isset($_POST['id'])){
+                  
                 $selectedParentValue = sanitize_text_field(wp_unslash($_POST['id']));
+                
               }
               if(isset($_POST['number'])){
+                  
                 $current_number = intval($_POST['number']);
+                
               }
               if ( isset( $_POST["group_number"] ) ) {
+                  
               $current_group_number   = intval($_POST["group_number"]);
+              
               }
         }else{
+            
             exit;
+            
         }       
     }
     $taxonomies = array(); 
+    
     if($selectedParentValue == 'all'){
+        
     $taxonomies =  get_terms( array(
                         'hide_empty' => true,
-                    ) );    
+                    ) );   
+    
     }else{
+        
     $taxonomies =  get_terms($selectedParentValue, array(
                         'hide_empty' => true,
                     ) );    
     }     
+    
     $choices = '<option value="all">'.esc_html__('All','schema-and-structured-data-for-wp').'</option>';
+    
     foreach($taxonomies as $taxonomy) {
+        
       $sel="";
+      
       if($selectedValue == $taxonomy->slug){
+          
         $sel = "selected";
+        
       }
       $choices .= '<option value="'.esc_attr($taxonomy->slug).'" '.esc_attr($sel).'>'.esc_html__($taxonomy->name,'schema-and-structured-data-for-wp').'</option>';
     }
-    $allowed_html = saswp_expanded_allowed_tags();    
+    
+    $allowed_html = saswp_expanded_allowed_tags();  
+    
     echo '<select  class="widefat ajax-output-child" name="data_group_array[group-'. esc_attr($current_group_number) .'][data_array]['.esc_attr($current_number).'][key_4]">'. wp_kses($choices, $allowed_html).'</select>';
+    
     if($is_ajax){
       die;
     }

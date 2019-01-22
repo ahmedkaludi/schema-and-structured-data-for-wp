@@ -94,12 +94,57 @@
                             break;
                         case 'Blog':
                             
-                            $reviewed_field = array();  
+                           $reviewed_field = array(
+                             array(
+                                        'label' => 'Name',
+                                        'id' => 'saswp_review_schema_name'.$post_fix,
+                                        'type' => 'text',
+                                        'default' => $site_name = get_bloginfo()
+                                ),
+                             array(
+                                        'label' => 'Url',
+                                        'id' => 'saswp_review_schema_url'.$post_fix,
+                                        'type' => 'text',
+                                        'default' => get_site_url()
+                                )
+                         );  
                             
                             break;
                         case 'Book':
                             
-                            $reviewed_field = array();  
+                            $reviewed_field = array(
+                             array(
+                                        'label' => 'Name',
+                                        'id' => 'saswp_review_schema_name'.$post_fix,
+                                        'type' => 'text',
+                                        'default' => ''
+                                ),
+                             array(
+                                        'label' => 'Author',
+                                        'id' => 'saswp_review_schema_author'.$post_fix,
+                                        'type' => 'text',
+                                        'default' => ''
+                                ),
+                            array(
+                                        'label' => 'ISBN',
+                                        'id' => 'saswp_review_schema_isbn'.$post_fix,
+                                        'type' => 'text',
+                                        'default' => ''
+                                ),
+                            array(
+                                        'label' => 'URL',
+                                        'id' => 'saswp_review_schema_author_sameas'.$post_fix,
+                                        'type' => 'text',
+                                        'default' => ''
+                                ),
+                            array(
+                                        'label' => 'Review Body',
+                                        'id' => 'saswp_review_schema_description'.$post_fix,
+                                        'type' => 'textarea',
+                                        'default' => ''
+                                )     
+                                
+                            );  
                             
                             break;
                         case 'casino':
@@ -124,10 +169,48 @@
                            $reviewed_field = array();
                             break;
                         case 'Movie':
-                           $reviewed_field = array();
+                           $reviewed_field = array(
+                             array(
+                                        'label' => 'Name',
+                                        'id' => 'saswp_review_schema_name'.$post_fix,
+                                        'type' => 'text',
+                                        'default' => ''
+                                ),
+                               array(
+                                        'label' => 'Date Created',
+                                        'id' => 'saswp_review_schema_date_created'.$post_fix,
+                                        'type' => 'text',
+                                        'default' => ''
+                                ),
+                               array(
+                                        'label' => 'Image',
+                                        'id' => 'saswp_review_schema_image'.$post_fix,
+                                        'type' => 'media',
+                                        'default' => ''
+                                ),
+                             array(
+                                        'label' => 'Director',
+                                        'id' => 'saswp_review_schema_director'.$post_fix,
+                                        'type' => 'text',
+                                        'default' => ''
+                                ),                            
+                            array(
+                                        'label' => 'URL',
+                                        'id' => 'saswp_review_schema_itemreviewed_sameas'.$post_fix,
+                                        'type' => 'text',
+                                        'default' => ''
+                                ),
+                            array(
+                                        'label' => 'Review Body',
+                                        'id' => 'saswp_review_schema_description'.$post_fix,
+                                        'type' => 'textarea',
+                                        'default' => ''
+                                )     
+                                
+                            );
                             break;
                         case 'MusicPlaylist':
-                         $reviewed_field = array();
+                           $reviewed_field = array();
                             break;
                         case 'MusicRecording':
                            $reviewed_field = array();
@@ -139,7 +222,12 @@
                            $reviewed_field = array();
                             break;
                         case 'Restaurant':
-                           $reviewed_field;
+                           $reviewed_field[] = array(
+                                                'label' => 'Serves Cuisine',
+                                                'id' => 'saswp_review_schema_servescuisine'.$post_fix,
+                                                'type' => 'text',
+                                                'default' => ''
+                                        );
                             break;
                         case 'Series':
                            $reviewed_field = array();
@@ -150,11 +238,24 @@
                         case 'VisualArtwork':
                            $reviewed_field = array();
                             break;
-                        case 'Webpage':
+                        case 'WebPage':
                           $reviewed_field = array();
                             break;
                         case 'WebSite':
-                         $reviewed_field = array();
+                         $reviewed_field = array(
+                             array(
+                                        'label' => 'Name',
+                                        'id' => 'saswp_review_schema_name'.$post_fix,
+                                        'type' => 'text',
+                                        'default' => $site_name = get_bloginfo()
+                                ),
+                             array(
+                                        'label' => 'Url',
+                                        'id' => 'saswp_review_schema_url'.$post_fix,
+                                        'type' => 'text',
+                                        'default' => get_site_url()
+                                )
+                         );
                             break;                        
                         
                         default:
@@ -413,7 +514,7 @@
                                      'Series'                => 'Series',
                                      'SoftwareApplication'   => 'Software Application',
                                      'VisualArtwork'         => 'Visual Artwork',  
-                                     'Webpage'               => 'Webpage', 
+                                     'WebPage'               => 'WebPage', 
                                      'WebSite'               => 'WebSite',                                                                                                                                                   
                                 );                                                             
                 
