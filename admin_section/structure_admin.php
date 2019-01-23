@@ -630,10 +630,14 @@ add_action( 'wp_print_scripts', 'saswp_dequeue_script', 100 );
         }
         
        wp_register_script( 'structure_admin', plugin_dir_url(__FILE__) . '/js/structure_admin.js', array( 'jquery'), SASWP_VERSION, true );
+       
        $post_type='';
        $current_screen = get_Current_screen(); 
+       
        if(isset($current_screen->post_type)){
-       $post_type = $current_screen->post_type;     
+                  
+           $post_type = $current_screen->post_type;     
+           
        } 
        
        $post_found_status ='';
@@ -647,12 +651,13 @@ add_action( 'wp_print_scripts', 'saswp_dequeue_script', 100 );
        }       
       $data_array = array(
           
-          'ajax_url'    =>  admin_url( 'admin-ajax.php' ), 
+          'ajax_url'          => admin_url( 'admin-ajax.php' ), 
           'post_found_status' => $post_found_status,
-          'post_type' =>$post_type,   
-          'page_now' => $hook,
+          'post_type'         => $post_type,   
+          'page_now'          => $hook,
           
       );
+      
        wp_localize_script( 'structure_admin', 'saswp_app_object', $data_array );
        wp_enqueue_script( 'structure_admin' );
       
@@ -954,7 +959,6 @@ function saswp_custom_breadcrumbs() {
        
 }
 
-
 //Adding extra columns and displaying its data starts here
 function saswp_custom_column_set( $column, $post_id ) {
                 
@@ -971,17 +975,26 @@ function saswp_custom_column_set( $column, $post_id ) {
                     $enabled ='';
                     $exclude ='';
                     $data_group_array = get_post_meta( $post_id, $key='data_group_array', true);
+                   
                     
                     if($data_group_array){
                         
                     foreach ($data_group_array as $groups){
-                        
+                         
                         foreach($groups['data_array'] as $group){                           
-                            
+                           
                            if($group['key_2'] == 'equal'){
                                
-                            $enabled .= $group['key_3'].', ';   
-                            
+                               if($group['key_1'] == 'show_globally'){
+                                   
+                                   $enabled .= 'Globally';  
+                                   
+                               }else{
+                                   
+                                   $enabled .= $group['key_3'].', ';   
+                                   
+                               }
+                                                                                       
                            }else{
                                
                             $exclude .= $group['key_3']. ', ';   
@@ -1055,9 +1068,13 @@ function saswp_send_query_message(){
         $sent = wp_mail($sendto, $subject, strip_tags($message), $headers); 
         
         if($sent){
-        echo json_encode(array('status'=>'t'));            
+            
+             echo json_encode(array('status'=>'t'));  
+             
         }else{
-        echo json_encode(array('status'=>'f'));            
+            
+            echo json_encode(array('status'=>'f'));            
+            
         }        
            wp_die();           
 }
@@ -1079,6 +1096,7 @@ function saswp_import_plugin_data(){
         }    
         $plugin_name   = sanitize_text_field($_GET['plugin_name']);         
         $result = '';
+        
         switch ($plugin_name) {
             
             case 'schema':
@@ -1106,9 +1124,13 @@ function saswp_import_plugin_data(){
                 break;
         }                             
         if($result){
-        echo json_encode(array('status'=>'t', 'message'=>esc_html__('Data has been imported succeessfully','schema-and-structured-data-for-wp')));            
+            
+             echo json_encode(array('status'=>'t', 'message'=>esc_html__('Data has been imported succeessfully','schema-and-structured-data-for-wp')));            
+             
         }else{
-        echo json_encode(array('status'=>'f', 'message'=>esc_html__('Plugin data is not available or it is not activated','schema-and-structured-data-for-wp')));            
+            
+            echo json_encode(array('status'=>'f', 'message'=>esc_html__('Plugin data is not available or it is not activated','schema-and-structured-data-for-wp')));            
+        
         }        
            wp_die();           
 }

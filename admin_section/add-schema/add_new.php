@@ -12,11 +12,11 @@ add_action( 'wp_ajax_saswp_add_new_save_steps_data', 'saswp_add_new_save_steps_d
 $saswp_add_data_type_config = array(
 				'installer_dir' => 'admin_section',
 				'plugin_title'  => esc_html__( ucfirst( 'Schema & Structured Data for WP' ), 'schema-and-structured-data-for-wp'),
-				'start_steps' => 1,
-				'total_steps' => 3,
+				'start_steps'   => 1,
+				'total_steps'   => 3,
 				'installerpage' => 'saswp_add_new_data_type',
-				'dev_mode' => false, 
-				'steps' => array(
+				'dev_mode'      => false, 
+				'steps'         => array(
 								1=>array(
 								'title'=>esc_html__('Select Schema', 'schema-and-structured-data-for-wp'),
 								'description'=>esc_html__('Where would you like to enable the schema?','schema-and-structured-data-for-wp'),
@@ -34,7 +34,7 @@ $saswp_add_data_type_config = array(
 									),
 								
 							),
-				'current_step'=>array(
+				'current_step'  =>array(
 							'title'=>'',
 							'step_id'=>1
 							)

@@ -318,14 +318,17 @@ function saswp_amp_page_callback(){
                              'name' => 'sd_data[saswp-for-amp]',                             
                         )
 		) ;                                        
+                
         
-        if ( !is_plugin_active('accelerated-mobile-pages/accelerated-moblie-pages.php') || is_plugin_active('amp/amp.php') ) {
+        if ( is_plugin_active('accelerated-mobile-pages/accelerated-moblie-pages.php') || is_plugin_active('amp/amp.php') ) {                         
+        }else{
             
-             $non_amp_enable_field['attributes'] = array(
+            $non_amp_enable_field['attributes'] = array(
                  'disabled' => 'disabled'
              );
              $non_amp_enable_field['note'] = esc_html__('AMP Plugin is not activated','schema-and-structured-data-for-wp');
              $settings['saswp-for-amp'] = 0;	
+            
         }
                 
         $meta_fields = array(

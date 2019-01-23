@@ -1,6 +1,5 @@
 <?php       
-
-        function item_reviewed_fields($item, $post_specific = null, $schema_id = null){
+function item_reviewed_fields($item, $post_specific = null, $schema_id = null){
             
             $post_fix = '';
             
@@ -487,6 +486,7 @@
 	add_action( 'save_post', 'saswp_schema_type_add_meta_box_save' ) ;
 	
         function saswp_schema_type_add_meta_box() {
+            
 	add_meta_box(
 		'schema_type',
 		esc_html__( 'Schema Type', 'schema-and-structured-data-for-wp' ),
@@ -495,8 +495,10 @@
 		'advanced',
 		'high'
 	);
+        
         }
         function saswp_schema_type_get_meta( $value ) {
+            
             global $post;
             
             $field = get_post_meta( $post->ID, $value, true );
@@ -517,9 +519,9 @@
                 $style_review_name   = ''; 
                 $business_name       = '';
                 $schema_type         = '';
-                $business_type       = '';
-                $business_details    = '';
+                $business_type       = '';                
                 $custom_logo_id      = '';
+                $business_details    = array();
                 $logo                = array();
                 $service_details     = array();
                 $review_details      = array();
@@ -527,26 +529,60 @@
                 
                 if($post){
                     
-                $schema_type      = esc_sql ( get_post_meta($post->ID, 'schema_type', true)  );                  
-                $business_type    = esc_sql ( get_post_meta($post->ID, 'saswp_business_type', true)  ); 
-                $business_name    = esc_sql ( get_post_meta($post->ID, 'saswp_business_name', true)  ); 
-                $business_details = esc_sql ( get_post_meta($post->ID, 'saswp_local_business_details', true)  ); 
-                $service_details  = esc_sql ( get_post_meta($post->ID, 'saswp_service_schema_details', true)  );
-                $review_details   = esc_sql ( get_post_meta($post->ID, 'saswp_review_schema_details', true)  );
-                $product_details  = esc_sql ( get_post_meta($post->ID, 'saswp_product_schema_details', true)  );
-                $audio_details    = esc_sql ( get_post_meta($post->ID, 'saswp_audio_schema_details', true)  );
-                $dayoftheweek     = get_post_meta($post->ID, 'saswp_dayofweek', true); 
+                    $schema_type      = esc_sql ( get_post_meta($post->ID, 'schema_type', true)  );     
+                                                    
+                    switch ($schema_type) {
+                        
+                        case 'AudioObject':
+                            
+                            $audio_details    = esc_sql ( get_post_meta($post->ID, 'saswp_audio_schema_details', true)  );    
+
+                            break;
+                        
+                        case 'local_business':
+                        
+                            $business_type    = esc_sql ( get_post_meta($post->ID, 'saswp_business_type', true)  ); 
+                            $business_name    = esc_sql ( get_post_meta($post->ID, 'saswp_business_name', true)  ); 
+                            $business_details = esc_sql ( get_post_meta($post->ID, 'saswp_local_business_details', true)  ); 
+                            $dayoftheweek     = get_post_meta($post->ID, 'saswp_dayofweek', true);
+
+                            break;
+                        
+                        case 'Product':
+                            
+                            $product_details  = esc_sql ( get_post_meta($post->ID, 'saswp_product_schema_details', true)  );
+
+                            break;
+                        
+                        case 'Service':
+                            
+                            $service_details  = esc_sql ( get_post_meta($post->ID, 'saswp_service_schema_details', true)  );
+
+                            break;
+                        
+                        case 'Review':
+
+                            $review_details   = esc_sql ( get_post_meta($post->ID, 'saswp_review_schema_details', true)  );
+                            
+                            break;
+
+                        default:
+                            break;
+                    }    
+                                                                  
                 $custom_logo_id   = get_theme_mod( 'custom_logo' );
                 
                 if($custom_logo_id){
                     
-                $logo = wp_get_attachment_image_src( $custom_logo_id , 'full' );    
+                        $logo = wp_get_attachment_image_src( $custom_logo_id , 'full' );    
                 
                 }
                 
                 if($schema_type != 'local_business'){
-                 $style_business_type = 'style="display:none"';
-                 $style_business_name = 'style="display:none"';
+                    
+                        $style_business_type = 'style="display:none"';
+                        $style_business_name = 'style="display:none"';
+                 
                 }                            
                 }   
                         
@@ -600,171 +636,171 @@
                                 );                                                             
                 
                                 $all_schema_array = array(
-                                     'Article'     => 'Article',
-                                     'AudioObject' => 'AudioObject',
-                                     'Blogposting' => 'Blogposting',
-                                     'local_business' => 'Local Business',
-                                     'NewsArticle' => 'NewsArticle',
-                                     'Product'     => 'Product',
-                                     'qanda'       => 'Q&A',   
-                                     'Review'      => 'Review',                                     
-                                     'Recipe'      => 'Recipe',                                     
-                                     'Service'     => 'Service',                                     
-                                     'VideoObject' => 'VideoObject',
-                                     'WebPage'     => 'WebPage'                                                                
+                                     'Article'          => 'Article',
+                                     'AudioObject'      => 'AudioObject',
+                                     'Blogposting'      => 'Blogposting',
+                                     'local_business'   => 'Local Business',
+                                     'NewsArticle'      => 'NewsArticle',
+                                     'Product'          => 'Product',
+                                     'qanda'            => 'Q&A',   
+                                     'Review'           => 'Review',                                     
+                                     'Recipe'           => 'Recipe',                                     
+                                     'Service'          => 'Service',                                     
+                                     'VideoObject'      => 'VideoObject',
+                                     'WebPage'          => 'WebPage'                                                                
                                  );
                                  $all_business_type = array(
-                                    'animalshelter' => 'Animal Shelter',
-                                    'automotivebusiness' => 'Automotive Business',
-                                    'childcare' => 'ChildCare',
-                                    'dentist' => 'Dentist',
-                                    'drycleaningorlaundry' => 'Dry Cleaning Or Laundry',
-                                    'emergencyservice' => 'Emergency Service',
-                                    'employmentagency' => 'Employment Agency',
-                                    'entertainmentbusiness' => 'Entertainment Business',
-                                    'financialservice' => 'Financial Service',
-                                    'foodestablishment' => 'Food Establishment',
-                                    'governmentoffice' => 'Government Office',
-                                    'healthandbeautybusiness' => 'Health And Beauty Business',
-                                    'homeandconstructionbusiness' => 'Home And Construction Business',
-                                    'internetcafe' => 'Internet Cafe',
-                                    'legalservice' => 'Legal Service',
-                                    'library' => 'Library',
-                                    'lodgingbusiness' => 'Lodging Business',
-                                    'professionalservice' => 'Professional Service',
-                                    'radiostation' => 'Radio Station',
-                                    'realestateagent' => 'Real Estate Agent',
-                                    'recyclingcenter' => 'Recycling Center',
-                                    'selfstorage' => 'Self Storage',
-                                    'shoppingcenter' => 'Shopping Center',
-                                    'sportsactivitylocation' => 'Sports Activity Location',
-                                    'store' => 'Store',
-                                    'televisionstation' => 'Television Station',
-                                    'touristinformationcenter' => 'Tourist Information Center',
-                                    'travelagency' => 'Travel Agency',
+                                    'animalshelter'                 => 'Animal Shelter',
+                                    'automotivebusiness'            => 'Automotive Business',
+                                    'childcare'                     => 'ChildCare',
+                                    'dentist'                       => 'Dentist',
+                                    'drycleaningorlaundry'          => 'Dry Cleaning Or Laundry',
+                                    'emergencyservice'              => 'Emergency Service',
+                                    'employmentagency'              => 'Employment Agency',
+                                    'entertainmentbusiness'         => 'Entertainment Business',
+                                    'financialservice'              => 'Financial Service',
+                                    'foodestablishment'             => 'Food Establishment',
+                                    'governmentoffice'              => 'Government Office',
+                                    'healthandbeautybusiness'       => 'Health And Beauty Business',
+                                    'homeandconstructionbusiness'   => 'Home And Construction Business',
+                                    'internetcafe'                  => 'Internet Cafe',
+                                    'legalservice'                  => 'Legal Service',
+                                    'library'                       => 'Library',
+                                    'lodgingbusiness'               => 'Lodging Business',
+                                    'professionalservice'           => 'Professional Service',
+                                    'radiostation'                  => 'Radio Station',
+                                    'realestateagent'               => 'Real Estate Agent',
+                                    'recyclingcenter'               => 'Recycling Center',
+                                    'selfstorage'                   => 'Self Storage',
+                                    'shoppingcenter'                => 'Shopping Center',
+                                    'sportsactivitylocation'        => 'Sports Activity Location',
+                                    'store'                         => 'Store',
+                                    'televisionstation'             => 'Television Station',
+                                    'touristinformationcenter'      => 'Tourist Information Center',
+                                    'travelagency'                  => 'Travel Agency',
                                  );
                 
                                   $all_automotive_array = array(
-                                     'autobodyshop' => 'Auto Body Shop',
-                                     'autodealer' => 'Auto Dealer',
-                                     'autopartsstore'     => 'Auto Parts Store',
-                                     'autorental'     => 'Auto Rental',
-                                     'autorepair'      => 'Auto Repair',
-                                     'autowash'     => 'Auto Wash',
-                                     'gasstation' => 'Gas Station',
+                                     'autobodyshop'     => 'Auto Body Shop',
+                                     'autodealer'       => 'Auto Dealer',
+                                     'autopartsstore'   => 'Auto Parts Store',
+                                     'autorental'       => 'Auto Rental',
+                                     'autorepair'       => 'Auto Repair',
+                                     'autowash'         => 'Auto Wash',
+                                     'gasstation'       => 'Gas Station',
                                      'motorcycledealer' => 'Motorcycle Dealer',
                                      'motorcyclerepair' => 'Motorcycle Repair'
                                  );
                                   
                                   $all_emergency_array = array(
-                                     'firestation' => 'Fire Station',
-                                     'hospital' => 'Hospital',
-                                     'policestation'     => 'Police Station',                                    
+                                     'firestation'   => 'Fire Station',
+                                     'hospital'      => 'Hospital',
+                                     'policestation' => 'Police Station',                                    
                                  );
                                   $all_entertainment_array = array(
                                       'adultentertainment' => 'Adult Entertainment',
-                                      'amusementpark' => 'Amusement Park',
-                                      'artgallery'     => 'Art Gallery',
-                                      'casino'     => 'Casino',
-                                      'comedyclub'     => 'Comedy Club',
-                                      'movietheater'     => 'Movie Theater',
-                                      'nightclub'     => 'Night Club',
+                                      'amusementpark'      => 'Amusement Park',
+                                      'artgallery'         => 'Art Gallery',
+                                      'casino'             => 'Casino',
+                                      'comedyclub'         => 'Comedy Club',
+                                      'movietheater'       => 'Movie Theater',
+                                      'nightclub'          => 'Night Club',
                                       
                                  );
                                   $all_financial_array = array(
-                                      'accountingservice' => 'Accounting Service',
-                                      'automatedteller' => 'Automated Teller',
-                                      'bankorcredit_union'     => 'Bank Or Credit Union',
-                                      'insuranceagency'     => 'Insurance Agency',                                      
+                                      'accountingservice'  => 'Accounting Service',
+                                      'automatedteller'    => 'Automated Teller',
+                                      'bankorcredit_union' => 'Bank Or Credit Union',
+                                      'insuranceagency'    => 'Insurance Agency',                                      
                                       
                                  );
                                   
                                   $all_food_establishment_array = array(
-                                      'bakery' => 'Bakery',
-                                      'barorpub' => 'Bar Or Pub',
-                                      'brewery'     => 'Brewery',
-                                      'cafeorcoffee_shop'     => 'Cafe Or Coffee Shop', 
+                                      'bakery'             => 'Bakery',
+                                      'barorpub'           => 'Bar Or Pub',
+                                      'brewery'            => 'Brewery',
+                                      'cafeorcoffee_shop'  => 'Cafe Or Coffee Shop', 
                                       'fastfoodrestaurant' => 'Fast Food Restaurant',
-                                      'icecreamshop' => 'Ice Cream Shop',
-                                      'restaurant'     => 'Restaurant',
-                                      'winery'     => 'Winery', 
+                                      'icecreamshop'       => 'Ice Cream Shop',
+                                      'restaurant'         => 'Restaurant',
+                                      'winery'             => 'Winery', 
                                       
                                  );
                                   $all_health_and_beauty_array = array(
-                                      'beautysalon' => 'Beauty Salon',
-                                      'dayspa' => 'DaySpa',
-                                      'hairsalon'     => 'Hair Salon',
+                                      'beautysalon'    => 'Beauty Salon',
+                                      'dayspa'         => 'DaySpa',
+                                      'hairsalon'      => 'Hair Salon',
                                       'healthclub'     => 'Health Club', 
-                                      'nailsalon' => 'Nail Salon',
-                                      'tattooparlor' => 'Tattoo Parlor',                                                                          
+                                      'nailsalon'      => 'Nail Salon',
+                                      'tattooparlor'   => 'Tattoo Parlor',                                                                          
                                  );
                                   
                                   $all_home_and_construction_array = array(
-                                      'electrician' => 'Electrician',
+                                      'electrician'       => 'Electrician',
                                       'generalcontractor' => 'General Contractor',
-                                      'hvacbusiness'     => 'HVAC Business',
-                                      'locksmith'     => 'Locksmith', 
-                                      'movingcompany' => 'Moving Company',
-                                      'plumber' => 'Plumber',       
+                                      'hvacbusiness'      => 'HVAC Business',
+                                      'locksmith'         => 'Locksmith', 
+                                      'movingcompany'     => 'Moving Company',
+                                      'plumber'           => 'Plumber',       
                                       'roofingcontractor' => 'Roofing Contractor',       
                                  );
                                   
                                   $all_legal_service_array = array(
                                       'attorney' => 'Attorney',
-                                      'notary' => 'Notary',                                            
+                                      'notary'   => 'Notary',                                            
                                  );
                                   
                                   $all_lodging_array = array(
                                       'bedandbreakfast' => 'Bed And Breakfast',
-                                      'campground' => 'Campground',
-                                      'hostel' => 'Hostel',
-                                      'hotel' => 'Hotel',
-                                      'motel' => 'Motel',
-                                      'resort' => 'Resort',
+                                      'campground'      => 'Campground',
+                                      'hostel'          => 'Hostel',
+                                      'hotel'           => 'Hotel',
+                                      'motel'           => 'Motel',
+                                      'resort'          => 'Resort',
                                  );
                                   
                                   $all_sports_activity_location = array(
-                                      'bowlingalley' => 'Bowling Alley',
-                                      'exercisegym' => 'Exercise Gym',
-                                      'golfcourse' => 'Golf Course',
-                                      'healthclub' => 'Health Club',
+                                      'bowlingalley'        => 'Bowling Alley',
+                                      'exercisegym'         => 'Exercise Gym',
+                                      'golfcourse'          => 'Golf Course',
+                                      'healthclub'          => 'Health Club',
                                       'publicswimming_pool' => 'Public Swimming Pool',
-                                      'skiresort' => 'Ski Resort',
-                                      'sportsclub' => 'Sports Club',
-                                      'stadiumorarena' => 'Stadium Or Arena',
-                                      'tenniscomplex' => 'Tennis Complex'
+                                      'skiresort'           => 'Ski Resort',
+                                      'sportsclub'          => 'Sports Club',
+                                      'stadiumorarena'      => 'Stadium Or Arena',
+                                      'tenniscomplex'       => 'Tennis Complex'
                                  );
                                   $all_store = array(
-                                        'autopartsstore'=>'Auto Parts Store',
-                                        'bikestore'=>'Bike Store',
-                                        'bookstore'=>'Book Store',
-                                        'clothingstore'=>'Clothing Store',
-                                        'computerstore'=>'Computer Store',
-                                        'conveniencestore'=>'Convenience Store',
-                                        'departmentstore'=>'Department Store',
-                                        'electronicsstore'=>'Electronics Store',
-                                        'florist'=>'Florist',
-                                        'furniturestore'=>'Furniture Store',
-                                        'gardenstore'=>'Garden Store',
-                                        'grocerystore'=>'Grocery Store',
-                                        'hardwarestore'=>'Hardware Store',
-                                        'hobbyshop'=>'Hobby Shop',
-                                        'homegoodsstore'=>'HomeGoods Store',
-                                        'jewelrystore'=>'Jewelry Store',
-                                        'liquorstore'=>'Liquor Store',
-                                        'mensclothingstore'=>'Mens Clothing Store',
-                                        'mobilephonestore'=>'Mobile Phone Store',
-                                        'movierentalstore'=>'Movie Rental Store',
-                                        'musicstore'=>'Music Store',
-                                        'officeequipmentstore'=>'Office Equipment Store',
-                                        'outletstore'=>'Outlet Store',
-                                        'pawnshop'=>'Pawn Shop',
-                                        'petstore'=>'Pet Store',
-                                        'shoestore'=>'Shoe Store',
-                                        'sportinggoodsstore'=>'Sporting Goods Store',
-                                        'tireshop'=>'Tire Shop',
-                                        'toystore'=>'Toy Store',
-                                        'wholesalestore'=>'Wholesale Store'
+                                        'autopartsstore'        => 'Auto Parts Store',
+                                        'bikestore'             => 'Bike Store',
+                                        'bookstore'             => 'Book Store',
+                                        'clothingstore'         => 'Clothing Store',
+                                        'computerstore'         => 'Computer Store',
+                                        'conveniencestore'      => 'Convenience Store',
+                                        'departmentstore'       => 'Department Store',
+                                        'electronicsstore'      => 'Electronics Store',
+                                        'florist'               => 'Florist',
+                                        'furniturestore'        => 'Furniture Store',
+                                        'gardenstore'           => 'Garden Store',
+                                        'grocerystore'          => 'Grocery Store',
+                                        'hardwarestore'         => 'Hardware Store',
+                                        'hobbyshop'             => 'Hobby Shop',
+                                        'homegoodsstore'        => 'HomeGoods Store',
+                                        'jewelrystore'          => 'Jewelry Store',
+                                        'liquorstore'           => 'Liquor Store',
+                                        'mensclothingstore'     => 'Mens Clothing Store',
+                                        'mobilephonestore'      => 'Mobile Phone Store',
+                                        'movierentalstore'      => 'Movie Rental Store',
+                                        'musicstore'            => 'Music Store',
+                                        'officeequipmentstore'  => 'Office Equipment Store',
+                                        'outletstore'           => 'Outlet Store',
+                                        'pawnshop'              => 'Pawn Shop',
+                                        'petstore'              => 'Pet Store',
+                                        'shoestore'             => 'Shoe Store',
+                                        'sportinggoodsstore'    => 'Sporting Goods Store',
+                                        'tireshop'              => 'Tire Shop',
+                                        'toystore'              => 'Toy Store',
+                                        'wholesalestore'        => 'Wholesale Store'
                                  );
                 ?>                                               
                 <div class="misc-pub-section">

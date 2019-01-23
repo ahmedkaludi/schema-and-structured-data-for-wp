@@ -15,11 +15,11 @@
 	$saswp_installer_config = array(
 					'installer_dir' => 'plugin-installer',
 					'plugin_title'  => esc_html__( ucfirst( 'Schema & Structured Data for WP' ), 'schema-and-structured-data-for-wp'),
-					'start_steps' => 1,
-					'total_steps' => 5,
+					'start_steps'   => 1,
+					'total_steps'   => 5,
 					'installerpage' => 'saswp-setup-wizard',
-					'dev_mode' => false, 
-					'steps' => array(
+					'dev_mode'      => false, 
+					'steps'         => array(
 									1=>array(
 									'title'=>esc_html__('Welcome', 'schema-and-structured-data-for-wp'),
 									'fields'=>'',
@@ -46,7 +46,7 @@
 									'fields'=>'',
 									),
 								),
-					'current_step'=>array(
+					'current_step'  =>array(
 								'title'=>'',
 								'step_id'=>1
 								)
@@ -55,9 +55,12 @@
 	add_action( 'admin_init', 'saswp_installer_init');
 	add_action( 'admin_footer', 'saswp_svg_sprite');
 	add_action( 'wp_ajax_saswp_save_installer', 'saswp_save_steps_data', 10, 0 );
+        
 	function saswp_add_admin_menu(){
+            
 		global $saswp_installer_config;
 		saswp_installer_init();
+                
 	}
 
 	function saswp_installer_init(){
@@ -78,6 +81,7 @@
 	}
 
 	function saswp_steps_call(){
+            
 		global $saswp_installer_config;
 		if ( !wp_verify_nonce($_GET['_saswp_nonce'], 'saswp_install_wizard_nonce') || empty( $_GET['page'] ) || $saswp_installer_config['installerpage'] !== $_GET['page'] ) {
 			return;
@@ -134,6 +138,7 @@
 	}
 	
 	function saswp_show_steps_body(){
+            
 		global $saswp_installer_config;
 		if($saswp_installer_config['total_steps']==$saswp_installer_config['current_step']['step_id']){
 			call_user_func('saswp_finish_page');
@@ -148,6 +153,7 @@
 	
 	
 	function saswp_step1(){
+            
 		global $saswp_installer_config;
 		$stepDetails = $saswp_installer_config['steps'][$saswp_installer_config['current_step']['step_id']];
 		?>
@@ -174,6 +180,7 @@
 	}
 	
 	function saswp_step2(){
+            
 		global $saswp_installer_config;
 		$stepDetails = $saswp_installer_config['steps'][$saswp_installer_config['current_step']['step_id']];
 		
@@ -219,6 +226,7 @@
 	}
 	
 	function saswp_step3(){
+            
 		global $saswp_installer_config;
 		$stepDetails = $saswp_installer_config['steps'][$saswp_installer_config['current_step']['step_id']];
 		?>
@@ -263,6 +271,7 @@
 	}
 	
 	function saswp_step4(){
+            
 		global $saswp_installer_config;
 		$stepDetails = $saswp_installer_config['steps'][$saswp_installer_config['current_step']['step_id']];
 		?>
@@ -306,6 +315,7 @@
 	}
 	
 	function saswp_step5(){
+            
 		global $saswp_installer_config;
 		$stepDetails = $saswp_installer_config['steps'][$saswp_installer_config['current_step']['step_id']];
 		?>
@@ -355,7 +365,8 @@
 
 	
 	
-	function saswp_save_steps_data(){                
+	function saswp_save_steps_data(){ 
+            
                  if ( ! isset( $_POST['wpnonce'] ) ){
                     return; 
                  }
@@ -363,43 +374,57 @@
                     return;  
                  }                                 
                 if(isset($_POST['sd_data'])){
+                    
                 $pre_sd_data = get_option('sd_data'); 
                 $pre_sd_data['sd_initial_wizard_status'] =1;                
                 $sd_data = $_POST['sd_data'];
+                
                 if($pre_sd_data){
+                    
 			$sd_data = array_merge($pre_sd_data,$sd_data);
 		}
                 update_option('sd_data',$sd_data);
                 }
 		
 		if(isset($_POST['sd_data_create__post_schema']) && isset($_POST['sd_data_create__post_schema_checkbox'])){
+                    
 			$checkbox = array_filter($_POST['sd_data_create__post_schema_checkbox']);
 			if(count($checkbox)>0){
+                            
 				foreach ($checkbox as $key => $value) {
-					$postType = $_POST['sd_data_create__post_schema'][$key]['posttype'];
+                                    
+					$postType   = $_POST['sd_data_create__post_schema'][$key]['posttype'];
 					$schemaType = $_POST['sd_data_create__post_schema'][$key]['schema_type'];
 					
 					$postarr = array(
-                                            'post_type'=>'saswp',
-                                            'post_title'=> ucfirst($postType),
-                                            'post_status'=>'publish',
-		                     );
+                                            'post_type'   => 'saswp',
+                                            'post_title'  => ucfirst($postType),
+                                            'post_status' => 'publish',
+		                        );
+                                        
 					$insertedPageId = wp_insert_post(  $postarr );
+                                        
 					if($insertedPageId){
-                                        $data_group_array = array();                                       
+                                            
+                                        $data_group_array = array();  
+                                        
 					$data_group_array['group-0'] =array(
+                                            
                                             'data_array' => array(
                                                         array(
                                                         'key_1' => 'post_type',
                                                         'key_2' => 'equal',
                                                         'key_3' => $postType,
                                               )
-                                            )               
+                                            ) 
+                                            
                                            );
+                                        
 					$schema_options_array = array('isAccessibleForFree'=>False,'notAccessibleForFree'=>0,'paywall_class_name'=>'');
 					update_post_meta( $insertedPageId, 'data_group_array', $data_group_array);
 					update_post_meta( $insertedPageId, 'schema_type', $schemaType);
 					update_post_meta( $insertedPageId, 'schema_options', $schema_options_array);
+                                        
 					}
 				}
 				
@@ -636,12 +661,15 @@
 
 
 function saswp_general_setting_fields_callback(){
+    
 	global $sd_data;
 	$settings = $sd_data;
         $saswp_kb_type ='';
+        
         if(isset($sd_data['saswp_kb_type'])){
           $saswp_kb_type =  $sd_data['saswp_kb_type']; 
         }
+        
 	$returnHtml = '<li class="saswp_fields">
 			<label>'.esc_html__('Data Type', 'schema-and-structured-data-for-wp').'</label>
 			<select name="sd_data[saswp_kb_type]">
@@ -710,14 +738,18 @@ function saswp_social_profile_fields_callback(){
 }
 
 function saswp_select_schema_fields_callback(){
+    
 	global $sd_data;
 	$returnHtml = $post_types = '';
         $post_types = get_post_types( array( 'public' => true ), 'names' );
     // Remove Unsupported Post types
         unset($post_types['attachment'], $post_types['amp_acf'], $post_types['saswp']);
         $option = '';
+        
         if(count($post_types)>0){
+            
     	foreach ($post_types as $key => $value) {
+            
     		$returnHtml .= '<li class="merlin__drawer--import-content__list-item status post-type-fields">
     					<input type="checkbox" name="sd_data_create__post_schema_checkbox['.$key.']" id="sd_data_create__post_schema_'.$key.'" class="checkbox" value="1" >
     					<label for="sd_data_create__post_schema_'.$key.'"><i></i><span>'.ucfirst($value).'</span></label>

@@ -7,11 +7,15 @@ class saswp_metaboxes_review {
 		add_action( 'save_post', array( $this, 'saswp_review_save' ) );
 	}
         function saswp_review_add_meta_box($post) {
-             global $sd_data;          
+            
+            global $sd_data;          
              
             $review_post_id = '';
+            
             if(is_object($post)){
+                
                 $review_post_id = $post->ID;
+                
             } 
              
           if(get_post_status($review_post_id)=='publish' && saswp_remove_warnings($sd_data, 'saswp-review-module', 'saswp_string')==1){
@@ -23,12 +27,12 @@ class saswp_metaboxes_review {
            foreach ( $this->screen as $single_screen ) {
                
                add_meta_box(
-                    'sasw-review',
-                    esc_html__( 'Review', 'schema-and-structured-data-for-wp' ),
-                    array( $this, 'saswp_meta_box_callback' ),
-                    $single_screen,
-                    'advanced',
-                    'default'
+                     'sasw-review',
+                     esc_html__( 'Review', 'schema-and-structured-data-for-wp' ),
+                     array( $this, 'saswp_meta_box_callback' ),
+                     $single_screen,
+                     'advanced',
+                     'default'
             );
                
            }                                         
@@ -36,6 +40,7 @@ class saswp_metaboxes_review {
           }
        }
         function saswp_review_get_meta( $value ) {
+            
             global $post;
             
             $field = get_post_meta( $post->ID, $value, true );
@@ -166,6 +171,7 @@ class saswp_metaboxes_review {
         }
    
         function saswp_review_save( $post_id ) {
+            
                 if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
                 if ( ! isset( $_POST['saswp_review_nonce'] ) || ! wp_verify_nonce( $_POST['saswp_review_nonce'], 'saswp_review_nonce' ) ) return;
                 if ( ! current_user_can( 'edit_post', $post_id ) ) return; 
