@@ -65,6 +65,14 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
 
+= 1.0.8 (24 January 2019) =
+
+* Added: Yoast plugin compatibility ( If yoast is activated for schema. Organization & website markup should not be duplicate )
+* Improvement: Show the fields of review schema type according to selected Item Reviewed Type
+* Bug Fixed: Product schema is not getting feature image/product image when WooCommerce compatibility is enable #122
+* Bug Fixed: Missing escaping, Warnings and Notices fixed
+
+
 = 1.0.7.1 (5 January 2019) =
 
 * Improvement: AMP tab should always be shown and amp option should be disabled if amp is not activated. #87

@@ -1,16 +1,18 @@
 <?php
 class saswp_post_specific {
-	private $screen = array();
-	private $meta_fields = array(
-			
-	);
-        protected $all_schema = null;
-        protected $options_response = array();
+    
+	private   $screen                    = array();
+	private   $meta_fields               = array();				
+        protected $all_schema                = null;
+        protected $options_response          = array();
         protected $modify_schema_post_enable = false;
+        
         public function __construct() {
             
 	}
+        
         public function saswp_post_specific_hooks(){
+            
                 $this->saswp_get_all_schema_list();
 		add_action( 'add_meta_boxes', array( $this, 'saswp_post_specifc_add_meta_boxes' ) );		
 		add_action( 'save_post', array( $this, 'saswp_post_specific_save_fields' ) );
@@ -21,6 +23,7 @@ class saswp_post_specific {
                 add_action( 'wp_ajax_saswp_restore_schema', array($this,'saswp_restore_schema'));
                 
                 add_action( 'wp_ajax_saswp_enable_disable_schema_on_post', array($this,'saswp_enable_disable_schema_on_post'));
+                
         }
         public function saswp_enable_disable_schema_on_post(){
             
@@ -30,14 +33,17 @@ class saswp_post_specific {
                 if ( !wp_verify_nonce( $_POST['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
                    return;  
                 } 
+                
                 $schema_enable = array();
-                $post_id = sanitize_text_field($_POST['post_id']);
-                $schema_id = sanitize_text_field($_POST['schema_id']);
-                $status = sanitize_text_field($_POST['status']);
+                $post_id       = sanitize_text_field($_POST['post_id']);
+                $schema_id     = sanitize_text_field($_POST['schema_id']);
+                $status        = sanitize_text_field($_POST['status']);
                 
                 $schema_enable = get_post_meta($post_id, 'saswp_enable_disable_schema', true);                                
+                
                 $schema_enable[$schema_id] = $status;                                 
                 update_post_meta( $post_id, 'saswp_enable_disable_schema', $schema_enable);                   
+                
                 echo json_encode(array('status'=>'t'));
                 wp_die();                        
                 
@@ -91,34 +97,45 @@ class saswp_post_specific {
             }		
 	}
         
-        public function saswp_post_meta_box_fields($post){            
-                $tabs = '';
-                $tabs_fields = '';
-                $schema_ids = array();
+        public function saswp_post_meta_box_fields($post){    
+            
+                $tabs         = '';
+                $tabs_fields  = '';
+                $schema_ids   = array();
                 
                 $schema_enable = get_post_meta($post->ID, 'saswp_enable_disable_schema', true);
                 
-             if(count($this->all_schema)>1){                    
+             if(count($this->all_schema)>1){  
+                 
                  foreach($this->all_schema as $key => $schema){
                      
                      $checked = '';
+                     
                      if(isset($schema_enable[$schema->ID]) && $schema_enable[$schema->ID] == 1){
+                         
                      $checked = 'checked';    
+                     
                      }                     
                      $response = $this->saswp_get_fields_by_schema_type($schema->ID);                     
                      $this->meta_fields = $response;
-                     $output = $this->saswp_saswp_post_specific( $post, $schema->ID ); 
+                     
+                     $output       = $this->saswp_saswp_post_specific( $post, $schema->ID ); 
                      $schema_type  = esc_sql ( get_post_meta($schema->ID, 'schema_type', true)  ); 
+                     
                      if($key==0){
+                         
                      $tabs .='<li class="selected"><a saswp-schema-type="'.$schema_type.'" data-id="saswp_specific_'.esc_attr($schema->ID).'" class="saswp-tab-links selected">'.esc_attr($schema->post_title).'</a>'
                              . '<label class="saswp-switch">'
                              . '<input type="checkbox" class="saswp-schema-type-toggle" value="1" data-schema-id="'.esc_attr($schema->ID).'" data-post-id="'.esc_attr($post->ID).'" '.$checked.'>'
                              . '<span class="saswp-slider"></span>'
                              . '</li>';    
+                     
                      $tabs_fields .= '<div data-id="'.esc_attr($schema->ID).'" id="saswp_specific_'.esc_attr($schema->ID).'" class="saswp-post-specific-wrapper">';
                      $tabs_fields .= '<table class="form-table"><tbody>' . $output . '</tbody></table>';
                      $tabs_fields .= '</div>';
+                     
                      }else{
+                         
                      $tabs .='<li>'
                              . '<a saswp-schema-type="'.$schema_type.'" data-id="saswp_specific_'.esc_attr($schema->ID).'" class="saswp-tab-links">'.esc_attr($schema->post_title).'</a>'
                              . '<label class="saswp-switch">'
@@ -130,6 +147,7 @@ class saswp_post_specific {
                      $tabs_fields .= '</div>';
                      
                      } 
+                     
                      $schema_ids[] =$schema->ID;
                  }   
                                   
@@ -149,7 +167,7 @@ class saswp_post_specific {
                 }else{
                                                             
                  $all_schema = $this->all_schema;                  
-                 $response = $this->saswp_get_fields_by_schema_type($all_schema[0]->ID); 
+                 $response   = $this->saswp_get_fields_by_schema_type($all_schema[0]->ID); 
                 
                  $schema_ids[] =$all_schema[0]->ID;
                  $schema_type  = esc_sql ( get_post_meta($all_schema[0]->ID, 'schema_type', true)  ); 
@@ -175,35 +193,50 @@ class saswp_post_specific {
                 }
         }
 
-        public function saswp_post_meta_box_callback() {               
+        public function saswp_post_meta_box_callback() { 
+            
 		wp_nonce_field( 'post_specific_data', 'post_specific_nonce' );                                
                 global $post;  
                 $option = get_option('modify_schema_post_enable_'.$post->ID);
+                
                 if($option == 'enable'){
-                $this->saswp_post_meta_box_fields($post);    
+                    
+                  $this->saswp_post_meta_box_fields($post);  
+                
                 }else{
+                    
                   echo '<a class="button saswp-modify_schema_post_enable">Modify Schema</a>' ;
+                  
                 }                               
                                                                                                                                                                    		
 	}
         
         public function saswp_restore_schema(){
+            
                 if ( ! isset( $_POST['saswp_security_nonce'] ) ){
                 return; 
                 }
                 if ( !wp_verify_nonce( $_POST['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
                    return;  
                 } 
-                $result ='';
-                $post_id = sanitize_text_field($_POST['post_id']); 
+                $result     = '';
+                $post_id    = sanitize_text_field($_POST['post_id']); 
                 $schema_ids = $_POST['schema_ids'];
+                
                 foreach($schema_ids as $id){
+                    
                   $meta_field = $this->saswp_get_fields_by_schema_type($id);
+                  
                   foreach($meta_field as $field){
-                   $result = delete_post_meta($post_id, $field['id']);   
-                  }                      
-                }           
+                      
+                   $result = delete_post_meta($post_id, $field['id']); 
+                   
+                  }   
+                  
+                }    
+                
                 update_option('modify_schema_post_enable_'.$post_id, 'disable'); 
+                
                 if($result){                     
                     echo json_encode(array('status'=> 't', 'msg'=>esc_html__( 'Schema has been restored', 'schema-and-structured-data-for-wp' )));
                 }else{
@@ -213,35 +246,45 @@ class saswp_post_specific {
                 }
         
         public function saswp_modify_schema_post_enable(){
+            
                 if ( ! isset( $_GET['saswp_security_nonce'] ) ){
-                return; 
+                    return; 
                 }
                 if ( !wp_verify_nonce( $_GET['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
                    return;  
                 }  
                 
                  $post_id = sanitize_text_field($_GET['post_id']);
-                 update_option('modify_schema_post_enable_'.$post_id, 'enable');         
+                 update_option('modify_schema_post_enable_'.$post_id, 'enable');    
+                 
                  $args = array(
                     'p'         => $post_id, // ID of a page, post, or custom type
                     'post_type' => 'any'
                   );
+                 
                 $my_posts = new WP_Query($args);
+                
                 if ( $my_posts->have_posts() ) {
-                  while ( $my_posts->have_posts() ) : $my_posts->the_post();                   
-                   echo $this->saswp_post_meta_box_callback();                    
+                    
+                  while ( $my_posts->have_posts() ) : $my_posts->the_post();   
+                  
+                   echo $this->saswp_post_meta_box_callback();   
+                   
                   endwhile;
+                  
                 }
                                                    
                  wp_die();
+                 
                 }
 
                 public function saswp_saswp_post_specific( $post, $schema_id ) { 
             
                 global $post;
                 global $sd_data;                        
-                $image_id     = get_post_thumbnail_id();
+                $image_id      = get_post_thumbnail_id();
                 $image_details = wp_get_attachment_image_src($image_id, 'full');
+                
                 if(empty($image_details[0]) || $image_details[0] === NULL ){
                 
                  if(isset($sd_data['sd_logo'])){
@@ -249,17 +292,22 @@ class saswp_post_specific {
                  }
                                     
                 }
+                
                 $current_user   = wp_get_current_user();
                 $author_details	= get_avatar_data($current_user->ID);                
                 $schema_type    = esc_sql ( get_post_meta($schema_id, 'schema_type', true)  );  
 		$output = '';
+                
                 $this->meta_fields = array_filter($this->meta_fields);
+                
 		foreach ( $this->meta_fields as $meta_field ) {
-                        $input ='';
+                    
+                        $input      ='';
                         $attributes ='';
                         
-			$label = '<label for="' . $meta_field['id'] . '">' . $meta_field['label'] . '</label>';
+			$label      = '<label for="' . $meta_field['id'] . '">' . $meta_field['label'] . '</label>';
 			$meta_value = get_post_meta( $post->ID, $meta_field['id'], true );
+                        
 			if ( empty( $meta_value ) && isset($meta_field['default'])) {
                             
 				$meta_value = $meta_field['default'];                                 
@@ -518,6 +566,7 @@ class saswp_post_specific {
                 return $output;                                               
 	}	
 	public function saswp_post_specific_save_fields( $post_id ) {
+            
 		if ( ! isset( $_POST['post_specific_nonce'] ) )
 			return $post_id;
 		$nonce = $_POST['post_specific_nonce'];
@@ -527,6 +576,7 @@ class saswp_post_specific {
 			return $post_id;       
                  
                 $option = get_option('modify_schema_post_enable_'.$post_id);
+                
                 if($option != 'enable'){
                     return;
                 }  
@@ -534,16 +584,18 @@ class saswp_post_specific {
                 
                 
                 if(count($this->all_schema)>0){
-                    
-                    
-                              
+                                                                      
                  foreach($this->all_schema as $schema){
-                     $response = $this->saswp_get_fields_by_schema_type($schema->ID);     
                      
-                     $this->meta_fields = $response;                     
+                     $response          = $this->saswp_get_fields_by_schema_type($schema->ID);                          
+                     $this->meta_fields = $response; 
+                     
                         foreach ( $this->meta_fields as $meta_field ) {
+                            
 			if ( isset( $_POST[ $meta_field['id'] ] ) ) {
+                            
 				switch ( $meta_field['type'] ) {
+                                    
                                         case 'media':                                                                                                  
                                                 $media_key       = $meta_field['id'].'_detail';                                                                                            
                                                 $media_height    = sanitize_text_field( $_POST[ $meta_field['id'].'_height' ] );
@@ -562,6 +614,7 @@ class saswp_post_specific {
 					case 'text':
 						$_POST[ $meta_field['id'] ] = sanitize_text_field( $_POST[ $meta_field['id'] ] );
 						break;
+                                            
 				}
 				update_post_meta( $post_id, $meta_field['id'], $_POST[ $meta_field['id'] ] );
 			} else if ( $meta_field['type'] === 'checkbox' ) {
@@ -592,144 +645,146 @@ class saswp_post_specific {
             wp_die();
         }
         public function saswp_get_sub_business_array($business_type){
+            
             $sub_business_options = array();
+            
             switch ($business_type) {
                         case 'automotivebusiness':
                            $sub_business_options = array(
-                                     'autobodyshop' => 'Auto Body Shop',
-                                     'autodealer' => 'Auto Dealer',
-                                     'autopartsstore'     => 'Auto Parts Store',
-                                     'autorental'     => 'Auto Rental',
-                                     'autorepair'      => 'Auto Repair',
-                                     'autowash'     => 'Auto Wash',
-                                     'gasstation' => 'Gas Station',
-                                     'motorcycledealer' => 'Motorcycle Dealer',
-                                     'motorcyclerepair' => 'Motorcycle Repair'
+                                     'autobodyshop'      => 'Auto Body Shop',
+                                     'autodealer'        => 'Auto Dealer',
+                                     'autopartsstore'    => 'Auto Parts Store',
+                                     'autorental'        => 'Auto Rental',
+                                     'autorepair'        => 'Auto Repair',
+                                     'autowash'          => 'Auto Wash',
+                                     'gasstation'        => 'Gas Station',
+                                     'motorcycledealer'  => 'Motorcycle Dealer',
+                                     'motorcyclerepair'  => 'Motorcycle Repair'
                                  ); 
                             break;
                         case 'emergencyservice':
                             $sub_business_options = array(
-                                     'firestation' => 'Fire Station',
-                                     'hospital' => 'Hospital',
-                                     'policestation'     => 'Police Station',                                    
+                                     'firestation'    => 'Fire Station',
+                                     'hospital'       => 'Hospital',
+                                     'policestation'  => 'Police Station',                                    
                                  ); 
                             break;
                         case 'entertainmentbusiness':
                            $sub_business_options = array(
                                       'adultentertainment' => 'Adult Entertainment',
-                                      'amusementpark' => 'Amusement Park',
-                                      'artgallery'     => 'Art Gallery',
-                                      'casino'     => 'Casino',
-                                      'comedyclub'     => 'Comedy Club',
-                                      'movietheater'     => 'Movie Theater',
-                                      'nightclub'     => 'Night Club',
+                                      'amusementpark'      => 'Amusement Park',
+                                      'artgallery'         => 'Art Gallery',
+                                      'casino'             => 'Casino',
+                                      'comedyclub'         => 'Comedy Club',
+                                      'movietheater'       => 'Movie Theater',
+                                      'nightclub'          => 'Night Club',
                                       
                                  );  
                             break;
                         case 'financialservice':
                             $sub_business_options = array(
-                                      'accountingservice' => 'Accounting Service',
-                                      'automatedteller' => 'Automated Teller',
-                                      'bankorcredit_union'     => 'Bank Or Credit Union',
-                                      'insuranceagency'     => 'Insurance Agency',                                      
+                                      'accountingservice'  => 'Accounting Service',
+                                      'automatedteller'    => 'Automated Teller',
+                                      'bankorcredit_union' => 'Bank Or Credit Union',
+                                      'insuranceagency'    => 'Insurance Agency',                                      
                                       
                                  );   
                             break;
                         case 'foodestablishment':
                              $sub_business_options = array(
-                                      'bakery' => 'Bakery',
-                                      'barorpub' => 'Bar Or Pub',
-                                      'brewery'     => 'Brewery',
-                                      'cafeorcoffee_shop'     => 'Cafe Or Coffee Shop', 
+                                      'bakery'             => 'Bakery',
+                                      'barorpub'           => 'Bar Or Pub',
+                                      'brewery'            => 'Brewery',
+                                      'cafeorcoffee_shop'  => 'Cafe Or Coffee Shop', 
                                       'fastfoodrestaurant' => 'Fast Food Restaurant',
-                                      'icecreamshop' => 'Ice Cream Shop',
-                                      'restaurant'     => 'Restaurant',
-                                      'winery'     => 'Winery', 
+                                      'icecreamshop'       => 'Ice Cream Shop',
+                                      'restaurant'         => 'Restaurant',
+                                      'winery'             => 'Winery', 
                                       
                                  );
                             break;
                         case 'healthandbeautybusiness':
                             $sub_business_options = array(
-                                      'beautysalon' => 'Beauty Salon',
-                                      'dayspa' => 'DaySpa',
-                                      'hairsalon'     => 'Hair Salon',
-                                      'healthclub'     => 'Health Club', 
-                                      'nailsalon' => 'Nail Salon',
+                                      'beautysalon'  => 'Beauty Salon',
+                                      'dayspa'       => 'DaySpa',
+                                      'hairsalon'    => 'Hair Salon',
+                                      'healthclub'   => 'Health Club', 
+                                      'nailsalon'    => 'Nail Salon',
                                       'tattooparlor' => 'Tattoo Parlor',                                                                          
                                  );   
                             break;
                         case 'homeandconstructionbusiness':
                             $sub_business_options = array(
-                                      'electrician' => 'Electrician',
+                                      'electrician'       => 'Electrician',
                                       'generalcontractor' => 'General Contractor',
-                                      'hvacbusiness'     => 'HVAC Business',
-                                      'locksmith'     => 'Locksmith', 
-                                      'movingcompany' => 'Moving Company',
-                                      'plumber' => 'Plumber',       
+                                      'hvacbusiness'      => 'HVAC Business',
+                                      'locksmith'         => 'Locksmith', 
+                                      'movingcompany'     => 'Moving Company',
+                                      'plumber'           => 'Plumber',       
                                       'roofingcontractor' => 'Roofing Contractor',       
                                  );   
                             break;
                         case 'legalservice':
                             $sub_business_options = array(
                                       'attorney' => 'Attorney',
-                                      'notary' => 'Notary',                                            
+                                      'notary'   => 'Notary',                                            
                                  );  
                             break;
                         case 'lodgingbusiness':
                              $sub_business_options = array(
                                       'bedandbreakfast' => 'Bed And Breakfast',
-                                      'campground' => 'Campground',
-                                      'hostel' => 'Hostel',
-                                      'hotel' => 'Hotel',
-                                      'motel' => 'Motel',
-                                      'resort' => 'Resort',
+                                      'campground'      => 'Campground',
+                                      'hostel'          => 'Hostel',
+                                      'hotel'           => 'Hotel',
+                                      'motel'           => 'Motel',
+                                      'resort'          => 'Resort',
                                  );   
                             break;
                         case 'sportsactivitylocation':
                              $sub_business_options = array(
-                                      'bowlingalley' => 'Bowling Alley',
-                                      'exercisegym' => 'Exercise Gym',
-                                      'golfcourse' => 'Golf Course',
-                                      'healthclub' => 'Health Club',
+                                      'bowlingalley'        => 'Bowling Alley',
+                                      'exercisegym'         => 'Exercise Gym',
+                                      'golfcourse'          => 'Golf Course',
+                                      'healthclub'          => 'Health Club',
                                       'publicswimming_pool' => 'Public Swimming Pool',
-                                      'skiresort' => 'Ski Resort',
-                                      'sportsclub' => 'Sports Club',
-                                      'stadiumorarena' => 'Stadium Or Arena',
-                                      'tenniscomplex' => 'Tennis Complex'
+                                      'skiresort'           => 'Ski Resort',
+                                      'sportsclub'          => 'Sports Club',
+                                      'stadiumorarena'      => 'Stadium Or Arena',
+                                      'tenniscomplex'       => 'Tennis Complex'
                                  );  
                             break;
                         case 'store':
                              $sub_business_options = array(
-                                        'autopartsstore'=>'Auto Parts Store',
-                                        'bikestore'=>'Bike Store',
-                                        'bookstore'=>'Book Store',
-                                        'clothingstore'=>'Clothing Store',
-                                        'computerstore'=>'Computer Store',
-                                        'conveniencestore'=>'Convenience Store',
-                                        'departmentstore'=>'Department Store',
-                                        'electronicsstore'=>'Electronics Store',
-                                        'florist'=>'Florist',
-                                        'furniturestore'=>'Furniture Store',
-                                        'gardenstore'=>'Garden Store',
-                                        'grocerystore'=>'Grocery Store',
-                                        'hardwarestore'=>'Hardware Store',
-                                        'hobbyshop'=>'Hobby Shop',
-                                        'homegoodsstore'=>'HomeGoods Store',
-                                        'jewelrystore'=>'Jewelry Store',
-                                        'liquorstore'=>'Liquor Store',
-                                        'mensclothingstore'=>'Mens Clothing Store',
-                                        'mobilephonestore'=>'Mobile Phone Store',
-                                        'movierentalstore'=>'Movie Rental Store',
-                                        'musicstore'=>'Music Store',
-                                        'officeequipmentstore'=>'Office Equipment Store',
-                                        'outletstore'=>'Outlet Store',
-                                        'pawnshop'=>'Pawn Shop',
-                                        'petstore'=>'Pet Store',
-                                        'shoestore'=>'Shoe Store',
-                                        'sportinggoodsstore'=>'Sporting Goods Store',
-                                        'tireshop'=>'Tire Shop',
-                                        'toystore'=>'Toy Store',
-                                        'wholesalestore'=>'Wholesale Store'
+                                        'autopartsstore'        => 'Auto Parts Store',
+                                        'bikestore'             => 'Bike Store',
+                                        'bookstore'             => 'Book Store',
+                                        'clothingstore'         => 'Clothing Store',
+                                        'computerstore'         => 'Computer Store',
+                                        'conveniencestore'      => 'Convenience Store',
+                                        'departmentstore'       => 'Department Store',
+                                        'electronicsstore'      => 'Electronics Store',
+                                        'florist'               => 'Florist',
+                                        'furniturestore'        => 'Furniture Store',
+                                        'gardenstore'           => 'Garden Store',
+                                        'grocerystore'          => 'Grocery Store',
+                                        'hardwarestore'         => 'Hardware Store',
+                                        'hobbyshop'             => 'Hobby Shop',
+                                        'homegoodsstore'        => 'HomeGoods Store',
+                                        'jewelrystore'          => 'Jewelry Store',
+                                        'liquorstore'           => 'Liquor Store',
+                                        'mensclothingstore'     => 'Mens Clothing Store',
+                                        'mobilephonestore'      => 'Mobile Phone Store',
+                                        'movierentalstore'      => 'Movie Rental Store',
+                                        'musicstore'            => 'Music Store',
+                                        'officeequipmentstore'  => 'Office Equipment Store',
+                                        'outletstore'           => 'Outlet Store',
+                                        'pawnshop'              => 'Pawn Shop',
+                                        'petstore'              => 'Pet Store',
+                                        'shoestore'             => 'Shoe Store',
+                                        'sportinggoodsstore'    => 'Sporting Goods Store',
+                                        'tireshop'              => 'Tire Shop',
+                                        'toystore'              => 'Toy Store',
+                                        'wholesalestore'        => 'Wholesale Store'
                                  );  
                             break;
                         default:
@@ -739,27 +794,33 @@ class saswp_post_specific {
         }
         
         public function saswp_get_fields_by_schema_type( $schema_id ) {  
+            
             global $post;
-            global $sd_data;                        
-            $image_id 	= get_post_thumbnail_id();
+            global $sd_data;  
+            
+            $image_id 	   = get_post_thumbnail_id();
             $image_details = wp_get_attachment_image_src($image_id, 'full');
+            
             if(empty($image_details[0]) || $image_details[0] === NULL ){
              
                 if(isset($sd_data['sd_logo'])){
                     $image_details[0] = $sd_data['sd_logo']['url'];
-                }                            
+                }
+                
 	    }
-            $current_user = wp_get_current_user();
+            $current_user       = wp_get_current_user();
             $author_details	= get_avatar_data($current_user->ID);           
-            $schema_type  = esc_sql ( get_post_meta($schema_id, 'schema_type', true)  );  
+            $schema_type        = esc_sql ( get_post_meta($schema_id, 'schema_type', true)  );  
             
             $business_type    = esc_sql ( get_post_meta($schema_id, 'saswp_business_type', true)  ); 
             $business_name    = esc_sql ( get_post_meta($schema_id, 'saswp_business_name', true)  ); 
             $business_details = esc_sql ( get_post_meta($schema_id, 'saswp_local_business_details', true)  );
-            $dayoftheweek = get_post_meta ($schema_id, 'saswp_dayofweek', true); 
-            $saswp_business_type_key = 'saswp_business_type_'.$schema_id;
-            $saved_business_type = get_post_meta( $post->ID, $saswp_business_type_key, true );
-            $saved_saswp_business_name = get_post_meta( $post->ID, 'saswp_business_name_'.$schema_id, true );            
+            $dayoftheweek     = get_post_meta ($schema_id, 'saswp_dayofweek', true); 
+            
+            $saswp_business_type_key   = 'saswp_business_type_'.$schema_id;
+            $saved_business_type       = get_post_meta( $post->ID, $saswp_business_type_key, true );
+            $saved_saswp_business_name = get_post_meta( $post->ID, 'saswp_business_name_'.$schema_id, true );    
+            
             if($saved_business_type){
               $business_type = $saved_business_type;
             }
@@ -811,57 +872,59 @@ class saswp_post_specific {
                     }                                         
                    
                     if(!empty($this->options_response)){
+                        
                        $sub_business_options = array(
-                            'label' => 'Sub Business Type',
-                            'id' => 'saswp_business_name_'.$schema_id,
-                            'type' => 'select',
-                            'options' => $this->options_response,
-                            'default' => $business_name  
+                            'label'     => 'Sub Business Type',
+                            'id'        => 'saswp_business_name_'.$schema_id,
+                            'type'      => 'select',
+                            'options'   => $this->options_response,
+                            'default'   => $business_name  
                        ); 
+                       
                     }
                     
                     $meta_field = array(                   
                     array(
-                            'label' => 'Business Type',
-                            'id' => 'saswp_business_type_'.$schema_id,
-                            'type' => 'select',
+                            'label'   => 'Business Type',
+                            'id'      => 'saswp_business_type_'.$schema_id,
+                            'type'    => 'select',
                             'default' => $business_type,
                             'options' => array(
-                                    'animalshelter' => 'Animal Shelter',
-                                    'automotivebusiness' => 'Automotive Business',
-                                    'childcare' => 'ChildCare',
-                                    'dentist' => 'Dentist',
-                                    'drycleaningorlaundry' => 'Dry Cleaning Or Laundry',
-                                    'emergencyservice' => 'Emergency Service',
-                                    'employmentagency' => 'Employment Agency',
-                                    'entertainmentbusiness' => 'Entertainment Business',
-                                    'financialservice' => 'Financial Service',
-                                    'foodestablishment' => 'Food Establishment',
-                                    'governmentoffice' => 'Government Office',
-                                    'healthandbeautybusiness' => 'Health And Beauty Business',
-                                    'homeandconstructionbusiness' => 'Home And Construction Business',
-                                    'internetcafe' => 'Internet Cafe',
-                                    'legalservice' => 'Legal Service',
-                                    'library' => 'Library',
-                                    'lodgingbusiness' => 'Lodging Business',
-                                    'professionalservice' => 'Professional Service',
-                                    'radiostation' => 'Radio Station',
-                                    'realestateagent' => 'Real Estate Agent',
-                                    'recyclingcenter' => 'Recycling Center',
-                                    'selfstorage' => 'Self Storage',
-                                    'shoppingcenter' => 'Shopping Center',
-                                    'sportsactivitylocation' => 'Sports Activity Location',
-                                    'store' => 'Store',
-                                    'televisionstation' => 'Television Station',
-                                    'touristinformationcenter' => 'Tourist Information Center',
-                                    'travelagency' => 'Travel Agency',
+                                    'animalshelter'                 => 'Animal Shelter',
+                                    'automotivebusiness'            => 'Automotive Business',
+                                    'childcare'                     => 'ChildCare',
+                                    'dentist'                       => 'Dentist',
+                                    'drycleaningorlaundry'          => 'Dry Cleaning Or Laundry',
+                                    'emergencyservice'              => 'Emergency Service',
+                                    'employmentagency'              => 'Employment Agency',
+                                    'entertainmentbusiness'         => 'Entertainment Business',
+                                    'financialservice'              => 'Financial Service',
+                                    'foodestablishment'             => 'Food Establishment',
+                                    'governmentoffice'              => 'Government Office',
+                                    'healthandbeautybusiness'       => 'Health And Beauty Business',
+                                    'homeandconstructionbusiness'   => 'Home And Construction Business',
+                                    'internetcafe'                  => 'Internet Cafe',
+                                    'legalservice'                  => 'Legal Service',
+                                    'library'                       => 'Library',
+                                    'lodgingbusiness'               => 'Lodging Business',
+                                    'professionalservice'           => 'Professional Service',
+                                    'radiostation'                  => 'Radio Station',
+                                    'realestateagent'               => 'Real Estate Agent',
+                                    'recyclingcenter'               => 'Recycling Center',
+                                    'selfstorage'                   => 'Self Storage',
+                                    'shoppingcenter'                => 'Shopping Center',
+                                    'sportsactivitylocation'        => 'Sports Activity Location',
+                                    'store'                         => 'Store',
+                                    'televisionstation'             => 'Television Station',
+                                    'touristinformationcenter'      => 'Tourist Information Center',
+                                    'travelagency'                  => 'Travel Agency',
                             )
                         ),
                          $sub_business_options,
                         array(
-                            'label' => 'Business Name',
-                            'id' => 'local_business_name_'.$schema_id,
-                            'type' => 'text',
+                            'label'   => 'Business Name',
+                            'id'      => 'local_business_name_'.$schema_id,
+                            'type'    => 'text',
                             'default' => $business_details['local_business_name']    
                        ),
                         
@@ -1022,8 +1085,11 @@ class saswp_post_specific {
                     
                     $category_detail=get_the_category(get_the_ID());//$post->ID
                     $article_section = '';
+                    
                     foreach($category_detail as $cd){
+                        
                     $article_section =  $cd->cat_name;
+                    
                     }
                     $word_count = saswp_reading_time_and_word_count();
                     
@@ -1698,9 +1764,7 @@ class saswp_post_specific {
                             'id' => 'saswp_service_schema_review_count_'.$schema_id,
                             'type' => 'text',
                             'default' => saswp_remove_warnings($service_schema_details, 'saswp_service_schema_review_count', 'saswp_string')
-                        ),
-                        
-                        
+                        ),                                                
                         
                     );
                     break;
@@ -1727,11 +1791,9 @@ class saswp_post_specific {
                     $reviewed_field = item_reviewed_fields($service_schema_details['saswp_review_schema_item_type'], $post_specific=1, $schema_id);    
                         
                     }
-                        
-                    
+                                            
                     }
-                    
-                    
+                                        
                     $meta_field = array(
                     array(
                             'label' => 'Item Reviewed Type',
@@ -1786,6 +1848,7 @@ class saswp_post_specific {
                     break;
                 
                 case 'AudioObject':
+                    
                     $service_schema_details = esc_sql ( get_post_meta($schema_id, 'saswp_audio_schema_details', true)  );
                     $meta_field = array(
                     
@@ -1925,6 +1988,7 @@ class saswp_post_specific {
                     break;
                 
                 case 'qanda':
+                    
                     $meta_field = array(
                     array(
                             'label' => 'Question Title',
