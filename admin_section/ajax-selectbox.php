@@ -127,10 +127,12 @@ function saswp_ajax_select_creator($data = '', $saved_data= '', $current_number 
               {
 
                 $posts = get_posts(array(
-                  'numberposts' => '-1',
-                  'post_type' => $post_type,
-                  'post_status' => array('publish', 'private', 'draft', 'inherit', 'future'),
-                  'suppress_filters' => false,
+                    
+                    'numberposts'      => '-1',
+                    'post_type'        => $post_type,
+                    'post_status'      => array('publish', 'private', 'draft', 'inherit', 'future'),
+                    'suppress_filters' => false,
+                    
                 ));
 
                 if( $posts)
@@ -184,7 +186,9 @@ function saswp_ajax_select_creator($data = '', $saved_data= '', $current_number 
             break;
 
           case "user_type" :
-           global $wp_roles;
+              
+            global $wp_roles;
+              
             $choices = $wp_roles->get_names();
 
             if( is_multisite() )
@@ -196,9 +200,10 @@ function saswp_ajax_select_creator($data = '', $saved_data= '', $current_number 
 
           case "ef_taxonomy" :
 
-            $choices = array('all' => esc_html__('All','schema-and-structured-data-for-wp'));
+            $choices    = array('all' => esc_html__('All','schema-and-structured-data-for-wp'));
             $taxonomies = saswp_post_taxonomy_generator();        
-            $choices = array_merge($choices, $taxonomies);                      
+            $choices    = array_merge($choices, $taxonomies);                      
+            
             break;
 
         }        
@@ -209,19 +214,25 @@ function saswp_ajax_select_creator($data = '', $saved_data= '', $current_number 
     if ( empty( $choices) ) {
       $choices = array('none' => esc_html__('No Items', 'schema-and-structured-data-for-wp') );
     }
-     //  echo $current_number;
-    // echo $saved_data;
+         
 
       $output = '<select  class="widefat ajax-output" name="data_group_array[group-'.esc_attr($current_group_number).'][data_array]['. esc_attr($current_number) .'][key_3]">'; 
 
         // Generate Options for Posts
         if ( $options['param'] == 'post' ) {
-          foreach ($choices as $choice_post_type) {      
+            
+          foreach ($choices as $choice_post_type) {
+              
             foreach ($choice_post_type as $key => $value) { 
+                
                 if ( $saved_data ==  $key ) {
+                    
                     $selected = 'selected="selected"';
+                    
                 } else {
+                    
                   $selected = '';
+                  
                 }
 
                 $output .= '<option '. esc_attr($selected) .' value="' .  esc_attr($key) .'"> ' .  esc_html__($value, 'schema-and-structured-data-for-wp') .'  </option>';            
@@ -229,17 +240,24 @@ function saswp_ajax_select_creator($data = '', $saved_data= '', $current_number 
           }
          // Options for Other then posts
         } else {
+            
           foreach ($choices as $key => $value) { 
+              
                 if ( $saved_data ==  $key ) {
+                    
                     $selected = 'selected="selected"';
+                    
                 } else {
+                    
                   $selected = '';
+                  
                 }
 
             $output .= '<option '. esc_attr($selected) .' value="' . esc_attr($key) .'"> ' .  esc_html__($value, 'schema-and-structured-data-for-wp') .'  </option>';            
           } 
         }
-      $output .= ' </select> '; 
+        
+    $output .= ' </select> '; 
     $allowed_html = saswp_expanded_allowed_tags();
     echo wp_kses($output, $allowed_html); 
     
@@ -257,12 +275,16 @@ function saswp_post_taxonomy_generator(){
     $taxonomies = get_taxonomies( array('public' => true), 'objects' );
     
       foreach($taxonomies as $taxonomy) {
+          
         $choices[ $taxonomy->name ] = $taxonomy->labels->name;
+        
       }
       
       // unset post_format (why is this a public taxonomy?)
       if( isset($choices['post_format']) ) {
+          
         unset( $choices['post_format']) ;
+        
       }
       
     return $choices;

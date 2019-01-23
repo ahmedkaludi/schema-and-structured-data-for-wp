@@ -68,18 +68,24 @@ function saswp_kb_schema_output() {
 
 
 	if ( saswp_remove_warnings($sd_data, 'saswp_kb_type', 'saswp_string')  ==  'Organization' ) {
-                $logo ='';
-                $height ='';
-                $width ='';
+            
+                $logo   = '';
+                $height = '';
+                $width  = '';
+                
                 if(isset($sd_data['sd_logo'])){
-                $logo = $sd_data['sd_logo']['url'];    
+                    
+                         $logo = $sd_data['sd_logo']['url'];    
+                
                 }		
 		$contact_1   = saswp_remove_warnings($sd_data, 'saswp_contact_type', 'saswp_string');
 		$telephone_1 = saswp_remove_warnings($sd_data, 'saswp_kb_telephone', 'saswp_string');
                 
                 if(isset($sd_data['sd_logo'])){
-                    $height = $sd_data['sd_logo']['height'];
-		    $width = $sd_data['sd_logo']['width'];
+                    
+                        $height = $sd_data['sd_logo']['height'];
+                        $width = $sd_data['sd_logo']['width'];
+                    
                 }		
 
 		if( '' ==  $logo && empty($logo) && isset($sd_data['sd_default_image'])){
@@ -104,6 +110,7 @@ function saswp_kb_schema_output() {
 
 		// Contact Information
 	 	$contact_info = array();
+                
 	 	$contact_info = array(
 	 		'contactPoint' => array(
 		      	'@type'    => 'ContactPoint',
@@ -133,9 +140,9 @@ function saswp_kb_schema_output() {
 		// Person
 
 	if ( saswp_remove_warnings($sd_data, 'saswp_kb_type', 'saswp_string')  ==  'Person' ) {
-               $image =''; 
-               $height ='';
-               $width ='';
+               $image  = ''; 
+               $height = '';
+               $width  = '';
                
                if(isset($sd_data['sd-person-image'])){
                    $image = $sd_data['sd-person-image']['url'];
@@ -183,8 +190,10 @@ function saswp_schema_output() {
         
 	if(!$Conditionals){
 		return ;
-	}	        
+	}
+        
         $all_schema_output = array();
+        
         foreach($Conditionals as $schemaConditionals){
         
         $logo      =''; 
@@ -207,24 +216,27 @@ function saswp_schema_output() {
         }                                                
         
         if('' != $logo && !empty($logo)){
+            
          $height = $sd_data['sd_logo']['height'];  
-         $width = $sd_data['sd_logo']['width'];
-        }else{            
+         $width  = $sd_data['sd_logo']['width'];
+         
+        }else{
+            
             $sizes = array(
 					'width'  => 600,
 					'height' => 60,
 					'crop'   => false,
 				);            
             $custom_logo_id = get_theme_mod( 'custom_logo' );           
-            $custom_logo = wp_get_attachment_image_src( $custom_logo_id, $sizes); 
-            $logo   = $custom_logo[0];
-            $height =$custom_logo[1];
-            $width  =$custom_logo[2];            
+            $custom_logo    = wp_get_attachment_image_src( $custom_logo_id, $sizes); 
+            $logo           = $custom_logo[0];
+            $height         = $custom_logo[1];
+            $width          = $custom_logo[2];            
         }       
         
 	//if(is_singular()){
 		// Generate author id
-	   		$author_id = get_the_author_meta('ID');
+	   		$author_id      = get_the_author_meta('ID');
 
 		// Blogposting Schema 
 			$image_id 	= get_post_thumbnail_id();
@@ -234,7 +246,7 @@ function saswp_schema_output() {
 			$modified_date 	= get_the_modified_date("Y-m-d\TH:i:s\Z");
 			$aurthor_name 	= get_the_author();
                         
-                        $saswp_review_details = esc_sql ( get_post_meta(get_the_ID(), 'saswp_review_details', true)); 
+                        $saswp_review_details   = esc_sql ( get_post_meta(get_the_ID(), 'saswp_review_details', true)); 
                         
                         $aggregateRating        = array();
                         $kkstar_aggregateRating = array();
@@ -244,21 +256,23 @@ function saswp_schema_output() {
                             
                         $saswp_over_all_rating = $saswp_review_details['saswp-review-item-over-all'];  
                         
-                        } 
+                        }
+                        
                         $saswp_review_item_enable = 0;
                         
                         if(isset($saswp_review_details['saswp-review-item-enable'])){
                             
-                         $saswp_review_item_enable =  $saswp_review_details['saswp-review-item-enable'];  
+                        $saswp_review_item_enable =  $saswp_review_details['saswp-review-item-enable'];  
                          
                         }  
+                        
                         $saswp_review_count = "1";
                        
                         
                         if($saswp_over_all_rating && $saswp_review_count && $saswp_review_item_enable ==1){
                             
                            $aggregateRating =       array(
-                                                            "@type"=> "AggregateRating",
+                                                            "@type"       => "AggregateRating",
                                                             "ratingValue" => $saswp_over_all_rating,
                                                             "reviewCount" => $saswp_review_count
                                                          ); 
@@ -270,7 +284,7 @@ function saswp_schema_output() {
                         if(!empty($kkstar_rating_data)){
                             
                             $kkstar_aggregateRating =       array(
-                                                            "@type"=> "AggregateRating",
+                                                            "@type"       => "AggregateRating",
                                                             "bestRating"  => saswp_remove_warnings($kkstar_rating_data, 'best', 'saswp_string'),
                                                             "ratingCount" => saswp_remove_warnings($kkstar_rating_data, 'votes', 'saswp_string'),
                                                             "ratingValue" => saswp_remove_warnings($kkstar_rating_data, 'avg', 'saswp_string')
@@ -278,7 +292,7 @@ function saswp_schema_output() {
                             
                         }
                         $extra_theme_review = array();
-                        $service_object = new saswp_output_service();
+                        $service_object     = new saswp_output_service();
                         $extra_theme_review = $service_object->saswp_extra_theme_review_details(get_the_ID());
                                               
                         if( 'Blogposting' === $schema_type){
@@ -419,6 +433,7 @@ function saswp_schema_output() {
 				if(empty($image_details[0]) || $image_details[0] === NULL ){
 					$image_details[0] = $sd_data['sd_logo']['url'];
 				}
+                                
 				$input1 = array(
 				'@context'			=> 'http://schema.org',
 				'@type'				=> $schema_type ,
@@ -616,12 +631,16 @@ function saswp_schema_output() {
 			}
                         
                         if( 'NewsArticle' === $schema_type ){                              
-                            $category_detail=get_the_category(get_the_ID());//$post->ID
+                            
+                            $category_detail = get_the_category(get_the_ID());//$post->ID
                             $article_section = '';
+                            
                             foreach($category_detail as $cd){
-                            $article_section =  $cd->cat_name;
+                                
+                                $article_section =  $cd->cat_name;
+                            
                             }
-                            $word_count = saswp_reading_time_and_word_count();
+                                $word_count = saswp_reading_time_and_word_count();
 				$input1 = array(
 					'@context'			=> 'http://schema.org',
 					'@type'				=> $schema_type ,										
@@ -683,10 +702,10 @@ function saswp_schema_output() {
                                                 
                         if( 'Service' === $schema_type ){  
                                  
-                                $schema_data = saswp_get_schema_data($schema_post_id, 'saswp_service_schema_details');                                
+                                $schema_data       = saswp_get_schema_data($schema_post_id, 'saswp_service_schema_details');                                
                                 
-                                $area_served_str = saswp_remove_warnings($schema_data, 'saswp_service_schema_area_served', 'saswp_string');
-                                $area_served_arr = explode(',', $area_served_str);
+                                $area_served_str   = saswp_remove_warnings($schema_data, 'saswp_service_schema_area_served', 'saswp_string');
+                                $area_served_arr   = explode(',', $area_served_str);
                                                                 
                                 $service_offer_str = saswp_remove_warnings($schema_data, 'saswp_service_schema_service_offer', 'saswp_string');
                                 $service_offer_arr = explode(',', $service_offer_str);
@@ -717,23 +736,31 @@ function saswp_schema_output() {
 					'description'                   => saswp_remove_warnings($schema_data, 'saswp_service_schema_description', 'saswp_string'),
                                         ); 
                                         $areaServed = array();
+                                        
                                         foreach($area_served_arr as $area){
+                                            
                                             $areaServed[] = array(
                                                 '@type' => 'City',
                                                 'name'  => $area
                                             );
+                                            
                                         }
                                         $serviceOffer = array();
+                                        
                                         foreach($service_offer_arr as $offer){
+                                            
                                             $serviceOffer[] = array(
                                                 '@type' => 'Offer',
                                                 'name'  => $offer
                                             );
+                                            
                                         }
+                                        
                                        $input1['areaServed'] = $areaServed;
+                                       
                                        $input1['hasOfferCatalog'] = array(
-                                           '@type' => 'OfferCatalog',
-                                            'name'  => $schema_data['saswp_service_schema_name'],
+                                           '@type'            => 'OfferCatalog',
+                                            'name'            => $schema_data['saswp_service_schema_name'],
                                             'itemListElement' => $serviceOffer
                                        );
                                 
@@ -745,7 +772,7 @@ function saswp_schema_output() {
                                 if(isset($schema_data['saswp_service_schema_enable_rating'])){
                                  
                                   $input1['aggregateRating'] = array(
-                                                            "@type"=> "AggregateRating",
+                                                            "@type"       => "AggregateRating",
                                                             "ratingValue" => saswp_remove_warnings($schema_data, 'saswp_service_schema_rating', 'saswp_string'),
                                                             "reviewCount" => saswp_remove_warnings($schema_data, 'saswp_service_schema_review_count', 'saswp_string')
                                                          );                                       
@@ -1053,22 +1080,30 @@ function saswp_schema_output() {
                                 $business_type    = esc_sql ( get_post_meta($schema_post_id, 'saswp_business_type', true)  );                                 
                                 $business_name    = esc_sql ( get_post_meta($schema_post_id, 'saswp_business_name', true)  );                                 
                                 $business_details = esc_sql ( get_post_meta($schema_post_id, 'saswp_local_business_details', true)  );                                                                                                
-                                $dayoftheweek = get_post_meta($schema_post_id, 'saswp_dayofweek', true); 
-                                $dayoftheweek = explode( "\r\n", $dayoftheweek);                               
+                                $dayoftheweek     = get_post_meta($schema_post_id, 'saswp_dayofweek', true); 
+                                $dayoftheweek     = explode( "\r\n", $dayoftheweek);                               
+                                
 				if(empty($image_details[0]) || $image_details[0] === NULL ){
 					$image_details[0] = $logo;
 				}
                                 if(isset($business_details['local_business_logo'])){
+                                    
                                     unset($image_details);  
                                     $image_details[0] = isset($business_details['local_business_logo']) ? $business_details['local_business_logo']['url']:'';
                                     $image_details[1] = isset($business_details['local_business_logo']) ? $business_details['local_business_logo']['width']:'';
                                     $image_details[2] = isset($business_details['local_business_logo']) ? $business_details['local_business_logo']['height']:'';
+                                    
                                 }
                                 if($business_name){
+                                    
                                 $local_business = $business_name;    
+                                
                                 }else{
+                                    
                                 $local_business = $business_type;        
-                                }                                
+                                
+                                } 
+                                
 				$input1 = array(
 				'@context'			=> 'http://schema.org',
 				'@type'				=> $local_business ,
@@ -1095,7 +1130,7 @@ function saswp_schema_output() {
                                     if(isset($business_details['local_enable_rating'])){
                                  
                                     $input1['aggregateRating'] = array(
-                                                            "@type"=> "AggregateRating",
+                                                            "@type"       => "AggregateRating",
                                                             "ratingValue" => saswp_remove_warnings($business_details, 'local_rating', 'saswp_string'),
                                                             "reviewCount" => saswp_remove_warnings($business_details, 'local_review_count', 'saswp_string')
                                                          );                                       
@@ -1133,6 +1168,7 @@ function saswp_schema_output() {
                          if( !empty($input1) && !isset($input1['image'])){
                         
                             if( is_array($image_details) ){
+                                
                                     if(isset($image_details[1]) ){
                                                     $width = $image_details[1];	
                                             }
@@ -1158,6 +1194,7 @@ function saswp_schema_output() {
                                                                         'height'	=> $height,
                                		 ),
 				);
+                                
 				$input1 = array_merge($input1,$input2);
 		}
                 
@@ -1166,26 +1203,31 @@ function saswp_schema_output() {
 		if(isset($schema_options['notAccessibleForFree'])==1){
 
 			add_filter( 'amp_post_template_data', 'saswp_structure_data_access_scripts');			
-			$paywall_class_name = $schema_options['paywall_class_name'];
+                        
+			$paywall_class_name  = $schema_options['paywall_class_name'];
 			$isAccessibleForFree = isset($schema_options['isAccessibleForFree'])? $schema_options['isAccessibleForFree']: False;
 
-			if($paywall_class_name!=""){
-				if(strpos($paywall_class_name, ".")==-1){
+			if($paywall_class_name != ""){
+                            
+				if(strpos($paywall_class_name, ".") == -1){
+                                    
 					$paywall_class_name = ".".$paywall_class_name;
+                                        
 				}
 				$paywallData = array("isAccessibleForFree"=> $isAccessibleForFree,
-									  "hasPart"=>array(
-										    "@type"=> "WebPageElement",
-										    "isAccessibleForFree"=> $isAccessibleForFree,
-										    "cssSelector" => $paywall_class_name
-										    )
-										);
+                                                     "hasPart"=>array(
+                                                              "@type"               => "WebPageElement",
+                                                              "isAccessibleForFree" => $isAccessibleForFree,
+                                                              "cssSelector"         => $paywall_class_name
+                                                              )
+                                                          );
+                                
 				$input1 = array_merge($input1,$paywallData);
 			}
 		}  
                 
                 if(!empty($input1)){
-                $all_schema_output[] = $input1;		                    
+                    $all_schema_output[] = $input1;		                    
                 }                
 	//}
         }              
@@ -1303,6 +1345,7 @@ function saswp_post_specific_schema_output() {
                                 $input1  = $service_object->saswp_dw_question_answers_details(get_the_ID());  
                                 
                             }else{
+                                
                                 $input1 = array(
                                     '@context'		  => 'http://schema.org',
                                     '@type'		  => 'QAPage' ,
@@ -1312,23 +1355,23 @@ function saswp_post_specific_schema_output() {
                                             'text'		  => saswp_remove_warnings($all_post_meta, 'saswp_qa_question_description_'.$schema_id, 'saswp_array'),
                                             'upvoteCount'         => saswp_remove_warnings($all_post_meta, 'saswp_qa_upvote_count_'.$schema_id, 'saswp_array'),
                                             'dateCreated'         => saswp_remove_warnings($all_post_meta, 'saswp_qa_date_created_'.$schema_id, 'saswp_array'),
-                                            'author'         => array('@type' => 'Person','name' =>saswp_remove_warnings($all_post_meta, 'saswp_qa_question_author_name_'.$schema_id, 'saswp_array')) ,
+                                            'author'              => array('@type' => 'Person','name' =>saswp_remove_warnings($all_post_meta, 'saswp_qa_question_author_name_'.$schema_id, 'saswp_array')) ,
                                             'answerCount'         => 2 ,
                                             'acceptedAnswer'         => array(
-                                                        '@type' => 'Answer',
-                                                        'upvoteCount' => saswp_remove_warnings($all_post_meta, 'saswp_qa_accepted_answer_upvote_count_'.$schema_id, 'saswp_array'),
-                                                        'url' => saswp_remove_warnings($all_post_meta, 'saswp_qa_accepted_answer_url_'.$schema_id, 'saswp_array'),
-                                                        'text' => saswp_remove_warnings($all_post_meta, 'saswp_qa_accepted_answer_text_'.$schema_id, 'saswp_array'),
-                                                        'dateCreated' => saswp_remove_warnings($all_post_meta, 'saswp_qa_accepted_answer_date_created_'.$schema_id, 'saswp_array'),
-                                                        'author' => array('@type' => 'Person', 'name' => saswp_remove_warnings($all_post_meta, 'saswp_qa_accepted_author_name_'.$schema_id, 'saswp_array')),
+                                                            '@type'       => 'Answer',
+                                                            'upvoteCount' => saswp_remove_warnings($all_post_meta, 'saswp_qa_accepted_answer_upvote_count_'.$schema_id, 'saswp_array'),
+                                                            'url'         => saswp_remove_warnings($all_post_meta, 'saswp_qa_accepted_answer_url_'.$schema_id, 'saswp_array'),
+                                                            'text'        => saswp_remove_warnings($all_post_meta, 'saswp_qa_accepted_answer_text_'.$schema_id, 'saswp_array'),
+                                                            'dateCreated' => saswp_remove_warnings($all_post_meta, 'saswp_qa_accepted_answer_date_created_'.$schema_id, 'saswp_array'),
+                                                            'author'      => array('@type' => 'Person', 'name' => saswp_remove_warnings($all_post_meta, 'saswp_qa_accepted_author_name_'.$schema_id, 'saswp_array')),
                                             ) ,
                                             'suggestedAnswer'         => array(
-                                                        '@type' => 'Answer',
-                                                        'upvoteCount' => saswp_remove_warnings($all_post_meta, 'saswp_qa_suggested_answer_upvote_count_'.$schema_id, 'saswp_array'),
-                                                        'url' => saswp_remove_warnings($all_post_meta, 'saswp_qa_suggested_answer_url_'.$schema_id, 'saswp_array'),
-                                                        'text' => saswp_remove_warnings($all_post_meta, 'saswp_qa_suggested_answer_text_'.$schema_id, 'saswp_array'),
-                                                        'dateCreated' => saswp_remove_warnings($all_post_meta, 'saswp_qa_suggested_answer_date_created_'.$schema_id, 'saswp_array'),
-                                                        'author' => array('@type' => 'Person', 'name' => saswp_remove_warnings($all_post_meta, 'saswp_qa_suggested_author_name_'.$schema_id, 'saswp_array')),
+                                                            '@type'       => 'Answer',
+                                                            'upvoteCount' => saswp_remove_warnings($all_post_meta, 'saswp_qa_suggested_answer_upvote_count_'.$schema_id, 'saswp_array'),
+                                                            'url'         => saswp_remove_warnings($all_post_meta, 'saswp_qa_suggested_answer_url_'.$schema_id, 'saswp_array'),
+                                                            'text'        => saswp_remove_warnings($all_post_meta, 'saswp_qa_suggested_answer_text_'.$schema_id, 'saswp_array'),
+                                                            'dateCreated' => saswp_remove_warnings($all_post_meta, 'saswp_qa_suggested_answer_date_created_'.$schema_id, 'saswp_array'),
+                                                            'author'      => array('@type' => 'Person', 'name' => saswp_remove_warnings($all_post_meta, 'saswp_qa_suggested_author_name_'.$schema_id, 'saswp_array')),
                                             ) ,                                            
                                     )
                                 );

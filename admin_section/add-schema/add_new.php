@@ -52,18 +52,25 @@ $saswp_add_data_type_config = array(
 			return ;
 		}
                 if(!isset($_GET['_wpnonce'])){
+                    
                     return ;
+                    
                 }else{
+                    
                  $wp_nonce = $_GET['_wpnonce'];    
                  if( wp_verify_nonce($wp_nonce, '_wpnonce')){
-			saswp_add_new_steps_call(); 		
+                     
+			saswp_add_new_steps_call(); 	
+                        
 		}   
                 }
                 		                
 	}
 
 	function saswp_add_new_steps_call(){
+            
 		global $saswp_add_data_type_config;
+                
 		if ( !wp_verify_nonce($_GET['_wpnonce'], '_wpnonce') ||empty( $_GET['page'] ) || $saswp_add_data_type_config['installerpage'] !== $_GET['page'] ) {
 			return;
 		}
@@ -351,12 +358,17 @@ $saswp_add_data_type_config = array(
                  if ( !wp_verify_nonce( $_POST['wpnonce'], 'saswp_add_new_nonce' ) ){
                     return;  
                  }                 
-                if(isset($_POST['schema_type'])){                    
-                $schema_type = $_POST['schema_type'];  
+                if(isset($_POST['schema_type'])){ 
+                    
+                    $schema_type = $_POST['schema_type'];
+                
                 if($schema_type == 'local_business'){
-                $schema_type = 'Local Business';   
+                    
+                    $schema_type = 'Local Business';  
+                
                 }
                 $user_id = get_current_user_id();
+                
                 $schema_post = array(
                     'post_author' => $user_id,
                     'post_date' => date("Y-m-d"),                                        
@@ -364,31 +376,45 @@ $saswp_add_data_type_config = array(
                     'post_status' => 'publish',                    
                     'post_name' =>  ucfirst($schema_type),                    
                     'post_type' => 'saswp',                                                            
-                );                                      
+                );
+                
                 $post_id = wp_insert_post($schema_post);                                  
 
                 set_transient('saswp_last_post_id', json_encode(array('post_id'=>$post_id))); 
+                
                 }    
                                 
                 if(isset($_POST['data_group_array']) && isset($_POST['saswp_post_id'])){
-                $post_id = sanitize_text_field($_POST['saswp_post_id']);    
-                $post_data_group_array = array();
-                $temp_condition_array  = array();
-                $show_globally =false;
-                $post_data_group_array = $_POST['data_group_array'];
-                foreach($post_data_group_array as $groups){        
-                    foreach($groups['data_array'] as $group ){              
+                    
+                $post_id                = sanitize_text_field($_POST['saswp_post_id']);    
+                $post_data_group_array  = array();
+                $temp_condition_array   = array();
+                $show_globally          = false;
+                $post_data_group_array  = $_POST['data_group_array'];
+                
+                foreach($post_data_group_array as $groups){  
+                    
+                    foreach($groups['data_array'] as $group ){  
+                        
                       if(array_search('show_globally', $group))
                       {
+                          
                         $temp_condition_array[0] =  $group;  
-                        $show_globally = true;              
+                        $show_globally = true;  
+                        
                       }
+                      
                     }
                 }
+                
                 if($show_globally){
+                    
                 unset($post_data_group_array);
-                $post_data_group_array['group-0']['data_array'] = $temp_condition_array;                 
-                }                                
+                
+                $post_data_group_array['group-0']['data_array'] = $temp_condition_array;  
+                
+                }   
+                
                 update_post_meta(
                     $post_id, 
                     'data_group_array', 
