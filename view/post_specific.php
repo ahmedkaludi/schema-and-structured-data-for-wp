@@ -536,9 +536,10 @@ class saswp_post_specific {
                 if(count($this->all_schema)>0){
                     
                     
-                                       
+                              
                  foreach($this->all_schema as $schema){
-                     $response = $this->saswp_get_fields_by_schema_type($schema->ID);                     
+                     $response = $this->saswp_get_fields_by_schema_type($schema->ID);     
+                     
                      $this->meta_fields = $response;                     
                         foreach ( $this->meta_fields as $meta_field ) {
 			if ( isset( $_POST[ $meta_field['id'] ] ) ) {
@@ -1705,9 +1706,31 @@ class saswp_post_specific {
                     break;
                 
                 case 'Review':
-                    $service_schema_details = esc_sql ( get_post_meta($schema_id, 'saswp_review_schema_details', true)  );
                     
-                    $reviewed_field = item_reviewed_fields($service_schema_details['saswp_review_schema_item_type'], $post_specific=1, $schema_id);
+                    
+                    if(isset($_POST['saswp_review_schema_item_type_'.$schema_id])){
+                                            
+                    $reviewed_field = item_reviewed_fields(sanitize_text_field($_POST['saswp_review_schema_item_type_'.$schema_id]), $post_specific=1, $schema_id);    
+                        
+                        
+                    }else{
+                    
+                    $item_type_by_post =  esc_sql ( get_post_meta($post->ID, 'saswp_review_schema_item_type_'.$schema_id, true)  );
+                    
+                    if($item_type_by_post){
+                     
+                    $reviewed_field = item_reviewed_fields($item_type_by_post, $post_specific=1, $schema_id);        
+                        
+                    }else{
+                     
+                    $service_schema_details = esc_sql ( get_post_meta($schema_id, 'saswp_review_schema_details', true)  );
+                    $reviewed_field = item_reviewed_fields($service_schema_details['saswp_review_schema_item_type'], $post_specific=1, $schema_id);    
+                        
+                    }
+                        
+                    
+                    }
+                    
                     
                     $meta_field = array(
                     array(
@@ -1728,96 +1751,16 @@ class saswp_post_specific {
                                      'MusicPlaylist'         => 'Music Playlist',                                      
                                      'MusicRecording'        => 'MusicRecording',
                                      'Photograph'            => 'Photograph',
-                                     'Recipe'                => 'Recipe',
+                                     //'Recipe'                => 'Recipe',
                                      'Restaurant'            => 'Restaurant', 
                                      'Series'                => 'Series',
-                                     'SoftwareApplication'   => 'Software Application',
+                                    // 'SoftwareApplication'   => 'Software Application',
                                      'VisualArtwork'         => 'Visual Artwork',  
                                      'Webpage'               => 'Webpage', 
                                      'WebSite'               => 'WebSite',
                             ),                            
                             'default' => saswp_remove_warnings($service_schema_details, 'saswp_review_schema_item_type', 'saswp_string')
-                    ),
-//                    array(
-//                            'label' => 'Name',
-//                            'id' => 'saswp_review_schema_name_'.$schema_id,
-//                            'type' => 'text',
-//                            'default' => saswp_remove_warnings($service_schema_details, 'saswp_review_schema_name', 'saswp_string')
-//                    ),
-//                    array(
-//                            'label' => 'Review Body',
-//                            'id' => 'saswp_review_schema_description_'.$schema_id,
-//                            'type' => 'textarea',
-//                            'default' => saswp_remove_warnings($service_schema_details, 'saswp_review_schema_description', 'saswp_string')
-//                    ),
-//                    array(
-//                            'label' => 'Date Published',
-//                            'id' => 'saswp_review_schema_date_published_'.$schema_id,
-//                            'type' => 'text',
-//                            'default' => get_the_date("Y-m-d")
-//                    ),
-//                    array(
-//                            'label' => 'Date Modified',
-//                            'id' => 'saswp_review_schema_date_modified_'.$schema_id,
-//                            'type' => 'text',
-//                            'default' => get_the_modified_date("Y-m-d")
-//                    ),    
-//                    array(
-//                            'label' => 'Image',
-//                            'id' => 'saswp_review_schema_image_'.$schema_id,
-//                            'type' => 'media',
-//                            'default' => $service_schema_details['saswp_review_schema_image']['url']
-//                    ),
-//                    array(
-//                            'label' => 'Author',
-//                            'id' => 'saswp_review_schema_author_'.$schema_id,
-//                            'type' => 'text',
-//                            'default' => saswp_remove_warnings($service_schema_details, 'saswp_review_schema_author', 'saswp_string')
-//                    ),    
-//                    array(
-//                            'label' => 'Price Range',
-//                            'id' => 'saswp_review_schema_price_range_'.$schema_id,
-//                            'type' => 'text',
-//                            'default' => saswp_remove_warnings($service_schema_details, 'saswp_review_schema_price_range', 'saswp_string')
-//                    ),
-//                    array(
-//                            'label' => 'Street Address',
-//                            'id' => 'saswp_review_schema_street_address_'.$schema_id,
-//                            'type' => 'text',
-//                            'default' => saswp_remove_warnings($service_schema_details, 'saswp_review_schema_street_address', 'saswp_string')
-//                    ),
-//                    array(
-//                            'label' => 'Address Locality',
-//                            'id' => 'saswp_review_schema_locality_'.$schema_id,
-//                            'type' => 'text',
-//                            'default' => saswp_remove_warnings($service_schema_details, 'saswp_review_schema_locality', 'saswp_string')
-//                    ),
-//                    array(
-//                            'label' => 'Address Region',
-//                            'id' => 'saswp_review_schema_region_'.$schema_id,
-//                            'type' => 'text',
-//                            'default' => saswp_remove_warnings($service_schema_details, 'saswp_review_schema_region', 'saswp_string')
-//                    ),
-//                    array(
-//                            'label' => 'Postal Code',
-//                            'id' => 'saswp_review_schema_postal_code_'.$schema_id,
-//                            'type' => 'text',
-//                            'default' => saswp_remove_warnings($service_schema_details, 'saswp_review_schema_postal_code', 'saswp_string')
-//                    ),
-//                    array(
-//                            'label' => 'Address Country',
-//                            'id' => 'saswp_review_schema_country_'.$schema_id,
-//                            'type' => 'text',
-//                            'default' => saswp_remove_warnings($service_schema_details, 'saswp_review_schema_country', 'saswp_string'),                            
-//                    ),
-//                    array(
-//                            'label' => 'Telephone',
-//                            'id' => 'saswp_review_schema_telephone_'.$schema_id,
-//                            'type' => 'text',
-//                            'default' => saswp_remove_warnings($service_schema_details, 'saswp_review_schema_telephone', 'saswp_string'),
-//                                                                                   
-//                    ),  
-                    
+                         ),                                            
                         array(
                             'label' => 'Review Rating',
                             'id' => 'saswp_review_schema_enable_rating_'.$schema_id,

@@ -48,6 +48,7 @@ jQuery(document).ready(function($){
              if(schematype == 'Review'){            
              $(".saswp-review-text-field-tr").show();  
              $(".saswp-option-table-class tr").find('select').attr('disabled', false);
+             saswp_item_reviewed_call();
              }
              if(schematype == 'Product'){            
              $(".saswp-product-text-field-tr").show();  
@@ -804,11 +805,7 @@ jQuery(document).ready(function($){
          }
                
      }      
-     saswp_enable_rating_review();
-    
-     
-       
-       
+     saswp_enable_rating_review();                       
         //custom fields modify schema ends here
       
 });

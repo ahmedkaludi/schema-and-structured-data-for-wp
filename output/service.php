@@ -1211,7 +1211,7 @@ Class saswp_output_service{
                                                                             'width'		=> $image_details[2],                                                                            
                                                                             ),
 					'headline'			=> get_the_title(),
-					'description'                   => get_the_excerpt(),
+					'description'                   => strip_tags(get_the_excerpt()),
 					'datePublished'                 => $date,
 					'dateModified'                  => $modified_date,
 					'author'			=> array(
@@ -1244,13 +1244,13 @@ Class saswp_output_service{
 				'@type'				=> $schema_type ,
 				'name'				=> get_the_title(),
 				'url'				=> get_permalink(),
-				'description'                   => get_the_excerpt(),
+				'description'                   => strip_tags(get_the_excerpt()),
 				'mainEntity'                    => array(
 						'@type'			=> 'Article',
 						'mainEntityOfPage'	=> get_permalink(),
 						'image'			=> $image_details[0],
 						'headline'		=> get_the_title(),
-						'description'		=> get_the_excerpt(),
+						'description'		=> strip_tags(get_the_excerpt()),
 						'datePublished' 	=> $date,
 						'dateModified'		=> $modified_date,
 						'author'			=> array(
