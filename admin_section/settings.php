@@ -533,6 +533,9 @@ function saswp_knowledge_page_callback(){
                         'name' => 'sd_data[sd-person-image][url]',
                         'class' => 'upload large-text',
 			'type' => 'media',
+                        'attributes' => array(
+                                'readonly' => 'readonly'
+                            ) 
 		   ),
                     array(
 			'label' => 'Phone Number',
