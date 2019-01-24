@@ -1203,13 +1203,7 @@ Class saswp_output_service{
                     $input1 = array(
 					'@context'			=> 'http://schema.org',
 					'@type'				=> 'Article',
-					'mainEntityOfPage'              => get_permalink(),
-					'image'  => array(
-                                                                            '@type'		=>'ImageObject',
-                                                                            'url'		=> $image_details[0],
-                                                                            'height'            => $image_details[1],
-                                                                            'width'		=> $image_details[2],                                                                            
-                                                                            ),
+					'mainEntityOfPage'              => get_permalink(),					
 					'headline'			=> get_the_title(),
 					'description'                   => strip_tags(get_the_excerpt()),
 					'datePublished'                 => $date,
@@ -1282,7 +1276,100 @@ Class saswp_output_service{
             
         }
         
+        public function saswp_get_fetaure_image(){
+            
+            global $sd_data;
+            $input2 = array();
+            $image_id 	     = get_post_thumbnail_id();
+	    $image_details   = wp_get_attachment_image_src($image_id, 'full');           
+            
+            if( is_array($image_details) ){                                
+                                
+                                        if(isset($image_details[1]) && ($image_details[1] < 1200) && function_exists('ampforwp_aq_resize')){
+                                            
+                                            $width  = 1280;
+                                            $height = 720;
+                                            $resize_image = ampforwp_aq_resize( $image_details[0], $width, $height, true, false, true );
+                                            $image_details[0] = $resize_image[0];
+                                            
+                                        }else{
+                                            
+                                            $width  = $image_details[1];
+                                            $height = $image_details[2];
+                                        } 
+                                                                                    
+                                        $input2['image']['@type']  = 'ImageObject';
+                                        $input2['image']['url']    = $image_details[0];
+                                        $input2['image']['width']  = $width;
+                                        $input2['image']['height'] = $height;                                        
+                                
+                             }else{
+                                        
+                                        if(isset($sd_data['sd_default_image']['url']) && $sd_data['sd_default_image']['url'] !=''){
+                                        
+                                        $input2['image']['@type']  = 'ImageObject';
+                                        $input2['image']['url']    = $sd_data['sd_default_image']['url'];
+                                        $input2['image']['width']  = $sd_data['sd_default_image_width'];
+                                        $input2['image']['height'] = $sd_data['sd_default_image_height'];                                                                 
+                                            
+                                        }
+                                        
+                                				
+		          }
+                          
+                          return $input2;
+        }
         
+        public function saswp_get_publisher($d_logo = null){
+                
+                        global $sd_data;   
+                        
+                        $publisher    = array();
+                        $default_logo = array();
+                                      
+                        $logo      = isset($sd_data['sd_logo']) ? $sd_data['sd_logo']['url']:'';	
+			$height    = isset($sd_data['sd_logo']) ? $sd_data['sd_logo']['height']:'';
+			$width     = isset($sd_data['sd_logo']) ? $sd_data['sd_logo']['width']:'';
+                        $site_name = isset($sd_data['sd_name']) && $sd_data['sd_name'] !='' ? $sd_data['sd_name']:get_bloginfo();
+                                                                                                                       
+                        if($logo =='' && $height =='' && $width ==''){
+                            
+                            $sizes = array(
+					'width'  => 600,
+					'height' => 60,
+					'crop'   => false,
+				); 
+                            
+                            $custom_logo_id = get_theme_mod( 'custom_logo' );     
+                            $custom_logo    = wp_get_attachment_image_src( $custom_logo_id, $sizes);
+                            $logo           = $custom_logo[0];
+                            $height         = $custom_logo[1];
+                            $width          = $custom_logo[2];
+                        }
+                                                                                                
+                        if($logo !='' && $height !='' && $width !=''){
+                         
+                        $publisher['Publisher']['@type']         = 'Organization';                        
+                        $publisher['Publisher']['logo']['@type'] = 'ImageObject';
+                        $publisher['Publisher']['logo']['url']   = $logo;
+                        $publisher['Publisher']['logo']['width'] = $width;
+                        $publisher['Publisher']['logo']['height']= $height;                        
+                        $publisher['Publisher']['name']          = $site_name; 
+                                                
+                        $default_logo['url']    = $logo;
+                        $default_logo['height'] = $height;
+                        $default_logo['width']  = $width;
+                            
+                        }  
+                        
+                        if($d_logo){
+                            return $default_logo;
+                        }else{
+                            return $publisher;
+                        }                        
+                        
+        }
+                
 }
 if (class_exists('saswp_output_service')) {
 	$object = new saswp_output_service();

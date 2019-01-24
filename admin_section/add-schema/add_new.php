@@ -62,7 +62,8 @@ $saswp_add_data_type_config = array(
                      
 			saswp_add_new_steps_call(); 	
                         
-		}   
+		}  
+                
                 }
                 		                
 	}

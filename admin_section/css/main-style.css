@@ -111,7 +111,6 @@ display: none !important;
 .saswp-query-error{
     color: #bf3322;
 }
-
 .saswp-tools table th{    
     width: auto;
     padding: 0px;
@@ -155,9 +154,9 @@ Tooltip css starts here
     left: 50%;
     margin-left: -25px;
 }
-.saswp-tooltip:hover .saswp-tooltiptext {
+/*.saswp-tooltip:hover .saswp-tooltiptext {
     visibility: visible;
-}
+}*/
 
 .saswp-tooltiptext::after {
     content: "";

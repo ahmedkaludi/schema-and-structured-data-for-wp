@@ -330,26 +330,30 @@ jQuery(document).ready(function($){
           var datatype = $(this).val();        
           for(var i=1;i<=11;i++){
             if(datatype ==="Person"){
-             if(i<7){
+             if(i<6){
                 $( ".saswp-knowledge-base li:eq('"+i+"')" ).hide();          
               }else{
                 $( ".saswp-knowledge-base li:eq('"+i+"')" ).show();            
               }    
             }else if(datatype ==="Organization"){
-              if(i<7){
+              if(i<6){
                 $( ".saswp-knowledge-base li:eq('"+i+"')" ).show();          
               }else{
                 $( ".saswp-knowledge-base li:eq('"+i+"')" ).hide();            
-              }    
+              }  
+               $( ".saswp-knowledge-base li:eq(11)" ).show();            
             }else{
                $( ".saswp-knowledge-base li:eq('"+i+"')" ).hide(); 
             }
                        
           }                                           
-     }).change();     
+     }).change(); 
+     
+     
      $(document).on("click", "input[data-id=media]" ,function(e) {	// Application Icon upload
 		e.preventDefault();
-                var button = $(this);
+                var current = $(this);
+                var button = current;
                 var id = button.attr('id').replace('_button', '');                
 		var saswpMediaUploader = wp.media({
 			title: "Application Icon",
@@ -367,6 +371,14 @@ jQuery(document).ready(function($){
                          $("input[data-id='"+id+"_height']").val(attachment.height);
                          $("input[data-id='"+id+"_width']").val(attachment.width);
                          $("input[data-id='"+id+"_thumbnail']").val(attachment.url);
+                         
+                         if(current.attr('id') === 'sd_default_image_button'){
+                             
+                             $("#sd_default_image_width").val(attachment.width);
+                             $("#sd_default_image_height").val(attachment.height);
+                        
+                         }
+                        
 		})
 		.open();
 	});

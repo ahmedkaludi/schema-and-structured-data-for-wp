@@ -25,6 +25,7 @@ class saswp_fields_generator {
 		$output          = '';
                 $tooltip_message = '';
                 
+                
 		foreach ( $meta_fields as $meta_field ) {
                     
                         $tooltip_message = $this->saswp_tooltip_message($meta_field['id']);
@@ -69,6 +70,14 @@ class saswp_fields_generator {
                             
 				case 'media':
                                     
+                                        $attribute_str ='';
+                                    
+                                        foreach ($attribute as $key => $attr ){
+                                            
+                                           $attribute_str .=''.$key.'="'.$attr.'"';
+                                           
+                                        }
+                                    
                                         $mediavalue = array();
                                     
                                             if(isset($settings[$meta_field['id']])){
@@ -78,13 +87,14 @@ class saswp_fields_generator {
                                             }
                                         
 					$input = sprintf(
-						'<fieldset><input class="%s" style="width: 80%%" id="%s" name="%s" type="text" value="%s">'
+						'<fieldset><input %s class="%s" style="width: 80%%" id="%s" name="%s" type="text" value="%s">'
                                                 . '<input data-id="media" style="width: 19%%" class="button" id="%s_button" name="%s_button" type="button" value="Upload" />'
                                                 . '<input type="hidden" data-id="'.esc_attr($meta_field['id']).'_id" class="upload-id " name="sd_data['.esc_attr($meta_field['id']).'][id]" id="sd_data['.esc_attr($meta_field['id']).'][id]" value="'.esc_attr(saswp_remove_warnings($mediavalue, 'id', 'saswp_string')).'">'
                                                 . '<input type="hidden" data-id="'.esc_attr($meta_field['id']).'_height" class="upload-height" name="sd_data['.esc_attr($meta_field['id']).'][height]" id="sd_data['.esc_attr($meta_field['id']).'][height]" value="'.esc_attr(saswp_remove_warnings($mediavalue, 'height', 'saswp_string')).'">'
                                                 . '<input type="hidden" data-id="'.esc_attr($meta_field['id']).'_width" class="upload-width" name="sd_data['.esc_attr($meta_field['id']).'][width]" id="sd_data['.esc_attr($meta_field['id']).'][width]" value="'.esc_attr(saswp_remove_warnings($mediavalue, 'width', 'saswp_string')).'">'
                                                 . '<input type="hidden" data-id="'.esc_attr($meta_field['id']).'_thumbnail" class="upload-thumbnail" name="sd_data['.esc_attr($meta_field['id']).'][thumbnail]" id="sd_data['.esc_attr($meta_field['id']).'][thumbnail]" value="'.esc_attr(saswp_remove_warnings($mediavalue, 'thumbnail', 'saswp_string')).'">'
                                                 . '</fieldset>',
+                                                $attribute_str,
                                                 $class,
 						esc_attr($meta_field['id']),
 						esc_attr($meta_field['name']),

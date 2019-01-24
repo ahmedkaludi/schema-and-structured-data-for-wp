@@ -473,14 +473,7 @@ function saswp_knowledge_page_callback(){
                         'name' => 'sd_data[sd_url]',
                         'class' => 'regular-text',                        
 			'type' => 'text',
-		),
-                array(
-			'label' => 'Logo',
-			'id' => 'sd_logo',
-                        'name' => 'sd_data[sd_logo][url]',
-                        'class' => 'saswp-icon upload large-text',
-			'type' => 'media',                        
-		),
+		),                
                 array(
 			'label' => 'Contact details',
 			'id' => 'saswp_kb_contact_1_checkbox', 
@@ -555,6 +548,16 @@ function saswp_knowledge_page_callback(){
                         'class' => 'regular-text',                        
 			'type' => 'text',
 		    ),
+                    array(
+			'label' => 'Logo',
+			'id' => 'sd_logo',
+                        'name' => 'sd_data[sd_logo][url]',
+                        'class' => 'saswp-icon upload large-text',
+			'type' => 'media',
+                        'attributes' => array(
+                                'readonly' => 'readonly'
+                            )    
+		   ),
                 
 	);
         echo '<h2>'.esc_html__('Knowledge Base','schema-and-structured-data-for-wp').'</h2>';
