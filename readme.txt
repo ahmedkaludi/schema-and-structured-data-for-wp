@@ -71,6 +71,7 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Improvement: Show the fields of review schema type according to selected Item Reviewed Type
 * Bug Fixed: Product schema is not getting feature image/product image when WooCommerce compatibility is enable #122
 * Bug Fixed: Missing escaping, Warnings and Notices fixed
+* Bug Fixed: Google is requiring 1200 pixel wide feature images #131
 
 
 = 1.0.7.1 (5 January 2019) =
