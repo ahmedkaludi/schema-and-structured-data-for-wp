@@ -2125,6 +2125,7 @@ function saswp_post_specific_schema_output() {
 }
 
 function saswp_structure_data_access_scripts($data){
+    
 	if ( empty( $data['amp_component_scripts']['amp-access'] ) ) {
 		$data['amp_component_scripts']['amp-access'] = 'https://cdn.ampproject.org/v0/amp-access-0.1.js';
 	}
@@ -2135,6 +2136,7 @@ function saswp_structure_data_access_scripts($data){
 		$data['amp_component_scripts']['amp-mustache'] = "https://cdn.ampproject.org/v0/amp-mustache-0.1.js";
 	}
 	return $data;
+        
 }
 
 function saswp_list_items_generator(){
@@ -2528,7 +2530,7 @@ function saswp_reading_time_and_word_count() {
     $words_per_second = $words_per_minute / 60;
 
     // Count the words in the content.
-    $word_count      =0;
+    $word_count      = 0;
     $text            = trim( strip_tags( get_the_content() ) );
     $word_count      = substr_count( "$text ", ' ' );
 
