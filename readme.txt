@@ -65,7 +65,7 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
 
-= 1.0.8 (24 January 2019) =
+= 1.0.8 (28 January 2019) =
 
 * Added: Yoast plugin compatibility ( If yoast is activated for schema. Organization & website markup should not be duplicate )
 * Improvement: Show the fields of review schema type according to selected Item Reviewed Type

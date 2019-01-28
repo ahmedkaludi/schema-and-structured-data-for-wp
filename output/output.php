@@ -2,6 +2,7 @@
 if (! defined('ABSPATH') ) exit;
 
 function saswp_kb_schema_output() {
+    
 	global $sd_data;   
         $input = array();        
 	// social profile

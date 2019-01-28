@@ -557,6 +557,7 @@ function saswp_knowledge_page_callback(){
                         'name' => 'sd_data[sd_logo][url]',
                         'class' => 'saswp-icon upload large-text',
 			'type' => 'media',
+                        'note' => 'According to google validation tool, Logo size must be 160*50',
                         'attributes' => array(
                                 'readonly' => 'readonly'
                             )    

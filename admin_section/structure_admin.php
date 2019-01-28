@@ -85,8 +85,10 @@ function saswp_get_all_schema_posts(){
     $schema_id_array = array();
 
     $schema_id_array = json_decode(get_transient('saswp_transient_schema_ids'), true); 
-                
-    if(count($schema_id_array)>0){    
+    
+    if($schema_id_array){
+     
+        if(count($schema_id_array)>0){    
         
       $returnData = array();
       
@@ -166,7 +168,10 @@ function saswp_get_all_schema_posts(){
       }
       
       return $returnData;      
-  }
+    }
+        
+    }                                
+  
    return false;
 }
 
