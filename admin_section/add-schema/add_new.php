@@ -8,14 +8,15 @@ add_action( 'admin_menu', 'saswp_add_new_data_menu' );
 add_action( 'admin_init', 'saswp_add_new_init');
 add_action( 'admin_footer', 'saswp_add_new_svg_sprite');
 add_action( 'wp_ajax_saswp_add_new_save_steps_data', 'saswp_add_new_save_steps_data', 10, 0 );
+
 $saswp_add_data_type_config = array(
 				'installer_dir' => 'admin_section',
 				'plugin_title'  => esc_html__( ucfirst( 'Schema & Structured Data for WP' ), 'schema-and-structured-data-for-wp'),
-				'start_steps' => 1,
-				'total_steps' => 3,
+				'start_steps'   => 1,
+				'total_steps'   => 3,
 				'installerpage' => 'saswp_add_new_data_type',
-				'dev_mode' => false, 
-				'steps' => array(
+				'dev_mode'      => false, 
+				'steps'         => array(
 								1=>array(
 								'title'=>esc_html__('Select Schema', 'schema-and-structured-data-for-wp'),
 								'description'=>esc_html__('Where would you like to enable the schema?','schema-and-structured-data-for-wp'),
@@ -33,13 +34,14 @@ $saswp_add_data_type_config = array(
 									),
 								
 							),
-				'current_step'=>array(
+				'current_step'  =>array(
 							'title'=>'',
 							'step_id'=>1
 							)
 			);
 	
 	function saswp_add_new_data_menu(){
+            
 		saswp_add_new_init();
                 
 	}
@@ -50,18 +52,26 @@ $saswp_add_data_type_config = array(
 			return ;
 		}
                 if(!isset($_GET['_wpnonce'])){
+                    
                     return ;
+                    
                 }else{
+                    
                  $wp_nonce = $_GET['_wpnonce'];    
                  if( wp_verify_nonce($wp_nonce, '_wpnonce')){
-			saswp_add_new_steps_call(); 		
-		}   
+                     
+			saswp_add_new_steps_call(); 	
+                        
+		}  
+                
                 }
                 		                
 	}
 
 	function saswp_add_new_steps_call(){
+            
 		global $saswp_add_data_type_config;
+                
 		if ( !wp_verify_nonce($_GET['_wpnonce'], '_wpnonce') ||empty( $_GET['page'] ) || $saswp_add_data_type_config['installerpage'] !== $_GET['page'] ) {
 			return;
 		}
@@ -74,9 +84,9 @@ $saswp_add_data_type_config = array(
 		
 		// Use minified libraries if dev mode is turned on.
 		$suffix = '';
+                
                 wp_enqueue_media ();
-                
-                
+                                
                 // Enqueue styles.
 		wp_enqueue_style( 'saswp-timepicker-js', SASWP_PLUGIN_URL. $saswp_add_data_type_config['installer_dir']. '/css/jquery.timepicker' . $suffix . '.css' , array( 'wp-admin' ), '0.1');
 		// Enqueue javascript.
@@ -139,18 +149,27 @@ $saswp_add_data_type_config = array(
 	}
 	
 	function saswp_add_new_show_steps_body(){
+            
 		global $saswp_add_data_type_config;
+                
 		if($saswp_add_data_type_config['total_steps']==$saswp_add_data_type_config['current_step']['step_id']){
-			call_user_func('saswp_add_new_finish_page');
+                    
+                                call_user_func('saswp_add_new_finish_page');
+                        
 		}else{
 			if(function_exists('saswp_add_new_step'.$saswp_add_data_type_config['current_step']['step_id'])){
+                            
 				call_user_func('saswp_add_new_step'.$saswp_add_data_type_config['current_step']['step_id']);
+                                
 			}else{
+                            
 				call_user_func('saswp_add_new_finish_page');
+                                
 			}
 		}
 	}
 	function saswp_add_new_header() {
+            
 		global $saswp_installer_config;
 		
 		// Get the current step.
@@ -173,6 +192,7 @@ $saswp_add_data_type_config = array(
 	
 	
 	function saswp_add_new_step1(){
+                
 		global $saswp_add_data_type_config;
 		$stepDetails = $saswp_add_data_type_config['steps'][$saswp_add_data_type_config['current_step']['step_id']];
 		?>
@@ -222,6 +242,7 @@ $saswp_add_data_type_config = array(
 	}
         
         function saswp_add_new_step2(){
+            
 		global $saswp_add_data_type_config;
 		$stepDetails = $saswp_add_data_type_config['steps'][$saswp_add_data_type_config['current_step']['step_id']];
 		?>
@@ -284,6 +305,7 @@ $saswp_add_data_type_config = array(
 	
 	
         function saswp_add_new_step3(){
+            
 		global $saswp_add_data_type_config;
 		$stepDetails = $saswp_add_data_type_config['steps'][$saswp_add_data_type_config['current_step']['step_id']];
 		?>
@@ -330,18 +352,24 @@ $saswp_add_data_type_config = array(
 
 		
 	function saswp_add_new_save_steps_data(){    
+            
                  if ( ! isset( $_POST['wpnonce'] ) ){
                  return; 
                  }
                  if ( !wp_verify_nonce( $_POST['wpnonce'], 'saswp_add_new_nonce' ) ){
                     return;  
                  }                 
-                if(isset($_POST['schema_type'])){                    
-                $schema_type = $_POST['schema_type'];  
+                if(isset($_POST['schema_type'])){ 
+                    
+                    $schema_type = $_POST['schema_type'];
+                
                 if($schema_type == 'local_business'){
-                $schema_type = 'Local Business';   
+                    
+                    $schema_type = 'Local Business';  
+                
                 }
                 $user_id = get_current_user_id();
+                
                 $schema_post = array(
                     'post_author' => $user_id,
                     'post_date' => date("Y-m-d"),                                        
@@ -349,31 +377,45 @@ $saswp_add_data_type_config = array(
                     'post_status' => 'publish',                    
                     'post_name' =>  ucfirst($schema_type),                    
                     'post_type' => 'saswp',                                                            
-                );                                      
+                );
+                
                 $post_id = wp_insert_post($schema_post);                                  
 
                 set_transient('saswp_last_post_id', json_encode(array('post_id'=>$post_id))); 
+                
                 }    
                                 
                 if(isset($_POST['data_group_array']) && isset($_POST['saswp_post_id'])){
-                $post_id = sanitize_text_field($_POST['saswp_post_id']);    
-                $post_data_group_array = array();
-                $temp_condition_array  = array();
-                $show_globally =false;
-                $post_data_group_array = $_POST['data_group_array'];
-                foreach($post_data_group_array as $groups){        
-                    foreach($groups['data_array'] as $group ){              
+                    
+                $post_id                = sanitize_text_field($_POST['saswp_post_id']);    
+                $post_data_group_array  = array();
+                $temp_condition_array   = array();
+                $show_globally          = false;
+                $post_data_group_array  = $_POST['data_group_array'];
+                
+                foreach($post_data_group_array as $groups){  
+                    
+                    foreach($groups['data_array'] as $group ){  
+                        
                       if(array_search('show_globally', $group))
                       {
+                          
                         $temp_condition_array[0] =  $group;  
-                        $show_globally = true;              
+                        $show_globally = true;  
+                        
                       }
+                      
                     }
                 }
+                
                 if($show_globally){
+                    
                 unset($post_data_group_array);
-                $post_data_group_array['group-0']['data_array'] = $temp_condition_array;                 
-                }                                
+                
+                $post_data_group_array['group-0']['data_array'] = $temp_condition_array;  
+                
+                }   
+                
                 update_post_meta(
                     $post_id, 
                     'data_group_array', 
@@ -418,7 +460,7 @@ $saswp_add_data_type_config = array(
 
 			<div class="saswp_branding"></div>
 			
-			<h1><?php echo esc_html( 'Schema Added Successfully. Have fun!' ); ?></h1>		
+			<h1><?php echo esc_html__( 'Schema Added Successfully. Have fun!', 'schema-and-structured-data-for-wp' ); ?></h1>		
 
 		</div> 
 
@@ -434,7 +476,7 @@ $saswp_add_data_type_config = array(
                         }
                         ?>
                         
-			<a href="<?php echo $lets_go; ?>" class="merlin__button merlin__button--blue merlin__button--fullwidth merlin__button--popin"><?php echo esc_html( 'Let\'s Go' ); ?></a>
+			<a href="<?php echo $lets_go; ?>" class="merlin__button merlin__button--blue merlin__button--fullwidth merlin__button--popin"><?php echo esc_html__( 'Let\'s Go', 'schema-and-structured-data-for-wp' ); ?></a>
 			
 			
 			<ul class="merlin__drawer merlin__drawer--extras">
@@ -512,12 +554,12 @@ $saswp_add_data_type_config = array(
 	function saswp_add_new_makesvg( $args = array() ){
 		// Make sure $args are an array.
 		if ( empty( $args ) ) {
-			return __( 'Please define default parameters in the form of an array.', 'accelerated-mobile-pages' );
+			return __( 'Please define default parameters in the form of an array.', 'schema-and-structured-data-for-wp' );
 		}
 
 		// Define an icon.
 		if ( false === array_key_exists( 'icon', $args ) ) {
-			return __( 'Please define an SVG icon filename.', 'accelerated-mobile-pages' );
+			return __( 'Please define an SVG icon filename.', 'schema-and-structured-data-for-wp' );
 		}
 
 		// Set defaults.
@@ -551,12 +593,12 @@ $saswp_add_data_type_config = array(
 
 		// If there is a title, display it.
 		if ( $args['title'] ) {
-			$svg .= '<title>' . esc_html( $args['title'] ) . '</title>';
+			$svg .= '<title>' . esc_html__( $args['title'], 'schema-and-structured-data-for-wp' ) . '</title>';
 		}
 
 		// If there is a description, display it.
 		if ( $args['desc'] ) {
-			$svg .= '<desc>' . esc_html( $args['desc'] ) . '</desc>';
+			$svg .= '<desc>' . esc_html__( $args['desc'], 'schema-and-structured-data-for-wp' ) . '</desc>';
 		}
 
 		$svg .= '<use xlink:href="#icon-' . esc_html( $args['icon'] ) . '"></use>';

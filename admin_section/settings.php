@@ -8,7 +8,7 @@ add_action( 'plugin_action_links_' . plugin_basename( SASWP_DIR_NAME_FILE ), 'sa
 function saswp_plugin_action_links( $links ) {
         $nonce = wp_create_nonce( 'saswp_install_wizard_nonce' );  
 	$links[] = '<a href="' . esc_url( admin_url( 'edit.php?post_type=saswp&page=structured_data_options' ) ) . '">' . esc_html__( 'Settings', 'schema-and-structured-data-for-wp' ) . '</a>';
-	$links[] = '<a href="'.  esc_url(admin_url( 'plugins.php?page=saswp-setup-wizard' ).'&_saswp_nonce='.$nonce).'">' . esc_html__( 'Start setup wizard &raquo;', 'schema-and-structured-data-for-wp' ) . '</a>';
+	$links[] = '<a href="'.  esc_url( admin_url( 'plugins.php?page=saswp-setup-wizard' ).'&_saswp_nonce='.$nonce).'">' . esc_html__( 'Start setup wizard &raquo;', 'schema-and-structured-data-for-wp' ) . '</a>';
   	return $links;
 }
 
@@ -28,15 +28,12 @@ function saswp_admin_interface_render(){
 	if ( isset( $_GET['settings-updated'] ) ) {							                                                 
 		settings_errors();               
 	}
-        $is_amp =false;
+        $is_amp = false;
         if ( is_plugin_active('accelerated-mobile-pages/accelerated-moblie-pages.php') || is_plugin_active('amp/amp.php') ) {
 	$is_amp = true;			
         }   
-        if($is_amp){
-        $tab = saswp_get_tab('general', array('general','knowledge','schema', 'tools', 'amp','review','compatibility','support'));    
-        }else{
-        $tab = saswp_get_tab('general', array('general','knowledge','schema','tools' ,'review','compatibility','support'));    
-        }
+       
+        $tab = saswp_get_tab('general', array('general','knowledge','schema', 'tools', 'amp','review','compatibility','support'));            
 	
 	?>
 <div class="saswp-settings-container">
@@ -49,10 +46,9 @@ function saswp_admin_interface_render(){
 			echo '<a href="' . esc_url(saswp_admin_link('general')) . '" class="nav-tab ' . esc_attr( $tab == 'general' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . esc_html__('General','schema-and-structured-data-for-wp') . '</a>';
 
 			echo '<a href="' . esc_url(saswp_admin_link('knowledge')) . '" class="nav-tab ' . esc_attr( $tab == 'knowledge' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . esc_html__('Knowledge Graph','schema-and-structured-data-for-wp') . '</a>';
-                        
-                        if($is_amp){
+                                                
                         echo '<a href="' . esc_url(saswp_admin_link('amp')) . '" class="nav-tab ' . esc_attr( $tab == 'amp' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . esc_html__('AMP','schema-and-structured-data-for-wp') . '</a>';    
-                        }
+                        
                         echo '<a href="' . esc_url(saswp_admin_link('tools')) . '" class="nav-tab ' . esc_attr( $tab == 'tools' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . esc_html__('Tools','schema-and-structured-data-for-wp') . '</a>';
                          
 			echo '<a href="' . esc_url(saswp_admin_link('schema')) . '" class="nav-tab ' . esc_attr( $tab == 'schema' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . esc_html__('Misc','schema-and-structured-data-for-wp') . '</a>';
@@ -128,8 +124,8 @@ function saswp_admin_interface_render(){
         <h2><?php echo esc_html__( 'Leave A Feedback', 'schema-and-structured-data-for-wp' ); ?></h2>
         
         <ul>
-            <li><a target="_blanl" href="https://wordpress.org/support/plugin/schema-and-structured-data-for-wp/reviews/#new-post"><?php echo esc_html__( 'I would like to review this plugin', 'schema-and-structured-data-for-wp' ); ?></a></li>    
-            <li><a target="_blanl" href="http://structured-data-for-wp.com/contact-us/"><?php echo esc_html__( 'I have ideas to improve this plugin', 'schema-and-structured-data-for-wp' ); ?></a></li>
+            <li><a target="_blank" href="https://wordpress.org/support/plugin/schema-and-structured-data-for-wp/reviews/#new-post"><?php echo esc_html__( 'I would like to review this plugin', 'schema-and-structured-data-for-wp' ); ?></a></li>    
+            <li><a target="_blank" href="http://structured-data-for-wp.com/contact-us/"><?php echo esc_html__( 'I have ideas to improve this plugin', 'schema-and-structured-data-for-wp' ); ?></a></li>
             <li><a href="<?php echo esc_url( admin_url( 'admin.php?page=structured_data_options&tab=support' ) ); ?>"><?php echo esc_html__( 'I need help this plugin', 'schema-and-structured-data-for-wp' ); ?></a></li>              
         </ul>  
         <div class="saswp-social-sharing-buttons">
@@ -310,9 +306,8 @@ function saswp_schema_page_callback(){
 function saswp_amp_page_callback(){
         $settings = saswp_defaultSettings();         
         $field_objs = new saswp_fields_generator();
-        $meta_fields = array(		
-		
-                array(
+        
+        $non_amp_enable_field = array(
 			'label' => 'Structured Data for AMP',
 			'id' => 'saswp-for-amp-checkbox',                        
                         'name' => 'saswp-for-amp-checkbox',
@@ -322,8 +317,23 @@ function saswp_amp_page_callback(){
                              'id' => 'saswp-for-amp',
                              'name' => 'sd_data[saswp-for-amp]',                             
                         )
-		),  
-                array(
+		) ;                                        
+                
+        
+        if ( is_plugin_active('accelerated-mobile-pages/accelerated-moblie-pages.php') || is_plugin_active('amp/amp.php') ) {                         
+        }else{
+            
+            $non_amp_enable_field['attributes'] = array(
+                 'disabled' => 'disabled'
+             );
+             $non_amp_enable_field['note'] = esc_html__('AMP Plugin is not activated','schema-and-structured-data-for-wp');
+             $settings['saswp-for-amp'] = 0;	
+            
+        }
+                
+        $meta_fields = array(
+            $non_amp_enable_field,
+		 array(
 			'label' => 'Structured Data for Non AMP',
 			'id' => 'saswp-for-wordpress-checkbox',
                         'name' => 'saswp-for-wordpress-checkbox',
@@ -334,7 +344,7 @@ function saswp_amp_page_callback(){
                              'id' => 'saswp-for-wordpress',
                              'name' => 'sd_data[saswp-for-wordpress]',                             
                         )
-		),
+		)                                         
 	);
         echo '<h2>'.esc_html__('Set Up','schema-and-structured-data-for-wp').'</h2>';
         $field_objs->saswp_field_generator($meta_fields, $settings);    
@@ -396,7 +406,7 @@ function saswp_general_page_callback(){
 			'name' => 'sd_data[sd_about_page]', 
                         'id' => 'sd_about_page',
 			'echo' => 0, 
-			'show_option_none' => esc_attr( 'Select an item' ), 
+			'show_option_none' => esc_html__( 'Select an item', 'schema-and-structured-data-for-wp' ), 
 			'option_none_value' => '', 
 			'selected' =>  isset($settings['sd_about_page']) ? $settings['sd_about_page'] : '',
 		)); ?>
@@ -417,7 +427,7 @@ function saswp_general_page_callback(){
 			'name' => 'sd_data[sd_contact_page]', 
                         'id' => 'sd_contact_page-select',
 			'echo' => 0, 
-			'show_option_none' => esc_attr( 'Select an item' ), 
+			'show_option_none' => esc_html( 'Select an item', 'schema-and-structured-data-for-wp' ), 
 			'option_none_value' => '', 
 			'selected' =>  isset($settings['sd_contact_page']) ? $settings['sd_contact_page'] : '',
 		)); ?>
@@ -463,14 +473,7 @@ function saswp_knowledge_page_callback(){
                         'name' => 'sd_data[sd_url]',
                         'class' => 'regular-text',                        
 			'type' => 'text',
-		),
-                array(
-			'label' => 'Logo',
-			'id' => 'sd_logo',
-                        'name' => 'sd_data[sd_logo][url]',
-                        'class' => 'saswp-icon upload large-text',
-			'type' => 'media',                        
-		),
+		),                
                 array(
 			'label' => 'Contact details',
 			'id' => 'saswp_kb_contact_1_checkbox', 
@@ -530,6 +533,9 @@ function saswp_knowledge_page_callback(){
                         'name' => 'sd_data[sd-person-image][url]',
                         'class' => 'upload large-text',
 			'type' => 'media',
+                        'attributes' => array(
+                                'readonly' => 'readonly'
+                            ) 
 		   ),
                     array(
 			'label' => 'Phone Number',
@@ -545,6 +551,17 @@ function saswp_knowledge_page_callback(){
                         'class' => 'regular-text',                        
 			'type' => 'text',
 		    ),
+                    array(
+			'label' => 'Logo',
+			'id' => 'sd_logo',
+                        'name' => 'sd_data[sd_logo][url]',
+                        'class' => 'saswp-icon upload large-text',
+			'type' => 'media',
+                        'note' => 'According to google validation tool, Logo size must be 160*50',
+                        'attributes' => array(
+                                'readonly' => 'readonly'
+                            )    
+		   ),
                 
 	);
         echo '<h2>'.esc_html__('Knowledge Base','schema-and-structured-data-for-wp').'</h2>';
@@ -764,27 +781,36 @@ function saswp_check_data_imported_from($plugin_post_type_name){
         return $imported_from;
 }
 function saswp_import_callback(){
-        $message = '<p>'.esc_html__('This plugin\'s data already has been imported. Do you want to import again?. click on button above button.','schema-and-structured-data-for-wp').'</p>';
-        $schema_message = '';
-        $schema_pro_message = '';
+    
+        $message               = 'This plugin\'s data already has been imported. Do you want to import again?. click on button above button.';
+        $schema_message        = '';
+        $schema_pro_message    = '';
         $wp_seo_schema_message = '';
-        $seo_pressor_message = '';
-        $schema_plugin = saswp_check_data_imported_from('schema'); 
-        $schema_pro_plugin = saswp_check_data_imported_from('schema_pro');
-        $wp_seo_schema_plugin = saswp_check_data_imported_from('wp_seo_schema');
-        $seo_pressor = saswp_check_data_imported_from('seo_pressor');
+        $seo_pressor_message   = '';
+        $schema_plugin         = saswp_check_data_imported_from('schema'); 
+        $schema_pro_plugin     = saswp_check_data_imported_from('schema_pro');
+        $wp_seo_schema_plugin  = saswp_check_data_imported_from('wp_seo_schema');
+        $seo_pressor           = saswp_check_data_imported_from('seo_pressor');
         
         if($seo_pressor->post_count !=0){
-         $seo_pressor_message =$message;
+            
+          $seo_pressor_message = $message;
+         
         }        
 	if($schema_plugin->post_count !=0){
-         $schema_message =$message;
+            
+          $schema_message    = $message;
+         
         }
         if($schema_pro_plugin->post_count !=0){
-         $schema_pro_message =$message;   
+            
+          $schema_pro_message = $message;   
+         
         }
         if($wp_seo_schema_plugin->post_count !=0){
-         $wp_seo_schema_message =$message;   
+            
+          $wp_seo_schema_message = $message;   
+         
         }
         
 	 echo '<h2>'.esc_html__('Migration','schema-and-structured-data-for-wp').'</h2>';       	                  
@@ -792,22 +818,22 @@ function saswp_import_callback(){
             <ul>
                 <li><div class="saswp-tools-field-title"><div class="saswp-tooltip"><span class="saswp-tooltiptext"><?php echo esc_html__('All the settings and data you can import from this plugin when you click start importing','schema-and-structured-data-for-wp') ?></span><strong><?php echo esc_html__('Schema Plugin','schema-and-structured-data-for-wp'); ?></strong></div><button data-id="schema" class="button saswp-import-plugins"><?php echo esc_html__('Start Importing','schema-and-structured-data-for-wp'); ?></button>
                         <p class="saswp-imported-message"></p>
-                        <?php echo $schema_message; ?>    
+                        <?php echo '<p>'.esc_html__($schema_message, 'schema-and-structured-data-for-wp').'</p>'; ?>    
                     </div>
                 </li>
                 <li><div class="saswp-tools-field-title"><div class="saswp-tooltip"><span class="saswp-tooltiptext"><?php echo esc_html__('All the settings and data you can import from this plugin when you click start importing','schema-and-structured-data-for-wp') ?></span><strong><?php echo esc_html__('Schema Pro','schema-and-structured-data-for-wp'); ?></strong></div><button data-id="schema_pro" class="button saswp-import-plugins"><?php echo esc_html__('Start Importing','schema-and-structured-data-for-wp'); ?></button>
                         <p class="saswp-imported-message"></p>
-                        <?php echo $schema_pro_message; ?>    
+                        <?php echo '<p>'.esc_html__($schema_pro_message, 'schema-and-structured-data-for-wp').'</p>'; ?>                       
                     </div>
                 </li>
                 <li><div class="saswp-tools-field-title"><div class="saswp-tooltip"><span class="saswp-tooltiptext"><?php echo esc_html__('All the settings and data you can import from this plugin when you click start importing','schema-and-structured-data-for-wp') ?></span><strong><?php echo esc_html__('WP SEO Schema','schema-and-structured-data-for-wp'); ?></strong></div><button data-id="wp_seo_schema" class="button saswp-import-plugins"><?php echo esc_html__('Start Importing','schema-and-structured-data-for-wp'); ?></button>
                         <p class="saswp-imported-message"></p>
-                        <?php echo $wp_seo_schema_message; ?>    
+                        <?php echo '<p>'.esc_html__($wp_seo_schema_message, 'schema-and-structured-data-for-wp').'</p>'; ?>                       
                     </div>
                 </li>
                 <li><div class="saswp-tools-field-title"><div class="saswp-tooltip"><span class="saswp-tooltiptext"><?php echo esc_html__('All the settings and data you can import from this plugin when you click start importing','schema-and-structured-data-for-wp') ?></span><strong><?php echo esc_html__('SEO Pressor','schema-and-structured-data-for-wp'); ?></strong></div><button data-id="seo_pressor" class="button saswp-import-plugins"><?php echo esc_html__('Start Importing','schema-and-structured-data-for-wp'); ?></button>
                         <p class="saswp-imported-message"></p>
-                        <?php echo $seo_pressor_message; ?>    
+                        <?php echo '<p>'.esc_html__($seo_pressor_message, 'schema-and-structured-data-for-wp').'</p>'; ?>                          
                     </div>
                 </li>
                 
@@ -831,8 +857,9 @@ function saswp_import_callback(){
          ?>
             <ul>
                 <li>
-                    <div class="saswp-tools-field-title"><div class="saswp-tooltip"><strong><?php echo esc_html__('Reset Plugin','schema-and-structured-data-for-wp'); ?></strong></div><a href="#"class="button saswp-reset-data"><?php echo esc_html__('Reset','schema-and-structured-data-for-wp'); ?></a>                         
-                        <p>This will reset your settings and schema types</p>
+                    <div class="saswp-tools-field-title">
+                        <div class="saswp-tooltip"><strong><?php echo esc_html__('Reset Plugin','schema-and-structured-data-for-wp'); ?></strong></div><a href="#"class="button saswp-reset-data"><?php echo esc_html__('Reset','schema-and-structured-data-for-wp'); ?></a>                         
+                        <p><?php echo esc_html__('This will reset your settings and schema types','schema-and-structured-data-for-wp'); ?></p>
                     </div>
                 </li> 
                 
@@ -915,7 +942,25 @@ function saswp_compatibility_page_callback(){
                              'name' => 'sd_data[saswp-dw-question-answer]',                             
                         )
 		);
+        $yoast      = array(
+			'label' => 'Yoast SEO Plugin',
+			'id' => 'saswp-yoast-checkbox',                        
+                        'name' => 'saswp-yoast-checkbox',
+			'type' => 'checkbox',
+                        'class' => 'checkbox saswp-checkbox',
+                        'hidden' => array(
+                             'id' => 'saswp-yoast',
+                             'name' => 'sd_data[saswp-yoast]',                             
+                        )
+		);        
         
+        if(!is_plugin_active('wordpress-seo/wp-seo.php')){
+             $yoast['attributes'] = array(
+                 'disabled' => 'disabled'
+             );
+             $yoast['note'] = esc_html__('Plugin is not activated','schema-and-structured-data-for-wp');
+             $settings['saswp-yoast'] = 0;
+        }
         
         if(!is_plugin_active('kk-star-ratings/index.php')){
              $kk_star['attributes'] = array(
@@ -941,7 +986,7 @@ function saswp_compatibility_page_callback(){
              $extratheme['attributes'] = array(
                  'disabled' => 'disabled'
              );
-             $extratheme['note'] = esc_html__('Theme is not activated','schema-and-structured-data-for-wp');
+             $extratheme['note']      = esc_html__('Theme is not activated','schema-and-structured-data-for-wp');
              $settings['saswp-extra'] = 0;  
         }
                  
@@ -960,7 +1005,8 @@ function saswp_compatibility_page_callback(){
                 $kk_star,  
                 $woocommerce, 
                 $extratheme,
-                $dwquestiton, 
+                $dwquestiton,
+                $yoast
                 
 	);       
         
@@ -1108,9 +1154,11 @@ function saswp_enqueue_style_js( $hook ) {
         wp_register_script( 'saswp-main-js', SASWP_PLUGIN_URL . 'admin_section/js/main-script.js', array('jquery'), SASWP_VERSION , true );
         
         $data = array(
-            'post_id'                        => get_the_ID(),
+            'post_id'                   => get_the_ID(),
             'ajax_url'                  => admin_url( 'admin-ajax.php' ),            
-            'saswp_security_nonce'      => wp_create_nonce('saswp_ajax_check_nonce')            
+            'saswp_security_nonce'      => wp_create_nonce('saswp_ajax_check_nonce'),  
+            'new_url_selector'          => esc_url(admin_url()).'post-new.php?post_type=saswp',
+            'new_url_href'              => htmlspecialchars_decode(wp_nonce_url(admin_url('index.php?page=saswp_add_new_data_type&'), '_wpnonce'))
         );
         
         wp_localize_script( 'saswp-main-js', 'saswp_localize_data', $data );

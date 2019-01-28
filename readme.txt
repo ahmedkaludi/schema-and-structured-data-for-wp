@@ -3,7 +3,7 @@ Contributors: mohammed_kaludi, ahmedkaludi, ampforwp
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.0.2
-Stable tag: 1.0.7
+Stable tag: 1.0.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -64,6 +64,22 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.0.8 (28 January 2019) =
+
+* Added: Yoast plugin compatibility ( If yoast is activated for schema. Organization & website markup should not be duplicate )
+* Improvement: Show the fields of review schema type according to selected Item Reviewed Type
+* Bug Fixed: Product schema is not getting feature image/product image when WooCommerce compatibility is enable #122
+* Bug Fixed: Missing escaping, Warnings and Notices fixed
+* Bug Fixed: Google is requiring 1200 pixel wide feature images #131
+
+
+= 1.0.7.1 (5 January 2019) =
+
+* Improvement: AMP tab should always be shown and amp option should be disabled if amp is not activated. #87
+* Improvement: Notice box to ask for review in day interval should not be shown again, if users click no thanks button. #118
+* Bug Fixed: Warnings and Notices fixed
+
 
 = 1.0.7 (31 December 2018) =
 

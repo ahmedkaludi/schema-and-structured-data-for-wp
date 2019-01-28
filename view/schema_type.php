@@ -1,18 +1,504 @@
-<?php                                                                               
+<?php       
+function item_reviewed_fields($item, $post_specific = null, $schema_id = null){
+            
+            $post_fix = '';
+            
+            if($post_specific == 1 && isset($schema_id)){
+                
+              $post_fix = '_'.$schema_id;  
+              
+            }
+            
+            $reviewed_field = array(
+                                array(
+                                        'label' => 'Name',
+                                        'id' => 'saswp_review_schema_name'.$post_fix,
+                                        'type' => 'text',
+                                        'default' => '',
+                                        'attributes' => array(
+                                                'placeholder' => 'Name'
+                                         )
+                                        
+                                ),
+                                array(
+                                        'label' => 'Review Body',
+                                        'id' => 'saswp_review_schema_description'.$post_fix,
+                                        'type' => 'textarea',
+                                        'default' => '',
+                                        'attributes' => array(
+                                                'placeholder' => 'Review Body'
+                                         )
+                                ),
+                                array(
+                                        'label' => 'Image',
+                                        'id' => 'saswp_review_schema_image'.$post_fix,
+                                        'type' => 'media',
+                                        'default' => '',
+                                        'attributes' => array(
+                                                'placeholder' => 'Image'
+                                         )
+                                ),
+                                array(
+                                        'label' => 'Author',
+                                        'id' => 'saswp_review_schema_author'.$post_fix,
+                                        'type' => 'text',
+                                        'default' => '',
+                                        'attributes' => array(
+                                                'placeholder' => 'Author'
+                                         )
+                                ),
+                                array(
+                                        'label' => 'Price Range',
+                                        'id' => 'saswp_review_schema_price_range'.$post_fix,
+                                        'type' => 'text',
+                                        'default' => '',
+                                        'attributes' => array(
+                                                'placeholder' => '$$$ or 55$-100$'
+                                         )
+                                ),
+                                array(
+                                        'label' => 'Street Address',
+                                        'id' => 'saswp_review_schema_street_address'.$post_fix,
+                                        'type' => 'text',
+                                        'default' => '',
+                                        'attributes' => array(
+                                                'placeholder' => 'Street Address'
+                                         )
+                                ),
+                                array(
+                                        'label' => 'Address Locality',
+                                        'id' => 'saswp_review_schema_locality'.$post_fix,
+                                        'type' => 'text',
+                                        'default' => '',
+                                        'attributes' => array(
+                                                'placeholder' => 'Address Locality'
+                                         )
+                                ),
+                                array(
+                                        'label' => 'Address Region',
+                                        'id' => 'saswp_review_schema_region'.$post_fix,
+                                        'type' => 'text',
+                                        'default' => '',
+                                        'attributes' => array(
+                                                'placeholder' => 'Address Region'
+                                         )
+                                ),
+                                array(
+                                        'label' => 'Postal Code',
+                                        'id' => 'saswp_review_schema_postal_code'.$post_fix,
+                                        'type' => 'text',
+                                        'default' => '',
+                                        'attributes' => array(
+                                                'placeholder' => 'Postal Code'
+                                         )
+                                ),
+                                array(
+                                        'label' => 'Address Country',
+                                        'id' => 'saswp_review_schema_country'.$post_fix,
+                                        'type' => 'text',
+                                        'default' => '',
+                                        'attributes' => array(
+                                                'placeholder' => 'Country'
+                                         )
+                                ),
+                                array(
+                                        'label' => 'Telephone',
+                                        'id' => 'saswp_review_schema_telephone'.$post_fix,
+                                        'type' => 'text',
+                                        'default' => '',
+                                        'attributes' => array(
+                                                'placeholder' => '123456789'
+                                         )
+                                ),
+                       
+                            );
+                                                
+            switch ($item) {
+                
+                        case 'Article':
+                            
+                        $reviewed_field = array();
+                                  
+                            break;
+                        case 'Adultentertainment':
+                            
+                             $reviewed_field; 
+                           
+                            break;
+                        case 'Blog':
+                            
+                           $reviewed_field = array(
+                             array(
+                                        'label' => 'Name',
+                                        'id' => 'saswp_review_schema_name'.$post_fix,
+                                        'type' => 'text',
+                                        'default' => $site_name = get_bloginfo()
+                                ),
+                             array(
+                                        'label' => 'Url',
+                                        'id' => 'saswp_review_schema_url'.$post_fix,
+                                        'type' => 'text',
+                                        'default' => get_site_url()
+                                )
+                         );  
+                            
+                            break;
+                        case 'Book':
+                            
+                            $reviewed_field = array(
+                             array(
+                                        'label' => 'Name',
+                                        'id' => 'saswp_review_schema_name'.$post_fix,
+                                        'type' => 'text',
+                                        'default' => '',
+                                        'attributes' => array(
+                                                'placeholder' => 'Name'
+                                         )
+                                ),
+                             array(
+                                        'label' => 'Author',
+                                        'id' => 'saswp_review_schema_author'.$post_fix,
+                                        'type' => 'text',
+                                        'default' => '',
+                                        'attributes' => array(
+                                                'placeholder' => 'Author'
+                                         )
+                                ),
+                            array(
+                                        'label' => 'ISBN',
+                                        'id' => 'saswp_review_schema_isbn'.$post_fix,
+                                        'type' => 'text',
+                                        'default' => '',
+                                        'attributes' => array(
+                                                'placeholder' => 'ISBN'
+                                         )
+                                ),
+                            array(
+                                        'label' => 'URL',
+                                        'id' => 'saswp_review_schema_author_sameas'.$post_fix,
+                                        'type' => 'text',
+                                        'default' => '',
+                                        'attributes' => array(
+                                                'placeholder' => 'URL'
+                                         )
+                                ),
+                            array(
+                                        'label' => 'Review Body',
+                                        'id' => 'saswp_review_schema_description'.$post_fix,
+                                        'type' => 'textarea',
+                                        'default' => '',
+                                        'attributes' => array(
+                                                'placeholder' => 'Review Body'
+                                         )
+                                )     
+                                
+                            );  
+                            
+                            break;
+                        case 'casino':
+                            
+                            $reviewed_field = $reviewed_field;
+                            
+                            break;
+                        case 'Diet':
+                            
+                           $reviewed_field = array();
+                                
+                            break;
+                        case 'Episode':
+                            
+                            $reviewed_field = array();
+                                
+                            break;
+                        case 'ExercisePlan':
+                           $reviewed_field = array();
+                            break;
+                        case 'Game':
+                           $reviewed_field = array();
+                            break;
+                        case 'Movie':
+                           $reviewed_field = array(
+                             array(
+                                        'label' => 'Name',
+                                        'id' => 'saswp_review_schema_name'.$post_fix,
+                                        'type' => 'text',
+                                        'default' => '',
+                                        'attributes' => array(
+                                                'placeholder' => 'Name'
+                                         )
+                                ),
+                               array(
+                                        'label' => 'Date Created',
+                                        'id' => 'saswp_review_schema_date_created'.$post_fix,
+                                        'type' => 'text',
+                                        'default' => '',
+                                        'attributes' => array(
+                                                'placeholder' => '2017-05-17'
+                                         )
+                                ),
+                               array(
+                                        'label' => 'Image',
+                                        'id' => 'saswp_review_schema_image'.$post_fix,
+                                        'type' => 'media',
+                                        'default' => '',
+                                        'attributes' => array(
+                                                'placeholder' => 'Image'
+                                         )
+                                ),
+                             array(
+                                        'label' => 'Director',
+                                        'id' => 'saswp_review_schema_director'.$post_fix,
+                                        'type' => 'text',
+                                        'default' => '',
+                                        'attributes' => array(
+                                                'placeholder' => 'Director'
+                                         )
+                                ),                            
+                            array(
+                                        'label' => 'URL',
+                                        'id' => 'saswp_review_schema_itemreviewed_sameas'.$post_fix,
+                                        'type' => 'text',
+                                        'default' => '',
+                                        'attributes' => array(
+                                                'placeholder' => 'URL'
+                                         )
+                                ),
+                            array(
+                                        'label' => 'Review Body',
+                                        'id' => 'saswp_review_schema_description'.$post_fix,
+                                        'type' => 'textarea',
+                                        'default' => '',
+                                        'attributes' => array(
+                                                'placeholder' => 'Review Body'
+                                         )
+                                )     
+                                
+                            );
+                            break;
+                        case 'MusicPlaylist':
+                           $reviewed_field = array();
+                            break;
+                        case 'MusicRecording':
+                           $reviewed_field = array();
+                            break;
+                        case 'Photograph':
+                           $reviewed_field = array();
+                            break;
+                        case 'Recipe':
+                           $reviewed_field = array();
+                            break;
+                        case 'Restaurant':
+                           $reviewed_field[] = array(
+                                                'label' => 'Serves Cuisine',
+                                                'id' => 'saswp_review_schema_servescuisine'.$post_fix,
+                                                'type' => 'text',
+                                                'default' => '',
+                                                'attributes' => array(
+                                                     'placeholder' => 'Serves Cuisine'
+                                             )
+                                        );
+                            break;
+                        case 'Series':
+                           $reviewed_field = array();
+                            break;
+                        case 'SoftwareApplication':
+                           $reviewed_field = array();
+                            break;
+                        case 'VisualArtwork':
+                           $reviewed_field = array();
+                            break;
+                        case 'WebPage':
+                          $reviewed_field = array();
+                            break;
+                        case 'WebSite':
+                         $reviewed_field = array(
+                             array(
+                                        'label' => 'Name',
+                                        'id' => 'saswp_review_schema_name'.$post_fix,
+                                        'type' => 'text',
+                                        'default' => $site_name = get_bloginfo()
+                                ),
+                             array(
+                                        'label' => 'Url',
+                                        'id' => 'saswp_review_schema_url'.$post_fix,
+                                        'type' => 'text',
+                                        'default' => get_site_url()
+                                )
+                         );
+                            break;                        
+                        
+                        default:
+                            break;
+                    }
+                    
+            return  $reviewed_field;       
+            
+        }
+                        
+        function saswp_get_item_reviewed_fields(){
+                                    
+            if ( ! isset( $_GET['saswp_security_nonce'] ) ){
+                return; 
+            }
+            if ( !wp_verify_nonce( $_GET['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
+               return;  
+            } 
+           
+            $post_specific = '';
+            $output        ='';
+            $item          = sanitize_text_field($_GET['item']);  
+            $schema_id     = sanitize_text_field($_GET['schema_id']);
+            $post_id       = sanitize_text_field($_GET['post_id']);                                                     
+            $post_specific = sanitize_text_field($_GET['post_specific']);  
+            
+                       
+             $meta_fields = item_reviewed_fields($item, $post_specific, $schema_id);
+             
+            
+             foreach ($meta_fields as $meta_field){
+                 
+                 
+                  $attributes ='';
+                  
+                  if(isset($meta_field['attributes'])){
+                            foreach ($meta_field['attributes'] as $key => $attr ){
+                                           $attributes .=''.$key.'="'.$attr.'"';
+                                }
+                 }
+                 
+                 
+                 if($post_specific == 1){
+                     
+                     $meta_value = get_post_meta( $post_id, $meta_field['id'], true );
+                     
+                     
+                     if(!$meta_value){
+                         
+                         $schema_data = get_post_meta( $schema_id, 'saswp_review_schema_details', true ); 
+                        
+                         $meta_value  = $schema_data[chop($meta_field['id'], '_'.$schema_id)];                          
+                     }
+                     
+                 }else{
+                     
+                  $schema_data = get_post_meta( $schema_id, 'saswp_review_schema_details', true );                       
+                  $meta_value  = $schema_data[$meta_field['id']];  
+                     
+                 }
+                 
+                                 
+                 
+                 
+                 if ( empty( $meta_value ) ) {
+                     
+		    $meta_value = $meta_field['default'];
+                                
+                }
+               
+                 switch ($meta_field['type']) {
+                     
+                     case 'media':
+                         
+                         $media_value = array();
+                         $media_key   = $meta_field['id'].'_detail';                                                                            
+                         
+                         if($post_specific == 1){
+                             
+                             $media_value_meta = get_post_meta( $post_id, $media_key, true ); 
+                             
+                             if(empty($media_value_meta)){
+                                                               
+                              $media_key =   chop($meta_field['id'], '_'.$schema_id).'_detail';
+                              $media_value_meta = $schema_data[$media_key];   
+                                 
+                             }                            
+                             
+                         }else{
+                             
+                             $media_value_meta = $schema_data[$media_key];
+                             
+                         }
+                         
+                                                  
+                         if(!empty($media_value_meta)){
+                             
+                            $media_value = $media_value_meta;  
+                                 
+                         }                         
+                         
+                         $input = sprintf(
+						' <input style="width: 80%%" id="%s" name="%s" type="text" value="%s" readonly>'                                                
+                                                . '<input type="hidden" data-id="'.esc_attr($meta_field['id']).'_height" class="upload-height" name="'.esc_attr($meta_field['id']).'_height" id="'.esc_attr($meta_field['id']).'_height" value="'.$media_value['height'].'">'
+                                                . '<input type="hidden" data-id="'.esc_attr($meta_field['id']).'_width" class="upload-width" name="'.esc_attr($meta_field['id']).'_width" id="'.esc_attr($meta_field['id']).'_width" value="'.$media_value['width'].'">'
+                                                . '<input type="hidden" data-id="'.esc_attr($meta_field['id']).'_thumbnail" class="upload-thumbnail" name="'.esc_attr($meta_field['id']).'_thumbnail" id="'.esc_attr($meta_field['id']).'_thumbnail" value="'.$media_value['thumbnail'].'">'
+                                                . '<input data-id="media" style="width: 19%%" class="button" id="%s_button" name="%s_button" type="button" value="Upload" />',
+						$meta_field['id'],
+						$meta_field['id'],
+						$meta_value,
+						$meta_field['id'],
+						$meta_field['id']
+					);
+
+
+                         break;
+                                         
+                     case 'textarea':
+                         $input = sprintf(
+						'<textarea %s style="width: 100%%" id="%s" name="%s" rows="5">%s</textarea>',                                                
+                                                $attributes,
+						$meta_field['id'],
+						$meta_field['id'],
+                                                $meta_value
+					);                                                                
+                         break;
+
+                     default:
+                         
+                         $input = sprintf(
+						'<input %s %s id="%s" name="%s" type="%s" value="%s">',  
+                                                $attributes,
+						$meta_field['type'] !== 'color' ? 'style="width: 100%"' : '',
+						esc_attr(saswp_remove_warnings($meta_field, 'id', 'saswp_string')),
+						esc_attr(saswp_remove_warnings($meta_field, 'id', 'saswp_string')),
+						esc_attr(saswp_remove_warnings($meta_field, 'type', 'saswp_string')),
+						$meta_value
+					);
+                         
+                         break;
+                     
+                 } 
+                 
+                 $output .= '<tr class="saswp-review-tr">'
+                         .  '<td>'.esc_html__($meta_field['label'], 'schema-and-structured-data-for-wp' ).'</td>'
+                         .  '<td>'.$input.'</td>'
+                         .  '</tr>';
+                                
+            }
+            
+            echo $output;
+                                  
+            wp_die();
+        }
+
+        add_action( 'wp_ajax_saswp_get_item_reviewed_fields', 'saswp_get_item_reviewed_fields' ) ;
+        
 	add_action( 'add_meta_boxes', 'saswp_schema_type_add_meta_box' ) ;
 	add_action( 'save_post', 'saswp_schema_type_add_meta_box_save' ) ;
 	
         function saswp_schema_type_add_meta_box() {
+            
 	add_meta_box(
 		'schema_type',
-		esc_html__( 'Schema Type', 'ads-for-wp' ),
+		esc_html__( 'Schema Type', 'schema-and-structured-data-for-wp' ),
 		'saswp_schema_type_meta_box_callback',
 		'saswp',
 		'advanced',
 		'high'
 	);
+        
         }
         function saswp_schema_type_get_meta( $value ) {
+            
             global $post;
             
             $field = get_post_meta( $post->ID, $value, true );
@@ -24,38 +510,79 @@
             }
       }
         function saswp_schema_type_meta_box_callback( $post) {
+            
                 wp_nonce_field( 'saswp_schema_type_nonce', 'saswp_schema_type_nonce' );  
-                $style_business_type ='';
-                $style_business_name =''; 
-                $style_service_name =''; 
-                $style_review_name =''; 
-                $business_name ='';
-                $schema_type ='';
-                $business_type ='';
-                $business_details ='';
-                $custom_logo_id ='';
-                $logo = array();
-                $service_details = array();
-                $review_details = array();
-                $product_details = array();
+                
+                $style_business_type = '';
+                $style_business_name = ''; 
+                $style_service_name  = ''; 
+                $style_review_name   = ''; 
+                $business_name       = '';
+                $schema_type         = '';
+                $business_type       = '';                
+                $custom_logo_id      = '';
+                $business_details    = array();
+                $logo                = array();
+                $service_details     = array();
+                $review_details      = array();
+                $product_details     = array();
+                
                 if($post){
-                $schema_type      = esc_sql ( get_post_meta($post->ID, 'schema_type', true)  );                  
-                $business_type    = esc_sql ( get_post_meta($post->ID, 'saswp_business_type', true)  ); 
-                $business_name    = esc_sql ( get_post_meta($post->ID, 'saswp_business_name', true)  ); 
-                $business_details = esc_sql ( get_post_meta($post->ID, 'saswp_local_business_details', true)  ); 
-                $service_details  = esc_sql ( get_post_meta($post->ID, 'saswp_service_schema_details', true)  );
-                $review_details   = esc_sql ( get_post_meta($post->ID, 'saswp_review_schema_details', true)  );
-                $product_details  = esc_sql ( get_post_meta($post->ID, 'saswp_product_schema_details', true)  );
-                $audio_details    = esc_sql ( get_post_meta($post->ID, 'saswp_audio_schema_details', true)  );
-                $dayoftheweek = get_post_meta($post->ID, 'saswp_dayofweek', true); 
-                $custom_logo_id = get_theme_mod( 'custom_logo' );
+                    
+                    $schema_type      = esc_sql ( get_post_meta($post->ID, 'schema_type', true)  );     
+                                                    
+                    switch ($schema_type) {
+                        
+                        case 'AudioObject':
+                            
+                            $audio_details    = esc_sql ( get_post_meta($post->ID, 'saswp_audio_schema_details', true)  );    
+
+                            break;
+                        
+                        case 'local_business':
+                        
+                            $business_type    = esc_sql ( get_post_meta($post->ID, 'saswp_business_type', true)  ); 
+                            $business_name    = esc_sql ( get_post_meta($post->ID, 'saswp_business_name', true)  ); 
+                            $business_details = esc_sql ( get_post_meta($post->ID, 'saswp_local_business_details', true)  ); 
+                            $dayoftheweek     = get_post_meta($post->ID, 'saswp_dayofweek', true);
+
+                            break;
+                        
+                        case 'Product':
+                            
+                            $product_details  = esc_sql ( get_post_meta($post->ID, 'saswp_product_schema_details', true)  );
+
+                            break;
+                        
+                        case 'Service':
+                            
+                            $service_details  = esc_sql ( get_post_meta($post->ID, 'saswp_service_schema_details', true)  );
+
+                            break;
+                        
+                        case 'Review':
+
+                            $review_details   = esc_sql ( get_post_meta($post->ID, 'saswp_review_schema_details', true)  );
+                            
+                            break;
+
+                        default:
+                            break;
+                    }    
+                                                                  
+                $custom_logo_id   = get_theme_mod( 'custom_logo' );
+                
                 if($custom_logo_id){
-                $logo = wp_get_attachment_image_src( $custom_logo_id , 'full' );    
+                    
+                        $logo = wp_get_attachment_image_src( $custom_logo_id , 'full' );    
+                
                 }
                 
                 if($schema_type != 'local_business'){
-                 $style_business_type = 'style="display:none"';
-                 $style_business_name = 'style="display:none"';
+                    
+                        $style_business_type = 'style="display:none"';
+                        $style_business_name = 'style="display:none"';
+                 
                 }                            
                 }   
                         
@@ -87,10 +614,10 @@
                                 
                                 $item_reviewed = array(
                                      'Article'               => 'Article',
-                                     'adultentertainment'    => 'Adult Entertainment',
+                                     'Adultentertainment'    => 'Adult Entertainment',
                                      'Blog'                  => 'Blog',
                                      'Book'                  => 'Book',
-                                     'casino'                => 'Casino',   
+                                     'Casino'                => 'Casino',   
                                      'Diet'                  => 'Diet',
                                      'Episode'               => 'Episode',
                                      'ExercisePlan'          => 'Exercise Plan',  
@@ -99,182 +626,182 @@
                                      'MusicPlaylist'         => 'Music Playlist',                                      
                                      'MusicRecording'        => 'MusicRecording',
                                      'Photograph'            => 'Photograph',
-                                     'Recipe'                => 'Recipe',
+                                     //'Recipe'                => 'Recipe',
                                      'Restaurant'            => 'Restaurant', 
                                      'Series'                => 'Series',
-                                     'SoftwareApplication'   => 'Software Application',
+                                     //'SoftwareApplication'   => 'Software Application',
                                      'VisualArtwork'         => 'Visual Artwork',  
-                                     'Webpage'               => 'Webpage', 
+                                     'WebPage'               => 'WebPage', 
                                      'WebSite'               => 'WebSite',                                                                                                                                                   
                                 );                                                             
                 
                                 $all_schema_array = array(
-                                     'Article'     => 'Article',
-                                     'AudioObject' => 'AudioObject',
-                                     'Blogposting' => 'Blogposting',
-                                     'local_business' => 'Local Business',
-                                     'NewsArticle' => 'NewsArticle',
-                                     'Product'     => 'Product',
-                                     'qanda'       => 'Q&A',   
-                                     'Review'      => 'Review',                                     
-                                     'Recipe'      => 'Recipe',                                     
-                                     'Service'     => 'Service',                                     
-                                     'VideoObject' => 'VideoObject',
-                                     'WebPage'     => 'WebPage'                                                                
+                                     'Article'          => 'Article',
+                                     'AudioObject'      => 'AudioObject',
+                                     'Blogposting'      => 'Blogposting',
+                                     'local_business'   => 'Local Business',
+                                     'NewsArticle'      => 'NewsArticle',
+                                     'Product'          => 'Product',
+                                     'qanda'            => 'Q&A',   
+                                     'Review'           => 'Review',                                     
+                                     'Recipe'           => 'Recipe',                                     
+                                     'Service'          => 'Service',                                     
+                                     'VideoObject'      => 'VideoObject',
+                                     'WebPage'          => 'WebPage'                                                                
                                  );
                                  $all_business_type = array(
-                                    'animalshelter' => 'Animal Shelter',
-                                    'automotivebusiness' => 'Automotive Business',
-                                    'childcare' => 'ChildCare',
-                                    'dentist' => 'Dentist',
-                                    'drycleaningorlaundry' => 'Dry Cleaning Or Laundry',
-                                    'emergencyservice' => 'Emergency Service',
-                                    'employmentagency' => 'Employment Agency',
-                                    'entertainmentbusiness' => 'Entertainment Business',
-                                    'financialservice' => 'Financial Service',
-                                    'foodestablishment' => 'Food Establishment',
-                                    'governmentoffice' => 'Government Office',
-                                    'healthandbeautybusiness' => 'Health And Beauty Business',
-                                    'homeandconstructionbusiness' => 'Home And Construction Business',
-                                    'internetcafe' => 'Internet Cafe',
-                                    'legalservice' => 'Legal Service',
-                                    'library' => 'Library',
-                                    'lodgingbusiness' => 'Lodging Business',
-                                    'professionalservice' => 'Professional Service',
-                                    'radiostation' => 'Radio Station',
-                                    'realestateagent' => 'Real Estate Agent',
-                                    'recyclingcenter' => 'Recycling Center',
-                                    'selfstorage' => 'Self Storage',
-                                    'shoppingcenter' => 'Shopping Center',
-                                    'sportsactivitylocation' => 'Sports Activity Location',
-                                    'store' => 'Store',
-                                    'televisionstation' => 'Television Station',
-                                    'touristinformationcenter' => 'Tourist Information Center',
-                                    'travelagency' => 'Travel Agency',
+                                    'animalshelter'                 => 'Animal Shelter',
+                                    'automotivebusiness'            => 'Automotive Business',
+                                    'childcare'                     => 'ChildCare',
+                                    'dentist'                       => 'Dentist',
+                                    'drycleaningorlaundry'          => 'Dry Cleaning Or Laundry',
+                                    'emergencyservice'              => 'Emergency Service',
+                                    'employmentagency'              => 'Employment Agency',
+                                    'entertainmentbusiness'         => 'Entertainment Business',
+                                    'financialservice'              => 'Financial Service',
+                                    'foodestablishment'             => 'Food Establishment',
+                                    'governmentoffice'              => 'Government Office',
+                                    'healthandbeautybusiness'       => 'Health And Beauty Business',
+                                    'homeandconstructionbusiness'   => 'Home And Construction Business',
+                                    'internetcafe'                  => 'Internet Cafe',
+                                    'legalservice'                  => 'Legal Service',
+                                    'library'                       => 'Library',
+                                    'lodgingbusiness'               => 'Lodging Business',
+                                    'professionalservice'           => 'Professional Service',
+                                    'radiostation'                  => 'Radio Station',
+                                    'realestateagent'               => 'Real Estate Agent',
+                                    'recyclingcenter'               => 'Recycling Center',
+                                    'selfstorage'                   => 'Self Storage',
+                                    'shoppingcenter'                => 'Shopping Center',
+                                    'sportsactivitylocation'        => 'Sports Activity Location',
+                                    'store'                         => 'Store',
+                                    'televisionstation'             => 'Television Station',
+                                    'touristinformationcenter'      => 'Tourist Information Center',
+                                    'travelagency'                  => 'Travel Agency',
                                  );
                 
                                   $all_automotive_array = array(
-                                     'autobodyshop' => 'Auto Body Shop',
-                                     'autodealer' => 'Auto Dealer',
-                                     'autopartsstore'     => 'Auto Parts Store',
-                                     'autorental'     => 'Auto Rental',
-                                     'autorepair'      => 'Auto Repair',
-                                     'autowash'     => 'Auto Wash',
-                                     'gasstation' => 'Gas Station',
+                                     'autobodyshop'     => 'Auto Body Shop',
+                                     'autodealer'       => 'Auto Dealer',
+                                     'autopartsstore'   => 'Auto Parts Store',
+                                     'autorental'       => 'Auto Rental',
+                                     'autorepair'       => 'Auto Repair',
+                                     'autowash'         => 'Auto Wash',
+                                     'gasstation'       => 'Gas Station',
                                      'motorcycledealer' => 'Motorcycle Dealer',
                                      'motorcyclerepair' => 'Motorcycle Repair'
                                  );
                                   
                                   $all_emergency_array = array(
-                                     'firestation' => 'Fire Station',
-                                     'hospital' => 'Hospital',
-                                     'policestation'     => 'Police Station',                                    
+                                     'firestation'   => 'Fire Station',
+                                     'hospital'      => 'Hospital',
+                                     'policestation' => 'Police Station',                                    
                                  );
                                   $all_entertainment_array = array(
                                       'adultentertainment' => 'Adult Entertainment',
-                                      'amusementpark' => 'Amusement Park',
-                                      'artgallery'     => 'Art Gallery',
-                                      'casino'     => 'Casino',
-                                      'comedyclub'     => 'Comedy Club',
-                                      'movietheater'     => 'Movie Theater',
-                                      'nightclub'     => 'Night Club',
+                                      'amusementpark'      => 'Amusement Park',
+                                      'artgallery'         => 'Art Gallery',
+                                      'casino'             => 'Casino',
+                                      'comedyclub'         => 'Comedy Club',
+                                      'movietheater'       => 'Movie Theater',
+                                      'nightclub'          => 'Night Club',
                                       
                                  );
                                   $all_financial_array = array(
-                                      'accountingservice' => 'Accounting Service',
-                                      'automatedteller' => 'Automated Teller',
-                                      'bankorcredit_union'     => 'Bank Or Credit Union',
-                                      'insuranceagency'     => 'Insurance Agency',                                      
+                                      'accountingservice'  => 'Accounting Service',
+                                      'automatedteller'    => 'Automated Teller',
+                                      'bankorcredit_union' => 'Bank Or Credit Union',
+                                      'insuranceagency'    => 'Insurance Agency',                                      
                                       
                                  );
                                   
                                   $all_food_establishment_array = array(
-                                      'bakery' => 'Bakery',
-                                      'barorpub' => 'Bar Or Pub',
-                                      'brewery'     => 'Brewery',
-                                      'cafeorcoffee_shop'     => 'Cafe Or Coffee Shop', 
+                                      'bakery'             => 'Bakery',
+                                      'barorpub'           => 'Bar Or Pub',
+                                      'brewery'            => 'Brewery',
+                                      'cafeorcoffee_shop'  => 'Cafe Or Coffee Shop', 
                                       'fastfoodrestaurant' => 'Fast Food Restaurant',
-                                      'icecreamshop' => 'Ice Cream Shop',
-                                      'restaurant'     => 'Restaurant',
-                                      'winery'     => 'Winery', 
+                                      'icecreamshop'       => 'Ice Cream Shop',
+                                      'restaurant'         => 'Restaurant',
+                                      'winery'             => 'Winery', 
                                       
                                  );
                                   $all_health_and_beauty_array = array(
-                                      'beautysalon' => 'Beauty Salon',
-                                      'dayspa' => 'DaySpa',
-                                      'hairsalon'     => 'Hair Salon',
+                                      'beautysalon'    => 'Beauty Salon',
+                                      'dayspa'         => 'DaySpa',
+                                      'hairsalon'      => 'Hair Salon',
                                       'healthclub'     => 'Health Club', 
-                                      'nailsalon' => 'Nail Salon',
-                                      'tattooparlor' => 'Tattoo Parlor',                                                                          
+                                      'nailsalon'      => 'Nail Salon',
+                                      'tattooparlor'   => 'Tattoo Parlor',                                                                          
                                  );
                                   
                                   $all_home_and_construction_array = array(
-                                      'electrician' => 'Electrician',
+                                      'electrician'       => 'Electrician',
                                       'generalcontractor' => 'General Contractor',
-                                      'hvacbusiness'     => 'HVAC Business',
-                                      'housepainter' => 'House Painter',
-                                      'locksmith'     => 'Locksmith', 
-                                      'movingcompany' => 'Moving Company',
-                                      'plumber' => 'Plumber',       
-                                      'roofingcontractor' => 'Roofing Contractor',       
+                                      'hvacbusiness'      => 'HVAC Business',
+                                      'locksmith'         => 'Locksmith', 
+                                      'movingcompany'     => 'Moving Company',
+                                      'plumber'           => 'Plumber',       
+                                      'roofingcontractor' => 'Roofing Contractor', 
+                                      'housepainter'      => 'House Painter',    
                                  );
                                   
                                   $all_legal_service_array = array(
                                       'attorney' => 'Attorney',
-                                      'notary' => 'Notary',                                            
+                                      'notary'   => 'Notary',                                            
                                  );
                                   
                                   $all_lodging_array = array(
                                       'bedandbreakfast' => 'Bed And Breakfast',
-                                      'campground' => 'Campground',
-                                      'hostel' => 'Hostel',
-                                      'hotel' => 'Hotel',
-                                      'motel' => 'Motel',
-                                      'resort' => 'Resort',
+                                      'campground'      => 'Campground',
+                                      'hostel'          => 'Hostel',
+                                      'hotel'           => 'Hotel',
+                                      'motel'           => 'Motel',
+                                      'resort'          => 'Resort',
                                  );
                                   
                                   $all_sports_activity_location = array(
-                                      'bowlingalley' => 'Bowling Alley',
-                                      'exercisegym' => 'Exercise Gym',
-                                      'golfcourse' => 'Golf Course',
-                                      'healthclub' => 'Health Club',
+                                      'bowlingalley'        => 'Bowling Alley',
+                                      'exercisegym'         => 'Exercise Gym',
+                                      'golfcourse'          => 'Golf Course',
+                                      'healthclub'          => 'Health Club',
                                       'publicswimming_pool' => 'Public Swimming Pool',
-                                      'skiresort' => 'Ski Resort',
-                                      'sportsclub' => 'Sports Club',
-                                      'stadiumorarena' => 'Stadium Or Arena',
-                                      'tenniscomplex' => 'Tennis Complex'
+                                      'skiresort'           => 'Ski Resort',
+                                      'sportsclub'          => 'Sports Club',
+                                      'stadiumorarena'      => 'Stadium Or Arena',
+                                      'tenniscomplex'       => 'Tennis Complex'
                                  );
                                   $all_store = array(
-                                        'autopartsstore'=>'Auto Parts Store',
-                                        'bikestore'=>'Bike Store',
-                                        'bookstore'=>'Book Store',
-                                        'clothingstore'=>'Clothing Store',
-                                        'computerstore'=>'Computer Store',
-                                        'conveniencestore'=>'Convenience Store',
-                                        'departmentstore'=>'Department Store',
-                                        'electronicsstore'=>'Electronics Store',
-                                        'florist'=>'Florist',
-                                        'furniturestore'=>'Furniture Store',
-                                        'gardenstore'=>'Garden Store',
-                                        'grocerystore'=>'Grocery Store',
-                                        'hardwarestore'=>'Hardware Store',
-                                        'hobbyshop'=>'Hobby Shop',
-                                        'homegoodsstore'=>'HomeGoods Store',
-                                        'jewelrystore'=>'Jewelry Store',
-                                        'liquorstore'=>'Liquor Store',
-                                        'mensclothingstore'=>'Mens Clothing Store',
-                                        'mobilephonestore'=>'Mobile Phone Store',
-                                        'movierentalstore'=>'Movie Rental Store',
-                                        'musicstore'=>'Music Store',
-                                        'officeequipmentstore'=>'Office Equipment Store',
-                                        'outletstore'=>'Outlet Store',
-                                        'pawnshop'=>'Pawn Shop',
-                                        'petstore'=>'Pet Store',
-                                        'shoestore'=>'Shoe Store',
-                                        'sportinggoodsstore'=>'Sporting Goods Store',
-                                        'tireshop'=>'Tire Shop',
-                                        'toystore'=>'Toy Store',
-                                        'wholesalestore'=>'Wholesale Store'
+                                        'autopartsstore'        => 'Auto Parts Store',
+                                        'bikestore'             => 'Bike Store',
+                                        'bookstore'             => 'Book Store',
+                                        'clothingstore'         => 'Clothing Store',
+                                        'computerstore'         => 'Computer Store',
+                                        'conveniencestore'      => 'Convenience Store',
+                                        'departmentstore'       => 'Department Store',
+                                        'electronicsstore'      => 'Electronics Store',
+                                        'florist'               => 'Florist',
+                                        'furniturestore'        => 'Furniture Store',
+                                        'gardenstore'           => 'Garden Store',
+                                        'grocerystore'          => 'Grocery Store',
+                                        'hardwarestore'         => 'Hardware Store',
+                                        'hobbyshop'             => 'Hobby Shop',
+                                        'homegoodsstore'        => 'HomeGoods Store',
+                                        'jewelrystore'          => 'Jewelry Store',
+                                        'liquorstore'           => 'Liquor Store',
+                                        'mensclothingstore'     => 'Mens Clothing Store',
+                                        'mobilephonestore'      => 'Mobile Phone Store',
+                                        'movierentalstore'      => 'Movie Rental Store',
+                                        'musicstore'            => 'Music Store',
+                                        'officeequipmentstore'  => 'Office Equipment Store',
+                                        'outletstore'           => 'Outlet Store',
+                                        'pawnshop'              => 'Pawn Shop',
+                                        'petstore'              => 'Pet Store',
+                                        'shoestore'             => 'Shoe Store',
+                                        'sportinggoodsstore'    => 'Sporting Goods Store',
+                                        'tireshop'              => 'Tire Shop',
+                                        'toystore'              => 'Toy Store',
+                                        'wholesalestore'        => 'Wholesale Store'
                                  );
                 ?>                                               
                 <div class="misc-pub-section">
@@ -544,7 +1071,7 @@
                         <tr class="saswp-business-text-field-tr" <?php echo $style_business_type; ?>>
                             <td><?php echo esc_html__('Image', 'schema-and-structured-data-for-wp' ); ?></td>
                             <td style="display: flex; width: 97%">
-                                <input value="<?php if(isset($business_details['local_business_logo'])) { echo esc_url($business_details['local_business_logo']['url']);} else { echo esc_url(saswp_remove_warnings($logo, 0, 'saswp_string')); } ?>" id="local_business_logo" type="text" name="local_business_logo[url]" placeholder="<?php echo esc_html__('Logo', 'schema-and-structured-data-for-wp' ); ?>" readonly="readonly" style="background: #FFF;">
+                                <input value="<?php if(isset($business_details['local_business_logo'])) { echo esc_url($business_details['local_business_logo']['url']);} else { echo esc_url(saswp_remove_warnings($logo, 0, 'saswp_string')); } ?>" id="local_business_logo" type="text" name="local_business_logo[url]" placeholder="<?php echo esc_html__('Image', 'schema-and-structured-data-for-wp' ); ?>" readonly="readonly" style="background: #FFF;">
                                 <input value="<?php if(isset($business_details['local_business_logo'])) { echo esc_attr($business_details['local_business_logo']['id']);} else { echo esc_attr($custom_logo_id); }?>" data-id="local_business_logo_id" type="hidden" name="local_business_logo[id]">
                                 <input value="<?php if(isset($business_details['local_business_logo'])) { echo esc_attr($business_details['local_business_logo']['width']);} else { echo esc_attr(saswp_remove_warnings($logo, 1, 'saswp_string')); } ?>" data-id="local_business_logo_width" type="hidden" name="local_business_logo[width]">
                                 <input value="<?php if(isset($business_details['local_business_logo'])) { echo esc_attr($business_details['local_business_logo']['height']);} else { echo esc_attr(saswp_remove_warnings($logo, 2, 'saswp_string')); } ?>" data-id="local_business_logo_height" type="hidden" name="local_business_logo[height]">
@@ -678,7 +1205,7 @@
                             <td><?php echo esc_html__('Item Reviewed Type', 'schema-and-structured-data-for-wp' ); ?></td>
                             <td>
                                 
-                            <select name="saswp_review_schema_item_type">
+                                <select data-id="<?php echo esc_attr($post->ID); ?>" name="saswp_review_schema_item_type" class="saswp-item-reviewed">
                                 <?php                                  
                                   foreach ($item_reviewed as $key => $value) {
                                     $sel = '';
@@ -690,58 +1217,7 @@
                                 ?>
                             </select>                                                                
                             </td>
-                        </tr>
-                        <tr class="saswp-review-text-field-tr" <?php echo $style_review_name; ?>>
-                            <td><?php echo esc_html__('Name', 'schema-and-structured-data-for-wp' ); ?></td>
-                            <td><input  value="<?php if(isset($review_details['saswp_review_schema_name'])){echo esc_attr($review_details['saswp_review_schema_name']); } ?>" type="text" name="saswp_review_schema_name" placeholder="<?php echo esc_html__('Name', 'schema-and-structured-data-for-wp' ); ?>" ></td>
-                        </tr>
-                        <tr class="saswp-review-text-field-tr" <?php echo $style_review_name; ?>>
-                            <td><?php echo esc_html__('Review Body', 'schema-and-structured-data-for-wp' ); ?></td>
-                            <td><textarea placeholder="Review Body" rows="3" cols="70" name="saswp_review_schema_description"><?php if(isset($review_details['saswp_review_schema_description'])){echo esc_attr($review_details['saswp_review_schema_description']); } ?></textarea></td>
-                        </tr>
-                        <tr class="saswp-review-text-field-tr" <?php echo $style_review_name; ?>>
-                            <td><?php echo esc_html__('Image', 'schema-and-structured-data-for-wp' ); ?></td>
-                            <td style="display: flex; width: 97%">
-                                <input value="<?php if(isset($review_details['saswp_review_schema_image'])) { echo esc_url($review_details['saswp_review_schema_image']['url']);} else { echo esc_url(saswp_remove_warnings($logo, 0, 'saswp_string')); } ?>" id="saswp_review_schema_image" type="text" name="saswp_review_schema_image[url]" placeholder="<?php echo esc_html__('Image', 'schema-and-structured-data-for-wp' ); ?>" readonly="readonly" style="background: #FFF;">
-                                <input value="<?php if(isset($review_details['saswp_review_schema_image'])) { echo esc_attr($review_details['saswp_review_schema_image']['id']);} else { echo esc_attr($custom_logo_id); }?>" data-id="saswp_review_schema_image_id" type="hidden" name="saswp_review_schema_image[id]">
-                                <input value="<?php if(isset($review_details['saswp_review_schema_image'])) { echo esc_attr($review_details['saswp_review_schema_image']['width']);} else { echo esc_attr(saswp_remove_warnings($logo, 1, 'saswp_string')); } ?>" data-id="saswp_review_schema_image_width" type="hidden" name="saswp_review_schema_image[width]">
-                                <input value="<?php if(isset($review_details['saswp_review_schema_image'])) { echo esc_attr($review_details['saswp_review_schema_image']['height']);} else { echo esc_attr(saswp_remove_warnings($logo, 2, 'saswp_string')); } ?>" data-id="saswp_review_schema_image_height" type="hidden" name="saswp_review_schema_image[height]">
-                                <input data-id="media" class="button" id="saswp_review_schema_image_button" type="button" value="Upload"></td>
-                        </tr>
-                        <tr class="saswp-review-text-field-tr" <?php echo $style_review_name; ?>>
-                            <td><?php echo esc_html__('Author', 'schema-and-structured-data-for-wp' ); ?></td>
-                            <td><input  value="<?php if(isset($review_details['saswp_review_schema_author'])){echo esc_attr($review_details['saswp_review_schema_author']); } ?>" type="text" name="saswp_review_schema_author" placeholder="<?php echo esc_html__('Author', 'schema-and-structured-data-for-wp' ); ?>" ></td>
-                        </tr>                        
-                        <tr class="saswp-review-text-field-tr" <?php echo $style_review_name; ?>>
-                            <td><?php echo esc_html__('Price Range', 'schema-and-structured-data-for-wp' ); ?></td>
-                            <td><input  value="<?php if(isset($review_details['saswp_review_schema_price_range'])){echo esc_attr($review_details['saswp_review_schema_price_range']); } ?>" type="text" name="saswp_review_schema_price_range" placeholder="<?php echo esc_html__('Price Range', 'schema-and-structured-data-for-wp' ); ?>" ></td>
-                        </tr>
-                        <tr class="saswp-review-text-field-tr" <?php echo $style_review_name; ?>>
-                            <td><?php echo esc_html__('Street Address', 'schema-and-structured-data-for-wp' ); ?></td>
-                            <td><input  value="<?php if(isset($review_details['saswp_review_schema_street_address'])){echo esc_attr($review_details['saswp_review_schema_street_address']); } ?>" type="text" name="saswp_review_schema_street_address" placeholder="<?php echo esc_html__('Street Address', 'schema-and-structured-data-for-wp' ); ?>" ></td>
-                        </tr>
-                        <tr class="saswp-review-text-field-tr" <?php echo $style_review_name; ?>>
-                            <td><?php echo esc_html__('Address Locality', 'schema-and-structured-data-for-wp' ); ?></td>
-                            <td><input  value="<?php if(isset($review_details['saswp_review_schema_locality'])){echo esc_attr($review_details['saswp_review_schema_locality']); } ?>" type="text" name="saswp_review_schema_locality" placeholder="<?php echo esc_html__('Address Locality', 'schema-and-structured-data-for-wp' ); ?>" ></td>
-                        </tr>
-                        <tr class="saswp-review-text-field-tr" <?php echo $style_review_name; ?>>
-                            <td><?php echo esc_html__('Address Region', 'schema-and-structured-data-for-wp' ); ?></td>
-                            <td><input  value="<?php if(isset($review_details['saswp_review_schema_region'])){echo esc_attr($review_details['saswp_review_schema_region']); } ?>" type="text" name="saswp_review_schema_region" placeholder="<?php echo esc_html__('Address Region', 'schema-and-structured-data-for-wp' ); ?>" ></td>
-                        </tr>
-                        <tr class="saswp-review-text-field-tr" <?php echo $style_review_name; ?>>
-                            <td><?php echo esc_html__('Postal Code', 'schema-and-structured-data-for-wp' ); ?></td>
-                            <td><input  value="<?php if(isset($review_details['saswp_review_schema_postal_code'])){echo esc_attr($review_details['saswp_review_schema_postal_code']); } ?>" type="text" name="saswp_review_schema_postal_code" placeholder="<?php echo esc_html__('Postal Code', 'schema-and-structured-data-for-wp' ); ?>" ></td>
-                        </tr>
-                        <tr class="saswp-review-text-field-tr" <?php echo $style_review_name; ?>>
-                            <td><?php echo esc_html__('Address Country', 'schema-and-structured-data-for-wp' ); ?></td>
-                            <td><input  value="<?php if(isset($review_details['saswp_review_schema_country'])){echo esc_attr($review_details['saswp_review_schema_country']); } ?>" type="text" name="saswp_review_schema_country" placeholder="<?php echo esc_html__('Address Country', 'schema-and-structured-data-for-wp' ); ?>" ></td>
-                        </tr>
-                        <tr class="saswp-review-text-field-tr" <?php echo $style_review_name; ?>>
-                            <td><?php echo esc_html__('Telephone', 'schema-and-structured-data-for-wp' ); ?></td>
-                            <td><input  value="<?php if(isset($review_details['saswp_review_schema_telephone'])){echo esc_attr($review_details['saswp_review_schema_telephone']); } ?>" type="text" name="saswp_review_schema_telephone" placeholder="<?php echo esc_html__('Telephone', 'schema-and-structured-data-for-wp' ); ?>" ></td>
-                        </tr>
-                        
-                        
+                        </tr>                                                                        
                         
                         <tr class="saswp-review-text-field-tr" <?php echo $style_review_name; ?>>
                             <td><?php echo esc_html__('Review Rating', 'schema-and-structured-data-for-wp' ); ?></td>
@@ -992,7 +1468,7 @@
                               
                 update_post_meta( $post_id, 'saswp_local_business_details', $local_business_details );
                 
-                //Service schema details starts here
+               
                 $service_schema_details = array();
                 $review_schema_details = array();
                 $product_schema_details = array();
@@ -1054,47 +1530,52 @@
                 
                 
                 if($schema_type =='Review'){
-                    if ( isset( $_POST['saswp_review_schema_item_type'] ) ){
-                     $review_schema_details['saswp_review_schema_item_type'] = sanitize_text_field($_POST['saswp_review_schema_item_type']);        
+                    
+                   if ( !isset( $_POST['saswp_review_schema_item_type'] ) ){
+                       return;
                    }
-                   if ( isset( $_POST['saswp_review_schema_name'] ) ){
-                     $review_schema_details['saswp_review_schema_name'] = sanitize_text_field($_POST['saswp_review_schema_name']);        
-                   }
-                   if ( isset( $_POST['saswp_review_schema_description'] ) ){
-                     $review_schema_details['saswp_review_schema_description'] = sanitize_textarea_field($_POST['saswp_review_schema_description']);        
-                   }
-                   if ( isset( $_POST['saswp_review_schema_image'] ) ){
-                    $review_schema_details['saswp_review_schema_image']['id'] = sanitize_text_field($_POST['saswp_review_schema_image']['id']);    
-                    $review_schema_details['saswp_review_schema_image']['url'] = esc_url_raw($_POST['saswp_review_schema_image']['url']);
-                    $review_schema_details['saswp_review_schema_image']['width'] = sanitize_text_field($_POST['saswp_review_schema_image']['width']);
-                    $review_schema_details['saswp_review_schema_image']['height'] = sanitize_text_field($_POST['saswp_review_schema_image']['height']);
-                   }
-                   if ( isset( $_POST['saswp_review_schema_author'] ) ){
-                     $review_schema_details['saswp_review_schema_author'] = sanitize_text_field($_POST['saswp_review_schema_author']);        
-                   }
-                   if ( isset( $_POST['saswp_review_schema_price_range'] ) ){
-                     $review_schema_details['saswp_review_schema_price_range'] = sanitize_text_field($_POST['saswp_review_schema_price_range']);        
-                   }
-                   if ( isset( $_POST['saswp_review_schema_street_address'] ) ){
-                     $review_schema_details['saswp_review_schema_street_address'] = sanitize_text_field($_POST['saswp_review_schema_street_address']);        
-                   }
-                   if ( isset( $_POST['saswp_review_schema_locality'] ) ){
-                     $review_schema_details['saswp_review_schema_locality'] = sanitize_text_field($_POST['saswp_review_schema_locality']);        
-                   }
-                   if ( isset( $_POST['saswp_review_schema_region'] ) ){
-                     $review_schema_details['saswp_review_schema_region'] = sanitize_text_field($_POST['saswp_review_schema_region']);        
-                   }
-                   if ( isset( $_POST['saswp_review_schema_postal_code'] ) ){
-                     $review_schema_details['saswp_review_schema_postal_code'] = sanitize_text_field($_POST['saswp_review_schema_postal_code']);        
-                   }
-                   if ( isset( $_POST['saswp_review_schema_country'] ) ){
-                     $review_schema_details['saswp_review_schema_country'] = sanitize_text_field($_POST['saswp_review_schema_country']);        
-                   }
-                   if ( isset( $_POST['saswp_review_schema_telephone'] ) ){
-                     $review_schema_details['saswp_review_schema_telephone'] = sanitize_text_field($_POST['saswp_review_schema_telephone']);        
-                   }   
-                   
-                   if ( isset( $_POST['saswp_review_schema_enable_rating'] ) ){
+                     
+                    $item = sanitize_text_field($_POST['saswp_review_schema_item_type']);        
+                    $meta_fields =  item_reviewed_fields($item);
+                                                           
+                    foreach ( $meta_fields as $meta_field ) {
+                    
+			if ( isset( $_POST[ $meta_field['id'] ] ) ) {
+				switch ( $meta_field['type'] ) {
+                                        
+                                        case 'media':    
+                                            
+                                                $media_key       = $meta_field['id'].'_detail';                                                                                            
+                                                $media_height    = sanitize_text_field( $_POST[ $meta_field['id'].'_height' ] );
+                                                $media_width     = sanitize_text_field( $_POST[ $meta_field['id'].'_width' ] );
+                                                $media_thumbnail = sanitize_text_field( $_POST[ $meta_field['id'].'_thumbnail' ] );
+                                                $media_detail    = array(                                                    
+                                                                'height'    => $media_height,
+                                                                'width'     => $media_width,
+                                                                'thumbnail' => $media_thumbnail,
+                                                );                                                
+                                                                                               
+                                                $review_schema_details[$media_key] = $media_detail;
+                                                break;
+                                    
+                                    
+					case 'email':
+						$_POST[ $meta_field['id'] ] = sanitize_email( $_POST[ $meta_field['id'] ] );
+						break;
+					case 'text':
+						$_POST[ $meta_field['id'] ] = sanitize_text_field( $_POST[ $meta_field['id'] ] );
+						break;
+				}
+                                 $review_schema_details[$meta_field['id']] = $_POST[ $meta_field['id'] ];
+                                                           
+				
+			} else if ( $meta_field['type'] === 'checkbox' ) {				
+                                $review_schema_details[$meta_field['id']] = '0';
+			}                   
+                    }
+                    
+                    
+                    if ( isset( $_POST['saswp_review_schema_enable_rating'] ) ){
                     $review_schema_details['saswp_review_schema_enable_rating'] = sanitize_text_field($_POST['saswp_review_schema_enable_rating']);        
                     }
                     if ( isset( $_POST['saswp_review_schema_rating'] ) ){
@@ -1103,8 +1584,12 @@
                     if ( isset( $_POST['saswp_review_schema_review_count'] ) ){
                     $review_schema_details['saswp_review_schema_review_count'] = sanitize_text_field($_POST['saswp_review_schema_review_count']);        
                     }
-                   
-                   update_post_meta( $post_id, 'saswp_review_schema_details', $review_schema_details );
+                                       
+                    $review_schema_details['saswp_review_schema_item_type'] = sanitize_text_field($_POST['saswp_review_schema_item_type']);                     
+                                          
+                    update_post_meta( $post_id, 'saswp_review_schema_details', $review_schema_details);
+                    
+                                       
                 }
 
                 if($schema_type =='Product'){
@@ -1166,6 +1651,7 @@
                     }
                    
                    update_post_meta( $post_id, 'saswp_product_schema_details', $product_schema_details );
+                   
                 }
                 
                 if($schema_type =='AudioObject'){

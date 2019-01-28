@@ -3,14 +3,16 @@
 	add_action( 'save_post', 'saswp_schema_options_add_meta_box_save' ) ;
 	
         function saswp_schema_options_add_meta_box() {
+            
 	add_meta_box(
 		'schema_options',
-		esc_html__( 'Advance Schema Options', 'ads-for-wp' ),
+		esc_html__( 'Advance Schema Options', 'schema-and-structured-data-for-wp' ),
 		'saswp_schema_options_meta_box_callback',
 		'saswp',
 		'advanced',
 		'low'
 	);
+        
         }
         function saswp_schema_options_get_meta( $value ) {
             global $post;
@@ -24,12 +26,13 @@
             }
       }
         function saswp_schema_options_meta_box_callback( $post) {
+            
                 wp_nonce_field( 'saswp_schema_options_nonce', 'saswp_schema_options_nonce' ); 
                 $schema_options    = esc_sql ( get_post_meta($post->ID, 'schema_options', true)  );
                 $custom_fields    = esc_sql ( get_post_meta($post->ID, 'saswp_custom_fields', true)  );               
                 ?>    
                 <style type="text/css">
-                   .option-table-class{width:100%;}
+                   .option-table-class {width:100%;}
                    .option-table-class tr td {padding: 10px 10px 10px 10px ;}
                    .option-table-class tr > td{width: 30%;}
                    .option-table-class tr td:last-child{width: 60%;}
@@ -72,6 +75,7 @@
                        <table class="option-table-class saswp-custom-fields-table">
                            
                         <?php 
+                        
                         if(!empty($custom_fields)){
                             $schema_type    = esc_sql ( get_post_meta($post->ID, 'schema_type', true)  );
                             $service = new saswp_output_service();

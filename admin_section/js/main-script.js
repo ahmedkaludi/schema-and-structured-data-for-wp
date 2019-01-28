@@ -48,6 +48,7 @@ jQuery(document).ready(function($){
              if(schematype == 'Review'){            
              $(".saswp-review-text-field-tr").show();  
              $(".saswp-option-table-class tr").find('select').attr('disabled', false);
+             saswp_item_reviewed_call();
              }
              if(schematype == 'Product'){            
              $(".saswp-product-text-field-tr").show();  
@@ -309,6 +310,16 @@ jQuery(document).ready(function($){
                             }
                       break;
                       
+                      case 'saswp-yoast-checkbox':
+                          
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-yoast").val(1);             
+                            }else{
+                              $("#saswp-yoast").val(0);           
+                            }
+                      break;
+                      
+                      
                       default:
                           break;
                   }
@@ -319,26 +330,30 @@ jQuery(document).ready(function($){
           var datatype = $(this).val();        
           for(var i=1;i<=11;i++){
             if(datatype ==="Person"){
-             if(i<7){
+             if(i<6){
                 $( ".saswp-knowledge-base li:eq('"+i+"')" ).hide();          
               }else{
                 $( ".saswp-knowledge-base li:eq('"+i+"')" ).show();            
               }    
             }else if(datatype ==="Organization"){
-              if(i<7){
+              if(i<6){
                 $( ".saswp-knowledge-base li:eq('"+i+"')" ).show();          
               }else{
                 $( ".saswp-knowledge-base li:eq('"+i+"')" ).hide();            
-              }    
+              }  
+               $( ".saswp-knowledge-base li:eq(11)" ).show();            
             }else{
                $( ".saswp-knowledge-base li:eq('"+i+"')" ).hide(); 
             }
                        
           }                                           
-     }).change();     
+     }).change(); 
+     
+     
      $(document).on("click", "input[data-id=media]" ,function(e) {	// Application Icon upload
 		e.preventDefault();
-                var button = $(this);
+                var current = $(this);
+                var button = current;
                 var id = button.attr('id').replace('_button', '');                
 		var saswpMediaUploader = wp.media({
 			title: "Application Icon",
@@ -356,6 +371,14 @@ jQuery(document).ready(function($){
                          $("input[data-id='"+id+"_height']").val(attachment.height);
                          $("input[data-id='"+id+"_width']").val(attachment.width);
                          $("input[data-id='"+id+"_thumbnail']").val(attachment.url);
+                         
+                         if(current.attr('id') === 'sd_default_image_button'){
+                             
+                             $("#sd_default_image_width").val(attachment.width);
+                             $("#sd_default_image_height").val(attachment.height);
+                        
+                         }
+                        
 		})
 		.open();
 	});
@@ -476,6 +499,17 @@ jQuery(document).ready(function($){
                              },'json');
         });
         
+        $(".saswp-feedback-remindme").on("click", function(e){
+            e.preventDefault();               
+                         $.get(ajaxurl, 
+                             { action:"saswp_feeback_remindme"},
+                              function(response){                                  
+                              if(response['status'] =='t'){                                  
+                                 $(".saswp-feedback-notice").hide();                                 
+                              }       		   		
+                             },'json');
+        });
+        
          $(document).on("change",'.saswp-local-business-type-select', function(e){
             e.preventDefault();    
                         var current = $(this);    
@@ -500,6 +534,49 @@ jQuery(document).ready(function($){
                               }       		   		
                              },'json');
         });
+        
+        
+        function saswp_item_reviewed_call(){
+            
+            $(".saswp-item-reviewed").change(function(e){
+            e.preventDefault();
+            var schema_type =""; 
+            
+            if($('select#schema_type option:selected').val()){
+               schema_type = $('select#schema_type option:selected').val();    
+            }       
+            if($(".saswp-tab-links.selected").attr('saswp-schema-type')){
+               schema_type = $(".saswp-tab-links.selected").attr('saswp-schema-type');    
+            }
+            
+            if(schema_type === 'Review'){
+                
+                        var current = $(this);    
+                        var item    = $(this).val();
+                        var post_id = saswp_localize_data.post_id;
+                        var schema_id = $(current).attr('data-id');  
+                        var post_specific = $(current).attr('post-specific');  
+                         $.get(ajaxurl, 
+                             { action:"saswp_get_item_reviewed_fields",schema_id:schema_id,  post_specific:post_specific ,item:item, post_id:post_id, saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
+                              function(response){    
+                                  
+                                $(current).parent().parent().nextAll().remove(".saswp-review-tr");                                    
+                                $(current).parent().parent().after(response);    
+                                
+                             });
+                
+            }
+                        
+                             
+        }).change();
+            
+        }
+        saswp_item_reviewed_call();
+        
+        
+        
+        
+        
         function saswpAddTimepicker(){
          $('.saswp-local-schema-time-picker').timepicker({ 'timeFormat': 'H:i:s'});
         }
@@ -517,6 +594,7 @@ jQuery(document).ready(function($){
                                saswpAddTimepicker();  
                                saswp_schema_datepicker();
                                saswp_enable_rating_review();
+                               saswp_item_reviewed_call();
                              });
                              
         });
@@ -621,8 +699,11 @@ jQuery(document).ready(function($){
         
         //custom fields modify schema starts here
         
+        //Changing the url of add new schema type 
+        $('a[href="'+saswp_localize_data.new_url_selector+'"]').attr( 'href', saswp_localize_data.new_url_href); 
         
-        $("#saswp_enable_custom_field").change(function(){
+        
+       $("#saswp_enable_custom_field").change(function(){
             if ($(this).is(':checked')) { 
                 $(".saswp-custom-fields-div").show();
             }else{
@@ -736,11 +817,7 @@ jQuery(document).ready(function($){
          }
                
      }      
-     saswp_enable_rating_review();
-    
-     
-       
-       
+     saswp_enable_rating_review();                       
         //custom fields modify schema ends here
       
 });
