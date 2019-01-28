@@ -715,13 +715,14 @@ class saswp_post_specific {
                             break;
                         case 'homeandconstructionbusiness':
                             $sub_business_options = array(
-                                      'electrician'       => 'Electrician',
+                                     'electrician'       => 'Electrician',
                                       'generalcontractor' => 'General Contractor',
                                       'hvacbusiness'      => 'HVAC Business',
                                       'locksmith'         => 'Locksmith', 
                                       'movingcompany'     => 'Moving Company',
                                       'plumber'           => 'Plumber',       
-                                      'roofingcontractor' => 'Roofing Contractor',       
+                                      'roofingcontractor' => 'Roofing Contractor',
+                                      'housepainter'      => 'House Painter',   
                                  );   
                             break;
                         case 'legalservice':

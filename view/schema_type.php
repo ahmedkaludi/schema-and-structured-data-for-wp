@@ -742,7 +742,8 @@ function item_reviewed_fields($item, $post_specific = null, $schema_id = null){
                                       'locksmith'         => 'Locksmith', 
                                       'movingcompany'     => 'Moving Company',
                                       'plumber'           => 'Plumber',       
-                                      'roofingcontractor' => 'Roofing Contractor',       
+                                      'roofingcontractor' => 'Roofing Contractor', 
+                                      'housepainter'      => 'House Painter',    
                                  );
                                   
                                   $all_legal_service_array = array(
