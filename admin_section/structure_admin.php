@@ -262,8 +262,14 @@ function saswp_comparison_logic_checker($input){
 
     // Post Controls  ------------ 
       // Posts
-      case 'post': 
-            $current_post = $post->ID;
+      case 'post':    
+          
+            $current_post ='';  
+          
+             if(is_singular()){
+                $current_post = $post->ID;  
+             }
+                      
             if ( $comparison == 'equal' ) {
                 if ( $current_post == $data ) {
                   $result = true;

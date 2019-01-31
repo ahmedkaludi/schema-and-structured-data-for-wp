@@ -17,6 +17,8 @@ function saswp_data_generator() {
    
    $output                   = '';
    $post_specific_enable     = '';
+   $kb_website_output        = '';
+   $kb_schema_output         = '';
    $contact_page_output      = saswp_contact_page_output();  	
    $about_page_output        = saswp_about_page_output();   
    
@@ -108,7 +110,8 @@ function saswp_data_generator() {
                         }                       
                         			              		
 	}
-        $stroutput = '['. $output. ']';
+        
+        $stroutput = '['. trim($output). ']';
         $filter_string = str_replace(',]', ']',$stroutput);
         
         echo '<!-- Schema & Structured Data For WP v'.esc_attr(SASWP_VERSION).' - -->';

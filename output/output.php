@@ -1226,7 +1226,8 @@ function saswp_post_specific_schema_output() {
         $all_schemas       = json_decode(get_transient('saswp_transient_schema_ids'), true);                                
         $schema_enable     = get_post_meta($post->ID, 'saswp_enable_disable_schema', true);
        
-        foreach($all_schemas as $schema){
+        if($all_schemas){
+            foreach($all_schemas as $schema){
             
         $schema_id      = $schema;   	
 	$schema_type    = esc_sql ( get_post_meta($schema_id, 'schema_type', true)  );        
@@ -2121,7 +2122,9 @@ function saswp_post_specific_schema_output() {
                    $all_schema_output[] = $input1;		                 
                 }                
 	}
-        }              
+        }   
+        }
+                   
         return $all_schema_output;	
 }
 
@@ -2228,12 +2231,15 @@ function saswp_schema_breadcrumb_output($sd_data){
 }
 
 function saswp_kb_website_output(){
-    
-	        global $sd_data;	
+    	        
+                $input = array();
+                
 		$site_url  = get_site_url();
 		$site_name = get_bloginfo();
                 
-		$input = array(
+                if($site_url && $site_name){
+                 
+                    $input = array(
 			'@context'		=>'http://schema.org',
 			'@type'			=> 'WebSite',
 			'id'			=> '#website',
@@ -2244,7 +2250,8 @@ function saswp_kb_website_output(){
 				'target'		=> $site_url.'/?s={search_term_string}',
 				'query-input'	        => 'required name=search_term_string',
 			 	)
-			);
+			);                    
+                }                		
 	
 	return json_encode($input);        
 }	
