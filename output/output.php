@@ -1065,17 +1065,6 @@ function saswp_schema_output() {
                                 $dayoftheweek     = get_post_meta($schema_post_id, 'saswp_dayofweek', true); 
                                 $dayoftheweek     = explode( "\r\n", $dayoftheweek);                               
                                 
-				if(empty($image_details[0]) || $image_details[0] === NULL ){
-					$image_details[0] = $logo;
-				}
-                                if(isset($business_details['local_business_logo'])){
-                                    
-                                    unset($image_details);  
-                                    $image_details[0] = isset($business_details['local_business_logo']) ? $business_details['local_business_logo']['url']:'';
-                                    $image_details[1] = isset($business_details['local_business_logo']) ? $business_details['local_business_logo']['width']:'';
-                                    $image_details[2] = isset($business_details['local_business_logo']) ? $business_details['local_business_logo']['height']:'';
-                                    
-                                }
                                 if($business_name){
                                     
                                 $local_business = $business_name;    
@@ -1091,7 +1080,13 @@ function saswp_schema_output() {
 				'@type'				=> $local_business ,
                                 'name'                          => saswp_remove_warnings($business_details, 'local_business_name', 'saswp_string'),                                   
 				'url'				=> get_permalink(),				
-				'description'                   => strip_tags(get_the_excerpt()),				
+				'description'                   => strip_tags(get_the_excerpt()),
+                                'image'                         => array(
+                                                                        '@type'		=> 'ImageObject',
+                                                                        'url'		=> isset($business_details['local_business_logo']) ? $business_details['local_business_logo']['url']:'',
+                                                                        'width'		=> isset($business_details['local_business_logo']) ? $business_details['local_business_logo']['width']:'',
+                                                                        'height'	=> isset($business_details['local_business_logo']) ? $business_details['local_business_logo']['height']:'',    
+                                                                ),    
 				'address'                       => array(
                                                                 "@type"          => "PostalAddress",
                                                                 "streetAddress"  => saswp_remove_warnings($business_details, 'local_street_address', 'saswp_string'),
@@ -1109,8 +1104,12 @@ function saswp_schema_output() {
                                     }     
                                     
                                     
-                                    if(isset($business_details['local_enable_rating'])){
-                                 
+                                    if(isset($business_details['local_enable_rating'])
+                                            && saswp_remove_warnings($business_details, 'local_rating', 'saswp_string') !=''
+                                            && saswp_remove_warnings($business_details, 'local_review_count', 'saswp_string') !=''
+                                            ){
+                                        
+                                                                         
                                     $input1['aggregateRating'] = array(
                                                             "@type"       => "AggregateRating",
                                                             "ratingValue" => saswp_remove_warnings($business_details, 'local_rating', 'saswp_string'),
@@ -1141,7 +1140,7 @@ function saswp_schema_output() {
                                     }
                                     
                                     if(isset($business_details['local_menu'])){
-                                      $input1['menu'] = $business_details['local_menu'];   
+                                      $input1['hasMenu'] = $business_details['local_menu'];   
                                     }                                                          
 			}
                                 
@@ -2051,13 +2050,22 @@ function saswp_post_specific_schema_output() {
                                 $local_business = $business_sub_name;    
                                 }else{
                                 $local_business = $business_type;        
-                                }                                
+                                }   
+                                
+                                $local_image = get_post_meta( get_the_ID(), 'local_business_logo_'.$schema_id.'_detail',true);
+                                
 				$input1 = array(
 				'@context'			=> 'http://schema.org',
 				'@type'				=> $local_business ,
                                 'name'                          => saswp_remove_warnings($all_post_meta, 'local_business_name_'.$schema_id, 'saswp_array'),                                   
 				'url'				=> saswp_remove_warnings($all_post_meta, 'local_business_name_url_'.$schema_id, 'saswp_array'),				
 				'description'                   => saswp_remove_warnings($all_post_meta, 'local_business_description_'.$schema_id, 'saswp_array'),				
+                                'image' 			=> array(
+                                                                    '@type'		=> 'ImageObject',
+                                                                    'url'		=> saswp_remove_warnings($local_image, 'thumbnail', 'saswp_string'),
+                                                                    'width'		=> saswp_remove_warnings($local_image, 'width', 'saswp_string'),
+                                                                    'height'            => saswp_remove_warnings($local_image, 'height', 'saswp_string'),
+                                                                ),    
 				'address'                       => array(
                                                                 "@type"          => "PostalAddress",
                                                                 "streetAddress"  => saswp_remove_warnings($all_post_meta, 'local_street_address_'.$schema_id, 'saswp_array'),
@@ -2098,11 +2106,11 @@ function saswp_post_specific_schema_output() {
                                     }
                                     
                                     if(isset($all_post_meta['local_serves_cuisine_'.$schema_id][0])){
-                                      $input1['servesCuisine'] = $all_post_meta['local_price_serves_cuisine_'.$schema_id][0];   
+                                      $input1['servesCuisine'] = $all_post_meta['local_serves_cuisine_'.$schema_id][0];   
                                     }
                                     
                                     if(isset($all_post_meta['local_menu_'.$schema_id][0])){
-                                      $input1['menu'] = $all_post_meta['local_menu_'.$schema_id][0];   
+                                      $input1['hasMenu'] = $all_post_meta['local_menu_'.$schema_id][0];   
                                     }                                                          
 			}
                                 		                        			                        

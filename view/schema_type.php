@@ -543,7 +543,7 @@ function item_reviewed_fields($item, $post_specific = null, $schema_id = null){
                         
                             $business_type    = esc_sql ( get_post_meta($post->ID, 'saswp_business_type', true)  ); 
                             $business_name    = esc_sql ( get_post_meta($post->ID, 'saswp_business_name', true)  ); 
-                            $business_details = esc_sql ( get_post_meta($post->ID, 'saswp_local_business_details', true)  ); 
+                            $business_details = esc_sql ( get_post_meta($post->ID, 'saswp_local_business_details', true)  );                             
                             $dayoftheweek     = get_post_meta($post->ID, 'saswp_dayofweek', true);
 
                             break;
@@ -1090,6 +1090,16 @@ function item_reviewed_fields($item, $post_specific = null, $schema_id = null){
                             <td><input  value="<?php if(isset($business_details['local_price_range'])){echo esc_attr($business_details['local_price_range']); } ?>" type="text" name="local_price_range" placeholder="<?php echo esc_html__('$10-$50 or $$$ ', 'schema-and-structured-data-for-wp' ); ?>" ></td>
                         </tr>
                         
+                        <tr class="saswp-business-text-field-tr" <?php echo $style_business_type; ?>>
+                            <td><?php echo esc_html__('Menu', 'schema-and-structured-data-for-wp' ); ?></td>
+                            <td><input  value="<?php if(isset($business_details['local_menu'])){echo esc_attr($business_details['local_menu']); } ?>" type="text" name="local_menu" placeholder="<?php echo esc_html__('http://www.example.com/menu', 'schema-and-structured-data-for-wp' ); ?>" ></td>
+                        </tr>
+                        
+                        <tr class="saswp-business-text-field-tr" <?php echo $style_business_type; ?>>
+                            <td><?php echo esc_html__('Serves Cuisine ', 'schema-and-structured-data-for-wp' ); ?></td>
+                            <td><input  value="<?php echo esc_attr($business_details['local_serves_cuisine']); ?>" type="text" name="local_serves_cuisine" placeholder="<?php echo esc_html__('American, Chinese', 'schema-and-structured-data-for-wp' ); ?>" ></td>
+                        </tr>
+                        
                         
                         <tr class="saswp-business-text-field-tr" <?php echo $style_business_type; ?>>
                             <td><?php echo esc_html__('Aggregate Rating', 'schema-and-structured-data-for-wp' ); ?></td>
@@ -1453,6 +1463,14 @@ function item_reviewed_fields($item, $post_specific = null, $schema_id = null){
                 }
                 if ( isset( $_POST['local_price_range'] ) ){
                 $local_business_details['local_price_range'] = sanitize_text_field($_POST['local_price_range']);        
+                }
+                
+                if ( isset( $_POST['local_menu'] ) ){
+                $local_business_details['local_menu'] = sanitize_text_field($_POST['local_menu']);        
+                }
+                
+                if ( isset( $_POST['local_serves_cuisine'] ) ){
+                $local_business_details['local_serves_cuisine'] = sanitize_text_field($_POST['local_serves_cuisine']);        
                 }
                 
                 if ( isset( $_POST['local_enable_rating'] ) ){

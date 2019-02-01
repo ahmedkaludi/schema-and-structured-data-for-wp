@@ -996,6 +996,18 @@ class saswp_post_specific {
                             'default' => $business_details['local_price_range']
                        ),
                         array(
+                            'label' => 'Menu',
+                            'id' => 'local_menu_'.$schema_id,
+                            'type' => 'text',
+                            'default' => $business_details['local_menu']
+                       ),
+                        array(
+                            'label' => 'Serves Cuisine',
+                            'id' => 'local_serves_cuisine_'.$schema_id,
+                            'type' => 'text',
+                            'default' => $business_details['local_serves_cuisine']
+                       ),
+                        array(
                             'label' => 'Aggregate Rating',
                             'id' => 'local_enable_rating_'.$schema_id,
                             'type' => 'checkbox',
