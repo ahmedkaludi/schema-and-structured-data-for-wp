@@ -2266,7 +2266,8 @@ function saswp_kb_website_output(){
 // For Archive 
 function saswp_archive_output(){
     
-	global $query_string, $sd_data;                                
+	global $query_string, $sd_data;   
+        
         $site_name ='';
         
         if(isset($sd_data['sd_name']) && $sd_data['sd_name'] !=''){
@@ -2277,17 +2278,42 @@ function saswp_archive_output(){
         	
 	if(isset($sd_data['saswp_archive_schema']) && $sd_data['saswp_archive_schema'] == 1){
             
+        $schema_type =  $sd_data['saswp_archive_schema_type'];   
+            
         $service_object     = new saswp_output_service();
         $logo               = $service_object->saswp_get_publisher(true);    
             
 					
 	if ( is_category() ) {
+            
 		$category_posts = array();
 		$category_loop = new WP_Query( $query_string );
 		if ( $category_loop->have_posts() ):
 			while( $category_loop->have_posts() ): $category_loop->the_post();
 				$image_id 		= get_post_thumbnail_id();
-				$image_details 	        = wp_get_attachment_image_src($image_id, 'full');
+                                
+                                $archive_image = array();
+				$image_details 	        = wp_get_attachment_image_src($image_id, 'full');                                
+                                if(!empty($image_details)){
+                                
+                                        $archive_image['@type']  = 'ImageObject';
+                                        $archive_image['url']    = $image_details[0];
+                                        $archive_image['width']  = $image_details[1];
+                                        $archive_image['height'] = $image_details[2];                                 
+                                    
+                                }else{
+                                    
+                                    if(isset($sd_data['sd_default_image'])){
+                                        
+                                        $archive_image['@type']  = 'ImageObject';
+                                        $archive_image['url']    = $sd_data['sd_default_image']['url'];
+                                        $archive_image['width']  = $sd_data['sd_default_image_width'];
+                                        $archive_image['height'] = $sd_data['sd_default_image_height'];                                  
+                                    }
+                                    
+                                    
+                                }
+                                
 				$publisher_info = array(
 				"type" => "Organization",
 			        "name" => $site_name,
@@ -2304,7 +2330,7 @@ function saswp_archive_output(){
                                 
                                 $category_posts[] =  array(
                                 
-                                                    '@type' 		=> 'BlogPosting',
+                                                    '@type' 		=> $schema_type,
                                                     'headline' 		=> get_the_title(),
                                                     'url' 		=> get_the_permalink(),
                                                     'datePublished'     => get_the_date('c'),
@@ -2312,7 +2338,7 @@ function saswp_archive_output(){
                                                     'mainEntityOfPage'  => get_the_permalink(),
                                                     'author' 		=> get_the_author(),
                                                     'publisher'         => $publisher_info,
-                                                    'image' 	        => $image_details[0],
+                                                    'image' 	        => $archive_image,
                                 );
 				
 	        endwhile;

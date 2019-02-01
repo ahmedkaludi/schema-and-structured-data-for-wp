@@ -234,9 +234,11 @@ jQuery(document).ready(function($){
                       case 'saswp_archive_schema_checkbox':
                           
                             if ($(this).is(':checked')) {              
-                                $("#saswp_archive_schema").val(1);             
+                                $("#saswp_archive_schema").val(1);
+                                $(".saswp_archive_schema_type_class").parent().parent().show();
                               }else{
                                 $("#saswp_archive_schema").val(0);           
+                                $(".saswp_archive_schema_type_class").parent().parent().hide();
                               }
                       break;
                       case 'saswp_breadcrumb_schema_checkbox':

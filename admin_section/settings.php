@@ -366,6 +366,19 @@ function saswp_general_page_callback(){
                         )
 		),
                 array(
+			'label' => 'Schema Type',
+			'id' => 'saswp_archive_schema_type',
+                        'name' => 'sd_data[saswp_archive_schema_type]',
+                        'class' => 'saswp_archive_schema_type_class',
+			'type' => 'select',
+			'options' => array(                                
+				     'Article'          => 'Article',                                     
+                                     'Blogposting'      => 'Blogposting',                                     
+                                     'NewsArticle'      => 'NewsArticle',                                                                                                                                                                                                                                                                   
+                                     'WebPage'          => 'WebPage' 
+			)
+                   ),
+                array(
 			'label' => 'BreadCrumbs',
 			'id' => 'saswp_breadcrumb_schema_checkbox', 
                         'name' => 'saswp_breadcrumb_schema_checkbox',
