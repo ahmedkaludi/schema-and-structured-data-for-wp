@@ -38,10 +38,22 @@ class saswp_post_specific {
                 $post_id       = sanitize_text_field($_POST['post_id']);
                 $schema_id     = sanitize_text_field($_POST['schema_id']);
                 $status        = sanitize_text_field($_POST['status']);
+              
                 
-                $schema_enable = get_post_meta($post_id, 'saswp_enable_disable_schema', true);                                
-                
-                $schema_enable[$schema_id] = $status;                                 
+                $schema_enable_status = get_post_meta($post_id, 'saswp_enable_disable_schema', true);     
+                               
+                if(is_array($schema_enable_status)){
+                   
+                    $schema_enable = $schema_enable_status;
+                   
+                }else{
+                    
+                    delete_post_meta($post_id, 'saswp_enable_disable_schema');
+                    
+                } 
+                                
+                $schema_enable[$schema_id] = $status;   
+                                
                 update_post_meta( $post_id, 'saswp_enable_disable_schema', $schema_enable);                   
                 
                 echo json_encode(array('status'=>'t'));
@@ -104,6 +116,7 @@ class saswp_post_specific {
                 $schema_ids   = array();
                 
                 $schema_enable = get_post_meta($post->ID, 'saswp_enable_disable_schema', true);
+                
                 
              if(count($this->all_schema)>1){  
                  
