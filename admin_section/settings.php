@@ -399,7 +399,19 @@ function saswp_general_page_callback(){
                              'id' => 'saswp_comments_schema',
                              'name' => 'sd_data[saswp_comments_schema]',                             
                         )
+		),
+                array(
+			'label' => 'Site Navigation Menu',
+			'id' => 'saswp_site_navigation_menu_checkbox', 
+                        'name' => 'saswp_site_navigation_menu_checkbox',
+			'type' => 'checkbox',
+                        'class' => 'checkbox saswp-checkbox',                        
+                        'hidden' => array(
+                             'id' => 'saswp_site_navigation_menu',
+                             'name' => 'sd_data[saswp_site_navigation_menu]',                             
+                        )
 		)
+                
             )
         
         ?>
@@ -912,62 +924,75 @@ function saswp_compatibility_page_callback(){
         
         $settings = saswp_defaultSettings();  
         $kk_star = array(
-			'label' => 'kk Star Ratings',
-			'id' => 'saswp-kk-star-raring-checkbox',                        
-                        'name' => 'saswp-kk-star-raring-checkbox',
-			'type' => 'checkbox',
-                        'class' => 'checkbox saswp-checkbox',
+			'label'  => 'kk Star Ratings',
+			'id'     => 'saswp-kk-star-raring-checkbox',                        
+                        'name'   => 'saswp-kk-star-raring-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
                         'hidden' => array(
-                             'id' => 'saswp-kk-star-raring',
-                             'name' => 'sd_data[saswp-kk-star-raring]',                             
+                                'id'   => 'saswp-kk-star-raring',
+                                'name' => 'sd_data[saswp-kk-star-raring]',                             
                         )
 		);
         $woocommerce = array(
-			'label' => 'Woocommerce',
-			'id' => 'saswp-woocommerce-checkbox',                        
-                        'name' => 'saswp-woocommerce-checkbox',
-			'type' => 'checkbox',
-                        'class' => 'checkbox saswp-checkbox',
+			'label'  => 'Woocommerce',
+			'id'     => 'saswp-woocommerce-checkbox',                        
+                        'name'   => 'saswp-woocommerce-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
                         'hidden' => array(
-                             'id' => 'saswp-woocommerce',
-                             'name' => 'sd_data[saswp-woocommerce]',                             
+                                'id'   => 'saswp-woocommerce',
+                                'name' => 'sd_data[saswp-woocommerce]',                             
                         )
 		);
         $extratheme = array(
-			'label' => 'Extra Theme By Elegant',
-			'id' => 'saswp-extra-checkbox',                        
-                        'name' => 'saswp-extra-checkbox',
-			'type' => 'checkbox',
-                        'class' => 'checkbox saswp-checkbox',
+			'label'  => 'Extra Theme By Elegant',
+			'id'     => 'saswp-extra-checkbox',                        
+                        'name'   => 'saswp-extra-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
                         'hidden' => array(
-                             'id' => 'saswp-extra',
-                             'name' => 'sd_data[saswp-extra]',                             
+                                'id'   => 'saswp-extra',
+                                'name' => 'sd_data[saswp-extra]',                             
                         )
 		);
         $dwquestiton = array(
-			'label' => 'DW Question Answer',
-			'id' => 'saswp-dw-question-answer-checkbox',                        
-                        'name' => 'saswp-dw-question-answer-checkbox',
-			'type' => 'checkbox',
-                        'class' => 'checkbox saswp-checkbox',
+			'label'  => 'DW Question Answer',
+			'id'     => 'saswp-dw-question-answer-checkbox',                        
+                        'name'   => 'saswp-dw-question-answer-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
                         'hidden' => array(
-                             'id' => 'saswp-dw-question-answer',
-                             'name' => 'sd_data[saswp-dw-question-answer]',                             
+                                    'id'   => 'saswp-dw-question-answer',
+                                    'name' => 'sd_data[saswp-dw-question-answer]',                             
                         )
 		);
+        
+        $wpjobmanager = array(
+			'label'   => 'WP Job Manager',
+			'id'      => 'saswp-wp-job-manager-checkbox',                        
+                        'name'    => 'saswp-wp-job-manager-checkbox',
+			'type'    => 'checkbox',
+                        'class'   => 'checkbox saswp-checkbox',
+                        'hidden'  => array(
+                                'id'   => 'saswp-wp-job-manager',
+                                'name' => 'sd_data[saswp-wp-job-manager]',                             
+                        )
+		);
+        
         $yoast      = array(
-			'label' => 'Yoast SEO Plugin',
-			'id' => 'saswp-yoast-checkbox',                        
-                        'name' => 'saswp-yoast-checkbox',
-			'type' => 'checkbox',
-                        'class' => 'checkbox saswp-checkbox',
-                        'hidden' => array(
-                             'id' => 'saswp-yoast',
-                             'name' => 'sd_data[saswp-yoast]',                             
+			'label'   => 'Yoast SEO Plugin',
+			'id'      => 'saswp-yoast-checkbox',                        
+                        'name'    => 'saswp-yoast-checkbox',
+			'type'    => 'checkbox',
+                        'class'   => 'checkbox saswp-checkbox',
+                        'hidden'  => array(
+                                'id'   => 'saswp-yoast',
+                                'name' => 'sd_data[saswp-yoast]',                             
                         )
 		);        
         
-        if(!is_plugin_active('wordpress-seo/wp-seo.php')){
+        if(!is_plugin_active('wordpress-seo/wp-seo.php') && !is_plugin_active('wordpress-seo-premium/wp-seo-premium.php')){
              $yoast['attributes'] = array(
                  'disabled' => 'disabled'
              );
@@ -1012,6 +1037,15 @@ function saswp_compatibility_page_callback(){
              $dwquestiton['note'] = esc_html__('Plugin is not activated','schema-and-structured-data-for-wp');
              $settings['saswp-dw-question-answer'] = 0; 
          }
+         
+         if(!is_plugin_active('wp-job-manager/wp-job-manager.php')){
+             
+             $wpjobmanager['attributes'] = array(
+                 'disabled' => 'disabled'
+             );
+             $wpjobmanager['note'] = esc_html__('Plugin is not activated','schema-and-structured-data-for-wp');
+             $settings['saswp-wp-job-manager'] = 0; 
+         }
                         
         $field_objs = new saswp_fields_generator();
         $meta_fields = array(				
@@ -1019,6 +1053,7 @@ function saswp_compatibility_page_callback(){
                 $woocommerce, 
                 $extratheme,
                 $dwquestiton,
+                $wpjobmanager,
                 $yoast
                 
 	);       

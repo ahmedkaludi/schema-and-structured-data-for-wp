@@ -285,6 +285,13 @@ jQuery(document).ready(function($) {
              if(schematype == 'qanda'){
               $(".saswp-schem-type-note").removeClass('saswp_hide');   
              }
+             
+             $(".saswp-job-posting-note").addClass('saswp_hide');
+             
+//             if(schematype == 'JobPosting'){
+//              $(".saswp-job-posting-note").removeClass('saswp_hide');   
+//             }
+             
            saswp_enable_rating_review(); 
         }).change(); 
         

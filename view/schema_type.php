@@ -297,6 +297,15 @@ function item_reviewed_fields($item, $post_specific = null, $schema_id = null){
                                                      'placeholder' => 'Serves Cuisine'
                                              )
                                         );
+                            $reviewed_field[] = array(
+                                                'label' => 'Menu',
+                                                'id' => 'saswp_review_schema_menu'.$post_fix,
+                                                'type' => 'text',
+                                                'default' => '',
+                                                'attributes' => array(
+                                                     'placeholder' => 'https://example.com/menu'
+                                             )
+                                        );
                             break;
                         case 'Series':
                            $reviewed_field = array();
@@ -381,8 +390,8 @@ function item_reviewed_fields($item, $post_specific = null, $schema_id = null){
                      
                  }else{
                      
-                  $schema_data = get_post_meta( $schema_id, 'saswp_review_schema_details', true );                       
-                  $meta_value  = $schema_data[$meta_field['id']];  
+                    $schema_data = get_post_meta( $schema_id, 'saswp_review_schema_details', true );                       
+                    $meta_value  = $schema_data[$meta_field['id']];  
                      
                  }
                  
@@ -639,6 +648,7 @@ function item_reviewed_fields($item, $post_specific = null, $schema_id = null){
                                      'Article'          => 'Article',
                                      'AudioObject'      => 'AudioObject',
                                      'Blogposting'      => 'Blogposting',
+                                    // 'JobPosting'       => 'JobPosting',   
                                      'local_business'   => 'Local Business',
                                      'NewsArticle'      => 'NewsArticle',
                                      'Product'          => 'Product',
@@ -820,10 +830,17 @@ function item_reviewed_fields($item, $post_specific = null, $schema_id = null){
                                   }
                                 ?>
                             </select>
+                               
                                <?php if($schema_type == 'qanda') { ?>
                                <span class="saswp-schem-type-note">Note: Currently supported with DW Question & Answer <a target="_blank" href="https://wordpress.org/plugins/dw-question-answer/">Link</a></span>
                                <?php }else{ ?>
                                <span class="saswp-schem-type-note saswp_hide">Note: Currently supported with DW Question & Answer <a target="_blank" href="https://wordpress.org/plugins/dw-question-answer/">Link</a></span>
+                               <?php } ?>
+                                                                                             
+                               <?php if($schema_type == 'JobPosting') { ?>
+                               <!--<span class="saswp-job-posting-note">Note: Currently supported with WP Job Manager <a target="_blank" href="https://wordpress.org/plugins/wp-job-manager/">Link</a></span>-->
+                               <?php }else{ ?>
+                               <!--<span class="saswp-job-posting-note saswp_hide">Note: Currently supported with WP Job Manager <a target="_blank" href="https://wordpress.org/plugins/wp-job-manager/">Link</a></span>-->
                                <?php } ?>
                                
                            </td>

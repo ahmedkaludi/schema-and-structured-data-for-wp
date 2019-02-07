@@ -2434,6 +2434,6 @@ body .amp_install_center {text-align: center}
 .saswp_hide{
     display: none;
 }
-.saswp-schem-type-note{
+.saswp-schem-type-note, .saswp-job-posting-note{
     color: chocolate;
 }
