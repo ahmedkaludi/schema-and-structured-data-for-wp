@@ -1,5 +1,6 @@
 <?php 
 Class saswp_output_service{
+    
         public function __construct() {       
             
 	}
@@ -783,6 +784,67 @@ Class saswp_output_service{
             
         }
         
+//        public function saswp_wp_job_manager_details($post = null){
+//            
+//        $post = get_post( $post );
+//
+//	if ( ! $post || 'job_listing' !== $post->post_type ) {
+//		return false;
+//	}
+//
+//	$data               = array();
+//	$data['@context']   = 'http://schema.org/';
+//	$data['@type']      = 'JobPosting';
+//	$data['datePosted'] = get_post_time( 'c', false, $post );
+//
+//	$job_expires = get_post_meta( $post->ID, '_job_expires', true );
+//	if ( ! empty( $job_expires ) ) {
+//		$data['validThrough'] = date( 'c', strtotime( $job_expires ) );
+//	}
+//
+//	$data['title']       = wp_strip_all_tags( wpjm_get_the_job_title( $post ) );
+//	$data['description'] = wpjm_get_the_job_description( $post );
+//
+//	$employment_types = wpjm_get_job_employment_types();
+//	if ( ! empty( $employment_types ) ) {
+//		$data['employmentType'] = $employment_types;
+//	}
+//
+//	$data['hiringOrganization']          = array();
+//	$data['hiringOrganization']['@type'] = 'Organization';
+//	$data['hiringOrganization']['name']  = get_the_company_name( $post );
+//
+//	$company_website = get_the_company_website( $post );
+//	if ( $company_website ) {
+//		$data['hiringOrganization']['sameAs'] = $company_website;
+//		$data['hiringOrganization']['url']    = $company_website;
+//	}
+//
+//	$company_logo = get_the_company_logo( $post, 'full' );
+//	if ( $company_logo ) {
+//		$data['hiringOrganization']['logo'] = $company_logo;
+//	}
+//
+//	$data['identifier']          = array();
+//	$data['identifier']['@type'] = 'PropertyValue';
+//	$data['identifier']['name']  = get_the_company_name( $post );
+//	$data['identifier']['value'] = get_the_guid( $post );
+//
+//	$location = get_the_job_location( $post );
+//	if ( ! empty( $location ) ) {
+//		$data['jobLocation']            = array();
+//		$data['jobLocation']['@type']   = 'Place';
+//		$data['jobLocation']['address'] = wpjm_get_job_listing_location_structured_data( $post );
+//		if ( empty( $data['jobLocation']['address'] ) ) {
+//			$data['jobLocation']['address'] = $location;
+//		}
+//	}       
+//        
+//         //return $data;
+//         
+//        }
+       
+        
         public function saswp_dw_question_answers_details($post_id){
             
                 global $sd_data;
@@ -1148,58 +1210,45 @@ Class saswp_output_service{
         public function saswp_schema_markup_generator($schema_type){
             
                  global $sd_data;
-                        $logo      =''; 
-                        $height    ='';
-                        $width     ='';
-                        $site_name ='';
+                        $logo         = ''; 
+                        $height       = '';
+                        $width        = '';
+                        $site_name    = '';
+                                                
+                        $default_logo = $this->saswp_get_publisher(true);
                         
-                        $input1 = array();
+                        if(!empty($default_logo)){
             
-                        $author_id = get_the_author_meta('ID');
+                            $logo   = $default_logo['url'];
+                            $height = $default_logo['height'];
+                            $width  = $default_logo['width'];
+            
+                        }
+                        
+                        if(isset($sd_data['sd_name']) && $sd_data['sd_name'] !=''){
+                            
+                            $site_name = $sd_data['sd_name'];  
+                          
+                        }else{
+                            
+                            $site_name = get_bloginfo();    
+                            
+                        }
+                        
+                        $input1         = array();
+            
+                        $author_id      = get_the_author_meta('ID');
                         $image_id 	= get_post_thumbnail_id();
 			$image_details 	= wp_get_attachment_image_src($image_id, 'full');                       
 			$author_details	= get_avatar_data($author_id);
 			$date 		= get_the_date("Y-m-d\TH:i:s\Z");
 			$modified_date 	= get_the_modified_date("Y-m-d\TH:i:s\Z");
-			$aurthor_name 	= get_the_author();
-            
+			$aurthor_name 	= get_the_author();                                      
                         
-                        if(isset($sd_data['sd_logo'])){
-                            
-                            $logo = $sd_data['sd_logo']['url']; 
-                        }
-
-
-                        if(isset($sd_data['sd_name']) && $sd_data['sd_name'] !=''){
-                          $site_name = $sd_data['sd_name'];  
-                        }else{
-                          $site_name = get_bloginfo();    
-                        }    
-                        
-                        if('' != $logo && !empty($logo)){
-                            
-                              $height = $sd_data['sd_logo']['height'];  
-                              $width = $sd_data['sd_logo']['width'];
-                              
-                           }else{            
-                               $sizes = array(
-                                                           'width'  => 600,
-                                                           'height' => 60,
-                                                           'crop'   => false,
-                                              );   
-                               
-                               $custom_logo_id = get_theme_mod( 'custom_logo' );           
-                               $custom_logo    = wp_get_attachment_image_src( $custom_logo_id, $sizes); 
-                               $logo   = $custom_logo[0];
-                               $height = $custom_logo[1];
-                               $width  = $custom_logo[2];            
-                           } 
-                        
-                        
-            
             switch ($schema_type) {
                 
                 case 'Article':
+                    
                     $input1 = array(
 					'@context'			=> 'http://schema.org',
 					'@type'				=> 'Article',

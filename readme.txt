@@ -3,7 +3,7 @@ Contributors: mohammed_kaludi, ahmedkaludi, ampforwp
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.0.2
-Stable tag: 1.0.8
+Stable tag: 1.0.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -64,6 +64,20 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.0.9 (31 January 2019) =
+
+* New Feature: SiteNavigationElement schema type add to the schema type list #115
+* Added: Option to edit the Schema type for Archive page #123
+* Added: Menu Property to FoodEstablishment #116
+* Bug Fixed: On/Off buttons inside modify schema are not changing its state on post save #138
+* Bug Fixed: Yoast compatibility checkbox is not active when yoast premium plugin is activated #138
+
+
+= 1.0.8.1 (31 January 2019) =
+
+* Bug Fixed: JSON-LD Error, when yoast compatibility is enabled #133
+
 
 = 1.0.8 (28 January 2019) =
 

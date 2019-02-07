@@ -1,30 +1,49 @@
 <?php
+
+function saswp_get_saved_schema_ids(){
+    
+    $schema_ids = array();
+    
+    $all_schemas = get_posts(
+                    array(
+                            'post_type' 	 => 'saswp',
+                            'posts_per_page' => -1,   
+                            'post_status' => 'publish',
+                    )
+                 );
+    
+    if($all_schemas){
+        
+     foreach($all_schemas as $schema){
+         
+         $schema_ids[] = $schema->ID;
+         
+     }  
+     
+    }
+    
+    return $schema_ids;
+    
+}
+
 /*
  *      Storing and updating all ads post ids in transient on different actions 
  *      which we will fetch all ids from here to display our post
  */    
 function saswp_published(){
     
-        $all_schema_post = get_posts(
-            array(
-                    'post_type' 	 => 'saswp',
-                    'posts_per_page'     => -1,
-                    'post_status'        => 'publish',
-            )
-        ); 
+        $schema_post_ids = saswp_get_saved_schema_ids();
         
-        $schema_post_ids = array();
-        
-        foreach($all_schema_post as $val){
+        if($schema_post_ids){
             
-            $schema_post_ids[] = $val->ID;         
+            $schema_id_json = json_encode($schema_post_ids);
+            set_transient('saswp_transient_schema_ids', $schema_id_json);  
             
         }
         
-        $schema_id_json = json_encode($schema_post_ids);
-        set_transient('saswp_transient_schema_ids', $schema_id_json);  
         
 }
+
 function saswp_update_ids_on_trash(){
     
      delete_transient('saswp_transient_schema_ids');
@@ -86,6 +105,11 @@ function saswp_get_all_schema_posts(){
 
     $schema_id_array = json_decode(get_transient('saswp_transient_schema_ids'), true); 
     
+    if(!$schema_id_array){
+        
+       $schema_id_array = saswp_get_saved_schema_ids();
+        
+    }            
     if($schema_id_array){
      
         if(count($schema_id_array)>0){    
@@ -262,8 +286,14 @@ function saswp_comparison_logic_checker($input){
 
     // Post Controls  ------------ 
       // Posts
-      case 'post': 
-            $current_post = $post->ID;
+      case 'post':    
+          
+            $current_post ='';  
+          
+             if(is_singular()){
+                $current_post = $post->ID;  
+             }
+                      
             if ( $comparison == 'equal' ) {
                 if ( $current_post == $data ) {
                   $result = true;
@@ -648,7 +678,13 @@ add_action( 'wp_print_scripts', 'saswp_dequeue_script', 100 );
        $post_found_status ='';
        
        $saswp_posts       = json_decode(get_transient('saswp_transient_schema_ids'), true);
-                            
+       
+       if(!$saswp_posts){
+        
+        $saswp_posts = saswp_get_saved_schema_ids();
+        
+       }      
+       
        if(empty($saswp_posts)){
            
         $post_found_status ='not_found';   
@@ -1180,4 +1216,3 @@ function saswp_feeback_remindme(){
 }
 
 add_action('wp_ajax_saswp_feeback_remindme', 'saswp_feeback_remindme');
-

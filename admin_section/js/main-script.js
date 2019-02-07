@@ -62,6 +62,14 @@ jQuery(document).ready(function($){
              if(schematype == 'qanda'){
               $(".saswp-schem-type-note").removeClass('saswp_hide');   
              }
+             
+             $(".saswp-job-posting-note").addClass('saswp_hide');
+             
+             
+//             if(schematype == 'JobPosting'){
+//              $(".saswp-job-posting-note").removeClass('saswp_hide');   
+//             }
+             
              saswp_enable_rating_review();
         }); 
         
@@ -234,9 +242,11 @@ jQuery(document).ready(function($){
                       case 'saswp_archive_schema_checkbox':
                           
                             if ($(this).is(':checked')) {              
-                                $("#saswp_archive_schema").val(1);             
+                                $("#saswp_archive_schema").val(1);
+                                $(".saswp_archive_schema_type_class").parent().parent().show();
                               }else{
                                 $("#saswp_archive_schema").val(0);           
+                                $(".saswp_archive_schema_type_class").parent().parent().hide();
                               }
                       break;
                       case 'saswp_breadcrumb_schema_checkbox':
@@ -245,6 +255,15 @@ jQuery(document).ready(function($){
                               $("#saswp_breadcrumb_schema").val(1);             
                             }else{
                               $("#saswp_breadcrumb_schema").val(0);           
+                            }
+                      break;
+                      
+                      case 'saswp_site_navigation_menu_checkbox':
+                          
+                            if ($(this).is(':checked')) {              
+                              $("#saswp_site_navigation_menu").val(1);             
+                            }else{
+                              $("#saswp_site_navigation_menu").val(0);           
                             }
                       break;
                       
@@ -307,6 +326,15 @@ jQuery(document).ready(function($){
                               $("#saswp-dw-question-answer").val(1);             
                             }else{
                               $("#saswp-dw-question-answer").val(0);           
+                            }
+                      break;
+                      
+                      case 'saswp-wp-job-manager-checkbox':
+                          
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-wp-job-manager").val(1);             
+                            }else{
+                              $("#saswp-wp-job-manager").val(0);           
                             }
                       break;
                       
@@ -766,7 +794,7 @@ jQuery(document).ready(function($){
        });
        saswpCustomSelect2();
        function saswpCustomSelect2(){          
-       if(saswp_app_object.post_type == 'saswp' || saswp_app_object.page_now =='saswp'){
+       if((saswp_app_object.post_type == 'saswp' || saswp_app_object.page_now =='saswp') && saswp_app_object.page_now !='saswp_page_structured_data_options'){
            
            $('.saswp-custom-fields-select2').select2({
   		ajax: {

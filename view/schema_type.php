@@ -297,6 +297,15 @@ function item_reviewed_fields($item, $post_specific = null, $schema_id = null){
                                                      'placeholder' => 'Serves Cuisine'
                                              )
                                         );
+                            $reviewed_field[] = array(
+                                                'label' => 'Menu',
+                                                'id' => 'saswp_review_schema_menu'.$post_fix,
+                                                'type' => 'text',
+                                                'default' => '',
+                                                'attributes' => array(
+                                                     'placeholder' => 'https://example.com/menu'
+                                             )
+                                        );
                             break;
                         case 'Series':
                            $reviewed_field = array();
@@ -381,8 +390,8 @@ function item_reviewed_fields($item, $post_specific = null, $schema_id = null){
                      
                  }else{
                      
-                  $schema_data = get_post_meta( $schema_id, 'saswp_review_schema_details', true );                       
-                  $meta_value  = $schema_data[$meta_field['id']];  
+                    $schema_data = get_post_meta( $schema_id, 'saswp_review_schema_details', true );                       
+                    $meta_value  = $schema_data[$meta_field['id']];  
                      
                  }
                  
@@ -543,7 +552,7 @@ function item_reviewed_fields($item, $post_specific = null, $schema_id = null){
                         
                             $business_type    = esc_sql ( get_post_meta($post->ID, 'saswp_business_type', true)  ); 
                             $business_name    = esc_sql ( get_post_meta($post->ID, 'saswp_business_name', true)  ); 
-                            $business_details = esc_sql ( get_post_meta($post->ID, 'saswp_local_business_details', true)  ); 
+                            $business_details = esc_sql ( get_post_meta($post->ID, 'saswp_local_business_details', true)  );                             
                             $dayoftheweek     = get_post_meta($post->ID, 'saswp_dayofweek', true);
 
                             break;
@@ -639,6 +648,7 @@ function item_reviewed_fields($item, $post_specific = null, $schema_id = null){
                                      'Article'          => 'Article',
                                      'AudioObject'      => 'AudioObject',
                                      'Blogposting'      => 'Blogposting',
+                                    // 'JobPosting'       => 'JobPosting',   
                                      'local_business'   => 'Local Business',
                                      'NewsArticle'      => 'NewsArticle',
                                      'Product'          => 'Product',
@@ -820,10 +830,17 @@ function item_reviewed_fields($item, $post_specific = null, $schema_id = null){
                                   }
                                 ?>
                             </select>
+                               
                                <?php if($schema_type == 'qanda') { ?>
                                <span class="saswp-schem-type-note">Note: Currently supported with DW Question & Answer <a target="_blank" href="https://wordpress.org/plugins/dw-question-answer/">Link</a></span>
                                <?php }else{ ?>
                                <span class="saswp-schem-type-note saswp_hide">Note: Currently supported with DW Question & Answer <a target="_blank" href="https://wordpress.org/plugins/dw-question-answer/">Link</a></span>
+                               <?php } ?>
+                                                                                             
+                               <?php if($schema_type == 'JobPosting') { ?>
+                               <!--<span class="saswp-job-posting-note">Note: Currently supported with WP Job Manager <a target="_blank" href="https://wordpress.org/plugins/wp-job-manager/">Link</a></span>-->
+                               <?php }else{ ?>
+                               <!--<span class="saswp-job-posting-note saswp_hide">Note: Currently supported with WP Job Manager <a target="_blank" href="https://wordpress.org/plugins/wp-job-manager/">Link</a></span>-->
                                <?php } ?>
                                
                            </td>
@@ -1088,6 +1105,16 @@ function item_reviewed_fields($item, $post_specific = null, $schema_id = null){
                         <tr class="saswp-business-text-field-tr" <?php echo $style_business_type; ?>>
                             <td><?php echo esc_html__('Price Range', 'schema-and-structured-data-for-wp' ); ?></td>
                             <td><input  value="<?php if(isset($business_details['local_price_range'])){echo esc_attr($business_details['local_price_range']); } ?>" type="text" name="local_price_range" placeholder="<?php echo esc_html__('$10-$50 or $$$ ', 'schema-and-structured-data-for-wp' ); ?>" ></td>
+                        </tr>
+                        
+                        <tr class="saswp-business-text-field-tr" <?php echo $style_business_type; ?>>
+                            <td><?php echo esc_html__('Menu', 'schema-and-structured-data-for-wp' ); ?></td>
+                            <td><input  value="<?php if(isset($business_details['local_menu'])){echo esc_attr($business_details['local_menu']); } ?>" type="text" name="local_menu" placeholder="<?php echo esc_html__('http://www.example.com/menu', 'schema-and-structured-data-for-wp' ); ?>" ></td>
+                        </tr>
+                        
+                        <tr class="saswp-business-text-field-tr" <?php echo $style_business_type; ?>>
+                            <td><?php echo esc_html__('Serves Cuisine ', 'schema-and-structured-data-for-wp' ); ?></td>
+                            <td><input  value="<?php echo esc_attr($business_details['local_serves_cuisine']); ?>" type="text" name="local_serves_cuisine" placeholder="<?php echo esc_html__('American, Chinese', 'schema-and-structured-data-for-wp' ); ?>" ></td>
                         </tr>
                         
                         
@@ -1453,6 +1480,14 @@ function item_reviewed_fields($item, $post_specific = null, $schema_id = null){
                 }
                 if ( isset( $_POST['local_price_range'] ) ){
                 $local_business_details['local_price_range'] = sanitize_text_field($_POST['local_price_range']);        
+                }
+                
+                if ( isset( $_POST['local_menu'] ) ){
+                $local_business_details['local_menu'] = sanitize_text_field($_POST['local_menu']);        
+                }
+                
+                if ( isset( $_POST['local_serves_cuisine'] ) ){
+                $local_business_details['local_serves_cuisine'] = sanitize_text_field($_POST['local_serves_cuisine']);        
                 }
                 
                 if ( isset( $_POST['local_enable_rating'] ) ){

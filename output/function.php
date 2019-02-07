@@ -17,9 +17,14 @@ function saswp_data_generator() {
    
    $output                   = '';
    $post_specific_enable     = '';
-   $contact_page_output      = saswp_contact_page_output();  	
-   $about_page_output        = saswp_about_page_output();   
+   $kb_website_output        = '';
+   $kb_schema_output         = '';
+   $site_navigation          = '';
    
+   
+   $site_navigation          = saswp_site_navigation_output();     
+   $contact_page_output      = saswp_contact_page_output();  	
+   $about_page_output        = saswp_about_page_output();      
    $author_output            = saswp_author_output();
    $archive_output           = saswp_archive_output();
    
@@ -29,6 +34,7 @@ function saswp_data_generator() {
        
        $kb_website_output        = saswp_kb_website_output();      
        $kb_schema_output         = saswp_kb_schema_output();       
+       
    }         
    
    if(is_singular()){
@@ -85,7 +91,16 @@ function saswp_data_generator() {
                         $output .= $kb_website_output;  
                         $output .= ",";
                         $output .= "\n\n";
-                        }                       
+                        } 
+                        if(!empty($site_navigation)){
+                        
+                        $site_navigation = json_encode($site_navigation);
+                            
+                        $output .= $site_navigation;   
+                        $output .= ",";
+                        $output .= "\n\n";
+                        
+                        }
                         if(!empty($schema_breadcrumb_output)){
                         
                         $output .= $schema_breadcrumb_output;   
@@ -108,7 +123,8 @@ function saswp_data_generator() {
                         }                       
                         			              		
 	}
-        $stroutput = '['. $output. ']';
+        
+        $stroutput = '['. trim($output). ']';
         $filter_string = str_replace(',]', ']',$stroutput);
         
         echo '<!-- Schema & Structured Data For WP v'.esc_attr(SASWP_VERSION).' - -->';

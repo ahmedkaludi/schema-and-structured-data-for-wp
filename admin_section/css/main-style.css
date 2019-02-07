@@ -451,7 +451,7 @@ Compatibility tab css starts here
     width: 75%;
     padding-bottom: 10px;
 }
-.saswp-schem-type-note{
+.saswp-schem-type-note, .saswp-job-posting-note{
     color: chocolate;
 }
 .saswp-custom-fields-name{

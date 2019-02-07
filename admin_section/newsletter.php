@@ -13,10 +13,13 @@
 			add_action('admin_head', array($this, 'saswp_admin_head'));  // Hook to admin head
 		}
 	}
-	function saswp_admin_head () {           
+	function saswp_admin_head () {
+            
 		?>
 		<style type="text/css" media="screen"> #pointer-primary { margin: 0 5px 0 0; } </style>
-		<?php }
+		<?php 
+                
+        }
 	function saswp_admin_print_footer_scripts () {
              
 		global $pagenow;                                
