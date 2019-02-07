@@ -794,7 +794,7 @@ jQuery(document).ready(function($){
        });
        saswpCustomSelect2();
        function saswpCustomSelect2(){          
-       if(saswp_app_object.post_type == 'saswp' || saswp_app_object.page_now =='saswp'){
+       if((saswp_app_object.post_type == 'saswp' || saswp_app_object.page_now =='saswp') && saswp_app_object.page_now !='saswp_page_structured_data_options'){
            
            $('.saswp-custom-fields-select2').select2({
   		ajax: {
