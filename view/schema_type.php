@@ -655,7 +655,8 @@ function item_reviewed_fields($item, $post_specific = null, $schema_id = null){
                                      'qanda'            => 'Q&A',   
                                      'Review'           => 'Review',                                     
                                      'Recipe'           => 'Recipe',                                     
-                                     'Service'          => 'Service',                                     
+                                     'Service'          => 'Service', 
+                                     'TechArticle'      => 'TechArticle', 
                                      'VideoObject'      => 'VideoObject',
                                      'WebPage'          => 'WebPage'                                                                
                                  );
