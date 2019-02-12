@@ -1295,7 +1295,7 @@ function saswp_post_specific_schema_output() {
                             
                             $kkstar_aggregateRating =       array(
                                                             "@type"=> "AggregateRating",
-                                                            "bestRating" => saswp_remove_warnings($kkstar_rating_data, 'best', 'saswp_string'),
+                                                            "bestRating"  => saswp_remove_warnings($kkstar_rating_data, 'best', 'saswp_string'),
                                                             "ratingCount" => saswp_remove_warnings($kkstar_rating_data, 'votes', 'saswp_string'),
                                                             "ratingValue" => saswp_remove_warnings($kkstar_rating_data, 'avg', 'saswp_string')
                                                          );  
@@ -1350,7 +1350,7 @@ function saswp_post_specific_schema_output() {
                         
                          if( 'Blogposting' === $schema_type){
                     		
-                        $logo = get_post_meta( get_the_ID(), 'saswp_blogposting_organization_logo_'.$schema_id.'_detail',true);                                 
+                        $slogo = get_post_meta( get_the_ID(), 'saswp_blogposting_organization_logo_'.$schema_id.'_detail',true);                                 
 			$input1 = array(
 			'@context'			=> 'http://schema.org',
 			'@type'				=> $schema_type ,
@@ -1371,8 +1371,8 @@ function saswp_post_specific_schema_output() {
 				'logo' 			=> array(
 					'@type'		=> 'ImageObject',
 					'url'		=> saswp_remove_warnings($all_post_meta, 'saswp_blogposting_organization_logo_'.$schema_id, 'saswp_array'),
-					'width'		=> saswp_remove_warnings($logo, 'width', 'saswp_string'),
-					'height'	=> saswp_remove_warnings($logo, 'height', 'saswp_string'),
+					'width'		=> saswp_remove_warnings($slogo, 'width', 'saswp_string'),
+					'height'	=> saswp_remove_warnings($slogo, 'height', 'saswp_string'),
 					),
 				'name'			=> saswp_remove_warnings($all_post_meta, 'saswp_blogposting_organization_name_'.$schema_id, 'saswp_array'),
 				),
@@ -1419,7 +1419,7 @@ function saswp_post_specific_schema_output() {
 			
 			 if( 'WebPage' === $schema_type){
                              
-				$logo = get_post_meta( get_the_ID(), 'saswp_webpage_organization_logo_'.$schema_id.'_detail',true);
+				$slogo = get_post_meta( get_the_ID(), 'saswp_webpage_organization_logo_'.$schema_id.'_detail',true);
 				$input1 = array(
 				'@context'			=> 'http://schema.org',
 				'@type'				=> $schema_type ,
@@ -1442,8 +1442,8 @@ function saswp_post_specific_schema_output() {
 							'logo' 			=> array(
 								'@type'		=> 'ImageObject',
 								'url'		=> saswp_remove_warnings($all_post_meta, 'saswp_webpage_organization_logo_'.$schema_id, 'saswp_array'),
-								'width'		=> saswp_remove_warnings($logo, 'width', 'saswp_string'),
-								'height'	=> saswp_remove_warnings($logo, 'height', 'saswp_string'),
+								'width'		=> saswp_remove_warnings($slogo, 'width', 'saswp_string'),
+								'height'	=> saswp_remove_warnings($slogo, 'height', 'saswp_string'),
 								),
 							'name'			=> saswp_remove_warnings($all_post_meta, 'saswp_webpage_organization_name_'.$schema_id, 'saswp_array'),
 						),
@@ -1470,7 +1470,7 @@ function saswp_post_specific_schema_output() {
 			
 			 if( 'Article' === $schema_type ){
                              
-                             $logo = get_post_meta( get_the_ID(), 'saswp_article_organization_logo_'.$schema_id.'_detail',true);
+                             $slogo = get_post_meta( get_the_ID(), 'saswp_article_organization_logo_'.$schema_id.'_detail',true);
                              
 				$input1 = array(
 					'@context'			=> 'http://schema.org',
@@ -1490,8 +1490,8 @@ function saswp_post_specific_schema_output() {
 						'logo' 			=> array(
 							'@type'		=> 'ImageObject',
 							'url'		=> saswp_remove_warnings($all_post_meta, 'saswp_article_organization_logo_'.$schema_id, 'saswp_array'),
-							'width'		=> saswp_remove_warnings($logo, 'width', 'saswp_string'),
-							'height'	=> saswp_remove_warnings($logo, 'height', 'saswp_string'),
+							'width'		=> saswp_remove_warnings($slogo, 'width', 'saswp_string'),
+							'height'	=> saswp_remove_warnings($slogo, 'height', 'saswp_string'),
 							),
 						'name'			=> saswp_remove_warnings($all_post_meta, 'saswp_article_organization_name_'.$schema_id, 'saswp_array'),
 					),
@@ -1674,7 +1674,7 @@ function saswp_post_specific_schema_output() {
                         
                          if( 'NewsArticle' === $schema_type ){  
                              
-                                $logo = get_post_meta( get_the_ID(), 'saswp_newsarticle_organization_logo_'.$schema_id.'_detail',true);
+                                $slogo = get_post_meta( get_the_ID(), 'saswp_newsarticle_organization_logo_'.$schema_id.'_detail',true);
                                 $author_image = get_post_meta( get_the_ID(), 'saswp_newsarticle_author_image_'.$schema_id.'_detail',true);
                              
 				        $input1 = array(
@@ -1711,8 +1711,8 @@ function saswp_post_specific_schema_output() {
 							'logo' 				=> array(
 							'@type'				=> 'ImageObject',
 							'url'				=> saswp_remove_warnings($all_post_meta, 'saswp_newsarticle_organization_logo_'.$schema_id, 'saswp_array'),
-							'width'				=> saswp_remove_warnings($logo, 'width', 'saswp_string'),
-							'height'			=> saswp_remove_warnings($logo, 'height', 'saswp_string'),
+							'width'				=> saswp_remove_warnings($slogo, 'width', 'saswp_string'),
+							'height'			=> saswp_remove_warnings($slogo, 'height', 'saswp_string'),
 										),
 							'name'				=> saswp_remove_warnings($all_post_meta, 'saswp_newsarticle_organization_name_'.$schema_id, 'saswp_array'),
 							),
@@ -1727,7 +1727,7 @@ function saswp_post_specific_schema_output() {
 			
 			 if( 'VideoObject' === $schema_type){
 				
-                                $logo = get_post_meta( get_the_ID(), 'saswp_video_object_organization_logo_'.$schema_id.'_detail',true);
+                                $slogo = get_post_meta( get_the_ID(), 'saswp_video_object_organization_logo_'.$schema_id.'_detail',true);
                                 $author_image = get_post_meta( get_the_ID(), 'saswp_video_object_author_image_'.$schema_id.'_detail',true);
                              
 						$input1 = array(
@@ -1760,8 +1760,8 @@ function saswp_post_specific_schema_output() {
 								'logo' 				=> array(
 								'@type'				=> 'ImageObject',
 								'url'				=> saswp_remove_warnings($all_post_meta, 'saswp_video_object_organization_logo_'.$schema_id, 'saswp_array'),
-								'width'				=> saswp_remove_warnings($logo, 'width', 'saswp_string'),
-								'height'			=> saswp_remove_warnings($logo, 'height', 'saswp_string'),
+								'width'				=> saswp_remove_warnings($slogo, 'width', 'saswp_string'),
+								'height'			=> saswp_remove_warnings($slogo, 'height', 'saswp_string'),
 										),
 								'name'                          => saswp_remove_warnings($all_post_meta, 'saswp_video_object_organization_name_'.$schema_id, 'saswp_array'),
 							),

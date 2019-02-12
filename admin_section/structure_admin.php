@@ -800,8 +800,17 @@ function saswp_custom_breadcrumbs() {
     $variables1_titles = array();   
     $variables2_links = array();   
     // Settings
+    $home_title = '';
     $separator          = '&gt;';        
     $home_title         = get_bloginfo();
+    
+    if(!$home_title){
+        if(isset($sd_data['sd_name'])){
+           $home_title =  $sd_data['sd_name'];
+        }else{
+           $home_title =  'HomePage'; 
+        }
+    }
       
     // If you have any custom post types with custom taxonomies, put the taxonomy name below (e.g. product_cat)
     $custom_taxonomy    = 'product_cat';
