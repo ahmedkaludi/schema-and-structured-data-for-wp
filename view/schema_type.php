@@ -1605,8 +1605,10 @@ function item_reviewed_fields($item, $post_specific = null, $schema_id = null){
                                  $review_schema_details[$meta_field['id']] = $_POST[ $meta_field['id'] ];
                                                            
 				
-			} else if ( $meta_field['type'] === 'checkbox' ) {				
+			} else if ( $meta_field['type'] === 'checkbox' ) {
+                            
                                 $review_schema_details[$meta_field['id']] = '0';
+                                
 			}                   
                     }
                     

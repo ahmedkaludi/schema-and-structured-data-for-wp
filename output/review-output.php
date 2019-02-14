@@ -55,7 +55,7 @@ Class saswp_review_output{
             
             $boxdata ='';
             
-            if($saswp_review_props !='' || $saswp_review_cons != '' ){
+            if($saswp_review_props != '' || $saswp_review_cons != '' ){
                 
              $boxdata .='
                 <div class="saswp-pc-wrap">
@@ -71,9 +71,9 @@ Class saswp_review_output{
              
             }
                   
-            if(!empty($saswp_review_item_feature) || $saswp_review_description !=''){
+            if(!empty($saswp_review_item_feature) || $saswp_review_description != ''){
                 
-                  $boxdata.='<table class="saswp-rvw">
+                $boxdata.='<table class="saswp-rvw">
                         <tbody>
                         <div class="saswp-rvw-hd">
                             <span>'.esc_html__('REVIEW OVERVIEW', 'schema-and-structured-data-for-wp').'</span>

@@ -45,8 +45,10 @@ if ( ! function_exists('saswp_non_amp') ){
         
       $non_amp = false;
              
-    }      
+    } 
+    
     return $non_amp;
+    
   }
   
 }
