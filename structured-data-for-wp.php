@@ -132,6 +132,24 @@ function saswp_admin_notice(){
         </div>
         <?php
     }  
+        
+    if(isset($sd_data['sd_default_image']['url']) && $sd_data['sd_default_image']['url'] == ''){
+
+        ?>
+        <div class="updated notice is-dismissible message notice notice-alt saswp-feedback-notice">
+            <p>
+                  <span><?php echo esc_html__('You have not setup default image in Schema & Structured Data For WP.', 'schema-and-structured-data-for-wp') ?> </span>                                               
+                  <a href="<?php echo esc_url( admin_url( 'admin.php?page=structured_data_options&tab=schema' ) ); ?>"> <?php echo esc_html__('Please Setup', 'schema-and-structured-data-for-wp') ?></a>
+            </p>
+        </div>
+
+
+      <?php   
+        
+    }
+    
+    
+    
 }
 
 add_filter('plugin_row_meta' , 'saswp_add_plugin_meta_links', 10, 2);
