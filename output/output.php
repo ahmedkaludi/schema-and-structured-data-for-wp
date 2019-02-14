@@ -2135,6 +2135,7 @@ function saswp_post_specific_schema_output() {
                                                             "bestRating" => saswp_remove_warnings($all_post_meta, 'saswp_review_schema_review_count_'.$schema_id, 'saswp_array')
                                                          );                                       
                                          }  
+                                         unset($input1['aggregateRating']);                                         
                                                                                                 
 				}    
                                 
