@@ -3,7 +3,7 @@ Contributors: mohammed_kaludi, ahmedkaludi, ampforwp
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.0.2
-Stable tag: 1.0.9
+Stable tag: 1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -65,7 +65,16 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
 
-= 1.0.9 (31 January 2019) =
+= 1.1 (15 February 2019) =
+
+* New Feature: TechArticle schema type add to the schema type list #115
+* Added: Show admin notice, when schema's default image is not set inside setting #145
+* Bug Fixed: Schema markup is not getting author name from the post #146
+* Bug Fixed: When Review and Article schema are enabled at the same time. There is a validation error in logo markup #141
+* Bug Fixed: Image is not being fetched in local_business schema markup from local schema image field #135
+
+
+= 1.0.9 (07 February 2019) =
 
 * New Feature: SiteNavigationElement schema type add to the schema type list #115
 * Added: Option to edit the Schema type for Archive page #123

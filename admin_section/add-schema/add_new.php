@@ -266,17 +266,24 @@ $saswp_add_data_type_config = array(
                     
 				<?php 
                                         $last_post_id ='';
-                                        if(isset($_GET['step'])){
-                                        $step =     $_GET['step']; 
                                         
-                                        if($step == 2){
-                                        $last_post_id = json_decode(get_transient('saswp_last_post_id'), true); 
-                                        $last_post_id =  $last_post_id['post_id'];       
-                                        }                                        
-                                        $post = get_post($last_post_id);
-                                        if($post){
-                                         echo saswp_select_callback($post);                                               
-                                        }
+                                        if(isset($_GET['step'])){
+                                            
+                                            $step =     $_GET['step']; 
+
+                                            if($step == 2){
+                                                
+                                                $last_post_id = json_decode(get_transient('saswp_last_post_id'), true); 
+                                                $last_post_id =  $last_post_id['post_id'];       
+                                            
+                                            }                                        
+                                                 $post = get_post($last_post_id);
+                                                 
+                                            if($post){
+                                                
+                                                 echo saswp_select_callback($post);                                               
+                                                 
+                                            }
                                         }
 				?>   
                              
@@ -354,7 +361,7 @@ $saswp_add_data_type_config = array(
 	function saswp_add_new_save_steps_data(){    
             
                  if ( ! isset( $_POST['wpnonce'] ) ){
-                 return; 
+                    return; 
                  }
                  if ( !wp_verify_nonce( $_POST['wpnonce'], 'saswp_add_new_nonce' ) ){
                     return;  
@@ -368,6 +375,7 @@ $saswp_add_data_type_config = array(
                     $schema_type = 'Local Business';  
                 
                 }
+                
                 $user_id = get_current_user_id();
                 
                 $schema_post = array(
@@ -439,9 +447,10 @@ $saswp_add_data_type_config = array(
 		<?php
 	}
 	function saswp_add_new_finish_page() {
+            
 		global $saswp_add_data_type_config;
 		// Theme Name.
-		$plugin_title 					= $saswp_add_data_type_config['plugin_title'];
+		$plugin_title 	= $saswp_add_data_type_config['plugin_title'];
 		// Strings passed in from the config file.
 		$strings = null;
 
@@ -635,6 +644,7 @@ $saswp_add_data_type_config = array(
 	}
 	
 	function saswp_add_new_step_output_bottom_dots(){
+            
 		global $saswp_add_data_type_config;
 		?>
 		<ol class="dots">

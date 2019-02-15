@@ -335,6 +335,7 @@ class saswp_post_specific {
 				case 'media':
                                         $media_value = array();
                                         $media_key = $meta_field['id'].'_detail';
+                                        
                                         $media_value_meta = get_post_meta( $post->ID, $media_key, true ); 
                                         if(!empty($media_value_meta)){
                                         $media_value =$media_value_meta;  
@@ -380,8 +381,8 @@ class saswp_post_specific {
                                         if (strpos($meta_field['id'], 'review_schema_image') !== false && empty($media_value_meta)) {
                                             
                                                 $business_details = esc_sql ( get_post_meta($schema_id, 'saswp_review_schema_details', true)  );                                                                                            
-                                                $media_value['height'] = $business_details['saswp_review_schema_image']['height'];                                                                                         
-                                                $media_value['width'] = $business_details['saswp_review_schema_image']['width'];                                                                                         
+                                                $media_value['height']    = $business_details['saswp_review_schema_image']['height'];                                                                                         
+                                                $media_value['width']     = $business_details['saswp_review_schema_image']['width'];                                                                                         
                                                 $media_value['thumbnail'] = $business_details['saswp_review_schema_image']['url'];                                             
                                         }
                                              
@@ -398,8 +399,7 @@ class saswp_post_specific {
                                         if(isset($media_value['width'])){
                                              $media_width =$media_value['width'];
                                         }
-                                        
-                                        
+                                                                                
 					$input = sprintf(
 						'<fieldset><input style="width: 80%%" id="%s" name="%s" type="text" value="%s">'
                                                 . '<input data-id="media" style="width: 19%%" class="button" id="%s_button" name="%s_button" type="button" value="Upload" />'
@@ -1350,6 +1350,65 @@ class saswp_post_specific {
                     array(
                             'label' => 'Organization Logo',
                             'id' => 'saswp_article_organization_logo_'.$schema_id,
+                            'type' => 'media',
+                            'default' => isset($sd_data['sd_logo']) ? $sd_data['sd_logo']['url']:''
+                    )                                                     
+                    );
+                    break;
+                
+                case 'TechArticle':                                        
+                    $meta_field = array(
+                    array(
+                            'label' => 'Main Entity Of Page',
+                            'id' => 'saswp_tech_article_main_entity_of_page_'.$schema_id,
+                            'type' => 'text',
+                            'default' => get_permalink()
+                    ),
+                    array(
+                            'label' => 'Image',
+                            'id' => 'saswp_tech_article_image_'.$schema_id,
+                            'type' => 'media',
+                            'default' => $image_details[0]
+                    ),
+                    array(
+                            'label' => 'Headline',
+                            'id' => 'saswp_tech_article_headline_'.$schema_id,
+                            'type' => 'text',
+                            'default' => get_the_title()
+                    ),
+                    array(
+                            'label' => 'Description',
+                            'id' => 'saswp_tech_article_description_'.$schema_id,
+                            'type' => 'textarea',
+                            'default' => $post->post_excerpt
+                    ) , 
+                    array(
+                            'label' => 'Date Published',
+                            'id' => 'saswp_tech_article_date_published_'.$schema_id,
+                            'type' => 'text',
+                            'default' => get_the_date("Y-m-d")
+                    ), 
+                    array(
+                            'label' => 'Date Modified',
+                            'id' => 'saswp_tech_article_date_modified_'.$schema_id,
+                            'type' => 'text',
+                            'default' => get_the_modified_date("Y-m-d")
+                    ),
+                    array(
+                            'label' => 'Author Name',
+                            'id' => 'saswp_tech_article_author_name_'.$schema_id,
+                            'type' => 'text',
+                            'default' => $current_user->display_name
+                    ),
+                    array(
+                            'label' => 'Organization Name',
+                            'id' => 'saswp_tech_article_organization_name_'.$schema_id,
+                            'type' => 'text',
+                            'default' => saswp_remove_warnings($sd_data, 'sd_name', 'saswp_string')
+                    ),
+                    array(
+                            'label' => 'Organization Logo',
+                            'id' => 'saswp_tech_article_organization_logo_'.$schema_id,
                             'type' => 'media',
                             'default' => isset($sd_data['sd_logo']) ? $sd_data['sd_logo']['url']:''
                     )                                                     

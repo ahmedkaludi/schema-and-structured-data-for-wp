@@ -2,7 +2,7 @@
 /*
 Plugin Name: Schema & Structured Data for WP
 Description: Schema & Structured Data adds Google Rich Snippets markup according to Schema.org guidelines to structure your site for SEO. (AMP Compatible) 
-Version: 1.0.9
+Version: 1.1
 Text Domain: schema-and-structured-data-for-wp
 Domain Path: /languages
 Author: Mohammed Kaludi, Ahmed Kaludi
@@ -13,7 +13,7 @@ License: GPL2
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-define('SASWP_VERSION', '1.0.9');
+define('SASWP_VERSION', '1.1');
 define('SASWP_DIR_NAME_FILE', __FILE__ );
 define('SASWP_DIR_NAME', dirname( __FILE__ ));
 define('SASWP_DIR_URI', plugin_dir_url(__FILE__));
@@ -45,8 +45,10 @@ if ( ! function_exists('saswp_non_amp') ){
         
       $non_amp = false;
              
-    }      
+    } 
+    
     return $non_amp;
+    
   }
   
 }
@@ -130,11 +132,28 @@ function saswp_admin_notice(){
         </div>
         <?php
     }  
+        
+    if(isset($sd_data['sd_default_image']['url']) && $sd_data['sd_default_image']['url'] == ''){
+
+        ?>
+        <div class="updated notice is-dismissible message notice notice-alt saswp-feedback-notice">
+            <p>
+                  <span><?php echo esc_html__('You have not setup default image in Schema & Structured Data For WP.', 'schema-and-structured-data-for-wp') ?> </span>                                               
+                  <a href="<?php echo esc_url( admin_url( 'admin.php?page=structured_data_options&tab=schema' ) ); ?>"> <?php echo esc_html__('Please Setup', 'schema-and-structured-data-for-wp') ?></a>
+            </p>
+        </div>
+
+
+      <?php   
+        
+    }
+            
 }
 
 add_filter('plugin_row_meta' , 'saswp_add_plugin_meta_links', 10, 2);
 
 function saswp_add_plugin_meta_links($meta_fields, $file) {
+    
     if ( plugin_basename(__FILE__) == $file ) {
       $plugin_url = "https://wordpress.org/support/plugin/schema-and-structured-data-for-wp";      
       $hire_url = "https://ampforwp.com/hire/";
@@ -151,4 +170,5 @@ function saswp_add_plugin_meta_links($meta_fields, $file) {
     }
 
     return $meta_fields;
+    
   }

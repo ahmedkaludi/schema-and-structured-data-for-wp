@@ -267,6 +267,39 @@ Class saswp_output_service{
                      $input1['Publisher']['logo']['url'] =    $custom_fields['saswp_article_organization_logo'];
                     }
                     break;
+                    
+                case 'TechArticle':      
+                      
+                    if(isset($custom_fields['saswp_tech_article_main_entity_of_page'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_tech_article_main_entity_of_page'];
+                    }
+                    if(isset($custom_fields['saswp_tech_article_image'])){
+                     $input1['image'] =    $custom_fields['saswp_tech_article_image'];
+                    }
+                    if(isset($custom_fields['saswp_tech_article_headline'])){
+                     $input1['headline'] =    $custom_fields['saswp_tech_article_headline'];
+                    }
+                    
+                    if(isset($custom_fields['saswp_tech_article_description'])){
+                     $input1['description'] =    $custom_fields['saswp_tech_article_description'];
+                    }
+                    if(isset($custom_fields['saswp_tech_article_date_published'])){
+                     $input1['datePublished'] =    $custom_fields['saswp_tech_article_date_published'];
+                    }
+                    if(isset($custom_fields['saswp_tech_article_date_modified'])){
+                     $input1['dateModified'] =    $custom_fields['saswp_tech_article_date_modified'];
+                    }
+                    
+                    if(isset($custom_fields['saswp_tech_article_author_name'])){
+                     $input1['author']['name'] =    $custom_fields['saswp_tech_article_author_name'];
+                    }
+                    if(isset($custom_fields['saswp_tech_article_organization_name'])){
+                     $input1['Publisher']['name'] =    $custom_fields['saswp_tech_article_organization_name'];
+                    }
+                    if(isset($custom_fields['saswp_tech_article_organization_logo'])){
+                     $input1['Publisher']['logo']['url'] =    $custom_fields['saswp_tech_article_organization_logo'];
+                    }
+                    break;    
                 
                 case 'Recipe':
                     if(isset($custom_fields['saswp_recipe_url'])){
@@ -1044,6 +1077,21 @@ Class saswp_output_service{
                         );                                        
                     break;
                 
+                case 'TechArticle':      
+                    
+                    $meta_field = array(                        
+                        'saswp_tech_article_main_entity_of_page' => 'Main Entity Of Page',
+                        'saswp_tech_article_image'               => 'Image',
+                        'saswp_tech_article_headline'            => 'Headline',                          
+                        'saswp_tech_article_description'         => 'Description',
+                        'saswp_tech_article_date_published'      => 'Date Published',
+                        'saswp_tech_article_date_modified'       => 'Date Modified',                          
+                        'saswp_tech_article_author_name'         => 'Author Name',
+                        'saswp_tech_article_organization_name'   => 'Organization Name',
+                        'saswp_tech_article_organization_logo'   => 'Organization Logo',                          
+                        );                                        
+                    break;
+                
                 case 'Recipe':
                     
                     $meta_field = array(                        
@@ -1246,6 +1294,35 @@ Class saswp_output_service{
 			$aurthor_name 	= get_the_author();                                      
                         
             switch ($schema_type) {
+                
+                case 'TechArticle':
+                    
+                    $input1 = array(
+					'@context'			=> 'http://schema.org',
+					'@type'				=> 'TechArticle',
+					'mainEntityOfPage'              => get_permalink(),					
+					'headline'			=> get_the_title(),
+					'description'                   => strip_tags(get_the_excerpt()),
+					'datePublished'                 => $date,
+					'dateModified'                  => $modified_date,
+					'author'			=> array(
+							'@type' 	=> 'Person',
+							'name'		=> $aurthor_name 
+                                                         ),
+					'Publisher'			=> array(
+						'@type'			=> 'Organization',
+						'logo' 			=> array(
+							'@type'		=> 'ImageObject',
+							'url'		=> $logo,
+							'width'		=> $width,
+							'height'	=> $height,
+							),
+						'name'			=> $site_name,
+					),
+                                    
+				);
+
+                    break;
                 
                 case 'Article':
                     
