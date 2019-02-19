@@ -25,6 +25,7 @@ class saswp_post_specific {
                 add_action( 'wp_ajax_saswp_enable_disable_schema_on_post', array($this,'saswp_enable_disable_schema_on_post'));
                 
         }
+        
         public function saswp_enable_disable_schema_on_post(){
             
                 if ( ! isset( $_POST['saswp_security_nonce'] ) ){
@@ -291,7 +292,7 @@ class saswp_post_specific {
                  
                 }
 
-                public function saswp_saswp_post_specific( $post, $schema_id ) { 
+        public function saswp_saswp_post_specific( $post, $schema_id ) { 
             
                 global $post;
                 global $sd_data;                        
@@ -578,6 +579,7 @@ class saswp_post_specific {
 		}
                 return $output;                                               
 	}	
+        
 	public function saswp_post_specific_save_fields( $post_id ) {
             
 		if ( ! isset( $_POST['post_specific_nonce'] ) )
@@ -637,6 +639,7 @@ class saswp_post_specific {
                  }                                                                                      
             }                                                                		                                                                               
 	}
+        
         public function saswp_get_sub_business_ajax(){
             
             if ( ! isset( $_GET['saswp_security_nonce'] ) ){
@@ -657,6 +660,7 @@ class saswp_post_specific {
            }
             wp_die();
         }
+        
         public function saswp_get_sub_business_array($business_type){
             
             $sub_business_options = array();

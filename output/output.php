@@ -1,6 +1,10 @@
 <?php
 if (! defined('ABSPATH') ) exit;
-
+/**
+ * Function generates knowledge graph schema
+ * @global type $sd_data
+ * @return type json
+ */
 function saswp_kb_schema_output() {
     
 	global $sd_data;   
@@ -176,12 +180,11 @@ function saswp_kb_schema_output() {
 	return json_encode($input);	             
 }
 
-function sd_is_blog() {
-    
-    return ( is_author() || is_category() || is_tag() || is_date() || is_home() || is_single() ) && 'post' == get_post_type();
-    
-}
-
+/**
+ * Function generates json markup for the all added schema type in the list
+ * @global type $sd_data
+ * @return type json
+ */
 function saswp_schema_output() {     
     
 	global $sd_data;
@@ -199,14 +202,16 @@ function saswp_schema_output() {
 	$schema_options = saswp_remove_warnings($schemaConditionals, 'schema_options', 'saswp_string');
 	$schema_type    = saswp_remove_warnings($schemaConditionals, 'schema_type', 'saswp_string');         
         $schema_post_id = saswp_remove_warnings($schemaConditionals, 'post_id', 'saswp_string');
-                	
-        $logo           =''; 
-        $height         ='';
-        $width          ='';
-        $site_name      ='';
+           
+        
+        $logo           = ''; 
+        $height         = '';
+        $width          = '';
+        $site_name      = '';
         
         $service_object     = new saswp_output_service();
         $default_logo       = $service_object->saswp_get_publisher(true);
+        $publisher          = $service_object->saswp_get_publisher();
         
         if(!empty($default_logo)){
             
@@ -225,11 +230,11 @@ function saswp_schema_output() {
             $site_name = get_bloginfo();    
             
         }                                                                      
-	//if(is_singular()){
+	
 		// Generate author id
 	   		$author_id      = get_the_author_meta('ID');
 
-		// Blogposting Schema 
+		
 			$image_id 	= get_post_thumbnail_id();
 			$image_details 	= wp_get_attachment_image_src($image_id, 'full');			
 			$author_details	= get_avatar_data($author_id);
@@ -308,19 +313,16 @@ function saswp_schema_output() {
 			'datePublished'                 => $date,
 			'dateModified'                  => $modified_date,
 			'author'			=> array(
-					'@type' 	=> 'Person',
-					'name'		=> $aurthor_name, ),
-			'Publisher'			=> array(
-				'@type'			=> 'Organization',
-				'logo' 			=> array(
-					'@type'		=> 'ImageObject',
-					'url'		=> $logo,
-					'width'		=> $width,
-					'height'	=> $height,
-					),
-				'name'			=> $site_name,
-				),
+                                                            '@type' 	        => 'Person',
+                                                            'name'		=> $aurthor_name 
+                                                        )											
                             );
+                                if(!empty($publisher)){
+                            
+                                     $input1 = array_merge($input1, $publisher);   
+                         
+                                 }
+                                 
                                 if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){                                   
                                     $service = new saswp_output_service();
                                     $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
@@ -357,18 +359,13 @@ function saswp_schema_output() {
 			'author'			=> array(
                                                             '@type'  => 'Person',
                                                             'name'   => $aurthor_name
-                                        ),
-			'Publisher'			=> array(
-				'@type'			=> 'Organization',
-				'logo' 			=> array(
-                                                            '@type'		=> 'ImageObject',
-                                                            'url'		=> $logo,
-                                                            'width'		=> $width,
-                                                            'height'	        => $height,
-					),
-				'name'			=> $site_name,
-				),
+                                        ),			
                             );
+                                if(!empty($publisher)){
+                            
+                                     $input1 = array_merge($input1, $publisher);   
+                         
+                                 }
                                 if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){                                   
                                     $service = new saswp_output_service();
                                     $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
@@ -470,22 +467,18 @@ function saswp_schema_output() {
 									'height'		=> saswp_remove_warnings($author_details, 'height', 'saswp_string'),
 									'width'			=> saswp_remove_warnings($author_details, 'width', 'saswp_string')
 								),
-							),
-						'Publisher'			=> array(
-							'@type'			=> 'Organization',
-							'logo' 			=> array(
-								'@type'		=> 'ImageObject',
-								'url'		=> $logo,
-								'width'		=> $width,
-								'height'	=> $height,
-								),
-							'name'			=> $site_name,
-						),
+							),						
                                                 
                                     
 					),                                        					
 				
 				);
+                                
+                                if(!empty($publisher)){
+                            
+                                     $input1['mainEntity'] = array_merge($input1['mainEntity'], $publisher);   
+                         
+                                 }
                                 if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){
                                     $service = new saswp_output_service();
                                     $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
@@ -513,19 +506,7 @@ function saswp_schema_output() {
                                     $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
                             }
 			}
-                        
-//                        if( 'JobPosting' === $schema_type){
-//                            global $post;
-//                            $service_object = new saswp_output_service();
-//                            $input1  = $service_object->saswp_wp_job_manager_details($post); 
-//                            
-//                            if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){
-//                                    $service = new saswp_output_service();
-//                                    $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
-//                            }
-//			}
-                        
-                        
+                                                                      
 			if( 'Product' === $schema_type){
                             		                                                                
                                 $service = new saswp_output_service();
@@ -696,19 +677,14 @@ function saswp_schema_output() {
 							'url'				=> saswp_remove_warnings($author_details, 'url', 'saswp_string'),
 							'height'			=> saswp_remove_warnings($author_details, 'height', 'saswp_string'),
 							'width'				=> saswp_remove_warnings($author_details, 'width', 'saswp_string')
-										),
-							),
-					'Publisher'			=> array(
-							'@type'				=> 'Organization',
-							'logo' 				=> array(
-							'@type'				=> 'ImageObject',
-							'url'				=> $logo,
-							'width'				=> $width,
-							'height'			=> $height,
-										),
-							'name'				=> $site_name,
-							),                                                     
+										)
+							)					                                                    
 					);
+                                if(!empty($publisher)){
+                            
+                                     $input1 = array_merge($input1, $publisher);   
+                         
+                                 }
                                 if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){
                                     $service = new saswp_output_service();
                                     $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
@@ -851,17 +827,12 @@ function saswp_schema_output() {
                                 
                                 }
                                 
-                                if($site_name && $logo && $width && $height){
-                                    
-                                $input1['Publisher']['@type']           = 'Organization';
-                                $input1['Publisher']['name']            = $site_name;
-                                $input1['Publisher']['logo']['@type']   = 'ImageObject';
-                                $input1['Publisher']['logo']['url']     = $logo;
-                                $input1['Publisher']['logo']['width']   = $width;
-                                $input1['Publisher']['logo']['height']  = $height;       
-                                    
-                                }
-                                                                
+                                 if(!empty($publisher)){
+                            
+                                     $input1 = array_merge($input1, $publisher);   
+                         
+                                 }
+                                 
                                 if(isset($schema_data['saswp_review_schema_description'])){
                                     
                                     $input1['reviewBody']               = $schema_data['saswp_review_schema_description'];
@@ -1076,19 +1047,13 @@ function saswp_schema_output() {
 								'height'			=> saswp_remove_warnings($author_details, 'height', 'saswp_string'),
 								'width'				=> saswp_remove_warnings($author_details, 'width', 'saswp_string')
 								),
-							),
-						'Publisher'			=> array(
-								'@type'				=> 'Organization',
-								'logo' 				=> array(
-								'@type'				=> 'ImageObject',
-								'url'				=> $logo,
-								'width'				=> $width,
-								'height'			=> $height,
-										),
-								'name'			=> $site_name,
-							),                                                    
-                                                    
+							)						                                                                                                      
 						);
+                                                if(!empty($publisher)){
+                            
+                                                 $input1 = array_merge($input1, $publisher);   
+                         
+                                                 }
                                                 if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){
                                                     $service = new saswp_output_service();
                                                     $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
@@ -1194,6 +1159,17 @@ function saswp_schema_output() {
                                       $input1['hasMenu'] = $business_details['local_menu'];   
                                     }                                                          
 			}
+                        
+//                      if( 'JobPosting' === $schema_type){
+//                            global $post;
+//                            $service_object = new saswp_output_service();
+//                            $input1  = $service_object->saswp_wp_job_manager_details($post); 
+//                            
+//                            if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){
+//                                    $service = new saswp_output_service();
+//                                    $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
+//                            }
+//			}
                                 
 		//Check for Featured Image
                         
@@ -1243,6 +1219,12 @@ function saswp_schema_output() {
         return $all_schema_output;	
 }
 
+/**
+ * Function generates json markup for the all added schema type in the current post metabox
+ * @global type $post
+ * @global type $sd_data
+ * @return type json
+ */
 function saswp_post_specific_schema_output() {
     
 	global $post;
@@ -2247,97 +2229,12 @@ function saswp_post_specific_schema_output() {
         return $all_schema_output;	
 }
 
-function saswp_structure_data_access_scripts($data){
-    
-	if ( empty( $data['amp_component_scripts']['amp-access'] ) ) {
-		$data['amp_component_scripts']['amp-access'] = 'https://cdn.ampproject.org/v0/amp-access-0.1.js';
-	}
-	if ( empty( $data['amp_component_scripts']['amp-analytics'] ) ) {
-		$data['amp_component_scripts']['amp-analytics'] = "https://cdn.ampproject.org/v0/amp-analytics-0.1.js";
-	}
-	if ( empty( $data['amp_component_scripts']['amp-mustache'] ) ) {
-		$data['amp_component_scripts']['amp-mustache'] = "https://cdn.ampproject.org/v0/amp-mustache-0.1.js";
-	}
-	return $data;
-        
-}
-
-function saswp_list_items_generator(){
-    
-		global $sd_data;
-		$bc_titles = array();
-		$bc_links  = array();
-                
-                if(isset($sd_data['titles'])){		
-			$bc_titles = $sd_data['titles'];
-		}
-		if(isset($sd_data['links'])){
-			$bc_links = $sd_data['links'];
-		}	
-                
-                $j = 1;
-                $i = 0;
-                $breadcrumbslist = array();
-                
-        if(is_single()){    
-            
-			if(isset($bc_titles)){      
-                            
-				for($i=0;$i<sizeof($bc_titles);$i++){
-                                    
-					$breadcrumbslist[] = array(
-								'@type'			=> 'ListItem',
-								'position'		=> $j,
-								'item'			=> array(
-									'@id'		=> $bc_links[$i],
-									'name'		=> $bc_titles[$i],
-									),
-							          );
-                                        
-                                        $j++;
-                        }
-                
-                     }
-               
-}
-        if(is_page()){
-
-			for($i=0;$i<sizeof($bc_titles);$i++){
-                            
-				$breadcrumbslist[] = array(
-								'@type'			=> 'ListItem',
-								'position'		=> $j,
-								'item'			=> array(
-									'@id'		=> $bc_links[$i],
-									'name'		=> $bc_titles[$i],
-									),
-							);
-                                
-		$j++;
-                
-        }
-
-}
-        if(is_archive()){
-
-	for($i=0;$i<sizeof($bc_titles);$i++){
-            
-				$breadcrumbslist[] = array(
-								        '@type'		=> 'ListItem',
-								        'position'	=> $j,
-								        'item'		=> array(
-									'@id'		=> $bc_links[$i],
-									'name'		=> $bc_titles[$i],
-									),
-							);
-		$j++;
-                
-		}
-}
-
-       return $breadcrumbslist;
-}
-
+/**
+ * Function generates breadcrumbs schema markup
+ * @global type $sd_data
+ * @param type $sd_data
+ * @return type
+ */
 function saswp_schema_breadcrumb_output($sd_data){
     
 	global $sd_data;        
@@ -2350,7 +2247,7 @@ function saswp_schema_breadcrumb_output($sd_data){
         
         if(!empty($bread_crumb_list)){   
             
-           $input = array(
+                $input = array(
 					'@context'			=> 'http://schema.org',
 					'@type'				=> 'BreadcrumbList' ,
 					'itemListElement'	        => $bread_crumb_list,
@@ -2365,6 +2262,10 @@ function saswp_schema_breadcrumb_output($sd_data){
 	}
 }
 
+/**
+ * Function generates website schema markup
+ * @return type json
+ */
 function saswp_kb_website_output(){
     	        
                 $input = array();
@@ -2390,7 +2291,13 @@ function saswp_kb_website_output(){
 	
 	return json_encode($input);        
 }	
-// For Archive 
+
+/**
+ * Function generates archive page schema markup in the form of CollectionPage schema type
+ * @global type $query_string
+ * @global type $sd_data
+ * @return type json
+ */
 function saswp_archive_output(){
     
 	global $query_string, $sd_data;   
@@ -2494,13 +2401,13 @@ function saswp_archive_output(){
 }
 
 /**
- * Author Schema Markup
+ * Function generates author schema markup
  * @global type $post
  * @global type $sd_data
- * @return type
+ * @return type json
  */ 
-function saswp_author_output()
-{
+function saswp_author_output(){
+    
 	global $post, $sd_data;   
         $post_id ='';
         
@@ -2556,12 +2463,12 @@ function saswp_author_output()
 }
 
 /**
- * About page schema markup
+ * Function generates about page schema markup
  * @global type $sd_data
- * @return type
+ * @return type json
  */
-function saswp_about_page_output()
-{
+function saswp_about_page_output(){
+
 	global $sd_data;   
         $feature_image = array();
         $publisher     = array();
@@ -2598,10 +2505,58 @@ function saswp_about_page_output()
 	}
 	
 }
+
+/**
+ * Function generates contact page schema markup
+ * @global type $sd_data
+ * @return type json
+ */
+function saswp_contact_page_output(){
+    
+	global $sd_data;	        	        
+        $feature_image = array();
+        $publisher     = array();
+        
+	if(isset($sd_data['sd_contact_page']) && $sd_data['sd_contact_page'] == get_the_ID()){
+                        
+                        $service_object     = new saswp_output_service();
+                        $feature_image      = $service_object->saswp_get_fetaure_image();
+                        $publisher          = $service_object->saswp_get_publisher();
+                        			
+			$input = array(
+                            
+				"@context" 	    => "http://schema.org",
+				"@type"		    => "ContactPage",
+				"mainEntityOfPage"  => array(
+							"@type" => "WebPage",
+							"@id" 	=> get_permalink(),
+							),
+				"url"		   => get_permalink(),
+				"headline"	   => get_the_title(),								
+				'description'	   => strip_tags(get_the_excerpt()),
+			);
+                        
+                        if(!empty($feature_image)){
+                            
+                         $input = array_merge($input, $feature_image);   
+                         
+                        }
+                        
+                        if(!empty($publisher)){
+                            
+                         $input = array_merge($input, $publisher);   
+                         
+                        }
+			return json_encode($input);
+                         
+	}
+	
+}
+
 /**
  * SiteNavigation Schema Markup 
  * @global type $sd_data
- * @return type
+ * @return type array
  */
 function saswp_site_navigation_output(){
             
@@ -2672,168 +2627,4 @@ function saswp_site_navigation_output(){
     }
         
     return $input;
-}
-// For Contact Page
-function saswp_contact_page_output()
-{       
-	global $sd_data;	        	        
-        $feature_image = array();
-        $publisher     = array();
-        
-	if(isset($sd_data['sd_contact_page']) && $sd_data['sd_contact_page'] == get_the_ID()){
-                        
-                        $service_object     = new saswp_output_service();
-                        $feature_image      = $service_object->saswp_get_fetaure_image();
-                        $publisher          = $service_object->saswp_get_publisher();
-                        			
-			$input = array(
-                            
-				"@context" 	    => "http://schema.org",
-				"@type"		    => "ContactPage",
-				"mainEntityOfPage"  => array(
-							"@type" => "WebPage",
-							"@id" 	=> get_permalink(),
-							),
-				"url"		   => get_permalink(),
-				"headline"	   => get_the_title(),								
-				'description'	   => strip_tags(get_the_excerpt()),
-			);
-                        
-                        if(!empty($feature_image)){
-                            
-                         $input = array_merge($input, $feature_image);   
-                         
-                        }
-                        
-                        if(!empty($publisher)){
-                            
-                         $input = array_merge($input, $publisher);   
-                         
-                        }
-			return json_encode($input);
-                         
-	}
-	
-}
-
-
-function saswp_get_comments($post_id){
-    
-        $comment_count = get_comments_number( $post_id );
-        
-	if ( $comment_count < 1 ) {
-		return array();
-	}
-        $comments = array();
-        
-        $count	= apply_filters( 'saswp_do_comments', '10'); // default = 10
-        
-        $post_comments = get_comments( array( 
-                                            'post_id' => $post_id,
-                                            'number'  => $count, 
-                                            'status'  => 'approve',
-                                            'type'    => 'comment' 
-                                        ) 
-                                    );
-        
-        if ( count( $post_comments ) ) {
-            
-		foreach ( $post_comments as $comment ) {
-                    
-			$comments[] = array (
-					'@type'       => 'Comment',
-					'dateCreated' => $comment->comment_date,
-					'description' => $comment->comment_content,
-					'author' => array (
-						'@type' => 'Person',
-						'name'  => $comment->comment_author,
-						'url'   => $comment->comment_author_url,
-				),
-			);
-		}
-                
-		return apply_filters( 'saswp_filter_comments', $comments );
-	}
-        
-}
-
-function saswp_get_schema_data($schema_id, $schema_key){
-    
-    $details = array();
-    
-    if($schema_id && $schema_key){
-        
-            $details = esc_sql ( get_post_meta($schema_id, $schema_key, true));    
-     
-    }  
-    
-    return $details;
-}
-
-function saswp_extract_kk_star_ratings($id){
-        
-            global $sd_data;    
-            
-            if(isset($sd_data['saswp-kk-star-raring']) && $sd_data['saswp-kk-star-raring'] == 1){
-               
-                $best  = get_option('kksr_stars');
-                $score = get_post_meta($id, '_kksr_ratings', true) ? ((int) get_post_meta($id, '_kksr_ratings', true)) : 0;
-                $votes = get_post_meta($id, '_kksr_casts', true) ? ((int) get_post_meta($id, '_kksr_casts', true)) : 0;
-                $avg   = $score && $votes ? round((float)(($score/$votes)*($best/5)), 1) : 0;
-                $per   = $score && $votes ? round((float)((($score/$votes)/5)*100), 2) : 0;                
-                
-                if($votes>0){
-                    
-                    return compact('best', 'score', 'votes', 'avg', 'per');    
-                    
-                }else{
-                    
-                    return array();    
-                    
-                }
-                
-            }else{
-                
-                return array();
-                
-            }                        
-       }
-       
-function saswp_reading_time_and_word_count() {
-
-    // Predefined words-per-minute rate.
-    $words_per_minute = 225;
-    $words_per_second = $words_per_minute / 60;
-
-    // Count the words in the content.
-    $word_count      = 0;
-    $text            = trim( strip_tags( get_the_content() ) );
-    $word_count      = substr_count( "$text ", ' ' );
-
-    // How many seconds (total)?
-    $seconds = floor( $word_count / $words_per_second );
-
-    return array('word_count' => $word_count, 'timerequired' => $seconds);
-}
-
-
-function saswp_remove_warnings($data, $index, $type){     
-    	
-                if($type == 'saswp_array'){
-
-                        if(isset($data[$index])){
-                                return $data[$index][0];
-                        }else{
-                                return '';
-                        }		
-                }
-
-		if($type == 'saswp_string'){
-	
-                        if(isset($data[$index])){
-                                return $data[$index];
-                        }else{
-                                return '';
-                        }		
-	        }    
-}
+}      

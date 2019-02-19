@@ -1,5 +1,5 @@
 <?php       
-function item_reviewed_fields($item, $post_specific = null, $schema_id = null){
+        function item_reviewed_fields($item, $post_specific = null, $schema_id = null){
             
             $post_fix = '';
             
@@ -343,7 +343,7 @@ function item_reviewed_fields($item, $post_specific = null, $schema_id = null){
             return  $reviewed_field;       
             
         }
-                        
+        
         function saswp_get_item_reviewed_fields(){
                                     
             if ( ! isset( $_GET['saswp_security_nonce'] ) ){
@@ -506,6 +506,7 @@ function item_reviewed_fields($item, $post_specific = null, $schema_id = null){
 	);
         
         }
+        
         function saswp_schema_type_get_meta( $value ) {
             
             global $post;
@@ -518,6 +519,7 @@ function item_reviewed_fields($item, $post_specific = null, $schema_id = null){
                     return false;
             }
       }
+      
         function saswp_schema_type_meta_box_callback( $post) {
             
                 wp_nonce_field( 'saswp_schema_type_nonce', 'saswp_schema_type_nonce' );  
@@ -1422,8 +1424,8 @@ function item_reviewed_fields($item, $post_specific = null, $schema_id = null){
                    
                 </div>
                     <?php
-        }
-   
+        } 
+        
         function saswp_schema_type_add_meta_box_save( $post_id ) {     
             
                 if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
@@ -1506,9 +1508,10 @@ function item_reviewed_fields($item, $post_specific = null, $schema_id = null){
                 
                
                 $service_schema_details = array();
-                $review_schema_details = array();
+                $review_schema_details  = array();
                 $product_schema_details = array();
-                $audio_schema_details = array();
+                $audio_schema_details   = array();
+                
                 $schema_type = sanitize_text_field($_POST['schema_type']);               
                
                 if($schema_type =='Service'){

@@ -620,8 +620,9 @@ Class saswp_output_service{
                      default:
                          break;
                  }                                  
-            }                    
-         return $input1;   
+            }     
+            
+            return $input1;   
         }
 
 
@@ -794,20 +795,20 @@ Class saswp_output_service{
             if($post_review_title && $rating_value>0 &&  (isset($sd_data['saswp-extra']) && $sd_data['saswp-extra'] ==1) && get_template()=='Extra'){
             
             $review_data['aggregateRating'] = array(
-                '@type' => 'AggregateRating',
-                'ratingValue' => $rating_value,
-                'reviewCount' => 1,
+                '@type'         => 'AggregateRating',
+                'ratingValue'   => $rating_value,
+                'reviewCount'   => 1,
             );
             
             $review_data['review'] = array(
-                '@type' => 'Review',
-                'author' => get_the_author(),
+                '@type'         => 'Review',
+                'author'        => get_the_author(),
                 'datePublished' => get_the_date("Y-m-d\TH:i:s\Z"),
-                'name' => $post_review_title,
-                'reviewBody' => $post_review_desc,
+                'name'          => $post_review_title,
+                'reviewBody'    => $post_review_desc,
                 'reviewRating' => array(
-                    '@type' => 'Rating',
-                    'ratingValue' => $rating_value,
+                            '@type'       => 'Rating',
+                            'ratingValue' => $rating_value,
                 ),
                 
             );
