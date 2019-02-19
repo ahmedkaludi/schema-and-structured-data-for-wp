@@ -644,6 +644,11 @@ Class saswp_output_service{
             wp_die();
         }
         
+        /**
+         * This function gets all the custom meta fields from the wordpress meta fields table
+         * @global type $wpdb
+         * @return type json
+         */
         public function saswp_get_custom_meta_fields(){
             
              if ( ! isset( $_POST['saswp_security_nonce'] ) ){
@@ -679,6 +684,13 @@ Class saswp_output_service{
             
             wp_die();
         }
+        
+        /**
+         * This function gets the product details in schema markup from the current product type post create by 
+         * WooCommerce ( https://wordpress.org/plugins/woocommerce/ )
+         * @param type $post_id
+         * @return type array
+         */
         public function saswp_woocommerce_product_details($post_id){     
                              
              $product_details = array();                
@@ -772,6 +784,13 @@ Class saswp_output_service{
              return $product_details;                       
         }
         
+        /**
+         * This function gets the review details in schema markup from the current post which has extra theme enabled
+         * Extra Theme ( https://www.elegantthemes.com/preview/Extra/ )
+         * @global type $sd_data
+         * @param type $post_id
+         * @return type array
+         */
         public function saswp_extra_theme_review_details($post_id){
             
             global $sd_data;
@@ -878,7 +897,14 @@ Class saswp_output_service{
 //         
 //        }
        
-        
+       
+        /**
+         * This function gets all the question and answers in schema markup from the current question type post create by 
+         * DW Question & Answer ( https://wordpress.org/plugins/dw-question-answer/ )
+         * @global type $sd_data
+         * @param type $post_id
+         * @return type array
+         */
         public function saswp_dw_question_answers_details($post_id){
             
                 global $sd_data;
@@ -969,6 +995,12 @@ Class saswp_output_service{
                 return $qa_page;
         }
         
+        /**
+         * This function returns all the schema field's key by schema type or id
+         * @param type $schema_type
+         * @param type $id
+         * @return string
+         */
         public function saswp_get_all_schema_type_fields($schema_type, $id =null){
             
             $meta_field = array();
@@ -1254,8 +1286,13 @@ Class saswp_output_service{
             }                      
             return $meta_field;
         }
-        
-        
+                        
+        /**
+         * This function generate the schema markup by passed schema type
+         * @global type $sd_data
+         * @param type $schema_type
+         * @return array
+         */
         public function saswp_schema_markup_generator($schema_type){
             
                  global $sd_data;
@@ -1403,6 +1440,12 @@ Class saswp_output_service{
             
         }
         
+        /**
+         * This function returns the featured image for the current post.
+         * If featured image is not set than it gets default schema image from MISC settings tab
+         * @global type $sd_data
+         * @return type array
+         */
         public function saswp_get_fetaure_image(){
             
             global $sd_data;
@@ -1446,7 +1489,12 @@ Class saswp_output_service{
                           
                           return $input2;
         }
-        
+        /**
+         * This function gets the publisher from schema settings panel 
+         * @global type $sd_data
+         * @param type $d_logo
+         * @return type array
+         */
         public function saswp_get_publisher($d_logo = null){
                 
                         global $sd_data;   

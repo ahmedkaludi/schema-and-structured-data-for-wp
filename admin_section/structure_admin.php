@@ -439,15 +439,24 @@ function saswp_comparison_logic_checker($input){
                 }
             }
             if($result==true && isset( $input['key_4'] ) && $input['key_4'] !='all'){
+                
               $term_data       = $input['key_4'];
-              $terms = wp_get_post_terms( $post->ID ,$data);
+              $terms           = wp_get_post_terms( $post->ID ,$data);
+              
               if(count($terms)>0){
+                  
                 $termChoices = array();
+                
                 foreach ($terms as $key => $termvalue) {
+                    
                    $termChoices[] = $termvalue->slug;
+                   
                  } 
+                 
               }
+              
               $result = false;
+              
               if(in_array($term_data, $termChoices)){
                 $result = true;
               }

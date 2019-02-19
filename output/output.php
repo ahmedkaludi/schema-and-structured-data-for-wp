@@ -1266,7 +1266,8 @@ function saswp_post_specific_schema_output() {
         $schema_enable     = get_post_meta($post->ID, 'saswp_enable_disable_schema', true);
        
         if($all_schemas){
-            foreach($all_schemas as $schema){
+            
+        foreach($all_schemas as $schema){
             
         $schema_id      = $schema;   	
 	$schema_type    = esc_sql ( get_post_meta($schema_id, 'schema_type', true)  );        

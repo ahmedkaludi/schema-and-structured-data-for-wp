@@ -2,6 +2,7 @@
 function saswp_remove_amp_default_structure_data($metadata){
     return '';
 }
+
 add_filter( 'amp_init', 'saswp_structured_data' );
 function saswp_structured_data()
 {		
@@ -235,6 +236,11 @@ function saswp_remove_warnings($data, $index, $type){
 	        }    
 }
 
+
+/**
+ * Gets the total word count and expected time to read the article
+ * @return type array
+ */
 function saswp_reading_time_and_word_count() {
 
     // Predefined words-per-minute rate.
@@ -252,6 +258,12 @@ function saswp_reading_time_and_word_count() {
     return array('word_count' => $word_count, 'timerequired' => $seconds);
 }
 
+/**
+ * Extracting the value of star ratings plugins on current post
+ * @global type $sd_data
+ * @param type $id
+ * @return type array
+ */
 function saswp_extract_kk_star_ratings($id){
         
             global $sd_data;    
@@ -280,7 +292,12 @@ function saswp_extract_kk_star_ratings($id){
                 
             }                        
        }
-       
+
+/**
+ * Gets all the comments of current post
+ * @param type $post_id
+ * @return type array
+ */       
 function saswp_get_comments($post_id){
     
         $comment_count = get_comments_number( $post_id );
