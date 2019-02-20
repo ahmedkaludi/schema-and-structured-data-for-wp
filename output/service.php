@@ -4,13 +4,22 @@ Class saswp_output_service{
         public function __construct() {       
             
 	}
+        /**
+         * List of hooks used in current class
+         */
         public function saswp_service_hooks(){
             
            add_action( 'wp_ajax_saswp_get_custom_meta_fields', array($this, 'saswp_get_custom_meta_fields')); 
            add_action( 'wp_ajax_saswp_get_schema_type_fields', array($this, 'saswp_get_schema_type_fields')); 
            
         }    
-                
+               
+        /**
+         * This function replaces the value of schema's fields with the selected custom meta field
+         * @param type $input1
+         * @param type $schema_post_id
+         * @return type array
+         */
         public function saswp_replace_with_custom_fields_value($input1, $schema_post_id){
            
             $custom_fields    = esc_sql ( get_post_meta($schema_post_id, 'saswp_custom_fields', true)  );
@@ -299,7 +308,34 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_tech_article_organization_logo'])){
                      $input1['Publisher']['logo']['url'] =    $custom_fields['saswp_tech_article_organization_logo'];
                     }
-                    break;    
+                    break;   
+                    
+                case 'Course':      
+                      
+                    if(isset($custom_fields['saswp_course_name'])){
+                     $input1['name'] =    $custom_fields['saswp_course_name'];
+                    }
+                    if(isset($custom_fields['saswp_course_description'])){
+                     $input1['description'] =    $custom_fields['saswp_course_description'];
+                    }
+                    if(isset($custom_fields['saswp_course_url'])){
+                     $input1['url'] =    $custom_fields['saswp_course_url'];
+                    }                    
+                    if(isset($custom_fields['saswp_course_date_published'])){
+                     $input1['datePublished'] =    $custom_fields['saswp_course_date_published'];
+                    }
+                    if(isset($custom_fields['saswp_course_date_modified'])){
+                     $input1['dateModified'] =    $custom_fields['saswp_course_date_modified'];
+                    }
+                    if(isset($custom_fields['saswp_course_provider_name'])){
+                     $input1['provider']['name'] =    $custom_fields['saswp_course_provider_name'];
+                    }
+                    
+                    if(isset($custom_fields['saswp_course_sameas'])){
+                     $input1['provider']['sameAs'] =    $custom_fields['saswp_course_sameas'];
+                    }
+                    
+                    break;       
                 
                 case 'Recipe':
                     if(isset($custom_fields['saswp_recipe_url'])){
@@ -625,7 +661,10 @@ Class saswp_output_service{
             return $input1;   
         }
 
-
+        /**
+         * This is a ajax handler to get all the schema type keys 
+         * @return type json
+         */
         public function saswp_get_schema_type_fields(){
             
              if ( ! isset( $_POST['saswp_security_nonce'] ) ){
@@ -636,7 +675,7 @@ Class saswp_output_service{
              }
             
             $schema_type = isset( $_POST['schema_type'] ) ? sanitize_text_field( $_POST['schema_type'] ) : '';
-            $post_id = isset( $_POST['post_id'] ) ? sanitize_text_field( $_POST['post_id'] ) : '';            
+            $post_id     = isset( $_POST['post_id'] ) ? sanitize_text_field( $_POST['post_id'] ) : '';            
             $meta_fields = $this->saswp_get_all_schema_type_fields($schema_type);             	    
             
             wp_send_json( $meta_fields );            
@@ -784,6 +823,17 @@ Class saswp_output_service{
              return $product_details;                       
         }
         
+//        public function saswp_tagyeem_review_details($post_id){
+//          
+//             global $sd_data;
+//             
+//             if(isset($sd_data['saswp-tagyeem']) && $sd_data['saswp-tagyeem'] == 1){
+//                 
+//                 
+//                 
+//             }
+//            
+//        }
         /**
          * This function gets the review details in schema markup from the current post which has extra theme enabled
          * Extra Theme ( https://www.elegantthemes.com/preview/Extra/ )
@@ -1122,6 +1172,18 @@ Class saswp_output_service{
                         'saswp_tech_article_author_name'         => 'Author Name',
                         'saswp_tech_article_organization_name'   => 'Organization Name',
                         'saswp_tech_article_organization_logo'   => 'Organization Logo',                          
+                        );                                        
+                    break;
+                case 'Course':      
+                    
+                    $meta_field = array(                        
+                        'saswp_course_name'           => 'Name',
+                        'saswp_course_description'    => 'Description',
+                        'saswp_course_url'            => 'URL',                          
+                        'saswp_course_date_published' => 'Date Published',
+                        'saswp_course_date_modified'  => 'Date Modified',
+                        'saswp_course_provider_name'  => 'Provider Name',                          
+                        'saswp_course_sameas'         => 'Provider SameAs',                                                
                         );                                        
                     break;
                 

@@ -650,6 +650,7 @@
                                      'Article'          => 'Article',
                                      'AudioObject'      => 'AudioObject',
                                      'Blogposting'      => 'Blogposting',
+                                     'Course'           => 'Course',   
                                     // 'JobPosting'       => 'JobPosting',   
                                      'local_business'   => 'Local Business',
                                      'NewsArticle'      => 'NewsArticle',

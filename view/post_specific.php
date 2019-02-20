@@ -1419,6 +1419,53 @@ class saswp_post_specific {
                     );
                     break;
                 
+                case 'Course':                                        
+                    $meta_field = array(
+                    array(
+                            'label' => 'Name',
+                            'id' => 'saswp_course_name_'.$schema_id,
+                            'type' => 'text',
+                            'default' => get_the_title()
+                    ),
+                    array(
+                            'label' => 'Description',
+                            'id' => 'saswp_course_description_'.$schema_id,
+                            'type' => 'textarea',
+                            'default' => $post->post_excerpt
+                    ) ,    
+                    array(
+                            'label' => 'URL',
+                            'id' => 'saswp_course_url_'.$schema_id,
+                            'type' => 'text',
+                            'default' => get_permalink()
+                    ),                     
+                    array(
+                            'label' => 'Date Published',
+                            'id' => 'saswp_course_date_published_'.$schema_id,
+                            'type' => 'text',
+                            'default' => get_the_date("Y-m-d")
+                    ), 
+                    array(
+                            'label' => 'Date Modified',
+                            'id' => 'saswp_course_date_modified_'.$schema_id,
+                            'type' => 'text',
+                            'default' => get_the_modified_date("Y-m-d")
+                    ),                    
+                    array(
+                            'label' => 'Provider Name',
+                            'id' => 'saswp_course_provider_name_'.$schema_id,
+                            'type' => 'text',
+                            'default' => get_bloginfo()
+                    ),
+                    array(
+                            'label' => 'Provider SameAs',
+                            'id' => 'saswp_course_sameas_'.$schema_id,
+                            'type' => 'text',
+                            'default' => get_home_url() 
+                    )                                                     
+                    );
+                    break;
+                
                 case 'Recipe':
                     $meta_field = array(
                     array(

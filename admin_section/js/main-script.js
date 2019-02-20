@@ -347,6 +347,15 @@ jQuery(document).ready(function($){
                             }
                       break;
                       
+                      case 'saswp-tagyeem-checkbox':
+                          
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-tagyeem").val(1);             
+                            }else{
+                              $("#saswp-tagyeem").val(0);           
+                            }
+                      break;
+                      
                       
                       default:
                           break;

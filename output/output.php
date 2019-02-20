@@ -295,10 +295,52 @@ function saswp_schema_output() {
                                                          ); 
                             
                         }
-                        $extra_theme_review = array();
+                        
                         $service_object     = new saswp_output_service();
+                        
+                        $extra_theme_review = array();                        
                         $extra_theme_review = $service_object->saswp_extra_theme_review_details(get_the_ID());
-                                              
+                                                
+//                        $tagyeem_review = array();
+//                        $tagyeem_review = $service_object->saswp_tagyeem_review_details(get_the_ID());
+                        
+                        
+                        if( 'Course' === $schema_type){
+                         
+                        $input1 = array(
+			'@context'			=> 'http://schema.org',
+			'@type'				=> $schema_type ,		
+			'name'			        => get_the_title(),
+			'description'                   => strip_tags(get_the_excerpt()),			
+			'url'				=> get_permalink(),
+			'datePublished'                 => $date,
+			'dateModified'                  => $modified_date,
+			'provider'			=> array(
+                                                            '@type' 	        => 'Organization',
+                                                            'name'		=> get_bloginfo(),
+                                                            'sameAs'		=> get_home_url() 
+                                                        )											
+                            );
+                                                                 
+                                if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){                                   
+                                    $service = new saswp_output_service();
+                                    $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
+                                }
+                                if(!empty($aggregateRating)){
+                                    $input1['aggregateRating'] = $aggregateRating;
+                                }
+                                if(!empty($kkstar_aggregateRating)){
+                                   $input1['aggregateRating'] = $kkstar_aggregateRating;  
+                                }
+                                if(!empty($extra_theme_review)){
+                                   $input1 = array_merge($input1, $extra_theme_review);
+                                }                               
+                                if(isset($sd_data['saswp_comments_schema']) && $sd_data['saswp_comments_schema'] ==1){
+                                   $input1['comment'] = saswp_get_comments(get_the_ID());
+                                }
+                            
+                        }
+                        
                         if( 'Blogposting' === $schema_type){
                          
                         $input1 = array(
@@ -1364,6 +1406,41 @@ function saswp_post_specific_schema_output() {
                             }                                
 			}   
                         
+                        if( 'Course' === $schema_type){
+                         
+                        $input1 = array(
+			'@context'			=> 'http://schema.org',
+			'@type'				=> $schema_type ,		
+			'name'			        => saswp_remove_warnings($all_post_meta, 'saswp_course_name_'.$schema_id, 'saswp_array'),
+			'description'                   => saswp_remove_warnings($all_post_meta, 'saswp_course_description_'.$schema_id, 'saswp_array'),			
+			'url'				=> saswp_remove_warnings($all_post_meta, 'saswp_course_url_'.$schema_id, 'saswp_array'),
+			'datePublished'                 => saswp_remove_warnings($all_post_meta, 'saswp_course_date_published_'.$schema_id, 'saswp_array'),
+			'dateModified'                  => saswp_remove_warnings($all_post_meta, 'saswp_course_date_modified_'.$schema_id, 'saswp_array'),
+			'provider'			=> array(
+                                                            '@type' 	        => 'Organization',
+                                                            'name'		=> saswp_remove_warnings($all_post_meta, 'saswp_course_provider_name_'.$schema_id, 'saswp_array'),
+                                                            'sameAs'		=> saswp_remove_warnings($all_post_meta, 'saswp_course_sameas_'.$schema_id, 'saswp_array') 
+                                                        )											
+                            );
+                                                                                                 
+                                if(!empty($aggregateRating)){
+                                    
+                                    $input1['mainEntity']['aggregateRating'] = $aggregateRating;
+                                    
+                                }
+                                if(!empty($kkstar_aggregateRating)){
+                                    
+                                   $input1['mainEntity']['aggregateRating'] = $kkstar_aggregateRating;  
+                                   
+                                }
+                                if(!empty($extra_theme_review)){
+                                    
+                                   $input1 = array_merge($input1, $extra_theme_review);
+                                   
+                                }                               
+                                                            
+                        }
+                                                
                          if( 'Blogposting' === $schema_type){
                     		
                         $slogo = get_post_meta( get_the_ID(), 'saswp_blogposting_organization_logo_'.$schema_id.'_detail',true);                                 
