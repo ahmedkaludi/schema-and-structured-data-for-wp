@@ -1408,21 +1408,21 @@ function saswp_post_specific_schema_output() {
                         
                         if( 'Course' === $schema_type){
                          
-                        $input1 = array(
-			'@context'			=> 'http://schema.org',
-			'@type'				=> $schema_type ,		
-			'name'			        => saswp_remove_warnings($all_post_meta, 'saswp_course_name_'.$schema_id, 'saswp_array'),
-			'description'                   => saswp_remove_warnings($all_post_meta, 'saswp_course_description_'.$schema_id, 'saswp_array'),			
-			'url'				=> saswp_remove_warnings($all_post_meta, 'saswp_course_url_'.$schema_id, 'saswp_array'),
-			'datePublished'                 => saswp_remove_warnings($all_post_meta, 'saswp_course_date_published_'.$schema_id, 'saswp_array'),
-			'dateModified'                  => saswp_remove_warnings($all_post_meta, 'saswp_course_date_modified_'.$schema_id, 'saswp_array'),
-			'provider'			=> array(
-                                                            '@type' 	        => 'Organization',
-                                                            'name'		=> saswp_remove_warnings($all_post_meta, 'saswp_course_provider_name_'.$schema_id, 'saswp_array'),
-                                                            'sameAs'		=> saswp_remove_warnings($all_post_meta, 'saswp_course_sameas_'.$schema_id, 'saswp_array') 
-                                                        )											
-                            );
-                                                                                                 
+                                $input1 = array(
+                                '@context'			=> 'http://schema.org',
+                                '@type'				=> $schema_type ,		
+                                'name'			        => saswp_remove_warnings($all_post_meta, 'saswp_course_name_'.$schema_id, 'saswp_array'),
+                                'description'                   => saswp_remove_warnings($all_post_meta, 'saswp_course_description_'.$schema_id, 'saswp_array'),			
+                                'url'				=> saswp_remove_warnings($all_post_meta, 'saswp_course_url_'.$schema_id, 'saswp_array'),
+                                'datePublished'                 => saswp_remove_warnings($all_post_meta, 'saswp_course_date_published_'.$schema_id, 'saswp_array'),
+                                'dateModified'                  => saswp_remove_warnings($all_post_meta, 'saswp_course_date_modified_'.$schema_id, 'saswp_array'),
+                                'provider'			=> array(
+                                                                    '@type' 	        => 'Organization',
+                                                                    'name'		=> saswp_remove_warnings($all_post_meta, 'saswp_course_provider_name_'.$schema_id, 'saswp_array'),
+                                                                    'sameAs'		=> saswp_remove_warnings($all_post_meta, 'saswp_course_sameas_'.$schema_id, 'saswp_array') 
+                                                                )											
+                                    );
+
                                 if(!empty($aggregateRating)){
                                     
                                     $input1['mainEntity']['aggregateRating'] = $aggregateRating;
