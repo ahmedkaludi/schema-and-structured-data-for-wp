@@ -842,7 +842,7 @@ function saswp_schema_output() {
                             if(isset($schema_data['saswp_review_schema_item_type'])){
                             
                                 
-                                $review_author = get_the_author();
+                                $review_author = $aurthor_name;
                                 
                                 if(isset($schema_data['saswp_review_schema_author'])){
                                     

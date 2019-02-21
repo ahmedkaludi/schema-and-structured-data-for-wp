@@ -1357,7 +1357,9 @@ Class saswp_output_service{
          */
         public function saswp_schema_markup_generator($schema_type){
             
-                 global $sd_data;
+            global $post;
+            
+            global $sd_data;
                         $logo         = ''; 
                         $height       = '';
                         $width        = '';
@@ -1391,7 +1393,14 @@ Class saswp_output_service{
 			$author_details	= get_avatar_data($author_id);
 			$date 		= get_the_date("Y-m-d\TH:i:s\Z");
 			$modified_date 	= get_the_modified_date("Y-m-d\TH:i:s\Z");
-			$aurthor_name 	= get_the_author();                                      
+			$aurthor_name 	= '';   
+                        
+                        if(!$aurthor_name && is_object($post)){
+			
+                            $author_id    = get_post_field ('post_author', $post->ID);
+                            $aurthor_name = get_the_author_meta( 'display_name' , $author_id );                         	
+			}
+                        
                         
             switch ($schema_type) {
                 
@@ -1498,6 +1507,15 @@ Class saswp_output_service{
                     break;
             }
             
+            if( !empty($input1) && !isset($input1['image'])){
+                                                          
+                    $input2 = $this->saswp_get_fetaure_image();
+                    if(!empty($input2)){
+
+                      $input1 = array_merge($input1,$input2);                                
+                    }                                                                    
+            }
+                        
             return $input1;
             
         }
