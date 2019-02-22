@@ -540,6 +540,7 @@ input:checked + .saswp-slider:before {
     display: flex;
     flex-grow: 1;
     background: transparent;
+    width: 113px;
 }
 .saswp-single-post-restore .saswp-switch{
     height: 28px;
