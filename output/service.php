@@ -4,25 +4,40 @@ Class saswp_output_service{
         public function __construct() {       
             
 	}
+        /**
+         * List of hooks used in current class
+         */
         public function saswp_service_hooks(){
             
            add_action( 'wp_ajax_saswp_get_custom_meta_fields', array($this, 'saswp_get_custom_meta_fields')); 
            add_action( 'wp_ajax_saswp_get_schema_type_fields', array($this, 'saswp_get_schema_type_fields')); 
            
         }    
-                
+               
+        /**
+         * This function replaces the value of schema's fields with the selected custom meta field
+         * @param type $input1
+         * @param type $schema_post_id
+         * @return type array
+         */
         public function saswp_replace_with_custom_fields_value($input1, $schema_post_id){
            
-            $custom_fields    = esc_sql ( get_post_meta($schema_post_id, 'saswp_custom_fields', true)  );
+            global $post;
             
+            $custom_fields    = esc_sql ( get_post_meta($schema_post_id, 'saswp_custom_fields', true)  );
+                        
             if(!empty($custom_fields)){
                 
                  $schema_type = get_post_meta( $schema_post_id, 'schema_type', true); 
                  
                  foreach ($custom_fields as $key => $field){
                      
-                   $custom_fields[$key] = get_post_meta($schema_post_id, $field, true);
-                   
+                    if(is_object($post)){
+                        
+                        $custom_fields[$key] = get_post_meta($post->ID, $field, true);                   
+                        
+                    } 
+                                      
                 }  
                 
              switch ($schema_type) {
@@ -139,7 +154,36 @@ Class saswp_output_service{
                      $input1['author']['name'] =    $custom_fields['saswp_audio_author_name'];
                     }                    
                     
-                    break;    
+                    break;   
+                    
+                case 'SoftwareApplication':
+                    
+                    if(isset($custom_fields['saswp_software_schema_name'])){
+                     $input1['name'] =    $custom_fields['saswp_software_schema_name'];
+                    }
+                    if(isset($custom_fields['saswp_software_schema_description'])){
+                     $input1['description'] =    $custom_fields['saswp_software_schema_description'];
+                    }
+                    if(isset($custom_fields['saswp_software_schema_operating_system'])){
+                     $input1['operatingSystem'] =    $custom_fields['saswp_software_schema_operating_system'];
+                    }
+                    if(isset($custom_fields['saswp_software_schema_application_category'])){
+                     $input1['applicationCategory'] =    $custom_fields['saswp_software_schema_application_category'];
+                    }
+                    if(isset($custom_fields['saswp_software_schema_price'])){
+                     $input1['offers']['price'] =    $custom_fields['saswp_software_schema_price'];
+                    }
+                    if(isset($custom_fields['saswp_software_schema_price_currency'])){
+                     $input1['offers']['priceCurrency'] =    $custom_fields['saswp_software_schema_price_currency'];
+                    }                    
+                    if(isset($custom_fields['saswp_software_schema_date_published'])){
+                     $input1['datePublished'] =    $custom_fields['saswp_software_schema_date_published'];
+                    }
+                    if(isset($custom_fields['saswp_software_schema_date_modified'])){
+                     $input1['dateModified'] =    $custom_fields['saswp_software_schema_date_modified'];
+                    }
+                                                            
+                    break;       
                 
                 case 'NewsArticle':
                                                                   
@@ -299,7 +343,34 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_tech_article_organization_logo'])){
                      $input1['Publisher']['logo']['url'] =    $custom_fields['saswp_tech_article_organization_logo'];
                     }
-                    break;    
+                    break;   
+                    
+                case 'Course':      
+                      
+                    if(isset($custom_fields['saswp_course_name'])){
+                     $input1['name'] =    $custom_fields['saswp_course_name'];
+                    }
+                    if(isset($custom_fields['saswp_course_description'])){
+                     $input1['description'] =    $custom_fields['saswp_course_description'];
+                    }
+                    if(isset($custom_fields['saswp_course_url'])){
+                     $input1['url'] =    $custom_fields['saswp_course_url'];
+                    }                    
+                    if(isset($custom_fields['saswp_course_date_published'])){
+                     $input1['datePublished'] =    $custom_fields['saswp_course_date_published'];
+                    }
+                    if(isset($custom_fields['saswp_course_date_modified'])){
+                     $input1['dateModified'] =    $custom_fields['saswp_course_date_modified'];
+                    }
+                    if(isset($custom_fields['saswp_course_provider_name'])){
+                     $input1['provider']['name'] =    $custom_fields['saswp_course_provider_name'];
+                    }
+                    
+                    if(isset($custom_fields['saswp_course_sameas'])){
+                     $input1['provider']['sameAs'] =    $custom_fields['saswp_course_sameas'];
+                    }
+                    
+                    break;       
                 
                 case 'Recipe':
                     if(isset($custom_fields['saswp_recipe_url'])){
@@ -620,11 +691,15 @@ Class saswp_output_service{
                      default:
                          break;
                  }                                  
-            }                    
-         return $input1;   
+            }     
+            
+            return $input1;   
         }
 
-
+        /**
+         * This is a ajax handler to get all the schema type keys 
+         * @return type json
+         */
         public function saswp_get_schema_type_fields(){
             
              if ( ! isset( $_POST['saswp_security_nonce'] ) ){
@@ -635,7 +710,7 @@ Class saswp_output_service{
              }
             
             $schema_type = isset( $_POST['schema_type'] ) ? sanitize_text_field( $_POST['schema_type'] ) : '';
-            $post_id = isset( $_POST['post_id'] ) ? sanitize_text_field( $_POST['post_id'] ) : '';            
+            $post_id     = isset( $_POST['post_id'] ) ? sanitize_text_field( $_POST['post_id'] ) : '';            
             $meta_fields = $this->saswp_get_all_schema_type_fields($schema_type);             	    
             
             wp_send_json( $meta_fields );            
@@ -643,6 +718,11 @@ Class saswp_output_service{
             wp_die();
         }
         
+        /**
+         * This function gets all the custom meta fields from the wordpress meta fields table
+         * @global type $wpdb
+         * @return type json
+         */
         public function saswp_get_custom_meta_fields(){
             
              if ( ! isset( $_POST['saswp_security_nonce'] ) ){
@@ -678,6 +758,13 @@ Class saswp_output_service{
             
             wp_die();
         }
+        
+        /**
+         * This function gets the product details in schema markup from the current product type post create by 
+         * WooCommerce ( https://wordpress.org/plugins/woocommerce/ )
+         * @param type $post_id
+         * @return type array
+         */
         public function saswp_woocommerce_product_details($post_id){     
                              
              $product_details = array();                
@@ -771,6 +858,24 @@ Class saswp_output_service{
              return $product_details;                       
         }
         
+//        public function saswp_tagyeem_review_details($post_id){
+//          
+//             global $sd_data;
+//             
+//             if(isset($sd_data['saswp-tagyeem']) && $sd_data['saswp-tagyeem'] == 1){
+//                 
+//                 
+//                 
+//             }
+//            
+//        }
+        /**
+         * This function gets the review details in schema markup from the current post which has extra theme enabled
+         * Extra Theme ( https://www.elegantthemes.com/preview/Extra/ )
+         * @global type $sd_data
+         * @param type $post_id
+         * @return type array
+         */
         public function saswp_extra_theme_review_details($post_id){
             
             global $sd_data;
@@ -794,20 +899,20 @@ Class saswp_output_service{
             if($post_review_title && $rating_value>0 &&  (isset($sd_data['saswp-extra']) && $sd_data['saswp-extra'] ==1) && get_template()=='Extra'){
             
             $review_data['aggregateRating'] = array(
-                '@type' => 'AggregateRating',
-                'ratingValue' => $rating_value,
-                'reviewCount' => 1,
+                '@type'         => 'AggregateRating',
+                'ratingValue'   => $rating_value,
+                'reviewCount'   => 1,
             );
             
             $review_data['review'] = array(
-                '@type' => 'Review',
-                'author' => get_the_author(),
+                '@type'         => 'Review',
+                'author'        => get_the_author(),
                 'datePublished' => get_the_date("Y-m-d\TH:i:s\Z"),
-                'name' => $post_review_title,
-                'reviewBody' => $post_review_desc,
+                'name'          => $post_review_title,
+                'reviewBody'    => $post_review_desc,
                 'reviewRating' => array(
-                    '@type' => 'Rating',
-                    'ratingValue' => $rating_value,
+                            '@type'       => 'Rating',
+                            'ratingValue' => $rating_value,
                 ),
                 
             );
@@ -877,7 +982,14 @@ Class saswp_output_service{
 //         
 //        }
        
-        
+       
+        /**
+         * This function gets all the question and answers in schema markup from the current question type post create by 
+         * DW Question & Answer ( https://wordpress.org/plugins/dw-question-answer/ )
+         * @global type $sd_data
+         * @param type $post_id
+         * @return type array
+         */
         public function saswp_dw_question_answers_details($post_id){
             
                 global $sd_data;
@@ -968,6 +1080,12 @@ Class saswp_output_service{
                 return $qa_page;
         }
         
+        /**
+         * This function returns all the schema field's key by schema type or id
+         * @param type $schema_type
+         * @param type $id
+         * @return string
+         */
         public function saswp_get_all_schema_type_fields($schema_type, $id =null){
             
             $meta_field = array();
@@ -1089,6 +1207,18 @@ Class saswp_output_service{
                         'saswp_tech_article_author_name'         => 'Author Name',
                         'saswp_tech_article_organization_name'   => 'Organization Name',
                         'saswp_tech_article_organization_logo'   => 'Organization Logo',                          
+                        );                                        
+                    break;
+                case 'Course':      
+                    
+                    $meta_field = array(                        
+                        'saswp_course_name'           => 'Name',
+                        'saswp_course_description'    => 'Description',
+                        'saswp_course_url'            => 'URL',                          
+                        'saswp_course_date_published' => 'Date Published',
+                        'saswp_course_date_modified'  => 'Date Modified',
+                        'saswp_course_provider_name'  => 'Provider Name',                          
+                        'saswp_course_sameas'         => 'Provider SameAs',                                                
                         );                                        
                     break;
                 
@@ -1226,6 +1356,22 @@ Class saswp_output_service{
                     
                     break;
                 
+                case 'SoftwareApplication':
+                    
+                    $meta_field = array(
+                        
+                        'saswp_software_schema_name'                    => 'Name',
+                        'saswp_software_schema_description'             => 'Description',
+                        'saswp_software_schema_operating_system'        => 'Operating System',
+                        'saswp_software_schema_application_category'    => 'Application Category',
+                        'saswp_software_schema_price'                   => 'Price',
+                        'saswp_software_schema_price_currency'          => 'Price Currency',                        
+                        'saswp_software_schema_date_published'          => 'Date Published',
+                        'saswp_software_schema_date_modified'           => 'Date Modified',                        
+                    );
+                    
+                    break;
+                
                 case 'qanda':
                     $meta_field = array(
                         
@@ -1253,11 +1399,18 @@ Class saswp_output_service{
             }                      
             return $meta_field;
         }
-        
-        
+                        
+        /**
+         * This function generate the schema markup by passed schema type
+         * @global type $sd_data
+         * @param type $schema_type
+         * @return array
+         */
         public function saswp_schema_markup_generator($schema_type){
             
-                 global $sd_data;
+            global $post;
+            
+            global $sd_data;
                         $logo         = ''; 
                         $height       = '';
                         $width        = '';
@@ -1291,7 +1444,14 @@ Class saswp_output_service{
 			$author_details	= get_avatar_data($author_id);
 			$date 		= get_the_date("Y-m-d\TH:i:s\Z");
 			$modified_date 	= get_the_modified_date("Y-m-d\TH:i:s\Z");
-			$aurthor_name 	= get_the_author();                                      
+			$aurthor_name 	= '';   
+                        
+                        if(!$aurthor_name && is_object($post)){
+			
+                            $author_id    = get_post_field ('post_author', $post->ID);
+                            $aurthor_name = get_the_author_meta( 'display_name' , $author_id );                         	
+			}
+                        
                         
             switch ($schema_type) {
                 
@@ -1398,10 +1558,25 @@ Class saswp_output_service{
                     break;
             }
             
+            if( !empty($input1) && !isset($input1['image'])){
+                                                          
+                    $input2 = $this->saswp_get_fetaure_image();
+                    if(!empty($input2)){
+
+                      $input1 = array_merge($input1,$input2);                                
+                    }                                                                    
+            }
+                        
             return $input1;
             
         }
         
+        /**
+         * This function returns the featured image for the current post.
+         * If featured image is not set than it gets default schema image from MISC settings tab
+         * @global type $sd_data
+         * @return type array
+         */
         public function saswp_get_fetaure_image(){
             
             global $sd_data;
@@ -1445,7 +1620,12 @@ Class saswp_output_service{
                           
                           return $input2;
         }
-        
+        /**
+         * This function gets the publisher from schema settings panel 
+         * @global type $sd_data
+         * @param type $d_logo
+         * @return type array
+         */
         public function saswp_get_publisher($d_logo = null){
                 
                         global $sd_data;   

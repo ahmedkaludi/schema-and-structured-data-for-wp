@@ -25,6 +25,7 @@ class saswp_post_specific {
                 add_action( 'wp_ajax_saswp_enable_disable_schema_on_post', array($this,'saswp_enable_disable_schema_on_post'));
                 
         }
+        
         public function saswp_enable_disable_schema_on_post(){
             
                 if ( ! isset( $_POST['saswp_security_nonce'] ) ){
@@ -291,7 +292,7 @@ class saswp_post_specific {
                  
                 }
 
-                public function saswp_saswp_post_specific( $post, $schema_id ) { 
+        public function saswp_saswp_post_specific( $post, $schema_id ) { 
             
                 global $post;
                 global $sd_data;                        
@@ -554,15 +555,17 @@ class saswp_post_specific {
 			}
                         
                         
-                        if($meta_field['id'] == 'saswp_service_schema_rating_'.$schema_id || 
-                           $meta_field['id'] == 'saswp_product_schema_rating_'.$schema_id ||
-                           $meta_field['id'] == 'saswp_review_schema_rating_'.$schema_id ||
-                           $meta_field['id'] == 'local_rating_'.$schema_id               ||
+                        if($meta_field['id'] == 'saswp_service_schema_rating_'.$schema_id       || 
+                           $meta_field['id'] == 'saswp_product_schema_rating_'.$schema_id       ||
+                           $meta_field['id'] == 'saswp_review_schema_rating_'.$schema_id        ||
+                           $meta_field['id'] == 'local_rating_'.$schema_id                      ||
+                           $meta_field['id'] == 'saswp_software_schema_rating_'.$schema_id      ||     
                            
                            $meta_field['id'] == 'saswp_service_schema_review_count_'.$schema_id || 
                            $meta_field['id'] == 'saswp_product_schema_review_count_'.$schema_id ||
-                           $meta_field['id'] == 'saswp_review_schema_review_count_'.$schema_id ||
-                           $meta_field['id'] == 'local_review_count_'.$schema_id     
+                           $meta_field['id'] == 'saswp_review_schema_review_count_'.$schema_id  ||
+                           $meta_field['id'] == 'local_review_count_'.$schema_id                ||
+                           $meta_field['id'] == 'saswp_software_schema_rating_count_'.$schema_id     
                                 
                           )
                           {
@@ -578,6 +581,7 @@ class saswp_post_specific {
 		}
                 return $output;                                               
 	}	
+        
 	public function saswp_post_specific_save_fields( $post_id ) {
             
 		if ( ! isset( $_POST['post_specific_nonce'] ) )
@@ -637,6 +641,7 @@ class saswp_post_specific {
                  }                                                                                      
             }                                                                		                                                                               
 	}
+        
         public function saswp_get_sub_business_ajax(){
             
             if ( ! isset( $_GET['saswp_security_nonce'] ) ){
@@ -657,6 +662,7 @@ class saswp_post_specific {
            }
             wp_die();
         }
+        
         public function saswp_get_sub_business_array($business_type){
             
             $sub_business_options = array();
@@ -1415,6 +1421,53 @@ class saswp_post_specific {
                     );
                     break;
                 
+                case 'Course':                                        
+                    $meta_field = array(
+                    array(
+                            'label' => 'Name',
+                            'id' => 'saswp_course_name_'.$schema_id,
+                            'type' => 'text',
+                            'default' => get_the_title()
+                    ),
+                    array(
+                            'label' => 'Description',
+                            'id' => 'saswp_course_description_'.$schema_id,
+                            'type' => 'textarea',
+                            'default' => $post->post_excerpt
+                    ) ,    
+                    array(
+                            'label' => 'URL',
+                            'id' => 'saswp_course_url_'.$schema_id,
+                            'type' => 'text',
+                            'default' => get_permalink()
+                    ),                     
+                    array(
+                            'label' => 'Date Published',
+                            'id' => 'saswp_course_date_published_'.$schema_id,
+                            'type' => 'text',
+                            'default' => get_the_date("Y-m-d")
+                    ), 
+                    array(
+                            'label' => 'Date Modified',
+                            'id' => 'saswp_course_date_modified_'.$schema_id,
+                            'type' => 'text',
+                            'default' => get_the_modified_date("Y-m-d")
+                    ),                    
+                    array(
+                            'label' => 'Provider Name',
+                            'id' => 'saswp_course_provider_name_'.$schema_id,
+                            'type' => 'text',
+                            'default' => get_bloginfo()
+                    ),
+                    array(
+                            'label' => 'Provider SameAs',
+                            'id' => 'saswp_course_sameas_'.$schema_id,
+                            'type' => 'text',
+                            'default' => get_home_url() 
+                    )                                                     
+                    );
+                    break;
+                
                 case 'Recipe':
                     $meta_field = array(
                     array(
@@ -1986,6 +2039,79 @@ class saswp_post_specific {
                             'default' => saswp_remove_warnings($service_schema_details, 'saswp_audio_author_name', 'saswp_string')
                     ),    
                                                 
+                    );
+                    break;
+                
+                case 'SoftwareApplication':
+                    
+                    $software_schema_details = esc_sql ( get_post_meta($schema_id, 'saswp_software_schema_details', true)  );
+                    $meta_field = array(
+                    
+                    array(
+                            'label' => 'Name',
+                            'id' => 'saswp_software_schema_name_'.$schema_id,
+                            'type' => 'text',
+                            'default' => saswp_remove_warnings($software_schema_details, 'saswp_software_schema_name', 'saswp_string')
+                    ),
+                    array(
+                            'label' => 'Description',
+                            'id' => 'saswp_software_schema_description_'.$schema_id,
+                            'type' => 'textarea',
+                            'default' => saswp_remove_warnings($software_schema_details, 'saswp_software_schema_description', 'saswp_string')
+                    ),
+                    array(
+                            'label' => 'Operating System',
+                            'id' => 'saswp_software_schema_operating_system_'.$schema_id,
+                            'type' => 'text',
+                            'default' => saswp_remove_warnings($software_schema_details, 'saswp_software_schema_operating_system', 'saswp_string')
+                    ),
+                    array(
+                            'label' => 'Application Category',
+                            'id' => 'saswp_software_schema_application_category_'.$schema_id,
+                            'type' => 'text',
+                            'default' => saswp_remove_warnings($software_schema_details, 'saswp_software_schema_application_category', 'saswp_string')
+                    ),
+                    array(
+                            'label' => 'Price',
+                            'id' => 'saswp_software_schema_price_'.$schema_id,
+                            'type' => 'text',
+                            'default' => saswp_remove_warnings($software_schema_details, 'saswp_software_schema_price', 'saswp_string')
+                    ),
+                    array(
+                            'label' => 'Price Currency',
+                            'id' => 'saswp_software_schema_price_currency_'.$schema_id,
+                            'type' => 'text',
+                            'default' => saswp_remove_warnings($software_schema_details, 'saswp_software_schema_price_currency', 'saswp_string')
+                    ),                            
+                    array(
+                            'label' => 'Date Published',
+                            'id' => 'saswp_software_schema_date_published_'.$schema_id,
+                            'type' => 'text',
+                            'default' => get_the_date("Y-m-d")
+                    ),
+                    array(
+                            'label' => 'Date Modified',
+                            'id' => 'saswp_software_schema_date_modified_'.$schema_id,
+                            'type' => 'text',
+                            'default' => get_the_modified_date("Y-m-d")
+                    ),
+                    array(
+                            'label' => 'Aggregate Rating',
+                            'id' => 'saswp_software_schema_enable_rating_'.$schema_id,
+                            'type' => 'checkbox',                           
+                        ),
+                    array(
+                            'label' => 'Rating',
+                            'id' => 'saswp_software_schema_rating_'.$schema_id,
+                            'type' => 'text',
+                            'default' => saswp_remove_warnings($software_schema_details, 'saswp_software_schema_rating', 'saswp_string')
+                        ),
+                    array(
+                            'label' => 'Rating Count',
+                            'id' => 'saswp_software_schema_rating_count_'.$schema_id,
+                            'type' => 'text',
+                            'default' => saswp_remove_warnings($software_schema_details, 'saswp_software_schema_rating_count', 'saswp_string')
+                        ),    
                     );
                     break;
                 

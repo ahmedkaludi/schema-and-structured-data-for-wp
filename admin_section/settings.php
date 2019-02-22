@@ -923,6 +923,19 @@ function saswp_review_page_callback(){
 function saswp_compatibility_page_callback(){
         
         $settings = saswp_defaultSettings();  
+        
+        $tagyeem = array(
+			'label'  => 'Tagyeem Review',
+			'id'     => 'saswp-tagyeem-checkbox',                        
+                        'name'   => 'saswp-tagyeem-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
+                        'hidden' => array(
+                                'id'   => 'saswp-tagyeem',
+                                'name' => 'sd_data[saswp-tagyeem]',                             
+                        )
+		);
+        
         $kk_star = array(
 			'label'  => 'kk Star Ratings',
 			'id'     => 'saswp-kk-star-raring-checkbox',                        
@@ -992,6 +1005,16 @@ function saswp_compatibility_page_callback(){
                         )
 		);        
         
+        
+        if(!is_plugin_active('taqyeem/taqyeem.php')){
+             $tagyeem['attributes'] = array(
+                 'disabled' => 'disabled'
+             );
+             $tagyeem['note'] = esc_html__('Plugin is not activated','schema-and-structured-data-for-wp');
+             $settings['saswp-taqyeem'] = 0;
+        }
+        
+        
         if(!is_plugin_active('wordpress-seo/wp-seo.php') && !is_plugin_active('wordpress-seo-premium/wp-seo-premium.php')){
              $yoast['attributes'] = array(
                  'disabled' => 'disabled'
@@ -1054,7 +1077,7 @@ function saswp_compatibility_page_callback(){
                 $extratheme,
                 $dwquestiton,
                 $wpjobmanager,
-                $yoast
+                $yoast,                
                 
 	);       
         

@@ -1,5 +1,5 @@
 <?php       
-function item_reviewed_fields($item, $post_specific = null, $schema_id = null){
+        function item_reviewed_fields($item, $post_specific = null, $schema_id = null){
             
             $post_fix = '';
             
@@ -343,7 +343,7 @@ function item_reviewed_fields($item, $post_specific = null, $schema_id = null){
             return  $reviewed_field;       
             
         }
-                        
+        
         function saswp_get_item_reviewed_fields(){
                                     
             if ( ! isset( $_GET['saswp_security_nonce'] ) ){
@@ -506,6 +506,7 @@ function item_reviewed_fields($item, $post_specific = null, $schema_id = null){
 	);
         
         }
+        
         function saswp_schema_type_get_meta( $value ) {
             
             global $post;
@@ -518,6 +519,7 @@ function item_reviewed_fields($item, $post_specific = null, $schema_id = null){
                     return false;
             }
       }
+      
         function saswp_schema_type_meta_box_callback( $post) {
             
                 wp_nonce_field( 'saswp_schema_type_nonce', 'saswp_schema_type_nonce' );  
@@ -545,6 +547,12 @@ function item_reviewed_fields($item, $post_specific = null, $schema_id = null){
                         case 'AudioObject':
                             
                             $audio_details    = esc_sql ( get_post_meta($post->ID, 'saswp_audio_schema_details', true)  );    
+
+                            break;
+                        
+                        case 'SoftwareApplication':
+                            
+                            $software_details    = esc_sql ( get_post_meta($post->ID, 'saswp_software_schema_details', true)  );    
 
                             break;
                         
@@ -645,20 +653,22 @@ function item_reviewed_fields($item, $post_specific = null, $schema_id = null){
                                 );                                                             
                 
                                 $all_schema_array = array(
-                                     'Article'          => 'Article',
-                                     'AudioObject'      => 'AudioObject',
-                                     'Blogposting'      => 'Blogposting',
+                                     'Article'              => 'Article',
+                                     'AudioObject'          => 'AudioObject',
+                                     'Blogposting'          => 'Blogposting',
+                                     'Course'               => 'Course',   
                                     // 'JobPosting'       => 'JobPosting',   
-                                     'local_business'   => 'Local Business',
-                                     'NewsArticle'      => 'NewsArticle',
-                                     'Product'          => 'Product',
-                                     'qanda'            => 'Q&A',   
-                                     'Review'           => 'Review',                                     
-                                     'Recipe'           => 'Recipe',                                     
-                                     'Service'          => 'Service', 
-                                     'TechArticle'      => 'TechArticle', 
-                                     'VideoObject'      => 'VideoObject',
-                                     'WebPage'          => 'WebPage'                                                                
+                                     'local_business'       => 'Local Business',
+                                     'NewsArticle'          => 'NewsArticle',
+                                     'Product'              => 'Product',
+                                     'qanda'                => 'Q&A',   
+                                     'Review'               => 'Review',                                     
+                                     'Recipe'               => 'Recipe',                                     
+                                     'Service'              => 'Service',
+                                     'SoftwareApplication'  => 'SoftwareApplication',       
+                                     'TechArticle'          => 'TechArticle', 
+                                     'VideoObject'          => 'VideoObject',
+                                     'WebPage'              => 'WebPage'                                                                
                                  );
                                  $all_business_type = array(
                                     'animalshelter'                 => 'Animal Shelter',
@@ -1416,14 +1426,65 @@ function item_reviewed_fields($item, $post_specific = null, $schema_id = null){
                         </tr>
                         
                         <!-- AudioObject Schema type ends here -->
+                        
+                        <!-- SoftwareApplication Schema type starts here -->
+                        
+                        <tr class="saswp-softwareapplication-text-field-tr">
+                            <td><?php echo esc_html__('Name', 'schema-and-structured-data-for-wp' ); ?></td>
+                            <td><input  value="<?php if(isset($software_details['saswp_software_schema_name'])){echo esc_attr($software_details['saswp_software_schema_name']); } ?>" type="text" name="saswp_software_schema_name" placeholder="<?php echo esc_html__('Name', 'schema-and-structured-data-for-wp' ); ?>" ></td>
+                        </tr>
+                        
+                        <tr class="saswp-softwareapplication-text-field-tr">
+                            <td><?php echo esc_html__('Description', 'schema-and-structured-data-for-wp' ); ?></td>
+                            <td>                               
+                                <textarea  placeholder="Description" rows="5" cols="70" name="saswp_software_schema_description"><?php if(isset($software_details['saswp_software_schema_description'])){echo $software_details['saswp_software_schema_description']; } ?></textarea>
+                            </td>
+                        </tr>
+                        
+                        <tr class="saswp-softwareapplication-text-field-tr">
+                            <td><?php echo esc_html__('Operating System', 'schema-and-structured-data-for-wp' ); ?></td>
+                            <td><input  value="<?php if(isset($software_details['saswp_software_schema_operating_system'])){echo esc_attr($software_details['saswp_software_schema_operating_system']); } ?>" type="text" name="saswp_software_schema_operating_system" placeholder="<?php echo esc_html__('eg. ANDROID', 'schema-and-structured-data-for-wp' ); ?>" ></td>
+                        </tr>
+                        
+                        <tr class="saswp-softwareapplication-text-field-tr">
+                            <td><?php echo esc_html__('Application Category', 'schema-and-structured-data-for-wp' ); ?></td>
+                            <td><input  value="<?php if(isset($software_details['saswp_software_schema_application_category'])){echo esc_attr($software_details['saswp_software_schema_application_category']); } ?>" type="text" name="saswp_software_schema_application_category" placeholder="<?php echo esc_html__('eg. https://schema.org/GameApplication', 'schema-and-structured-data-for-wp' ); ?>" ></td>
+                        </tr>
+                        
+                        <tr class="saswp-softwareapplication-text-field-tr">
+                            <td><?php echo esc_html__('Price', 'schema-and-structured-data-for-wp' ); ?></td>
+                            <td><input  value="<?php if(isset($software_details['saswp_software_schema_price'])){echo esc_attr($software_details['saswp_software_schema_price']); } ?>" type="text" name="saswp_software_schema_price" placeholder="<?php echo esc_html__('1.00', 'schema-and-structured-data-for-wp' ); ?>" ></td>
+                        </tr>
+                        
+                        <tr class="saswp-softwareapplication-text-field-tr">
+                            <td><?php echo esc_html__('Price Currency', 'schema-and-structured-data-for-wp' ); ?></td>
+                            <td><input  value="<?php if(isset($software_details['saswp_software_schema_price_currency'])){echo esc_attr($software_details['saswp_software_schema_price_currency']); } ?>" type="text" name="saswp_software_schema_price_currency" placeholder="<?php echo esc_html__('USD', 'schema-and-structured-data-for-wp' ); ?>" ></td>
+                        </tr>
                                                 
+                        <tr class="saswp-softwareapplication-text-field-tr">
+                            <td><?php echo esc_html__('Aggregate Rating', 'schema-and-structured-data-for-wp' ); ?></td>
+                            <td>
+                                <input class="saswp-enable-rating-review-softwareapplication" type="checkbox" name="saswp_software_schema_enable_rating" value="1" <?php if(isset($software_details['saswp_software_schema_enable_rating'])){echo 'checked'; }else{ echo ''; } ?>>
+                            </td>
+                        </tr>
+                        
+                        <tr class="saswp-softwareapplication-text-field-tr saswp-rating-review-softwareapplication">
+                            <td><?php echo esc_html__('Rating', 'schema-and-structured-data-for-wp' ); ?></td>
+                            <td><input  value="<?php if(isset($software_details['saswp_software_schema_rating'])){echo esc_attr($software_details['saswp_software_schema_rating']); } ?>" type="text" name="saswp_software_schema_rating" placeholder="<?php echo esc_html__('4.6', 'schema-and-structured-data-for-wp' ); ?>" ></td>
+                        </tr>
+                        <tr class="saswp-softwareapplication-text-field-tr saswp-rating-review-softwareapplication">
+                            <td><?php echo esc_html__('Rating Count', 'schema-and-structured-data-for-wp' ); ?></td>
+                            <td><input  value="<?php if(isset($software_details['saswp_software_schema_rating_count'])){echo esc_attr($software_details['saswp_software_schema_rating_count']); } ?>" type="text" name="saswp_software_schema_rating_count" placeholder="<?php echo esc_html__('8864', 'schema-and-structured-data-for-wp' ); ?>" ></td>
+                        </tr>
+                        
+                        <!-- SoftwareApplication Schema type ends here -->                        
                         
                     </table>  
                    
                 </div>
                     <?php
-        }
-   
+        } 
+        
         function saswp_schema_type_add_meta_box_save( $post_id ) {     
             
                 if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
@@ -1506,9 +1567,11 @@ function item_reviewed_fields($item, $post_specific = null, $schema_id = null){
                 
                
                 $service_schema_details = array();
-                $review_schema_details = array();
+                $review_schema_details  = array();
                 $product_schema_details = array();
-                $audio_schema_details = array();
+                $audio_schema_details   = array();
+                $software_schema_details   = array();
+                
                 $schema_type = sanitize_text_field($_POST['schema_type']);               
                
                 if($schema_type =='Service'){
@@ -1713,6 +1776,40 @@ function item_reviewed_fields($item, $post_specific = null, $schema_id = null){
                    update_post_meta( $post_id, 'saswp_audio_schema_details', $audio_schema_details );
                     
                     
+                }
+                
+                if($schema_type =='SoftwareApplication'){
+                    
+                     if ( isset( $_POST['saswp_software_schema_name'] ) ){
+                        $software_schema_details['saswp_software_schema_name'] = sanitize_text_field($_POST['saswp_software_schema_name']);        
+                     }
+                     if ( isset( $_POST['saswp_software_schema_description'] ) ){
+                        $software_schema_details['saswp_software_schema_description'] = sanitize_textarea_field($_POST['saswp_software_schema_description']);        
+                     }
+                     if ( isset( $_POST['saswp_software_schema_operating_system'] ) ){
+                        $software_schema_details['saswp_software_schema_operating_system'] = sanitize_text_field($_POST['saswp_software_schema_operating_system']);        
+                     }
+                     if ( isset( $_POST['saswp_software_schema_application_category'] ) ){
+                        $software_schema_details['saswp_software_schema_application_category'] = sanitize_text_field($_POST['saswp_software_schema_application_category']);        
+                     }
+                     if ( isset( $_POST['saswp_software_schema_price'] ) ){
+                        $software_schema_details['saswp_software_schema_price'] = sanitize_text_field($_POST['saswp_software_schema_price']);        
+                     }
+                     if ( isset( $_POST['saswp_software_schema_price_currency'] ) ){
+                        $software_schema_details['saswp_software_schema_price_currency'] = sanitize_text_field($_POST['saswp_software_schema_price_currency']);        
+                     }
+                     
+                     if ( isset( $_POST['saswp_software_schema_enable_rating'] ) ){
+                        $software_schema_details['saswp_software_schema_enable_rating'] = sanitize_text_field($_POST['saswp_software_schema_enable_rating']);        
+                     }
+                     if ( isset( $_POST['saswp_software_schema_rating'] ) ){
+                        $software_schema_details['saswp_software_schema_rating'] = sanitize_text_field($_POST['saswp_software_schema_rating']);        
+                     }
+                     if ( isset( $_POST['saswp_software_schema_rating_count'] ) ){
+                        $software_schema_details['saswp_software_schema_rating_count'] = sanitize_text_field($_POST['saswp_software_schema_rating_count']);        
+                     }
+                                          
+                   update_post_meta( $post_id, 'saswp_software_schema_details', $software_schema_details );                                        
                 }
                 //Service schema details ends here
                 

@@ -220,6 +220,7 @@ function saswp_generate_field_data( $post_id ){
 function saswp_comparison_logic_checker($input){
     
         global $post;
+                        
         $type       = $input['key_1'];
         $comparison = $input['key_2'];
         $data       = $input['key_3'];
@@ -311,13 +312,18 @@ function saswp_comparison_logic_checker($input){
       case 'post_category':
          
           $current_category = '';
-          $postcat = get_the_category( $post->ID );
-          if(!empty($postcat)){
-              if(is_object($postcat[0])){                 
-                $current_category = $postcat[0]->cat_ID;                   
-              }               
+          
+          if(is_object($post)){
+          
+              $postcat = get_the_category( $post->ID );
+                if(!empty($postcat)){
+                    if(is_object($postcat[0])){                 
+                      $current_category = $postcat[0]->cat_ID;                   
+                    }               
+                }
+                            
           }
-
+          
           if ( $comparison == 'equal') {
               if ( $data == $current_category ) {
                   $result = true;
@@ -331,7 +337,15 @@ function saswp_comparison_logic_checker($input){
         break;
       // Post Format
       case 'post_format':
-          $current_post_format = get_post_format( $post->ID );
+          
+          $current_post_format = '';
+          
+          if(is_object($post)){
+          
+              $current_post_format = get_post_format( $post->ID );
+              
+          }
+                    
           if ( $current_post_format === false ) {
               $current_post_format = 'standard';
           }
@@ -374,7 +388,15 @@ function saswp_comparison_logic_checker($input){
 
       // Page Template 
       case 'page_template':
-        $current_page_template = get_page_template_slug( $post->ID );
+          
+            $current_page_template = '';
+                      
+            if(is_object($post)){
+             
+                $current_page_template = get_page_template_slug( $post->ID );
+                
+            }                                
+          
             if ( $current_page_template == false ) {
                 $current_page_template = 'default';
             }
@@ -417,15 +439,24 @@ function saswp_comparison_logic_checker($input){
                 }
             }
             if($result==true && isset( $input['key_4'] ) && $input['key_4'] !='all'){
+                
               $term_data       = $input['key_4'];
-              $terms = wp_get_post_terms( $post->ID ,$data);
+              $terms           = wp_get_post_terms( $post->ID ,$data);
+              
               if(count($terms)>0){
+                  
                 $termChoices = array();
+                
                 foreach ($terms as $key => $termvalue) {
+                    
                    $termChoices[] = $termvalue->slug;
+                   
                  } 
+                 
               }
+              
               $result = false;
+              
               if(in_array($term_data, $termChoices)){
                 $result = true;
               }
