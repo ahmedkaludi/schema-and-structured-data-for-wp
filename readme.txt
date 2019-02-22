@@ -3,7 +3,7 @@ Contributors: mohammed_kaludi, ahmedkaludi, ampforwp
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.0.2
-Stable tag: 1.1
+Stable tag: 1.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -64,6 +64,13 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.1 (22 February 2019) =
+
+* New Feature: Software Application and Course schema type added to the schema type list #115
+* Bug Fixed: Modify Schema Output is not getting selected post meta fields value in schema markup #155
+* Bug Fixed: Author name field value is not being filled in the Review schema markup #154
+* Bug Fixed: Notice cluttering in error logs #152
 
 = 1.1 (15 February 2019) =
 
