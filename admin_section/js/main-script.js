@@ -57,6 +57,9 @@ jQuery(document).ready(function($){
              if(schematype == 'AudioObject'){            
              $(".saswp-audio-text-field-tr").show();               
              }
+             if(schematype == 'SoftwareApplication'){            
+             $(".saswp-softwareapplication-text-field-tr").show();               
+             }
              
               $(".saswp-schem-type-note").addClass('saswp_hide');
              if(schematype == 'qanda'){
@@ -100,6 +103,10 @@ jQuery(document).ready(function($){
              if(schematype == 'AudioObject'){            
              $(".saswp-audio-text-field-tr").show();               
              }
+             if(schematype == 'SoftwareApplication'){            
+             $(".saswp-softwareapplication-text-field-tr").show();               
+             }
+             
              if(schematype == 'Review'){            
              $(".saswp-review-text-field-tr").show(); 
              $(".saswp-review-text-field-tr").find('select').attr('disabled', false);

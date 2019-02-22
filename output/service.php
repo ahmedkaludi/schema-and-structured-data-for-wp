@@ -37,8 +37,7 @@ Class saswp_output_service{
                         $custom_fields[$key] = get_post_meta($post->ID, $field, true);                   
                         
                     } 
-                   
-                   
+                                      
                 }  
                 
              switch ($schema_type) {
@@ -155,7 +154,36 @@ Class saswp_output_service{
                      $input1['author']['name'] =    $custom_fields['saswp_audio_author_name'];
                     }                    
                     
-                    break;    
+                    break;   
+                    
+                case 'SoftwareApplication':
+                    
+                    if(isset($custom_fields['saswp_software_schema_name'])){
+                     $input1['name'] =    $custom_fields['saswp_software_schema_name'];
+                    }
+                    if(isset($custom_fields['saswp_software_schema_description'])){
+                     $input1['description'] =    $custom_fields['saswp_software_schema_description'];
+                    }
+                    if(isset($custom_fields['saswp_software_schema_operating_system'])){
+                     $input1['operatingSystem'] =    $custom_fields['saswp_software_schema_operating_system'];
+                    }
+                    if(isset($custom_fields['saswp_software_schema_application_category'])){
+                     $input1['applicationCategory'] =    $custom_fields['saswp_software_schema_application_category'];
+                    }
+                    if(isset($custom_fields['saswp_software_schema_price'])){
+                     $input1['offers']['price'] =    $custom_fields['saswp_software_schema_price'];
+                    }
+                    if(isset($custom_fields['saswp_software_schema_price_currency'])){
+                     $input1['offers']['priceCurrency'] =    $custom_fields['saswp_software_schema_price_currency'];
+                    }                    
+                    if(isset($custom_fields['saswp_software_schema_date_published'])){
+                     $input1['datePublished'] =    $custom_fields['saswp_software_schema_date_published'];
+                    }
+                    if(isset($custom_fields['saswp_software_schema_date_modified'])){
+                     $input1['dateModified'] =    $custom_fields['saswp_software_schema_date_modified'];
+                    }
+                                                            
+                    break;       
                 
                 case 'NewsArticle':
                                                                   
@@ -1324,6 +1352,22 @@ Class saswp_output_service{
                         'saswp_audio_schema_date_published' => 'Date Published',
                         'saswp_audio_schema_date_modified'  => 'Date Modified',
                         'saswp_audio_schema_author_name'    => 'Author',                        
+                    );
+                    
+                    break;
+                
+                case 'SoftwareApplication':
+                    
+                    $meta_field = array(
+                        
+                        'saswp_software_schema_name'                    => 'Name',
+                        'saswp_software_schema_description'             => 'Description',
+                        'saswp_software_schema_operating_system'        => 'Description',
+                        'saswp_software_schema_application_category'    => 'Description',
+                        'saswp_software_schema_price'                   => 'Description',
+                        'saswp_software_schema_price_currency'          => 'Description',                        
+                        'saswp_software_schema_date_published'          => 'Date Published',
+                        'saswp_software_schema_date_modified'           => 'Date Modified',                        
                     );
                     
                     break;

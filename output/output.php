@@ -425,6 +425,61 @@ function saswp_schema_output() {
                                             $input1['comment'] = saswp_get_comments(get_the_ID());
                                 }                            
                         }
+                        
+                        if( 'SoftwareApplication' === $schema_type){
+                       
+                        $schema_data = saswp_get_schema_data($schema_post_id, 'saswp_software_schema_details');                                 
+                            
+                        $input1 = array(
+			'@context'			=> 'http://schema.org',
+			'@type'				=> $schema_type ,			
+			'name'			        => saswp_remove_warnings($schema_data, 'saswp_software_schema_name', 'saswp_string'),
+			'description'                   => saswp_remove_warnings($schema_data, 'saswp_software_schema_description', 'saswp_string'),			
+			'operatingSystem'		=> saswp_remove_warnings($schema_data, 'saswp_software_schema_operating_system', 'saswp_string'),
+                        'applicationCategory'           => saswp_remove_warnings($schema_data, 'saswp_software_schema_application_category', 'saswp_string'),	                        
+                        'offers'                        => array(
+                                                            '@type'         => 'Offer',
+                                                            'price'         => saswp_remove_warnings($schema_data, 'saswp_software_schema_price', 'saswp_string'),	                         
+                                                            'priceCurrency' => saswp_remove_warnings($schema_data, 'saswp_software_schema_price_currency', 'saswp_string'),	                         
+                                                         ),        
+			'datePublished'                 => $date,
+			'dateModified'                  => $modified_date,
+			'author'			=> array(
+                                                            '@type'  => 'Person',
+                                                            'name'   => $aurthor_name
+                                        ),			
+                        );
+                        
+                                if(isset($schema_data['saswp_software_schema_rating']) && $schema_data['saswp_software_schema_rating'] >0 && isset($schema_data['saswp_software_schema_rating_count']) && $schema_data['saswp_software_schema_rating_count'] >0 && $schema_data['saswp_software_schema_enable_rating'] == 1){
+                                       $input1['aggregateRating'] =  array(
+                                                                        '@type'         => 'AggregateRating',
+                                                                        'ratingValue'	=> $schema_data['saswp_software_schema_rating'],
+                                                                        'ratingCount'   => (int)$schema_data['saswp_software_schema_rating_count'],       
+                                       );
+                                  }
+                                  
+                                if(!empty($publisher)){
+                            
+                                     $input1 = array_merge($input1, $publisher);   
+                         
+                                 }
+                                if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){                                   
+                                    $service = new saswp_output_service();
+                                    $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
+                                }
+                                if(!empty($aggregateRating)){
+                                    $input1['aggregateRating'] = $aggregateRating;
+                                }
+                                if(!empty($kkstar_aggregateRating)){
+                                   $input1['aggregateRating'] = $kkstar_aggregateRating;  
+                                }
+                                if(!empty($extra_theme_review)){
+                                   $input1 = array_merge($input1, $extra_theme_review);
+                                }                               
+                                if(isset($sd_data['saswp_comments_schema']) && $sd_data['saswp_comments_schema'] ==1){
+                                            $input1['comment'] = saswp_get_comments(get_the_ID());
+                                }                            
+                        }
 			
 			if( 'WebPage' === $schema_type){                            				
                                 
@@ -1509,6 +1564,44 @@ function saswp_post_specific_schema_output() {
                                    $input1 = array_merge($input1, $extra_theme_review);
                                 }
                         } 
+                        if( 'SoftwareApplication' === $schema_type){
+                    		                                                    
+			$input1 = array(
+			'@context'			=> 'http://schema.org',
+			'@type'				=> $schema_type,			
+			'name'			        => saswp_remove_warnings($all_post_meta, 'saswp_software_schema_name_'.$schema_id, 'saswp_array'),
+			'description'                   => saswp_remove_warnings($all_post_meta, 'saswp_software_schema_description_'.$schema_id, 'saswp_array'),
+			'operatingSystem'		=> saswp_remove_warnings($all_post_meta, 'saswp_software_schema_operating_system_'.$schema_id, 'saswp_array'),
+			'applicationCategory'		=> saswp_remove_warnings($all_post_meta, 'saswp_software_schema_application_category_'.$schema_id, 'saswp_array'),                        
+                        'offers'                        => array(
+                                                            '@type'         => 'Offer',
+                                                            'price'         => saswp_remove_warnings($all_post_meta, 'saswp_software_schema_price_'.$schema_id, 'saswp_array'),	                         
+                                                            'priceCurrency' => saswp_remove_warnings($all_post_meta, 'saswp_software_schema_price_currency_'.$schema_id, 'saswp_array'),	                         
+                                                         ),
+			'datePublished'                 => saswp_remove_warnings($all_post_meta, 'saswp_software_schema_date_published_'.$schema_id, 'saswp_array'),
+			'dateModified'                  => saswp_remove_warnings($all_post_meta, 'saswp_software_schema_date_modified_'.$schema_id, 'saswp_array'),			
+			
+			   );
+                        
+                                if(saswp_remove_warnings($all_post_meta, 'saswp_software_schema_enable_rating_'.$schema_id, 'saswp_array') == 1){   
+                                 
+                                          $input1['aggregateRating'] = array(
+                                                            "@type"=> "AggregateRating",
+                                                            "ratingValue" => saswp_remove_warnings($all_post_meta, 'saswp_software_schema_rating_'.$schema_id, 'saswp_array'),
+                                                            "reviewCount" => saswp_remove_warnings($all_post_meta, 'saswp_software_schema_rating_count_'.$schema_id, 'saswp_array')
+                                                         );                                       
+                                }
+                        
+                               if(!empty($aggregateRating)){
+                                    $input1['aggregateRating'] = $aggregateRating;
+                                }
+                                if(!empty($kkstar_aggregateRating)){
+                                   $input1['aggregateRating'] = $kkstar_aggregateRating;  
+                                }
+                                if(!empty($extra_theme_review)){
+                                   $input1 = array_merge($input1, $extra_theme_review);
+                                }
+                        }
 			
 			 if( 'WebPage' === $schema_type){
                              
