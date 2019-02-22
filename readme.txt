@@ -65,10 +65,10 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
 
-= 1.1 (22 February 2019) =
+= 1.2 (22 February 2019) =
 
 * New Feature: Software Application and Course schema type added to the schema type list #115
-* Bug Fixed: Modify Schema Output is not getting selected post meta fields value in schema markup #155
+* Bug Fixed: Modify Schema Output is not getting, Selected post meta fields value in schema markup #155
 * Bug Fixed: Author name field value is not being filled in the Review schema markup #154
 * Bug Fixed: Notice cluttering in error logs #152
 
