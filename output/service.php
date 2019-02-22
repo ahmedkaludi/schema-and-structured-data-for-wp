@@ -22,15 +22,22 @@ Class saswp_output_service{
          */
         public function saswp_replace_with_custom_fields_value($input1, $schema_post_id){
            
-            $custom_fields    = esc_sql ( get_post_meta($schema_post_id, 'saswp_custom_fields', true)  );
+            global $post;
             
+            $custom_fields    = esc_sql ( get_post_meta($schema_post_id, 'saswp_custom_fields', true)  );
+                        
             if(!empty($custom_fields)){
                 
                  $schema_type = get_post_meta( $schema_post_id, 'schema_type', true); 
                  
                  foreach ($custom_fields as $key => $field){
                      
-                   $custom_fields[$key] = get_post_meta($schema_post_id, $field, true);
+                    if(is_object($post)){
+                        
+                        $custom_fields[$key] = get_post_meta($post->ID, $field, true);                   
+                        
+                    } 
+                   
                    
                 }  
                 
