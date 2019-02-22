@@ -1362,10 +1362,10 @@ Class saswp_output_service{
                         
                         'saswp_software_schema_name'                    => 'Name',
                         'saswp_software_schema_description'             => 'Description',
-                        'saswp_software_schema_operating_system'        => 'Description',
-                        'saswp_software_schema_application_category'    => 'Description',
-                        'saswp_software_schema_price'                   => 'Description',
-                        'saswp_software_schema_price_currency'          => 'Description',                        
+                        'saswp_software_schema_operating_system'        => 'Operating System',
+                        'saswp_software_schema_application_category'    => 'Application Category',
+                        'saswp_software_schema_price'                   => 'Price',
+                        'saswp_software_schema_price_currency'          => 'Price Currency',                        
                         'saswp_software_schema_date_published'          => 'Date Published',
                         'saswp_software_schema_date_modified'           => 'Date Modified',                        
                     );

@@ -1077,8 +1077,7 @@ function saswp_compatibility_page_callback(){
                 $extratheme,
                 $dwquestiton,
                 $wpjobmanager,
-                $yoast,
-                $tagyeem
+                $yoast,                
                 
 	);       
         
