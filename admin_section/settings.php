@@ -294,13 +294,10 @@ function saswp_schema_page_callback(){
 			'type' => 'media',
 		),                                                   
 	);
-          echo '<h2>'.esc_html__('Default Values','schema-and-structured-data-for-wp').'</h2>';
+         echo '<h2>'.esc_html__('Default Values','schema-and-structured-data-for-wp').'</h2>';
          echo '<div class="saswp-schema-type-fields">';
          $field_objs->saswp_field_generator($meta_fields_default, $settings);
-         echo '</div>';
-        ?>     
-        
-	<?php
+         echo '</div>';        
 }
 
 function saswp_amp_page_callback(){
@@ -789,10 +786,9 @@ function saswp_knowledge_page_callback(){
                 			
 	);
          echo '<div class="saswp-social-fileds">';
-        $field_objs->saswp_field_generator($social_meta_fields, $settings);
+         $field_objs->saswp_field_generator($social_meta_fields, $settings);
          echo '</div>';      
-        ?>            	     
-	<?php
+       
 }
 
 function saswp_check_data_imported_from($plugin_post_type_name){
@@ -894,9 +890,7 @@ function saswp_import_callback(){
 }
 
 function saswp_imported_callback(){	        
-	$settings = saswp_defaultSettings();          
-        ?>		
-	<?php        
+	          
 }
 
 function saswp_review_page_callback(){

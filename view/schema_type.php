@@ -370,9 +370,12 @@
                   $attributes ='';
                   
                   if(isset($meta_field['attributes'])){
+                      
                             foreach ($meta_field['attributes'] as $key => $attr ){
+                                
                                            $attributes .=''.$key.'="'.$attr.'"';
-                                }
+                                           
+                            }
                  }
                  
                  
@@ -496,14 +499,14 @@
 	
         function saswp_schema_type_add_meta_box() {
             
-	add_meta_box(
-		'schema_type',
-		esc_html__( 'Schema Type', 'schema-and-structured-data-for-wp' ),
-		'saswp_schema_type_meta_box_callback',
-		'saswp',
-		'advanced',
-		'high'
-	);
+            add_meta_box(
+                    'schema_type',
+                    esc_html__( 'Schema Type', 'schema-and-structured-data-for-wp' ),
+                    'saswp_schema_type_meta_box_callback',
+                    'saswp',
+                    'advanced',
+                    'high'
+            );
         
         }
         
@@ -518,7 +521,7 @@
             } else {
                     return false;
             }
-      }
+        }
       
         function saswp_schema_type_meta_box_callback( $post) {
             
@@ -532,11 +535,13 @@
                 $schema_type         = '';
                 $business_type       = '';                
                 $custom_logo_id      = '';
+                
                 $business_details    = array();
                 $logo                = array();
                 $service_details     = array();
                 $review_details      = array();
                 $product_details     = array();
+                $event_details       = array();
                 
                 if($post){
                     
@@ -580,6 +585,12 @@
                         case 'Review':
 
                             $review_details   = esc_sql ( get_post_meta($post->ID, 'saswp_review_schema_details', true)  );
+                            
+                            break;
+                        
+                        case 'Event':
+
+                            $event_details   = esc_sql ( get_post_meta($post->ID, 'saswp_event_schema_details', true)  );
                             
                             break;
 
@@ -656,7 +667,8 @@
                                      'Article'              => 'Article',
                                      'AudioObject'          => 'AudioObject',
                                      'Blogposting'          => 'Blogposting',
-                                     'Course'               => 'Course',   
+                                     'Course'               => 'Course', 
+                                     'Event'                => 'Event',    
                                     // 'JobPosting'       => 'JobPosting',   
                                      'local_business'       => 'Local Business',
                                      'NewsArticle'          => 'NewsArticle',
@@ -1477,7 +1489,109 @@
                             <td><input  value="<?php if(isset($software_details['saswp_software_schema_rating_count'])){echo esc_attr($software_details['saswp_software_schema_rating_count']); } ?>" type="text" name="saswp_software_schema_rating_count" placeholder="<?php echo esc_html__('8864', 'schema-and-structured-data-for-wp' ); ?>" ></td>
                         </tr>
                         
-                        <!-- SoftwareApplication Schema type ends here -->                        
+                        <!-- SoftwareApplication Schema type ends here -->     
+                        
+                        <!-- Event Schema type starts here -->
+                        
+                        <tr class="saswp-event-text-field-tr">
+                            <td><?php echo esc_html__('Name', 'schema-and-structured-data-for-wp' ); ?></td>
+                            <td><input  value="<?php if(isset($event_details['saswp_event_schema_name'])){echo esc_attr($event_details['saswp_event_schema_name']); } ?>" type="text" name="saswp_event_schema_name" placeholder="<?php echo esc_html__('Name', 'schema-and-structured-data-for-wp' ); ?>" ></td>
+                        </tr>
+                        <tr class="saswp-event-text-field-tr">
+                            <td><?php echo esc_html__('Description', 'schema-and-structured-data-for-wp' ); ?></td>
+                            <td>                               
+                                <textarea  placeholder="Description" rows="5" cols="70" name="saswp_event_schema_description"><?php if(isset($event_details['saswp_event_schema_description'])){echo $event_details['saswp_event_schema_description']; } ?></textarea>
+                            </td>
+                        </tr>
+                        <tr class="saswp-event-text-field-tr">
+                            <td><?php echo esc_html__('Location Name', 'schema-and-structured-data-for-wp' ); ?></td>
+                            <td><input  value="<?php if(isset($event_details['saswp_event_schema_location_name'])){echo esc_attr($event_details['saswp_event_schema_location_name']); } ?>" type="text" name="saswp_event_schema_location_name" placeholder="<?php echo esc_html__('Location Name', 'schema-and-structured-data-for-wp' ); ?>" ></td>
+                        </tr>
+                        
+                        <tr class="saswp-event-text-field-tr">
+                            <td><?php echo esc_html__('Location Street Address', 'schema-and-structured-data-for-wp' ); ?></td>
+                            <td><input  value="<?php if(isset($event_details['saswp_event_schema_location_streetaddress'])){echo esc_attr($event_details['saswp_event_schema_location_streetaddress']); } ?>" type="text" name="saswp_event_schema_location_streetaddress" placeholder="<?php echo esc_html__('Location Street Address', 'schema-and-structured-data-for-wp' ); ?>" ></td>
+                        </tr>
+                        
+                        <tr class="saswp-event-text-field-tr">
+                            <td><?php echo esc_html__('Location Locality', 'schema-and-structured-data-for-wp' ); ?></td>
+                            <td><input  value="<?php if(isset($event_details['saswp_event_schema_location_locality'])){echo esc_attr($event_details['saswp_event_schema_location_locality']); } ?>" type="text" name="saswp_event_schema_location_locality" placeholder="<?php echo esc_html__('Location Locality', 'schema-and-structured-data-for-wp' ); ?>" ></td>
+                        </tr>
+                        
+                        <tr class="saswp-event-text-field-tr">
+                            <td><?php echo esc_html__('Location Region', 'schema-and-structured-data-for-wp' ); ?></td>
+                            <td><input  value="<?php if(isset($event_details['saswp_event_schema_location_region'])){echo esc_attr($event_details['saswp_event_schema_location_region']); } ?>" type="text" name="saswp_event_schema_location_region" placeholder="<?php echo esc_html__('Location Region', 'schema-and-structured-data-for-wp' ); ?>" ></td>
+                        </tr>
+                        
+                        <tr class="saswp-event-text-field-tr">
+                            <td><?php echo esc_html__('Location PostalCode', 'schema-and-structured-data-for-wp' ); ?></td>
+                            <td><input  value="<?php if(isset($event_details['saswp_event_schema_location_postalcode'])){echo esc_attr($event_details['saswp_event_schema_location_postalcode']); } ?>" type="text" name="saswp_event_schema_location_postalcode" placeholder="<?php echo esc_html__('PostalCode', 'schema-and-structured-data-for-wp' ); ?>" ></td>
+                        </tr>
+                        
+                        <tr class="saswp-event-text-field-tr">
+                            <td><?php echo esc_html__('Start Date', 'schema-and-structured-data-for-wp' ); ?></td>
+                            <td><input class="saswp-local-schema-datepicker-picker" value="<?php if(isset($event_details['saswp_event_schema_start_date'])){echo esc_attr($event_details['saswp_event_schema_start_date']); } ?>" type="text" name="saswp_event_schema_start_date" placeholder="<?php echo esc_html__('2018-12-12', 'schema-and-structured-data-for-wp' ); ?>" ></td>
+                        </tr>                                                
+                        
+                        <tr class="saswp-event-text-field-tr">
+                            <td><?php echo esc_html__('End Date', 'schema-and-structured-data-for-wp' ); ?></td>
+                            <td><input class="saswp-local-schema-datepicker-picker" value="<?php if(isset($event_details['saswp_event_schema_end_date'])){echo esc_attr($event_details['saswp_event_schema_end_date']); } ?>" type="text" name="saswp_event_schema_end_date" placeholder="<?php echo esc_html__('2018-12-12', 'schema-and-structured-data-for-wp' ); ?>" ></td>
+                        </tr>
+                        
+                        <tr class="saswp-event-text-field-tr">
+                            <td><?php echo esc_html__('Image', 'schema-and-structured-data-for-wp' ); ?></td>
+                            <td style="display: flex; width: 97%">
+                                <input value="<?php if(isset($event_details['saswp_event_schema_image'])) { echo esc_url($event_details['saswp_event_schema_image']['url']);} else { echo esc_url(saswp_remove_warnings($logo, 0, 'saswp_string')); } ?>" id="saswp_event_schema_image" type="text" name="saswp_event_schema_image[url]" placeholder="<?php echo esc_html__('Image', 'schema-and-structured-data-for-wp' ); ?>" readonly="readonly" style="background: #FFF;">
+                                <input value="<?php if(isset($event_details['saswp_event_schema_image'])) { echo esc_attr($event_details['saswp_event_schema_image']['id']);} else { echo esc_attr($custom_logo_id); }?>" data-id="saswp_event_schema_image_id" type="hidden" name="saswp_event_schema_image[id]">
+                                <input value="<?php if(isset($event_details['saswp_event_schema_image'])) { echo esc_attr($event_details['saswp_event_schema_image']['width']);} else { echo esc_attr(saswp_remove_warnings($logo, 1, 'saswp_string')); } ?>" data-id="saswp_event_schema_image_width" type="hidden" name="saswp_event_schema_image[width]">
+                                <input value="<?php if(isset($event_details['saswp_event_schema_image'])) { echo esc_attr($event_details['saswp_event_schema_image']['height']);} else { echo esc_attr(saswp_remove_warnings($logo, 2, 'saswp_string')); } ?>" data-id="saswp_event_schema_image_height" type="hidden" name="saswp_event_schema_image[height]">
+                                <input data-id="media" class="button" id="saswp_event_schema_image_button" type="button" value="Upload">
+                            </td>
+                        </tr>
+                        
+                        <tr class="saswp-event-text-field-tr">
+                            <td><?php echo esc_html__('Performer Name', 'schema-and-structured-data-for-wp' ); ?></td>
+                            <td><input  value="<?php if(isset($event_details['saswp_event_schema_performer_name'])){echo esc_attr($event_details['saswp_event_schema_performer_name']); } ?>" type="text" name="saswp_event_schema_performer_name"></td>
+                        </tr>
+                        
+                        <tr class="saswp-event-text-field-tr">
+                            <td><?php echo esc_html__('Price', 'schema-and-structured-data-for-wp' ); ?></td>
+                            <td><input  value="<?php if(isset($event_details['saswp_event_schema_price'])){echo esc_attr($event_details['saswp_event_schema_price']); } ?>" type="number" name="saswp_event_schema_price"></td>
+                        </tr>
+                        
+                        <tr class="saswp-event-text-field-tr">
+                            <td><?php echo esc_html__('Price currency', 'schema-and-structured-data-for-wp' ); ?></td>
+                            <td><input  value="<?php if(isset($event_details['saswp_event_schema_price_currency'])){echo esc_attr($event_details['saswp_event_schema_price_currency']); } ?>" type="text" name="saswp_event_schema_price_currency"></td>
+                        </tr>
+                        <tr class="saswp-event-text-field-tr">
+                            <td><?php echo esc_html__('Availability', 'schema-and-structured-data-for-wp' ); ?></td>
+                            <td>
+                                <select name="saswp_event_schema_availability">
+                                <?php
+                                  
+                                  foreach ($availability as $key => $value) {
+                                    $sel = '';
+                                    if(saswp_remove_warnings($event_details, 'saswp_event_schema_availability', 'saswp_string')==$key){
+                                      $sel = 'selected';
+                                    }
+                                    echo "<option value='".esc_attr($key)."' ".esc_attr($sel).">".esc_html__($value, 'schema-and-structured-data-for-wp' )."</option>";
+                                  }
+                                ?>
+                            </select>
+                            </td>
+                        </tr>
+                        
+                        <tr class="saswp-event-text-field-tr">
+                            <td><?php echo esc_html__('Valid From', 'schema-and-structured-data-for-wp' ); ?></td>
+                            <td><input class="saswp-local-schema-datepicker-picker" value="<?php if(isset($event_details['saswp_event_schema_validfrom'])){echo esc_attr($event_details['saswp_event_schema_validfrom']); } ?>" type="text" name="saswp_event_schema_validfrom"></td>
+                        </tr>
+                        
+                        <tr class="saswp-event-text-field-tr">
+                            <td><?php echo esc_html__('URL', 'schema-and-structured-data-for-wp' ); ?></td>
+                            <td><input  value="<?php if(isset($event_details['saswp_event_schema_url'])){echo esc_attr($event_details['saswp_event_schema_url']); } ?>" type="text" name="saswp_event_schema_url"></td>
+                        </tr>
+                                                
+                        <!-- Event Schema type ends here -->   
                         
                     </table>  
                    
@@ -1810,9 +1924,80 @@
                      }
                                           
                    update_post_meta( $post_id, 'saswp_software_schema_details', $software_schema_details );                                        
-                }
-                //Service schema details ends here
+                }    
                 
+                if($schema_type == 'Event'){
+                    
+                    $event_schema_details = array();
+                    
+                     if ( isset( $_POST['saswp_event_schema_name'] ) ){
+                        $event_schema_details['saswp_event_schema_name'] = sanitize_text_field($_POST['saswp_event_schema_name']);        
+                     }
+                     
+                     if ( isset( $_POST['saswp_event_schema_description'] ) ){
+                        $event_schema_details['saswp_event_schema_description'] = sanitize_textarea_field($_POST['saswp_event_schema_description']);        
+                     }
+                     
+                     if ( isset( $_POST['saswp_event_schema_location_name'] ) ){
+                        $event_schema_details['saswp_event_schema_location_name'] = sanitize_text_field($_POST['saswp_event_schema_location_name']);        
+                     }
+                     
+                     if ( isset( $_POST['saswp_event_schema_location_streetaddress'] ) ){
+                        $event_schema_details['saswp_event_schema_location_streetaddress'] = sanitize_text_field($_POST['saswp_event_schema_location_streetaddress']);        
+                     }
+                     
+                     if ( isset( $_POST['saswp_event_schema_location_locality'] ) ){
+                        $event_schema_details['saswp_event_schema_location_locality'] = sanitize_text_field($_POST['saswp_event_schema_location_locality']);        
+                     }
+                     
+                     if ( isset( $_POST['saswp_event_schema_location_region'] ) ){
+                        $event_schema_details['saswp_event_schema_location_region'] = sanitize_text_field($_POST['saswp_event_schema_location_region']);        
+                     }
+                     
+                     if ( isset( $_POST['saswp_event_schema_location_postalcode'] ) ){
+                        $event_schema_details['saswp_event_schema_location_postalcode'] = sanitize_text_field($_POST['saswp_event_schema_location_postalcode']);        
+                     }
+                     if ( isset( $_POST['saswp_event_schema_start_date'] ) ){
+                        $event_schema_details['saswp_event_schema_start_date'] = sanitize_text_field($_POST['saswp_event_schema_start_date']);        
+                     }
+                     
+                     if ( isset( $_POST['saswp_event_schema_end_date'] ) ){
+                        $event_schema_details['saswp_event_schema_end_date'] = sanitize_text_field($_POST['saswp_event_schema_end_date']);        
+                     }
+                     
+                     if ( isset( $_POST['saswp_event_schema_performer_name'] ) ){
+                        $event_schema_details['saswp_event_schema_performer_name'] = sanitize_text_field($_POST['saswp_event_schema_performer_name']);        
+                     }
+                     
+                     if ( isset( $_POST['saswp_event_schema_price'] ) ){
+                        $event_schema_details['saswp_event_schema_price'] = sanitize_text_field($_POST['saswp_event_schema_price']);        
+                     }
+                     
+                     if ( isset( $_POST['saswp_event_schema_price_currency'] ) ){
+                        $event_schema_details['saswp_event_schema_price_currency'] = sanitize_text_field($_POST['saswp_event_schema_price_currency']);        
+                     }
+                     
+                     if ( isset( $_POST['saswp_event_schema_availability'] ) ){
+                        $event_schema_details['saswp_event_schema_availability'] = sanitize_text_field($_POST['saswp_event_schema_availability']);        
+                     }
+                     
+                     if ( isset( $_POST['saswp_event_schema_validfrom'] ) ){
+                        $event_schema_details['saswp_event_schema_validfrom'] = sanitize_text_field($_POST['saswp_event_schema_validfrom']);        
+                     }
+                     
+                     if ( isset( $_POST['saswp_event_schema_url'] ) ){
+                        $event_schema_details['saswp_event_schema_url'] = sanitize_text_field($_POST['saswp_event_schema_url']);        
+                     }
+                     
+                     if ( isset( $_POST['saswp_event_schema_image'] ) ){
+                        $event_schema_details['saswp_event_schema_image']['id'] = sanitize_text_field($_POST['saswp_event_schema_image']['id']);    
+                        $event_schema_details['saswp_event_schema_image']['url'] = esc_url_raw($_POST['saswp_event_schema_image']['url']);
+                        $event_schema_details['saswp_event_schema_image']['width'] = sanitize_text_field($_POST['saswp_event_schema_image']['width']);
+                        $event_schema_details['saswp_event_schema_image']['height'] = sanitize_text_field($_POST['saswp_event_schema_image']['height']);
+                     }
+                                          
+                   update_post_meta( $post_id, 'saswp_event_schema_details', $event_schema_details );                                        
+                }
                               
         }           
 

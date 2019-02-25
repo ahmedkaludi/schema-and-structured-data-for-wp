@@ -1,5 +1,6 @@
 <?php 
 Class saswp_review_output{
+    
         public function __construct() {                               
 	}
         
@@ -20,7 +21,6 @@ Class saswp_review_output{
             }
             
         }
-
 
         public function saswp_get_review_box_content(){
             
@@ -171,6 +171,7 @@ Class saswp_review_output{
             return $boxdata;
             
         }
+        
         public function saswp_display_review_box($content){
             
             global $sd_data;  

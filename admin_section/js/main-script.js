@@ -54,6 +54,10 @@ jQuery(document).ready(function($){
              $(".saswp-product-text-field-tr").show();  
              $(".saswp-option-table-class tr").find('select').attr('disabled', false);
              }
+             if(schematype == 'Event'){            
+             $(".saswp-event-text-field-tr").show();  
+             $(".saswp-option-table-class tr").find('select').attr('disabled', false);
+             }
              if(schematype == 'AudioObject'){            
              $(".saswp-audio-text-field-tr").show();               
              }
@@ -110,6 +114,10 @@ jQuery(document).ready(function($){
              if(schematype == 'Review'){            
              $(".saswp-review-text-field-tr").show(); 
              $(".saswp-review-text-field-tr").find('select').attr('disabled', false);
+             }
+             if(schematype == 'Event'){            
+             $(".saswp-event-text-field-tr").show(); 
+             $(".saswp-event-text-field-tr").find('select').attr('disabled', false);
              }
             saswp_enable_rating_review();
         }).change(); 

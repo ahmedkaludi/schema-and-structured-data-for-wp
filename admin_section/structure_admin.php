@@ -1141,7 +1141,7 @@ function saswp_send_query_message(){
         $user_data  = $user->data;        
         $user_email = $user_data->user_email;       
         //php mailer variables        
-        $sendto = 'team@magazine3.com';
+        $sendto  = 'team@magazine3.com';
         $subject = "Customer Query";
         $headers = 'From: '. esc_attr($user_email) . "\r\n" .
         'Reply-To: ' . esc_attr($user_email) . "\r\n";
@@ -1175,8 +1175,9 @@ function saswp_import_plugin_data(){
         if ( !wp_verify_nonce( $_GET['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
            return;  
         }    
+        
         $plugin_name   = sanitize_text_field($_GET['plugin_name']);         
-        $result = '';
+        $result        = '';
         
         switch ($plugin_name) {
             

@@ -801,7 +801,7 @@ Class saswp_output_service{
                          
              $date_on_sale                           = $product->get_date_on_sale_to();                            
              $product_details['product_name']        = $product->get_title();
-             $product_details['product_description'] = $product->get_description();
+             $product_details['product_description'] = $product->get_short_description();
              
              if(!empty($image_details)){
               
@@ -1368,6 +1368,30 @@ Class saswp_output_service{
                         'saswp_software_schema_price_currency'          => 'Price Currency',                        
                         'saswp_software_schema_date_published'          => 'Date Published',
                         'saswp_software_schema_date_modified'           => 'Date Modified',                        
+                    );
+                    
+                    break;
+                
+                case 'Event':
+                    
+                    $meta_field = array(
+                        
+                        'saswp_event_schema_name'                    => 'Name',
+                        'saswp_event_schema_description'             => 'Description',
+                        'saswp_event_schema_location_name'           => 'Location Name',
+                        'saswp_event_schema_location_streetaddress'  => 'Location Street Address',
+                        'saswp_event_schema_location_locality'       => 'Location Locality',
+                        'saswp_event_schema_location_region'         => 'Location Region',                        
+                        'saswp_event_schema_location_postalcode'     => 'PostalCode',
+                        'saswp_event_schema_start_date'              => 'Start Date',                        
+                        'saswp_event_schema_end_date'                => 'End Date',
+                        'saswp_event_schema_image'                   => 'Image',
+                        'saswp_event_schema_performer_name'          => 'Performer Name',
+                        'saswp_event_schema_price'                   => 'Price',
+                        'saswp_event_schema_price_currency'          => 'Price Currency',
+                        'saswp_event_schema_availability'            => 'Availability',
+                        'saswp_event_schema_validfrom'               => 'Valid From',
+                        'saswp_event_schema_url'                     => 'URL',
                     );
                     
                     break;
