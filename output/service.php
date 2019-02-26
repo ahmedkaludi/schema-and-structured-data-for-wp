@@ -312,6 +312,62 @@ Class saswp_output_service{
                     }
                     break;
                     
+                case 'Event':      
+                      
+                    if(isset($custom_fields['saswp_event_schema_name'])){
+                     $input1['name'] =    $custom_fields['saswp_event_schema_name'];
+                    }
+                    if(isset($custom_fields['saswp_event_schema_description'])){
+                     $input1['description'] =    $custom_fields['saswp_event_schema_description'];
+                    }
+                    if(isset($custom_fields['saswp_event_schema_location_name'])){
+                     $input1['location']['name'] =    $custom_fields['saswp_event_schema_location_name'];
+                    }
+                    
+                    if(isset($custom_fields['saswp_event_schema_location_streetaddress'])){
+                     $input1['location']['address']['streetAddress'] =    $custom_fields['saswp_event_schema_location_streetaddress'];
+                    }
+                    if(isset($custom_fields['saswp_event_schema_location_locality'])){
+                     $input1['location']['address']['addressLocality'] =    $custom_fields['saswp_event_schema_location_locality'];
+                    }
+                    if(isset($custom_fields['saswp_event_schema_location_region'])){
+                     $input1['location']['address']['addressRegion'] =    $custom_fields['saswp_event_schema_location_region'];
+                    }
+                    
+                    if(isset($custom_fields['saswp_event_schema_location_postalcode'])){
+                     $input1['location']['address']['postalCode'] =    $custom_fields['saswp_event_schema_location_postalcode'];
+                    }
+                    if(isset($custom_fields['saswp_event_schema_start_date'])){
+                     $input1['startDate'] =    $custom_fields['saswp_event_schema_start_date'];
+                    }
+                    if(isset($custom_fields['saswp_event_schema_end_date'])){
+                     $input1['endDate'] =    $custom_fields['saswp_event_schema_end_date'];
+                    }
+                    
+                    if(isset($custom_fields['saswp_event_schema_image'])){
+                     $input1['image'] =    $custom_fields['saswp_event_schema_image'];
+                    }
+                    if(isset($custom_fields['saswp_event_schema_performer_name'])){
+                     $input1['performer']['name'] =    $custom_fields['saswp_event_schema_performer_name'];
+                    }
+                    if(isset($custom_fields['saswp_event_schema_price'])){
+                     $input1['offers']['price'] =    $custom_fields['saswp_event_schema_price'];
+                    }
+                    if(isset($custom_fields['saswp_event_schema_price_currency'])){
+                     $input1['offers']['priceCurrency'] =    $custom_fields['saswp_event_schema_price_currency'];
+                    }
+                    if(isset($custom_fields['saswp_event_schema_availability'])){
+                     $input1['offers']['availability'] =    $custom_fields['saswp_event_schema_availability'];
+                    }
+                    if(isset($custom_fields['saswp_event_schema_validfrom'])){
+                     $input1['offers']['validFrom'] =    $custom_fields['saswp_event_schema_validfrom'];
+                    }
+                    if(isset($custom_fields['saswp_event_schema_url'])){
+                     $input1['offers']['url'] =    $custom_fields['saswp_event_schema_url'];
+                    }
+                    
+                    break;    
+                    
                 case 'TechArticle':      
                       
                     if(isset($custom_fields['saswp_tech_article_main_entity_of_page'])){
@@ -1209,6 +1265,7 @@ Class saswp_output_service{
                         'saswp_tech_article_organization_logo'   => 'Organization Logo',                          
                         );                                        
                     break;
+                
                 case 'Course':      
                     
                     $meta_field = array(                        
