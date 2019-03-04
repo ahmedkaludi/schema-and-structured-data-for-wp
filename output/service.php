@@ -872,9 +872,14 @@ Class saswp_output_service{
                  
              $product_details['product_image'] = '';  
                
-             }             
+             }         
              
-             $product_details['product_availability'] = $product->get_stock_status();
+             if(strtolower( $product->get_stock_status() ) == 'onbackorder'){
+                 $product_details['product_availability'] = 'PreOrder';
+             }else{
+                 $product_details['product_availability'] = $product->get_stock_status();
+             }
+                          
              $product_details['product_price']        = $product->get_price();
              $product_details['product_sku']          = $product->get_sku();             
              

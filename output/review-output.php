@@ -37,20 +37,20 @@ Class saswp_review_output{
             $saswp_over_all_rating    = '';
             
             if(isset($saswp_review_details['saswp-review-item-feature'])){
-            $saswp_review_item_feature = $saswp_review_details['saswp-review-item-feature'];    
+                $saswp_review_item_feature = $saswp_review_details['saswp-review-item-feature'];    
             }
             if(isset($saswp_review_details['saswp-review-item-star-rating'])){
-            $saswp_review_item_star_rating = $saswp_review_details['saswp-review-item-star-rating'];    
+                $saswp_review_item_star_rating = $saswp_review_details['saswp-review-item-star-rating'];    
             }
             if(isset($saswp_review_details['saswp-review-item-title'])){
-            $saswp_review_title = $saswp_review_details['saswp-review-item-title'];    
+                $saswp_review_title = $saswp_review_details['saswp-review-item-title'];    
             }
             if(isset($saswp_review_details['saswp-review-item-description-title'])){
-            $saswp_review_description_title = $saswp_review_details['saswp-review-item-description-title'];    
+                $saswp_review_description_title = $saswp_review_details['saswp-review-item-description-title'];    
             }
            
             if(isset($saswp_review_details['saswp-review-item-over-all'])){
-            $saswp_over_all_rating = $saswp_review_details['saswp-review-item-over-all'];    
+                $saswp_over_all_rating = $saswp_review_details['saswp-review-item-over-all'];    
             }    
             
             $boxdata ='';

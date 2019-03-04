@@ -11,6 +11,12 @@ function saswp_structured_data()
 }
 add_action('wp_head', 'saswp_data_generator');
 
+
+/**
+ * Function to show all the schema markup in the page head
+ * @global type $sd_data
+ * @global type json array
+ */
 function saswp_data_generator() {
     
    global $sd_data;
@@ -215,6 +221,13 @@ function saswp_memberpress_form_update($form){
 	return $form;
 }
 
+/**
+ * Function to remove the undefined index notices
+ * @param type $data
+ * @param type $index
+ * @param type $type
+ * @return string
+ */
 function saswp_remove_warnings($data, $index, $type){     
     	
                 if($type == 'saswp_array'){
@@ -338,6 +351,11 @@ function saswp_get_comments($post_id){
         
 }       
 
+/**
+ * Function to enqueue AMP script in head
+ * @param type $data
+ * @return string
+ */
 function saswp_structure_data_access_scripts($data){
     
 	if ( empty( $data['amp_component_scripts']['amp-access'] ) ) {
@@ -359,6 +377,12 @@ function sd_is_blog() {
     
 }
 
+/**
+ * Function to fetch schema's post meta by its id from database using get_post_meta function
+ * @param type $schema_id
+ * @param type $schema_key
+ * @return type array
+ */
 function saswp_get_schema_data($schema_id, $schema_key){
     
     $details = array();
