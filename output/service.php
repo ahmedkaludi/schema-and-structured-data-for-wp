@@ -887,6 +887,10 @@ Class saswp_output_service{
                  
              $product_details['product_priceValidUntil'] = $date_on_sale->date('Y-m-d G:i:s');    
              
+             }else{
+                 
+             $product_details['product_priceValidUntil'] = get_the_modified_date("Y-m-d\TH:i:s\Z"); 
+             
              }       
              
              $product_details['product_currency'] = get_option( 'woocommerce_currency' );             
@@ -1570,8 +1574,7 @@ Class saswp_output_service{
 
                     break;
                 
-                case 'Article':
-                    
+                case 'Article':                   
                     $input1 = array(
 					'@context'			=> 'http://schema.org',
 					'@type'				=> 'Article',

@@ -19,6 +19,7 @@ add_action('wp_head', 'saswp_data_generator');
  */
 function saswp_data_generator() {
     
+    
    global $sd_data;
    global $post;
    
@@ -58,7 +59,9 @@ function saswp_data_generator() {
        
        $schema_output            = saswp_schema_output();    
        
-   }             
+   }   
+ 
+   
    if($schema_output || $schema_breadcrumb_output || $kb_website_output || $archive_output || $author_output || $about_page_output || $contact_page_output){       
       add_filter( 'amp_post_template_metadata', 'saswp_remove_amp_default_structure_data');
    }         
@@ -476,3 +479,24 @@ function saswp_list_items_generator(){
 
        return $breadcrumbslist;
 }
+
+
+/**
+ * Remove the default WooCommerce 3 JSON/LD structured data
+ * @global type $sd_data
+ */
+function saswp_remove_woocommerce_default_structured_data() {
+        
+    global $sd_data;
+    
+    if(isset($sd_data['saswp-woocommerce']) && $sd_data['saswp-woocommerce'] == 1 && is_plugin_active('woocommerce/woocommerce.php')){
+     
+        remove_action( 'wp_footer', array( WC()->structured_data, 'output_structured_data' ), 10 ); // This removes structured data from all frontend pages
+        remove_action( 'woocommerce_email_order_details', array( WC()->structured_data, 'output_email_structured_data' ), 30 ); // This removes structured data from all Emails sent by WooCommerce
+        
+        
+    }                
+
+}
+
+add_action( 'init', 'saswp_remove_woocommerce_default_structured_data' );

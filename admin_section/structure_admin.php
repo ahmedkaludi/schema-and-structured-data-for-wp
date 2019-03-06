@@ -10,8 +10,7 @@ function saswp_get_saved_schema_ids(){
                             'posts_per_page' => -1,   
                             'post_status' => 'publish',
                     )
-                 );
-    
+                 );    
     if($all_schemas){
         
      foreach($all_schemas as $schema){
@@ -105,11 +104,13 @@ function saswp_get_all_schema_posts(){
 
     $schema_id_array = json_decode(get_transient('saswp_transient_schema_ids'), true); 
     
+    
     if(!$schema_id_array){
         
        $schema_id_array = saswp_get_saved_schema_ids();
         
-    }            
+    }         
+       
     if($schema_id_array){
      
         if(count($schema_id_array)>0){    
