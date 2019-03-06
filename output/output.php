@@ -428,6 +428,23 @@ function saswp_schema_output() {
                         
                         if( 'Event' === $schema_type){
                        
+                            
+                        if(!saswp_non_amp() && is_plugin_active('the-events-calendar/the-events-calendar.php') && isset($sd_data['saswp-the-events-calendar']) && $sd_data['saswp-the-events-calendar'] == 1  ){
+                            
+                            $input1            = Tribe__Events__JSON_LD__Event::instance()->get_data();  
+                            
+                            if(!empty($input1)){
+                                
+                                $input1            = array_values( $input1 );
+                                $input1            = json_encode($input1);
+                                $input1            = json_decode($input1, true); 
+                                $input1            = $input1[0];
+                            }                                                                                    
+                                                       
+                        }else{
+                           
+                        if ( isset($sd_data['saswp-the-events-calendar']) && $sd_data['saswp-the-events-calendar'] == 0 ) {
+                                
                         $schema_data = saswp_get_schema_data($schema_post_id, 'saswp_event_schema_details');                                 
                             
                         $input1 = array(
@@ -484,6 +501,12 @@ function saswp_schema_output() {
                                 if(isset($sd_data['saswp_comments_schema']) && $sd_data['saswp_comments_schema'] ==1){
                                    $input1['comment'] = saswp_get_comments(get_the_ID());
                                 }                            
+                                
+                            } 
+                            
+                        }    
+                            
+                        
                         }
                         
                         if( 'SoftwareApplication' === $schema_type){
@@ -1480,7 +1503,7 @@ function saswp_post_specific_schema_output() {
             
                         
                         
-                         if( 'qanda' === $schema_type){      
+                        if( 'qanda' === $schema_type){      
                              
                             if(trim(saswp_remove_warnings($all_post_meta, 'saswp_qa_question_title_'.$schema_id, 'saswp_array')) ==''){
                                 
@@ -1520,8 +1543,7 @@ function saswp_post_specific_schema_output() {
                                 );
                             }                                
 			}   
-                        
-                        
+                                                
                         if( 'Event' === $schema_type){
                        
                         $event_image = get_post_meta( get_the_ID(), 'saswp_event_schema_image_'.$schema_id.'_detail',true); 

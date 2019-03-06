@@ -371,6 +371,15 @@ jQuery(document).ready(function($){
                             }
                       break;
                       
+                      case 'saswp-the-events-calendar-checkbox':
+                          
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-the-events-calendar").val(1);             
+                            }else{
+                              $("#saswp-the-events-calendar").val(0);           
+                            }
+                      break;
+                      
                       
                       default:
                           break;

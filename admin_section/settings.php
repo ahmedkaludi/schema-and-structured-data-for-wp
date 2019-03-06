@@ -930,6 +930,19 @@ function saswp_compatibility_page_callback(){
                         )
 		);
         
+        $the_events_calendar = array(
+			'label'  => 'The Events Calendar',
+			'id'     => 'saswp-the-events-calendar-checkbox',                        
+                        'name'   => 'saswp-the-events-calendar-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
+                        'hidden' => array(
+                                'id'   => 'saswp-the-events-calendar',
+                                'name' => 'sd_data[saswp-the-events-calendar]',                             
+                        )
+		);
+        
+        
         $kk_star = array(
 			'label'  => 'kk Star Ratings',
 			'id'     => 'saswp-kk-star-raring-checkbox',                        
@@ -1063,11 +1076,21 @@ function saswp_compatibility_page_callback(){
              $wpjobmanager['note'] = esc_html__('Plugin is not activated','schema-and-structured-data-for-wp');
              $settings['saswp-wp-job-manager'] = 0; 
          }
+         
+         if(!is_plugin_active('the-events-calendar/the-events-calendar.php')){
+             
+             $wpjobmanager['attributes'] = array(
+                 'disabled' => 'disabled'
+             );
+             $the_events_calendar['note'] = esc_html__('Plugin is not activated','schema-and-structured-data-for-wp');
+             $settings['saswp-wp-job-manager'] = 0; 
+         }
                         
         $field_objs = new saswp_fields_generator();
         $meta_fields = array(				
                 $kk_star,  
-                $woocommerce, 
+                $woocommerce,
+                $the_events_calendar,
                 $extratheme,
                 $dwquestiton,
                 $wpjobmanager,
