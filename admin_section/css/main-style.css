@@ -8,7 +8,7 @@ and open the template in the editor.
     Author     : Magazine3
 */
 .saswp_hide{
-    display: none;
+    display: none !important;
 }
 .saswp-general table th{
     width: auto;

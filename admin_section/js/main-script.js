@@ -388,26 +388,27 @@ jQuery(document).ready(function($){
          }).change();
         
          $("#saswp_kb_type").change(function(){
-          var datatype = $(this).val();        
-          for(var i=1;i<=11;i++){
-            if(datatype ==="Person"){
-             if(i<6){
-                $( ".saswp-knowledge-base li:eq('"+i+"')" ).hide();          
-              }else{
-                $( ".saswp-knowledge-base li:eq('"+i+"')" ).show();            
-              }    
-            }else if(datatype ==="Organization"){
-              if(i<6){
-                $( ".saswp-knowledge-base li:eq('"+i+"')" ).show();          
-              }else{
-                $( ".saswp-knowledge-base li:eq('"+i+"')" ).hide();            
-              }  
-               $( ".saswp-knowledge-base li:eq(11)" ).show();            
-            }else{
-               $( ".saswp-knowledge-base li:eq('"+i+"')" ).hide(); 
-            }
-                       
-          }                                           
+          var datatype = $(this).val(); 
+          
+          $(".saswp_org_fields, .saswp_person_fields").parent().parent().addClass('saswp_hide');
+          $(".saswp_kg_logo").parent().parent().parent().addClass('saswp_hide');
+          
+          
+          if(datatype == 'Organization'){
+              
+              $(".saswp_org_fields").parent().parent().removeClass('saswp_hide');
+              $(".saswp_person_fields").parent().parent().addClass('saswp_hide');
+              $(".saswp_kg_logo").parent().parent().parent().addClass('saswp_hide');
+              $("#sd-person-image").parent().parent().parent().addClass('saswp_hide');
+          }
+          if(datatype == 'Person'){
+              
+              $(".saswp_org_fields").parent().parent().addClass('saswp_hide');
+              $(".saswp_person_fields").parent().parent().removeClass('saswp_hide');
+              $(".saswp_kg_logo").parent().parent().parent().addClass('saswp_hide');
+              $("#sd-person-image").parent().parent().parent().removeClass('saswp_hide');
+          }
+
      }).change(); 
      
      

@@ -480,12 +480,34 @@ function saswp_knowledge_page_callback(){
 				'Person'=>'Person',
 			)
                     ),
-		
+		array(
+			'label' => 'Organization Type',
+			'id'    => 'saswp_organization_type',
+                        'name'  => 'sd_data[saswp_organization_type]',
+                        'class' => 'saswp_org_fields',
+			'type' => 'select',
+			'options' => array(                                
+				'Organization'              => 'Organization',
+				'Airline'                   => 'Airline',
+                                'Consortium'                => 'Consortium',
+                                'Corporation'               => 'Corporation',
+                                'EducationalOrganization'   => 'EducationalOrganization',
+                                'GovernmentOrganization'    => 'GovernmentOrganization',
+                                'LibrarySystem'             => 'LibrarySystem',
+                                'LocalBusiness'             => 'LocalBusiness',
+                                'MedicalOrganization'       => 'MedicalOrganization',
+                                'NewsMediaOrganization'     => 'NewsMediaOrganization',
+                                'NGO'                       => 'NGO',
+                                'PerformingGroup'           => 'PerformingGroup',
+                                'SportsOrganization'        => 'SportsOrganization',
+                                'WorkersUnion'              => 'WorkersUnion',
+			)
+                   ),
                 array(
 			'label' => 'Name',
 			'id' => 'sd_name',
                         'name' => 'sd_data[sd_name]',
-                        'class' => 'regular-text',                        
+                        'class' => 'regular-text saswp_org_fields',                        
 			'type' => 'text',
 		),
                                
@@ -493,32 +515,32 @@ function saswp_knowledge_page_callback(){
 			'label' => 'Url',
 			'id' => 'sd_url',
                         'name' => 'sd_data[sd_url]',
-                        'class' => 'regular-text',                        
+                        'class' => 'regular-text saswp_org_fields',                        
 			'type' => 'text',
 		),                
-                array(
-			'label' => 'Contact details',
-			'id' => 'saswp_kb_contact_1_checkbox', 
-                        'name' => 'saswp_kb_contact_1_checkbox',
-			'type' => 'checkbox',
-                        'class' => 'checkbox saswp-checkbox',                        
-                        'hidden' => array(
-                            'id' => 'saswp_kb_contact_1',                            
-                            'name' => 'sd_data[saswp_kb_contact_1]'
-                        )
-		),
+//                array(
+//			'label' => 'Contact details',
+//			'id' => 'saswp_kb_contact_1_checkbox', 
+//                        'name' => 'saswp_kb_contact_1_checkbox',
+//			'type' => 'checkbox',
+//                        'class' => 'checkbox saswp-checkbox saswp_org_fields',                        
+//                        'hidden' => array(
+//                            'id' => 'saswp_kb_contact_1',                            
+//                            'name' => 'sd_data[saswp_kb_contact_1]'
+//                        )
+//		),
                 array(
 			'label' => 'Telephone Number',
 			'id' => 'saswp_kb_telephone',
                         'name' => 'sd_data[saswp_kb_telephone]',
-                        'class' => 'regular-text',                        
+                        'class' => 'regular-text saswp_org_fields',                        
 			'type' => 'text',
 		),
                 array(
 			'label' => 'Contact Type',
 			'id' => 'saswp_contact_type',
                         'name' => 'sd_data[saswp_contact_type]',
-                        'class' => '',
+                        'class' => 'saswp_org_fields',
 			'type' => 'select',
 			'options' => array(
                                 ''=>'Select an item',
@@ -534,26 +556,27 @@ function saswp_knowledge_page_callback(){
                                 'roadside assistance'=>'Roadside Assistance',
                                 'package tracking'=>'Package Tracking',
 			)
-                   ),  
+                   ),
+                   
                    array(
 			'label' => 'Name',
 			'id' => 'sd-person-name',
                         'name' => 'sd_data[sd-person-name]',
-                        'class' => 'regular-text',                        
+                        'class' => 'regular-text saswp_person_fields',                        
 			'type' => 'text',
 		    ),
                     array(
 			'label' => 'Job Title',
 			'id' => 'sd-person-job-title',
                         'name' => 'sd_data[sd-person-job-title]',
-                        'class' => 'regular-text',                        
+                        'class' => 'regular-text saswp_person_fields',                        
 			'type' => 'text',
 		    ),  
                     array(
 			'label' => 'Image',
 			'id' => 'sd-person-image',
                         'name' => 'sd_data[sd-person-image][url]',
-                        'class' => 'upload large-text',
+                        'class' => 'upload large-text saswp_person_fields',
 			'type' => 'media',
                         'attributes' => array(
                                 'readonly' => 'readonly'
@@ -563,21 +586,21 @@ function saswp_knowledge_page_callback(){
 			'label' => 'Phone Number',
 			'id' => 'sd-person-phone-number',
                         'name' => 'sd_data[sd-person-phone-number]',
-                        'class' => 'regular-text',                        
+                        'class' => 'regular-text saswp_person_fields',                        
 			'type' => 'text',
 		    ),
                      array(
 			'label' => 'URL',
 			'id' => 'sd-person-url',
                         'name' => 'sd_data[sd-person-url]',
-                        'class' => 'regular-text',                        
+                        'class' => 'regular-text saswp_person_fields',                        
 			'type' => 'text',
 		    ),
                     array(
 			'label' => 'Logo',
 			'id' => 'sd_logo',
                         'name' => 'sd_data[sd_logo][url]',
-                        'class' => 'saswp-icon upload large-text',
+                        'class' => 'saswp-icon upload large-text saswp_kg_logo',
 			'type' => 'media',
                         'note' => 'According to google validation tool, Logo size must be 160*50 or 600*60',
                         'attributes' => array(
