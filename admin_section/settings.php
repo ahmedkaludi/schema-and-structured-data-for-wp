@@ -470,14 +470,14 @@ function saswp_knowledge_page_callback(){
         $field_objs = new saswp_fields_generator();
         $meta_fields = array(	                
                 array(
-			'label' => 'Data Type',
-			'id' => 'saswp_kb_type',
-                        'name' => 'sd_data[saswp_kb_type]',
-			'type' => 'select',
+			'label'   => 'Data Type',
+			'id'      => 'saswp_kb_type',
+                        'name'    => 'sd_data[saswp_kb_type]',
+			'type'    => 'select',
 			'options' => array(
-                                ''=>'Select an item',
-				'Organization'=>'Organization',
-				'Person'=>'Person',
+                                ''             => 'Select an item',
+				'Organization' => 'Organization',
+				'Person'       => 'Person',
 			)
                     ),
 		array(
@@ -485,7 +485,7 @@ function saswp_knowledge_page_callback(){
 			'id'    => 'saswp_organization_type',
                         'name'  => 'sd_data[saswp_organization_type]',
                         'class' => 'saswp_org_fields',
-			'type' => 'select',
+			'type'  => 'select',
 			'options' => array(                                
 				'Organization'              => 'Organization',
 				'Airline'                   => 'Airline',
@@ -922,13 +922,13 @@ function saswp_review_page_callback(){
         $field_objs = new saswp_fields_generator();
         $meta_fields = array(				
                 array(
-			'label' => 'Review Module',
-			'id' => 'saswp-review-module-checkbox',                        
-                        'name' => 'saswp-review-module-checkbox',
-			'type' => 'checkbox',
-                        'class' => 'checkbox saswp-checkbox',
+			'label'  => 'Review Module',
+			'id'     => 'saswp-review-module-checkbox',                        
+                        'name'   => 'saswp-review-module-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
                         'hidden' => array(
-                             'id' => 'saswp-review-module',
+                             'id'   => 'saswp-review-module',
                              'name' => 'sd_data[saswp-review-module]',                             
                         )
 		),  
@@ -942,7 +942,7 @@ function saswp_compatibility_page_callback(){
         $settings = saswp_defaultSettings();  
         
         $tagyeem = array(
-			'label'  => 'Tagyeem Review',
+			'label'  => 'Tagyeem With Jannah Theme',
 			'id'     => 'saswp-tagyeem-checkbox',                        
                         'name'   => 'saswp-tagyeem-checkbox',
 			'type'   => 'checkbox',
@@ -1034,14 +1034,13 @@ function saswp_compatibility_page_callback(){
                                 'name' => 'sd_data[saswp-yoast]',                             
                         )
 		);        
-        
-        
-        if(!is_plugin_active('taqyeem/taqyeem.php')){
+                
+        if(!is_plugin_active('taqyeem/taqyeem.php')  || get_template() != 'jannah'  ){
              $tagyeem['attributes'] = array(
                  'disabled' => 'disabled'
              );
              $tagyeem['note'] = esc_html__('Plugin is not activated','schema-and-structured-data-for-wp');
-             $settings['saswp-taqyeem'] = 0;
+             $settings['saswp-tagyeem'] = 0;
         }
         
         
@@ -1114,6 +1113,7 @@ function saswp_compatibility_page_callback(){
                 $kk_star,  
                 $woocommerce,
                 $the_events_calendar,
+                $tagyeem,
                 $extratheme,
                 $dwquestiton,
                 $wpjobmanager,
@@ -1127,13 +1127,13 @@ function saswp_compatibility_page_callback(){
         if ( is_plugin_active('flexmls-idx/flexmls_connect.php')) {
          $meta_fields_default = array(	
 		array(
-			'label' => 'FlexMLS IDX Plugin',
-			'id' => 'saswp_compativility_checkbox', 
-                        'name' => 'saswp_compativility_checkbox',
-			'type' => 'checkbox',
-                        'class' => 'checkbox saswp-checkbox',                       
+			'label'  => 'FlexMLS IDX Plugin',
+			'id'     => 'saswp_compativility_checkbox', 
+                        'name'   => 'saswp_compativility_checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',                       
                         'hidden' => array(
-                             'id' => 'saswp_compativility',
+                             'id'   => 'saswp_compativility',
                              'name' => 'sd_data[saswp_compativility]',                             
                         )
 		),
@@ -1142,16 +1142,16 @@ function saswp_compatibility_page_callback(){
         $settings['saswp_compativility'] =0; 
         $meta_fields_default = array(	
 		array(
-			'label' => 'FlexMLS IDX',
-			'id' => 'saswp_compativility_checkbox', 
-                        'name' => 'saswp_compativility_checkbox',
-			'type' => 'checkbox',
-                        'class' => 'checkbox saswp-checkbox', 
+			'label'      => 'FlexMLS IDX',
+			'id'         => 'saswp_compativility_checkbox', 
+                        'name'       => 'saswp_compativility_checkbox',
+			'type'       => 'checkbox',
+                        'class'      => 'checkbox saswp-checkbox', 
                         'attributes' => array(
                             'disabled' => 'disabled'
                         ),
                         'hidden' => array(
-                             'id' => 'saswp_compativility',
+                             'id'   => 'saswp_compativility',
                              'name' => 'sd_data[saswp_compativility]',                             
                         )
 		),
@@ -1160,45 +1160,45 @@ function saswp_compatibility_page_callback(){
          $meta_fields_text = array();
          $meta_fields_text[] = array(
                         'label' => 'Name',
-			'id' => 'sd-seller-name',
-                        'name' => 'sd_data[sd-seller-name]',
+			'id'    => 'sd-seller-name',
+                        'name'  => 'sd_data[sd-seller-name]',
                         'class' => 'regular-text',                        
-			'type' => 'text',
+			'type'  => 'text',
         );
          $meta_fields_text[] = array(
                         'label' => 'Addres',
-			'id' => 'sd-seller-address',
-                        'name' => 'sd_data[sd-seller-address]',
+			'id'    => 'sd-seller-address',
+                        'name'  => 'sd_data[sd-seller-address]',
                         'class' => 'regular-text',                        
-			'type' => 'text',
+			'type'  => 'text',
         );
          $meta_fields_text[] = array(
                         'label' => 'Telephone',
-			'id' => 'sd-seller-telephone',
-                        'name' => 'sd_data[sd-seller-telephone]',
+			'id'    => 'sd-seller-telephone',
+                        'name'  => 'sd_data[sd-seller-telephone]',
                         'class' => 'regular-text',                        
-			'type' => 'text',
+			'type'  => 'text',
         );
          $meta_fields_text[] = array(
                         'label' => 'Price Range',
-			'id' => 'sd-seller-price-range',
-                        'name' => 'sd_data[sd-seller-price-range]',
+			'id'    => 'sd-seller-price-range',
+                        'name'  => 'sd_data[sd-seller-price-range]',
                         'class' => 'regular-text',                        
-			'type' => 'text',
+			'type'  => 'text',
         );
         $meta_fields_text[] = array(
 			'label' => 'URL',
-			'id' => 'sd-seller-url',
-                        'name' => 'sd_data[sd-seller-url]',
+			'id'    => 'sd-seller-url',
+                        'name'  => 'sd_data[sd-seller-url]',
                         'class' => 'regular-text',
-			'type' => 'text',
+			'type'  => 'text',
 		);                                
         $meta_fields_text[] = array(
 			'label' => 'Image',
-			'id' => 'sd_seller_image',
-                        'name' => 'sd_data[sd_seller_image][url]',
+			'id'    => 'sd_seller_image',
+                        'name'  => 'sd_data[sd_seller_image][url]',
                         'class' => 'saswp-sd_seller_image',
-			'type' => 'media',
+			'type'  => 'media',
 	);                
               
         $field_objs = new saswp_fields_generator();         

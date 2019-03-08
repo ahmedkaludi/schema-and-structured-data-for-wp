@@ -975,7 +975,60 @@ function saswp_schema_output() {
                         
                         if( 'Review' === $schema_type ){  
                                  
-                            $schema_data = saswp_get_schema_data($schema_post_id, 'saswp_review_schema_details');  
+                        
+                         if(isset($sd_data['saswp-tagyeem']) && $sd_data['saswp-tagyeem'] == 1 ){                                                                                                      
+                           
+                             remove_action( 'TieLabs/after_post_entry',  'tie_article_schemas' );
+                             
+                            $input1 = array(
+                                    '@context'       => 'http://schema.org',
+                                    '@type'          => $schema_type,
+                                    'dateCreated'    => $date,
+                                    'datePublished'  => $date,
+                                    'dateModified'   => $modified_date,
+                                    'headline'       => get_the_title(),
+                                    'name'           => get_the_title(),
+                                    'keywords'       => tie_get_plain_terms( get_the_ID(), 'post_tag' ),
+                                    'url'            => get_permalink(),
+                                    'description'    => strip_tags(get_the_excerpt()),
+                                    'copyrightYear'  => get_the_time( 'Y' ),                                                                                                           
+                                    'author'	     => array(
+                                                            '@type' 	=> 'Person',
+                                                            'name'		=> $aurthor_name,
+                                                            'Image'		=> array(
+                                                                    '@type'			=> 'ImageObject',
+                                                                    'url'			=> saswp_remove_warnings($author_details, 'url', 'saswp_string'),
+                                                                    'height'                    => saswp_remove_warnings($author_details, 'height', 'saswp_string'),
+                                                                    'width'			=> saswp_remove_warnings($author_details, 'width', 'saswp_string')
+                                                            ),
+							),                                                        
+                                
+                                    );
+                                    
+                                    $total_score = (int) get_post_meta( get_the_ID(), 'taq_review_score', true );
+                                    
+                                    if( ! empty( $total_score ) && $total_score > 0 ){
+                                        
+                                        $total_score = round( ($total_score*5)/100, 1 );
+                                    
+                                    }
+                                    
+                                    $input1['itemReviewed'] = array(
+                                            '@type' => 'Thing',
+                                            'name'  => get_the_title(),
+                                    );
+
+                                    $input1['reviewRating'] = array(
+                                        '@type'       => 'Rating',
+                                        'worstRating' => 1,
+                                        'bestRating'  => 5,
+                                        'ratingValue' => $total_score,
+                                        'description' => get_post_meta( get_the_ID(), 'taq_review_summary', true ),
+                                     );    
+                                                                                   
+                         } else {
+                             
+                             $schema_data = saswp_get_schema_data($schema_post_id, 'saswp_review_schema_details');  
                                                         
                             if(isset($schema_data['saswp_review_schema_item_type'])){
                             
@@ -1193,8 +1246,9 @@ function saswp_schema_output() {
                             
                                 
                             }
-                                                                                                                           
-                                                                                               
+                             
+                         }  
+                                                                                                                                                                                                                                                                                                                                     
 		        }          
                                 			
 			if( 'VideoObject' === $schema_type){
@@ -1701,7 +1755,8 @@ function saswp_post_specific_schema_output() {
                                    $input1 = array_merge($input1, $extra_theme_review);
                                 }
                         } 
-                        if( 'SoftwareApplication' === $schema_type){
+                        
+                         if( 'SoftwareApplication' === $schema_type){
                     		                                                    
 			$input1 = array(
 			'@context'			=> 'http://schema.org',
@@ -2211,12 +2266,20 @@ function saswp_post_specific_schema_output() {
                          
                          if( 'Review' === $schema_type ){   
                              
+                                 if(isset($sd_data['saswp-tagyeem']) && $sd_data['saswp-tagyeem'] == 1 ){
+                                     
+                                     remove_action( 'TieLabs/after_post_entry',  'tie_article_schemas' );
+                                     
+                                 }                                                                                                                                                              
+                             
                                 $service = new saswp_output_service();
                                 
                                 $review_author = get_the_author();
                                 
                                 if(isset($all_post_meta['saswp_review_schema_author_'.$schema_id])){
+                                    
                                    $review_author = $all_post_meta['saswp_review_schema_author_'.$schema_id][0];  
+                                   
                                 }
                                 
 				$input1['@context']                     = 'http://schema.org';
@@ -2232,7 +2295,7 @@ function saswp_post_specific_schema_output() {
                                 
                                 if(isset($all_post_meta['saswp_review_schema_author_sameas_'.$schema_id])){
                                     
-                                 $input1['author']['sameAs']               = $all_post_meta['saswp_review_schema_author_sameas_'.$schema_id][0];   
+                                 $input1['author']['sameAs']            = $all_post_meta['saswp_review_schema_author_sameas_'.$schema_id][0];   
                                  
                                 }                                
                                 
