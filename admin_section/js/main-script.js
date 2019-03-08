@@ -398,14 +398,14 @@ jQuery(document).ready(function($){
               
               $(".saswp_org_fields").parent().parent().removeClass('saswp_hide');
               $(".saswp_person_fields").parent().parent().addClass('saswp_hide');
-              $(".saswp_kg_logo").parent().parent().parent().addClass('saswp_hide');
+              $(".saswp_kg_logo").parent().parent().parent().removeClass('saswp_hide');
               $("#sd-person-image").parent().parent().parent().addClass('saswp_hide');
           }
           if(datatype == 'Person'){
               
               $(".saswp_org_fields").parent().parent().addClass('saswp_hide');
               $(".saswp_person_fields").parent().parent().removeClass('saswp_hide');
-              $(".saswp_kg_logo").parent().parent().parent().addClass('saswp_hide');
+              $(".saswp_kg_logo").parent().parent().parent().removeClass('saswp_hide');
               $("#sd-person-image").parent().parent().parent().removeClass('saswp_hide');
           }
 
