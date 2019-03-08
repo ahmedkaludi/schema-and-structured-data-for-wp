@@ -795,6 +795,7 @@ Class saswp_output_service{
             global $wpdb;
 	    $saswp_meta_array = $wpdb->get_results( "SELECT DISTINCT meta_key FROM {$wpdb->postmeta} WHERE meta_key LIKE '%{$search_string}%'", ARRAY_A ); // WPCS: unprepared SQL OK.         
             if ( isset( $saswp_meta_array ) && ! empty( $saswp_meta_array ) ) {
+                
 				foreach ( $saswp_meta_array as $value ) {
 				//	if ( ! in_array( $value['meta_key'], $schema_post_meta_fields ) ) {
 						$data[] = array(
@@ -803,13 +804,17 @@ Class saswp_output_service{
 						);
 					//}
 				}
+                                
 			}
                         
             if ( is_array( $data ) && ! empty( $data ) ) {
+                
 				$result[] = array(
 					'children' => $data,
 				);
+                                
 			}
+                        
             wp_send_json( $result );            
             
             wp_die();
@@ -1058,16 +1063,24 @@ Class saswp_output_service{
         public function saswp_dw_question_answers_details($post_id){
             
                 global $sd_data;
-                $dw_qa   = array();
-                $qa_page = array();
-               
+                $dw_qa          = array();
+                $qa_page        = array();
+                $best_answer_id = '';
+                
+                
+                
                 $post_type = get_post_type($post_id);
                 
                 if($post_type =='dwqa-question' && isset($sd_data['saswp-dw-question-answer']) && $sd_data['saswp-dw-question-answer'] ==1 ){
                  
                 $post_meta      = get_post_meta($post_id, $key='', true);
-                $best_answer_id = $post_meta['_dwqa_best_answer'][0];
-                                               
+                
+                if(isset($post_meta['_dwqa_best_answer'])){
+                    
+                    $best_answer_id = $post_meta['_dwqa_best_answer'][0];
+                    
+                }
+                                                                               
                 $userid         = get_post_field( 'post_author', $post_id );
                 $userinfo       = get_userdata($userid);
                                
@@ -1091,7 +1104,13 @@ Class saswp_output_service{
                 } 
                 
                 $dw_qa['dateCreated'] = get_the_date("Y-m-d\TH:i:s\Z");
-                $dw_qa['author']      = array('@type' => 'Person','name' =>$userinfo->data->user_nicename);   
+                
+                if($userinfo){
+                    
+                    $dw_qa['author']      = array('@type' => 'Person','name' =>$userinfo->data->user_nicename); 
+                    
+                }
+                                                
                 $dw_qa['answerCount'] = $post_meta['_dwqa_answers_count'][0];                  
                 
                 $args = array(

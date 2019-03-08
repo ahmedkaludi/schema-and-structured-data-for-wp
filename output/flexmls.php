@@ -13,6 +13,7 @@ class saswp_flexmls_list extends flexmlsConnectPageCore{
             add_action('amp_post_template_footer',array($this, 'saswp_get_flexidx_listing'));                
 	}
         public function saswp_get_flexidx_listing(){
+            
             global $fmc_api;
                                      
             $settings = array();          

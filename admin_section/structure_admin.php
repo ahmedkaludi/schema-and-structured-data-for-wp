@@ -830,17 +830,23 @@ function saswp_custom_breadcrumbs() {
     
     global $sd_data;	
     $variables1_titles = array();   
-    $variables2_links = array();   
+    $variables2_links  = array();   
     // Settings
-    $home_title = '';
-    $separator          = '&gt;';        
-    $home_title         = get_bloginfo();
+    $prefix        = '';
+    $home_title    = '';
+    $separator     = '&gt;';        
+    $home_title    = get_bloginfo();
     
     if(!$home_title){
+        
         if(isset($sd_data['sd_name'])){
+            
            $home_title =  $sd_data['sd_name'];
+           
         }else{
+            
            $home_title =  'HomePage'; 
+           
         }
     }
       
@@ -854,7 +860,7 @@ function saswp_custom_breadcrumbs() {
         // Build the breadcrums
         // Home page
         $variables1_titles[] = $home_title;
-        $variables2_links[] = get_home_url();
+        $variables2_links[]  = get_home_url();
 
         
         if ( is_archive() && !is_tax() && !is_category() && !is_tag() && !is_author() ) {
@@ -866,8 +872,8 @@ function saswp_custom_breadcrumbs() {
         } else if  ( is_author() ) {
 	    		global $author;
 	    		
-	            $userdata           = get_userdata( $author ); 
-	            $author_url         = get_author_posts_url($userdata->ID);
+	            $userdata            = get_userdata( $author ); 
+	            $author_url          = get_author_posts_url($userdata->ID);
 
 	            // author name
 	            $variables1_titles[] = $userdata->display_name;

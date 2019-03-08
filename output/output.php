@@ -732,8 +732,11 @@ function saswp_schema_output() {
                                        );
                                   }                                      
                                   if(!empty($product_details['product_reviews'])){
+                                      
                                       $reviews = array();
+                                      
                                       foreach ($product_details['product_reviews'] as $review){
+                                          
                                           $reviews[] = array(
                                                                         '@type'	=> 'Review',
                                                                         'author'	=> $review['author'],
@@ -746,6 +749,7 @@ function saswp_schema_output() {
                                                                                 'worstRating'	=> '1',
                                                                         )  
                                           );
+                                          
                                       }
                                       $input1['review'] =  $reviews;
                                   } 
@@ -814,8 +818,10 @@ function saswp_schema_output() {
                                 }
                                 
                                 if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){
+                                    
                                     $service = new saswp_output_service();
                                     $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
+                                    
                                 }
 			}
                         
@@ -2698,7 +2704,8 @@ function saswp_archive_output(){
 				$image_id 		= get_post_thumbnail_id();
                                 
                                 $archive_image = array();
-				$image_details 	        = wp_get_attachment_image_src($image_id, 'full');                                
+				$image_details 	        = wp_get_attachment_image_src($image_id, 'full');  
+                                
                                 if(!empty($image_details)){
                                 
                                         $archive_image['@type']  = 'ImageObject';
@@ -2720,15 +2727,15 @@ function saswp_archive_output(){
                                 }
                                 
 				$publisher_info = array(
-				"type" => "Organization",
-			        "name" => $site_name,
-                                "logo" => array(
-                                    "@type"     => "ImageObject",
-                                    "name"      => $site_name,
-                                    "width"     => $logo['width'],
-                                    "height"    => $logo['height'],
-                                    "url"       => $logo['url']
-                                 )                                        			        
+                                    "type" => "Organization",
+                                    "name" => $site_name,
+                                    "logo" => array(
+                                        "@type"     => "ImageObject",
+                                        "name"      => $site_name,
+                                        "width"     => $logo['width'],
+                                        "height"    => $logo['height'],
+                                        "url"       => $logo['url']
+                                     )                                        			        
 				);
 				$publisher_info['name'] = get_bloginfo('name');
 				$publisher_info['id']	= get_the_permalink();
