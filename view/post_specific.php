@@ -386,6 +386,13 @@ class saswp_post_specific {
                                                 $media_value['width']     = $business_details['saswp_review_schema_image']['width'];                                                                                         
                                                 $media_value['thumbnail'] = $business_details['saswp_review_schema_image']['url'];                                             
                                         }
+                                        if (strpos($meta_field['id'], 'event_schema_image') !== false && empty($media_value_meta)) {
+                                            
+                                                $business_details = esc_sql ( get_post_meta($schema_id, 'saswp_event_schema_details', true)  );                                                                                            
+                                                $media_value['height']    = $business_details['saswp_event_schema_image']['height'];                                                                                         
+                                                $media_value['width']     = $business_details['saswp_event_schema_image']['width'];                                                                                         
+                                                $media_value['thumbnail'] = $business_details['saswp_event_schema_image']['url'];                                             
+                                        }
                                              
                                         $media_height ='';
                                         $media_width ='';
@@ -531,6 +538,9 @@ class saswp_post_specific {
                                                      || strpos($meta_field['id'], 'priceValidUntil') !== false
                                                      || strpos($meta_field['id'], 'priceValidUntil') !== false
                                                      || strpos($meta_field['id'], 'priceValidUntil') !== false
+                                                     || strpos($meta_field['id'], 'saswp_event_schema_start_date') !== false
+                                                     || strpos($meta_field['id'], 'saswp_event_schema_end_date') !== false
+                                                     || strpos($meta_field['id'], 'saswp_event_schema_validfrom') !== false
                                                      ) {
                                              $class='saswp-local-schema-datepicker-picker';    
                                              }
@@ -1362,6 +1372,115 @@ class saswp_post_specific {
                     );
                     break;
                 
+                case 'Event':
+                    
+                    $event_schema_details = esc_sql ( get_post_meta($schema_id, 'saswp_event_schema_details', true)  );
+                    $meta_field = array(
+                        array(
+                                'label' => 'Name',
+                                'id' => 'saswp_event_schema_name_'.$schema_id,
+                                'type' => 'text',
+                                'default' => $event_schema_details['saswp_event_schema_name']
+                        ),
+                        array(
+                                'label' => 'Description',
+                                'id' => 'saswp_event_schema_description_'.$schema_id,
+                                'type' => 'textarea',
+                                'default' => $event_schema_details['saswp_event_schema_description']
+                        ),
+                        array(
+                                'label' => 'Location Name',
+                                'id' => 'saswp_event_schema_location_name_'.$schema_id,
+                                'type' => 'text',
+                                'default' => $event_schema_details['saswp_event_schema_location_name']
+                        ),
+                        array(
+                                'label' => 'Location Street Address',
+                                'id' => 'saswp_event_schema_location_streetaddress_'.$schema_id,
+                                'type' => 'text',
+                                'default' => $event_schema_details['saswp_event_schema_location_streetaddress']
+                        ),
+                        array(
+                                'label' => 'Location Locality',
+                                'id' => 'saswp_event_schema_location_locality_'.$schema_id,
+                                'type' => 'text',
+                                'default' => $event_schema_details['saswp_event_schema_location_locality']
+                        ),
+                        array(
+                                'label' => 'Location Region',
+                                'id' => 'saswp_event_schema_location_region_'.$schema_id,
+                                'type' => 'text',
+                                'default' => $event_schema_details['saswp_event_schema_location_region']
+                        ),
+                        array(
+                                'label' => 'Location PostalCode',
+                                'id' => 'saswp_event_schema_location_postalcode_'.$schema_id,
+                                'type' => 'text',
+                                'default' => $event_schema_details['saswp_event_schema_location_postalcode']
+                        ),
+                        array(
+                                'label' => 'Start Date',
+                                'id' => 'saswp_event_schema_start_date_'.$schema_id,
+                                'type' => 'text',
+                                'default' => $event_schema_details['saswp_event_schema_start_date']
+                        ),
+                        array(
+                                'label' => 'End Date',
+                                'id' => 'saswp_event_schema_end_date_'.$schema_id,
+                                'type' => 'text',
+                                'default' => $event_schema_details['saswp_event_schema_end_date']
+                        ),
+                        array(
+                                'label' => 'Image',
+                                'id' => 'saswp_event_schema_image_'.$schema_id,
+                                'type' => 'media',
+                                'default' => $event_schema_details['saswp_event_schema_image']['url']
+                        ),
+                        array(
+                                'label' => 'Performer Name',
+                                'id' => 'saswp_event_schema_performer_name_'.$schema_id,
+                                'type' => 'text',
+                                'default' => $event_schema_details['saswp_event_schema_performer_name']
+                        ),
+                        array(
+                                'label' => 'Price',
+                                'id' => 'saswp_event_schema_price_'.$schema_id,
+                                'type' => 'number',
+                                'default' => $event_schema_details['saswp_event_schema_price']
+                        ),
+                        array(
+                                'label' => 'Price Currency',
+                                'id' => 'saswp_event_schema_price_currency_'.$schema_id,
+                                'type' => 'text',
+                                'default' => $event_schema_details['saswp_event_schema_price_currency']
+                        ),
+                        array(
+                            'label'   => 'Availability',
+                            'id'      => 'saswp_event_schema_availability_'.$schema_id,
+                            'type'    => 'select',
+                            'default' => saswp_remove_warnings($event_schema_details, 'saswp_event_schema_availability', 'saswp_string'), 
+                            'options' => array(
+                                     'InStock'           => 'In Stock',
+                                     'OutOfStock'        => 'Out Of Stock',
+                                     'Discontinued'      => 'Discontinued',
+                                     'PreOrder'          => 'Pre Order', 
+                            ) 
+                       ),
+                        array(
+                                'label' => 'Valid From',
+                                'id' => 'saswp_event_schema_validfrom_'.$schema_id,
+                                'type' => 'text',
+                                'default' => $event_schema_details['saswp_event_schema_validfrom']
+                        ),
+                        array(
+                                'label' => 'URL',
+                                'id' => 'saswp_event_schema_url_'.$schema_id,
+                                'type' => 'text',
+                                'default' => $event_schema_details['saswp_event_schema_url']
+                        ),
+                    );
+                    break;
+                
                 case 'TechArticle':                                        
                     $meta_field = array(
                     array(
@@ -1909,6 +2028,7 @@ class saswp_post_specific {
                 
                 case 'Review':
                     
+                    $service_schema_details = array();
                     
                     if(isset($_POST['saswp_review_schema_item_type_'.$schema_id])){
                                             

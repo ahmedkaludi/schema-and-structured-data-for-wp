@@ -11,7 +11,14 @@ function saswp_structured_data()
 }
 add_action('wp_head', 'saswp_data_generator');
 
+
+/**
+ * Function to show all the schema markup in the page head
+ * @global type $sd_data
+ * @global type json array
+ */
 function saswp_data_generator() {
+    
     
    global $sd_data;
    global $post;
@@ -52,7 +59,9 @@ function saswp_data_generator() {
        
        $schema_output            = saswp_schema_output();    
        
-   }             
+   }   
+ 
+   
    if($schema_output || $schema_breadcrumb_output || $kb_website_output || $archive_output || $author_output || $about_page_output || $contact_page_output){       
       add_filter( 'amp_post_template_metadata', 'saswp_remove_amp_default_structure_data');
    }         
@@ -215,6 +224,13 @@ function saswp_memberpress_form_update($form){
 	return $form;
 }
 
+/**
+ * Function to remove the undefined index notices
+ * @param type $data
+ * @param type $index
+ * @param type $type
+ * @return string
+ */
 function saswp_remove_warnings($data, $index, $type){     
     	
                 if($type == 'saswp_array'){
@@ -338,6 +354,11 @@ function saswp_get_comments($post_id){
         
 }       
 
+/**
+ * Function to enqueue AMP script in head
+ * @param type $data
+ * @return string
+ */
 function saswp_structure_data_access_scripts($data){
     
 	if ( empty( $data['amp_component_scripts']['amp-access'] ) ) {
@@ -359,6 +380,12 @@ function sd_is_blog() {
     
 }
 
+/**
+ * Function to fetch schema's post meta by its id from database using get_post_meta function
+ * @param type $schema_id
+ * @param type $schema_key
+ * @return type array
+ */
 function saswp_get_schema_data($schema_id, $schema_key){
     
     $details = array();
@@ -452,3 +479,24 @@ function saswp_list_items_generator(){
 
        return $breadcrumbslist;
 }
+
+
+/**
+ * Remove the default WooCommerce 3 JSON/LD structured data
+ * @global type $sd_data
+ */
+function saswp_remove_woocommerce_default_structured_data() {
+        
+    global $sd_data;
+    
+    if(isset($sd_data['saswp-woocommerce']) && $sd_data['saswp-woocommerce'] == 1 && is_plugin_active('woocommerce/woocommerce.php')){
+     
+        remove_action( 'wp_footer', array( WC()->structured_data, 'output_structured_data' ), 10 ); // This removes structured data from all frontend pages
+        remove_action( 'woocommerce_email_order_details', array( WC()->structured_data, 'output_email_structured_data' ), 30 ); // This removes structured data from all Emails sent by WooCommerce
+        
+        
+    }                
+
+}
+
+add_action( 'init', 'saswp_remove_woocommerce_default_structured_data' );

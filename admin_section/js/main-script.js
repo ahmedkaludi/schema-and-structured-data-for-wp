@@ -54,6 +54,10 @@ jQuery(document).ready(function($){
              $(".saswp-product-text-field-tr").show();  
              $(".saswp-option-table-class tr").find('select').attr('disabled', false);
              }
+             if(schematype == 'Event'){            
+             $(".saswp-event-text-field-tr").show();  
+             $(".saswp-option-table-class tr").find('select').attr('disabled', false);
+             }
              if(schematype == 'AudioObject'){            
              $(".saswp-audio-text-field-tr").show();               
              }
@@ -110,6 +114,10 @@ jQuery(document).ready(function($){
              if(schematype == 'Review'){            
              $(".saswp-review-text-field-tr").show(); 
              $(".saswp-review-text-field-tr").find('select').attr('disabled', false);
+             }
+             if(schematype == 'Event'){            
+             $(".saswp-event-text-field-tr").show(); 
+             $(".saswp-event-text-field-tr").find('select').attr('disabled', false);
              }
             saswp_enable_rating_review();
         }).change(); 
@@ -363,6 +371,15 @@ jQuery(document).ready(function($){
                             }
                       break;
                       
+                      case 'saswp-the-events-calendar-checkbox':
+                          
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-the-events-calendar").val(1);             
+                            }else{
+                              $("#saswp-the-events-calendar").val(0);           
+                            }
+                      break;
+                      
                       
                       default:
                           break;
@@ -371,26 +388,27 @@ jQuery(document).ready(function($){
          }).change();
         
          $("#saswp_kb_type").change(function(){
-          var datatype = $(this).val();        
-          for(var i=1;i<=11;i++){
-            if(datatype ==="Person"){
-             if(i<6){
-                $( ".saswp-knowledge-base li:eq('"+i+"')" ).hide();          
-              }else{
-                $( ".saswp-knowledge-base li:eq('"+i+"')" ).show();            
-              }    
-            }else if(datatype ==="Organization"){
-              if(i<6){
-                $( ".saswp-knowledge-base li:eq('"+i+"')" ).show();          
-              }else{
-                $( ".saswp-knowledge-base li:eq('"+i+"')" ).hide();            
-              }  
-               $( ".saswp-knowledge-base li:eq(11)" ).show();            
-            }else{
-               $( ".saswp-knowledge-base li:eq('"+i+"')" ).hide(); 
-            }
-                       
-          }                                           
+          var datatype = $(this).val(); 
+          
+          $(".saswp_org_fields, .saswp_person_fields").parent().parent().addClass('saswp_hide');
+          $(".saswp_kg_logo").parent().parent().parent().addClass('saswp_hide');
+          
+          
+          if(datatype == 'Organization'){
+              
+              $(".saswp_org_fields").parent().parent().removeClass('saswp_hide');
+              $(".saswp_person_fields").parent().parent().addClass('saswp_hide');
+              $(".saswp_kg_logo").parent().parent().parent().removeClass('saswp_hide');
+              $("#sd-person-image").parent().parent().parent().addClass('saswp_hide');
+          }
+          if(datatype == 'Person'){
+              
+              $(".saswp_org_fields").parent().parent().addClass('saswp_hide');
+              $(".saswp_person_fields").parent().parent().removeClass('saswp_hide');
+              $(".saswp_kg_logo").parent().parent().parent().removeClass('saswp_hide');
+              $("#sd-person-image").parent().parent().parent().removeClass('saswp_hide');
+          }
+
      }).change(); 
      
      

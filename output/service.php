@@ -312,6 +312,62 @@ Class saswp_output_service{
                     }
                     break;
                     
+                case 'Event':      
+                      
+                    if(isset($custom_fields['saswp_event_schema_name'])){
+                     $input1['name'] =    $custom_fields['saswp_event_schema_name'];
+                    }
+                    if(isset($custom_fields['saswp_event_schema_description'])){
+                     $input1['description'] =    $custom_fields['saswp_event_schema_description'];
+                    }
+                    if(isset($custom_fields['saswp_event_schema_location_name'])){
+                     $input1['location']['name'] =    $custom_fields['saswp_event_schema_location_name'];
+                    }
+                    
+                    if(isset($custom_fields['saswp_event_schema_location_streetaddress'])){
+                     $input1['location']['address']['streetAddress'] =    $custom_fields['saswp_event_schema_location_streetaddress'];
+                    }
+                    if(isset($custom_fields['saswp_event_schema_location_locality'])){
+                     $input1['location']['address']['addressLocality'] =    $custom_fields['saswp_event_schema_location_locality'];
+                    }
+                    if(isset($custom_fields['saswp_event_schema_location_region'])){
+                     $input1['location']['address']['addressRegion'] =    $custom_fields['saswp_event_schema_location_region'];
+                    }
+                    
+                    if(isset($custom_fields['saswp_event_schema_location_postalcode'])){
+                     $input1['location']['address']['postalCode'] =    $custom_fields['saswp_event_schema_location_postalcode'];
+                    }
+                    if(isset($custom_fields['saswp_event_schema_start_date'])){
+                     $input1['startDate'] =    $custom_fields['saswp_event_schema_start_date'];
+                    }
+                    if(isset($custom_fields['saswp_event_schema_end_date'])){
+                     $input1['endDate'] =    $custom_fields['saswp_event_schema_end_date'];
+                    }
+                    
+                    if(isset($custom_fields['saswp_event_schema_image'])){
+                     $input1['image'] =    $custom_fields['saswp_event_schema_image'];
+                    }
+                    if(isset($custom_fields['saswp_event_schema_performer_name'])){
+                     $input1['performer']['name'] =    $custom_fields['saswp_event_schema_performer_name'];
+                    }
+                    if(isset($custom_fields['saswp_event_schema_price'])){
+                     $input1['offers']['price'] =    $custom_fields['saswp_event_schema_price'];
+                    }
+                    if(isset($custom_fields['saswp_event_schema_price_currency'])){
+                     $input1['offers']['priceCurrency'] =    $custom_fields['saswp_event_schema_price_currency'];
+                    }
+                    if(isset($custom_fields['saswp_event_schema_availability'])){
+                     $input1['offers']['availability'] =    $custom_fields['saswp_event_schema_availability'];
+                    }
+                    if(isset($custom_fields['saswp_event_schema_validfrom'])){
+                     $input1['offers']['validFrom'] =    $custom_fields['saswp_event_schema_validfrom'];
+                    }
+                    if(isset($custom_fields['saswp_event_schema_url'])){
+                     $input1['offers']['url'] =    $custom_fields['saswp_event_schema_url'];
+                    }
+                    
+                    break;    
+                    
                 case 'TechArticle':      
                       
                     if(isset($custom_fields['saswp_tech_article_main_entity_of_page'])){
@@ -739,6 +795,7 @@ Class saswp_output_service{
             global $wpdb;
 	    $saswp_meta_array = $wpdb->get_results( "SELECT DISTINCT meta_key FROM {$wpdb->postmeta} WHERE meta_key LIKE '%{$search_string}%'", ARRAY_A ); // WPCS: unprepared SQL OK.         
             if ( isset( $saswp_meta_array ) && ! empty( $saswp_meta_array ) ) {
+                
 				foreach ( $saswp_meta_array as $value ) {
 				//	if ( ! in_array( $value['meta_key'], $schema_post_meta_fields ) ) {
 						$data[] = array(
@@ -747,13 +804,17 @@ Class saswp_output_service{
 						);
 					//}
 				}
+                                
 			}
                         
             if ( is_array( $data ) && ! empty( $data ) ) {
+                
 				$result[] = array(
 					'children' => $data,
 				);
+                                
 			}
+                        
             wp_send_json( $result );            
             
             wp_die();
@@ -801,7 +862,7 @@ Class saswp_output_service{
                          
              $date_on_sale                           = $product->get_date_on_sale_to();                            
              $product_details['product_name']        = $product->get_title();
-             $product_details['product_description'] = $product->get_description();
+             $product_details['product_description'] = $product->get_short_description();
              
              if(!empty($image_details)){
               
@@ -816,15 +877,24 @@ Class saswp_output_service{
                  
              $product_details['product_image'] = '';  
                
-             }             
+             }         
              
-             $product_details['product_availability'] = $product->get_stock_status();
+             if(strtolower( $product->get_stock_status() ) == 'onbackorder'){
+                 $product_details['product_availability'] = 'PreOrder';
+             }else{
+                 $product_details['product_availability'] = $product->get_stock_status();
+             }
+                          
              $product_details['product_price']        = $product->get_price();
              $product_details['product_sku']          = $product->get_sku();             
              
              if(isset($date_on_sale)){
                  
              $product_details['product_priceValidUntil'] = $date_on_sale->date('Y-m-d G:i:s');    
+             
+             }else{
+                 
+             $product_details['product_priceValidUntil'] = get_the_modified_date("Y-m-d\TH:i:s\Z"); 
              
              }       
              
@@ -993,16 +1063,24 @@ Class saswp_output_service{
         public function saswp_dw_question_answers_details($post_id){
             
                 global $sd_data;
-                $dw_qa   = array();
-                $qa_page = array();
-               
+                $dw_qa          = array();
+                $qa_page        = array();
+                $best_answer_id = '';
+                
+                
+                
                 $post_type = get_post_type($post_id);
                 
                 if($post_type =='dwqa-question' && isset($sd_data['saswp-dw-question-answer']) && $sd_data['saswp-dw-question-answer'] ==1 ){
                  
                 $post_meta      = get_post_meta($post_id, $key='', true);
-                $best_answer_id = $post_meta['_dwqa_best_answer'][0];
-                                               
+                
+                if(isset($post_meta['_dwqa_best_answer'])){
+                    
+                    $best_answer_id = $post_meta['_dwqa_best_answer'][0];
+                    
+                }
+                                                                               
                 $userid         = get_post_field( 'post_author', $post_id );
                 $userinfo       = get_userdata($userid);
                                
@@ -1026,7 +1104,13 @@ Class saswp_output_service{
                 } 
                 
                 $dw_qa['dateCreated'] = get_the_date("Y-m-d\TH:i:s\Z");
-                $dw_qa['author']      = array('@type' => 'Person','name' =>$userinfo->data->user_nicename);   
+                
+                if($userinfo){
+                    
+                    $dw_qa['author']      = array('@type' => 'Person','name' =>$userinfo->data->user_nicename); 
+                    
+                }
+                                                
                 $dw_qa['answerCount'] = $post_meta['_dwqa_answers_count'][0];                  
                 
                 $args = array(
@@ -1050,7 +1134,7 @@ Class saswp_output_service{
                         $accepted_answer['@type']       = 'Answer';
                         $accepted_answer['upvoteCount'] = get_post_meta( $answer->ID, '_dwqa_votes', true );
                         $accepted_answer['url']         = get_permalink($answer->ID);
-                        $accepted_answer['text']        = $answer->post_content;
+                        $accepted_answer['text']        = wp_strip_all_tags($answer->post_content);
                         $accepted_answer['dateCreated'] = get_the_date("Y-m-d\TH:i:s\Z", $answer);
                         $accepted_answer['author']      = array('@type' => 'Person', 'name' => $authorinfo->data->user_nicename);
                         
@@ -1060,7 +1144,7 @@ Class saswp_output_service{
                             '@type'       => 'Answer',
                             'upvoteCount' => get_post_meta( $answer->ID, '_dwqa_votes', true ),
                             'url'         => get_permalink($answer->ID),
-                            'text'        => $answer->post_content,
+                            'text'        => wp_strip_all_tags($answer->post_content),
                             'dateCreated' => get_the_date("Y-m-d\TH:i:s\Z", $answer),
                             'author'      => array('@type' => 'Person', 'name' => $authorinfo->data->user_nicename),
                         );
@@ -1209,6 +1293,7 @@ Class saswp_output_service{
                         'saswp_tech_article_organization_logo'   => 'Organization Logo',                          
                         );                                        
                     break;
+                
                 case 'Course':      
                     
                     $meta_field = array(                        
@@ -1372,6 +1457,30 @@ Class saswp_output_service{
                     
                     break;
                 
+                case 'Event':
+                    
+                    $meta_field = array(
+                        
+                        'saswp_event_schema_name'                    => 'Name',
+                        'saswp_event_schema_description'             => 'Description',
+                        'saswp_event_schema_location_name'           => 'Location Name',
+                        'saswp_event_schema_location_streetaddress'  => 'Location Street Address',
+                        'saswp_event_schema_location_locality'       => 'Location Locality',
+                        'saswp_event_schema_location_region'         => 'Location Region',                        
+                        'saswp_event_schema_location_postalcode'     => 'PostalCode',
+                        'saswp_event_schema_start_date'              => 'Start Date',                        
+                        'saswp_event_schema_end_date'                => 'End Date',
+                        'saswp_event_schema_image'                   => 'Image',
+                        'saswp_event_schema_performer_name'          => 'Performer Name',
+                        'saswp_event_schema_price'                   => 'Price',
+                        'saswp_event_schema_price_currency'          => 'Price Currency',
+                        'saswp_event_schema_availability'            => 'Availability',
+                        'saswp_event_schema_validfrom'               => 'Valid From',
+                        'saswp_event_schema_url'                     => 'URL',
+                    );
+                    
+                    break;
+                
                 case 'qanda':
                     $meta_field = array(
                         
@@ -1484,8 +1593,7 @@ Class saswp_output_service{
 
                     break;
                 
-                case 'Article':
-                    
+                case 'Article':                   
                     $input1 = array(
 					'@context'			=> 'http://schema.org',
 					'@type'				=> 'Article',

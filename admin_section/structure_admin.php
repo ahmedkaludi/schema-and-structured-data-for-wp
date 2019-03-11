@@ -10,8 +10,7 @@ function saswp_get_saved_schema_ids(){
                             'posts_per_page' => -1,   
                             'post_status' => 'publish',
                     )
-                 );
-    
+                 );    
     if($all_schemas){
         
      foreach($all_schemas as $schema){
@@ -105,11 +104,13 @@ function saswp_get_all_schema_posts(){
 
     $schema_id_array = json_decode(get_transient('saswp_transient_schema_ids'), true); 
     
+    
     if(!$schema_id_array){
         
        $schema_id_array = saswp_get_saved_schema_ids();
         
-    }            
+    }         
+       
     if($schema_id_array){
      
         if(count($schema_id_array)>0){    
@@ -829,17 +830,23 @@ function saswp_custom_breadcrumbs() {
     
     global $sd_data;	
     $variables1_titles = array();   
-    $variables2_links = array();   
+    $variables2_links  = array();   
     // Settings
-    $home_title = '';
-    $separator          = '&gt;';        
-    $home_title         = get_bloginfo();
+    $prefix        = '';
+    $home_title    = '';
+    $separator     = '&gt;';        
+    $home_title    = get_bloginfo();
     
     if(!$home_title){
+        
         if(isset($sd_data['sd_name'])){
+            
            $home_title =  $sd_data['sd_name'];
+           
         }else{
+            
            $home_title =  'HomePage'; 
+           
         }
     }
       
@@ -853,7 +860,7 @@ function saswp_custom_breadcrumbs() {
         // Build the breadcrums
         // Home page
         $variables1_titles[] = $home_title;
-        $variables2_links[] = get_home_url();
+        $variables2_links[]  = get_home_url();
 
         
         if ( is_archive() && !is_tax() && !is_category() && !is_tag() && !is_author() ) {
@@ -865,8 +872,8 @@ function saswp_custom_breadcrumbs() {
         } else if  ( is_author() ) {
 	    		global $author;
 	    		
-	            $userdata           = get_userdata( $author ); 
-	            $author_url         = get_author_posts_url($userdata->ID);
+	            $userdata            = get_userdata( $author ); 
+	            $author_url          = get_author_posts_url($userdata->ID);
 
 	            // author name
 	            $variables1_titles[] = $userdata->display_name;
@@ -944,11 +951,16 @@ function saswp_custom_breadcrumbs() {
             
             if(empty($last_category) && !empty($custom_taxonomy) && $taxonomy_exists) {
                    
-                $taxonomy_terms = get_the_terms( $post->ID, $custom_taxonomy );                
-                $cat_id         = $taxonomy_terms[0]->term_id;                
-                $cat_link       = get_term_link($taxonomy_terms[0]->term_id, $custom_taxonomy);
-                $cat_name       = $taxonomy_terms[0]->name;
+                $taxonomy_terms = get_the_terms( $post->ID, $custom_taxonomy );
 
+                if($taxonomy_terms){
+                    
+                    $cat_id         = $taxonomy_terms[0]->term_id;                
+                    $cat_link       = get_term_link($taxonomy_terms[0]->term_id, $custom_taxonomy);
+                    $cat_name       = $taxonomy_terms[0]->name;
+                    
+                }
+                                
             }
               
              if(!empty($cat_id)) {
@@ -960,8 +972,8 @@ function saswp_custom_breadcrumbs() {
                 
                 if($post_type == 'post') {
                     
-                     $variables1_titles[]= get_the_title();
-                     $variables2_links[] = get_permalink();                     
+                     $variables1_titles[] = get_the_title();
+                     $variables2_links[]  = get_permalink();                     
                      
                 }
                 
@@ -1141,7 +1153,7 @@ function saswp_send_query_message(){
         $user_data  = $user->data;        
         $user_email = $user_data->user_email;       
         //php mailer variables        
-        $sendto = 'team@magazine3.com';
+        $sendto  = 'team@magazine3.com';
         $subject = "Customer Query";
         $headers = 'From: '. esc_attr($user_email) . "\r\n" .
         'Reply-To: ' . esc_attr($user_email) . "\r\n";
@@ -1175,8 +1187,9 @@ function saswp_import_plugin_data(){
         if ( !wp_verify_nonce( $_GET['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
            return;  
         }    
+        
         $plugin_name   = sanitize_text_field($_GET['plugin_name']);         
-        $result = '';
+        $result        = '';
         
         switch ($plugin_name) {
             

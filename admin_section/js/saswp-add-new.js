@@ -266,8 +266,12 @@ jQuery(document).ready(function($) {
             // $("#saswp_dayofweek").attr('disabled', false);
              $('.select-post-type').val('show_globally').trigger('change'); 
             }
-            if(schematype == 'Service'){            
+             if(schematype == 'Service'){            
              $(".saswp-service-text-field-tr").show();  
+             $(".saswp-option-table-class tr").find('select').attr('disabled', false);
+             }
+             if(schematype == 'Event'){            
+             $(".saswp-event-text-field-tr").show();  
              $(".saswp-option-table-class tr").find('select').attr('disabled', false);
              }
              if(schematype == 'Product'){            
@@ -316,6 +320,10 @@ jQuery(document).ready(function($) {
             }
             if(schematype == 'Service'){            
              $(".saswp-service-text-field-tr").show();  
+             $(".saswp-service-text-field-tr").find('select').attr('disabled', false);
+            }
+            if(schematype == 'Event'){            
+             $(".saswp-event-text-field-tr").show();  
              $(".saswp-service-text-field-tr").find('select').attr('disabled', false);
             }
             if(schematype == 'Product'){            
