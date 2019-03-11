@@ -951,11 +951,16 @@ function saswp_custom_breadcrumbs() {
             
             if(empty($last_category) && !empty($custom_taxonomy) && $taxonomy_exists) {
                    
-                $taxonomy_terms = get_the_terms( $post->ID, $custom_taxonomy );                
-                $cat_id         = $taxonomy_terms[0]->term_id;                
-                $cat_link       = get_term_link($taxonomy_terms[0]->term_id, $custom_taxonomy);
-                $cat_name       = $taxonomy_terms[0]->name;
+                $taxonomy_terms = get_the_terms( $post->ID, $custom_taxonomy );
 
+                if($taxonomy_terms){
+                    
+                    $cat_id         = $taxonomy_terms[0]->term_id;                
+                    $cat_link       = get_term_link($taxonomy_terms[0]->term_id, $custom_taxonomy);
+                    $cat_name       = $taxonomy_terms[0]->name;
+                    
+                }
+                                
             }
               
              if(!empty($cat_id)) {
@@ -967,8 +972,8 @@ function saswp_custom_breadcrumbs() {
                 
                 if($post_type == 'post') {
                     
-                     $variables1_titles[]= get_the_title();
-                     $variables2_links[] = get_permalink();                     
+                     $variables1_titles[] = get_the_title();
+                     $variables2_links[]  = get_permalink();                     
                      
                 }
                 
