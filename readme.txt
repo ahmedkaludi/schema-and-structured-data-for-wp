@@ -2,7 +2,7 @@
 Contributors: mohammed_kaludi, ahmedkaludi, ampforwp
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
-Tested up to: 5.0.2
+Tested up to: 5.1
 Stable tag: 1.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -64,6 +64,16 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+
+= 1.3 (11 March 2019) =
+
+* Added: Event schema type added to the schema type list #157
+* Added: Compatibility with The Events Calendar plugin ( https://wordpress.org/plugins/the-events-calendar/ ) has been added in AMP. #157
+* Added: New Organization type list has been added to knowledge graph section including "NewsMediaOrganization". #147
+* Added: Compatibility with ( Tagyeem Review Plugin & Jannah News Theme ). #151
+* Bug Fixed: ItemAvailability text "onbackorder" should be converted to "PreOrder" for product schema #161
+* Bug Fixed: Bad escape sequence in string. #168
 
 = 1.2 (22 February 2019) =
 

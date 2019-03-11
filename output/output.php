@@ -678,6 +678,7 @@ function saswp_schema_output() {
 			}
                        
                         if( 'qanda' === $schema_type){
+                            
                             $service_object = new saswp_output_service();
                             $input1  = $service_object->saswp_dw_question_answers_details(get_the_ID()); 
                             
