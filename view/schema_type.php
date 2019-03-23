@@ -1,5 +1,5 @@
 <?php       
-        function item_reviewed_fields($item, $post_specific = null, $schema_id = null){
+        function saswp_item_reviewed_fields($item, $post_specific = null, $schema_id = null){
             
             $post_fix = '';
             
@@ -361,7 +361,7 @@
             $post_specific = sanitize_text_field($_GET['post_specific']);  
             
                        
-             $meta_fields = item_reviewed_fields($item, $post_specific, $schema_id);
+             $meta_fields = saswp_item_reviewed_fields($item, $post_specific, $schema_id);
              
             
              foreach ($meta_fields as $meta_field){
@@ -1749,7 +1749,7 @@
                    }
                      
                     $item = sanitize_text_field($_POST['saswp_review_schema_item_type']);        
-                    $meta_fields =  item_reviewed_fields($item);
+                    $meta_fields =  saswp_item_reviewed_fields($item);
                                                            
                     foreach ( $meta_fields as $meta_field ) {
                     

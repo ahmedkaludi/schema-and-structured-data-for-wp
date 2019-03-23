@@ -915,9 +915,7 @@ function saswp_import_callback(){
          
 }
 
-function saswp_imported_callback(){	        
-	          
-}
+
 
 function saswp_review_page_callback(){
         

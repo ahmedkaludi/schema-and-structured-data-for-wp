@@ -368,7 +368,7 @@ $saswp_add_data_type_config = array(
                  }                 
                 if(isset($_POST['schema_type'])){ 
                     
-                    $schema_type = $_POST['schema_type'];
+                    $schema_type = sanitize_textarea_field($_POST['schema_type']);
                 
                 if($schema_type == 'local_business'){
                     
@@ -400,21 +400,23 @@ $saswp_add_data_type_config = array(
                 $temp_condition_array   = array();
                 $show_globally          = false;
                 $post_data_group_array  = $_POST['data_group_array'];
+                if(!is_array($post_data_group_array)){
                 
-                foreach($post_data_group_array as $groups){  
-                    
-                    foreach($groups['data_array'] as $group ){  
-                        
-                      if(array_search('show_globally', $group))
-                      {
-                          
-                        $temp_condition_array[0] =  $group;  
-                        $show_globally = true;  
-                        
-                      }
-                      
-                    }
-                }
+	                foreach($post_data_group_array as $groups){  
+	                    
+	                    foreach($groups['data_array'] as $group ){  
+	                        
+	                      if(array_search('show_globally', $group))
+	                      {
+	                          
+	                        $temp_condition_array[0] =  $group;  
+	                        $show_globally = true;  
+	                        
+	                      }
+	                      
+	                    }
+	                }
+	            }
                 
                 if($show_globally){
                     

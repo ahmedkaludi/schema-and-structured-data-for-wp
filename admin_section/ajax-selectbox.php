@@ -299,7 +299,9 @@ function saswp_create_ajax_select_taxonomy($selectedParentValue = '',$selectedVa
     if( $_SERVER['REQUEST_METHOD']=='POST'){
         
         $is_ajax = true;
-        
+        if(! current_user_can( 'manage_options' ) ) {
+          exit;
+        }
         if(wp_verify_nonce($_POST["saswp_call_nonce"],'saswp_select_action_nonce')){
             
               if(isset($_POST['id'])){

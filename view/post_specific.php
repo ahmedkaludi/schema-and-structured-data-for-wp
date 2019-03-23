@@ -2032,7 +2032,7 @@ class saswp_post_specific {
                     
                     if(isset($_POST['saswp_review_schema_item_type_'.$schema_id])){
                                             
-                    $reviewed_field = item_reviewed_fields(sanitize_text_field($_POST['saswp_review_schema_item_type_'.$schema_id]), $post_specific=1, $schema_id);    
+                    $reviewed_field = saswp_item_reviewed_fields(sanitize_text_field($_POST['saswp_review_schema_item_type_'.$schema_id]), $post_specific=1, $schema_id);    
                         
                         
                     }else{
@@ -2041,12 +2041,12 @@ class saswp_post_specific {
                     
                     if($item_type_by_post){
                      
-                    $reviewed_field = item_reviewed_fields($item_type_by_post, $post_specific=1, $schema_id);        
+                    $reviewed_field = saswp_item_reviewed_fields($item_type_by_post, $post_specific=1, $schema_id);        
                         
                     }else{
                      
                     $service_schema_details = esc_sql ( get_post_meta($schema_id, 'saswp_review_schema_details', true)  );
-                    $reviewed_field = item_reviewed_fields($service_schema_details['saswp_review_schema_item_type'], $post_specific=1, $schema_id);    
+                    $reviewed_field = saswp_item_reviewed_fields($service_schema_details['saswp_review_schema_item_type'], $post_specific=1, $schema_id);    
                         
                     }
                                             
