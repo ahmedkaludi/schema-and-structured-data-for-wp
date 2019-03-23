@@ -5,7 +5,7 @@ Description: Schema & Structured Data adds Google Rich Snippets markup according
 Version: 1.3
 Text Domain: schema-and-structured-data-for-wp
 Domain Path: /languages
-Author: Mohammed Kaludi, Ahmed Kaludi
+Author: Magazine3
 Author URI: http://structured-data-for-wp.com/
 Donate link: https://www.paypal.me/Kaludi/25
 License: GPL2
