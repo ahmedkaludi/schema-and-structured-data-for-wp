@@ -1,5 +1,5 @@
 ﻿=== Schema & Structured Data for WP & AMP ===
-Contributors: mohammed_kaludi, ahmedkaludi, ampforwp
+Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.1
