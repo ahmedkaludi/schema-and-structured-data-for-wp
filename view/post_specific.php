@@ -619,14 +619,17 @@ class saswp_post_specific {
 			return $post_id;
 		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE )
 			return $post_id;       
-                 
+                if ( ! current_user_can( 'edit_post', $post_id ) ) 
+                       return $post_id;    
+                
                 $option = get_option('modify_schema_post_enable_'.$post_id);
                 
                 if($option != 'enable'){
                     return;
                 }  
-                
-                
+               
+                $post_meta = array();                    
+                $post_meta = $_POST;    
                 
                 if(count($this->all_schema)>0){
                                                                       
@@ -637,31 +640,33 @@ class saswp_post_specific {
                      
                         foreach ( $this->meta_fields as $meta_field ) {
                             
-			if ( isset( $_POST[ $meta_field['id'] ] ) ) {
+			if ( isset( $post_meta[ $meta_field['id'] ] ) ) {
                             
 				switch ( $meta_field['type'] ) {
                                     
                                         case 'media':                                                                                                  
                                                 $media_key       = $meta_field['id'].'_detail';                                                                                            
-                                                $media_height    = sanitize_text_field( $_POST[ $meta_field['id'].'_height' ] );
-                                                $media_width     = sanitize_text_field( $_POST[ $meta_field['id'].'_width' ] );
-                                                $media_thumbnail = sanitize_text_field( $_POST[ $meta_field['id'].'_thumbnail' ] );
+                                                $media_height    = sanitize_text_field( $post_meta[ $meta_field['id'].'_height' ] );
+                                                $media_width     = sanitize_text_field( $post_meta[ $meta_field['id'].'_width' ] );
+                                                $media_thumbnail = sanitize_text_field( $post_meta[ $meta_field['id'].'_thumbnail' ] );
+                                                
                                                 $media_detail = array(                                                    
-                                                    'height' =>$media_height,
-                                                    'width' =>$media_width,
-                                                    'thumbnail' =>$media_thumbnail,
-                                                );                                                
+                                                        'height'    => $media_height,
+                                                        'width'     => $media_width,
+                                                        'thumbnail' => $media_thumbnail,
+                                                );
+                                                
                                                 update_post_meta( $post_id, $media_key, $media_detail);                                                    
                                                 break;
 					case 'email':
-						$_POST[ $meta_field['id'] ] = sanitize_email( $_POST[ $meta_field['id'] ] );
+						$post_meta[ $meta_field['id'] ] = sanitize_email( $post_meta[ $meta_field['id'] ] );
 						break;
 					case 'text':
-						$_POST[ $meta_field['id'] ] = sanitize_text_field( $_POST[ $meta_field['id'] ] );
+						$post_meta[ $meta_field['id'] ] = sanitize_text_field( $post_meta[ $meta_field['id'] ] );
 						break;
                                             
 				}
-				update_post_meta( $post_id, $meta_field['id'], $_POST[ $meta_field['id'] ] );
+				update_post_meta( $post_id, $meta_field['id'], $post_meta[ $meta_field['id'] ] );
 			} else if ( $meta_field['type'] === 'checkbox' ) {
 				update_post_meta( $post_id, $meta_field['id'], '0' );
 			}

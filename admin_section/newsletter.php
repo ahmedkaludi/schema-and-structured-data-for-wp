@@ -34,9 +34,9 @@
         if (!array_key_exists($tab, $tour)) {                
 			$show_pointer = true;                                            
 			$displayID = '#menu-posts-saswp';  // Define ID used on page html element where we want to display pointer
-			$content = '<h3>' . sprintf (esc_html__('Thanks for using Structured Data!', 'schema-and-structured-data-for-wp'), self::DISPLAY_VERSION) . '</h3>';
-			$content .= esc_html__('<p>Do you want the latest on <b>Structured Data update</b> before others and some best resources on monetization in a single email? - Free just for users of Structured Data!</p>', 'schema-and-structured-data-for-wp');
-                        $content .= esc_html__('
+			$content   = '<h3>' . sprintf (esc_html__('Thanks for using Structured Data!', 'schema-and-structured-data-for-wp'), self::DISPLAY_VERSION) . '</h3>';
+			$content  .= '<p>'.esc_html__('Do you want the latest on','schema-and-structured-data-for-wp').' <b>'.esc_html__('Structured Data update','schema-and-structured-data-for-wp').'</b> '.esc_html__('before others and some best resources on monetization in a single email? - Free just for users of Structured Data!', 'schema-and-structured-data-for-wp').'</p>';
+                        $content  .= '
                         <style type="text/css">
                         .wp-pointer-buttons{ padding:0; overflow: hidden; }
                         .wp-pointer-content .button-secondary{  left: -25px;background: transparent;top: 5px; border: 0;position: relative; padding: 0; box-shadow: none;margin: 0;color: #0085ba;} .wp-pointer-content .button-primary{ display:none}	#afw_mc_embed_signup{background:#fff; clear:left; font:14px Helvetica,Arial,sans-serif; }
@@ -62,7 +62,7 @@
                                             <input type="submit" value="Subscribe" name="subscribe" id="pointer-close" class="button mc-newsletter-sent" style=" background: #0085ba; border-color: #006799; padding: 0px 16px; text-shadow: 0 -1px 1px #006799,1px 0 1px #006799,0 1px 1px #006799,-1px 0 1px #006799; height: 30px; margin-top: 1px; color: #fff; box-shadow: 0 1px 0 #006799;">
                                     </div>
                             </form>
-                        </div>','schema-and-structured-data-for-wp');
+                        </div>';
                                     $options = array (
                                             'content' => $content,
                                             'position' => array ('edge' => 'left', 'align' => 'left')
