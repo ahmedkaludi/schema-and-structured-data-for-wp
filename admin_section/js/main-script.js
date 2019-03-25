@@ -880,6 +880,17 @@ jQuery(document).ready(function($){
                
      }      
      saswp_enable_rating_review();                       
+     
         //custom fields modify schema ends here
+        
+        
+        //Adding settings button beside add schema type button on schema type list page       
+        
+        if ('saswp' == saswp_app_object.post_type && saswp_app_object.page_now == 'edit.php') {
+        
+         jQuery(jQuery(".wrap a")[0]).after("<a href='"+saswp_app_object.saswp_settings_url+"' id='' class='page-title-action'>Settings</a>");
+         
+        }
+               
       
 });

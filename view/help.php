@@ -27,35 +27,7 @@ function saswp_disable_new_posts() {
 	// Hide sidebar link
 	global $submenu;
 	unset($submenu['edit.php?post_type=saswp'][10]);
-
-	// Hide link on listing page
-	if (isset($_GET['post_type']) && $_GET['post_type'] == 'saswp') {
-	    return '<style type="text/css">
-	    #favorite-actions, .add-new-h2, .tablenav { display:none; }
-	    </style>';
-	}
+        
 }
 add_action('admin_menu', 'saswp_disable_new_posts');
-
-
-add_action('admin_head-edit.php','saswp_addCustomImportButton');
-function saswp_addCustomImportButton()
-{
-    global $current_screen;
-
-    // Not our post type, exit earlier
-    // You can remove this if condition if you don't have any specific post type to restrict to. 
-    if ('saswp' != $current_screen->post_type) {
-        return;
-    }
-
-    ?>
-        <script type="text/javascript">
-            jQuery(document).ready( function($)
-            {
-                jQuery(jQuery(".wrap a")[0]).after("<a href='<?php echo esc_url(admin_url('edit.php?post_type=saswp&page=structured_data_options')) ?>' id='' class='page-title-action'>Settings</a>");
-            });
-        </script>
-    <?php
-}
  	

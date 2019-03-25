@@ -1270,7 +1270,7 @@ function saswp_support_page_callback(){
  * Enqueue CSS and JS
  */
 function saswp_enqueue_style_js( $hook ) {    
-
+                  
 	// Color picker CSS
 	// @refer https://make.wordpress.org/core/2012/11/30/new-color-picker-in-wp-3-5/
         wp_enqueue_style( 'wp-color-picker' );	
@@ -1280,7 +1280,8 @@ function saswp_enqueue_style_js( $hook ) {
         
         wp_register_script( 'saswp-main-js', SASWP_PLUGIN_URL . 'admin_section/js/main-script.js', array('jquery'), SASWP_VERSION , true );
         
-        $data = array(
+        $data = array(                        
+            'saswp_settings_url'        => esc_url(admin_url('edit.php?post_type=saswp&page=structured_data_options')),                        
             'post_id'                   => get_the_ID(),
             'ajax_url'                  => admin_url( 'admin-ajax.php' ),            
             'saswp_security_nonce'      => wp_create_nonce('saswp_ajax_check_nonce'),  

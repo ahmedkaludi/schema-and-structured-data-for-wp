@@ -11,7 +11,8 @@
         $url = get_option('saswp-file-upload_url');        
         global $wpdb;
         $result ='';
-        
+        $errorDesc   = array();
+         
         if($url){
             
         $json_data       = file_get_contents($url);
@@ -20,13 +21,13 @@
          
         $sd_data     = $json_array['sd_data'];                
         $schema_post = array();                     
-        
+       
         
         if($all_schema_post){
             // begin transaction
             $wpdb->query('START TRANSACTION');
 
-            $errorDesc = array();
+            
             foreach($all_schema_post as $schema_post){  
                 
                 $post_id = wp_insert_post($schema_post['post']);
@@ -169,6 +170,7 @@
     function saswp_import_schema_plugin_data(){           
                                                     
         $schema_post = array();
+        $errorDesc = array();
         global $wpdb;
         $user_id     = get_current_user_id();
         
@@ -183,7 +185,7 @@
         if($all_schema_post){
             // begin transaction
             $wpdb->query('START TRANSACTION');
-            $errorDesc = array();
+            
             foreach($all_schema_post as $schema){    
                 
                 $schema_post = array(
