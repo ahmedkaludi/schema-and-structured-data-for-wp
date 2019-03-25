@@ -3,6 +3,7 @@ class saswp_flexmls_list extends flexmlsConnectPageCore{
     
         public $shorcode = array();
         protected $search_criteria;
+        
 	function __construct() {  
             global $fmc_api;             
             parent::__construct($fmc_api);

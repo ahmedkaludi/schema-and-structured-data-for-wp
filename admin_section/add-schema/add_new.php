@@ -34,7 +34,7 @@ $saswp_add_data_type_config = array(
 									),
 								
 							),
-				'current_step'  =>array(
+				'current_step'  => array(
 							'title'=>'',
 							'step_id'=>1
 							)
