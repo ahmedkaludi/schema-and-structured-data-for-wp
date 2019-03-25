@@ -734,10 +734,11 @@ add_action( 'wp_print_scripts', 'saswp_dequeue_script', 100 );
        }       
       $data_array = array(
           
-          'ajax_url'          => admin_url( 'admin-ajax.php' ), 
-          'post_found_status' => $post_found_status,
-          'post_type'         => $post_type,   
-          'page_now'          => $hook,
+          'ajax_url'                  => admin_url( 'admin-ajax.php' ), 
+          'post_found_status'         => $post_found_status,
+          'post_type'                 => $post_type,   
+          'page_now'                  => $hook,
+          'saswp_settings_url'        => esc_url(admin_url('edit.php?post_type=saswp&page=structured_data_options'))                       
           
       );
       

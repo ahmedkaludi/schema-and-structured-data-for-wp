@@ -1280,8 +1280,7 @@ function saswp_enqueue_style_js( $hook ) {
         
         wp_register_script( 'saswp-main-js', SASWP_PLUGIN_URL . 'admin_section/js/main-script.js', array('jquery'), SASWP_VERSION , true );
         
-        $data = array(                        
-            'saswp_settings_url'        => esc_url(admin_url('edit.php?post_type=saswp&page=structured_data_options')),                        
+        $data = array(                                    
             'post_id'                   => get_the_ID(),
             'ajax_url'                  => admin_url( 'admin-ajax.php' ),            
             'saswp_security_nonce'      => wp_create_nonce('saswp_ajax_check_nonce'),  
