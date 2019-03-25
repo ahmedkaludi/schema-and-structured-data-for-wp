@@ -8,8 +8,7 @@ class saswp_flexmls_list extends flexmlsConnectPageCore{
             parent::__construct($fmc_api);
                         
             add_filter('the_content', array($this,'saswp_content'),9);            
-	    add_action('wp_footer', array($this, 'saswp_get_flexidx_listing'));
-            add_action('wp_footer', array($this, 'saswp_get_flexidx_listing'));
+	    add_action('wp_footer', array($this, 'saswp_get_flexidx_listing'));            
             add_action('amp_post_template_footer',array($this, 'saswp_get_flexidx_listing'));                
 	}
         public function saswp_get_flexidx_listing(){
@@ -104,18 +103,24 @@ class saswp_flexmls_list extends flexmlsConnectPageCore{
                   }
 
                   $apply_property_type = ($source == 'location') ? true : false;
+                  
                   if ($source == 'agent') {
+                      
                     $pure_conditions['ListAgentId'] = $agent;
+                    
                   }
                    // parse location search settings
                   $locations = flexmlsConnect::parse_location_search_string($locations);
                   if($locations){
+                      
                   foreach ($locations as $loc) {
+                      
                         if(array_key_exists($loc['f'], $pure_conditions)) {
                           $pure_conditions[$loc['f']] .=  ',' . $loc['v'];
                         } else {
                           $pure_conditions[$loc['f']] = $loc['v'];
                         }
+                        
                       }    
                   }                  
 
@@ -178,14 +183,22 @@ class saswp_flexmls_list extends flexmlsConnectPageCore{
                     echo "\n";
                     echo '<script type="application/ld+json">'; 
                     echo "\n";
-                    echo "[";                                            
-                    foreach ($results as $result){                        
-                    if($count > 1){
-                    echo json_encode($this->saswp_generate_schema_markup($result)).',';      
-                    }else{
-                     echo json_encode($this->saswp_generate_schema_markup($result));     
-                    }                    
-                    $count --;                   
+                    echo "[";                     
+                    
+                    foreach ($results as $result){  
+                        
+                        if($count > 1){
+                            
+                            echo json_encode($this->saswp_generate_schema_markup($result)).',';   
+                        
+                        }else{
+                            
+                            echo json_encode($this->saswp_generate_schema_markup($result));   
+                         
+                        }   
+                        
+                        $count --;    
+                        
                     }                 
                     echo ']';
                     echo "\n";
@@ -194,21 +207,25 @@ class saswp_flexmls_list extends flexmlsConnectPageCore{
                                                                                                                            
         }
         public function saswp_content($content){
+            
             preg_match_all("/[[]idx_listing_summary(.*?)[]]/", $content,$matches);  
             
             $this->shorcode = $matches;
+            
             return $content;
+            
         }
-        public function saswp_generate_schema_markup($result){            
+        public function saswp_generate_schema_markup($result){    
+            
           global $sd_data;
-          $sellername ='';
-          $sellerurl ='';
-          $sellerimage ='';
-          $selleraddress ='';
-          $sellertelephone ='';
-          $sellerpricerange ='';                   
+          $sellername        = '';
+          $sellerurl         = '';
+          $sellerimage       = '';
+          $selleraddress     = '';
+          $sellertelephone   = '';
+          $sellerpricerange  = '';                   
           
-          if(isset($sd_data['saswp_compativility']) &&  $sd_data['saswp_compativility']==1){
+          if(isset($sd_data['saswp_compativility']) &&  $sd_data['saswp_compativility'] == 1){
            
               if(isset($sd_data['sd-seller-name'])){
                 $sellername  =$sd_data['sd-seller-name'];
@@ -231,24 +248,30 @@ class saswp_flexmls_list extends flexmlsConnectPageCore{
                
           $link_to_details_criteria = $this->search_criteria;
           $link_to_details = flexmlsConnect::make_nice_address_url($result['StandardFields'], $link_to_details_criteria, 'fmc_tag');
+          
           $photos = array();
+          
           if(isset($result['StandardFields'])){              
+              
               foreach ($result['StandardFields']['Photos'] as $photo){
+                  
                $photos[] = array(
                    'url' => $photo['UriThumb']
-               );   
+               ); 
+               
               }              
-          }            
+          }    
+          
             $input = array();
             $input = array(
 				"@context" 	    => "http://schema.org",
 				"@type"		    => ["Product", "Apartment"],
-				"name"              => $result['StandardFields']['UnparsedFirstLineAddress'],
+				"name"              => esc_attr($result['StandardFields']['UnparsedFirstLineAddress']),
                                 "description"       => isset($result['StandardFields']['PublicRemarks'])? $result['StandardFields']['PublicRemarks']:strip_tags(get_the_excerpt()),
-                                "sku"               => $result['StandardFields']['BuildingAreaTotal'],
+                                "sku"               => esc_attr($result['StandardFields']['BuildingAreaTotal']),
                                 "brand"             => get_bloginfo(),
-                                "mpn"               => $result['StandardFields']['YearBuilt'],
-				"url"		    => $link_to_details,
+                                "mpn"               => esc_attr($result['StandardFields']['YearBuilt']),
+				"url"		    => esc_url($link_to_details),
                                 "aggregateRating"   => array(
                                                             "@type"=> "AggregateRating",
                                                             "ratingValue" => '5.0',
@@ -257,8 +280,7 @@ class saswp_flexmls_list extends flexmlsConnectPageCore{
                                 "review"            => array(
                                                                         '@type'	=> 'Review',
                                                                         'author'	=> get_the_author(),
-                                                                        'datePublished'	=> $result['StandardFields']['ListingUpdateTimestamp'],
-                                                                        //'description'	=> '',  
+                                                                        'datePublished'	=> $result['StandardFields']['ListingUpdateTimestamp'],                                                                        
                                                                         'reviewRating'  => array(
                                                                                 '@type'	=> 'Rating',
                                                                                 'bestRating'	=> '5.0',
@@ -266,30 +288,30 @@ class saswp_flexmls_list extends flexmlsConnectPageCore{
                                                                                 'worstRating'	=> '1.0',
                                                                         )  
                                           ),                         
-                                "image" 	    => $result['StandardFields']['Photos'][0]['Uri300'],
+                                "image" 	    => esc_url($result['StandardFields']['Photos'][0]['Uri300']),
 				"offers"            => array(
-							"priceCurrency"		=> "USD",
-                                                        "price"		=> $result['StandardFields']['ListPrice'],
-                                                        "availability"		=> 'InStock',
-                                                        "url"		=> $link_to_details,
-                                                        "priceValidUntil"=> $result['StandardFields']['ListingUpdateTimestamp'],
-							"seller"	=> array(
+							"priceCurrency"	  => "USD",
+                                                        "price"		  => esc_attr($result['StandardFields']['ListPrice']),
+                                                        "availability"	  => 'InStock',
+                                                        "url"		  => esc_url($link_to_details),
+                                                        "priceValidUntil" => $result['StandardFields']['ListingUpdateTimestamp'],
+							"seller"	  => array(
                                                             array(
-                                                             "@type" => "RealEstateAgent",
-                                                             "name"  => $sellername, 
-                                                             "url"   => $sellerurl,
-                                                             "image" => $sellerimage,   
-                                                             "address" => $selleraddress,
-                                                             "priceRange" => $sellerpricerange,  
-                                                             "telephone" => $sellertelephone,         
+                                                                "@type"      => "RealEstateAgent",
+                                                                "name"       => esc_attr($sellername), 
+                                                                "url"        => esc_url($sellerurl),
+                                                                "image"      => esc_attr($sellerimage),   
+                                                                "address"    => esc_attr($selleraddress),
+                                                                "priceRange" => esc_attr($sellerpricerange),  
+                                                                "telephone"  => esc_attr($sellertelephone),         
                                                             )
                                                         ),
 							),
-				'address'	    => $result['StandardFields']['StreetNumber'].' '. $result['StandardFields']['StreetName'].' '.$result['StandardFields']['StreetSuffix'] .' '.$result['StandardFields']['City'].' '. $result['StandardFields']['PostalCode'],
+				'address'	    => esc_attr($result['StandardFields']['StreetNumber']).' '. esc_attr($result['StandardFields']['StreetName']).' '.esc_attr($result['StandardFields']['StreetSuffix']) .' '.esc_attr($result['StandardFields']['City']).' '. esc_attr($result['StandardFields']['PostalCode']),
 				'geo'		    => array(
-                                                            "@type" => "GeoCoordinates",
-                                                             "address"  => $result['StandardFields']['UnparsedFirstLineAddress'], 
-                                                             "addressCountry"   => $result['StandardFields']['UnparsedFirstLineAddress'],                                                             
+                                                            "@type"             => "GeoCoordinates",
+                                                             "address"          => esc_attr($result['StandardFields']['UnparsedFirstLineAddress']), 
+                                                             "addressCountry"   => esc_attr($result['StandardFields']['UnparsedFirstLineAddress']),                                                             
                                                      ),
 						
 				'photos'	    => $photos,

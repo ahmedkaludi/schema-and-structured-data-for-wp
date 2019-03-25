@@ -15,9 +15,9 @@ function saswp_help_meta_box()
             );
 }
 
-function saswp_help_meta_box_cb()
-{
-    echo '<a href="admin.php?page=structured_data_options&tab=help">'.esc_html__('Need Help', 'schema-and-structured-data-for-wp').'</a>';   
+function saswp_help_meta_box_cb(){
+
+    echo '<a href="'.esc_url(admin_url('admin.php?page=structured_data_options&tab=help')).'">'.esc_html__('Need Help', 'schema-and-structured-data-for-wp').'</a>';   
 }
 
 /**

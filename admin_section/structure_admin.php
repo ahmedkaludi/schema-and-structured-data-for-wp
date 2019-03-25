@@ -81,9 +81,9 @@ function saswp_reset_all_settings(){
         }
                         
         if($result){
-        echo json_encode(array('status'=>'t'));            
+            echo json_encode(array('status'=>'t'));            
         }else{
-        echo json_encode(array('status'=>'f'));            
+            echo json_encode(array('status'=>'f'));            
         }        
            wp_die();           
 }
@@ -113,7 +113,7 @@ function saswp_get_all_schema_posts(){
        
     if($schema_id_array){
      
-        if(count($schema_id_array)>0){    
+     if(count($schema_id_array)>0){    
         
       $returnData = array();
       
@@ -129,9 +129,9 @@ function saswp_get_all_schema_posts(){
               
           foreach ($resultset as $result){
               
-          $data = array_filter($result);
+          $data             = array_filter($result);
           $number_of_fields = count($data);
-          $checker = 0;
+          $checker          = 0;
           
           if ( $number_of_fields > 0 ) {
             
@@ -150,17 +150,17 @@ function saswp_get_all_schema_posts(){
           $condition_array[] = $checker;
           
           }          
-          $array_is_true = in_array(true,$condition_array);
+             $array_is_true = in_array(true,$condition_array);
           
           if($array_is_true){
               
-          $unique_checker = 1;    
+             $unique_checker = 1;    
           
           }
           
           }else{
               
-          $unique_checker ='notset';    
+          $unique_checker = 'notset';    
           
           }
                     
@@ -203,6 +203,7 @@ function saswp_get_all_schema_posts(){
 function saswp_generate_field_data( $post_id ){
     
       $data_group_array = get_post_meta( $post_id, 'data_group_array', true);  
+      
       $output = array();
       
       if($data_group_array){ 
@@ -213,7 +214,8 @@ function saswp_generate_field_data( $post_id ){
 
         }   
       
-      }         
+      } 
+      
       return $output;
       
 }
@@ -225,10 +227,10 @@ function saswp_comparison_logic_checker($input){
         $type       = $input['key_1'];
         $comparison = $input['key_2'];
         $data       = $input['key_3'];
-        $result             = ''; 
+        $result     = ''; 
        
         // Get all the users registered
-        $user               = wp_get_current_user();
+        $user       = wp_get_current_user();
 
         switch ($type) {
             
@@ -241,14 +243,22 @@ function saswp_comparison_logic_checker($input){
           // Posts Type
           case 'post_type':   
               
-                  $current_post_type ='';              
+                  $current_post_type = '';
+              
                   if(is_singular()){
-                     $current_post_type  = $post->post_type;    
-                  }                                                    
+                      
+                     $current_post_type  = $post->post_type;   
+                     
+                  }   
+                  
                   if ( $comparison == 'equal' ) {
+                      
                   if ( $current_post_type == $data ) {
+                      
                     $result = true;
+                    
                   }
+                  
               }
               if ( $comparison == 'not_equal') {              
                   if ( $current_post_type != $data ) {

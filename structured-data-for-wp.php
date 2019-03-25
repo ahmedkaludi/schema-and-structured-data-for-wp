@@ -143,7 +143,6 @@ function saswp_admin_notice(){
             </p>
         </div>
 
-
       <?php   
         
     }

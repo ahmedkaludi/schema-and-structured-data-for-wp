@@ -49,20 +49,20 @@ $saswp_add_data_type_config = array(
 	function saswp_add_new_init(){
 		// Exit if the user does not have proper permissions
 		if(! current_user_can( 'manage_options' ) ) {
-			return ;
+		    return ;
 		}
-                if(!isset($_GET['_wpnonce'])){
-                    
-                    return ;
-                    
+                
+                if(!isset($_GET['_wpnonce'])){                    
+                    return ;                    
                 }else{
                     
-                 $wp_nonce = $_GET['_wpnonce'];    
+                 $wp_nonce = $_GET['_wpnonce'];  
+                 
                  if( wp_verify_nonce($wp_nonce, '_wpnonce')){
                      
 			saswp_add_new_steps_call(); 	
                         
-		}  
+		 }  
                 
                 }
                 		                
@@ -207,9 +207,7 @@ $saswp_add_data_type_config = array(
 			<h1><?php echo esc_attr($stepDetails['title']); ?></h1>
 
 			<p><?php echo isset($stepDetails['description'])? $stepDetails['description'] : ''; ?></p>
-			
-			
-			
+									
 		</div>
 		<form action="" method="post">
 			
@@ -245,6 +243,7 @@ $saswp_add_data_type_config = array(
             
 		global $saswp_add_data_type_config;
 		$stepDetails = $saswp_add_data_type_config['steps'][$saswp_add_data_type_config['current_step']['step_id']];
+                
 		?>
 
 		<div class="merlin__content--transition">
@@ -257,6 +256,7 @@ $saswp_add_data_type_config = array(
 			<h1><?php echo esc_attr($stepDetails['title']); ?></h1>
 			<p><?php echo isset($stepDetails['description'])? $stepDetails['description'] : ''; ?></p>
 		</div>
+                    
 		<form action="" method="post">
 			
                     <div id="saswp_amp_select" class="postbox">
@@ -363,12 +363,14 @@ $saswp_add_data_type_config = array(
                  if ( ! isset( $_POST['wpnonce'] ) ){
                     return; 
                  }
+                 
                  if ( !wp_verify_nonce( $_POST['wpnonce'], 'saswp_add_new_nonce' ) ){
                     return;  
-                 }                 
+                 }
+                 
                 if(isset($_POST['schema_type'])){ 
                     
-                    $schema_type = sanitize_textarea_field($_POST['schema_type']);
+                    $schema_type = sanitize_text_field($_POST['schema_type']);
                 
                 if($schema_type == 'local_business'){
                     
@@ -380,11 +382,11 @@ $saswp_add_data_type_config = array(
                 
                 $schema_post = array(
                     'post_author' => $user_id,
-                    'post_date' => date("Y-m-d"),                                        
-                    'post_title' => ucfirst($schema_type),                    
+                    'post_date'   => date("Y-m-d"),                                        
+                    'post_title'  => ucfirst($schema_type),                    
                     'post_status' => 'publish',                    
-                    'post_name' =>  ucfirst($schema_type),                    
-                    'post_type' => 'saswp',                                                            
+                    'post_name'   =>  ucfirst($schema_type),                    
+                    'post_type'   => 'saswp',                                                            
                 );
                 
                 $post_id = wp_insert_post($schema_post);                                  
@@ -400,7 +402,7 @@ $saswp_add_data_type_config = array(
                 $temp_condition_array   = array();
                 $show_globally          = false;
                 $post_data_group_array  = $_POST['data_group_array'];
-                if(!is_array($post_data_group_array)){
+                if(is_array($post_data_group_array)){
                 
 	                foreach($post_data_group_array as $groups){  
 	                    
@@ -448,6 +450,7 @@ $saswp_add_data_type_config = array(
 		<a href="<?php echo esc_url(  saswp_add_new_step_next_link() ); ?>" class="merlin__button merlin__button--skip"><?php echo esc_html__( 'Skip', 'schema-and-structured-data-for-wp' ); ?></a>
 		<?php
 	}
+        
 	function saswp_add_new_finish_page() {
             
 		global $saswp_add_data_type_config;
@@ -481,9 +484,9 @@ $saswp_add_data_type_config = array(
                         $last_post_id = json_decode(get_transient('saswp_last_post_id'), true); 
                                                
                         if(isset($last_post_id['post_id'])){
-                        $lets_go = esc_url( admin_url( 'post.php?post='.$last_post_id['post_id'].'&action=edit' ) );    
+                             $lets_go = esc_url( admin_url( 'post.php?post='.$last_post_id['post_id'].'&action=edit' ) );    
                         }else{
-                        $lets_go = esc_url( admin_url( 'edit.php?post_type=saswp' ) );        
+                             $lets_go = esc_url( admin_url( 'edit.php?post_type=saswp' ) );        
                         }
                         ?>
                         
@@ -504,6 +507,7 @@ $saswp_add_data_type_config = array(
 	}
 
 	function saswp_add_new_loading_spinner(){
+            
 		global $saswp_add_data_type_config;
 		$spinner = SASWP_DIR_NAME. $saswp_add_data_type_config['installer_dir']. '/images/spinner.php';
 
@@ -512,6 +516,7 @@ $saswp_add_data_type_config = array(
 	}
 	
 	function saswp_add_new_svg_sprite() {
+            
 		global $saswp_add_data_type_config;
 		// Define SVG sprite file.
 		$svg = SASWP_DIR_NAME. $saswp_add_data_type_config['installer_dir'] . '/images/sprite.svg' ;
@@ -533,6 +538,7 @@ $saswp_add_data_type_config = array(
 	}
 	
 	function saswp_add_new_install_header() {
+            
 		global $saswp_add_data_type_config;
 		
 		// Get the current step.
@@ -632,9 +638,9 @@ $saswp_add_data_type_config = array(
 
 		$array = array(
 			'svg' => array(
-				'class' => array(),
+				'class'       => array(),
 				'aria-hidden' => array(),
-				'role' => array(),
+				'role'        => array(),
 			),
 			'use' => array(
 				'xlink:href' => array(),

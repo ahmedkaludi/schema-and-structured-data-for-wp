@@ -141,7 +141,7 @@ function saswp_data_generator() {
 	echo "\n";
         echo '<script type="application/ld+json">'; 
         echo "\n";       
-	echo html_entity_decode(esc_html($filter_string));       
+	echo $filter_string;       
         echo "\n";
         echo '</script>';
         echo "\n\n";
@@ -151,11 +151,14 @@ add_filter('the_content', 'saswp_paywall_data_for_login');
 
 function saswp_paywall_data_for_login($content){
     
+        global $wp;
+        
 	if( saswp_non_amp() ){
             
 		return $content;
                 
 	}
+        
 	remove_filter('the_content', 'MeprAppCtrl::page_route', 60);	
 	$Conditionals = saswp_get_all_schema_posts();     
         
@@ -163,8 +166,9 @@ function saswp_paywall_data_for_login($content){
 		return $content;
 	}else{
                
-                $paywallenable ='';
-                $className     ='paywall';
+                $paywallenable = '';
+                $className     = 'paywall';
+                
                 foreach($Conditionals as $schemaConditionals){
                     
                      $schema_options = $schemaConditionals['schema_options'];    
@@ -186,18 +190,16 @@ function saswp_paywall_data_for_login($content){
                 if($paywallenable){
                     
 		if(strpos($content, '<!--more-->')!==false && !is_user_logged_in()){
-                    
-			global $wp;
-			$redirect =  home_url( $wp->request );
+                    			
+			$redirect       =  home_url( $wp->request );
 			$breakedContent = explode("<!--more-->", $content);
-			$content = $breakedContent[0].'<a href="'.wp_login_url( $redirect ) .'">'.esc_html__( 'Login', 'schema-and-structured-data-for-wp' ).'</a>';
+			$content        = $breakedContent[0].'<a href="'.esc_url(wp_login_url( $redirect )) .'">'.esc_html__( 'Login', 'schema-and-structured-data-for-wp' ).'</a>';
                         
 		}elseif(strpos($content, '<!--more-->')!==false && is_user_logged_in()){
-                    
-			global $wp;
-			$redirect =  home_url( $wp->request );
+                    			
+			$redirect       =  home_url( $wp->request );
 			$breakedContent = explode("<!--more-->", $content);
-			$content = $breakedContent[0].'<div class="'.$className.'">'.$breakedContent[1].'</div>';
+			$content        = $breakedContent[0].'<div class="'.esc_attr($className).'">'.esc_attr($breakedContent[1]).'</div>';
                         
 		}
                 
@@ -218,7 +220,7 @@ function saswp_memberpress_form_update($form){
 		},11); 
 		global $wp;
 		$redirect =  home_url( $wp->request );
-		$form = '<a class="amp-mem-login" href="'.wp_login_url( $redirect ) .'">'.esc_html__( 'Login', 'schema-and-structured-data-for-wp' ).'</a>';
+		$form = '<a class="amp-mem-login" href="'.esc_url(wp_login_url( $redirect )) .'">'.esc_html__( 'Login', 'schema-and-structured-data-for-wp' ).'</a>';
 	}
         
 	return $form;
@@ -236,7 +238,7 @@ function saswp_remove_warnings($data, $index, $type){
                 if($type == 'saswp_array'){
 
                         if(isset($data[$index])){
-                                return $data[$index][0];
+                                return esc_attr($data[$index][0]);
                         }else{
                                 return '';
                         }		
@@ -245,7 +247,7 @@ function saswp_remove_warnings($data, $index, $type){
 		if($type == 'saswp_string'){
 	
                         if(isset($data[$index])){
-                                return $data[$index];
+                                return esc_attr($data[$index]);
                         }else{
                                 return '';
                         }		
@@ -271,7 +273,7 @@ function saswp_reading_time_and_word_count() {
     // How many seconds (total)?
     $seconds = floor( $word_count / $words_per_second );
 
-    return array('word_count' => $word_count, 'timerequired' => $seconds);
+    return array('word_count' => esc_attr($word_count), 'timerequired' => esc_attr($seconds));
 }
 
 /**
@@ -339,12 +341,12 @@ function saswp_get_comments($post_id){
                     
 			$comments[] = array (
 					'@type'       => 'Comment',
-					'dateCreated' => $comment->comment_date,
-					'description' => $comment->comment_content,
-					'author' => array (
-						'@type' => 'Person',
-						'name'  => $comment->comment_author,
-						'url'   => $comment->comment_author_url,
+					'dateCreated' => esc_html($comment->comment_date),
+					'description' => esc_attr($comment->comment_content),
+					'author'      => array (
+                                                    '@type' => 'Person',
+                                                    'name'  => esc_attr($comment->comment_author),
+                                                    'url'   => esc_url($comment->comment_author_url),
 				),
 			);
 		}
@@ -489,7 +491,7 @@ function saswp_remove_woocommerce_default_structured_data() {
         
     global $sd_data;
     
-    if(isset($sd_data['saswp-woocommerce']) && $sd_data['saswp-woocommerce'] == 1 && is_plugin_active('woocommerce/woocommerce.php')){
+    if(isset($sd_data['saswp-woocommerce']) && $sd_data['saswp-woocommerce'] == 1 && class_exists('WooCommerce')){
      
         remove_action( 'wp_footer', array( WC()->structured_data, 'output_structured_data' ), 10 ); // This removes structured data from all frontend pages
         remove_action( 'woocommerce_email_order_details', array( WC()->structured_data, 'output_email_structured_data' ), 30 ); // This removes structured data from all Emails sent by WooCommerce
