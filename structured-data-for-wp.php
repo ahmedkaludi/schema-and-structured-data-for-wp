@@ -81,6 +81,7 @@ function saswp_admin_notice_activation_hook() {
     update_option( "saswp_activation_date", date("Y-m-d"));
     
 }
+
 add_action( 'admin_notices', 'saswp_admin_notice' );
 
 function saswp_admin_notice(){
