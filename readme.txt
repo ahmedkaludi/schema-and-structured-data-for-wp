@@ -68,7 +68,7 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 = 1.4 (25 March 2019) =
 
-* Bug Fixed: Security issue improvement.
+* Bug Fixed: Security improvement.
 
 = 1.3.1 (12 March 2019) =
 
