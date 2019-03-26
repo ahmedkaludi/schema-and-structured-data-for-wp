@@ -1,5 +1,5 @@
 <?php       
-        function item_reviewed_fields($item, $post_specific = null, $schema_id = null){
+        function saswp_item_reviewed_fields($item, $post_specific = null, $schema_id = null){
             
             $post_fix = '';
             
@@ -11,101 +11,101 @@
             
             $reviewed_field = array(
                                 array(
-                                        'label' => 'Name',
-                                        'id' => 'saswp_review_schema_name'.$post_fix,
-                                        'type' => 'text',
-                                        'default' => '',
+                                        'label'      => 'Name',
+                                        'id'         => 'saswp_review_schema_name'.$post_fix,
+                                        'type'       => 'text',
+                                        'default'    => '',
                                         'attributes' => array(
                                                 'placeholder' => 'Name'
                                          )
                                         
                                 ),
                                 array(
-                                        'label' => 'Review Body',
-                                        'id' => 'saswp_review_schema_description'.$post_fix,
-                                        'type' => 'textarea',
-                                        'default' => '',
+                                        'label'      => 'Review Body',
+                                        'id'         => 'saswp_review_schema_description'.$post_fix,
+                                        'type'       => 'textarea',
+                                        'default'    => '',
                                         'attributes' => array(
                                                 'placeholder' => 'Review Body'
                                          )
                                 ),
                                 array(
-                                        'label' => 'Image',
-                                        'id' => 'saswp_review_schema_image'.$post_fix,
-                                        'type' => 'media',
-                                        'default' => '',
+                                        'label'      => 'Image',
+                                        'id'         => 'saswp_review_schema_image'.$post_fix,
+                                        'type'       => 'media',
+                                        'default'    => '',
                                         'attributes' => array(
                                                 'placeholder' => 'Image'
                                          )
                                 ),
                                 array(
-                                        'label' => 'Author',
-                                        'id' => 'saswp_review_schema_author'.$post_fix,
-                                        'type' => 'text',
-                                        'default' => '',
+                                        'label'      => 'Author',
+                                        'id'         => 'saswp_review_schema_author'.$post_fix,
+                                        'type'       => 'text',
+                                        'default'    => '',
                                         'attributes' => array(
                                                 'placeholder' => 'Author'
                                          )
                                 ),
                                 array(
-                                        'label' => 'Price Range',
-                                        'id' => 'saswp_review_schema_price_range'.$post_fix,
-                                        'type' => 'text',
-                                        'default' => '',
+                                        'label'      => 'Price Range',
+                                        'id'         => 'saswp_review_schema_price_range'.$post_fix,
+                                        'type'       => 'text',
+                                        'default'    => '',
                                         'attributes' => array(
                                                 'placeholder' => '$$$ or 55$-100$'
                                          )
                                 ),
                                 array(
-                                        'label' => 'Street Address',
-                                        'id' => 'saswp_review_schema_street_address'.$post_fix,
-                                        'type' => 'text',
-                                        'default' => '',
+                                        'label'      => 'Street Address',
+                                        'id'         => 'saswp_review_schema_street_address'.$post_fix,
+                                        'type'       => 'text',
+                                        'default'    => '',
                                         'attributes' => array(
                                                 'placeholder' => 'Street Address'
                                          )
                                 ),
                                 array(
-                                        'label' => 'Address Locality',
-                                        'id' => 'saswp_review_schema_locality'.$post_fix,
-                                        'type' => 'text',
-                                        'default' => '',
+                                        'label'      => 'Address Locality',
+                                        'id'         => 'saswp_review_schema_locality'.$post_fix,
+                                        'type'       => 'text',
+                                        'default'    => '',
                                         'attributes' => array(
                                                 'placeholder' => 'Address Locality'
                                          )
                                 ),
                                 array(
-                                        'label' => 'Address Region',
-                                        'id' => 'saswp_review_schema_region'.$post_fix,
-                                        'type' => 'text',
-                                        'default' => '',
+                                        'label'      => 'Address Region',
+                                        'id'         => 'saswp_review_schema_region'.$post_fix,
+                                        'type'       => 'text',
+                                        'default'    => '',
                                         'attributes' => array(
                                                 'placeholder' => 'Address Region'
                                          )
                                 ),
                                 array(
-                                        'label' => 'Postal Code',
-                                        'id' => 'saswp_review_schema_postal_code'.$post_fix,
-                                        'type' => 'text',
-                                        'default' => '',
+                                        'label'      => 'Postal Code',
+                                        'id'         => 'saswp_review_schema_postal_code'.$post_fix,
+                                        'type'       => 'text',
+                                        'default'    => '',
                                         'attributes' => array(
                                                 'placeholder' => 'Postal Code'
                                          )
                                 ),
                                 array(
-                                        'label' => 'Address Country',
-                                        'id' => 'saswp_review_schema_country'.$post_fix,
-                                        'type' => 'text',
-                                        'default' => '',
+                                        'label'      => 'Address Country',
+                                        'id'         => 'saswp_review_schema_country'.$post_fix,
+                                        'type'       => 'text',
+                                        'default'    => '',
                                         'attributes' => array(
                                                 'placeholder' => 'Country'
                                          )
                                 ),
                                 array(
-                                        'label' => 'Telephone',
-                                        'id' => 'saswp_review_schema_telephone'.$post_fix,
-                                        'type' => 'text',
-                                        'default' => '',
+                                        'label'      => 'Telephone',
+                                        'id'         => 'saswp_review_schema_telephone'.$post_fix,
+                                        'type'       => 'text',
+                                        'default'    => '',
                                         'attributes' => array(
                                                 'placeholder' => '123456789'
                                          )
@@ -129,15 +129,15 @@
                             
                            $reviewed_field = array(
                              array(
-                                        'label' => 'Name',
-                                        'id' => 'saswp_review_schema_name'.$post_fix,
-                                        'type' => 'text',
+                                        'label'   => 'Name',
+                                        'id'      => 'saswp_review_schema_name'.$post_fix,
+                                        'type'    => 'text',
                                         'default' => $site_name = get_bloginfo()
                                 ),
                              array(
-                                        'label' => 'Url',
-                                        'id' => 'saswp_review_schema_url'.$post_fix,
-                                        'type' => 'text',
+                                        'label'   => 'Url',
+                                        'id'      => 'saswp_review_schema_url'.$post_fix,
+                                        'type'    => 'text',
                                         'default' => get_site_url()
                                 )
                          );  
@@ -147,46 +147,46 @@
                             
                             $reviewed_field = array(
                              array(
-                                        'label' => 'Name',
-                                        'id' => 'saswp_review_schema_name'.$post_fix,
-                                        'type' => 'text',
-                                        'default' => '',
+                                        'label'      => 'Name',
+                                        'id'         => 'saswp_review_schema_name'.$post_fix,
+                                        'type'       => 'text',
+                                        'default'    => '',
                                         'attributes' => array(
                                                 'placeholder' => 'Name'
                                          )
                                 ),
                              array(
-                                        'label' => 'Author',
-                                        'id' => 'saswp_review_schema_author'.$post_fix,
-                                        'type' => 'text',
-                                        'default' => '',
+                                        'label'      => 'Author',
+                                        'id'         => 'saswp_review_schema_author'.$post_fix,
+                                        'type'       => 'text',
+                                        'default'    => '',
                                         'attributes' => array(
                                                 'placeholder' => 'Author'
                                          )
                                 ),
                             array(
-                                        'label' => 'ISBN',
-                                        'id' => 'saswp_review_schema_isbn'.$post_fix,
-                                        'type' => 'text',
-                                        'default' => '',
+                                        'label'      => 'ISBN',
+                                        'id'         => 'saswp_review_schema_isbn'.$post_fix,
+                                        'type'       => 'text',
+                                        'default'    => '',
                                         'attributes' => array(
                                                 'placeholder' => 'ISBN'
                                          )
                                 ),
                             array(
-                                        'label' => 'URL',
-                                        'id' => 'saswp_review_schema_author_sameas'.$post_fix,
-                                        'type' => 'text',
-                                        'default' => '',
+                                        'label'      => 'URL',
+                                        'id'         => 'saswp_review_schema_author_sameas'.$post_fix,
+                                        'type'       => 'text',
+                                        'default'    => '',
                                         'attributes' => array(
                                                 'placeholder' => 'URL'
                                          )
                                 ),
                             array(
-                                        'label' => 'Review Body',
-                                        'id' => 'saswp_review_schema_description'.$post_fix,
-                                        'type' => 'textarea',
-                                        'default' => '',
+                                        'label'      => 'Review Body',
+                                        'id'         => 'saswp_review_schema_description'.$post_fix,
+                                        'type'       => 'textarea',
+                                        'default'    => '',
                                         'attributes' => array(
                                                 'placeholder' => 'Review Body'
                                          )
@@ -219,55 +219,55 @@
                         case 'Movie':
                            $reviewed_field = array(
                              array(
-                                        'label' => 'Name',
-                                        'id' => 'saswp_review_schema_name'.$post_fix,
-                                        'type' => 'text',
-                                        'default' => '',
+                                        'label'      => 'Name',
+                                        'id'         => 'saswp_review_schema_name'.$post_fix,
+                                        'type'       => 'text',
+                                        'default'    => '',
                                         'attributes' => array(
                                                 'placeholder' => 'Name'
                                          )
                                 ),
                                array(
-                                        'label' => 'Date Created',
-                                        'id' => 'saswp_review_schema_date_created'.$post_fix,
-                                        'type' => 'text',
-                                        'default' => '',
+                                        'label'      => 'Date Created',
+                                        'id'         => 'saswp_review_schema_date_created'.$post_fix,
+                                        'type'       => 'text',
+                                        'default'    => '',
                                         'attributes' => array(
                                                 'placeholder' => '2017-05-17'
                                          )
                                 ),
                                array(
-                                        'label' => 'Image',
-                                        'id' => 'saswp_review_schema_image'.$post_fix,
-                                        'type' => 'media',
-                                        'default' => '',
-                                        'attributes' => array(
+                                        'label'       => 'Image',
+                                        'id'          => 'saswp_review_schema_image'.$post_fix,
+                                        'type'        => 'media',
+                                        'default'     => '',
+                                        'attributes'  => array(
                                                 'placeholder' => 'Image'
                                          )
                                 ),
                              array(
-                                        'label' => 'Director',
-                                        'id' => 'saswp_review_schema_director'.$post_fix,
-                                        'type' => 'text',
-                                        'default' => '',
+                                        'label'      => 'Director',
+                                        'id'         => 'saswp_review_schema_director'.$post_fix,
+                                        'type'       => 'text',
+                                        'default'    => '',
                                         'attributes' => array(
                                                 'placeholder' => 'Director'
                                          )
                                 ),                            
                             array(
-                                        'label' => 'URL',
-                                        'id' => 'saswp_review_schema_itemreviewed_sameas'.$post_fix,
-                                        'type' => 'text',
-                                        'default' => '',
+                                        'label'      => 'URL',
+                                        'id'         => 'saswp_review_schema_itemreviewed_sameas'.$post_fix,
+                                        'type'       => 'text',
+                                        'default'    => '',
                                         'attributes' => array(
                                                 'placeholder' => 'URL'
                                          )
                                 ),
                             array(
-                                        'label' => 'Review Body',
-                                        'id' => 'saswp_review_schema_description'.$post_fix,
-                                        'type' => 'textarea',
-                                        'default' => '',
+                                        'label'      => 'Review Body',
+                                        'id'         => 'saswp_review_schema_description'.$post_fix,
+                                        'type'       => 'textarea',
+                                        'default'    => '',
                                         'attributes' => array(
                                                 'placeholder' => 'Review Body'
                                          )
@@ -289,19 +289,19 @@
                             break;
                         case 'Restaurant':
                            $reviewed_field[] = array(
-                                                'label' => 'Serves Cuisine',
-                                                'id' => 'saswp_review_schema_servescuisine'.$post_fix,
-                                                'type' => 'text',
-                                                'default' => '',
+                                                'label'      => 'Serves Cuisine',
+                                                'id'         => 'saswp_review_schema_servescuisine'.$post_fix,
+                                                'type'       => 'text',
+                                                'default'    => '',
                                                 'attributes' => array(
                                                      'placeholder' => 'Serves Cuisine'
                                              )
                                         );
                             $reviewed_field[] = array(
-                                                'label' => 'Menu',
-                                                'id' => 'saswp_review_schema_menu'.$post_fix,
-                                                'type' => 'text',
-                                                'default' => '',
+                                                'label'      => 'Menu',
+                                                'id'         => 'saswp_review_schema_menu'.$post_fix,
+                                                'type'       => 'text',
+                                                'default'    => '',
                                                 'attributes' => array(
                                                      'placeholder' => 'https://example.com/menu'
                                              )
@@ -322,15 +322,15 @@
                         case 'WebSite':
                          $reviewed_field = array(
                              array(
-                                        'label' => 'Name',
-                                        'id' => 'saswp_review_schema_name'.$post_fix,
-                                        'type' => 'text',
+                                        'label'   => 'Name',
+                                        'id'      => 'saswp_review_schema_name'.$post_fix,
+                                        'type'    => 'text',
                                         'default' => $site_name = get_bloginfo()
                                 ),
                              array(
-                                        'label' => 'Url',
-                                        'id' => 'saswp_review_schema_url'.$post_fix,
-                                        'type' => 'text',
+                                        'label'   => 'Url',
+                                        'id'      => 'saswp_review_schema_url'.$post_fix,
+                                        'type'    => 'text',
                                         'default' => get_site_url()
                                 )
                          );
@@ -361,7 +361,7 @@
             $post_specific = sanitize_text_field($_GET['post_specific']);  
             
                        
-             $meta_fields = item_reviewed_fields($item, $post_specific, $schema_id);
+             $meta_fields = saswp_item_reviewed_fields($item, $post_specific, $schema_id);
              
             
              foreach ($meta_fields as $meta_field){
@@ -458,8 +458,8 @@
                          $input = sprintf(
 						'<textarea %s style="width: 100%%" id="%s" name="%s" rows="5">%s</textarea>',                                                
                                                 $attributes,
-						$meta_field['id'],
-						$meta_field['id'],
+						esc_attr($meta_field['id']),
+						esc_attr($meta_field['id']),
                                                 $meta_value
 					);                                                                
                          break;
@@ -606,12 +606,12 @@
                 
                 }
                 
-                if($schema_type != 'local_business'){
+                    if($schema_type != 'local_business'){
                     
                         $style_business_type = 'style="display:none"';
                         $style_business_name = 'style="display:none"';
                  
-                }                            
+                    }                            
                 }   
                         
                                 $provider_type = array(
@@ -653,11 +653,9 @@
                                      'Movie'                 => 'Movie', 
                                      'MusicPlaylist'         => 'Music Playlist',                                      
                                      'MusicRecording'        => 'MusicRecording',
-                                     'Photograph'            => 'Photograph',
-                                     //'Recipe'                => 'Recipe',
+                                     'Photograph'            => 'Photograph',                                     
                                      'Restaurant'            => 'Restaurant', 
-                                     'Series'                => 'Series',
-                                     //'SoftwareApplication'   => 'Software Application',
+                                     'Series'                => 'Series',                                     
                                      'VisualArtwork'         => 'Visual Artwork',  
                                      'WebPage'               => 'WebPage', 
                                      'WebSite'               => 'WebSite',                                                                                                                                                   
@@ -668,8 +666,7 @@
                                      'AudioObject'          => 'AudioObject',
                                      'Blogposting'          => 'Blogposting',
                                      'Course'               => 'Course', 
-                                     'Event'                => 'Event',    
-                                    // 'JobPosting'       => 'JobPosting',   
+                                     'Event'                => 'Event',                                          
                                      'local_business'       => 'Local Business',
                                      'NewsArticle'          => 'NewsArticle',
                                      'Product'              => 'Product',
@@ -855,17 +852,11 @@
                             </select>
                                
                                <?php if($schema_type == 'qanda') { ?>
-                               <span class="saswp-schem-type-note">Note: Currently supported with DW Question & Answer <a target="_blank" href="https://wordpress.org/plugins/dw-question-answer/">Link</a></span>
+                               <span class="saswp-schem-type-note"><?php echo esc_html__('Note: Currently supported with DW Question & Answer', 'schema-and-structured-data-for-wp' ); ?> <a target="_blank" href="https://wordpress.org/plugins/dw-question-answer/"><?php echo esc_html__('Link', 'schema-and-structured-data-for-wp' ); ?></a></span>
                                <?php }else{ ?>
-                               <span class="saswp-schem-type-note saswp_hide">Note: Currently supported with DW Question & Answer <a target="_blank" href="https://wordpress.org/plugins/dw-question-answer/">Link</a></span>
+                               <span class="saswp-schem-type-note saswp_hide"><?php echo esc_html__('Note: Currently supported with DW Question & Answer', 'schema-and-structured-data-for-wp' ); ?> <a target="_blank" href="https://wordpress.org/plugins/dw-question-answer/"><?php echo esc_html__('Link', 'schema-and-structured-data-for-wp' ); ?></a></span>
                                <?php } ?>
-                                                                                             
-                               <?php if($schema_type == 'JobPosting') { ?>
-                               <!--<span class="saswp-job-posting-note">Note: Currently supported with WP Job Manager <a target="_blank" href="https://wordpress.org/plugins/wp-job-manager/">Link</a></span>-->
-                               <?php }else{ ?>
-                               <!--<span class="saswp-job-posting-note saswp_hide">Note: Currently supported with WP Job Manager <a target="_blank" href="https://wordpress.org/plugins/wp-job-manager/">Link</a></span>-->
-                               <?php } ?>
-                               
+                                                                                                                                                           
                            </td>
                         </tr>    
                         <tr class="saswp-business-type-tr" <?php echo $style_business_type; ?>>
@@ -932,7 +923,7 @@
                                   
                                   foreach ($all_entertainment_array as $key => $value) {
                                     $sel = '';
-                                    if($business_name==$key){
+                                    if($business_name == $key){
                                       $sel = 'selected';
                                     }
                                     echo "<option value='".esc_attr($key)."' ".esc_attr($sel).">".esc_html__($value, 'schema-and-structured-data-for-wp' )."</option>";
@@ -950,7 +941,7 @@
                                   
                                   foreach ($all_financial_array as $key => $value) {
                                     $sel = '';
-                                    if($business_name==$key){
+                                    if($business_name == $key){
                                       $sel = 'selected';
                                     }
                                     echo "<option value='".esc_attr($key)."' ".esc_attr($sel).">".esc_html__($value, 'schema-and-structured-data-for-wp' )."</option>";
@@ -1121,7 +1112,7 @@
                             <td><?php echo esc_html__('Operation Days', 'schema-and-structured-data-for-wp' ); ?></td>
                             <td>                                
                                 <textarea id="saswp_dayofweek" placeholder="Mo-Sa 11:00-14:30 <?="\n"?>Mo-Th 17:00-21:30 <?="\n"?>Fr-Sa 17:00-22:00" rows="5" cols="70" name="saswp_dayofweek"><?php if(isset($dayoftheweek)){echo $dayoftheweek; } ?></textarea>
-                                <p>Note: Enter days and time in given format.</p>
+                                <p><?php echo esc_html__( 'Note: Enter days and time in given format', 'schema-and-structured-data-for-wp' ); ?></p>
                             </td>
                         </tr>
                        
@@ -1180,11 +1171,13 @@
                                 <?php
                                   
                                   foreach ($provider_type as $key => $value) {
+                                      
                                     $sel = '';
                                     if(saswp_remove_warnings($service_details, 'saswp_service_schema_provider_type', 'saswp_string')==$key){
                                       $sel = 'selected';
                                     }
                                     echo "<option value='".esc_attr($key)."' ".esc_attr($sel).">".esc_html__($value, 'schema-and-structured-data-for-wp' )."</option>";
+                                    
                                   }
                                 ?>
                             </select>
@@ -1680,16 +1673,17 @@
                 update_post_meta( $post_id, 'saswp_local_business_details', $local_business_details );
                 
                
-                $service_schema_details = array();
-                $review_schema_details  = array();
-                $product_schema_details = array();
-                $audio_schema_details   = array();
+                $service_schema_details    = array();
+                $review_schema_details     = array();
+                $product_schema_details    = array();
+                $audio_schema_details      = array();
                 $software_schema_details   = array();
                 
                 $schema_type = sanitize_text_field($_POST['schema_type']);               
                
                 if($schema_type =='Service'){
-                    if ( isset( $_POST['saswp_service_schema_name'] ) ){
+                    
+                   if ( isset( $_POST['saswp_service_schema_name'] ) ){
                      $service_schema_details['saswp_service_schema_name'] = sanitize_text_field($_POST['saswp_service_schema_name']);        
                    }
                    if ( isset( $_POST['saswp_service_schema_type'] ) ){
@@ -1702,9 +1696,9 @@
                      $service_schema_details['saswp_service_schema_provider_type'] = sanitize_text_field($_POST['saswp_service_schema_provider_type']);        
                    }
                    if ( isset( $_POST['saswp_service_schema_image'] ) ){
-                    $service_schema_details['saswp_service_schema_image']['id'] = sanitize_text_field($_POST['saswp_service_schema_image']['id']);    
-                    $service_schema_details['saswp_service_schema_image']['url'] = esc_url_raw($_POST['saswp_service_schema_image']['url']);
-                    $service_schema_details['saswp_service_schema_image']['width'] = sanitize_text_field($_POST['saswp_service_schema_image']['width']);
+                    $service_schema_details['saswp_service_schema_image']['id']     = sanitize_text_field($_POST['saswp_service_schema_image']['id']);    
+                    $service_schema_details['saswp_service_schema_image']['url']    = esc_url_raw($_POST['saswp_service_schema_image']['url']);
+                    $service_schema_details['saswp_service_schema_image']['width']  = sanitize_text_field($_POST['saswp_service_schema_image']['width']);
                     $service_schema_details['saswp_service_schema_image']['height'] = sanitize_text_field($_POST['saswp_service_schema_image']['height']);
                    }
                    if ( isset( $_POST['saswp_service_schema_locality'] ) ){
@@ -1729,7 +1723,7 @@
                      $service_schema_details['saswp_service_schema_service_offer'] = sanitize_textarea_field($_POST['saswp_service_schema_service_offer']);        
                    } 
                    
-                   if ( isset( $_POST['saswp_service_schema_enable_rating'] ) ){
+                    if ( isset( $_POST['saswp_service_schema_enable_rating'] ) ){
                     $service_schema_details['saswp_service_schema_enable_rating'] = sanitize_text_field($_POST['saswp_service_schema_enable_rating']);        
                     }
                     if ( isset( $_POST['saswp_service_schema_rating'] ) ){
@@ -1749,7 +1743,7 @@
                    }
                      
                     $item = sanitize_text_field($_POST['saswp_review_schema_item_type']);        
-                    $meta_fields =  item_reviewed_fields($item);
+                    $meta_fields =  saswp_item_reviewed_fields($item);
                                                            
                     foreach ( $meta_fields as $meta_field ) {
                     
@@ -1816,10 +1810,10 @@
                      $product_schema_details['saswp_product_schema_description'] = sanitize_textarea_field($_POST['saswp_product_schema_description']);        
                    }
                    if ( isset( $_POST['saswp_product_schema_image'] ) ){
-                    $product_schema_details['saswp_product_schema_image']['id'] = sanitize_text_field($_POST['saswp_product_schema_image']['id']);    
-                    $product_schema_details['saswp_product_schema_image']['url'] = esc_url_raw($_POST['saswp_product_schema_image']['url']);
-                    $product_schema_details['saswp_product_schema_image']['width'] = sanitize_text_field($_POST['saswp_product_schema_image']['width']);
-                    $product_schema_details['saswp_product_schema_image']['height'] = sanitize_text_field($_POST['saswp_product_schema_image']['height']);
+                    $product_schema_details['saswp_product_schema_image']['id']      = sanitize_text_field($_POST['saswp_product_schema_image']['id']);    
+                    $product_schema_details['saswp_product_schema_image']['url']     = esc_url_raw($_POST['saswp_product_schema_image']['url']);
+                    $product_schema_details['saswp_product_schema_image']['width']   = sanitize_text_field($_POST['saswp_product_schema_image']['width']);
+                    $product_schema_details['saswp_product_schema_image']['height']  = sanitize_text_field($_POST['saswp_product_schema_image']['height']);
                    }
                    
                    if ( isset( $_POST['saswp_product_schema_brand_name'] ) ){
@@ -1869,9 +1863,9 @@
                    
                 }
                 
-                if($schema_type =='AudioObject'){
+                if($schema_type == 'AudioObject' ){
                     
-                     if ( isset( $_POST['saswp_audio_schema_name'] ) ){
+                    if ( isset( $_POST['saswp_audio_schema_name'] ) ){
                       $audio_schema_details['saswp_audio_schema_name'] = sanitize_text_field($_POST['saswp_audio_schema_name']);        
                     }
                     if ( isset( $_POST['saswp_audio_schema_description'] ) ){
@@ -1892,7 +1886,7 @@
                     
                 }
                 
-                if($schema_type =='SoftwareApplication'){
+                if($schema_type == 'SoftwareApplication'){
                     
                      if ( isset( $_POST['saswp_software_schema_name'] ) ){
                         $software_schema_details['saswp_software_schema_name'] = sanitize_text_field($_POST['saswp_software_schema_name']);        
@@ -1990,9 +1984,10 @@
                      }
                      
                      if ( isset( $_POST['saswp_event_schema_image'] ) ){
-                        $event_schema_details['saswp_event_schema_image']['id'] = sanitize_text_field($_POST['saswp_event_schema_image']['id']);    
-                        $event_schema_details['saswp_event_schema_image']['url'] = esc_url_raw($_POST['saswp_event_schema_image']['url']);
-                        $event_schema_details['saswp_event_schema_image']['width'] = sanitize_text_field($_POST['saswp_event_schema_image']['width']);
+                         
+                        $event_schema_details['saswp_event_schema_image']['id']     = sanitize_text_field($_POST['saswp_event_schema_image']['id']);    
+                        $event_schema_details['saswp_event_schema_image']['url']    = esc_url_raw($_POST['saswp_event_schema_image']['url']);
+                        $event_schema_details['saswp_event_schema_image']['width']  = sanitize_text_field($_POST['saswp_event_schema_image']['width']);
                         $event_schema_details['saswp_event_schema_image']['height'] = sanitize_text_field($_POST['saswp_event_schema_image']['height']);
                      }
                                           

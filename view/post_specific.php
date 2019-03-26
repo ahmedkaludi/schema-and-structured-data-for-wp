@@ -7,10 +7,7 @@ class saswp_post_specific {
         protected $options_response          = array();
         protected $modify_schema_post_enable = false;
         
-        public function __construct() {
-            
-	}
-        
+                
         public function saswp_post_specific_hooks(){
             
                 $this->saswp_get_all_schema_list();
@@ -99,7 +96,7 @@ class saswp_post_specific {
                      }
 			add_meta_box(
 				'post_specific',
-				__( 'Post Specific Schema '.$post_title, 'schema-and-structured-data-for-wp' ),
+				esc_html__( 'Post Specific Schema - '.$post_title, 'schema-and-structured-data-for-wp' ),
 				array( $this, 'saswp_post_meta_box_callback' ),
 				$single_screen,
 				'advanced',
@@ -138,7 +135,7 @@ class saswp_post_specific {
                      
                      if($key==0){
                          
-                     $tabs .='<li class="selected"><a saswp-schema-type="'.$schema_type.'" data-id="saswp_specific_'.esc_attr($schema->ID).'" class="saswp-tab-links selected">'.esc_attr($schema->post_title).'</a>'
+                     $tabs .='<li class="selected"><a saswp-schema-type="'.esc_attr($schema_type).'" data-id="saswp_specific_'.esc_attr($schema->ID).'" class="saswp-tab-links selected">'.esc_attr($schema->post_title).'</a>'
                              . '<label class="saswp-switch">'
                              . '<input type="checkbox" class="saswp-schema-type-toggle" value="1" data-schema-id="'.esc_attr($schema->ID).'" data-post-id="'.esc_attr($post->ID).'" '.$checked.'>'
                              . '<span class="saswp-slider"></span>'
@@ -151,7 +148,7 @@ class saswp_post_specific {
                      }else{
                          
                      $tabs .='<li>'
-                             . '<a saswp-schema-type="'.$schema_type.'" data-id="saswp_specific_'.esc_attr($schema->ID).'" class="saswp-tab-links">'.esc_attr($schema->post_title).'</a>'
+                             . '<a saswp-schema-type="'.esc_attr($schema_type).'" data-id="saswp_specific_'.esc_attr($schema->ID).'" class="saswp-tab-links">'.esc_attr($schema->post_title).'</a>'
                              . '<label class="saswp-switch">'
                              . '<input type="checkbox" class="saswp-schema-type-toggle" value="1" data-schema-id="'.esc_attr($schema->ID).'" data-post-id="'.esc_attr($post->ID).'" '.$checked.'>'
                              . '<span class="saswp-slider"></span>'
@@ -183,7 +180,7 @@ class saswp_post_specific {
                  $all_schema = $this->all_schema;                  
                  $response   = $this->saswp_get_fields_by_schema_type($all_schema[0]->ID); 
                 
-                 $schema_ids[] =$all_schema[0]->ID;
+                 $schema_ids[] = $all_schema[0]->ID;
                  $schema_type  = esc_sql ( get_post_meta($all_schema[0]->ID, 'schema_type', true)  ); 
                  $checked = '';
                  if(isset($schema_enable[$all_schema[0]->ID]) && $schema_enable[$all_schema[0]->ID] == 1){
@@ -193,7 +190,7 @@ class saswp_post_specific {
                  $this->meta_fields = $response;
                  $output = $this->saswp_saswp_post_specific( $post, $all_schema[0]->ID );  
                  $tabs_fields .= '<div>';
-                 $tabs_fields .= '<div class="saswp-single-post-restore"><a href="#" class="saswp-restore-post-schema button saswp-tab-links selected" saswp-schema-type="'.$schema_type.'">'.esc_html__( 'Restore Default Schema', 'schema-and-structured-data-for-wp' ).'</a>'
+                 $tabs_fields .= '<div class="saswp-single-post-restore"><a href="#" class="saswp-restore-post-schema button saswp-tab-links selected" saswp-schema-type="'.esc_attr($schema_type).'">'.esc_html__( 'Restore Default Schema', 'schema-and-structured-data-for-wp' ).'</a>'
                               . '<label class="saswp-switch" style="margin-left:10px;">'
                               . '<input type="checkbox" class="saswp-schema-type-toggle" value="1" data-schema-id="'.esc_attr($all_schema[0]->ID).'" data-post-id="'.esc_attr($post->ID).'" '.$checked.'>'
                               . '<span class="saswp-slider"></span>'
@@ -219,7 +216,7 @@ class saswp_post_specific {
                 
                 }else{
                     
-                  echo '<a class="button saswp-modify_schema_post_enable">Modify Schema</a>' ;
+                  echo '<a class="button saswp-modify_schema_post_enable">'.esc_html__( 'Modify Schema', 'schema-and-structured-data-for-wp' ).'</a>' ;
                   
                 }                               
                                                                                                                                                                    		
@@ -228,33 +225,42 @@ class saswp_post_specific {
         public function saswp_restore_schema(){
             
                 if ( ! isset( $_POST['saswp_security_nonce'] ) ){
-                return; 
+                    return; 
                 }
                 if ( !wp_verify_nonce( $_POST['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
                    return;  
                 } 
+                
                 $result     = '';
                 $post_id    = sanitize_text_field($_POST['post_id']); 
-                $schema_ids = $_POST['schema_ids'];
-                
-                foreach($schema_ids as $id){
-                    
-                  $meta_field = $this->saswp_get_fields_by_schema_type($id);
-                  
-                  foreach($meta_field as $field){
-                      
-                   $result = delete_post_meta($post_id, $field['id']); 
+                $schema_ids = array_map( 'sanitize_text_field', $_POST['schema_ids'] );
                    
-                  }   
+                if($schema_ids){
+                    
+                    foreach($schema_ids as $id){
+                    
+                         $meta_field = $this->saswp_get_fields_by_schema_type($id);
                   
-                }    
-                
+                            foreach($meta_field as $field){
+
+                                 $result = delete_post_meta($post_id, $field['id']); 
+
+                            }   
+                  
+                     }
+                    
+                }
+                                    
                 update_option('modify_schema_post_enable_'.$post_id, 'disable'); 
                 
-                if($result){                     
+                if($result){ 
+                    
                     echo json_encode(array('status'=> 't', 'msg'=>esc_html__( 'Schema has been restored', 'schema-and-structured-data-for-wp' )));
+                    
                 }else{
+                    
                     echo json_encode(array('status'=> 'f', 'msg'=>esc_html__( 'Schema has already been restored', 'schema-and-structured-data-for-wp' )));
+                    
                 }                                              
                  wp_die();
                 }
@@ -316,23 +322,28 @@ class saswp_post_specific {
                 
 		foreach ( $this->meta_fields as $meta_field ) {
                     
-                        $input      ='';
-                        $attributes ='';
+                        $input      = '';
+                        $attributes = '';
                         
-			$label      = '<label for="' . $meta_field['id'] . '">' . $meta_field['label'] . '</label>';
+			$label      = '<label for="' . $meta_field['id'] . '">' . esc_html__( $meta_field['label'], 'schema-and-structured-data-for-wp' ). '</label>';
 			$meta_value = get_post_meta( $post->ID, $meta_field['id'], true );
                         
 			if ( empty( $meta_value ) && isset($meta_field['default'])) {
                             
 				$meta_value = $meta_field['default'];                                 
                         }
+                        
                         if(isset($meta_field['attributes'])){
+                            
                             foreach ($meta_field['attributes'] as $key => $attr ){
+                                
                                            $attributes .=''.$key.'="'.$attr.'"';
                                 }
+                                
                         }                        
                         
 			switch ( $meta_field['type'] ) {
+                            
 				case 'media':
                                         $media_value = array();
                                         $media_key = $meta_field['id'].'_detail';
@@ -394,9 +405,9 @@ class saswp_post_specific {
                                                 $media_value['thumbnail'] = $business_details['saswp_event_schema_image']['url'];                                             
                                         }
                                              
-                                        $media_height ='';
-                                        $media_width ='';
-                                        $media_thumbnail ='';
+                                        $media_height    = '';
+                                        $media_width     = '';
+                                        $media_thumbnail = '';
                                         
                                         if(isset($media_value['thumbnail'])){
                                             $media_thumbnail =$media_value['thumbnail'];
@@ -411,7 +422,6 @@ class saswp_post_specific {
 					$input = sprintf(
 						'<fieldset><input style="width: 80%%" id="%s" name="%s" type="text" value="%s">'
                                                 . '<input data-id="media" style="width: 19%%" class="button" id="%s_button" name="%s_button" type="button" value="Upload" />'
-//                                                . '<input type="hidden" data-id="'.esc_attr($meta_field['id']).'_id" class="upload-id " name="'.esc_attr($meta_field['id']).'_id" id="'.esc_attr($meta_field['id']).'_id" value="'.esc_attr($media_value['id']).'">'
                                                 . '<input type="hidden" data-id="'.esc_attr($meta_field['id']).'_height" class="upload-height" name="'.esc_attr($meta_field['id']).'_height" id="'.esc_attr($meta_field['id']).'_height" value="'.esc_attr($media_height).'">'
                                                 . '<input type="hidden" data-id="'.esc_attr($meta_field['id']).'_width" class="upload-width" name="'.esc_attr($meta_field['id']).'_width" id="'.esc_attr($meta_field['id']).'_width" value="'.esc_attr($media_width).'">'
                                                 . '<input type="hidden" data-id="'.esc_attr($meta_field['id']).'_thumbnail" class="upload-thumbnail" name="'.esc_attr($meta_field['id']).'_thumbnail" id="'.esc_attr($meta_field['id']).'_thumbnail" value="'.esc_attr($media_thumbnail).'">'                                                
@@ -461,12 +471,13 @@ class saswp_post_specific {
 						$meta_field['id']
 					);
 					foreach ( $meta_field['options'] as $key => $value ) {
+                                            
 						$meta_field_value = !is_numeric( $key ) ? $key : $value;
 						$input .= sprintf(
 							'<option %s value="%s">%s</option>',
 							$meta_value === $meta_field_value ? 'selected' : '',
 							$meta_field_value,
-							$value
+							esc_html__($value, 'schema-and-structured-data-for-wp' )
 						);
 					}
 					$input .= '</select>';
@@ -494,11 +505,16 @@ class saswp_post_specific {
 						$meta_field['id']
 					);
 					foreach ( $meta_field['options'] as $key => $value ) {
-                                                $meta_field_selected='';
+                                            
+                                                $meta_field_selected = '';
+                                                
                                                 if(isset($meta_value)){
-                                                if(in_array($key, $meta_value)){
-                                                $meta_field_selected = 'selected';                                                 
-                                                }    
+                                                    
+                                                    if(in_array($key, $meta_value)){
+
+                                                    $meta_field_selected = 'selected';    
+
+                                                    }    
                                                 }                                                
 						$input .= sprintf(
 							'<option %s value="%s">%s</option>',
@@ -520,7 +536,9 @@ class saswp_post_specific {
 						$meta_value
 					);
                                         if(isset($meta_field['note'])){
-                                          $input .='<p>'.$meta_field['note'].'</p>';  
+                                            
+                                          $input .='<p>'.esc_attr($meta_field['note']).'</p>';  
+                                          
                                         }
 					break;
                                 case 'text':
@@ -601,14 +619,17 @@ class saswp_post_specific {
 			return $post_id;
 		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE )
 			return $post_id;       
-                 
+                if ( ! current_user_can( 'edit_post', $post_id ) ) 
+                       return $post_id;    
+                
                 $option = get_option('modify_schema_post_enable_'.$post_id);
                 
                 if($option != 'enable'){
                     return;
                 }  
-                
-                
+               
+                $post_meta = array();                    
+                $post_meta = $_POST;    
                 
                 if(count($this->all_schema)>0){
                                                                       
@@ -619,31 +640,33 @@ class saswp_post_specific {
                      
                         foreach ( $this->meta_fields as $meta_field ) {
                             
-			if ( isset( $_POST[ $meta_field['id'] ] ) ) {
+			if ( isset( $post_meta[ $meta_field['id'] ] ) ) {
                             
 				switch ( $meta_field['type'] ) {
                                     
                                         case 'media':                                                                                                  
                                                 $media_key       = $meta_field['id'].'_detail';                                                                                            
-                                                $media_height    = sanitize_text_field( $_POST[ $meta_field['id'].'_height' ] );
-                                                $media_width     = sanitize_text_field( $_POST[ $meta_field['id'].'_width' ] );
-                                                $media_thumbnail = sanitize_text_field( $_POST[ $meta_field['id'].'_thumbnail' ] );
+                                                $media_height    = sanitize_text_field( $post_meta[ $meta_field['id'].'_height' ] );
+                                                $media_width     = sanitize_text_field( $post_meta[ $meta_field['id'].'_width' ] );
+                                                $media_thumbnail = sanitize_text_field( $post_meta[ $meta_field['id'].'_thumbnail' ] );
+                                                
                                                 $media_detail = array(                                                    
-                                                    'height' =>$media_height,
-                                                    'width' =>$media_width,
-                                                    'thumbnail' =>$media_thumbnail,
-                                                );                                                
+                                                        'height'    => $media_height,
+                                                        'width'     => $media_width,
+                                                        'thumbnail' => $media_thumbnail,
+                                                );
+                                                
                                                 update_post_meta( $post_id, $media_key, $media_detail);                                                    
                                                 break;
 					case 'email':
-						$_POST[ $meta_field['id'] ] = sanitize_email( $_POST[ $meta_field['id'] ] );
+						$post_meta[ $meta_field['id'] ] = sanitize_email( $post_meta[ $meta_field['id'] ] );
 						break;
 					case 'text':
-						$_POST[ $meta_field['id'] ] = sanitize_text_field( $_POST[ $meta_field['id'] ] );
+						$post_meta[ $meta_field['id'] ] = sanitize_text_field( $post_meta[ $meta_field['id'] ] );
 						break;
                                             
 				}
-				update_post_meta( $post_id, $meta_field['id'], $_POST[ $meta_field['id'] ] );
+				update_post_meta( $post_id, $meta_field['id'], $post_meta[ $meta_field['id'] ] );
 			} else if ( $meta_field['type'] === 'checkbox' ) {
 				update_post_meta( $post_id, $meta_field['id'], '0' );
 			}
@@ -828,8 +851,15 @@ class saswp_post_specific {
             global $post;
             global $sd_data;  
             
+            $image_details = array();
+            
             $image_id 	   = get_post_thumbnail_id();
-            $image_details = wp_get_attachment_image_src($image_id, 'full');
+            
+            if($image_id){
+                
+                $image_details = wp_get_attachment_image_src($image_id, 'full');
+                
+            }                        
             
             if(empty($image_details[0]) || $image_details[0] === NULL ){
              
@@ -842,10 +872,10 @@ class saswp_post_specific {
             $author_details	= get_avatar_data($current_user->ID);           
             $schema_type        = esc_sql ( get_post_meta($schema_id, 'schema_type', true)  );  
             
-            $business_type    = esc_sql ( get_post_meta($schema_id, 'saswp_business_type', true)  ); 
-            $business_name    = esc_sql ( get_post_meta($schema_id, 'saswp_business_name', true)  ); 
-            $business_details = esc_sql ( get_post_meta($schema_id, 'saswp_local_business_details', true)  );
-            $dayoftheweek     = get_post_meta ($schema_id, 'saswp_dayofweek', true); 
+            $business_type      = esc_sql ( get_post_meta($schema_id, 'saswp_business_type', true)  ); 
+            $business_name      = esc_sql ( get_post_meta($schema_id, 'saswp_business_name', true)  ); 
+            $business_details   = esc_sql ( get_post_meta($schema_id, 'saswp_local_business_details', true)  );
+            $dayoftheweek       = get_post_meta ($schema_id, 'saswp_dayofweek', true); 
             
             $saswp_business_type_key   = 'saswp_business_type_'.$schema_id;
             $saved_business_type       = get_post_meta( $post->ID, $saswp_business_type_key, true );
@@ -858,6 +888,7 @@ class saswp_post_specific {
               $business_name = $saved_saswp_business_name;
             }
             $meta_field = array();
+            
             switch ($schema_type) {
                 
                 case 'local_business':
@@ -2032,7 +2063,7 @@ class saswp_post_specific {
                     
                     if(isset($_POST['saswp_review_schema_item_type_'.$schema_id])){
                                             
-                    $reviewed_field = item_reviewed_fields(sanitize_text_field($_POST['saswp_review_schema_item_type_'.$schema_id]), $post_specific=1, $schema_id);    
+                    $reviewed_field = saswp_item_reviewed_fields(sanitize_text_field($_POST['saswp_review_schema_item_type_'.$schema_id]), $post_specific=1, $schema_id);    
                         
                         
                     }else{
@@ -2041,12 +2072,12 @@ class saswp_post_specific {
                     
                     if($item_type_by_post){
                      
-                    $reviewed_field = item_reviewed_fields($item_type_by_post, $post_specific=1, $schema_id);        
+                    $reviewed_field = saswp_item_reviewed_fields($item_type_by_post, $post_specific=1, $schema_id);        
                         
                     }else{
                      
                     $service_schema_details = esc_sql ( get_post_meta($schema_id, 'saswp_review_schema_details', true)  );
-                    $reviewed_field = item_reviewed_fields($service_schema_details['saswp_review_schema_item_type'], $post_specific=1, $schema_id);    
+                    $reviewed_field = saswp_item_reviewed_fields($service_schema_details['saswp_review_schema_item_type'], $post_specific=1, $schema_id);    
                         
                     }
                                             

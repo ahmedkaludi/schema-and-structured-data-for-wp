@@ -44,6 +44,7 @@ function saswp_admin_interface_render(){
 		<h1 class="wp-heading-inline"> <?php echo esc_html__( 'Schema & Structured Data For WP', 'schema-and-structured-data-for-wp' ); ?> <a href="<?php echo esc_url( admin_url( 'edit.php?post_type=saswp' ) ); ?>" class="page-title-action"><?php echo esc_html__( 'Schema Types', 'schema-and-structured-data-for-wp' ); ?></a></h1><br>		
                 <div>
 		<h2 class="nav-tab-wrapper saswp-tabs">
+                    
 			<?php			
 
 			echo '<a href="' . esc_url(saswp_admin_link('general')) . '" class="nav-tab ' . esc_attr( $tab == 'general' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . esc_html__('General','schema-and-structured-data-for-wp') . '</a>';
@@ -154,6 +155,7 @@ function saswp_admin_interface_render(){
 add_action('admin_init', 'saswp_settings_init');
 
 function saswp_settings_init(){
+    
           	register_setting( 'sd_data_group', 'sd_data', 'saswp_handle_file_upload' );
                 add_settings_section('saswp_general_section', __return_false(), '__return_false', 'saswp_general_section');
 
@@ -250,23 +252,26 @@ function saswp_custom_upload_mimes($mimes = array()) {
 
 add_action('upload_mimes', 'saswp_custom_upload_mimes');
 
-function saswp_handle_file_upload($option)
-{
-  if(!empty($_FILES["saswp_import_backup"]["tmp_name"]))
-  {
+function saswp_handle_file_upload($option){
+
+  if(!empty($_FILES["saswp_import_backup"]["tmp_name"])){
+  
     $urls = wp_handle_upload($_FILES["saswp_import_backup"], array('test_form' => FALSE));    
     $url = $urls["url"];
     update_option('saswp-file-upload_url',esc_url($url));
+    
   }
   
   return $option;
+  
 }
 
 
 function saswp_schema_page_callback(){
 	// Get Settings
 	$settings = saswp_defaultSettings(); 
-        $field_objs = new saswp_fields_generator();                 
+        $field_objs = new saswp_fields_generator();   
+        
          $meta_fields_default = array(	                                		                             
                 array(
 			'label' => 'Default Image',
@@ -304,6 +309,7 @@ function saswp_schema_page_callback(){
 }
 
 function saswp_amp_page_callback(){
+    
         $settings = saswp_defaultSettings();         
         $field_objs = new saswp_fields_generator();
         
@@ -351,6 +357,7 @@ function saswp_amp_page_callback(){
 }
 
 function saswp_general_page_callback(){	
+    
 	$settings = saswp_defaultSettings(); 
         
         $meta_fields_default = array(	
@@ -449,12 +456,12 @@ function saswp_general_page_callback(){
         <div style="width:75%; float:right;">          
            <label for="sd_contact_page-select">
 	  <?php echo wp_dropdown_pages( array( 
-			'name' => 'sd_data[sd_contact_page]', 
-                        'id' => 'sd_contact_page-select',
-			'echo' => 0, 
-			'show_option_none' => esc_html( 'Select an item', 'schema-and-structured-data-for-wp' ), 
+			'name'              => 'sd_data[sd_contact_page]', 
+                        'id'                => 'sd_contact_page-select',
+			'echo'              => 0, 
+			'show_option_none'  => esc_html( 'Select an item', 'schema-and-structured-data-for-wp' ), 
 			'option_none_value' => '', 
-			'selected' =>  isset($settings['sd_contact_page']) ? $settings['sd_contact_page'] : '',
+			'selected'          =>  isset($settings['sd_contact_page']) ? $settings['sd_contact_page'] : '',
 		)); ?>
 	     		 </label>       
        	 		</div>
@@ -463,14 +470,19 @@ function saswp_general_page_callback(){
 			</ul>
 		</div>                                                                                                                                
 	<?php
+        
         $field_objs = new saswp_fields_generator(); 
+        
         echo '<div class="saswp-archive-div">';
         $field_objs->saswp_field_generator($meta_fields_default, $settings);
         echo '</div>';
+        
 }
-function saswp_knowledge_page_callback(){	
+function saswp_knowledge_page_callback(){
+    
 	$settings = saswp_defaultSettings();            
         $field_objs = new saswp_fields_generator();
+        
         $meta_fields = array(	                
                 array(
 			'label'   => 'Data Type',
@@ -508,104 +520,93 @@ function saswp_knowledge_page_callback(){
                    ),
                 array(
 			'label' => 'Name',
-			'id' => 'sd_name',
-                        'name' => 'sd_data[sd_name]',
+			'id'    => 'sd_name',
+                        'name'  => 'sd_data[sd_name]',
                         'class' => 'regular-text saswp_org_fields',                        
-			'type' => 'text',
+			'type'  => 'text',
 		),
                                
                 array(
 			'label' => 'Url',
-			'id' => 'sd_url',
-                        'name' => 'sd_data[sd_url]',
+			'id'    => 'sd_url',
+                        'name'  => 'sd_data[sd_url]',
                         'class' => 'regular-text saswp_org_fields',                        
-			'type' => 'text',
+			'type'  => 'text',
 		),                
-//                array(
-//			'label' => 'Contact details',
-//			'id' => 'saswp_kb_contact_1_checkbox', 
-//                        'name' => 'saswp_kb_contact_1_checkbox',
-//			'type' => 'checkbox',
-//                        'class' => 'checkbox saswp-checkbox saswp_org_fields',                        
-//                        'hidden' => array(
-//                            'id' => 'saswp_kb_contact_1',                            
-//                            'name' => 'sd_data[saswp_kb_contact_1]'
-//                        )
-//		),
                 array(
 			'label' => 'Telephone Number',
-			'id' => 'saswp_kb_telephone',
-                        'name' => 'sd_data[saswp_kb_telephone]',
+			'id'    => 'saswp_kb_telephone',
+                        'name'  => 'sd_data[saswp_kb_telephone]',
                         'class' => 'regular-text saswp_org_fields',                        
-			'type' => 'text',
+			'type'  => 'text',
 		),
                 array(
 			'label' => 'Contact Type',
-			'id' => 'saswp_contact_type',
-                        'name' => 'sd_data[saswp_contact_type]',
+			'id'    => 'saswp_contact_type',
+                        'name'  => 'sd_data[saswp_contact_type]',
                         'class' => 'saswp_org_fields',
-			'type' => 'select',
+			'type'  => 'select',
 			'options' => array(
-                                ''=>'Select an item',
-				'customer support'=>'Customer Support',
-				'technical support'=>'Technical Support',
-                                'billing support'=>'Billing Support',
-                                'bill payment'=>'Bill payment',
-                                'sales'=>'Sales',
-                                'reservations'=>'Reservations',
-                                'credit card support'=>'Credit Card Support',
-                                'emergency'=>'Emergency',
-                                'baggage tracking'=>'Baggage Tracking',
-                                'roadside assistance'=>'Roadside Assistance',
-                                'package tracking'=>'Package Tracking',
+                                ''                    => 'Select an item',
+				'customer support'    => 'Customer Support',
+				'technical support'   => 'Technical Support',
+                                'billing support'     => 'Billing Support',
+                                'bill payment'        => 'Bill payment',
+                                'sales'               => 'Sales',
+                                'reservations'        => 'Reservations',
+                                'credit card support' => 'Credit Card Support',
+                                'emergency'           => 'Emergency',
+                                'baggage tracking'    => 'Baggage Tracking',
+                                'roadside assistance' => 'Roadside Assistance',
+                                'package tracking'    => 'Package Tracking',
 			)
                    ),
                    
                    array(
 			'label' => 'Name',
-			'id' => 'sd-person-name',
-                        'name' => 'sd_data[sd-person-name]',
+			'id'    => 'sd-person-name',
+                        'name'  => 'sd_data[sd-person-name]',
                         'class' => 'regular-text saswp_person_fields',                        
-			'type' => 'text',
+			'type'  => 'text',
 		    ),
                     array(
 			'label' => 'Job Title',
-			'id' => 'sd-person-job-title',
-                        'name' => 'sd_data[sd-person-job-title]',
+			'id'    => 'sd-person-job-title',
+                        'name'  => 'sd_data[sd-person-job-title]',
                         'class' => 'regular-text saswp_person_fields',                        
-			'type' => 'text',
+			'type'  => 'text',
 		    ),  
                     array(
-			'label' => 'Image',
-			'id' => 'sd-person-image',
-                        'name' => 'sd_data[sd-person-image][url]',
-                        'class' => 'upload large-text saswp_person_fields',
-			'type' => 'media',
+			'label'      => 'Image',
+			'id'         => 'sd-person-image',
+                        'name'       => 'sd_data[sd-person-image][url]',
+                        'class'      => 'upload large-text saswp_person_fields',
+			'type'       => 'media',
                         'attributes' => array(
                                 'readonly' => 'readonly'
                             ) 
 		   ),
                     array(
-			'label' => 'Phone Number',
-			'id' => 'sd-person-phone-number',
-                        'name' => 'sd_data[sd-person-phone-number]',
-                        'class' => 'regular-text saswp_person_fields',                        
-			'type' => 'text',
+			'label'  => 'Phone Number',
+			'id'     => 'sd-person-phone-number',
+                        'name'   => 'sd_data[sd-person-phone-number]',
+                        'class'  => 'regular-text saswp_person_fields',                        
+			'type'   => 'text',
 		    ),
                      array(
 			'label' => 'URL',
-			'id' => 'sd-person-url',
-                        'name' => 'sd_data[sd-person-url]',
+			'id'    => 'sd-person-url',
+                        'name'  => 'sd_data[sd-person-url]',
                         'class' => 'regular-text saswp_person_fields',                        
-			'type' => 'text',
+			'type'  => 'text',
 		    ),
                     array(
 			'label' => 'Logo',
-			'id' => 'sd_logo',
-                        'name' => 'sd_data[sd_logo][url]',
+			'id'    => 'sd_logo',
+                        'name'  => 'sd_data[sd_logo][url]',
                         'class' => 'saswp-icon upload large-text saswp_kg_logo',
-			'type' => 'media',
-                        'note' => 'According to google validation tool, Logo size must be 160*50 or 600*60',
+			'type'  => 'media',
+                        'note'  => 'According to google validation tool, Logo size must be 160*50 or 600*60',
                         'attributes' => array(
                                 'readonly' => 'readonly'
                             )    
@@ -621,190 +622,190 @@ function saswp_knowledge_page_callback(){
         echo '<h2>'.esc_html__( 'Social Fields', 'schema-and-structured-data-for-wp' ).'</h2>';
         $social_meta_fields = array(	
                 array(
-			'label' => 'Facebook',
-			'id' => 'saswp-facebook-enable-checkbox', 
-                        'name' => 'saswp-facebook-enable-checkbox',
-			'type' => 'checkbox',
-                        'class' => 'checkbox saswp-checkbox', 
+			'label'  => 'Facebook',
+			'id'     => 'saswp-facebook-enable-checkbox', 
+                        'name'   => 'saswp-facebook-enable-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox', 
                         'hidden' => array(
-                             'id' => 'saswp-facebook-enable',
+                             'id'   => 'saswp-facebook-enable',
                              'name' => 'sd_data[saswp-facebook-enable]',                             
                         )
 		),            
 		array(
 			'label' => '',
-			'id' => 'sd_facebook',
-                        'name' => 'sd_data[sd_facebook]',
+			'id'    => 'sd_facebook',
+                        'name'  => 'sd_data[sd_facebook]',
                         'class' => 'regular-text',                        
-			'type' => 'text',
+			'type'  => 'text',
                         'attributes' => array(
                             'placeholder' => 'https://'
                         )
 		    ),
                 array(
-			'label' => 'Twitter',
-			'id' => 'saswp-twitter-enable-checkbox', 
-                        'name' => 'saswp-twitter-enable-checkbox',
-			'type' => 'checkbox',
-                        'class' => 'checkbox saswp-checkbox', 
+			'label'  => 'Twitter',
+			'id'     => 'saswp-twitter-enable-checkbox', 
+                        'name'   => 'saswp-twitter-enable-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox', 
                         'hidden' => array(
-                             'id' => 'saswp-twitter-enable',
+                             'id'   => 'saswp-twitter-enable',
                              'name' => 'sd_data[saswp-twitter-enable]',                             
                         )
 		),    
                 array(
-			'label' => '',
-			'id' => 'sd_twitter',
-                        'name' => 'sd_data[sd_twitter]',
-                        'class' => 'regular-text',                        
-			'type' => 'text',
+			'label'      => '',
+			'id'         => 'sd_twitter',
+                        'name'       => 'sd_data[sd_twitter]',
+                        'class'      => 'regular-text',                        
+			'type'       => 'text',
                         'attributes' => array(
                             'placeholder' => 'https://'
                         )
 		    ),
               array(
-			'label' => 'Google+',
-			'id' => 'saswp-google-plus-enable-checkbox', 
-                        'name' => 'saswp-google-plus-enable-checkbox',
-			'type' => 'checkbox',
-                        'class' => 'checkbox saswp-checkbox', 
+			'label'  => 'Google+',
+			'id'     => 'saswp-google-plus-enable-checkbox', 
+                        'name'   => 'saswp-google-plus-enable-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox', 
                         'hidden' => array(
-                             'id' => 'saswp-google-plus-enable',
+                             'id'   => 'saswp-google-plus-enable',
                              'name' => 'sd_data[saswp-google-plus-enable]',                             
                         )
 		),
                 array(
-			'label' => '',
-			'id' => 'sd_google_plus',
-                        'name' => 'sd_data[sd_google_plus]',
-                        'class' => 'regular-text',                        
-			'type' => 'text',
+			'label'      => '',
+			'id'         => 'sd_google_plus',
+                        'name'       => 'sd_data[sd_google_plus]',
+                        'class'      => 'regular-text',                        
+			'type'       => 'text',
                         'attributes' => array(
                             'placeholder' => 'https://'
                         )
 		    ),
                 array(
-			'label' => 'Instagram',
-			'id' => 'saswp-instagram-enable-checkbox', 
-                        'name' => 'saswp-instagram-enable-checkbox',
-			'type' => 'checkbox',
-                        'class' => 'checkbox saswp-checkbox', 
+			'label'  => 'Instagram',
+			'id'     => 'saswp-instagram-enable-checkbox', 
+                        'name'   => 'saswp-instagram-enable-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox', 
                         'hidden' => array(
-                             'id' => 'saswp-instagram-enable',
+                             'id'   => 'saswp-instagram-enable',
                              'name' => 'sd_data[saswp-instagram-enable]',                             
                         )
 		),
                 array(
-			'label' => '',
-			'id' => 'sd_instagram',
-                        'name' => 'sd_data[sd_instagram]',
-                        'class' => 'regular-text',                        
-			'type' => 'text',
+			'label'      => '',
+			'id'         => 'sd_instagram',
+                        'name'       => 'sd_data[sd_instagram]',
+                        'class'      => 'regular-text',                        
+			'type'       => 'text',
                         'attributes' => array(
                             'placeholder' => 'https://'
                         )
 		    ), 
                 array(
-			'label' => 'Youtube',
-			'id' => 'saswp-youtube-enable-checkbox', 
-                        'name' => 'saswp-youtube-enable-checkbox',
-			'type' => 'checkbox',
-                        'class' => 'checkbox saswp-checkbox', 
+			'label'  => 'Youtube',
+			'id'     => 'saswp-youtube-enable-checkbox', 
+                        'name'   => 'saswp-youtube-enable-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox', 
                         'hidden' => array(
-                             'id' => 'saswp-youtube-enable',
+                             'id'   => 'saswp-youtube-enable',
                              'name' => 'sd_data[saswp-youtube-enable]',                             
                         )
 		),    
                 array(
-			'label' => '',
-			'id' => 'sd_youtube',
-                        'name' => 'sd_data[sd_youtube]',
-                        'class' => 'regular-text',                        
-			'type' => 'text',
+			'label'      => '',
+			'id'         => 'sd_youtube',
+                        'name'       => 'sd_data[sd_youtube]',
+                        'class'      => 'regular-text',                        
+			'type'       => 'text',
                         'attributes' => array(
                             'placeholder' => 'https://'
                         )
 		    ),
                array(
-			'label' => 'LinkedIn',
-			'id' => 'saswp-linkedin-enable-checkbox', 
-                        'name' => 'saswp-linkedin-enable-checkbox',
-			'type' => 'checkbox',
-                        'class' => 'checkbox saswp-checkbox', 
+			'label'  => 'LinkedIn',
+			'id'     => 'saswp-linkedin-enable-checkbox', 
+                        'name'   => 'saswp-linkedin-enable-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox', 
                         'hidden' => array(
-                             'id' => 'saswp-linkedin-enable',
+                             'id'   => 'saswp-linkedin-enable',
                              'name' => 'sd_data[saswp-linkedin-enable]',                             
                         )
 		),      
                array(
-			'label' => '',
-			'id' => 'sd_linkedin',
-                        'name' => 'sd_data[sd_linkedin]',
-                        'class' => 'regular-text',                        
-			'type' => 'text',
+			'label'      => '',
+			'id'         => 'sd_linkedin',
+                        'name'       => 'sd_data[sd_linkedin]',
+                        'class'      => 'regular-text',                        
+			'type'       => 'text',
                         'attributes' => array(
                             'placeholder' => 'https://'
                         )
 		    ),
                 array(
-			'label' => 'Pinterest',
-			'id' => 'saswp-pinterest-enable-checkbox', 
-                        'name' => 'saswp-pinterest-enable-checkbox',
-			'type' => 'checkbox',
-                        'class' => 'checkbox saswp-checkbox', 
+			'label'  => 'Pinterest',
+			'id'     => 'saswp-pinterest-enable-checkbox', 
+                        'name'   => 'saswp-pinterest-enable-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox', 
                         'hidden' => array(
-                             'id' => 'saswp-pinterest-enable',
+                             'id'   => 'saswp-pinterest-enable',
                              'name' => 'sd_data[saswp-pinterest-enable]',                             
                         )
 		), 
                 array(
-			'label' => '',
-			'id' => 'sd_pinterest',
-                        'name' => 'sd_data[sd_pinterest]',
-                        'class' => 'regular-text',                        
-			'type' => 'text',
+			'label'      => '',
+			'id'         => 'sd_pinterest',
+                        'name'       => 'sd_data[sd_pinterest]',
+                        'class'      => 'regular-text',                        
+			'type'       => 'text',
                         'attributes' => array(
                             'placeholder' => 'https://'
                         )
 		    ),
                 array(
-			'label' => 'SoundCloud',
-			'id' => 'saswp-soundcloud-enable-checkbox', 
-                        'name' => 'saswp-soundcloud-enable-checkbox',
-			'type' => 'checkbox',
-                        'class' => 'checkbox saswp-checkbox', 
+			'label'  => 'SoundCloud',
+			'id'     => 'saswp-soundcloud-enable-checkbox', 
+                        'name'   => 'saswp-soundcloud-enable-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox', 
                         'hidden' => array(
-                             'id' => 'saswp-soundcloud-enable',
+                             'id'   => 'saswp-soundcloud-enable',
                              'name' => 'sd_data[saswp-soundcloud-enable]',                             
                         )
 		),     
                 array(
-			'label' => '',
-			'id' => 'sd_soundcloud',
-                        'name' => 'sd_data[sd_soundcloud]',
-                        'class' => 'regular-text',                        
-			'type' => 'text',
+			'label'      => '',
+			'id'         => 'sd_soundcloud',
+                        'name'       => 'sd_data[sd_soundcloud]',
+                        'class'      => 'regular-text',                        
+			'type'       => 'text',
                         'attributes' => array(
                             'placeholder' => 'https://'
                         )
 		    ),
              array(
-			'label' => 'Tumblr',
-			'id' => 'saswp-tumblr-enable-checkbox', 
-                        'name' => 'saswp-tumblr-enable-checkbox',
-			'type' => 'checkbox',
-                        'class' => 'checkbox saswp-checkbox', 
+			'label'  => 'Tumblr',
+			'id'     => 'saswp-tumblr-enable-checkbox', 
+                        'name'   => 'saswp-tumblr-enable-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox', 
                         'hidden' => array(
                              'id' => 'saswp-tumblr-enable',
                              'name' => 'sd_data[saswp-tumblr-enable]',                             
                         )
 		),
                 array(
-			'label' => '',
-			'id' => 'sd_tumblr',
-                        'name' => 'sd_data[sd_tumblr]',
-                        'class' => 'regular-text',                        
-			'type' => 'text',
+			'label'      => '',
+			'id'         => 'sd_tumblr',
+                        'name'       => 'sd_data[sd_tumblr]',
+                        'class'      => 'regular-text',                        
+			'type'       => 'text',
                         'attributes' => array(
                             'placeholder' => 'https://'
                         )
@@ -818,13 +819,16 @@ function saswp_knowledge_page_callback(){
 }
 
 function saswp_check_data_imported_from($plugin_post_type_name){
+    
        $cc_args = array(
                         'posts_per_page'   => -1,
                         'post_type'        => 'saswp',
                         'meta_key'         => 'imported_from',
-                        'meta_value'         => $plugin_post_type_name,
-                    );					
+                        'meta_value'       => $plugin_post_type_name,
+                    );	
+       
 	$imported_from = new WP_Query( $cc_args ); 
+        
         return $imported_from;
 }
 function saswp_import_callback(){
@@ -915,9 +919,7 @@ function saswp_import_callback(){
          
 }
 
-function saswp_imported_callback(){	        
-	          
-}
+
 
 function saswp_review_page_callback(){
         
@@ -1039,28 +1041,34 @@ function saswp_compatibility_page_callback(){
 		);        
                 
         if(!is_plugin_active('taqyeem/taqyeem.php')  || get_template() != 'jannah'  ){
+            
              $tagyeem['attributes'] = array(
                  'disabled' => 'disabled'
              );
              $tagyeem['note'] = esc_html__('Plugin is not activated','schema-and-structured-data-for-wp');
              $settings['saswp-tagyeem'] = 0;
+             
         }
         
         
         if(!is_plugin_active('wordpress-seo/wp-seo.php') && !is_plugin_active('wordpress-seo-premium/wp-seo-premium.php')){
+            
              $yoast['attributes'] = array(
                  'disabled' => 'disabled'
              );
              $yoast['note'] = esc_html__('Plugin is not activated','schema-and-structured-data-for-wp');
              $settings['saswp-yoast'] = 0;
+             
         }
         
         if(!is_plugin_active('kk-star-ratings/index.php')){
+            
              $kk_star['attributes'] = array(
                  'disabled' => 'disabled'
              );
              $kk_star['note'] = esc_html__('Plugin is not activated','schema-and-structured-data-for-wp');
              $settings['saswp-kk-star-raring'] = 0;
+             
         }
        
              
@@ -1081,6 +1089,7 @@ function saswp_compatibility_page_callback(){
              );
              $extratheme['note']      = esc_html__('Theme is not activated','schema-and-structured-data-for-wp');
              $settings['saswp-extra'] = 0;  
+             
         }
                  
         
@@ -1205,12 +1214,16 @@ function saswp_compatibility_page_callback(){
 	);                
               
         $field_objs = new saswp_fields_generator();         
-        $field_objs->saswp_field_generator($meta_fields_default, $settings);        
+        $field_objs->saswp_field_generator($meta_fields_default, $settings);  
+        
         if ( is_plugin_active('flexmls-idx/flexmls_connect.php')) {
-        echo '<div class="saswp-seller-div">';
-        echo '<strong>'.esc_html__('Real estate agent info :','schema-and-structured-data-for-wp').'</strong>';
-        $field_objs->saswp_field_generator($meta_fields_text, $settings);
-        echo '</div>';    
+            
+            echo '<div class="saswp-seller-div">';
+            echo '<strong>'.esc_html__('Real estate agent info :','schema-and-structured-data-for-wp').'</strong>';
+
+            $field_objs->saswp_field_generator($meta_fields_text, $settings);
+
+            echo '</div>';    
         }
         
         
@@ -1257,7 +1270,7 @@ function saswp_support_page_callback(){
  * Enqueue CSS and JS
  */
 function saswp_enqueue_style_js( $hook ) {    
-
+                  
 	// Color picker CSS
 	// @refer https://make.wordpress.org/core/2012/11/30/new-color-picker-in-wp-3-5/
         wp_enqueue_style( 'wp-color-picker' );	
@@ -1267,7 +1280,7 @@ function saswp_enqueue_style_js( $hook ) {
         
         wp_register_script( 'saswp-main-js', SASWP_PLUGIN_URL . 'admin_section/js/main-script.js', array('jquery'), SASWP_VERSION , true );
         
-        $data = array(
+        $data = array(                                    
             'post_id'                   => get_the_ID(),
             'ajax_url'                  => admin_url( 'admin-ajax.php' ),            
             'saswp_security_nonce'      => wp_create_nonce('saswp_ajax_check_nonce'),  

@@ -8,7 +8,7 @@ and open the template in the editor.
     Author     : Magazine3
 */
 .saswp_hide{
-    display: none !important;
+    display: none;
 }
 .saswp-general table th{
     width: auto;
@@ -73,10 +73,8 @@ and open the template in the editor.
     display:inline-block;
     width:100%
 }
-.saswp-settings-list li{
-    
-    padding-left:0px;
-    display: contents;
+.saswp-settings-list li{    
+    padding-left:0px;    
 }
 .saswp-settings-list li div label{
     font-weight: 600;
@@ -555,4 +553,10 @@ On/Off Buttons ends here
 .saswp-wdi-rate-stars svg{fill:#ffb900;}
 .saswp-wdi-rate-stars svg:hover{fill:#ffb900}
 .saswp-wdi-rate-stars svg:hover ~ svg{fill:none;}
+
+.option-table-class {width:100%;}
+.option-table-class tr td {padding: 10px 10px 10px 10px ;}
+.option-table-class tr > td{width: 30%;}
+.option-table-class tr td:last-child{width: 60%;}
+.option-table-class input[type="text"], select{width:100%;}
 

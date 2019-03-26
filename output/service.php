@@ -765,8 +765,7 @@ Class saswp_output_service{
                 return;  
              }
             
-            $schema_type = isset( $_POST['schema_type'] ) ? sanitize_text_field( $_POST['schema_type'] ) : '';
-            $post_id     = isset( $_POST['post_id'] ) ? sanitize_text_field( $_POST['post_id'] ) : '';            
+            $schema_type = isset( $_POST['schema_type'] ) ? sanitize_text_field( $_POST['schema_type'] ) : '';                      
             $meta_fields = $this->saswp_get_all_schema_type_fields($schema_type);             	    
             
             wp_send_json( $meta_fields );            
@@ -918,9 +917,9 @@ Class saswp_output_service{
              
              }    
              
-             $product_details['product_review_count'] = $product->get_review_count();
+             $product_details['product_review_count']   = $product->get_review_count();
              $product_details['product_average_rating'] = $product->get_average_rating();             
-             $product_details['product_reviews'] = $reviews_arr;      
+             $product_details['product_reviews']        = $reviews_arr;      
              
              }
              
@@ -928,17 +927,6 @@ Class saswp_output_service{
              return $product_details;                       
         }
         
-//        public function saswp_tagyeem_review_details($post_id){
-//          
-//             global $sd_data;
-//             
-//             if(isset($sd_data['saswp-tagyeem']) && $sd_data['saswp-tagyeem'] == 1){
-//                 
-//                 
-//                 
-//             }
-//            
-//        }
         /**
          * This function gets the review details in schema markup from the current post which has extra theme enabled
          * Extra Theme ( https://www.elegantthemes.com/preview/Extra/ )
@@ -991,68 +979,7 @@ Class saswp_output_service{
            return $review_data;
             
         }
-        
-//        public function saswp_wp_job_manager_details($post = null){
-//            
-//        $post = get_post( $post );
-//
-//	if ( ! $post || 'job_listing' !== $post->post_type ) {
-//		return false;
-//	}
-//
-//	$data               = array();
-//	$data['@context']   = 'http://schema.org/';
-//	$data['@type']      = 'JobPosting';
-//	$data['datePosted'] = get_post_time( 'c', false, $post );
-//
-//	$job_expires = get_post_meta( $post->ID, '_job_expires', true );
-//	if ( ! empty( $job_expires ) ) {
-//		$data['validThrough'] = date( 'c', strtotime( $job_expires ) );
-//	}
-//
-//	$data['title']       = wp_strip_all_tags( wpjm_get_the_job_title( $post ) );
-//	$data['description'] = wpjm_get_the_job_description( $post );
-//
-//	$employment_types = wpjm_get_job_employment_types();
-//	if ( ! empty( $employment_types ) ) {
-//		$data['employmentType'] = $employment_types;
-//	}
-//
-//	$data['hiringOrganization']          = array();
-//	$data['hiringOrganization']['@type'] = 'Organization';
-//	$data['hiringOrganization']['name']  = get_the_company_name( $post );
-//
-//	$company_website = get_the_company_website( $post );
-//	if ( $company_website ) {
-//		$data['hiringOrganization']['sameAs'] = $company_website;
-//		$data['hiringOrganization']['url']    = $company_website;
-//	}
-//
-//	$company_logo = get_the_company_logo( $post, 'full' );
-//	if ( $company_logo ) {
-//		$data['hiringOrganization']['logo'] = $company_logo;
-//	}
-//
-//	$data['identifier']          = array();
-//	$data['identifier']['@type'] = 'PropertyValue';
-//	$data['identifier']['name']  = get_the_company_name( $post );
-//	$data['identifier']['value'] = get_the_guid( $post );
-//
-//	$location = get_the_job_location( $post );
-//	if ( ! empty( $location ) ) {
-//		$data['jobLocation']            = array();
-//		$data['jobLocation']['@type']   = 'Place';
-//		$data['jobLocation']['address'] = wpjm_get_job_listing_location_structured_data( $post );
-//		if ( empty( $data['jobLocation']['address'] ) ) {
-//			$data['jobLocation']['address'] = $location;
-//		}
-//	}       
-//        
-//         //return $data;
-//         
-//        }
-       
-       
+                      
         /**
          * This function gets all the question and answers in schema markup from the current question type post create by 
          * DW Question & Answer ( https://wordpress.org/plugins/dw-question-answer/ )
@@ -1174,7 +1101,7 @@ Class saswp_output_service{
             
             $meta_field = array();
             
-            if($schema_type ==''){
+            if($schema_type == ''){
                 
              $schema_type = get_post_meta( $id, 'schema_type', true);    
              
@@ -1517,9 +1444,10 @@ Class saswp_output_service{
          */
         public function saswp_schema_markup_generator($schema_type){
             
-            global $post;
+                        global $post;
+
+                        global $sd_data;
             
-            global $sd_data;
                         $logo         = ''; 
                         $height       = '';
                         $width        = '';
@@ -1549,8 +1477,7 @@ Class saswp_output_service{
             
                         $author_id      = get_the_author_meta('ID');
                         $image_id 	= get_post_thumbnail_id();
-			$image_details 	= wp_get_attachment_image_src($image_id, 'full');                       
-			$author_details	= get_avatar_data($author_id);
+			$image_details 	= wp_get_attachment_image_src($image_id, 'full');                       			
 			$date 		= get_the_date("Y-m-d\TH:i:s\Z");
 			$modified_date 	= get_the_modified_date("Y-m-d\TH:i:s\Z");
 			$aurthor_name 	= '';   
@@ -1572,21 +1499,21 @@ Class saswp_output_service{
 					'mainEntityOfPage'              => get_permalink(),					
 					'headline'			=> get_the_title(),
 					'description'                   => strip_tags(get_the_excerpt()),
-					'datePublished'                 => $date,
-					'dateModified'                  => $modified_date,
+					'datePublished'                 => esc_html($date),
+					'dateModified'                  => esc_html($modified_date),
 					'author'			=> array(
 							'@type' 	=> 'Person',
-							'name'		=> $aurthor_name 
+							'name'		=> esc_attr($aurthor_name) 
                                                          ),
 					'Publisher'			=> array(
 						'@type'			=> 'Organization',
 						'logo' 			=> array(
 							'@type'		=> 'ImageObject',
-							'url'		=> $logo,
-							'width'		=> $width,
-							'height'	=> $height,
+							'url'		=> esc_url($logo),
+							'width'		=> esc_attr($width),
+							'height'	=> esc_attr($height),
 							),
-						'name'			=> $site_name,
+						'name'			=> esc_attr($site_name),
 					),
                                     
 				);
@@ -1600,21 +1527,21 @@ Class saswp_output_service{
 					'mainEntityOfPage'              => get_permalink(),					
 					'headline'			=> get_the_title(),
 					'description'                   => strip_tags(get_the_excerpt()),
-					'datePublished'                 => $date,
-					'dateModified'                  => $modified_date,
+					'datePublished'                 => esc_html($date),
+					'dateModified'                  => esc_html($modified_date),
 					'author'			=> array(
 							'@type' 	=> 'Person',
-							'name'		=> $aurthor_name 
+							'name'		=> esc_attr($aurthor_name) 
                                                          ),
 					'Publisher'			=> array(
 						'@type'			=> 'Organization',
 						'logo' 			=> array(
 							'@type'		=> 'ImageObject',
-							'url'		=> $logo,
-							'width'		=> $width,
-							'height'	=> $height,
+							'url'		=> esc_url($logo),
+							'width'		=> esc_attr($width),
+							'height'	=> esc_attr($height),
 							),
-						'name'			=> $site_name,
+						'name'			=> esc_attr($site_name),
 					),
                                     
 				);
@@ -1629,30 +1556,30 @@ Class saswp_output_service{
                     
                     $input1 = array(
 				'@context'			=> 'http://schema.org',
-				'@type'				=> $schema_type ,
+				'@type'				=> 'WebPage' ,
 				'name'				=> get_the_title(),
 				'url'				=> get_permalink(),
 				'description'                   => strip_tags(get_the_excerpt()),
 				'mainEntity'                    => array(
 						'@type'			=> 'Article',
 						'mainEntityOfPage'	=> get_permalink(),
-						'image'			=> $image_details[0],
+						'image'			=> esc_url($image_details[0]),
 						'headline'		=> get_the_title(),
 						'description'		=> strip_tags(get_the_excerpt()),
-						'datePublished' 	=> $date,
-						'dateModified'		=> $modified_date,
+						'datePublished' 	=> esc_html($date),
+						'dateModified'		=> esc_html($modified_date),
 						'author'			=> array(
 								'@type' 	=> 'Person',
-								'name'		=> $aurthor_name, ),
+								'name'		=> esc_attr($aurthor_name), ),
 						'Publisher'			=> array(
 							'@type'			=> 'Organization',
 							'logo' 			=> array(
 								'@type'		=> 'ImageObject',
-								'url'		=> $logo,
-								'width'		=> $width,
-								'height'	=> $height,
+								'url'		=> esc_url($logo),
+								'width'		=> esc_attr($width),
+								'height'	=> esc_attr($height),
 								),
-							'name'			=> $site_name,
+							'name'			=> esc_attr($site_name),
 						),
                                                
 					),
@@ -1708,18 +1635,18 @@ Class saswp_output_service{
                                         } 
                                                                                     
                                         $input2['image']['@type']  = 'ImageObject';
-                                        $input2['image']['url']    = $image_details[0];
-                                        $input2['image']['width']  = $width;
-                                        $input2['image']['height'] = $height;                                        
+                                        $input2['image']['url']    = esc_url($image_details[0]);
+                                        $input2['image']['width']  = esc_attr($width);
+                                        $input2['image']['height'] = esc_attr($height);                                        
                                 
                              }else{
                                         
                                         if(isset($sd_data['sd_default_image']['url']) && $sd_data['sd_default_image']['url'] !=''){
                                         
                                         $input2['image']['@type']  = 'ImageObject';
-                                        $input2['image']['url']    = $sd_data['sd_default_image']['url'];
-                                        $input2['image']['width']  = $sd_data['sd_default_image_width'];
-                                        $input2['image']['height'] = $sd_data['sd_default_image_height'];                                                                 
+                                        $input2['image']['url']    = esc_url($sd_data['sd_default_image']['url']);
+                                        $input2['image']['width']  = esc_attr($sd_data['sd_default_image_width']);
+                                        $input2['image']['height'] = esc_attr($sd_data['sd_default_image_height']);                                                                 
                                             
                                         }
                                         
@@ -1740,6 +1667,7 @@ Class saswp_output_service{
                         
                         $publisher    = array();
                         $default_logo = array();
+                        $custom_logo  = array();
                                       
                         $logo      = isset($sd_data['sd_logo']) ? $sd_data['sd_logo']['url']:'';	
 			$height    = isset($sd_data['sd_logo']) ? $sd_data['sd_logo']['height']:'';
@@ -1755,24 +1683,35 @@ Class saswp_output_service{
 				); 
                             
                             $custom_logo_id = get_theme_mod( 'custom_logo' );     
-                            $custom_logo    = wp_get_attachment_image_src( $custom_logo_id, $sizes);
-                            $logo           = $custom_logo[0];
-                            $height         = $custom_logo[1];
-                            $width          = $custom_logo[2];
+                            
+                            if($custom_logo_id){
+                                
+                                $custom_logo    = wp_get_attachment_image_src( $custom_logo_id, $sizes);
+                                
+                            }
+                            
+                            if(isset($custom_logo)){
+                                
+                                $logo           = $custom_logo[0];
+                                $height         = $custom_logo[1];
+                                $width          = $custom_logo[2];
+                            
+                            }
+                                                        
                         }
                                                                                                 
                         if($logo !='' && $height !='' && $width !=''){
                          
                         $publisher['Publisher']['@type']         = 'Organization';                        
                         $publisher['Publisher']['logo']['@type'] = 'ImageObject';
-                        $publisher['Publisher']['logo']['url']   = $logo;
-                        $publisher['Publisher']['logo']['width'] = $width;
-                        $publisher['Publisher']['logo']['height']= $height;                        
-                        $publisher['Publisher']['name']          = $site_name; 
+                        $publisher['Publisher']['logo']['url']   = esc_url($logo);
+                        $publisher['Publisher']['logo']['width'] = esc_attr($width);
+                        $publisher['Publisher']['logo']['height']= esc_attr($height);                        
+                        $publisher['Publisher']['name']          = esc_attr($site_name); 
                                                 
-                        $default_logo['url']    = $logo;
-                        $default_logo['height'] = $height;
-                        $default_logo['width']  = $width;
+                        $default_logo['url']    = esc_url($logo);
+                        $default_logo['height'] = esc_attr($height);
+                        $default_logo['width']  = esc_attr($width);
                             
                         }  
                         

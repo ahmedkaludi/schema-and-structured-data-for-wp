@@ -366,7 +366,9 @@
 	
 	
 	function saswp_save_steps_data(){ 
-            
+	            if(! current_user_can( 'manage_options' ) ) {
+					return ;
+				}
                  if ( ! isset( $_POST['wpnonce'] ) ){
                     return; 
                  }

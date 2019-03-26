@@ -11,7 +11,8 @@
         $url = get_option('saswp-file-upload_url');        
         global $wpdb;
         $result ='';
-        
+        $errorDesc   = array();
+         
         if($url){
             
         $json_data       = file_get_contents($url);
@@ -20,18 +21,19 @@
          
         $sd_data     = $json_array['sd_data'];                
         $schema_post = array();                     
-        
+       
         
         if($all_schema_post){
             // begin transaction
             $wpdb->query('START TRANSACTION');
+
             
             foreach($all_schema_post as $schema_post){  
                 
                 $post_id = wp_insert_post($schema_post['post']);
                 $result  = $post_id;
                 $guid    = get_option('siteurl') .'/?post_type=saswp&p='.$post_id;                
-                $wpdb->get_results("UPDATE wp_posts SET guid ='".$guid."' WHERE ID ='".$post_id."'");   
+                $wpdb->query("UPDATE ".$wpdb->prefix."posts SET guid ='".esc_sql($guid)."' WHERE ID ='".esc_sql($post_id)."'");   
                                 
                 if ( isset( $schema_post['schema_type'] ) ){
                         update_post_meta( $post_id, 'schema_type', esc_attr( $schema_post['schema_type'] ) );
@@ -51,13 +53,16 @@
                 if ( isset( $schema_post['data_group_array'] ) ){
                         update_post_meta( $post_id, 'data_group_array', $schema_post['data_group_array']  );
                 }                                                                                                     
+                if(is_wp_error($result)){
+                    $errorDesc[] = $result->get_error_message();
+                }
                 }          
                 }                
              update_option('sd_data', $sd_data); 
              update_option('saswp-file-upload_url','');
             }                                    
-            if (is_wp_error($result) ){
-              echo esc_attr($result->get_error_message());              
+            if ( count($errorDesc) ){
+              echo implode("\n<br/>", $errorDesc);              
               $wpdb->query('ROLLBACK');             
             }else{
               $wpdb->query('COMMIT'); 
@@ -165,6 +170,7 @@
     function saswp_import_schema_plugin_data(){           
                                                     
         $schema_post = array();
+        $errorDesc = array();
         global $wpdb;
         $user_id     = get_current_user_id();
         
@@ -179,6 +185,7 @@
         if($all_schema_post){
             // begin transaction
             $wpdb->query('START TRANSACTION');
+            
             foreach($all_schema_post as $schema){    
                 
                 $schema_post = array(
@@ -210,7 +217,7 @@
                 $post_id = wp_insert_post($schema_post);
                 $result  = $post_id;
                 $guid    = get_option('siteurl') .'/?post_type=saswp&p='.$post_id;                
-                $wpdb->get_results("UPDATE wp_posts SET guid ='".$guid."' WHERE ID ='".$post_id."'");   
+                $wpdb->query("UPDATE ".$wpdb->prefix."posts SET guid ='".esc_sql($guid)."' WHERE ID ='".esc_sql($post_id)."'");   
                 
                 $schema_post_meta       = get_post_meta($schema->ID, $key='', true ); 
                 $schema_post_types      = get_post_meta($schema->ID, $key='_schema_post_types', true );                  
@@ -254,6 +261,9 @@
                 foreach ($saswp_meta_key as $key => $val){                     
                     update_post_meta($post_id, $key, $val);  
                 }                                                        
+                if(is_wp_error($result)){
+                    $errorDesc[] = $result->get_error_message();
+                }
               }          
                             
               //Importing settings starts here
@@ -352,8 +362,8 @@
                 update_option('sd_data', $saswp_plugin_options);
                 //Importing settings ends here
               
-            if (is_wp_error($result) ){
-              echo esc_attr($result->get_error_message());              
+            if ( count($errorDesc) ){
+              echo implode("\n<br/>", $errorDesc); 
               $wpdb->query('ROLLBACK');             
             }else{
               $wpdb->query('COMMIT'); 
@@ -456,7 +466,7 @@
              
           $local_business_details = array();          
           $wpdb->query('START TRANSACTION');
-          
+          $errorDesc = array();
           $user_id = get_current_user_id();
            
                     if($settings['seop_local_name'] !=''){ 
@@ -506,7 +516,7 @@
                     $post_id = wp_insert_post($schema_post);
                     $result  = $post_id;
                     $guid    = get_option('siteurl') .'/?post_type=saswp&p='.$post_id;                
-                    $wpdb->get_results("UPDATE wp_posts SET guid ='".$guid."' WHERE ID ='".$post_id."'");
+                    $wpdb->query("UPDATE ".$wpdb->prefix."posts SET guid ='".esc_sql($guid)."' WHERE ID ='".esc_sql($post_id)."'");
                      
                     $data_group_array = array();   
                     
@@ -531,15 +541,17 @@
                     foreach ($saswp_meta_key as $key => $val){                     
                         update_post_meta($post_id, $key, $val);  
                     }
-                    
+                    if(is_wp_error($result)){
+                        $errorDesc[] = $result->get_error_message();
+                    }
                     }
                                                                                                             
                 $get_options   = get_option('sd_data');
                 $merge_options = array_merge($get_options, $social_fields);
                 $result        = update_option('sd_data', $merge_options);
           
-           if (is_wp_error($result) ){
-              echo esc_attr($result->get_error_message());              
+           if ( count($errorDesc) ){
+              echo implode("\n<br/>", $errorDesc);           
               $wpdb->query('ROLLBACK');             
             }else{
               $wpdb->query('COMMIT'); 
@@ -559,7 +571,7 @@
           $saswp_plugin_options   = array();   
           $local_business_details = array();          
           $wpdb->query('START TRANSACTION');
-          
+          $errorDesc = array();
           $user_id = get_current_user_id();
           
                     if($settings['site_type'] !='Organization'){
@@ -617,7 +629,7 @@
                     $post_id = wp_insert_post($schema_post);
                     $result  = $post_id;
                     $guid    = get_option('siteurl') .'/?post_type=saswp&p='.$post_id;                
-                    $wpdb->get_results("UPDATE wp_posts SET guid ='".$guid."' WHERE ID ='".$post_id."'");
+                    $wpdb->query("UPDATE ".$wpdb->prefix."posts SET guid ='".esc_sql($guid)."' WHERE ID ='".esc_sql($post_id)."'");
                      
                     $data_group_array = array();    
                     
@@ -640,6 +652,9 @@
                 
                     foreach ($saswp_meta_key as $key => $val){                     
                         update_post_meta($post_id, $key, $val);  
+                    }
+                    if(is_wp_error($result)){
+                        $errorDesc[] = $result->get_error_message();
                     }
                     
                     }
@@ -693,8 +708,8 @@
                 $merge_options = array_merge($get_options, $saswp_plugin_options);
                 $result        = update_option('sd_data', $merge_options);
           
-           if (is_wp_error($result) ){
-              echo esc_attr($result->get_error_message());              
+           if ( count($errorDesc) ){
+              echo implode("\n<br/>", $errorDesc);             
               $wpdb->query('ROLLBACK');             
             }else{
               $wpdb->query('COMMIT'); 
@@ -721,6 +736,7 @@
         if($all_schema_post){
             // begin transaction
             $wpdb->query('START TRANSACTION');
+            $errorDesc = array();
             foreach($all_schema_post as $schema){    
                 
                 $schema_post = array(
@@ -751,7 +767,7 @@
                 $post_id = wp_insert_post($schema_post);
                 $result  = $post_id;
                 $guid    = get_option('siteurl') .'/?post_type=saswp&p='.$post_id;                
-                $wpdb->get_results("UPDATE wp_posts SET guid ='".$guid."' WHERE ID ='".$post_id."'");   
+                $wpdb->get_results("UPDATE ".$wpdb->prefix."posts SET guid ='".esc_sql($guid)."' WHERE ID ='".esc_sql($post_id)."'");   
                 
                 $schema_post_meta           = get_post_meta($schema->ID, $key='', true );                 
                 $schema_post_types          = get_post_meta($schema->ID, $key='bsf-aiosrs-schema-type', true );                   
@@ -1009,8 +1025,10 @@
                     update_post_meta($post_id, $key, $val);  
                     
                 }   
-                
-              }                                      
+                if(is_wp_error($result)){
+                    $errorDesc[] = $result->get_error_message();
+                }
+            }                                      
               //Importing settings starts here              
               
                 $schema_pro_general_settings = get_option('wp-schema-pro-general-settings');  
@@ -1094,8 +1112,8 @@
                 update_option('sd_data', $merge_options);
                
               
-            if (is_wp_error($result) ){
-              echo esc_attr($result->get_error_message());              
+            if ( count($errorDesc) ){
+              echo implode("\n<br/>", $errorDesc);              
               $wpdb->query('ROLLBACK');             
             }else{
               $wpdb->query('COMMIT'); 

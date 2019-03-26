@@ -1,10 +1,13 @@
 <?php
 class saswp_metaboxes_review {
+    
     private $screen = array();
     
- public function __construct() {                                                                                                     
+ public function __construct() {    
+     
 		add_action( 'add_meta_boxes', array( $this, 'saswp_review_add_meta_box' ) );
 		add_action( 'save_post', array( $this, 'saswp_review_save' ) );
+                
 	}
         function saswp_review_add_meta_box($post) {
             
@@ -33,7 +36,7 @@ class saswp_metaboxes_review {
                      $single_screen,
                      'advanced',
                      'default'
-            );
+             );
                
            }                                         
             
@@ -54,15 +57,17 @@ class saswp_metaboxes_review {
         function saswp_meta_box_callback( $post) {
             
                 wp_nonce_field( 'saswp_review_nonce', 'saswp_review_nonce' ); 
-                $saswp_review_details = esc_sql ( get_post_meta($post->ID, 'saswp_review_details', true));
-                $saswp_review_item_feature = array();
+                
+                $saswp_review_item_feature     = array();
                 $saswp_review_item_star_rating = array();
                 
+                $saswp_review_details          = esc_sql ( get_post_meta($post->ID, 'saswp_review_details', true));
+                                                
                 if(isset($saswp_review_details['saswp-review-item-feature'])){
-                $saswp_review_item_feature = $saswp_review_details['saswp-review-item-feature'];    
+                    $saswp_review_item_feature = $saswp_review_details['saswp-review-item-feature'];    
                 }
                 if(isset($saswp_review_details['saswp-review-item-star-rating'])){
-                $saswp_review_item_star_rating = $saswp_review_details['saswp-review-item-star-rating'];    
+                    $saswp_review_item_star_rating = $saswp_review_details['saswp-review-item-star-rating'];    
                 }
                 
                 ?>                     
@@ -98,6 +103,7 @@ class saswp_metaboxes_review {
                             
                             <?php
                             if(!empty($saswp_review_item_feature)){
+                                
                                 for ($i=0; $i<count($saswp_review_item_feature); $i++){
                                 ?>
                                 <tr class="saswp-review-item-tr">
@@ -107,7 +113,8 @@ class saswp_metaboxes_review {
                                 <td><input step="0.1" min="0" max="5" type="number" name="saswp-review-item-star-rating[]" value="<?php echo esc_attr($saswp_review_item_star_rating[$i]); ?>"></td>
                                 <td><a type="button" class="saswp-remove-review-item button">x</a></td>
                                 </tr>
-                               <?php                                   
+                                <?php       
+                               
                                 }                               
                             }
                             ?>
@@ -200,8 +207,7 @@ class saswp_metaboxes_review {
                     $saswp_review_details['saswp-review-item-enable'] = sanitize_text_field($_POST['saswp-review-item-enable']);
                 }
                 if(isset($_POST['saswp-review-item-description'])){
-                    update_post_meta( $post_id, 'saswp-review-item-description', wp_kses_post( wp_unslash( $_POST['saswp-review-item-description'] )) );
-                    
+                    update_post_meta( $post_id, 'saswp-review-item-description', wp_kses_post( wp_unslash( $_POST['saswp-review-item-description'] )) );                    
                 }
                 if(isset($_POST['saswp-review-item-props'])){
                     update_post_meta( $post_id, 'saswp-review-item-props', wp_kses_post( wp_unslash( $_POST['saswp-review-item-props'] )) );                    

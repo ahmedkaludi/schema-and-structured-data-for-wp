@@ -108,9 +108,11 @@ function saswp_ajax_select_creator($data = '', $saved_data= '', $current_number 
             );
 
             $templates = get_page_templates();
-            foreach($templates as $k => $v)
-            {
+            
+            foreach($templates as $k => $v){
+            
               $choices[$v] = $k;
+              
             }
 
             break;
@@ -123,9 +125,8 @@ function saswp_ajax_select_creator($data = '', $saved_data= '', $current_number 
 
             if( $post_types )
             {
-              foreach( $post_types as $post_type )
-              {
-
+              foreach( $post_types as $post_type ){
+              
                 $posts = get_posts(array(
                     
                     'numberposts'      => '-1',
@@ -135,17 +136,16 @@ function saswp_ajax_select_creator($data = '', $saved_data= '', $current_number 
                     
                 ));
 
-                if( $posts)
-                {
+                if( $posts){
+                
                   $choices[$post_type] = array();
 
-                  foreach($posts as $post)
-                  {
+                  foreach($posts as $post){
+                  
                     $title = apply_filters( 'the_title', $post->post_title, $post->ID );
-
                     // status
-                    if($post->post_status != "publish")
-                    {
+                    if($post->post_status != "publish"){
+                    
                       $title .= " ($post->post_status)";
                     }
 
@@ -191,9 +191,10 @@ function saswp_ajax_select_creator($data = '', $saved_data= '', $current_number 
               
             $choices = $wp_roles->get_names();
 
-            if( is_multisite() )
-            {
+            if( is_multisite() ){
+            
               $choices['super_admin'] = esc_html__('Super Admin','schema-and-structured-data-for-wp');
+              
             }
 
             break;
@@ -299,7 +300,9 @@ function saswp_create_ajax_select_taxonomy($selectedParentValue = '',$selectedVa
     if( $_SERVER['REQUEST_METHOD']=='POST'){
         
         $is_ajax = true;
-        
+        if(! current_user_can( 'manage_options' ) ) {
+          exit;
+        }
         if(wp_verify_nonce($_POST["saswp_call_nonce"],'saswp_select_action_nonce')){
             
               if(isset($_POST['id'])){
@@ -350,6 +353,7 @@ function saswp_create_ajax_select_taxonomy($selectedParentValue = '',$selectedVa
         
       }
       $choices .= '<option value="'.esc_attr($taxonomy->slug).'" '.esc_attr($sel).'>'.esc_html__($taxonomy->name,'schema-and-structured-data-for-wp').'</option>';
+      
     }
     
     $allowed_html = saswp_expanded_allowed_tags();  

@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.1
-Stable tag: 1.3
+Stable tag: 1.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -65,6 +65,14 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
 
+
+= 1.4 (25 March 2019) =
+
+* Bug Fixed: Security improvement.
+
+= 1.3.1 (12 March 2019) =
+
+* Bug Fixed: Organization schema type has null value
 
 = 1.3 (11 March 2019) =
 
