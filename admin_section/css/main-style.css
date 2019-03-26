@@ -558,5 +558,7 @@ On/Off Buttons ends here
 .option-table-class tr td {padding: 10px 10px 10px 10px ;}
 .option-table-class tr > td{width: 30%;}
 .option-table-class tr td:last-child{width: 60%;}
-.option-table-class input[type="text"], select{width:100%;}
+
+.saswp-option-table-class input[type="text"], .saswp-option-table-class select{width:100%;}
+.saswp-paywall-table-class input[type="text"], .saswp-paywall-table-class select{width:100%;}
 

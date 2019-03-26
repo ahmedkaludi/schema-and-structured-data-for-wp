@@ -36,7 +36,7 @@
                 
                 <div class="misc-pub-section">
                     
-                   <table class="option-table-class">
+                   <table class="option-table-class saswp-paywall-table-class">
                         <tbody>
                             <tr>
                                 <td><label for="notAccessibleForFree"><?php echo esc_html__( 'Paywall', 'schema-and-structured-data-for-wp' ) ?></label></td>
