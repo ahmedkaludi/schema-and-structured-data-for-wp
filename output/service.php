@@ -1669,9 +1669,9 @@ Class saswp_output_service{
                         $default_logo = array();
                         $custom_logo  = array();
                                       
-                        $logo      = isset($sd_data['sd_logo']) ? $sd_data['sd_logo']['url']:'';	
-			$height    = isset($sd_data['sd_logo']) ? $sd_data['sd_logo']['height']:'';
-			$width     = isset($sd_data['sd_logo']) ? $sd_data['sd_logo']['width']:'';
+                        $logo      = isset($sd_data['sd_logo']) ?  $sd_data['sd_logo']['url']:'';	
+			$height    = isset($sd_data['sd_logo']) ?  $sd_data['sd_logo']['height']:'';
+			$width     = isset($sd_data['sd_logo']) ?  $sd_data['sd_logo']['width']:'';
                         $site_name = isset($sd_data['sd_name']) && $sd_data['sd_name'] !='' ? $sd_data['sd_name']:get_bloginfo();
                                                                                                                        
                         if($logo =='' && $height =='' && $width ==''){

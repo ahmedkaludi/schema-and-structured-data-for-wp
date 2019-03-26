@@ -7,8 +7,8 @@ function saswp_get_saved_schema_ids(){
     $all_schemas = get_posts(
                     array(
                             'post_type' 	 => 'saswp',
-                            'posts_per_page' => -1,   
-                            'post_status' => 'publish',
+                            'posts_per_page'     => -1,   
+                            'post_status'        => 'publish',
                     )
                  );    
     if($all_schemas){
