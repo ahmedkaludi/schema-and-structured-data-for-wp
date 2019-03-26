@@ -2681,7 +2681,7 @@ function saswp_kb_website_output(){
 			'name'		  => $site_name,
 			'potentialAction' => array(
                                     '@type'			=> 'SearchAction',
-                                    'target'		        => esc_url($site_url.'/?s={search_term_string}'),
+                                    'target'		        => esc_url($site_url).'/?s={search_term_string}',
                                     'query-input'	        => 'required name=search_term_string',
 			 	)
 			);                    
