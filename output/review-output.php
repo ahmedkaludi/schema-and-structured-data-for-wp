@@ -1,9 +1,6 @@
 <?php 
 Class saswp_review_output{
-    
-        public function __construct() {                               
-	}
-        
+                    
         public function saswp_review_hooks(){
             add_filter('the_content', array($this, 'saswp_display_review_box'));   
             
