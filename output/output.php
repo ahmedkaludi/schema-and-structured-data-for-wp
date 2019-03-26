@@ -391,8 +391,8 @@ function saswp_schema_output() {
 			'contentUrl'		        => saswp_remove_warnings($schema_data, 'saswp_audio_schema_contenturl', 'saswp_string'),
                         'duration'                      => saswp_remove_warnings($schema_data, 'saswp_audio_schema_duration', 'saswp_string'),	
                         'encodingFormat'                => saswp_remove_warnings($schema_data, 'saswp_audio_schema_encoding_format', 'saswp_string'),	   
-			'datePublished'                 => $date,
-			'dateModified'                  => $modified_date,
+			'datePublished'                 => esc_html($date),
+			'dateModified'                  => esc_html($modified_date),
 			'author'			=> array(
                                                             '@type'  => 'Person',
                                                             'name'   => esc_attr($aurthor_name)
@@ -521,8 +521,8 @@ function saswp_schema_output() {
                                                             'price'         => saswp_remove_warnings($schema_data, 'saswp_software_schema_price', 'saswp_string'),	                         
                                                             'priceCurrency' => saswp_remove_warnings($schema_data, 'saswp_software_schema_price_currency', 'saswp_string'),	                         
                                                          ),        
-			'datePublished'                 => $date,
-			'dateModified'                  => $modified_date,
+			'datePublished'                 => esc_html($date),
+			'dateModified'                  => esc_html($modified_date),
 			'author'			=> array(
                                                             '@type'  => 'Person',
                                                             'name'   => esc_attr($aurthor_name)
@@ -700,12 +700,12 @@ function saswp_schema_output() {
                                     'description'                       => saswp_remove_warnings($product_details, 'product_description', 'saswp_string'),
                                     'image'                             => saswp_remove_warnings($product_details, 'product_image', 'saswp_string'),    
                                     'offers'                            => array(
-                                                                        '@type'	=> 'Offer',
-                                                                        'availability'      => saswp_remove_warnings($product_details, 'product_availability', 'saswp_string'),
-                                                                        'price'             => saswp_remove_warnings($product_details, 'product_price', 'saswp_string'),
-                                                                        'priceCurrency'     => saswp_remove_warnings($product_details, 'product_currency', 'saswp_string'),
-                                                                        'url'               => get_permalink(),
-                                                                        'priceValidUntil'   => saswp_remove_warnings($product_details, 'product_priceValidUntil', 'saswp_string'),
+                                                                            '@type'	=> 'Offer',
+                                                                            'availability'      => saswp_remove_warnings($product_details, 'product_availability', 'saswp_string'),
+                                                                            'price'             => saswp_remove_warnings($product_details, 'product_price', 'saswp_string'),
+                                                                            'priceCurrency'     => saswp_remove_warnings($product_details, 'product_currency', 'saswp_string'),
+                                                                            'url'               => get_permalink(),
+                                                                            'priceValidUntil'   => saswp_remove_warnings($product_details, 'product_priceValidUntil', 'saswp_string'),
                                                                              ),
                                         
 				  ); 
@@ -909,10 +909,10 @@ function saswp_schema_output() {
                                                                         '@type' => saswp_remove_warnings($schema_data, 'saswp_service_schema_provider_type', 'saswp_string'),
                                                                         'name'  => saswp_remove_warnings($schema_data, 'saswp_service_schema_provider_name', 'saswp_string'),                                                                        
                                                                         'image'  => array(
-                                                                            '@type'		=>'ImageObject',
-                                                                            'url'		=>isset($schema_data['saswp_service_schema_image']) ? esc_url($schema_data['saswp_service_schema_image']['url']):'' ,
-                                                                            'width'		=>isset($schema_data['saswp_service_schema_image']) ? esc_attr($schema_data['saswp_service_schema_image']['width']):'' ,
-                                                                            'height'            =>isset($schema_data['saswp_service_schema_image']) ? esc_attr($schema_data['saswp_service_schema_image']['height']):'' ,
+                                                                            '@type'		=> 'ImageObject',
+                                                                            'url'		=> isset($schema_data['saswp_service_schema_image']) ? esc_url($schema_data['saswp_service_schema_image']['url']):'' ,
+                                                                            'width'		=> isset($schema_data['saswp_service_schema_image']) ? esc_attr($schema_data['saswp_service_schema_image']['width']):'' ,
+                                                                            'height'            => isset($schema_data['saswp_service_schema_image']) ? esc_attr($schema_data['saswp_service_schema_image']['height']):'' ,
                                                                             ),
                                                                         '@id'   => get_permalink(),
                                                                         'address' => array(
