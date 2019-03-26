@@ -1,9 +1,6 @@
 <?php 
 Class saswp_output_service{
-    
-        public function __construct() {       
             
-	}
         /**
          * List of hooks used in current class
          */
