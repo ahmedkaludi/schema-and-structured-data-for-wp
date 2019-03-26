@@ -25,9 +25,9 @@ function saswp_data_generator() {
    
    $output                   = '';
    $post_specific_enable     = '';
-   $kb_website_output        = '';
-   $kb_schema_output         = '';
-   $site_navigation          = '';
+   $kb_website_output        = array();
+   $kb_schema_output         = array();
+   $site_navigation          = array();
    
    
    $site_navigation          = saswp_site_navigation_output();     
@@ -36,13 +36,13 @@ function saswp_data_generator() {
    $author_output            = saswp_author_output();
    $archive_output           = saswp_archive_output();
    
-   $schema_breadcrumb_output = saswp_schema_breadcrumb_output($sd_data);  
+   $schema_breadcrumb_output = saswp_schema_breadcrumb_output();  
    
    if(saswp_remove_warnings($sd_data, 'saswp-yoast', 'saswp_string') != 1){
        
        $kb_website_output        = saswp_kb_website_output();      
-       $kb_schema_output         = saswp_kb_schema_output();       
-       
+       $kb_schema_output         = saswp_kb_schema_output();          
+                     
    }         
    
    if(is_singular()){
@@ -73,47 +73,45 @@ function saswp_data_generator() {
                         
                         if(!empty($contact_page_output)){
                           
-                        $output .= $contact_page_output; 
+                        $output .= json_encode($contact_page_output); 
                         $output .= ",";
                         $output .= "\n\n";
                         
                         }			                        
                         if(!empty($about_page_output)){
                         
-                        $output .= $about_page_output;    
+                        $output .= json_encode($about_page_output);    
                         $output .= ",";
                         $output .= "\n\n";
                         }                        
                         if(!empty($author_output)){
                            
-                        $output .= $author_output; 
+                        $output .= json_encode($author_output); 
                         $output .= ",";
                         $output .= "\n\n";
                         }                                              
                         if(!empty($archive_output)){
                         
-                        $output .= $archive_output;   
+                        $output .= json_encode($archive_output);   
                         $output .= ",";
                         $output .= "\n\n";
                         }                        
                         if(!empty($kb_website_output)){
                         
-                        $output .= $kb_website_output;  
+                        $output .= json_encode($kb_website_output);  
                         $output .= ",";
                         $output .= "\n\n";
                         } 
                         if(!empty($site_navigation)){
-                        
-                        $site_navigation = json_encode($site_navigation);
-                            
-                        $output .= $site_navigation;   
+                                                                            
+                        $output .= json_encode($site_navigation);   
                         $output .= ",";
                         $output .= "\n\n";
                         
                         }
                         if(!empty($schema_breadcrumb_output)){
                         
-                        $output .= $schema_breadcrumb_output;   
+                        $output .= json_encode($schema_breadcrumb_output);   
                         $output .= ",";
                         $output .= "\n\n";
                         }                        
@@ -127,7 +125,7 @@ function saswp_data_generator() {
                         }                        
                         if(!empty($kb_schema_output)){
                             
-                        $output .= $kb_schema_output;
+                        $output .= json_encode($kb_schema_output);
                         $output .= ",";
                         
                         }                       

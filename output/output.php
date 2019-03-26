@@ -114,7 +114,7 @@ function saswp_kb_schema_output() {
 
 		$input = array(
                         '@context'		=>'http://schema.org',
-                        '@type'			=> esc_attr($sd_data['saswp_organization_type']),
+                        '@type'			=> isset($sd_data['saswp_organization_type']) ? esc_attr($sd_data['saswp_organization_type']):'Organization',
                         'name'			=> saswp_remove_warnings($sd_data, 'sd_name', 'saswp_string'),
                         'url'			=> saswp_remove_warnings($sd_data, 'sd_url', 'saswp_string'),
                         'sameAs'		=> $platform,                                        		
@@ -176,7 +176,7 @@ function saswp_kb_schema_output() {
 	}
         
         
-	return json_encode($input);	             
+	return apply_filters('saswp_modify_organization_output', $input);	             
 }
 
 /**
@@ -334,6 +334,7 @@ function saswp_schema_output() {
                                    $input1['comment'] = saswp_get_comments(get_the_ID());
                                 }
                             
+                            $input1 = apply_filters('saswp_modify_course_schema_output', $input1 );    
                         }
                         
                         if( 'Blogposting' === $schema_type){
@@ -377,6 +378,7 @@ function saswp_schema_output() {
                                    $input1['comment'] = saswp_get_comments(get_the_ID());
                                 }
                             
+                                $input1 = apply_filters('saswp_modify_blogposting_schema_output', $input1 ); 
                         }
                         
                         if( 'AudioObject' === $schema_type){
@@ -419,7 +421,9 @@ function saswp_schema_output() {
                                 }                               
                                 if(isset($sd_data['saswp_comments_schema']) && $sd_data['saswp_comments_schema'] ==1){
                                             $input1['comment'] = saswp_get_comments(get_the_ID());
-                                }                            
+                                }   
+                                
+                                $input1 = apply_filters('saswp_modify_audio_object_schema_output', $input1 );
                         }
                         
                         if( 'Event' === $schema_type){
@@ -502,6 +506,7 @@ function saswp_schema_output() {
                             
                         }    
                             
+                        $input1 = apply_filters('saswp_modify_event_schema_output', $input1 );
                         
                         }
                         
@@ -557,7 +562,9 @@ function saswp_schema_output() {
                                 }                               
                                 if(isset($sd_data['saswp_comments_schema']) && $sd_data['saswp_comments_schema'] ==1){
                                             $input1['comment'] = saswp_get_comments(get_the_ID());
-                                }                            
+                                }    
+                                
+                                $input1 = apply_filters('saswp_modify_software_application_schema_output', $input1 );
                         }
 			
 			if( 'WebPage' === $schema_type){                            				
@@ -581,6 +588,8 @@ function saswp_schema_output() {
                                 if(!empty($extra_theme_review)){
                                    $input1 = array_merge($input1, $extra_theme_review);
                                 }
+                                
+                             $input1 = apply_filters('saswp_modify_webpage_schema_output', $input1 );   
 			}	
 		
 			if( 'Article' === $schema_type ){
@@ -598,6 +607,8 @@ function saswp_schema_output() {
                                 if(!empty($extra_theme_review)){
                                    $input1 = array_merge($input1, $extra_theme_review);
                                 }
+                                
+                                $input1 = apply_filters('saswp_modify_article_schema_output', $input1 );  
 			}
                         
                         if( 'TechArticle' === $schema_type ){
@@ -615,6 +626,8 @@ function saswp_schema_output() {
                                 if(!empty($extra_theme_review)){
                                    $input1 = array_merge($input1, $extra_theme_review);
                                 }
+                                
+                                $input1 = apply_filters('saswp_modify_tech_article_schema_output', $input1 );
 			}
 		      
 			if( 'Recipe' === $schema_type){
@@ -671,6 +684,8 @@ function saswp_schema_output() {
                                 if(!empty($extra_theme_review)){
                                    $input1 = array_merge($input1, $extra_theme_review);
                                 }
+                                
+                                $input1 = apply_filters('saswp_modify_recipe_schema_output', $input1 );
 			}
                        
                         if( 'qanda' === $schema_type){
@@ -682,6 +697,8 @@ function saswp_schema_output() {
                                     $service = new saswp_output_service();
                                     $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
                             }
+                            
+                            $input1 = apply_filters('saswp_modify_qanda_schema_output', $input1 );
 			}
                                                                       
 			if( 'Product' === $schema_type){
@@ -823,6 +840,8 @@ function saswp_schema_output() {
                                     $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
                                     
                                 }
+                                
+                                $input1 = apply_filters('saswp_modify_product_schema_output', $input1 );
 			}
                         
                         if( 'NewsArticle' === $schema_type ){                              
@@ -888,6 +907,8 @@ function saswp_schema_output() {
                                 if(!empty($extra_theme_review)){
                                    $input1 = array_merge($input1, $extra_theme_review);
                                 }
+                                
+                                $input1 = apply_filters('saswp_modify_news_article_schema_output', $input1 );
 				}
                                                 
                         if( 'Service' === $schema_type ){  
@@ -979,6 +1000,8 @@ function saswp_schema_output() {
                                 if(!empty($extra_theme_review)){
                                    $input1 = array_merge($input1, $extra_theme_review);
                                 }
+                                
+                                $input1 = apply_filters('saswp_modify_service_schema_output', $input1 );
 				}  
                         
                         if( 'Review' === $schema_type ){  
@@ -1245,7 +1268,8 @@ function saswp_schema_output() {
                             }
                              
                          }  
-                                                                                                                                                                                                                                                                                                                                     
+                              
+                         $input1 = apply_filters('saswp_modify_review_schema_output', $input1 );
 		        }          
                                 			
 			if( 'VideoObject' === $schema_type){
@@ -1302,6 +1326,7 @@ function saswp_schema_output() {
                                                   $input1 = array_merge($input1, $extra_theme_review);
                                                  }
 					
+                                        $input1 = apply_filters('saswp_modify_video_object_schema_output', $input1 );
 				}
                         
                         if( 'local_business' === $schema_type){
@@ -1390,7 +1415,9 @@ function saswp_schema_output() {
                                     
                                     if(isset($business_details['local_menu'])){
                                       $input1['hasMenu'] = esc_url($business_details['local_menu']);   
-                                    }                                                          
+                                    } 
+                                    
+                                    $input1 = apply_filters('saswp_modify_local_business_schema_output', $input1 );
 			}
                         
                                 
@@ -1438,8 +1465,9 @@ function saswp_schema_output() {
                     $all_schema_output[] = $input1;		                    
                 }                
 	//}
-        }              
-        return $all_schema_output;	
+        }   
+                
+        return apply_filters('saswp_modify_schema_output', $all_schema_output);
 }
 
 /**
@@ -2595,8 +2623,8 @@ function saswp_post_specific_schema_output() {
              }
            }   
         }
-                   
-        return $all_schema_output;	
+        
+        return apply_filters('saswp_modify_schema_output', $all_schema_output);        
 }
 
 /**
@@ -2605,7 +2633,7 @@ function saswp_post_specific_schema_output() {
  * @param type $sd_data
  * @return type
  */
-function saswp_schema_breadcrumb_output($sd_data){
+function saswp_schema_breadcrumb_output(){
     
 	global $sd_data;        
         
@@ -2623,7 +2651,7 @@ function saswp_schema_breadcrumb_output($sd_data){
 					'itemListElement'	        => $bread_crumb_list,
 			); 
            
-                return json_encode($input);   
+                return apply_filters('saswp_modify_breadcrumb_output', $input);  
          
              }
                
@@ -2659,7 +2687,7 @@ function saswp_kb_website_output(){
 			);                    
                 }                		
 	
-	return json_encode($input);        
+	return apply_filters('saswp_modify_website_output', $input);       
 }	
 
 /**
@@ -2766,7 +2794,7 @@ function saswp_archive_output(){
 				'sameAs' 		=> '',
 				'hasPart' 		=> $category_posts
        		);
-				return json_encode($input);	                                 
+				return apply_filters('saswp_modify_archive_output', $input);	                                 
 	endif;				
 	}
 	} 
@@ -2829,7 +2857,7 @@ function saswp_author_output(){
 		if ( get_the_author_meta( 'description', $post_author->ID ) ) {
 			$input['description'] = strip_tags( get_the_author_meta( 'description', $post_author->ID ) );
 		}
-		return json_encode($input);                 
+		return apply_filters('saswp_modify_author_output', $input);
 	}
  }
 }
@@ -2873,7 +2901,7 @@ function saswp_about_page_output(){
                          $input = array_merge($input, $publisher);   
                          
                         }
-			return json_encode($input);                        
+			return apply_filters('saswp_modify_about_page_output', $input);                       
 	}
 	
 }
@@ -2919,7 +2947,7 @@ function saswp_contact_page_output(){
                          $input = array_merge($input, $publisher);   
                          
                         }
-			return json_encode($input);
+			return apply_filters('saswp_modify_contact_page_output', $input);
                          
 	}
 	
@@ -2998,5 +3026,5 @@ function saswp_site_navigation_output(){
               
     }
         
-    return $input;
+    return apply_filters('saswp_modify_sitenavigation_output', $input);
 }      
