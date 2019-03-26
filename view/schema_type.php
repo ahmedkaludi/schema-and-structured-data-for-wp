@@ -5,7 +5,7 @@
             
             if($post_specific == 1 && isset($schema_id)){
                 
-              $post_fix = '_'.$schema_id;  
+              $post_fix = '_'.esc_attr($schema_id);  
               
             }
             
@@ -344,6 +344,8 @@
             
         }
         
+        add_action( 'wp_ajax_saswp_get_item_reviewed_fields', 'saswp_get_item_reviewed_fields' ) ;
+        
         function saswp_get_item_reviewed_fields(){
                                     
             if ( ! isset( $_GET['saswp_security_nonce'] ) ){
@@ -354,7 +356,7 @@
             } 
            
             $post_specific = '';
-            $output        ='';
+            $output        = '';
             $item          = sanitize_text_field($_GET['item']);  
             $schema_id     = sanitize_text_field($_GET['schema_id']);
             $post_id       = sanitize_text_field($_GET['post_id']);                                                     
@@ -491,12 +493,9 @@
                                   
             wp_die();
         }
-
-        add_action( 'wp_ajax_saswp_get_item_reviewed_fields', 'saswp_get_item_reviewed_fields' ) ;
         
-	add_action( 'add_meta_boxes', 'saswp_schema_type_add_meta_box' ) ;
-	add_action( 'save_post', 'saswp_schema_type_add_meta_box_save' ) ;
-	
+        add_action( 'add_meta_boxes', 'saswp_schema_type_add_meta_box' ) ;
+        
         function saswp_schema_type_add_meta_box() {
             
             add_meta_box(
@@ -1591,6 +1590,8 @@
                 </div>
                     <?php
         } 
+        
+        add_action( 'save_post', 'saswp_schema_type_add_meta_box_save' ) ;
         
         function saswp_schema_type_add_meta_box_save( $post_id ) {     
             

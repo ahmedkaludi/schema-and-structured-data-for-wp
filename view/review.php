@@ -1,14 +1,15 @@
 <?php
 class saswp_metaboxes_review {
     
-    private $screen = array();
+ private $screen = array();
     
- public function __construct() {    
+        public function __construct() {    
      
 		add_action( 'add_meta_boxes', array( $this, 'saswp_review_add_meta_box' ) );
 		add_action( 'save_post', array( $this, 'saswp_review_save' ) );
                 
 	}
+        
         function saswp_review_add_meta_box($post) {
             
             global $sd_data;          
