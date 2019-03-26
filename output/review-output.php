@@ -129,7 +129,7 @@ Class saswp_review_output{
                             </td>
                             <td>
                                 <div class="saswp-rvw-ov">
-                                    <div class="saswp-rvw-fs">'.esc_attr(number_format($saswp_over_all_rating, 2, '.', '')).'</div>';
+                                    <div class="saswp-rvw-fs">'.isset($saswp_over_all_rating)? esc_attr(number_format($saswp_over_all_rating, 2, '.', '')):''.'</div>';
                                                                         
                                     if($saswp_over_all_rating !=''){
                                         
