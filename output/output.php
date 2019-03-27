@@ -2977,7 +2977,7 @@ function saswp_site_navigation_output(){
                 
                 if(!saswp_non_amp()){
                                      
-                    if($type == 'amp-menu'){
+                    if($type == 'amp-menu' || $type == 'amp-footer-menu'){
                         
                         foreach($menuItems as $items){
                  

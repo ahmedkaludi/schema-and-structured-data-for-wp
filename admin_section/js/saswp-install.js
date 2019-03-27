@@ -1,4 +1,4 @@
-
+var ajaxurl = saswp_install_params.ajaxurl;
 var Merlin = (function($){
 
     var t;
