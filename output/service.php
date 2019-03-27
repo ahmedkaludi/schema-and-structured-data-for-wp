@@ -1502,7 +1502,7 @@ Class saswp_output_service{
 							'@type' 	=> 'Person',
 							'name'		=> esc_attr($aurthor_name) 
                                                          ),
-					'Publisher'			=> array(
+					'publisher'			=> array(
 						'@type'			=> 'Organization',
 						'logo' 			=> array(
 							'@type'		=> 'ImageObject',
@@ -1530,7 +1530,7 @@ Class saswp_output_service{
 							'@type' 	=> 'Person',
 							'name'		=> esc_attr($aurthor_name) 
                                                          ),
-					'Publisher'			=> array(
+					'publisher'			=> array(
 						'@type'			=> 'Organization',
 						'logo' 			=> array(
 							'@type'		=> 'ImageObject',
@@ -1568,7 +1568,7 @@ Class saswp_output_service{
 						'author'			=> array(
 								'@type' 	=> 'Person',
 								'name'		=> esc_attr($aurthor_name), ),
-						'Publisher'			=> array(
+						'publisher'			=> array(
 							'@type'			=> 'Organization',
 							'logo' 			=> array(
 								'@type'		=> 'ImageObject',
@@ -1699,12 +1699,12 @@ Class saswp_output_service{
                                                                                                 
                         if($logo !='' && $height !='' && $width !=''){
                          
-                        $publisher['Publisher']['@type']         = 'Organization';                        
-                        $publisher['Publisher']['logo']['@type'] = 'ImageObject';
-                        $publisher['Publisher']['logo']['url']   = esc_url($logo);
-                        $publisher['Publisher']['logo']['width'] = esc_attr($width);
-                        $publisher['Publisher']['logo']['height']= esc_attr($height);                        
-                        $publisher['Publisher']['name']          = esc_attr($site_name); 
+                        $publisher['publisher']['@type']         = 'Organization';                        
+                        $publisher['publisher']['logo']['@type'] = 'ImageObject';
+                        $publisher['publisher']['logo']['url']   = esc_url($logo);
+                        $publisher['publisher']['logo']['width'] = esc_attr($width);
+                        $publisher['publisher']['logo']['height']= esc_attr($height);                        
+                        $publisher['publisher']['name']          = esc_attr($site_name); 
                                                 
                         $default_logo['url']    = esc_url($logo);
                         $default_logo['height'] = esc_attr($height);

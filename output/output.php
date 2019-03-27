@@ -341,7 +341,7 @@ function saswp_schema_output() {
                          
                         $input1 = array(
 			'@context'			=> 'http://schema.org',
-			'@type'				=> $schema_type ,
+			'@type'				=> 'BlogPosting' ,
 
 			'mainEntityOfPage'              => get_permalink(),
 			'headline'			=> get_the_title(),
@@ -650,7 +650,7 @@ function saswp_schema_output() {
 						'author'			=> array(
 								'@type' 	=> 'Person',
 								'name'		=> esc_attr($aurthor_name),
-								'Image'		=> array(
+								'image'		=> array(
 									'@type'			=> 'ImageObject',
 									'url'			=> saswp_remove_warnings($author_details, 'url', 'saswp_string'),
 									'height'		=> saswp_remove_warnings($author_details, 'height', 'saswp_string'),
@@ -1026,7 +1026,7 @@ function saswp_schema_output() {
                                     'author'	     => array(
                                                             '@type' 	=> 'Person',
                                                             'name'		=> esc_attr($aurthor_name),
-                                                            'Image'		=> array(
+                                                            'image'		=> array(
                                                                     '@type'			=> 'ImageObject',
                                                                     'url'			=> saswp_remove_warnings($author_details, 'url', 'saswp_string'),
                                                                     'height'                    => saswp_remove_warnings($author_details, 'height', 'saswp_string'),
@@ -1296,7 +1296,7 @@ function saswp_schema_output() {
 						'author'			=> array(
 								'@type' 			=> 'Person',
 								'name'				=> esc_attr($aurthor_name),
-								'Image'				=> array(
+								'image'				=> array(
 								'@type'				=> 'ImageObject',
 								'url'				=> saswp_remove_warnings($author_details, 'url', 'saswp_string'),
 								'height'			=> saswp_remove_warnings($author_details, 'height', 'saswp_string'),
@@ -1722,7 +1722,7 @@ function saswp_post_specific_schema_output() {
 					'@type' 	=> 'Person',
 					'name'		=> saswp_remove_warnings($all_post_meta, 'saswp_blogposting_author_name_'.$schema_id, 'saswp_array')
                                                             ),
-			'Publisher'			=> array(
+			'publisher'			=> array(
 				'@type'			=> 'Organization',
 				'logo' 			=> array(
 					'@type'		=> 'ImageObject',
@@ -1832,7 +1832,7 @@ function saswp_post_specific_schema_output() {
 						'author'			=> array(
 								'@type' 	=> 'Person',
 								'name'		=> saswp_remove_warnings($all_post_meta, 'saswp_webpage_author_name_'.$schema_id, 'saswp_array'), ),
-						'Publisher'			=> array(
+						'publisher'			=> array(
 							'@type'			=> 'Organization',
 							'logo' 			=> array(
 								'@type'		=> 'ImageObject',
@@ -1880,7 +1880,7 @@ function saswp_post_specific_schema_output() {
 							'@type' 	=> 'Person',
 							'name'		=> saswp_remove_warnings($all_post_meta, 'saswp_article_author_name_'.$schema_id, 'saswp_array') 
                                                          ),
-					'Publisher'			=> array(
+					'publisher'			=> array(
 						'@type'			=> 'Organization',
 						'logo' 			=> array(
 							'@type'		=> 'ImageObject',
@@ -1921,7 +1921,7 @@ function saswp_post_specific_schema_output() {
 							'@type' 	=> 'Person',
 							'name'		=> saswp_remove_warnings($all_post_meta, 'saswp_tech_article_author_name_'.$schema_id, 'saswp_array') 
                                                          ),
-					'Publisher'			=> array(
+					'publisher'			=> array(
 						'@type'			=> 'Organization',
 						'logo' 			=> array(
 							'@type'		=> 'ImageObject',
@@ -2036,7 +2036,7 @@ function saswp_post_specific_schema_output() {
 				'mainEntity'                    => array(
 						'@type'				=> 'WebPage',
 						'@id'				=> saswp_remove_warnings($all_post_meta, 'saswp_recipe_main_entity_'.$schema_id, 'saswp_array'),						
-						'Publisher'			=> array(
+						'publisher'			=> array(
 							'@type'			=> 'Organization',
 							'logo' 			=> array(
 								'@type'		=> 'ImageObject',
@@ -2155,7 +2155,7 @@ function saswp_post_specific_schema_output() {
 							'width'				=> saswp_remove_warnings($author_image, 'width', 'saswp_string')
 										),
 							),
-					'Publisher'			=> array(
+					'publisher'			=> array(
 							'@type'				=> 'Organization',
 							'logo' 				=> array(
 							'@type'				=> 'ImageObject',
@@ -2204,7 +2204,7 @@ function saswp_post_specific_schema_output() {
 								'width'				=> saswp_remove_warnings($author_image, 'width', 'saswp_string')
 								),
 							),
-						'Publisher'			=> array(
+						'publisher'			=> array(
 								'@type'				=> 'Organization',
 								'logo' 				=> array(
 								'@type'				=> 'ImageObject',
@@ -2333,12 +2333,12 @@ function saswp_post_specific_schema_output() {
                                 
                                 if($site_name && $logo && $width && $height){
                                     
-                                $input1['Publisher']['@type']           = 'Organization';
-                                $input1['Publisher']['name']            = esc_attr($site_name);
-                                $input1['Publisher']['logo']['@type']   = 'ImageObject';
-                                $input1['Publisher']['logo']['url']     = esc_url($logo);
-                                $input1['Publisher']['logo']['width']   = esc_attr($width);
-                                $input1['Publisher']['logo']['height']  = esc_attr($height);       
+                                $input1['publisher']['@type']           = 'Organization';
+                                $input1['publisher']['name']            = esc_attr($site_name);
+                                $input1['publisher']['logo']['@type']   = 'ImageObject';
+                                $input1['publisher']['logo']['url']     = esc_url($logo);
+                                $input1['publisher']['logo']['width']   = esc_attr($width);
+                                $input1['publisher']['logo']['height']  = esc_attr($height);       
                                     
                                 }
                                                                 
