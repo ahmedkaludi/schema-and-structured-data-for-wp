@@ -2128,7 +2128,7 @@ function saswp_post_specific_schema_output() {
                                       
                                         $reviews = array();
                                       
-                                      foreach ($product_details['product_reviews'] as $review){
+                                         foreach ($product_details['product_reviews'] as $review){
                                           
                                           $reviews[] = array(
                                                                         '@type'	=> 'Review',

@@ -1617,24 +1617,34 @@ Class saswp_output_service{
 	    $image_details   = wp_get_attachment_image_src($image_id, 'full');           
             
             if( is_array($image_details) ){                                
-                                
+                                    
+                                        
+                                        
                                         if(isset($image_details[1]) && ($image_details[1] < 1200) && function_exists('ampforwp_aq_resize')){
                                             
-                                            $width  = 1280;
-                                            $height = 720;
-                                            $resize_image = ampforwp_aq_resize( $image_details[0], $width, $height, true, false, true );
-                                            $image_details[0] = $resize_image[0];
+                                            $width  = array(1280, 640, 300);
+                                            $height = array(720, 480, 300);
                                             
+                                            for($i = 0; $i<3; $i++){
+                                                
+                                                $resize_image = ampforwp_aq_resize( $image_details[0], $width[$i], $height[$i], true, false, true );
+                                                
+                                                $input2['image'][$i]['@type']  = 'ImageObject';
+                                                $input2['image'][$i]['url']    = esc_url($resize_image[0]);
+                                                $input2['image'][$i]['width']  = esc_attr($width[$i]);
+                                                $input2['image'][$i]['height'] = esc_attr($height[$i]);  
+                                                                                                
+                                            }
+                                                                                                                                                                                
                                         }else{
+                                                                                                                                                                                
+                                                $input2['image']['@type']  = 'ImageObject';
+                                                $input2['image']['url']    = esc_url($image_details[0]);
+                                                $input2['image']['width']  = esc_attr($image_details[1]);
+                                                $input2['image']['height'] = esc_attr($image_details[2]);
                                             
-                                            $width  = $image_details[1];
-                                            $height = $image_details[2];
                                         } 
-                                                                                    
-                                        $input2['image']['@type']  = 'ImageObject';
-                                        $input2['image']['url']    = esc_url($image_details[0]);
-                                        $input2['image']['width']  = esc_attr($width);
-                                        $input2['image']['height'] = esc_attr($height);                                        
+                                                                                                                                                                 
                                 
                              }else{
                                         
