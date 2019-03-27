@@ -1650,10 +1650,10 @@ Class saswp_output_service{
                                         
                                         if(isset($sd_data['sd_default_image']['url']) && $sd_data['sd_default_image']['url'] !=''){
                                         
-                                        $input2['image']['@type']  = 'ImageObject';
-                                        $input2['image']['url']    = esc_url($sd_data['sd_default_image']['url']);
-                                        $input2['image']['width']  = esc_attr($sd_data['sd_default_image_width']);
-                                        $input2['image']['height'] = esc_attr($sd_data['sd_default_image_height']);                                                                 
+                                            $input2['image']['@type']  = 'ImageObject';
+                                            $input2['image']['url']    = esc_url($sd_data['sd_default_image']['url']);
+                                            $input2['image']['width']  = esc_attr($sd_data['sd_default_image_width']);
+                                            $input2['image']['height'] = esc_attr($sd_data['sd_default_image_height']);                                                                 
                                             
                                         }
                                         
