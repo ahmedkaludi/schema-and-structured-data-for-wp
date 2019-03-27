@@ -2710,7 +2710,7 @@ function saswp_archive_output(){
         	
 	if(isset($sd_data['saswp_archive_schema']) && $sd_data['saswp_archive_schema'] == 1){
             
-        $schema_type =  $sd_data['saswp_archive_schema_type'];   
+        $schema_type        =  $sd_data['saswp_archive_schema_type'];   
             
         $service_object     = new saswp_output_service();
         $logo               = $service_object->saswp_get_publisher(true);    
@@ -2938,13 +2938,13 @@ function saswp_contact_page_output(){
                         
                         if(!empty($feature_image)){
                             
-                         $input = array_merge($input, $feature_image);   
+                             $input = array_merge($input, $feature_image);   
                          
                         }
                         
                         if(!empty($publisher)){
                             
-                         $input = array_merge($input, $publisher);   
+                            $input = array_merge($input, $publisher);   
                          
                         }
 			return apply_filters('saswp_modify_contact_page_output', $input);

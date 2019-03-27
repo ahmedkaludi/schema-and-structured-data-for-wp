@@ -47,7 +47,7 @@ function saswp_data_generator() {
    
    if(is_singular()){
        
-       $post_specific_enable  = get_option('modify_schema_post_enable_'.$post->ID);
+       $post_specific_enable  = get_option('modify_schema_post_enable_'.esc_attr($post->ID));
        
    }
    
