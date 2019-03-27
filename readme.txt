@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.1
-Stable tag: 1.4
+Stable tag: 1.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -66,7 +66,16 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 == Changelog ==
 
 
-= 1.4 (25 March 2019) =
+= 1.5 (27 March 2019) =
+
+* Bug Fixed: Warning - Missing "review" field in product schema for WooCommerce product page. #179
+* Bug Fixed: Modify schema output with custom filters #178
+* Bug Fixed: https://schema.org/Publisher should be https://schema.org/publisher #175
+* Bug Fixed: In AMP schema markup featured image should be 4x3,16x9,1x1 #173
+* Bug Fixed: Warning - number_format() expects parameter 1 to be float, string given in  #172
+* Bug Fixed: Set-Up wizard is not working when Polylang plugin is activated #170
+
+= 1.4 (26 March 2019) =
 
 * Bug Fixed: Security improvement.
 

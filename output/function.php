@@ -4,8 +4,8 @@ function saswp_remove_amp_default_structure_data($metadata){
 }
 
 add_filter( 'amp_init', 'saswp_structured_data' );
-function saswp_structured_data()
-{		
+function saswp_structured_data(){
+		
 	add_action( 'amp_post_template_head' , 'saswp_data_generator' );	
 	remove_action( 'amp_post_template_head', 'amp_post_template_add_schemaorg_metadata',99,1);
 }
@@ -73,61 +73,61 @@ function saswp_data_generator() {
                         
                         if(!empty($contact_page_output)){
                           
-                        $output .= json_encode($contact_page_output); 
-                        $output .= ",";
-                        $output .= "\n\n";
-                        
+                            $output .= json_encode($contact_page_output); 
+                            $output .= ",";
+                            $output .= "\n\n";                        
                         }			                        
                         if(!empty($about_page_output)){
                         
-                        $output .= json_encode($about_page_output);    
-                        $output .= ",";
-                        $output .= "\n\n";
+                            $output .= json_encode($about_page_output);    
+                            $output .= ",";
+                            $output .= "\n\n";
                         }                        
                         if(!empty($author_output)){
                            
-                        $output .= json_encode($author_output); 
-                        $output .= ",";
-                        $output .= "\n\n";
+                            $output .= json_encode($author_output); 
+                            $output .= ",";
+                            $output .= "\n\n";
                         }                                              
                         if(!empty($archive_output)){
                         
-                        $output .= json_encode($archive_output);   
-                        $output .= ",";
-                        $output .= "\n\n";
+                            $output .= json_encode($archive_output);   
+                            $output .= ",";
+                            $output .= "\n\n";
                         }                        
                         if(!empty($kb_website_output)){
                         
-                        $output .= json_encode($kb_website_output);  
-                        $output .= ",";
-                        $output .= "\n\n";
+                            $output .= json_encode($kb_website_output);  
+                            $output .= ",";
+                            $output .= "\n\n";
                         } 
                         if(!empty($site_navigation)){
                                                                             
-                        $output .= json_encode($site_navigation);   
-                        $output .= ",";
-                        $output .= "\n\n";
-                        
+                            $output .= json_encode($site_navigation);   
+                            $output .= ",";
+                            $output .= "\n\n";                        
                         }
                         if(!empty($schema_breadcrumb_output)){
                         
-                        $output .= json_encode($schema_breadcrumb_output);   
-                        $output .= ",";
-                        $output .= "\n\n";
+                            $output .= json_encode($schema_breadcrumb_output);   
+                            $output .= ",";
+                            $output .= "\n\n";
                         }                        
-                        if(!empty($schema_output)){                            
-                        foreach($schema_output as $schema){
-                        $schema = json_encode($schema);
-                        $output .= $schema; 
-                        $output .= ",";
-                        $output .= "\n\n";   
-                        }                            
+                        if(!empty($schema_output)){ 
+                            
+                            foreach($schema_output as $schema){
+                                
+                                $schema = json_encode($schema);
+                                $output .= $schema; 
+                                $output .= ",";
+                                $output .= "\n\n";   
+                                
+                            }                            
                         }                        
                         if(!empty($kb_schema_output)){
                             
-                        $output .= json_encode($kb_schema_output);
-                        $output .= ",";
-                        
+                            $output .= json_encode($kb_schema_output);
+                            $output .= ",";                        
                         }                       
                         			              		
 	}
