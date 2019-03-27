@@ -2118,7 +2118,36 @@ function saswp_post_specific_schema_output() {
                                         }
                                         if(!empty($extra_theme_review)){
                                            $input1 = array_merge($input1, $extra_theme_review);
-                                        }                                                                   
+                                        }  
+                                        
+                                        $service = new saswp_output_service();
+                                        $product_details = $service->saswp_woocommerce_product_details(get_the_ID());  
+
+
+                                        if(!empty($product_details['product_reviews'])){
+                                      
+                                        $reviews = array();
+                                      
+                                      foreach ($product_details['product_reviews'] as $review){
+                                          
+                                          $reviews[] = array(
+                                                                        '@type'	=> 'Review',
+                                                                        'author'	=> esc_attr($review['author']),
+                                                                        'datePublished'	=> esc_html($review['datePublished']),
+                                                                        'description'	=> $review['description'],  
+                                                                        'reviewRating'  => array(
+                                                                                '@type'	=> 'Rating',
+                                                                                'bestRating'	=> '5',
+                                                                                'ratingValue'	=> esc_attr($review['reviewRating']),
+                                                                                'worstRating'	=> '1',
+                                                                        )  
+                                          );
+                                          
+                                      }
+                                      $input1['review'] =  $reviews;
+                                  }
+                                        
+                                        
 			}
                         
                          if( 'NewsArticle' === $schema_type ){  
