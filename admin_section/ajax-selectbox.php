@@ -273,14 +273,20 @@ function saswp_post_taxonomy_generator(){
     
     $taxonomies = '';  
     $choices    = array();
+    
+    
     $taxonomies = get_taxonomies( array('public' => true), 'objects' );
     
+    if($taxonomies){
+        
       foreach($taxonomies as $taxonomy) {
           
         $choices[ $taxonomy->name ] = $taxonomy->labels->name;
         
       }
-      
+        
+    }
+    
       // unset post_format (why is this a public taxonomy?)
       if( isset($choices['post_format']) ) {
           

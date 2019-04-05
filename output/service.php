@@ -1612,7 +1612,7 @@ Class saswp_output_service{
         public function saswp_get_fetaure_image(){
             
             global $sd_data;
-            $input2 = array();
+            $input2          = array();
             $image_id 	     = get_post_thumbnail_id();
 	    $image_details   = wp_get_attachment_image_src($image_id, 'full');           
             

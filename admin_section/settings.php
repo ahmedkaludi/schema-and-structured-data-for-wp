@@ -31,9 +31,9 @@ function saswp_admin_interface_render(){
 	if ( isset( $_GET['settings-updated'] ) ) {							                                                 
 		settings_errors();               
 	}
-        $is_amp = false;
+            $is_amp = false;
         if ( is_plugin_active('accelerated-mobile-pages/accelerated-moblie-pages.php') || is_plugin_active('amp/amp.php') ) {
-	$is_amp = true;			
+            $is_amp = true;			
         }   
        
         $tab = saswp_get_tab('general', array('general','knowledge','schema', 'tools', 'amp','review','compatibility','support'));            
@@ -275,31 +275,31 @@ function saswp_schema_page_callback(){
          $meta_fields_default = array(	                                		                             
                 array(
 			'label' => 'Default Image',
-			'id' => 'sd_default_image',
-                        'name' => 'sd_data[sd_default_image][url]',
+			'id'    => 'sd_default_image',
+                        'name'  => 'sd_data[sd_default_image][url]',
                         'class' => 'saswp-sd_default_image',
-			'type' => 'media',
+			'type'  => 'media',
 		),
                 array(
 			'label' => 'Default Post Image Width',
-			'id' => 'sd_default_image_width',
-                        'name' => 'sd_data[sd_default_image_width]',
+			'id'    => 'sd_default_image_width',
+                        'name'  => 'sd_data[sd_default_image_width]',
                         'class' => 'regular-text',                        
-			'type' => 'text',
+			'type'  => 'text',
 		),
                 array(
 			'label' => 'Default Post Image Height',
-			'id' => 'sd_default_image_height',
-                        'name' => 'sd_data[sd_default_image_height]',
+			'id'    => 'sd_default_image_height',
+                        'name'  => 'sd_data[sd_default_image_height]',
                         'class' => 'regular-text',                        
-			'type' => 'text',
+			'type'  => 'text',
 		),
                 array(
 			'label' => 'Default Thumbnail for VideoObject',
-			'id' => 'sd_default_video_thumbnail',
-                        'name' => 'sd_data[sd_default_video_thumbnail][url]',
+			'id'    => 'sd_default_video_thumbnail',
+                        'name'  => 'sd_data[sd_default_video_thumbnail][url]',
                         'class' => 'saswp-sd_default_video_thumbnail',
-			'type' => 'media',
+			'type'  => 'media',
 		),                                                   
 	);
          echo '<h2>'.esc_html__('Default Values','schema-and-structured-data-for-wp').'</h2>';
@@ -314,13 +314,13 @@ function saswp_amp_page_callback(){
         $field_objs = new saswp_fields_generator();
         
         $non_amp_enable_field = array(
-			'label' => 'Structured Data for AMP',
-			'id' => 'saswp-for-amp-checkbox',                        
-                        'name' => 'saswp-for-amp-checkbox',
-			'type' => 'checkbox',
-                        'class' => 'checkbox saswp-checkbox',
+			'label'  => 'Structured Data for AMP',
+			'id'     => 'saswp-for-amp-checkbox',                        
+                        'name'   => 'saswp-for-amp-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
                         'hidden' => array(
-                             'id' => 'saswp-for-amp',
+                             'id'   => 'saswp-for-amp',
                              'name' => 'sd_data[saswp-for-amp]',                             
                         )
 		) ;                                        
@@ -340,14 +340,14 @@ function saswp_amp_page_callback(){
         $meta_fields = array(
             $non_amp_enable_field,
 		 array(
-			'label' => 'Structured Data for Non AMP',
-			'id' => 'saswp-for-wordpress-checkbox',
-                        'name' => 'saswp-for-wordpress-checkbox',
-			'type' => 'checkbox',
-                        'class' => 'checkbox saswp-checkbox',
-                        'note'  => '',
+			'label'  => 'Structured Data for Non AMP',
+			'id'     => 'saswp-for-wordpress-checkbox',
+                        'name'   => 'saswp-for-wordpress-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
+                        'note'   => '',
                         'hidden' => array(
-                             'id' => 'saswp-for-wordpress',
+                             'id'   => 'saswp-for-wordpress',
                              'name' => 'sd_data[saswp-for-wordpress]',                             
                         )
 		)                                         
@@ -362,22 +362,22 @@ function saswp_general_page_callback(){
         
         $meta_fields_default = array(	
 		array(
-			'label' => 'Archive',
-			'id' => 'saswp_archive_schema_checkbox', 
-                        'name' => 'saswp_archive_schema_checkbox',
-			'type' => 'checkbox',
-                        'class' => 'checkbox saswp-checkbox',                        
+			'label'  => 'Archive',
+			'id'     => 'saswp_archive_schema_checkbox', 
+                        'name'   => 'saswp_archive_schema_checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',                        
                         'hidden' => array(
-                             'id' => 'saswp_archive_schema',
+                             'id'   => 'saswp_archive_schema',
                              'name' => 'sd_data[saswp_archive_schema]',                             
                         )
 		),
                 array(
-			'label' => 'Schema Type',
-			'id' => 'saswp_archive_schema_type',
-                        'name' => 'sd_data[saswp_archive_schema_type]',
-                        'class' => 'saswp_archive_schema_type_class',
-			'type' => 'select',
+			'label'   => 'Schema Type',
+			'id'      => 'saswp_archive_schema_type',
+                        'name'    => 'sd_data[saswp_archive_schema_type]',
+                        'class'   => 'saswp_archive_schema_type_class',
+			'type'    => 'select',
 			'options' => array(                                
 				     'Article'          => 'Article',                                     
                                      'Blogposting'      => 'Blogposting',                                     
@@ -386,35 +386,35 @@ function saswp_general_page_callback(){
 			)
                    ),
                 array(
-			'label' => 'BreadCrumbs',
-			'id' => 'saswp_breadcrumb_schema_checkbox', 
-                        'name' => 'saswp_breadcrumb_schema_checkbox',
-			'type' => 'checkbox',
-                        'class' => 'checkbox saswp-checkbox',                        
+			'label'  => 'BreadCrumbs',
+			'id'     => 'saswp_breadcrumb_schema_checkbox', 
+                        'name'   => 'saswp_breadcrumb_schema_checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',                        
                         'hidden' => array(
-                             'id' => 'saswp_breadcrumb_schema',
+                             'id'   => 'saswp_breadcrumb_schema',
                              'name' => 'sd_data[saswp_breadcrumb_schema]',                             
                         )
 		),
                 array(
-			'label' => 'Comments',
-			'id' => 'saswp_comments_schema_checkbox', 
-                        'name' => 'saswp_comments_schema_checkbox',
-			'type' => 'checkbox',
-                        'class' => 'checkbox saswp-checkbox',                        
+			'label'  => 'Comments',
+			'id'     => 'saswp_comments_schema_checkbox', 
+                        'name'   => 'saswp_comments_schema_checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',                        
                         'hidden' => array(
-                             'id' => 'saswp_comments_schema',
+                             'id'   => 'saswp_comments_schema',
                              'name' => 'sd_data[saswp_comments_schema]',                             
                         )
 		),
                 array(
-			'label' => 'Site Navigation Menu',
-			'id' => 'saswp_site_navigation_menu_checkbox', 
-                        'name' => 'saswp_site_navigation_menu_checkbox',
-			'type' => 'checkbox',
-                        'class' => 'checkbox saswp-checkbox',                        
+			'label'  => 'Site Navigation Menu',
+			'id'     => 'saswp_site_navigation_menu_checkbox', 
+                        'name'   => 'saswp_site_navigation_menu_checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',                        
                         'hidden' => array(
-                             'id' => 'saswp_site_navigation_menu',
+                             'id'   => 'saswp_site_navigation_menu',
                              'name' => 'sd_data[saswp_site_navigation_menu]',                             
                         )
 		)
@@ -435,12 +435,12 @@ function saswp_general_page_callback(){
                     <label for="sd_about_page-select">
 	<?php        
         echo wp_dropdown_pages( array( 
-			'name' => 'sd_data[sd_about_page]', 
-                        'id' => 'sd_about_page',
-			'echo' => 0, 
-			'show_option_none' => esc_html__( 'Select an item', 'schema-and-structured-data-for-wp' ), 
+			'name'              => 'sd_data[sd_about_page]', 
+                        'id'                => 'sd_about_page',
+			'echo'              => 0, 
+			'show_option_none'  => esc_html__( 'Select an item', 'schema-and-structured-data-for-wp' ), 
 			'option_none_value' => '', 
-			'selected' =>  isset($settings['sd_about_page']) ? $settings['sd_about_page'] : '',
+			'selected'          =>  isset($settings['sd_about_page']) ? $settings['sd_about_page'] : '',
 		)); ?>
 	      </label>  
         </div>
@@ -918,8 +918,6 @@ function saswp_import_callback(){
 <?php
          
 }
-
-
 
 function saswp_review_page_callback(){
         

@@ -100,9 +100,13 @@ function saswp_kb_schema_output() {
 
 		if( '' ==  $telephone_1 && empty($telephone_1) && isset($sd_data['saswp_kb_telephone'])){
 			$telephone_1 = $sd_data['saswp_kb_telephone'];
-		}			 
+		}
                 
-	 	$contact_info = array(
+                $contact_info = array();
+                
+                if($contact_1 && $telephone_1){
+                
+                    $contact_info = array(
                     
 	 		'contactPoint' => array(
                                         '@type'        => 'ContactPoint',
@@ -110,7 +114,10 @@ function saswp_kb_schema_output() {
                                         'telephone'    => esc_attr($telephone_1),
 			)
                     
- 		);
+                    );
+                    
+                }
+	 	
 
 		$input = array(
                         '@context'		=>'http://schema.org',

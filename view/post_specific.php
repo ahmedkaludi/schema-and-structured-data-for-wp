@@ -89,10 +89,10 @@ class saswp_post_specific {
             $this->screen = $show_post_types;
                 
              foreach ( $this->screen as $single_screen ) {
-                 $post_title ='';
-                 if(count($this->all_schema)==1){
-                    $all_schemas = $this->all_schema;
-                    $post_title = '('.$all_schemas[0]->post_title.')';                                      
+                 $post_title = '';
+                 if(count($this->all_schema) == 1){
+                        $all_schemas = $this->all_schema;
+                        $post_title = '('.$all_schemas[0]->post_title.')';                                      
                      }
 			add_meta_box(
 				'post_specific',
@@ -109,13 +109,12 @@ class saswp_post_specific {
         
         public function saswp_post_meta_box_fields($post){    
             
-                $tabs         = '';
-                $tabs_fields  = '';
-                $schema_ids   = array();
-                
-                $schema_enable = get_post_meta($post->ID, 'saswp_enable_disable_schema', true);
-                
-                
+            $tabs         = '';
+            $tabs_fields  = '';
+            $schema_ids   = array();
+
+            $schema_enable = get_post_meta($post->ID, 'saswp_enable_disable_schema', true);
+                                
              if(count($this->all_schema)>1){  
                  
                  foreach($this->all_schema as $key => $schema){
@@ -208,7 +207,7 @@ class saswp_post_specific {
             
 		wp_nonce_field( 'post_specific_data', 'post_specific_nonce' );                                
                 global $post;  
-                $option = get_option('modify_schema_post_enable_'.$post->ID);
+                $option = get_option('modify_schema_post_enable_'.esc_attr($post->ID));
                 
                 if($option == 'enable'){
                     
@@ -325,7 +324,7 @@ class saswp_post_specific {
                         $input      = '';
                         $attributes = '';
                         
-			$label      = '<label for="' . $meta_field['id'] . '">' . esc_html__( $meta_field['label'], 'schema-and-structured-data-for-wp' ). '</label>';
+			$label      = '<label for="' . esc_attr($meta_field['id']) . '">' . esc_html__( $meta_field['label'], 'schema-and-structured-data-for-wp' ). '</label>';
 			$meta_value = get_post_meta( $post->ID, $meta_field['id'], true );
                         
 			if ( empty( $meta_value ) && isset($meta_field['default'])) {
@@ -349,19 +348,21 @@ class saswp_post_specific {
                                         $media_key = $meta_field['id'].'_detail';
                                         
                                         $media_value_meta = get_post_meta( $post->ID, $media_key, true ); 
+                                        
                                         if(!empty($media_value_meta)){
-                                        $media_value =$media_value_meta;  
-                                        }                                        
+                                            $media_value = $media_value_meta;  
+                                        }  
+                                        
                                         if (strpos($meta_field['id'], 'author_image') !== false && empty($media_value_meta)) {                                          
-                                                $media_value['height'] = $author_details['height'];                                                                                         
-                                                $media_value['width'] = $author_details['width'];                                                                                         
+                                                $media_value['height']    = $author_details['height'];                                                                                         
+                                                $media_value['width']     = $author_details['width'];                                                                                         
                                                 $media_value['thumbnail'] = $author_details['url'];                                             
                                         }
                                         if (strpos($meta_field['id'], 'organization_logo') !== false && empty($media_value_meta)) {
                                                                                             
                                                 if(isset($sd_data['sd_logo'])){
-                                                    $media_value['height'] = $sd_data['sd_logo']['height'];                                                                                         
-                                                    $media_value['width'] = $sd_data['sd_logo']['width'];                                                                                         
+                                                    $media_value['height']    = $sd_data['sd_logo']['height'];                                                                                         
+                                                    $media_value['width']     = $sd_data['sd_logo']['width'];                                                                                         
                                                     $media_value['thumbnail'] = $sd_data['sd_logo']['url']; 
                                                 }
                                                                                                                                         
