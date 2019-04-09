@@ -204,8 +204,13 @@ function saswp_schema_output() {
         $all_schema_output = array();
         
         foreach($Conditionals as $schemaConditionals){
-                        
-	$schema_options = saswp_remove_warnings($schemaConditionals, 'schema_options', 'saswp_string');
+        
+        $schema_options = array();    
+            
+        if(isset($schemaConditionals['schema_options'])){
+            $schema_options = $schemaConditionals['schema_options'];
+        }   
+        	        
 	$schema_type    = saswp_remove_warnings($schemaConditionals, 'schema_type', 'saswp_string');         
         $schema_post_id = saswp_remove_warnings($schemaConditionals, 'post_id', 'saswp_string');
            
@@ -713,7 +718,7 @@ function saswp_schema_output() {
                                 $service = new saswp_output_service();
                                 $product_details = $service->saswp_woocommerce_product_details(get_the_ID());  
                                
-                                if((isset($sd_data['saswp-woocommerce']) && $sd_data['saswp-woocommerce'] ==1) && !empty($product_details)){
+                                if((isset($sd_data['saswp-woocommerce']) && $sd_data['saswp-woocommerce'] == 1) && !empty($product_details)){
                                     
                                     $input1 = array(
                                     '@context'			=> 'http://schema.org',
@@ -722,14 +727,14 @@ function saswp_schema_output() {
                                     'name'                              => saswp_remove_warnings($product_details, 'product_name', 'saswp_string'),
                                     'sku'                               => saswp_remove_warnings($product_details, 'product_sku', 'saswp_string'),    
                                     'description'                       => saswp_remove_warnings($product_details, 'product_description', 'saswp_string'),
-                                    'image'                             => saswp_remove_warnings($product_details, 'product_image', 'saswp_string'),    
+                                    'image'                             => isset($product_details['product_image'])? $product_details['product_image']:'',    
                                     'offers'                            => array(
-                                                                            '@type'	=> 'Offer',
-                                                                            'availability'      => saswp_remove_warnings($product_details, 'product_availability', 'saswp_string'),
-                                                                            'price'             => saswp_remove_warnings($product_details, 'product_price', 'saswp_string'),
-                                                                            'priceCurrency'     => saswp_remove_warnings($product_details, 'product_currency', 'saswp_string'),
-                                                                            'url'               => get_permalink(),
-                                                                            'priceValidUntil'   => saswp_remove_warnings($product_details, 'product_priceValidUntil', 'saswp_string'),
+                                                                                '@type'	=> 'Offer',
+                                                                                'availability'      => saswp_remove_warnings($product_details, 'product_availability', 'saswp_string'),
+                                                                                'price'             => saswp_remove_warnings($product_details, 'product_price', 'saswp_string'),
+                                                                                'priceCurrency'     => saswp_remove_warnings($product_details, 'product_currency', 'saswp_string'),
+                                                                                'url'               => get_permalink(),
+                                                                                'priceValidUntil'   => saswp_remove_warnings($product_details, 'product_priceValidUntil', 'saswp_string'),
                                                                              ),
                                         
 				  ); 
@@ -1441,8 +1446,8 @@ function saswp_schema_output() {
                                
                              }                                                                    
                         }
-                
-		if(isset($schema_options['notAccessibleForFree']) == 1){
+               
+		if(isset($schema_options['notAccessibleForFree']) && $schema_options['notAccessibleForFree'] == 1){
 
 			add_filter( 'amp_post_template_data', 'saswp_structure_data_access_scripts');			
                         
@@ -1456,17 +1461,20 @@ function saswp_schema_output() {
 					$paywall_class_name = ".".$paywall_class_name;
                                         
 				}
+                                
 				$paywallData = array("isAccessibleForFree"=> $isAccessibleForFree,
                                                      "hasPart"=>array(
                                                                 "@type"               => "WebPageElement",
                                                                 "isAccessibleForFree" => esc_attr($isAccessibleForFree),
-                                                                "cssSelector"         => esc_attr($paywall_class_name)
+                                                                "cssSelector"         => '.'.esc_attr($paywall_class_name)
                                                               )
                                                           );
                                 
 				$input1 = array_merge($input1,$paywallData);
 			}
-		}  
+		} 
+                
+                $input1 = apply_filters('saswp_modify_woocommerce_membership_schema', $input1);
                 
                 if(!empty($input1)){
                     $all_schema_output[] = $input1;		                    
@@ -2650,6 +2658,8 @@ function saswp_post_specific_schema_output() {
                                
                              }                                                                    
                         }
+                        
+                        $input1 = apply_filters('saswp_modify_woocommerce_membership_schema', $input1);
                         
                 if(!empty($input1)){
                     
