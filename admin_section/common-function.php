@@ -1133,7 +1133,8 @@ function saswp_expanded_allowed_tags() {
                     'readonly'     => array(),
                     'disabled'     => array(),
                     'width'        => array(),  
-                    'data-id'      => array()
+                    'data-id'      => array(),
+                    'checked'      => array()
             );
             $my_allowed['hidden']  = array(                    
                     'id'           => array(),
