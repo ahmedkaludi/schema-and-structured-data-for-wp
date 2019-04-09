@@ -320,9 +320,11 @@ jQuery(document).ready(function($){
                       case 'saswp-woocommerce-checkbox':
                           
                             if ($(this).is(':checked')) {              
-                              $("#saswp-woocommerce").val(1);             
+                              $("#saswp-woocommerce").val(1);
+                              $(".saswp-add-on-plugin").removeClass('saswp_hide');
                             }else{
                               $("#saswp-woocommerce").val(0);           
+                              $(".saswp-add-on-plugin").addClass('saswp_hide');
                             }
                       break;
                       
@@ -380,6 +382,24 @@ jQuery(document).ready(function($){
                             }
                       break;
                       
+                      case 'saswp-the-events-calendar-checkbox':
+                          
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-the-events-calendar").val(1);             
+                            }else{
+                              $("#saswp-the-events-calendar").val(0);           
+                            }
+                      break;
+                      
+                      case 'saswp-woocommerce-booking-checkbox':
+                          
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-woocommerce-booking").val(1);             
+                            }else{
+                              $("#saswp-woocommerce-booking").val(0);           
+                            }
+                      break;
+                      
                       
                       default:
                           break;
@@ -387,7 +407,8 @@ jQuery(document).ready(function($){
                              
          }).change();
         
-         $("#saswp_kb_type").change(function(){
+          $("#saswp_kb_type").change(function(){
+              
           var datatype = $(this).val(); 
           
           $(".saswp_org_fields, .saswp_person_fields").parent().parent().addClass('saswp_hide');
@@ -747,13 +768,13 @@ jQuery(document).ready(function($){
                 
         $(document).on("click","div.saswp-tab ul.saswp-tab-nav a", function(e){
             e.preventDefault();
-            var attr = $(this).attr('data-id');
-            $(".saswp-post-specific-wrapper").hide();            
-            $("#"+attr).show();           
-            $('div.saswp-tab ul.saswp-tab-nav a').removeClass('selected');
-            $('div.saswp-tab ul.saswp-tab-nav li').removeClass('selected');
-            $(this).addClass('selected'); 
-            $(this).parent().addClass('selected'); 
+                var attr = $(this).attr('data-id');
+                $(".saswp-post-specific-wrapper").hide();            
+                $("#"+attr).show();           
+                $('div.saswp-tab ul.saswp-tab-nav a').removeClass('selected');
+                $('div.saswp-tab ul.saswp-tab-nav li').removeClass('selected');
+                $(this).addClass('selected'); 
+                $(this).parent().addClass('selected'); 
             saswp_enable_rating_review();
         });
         

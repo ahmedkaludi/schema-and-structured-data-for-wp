@@ -36,7 +36,7 @@ function saswp_admin_interface_render(){
             $is_amp = true;			
         }   
        
-        $tab = saswp_get_tab('general', array('general','knowledge','schema', 'tools', 'amp','review','compatibility','support'));            
+        $tab = saswp_get_tab('general', array('general','knowledge','schema', 'tools', 'amp','review','compatibility','email_schema','support'));            
 	
 	?>
 <div class="saswp-settings-container">
@@ -60,6 +60,8 @@ function saswp_admin_interface_render(){
                         echo '<a href="' . esc_url(saswp_admin_link('review')) . '" class="nav-tab ' . esc_attr( $tab == 'review' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . esc_html__('Review','schema-and-structured-data-for-wp') . '</a>';
                         
                         echo '<a href="' . esc_url(saswp_admin_link('compatibility')) . '" class="nav-tab ' . esc_attr( $tab == 'compatibility' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . esc_html__('Compatibility','schema-and-structured-data-for-wp') . '</a>';
+                        
+                        echo '<a href="' . esc_url(saswp_admin_link('email_schema')) . '" class="nav-tab ' . esc_attr( $tab == 'email_schema' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . esc_html__('Email Schema','schema-and-structured-data-for-wp') . '</a>';
                         
                         echo '<a href="' . esc_url(saswp_admin_link('support')) . '" class="nav-tab ' . esc_attr( $tab == 'support' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . esc_html__('Support','schema-and-structured-data-for-wp') . '</a>';
 			?>
@@ -101,6 +103,11 @@ function saswp_admin_interface_render(){
                         echo "<div class='saswp-compatibility' ".( $tab != 'compatibility' ? 'style="display:none;"' : '').">";
 			     // Status
 			        do_settings_sections( 'saswp_compatibility_section' );	// Page slug
+			echo "</div>";
+                        
+                        echo "<div class='saswp-email_schema' ".( $tab != 'email_schema' ? 'style="display:none;"' : '').">";
+			     // Status
+			        do_settings_sections( 'saswp_email_schema_section' );	// Page slug
 			echo "</div>";
                         
                         echo "<div class='saswp-support' ".( $tab != 'support' ? 'style="display:none;"' : '').">";
@@ -215,6 +222,16 @@ function saswp_settings_init(){
 			'saswp_compatibility_page_callback',								// CB
 			'saswp_compatibility_section',						// Page slug
 			'saswp_compatibility_section'						// Settings Section ID
+		);
+                
+                add_settings_section('saswp_email_schema_section', __return_false(), '__return_false', 'saswp_email_schema_section');
+
+                add_settings_field(
+			'saswp_email_schema_settings',								// ID
+			'',		// Title
+			'saswp_email_schema_callback',								// CB
+			'saswp_email_schema_section',						// Page slug
+			'saswp_email_schema_section'						// Settings Section ID
 		);
                 
                 
@@ -940,6 +957,54 @@ function saswp_review_page_callback(){
         $field_objs->saswp_field_generator($meta_fields, $settings);    
        
 }
+
+function saswp_email_schema_callback(){
+        
+        $settings = saswp_defaultSettings();  
+                                        
+        $woocommerce = array(
+			'label'  => 'Woocommerce Booking',
+			'id'     => 'saswp-woocommerce-booking-checkbox',                        
+                        'name'   => 'saswp-woocommerce-booking-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
+                        'hidden' => array(
+                                'id'   => 'saswp-woocommerce-booking',
+                                'name' => 'sd_data[saswp-woocommerce-booking]',                             
+                        )
+		);
+        
+        if(!is_plugin_active('woocommerce/woocommerce.php') || !is_plugin_active('woocommerce-bookings/woocommerce-bookings.php')){
+         
+             $woocommerce['attributes'] = array(
+                 'disabled' => 'disabled'
+             );
+             $woocommerce['note'] = esc_html__('Plugin is not activated','schema-and-structured-data-for-wp');
+             
+             $settings['saswp-woocommerce-booking'] = 0;
+            
+        }
+        
+        if(!is_plugin_active('schema-and-structured-data-for-wp-pro/schema-and-structured-data-for-wp-pro.php')){
+         
+             $woocommerce['attributes'] = array(
+                 'disabled' => 'disabled'
+             );
+             $woocommerce['note'] = esc_html__('This feature is available in pro version','schema-and-structured-data-for-wp');
+             
+             $settings['saswp-woocommerce-booking'] = 0;
+            
+        }
+                   
+        $field_objs = new saswp_fields_generator();
+        $meta_fields = array(				               
+                $woocommerce,                                              
+	);       
+        
+        $field_objs->saswp_field_generator($meta_fields, $settings);
+                        
+}
+
 function saswp_compatibility_page_callback(){
         
         $settings = saswp_defaultSettings();  
