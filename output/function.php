@@ -18,8 +18,7 @@ add_action('wp_head', 'saswp_data_generator');
  * @global type json array
  */
 function saswp_data_generator() {
-    
-    
+        
    global $sd_data;
    global $post;
    
@@ -197,7 +196,7 @@ function saswp_paywall_data_for_login($content){
                     			
 			$redirect       =  home_url( $wp->request );
 			$breakedContent = explode("<!--more-->", $content);
-			$content        = $breakedContent[0].'<div class="'.esc_attr($className).'">'.esc_attr($breakedContent[1]).'</div>';
+			$content        = $breakedContent[0].'<div class="'.esc_attr($className).'">'.$breakedContent[1].'</div>';
                         
 		}
                 
