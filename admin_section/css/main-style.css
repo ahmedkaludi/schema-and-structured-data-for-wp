@@ -569,3 +569,30 @@ On/Off Buttons ends here
 .saswp-custom-fields-table select{
     width: 100%;
 }
+
+/*
+Compatibility tab css starts here
+*/
+.saswp-email_schema table th{    
+    width: auto;
+    padding: 0px;
+}
+.saswp-email_schema .saswp-knowledge-label {
+    float: left;
+    clear: both;
+}
+.saswp-email_schema .saswp-knowledge-field {
+    float: right;
+    width: 75%;
+    padding-bottom: 10px;
+}
+/*
+Compatibility tab css ends
+*/
+.saswp-add-on-plugin label{
+    margin-top: 10px; 
+}
+.saswp-add-on-plugin span{
+    width: 250px;
+    display: inline-block;
+}
