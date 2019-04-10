@@ -536,7 +536,7 @@ function saswp_knowledge_page_callback(){
 			)
                    ),
                 array(
-			'label' => 'Name',
+			'label' => 'Organization Name',
 			'id'    => 'sd_name',
                         'name'  => 'sd_data[sd_name]',
                         'class' => 'regular-text saswp_org_fields',                        
@@ -544,19 +544,12 @@ function saswp_knowledge_page_callback(){
 		),
                                
                 array(
-			'label' => 'Url',
+			'label' => 'Organization URL',
 			'id'    => 'sd_url',
                         'name'  => 'sd_data[sd_url]',
                         'class' => 'regular-text saswp_org_fields',                        
 			'type'  => 'text',
-		),                
-                array(
-			'label' => 'Telephone Number',
-			'id'    => 'saswp_kb_telephone',
-                        'name'  => 'sd_data[saswp_kb_telephone]',
-                        'class' => 'regular-text saswp_org_fields',                        
-			'type'  => 'text',
-		),
+		), 
                 array(
 			'label' => 'Contact Type',
 			'id'    => 'saswp_contact_type',
@@ -578,7 +571,21 @@ function saswp_knowledge_page_callback(){
                                 'package tracking'    => 'Package Tracking',
 			)
                    ),
-                   
+                    array(
+                            'label' => 'Contact Number',
+                            'id'    => 'saswp_kb_telephone',
+                            'name'  => 'sd_data[saswp_kb_telephone]',
+                            'class' => 'regular-text saswp_org_fields',                        
+                            'type'  => 'text',
+                    ),
+                    array(
+                            'label' => 'Contact URL',
+                            'id'    => 'saswp_kb_contact_url',
+                            'name'  => 'sd_data[saswp_kb_contact_url]',
+                            'class' => 'regular-text saswp_org_fields',                        
+                            'type'  => 'text',
+                    ),
+                                   
                    array(
 			'label' => 'Name',
 			'id'    => 'sd-person-name',

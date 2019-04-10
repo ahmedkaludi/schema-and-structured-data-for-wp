@@ -86,20 +86,15 @@ function saswp_kb_schema_output() {
                 
                 }
                                 		
-		$contact_1   = saswp_remove_warnings($sd_data, 'saswp_contact_type', 'saswp_string');
-		$telephone_1 = saswp_remove_warnings($sd_data, 'saswp_kb_telephone', 'saswp_string');
-                                		
-		if( '' ==  $contact_1 && empty($contact_1) && isset($sd_data['saswp_contact_type'])){
-			$contact_1 = $sd_data['saswp_contact_type'];
-		}
-
-		if( '' ==  $telephone_1 && empty($telephone_1) && isset($sd_data['saswp_kb_telephone'])){
-			$telephone_1 = $sd_data['saswp_kb_telephone'];
-		}
-                
                 $contact_info = array();
                 
-                if($contact_1 && $telephone_1){
+                
+		$contact_1   = saswp_remove_warnings($sd_data, 'saswp_contact_type', 'saswp_string');
+		$telephone_1 = saswp_remove_warnings($sd_data, 'saswp_kb_telephone', 'saswp_string');
+                $contact_url = saswp_remove_warnings($sd_data, 'saswp_kb_contact_url', 'saswp_string');
+                                		
+		
+                if($contact_1 && ($telephone_1 || $contact_url)){
                 
                     $contact_info = array(
                     
@@ -107,6 +102,7 @@ function saswp_kb_schema_output() {
                                         '@type'        => 'ContactPoint',
                                         'contactType'  => esc_attr($contact_1),
                                         'telephone'    => esc_attr($telephone_1),
+                                        'url'          => esc_attr($contact_url),
 			)
                     
                     );

@@ -862,6 +862,7 @@ Class saswp_output_service{
                          
              $date_on_sale                           = $product->get_date_on_sale_to();                            
              $product_details['product_name']        = $product->get_title();
+             
              $product_details['product_description'] = $product->get_short_description();
              
              if(!empty($image_details)){
