@@ -37,11 +37,10 @@ function saswp_data_generator() {
    
    $schema_breadcrumb_output = saswp_schema_breadcrumb_output();  
    
-   if(saswp_remove_warnings($sd_data, 'saswp-yoast', 'saswp_string') != 1 && (is_plugin_active('wordpress-seo/wp-seo.php') || is_plugin_active('wordpress-seo-premium/wp-seo-premium.php'))){
-       
+   if(saswp_remove_warnings($sd_data, 'saswp-yoast', 'saswp_string') == 1 && (is_plugin_active('wordpress-seo/wp-seo.php') || is_plugin_active('wordpress-seo-premium/wp-seo-premium.php'))){                                             
+   }else{
        $kb_website_output        = saswp_kb_website_output();      
-       $kb_schema_output         = saswp_kb_schema_output();          
-                     
+       $kb_schema_output         = saswp_kb_schema_output();
    }         
    
    if(is_singular()){

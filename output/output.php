@@ -14,53 +14,48 @@ function saswp_kb_schema_output() {
 
 	$sd_facebook = array();
         
-	if(isset($sd_data['sd_facebook']) && !empty($sd_data['sd_facebook'])){
+	if(isset($sd_data['sd_facebook']) && !empty($sd_data['sd_facebook']) && isset($sd_data['saswp-facebook-enable']) &&  $sd_data['saswp-facebook-enable'] ==1){
 		$sd_facebook[] = $sd_data['sd_facebook'];
 		$sd_social_profile[] = $sd_facebook;
 	}
 	$sd_twitter = array();
-	if(isset($sd_data['sd_twitter']) && !empty($sd_data['sd_twitter'])){
+	if(isset($sd_data['sd_twitter']) && !empty($sd_data['sd_twitter']) && isset($sd_data['saswp-twitter-enable']) &&  $sd_data['saswp-twitter-enable'] ==1 ){
 		$sd_twitter[] = $sd_data['sd_twitter'];
 		$sd_social_profile[] = $sd_twitter;
 	}
-
-	$sd_google_plus = array();
-	if(isset($sd_data['sd_google_plus']) && !empty($sd_data['sd_google_plus'])){
-		$sd_google_plus[] = $sd_data['sd_google_plus'];	
-		$sd_social_profile[] = $sd_google_plus;
-	}
+	
 	$sd_instagram = array();
-	if(isset($sd_data['sd_instagram']) && !empty($sd_data['sd_instagram'])){
+	if(isset($sd_data['sd_instagram']) && !empty($sd_data['sd_instagram']) && isset($sd_data['saswp-instagram-enable']) &&  $sd_data['saswp-instagram-enable'] ==1 ){
 		$sd_instagram[] = $sd_data['sd_instagram'];
 		$sd_social_profile[] = $sd_instagram;
         }
 
 	$sd_youtube = array();
-	if(isset($sd_data['sd_youtube']) && !empty($sd_data['sd_youtube'])){
+	if(isset($sd_data['sd_youtube']) && !empty($sd_data['sd_youtube']) && isset($sd_data['saswp-youtube-enable']) &&  $sd_data['saswp-youtube-enable'] ==1){
 		$sd_youtube[] = $sd_data['sd_youtube'];
 		$sd_social_profile[] = $sd_youtube;
 	}
 
 	$sd_linkedin = array();
-	if(isset($sd_data['sd_linkedin']) && !empty($sd_data['sd_linkedin'])){
+	if(isset($sd_data['sd_linkedin']) && !empty($sd_data['sd_linkedin']) && isset($sd_data['saswp-linkedin-enable']) &&  $sd_data['saswp-linkedin-enable'] ==1 ){
 		$sd_linkedin[] = $sd_data['sd_linkedin'];
 		$sd_social_profile[] = $sd_linkedin;
 	}
 
 	$sd_pinterest = array();
-	if(isset($sd_data['sd_pinterest']) && !empty($sd_data['sd_pinterest'])){
+	if(isset($sd_data['sd_pinterest']) && !empty($sd_data['sd_pinterest']) && isset($sd_data['saswp-pinterest-enable']) &&  $sd_data['saswp-pinterest-enable'] ==1){
 		$sd_pinterest[] = $sd_data['sd_pinterest'];
 		$sd_social_profile[] = $sd_pinterest;
 	}
 
 	$sd_soundcloud = array();
-	if(isset($sd_data['sd_soundcloud']) && !empty($sd_data['sd_soundcloud'])){
+	if(isset($sd_data['sd_soundcloud']) && !empty($sd_data['sd_soundcloud']) && isset($sd_data['saswp-soundcloud-enable']) &&  $sd_data['saswp-soundcloud-enable'] ==1){
 		$sd_soundcloud[] = $sd_data['sd_soundcloud'];
 		$sd_social_profile[] = $sd_soundcloud;
 	}
 
 	$sd_tumblr = array();
-	if(isset($sd_data['sd_tumblr']) && !empty($sd_data['sd_tumblr'])){
+	if(isset($sd_data['sd_tumblr']) && !empty($sd_data['sd_tumblr']) && isset($sd_data['saswp-tumblr-enable']) &&  $sd_data['saswp-tumblr-enable'] ==1){
 		$sd_tumblr[] = $sd_data['sd_tumblr'];
 		$sd_social_profile[] = $sd_tumblr;
 	}

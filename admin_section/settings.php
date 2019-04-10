@@ -679,28 +679,7 @@ function saswp_knowledge_page_callback(){
                         'attributes' => array(
                             'placeholder' => 'https://'
                         )
-		    ),
-              array(
-			'label'  => 'Google+',
-			'id'     => 'saswp-google-plus-enable-checkbox', 
-                        'name'   => 'saswp-google-plus-enable-checkbox',
-			'type'   => 'checkbox',
-                        'class'  => 'checkbox saswp-checkbox', 
-                        'hidden' => array(
-                             'id'   => 'saswp-google-plus-enable',
-                             'name' => 'sd_data[saswp-google-plus-enable]',                             
-                        )
-		),
-                array(
-			'label'      => '',
-			'id'         => 'sd_google_plus',
-                        'name'       => 'sd_data[sd_google_plus]',
-                        'class'      => 'regular-text',                        
-			'type'       => 'text',
-                        'attributes' => array(
-                            'placeholder' => 'https://'
-                        )
-		    ),
+		    ),              
                 array(
 			'label'  => 'Instagram',
 			'id'     => 'saswp-instagram-enable-checkbox', 
