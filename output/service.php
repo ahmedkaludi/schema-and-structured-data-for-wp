@@ -638,7 +638,11 @@ Class saswp_output_service{
                     }
                     if(isset($custom_fields['saswp_review_schema_telephone'])){
                      $input1['itemReviewed']['telephone'] =    $custom_fields['saswp_review_schema_telephone'];
-                    }                    
+                    }
+                    if(isset($custom_fields['saswp_review_author_name'])){
+                     $input1['author']['name'] =    $custom_fields['saswp_review_author_name'];
+                    }
+                    
                     break;
                 
                 case 'VideoObject':
@@ -1324,7 +1328,8 @@ Class saswp_output_service{
                         'saswp_review_schema_region'            => 'Address Region',
                         'saswp_review_schema_postal_code'       => 'Postal Code',
                         'saswp_review_schema_country'           => 'Address Country',
-                        'saswp_review_schema_telephone'         => 'Telephone',                        
+                        'saswp_review_schema_telephone'         => 'Telephone',
+                        'saswp_review_author_name'             => 'Author Name',
                     );
                     break;
                 
