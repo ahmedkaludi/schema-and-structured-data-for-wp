@@ -125,8 +125,24 @@ jQuery(document).ready(function($){
         
     //Settings page jquery starts here    
  
+    
+     
     $(".saswp-checkbox").change(function(){
-          var id = $(this).attr("id");            
+        
+                        var id = $(this).attr("id");
+                        var plugin_name =  id.replace('-checkbox','');
+                        var text = $("#"+plugin_name).next('p').text(); 
+                        
+                        if ($(this).is(':checked') && text !=='') {              
+                              $("#"+plugin_name).next('p').removeClass('saswp_hide');                   
+                        }else{
+                            
+                            if($("#"+plugin_name).next('p').attr('data-id') == 1){
+                                $("#"+plugin_name).next('p').text('This feature is only available in pro version');
+                            }else{
+                                $("#"+plugin_name).next('p').addClass('saswp_hide');
+                            }                                                        
+                        }                                                                                  
                   switch(id){
                       case 'saswp-for-wordpress-checkbox':  
                           
@@ -291,12 +307,12 @@ jQuery(document).ready(function($){
                             }
                       break;
                       
-                      case 'saswp_compativility_checkbox':
+                      case 'saswp-compativility-checkbox':
                           
                             if ($(this).is(':checked')) {              
-                              $("#saswp_compativility").val(1);             
+                              $("#saswp-flexmlx-compativility").val(1);             
                             }else{
-                              $("#saswp_compativility").val(0);           
+                              $("#saswp-flexmlx-compativility").val(0);           
                             }
                       break;
                       
@@ -320,11 +336,9 @@ jQuery(document).ready(function($){
                       case 'saswp-woocommerce-checkbox':
                           
                             if ($(this).is(':checked')) {              
-                              $("#saswp-woocommerce").val(1);
-                              $(".saswp-add-on-plugin").removeClass('saswp_hide');
+                              $("#saswp-woocommerce").val(1);                              
                             }else{
-                              $("#saswp-woocommerce").val(0);           
-                              $(".saswp-add-on-plugin").addClass('saswp_hide');
+                              $("#saswp-woocommerce").val(0);                                         
                             }
                       break;
                       
@@ -394,9 +408,31 @@ jQuery(document).ready(function($){
                       case 'saswp-woocommerce-booking-checkbox':
                           
                             if ($(this).is(':checked')) {              
-                              $("#saswp-woocommerce-booking").val(1);             
+                              $("#saswp-woocommerce-booking").val(1);  
+                              $("#saswp-woocommerce-booking-main").val(1); 
                             }else{
-                              $("#saswp-woocommerce-booking").val(0);           
+                              $("#saswp-woocommerce-booking").val(0); 
+                              $("#saswp-woocommerce-booking-main").val(0); 
+                            }
+                      break;
+                      
+                      case 'saswp-woocommerce-booking-main-checkbox':
+                          
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-woocommerce-booking-main").val(1);  
+                              $("#saswp-woocommerce-booking").val(1); 
+                            }else{
+                              $("#saswp-woocommerce-booking-main").val(0);  
+                              $("#saswp-woocommerce-booking").val(0);
+                            }
+                      break;
+                      
+                      case 'saswp-woocommerce-membership-checkbox':
+                          
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-woocommerce-membership").val(1);             
+                            }else{
+                              $("#saswp-woocommerce-membership").val(0);           
                             }
                       break;
                       

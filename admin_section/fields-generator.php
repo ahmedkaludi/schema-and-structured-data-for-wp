@@ -31,7 +31,8 @@ class saswp_fields_generator {
                         $tooltip_message = $this->saswp_tooltip_message($meta_field['id']);
                         
                         $class      = "";
-                        $note       = "";                                                
+                        $note       = "";  
+                        $proversion = false;
                         $hidden     = array();
                         $attribute  = array();
                         
@@ -39,6 +40,12 @@ class saswp_fields_generator {
                             
                             $class = $meta_field['class'];    
                             
+                        }
+                        if(array_key_exists('proversion', $meta_field)){
+                            
+                            $proversion = $meta_field['proversion'];  
+                            
+                        
                         }
                         if(array_key_exists('note', $meta_field)){
                             
@@ -132,17 +139,7 @@ class saswp_fields_generator {
                                           
                                          }   
                                         $message =''; 
-                                        
-                                        if (! is_plugin_active('flexmls-idx/flexmls_connect.php')) {
-                                            
-                                            if($meta_field['id'] =='saswp_compativility_checkbox'){
-
-                                            $note = esc_html__('Plugin is not activated','schema-and-structured-data-for-wp'); 
-                                        
-                                        } 
-                                        
-                                        }
-                                                                                                                         
+                                                                                                                                                                                                         
 					$input = sprintf(
 						'<input class="%s" id="%s" name="%s" type="checkbox" %s %s><p>'.$message.'</p>',
                                                 esc_attr($class),
@@ -200,61 +197,12 @@ class saswp_fields_generator {
                         
                         $allowed_html = saswp_expanded_allowed_tags();
                         
-                        if($meta_field['id'] == 'saswp-woocommerce-checkbox'){
-                            
-                            $bokchecked = $memchecked = $woobok_disable = $woomem_disable = '';
-                            
-                            $pro_note = '';
-                            
-                            if (!is_plugin_active('woocommerce-bookings/woocommerce-bookings.php')) {
-                                            
-                                 $woobok_disable ='disabled="disabled"';         
-                                        
-                            }
-                            
-                            if (!is_plugin_active('woocommerce-memberships/woocommerce-memberships.php')) {
-                                            
-                                 $woomem_disable ='disabled="disabled"';         
-                                        
-                            }
-                            
-                            
-                            if($settings['saswp-woocommerce-booking'] == 1){
-                                $bokchecked = 'checked'; 
-                                
-                            }
-                            
-                            if(isset($settings['saswp-woocommerce-membership'])){
-                                $memchecked = 'checked'; 
-                                
-                            }
-                            
-                            if(!isset($settings['saswp-woocommerce']) || $settings['saswp-woocommerce'] == 0){
-                                $disable = 'disabled="disabled"'; 
-                                
-                            }
-                            
-                            if (!is_plugin_active('schema-and-structured-data-for-wp-pro/schema-and-structured-data-for-wp-pro.php')) {
-                                            
-                                 $pro_note = 'This feature is available in pro version';
-                                 $woobok_disable ='disabled="disabled"';
-                                 $woomem_disable ='disabled="disabled"';
-                                 $bokchecked = $memchecked = '';      
-                            }
-                            
-                            $output .= '<li><div class="saswp-knowledge-label">'.$label.'</div><div class="saswp-knowledge-field">'                                      
-                                        .$input
-                                        .'<div class="saswp-add-on-plugin">' 
-                                        .'<label><span>WooCommerce Booking</span> <input class="checkbox saswp-checkbox" type="checkbox" name="sd_data[saswp-woocommerce-booking]" id="saswp-woocommerce-booking-checkbox" value="1" '.$bokchecked.' '.$woobok_disable.'></label><p>'.esc_html__($pro_note, 'schema-and-structured-data-for-wp').'</p>'
-                                        .'<label><span>WooCommerce Membership</span> <input type="checkbox" name="sd_data[saswp-woocommerce-membership]" id="saswp-woocommerce-membership" value="1" '.$memchecked.' '.$woomem_disable.'></label><p>'.esc_html__($pro_note, 'schema-and-structured-data-for-wp').'</p>'.  
-                                         '</div>'.  
-                                        '<p>'.esc_html__($note,'schema-and-structured-data-for-wp').'</p></div></li>';
-                            
+                        if($note =='' || $proversion == 1){                            
+                            $output .= '<li><div class="saswp-knowledge-label">'.$label.'</div><div class="saswp-knowledge-field">'.$input.'<p data-id="'.esc_attr($proversion).'">'.esc_html__($note,'schema-and-structured-data-for-wp').'</p></div></li>';			
                         }else{
-                         
-                            $output .= '<li><div class="saswp-knowledge-label">'.$label.'</div><div class="saswp-knowledge-field">'.$input.'<p>'.esc_html__($note,'schema-and-structured-data-for-wp').'</p></div></li>';
-                            
-                        }			
+                            $output .= '<li><div class="saswp-knowledge-label">'.$label.'</div><div class="saswp-knowledge-field">'.$input.'<p class="saswp_hide">'.esc_html__($note,'schema-and-structured-data-for-wp').'</p></div></li>';			
+                        }
+                                                
 		}
 		echo '<div><div class="saswp-settings-list"><ul>' . wp_kses($output, $allowed_html) . '</ul></div></div>';
 	}	        

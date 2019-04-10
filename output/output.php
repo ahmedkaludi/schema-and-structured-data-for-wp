@@ -1019,7 +1019,7 @@ function saswp_schema_output() {
                         if( 'Review' === $schema_type ){  
                                  
                         
-                         if(isset($sd_data['saswp-tagyeem']) && $sd_data['saswp-tagyeem'] == 1 ){                                                                                                      
+                         if(isset($sd_data['saswp-tagyeem']) && $sd_data['saswp-tagyeem'] == 1 && (is_plugin_active('taqyeem/taqyeem.php') || get_template() != 'jannah') ){                                                                                                      
                            
                              remove_action( 'TieLabs/after_post_entry',  'tie_article_schemas' );
                              
@@ -2340,7 +2340,7 @@ function saswp_post_specific_schema_output() {
                          
                          if( 'Review' === $schema_type ){   
                              
-                                 if(isset($sd_data['saswp-tagyeem']) && $sd_data['saswp-tagyeem'] == 1 ){
+                                 if(isset($sd_data['saswp-tagyeem']) && $sd_data['saswp-tagyeem'] == 1 && (is_plugin_active('taqyeem/taqyeem.php') || get_template() != 'jannah')){
                                      
                                      remove_action( 'TieLabs/after_post_entry',  'tie_article_schemas' );
                                      

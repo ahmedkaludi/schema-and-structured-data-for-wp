@@ -995,7 +995,7 @@ Class saswp_output_service{
                 
                 $post_type = get_post_type($post_id);
                 
-                if($post_type =='dwqa-question' && isset($sd_data['saswp-dw-question-answer']) && $sd_data['saswp-dw-question-answer'] ==1 ){
+                if($post_type =='dwqa-question' && isset($sd_data['saswp-dw-question-answer']) && $sd_data['saswp-dw-question-answer'] ==1 && is_plugin_active('dw-question-answer/dw-question-answer.php')){
                  
                 $post_meta      = get_post_meta($post_id, $key='', true);
                 

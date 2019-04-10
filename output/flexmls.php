@@ -226,7 +226,7 @@ class saswp_flexmls_list extends flexmlsConnectPageCore{
           $sellertelephone   = '';
           $sellerpricerange  = '';                   
           
-          if(isset($sd_data['saswp_compativility']) &&  $sd_data['saswp_compativility'] == 1){
+          if(isset($sd_data['saswp-flexmlx-compativility']) &&  $sd_data['saswp-flexmlx-compativility'] == 1 && is_plugin_active('flexmls-idx/flexmls_connect.php')){
            
               if(isset($sd_data['sd-seller-name'])){
                 $sellername  =$sd_data['sd-seller-name'];
