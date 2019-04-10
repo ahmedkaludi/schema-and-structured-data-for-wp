@@ -130,17 +130,24 @@ function saswp_data_generator() {
                         			              		
 	}
         
-        $stroutput = '['. trim($output). ']';
-        $filter_string = str_replace(',]', ']',$stroutput);
         
-        echo '<!-- Schema & Structured Data For WP v'.esc_attr(SASWP_VERSION).' - -->';
-	echo "\n";
-        echo '<script type="application/ld+json">'; 
-        echo "\n";       
-	echo $filter_string;       
-        echo "\n";
-        echo '</script>';
-        echo "\n\n";
+        
+        if($output){
+            
+            $stroutput = '['. trim($output). ']';
+            $filter_string = str_replace(',]', ']',$stroutput);
+            
+            echo '<!-- Schema & Structured Data For WP v'.esc_attr(SASWP_VERSION).' - -->';
+            echo "\n";
+            echo '<script type="application/ld+json">'; 
+            echo "\n";       
+            echo $filter_string;       
+            echo "\n";
+            echo '</script>';
+            echo "\n\n";
+        }
+        
+        
 }
 
 add_filter('the_content', 'saswp_paywall_data_for_login');
