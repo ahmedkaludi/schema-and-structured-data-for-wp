@@ -1287,7 +1287,11 @@ function saswp_schema_output() {
 			if( 'VideoObject' === $schema_type){
                             
 				if(empty($image_details[0]) || $image_details[0] === NULL ){
-					$image_details[0] = $sd_data['sd_logo']['url'];
+                                    
+                                        if(isset($sd_data['sd_logo'])){
+                                            $image_details[0] = $sd_data['sd_logo']['url'];
+                                        }
+                                    					
 				}												
 					
 						$input1 = array(
@@ -1300,7 +1304,7 @@ function saswp_schema_output() {
 						'description'                   => strip_tags(get_the_excerpt()),
 						'name'				=> get_the_title(),
 						'uploadDate'                    => esc_html($date),
-						'thumbnailUrl'                  => esc_url($image_details[0]),
+						'thumbnailUrl'                  => isset($image_details[0]) ? esc_url($image_details[0]):'',
 						'mainEntity'                    => array(
 								'@type'				=> 'WebPage',
 								'@id'				=> get_permalink(),

@@ -1699,9 +1699,9 @@ Class saswp_output_service{
                             
                             if(isset($custom_logo)){
                                 
-                                $logo           = $custom_logo[0];
-                                $height         = $custom_logo[1];
-                                $width          = $custom_logo[2];
+                                $logo           = array_key_exists(0, $custom_logo)? $custom_logo[0]:'';
+                                $height         = array_key_exists(1, $custom_logo)? $custom_logo[1]:'';
+                                $width          = array_key_exists(2, $custom_logo)? $custom_logo[2]:'';
                             
                             }
                                                         
