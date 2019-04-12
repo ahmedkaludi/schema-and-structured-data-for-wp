@@ -31,12 +31,12 @@ function saswp_admin_interface_render(){
 	if ( isset( $_GET['settings-updated'] ) ) {							                                                 
 		settings_errors();               
 	}
-        $is_amp = false;
+            $is_amp = false;
         if ( is_plugin_active('accelerated-mobile-pages/accelerated-moblie-pages.php') || is_plugin_active('amp/amp.php') ) {
-	$is_amp = true;			
+            $is_amp = true;			
         }   
        
-        $tab = saswp_get_tab('general', array('general','knowledge','schema', 'tools', 'amp','review','compatibility','support'));            
+        $tab = saswp_get_tab('general', array('general','knowledge','schema', 'tools', 'amp','review','compatibility','email_schema','support'));            
 	
 	?>
 <div class="saswp-settings-container">
@@ -60,6 +60,8 @@ function saswp_admin_interface_render(){
                         echo '<a href="' . esc_url(saswp_admin_link('review')) . '" class="nav-tab ' . esc_attr( $tab == 'review' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . esc_html__('Review','schema-and-structured-data-for-wp') . '</a>';
                         
                         echo '<a href="' . esc_url(saswp_admin_link('compatibility')) . '" class="nav-tab ' . esc_attr( $tab == 'compatibility' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . esc_html__('Compatibility','schema-and-structured-data-for-wp') . '</a>';
+                        
+                        //echo '<a href="' . esc_url(saswp_admin_link('email_schema')) . '" class="nav-tab ' . esc_attr( $tab == 'email_schema' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . esc_html__('Email Schema','schema-and-structured-data-for-wp') . '</a>';
                         
                         echo '<a href="' . esc_url(saswp_admin_link('support')) . '" class="nav-tab ' . esc_attr( $tab == 'support' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . esc_html__('Support','schema-and-structured-data-for-wp') . '</a>';
 			?>
@@ -101,6 +103,11 @@ function saswp_admin_interface_render(){
                         echo "<div class='saswp-compatibility' ".( $tab != 'compatibility' ? 'style="display:none;"' : '').">";
 			     // Status
 			        do_settings_sections( 'saswp_compatibility_section' );	// Page slug
+			echo "</div>";
+                        
+                        echo "<div class='saswp-email_schema' ".( $tab != 'email_schema' ? 'style="display:none;"' : '').">";
+			     // Status
+			        do_settings_sections( 'saswp_email_schema_section' );	// Page slug
 			echo "</div>";
                         
                         echo "<div class='saswp-support' ".( $tab != 'support' ? 'style="display:none;"' : '').">";
@@ -217,6 +224,16 @@ function saswp_settings_init(){
 			'saswp_compatibility_section'						// Settings Section ID
 		);
                 
+                add_settings_section('saswp_email_schema_section', __return_false(), '__return_false', 'saswp_email_schema_section');
+
+                add_settings_field(
+			'saswp_email_schema_settings',								// ID
+			'',		// Title
+			'saswp_email_schema_callback',								// CB
+			'saswp_email_schema_section',						// Page slug
+			'saswp_email_schema_section'						// Settings Section ID
+		);
+                
                 
                 add_settings_section('saswp_support_section', __return_false(), '__return_false', 'saswp_support_section');
 
@@ -275,31 +292,31 @@ function saswp_schema_page_callback(){
          $meta_fields_default = array(	                                		                             
                 array(
 			'label' => 'Default Image',
-			'id' => 'sd_default_image',
-                        'name' => 'sd_data[sd_default_image][url]',
+			'id'    => 'sd_default_image',
+                        'name'  => 'sd_data[sd_default_image][url]',
                         'class' => 'saswp-sd_default_image',
-			'type' => 'media',
+			'type'  => 'media',
 		),
                 array(
 			'label' => 'Default Post Image Width',
-			'id' => 'sd_default_image_width',
-                        'name' => 'sd_data[sd_default_image_width]',
+			'id'    => 'sd_default_image_width',
+                        'name'  => 'sd_data[sd_default_image_width]',
                         'class' => 'regular-text',                        
-			'type' => 'text',
+			'type'  => 'text',
 		),
                 array(
 			'label' => 'Default Post Image Height',
-			'id' => 'sd_default_image_height',
-                        'name' => 'sd_data[sd_default_image_height]',
+			'id'    => 'sd_default_image_height',
+                        'name'  => 'sd_data[sd_default_image_height]',
                         'class' => 'regular-text',                        
-			'type' => 'text',
+			'type'  => 'text',
 		),
                 array(
 			'label' => 'Default Thumbnail for VideoObject',
-			'id' => 'sd_default_video_thumbnail',
-                        'name' => 'sd_data[sd_default_video_thumbnail][url]',
+			'id'    => 'sd_default_video_thumbnail',
+                        'name'  => 'sd_data[sd_default_video_thumbnail][url]',
                         'class' => 'saswp-sd_default_video_thumbnail',
-			'type' => 'media',
+			'type'  => 'media',
 		),                                                   
 	);
          echo '<h2>'.esc_html__('Default Values','schema-and-structured-data-for-wp').'</h2>';
@@ -314,13 +331,13 @@ function saswp_amp_page_callback(){
         $field_objs = new saswp_fields_generator();
         
         $non_amp_enable_field = array(
-			'label' => 'Structured Data for AMP',
-			'id' => 'saswp-for-amp-checkbox',                        
-                        'name' => 'saswp-for-amp-checkbox',
-			'type' => 'checkbox',
-                        'class' => 'checkbox saswp-checkbox',
+			'label'  => 'Structured Data for AMP',
+			'id'     => 'saswp-for-amp-checkbox',                        
+                        'name'   => 'saswp-for-amp-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
                         'hidden' => array(
-                             'id' => 'saswp-for-amp',
+                             'id'   => 'saswp-for-amp',
                              'name' => 'sd_data[saswp-for-amp]',                             
                         )
 		) ;                                        
@@ -332,7 +349,7 @@ function saswp_amp_page_callback(){
             $non_amp_enable_field['attributes'] = array(
                  'disabled' => 'disabled'
              );
-             $non_amp_enable_field['note'] = esc_html__('AMP Plugin is not activated','schema-and-structured-data-for-wp');
+             $non_amp_enable_field['note'] = esc_html__('AMP Requires selected plugin','schema-and-structured-data-for-wp');
              $settings['saswp-for-amp'] = 0;	
             
         }
@@ -340,14 +357,14 @@ function saswp_amp_page_callback(){
         $meta_fields = array(
             $non_amp_enable_field,
 		 array(
-			'label' => 'Structured Data for Non AMP',
-			'id' => 'saswp-for-wordpress-checkbox',
-                        'name' => 'saswp-for-wordpress-checkbox',
-			'type' => 'checkbox',
-                        'class' => 'checkbox saswp-checkbox',
-                        'note'  => '',
+			'label'  => 'Structured Data for Non AMP',
+			'id'     => 'saswp-for-wordpress-checkbox',
+                        'name'   => 'saswp-for-wordpress-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
+                        'note'   => '',
                         'hidden' => array(
-                             'id' => 'saswp-for-wordpress',
+                             'id'   => 'saswp-for-wordpress',
                              'name' => 'sd_data[saswp-for-wordpress]',                             
                         )
 		)                                         
@@ -362,22 +379,22 @@ function saswp_general_page_callback(){
         
         $meta_fields_default = array(	
 		array(
-			'label' => 'Archive',
-			'id' => 'saswp_archive_schema_checkbox', 
-                        'name' => 'saswp_archive_schema_checkbox',
-			'type' => 'checkbox',
-                        'class' => 'checkbox saswp-checkbox',                        
+			'label'  => 'Archive',
+			'id'     => 'saswp_archive_schema_checkbox', 
+                        'name'   => 'saswp_archive_schema_checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',                        
                         'hidden' => array(
-                             'id' => 'saswp_archive_schema',
+                             'id'   => 'saswp_archive_schema',
                              'name' => 'sd_data[saswp_archive_schema]',                             
                         )
 		),
                 array(
-			'label' => 'Schema Type',
-			'id' => 'saswp_archive_schema_type',
-                        'name' => 'sd_data[saswp_archive_schema_type]',
-                        'class' => 'saswp_archive_schema_type_class',
-			'type' => 'select',
+			'label'   => 'Schema Type',
+			'id'      => 'saswp_archive_schema_type',
+                        'name'    => 'sd_data[saswp_archive_schema_type]',
+                        'class'   => 'saswp_archive_schema_type_class',
+			'type'    => 'select',
 			'options' => array(                                
 				     'Article'          => 'Article',                                     
                                      'Blogposting'      => 'Blogposting',                                     
@@ -386,35 +403,35 @@ function saswp_general_page_callback(){
 			)
                    ),
                 array(
-			'label' => 'BreadCrumbs',
-			'id' => 'saswp_breadcrumb_schema_checkbox', 
-                        'name' => 'saswp_breadcrumb_schema_checkbox',
-			'type' => 'checkbox',
-                        'class' => 'checkbox saswp-checkbox',                        
+			'label'  => 'BreadCrumbs',
+			'id'     => 'saswp_breadcrumb_schema_checkbox', 
+                        'name'   => 'saswp_breadcrumb_schema_checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',                        
                         'hidden' => array(
-                             'id' => 'saswp_breadcrumb_schema',
+                             'id'   => 'saswp_breadcrumb_schema',
                              'name' => 'sd_data[saswp_breadcrumb_schema]',                             
                         )
 		),
                 array(
-			'label' => 'Comments',
-			'id' => 'saswp_comments_schema_checkbox', 
-                        'name' => 'saswp_comments_schema_checkbox',
-			'type' => 'checkbox',
-                        'class' => 'checkbox saswp-checkbox',                        
+			'label'  => 'Comments',
+			'id'     => 'saswp_comments_schema_checkbox', 
+                        'name'   => 'saswp_comments_schema_checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',                        
                         'hidden' => array(
-                             'id' => 'saswp_comments_schema',
+                             'id'   => 'saswp_comments_schema',
                              'name' => 'sd_data[saswp_comments_schema]',                             
                         )
 		),
                 array(
-			'label' => 'Site Navigation Menu',
-			'id' => 'saswp_site_navigation_menu_checkbox', 
-                        'name' => 'saswp_site_navigation_menu_checkbox',
-			'type' => 'checkbox',
-                        'class' => 'checkbox saswp-checkbox',                        
+			'label'  => 'Site Navigation Menu',
+			'id'     => 'saswp_site_navigation_menu_checkbox', 
+                        'name'   => 'saswp_site_navigation_menu_checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',                        
                         'hidden' => array(
-                             'id' => 'saswp_site_navigation_menu',
+                             'id'   => 'saswp_site_navigation_menu',
                              'name' => 'sd_data[saswp_site_navigation_menu]',                             
                         )
 		)
@@ -435,12 +452,12 @@ function saswp_general_page_callback(){
                     <label for="sd_about_page-select">
 	<?php        
         echo wp_dropdown_pages( array( 
-			'name' => 'sd_data[sd_about_page]', 
-                        'id' => 'sd_about_page',
-			'echo' => 0, 
-			'show_option_none' => esc_html__( 'Select an item', 'schema-and-structured-data-for-wp' ), 
+			'name'              => 'sd_data[sd_about_page]', 
+                        'id'                => 'sd_about_page',
+			'echo'              => 0, 
+			'show_option_none'  => esc_html__( 'Select an item', 'schema-and-structured-data-for-wp' ), 
 			'option_none_value' => '', 
-			'selected' =>  isset($settings['sd_about_page']) ? $settings['sd_about_page'] : '',
+			'selected'          =>  isset($settings['sd_about_page']) ? $settings['sd_about_page'] : '',
 		)); ?>
 	      </label>  
         </div>
@@ -519,7 +536,7 @@ function saswp_knowledge_page_callback(){
 			)
                    ),
                 array(
-			'label' => 'Name',
+			'label' => 'Organization Name',
 			'id'    => 'sd_name',
                         'name'  => 'sd_data[sd_name]',
                         'class' => 'regular-text saswp_org_fields',                        
@@ -527,19 +544,12 @@ function saswp_knowledge_page_callback(){
 		),
                                
                 array(
-			'label' => 'Url',
+			'label' => 'Organization URL',
 			'id'    => 'sd_url',
                         'name'  => 'sd_data[sd_url]',
                         'class' => 'regular-text saswp_org_fields',                        
 			'type'  => 'text',
-		),                
-                array(
-			'label' => 'Telephone Number',
-			'id'    => 'saswp_kb_telephone',
-                        'name'  => 'sd_data[saswp_kb_telephone]',
-                        'class' => 'regular-text saswp_org_fields',                        
-			'type'  => 'text',
-		),
+		), 
                 array(
 			'label' => 'Contact Type',
 			'id'    => 'saswp_contact_type',
@@ -561,7 +571,21 @@ function saswp_knowledge_page_callback(){
                                 'package tracking'    => 'Package Tracking',
 			)
                    ),
-                   
+                    array(
+                            'label' => 'Contact Number',
+                            'id'    => 'saswp_kb_telephone',
+                            'name'  => 'sd_data[saswp_kb_telephone]',
+                            'class' => 'regular-text saswp_org_fields',                        
+                            'type'  => 'text',
+                    ),
+                    array(
+                            'label' => 'Contact URL',
+                            'id'    => 'saswp_kb_contact_url',
+                            'name'  => 'sd_data[saswp_kb_contact_url]',
+                            'class' => 'regular-text saswp_org_fields',                        
+                            'type'  => 'text',
+                    ),
+                                   
                    array(
 			'label' => 'Name',
 			'id'    => 'sd-person-name',
@@ -662,28 +686,7 @@ function saswp_knowledge_page_callback(){
                         'attributes' => array(
                             'placeholder' => 'https://'
                         )
-		    ),
-              array(
-			'label'  => 'Google+',
-			'id'     => 'saswp-google-plus-enable-checkbox', 
-                        'name'   => 'saswp-google-plus-enable-checkbox',
-			'type'   => 'checkbox',
-                        'class'  => 'checkbox saswp-checkbox', 
-                        'hidden' => array(
-                             'id'   => 'saswp-google-plus-enable',
-                             'name' => 'sd_data[saswp-google-plus-enable]',                             
-                        )
-		),
-                array(
-			'label'      => '',
-			'id'         => 'sd_google_plus',
-                        'name'       => 'sd_data[sd_google_plus]',
-                        'class'      => 'regular-text',                        
-			'type'       => 'text',
-                        'attributes' => array(
-                            'placeholder' => 'https://'
-                        )
-		    ),
+		    ),              
                 array(
 			'label'  => 'Instagram',
 			'id'     => 'saswp-instagram-enable-checkbox', 
@@ -919,8 +922,6 @@ function saswp_import_callback(){
          
 }
 
-
-
 function saswp_review_page_callback(){
         
         $settings = saswp_defaultSettings();         
@@ -942,6 +943,50 @@ function saswp_review_page_callback(){
         $field_objs->saswp_field_generator($meta_fields, $settings);    
        
 }
+
+function saswp_email_schema_callback(){
+        
+        $settings = saswp_defaultSettings();  
+                                        
+        $woocommerce = array(
+			'label'  => 'Woocommerce Booking',
+			'id'     => 'saswp-woocommerce-booking-main-checkbox',                        
+                        'name'   => 'saswp-woocommerce-booking-main-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
+                        'hidden' => array(
+                                'id'   => 'saswp-woocommerce-booking-main',
+                                'name' => 'sd_data[saswp-woocommerce-booking-main]',                             
+                        )
+		);
+        
+        if(!is_plugin_active('woocommerce/woocommerce.php') || !is_plugin_active('woocommerce-bookings/woocommerce-bookings.php')){
+                      
+             $woocommerce['note'] = esc_html__('Requires selected plugin','schema-and-structured-data-for-wp');
+                                      
+        }
+        
+        if(!is_plugin_active('schema-and-structured-data-for-wp-pro/schema-and-structured-data-for-wp-pro.php')){
+         
+             $woocommerce['attributes'] = array(
+                 'disabled' => 'disabled'
+             );
+                          
+             $settings['saswp-woocommerce-booking-main'] = 0;
+             $settings['saswp-woocommerce-booking'] = 0;
+             $woocommerce['proversion'] = true;
+            
+        }
+                   
+        $field_objs = new saswp_fields_generator();
+        $meta_fields = array(				               
+                $woocommerce,                                              
+	);       
+        
+        $field_objs->saswp_field_generator($meta_fields, $settings);
+                        
+}
+
 function saswp_compatibility_page_callback(){
         
         $settings = saswp_defaultSettings();  
@@ -993,6 +1038,29 @@ function saswp_compatibility_page_callback(){
                                 'name' => 'sd_data[saswp-woocommerce]',                             
                         )
 		);
+        $woocommerce_bok = array(
+			'label'  => 'Woocommerce Booking',
+			'id'     => 'saswp-woocommerce-booking-checkbox',                        
+                        'name'   => 'saswp-woocommerce-booking-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
+                        'hidden' => array(
+                                'id'   => 'saswp-woocommerce-booking',
+                                'name' => 'sd_data[saswp-woocommerce-booking]',                             
+                        )
+		);
+        $woocommerce_mem = array(
+			'label'  => 'Woocommerce Membership',
+			'id'     => 'saswp-woocommerce-membership-checkbox',                        
+                        'name'   => 'saswp-woocommerce-membership-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
+                        'hidden' => array(
+                                'id'   => 'saswp-woocommerce-membership',
+                                'name' => 'sd_data[saswp-woocommerce-membership]',                             
+                        )
+		);
+        
         $extratheme = array(
 			'label'  => 'Extra Theme By Elegant',
 			'id'     => 'saswp-extra-checkbox',                        
@@ -1015,19 +1083,7 @@ function saswp_compatibility_page_callback(){
                                     'name' => 'sd_data[saswp-dw-question-answer]',                             
                         )
 		);
-        
-        $wpjobmanager = array(
-			'label'   => 'WP Job Manager',
-			'id'      => 'saswp-wp-job-manager-checkbox',                        
-                        'name'    => 'saswp-wp-job-manager-checkbox',
-			'type'    => 'checkbox',
-                        'class'   => 'checkbox saswp-checkbox',
-                        'hidden'  => array(
-                                'id'   => 'saswp-wp-job-manager',
-                                'name' => 'sd_data[saswp-wp-job-manager]',                             
-                        )
-		);
-        
+                
         $yoast      = array(
 			'label'   => 'Yoast SEO Plugin',
 			'id'      => 'saswp-yoast-checkbox',                        
@@ -1042,93 +1098,106 @@ function saswp_compatibility_page_callback(){
                 
         if(!is_plugin_active('taqyeem/taqyeem.php')  || get_template() != 'jannah'  ){
             
-             $tagyeem['attributes'] = array(
-                 'disabled' => 'disabled'
-             );
-             $tagyeem['note'] = esc_html__('Plugin is not activated','schema-and-structured-data-for-wp');
-             $settings['saswp-tagyeem'] = 0;
-             
+             $tagyeem['note'] = esc_html__('Requires selected plugin','schema-and-structured-data-for-wp');
+                          
         }
         
         
         if(!is_plugin_active('wordpress-seo/wp-seo.php') && !is_plugin_active('wordpress-seo-premium/wp-seo-premium.php')){
             
-             $yoast['attributes'] = array(
-                 'disabled' => 'disabled'
-             );
-             $yoast['note'] = esc_html__('Plugin is not activated','schema-and-structured-data-for-wp');
-             $settings['saswp-yoast'] = 0;
+             $yoast['note'] = esc_html__('Requires selected plugin','schema-and-structured-data-for-wp');
+             
              
         }
         
         if(!is_plugin_active('kk-star-ratings/index.php')){
             
-             $kk_star['attributes'] = array(
-                 'disabled' => 'disabled'
-             );
-             $kk_star['note'] = esc_html__('Plugin is not activated','schema-and-structured-data-for-wp');
-             $settings['saswp-kk-star-raring'] = 0;
+             $kk_star['note'] = esc_html__('Requires selected plugin','schema-and-structured-data-for-wp');             
              
         }
-       
-             
+                    
         if(!is_plugin_active('woocommerce/woocommerce.php')){
          
-             $woocommerce['attributes'] = array(
+             $woocommerce['note'] = esc_html__('Requires selected plugin','schema-and-structured-data-for-wp');
+                         
+        }
+        if(!is_plugin_active('woocommerce/woocommerce.php') || !is_plugin_active('woocommerce-bookings/woocommerce-bookings.php')){
+         
+             
+             $woocommerce_bok['note'] = esc_html__('Requires selected plugin','schema-and-structured-data-for-wp');
+                          
+            
+        }
+        
+        
+        
+        
+        if(!is_plugin_active('woocommerce/woocommerce.php') || !is_plugin_active('woocommerce-memberships/woocommerce-memberships.php')){
+         
+             
+             $woocommerce_mem['note'] = esc_html__('Requires selected plugin','schema-and-structured-data-for-wp');
+                          
+            
+        }
+        
+        if(!is_plugin_active('schema-and-structured-data-for-wp-pro/schema-and-structured-data-for-wp-pro.php')){
+         
+             $woocommerce_bok['attributes'] = array(
                  'disabled' => 'disabled'
              );
-             $woocommerce['note'] = esc_html__('Plugin is not activated','schema-and-structured-data-for-wp');
-             $settings['saswp-woocommerce'] = 0;
+             
+             $woocommerce_bok['proversion'] = true;
+                          
+             $settings['saswp-woocommerce-booking'] = 0;
+                                       
+             $woocommerce_mem['attributes'] = array(
+                 'disabled' => 'disabled'
+             );
+                                       
+             $settings['saswp-woocommerce-membership'] = 0;
+             $woocommerce_mem['proversion'] = true;
             
         }
                          
         if(get_template() != 'Extra'){
-
-             $extratheme['attributes'] = array(
-                 'disabled' => 'disabled'
-             );
+             
              $extratheme['note']      = esc_html__('Theme is not activated','schema-and-structured-data-for-wp');
-             $settings['saswp-extra'] = 0;  
+             
              
         }
                  
         
          if(!is_plugin_active('dw-question-answer/dw-question-answer.php')){
              
-             $dwquestiton['attributes'] = array(
-                 'disabled' => 'disabled'
-             );
-             $dwquestiton['note'] = esc_html__('Plugin is not activated','schema-and-structured-data-for-wp');
-             $settings['saswp-dw-question-answer'] = 0; 
+             $dwquestiton['note'] = esc_html__('Requires selected plugin','schema-and-structured-data-for-wp');
+             
          }
          
-         if(!is_plugin_active('wp-job-manager/wp-job-manager.php')){
-             
-             $wpjobmanager['attributes'] = array(
-                 'disabled' => 'disabled'
-             );
-             $wpjobmanager['note'] = esc_html__('Plugin is not activated','schema-and-structured-data-for-wp');
-             $settings['saswp-wp-job-manager'] = 0; 
-         }
+//         if(!is_plugin_active('wp-job-manager/wp-job-manager.php')){
+//                          
+//             $wpjobmanager['note'] = esc_html__('Requires selected plugin','schema-and-structured-data-for-wp');
+//             
+//         }
          
          if(!is_plugin_active('the-events-calendar/the-events-calendar.php')){
              
-             $wpjobmanager['attributes'] = array(
-                 'disabled' => 'disabled'
-             );
-             $the_events_calendar['note'] = esc_html__('Plugin is not activated','schema-and-structured-data-for-wp');
-             $settings['saswp-wp-job-manager'] = 0; 
+             
+             $the_events_calendar['note'] = esc_html__('Requires selected plugin','schema-and-structured-data-for-wp');
+             
          }
                         
         $field_objs = new saswp_fields_generator();
+        
         $meta_fields = array(				
                 $kk_star,  
                 $woocommerce,
+               // $woocommerce_bok,
+               // $woocommerce_mem,
                 $the_events_calendar,
                 $tagyeem,
                 $extratheme,
                 $dwquestiton,
-                $wpjobmanager,
+                //$wpjobmanager,
                 $yoast,                
                 
 	);       
@@ -1140,31 +1209,29 @@ function saswp_compatibility_page_callback(){
          $meta_fields_default = array(	
 		array(
 			'label'  => 'FlexMLS IDX Plugin',
-			'id'     => 'saswp_compativility_checkbox', 
-                        'name'   => 'saswp_compativility_checkbox',
+			'id'     => 'saswp-flexmlx-compativility-checkbox', 
+                        'name'   => 'saswp-flexmlx-compativility-checkbox',
 			'type'   => 'checkbox',
                         'class'  => 'checkbox saswp-checkbox',                       
                         'hidden' => array(
-                             'id'   => 'saswp_compativility',
-                             'name' => 'sd_data[saswp_compativility]',                             
+                             'id'   => 'saswp-flexmlx-compativility',
+                             'name' => 'sd_data[saswp-flexmlx-compativility]',                             
                         )
 		),
 		);   
         }else{
-        $settings['saswp_compativility'] =0; 
+        
         $meta_fields_default = array(	
 		array(
 			'label'      => 'FlexMLS IDX',
-			'id'         => 'saswp_compativility_checkbox', 
-                        'name'       => 'saswp_compativility_checkbox',
+			'id'         => 'saswp-flexmlx-compativility-checkbox', 
+                        'name'       => 'saswp-flexmlx-compativility-checkbox',
 			'type'       => 'checkbox',
-                        'class'      => 'checkbox saswp-checkbox', 
-                        'attributes' => array(
-                            'disabled' => 'disabled'
-                        ),
+                        'class'      => 'checkbox saswp-checkbox',
+                        'note'       => 'Requires selected plugin',                        
                         'hidden' => array(
-                             'id'   => 'saswp_compativility',
-                             'name' => 'sd_data[saswp_compativility]',                             
+                             'id'   => 'saswp-flexmlx-compativility',
+                             'name' => 'sd_data[saswp-flexmlx-compativility]',                             
                         )
 		),
 		);          

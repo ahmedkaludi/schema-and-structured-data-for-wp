@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.1
-Stable tag: 1.5
+Stable tag: 1.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -64,6 +64,18 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+
+= 1.6 (12 April 2019) =
+
+* Added : Option to use URL rather than phone number for contact type in Knowledge Graph #199
+* Bug Fixed: Image markup src remains null in AMP despite featured images on post #206
+* Bug Fixed: Array (The value provided for image must be a valid URL.) #203
+* Bug Fixed: After removing social links from the knowledge graph it still shows up in the markup #200
+* Bug Fixed: If schema is not enabled on amp, it still adds blank script #189
+* Bug Fixed: Modify schema output for the review schema has no author fields in dropdown #193
+* Bug Fixed: Notice: Undefined offset #197
+* Bug Fixed: Undefined index #204
 
 
 = 1.5 (27 March 2019) =

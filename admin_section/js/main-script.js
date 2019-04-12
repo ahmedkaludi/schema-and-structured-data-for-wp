@@ -125,8 +125,24 @@ jQuery(document).ready(function($){
         
     //Settings page jquery starts here    
  
+    
+     
     $(".saswp-checkbox").change(function(){
-          var id = $(this).attr("id");            
+        
+                        var id = $(this).attr("id");
+                        var plugin_name =  id.replace('-checkbox','');
+                        var text = $("#"+plugin_name).next('p').text(); 
+                        
+                        if ($(this).is(':checked') && text !=='') {              
+                              $("#"+plugin_name).next('p').removeClass('saswp_hide');                   
+                        }else{
+                            
+                            if($("#"+plugin_name).next('p').attr('data-id') == 1){
+                                $("#"+plugin_name).next('p').text('This feature is only available in pro version');
+                            }else{
+                                $("#"+plugin_name).next('p').addClass('saswp_hide');
+                            }                                                        
+                        }                                                                                  
                   switch(id){
                       case 'saswp-for-wordpress-checkbox':  
                           
@@ -291,12 +307,12 @@ jQuery(document).ready(function($){
                             }
                       break;
                       
-                      case 'saswp_compativility_checkbox':
+                      case 'saswp-compativility-checkbox':
                           
                             if ($(this).is(':checked')) {              
-                              $("#saswp_compativility").val(1);             
+                              $("#saswp-flexmlx-compativility").val(1);             
                             }else{
-                              $("#saswp_compativility").val(0);           
+                              $("#saswp-flexmlx-compativility").val(0);           
                             }
                       break;
                       
@@ -320,9 +336,9 @@ jQuery(document).ready(function($){
                       case 'saswp-woocommerce-checkbox':
                           
                             if ($(this).is(':checked')) {              
-                              $("#saswp-woocommerce").val(1);             
+                              $("#saswp-woocommerce").val(1);                              
                             }else{
-                              $("#saswp-woocommerce").val(0);           
+                              $("#saswp-woocommerce").val(0);                                         
                             }
                       break;
                       
@@ -380,6 +396,46 @@ jQuery(document).ready(function($){
                             }
                       break;
                       
+                      case 'saswp-the-events-calendar-checkbox':
+                          
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-the-events-calendar").val(1);             
+                            }else{
+                              $("#saswp-the-events-calendar").val(0);           
+                            }
+                      break;
+                      
+                      case 'saswp-woocommerce-booking-checkbox':
+                          
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-woocommerce-booking").val(1);  
+                              $("#saswp-woocommerce-booking-main").val(1); 
+                            }else{
+                              $("#saswp-woocommerce-booking").val(0); 
+                              $("#saswp-woocommerce-booking-main").val(0); 
+                            }
+                      break;
+                      
+                      case 'saswp-woocommerce-booking-main-checkbox':
+                          
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-woocommerce-booking-main").val(1);  
+                              $("#saswp-woocommerce-booking").val(1); 
+                            }else{
+                              $("#saswp-woocommerce-booking-main").val(0);  
+                              $("#saswp-woocommerce-booking").val(0);
+                            }
+                      break;
+                      
+                      case 'saswp-woocommerce-membership-checkbox':
+                          
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-woocommerce-membership").val(1);             
+                            }else{
+                              $("#saswp-woocommerce-membership").val(0);           
+                            }
+                      break;
+                      
                       
                       default:
                           break;
@@ -387,7 +443,8 @@ jQuery(document).ready(function($){
                              
          }).change();
         
-         $("#saswp_kb_type").change(function(){
+          $("#saswp_kb_type").change(function(){
+              
           var datatype = $(this).val(); 
           
           $(".saswp_org_fields, .saswp_person_fields").parent().parent().addClass('saswp_hide');
@@ -747,13 +804,13 @@ jQuery(document).ready(function($){
                 
         $(document).on("click","div.saswp-tab ul.saswp-tab-nav a", function(e){
             e.preventDefault();
-            var attr = $(this).attr('data-id');
-            $(".saswp-post-specific-wrapper").hide();            
-            $("#"+attr).show();           
-            $('div.saswp-tab ul.saswp-tab-nav a').removeClass('selected');
-            $('div.saswp-tab ul.saswp-tab-nav li').removeClass('selected');
-            $(this).addClass('selected'); 
-            $(this).parent().addClass('selected'); 
+                var attr = $(this).attr('data-id');
+                $(".saswp-post-specific-wrapper").hide();            
+                $("#"+attr).show();           
+                $('div.saswp-tab ul.saswp-tab-nav a').removeClass('selected');
+                $('div.saswp-tab ul.saswp-tab-nav li').removeClass('selected');
+                $(this).addClass('selected'); 
+                $(this).parent().addClass('selected'); 
             saswp_enable_rating_review();
         });
         

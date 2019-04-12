@@ -68,7 +68,7 @@ function saswp_reset_all_settings(){
         if ( !wp_verify_nonce( $_POST['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
            return;  
         }            
-        $result ='';
+        $result = '';
         
         update_option( 'sd_data', array());  
         
@@ -76,7 +76,7 @@ function saswp_reset_all_settings(){
         
         foreach ($allposts as $eachpost) {
             
-        $result = wp_delete_post( $eachpost->ID, true );
+            $result = wp_delete_post( $eachpost->ID, true );
         
         }
                         
@@ -119,7 +119,7 @@ function saswp_get_all_schema_posts(){
       
       foreach ($schema_id_array as $post_id){ 
         
-          $unique_checker ='';
+          $unique_checker = '';
           
           $resultset = saswp_generate_field_data( $post_id );
           
@@ -275,6 +275,7 @@ function saswp_comparison_logic_checker($input){
                 }
             }            
             if ( $comparison == 'not_equal') {
+                
                 require_once ABSPATH . 'wp-admin/includes/user.php';
                 // Get all the registered user roles
                 $roles = get_editable_roles();                
@@ -375,12 +376,19 @@ function saswp_comparison_logic_checker($input){
     // Page Controls ---------------- 
       // Page
       case 'page': 
+          
         global $redux_builder_amp;
+          
         if(function_exists('ampforwp_is_front_page')){
+            
           if(ampforwp_is_front_page()){
-          $current_post = $redux_builder_amp['amp-frontpage-select-option-pages'];    
+              
+                $current_post = $redux_builder_amp['amp-frontpage-select-option-pages'];  
+          
           } else{
-          $current_post = $post->ID;    
+              
+                $current_post = $post->ID;   
+          
           }           
         }else{
           $current_post = $post->ID;
@@ -769,13 +777,13 @@ add_action( 'wp_print_scripts', 'saswp_dequeue_script', 100 );
   
   function saswp_select_save_data ( $post_id ) {           
       
-      if( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
+    if( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
        
       // if our nonce isn't there, or we can't verify it, bail
-      if( !isset( $_POST['saswp_select_name_nonce'] ) || !wp_verify_nonce( $_POST['saswp_select_name_nonce'], 'saswp_select_action_nonce' ) ) return;
+    if( !isset( $_POST['saswp_select_name_nonce'] ) || !wp_verify_nonce( $_POST['saswp_select_name_nonce'], 'saswp_select_action_nonce' ) ) return;
       
       // if our current user can't edit this post, bail
-      if( !current_user_can( 'edit_post' ) ) return;  
+    if( !current_user_can( 'edit_post' ) ) return;  
       
     $meta_value = get_post_meta( $post_id, null, true );       
     
@@ -802,8 +810,8 @@ add_action( 'wp_print_scripts', 'saswp_dequeue_script', 100 );
       }    
       if($show_globally){
           
-      unset($post_data_group_array);
-      $post_data_group_array['group-0']['data_array'] = $temp_condition_array;       
+            unset($post_data_group_array);
+            $post_data_group_array['group-0']['data_array'] = $temp_condition_array;       
       
       }      
     }                      
@@ -1161,25 +1169,32 @@ function saswp_send_query_message(){
         
         $message    = sanitize_textarea_field($_POST['message']);       
         $user       = wp_get_current_user();
-        $user_data  = $user->data;        
-        $user_email = $user_data->user_email;       
-        //php mailer variables        
-        $sendto  = 'team@magazine3.com';
-        $subject = "Customer Query";
-        $headers = 'From: '. esc_attr($user_email) . "\r\n" .
-        'Reply-To: ' . esc_attr($user_email) . "\r\n";
-        // Load WP components, no themes.                      
-        $sent = wp_mail($sendto, $subject, strip_tags($message), $headers); 
         
-        if($sent){
+        if($user){
             
-             echo json_encode(array('status'=>'t'));  
-             
-        }else{
+            $user_data  = $user->data;        
+            $user_email = $user_data->user_email;       
+            //php mailer variables        
+            $sendto  = 'team@magazine3.com';
+            $subject = "Customer Query";
+            $headers = 'From: '. esc_attr($user_email) . "\r\n" .
+            'Reply-To: ' . esc_attr($user_email) . "\r\n";
+            // Load WP components, no themes.                      
+            $sent = wp_mail($sendto, $subject, strip_tags($message), $headers); 
+
+            if($sent){
+
+                 echo json_encode(array('status'=>'t'));  
+
+            }else{
+
+                echo json_encode(array('status'=>'f'));            
+
+            }
             
-            echo json_encode(array('status'=>'f'));            
-            
-        }        
+        }
+        
+                
            wp_die();           
 }
 
@@ -1206,22 +1221,22 @@ function saswp_import_plugin_data(){
             
             case 'schema':
                 if ( is_plugin_active('schema/schema.php')) {
-                $result = saswp_import_schema_plugin_data();      
+                    $result = saswp_import_schema_plugin_data();      
                 }                
                 break;
                 
             case 'schema_pro':                
                 if ( is_plugin_active('wp-schema-pro/wp-schema-pro.php')) {
-                $result = saswp_import_schema_pro_plugin_data();      
+                    $result = saswp_import_schema_pro_plugin_data();      
                 }                
                 break;
             case 'wp_seo_schema':                
                 if ( is_plugin_active('wp-seo-structured-data-schema/wp-seo-structured-data-schema.php')) {
-                $result = saswp_import_wp_seo_schema_plugin_data();      
+                    $result = saswp_import_wp_seo_schema_plugin_data();      
                 }
             case 'seo_pressor':                
                 if ( is_plugin_active('seo-pressor/seo-pressor.php')) {
-                $result = saswp_import_seo_pressor_plugin_data();      
+                    $result = saswp_import_seo_pressor_plugin_data();      
                 }                
                 break;    
 

@@ -10,7 +10,7 @@
         
         $url = get_option('saswp-file-upload_url');        
         global $wpdb;
-        $result ='';
+        $result = '';
         $errorDesc   = array();
          
         if($url){
@@ -21,12 +21,10 @@
          
         $sd_data     = $json_array['sd_data'];                
         $schema_post = array();                     
-       
-        
+               
         if($all_schema_post){
             // begin transaction
             $wpdb->query('START TRANSACTION');
-
             
             foreach($all_schema_post as $schema_post){  
                 
@@ -273,20 +271,20 @@
                 $logo                  = wp_get_attachment_image_src( $custom_logo_id , 'full' );
                                 
                 $saswp_plugin_options = array(                    
-                    'sd_logo'           => array(
-                                'url'           =>$schema_plugin_options['logo'],  
-                                'id'            =>$custom_logo_id,
-                                'height'        =>'600',
-                                'width'         =>'60',
-                                'thumbnail'     =>$schema_plugin_options['logo']        
+                    'sd_logo'   => array(
+                                        'url'           =>$schema_plugin_options['logo'],  
+                                        'id'            =>$custom_logo_id,
+                                        'height'        =>'600',
+                                        'width'         =>'60',
+                                        'thumbnail'     =>$schema_plugin_options['logo']        
                             ),                                                                                                                                                             
-                    'saswp_kb_contact_1'=> 0,                                                                            
+                    'saswp_kb_contact_1'       => 0,                                                                            
                     //AMP Block           
-                    'saswp-for-amp'  => 1, 
-                    'saswp-for-wordpress'=>1,      
-                    'saswp-logo-width' => '60',
-                    'saswp-logo-height' => '60',                    
-                    'sd_initial_wizard_status' =>1,
+                    'saswp-for-amp'            => 1, 
+                    'saswp-for-wordpress'      => 1,      
+                    'saswp-logo-width'         => '60',
+                    'saswp-logo-height'        => '60',                    
+                    'sd_initial_wizard_status' => 1,
                                         
                 );                
                 if(isset($schema_plugin_options['facebook'])){
@@ -603,12 +601,6 @@
                     if(isset($settings['site_telephone'])){
                         $local_business_details['local_phone'] = $settings['site_telephone'];
                     }                                        
-//                    if(isset($settings['business_info']['openingHours'])){
-//
-//                    }
-//                    if(isset($settings['business_info']['openingHours'])){
-//                        
-//                    }
                     if(isset($settings['web_url'])){
                       $local_business_details['local_website'] = $settings['web_url'];  
                     }
@@ -1141,7 +1133,8 @@ function saswp_expanded_allowed_tags() {
                     'readonly'     => array(),
                     'disabled'     => array(),
                     'width'        => array(),  
-                    'data-id'      => array()
+                    'data-id'      => array(),
+                    'checked'      => array()
             );
             $my_allowed['hidden']  = array(                    
                     'id'           => array(),
@@ -1238,6 +1231,7 @@ function saswp_defaultSettings(){
     
             global $sd_data;    
             $sd_name = 'default';
+            $logo    = array();
             $bloginfo = get_bloginfo('name', 'display'); 
             
             if($bloginfo){
@@ -1248,8 +1242,11 @@ function saswp_defaultSettings(){
             
             $current_url    = get_home_url();           
             $custom_logo_id = get_theme_mod( 'custom_logo' );
-            $logo           = wp_get_attachment_image_src( $custom_logo_id , 'full' );
-
+            
+            if($custom_logo_id){                
+                $logo       = wp_get_attachment_image_src( $custom_logo_id , 'full' );               
+            }
+            
             $user_id        = get_current_user_id();
             $username       = '';
             

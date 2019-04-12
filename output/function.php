@@ -18,8 +18,7 @@ add_action('wp_head', 'saswp_data_generator');
  * @global type json array
  */
 function saswp_data_generator() {
-    
-    
+        
    global $sd_data;
    global $post;
    
@@ -38,11 +37,10 @@ function saswp_data_generator() {
    
    $schema_breadcrumb_output = saswp_schema_breadcrumb_output();  
    
-   if(saswp_remove_warnings($sd_data, 'saswp-yoast', 'saswp_string') != 1){
-       
+   if(saswp_remove_warnings($sd_data, 'saswp-yoast', 'saswp_string') == 1 && (is_plugin_active('wordpress-seo/wp-seo.php') || is_plugin_active('wordpress-seo-premium/wp-seo-premium.php'))){                                             
+   }else{
        $kb_website_output        = saswp_kb_website_output();      
-       $kb_schema_output         = saswp_kb_schema_output();          
-                     
+       $kb_schema_output         = saswp_kb_schema_output();
    }         
    
    if(is_singular()){
@@ -132,17 +130,24 @@ function saswp_data_generator() {
                         			              		
 	}
         
-        $stroutput = '['. trim($output). ']';
-        $filter_string = str_replace(',]', ']',$stroutput);
         
-        echo '<!-- Schema & Structured Data For WP v'.esc_attr(SASWP_VERSION).' - -->';
-	echo "\n";
-        echo '<script type="application/ld+json">'; 
-        echo "\n";       
-	echo $filter_string;       
-        echo "\n";
-        echo '</script>';
-        echo "\n\n";
+        
+        if($output){
+            
+            $stroutput = '['. trim($output). ']';
+            $filter_string = str_replace(',]', ']',$stroutput);
+            
+            echo '<!-- Schema & Structured Data For WP v'.esc_attr(SASWP_VERSION).' - -->';
+            echo "\n";
+            echo '<script type="application/ld+json">'; 
+            echo "\n";       
+            echo $filter_string;       
+            echo "\n";
+            echo '</script>';
+            echo "\n\n";
+        }
+        
+        
 }
 
 add_filter('the_content', 'saswp_paywall_data_for_login');
@@ -197,7 +202,7 @@ function saswp_paywall_data_for_login($content){
                     			
 			$redirect       =  home_url( $wp->request );
 			$breakedContent = explode("<!--more-->", $content);
-			$content        = $breakedContent[0].'<div class="'.esc_attr($className).'">'.esc_attr($breakedContent[1]).'</div>';
+			$content        = $breakedContent[0].'<div class="'.esc_attr($className).'">'.$breakedContent[1].'</div>';
                         
 		}
                 
@@ -284,7 +289,7 @@ function saswp_extract_kk_star_ratings($id){
         
             global $sd_data;    
             
-            if(isset($sd_data['saswp-kk-star-raring']) && $sd_data['saswp-kk-star-raring'] == 1){
+            if(isset($sd_data['saswp-kk-star-raring']) && $sd_data['saswp-kk-star-raring'] == 1 && is_plugin_active('kk-star-ratings/index.php')){
                
                 $best  = get_option('kksr_stars');
                 $score = get_post_meta($id, '_kksr_ratings', true) ? ((int) get_post_meta($id, '_kksr_ratings', true)) : 0;

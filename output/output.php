@@ -14,53 +14,48 @@ function saswp_kb_schema_output() {
 
 	$sd_facebook = array();
         
-	if(isset($sd_data['sd_facebook']) && !empty($sd_data['sd_facebook'])){
+	if(isset($sd_data['sd_facebook']) && !empty($sd_data['sd_facebook']) && isset($sd_data['saswp-facebook-enable']) &&  $sd_data['saswp-facebook-enable'] ==1){
 		$sd_facebook[] = $sd_data['sd_facebook'];
 		$sd_social_profile[] = $sd_facebook;
 	}
 	$sd_twitter = array();
-	if(isset($sd_data['sd_twitter']) && !empty($sd_data['sd_twitter'])){
+	if(isset($sd_data['sd_twitter']) && !empty($sd_data['sd_twitter']) && isset($sd_data['saswp-twitter-enable']) &&  $sd_data['saswp-twitter-enable'] ==1 ){
 		$sd_twitter[] = $sd_data['sd_twitter'];
 		$sd_social_profile[] = $sd_twitter;
 	}
-
-	$sd_google_plus = array();
-	if(isset($sd_data['sd_google_plus']) && !empty($sd_data['sd_google_plus'])){
-		$sd_google_plus[] = $sd_data['sd_google_plus'];	
-		$sd_social_profile[] = $sd_google_plus;
-	}
+	
 	$sd_instagram = array();
-	if(isset($sd_data['sd_instagram']) && !empty($sd_data['sd_instagram'])){
+	if(isset($sd_data['sd_instagram']) && !empty($sd_data['sd_instagram']) && isset($sd_data['saswp-instagram-enable']) &&  $sd_data['saswp-instagram-enable'] ==1 ){
 		$sd_instagram[] = $sd_data['sd_instagram'];
 		$sd_social_profile[] = $sd_instagram;
         }
 
 	$sd_youtube = array();
-	if(isset($sd_data['sd_youtube']) && !empty($sd_data['sd_youtube'])){
+	if(isset($sd_data['sd_youtube']) && !empty($sd_data['sd_youtube']) && isset($sd_data['saswp-youtube-enable']) &&  $sd_data['saswp-youtube-enable'] ==1){
 		$sd_youtube[] = $sd_data['sd_youtube'];
 		$sd_social_profile[] = $sd_youtube;
 	}
 
 	$sd_linkedin = array();
-	if(isset($sd_data['sd_linkedin']) && !empty($sd_data['sd_linkedin'])){
+	if(isset($sd_data['sd_linkedin']) && !empty($sd_data['sd_linkedin']) && isset($sd_data['saswp-linkedin-enable']) &&  $sd_data['saswp-linkedin-enable'] ==1 ){
 		$sd_linkedin[] = $sd_data['sd_linkedin'];
 		$sd_social_profile[] = $sd_linkedin;
 	}
 
 	$sd_pinterest = array();
-	if(isset($sd_data['sd_pinterest']) && !empty($sd_data['sd_pinterest'])){
+	if(isset($sd_data['sd_pinterest']) && !empty($sd_data['sd_pinterest']) && isset($sd_data['saswp-pinterest-enable']) &&  $sd_data['saswp-pinterest-enable'] ==1){
 		$sd_pinterest[] = $sd_data['sd_pinterest'];
 		$sd_social_profile[] = $sd_pinterest;
 	}
 
 	$sd_soundcloud = array();
-	if(isset($sd_data['sd_soundcloud']) && !empty($sd_data['sd_soundcloud'])){
+	if(isset($sd_data['sd_soundcloud']) && !empty($sd_data['sd_soundcloud']) && isset($sd_data['saswp-soundcloud-enable']) &&  $sd_data['saswp-soundcloud-enable'] ==1){
 		$sd_soundcloud[] = $sd_data['sd_soundcloud'];
 		$sd_social_profile[] = $sd_soundcloud;
 	}
 
 	$sd_tumblr = array();
-	if(isset($sd_data['sd_tumblr']) && !empty($sd_data['sd_tumblr'])){
+	if(isset($sd_data['sd_tumblr']) && !empty($sd_data['sd_tumblr']) && isset($sd_data['saswp-tumblr-enable']) &&  $sd_data['saswp-tumblr-enable'] ==1){
 		$sd_tumblr[] = $sd_data['sd_tumblr'];
 		$sd_social_profile[] = $sd_tumblr;
 	}
@@ -91,26 +86,29 @@ function saswp_kb_schema_output() {
                 
                 }
                                 		
+                $contact_info = array();
+                
+                
 		$contact_1   = saswp_remove_warnings($sd_data, 'saswp_contact_type', 'saswp_string');
 		$telephone_1 = saswp_remove_warnings($sd_data, 'saswp_kb_telephone', 'saswp_string');
+                $contact_url = saswp_remove_warnings($sd_data, 'saswp_kb_contact_url', 'saswp_string');
                                 		
-		if( '' ==  $contact_1 && empty($contact_1) && isset($sd_data['saswp_contact_type'])){
-			$contact_1 = $sd_data['saswp_contact_type'];
-		}
-
-		if( '' ==  $telephone_1 && empty($telephone_1) && isset($sd_data['saswp_kb_telephone'])){
-			$telephone_1 = $sd_data['saswp_kb_telephone'];
-		}			 
+		
+                if($contact_1 && ($telephone_1 || $contact_url)){
                 
-	 	$contact_info = array(
+                    $contact_info = array(
                     
 	 		'contactPoint' => array(
                                         '@type'        => 'ContactPoint',
                                         'contactType'  => esc_attr($contact_1),
                                         'telephone'    => esc_attr($telephone_1),
+                                        'url'          => esc_attr($contact_url),
 			)
                     
- 		);
+                    );
+                    
+                }
+	 	
 
 		$input = array(
                         '@context'		=>'http://schema.org',
@@ -197,8 +195,13 @@ function saswp_schema_output() {
         $all_schema_output = array();
         
         foreach($Conditionals as $schemaConditionals){
-                        
-	$schema_options = saswp_remove_warnings($schemaConditionals, 'schema_options', 'saswp_string');
+        
+        $schema_options = array();    
+            
+        if(isset($schemaConditionals['schema_options'])){
+            $schema_options = $schemaConditionals['schema_options'];
+        }   
+        	        
 	$schema_type    = saswp_remove_warnings($schemaConditionals, 'schema_type', 'saswp_string');         
         $schema_post_id = saswp_remove_warnings($schemaConditionals, 'post_id', 'saswp_string');
            
@@ -706,7 +709,7 @@ function saswp_schema_output() {
                                 $service = new saswp_output_service();
                                 $product_details = $service->saswp_woocommerce_product_details(get_the_ID());  
                                
-                                if((isset($sd_data['saswp-woocommerce']) && $sd_data['saswp-woocommerce'] ==1) && !empty($product_details)){
+                                if((isset($sd_data['saswp-woocommerce']) && $sd_data['saswp-woocommerce'] == 1) && !empty($product_details)){
                                     
                                     $input1 = array(
                                     '@context'			=> 'http://schema.org',
@@ -715,14 +718,14 @@ function saswp_schema_output() {
                                     'name'                              => saswp_remove_warnings($product_details, 'product_name', 'saswp_string'),
                                     'sku'                               => saswp_remove_warnings($product_details, 'product_sku', 'saswp_string'),    
                                     'description'                       => saswp_remove_warnings($product_details, 'product_description', 'saswp_string'),
-                                    'image'                             => saswp_remove_warnings($product_details, 'product_image', 'saswp_string'),    
+                                    'image'                             => isset($product_details['product_image'])? $product_details['product_image']:'',    
                                     'offers'                            => array(
-                                                                            '@type'	=> 'Offer',
-                                                                            'availability'      => saswp_remove_warnings($product_details, 'product_availability', 'saswp_string'),
-                                                                            'price'             => saswp_remove_warnings($product_details, 'product_price', 'saswp_string'),
-                                                                            'priceCurrency'     => saswp_remove_warnings($product_details, 'product_currency', 'saswp_string'),
-                                                                            'url'               => get_permalink(),
-                                                                            'priceValidUntil'   => saswp_remove_warnings($product_details, 'product_priceValidUntil', 'saswp_string'),
+                                                                                '@type'	=> 'Offer',
+                                                                                'availability'      => saswp_remove_warnings($product_details, 'product_availability', 'saswp_string'),
+                                                                                'price'             => saswp_remove_warnings($product_details, 'product_price', 'saswp_string'),
+                                                                                'priceCurrency'     => saswp_remove_warnings($product_details, 'product_currency', 'saswp_string'),
+                                                                                'url'               => get_permalink(),
+                                                                                'priceValidUntil'   => saswp_remove_warnings($product_details, 'product_priceValidUntil', 'saswp_string'),
                                                                              ),
                                         
 				  ); 
@@ -1007,7 +1010,7 @@ function saswp_schema_output() {
                         if( 'Review' === $schema_type ){  
                                  
                         
-                         if(isset($sd_data['saswp-tagyeem']) && $sd_data['saswp-tagyeem'] == 1 ){                                                                                                      
+                         if(isset($sd_data['saswp-tagyeem']) && $sd_data['saswp-tagyeem'] == 1 && (is_plugin_active('taqyeem/taqyeem.php') || get_template() != 'jannah') ){                                                                                                      
                            
                              remove_action( 'TieLabs/after_post_entry',  'tie_article_schemas' );
                              
@@ -1275,7 +1278,11 @@ function saswp_schema_output() {
 			if( 'VideoObject' === $schema_type){
                             
 				if(empty($image_details[0]) || $image_details[0] === NULL ){
-					$image_details[0] = $sd_data['sd_logo']['url'];
+                                    
+                                        if(isset($sd_data['sd_logo'])){
+                                            $image_details[0] = $sd_data['sd_logo']['url'];
+                                        }
+                                    					
 				}												
 					
 						$input1 = array(
@@ -1288,7 +1295,7 @@ function saswp_schema_output() {
 						'description'                   => strip_tags(get_the_excerpt()),
 						'name'				=> get_the_title(),
 						'uploadDate'                    => esc_html($date),
-						'thumbnailUrl'                  => esc_url($image_details[0]),
+						'thumbnailUrl'                  => isset($image_details[0]) ? esc_url($image_details[0]):'',
 						'mainEntity'                    => array(
 								'@type'				=> 'WebPage',
 								'@id'				=> get_permalink(),
@@ -1434,8 +1441,8 @@ function saswp_schema_output() {
                                
                              }                                                                    
                         }
-                
-		if(isset($schema_options['notAccessibleForFree']) == 1){
+               
+		if(isset($schema_options['notAccessibleForFree']) && $schema_options['notAccessibleForFree'] == 1){
 
 			add_filter( 'amp_post_template_data', 'saswp_structure_data_access_scripts');			
                         
@@ -1449,17 +1456,20 @@ function saswp_schema_output() {
 					$paywall_class_name = ".".$paywall_class_name;
                                         
 				}
+                                
 				$paywallData = array("isAccessibleForFree"=> $isAccessibleForFree,
                                                      "hasPart"=>array(
                                                                 "@type"               => "WebPageElement",
                                                                 "isAccessibleForFree" => esc_attr($isAccessibleForFree),
-                                                                "cssSelector"         => esc_attr($paywall_class_name)
+                                                                "cssSelector"         => '.'.esc_attr($paywall_class_name)
                                                               )
                                                           );
                                 
 				$input1 = array_merge($input1,$paywallData);
 			}
-		}  
+		} 
+                
+                $input1 = apply_filters('saswp_modify_woocommerce_membership_schema', $input1);
                 
                 if(!empty($input1)){
                     $all_schema_output[] = $input1;		                    
@@ -2325,7 +2335,7 @@ function saswp_post_specific_schema_output() {
                          
                          if( 'Review' === $schema_type ){   
                              
-                                 if(isset($sd_data['saswp-tagyeem']) && $sd_data['saswp-tagyeem'] == 1 ){
+                                 if(isset($sd_data['saswp-tagyeem']) && $sd_data['saswp-tagyeem'] == 1 && (is_plugin_active('taqyeem/taqyeem.php') || get_template() != 'jannah')){
                                      
                                      remove_action( 'TieLabs/after_post_entry',  'tie_article_schemas' );
                                      
@@ -2643,6 +2653,8 @@ function saswp_post_specific_schema_output() {
                                
                              }                                                                    
                         }
+                        
+                        $input1 = apply_filters('saswp_modify_woocommerce_membership_schema', $input1);
                         
                 if(!empty($input1)){
                     

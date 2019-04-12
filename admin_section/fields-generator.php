@@ -31,7 +31,8 @@ class saswp_fields_generator {
                         $tooltip_message = $this->saswp_tooltip_message($meta_field['id']);
                         
                         $class      = "";
-                        $note       = "";                                                
+                        $note       = "";  
+                        $proversion = false;
                         $hidden     = array();
                         $attribute  = array();
                         
@@ -39,6 +40,12 @@ class saswp_fields_generator {
                             
                             $class = $meta_field['class'];    
                             
+                        }
+                        if(array_key_exists('proversion', $meta_field)){
+                            
+                            $proversion = $meta_field['proversion'];  
+                            
+                        
                         }
                         if(array_key_exists('note', $meta_field)){
                             
@@ -132,17 +139,7 @@ class saswp_fields_generator {
                                           
                                          }   
                                         $message =''; 
-                                        
-                                        if (! is_plugin_active('flexmls-idx/flexmls_connect.php')) {
-                                            
-                                        if($meta_field['id'] =='saswp_compativility_checkbox'){
-                                            
-                                        $note = esc_html__('Plugin is not activated','schema-and-structured-data-for-wp'); 
-                                        
-                                        } 
-                                        
-                                        }
-                                                                                                                         
+                                                                                                                                                                                                         
 					$input = sprintf(
 						'<input class="%s" id="%s" name="%s" type="checkbox" %s %s><p>'.$message.'</p>',
                                                 esc_attr($class),
@@ -199,7 +196,13 @@ class saswp_fields_generator {
 			}
                         
                         $allowed_html = saswp_expanded_allowed_tags();
-			$output .= '<li><div class="saswp-knowledge-label">'.$label.'</div><div class="saswp-knowledge-field">'.$input.'<p>'.esc_html__($note,'schema-and-structured-data-for-wp').'</p></div></li>';
+                        
+                        if($note =='' || $proversion == 1){                            
+                            $output .= '<li><div class="saswp-knowledge-label">'.$label.'</div><div class="saswp-knowledge-field">'.$input.'<p data-id="'.esc_attr($proversion).'">'.esc_html__($note,'schema-and-structured-data-for-wp').'</p></div></li>';			
+                        }else{
+                            $output .= '<li><div class="saswp-knowledge-label">'.$label.'</div><div class="saswp-knowledge-field">'.$input.'<p class="saswp_hide">'.esc_html__($note,'schema-and-structured-data-for-wp').'</p></div></li>';			
+                        }
+                                                
 		}
 		echo '<div><div class="saswp-settings-list"><ul>' . wp_kses($output, $allowed_html) . '</ul></div></div>';
 	}	        

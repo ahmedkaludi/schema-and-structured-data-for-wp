@@ -638,7 +638,11 @@ Class saswp_output_service{
                     }
                     if(isset($custom_fields['saswp_review_schema_telephone'])){
                      $input1['itemReviewed']['telephone'] =    $custom_fields['saswp_review_schema_telephone'];
-                    }                    
+                    }
+                    if(isset($custom_fields['saswp_review_author_name'])){
+                     $input1['author']['name'] =    $custom_fields['saswp_review_author_name'];
+                    }
+                    
                     break;
                 
                 case 'VideoObject':
@@ -858,6 +862,7 @@ Class saswp_output_service{
                          
              $date_on_sale                           = $product->get_date_on_sale_to();                            
              $product_details['product_name']        = $product->get_title();
+             
              $product_details['product_description'] = $product->get_short_description();
              
              if(!empty($image_details)){
@@ -995,7 +1000,7 @@ Class saswp_output_service{
                 
                 $post_type = get_post_type($post_id);
                 
-                if($post_type =='dwqa-question' && isset($sd_data['saswp-dw-question-answer']) && $sd_data['saswp-dw-question-answer'] ==1 ){
+                if($post_type =='dwqa-question' && isset($sd_data['saswp-dw-question-answer']) && $sd_data['saswp-dw-question-answer'] ==1 && is_plugin_active('dw-question-answer/dw-question-answer.php')){
                  
                 $post_meta      = get_post_meta($post_id, $key='', true);
                 
@@ -1324,7 +1329,8 @@ Class saswp_output_service{
                         'saswp_review_schema_region'            => 'Address Region',
                         'saswp_review_schema_postal_code'       => 'Postal Code',
                         'saswp_review_schema_country'           => 'Address Country',
-                        'saswp_review_schema_telephone'         => 'Telephone',                        
+                        'saswp_review_schema_telephone'         => 'Telephone',
+                        'saswp_review_author_name'             => 'Author Name',
                     );
                     break;
                 
@@ -1612,7 +1618,7 @@ Class saswp_output_service{
         public function saswp_get_fetaure_image(){
             
             global $sd_data;
-            $input2 = array();
+            $input2          = array();
             $image_id 	     = get_post_thumbnail_id();
 	    $image_details   = wp_get_attachment_image_src($image_id, 'full');           
             
@@ -1629,11 +1635,16 @@ Class saswp_output_service{
                                                 
                                                 $resize_image = ampforwp_aq_resize( $image_details[0], $width[$i], $height[$i], true, false, true );
                                                 
-                                                $input2['image'][$i]['@type']  = 'ImageObject';
-                                                $input2['image'][$i]['url']    = esc_url($resize_image[0]);
-                                                $input2['image'][$i]['width']  = esc_attr($width[$i]);
-                                                $input2['image'][$i]['height'] = esc_attr($height[$i]);  
-                                                                                                
+                                                if(!empty($resize_image)){
+                                                
+                                                    $input2['image'][$i]['@type']  = 'ImageObject';
+                                                    $input2['image'][$i]['url']    = esc_url($resize_image[0]);
+                                                    $input2['image'][$i]['width']  = esc_attr($resize_image[1]);
+                                                    $input2['image'][$i]['height'] = esc_attr($resize_image[2]);  
+                                                    
+                                                }
+                                                
+                                                                                                                                                
                                             }
                                                                                                                                                                                 
                                         }else{
@@ -1644,8 +1655,17 @@ Class saswp_output_service{
                                                 $input2['image']['height'] = esc_attr($image_details[2]);
                                             
                                         } 
-                                                                                                                                                                 
-                                
+                                        
+                                        if(empty($input2)){
+                                            
+                                                $input2['image']['@type']  = 'ImageObject';
+                                                $input2['image']['url']    = esc_url($image_details[0]);
+                                                $input2['image']['width']  = esc_attr($image_details[1]);
+                                                $input2['image']['height'] = esc_attr($image_details[2]);
+                                            
+                                        }
+                                        
+                                                                                                                                                                                                 
                              }else{
                                         
                                         if(isset($sd_data['sd_default_image']['url']) && $sd_data['sd_default_image']['url'] !=''){
@@ -1699,9 +1719,9 @@ Class saswp_output_service{
                             
                             if(isset($custom_logo)){
                                 
-                                $logo           = $custom_logo[0];
-                                $height         = $custom_logo[1];
-                                $width          = $custom_logo[2];
+                                $logo           = array_key_exists(0, $custom_logo)? $custom_logo[0]:'';
+                                $height         = array_key_exists(1, $custom_logo)? $custom_logo[1]:'';
+                                $width          = array_key_exists(2, $custom_logo)? $custom_logo[2]:'';
                             
                             }
                                                         
@@ -1709,16 +1729,16 @@ Class saswp_output_service{
                                                                                                 
                         if($logo !='' && $height !='' && $width !=''){
                          
-                        $publisher['publisher']['@type']         = 'Organization';                        
-                        $publisher['publisher']['logo']['@type'] = 'ImageObject';
-                        $publisher['publisher']['logo']['url']   = esc_url($logo);
-                        $publisher['publisher']['logo']['width'] = esc_attr($width);
-                        $publisher['publisher']['logo']['height']= esc_attr($height);                        
-                        $publisher['publisher']['name']          = esc_attr($site_name); 
-                                                
-                        $default_logo['url']    = esc_url($logo);
-                        $default_logo['height'] = esc_attr($height);
-                        $default_logo['width']  = esc_attr($width);
+                            $publisher['publisher']['@type']         = 'Organization';                        
+                            $publisher['publisher']['logo']['@type'] = 'ImageObject';
+                            $publisher['publisher']['logo']['url']   = esc_url($logo);
+                            $publisher['publisher']['logo']['width'] = esc_attr($width);
+                            $publisher['publisher']['logo']['height']= esc_attr($height);                        
+                            $publisher['publisher']['name']          = esc_attr($site_name); 
+
+                            $default_logo['url']    = esc_url($logo);
+                            $default_logo['height'] = esc_attr($height);
+                            $default_logo['width']  = esc_attr($width);
                             
                         }  
                         
