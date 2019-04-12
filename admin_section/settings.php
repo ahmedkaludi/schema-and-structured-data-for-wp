@@ -61,7 +61,7 @@ function saswp_admin_interface_render(){
                         
                         echo '<a href="' . esc_url(saswp_admin_link('compatibility')) . '" class="nav-tab ' . esc_attr( $tab == 'compatibility' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . esc_html__('Compatibility','schema-and-structured-data-for-wp') . '</a>';
                         
-                        echo '<a href="' . esc_url(saswp_admin_link('email_schema')) . '" class="nav-tab ' . esc_attr( $tab == 'email_schema' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . esc_html__('Email Schema','schema-and-structured-data-for-wp') . '</a>';
+                        //echo '<a href="' . esc_url(saswp_admin_link('email_schema')) . '" class="nav-tab ' . esc_attr( $tab == 'email_schema' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . esc_html__('Email Schema','schema-and-structured-data-for-wp') . '</a>';
                         
                         echo '<a href="' . esc_url(saswp_admin_link('support')) . '" class="nav-tab ' . esc_attr( $tab == 'support' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . esc_html__('Support','schema-and-structured-data-for-wp') . '</a>';
 			?>
@@ -1083,19 +1083,7 @@ function saswp_compatibility_page_callback(){
                                     'name' => 'sd_data[saswp-dw-question-answer]',                             
                         )
 		);
-        
-//        $wpjobmanager = array(
-//			'label'   => 'WP Job Manager',
-//			'id'      => 'saswp-wp-job-manager-checkbox',                        
-//                        'name'    => 'saswp-wp-job-manager-checkbox',
-//			'type'    => 'checkbox',
-//                        'class'   => 'checkbox saswp-checkbox',
-//                        'hidden'  => array(
-//                                'id'   => 'saswp-wp-job-manager',
-//                                'name' => 'sd_data[saswp-wp-job-manager]',                             
-//                        )
-//		);
-        
+                
         $yoast      = array(
 			'label'   => 'Yoast SEO Plugin',
 			'id'      => 'saswp-yoast-checkbox',                        
@@ -1203,8 +1191,8 @@ function saswp_compatibility_page_callback(){
         $meta_fields = array(				
                 $kk_star,  
                 $woocommerce,
-                $woocommerce_bok,
-                $woocommerce_mem,
+               // $woocommerce_bok,
+               // $woocommerce_mem,
                 $the_events_calendar,
                 $tagyeem,
                 $extratheme,
