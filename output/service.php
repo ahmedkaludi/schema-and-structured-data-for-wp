@@ -1635,11 +1635,16 @@ Class saswp_output_service{
                                                 
                                                 $resize_image = ampforwp_aq_resize( $image_details[0], $width[$i], $height[$i], true, false, true );
                                                 
-                                                $input2['image'][$i]['@type']  = 'ImageObject';
-                                                $input2['image'][$i]['url']    = esc_url($resize_image[0]);
-                                                $input2['image'][$i]['width']  = esc_attr($width[$i]);
-                                                $input2['image'][$i]['height'] = esc_attr($height[$i]);  
-                                                                                                
+                                                if(!empty($resize_image)){
+                                                
+                                                    $input2['image'][$i]['@type']  = 'ImageObject';
+                                                    $input2['image'][$i]['url']    = esc_url($resize_image[0]);
+                                                    $input2['image'][$i]['width']  = esc_attr($resize_image[1]);
+                                                    $input2['image'][$i]['height'] = esc_attr($resize_image[2]);  
+                                                    
+                                                }
+                                                
+                                                                                                                                                
                                             }
                                                                                                                                                                                 
                                         }else{
@@ -1650,8 +1655,17 @@ Class saswp_output_service{
                                                 $input2['image']['height'] = esc_attr($image_details[2]);
                                             
                                         } 
-                                                                                                                                                                 
-                                
+                                        
+                                        if(empty($input2)){
+                                            
+                                                $input2['image']['@type']  = 'ImageObject';
+                                                $input2['image']['url']    = esc_url($image_details[0]);
+                                                $input2['image']['width']  = esc_attr($image_details[1]);
+                                                $input2['image']['height'] = esc_attr($image_details[2]);
+                                            
+                                        }
+                                        
+                                                                                                                                                                                                 
                              }else{
                                         
                                         if(isset($sd_data['sd_default_image']['url']) && $sd_data['sd_default_image']['url'] !=''){
@@ -1715,16 +1729,16 @@ Class saswp_output_service{
                                                                                                 
                         if($logo !='' && $height !='' && $width !=''){
                          
-                        $publisher['publisher']['@type']         = 'Organization';                        
-                        $publisher['publisher']['logo']['@type'] = 'ImageObject';
-                        $publisher['publisher']['logo']['url']   = esc_url($logo);
-                        $publisher['publisher']['logo']['width'] = esc_attr($width);
-                        $publisher['publisher']['logo']['height']= esc_attr($height);                        
-                        $publisher['publisher']['name']          = esc_attr($site_name); 
-                                                
-                        $default_logo['url']    = esc_url($logo);
-                        $default_logo['height'] = esc_attr($height);
-                        $default_logo['width']  = esc_attr($width);
+                            $publisher['publisher']['@type']         = 'Organization';                        
+                            $publisher['publisher']['logo']['@type'] = 'ImageObject';
+                            $publisher['publisher']['logo']['url']   = esc_url($logo);
+                            $publisher['publisher']['logo']['width'] = esc_attr($width);
+                            $publisher['publisher']['logo']['height']= esc_attr($height);                        
+                            $publisher['publisher']['name']          = esc_attr($site_name); 
+
+                            $default_logo['url']    = esc_url($logo);
+                            $default_logo['height'] = esc_attr($height);
+                            $default_logo['width']  = esc_attr($width);
                             
                         }  
                         
