@@ -455,8 +455,8 @@ function saswp_schema_output() {
 			'@type'				=> $schema_type ,			
 			'name'			        => saswp_remove_warnings($schema_data, 'saswp_event_schema_name', 'saswp_string'),
 			'description'                   => saswp_remove_warnings($schema_data, 'saswp_event_schema_description', 'saswp_string'),						                            
-                        'startDate'		        => isset($schema_data['saswp_event_schema_start_date']) && $schema_data['saswp_event_schema_start_date'] !='' ? date('Y-m-d\TH:i:s\Z',$schema_data['saswp_event_schema_start_date']):'',
-                        'endDate'                       => isset($schema_data['saswp_event_schema_end_date'])   && $schema_data['saswp_event_schema_end_date']   !='' ? date('Y-m-d\TH:i:s\Z',$schema_data['saswp_event_schema_end_date']):'',                                                        
+                        'startDate'		        => isset($schema_data['saswp_event_schema_start_date']) && $schema_data['saswp_event_schema_start_date'] !='' ? date('Y-m-d\TH:i:s\Z',strtotime($schema_data['saswp_event_schema_start_date'])):'',
+                        'endDate'                       => isset($schema_data['saswp_event_schema_end_date'])   && $schema_data['saswp_event_schema_end_date']   !='' ? date('Y-m-d\TH:i:s\Z',strtotime($schema_data['saswp_event_schema_end_date'])):'',                                                        
                         'image'                         => array(
                                                                     '@type'		=>'ImageObject',
                                                                     'url'		=>  isset($schema_data['saswp_event_schema_image']) ? esc_url($schema_data['saswp_event_schema_image']['url']):'' ,
@@ -480,7 +480,7 @@ function saswp_schema_output() {
                                                             'price'           => saswp_remove_warnings($schema_data, 'saswp_event_schema_price', 'saswp_string'),
                                                             'priceCurrency'   => saswp_remove_warnings($schema_data, 'saswp_event_schema_price_currency', 'saswp_string'),
                                                             'availability'    => saswp_remove_warnings($schema_data, 'saswp_event_schema_availability', 'saswp_string'),                                                           
-                                                            'validFrom'       => isset($schema_data['saswp_event_schema_validfrom'])   && $schema_data['saswp_event_schema_validfrom']   !='' ? date('Y-m-d\TH:i:s\Z',$schema_data['saswp_event_schema_validfrom']):'',                                                        
+                                                            'validFrom'       => isset($schema_data['saswp_event_schema_validfrom'])   && $schema_data['saswp_event_schema_validfrom']   !='' ? date('Y-m-d\TH:i:s\Z',strtotime($schema_data['saswp_event_schema_validfrom'])):'',                                                        
                                         ),
                         'performer'			=> array(
                                                             '@type'  => 'PerformingGroup',
