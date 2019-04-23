@@ -1646,7 +1646,13 @@ Class saswp_output_service{
                                                 
                                                                                                                                                 
                                             }
-                                                                                                                                                                                
+                                            
+                                            if(!empty($input2)){
+                                                foreach($input2 as $arr){
+                                                    $input2['image'] = array_values($arr);
+                                                }
+                                            }
+                                                                                                                                                                                                                            
                                         }else{
                                                                                                                                                                                 
                                                 $input2['image']['@type']  = 'ImageObject';
