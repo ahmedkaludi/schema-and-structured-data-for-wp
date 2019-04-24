@@ -378,6 +378,29 @@ function saswp_general_page_callback(){
 	$settings = saswp_defaultSettings(); 
         
         $meta_fields_default = array(	
+                array(
+			'label'  => 'Website',
+			'id'     => 'saswp_website_schema_checkbox', 
+                        'name'   => 'saswp_website_schema_checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',                        
+                        'hidden' => array(
+                             'id'   => 'saswp_website_schema',
+                             'name' => 'sd_data[saswp_website_schema]',                             
+                        )
+		),
+                array(
+			'label'  => 'Sitelinks Search Box',
+			'id'     => 'saswp_search_box_schema_checkbox', 
+                        'name'   => 'saswp_search_box_schema_checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox', 
+                        'note'   => 'To use this feature, Firstly enable website schema',
+                        'hidden' => array(
+                             'id'   => 'saswp_search_box_schema',
+                             'name' => 'sd_data[saswp_search_box_schema]',                             
+                        )
+		),
 		array(
 			'label'  => 'Archive',
 			'id'     => 'saswp_archive_schema_checkbox', 

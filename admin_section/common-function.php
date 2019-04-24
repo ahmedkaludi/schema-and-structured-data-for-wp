@@ -1266,11 +1266,11 @@ function saswp_defaultSettings(){
                     'sd_alt_name'       => $sd_name,
                     'sd_url'            => $current_url,
                     'sd_logo'           => array(
-                                'url'           => $logo[0],
+                                'url'           => array_key_exists(0, $logo)? $logo[0]:'',
                                 'id'            => $custom_logo_id,
-                                'height'        => $logo[2],
-                                'width'         => $logo[1],
-                                'thumbnail'     => $logo[0]        
+                                'height'        => array_key_exists(2, $logo)? $logo[2]:'',
+                                'width'         => array_key_exists(1, $logo)? $logo[1]:'',
+                                'thumbnail'     => array_key_exists(0, $logo)? $logo[0]:''        
                             ),
                     'sd-person-name'     => $username,                    
                     'sd-person-job-title'=> '',
@@ -1300,11 +1300,11 @@ function saswp_defaultSettings(){
 
                     'sd-data-logo-ampforwp' => array(
                         
-                        'url'       => $logo[0],
+                        'url'       => array_key_exists(0, $logo)? $logo[0]:'',
                         'id'        => $custom_logo_id,
-                        'height'    => $logo[2],
-                        'width'     => $logo[1],
-                        'thumbnail' => $logo[0]        
+                        'height'    => array_key_exists(2, $logo)? $logo[2]:'',
+                        'width'     => array_key_exists(1, $logo)? $logo[1]:'',
+                        'thumbnail' => array_key_exists(0, $logo)? $logo[0]:''        
                     
                     ),
 
@@ -1315,14 +1315,14 @@ function saswp_defaultSettings(){
                     'saswp-logo-height'   => '60',
                     
                     'sd_default_image' => array(
-                        'url'       => $logo[0],
+                        'url'       => array_key_exists(0, $logo)? $logo[0]:'',
                         'id'        => $custom_logo_id,
-                        'height'    => $logo[2],
-                        'width'     => $logo[1],
-                        'thumbnail' => $logo[0]        
+                        'height'    => array_key_exists(2, $logo)? $logo[2]:'',
+                        'width'     => array_key_exists(1, $logo)? $logo[1]:'',
+                        'thumbnail' => array_key_exists(0, $logo)? $logo[0]:''        
                     ),
-                    'sd_default_image_width'   => $logo[1],
-                    'sd_default_image_height'  => $logo[2],
+                    'sd_default_image_width'   => array_key_exists(1, $logo)? $logo[1]:'',
+                    'sd_default_image_height'  => array_key_exists(2, $logo)? $logo[2]:'',
                     'sd_initial_wizard_status' => 1,                                        
 
             );	            

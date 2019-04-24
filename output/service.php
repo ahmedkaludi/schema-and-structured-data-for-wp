@@ -1635,7 +1635,7 @@ Class saswp_output_service{
                                                 
                                                 $resize_image = ampforwp_aq_resize( $image_details[0], $width[$i], $height[$i], true, false, true );
                                                 
-                                                if(!empty($resize_image)){
+                                                if(isset($resize_image[0]) && isset($resize_image[1]) && isset($resize_image[2]) ){
                                                 
                                                     $input2['image'][$i]['@type']  = 'ImageObject';
                                                     $input2['image'][$i]['url']    = esc_url($resize_image[0]);
@@ -1646,7 +1646,13 @@ Class saswp_output_service{
                                                 
                                                                                                                                                 
                                             }
-                                                                                                                                                                                
+                                            
+                                            if(!empty($input2)){
+                                                foreach($input2 as $arr){
+                                                    $input2['image'] = array_values($arr);
+                                                }
+                                            }
+                                                                                                                                                                                                                            
                                         }else{
                                                                                                                                                                                 
                                                 $input2['image']['@type']  = 'ImageObject';

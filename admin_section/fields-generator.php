@@ -200,7 +200,7 @@ class saswp_fields_generator {
                         if($note =='' || $proversion == 1){                            
                             $output .= '<li><div class="saswp-knowledge-label">'.$label.'</div><div class="saswp-knowledge-field">'.$input.'<p data-id="'.esc_attr($proversion).'">'.esc_html__($note,'schema-and-structured-data-for-wp').'</p></div></li>';			
                         }else{
-                            $output .= '<li><div class="saswp-knowledge-label">'.$label.'</div><div class="saswp-knowledge-field">'.$input.'<p class="saswp_hide">'.esc_html__($note,'schema-and-structured-data-for-wp').'</p></div></li>';			
+                            $output .= '<li><div class="saswp-knowledge-label">'.$label.'</div><div class="saswp-knowledge-field">'.$input.'<p class="">'.esc_html__($note,'schema-and-structured-data-for-wp').'</p></div></li>';			
                         }
                                                 
 		}
