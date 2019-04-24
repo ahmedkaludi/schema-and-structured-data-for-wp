@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.1
-Stable tag: 1.6
+Stable tag: 1.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -64,6 +64,16 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+
+= 1.7 (24 April 2019) =
+
+* Added: Option to enable and disable website schema markup #225
+* Added: Option to enable and disable Sitelinks Search Box in website schema markup #196
+* Bug Fixed: Event Time and date is not changing as per the option #227
+* Bug Fixed: Two images url are null from three different image sizes in amp article schema #222
+* Bug Fixed: number_format() Debug error #213
+* Bug Fixed: Undefined offset errors #214, #232, #229
 
 
 = 1.6 (12 April 2019) =
