@@ -2707,26 +2707,34 @@ function saswp_schema_breadcrumb_output(){
  */
 function saswp_kb_website_output(){
     	        
+                global $sd_data;
+                
                 $input = array();
                 
-		$site_url  = get_site_url();
+                if(isset($sd_data['saswp_website_schema']) && $sd_data['saswp_website_schema'] == 1 || !isset($sd_data['saswp_website_schema'])){
+                 
+                $site_url  = get_site_url();
 		$site_name = get_bloginfo();
                 
                 if($site_url && $site_name){
                  
                     $input = array(
-			'@context'	  => 'http://schema.org',
-			'@type'		  => 'WebSite',
-			'id'		  => '#website',
-			'url'		  => $site_url,
-			'name'		  => $site_name,
-			'potentialAction' => array(
-                                    '@type'			=> 'SearchAction',
-                                    'target'		        => esc_url($site_url).'/?s={search_term_string}',
-                                    'query-input'	        => 'required name=search_term_string',
-			 	)
-			);                    
-                }                		
+                            '@context'	  => 'http://schema.org',
+                            '@type'		  => 'WebSite',
+                            'id'		  => '#website',
+                            'url'		  => $site_url,
+                            'name'		  => $site_name,			
+			);  
+                    
+                    if(isset($sd_data['saswp_search_box_schema']) && $sd_data['saswp_search_box_schema'] == 1 || !isset($sd_data['saswp_search_box_schema'])){
+                        
+                        $input['potentialAction']['@type']       = 'SearchAction';
+                        $input['potentialAction']['target']      = esc_url($site_url).'/?s={search_term_string}';
+                        $input['potentialAction']['query-input'] = 'required name=search_term_string';
+                        
+                    }
+                  }                                        
+                }                		                		
 	
 	return apply_filters('saswp_modify_website_output', $input);       
 }	

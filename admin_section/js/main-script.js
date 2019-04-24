@@ -280,6 +280,25 @@ jQuery(document).ready(function($){
                                 $(".saswp_archive_schema_type_class").parent().parent().hide();
                               }
                       break;
+                      
+                      case 'saswp_website_schema_checkbox':
+                          
+                            if ($(this).is(':checked')) {              
+                              $("#saswp_website_schema").val(1);             
+                            }else{
+                              $("#saswp_website_schema").val(0);           
+                            }
+                      break;
+                      
+                      case 'saswp_search_box_schema_checkbox':
+                          
+                            if ($(this).is(':checked')) {              
+                              $("#saswp_search_box_schema").val(1);             
+                            }else{
+                              $("#saswp_search_box_schema").val(0);           
+                            }
+                      break;
+                      
                       case 'saswp_breadcrumb_schema_checkbox':
                           
                             if ($(this).is(':checked')) {              
