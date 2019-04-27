@@ -1754,7 +1754,7 @@ function saswp_post_specific_schema_output() {
                                 }
                      }
                      
-                         if( 'AudioObject' === $schema_type){
+                       if( 'AudioObject' === $schema_type){
                     		                                                    
 			$input1 = array(
 			'@context'			=> 'http://schema.org',

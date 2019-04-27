@@ -1295,3 +1295,142 @@ function saswp_feeback_remindme(){
 }
 
 add_action('wp_ajax_saswp_feeback_remindme', 'saswp_feeback_remindme');
+
+
+/**
+ * Licensing code starts here
+ */
+
+
+function saswp_license_status($add_on, $license_status, $license_key){
+                              
+                $item_name = array(
+                       'cooked'      => 'Cooked compatibility for Schema',
+                       'woocommerce' => 'Woocommerce compatibility for Schema'   
+                );
+                                                                    
+                $edd_action = '';
+                if($license_status =='active'){
+                   $edd_action = 'activate_license'; 
+                }
+                
+                if($license_status =='inactive'){
+                   $edd_action = 'deactivate_license'; 
+                }
+            // data to send in our API request
+		$api_params = array(
+			'edd_action' => $edd_action,
+			'license'    => $license_key,
+                        'item_name'  => $item_name[strtolower($add_on)],
+                        'author'     => 'Magazine3',			
+			'url'        => home_url(),
+                        'beta'       => false,
+		);
+                $message        = '';
+                $current_status = '';
+                $response = wp_remote_post( SASWP_EDD_STORE_URL, array( 'timeout' => 15, 'sslverify' => false, 'body' => $api_params ) );
+                           
+                // make sure the response came back okay
+		if ( is_wp_error( $response ) || 200 !== wp_remote_retrieve_response_code( $response ) ) {
+			$message =  ( is_wp_error( $response ) && ! empty( $response->get_error_message() ) ) ? $response->get_error_message() : __( 'An error occurred, please try again.' );
+		} else {
+			$license_data = json_decode( wp_remote_retrieve_body( $response ) );
+                        
+			if ( false === $license_data->success ) {
+                            
+                                $current_status = $license_data->error;
+                                
+				switch( $license_data->error ) {
+					case 'expired' :
+						$message = sprintf(
+							__( 'Your license key expired on %s.' ),
+							date_i18n( get_option( 'date_format' ), strtotime( $license_data->expires, current_time( 'timestamp' ) ) )
+						);
+						break;
+					case 'revoked' :
+						$message = __( 'Your license key has been disabled.' );
+						break;
+					case 'missing' :
+						$message = __( 'Invalid license.' );
+						break;
+					case 'invalid' :
+					case 'site_inactive' :
+						$message = __( 'Your license is not active for this URL.' );
+						break;
+					case 'item_name_mismatch' :
+						$message = sprintf( __( 'This appears to be an invalid license key for %s.' ), EDD_SAMPLE_ITEM_NAME );
+						break;
+					case 'no_activations_left':
+						$message = __( 'Your license key has reached its activation limit.' );
+						break;
+					default :
+						$message = __( 'An error occurred, please try again.' );
+						break;
+				}
+			}
+		}
+                if($message){
+                    
+                        $license[strtolower($add_on).'_addon_license_key_status'] = $current_status;
+                        $license[strtolower($add_on).'_addon_license_key']        = $license_key;
+                        $license[strtolower($add_on).'_addon_license_key_message']= $message;
+                    
+                }else{
+                    
+                    if($license_status == 'active'){
+                        
+                        $license[strtolower($add_on).'_addon_license_key_status']  = 'active';
+                        $license[strtolower($add_on).'_addon_license_key']         = $license_key;
+                        $license[strtolower($add_on).'_addon_license_key_message'] = 'active';
+                        $current_status = 'active';
+                        $message = 'Activated';
+                    }
+                    
+                    if($license_status == 'inactive'){
+                        
+                        $license[strtolower($add_on).'_addon_license_key_status']  = 'deactivated';
+                        $license[strtolower($add_on).'_addon_license_key']         = $license_key;
+                        $license[strtolower($add_on).'_addon_license_key_message'] = 'Deactivated';
+                        $current_status = 'deactivated';
+                        $message = 'Deactivated';
+                    }
+                    
+                }
+                
+                $get_options   = get_option('sd_data');
+                $merge_options = array_merge($get_options, $license);
+                update_option('sd_data', $merge_options);  
+                
+                return array('status'=> $current_status, 'message'=> $message);
+                                                                
+}
+
+function saswp_license_status_check(){  
+    
+          
+        if ( ! isset( $_POST['saswp_security_nonce'] ) ){
+           return; 
+        }
+        if ( !wp_verify_nonce( $_POST['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
+           return;  
+        }    
+        
+        $add_on           = sanitize_text_field($_POST['add_on']);
+        $license_status   = sanitize_text_field($_POST['license_status']);
+        $license_key      = sanitize_text_field($_POST['license_key']);
+        
+        if($add_on && $license_status && $license_key){
+            
+          $result = saswp_license_status($add_on, $license_status, $license_key);
+          
+          echo json_encode($result);
+                        
+        }          
+                        
+        wp_die();           
+}
+
+add_action('wp_ajax_saswp_license_status_check', 'saswp_license_status_check');
+/**
+ * Licensing code ends here
+ */

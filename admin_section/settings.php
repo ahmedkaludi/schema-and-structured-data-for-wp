@@ -61,7 +61,7 @@ function saswp_admin_interface_render(){
                         
                         echo '<a href="' . esc_url(saswp_admin_link('compatibility')) . '" class="nav-tab ' . esc_attr( $tab == 'compatibility' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . esc_html__('Compatibility','schema-and-structured-data-for-wp') . '</a>';
                         
-                        //echo '<a href="' . esc_url(saswp_admin_link('email_schema')) . '" class="nav-tab ' . esc_attr( $tab == 'email_schema' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . esc_html__('Email Schema','schema-and-structured-data-for-wp') . '</a>';
+                        echo '<a href="' . esc_url(saswp_admin_link('email_schema')) . '" class="nav-tab ' . esc_attr( $tab == 'email_schema' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . esc_html__('Email Schema','schema-and-structured-data-for-wp') . '</a>';
                         
                         echo '<a href="' . esc_url(saswp_admin_link('support')) . '" class="nav-tab ' . esc_attr( $tab == 'support' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . esc_html__('Support','schema-and-structured-data-for-wp') . '</a>';
 			?>
@@ -859,6 +859,7 @@ function saswp_check_data_imported_from($plugin_post_type_name){
 }
 function saswp_import_callback(){
     
+        global $sd_data;
         $message               = 'This plugin\'s data already has been imported. Do you want to import again?. click on button above button.';
         $schema_message        = '';
         $schema_pro_message    = '';
@@ -941,6 +942,97 @@ function saswp_import_callback(){
                 </li> 
                 
             </ul>
+
+
+        <?php    
+        
+                        
+        $add_on = array();
+                
+        if(is_plugin_active('cooked-compatibility-for-schema/cooked-compatibility-for-schema.php')){
+                      
+           $add_on[] = 'Cooked';           
+                                      
+        }
+        
+        if(is_plugin_active('woocommerce-compatibility-for-schema/woocommerce-compatibility-for-schema.php')){
+                      
+           $add_on[] = 'Woocommerce';           
+                                      
+        }
+                
+        if(!empty($add_on)){
+            
+            echo '<h2>'.esc_html__('License','schema-and-structured-data-for-wp').'</h2>';
+            
+            echo '<ul>';
+            
+            foreach($add_on as $on){
+                
+                $license_key        = '';
+                $license_status     = 'inactive';
+                $license_status_msg = '';
+                
+                if(isset($sd_data[strtolower($on).'_addon_license_key'])){
+                  $license_key =   $sd_data[strtolower($on).'_addon_license_key'];
+                }
+                
+                if(isset($sd_data[strtolower($on).'_addon_license_key_status'])){
+                  $license_status =   $sd_data[strtolower($on).'_addon_license_key_status'];
+                }
+                
+                if(isset($sd_data[strtolower($on).'_addon_license_key_message'])){
+                  $license_status_msg =   $sd_data[strtolower($on).'_addon_license_key_message'];
+                }
+                
+                echo '<li>';
+                echo '<div class="saswp-tools-field-title">';
+                
+                echo '<div class="" style="display:inline-block">';
+                echo '<strong>'.esc_html__(''.$on.' Compatibility For Schema','schema-and-structured-data-for-wp').'</strong>';
+                echo '</div>';
+                
+                if($license_status == 'active'){
+                
+                    echo '<span class="dashicons dashicons-yes saswp-'.strtolower($on).'-dashicons" style="color: #46b450;"></span>';    
+                    
+                }else{
+                
+                    echo '<span class="dashicons dashicons-no-alt saswp-'.strtolower($on).'-dashicons" style="color: #dc3232;"></span>';
+                    
+                }
+                                                
+                echo '<input type="text" placeholder="Enter License Key" id="'.strtolower($on).'_addon_license_key" name="sd_data['.strtolower($on).'_addon_license_key]" value="'.esc_attr($license_key).'">';
+                
+                echo '<input type="hidden" id="'.strtolower($on).'_addon_license_key_status" name="sd_data['.strtolower($on).'_addon_license_key_status]" value="'.esc_attr($license_status).'">';                
+                
+                if($license_status == 'active'){
+                
+                    echo '<a license-status="inactive" add-on="'.strtolower($on).'" class="button button-default saswp_license_activation">'.esc_html__('Deactivate', 'schema-and-structured-data-for-wp').'</a>';
+                    
+                }else{
+                
+                    echo '<a license-status="active" add-on="'.strtolower($on).'" class="button button-default saswp_license_activation">'.esc_html__('Activate', 'schema-and-structured-data-for-wp').'</a>';
+                    
+                }
+                
+                if($license_status_msg !='active'){
+                    echo '<p style="color:red;" add-on="'.strtolower($on).'" class="saswp_license_status_msg">'.$license_status_msg.'</p>';
+                }                
+                                                
+                echo '<p>'.esc_html__('Enter your '.$on.' addon license key to activate updates & support.','schema-and-structured-data-for-wp').'</p>';
+                
+                echo '</div>';
+                echo '</li>';
+                
+            }
+            
+            echo '</ul>';
+            
+        }
+                          
+         ?>
+
 <?php
          
 }
@@ -1072,6 +1164,19 @@ function saswp_compatibility_page_callback(){
                                 'name' => 'sd_data[saswp-woocommerce-booking]',                             
                         )
 		);
+        
+        $cooked = array(
+			'label'  => 'Cooked',
+			'id'     => 'saswp-cooked-checkbox',                        
+                        'name'   => 'saswp-cooked-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
+                        'hidden' => array(
+                                'id'   => 'saswp-cooked-booking',
+                                'name' => 'sd_data[saswp-cooked-booking]',                             
+                        )
+		);
+        
         $woocommerce_mem = array(
 			'label'  => 'Woocommerce Membership',
 			'id'     => 'saswp-woocommerce-membership-checkbox',                        
@@ -1163,7 +1268,7 @@ function saswp_compatibility_page_callback(){
             
         }
         
-        if(!is_plugin_active('schema-and-structured-data-for-wp-pro/schema-and-structured-data-for-wp-pro.php')){
+        if(!is_plugin_active('woocommerce-compatibility-for-schema/woocommerce-compatibility-for-schema.php')){
          
              $woocommerce_bok['attributes'] = array(
                  'disabled' => 'disabled'
@@ -1181,6 +1286,19 @@ function saswp_compatibility_page_callback(){
              $woocommerce_mem['proversion'] = true;
             
         }
+        
+        
+        if(!is_plugin_active('cooked-compatibility-for-schema/cooked-compatibility-for-schema.php')){
+         
+             $cooked['attributes'] = array(
+                 'disabled' => 'disabled'
+             );
+             
+             $cooked['proversion'] = true;
+                          
+             $settings['saswp-cooked-booking'] = 0;                                                                             
+        }
+        
                          
         if(get_template() != 'Extra'){
              
@@ -1214,8 +1332,9 @@ function saswp_compatibility_page_callback(){
         $meta_fields = array(				
                 $kk_star,  
                 $woocommerce,
-               // $woocommerce_bok,
-               // $woocommerce_mem,
+                $woocommerce_bok,
+                $woocommerce_mem,
+                $cooked,
                 $the_events_calendar,
                 $tagyeem,
                 $extratheme,

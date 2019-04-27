@@ -1620,8 +1620,8 @@ Class saswp_output_service{
             global $sd_data;
             $input2          = array();
             $image_id 	     = get_post_thumbnail_id();
-	    $image_details   = wp_get_attachment_image_src($image_id, 'full');           
-            
+	    $image_details   = wp_get_attachment_image_src($image_id, 'full'); 
+                        
             if( is_array($image_details) ){                                
                                     
                                         
@@ -1654,11 +1654,18 @@ Class saswp_output_service{
                                             }
                                                                                                                                                                                                                             
                                         }else{
-                                                                                                                                                                                
-                                                $input2['image']['@type']  = 'ImageObject';
-                                                $input2['image']['url']    = esc_url($image_details[0]);
-                                                $input2['image']['width']  = esc_attr($image_details[1]);
-                                                $input2['image']['height'] = esc_attr($image_details[2]);
+                                                     
+                                                $size_array = array('full', 'large', 'medium', 'thumbnail');
+                                                
+                                                for($i =0; $i< count($size_array); $i++){
+                                                    
+                                                    $image_details   = wp_get_attachment_image_src($image_id, $size_array[$i]); 
+                                                    $input2['image'][$i]['@type']  = 'ImageObject';
+                                                    $input2['image'][$i]['url']    = esc_url($image_details[0]);
+                                                    $input2['image'][$i]['width']  = esc_attr($image_details[1]);
+                                                    $input2['image'][$i]['height'] = esc_attr($image_details[2]);
+                                                    
+                                                }                                                                                                                                                                                        
                                             
                                         } 
                                         

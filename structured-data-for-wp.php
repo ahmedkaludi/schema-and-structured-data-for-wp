@@ -23,6 +23,11 @@ if(! defined('SASWP_ITEM_FOLDER_NAME')){
     define( 'SASWP_ITEM_FOLDER_NAME', $folderName );
 }
 define('SASWP_PLUGIN_URL', plugin_dir_url( __FILE__ ));
+
+//define('SASWP_EDD_SL_ITEM_ID', plugin_dir_url( __FILE__ ));
+define('SASWP_EDD_STORE_URL', 'http://accounts.structured-data-for-wp.com/');
+//define('SASWP_EDD_DATA_ITEM_NAME', 'Cooked compatibility for Schema' );
+
 // including the output file
 require_once SASWP_DIR_NAME .'/output/function.php';
 require_once SASWP_DIR_NAME .'/output/output.php';
