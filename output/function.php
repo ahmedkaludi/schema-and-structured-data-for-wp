@@ -428,7 +428,7 @@ function saswp_list_items_generator(){
                 
         if(is_single()){    
             
-			if(isset($bc_titles) && $bc_links){      
+			if(!empty($bc_titles) && !empty($bc_links)){      
                             
 				for($i=0;$i<sizeof($bc_titles);$i++){
                                     
