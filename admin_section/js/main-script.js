@@ -913,6 +913,11 @@ jQuery(document).ready(function($){
                saswpCustomSelect2();           
        } ); 
         
+        
+       $(document).on("click", '.saswp-skip-button', function(){
+           $(this).parent().parent().hide();
+       }); 
+        
        $(document).on("click", '.saswp-add-custom-fields', function(){          
           var schema_type = $('select#schema_type option:selected').val();
           var post_id = $('#post_ID').val();

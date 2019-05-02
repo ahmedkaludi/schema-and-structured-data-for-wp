@@ -91,13 +91,24 @@ add_action( 'admin_notices', 'saswp_admin_notice' );
 
 function saswp_admin_notice(){
     
+    $screen_id = ''; 
+    $current_screen = get_current_screen();
+    
+    if(is_object($current_screen)){
+       $screen_id =  $current_screen->id;
+    }
+    
     $nonce = wp_create_nonce( 'saswp_install_wizard_nonce' );  
     
     $setup_notice = '<div class="updated notice is-dismissible message notice notice-alt saswp-setup-notice">'
-                    . '<p><span class="dashicons dashicons-thumbs-up"></span>'
-                    . esc_html__('Thank you for using Schema & Structured Data For WP plugin!', 'schema-and-structured-data-for-wp')
-                    . ' <a href="'.esc_url(admin_url( 'plugins.php?page=saswp-setup-wizard' ).'&_saswp_nonce='.$nonce).'">'
-                    . esc_html__('Start Quick Setup', 'schema-and-structured-data-for-wp')
+                    . '<p>'
+                    . '<strong>'.esc_html__('Welcome to Schema & Structured Data For WP', 'schema-and-structured-data-for-wp').'</strong>'
+                    .' - '.esc_html__('You are almost ready', 'schema-and-structured-data-for-wp')
+                    . ' <a class="button button-primary" href="'.esc_url(admin_url( 'plugins.php?page=saswp-setup-wizard' ).'&_saswp_nonce='.$nonce).'">'
+                    . esc_html__('Run the Setup Wizard', 'schema-and-structured-data-for-wp')
+                    . '</a> '
+                    .'<a class="button button-primary saswp-skip-button">'
+                    . esc_html__('Skip Setup', 'schema-and-structured-data-for-wp')
                     . '</a>'
                     . '</p>'
                     . '</div>';        
@@ -111,11 +122,11 @@ function saswp_admin_notice(){
         
     }    
     
-    $current_screen  = get_Current_screen();        
+           
     $post_type       = get_post_type();         
     $sd_data         = get_option('sd_data'); 
     
-    if(($post_type == 'saswp' || $current_screen->id =='saswp_page_structured_data_options') && !isset($sd_data['sd_initial_wizard_status'])){
+    if(($post_type == 'saswp' || $screen_id =='saswp_page_structured_data_options') && !isset($sd_data['sd_initial_wizard_status'])){
             
         echo $setup_notice;
         
@@ -139,7 +150,7 @@ function saswp_admin_notice(){
         <?php
     }  
         
-    if(isset($sd_data['sd_default_image']['url']) && $sd_data['sd_default_image']['url'] == ''){
+    if(isset($sd_data['sd_default_image']['url']) && $sd_data['sd_default_image']['url'] == '' && ($screen_id =='saswp_page_structured_data_options' ||$screen_id == 'plugins' || $screen_id =='edit-saswp' || $screen_id == 'saswp')){
 
         ?>
         <div class="updated notice is-dismissible message notice notice-alt saswp-feedback-notice">
