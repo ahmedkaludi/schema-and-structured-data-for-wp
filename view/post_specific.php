@@ -10,7 +10,8 @@ class saswp_post_specific {
                 
         public function saswp_post_specific_hooks(){
             
-                $this->saswp_get_all_schema_list();
+                add_action( 'admin_init', array( $this, 'saswp_get_all_schema_list' ) );
+                           
 		add_action( 'add_meta_boxes', array( $this, 'saswp_post_specifc_add_meta_boxes' ) );		
 		add_action( 'save_post', array( $this, 'saswp_post_specific_save_fields' ) );
                 add_action( 'wp_ajax_saswp_get_sub_business_ajax', array($this,'saswp_get_sub_business_ajax'));
@@ -61,19 +62,24 @@ class saswp_post_specific {
 
         public function saswp_get_all_schema_list(){
             
-                if($this->all_schema == null){
+                global $pagenow;
+                
+                if($pagenow == 'post.php'  || $pagenow == 'admin-ajax.php'){
+                
+                    if($this->all_schema == null){
                     
-                 $all_schema = get_posts(
-                    array(
-                            'post_type' 	 => 'saswp',
-                            'posts_per_page' => -1,   
-                            'post_status' => 'publish',
-                    )
-                 ); 
-                 
-                 $this->all_schema = $all_schema;    
-                }
-                                           
+                        $all_schema = get_posts(
+                           array(
+                                   'post_type' 	 => 'saswp',
+                                   'posts_per_page'     => -1,   
+                                   'post_status'        => 'publish',
+                           )
+                        ); 
+
+                        $this->all_schema = $all_schema;    
+                       }
+                    
+                }                                                                           
         }
 
         public function saswp_post_specifc_add_meta_boxes($post) {
