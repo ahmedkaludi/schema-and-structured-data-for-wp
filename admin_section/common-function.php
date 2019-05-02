@@ -1258,20 +1258,13 @@ function saswp_defaultSettings(){
             }
             $defaults = array(
                     //General Block
-                    'sd_about_page'     => '',
-                    'sd_contact_page'   => '',         
+                    'sd_about_page'      => '',
+                    'sd_contact_page'    => '',         
                     //knowledge Block
-                    'saswp_kb_type'     => 'Organization',    
-                    'sd_name'           => $sd_name,   
-                    'sd_alt_name'       => $sd_name,
-                    'sd_url'            => $current_url,
-                    'sd_logo'           => array(
-                                'url'           => array_key_exists(0, $logo)? $logo[0]:'',
-                                'id'            => $custom_logo_id,
-                                'height'        => array_key_exists(2, $logo)? $logo[2]:'',
-                                'width'         => array_key_exists(1, $logo)? $logo[1]:'',
-                                'thumbnail'     => array_key_exists(0, $logo)? $logo[0]:''        
-                            ),
+                    'saswp_kb_type'      => 'Organization',    
+                    'sd_name'            => $sd_name,   
+                    'sd_alt_name'        => $sd_name,
+                    'sd_url'             => $current_url,                    
                     'sd-person-name'     => $username,                    
                     'sd-person-job-title'=> '',
                     'sd-person-url'      => $current_url,
@@ -1288,44 +1281,55 @@ function saswp_defaultSettings(){
                     'saswp_kb_contact_1'     => 0,
                     //Social
                     'sd_facebook'            => '',
-                    'sd_twitter'             => '',
-                    'sd_google_plus'         => '',
+                    'sd_twitter'             => '',                    
                     'sd_instagram'           => '',
                     'sd_youtube'             => '',
                     'sd_linkedin'            => '',
                     'sd_pinterest'           => '',
                     'sd_soundcloud'          => '',
-                    'sd_tumblr'              => '',
-
-
-                    'sd-data-logo-ampforwp' => array(
-                        
-                        'url'       => array_key_exists(0, $logo)? $logo[0]:'',
-                        'id'        => $custom_logo_id,
-                        'height'    => array_key_exists(2, $logo)? $logo[2]:'',
-                        'width'     => array_key_exists(1, $logo)? $logo[1]:'',
-                        'thumbnail' => array_key_exists(0, $logo)? $logo[0]:''        
-                    
-                    ),
+                    'sd_tumblr'              => '',                  
 
                     //AMP Block           
-                    'saswp-for-amp'       => 1, 
-                    'saswp-for-wordpress' => 1,      
-                    'saswp-logo-width'    => '60',
-                    'saswp-logo-height'   => '60',
-                    
-                    'sd_default_image' => array(
-                        'url'       => array_key_exists(0, $logo)? $logo[0]:'',
-                        'id'        => $custom_logo_id,
-                        'height'    => array_key_exists(2, $logo)? $logo[2]:'',
-                        'width'     => array_key_exists(1, $logo)? $logo[1]:'',
-                        'thumbnail' => array_key_exists(0, $logo)? $logo[0]:''        
-                    ),
-                    'sd_default_image_width'   => array_key_exists(1, $logo)? $logo[1]:'',
-                    'sd_default_image_height'  => array_key_exists(2, $logo)? $logo[2]:'',
+                    'saswp-for-amp'            => 1, 
+                    'saswp-for-wordpress'      => 1,      
+                    'saswp-logo-width'         => '60',
+                    'saswp-logo-height'        => '60',                                                            
                     'sd_initial_wizard_status' => 1,                                        
 
             );	            
+            
+            if(is_array($logo)){
+                
+                $defaults['sd_logo']  = array(
+                                'url'           => array_key_exists(0, $logo)? $logo[0]:'',
+                                'id'            => $custom_logo_id,
+                                'height'        => array_key_exists(2, $logo)? $logo[2]:'',
+                                'width'         => array_key_exists(1, $logo)? $logo[1]:'',
+                                'thumbnail'     => array_key_exists(0, $logo)? $logo[0]:''        
+                            );
+                
+                $defaults['sd-data-logo-ampforwp'] = array(
+                        
+                            'url'       => array_key_exists(0, $logo)? $logo[0]:'',
+                            'id'        => $custom_logo_id,
+                            'height'    => array_key_exists(2, $logo)? $logo[2]:'',
+                            'width'     => array_key_exists(1, $logo)? $logo[1]:'',
+                            'thumbnail' => array_key_exists(0, $logo)? $logo[0]:''        
+                    
+                    );
+                
+                $defaults['sd_default_image'] = array(
+                        'url'       => array_key_exists(0, $logo)? $logo[0]:'',
+                        'id'        => $custom_logo_id,
+                        'height'    => array_key_exists(2, $logo)? $logo[2]:'',
+                        'width'     => array_key_exists(1, $logo)? $logo[1]:'',
+                        'thumbnail' => array_key_exists(0, $logo)? $logo[0]:''        
+                    );
+                
+                $defaults['sd_default_image_width']   = array_key_exists(1, $logo)? $logo[1]:'';
+                $defaults['sd_default_image_height']  = array_key_exists(2, $logo)? $logo[2]:'';                                
+            }
+                        
             $sd_data = $settings = get_option( 'sd_data', $defaults);     
             
             return $settings;
