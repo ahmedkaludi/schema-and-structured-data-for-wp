@@ -428,11 +428,13 @@ function saswp_list_items_generator(){
                 
         if(is_single()){    
             
-			if(isset($bc_titles)){      
+			if(isset($bc_titles) && $bc_links){      
                             
 				for($i=0;$i<sizeof($bc_titles);$i++){
                                     
-					$breadcrumbslist[] = array(
+                                    if($bc_links[$i] && $bc_titles[$i]){
+                                    
+                                        $breadcrumbslist[] = array(
 								'@type'			=> 'ListItem',
 								'position'		=> $j,
 								'item'			=> array(
@@ -442,16 +444,23 @@ function saswp_list_items_generator(){
 							          );
                                         
                                         $j++;
+                                        
+                                        
+                                    }
+                                    					
                         }
                 
                      }
                
 }
         if(is_page()){
-
-			for($i=0;$i<sizeof($bc_titles);$i++){
+                        if(!empty($bc_titles) && !empty($bc_links)){
                             
-				$breadcrumbslist[] = array(
+                            for($i=0;$i<sizeof($bc_titles);$i++){
+                            
+                                if($bc_links[$i] && $bc_titles[$i]){
+                                 
+                                    $breadcrumbslist[] = array(
 								'@type'			=> 'ListItem',
 								'position'		=> $j,
 								'item'			=> array(
@@ -459,17 +468,25 @@ function saswp_list_items_generator(){
 									'name'		=> $bc_titles[$i],
 									),
 							);
-                                
-		$j++;
-                
-        }
+
+                                    $j++;
+                                    
+                                }                                				
+
+                            }
+                        }
+			
 
 }
         if(is_archive()){
 
-	for($i=0;$i<sizeof($bc_titles);$i++){
-            
-				$breadcrumbslist[] = array(
+         if(!empty($bc_titles) && !empty($bc_links)){
+             
+             for($i=0;$i<sizeof($bc_titles);$i++){
+                 
+                    if($bc_links[$i] && $bc_titles[$i]){
+                                               
+                        $breadcrumbslist[] = array(
 								        '@type'		=> 'ListItem',
 								        'position'	=> $j,
 								        'item'		=> array(
@@ -477,9 +494,13 @@ function saswp_list_items_generator(){
 									'name'		=> $bc_titles[$i],
 									),
 							);
-		$j++;
+                        $j++;
                 
+                    }
+            				                
 		}
+                          
+         }               	
 }
 
        return $breadcrumbslist;
