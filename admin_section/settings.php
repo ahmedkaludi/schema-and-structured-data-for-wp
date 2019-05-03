@@ -1125,18 +1125,13 @@ function saswp_email_schema_callback(){
                                       
         }
         
-        if(!is_plugin_active('schema-and-structured-data-for-wp-pro/schema-and-structured-data-for-wp-pro.php')){
-         
-             $woocommerce['attributes'] = array(
-                 'disabled' => 'disabled'
-             );
-                          
-             $settings['saswp-woocommerce-booking-main'] = 0;
-             $settings['saswp-woocommerce-booking'] = 0;
-             $woocommerce['proversion'] = true;
-            
+        if(!is_plugin_active('woocommerce-compatibility-for-schema/woocommerce-compatibility-for-schema.php')){
+                      
+             $woocommerce['note'] = esc_html__('This feature requires WooCommerce Addon','schema-and-structured-data-for-wp').' <a target="_blank" href="http://structured-data-for-wp.com/woocommerce-compatibility-for-schema/">Link</a>';
+                                      
         }
-                   
+        
+                           
         $field_objs = new saswp_fields_generator();
         $meta_fields = array(				               
                 $woocommerce,                                              
@@ -1216,8 +1211,8 @@ function saswp_compatibility_page_callback(){
 			'type'   => 'checkbox',
                         'class'  => 'checkbox saswp-checkbox',
                         'hidden' => array(
-                                'id'   => 'saswp-cooked-booking',
-                                'name' => 'sd_data[saswp-cooked-booking]',                             
+                                'id'   => 'saswp-cooked',
+                                'name' => 'sd_data[saswp-cooked]',                             
                         )
 		);
         
@@ -1294,64 +1289,49 @@ function saswp_compatibility_page_callback(){
                          
         }
         if(!is_plugin_active('woocommerce/woocommerce.php') || !is_plugin_active('woocommerce-bookings/woocommerce-bookings.php')){
-         
-             
-             $woocommerce_bok['note'] = esc_html__('Requires selected plugin','schema-and-structured-data-for-wp');
-                          
-            
+                      
+            $woocommerce_bok['note'] = esc_html__('Requires selected plugin','schema-and-structured-data-for-wp');
+                                      
         }
-        
-        
-        
-        
+                                
         if(!is_plugin_active('woocommerce/woocommerce.php') || !is_plugin_active('woocommerce-memberships/woocommerce-memberships.php')){
-         
-             
-             $woocommerce_mem['note'] = esc_html__('Requires selected plugin','schema-and-structured-data-for-wp');
-                          
-            
+                      
+           $woocommerce_mem['note'] = esc_html__('Requires selected plugin','schema-and-structured-data-for-wp');
+                                      
         }
+        
         
         if(!is_plugin_active('woocommerce-compatibility-for-schema/woocommerce-compatibility-for-schema.php')){
-         
-             $woocommerce_bok['attributes'] = array(
-                 'disabled' => 'disabled'
-             );
-             
-             $woocommerce_bok['proversion'] = true;
-                          
-             $settings['saswp-woocommerce-booking'] = 0;
-                                       
-             $woocommerce_mem['attributes'] = array(
-                 'disabled' => 'disabled'
-             );
-                                       
-             $settings['saswp-woocommerce-membership'] = 0;
-             $woocommerce_mem['proversion'] = true;
-            
+                      
+             $woocommerce_bok['note'] = esc_html__('This feature requires Woocommerce Booking Addon','schema-and-structured-data-for-wp').' <a target="_blank" href="http://structured-data-for-wp.com/woocommerce-compatibility-for-schema/">Link</a>';
+                                      
+        }
+                                
+        if(!is_plugin_active('woocommerce-compatibility-for-schema/woocommerce-compatibility-for-schema.php')){
+                      
+            $woocommerce_mem['note'] = esc_html__('This feature requires Woocommerce Memberships Addon','schema-and-structured-data-for-wp').' <a target="_blank" href="http://structured-data-for-wp.com/woocommerce-compatibility-for-schema/">Link</a>';
+                                      
         }
         
         
         if(!is_plugin_active('cooked-compatibility-for-schema/cooked-compatibility-for-schema.php')){
-         
-             $cooked['attributes'] = array(
-                 'disabled' => 'disabled'
-             );
-             
-             $cooked['proversion'] = true;
                           
-             $settings['saswp-cooked-booking'] = 0;                                                                             
-        }
-        
-                         
+             $cooked['note'] = esc_html__('This feature requires Cooked Addon','schema-and-structured-data-for-wp').' <a target="_blank" href="http://structured-data-for-wp.com/cooked-compatibility-for-schema/">Link</a>';
+             
+         }
+         
+        if(is_plugin_active('cooked/cooked.php') || is_plugin_active('cooked-pro/cooked-pro.php')){                                                    
+         }else{
+         $cooked['note'] = esc_html__('Requires selected plugin','schema-and-structured-data-for-wp');    
+         } 
+                                                                         
         if(get_template() != 'Extra'){
              
              $extratheme['note']      = esc_html__('Theme is not activated','schema-and-structured-data-for-wp');
              
              
         }
-                 
-        
+                         
          if(!is_plugin_active('dw-question-answer/dw-question-answer.php')){
              
              $dwquestiton['note'] = esc_html__('Requires selected plugin','schema-and-structured-data-for-wp');
@@ -1365,11 +1345,11 @@ function saswp_compatibility_page_callback(){
 //         }
          
          if(!is_plugin_active('the-events-calendar/the-events-calendar.php')){
-             
-             
+                          
              $the_events_calendar['note'] = esc_html__('Requires selected plugin','schema-and-structured-data-for-wp');
              
          }
+                  
                         
         $field_objs = new saswp_fields_generator();
         

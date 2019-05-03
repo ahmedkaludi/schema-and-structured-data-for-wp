@@ -70,7 +70,7 @@ Class saswp_review_output{
                                 
                                     );
                                     
-                                  $input1['itemReviewed'] = array(
+                                    $input1['itemReviewed'] = array(
                                             '@type' => 'Thing',
                                             'name'  => get_the_title(),
                                     );

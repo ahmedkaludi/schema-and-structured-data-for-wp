@@ -599,6 +599,15 @@ Compatibility tab css ends
 .saswp-knowledge-label label[for="saswp_search_box_schema_checkbox"] {
     padding-left: 10px;
 }
+
+.saswp-knowledge-label label[for="saswp-woocommerce-booking-checkbox"] {
+    padding-left: 10px;
+}
+
+.saswp-knowledge-label label[for="saswp-woocommerce-membership-checkbox"] {
+    padding-left: 10px;
+}
+
 .saswp-global-selected{
     color: #000000;
     font-weight: 500;

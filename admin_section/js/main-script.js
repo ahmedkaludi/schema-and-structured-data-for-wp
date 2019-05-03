@@ -903,7 +903,7 @@ jQuery(document).ready(function($){
             $(this).addClass('saswp-global-selected');
 
             $('.saswp-global-container').hide();
-            $('#'+t).fadeIn('slow');
+            $('#'+t).show();
          }
         });
         

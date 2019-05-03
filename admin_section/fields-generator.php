@@ -197,11 +197,12 @@ class saswp_fields_generator {
                         
                         $allowed_html = saswp_expanded_allowed_tags();
                         
-                        if($note =='' || $proversion == 1){                            
-                            $output .= '<li><div class="saswp-knowledge-label">'.$label.'</div><div class="saswp-knowledge-field">'.$input.'<p data-id="'.esc_attr($proversion).'">'.esc_html__($note,'schema-and-structured-data-for-wp').'</p></div></li>';			
-                        }else{
-                            $output .= '<li><div class="saswp-knowledge-label">'.$label.'</div><div class="saswp-knowledge-field">'.$input.'<p class="">'.esc_html__($note,'schema-and-structured-data-for-wp').'</p></div></li>';			
-                        }
+                        $output .= '<li><div class="saswp-knowledge-label">'.$label.'</div><div class="saswp-knowledge-field">'.$input.'<p class="">'.$note.'</p></div></li>';			
+//                        if($note =='' || $proversion == 1){                            
+//                            $output .= '<li><div class="saswp-knowledge-label">'.$label.'</div><div class="saswp-knowledge-field">'.$input.'<p data-id="'.esc_attr($proversion).'">'.$note.'</p></div></li>';			
+//                        }else{
+//                            $output .= '<li><div class="saswp-knowledge-label">'.$label.'</div><div class="saswp-knowledge-field">'.$input.'<p class="">'.$note.'</p></div></li>';			
+//                        }
                                                 
 		}
 		echo '<div><div class="saswp-settings-list"><ul>' . wp_kses($output, $allowed_html) . '</ul></div></div>';
