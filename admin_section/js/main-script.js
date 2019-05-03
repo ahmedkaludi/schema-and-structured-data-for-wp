@@ -284,9 +284,11 @@ jQuery(document).ready(function($){
                       case 'saswp_website_schema_checkbox':
                           
                             if ($(this).is(':checked')) {              
-                              $("#saswp_website_schema").val(1);             
+                              $("#saswp_website_schema").val(1);  
+                              $("#saswp_search_box_schema").parent().parent().show();  
                             }else{
                               $("#saswp_website_schema").val(0);           
+                              $("#saswp_search_box_schema").parent().parent().hide();
                             }
                       break;
                       
@@ -468,6 +470,7 @@ jQuery(document).ready(function($){
           
           $(".saswp_org_fields, .saswp_person_fields").parent().parent().addClass('saswp_hide');
           $(".saswp_kg_logo").parent().parent().parent().addClass('saswp_hide');
+          $("#sd-person-image").parent().parent().parent().addClass('saswp_hide');
           
           
           if(datatype == 'Organization'){
@@ -885,6 +888,23 @@ jQuery(document).ready(function($){
                 $(this).addClass('selected'); 
                 $(this).parent().addClass('selected'); 
             saswp_enable_rating_review();
+        });
+        
+        
+        $('#saswp-global-tabs a:first').addClass('saswp-global-selected');
+        $('.saswp-global-container').hide();
+        $('.saswp-global-container:first').show();
+        
+        $('#saswp-global-tabs a').click(function(){
+            var t = $(this).attr('data-id');
+            
+          if(!$(this).hasClass('saswp-global-selected')){ 
+            $('#saswp-global-tabs a').removeClass('saswp-global-selected');           
+            $(this).addClass('saswp-global-selected');
+
+            $('.saswp-global-container').hide();
+            $('#'+t).fadeIn('slow');
+         }
         });
         
         //Importer from schema plugin ends here

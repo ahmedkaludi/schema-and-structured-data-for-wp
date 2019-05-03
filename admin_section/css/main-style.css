@@ -596,3 +596,16 @@ Compatibility tab css ends
     width: 250px;
     display: inline-block;
 }
+.saswp-knowledge-label label[for="saswp_search_box_schema_checkbox"] {
+    padding-left: 10px;
+}
+.saswp-global-selected{
+    color: #000000;
+    font-weight: 500;
+}
+#saswp-global-tabs a{
+    cursor: pointer;
+}
+#saswp-global-tabs{
+    padding-left: 5px;
+}

@@ -90,7 +90,7 @@ function saswp_admin_notice_activation_hook() {
 add_action( 'admin_notices', 'saswp_admin_notice' );
 
 function saswp_admin_notice(){
-    
+        
     $screen_id = ''; 
     $current_screen = get_current_screen();
     
@@ -171,9 +171,12 @@ add_filter('plugin_row_meta' , 'saswp_add_plugin_meta_links', 10, 2);
 function saswp_add_plugin_meta_links($meta_fields, $file) {
     
     if ( plugin_basename(__FILE__) == $file ) {
+        
       $plugin_url = "https://wordpress.org/support/plugin/schema-and-structured-data-for-wp";      
-      $hire_url = "https://ampforwp.com/hire/";
-      $meta_fields[] = "<a href='" . esc_url($plugin_url) . "' target='_blank'>" . esc_html__('Support Forum', 'schema-and-structured-data-for-wp') . "</a>";
+      $hire_url   = "https://ampforwp.com/hire/";
+      $forum_url  = "http://structured-data-for-wp.com/forum/";
+      
+      $meta_fields[] = "<a href='" . esc_url($forum_url) . "' target='_blank'>" . esc_html__('Support Forum', 'schema-and-structured-data-for-wp') . "</a>";
       $meta_fields[] = "<a href='" . esc_url($hire_url) . "' target='_blank'>" . esc_html__('Hire Us', 'schema-and-structured-data-for-wp') . "</a>";
       $meta_fields[] = "<a href='" . esc_url($plugin_url) . "/reviews#new-post' target='_blank' title='" . esc_html__('Rate', 'schema-and-structured-data-for-wp') . "'>
             <i class='saswp-wdi-rate-stars'>"
