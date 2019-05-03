@@ -1660,10 +1660,16 @@ Class saswp_output_service{
                                                 for($i =0; $i< count($size_array); $i++){
                                                     
                                                     $image_details   = wp_get_attachment_image_src($image_id, $size_array[$i]); 
-                                                    $input2['image'][$i]['@type']  = 'ImageObject';
-                                                    $input2['image'][$i]['url']    = esc_url($image_details[0]);
-                                                    $input2['image'][$i]['width']  = esc_attr($image_details[1]);
-                                                    $input2['image'][$i]['height'] = esc_attr($image_details[2]);
+													
+                                                        if(!empty($image_details)){
+
+                                                                $input2['image'][$i]['@type']  = 'ImageObject';
+                                                                $input2['image'][$i]['url']    = esc_url($image_details[0]);
+                                                                $input2['image'][$i]['width']  = esc_attr($image_details[1]);
+                                                                $input2['image'][$i]['height'] = esc_attr($image_details[2]);
+
+                                                        }
+                                                    
                                                     
                                                 }                                                                                                                                                                                        
                                             
