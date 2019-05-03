@@ -842,8 +842,9 @@ Class saswp_output_service{
                  
              $product_details['product_gtin8'] = $gtin;   
              
-             }       
+             }  
              
+             $brand = '';
              $brand = get_post_meta($post_id, $key='hwp_product_brand', true);
              
              if($brand !=''){
@@ -852,34 +853,94 @@ Class saswp_output_service{
              
              }
              
-             $product_image_id  = $product->get_image_id(); 
-             
-             if($product_image_id){
+             if($brand == ''){
+               
+                 $product_details['product_brand'] = get_bloginfo();
                  
-              $image_details = wp_get_attachment_image_src($product_image_id, 'full');
-              
              }
-                         
+                                                   
              $date_on_sale                           = $product->get_date_on_sale_to();                            
              $product_details['product_name']        = $product->get_title();
              
-             $product_details['product_description'] = $product->get_short_description();
-             
-             if(!empty($image_details)){
-              
-             $product_details['product_image'] = array(
-                                                        '@type'		=> 'ImageObject',
-                                                        'url'		=> $image_details[0], 
-                                                        'width'		=> $image_details[1], 
-                                                        'height'        => $image_details[2] 
-                                                        );
+             if($product->get_short_description()){
+                 
+                 $product_details['product_description'] = $product->get_short_description();
+                 
+             }else if($product->get_description()){
+                 
+                 $product_details['product_description'] = $product->get_description();
                  
              }else{
                  
-             $product_details['product_image'] = '';  
-               
-             }         
+                 $product_details['product_description'] = strip_tags(get_the_excerpt());
+                 
+             }
+                                       
+             if($product->get_attributes()){
+                 
+                 foreach ($product->get_attributes() as $attribute) {
+                     
+                     if(strtolower($attribute['name']) == 'isbn'){
+                                            
+                      $product_details['product_isbn'] = $attribute['options'][0];   
+                                                                 
+                     }
+                     if(strtolower($attribute['name']) == 'mpn'){
+                                            
+                      $product_details['product_mpn'] = $attribute['options'][0];   
+                                                                 
+                     }
+                     if(strtolower($attribute['name']) == 'gtin8'){
+                                            
+                      $product_details['product_gtin8'] = $attribute['options'][0];   
+                                                                 
+                     }
+                     if(strtolower($attribute['name']) == 'brand'){
+                                            
+                      $product_details['product_brand'] = $attribute['options'][0];   
+                                                                 
+                     }
+                     
+                 }
+                 
+             }
+                          
+             $product_image_id  = $product->get_image_id(); 
              
+             $image_list = array();
+             
+             if($product_image_id){
+                                                                    
+              $image_details = wp_get_attachment_image_src($product_image_id, 'full');
+              
+              if(!empty($image_details)){
+                  
+                 $size_array = array('full', 'large', 'medium', 'thumbnail');
+                                                   
+                 for($i =0; $i< count($size_array); $i++){
+                                                    
+                    $image_details   = wp_get_attachment_image_src($product_image_id, $size_array[$i]); 
+
+                        if(!empty($image_details)){
+
+                                $image_list['image'][$i]['@type']  = 'ImageObject';
+                                $image_list['image'][$i]['url']    = esc_url($image_details[0]);
+                                $image_list['image'][$i]['width']  = esc_attr($image_details[1]);
+                                $image_list['image'][$i]['height'] = esc_attr($image_details[2]);
+
+                        }
+                                                    
+                   }
+                 
+                 }
+              
+             }
+             
+             if(!empty($image_list)){
+                 
+                 $product_details['product_image'] = $image_list;
+             }
+                               
              if(strtolower( $product->get_stock_status() ) == 'onbackorder'){
                  $product_details['product_availability'] = 'PreOrder';
              }else{

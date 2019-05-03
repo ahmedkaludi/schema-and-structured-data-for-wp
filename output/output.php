@@ -717,8 +717,7 @@ function saswp_schema_output() {
                                     'url'				=> get_permalink(),
                                     'name'                              => saswp_remove_warnings($product_details, 'product_name', 'saswp_string'),
                                     'sku'                               => saswp_remove_warnings($product_details, 'product_sku', 'saswp_string'),    
-                                    'description'                       => saswp_remove_warnings($product_details, 'product_description', 'saswp_string'),
-                                    'image'                             => isset($product_details['product_image'])? $product_details['product_image']:'',    
+                                    'description'                       => saswp_remove_warnings($product_details, 'product_description', 'saswp_string'),                                    
                                     'offers'                            => array(
                                                                                 '@type'	=> 'Offer',
                                                                                 'availability'      => saswp_remove_warnings($product_details, 'product_availability', 'saswp_string'),
@@ -728,7 +727,12 @@ function saswp_schema_output() {
                                                                                 'priceValidUntil'   => saswp_remove_warnings($product_details, 'product_priceValidUntil', 'saswp_string'),
                                                                              ),
                                         
-				  ); 
+				  );
+                                    
+                                  if(isset($product_details['product_image'])){
+                                    $input1 = array_merge($input1, $product_details['product_image']);
+                                  }  
+                                    
                                   if(isset($product_details['product_gtin8']) && $product_details['product_gtin8'] !=''){
                                     $input1['gtin8'] = esc_attr($product_details['product_gtin8']);  
                                   }
