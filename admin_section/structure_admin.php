@@ -1170,13 +1170,15 @@ function saswp_send_query_message(){
         $message    = sanitize_textarea_field($_POST['message']);       
         $user       = wp_get_current_user();
         
+        $message = $message.'\n\n\n'.'Support query from a Schema User';
+        
         if($user){
             
             $user_data  = $user->data;        
             $user_email = $user_data->user_email;       
             //php mailer variables        
             $sendto  = 'team@magazine3.com';
-            $subject = "Customer Query";
+            $subject = "Schema Customer Query";
             $headers = 'From: '. esc_attr($user_email) . "\r\n" .
             'Reply-To: ' . esc_attr($user_email) . "\r\n";
             // Load WP components, no themes.                      
