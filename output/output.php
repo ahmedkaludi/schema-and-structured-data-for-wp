@@ -304,12 +304,18 @@ function saswp_schema_output() {
                         $extra_theme_review = $service_object->saswp_extra_theme_review_details(get_the_ID());
                                                                                               
                         if( 'Course' === $schema_type){
+                            
+                        $description = strip_tags(get_the_excerpt());
+
+                        if(!$description){
+                            $description = get_bloginfo('description');
+                        }
                          
                         $input1 = array(
 			'@context'			=> 'http://schema.org',
 			'@type'				=> $schema_type ,		
 			'name'			        => get_the_title(),
-			'description'                   => strip_tags(get_the_excerpt()),			
+			'description'                   => $description,			
 			'url'				=> get_permalink(),
 			'datePublished'                 => esc_html($date),
 			'dateModified'                  => esc_html($modified_date),
@@ -1281,14 +1287,19 @@ function saswp_schema_output() {
                                 			
 			if( 'VideoObject' === $schema_type){
                             
-				if(empty($image_details[0]) || $image_details[0] === NULL ){
-                                    
-                                        if(isset($sd_data['sd_logo'])){
-                                            $image_details[0] = $sd_data['sd_logo']['url'];
-                                        }
-                                    					
-				}												
-					
+                                            if(empty($image_details[0]) || $image_details[0] === NULL ){
+
+                                                    if(isset($sd_data['sd_logo'])){
+                                                        $image_details[0] = $sd_data['sd_logo']['url'];
+                                                    }
+
+                                            }				
+                                                $description = strip_tags(get_the_excerpt());
+
+                                                if(!$description){
+                                                    $description = get_bloginfo('description');
+                                                }
+                                                                                                                        
 						$input1 = array(
 						'@context'			=> 'http://schema.org',
 						'@type'				=> 'VideoObject',
@@ -1296,7 +1307,7 @@ function saswp_schema_output() {
 						'headline'			=> get_the_title(),
 						'datePublished'                 => esc_html($date),
 						'dateModified'                  => esc_html($modified_date),
-						'description'                   => strip_tags(get_the_excerpt()),
+						'description'                   => $description,
 						'name'				=> get_the_title(),
 						'uploadDate'                    => esc_html($date),
 						'thumbnailUrl'                  => isset($image_details[0]) ? esc_url($image_details[0]):'',
