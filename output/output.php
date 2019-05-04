@@ -1702,12 +1702,12 @@ function saswp_post_specific_schema_output() {
 
                                 if(!empty($aggregateRating)){
                                     
-                                    $input1['mainEntity']['aggregateRating'] = $aggregateRating;
+                                    $input1['aggregateRating'] = $aggregateRating;
                                     
                                 }
                                 if(!empty($kkstar_aggregateRating)){
                                     
-                                   $input1['mainEntity']['aggregateRating'] = $kkstar_aggregateRating;  
+                                    $input1['aggregateRating'] = $kkstar_aggregateRating;  
                                    
                                 }
                                 if(!empty($extra_theme_review)){
@@ -1758,7 +1758,7 @@ function saswp_post_specific_schema_output() {
                                 }
                      }
                      
-                       if( 'AudioObject' === $schema_type){
+                         if( 'AudioObject' === $schema_type){
                     		                                                    
 			$input1 = array(
 			'@context'			=> 'http://schema.org',

@@ -1140,10 +1140,8 @@ Class saswp_output_service{
                     
                 $qa_page['@context']   = 'http://schema.org';
                 $qa_page['@type']      = 'QAPage';
-                $qa_page['mainEntity'] = $dw_qa;
-                
-                }           
-                
+                $qa_page['mainEntity'] = $dw_qa;                
+                }                           
                 return $qa_page;
         }
         
