@@ -618,3 +618,8 @@ Compatibility tab css ends
 #saswp-global-tabs{
     padding-left: 5px;
 }
+.saswp-need-help {
+    float: right;
+    position: relative;
+    top: 10px;
+}

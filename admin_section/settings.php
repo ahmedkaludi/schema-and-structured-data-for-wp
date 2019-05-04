@@ -84,46 +84,50 @@ function saswp_admin_interface_render(){
                         echo '<a data-id="saswp-general-container">General Settings</a> | <a data-id="saswp-knowledge-container">Knowledge Graph</a> | <a data-id="saswp-default-container" >Default Data</a>';
                         
                         echo'</div> ';
-				// general Application Settings
+                        
+				// general Application Settings                        
 				do_settings_sections( 'saswp_general_section' );	// Page slug
 			echo "</div>";
 						                                                
-                        echo "<div class='saswp-amp' ".( $tab != 'amp' ? 'style="display:none;"' : '').">";				
+                        echo "<div class='saswp-amp' ".( $tab != 'amp' ? 'style="display:none;"' : '').">";
+                        
 				do_settings_sections( 'saswp_amp_section' );	// Page slug
 			echo "</div>";
                                                                         
                         echo "<div class='saswp-review' ".( $tab != 'review' ? 'style="display:none;"' : '').">";
-			     // Status
+			     // Status                        
 			        do_settings_sections( 'saswp_review_section' );	// Page slug
 			echo "</div>";
                         
                         echo "<div class='saswp-compatibility' ".( $tab != 'compatibility' ? 'style="display:none;"' : '').">";
 			     // Status
+                        
 			        do_settings_sections( 'saswp_compatibility_section' );	// Page slug
 			echo "</div>";
                         
                         echo "<div class='saswp-email_schema' ".( $tab != 'email_schema' ? 'style="display:none;"' : '').">";
-			     // Status
+			     // Status                        
 			        do_settings_sections( 'saswp_email_schema_section' );	// Page slug
 			echo "</div>";
                         
                         echo "<div class='saswp-tools' ".( $tab != 'tools' ? 'style="display:none;"' : '').">";
 			     // Status
+                        echo '<div class="saswp-need-help"><a target="_blank" href="http://structured-data-for-wp.com/docs/article/how-to-migrate-from-third-party-plugins-to-schema-and-structure-data-without-losing-the-data/">Need Help?</a></div>';
 			        do_settings_sections( 'saswp_tools_section' );	// Page slug
 			echo "</div>";
                         
                         echo "<div class='saswp-premium_features' ".( $tab != 'premium_features' ? 'style="display:none;"' : '').">";
-			     // Status
+			     // Status                        
 			        do_settings_sections( 'saswp_premium_features_section' );	// Page slug
 			echo "</div>";
                         
                         echo "<div class='saswp-services' ".( $tab != 'services' ? 'style="display:none;"' : '').">";
-			     // Status
+			     // Status                        
 			        do_settings_sections( 'saswp_services_section' );	// Page slug
 			echo "</div>";
                         
                         echo "<div class='saswp-support' ".( $tab != 'support' ? 'style="display:none;"' : '').">";
-			     // Status
+			     // Status                        
 			        do_settings_sections( 'saswp_support_section' );	// Page slug
 			echo "</div>";
 
@@ -447,12 +451,13 @@ function saswp_general_page_callback(){
 
 
     <div class="saswp-global-container" id="saswp-general-container">
-        
-        
+                        
         <div class="saswp-settings-list">
-<h2><?php echo esc_html__('Page Schema','schema-and-structured-data-for-wp') ?></h2>
-<ul><li><div style="float:left;clear: both;"><label class="saswp-tooltip">
-     <?php echo esc_html__('About','schema-and-structured-data-for-wp') ?>
+        <div class="saswp-need-help"><a target="_blank" href="http://structured-data-for-wp.com/docs/article/how-to-setup-knowledge-graph-in-schema-in-wordpress/">Need Help?</a></div>       
+        <h2><?php echo esc_html__('Page Schema','schema-and-structured-data-for-wp') ?></h2>
+
+        <ul><li><div style="float:left;clear: both;"><label class="saswp-tooltip">
+        <?php echo esc_html__('About','schema-and-structured-data-for-wp') ?>
                 <span class="saswp-tooltiptext"><?php echo esc_html__('Set the about page of of your website','schema-and-structured-data-for-wp') ?></span>
                 </label>
         </div>
@@ -509,7 +514,7 @@ function saswp_general_page_callback(){
         
     </div>
     <div class="saswp-global-container" id="saswp-knowledge-container">
-        
+        <div class="saswp-need-help"><a target="_blank" href="http://structured-data-for-wp.com/docs/article/how-to-setup-knowledge-graph-in-schema-in-wordpress/">Need Help?</a></div>
         <?php 
         
         
@@ -837,9 +842,8 @@ function saswp_general_page_callback(){
         
         
     </div>
-
     <div class="saswp-global-container" id="saswp-default-container">
-        
+    <div class="saswp-need-help"><a href="#">Need Help?</a></div>
         <?php
         
         
