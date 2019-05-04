@@ -112,7 +112,7 @@ function saswp_admin_interface_render(){
                         
                         echo "<div class='saswp-tools' ".( $tab != 'tools' ? 'style="display:none;"' : '').">";
 			     // Status
-                        echo '<div class="saswp-need-help"><a target="_blank" href="http://structured-data-for-wp.com/docs/article/how-to-migrate-from-third-party-plugins-to-schema-and-structure-data-without-losing-the-data/">Need Help?</a></div>';
+                        
 			        do_settings_sections( 'saswp_tools_section' );	// Page slug
 			echo "</div>";
                         
@@ -458,9 +458,8 @@ function saswp_general_page_callback(){
 
     <div class="saswp-global-container" id="saswp-general-container">
                         
-        <div class="saswp-settings-list">
-        <div class="saswp-need-help"><a target="_blank" href="http://structured-data-for-wp.com/docs/article/how-to-setup-knowledge-graph-in-schema-in-wordpress/">Need Help?</a></div>       
-        <h2><?php echo esc_html__('Page Schema','schema-and-structured-data-for-wp') ?></h2>
+        <div class="saswp-settings-list">        
+        <h2><?php echo esc_html__('Page Schema','schema-and-structured-data-for-wp') ?>   </h2>
 
         <ul><li><div style="float:left;clear: both;"><label class="saswp-tooltip">
         <?php echo esc_html__('About','schema-and-structured-data-for-wp') ?>
@@ -520,7 +519,7 @@ function saswp_general_page_callback(){
         
     </div>
     <div class="saswp-global-container" id="saswp-knowledge-container">
-        <div class="saswp-need-help"><a target="_blank" href="http://structured-data-for-wp.com/docs/article/how-to-setup-knowledge-graph-in-schema-in-wordpress/">Need Help?</a></div>
+        
         <?php 
         
         
@@ -849,7 +848,7 @@ function saswp_general_page_callback(){
         
     </div>
     <div class="saswp-global-container" id="saswp-default-container">
-    <div class="saswp-need-help"><a href="#">Need Help?</a></div>
+    
         <?php
         
         
