@@ -1326,9 +1326,9 @@ function saswp_schema_output() {
 								),
 							)						                                                                                                      
 						);
-                                                if(!empty($publisher)){
+                                                 if(!empty($publisher)){
                             
-                                                 $input1 = array_merge($input1, $publisher);   
+                                                    $input1 = array_merge($input1, $publisher);   
                          
                                                  }
                                                 if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){
