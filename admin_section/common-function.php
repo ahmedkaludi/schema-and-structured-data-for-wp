@@ -1497,3 +1497,17 @@ function saswp_frontend_enqueue(){
      }
   }
     add_action('amp_post_template_css','saswp_enque_amp_script');
+    
+    function saswp_get_the_author_name(){
+        
+                        $author_id      = get_the_author_meta('ID');														
+			$aurthor_name 	= get_the_author();
+                        
+                        if(!$aurthor_name){
+				
+                            $author_id    = get_post_field ('post_author', get_the_ID());
+                            $aurthor_name = get_the_author_meta( 'display_name' , $author_id ); 
+                        
+			} 
+                        return $aurthor_name;
+    }

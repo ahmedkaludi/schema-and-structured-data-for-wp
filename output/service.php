@@ -1056,9 +1056,7 @@ Class saswp_output_service{
                 $dw_qa          = array();
                 $qa_page        = array();
                 $best_answer_id = '';
-                
-                
-                
+                                                
                 $post_type = get_post_type($post_id);
                 
                 if($post_type =='dwqa-question' && isset($sd_data['saswp-dw-question-answer']) && $sd_data['saswp-dw-question-answer'] ==1 && is_plugin_active('dw-question-answer/dw-question-answer.php')){
@@ -1070,10 +1068,7 @@ Class saswp_output_service{
                     $best_answer_id = $post_meta['_dwqa_best_answer'][0];
                     
                 }
-                                                                               
-                $userid         = get_post_field( 'post_author', $post_id );
-                $userinfo       = get_userdata($userid);
-                               
+                                                                                                                                              
                 $dw_qa['@type']       = 'Question';
                 $dw_qa['name']        = get_the_title(); 
                 $dw_qa['upvoteCount'] = get_post_meta( $post_id, '_dwqa_votes', true );                                             
@@ -1093,14 +1088,12 @@ Class saswp_output_service{
                   
                 } 
                 
-                $dw_qa['dateCreated'] = get_the_date("Y-m-d\TH:i:s\Z");
-                
-                if($userinfo){
-                    
-                    $dw_qa['author']      = array('@type' => 'Person','name' =>$userinfo->data->user_nicename); 
-                    
-                }
-                                                
+                $dw_qa['dateCreated'] = get_the_date("Y-m-d\TH:i:s\Z");                                                   
+                $dw_qa['author']      = array(
+                                                 '@type' => 'Person',
+                                                 'name'  =>saswp_get_the_author_name(),
+                                            ); 
+                                                                                    
                 $dw_qa['answerCount'] = $post_meta['_dwqa_answers_count'][0];                  
                 
                 $args = array(
