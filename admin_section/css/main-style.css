@@ -735,3 +735,78 @@ Google review module starts here
 /*
 Google review module ends here
 */
+
+/** Premium Feature CSS **/
+.saswp-premium_features table th, .saswp-services table th{
+    width: auto;
+    padding: 0px;
+}
+.saswp-features-blocks{
+    display: inline-grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 20px;
+}
+.saswp-features-blocks li{
+    background:#fff;
+    padding: 25px;
+    border: 1px solid #d8d8d8;
+}
+.saswp-features-blocks li a{
+    text-decoration: none;
+}
+.saswp-ele-ic{
+    border-radius: 256px;
+    display: inline-block;
+    padding:8px 10px 8px 10px;
+    width: 70px;
+    margin-right: 20px;
+    float: left;
+}
+.saswp-ele-ic img{
+    width:100%;
+}
+.saswp-ele-1{
+    background: #96588a;
+}
+.saswp-ele-2{
+    background: #00a97e;
+}
+.saswp-ele-3{
+    background: #cacaca;
+}.saswp-ele-4{
+    background: #9c56cc;
+}
+.saswp-ele-tlt h3{
+    margin:0;
+    font-size: 18px;
+    line-height: 1.4;
+}
+.saswp-ele-tlt p{
+    margin-top:10px;
+}
+.saswp-sts-btn{
+    box-sizing: border-box;
+    height: 52px;
+    margin-top: 20px;
+    padding: 6px 15px;
+    border: 1px solid #e5e5e5;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.saswp-d-btn{
+    background: #d2150a;
+    padding: 6px 18px;
+    border-radius: 30px;
+    font-size: 14px;
+    color: #fff;
+}
+.form-wrap .saswp-sts-txt{
+    font-size: 16px;
+    color:#000;
+}
+.saswp-sts-txt span{
+    color:#bebfc0;
+    padding-left:5px;
+}

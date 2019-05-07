@@ -309,14 +309,82 @@ function saswp_handle_file_upload($option){
 }
 
 
-function saswp_premium_features_callback(){
-    echo 'features_test';
+function saswp_premium_features_callback(){ ?>
+	<div class="saswp-pre-ftrs-wrap">
+		<ul class="saswp-features-blocks">
+			<li><a href="http://structured-data-for-wp.com/extensions/woocommerce-compatibility-for-schema/">
+				<div class="saswp-features-ele">
+					<div class="saswp-ele-ic saswp-ele-1">
+						<img src="http://structured-data-for-wp.com/wp-content/uploads/edd/2019/05/woocommerce-icon.png">
+					</div>
+					<div class="saswp-ele-tlt">
+						<h3>WooCommerce Compatibility for Schema</h3>
+						<p>WooCommerce Compatibility extension is the number one solution to enhance your store with the right structured data.</p>
+					</div>
+				</div>
+				<div class="saswp-sts-btn">
+					<label class="saswp-sts-txt">Staus:<span>Inactive</span></label>
+					<span class="saswp-d-btn">Download</span>
+				</div>
+			</a></li>
+			<li><a href="http://structured-data-for-wp.com/extensions/woocommerce-compatibility-for-schema/">
+				<div class="saswp-features-ele">
+					<div class="saswp-ele-ic saswp-ele-2">
+						<img src="http://structured-data-for-wp.com/wp-content/uploads/edd/2019/05/cooked-schema-wp.png">
+					</div>
+					<div class="saswp-ele-tlt">
+						<h3>Cooked Compatibility for Schema</h3>
+						<p>This extension will be able to take all the proper recipe data and integrate it with the schema & structured data in AMP & non-AMP.</p>
+					</div>
+				</div>
+				<div class="saswp-sts-btn">
+					<label class="saswp-sts-txt">Staus:<span>Inactive</span></label>
+					<span class="saswp-d-btn">Download</span>
+				</div>
+			</a></li>
+		</ul>
+	</div>
+
+ <?php
 }
 
-function saswp_services_callback(){
-    echo 'services_test';
-}
+function saswp_services_callback(){ ?>
+   <div class="saswp-pre-ftrs-wrap">
+		<ul class="saswp-features-blocks">
+			<li><a href="http://structured-data-for-wp.com/extensions/woocommerce-compatibility-for-schema/">
+				<div class="saswp-features-ele">
+					<div class="saswp-ele-ic saswp-ele-3">
+						<img src="http://structured-data-for-wp.com/wp-content/uploads/edd/2019/05/news.png">
+					</div>
+					<div class="saswp-ele-tlt">
+						<h3>Google News Schema Setup</h3>
+						<p>Get quick approval to Google News with our service. Our structured data experts will set up the Google News schema properly on your website.</p>
+					</div>
+				</div>
+				<div class="saswp-sts-btn">
+					<label class="saswp-sts-txt">Staus:<span>Inactive</span></label>
+					<span class="saswp-d-btn">Download</span>
+				</div>
+			</a></li>
+			<li><a href="http://structured-data-for-wp.com/extensions/woocommerce-compatibility-for-schema/">
+				<div class="saswp-features-ele">
+					<div class="saswp-ele-ic saswp-ele-4">
+						<img src="http://structured-data-for-wp.com/wp-content/uploads/edd/2019/05/schema-setup-icon.png">
+					</div>
+					<div class="saswp-ele-tlt">
+						<h3>Structured Data Setup & Error Clean Up</h3>
+						<p>We will help you setup Schema and Structured data on your website as per your requirements and as per recommendation by our expert developers.</p>
+					</div>
+				</div>
+				<div class="saswp-sts-btn">
+					<label class="saswp-sts-txt">Staus:<span>Inactive</span></label>
+					<span class="saswp-d-btn">Download</span>
+				</div>
+			</a></li>
+		</ul>
+	</div>
 
+<?php }
 function saswp_amp_page_callback(){
     
         $settings = saswp_defaultSettings();         
