@@ -1554,7 +1554,7 @@ Class saswp_output_service{
                                         '@id'				=> get_permalink().'/#techarticle',
 					'mainEntityOfPage'              => get_permalink(),					
 					'headline'			=> get_the_title(),
-					'description'                   => strip_tags(get_the_excerpt()),
+					'description'                   => strip_tags(strip_shortcodes(get_the_excerpt())),
 					'datePublished'                 => esc_html($date),
 					'dateModified'                  => esc_html($modified_date),
 					'author'			=> array(
@@ -1583,7 +1583,7 @@ Class saswp_output_service{
                                         '@id'				=> get_permalink().'/#article',
 					'mainEntityOfPage'              => get_permalink(),					
 					'headline'			=> get_the_title(),
-					'description'                   => strip_tags(get_the_excerpt()),
+					'description'                   => strip_tags(strip_shortcodes(get_the_excerpt())),
 					'datePublished'                 => esc_html($date),
 					'dateModified'                  => esc_html($modified_date),
 					'author'			=> array(
@@ -1617,13 +1617,13 @@ Class saswp_output_service{
                                 '@id'				=> get_permalink().'/#webpage',
 				'name'				=> get_the_title(),
 				'url'				=> get_permalink(),
-				'description'                   => strip_tags(get_the_excerpt()),
+				'description'                   => strip_tags(strip_shortcodes(get_the_excerpt())),
 				'mainEntity'                    => array(
 						'@type'			=> 'Article',
 						'mainEntityOfPage'	=> get_permalink(),
 						'image'			=> esc_url($image_details[0]),
 						'headline'		=> get_the_title(),
-						'description'		=> strip_tags(get_the_excerpt()),
+						'description'		=> strip_tags(strip_shortcodes(get_the_excerpt())),
 						'datePublished' 	=> esc_html($date),
 						'dateModified'		=> esc_html($modified_date),
 						'author'			=> array(

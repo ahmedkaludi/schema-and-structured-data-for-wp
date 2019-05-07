@@ -9,6 +9,8 @@ function saswp_structured_data(){
 	add_action( 'amp_post_template_head' , 'saswp_data_generator' );	
 	remove_action( 'amp_post_template_head', 'amp_post_template_add_schemaorg_metadata',99,1);
 }
+
+add_action('cooked_amp_head', 'saswp_data_generator');
 add_action('wp_head', 'saswp_data_generator');
 
 

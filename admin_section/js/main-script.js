@@ -466,6 +466,24 @@ jQuery(document).ready(function($){
                             }
                       break;
                       
+                      case 'saswp-cooked-checkbox':
+                          
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-cooked").val(1);             
+                            }else{
+                              $("#saswp-cooked").val(0);           
+                            }
+                      break;
+                      
+                      case 'saswp-flexmlx-compativility-checkbox':
+                          
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-flexmlx-compativility").val(1);             
+                            }else{
+                              $("#saswp-flexmlx-compativility").val(0);           
+                            }
+                      break;
+                      
                       
                       default:
                           break;

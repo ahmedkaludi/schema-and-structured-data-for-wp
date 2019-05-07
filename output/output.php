@@ -307,7 +307,7 @@ function saswp_schema_output() {
                                                                                               
                         if( 'Course' === $schema_type){
                             
-                        $description = strip_tags(get_the_excerpt());
+                        $description = strip_tags(strip_shortcodes(get_the_excerpt()));
 
                         if(!$description){
                             $description = get_bloginfo('description');
@@ -357,7 +357,7 @@ function saswp_schema_output() {
                         '@id'				=> get_permalink().'/#blogposting',    
 			'mainEntityOfPage'              => get_permalink(),
 			'headline'			=> get_the_title(),
-			'description'                   => strip_tags(get_the_excerpt()),
+			'description'                   => strip_tags(strip_shortcodes(get_the_excerpt())),
 			'name'				=> get_the_title(),
 			'url'				=> get_permalink(),
 			'datePublished'                 => esc_html($date),
@@ -659,7 +659,7 @@ function saswp_schema_output() {
 				'name'			        => get_the_title(),
 				'datePublished'                 => esc_html($date),
 				'dateModified'                  => esc_html($modified_date),
-				'description'                   => strip_tags(get_the_excerpt()),
+				'description'                   => strip_tags(strip_shortcodes(get_the_excerpt())),
 				'mainEntity'                    => array(
 						'@type'				=> 'WebPage',
 						'@id'				=> get_permalink(),
@@ -886,9 +886,9 @@ function saswp_schema_output() {
                                         'mainEntityOfPage'	        => get_the_permalink(),            
 					'datePublished'                 => esc_html($date),
 					'dateModified'                  => esc_html($modified_date),
-					'description'                   => strip_tags(get_the_excerpt()),
+					'description'                   => strip_tags(strip_shortcodes(get_the_excerpt())),
                                         'articleSection'                => $article_section,            
-                                        'articleBody'                   => strip_tags(get_the_excerpt()),            
+                                        'articleBody'                   => strip_tags(strip_shortcodes(get_the_excerpt())),            
 					'name'				=> get_the_title(), 					
 					'thumbnailUrl'                  => saswp_remove_warnings($image_details, 0, 'saswp_string'),
                                         'wordCount'                     => saswp_remove_warnings($word_count, 'word_count', 'saswp_string'),
@@ -1046,7 +1046,7 @@ function saswp_schema_output() {
                                     'name'           => get_the_title(),
                                     'keywords'       => tie_get_plain_terms( get_the_ID(), 'post_tag' ),
                                     'url'            => get_permalink(),
-                                    'description'    => strip_tags(get_the_excerpt()),
+                                    'description'    => strip_tags(strip_shortcodes(get_the_excerpt())),
                                     'copyrightYear'  => get_the_time( 'Y' ),                                                                                                           
                                     'author'	     => array(
                                                             '@type' 	=> 'Person',
@@ -1127,8 +1127,8 @@ function saswp_schema_output() {
                                     $input1['reviewBody']               = $schema_data['saswp_review_schema_description'];
                                     $input1['description']              = $schema_data['saswp_review_schema_description'];
                                 }else {
-                                    $input1['reviewBody']               = strip_tags(get_the_excerpt());
-                                    $input1['description']              = strip_tags(get_the_excerpt());
+                                    $input1['reviewBody']               = strip_tags(strip_shortcodes(get_the_excerpt()));
+                                    $input1['description']              = strip_tags(strip_shortcodes(get_the_excerpt()));
                                 }
                                 
                                 if(isset($schema_data['saswp_review_schema_item_type'])){
@@ -1306,7 +1306,7 @@ function saswp_schema_output() {
                                                     }
 
                                             }				
-                                                $description = strip_tags(get_the_excerpt());
+                                                $description = strip_tags(strip_shortcodes(get_the_excerpt()));
 
                                                 if(!$description){
                                                     $description = get_bloginfo('description');
@@ -1388,7 +1388,7 @@ function saswp_schema_output() {
                                 '@id'                           => get_permalink().'/#'. strtolower(esc_attr($local_business)),            
                                 'name'                          => saswp_remove_warnings($business_details, 'local_business_name', 'saswp_string'),                                   
 				'url'				=> get_permalink(),				
-				'description'                   => strip_tags(get_the_excerpt()),
+				'description'                   => strip_tags(strip_shortcodes(get_the_excerpt())),
                                 'image'                         => array(
                                                                         '@type'		=> 'ImageObject',
                                                                         'url'		=> isset($business_details['local_business_logo']) ? esc_url($business_details['local_business_logo']['url']):'',
@@ -2429,8 +2429,8 @@ function saswp_post_specific_schema_output() {
                                     $input1['reviewBody']               = $all_post_meta['saswp_review_schema_description_'.$schema_id][0];
                                     $input1['description']              = $all_post_meta['saswp_review_schema_description_'.$schema_id][0];
                                 }else {
-                                    $input1['reviewBody']               = strip_tags(get_the_excerpt());
-                                    $input1['description']              = strip_tags(get_the_excerpt());
+                                    $input1['reviewBody']               = strip_tags(strip_shortcodes(get_the_excerpt()));
+                                    $input1['description']              = strip_tags(strip_shortcodes(get_the_excerpt()));
                                 }
                                 
                                 if(isset($all_post_meta['saswp_review_schema_item_type_'.$schema_id])){
@@ -2982,7 +2982,7 @@ function saswp_about_page_output(){
 						),
 				"url"		   => get_permalink(),
 				"headline"	   => get_the_title(),								
-				'description'	   => strip_tags(get_the_excerpt()),
+				'description'	   => strip_tags(strip_shortcodes(get_the_excerpt())),
 			);
                         
 			if(!empty($feature_image)){
@@ -3027,7 +3027,7 @@ function saswp_contact_page_output(){
 							),
 				"url"		   => get_permalink(),
 				"headline"	   => get_the_title(),								
-				'description'	   => strip_tags(get_the_excerpt()),
+				'description'	   => strip_tags(strip_shortcodes(get_the_excerpt())),
 			);
                         
                         if(!empty($feature_image)){
