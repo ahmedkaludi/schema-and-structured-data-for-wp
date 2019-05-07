@@ -125,6 +125,9 @@ display: none !important;
 .saswp-tools .saswp-tooltip{
     width: 230px;
 }
+.saswp-tools .saswp-settings-list li {
+    display: -webkit-inline-box;
+}
 .saswp-error{
     color: #ff0000 !important;
 }
@@ -626,4 +629,7 @@ Compatibility tab css ends
 .saswp-view-docs a{      
     margin-right: 5px !important;
     margin-top: 10px !important;
+}
+.saswp-tabs .nav-tab{
+    margin-left: 4px;
 }

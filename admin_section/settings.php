@@ -58,7 +58,7 @@ function saswp_admin_interface_render(){
                         
                         echo '<a href="' . esc_url(saswp_admin_link('email_schema')) . '" class="nav-tab ' . esc_attr( $tab == 'email_schema' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . esc_html__('Email Schema','schema-and-structured-data-for-wp') . '</a>';
                         
-                        echo '<a href="' . esc_url(saswp_admin_link('tools')) . '" class="nav-tab ' . esc_attr( $tab == 'tools' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . esc_html__('Tools','schema-and-structured-data-for-wp') . '</a>';                         			
+                        echo '<a href="' . esc_url(saswp_admin_link('tools')) . '" class="nav-tab ' . esc_attr( $tab == 'tools' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . esc_html__('Advanced','schema-and-structured-data-for-wp') . '</a>';                         			
                         
                         echo '<a href="' . esc_url(saswp_admin_link('premium_features')) . '" class="nav-tab ' . esc_attr( $tab == 'premium_features' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . esc_html__('Premium Features','schema-and-structured-data-for-wp') . '</a>';                         			
                         
@@ -535,28 +535,28 @@ function saswp_general_page_callback(){
 				'Person'       => 'Person',
 			)
                     ),
-		array(
-			'label' => 'Organization Type',
-			'id'    => 'saswp_organization_type',
-                        'name'  => 'sd_data[saswp_organization_type]',
-                        'class' => 'saswp_org_fields',
-			'type'  => 'select',
-			'options' => array(                                
-				'Organization'              => 'Organization',
-				'Airline'                   => 'Airline',
-                                'Consortium'                => 'Consortium',
-                                'Corporation'               => 'Corporation',
-                                'EducationalOrganization'   => 'EducationalOrganization',
-                                'GovernmentOrganization'    => 'GovernmentOrganization',
-                                'LibrarySystem'             => 'LibrarySystem',                                
-                                'MedicalOrganization'       => 'MedicalOrganization',
-                                'NewsMediaOrganization'     => 'NewsMediaOrganization',
-                                'NGO'                       => 'NGO',
-                                'PerformingGroup'           => 'PerformingGroup',
-                                'SportsOrganization'        => 'SportsOrganization',
-                                'WorkersUnion'              => 'WorkersUnion',
-			)
-                   ),
+//		array(
+//			'label' => 'Organization Type',
+//			'id'    => 'saswp_organization_type',
+//                        'name'  => 'sd_data[saswp_organization_type]',
+//                        'class' => 'saswp_org_fields',
+//			'type'  => 'select',
+//			'options' => array(                                
+//				'Organization'              => 'Organization',
+//				'Airline'                   => 'Airline',
+//                                'Consortium'                => 'Consortium',
+//                                'Corporation'               => 'Corporation',
+//                                'EducationalOrganization'   => 'EducationalOrganization',
+//                                'GovernmentOrganization'    => 'GovernmentOrganization',
+//                                'LibrarySystem'             => 'LibrarySystem',                                
+//                                'MedicalOrganization'       => 'MedicalOrganization',
+//                                'NewsMediaOrganization'     => 'NewsMediaOrganization',
+//                                'NGO'                       => 'NGO',
+//                                'PerformingGroup'           => 'PerformingGroup',
+//                                'SportsOrganization'        => 'SportsOrganization',
+//                                'WorkersUnion'              => 'WorkersUnion',
+//			)
+//                   ),
                 array(
 			'label' => 'Organization Name',
 			'id'    => 'sd_name',
@@ -912,6 +912,38 @@ function saswp_check_data_imported_from($plugin_post_type_name){
 function saswp_import_callback(){
     
         global $sd_data;
+        
+        
+        echo '<h2>'.esc_html__('Advanced Settings','schema-and-structured-data-for-wp').'</h2>'; 
+        
+        $settings = saswp_defaultSettings();         
+        $field_objs = new saswp_fields_generator();
+        $meta_fields = array(				
+                array(
+			'label'  => 'Defragment Schema Markup',
+			'id'     => 'saswp-defragment-checkbox',                        
+                        'name'   => 'saswp-defragment-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
+                        'hidden' => array(
+                             'id'   => 'saswp-defragment',
+                             'name' => 'sd_data[saswp-defragment]',                             
+                        )
+		),  
+                
+	);        
+        $field_objs->saswp_field_generator($meta_fields, $settings);  
+        
+        ?>
+
+
+        
+
+        <?php
+        
+        
+        
+        
         $message               = 'This plugin\'s data already has been imported. Do you want to import again?. click on button above button.';
         $schema_message        = '';
         $schema_pro_message    = '';

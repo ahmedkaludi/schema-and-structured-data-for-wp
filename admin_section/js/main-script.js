@@ -457,6 +457,15 @@ jQuery(document).ready(function($){
                             }
                       break;
                       
+                      case 'saswp-defragment-checkbox':
+                          
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-defragment").val(1);             
+                            }else{
+                              $("#saswp-defragment").val(0);           
+                            }
+                      break;
+                      
                       
                       default:
                           break;

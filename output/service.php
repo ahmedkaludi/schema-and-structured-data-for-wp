@@ -1551,6 +1551,7 @@ Class saswp_output_service{
                     $input1 = array(
 					'@context'			=> 'http://schema.org',
 					'@type'				=> 'TechArticle',
+                                        '@id'				=> get_permalink().'/#techarticle',
 					'mainEntityOfPage'              => get_permalink(),					
 					'headline'			=> get_the_title(),
 					'description'                   => strip_tags(get_the_excerpt()),
@@ -1579,6 +1580,7 @@ Class saswp_output_service{
                     $input1 = array(
 					'@context'			=> 'http://schema.org',
 					'@type'				=> 'Article',
+                                        '@id'				=> get_permalink().'/#article',
 					'mainEntityOfPage'              => get_permalink(),					
 					'headline'			=> get_the_title(),
 					'description'                   => strip_tags(get_the_excerpt()),
@@ -1612,6 +1614,7 @@ Class saswp_output_service{
                     $input1 = array(
 				'@context'			=> 'http://schema.org',
 				'@type'				=> 'WebPage' ,
+                                '@id'				=> get_permalink().'/#webpage',
 				'name'				=> get_the_title(),
 				'url'				=> get_permalink(),
 				'description'                   => strip_tags(get_the_excerpt()),
@@ -1689,7 +1692,15 @@ Class saswp_output_service{
                                                 
                                                 if(isset($resize_image[0]) && isset($resize_image[1]) && isset($resize_image[2]) ){
                                                 
+                                                                                                        
                                                     $input2['image'][$i]['@type']  = 'ImageObject';
+                                                    
+                                                    if($i == 0){
+                                                        
+                                                    $input2['image'][$i]['@id']    = get_permalink().'#primaryimage';    
+                                                    
+                                                    }
+                                                    
                                                     $input2['image'][$i]['url']    = esc_url($resize_image[0]);
                                                     $input2['image'][$i]['width']  = esc_attr($resize_image[1]);
                                                     $input2['image'][$i]['height'] = esc_attr($resize_image[2]);  
@@ -1716,6 +1727,13 @@ Class saswp_output_service{
                                                         if(!empty($image_details)){
 
                                                                 $input2['image'][$i]['@type']  = 'ImageObject';
+                                                                
+                                                                if($i == 0){
+                                                        
+                                                                $input2['image'][$i]['@id']    = get_permalink().'#primaryimage'; 
+                                                                
+                                                                }
+                                                                
                                                                 $input2['image'][$i]['url']    = esc_url($image_details[0]);
                                                                 $input2['image'][$i]['width']  = esc_attr($image_details[1]);
                                                                 $input2['image'][$i]['height'] = esc_attr($image_details[2]);
@@ -1730,6 +1748,7 @@ Class saswp_output_service{
                                         if(empty($input2)){
                                             
                                                 $input2['image']['@type']  = 'ImageObject';
+                                                $input2['image']['@id']    = get_permalink().'#primaryimage';
                                                 $input2['image']['url']    = esc_url($image_details[0]);
                                                 $input2['image']['width']  = esc_attr($image_details[1]);
                                                 $input2['image']['height'] = esc_attr($image_details[2]);
@@ -1742,6 +1761,7 @@ Class saswp_output_service{
                                         if(isset($sd_data['sd_default_image']['url']) && $sd_data['sd_default_image']['url'] !=''){
                                         
                                             $input2['image']['@type']  = 'ImageObject';
+                                            $input2['image']['@id']    = get_permalink().'#primaryimage';
                                             $input2['image']['url']    = esc_url($sd_data['sd_default_image']['url']);
                                             $input2['image']['width']  = esc_attr($sd_data['sd_default_image_width']);
                                             $input2['image']['height'] = esc_attr($sd_data['sd_default_image_height']);                                                                 

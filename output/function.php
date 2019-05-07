@@ -70,8 +70,8 @@ function saswp_data_generator() {
 	if( (   saswp_remove_warnings($sd_data, 'saswp-for-wordpress', 'saswp_string') =='' 
             ||   1 == saswp_remove_warnings($sd_data, 'saswp-for-wordpress', 'saswp_string') && saswp_non_amp() ) 
             || ( 1 == saswp_remove_warnings($sd_data, 'saswp-for-amp', 'saswp_string') && !saswp_non_amp() ) ) {
-								
-                        
+		
+                                    
                         if(!empty($contact_page_output)){
                           
                             $output .= json_encode($contact_page_output); 
@@ -95,19 +95,135 @@ function saswp_data_generator() {
                             $output .= json_encode($archive_output);   
                             $output .= ",";
                             $output .= "\n\n";
-                        }                        
-                        if(!empty($kb_website_output)){
-                        
-                            $output .= json_encode($kb_website_output);  
-                            $output .= ",";
-                            $output .= "\n\n";
-                        } 
+                        }
                         if(!empty($site_navigation)){
                                                                             
                             $output .= json_encode($site_navigation);   
                             $output .= ",";
                             $output .= "\n\n";                        
                         }
+            
+            
+            
+            if(isset($sd_data['saswp-defragment']) && $sd_data['saswp-defragment'] == 1){
+            
+                $output_schema_type_id = array();
+                
+                foreach($schema_output as $soutput){
+            
+                    $output_schema_type_id[] = $soutput['@type'];
+                    
+                    if($soutput['@type'] == 'Blogposting'|| $soutput['@type'] == 'Article' || $soutput['@type'] == 'TechArticle' || $soutput['@type'] == 'NewsArticle'){
+                        
+                    
+                    $final_output = array();
+                    $object   = new saswp_output_service();
+                    $webpage = $object->saswp_schema_markup_generator('WebPage');
+                    
+                        unset($soutput['@context']);                   
+                        unset($schema_breadcrumb_output['@context']);
+                        unset($webpage['mainEntity']);
+                        unset($kb_schema_output['@context']);
+                        unset($kb_website_output['@context']);
+
+                    
+                     if($webpage){
+                    
+                         $soutput['isPartOf'] = array(
+                            '@id' => $webpage['@id']
+                        );
+                         
+                         $webpage['primaryImageOfPage'] = array(
+                             '@id' => get_permalink().'#primaryimage'
+                         );
+                         
+                     }       
+                                        
+                    $soutput['mainEntityOfPage'] = $webpage['@id'];
+                                        
+                    if($kb_website_output){
+                    
+                        $webpage['isPartOf'] = array(
+                        '@id' => $kb_website_output['@id']
+                        );
+                        
+                    }
+                                        
+                    if($schema_breadcrumb_output){
+                        $webpage['breadcrumb'] = array(
+                        '@id' => $schema_breadcrumb_output['@id']
+                    );
+                    }
+                    
+                    if($kb_schema_output){
+                    
+                        $kb_website_output['publisher'] = array(
+                            '@id' => $kb_schema_output['@id']
+                        );
+
+                        $soutput['publisher'] = array(
+                            '@id' => $kb_schema_output['@id']
+                        );
+                        
+                    }
+                                        
+                    $final_output['@context']   = 'https://schema.org';
+
+                    $final_output['@graph'][]   = $kb_schema_output;
+                    $final_output['@graph'][]   = $kb_website_output;
+
+                    $final_output['@graph'][]   = $webpage;
+                    
+                    $final_output['@graph'][]   = $schema_breadcrumb_output;
+                    
+                    $final_output['@graph'][]   = $soutput;
+                        
+                    $schema = json_encode($final_output);
+                    $output .= $schema; 
+                    $output .= ",";
+                    $output .= "\n\n";     
+                    
+                    }else{
+                        
+                        $schema = json_encode($soutput);
+                        $output .= $schema; 
+                        $output .= ",";
+                        $output .= "\n\n"; 
+                        
+                    }
+                                                                                                          
+            }
+                                                
+                if(in_array('Blogposting', $output_schema_type_id) || in_array('Article', $output_schema_type_id) || in_array('TechArticle', $output_schema_type_id) || in_array('NewsArticle', $output_schema_type_id) ){                                                                                            
+                }else{
+                    if(!empty($kb_website_output)){
+                        
+                            $output .= json_encode($kb_website_output);  
+                            $output .= ",";
+                            $output .= "\n\n";
+                        }
+                    if(!empty($schema_breadcrumb_output)){
+                        
+                            $output .= json_encode($schema_breadcrumb_output);   
+                            $output .= ",";
+                            $output .= "\n\n";
+                        }
+                    if(!empty($kb_schema_output)){
+                            
+                           $output .= json_encode($kb_schema_output);
+                            $output .= ",";                        
+                        }   
+                }
+            
+                
+            }else{
+                                                             
+                        if(!empty($kb_website_output)){
+                        
+                            $output .= json_encode($kb_website_output);  
+                            $output .= ",";
+                            $output .= "\n\n";
+                        }                         
                         if(!empty($schema_breadcrumb_output)){
                         
                             $output .= json_encode($schema_breadcrumb_output);   
@@ -127,19 +243,18 @@ function saswp_data_generator() {
                         }                        
                         if(!empty($kb_schema_output)){
                             
-                            $output .= json_encode($kb_schema_output);
+                           $output .= json_encode($kb_schema_output);
                             $output .= ",";                        
-                        }                       
+                        }       
+                
+            }                                                                            
                         			              		
 	}
-        
-        
-        
+                        
         if($output){
             
             $stroutput = '['. trim($output). ']';
-            $filter_string = str_replace(',]', ']',$stroutput);
-            
+            $filter_string = str_replace(',]', ']',$stroutput);           
             echo '<!-- Schema & Structured Data For WP v'.esc_attr(SASWP_VERSION).' - -->';
             echo "\n";
             echo '<script type="application/ld+json">'; 
