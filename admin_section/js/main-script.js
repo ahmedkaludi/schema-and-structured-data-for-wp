@@ -484,6 +484,15 @@ jQuery(document).ready(function($){
                             }
                       break;
                       
+                      case 'saswp-google-review-checkbox':
+                          
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-google-review").val(1);             
+                            }else{
+                              $("#saswp-google-review").val(0);           
+                            }
+                      break;
+                      
                       
                       default:
                           break;
@@ -1064,6 +1073,56 @@ jQuery(document).ready(function($){
      saswp_enable_rating_review();                       
      
         //custom fields modify schema ends here
+        
+        
+        //Google review js starts here
+        
+                var acc = document.getElementsByClassName("saswp-accordion");
+                var i;
+
+                for (i = 0; i < acc.length; i++) {
+                  acc[i].addEventListener("click", function() {
+                    this.classList.toggle("active");
+                    var panel = this.nextElementSibling;
+                    if (panel.style.display === "block") {
+                      panel.style.display = "none";
+                    } else {
+                      panel.style.display = "block";
+                    }
+                  });
+                }
+        
+        $('a[href="'+saswp_localize_data.collection_post_add_url+'"]').attr( 'href', saswp_localize_data.collection_post_add_new_url); 
+        
+        
+        
+        $(document).on("click", '.saswp_coonect_google_place', function(){          
+          
+          var place_id   = $("#saswp_google_place_id").val();
+          var language   = $("#saswp_language_list").val();
+          var google_api = $("#saswp_googel_api").val();
+          
+          if(place_id !=''){
+              $.ajax({
+                            type: "POST",    
+                            url:ajaxurl,                    
+                            dataType: "json",
+                            data:{action:"saswp_connect_google_place",place_id:place_id, language:language, google_api:google_api, saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
+                            success:function(response){    
+                                console.log(response['status']);                             
+                            },
+                            error: function(response){                    
+                                console.log(response);
+                            }
+                            });
+          }
+       });
+        
+        
+        //google review js ends here
+        
+        
+        
         
         
         //Adding settings button beside add schema type button on schema type list page       

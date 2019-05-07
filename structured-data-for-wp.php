@@ -73,6 +73,12 @@ require_once SASWP_DIR_NAME.'/view/post_specific.php';
 require_once SASWP_DIR_NAME.'/view/review.php';  
 require_once SASWP_DIR_NAME.'/output/review-output.php'; 
 require_once SASWP_DIR_NAME.'/output/service.php'; 
+//Google Review Files
+require_once SASWP_DIR_NAME.'/google_review/google_review.php'; 
+require_once SASWP_DIR_NAME.'/google_review/google_review_page.php'; 
+require_once SASWP_DIR_NAME.'/google_review/google_review_setup.php'; 
+require_once SASWP_DIR_NAME.'/google_review/google_review_widget.php'; 
+
 
 
 /**
