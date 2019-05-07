@@ -23,6 +23,11 @@ if(! defined('SASWP_ITEM_FOLDER_NAME')){
     define( 'SASWP_ITEM_FOLDER_NAME', $folderName );
 }
 define('SASWP_PLUGIN_URL', plugin_dir_url( __FILE__ ));
+
+//define('SASWP_EDD_SL_ITEM_ID', plugin_dir_url( __FILE__ ));
+define('SASWP_EDD_STORE_URL', 'http://accounts.structured-data-for-wp.com/');
+//define('SASWP_EDD_DATA_ITEM_NAME', 'Cooked compatibility for Schema' );
+
 // including the output file
 require_once SASWP_DIR_NAME .'/output/function.php';
 require_once SASWP_DIR_NAME .'/output/output.php';
@@ -85,14 +90,25 @@ function saswp_admin_notice_activation_hook() {
 add_action( 'admin_notices', 'saswp_admin_notice' );
 
 function saswp_admin_notice(){
+        
+    $screen_id = ''; 
+    $current_screen = get_current_screen();
+    
+    if(is_object($current_screen)){
+       $screen_id =  $current_screen->id;
+    }
     
     $nonce = wp_create_nonce( 'saswp_install_wizard_nonce' );  
     
     $setup_notice = '<div class="updated notice is-dismissible message notice notice-alt saswp-setup-notice">'
-                    . '<p><span class="dashicons dashicons-thumbs-up"></span>'
-                    . esc_html__('Thank you for using Schema & Structured Data For WP plugin!', 'schema-and-structured-data-for-wp')
-                    . ' <a href="'.esc_url(admin_url( 'plugins.php?page=saswp-setup-wizard' ).'&_saswp_nonce='.$nonce).'">'
-                    . esc_html__('Start Quick Setup', 'schema-and-structured-data-for-wp')
+                    . '<p>'
+                    . '<strong>'.esc_html__('Welcome to Schema & Structured Data For WP', 'schema-and-structured-data-for-wp').'</strong>'
+                    .' - '.esc_html__('You are almost ready', 'schema-and-structured-data-for-wp')
+                    . ' <a class="button button-primary" href="'.esc_url(admin_url( 'plugins.php?page=saswp-setup-wizard' ).'&_saswp_nonce='.$nonce).'">'
+                    . esc_html__('Run the Setup Wizard', 'schema-and-structured-data-for-wp')
+                    . '</a> '
+                    .'<a class="button button-primary saswp-skip-button">'
+                    . esc_html__('Skip Setup', 'schema-and-structured-data-for-wp')
                     . '</a>'
                     . '</p>'
                     . '</div>';        
@@ -106,11 +122,11 @@ function saswp_admin_notice(){
         
     }    
     
-    $current_screen  = get_Current_screen();        
+           
     $post_type       = get_post_type();         
     $sd_data         = get_option('sd_data'); 
     
-    if(($post_type == 'saswp' || $current_screen->id =='saswp_page_structured_data_options') && !isset($sd_data['sd_initial_wizard_status'])){
+    if(($post_type == 'saswp' || $screen_id =='saswp_page_structured_data_options') && !isset($sd_data['sd_initial_wizard_status'])){
             
         echo $setup_notice;
         
@@ -134,7 +150,7 @@ function saswp_admin_notice(){
         <?php
     }  
         
-    if(isset($sd_data['sd_default_image']['url']) && $sd_data['sd_default_image']['url'] == ''){
+    if(isset($sd_data['sd_default_image']['url']) && $sd_data['sd_default_image']['url'] == '' && ($screen_id =='saswp_page_structured_data_options' ||$screen_id == 'plugins' || $screen_id =='edit-saswp' || $screen_id == 'saswp')){
 
         ?>
         <div class="updated notice is-dismissible message notice notice-alt saswp-feedback-notice">
@@ -155,9 +171,12 @@ add_filter('plugin_row_meta' , 'saswp_add_plugin_meta_links', 10, 2);
 function saswp_add_plugin_meta_links($meta_fields, $file) {
     
     if ( plugin_basename(__FILE__) == $file ) {
+        
       $plugin_url = "https://wordpress.org/support/plugin/schema-and-structured-data-for-wp";      
-      $hire_url = "https://ampforwp.com/hire/";
-      $meta_fields[] = "<a href='" . esc_url($plugin_url) . "' target='_blank'>" . esc_html__('Support Forum', 'schema-and-structured-data-for-wp') . "</a>";
+      $hire_url   = "https://ampforwp.com/hire/";
+      $forum_url  = "http://structured-data-for-wp.com/forum/";
+      
+      $meta_fields[] = "<a href='" . esc_url($forum_url) . "' target='_blank'>" . esc_html__('Support Forum', 'schema-and-structured-data-for-wp') . "</a>";
       $meta_fields[] = "<a href='" . esc_url($hire_url) . "' target='_blank'>" . esc_html__('Hire Us', 'schema-and-structured-data-for-wp') . "</a>";
       $meta_fields[] = "<a href='" . esc_url($plugin_url) . "/reviews#new-post' target='_blank' title='" . esc_html__('Rate', 'schema-and-structured-data-for-wp') . "'>
             <i class='saswp-wdi-rate-stars'>"

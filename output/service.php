@@ -842,8 +842,9 @@ Class saswp_output_service{
                  
              $product_details['product_gtin8'] = $gtin;   
              
-             }       
+             }  
              
+             $brand = '';
              $brand = get_post_meta($post_id, $key='hwp_product_brand', true);
              
              if($brand !=''){
@@ -852,34 +853,94 @@ Class saswp_output_service{
              
              }
              
-             $product_image_id  = $product->get_image_id(); 
-             
-             if($product_image_id){
+             if($brand == ''){
+               
+                 $product_details['product_brand'] = get_bloginfo();
                  
-              $image_details = wp_get_attachment_image_src($product_image_id, 'full');
-              
              }
-                         
+                                                   
              $date_on_sale                           = $product->get_date_on_sale_to();                            
              $product_details['product_name']        = $product->get_title();
              
-             $product_details['product_description'] = $product->get_short_description();
-             
-             if(!empty($image_details)){
-              
-             $product_details['product_image'] = array(
-                                                        '@type'		=> 'ImageObject',
-                                                        'url'		=> $image_details[0], 
-                                                        'width'		=> $image_details[1], 
-                                                        'height'        => $image_details[2] 
-                                                        );
+             if($product->get_short_description()){
+                 
+                 $product_details['product_description'] = $product->get_short_description();
+                 
+             }else if($product->get_description()){
+                 
+                 $product_details['product_description'] = $product->get_description();
                  
              }else{
                  
-             $product_details['product_image'] = '';  
-               
-             }         
+                 $product_details['product_description'] = strip_tags(get_the_excerpt());
+                 
+             }
+                                       
+             if($product->get_attributes()){
+                 
+                 foreach ($product->get_attributes() as $attribute) {
+                     
+                     if(strtolower($attribute['name']) == 'isbn'){
+                                            
+                      $product_details['product_isbn'] = $attribute['options'][0];   
+                                                                 
+                     }
+                     if(strtolower($attribute['name']) == 'mpn'){
+                                            
+                      $product_details['product_mpn'] = $attribute['options'][0];   
+                                                                 
+                     }
+                     if(strtolower($attribute['name']) == 'gtin8'){
+                                            
+                      $product_details['product_gtin8'] = $attribute['options'][0];   
+                                                                 
+                     }
+                     if(strtolower($attribute['name']) == 'brand'){
+                                            
+                      $product_details['product_brand'] = $attribute['options'][0];   
+                                                                 
+                     }
+                     
+                 }
+                 
+             }
+                          
+             $product_image_id  = $product->get_image_id(); 
              
+             $image_list = array();
+             
+             if($product_image_id){
+                                                                    
+              $image_details = wp_get_attachment_image_src($product_image_id, 'full');
+              
+              if(!empty($image_details)){
+                  
+                 $size_array = array('full', 'large', 'medium', 'thumbnail');
+                                                   
+                 for($i =0; $i< count($size_array); $i++){
+                                                    
+                    $image_details   = wp_get_attachment_image_src($product_image_id, $size_array[$i]); 
+
+                        if(!empty($image_details)){
+
+                                $image_list['image'][$i]['@type']  = 'ImageObject';
+                                $image_list['image'][$i]['url']    = esc_url($image_details[0]);
+                                $image_list['image'][$i]['width']  = esc_attr($image_details[1]);
+                                $image_list['image'][$i]['height'] = esc_attr($image_details[2]);
+
+                        }
+                                                    
+                   }
+                 
+                 }
+              
+             }
+             
+             if(!empty($image_list)){
+                 
+                 $product_details['product_image'] = $image_list;
+             }
+                               
              if(strtolower( $product->get_stock_status() ) == 'onbackorder'){
                  $product_details['product_availability'] = 'PreOrder';
              }else{
@@ -995,9 +1056,7 @@ Class saswp_output_service{
                 $dw_qa          = array();
                 $qa_page        = array();
                 $best_answer_id = '';
-                
-                
-                
+                                                
                 $post_type = get_post_type($post_id);
                 
                 if($post_type =='dwqa-question' && isset($sd_data['saswp-dw-question-answer']) && $sd_data['saswp-dw-question-answer'] ==1 && is_plugin_active('dw-question-answer/dw-question-answer.php')){
@@ -1009,10 +1068,7 @@ Class saswp_output_service{
                     $best_answer_id = $post_meta['_dwqa_best_answer'][0];
                     
                 }
-                                                                               
-                $userid         = get_post_field( 'post_author', $post_id );
-                $userinfo       = get_userdata($userid);
-                               
+                                                                                                                                              
                 $dw_qa['@type']       = 'Question';
                 $dw_qa['name']        = get_the_title(); 
                 $dw_qa['upvoteCount'] = get_post_meta( $post_id, '_dwqa_votes', true );                                             
@@ -1032,14 +1088,12 @@ Class saswp_output_service{
                   
                 } 
                 
-                $dw_qa['dateCreated'] = get_the_date("Y-m-d\TH:i:s\Z");
-                
-                if($userinfo){
-                    
-                    $dw_qa['author']      = array('@type' => 'Person','name' =>$userinfo->data->user_nicename); 
-                    
-                }
-                                                
+                $dw_qa['dateCreated'] = get_the_date("Y-m-d\TH:i:s\Z");                                                   
+                $dw_qa['author']      = array(
+                                                 '@type' => 'Person',
+                                                 'name'  =>saswp_get_the_author_name(),
+                                            ); 
+                                                                                    
                 $dw_qa['answerCount'] = $post_meta['_dwqa_answers_count'][0];                  
                 
                 $args = array(
@@ -1086,10 +1140,8 @@ Class saswp_output_service{
                     
                 $qa_page['@context']   = 'http://schema.org';
                 $qa_page['@type']      = 'QAPage';
-                $qa_page['mainEntity'] = $dw_qa;
-                
-                }           
-                
+                $qa_page['mainEntity'] = $dw_qa;                
+                }                           
                 return $qa_page;
         }
         
@@ -1499,9 +1551,10 @@ Class saswp_output_service{
                     $input1 = array(
 					'@context'			=> 'http://schema.org',
 					'@type'				=> 'TechArticle',
+                                        '@id'				=> get_permalink().'/#techarticle',
 					'mainEntityOfPage'              => get_permalink(),					
 					'headline'			=> get_the_title(),
-					'description'                   => strip_tags(get_the_excerpt()),
+					'description'                   => strip_tags(strip_shortcodes(get_the_excerpt())),
 					'datePublished'                 => esc_html($date),
 					'dateModified'                  => esc_html($modified_date),
 					'author'			=> array(
@@ -1527,9 +1580,10 @@ Class saswp_output_service{
                     $input1 = array(
 					'@context'			=> 'http://schema.org',
 					'@type'				=> 'Article',
+                                        '@id'				=> get_permalink().'/#article',
 					'mainEntityOfPage'              => get_permalink(),					
 					'headline'			=> get_the_title(),
-					'description'                   => strip_tags(get_the_excerpt()),
+					'description'                   => strip_tags(strip_shortcodes(get_the_excerpt())),
 					'datePublished'                 => esc_html($date),
 					'dateModified'                  => esc_html($modified_date),
 					'author'			=> array(
@@ -1560,15 +1614,16 @@ Class saswp_output_service{
                     $input1 = array(
 				'@context'			=> 'http://schema.org',
 				'@type'				=> 'WebPage' ,
+                                '@id'				=> get_permalink().'/#webpage',
 				'name'				=> get_the_title(),
 				'url'				=> get_permalink(),
-				'description'                   => strip_tags(get_the_excerpt()),
+				'description'                   => strip_tags(strip_shortcodes(get_the_excerpt())),
 				'mainEntity'                    => array(
 						'@type'			=> 'Article',
 						'mainEntityOfPage'	=> get_permalink(),
 						'image'			=> esc_url($image_details[0]),
 						'headline'		=> get_the_title(),
-						'description'		=> strip_tags(get_the_excerpt()),
+						'description'		=> strip_tags(strip_shortcodes(get_the_excerpt())),
 						'datePublished' 	=> esc_html($date),
 						'dateModified'		=> esc_html($modified_date),
 						'author'			=> array(
@@ -1620,8 +1675,8 @@ Class saswp_output_service{
             global $sd_data;
             $input2          = array();
             $image_id 	     = get_post_thumbnail_id();
-	    $image_details   = wp_get_attachment_image_src($image_id, 'full');           
-            
+	    $image_details   = wp_get_attachment_image_src($image_id, 'full'); 
+                        
             if( is_array($image_details) ){                                
                                     
                                         
@@ -1637,7 +1692,15 @@ Class saswp_output_service{
                                                 
                                                 if(isset($resize_image[0]) && isset($resize_image[1]) && isset($resize_image[2]) ){
                                                 
+                                                                                                        
                                                     $input2['image'][$i]['@type']  = 'ImageObject';
+                                                    
+                                                    if($i == 0){
+                                                        
+                                                    $input2['image'][$i]['@id']    = get_permalink().'#primaryimage';    
+                                                    
+                                                    }
+                                                    
                                                     $input2['image'][$i]['url']    = esc_url($resize_image[0]);
                                                     $input2['image'][$i]['width']  = esc_attr($resize_image[1]);
                                                     $input2['image'][$i]['height'] = esc_attr($resize_image[2]);  
@@ -1654,17 +1717,38 @@ Class saswp_output_service{
                                             }
                                                                                                                                                                                                                             
                                         }else{
-                                                                                                                                                                                
-                                                $input2['image']['@type']  = 'ImageObject';
-                                                $input2['image']['url']    = esc_url($image_details[0]);
-                                                $input2['image']['width']  = esc_attr($image_details[1]);
-                                                $input2['image']['height'] = esc_attr($image_details[2]);
+                                                     
+                                                $size_array = array('full', 'large', 'medium', 'thumbnail');
+                                                
+                                                for($i =0; $i< count($size_array); $i++){
+                                                    
+                                                    $image_details   = wp_get_attachment_image_src($image_id, $size_array[$i]); 
+													
+                                                        if(!empty($image_details)){
+
+                                                                $input2['image'][$i]['@type']  = 'ImageObject';
+                                                                
+                                                                if($i == 0){
+                                                        
+                                                                $input2['image'][$i]['@id']    = get_permalink().'#primaryimage'; 
+                                                                
+                                                                }
+                                                                
+                                                                $input2['image'][$i]['url']    = esc_url($image_details[0]);
+                                                                $input2['image'][$i]['width']  = esc_attr($image_details[1]);
+                                                                $input2['image'][$i]['height'] = esc_attr($image_details[2]);
+
+                                                        }
+                                                    
+                                                    
+                                                }                                                                                                                                                                                        
                                             
                                         } 
                                         
                                         if(empty($input2)){
                                             
                                                 $input2['image']['@type']  = 'ImageObject';
+                                                $input2['image']['@id']    = get_permalink().'#primaryimage';
                                                 $input2['image']['url']    = esc_url($image_details[0]);
                                                 $input2['image']['width']  = esc_attr($image_details[1]);
                                                 $input2['image']['height'] = esc_attr($image_details[2]);
@@ -1677,6 +1761,7 @@ Class saswp_output_service{
                                         if(isset($sd_data['sd_default_image']['url']) && $sd_data['sd_default_image']['url'] !=''){
                                         
                                             $input2['image']['@type']  = 'ImageObject';
+                                            $input2['image']['@id']    = get_permalink().'#primaryimage';
                                             $input2['image']['url']    = esc_url($sd_data['sd_default_image']['url']);
                                             $input2['image']['width']  = esc_attr($sd_data['sd_default_image_width']);
                                             $input2['image']['height'] = esc_attr($sd_data['sd_default_image_height']);                                                                 

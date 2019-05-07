@@ -284,9 +284,11 @@ jQuery(document).ready(function($){
                       case 'saswp_website_schema_checkbox':
                           
                             if ($(this).is(':checked')) {              
-                              $("#saswp_website_schema").val(1);             
+                              $("#saswp_website_schema").val(1);  
+                              $("#saswp_search_box_schema").parent().parent().show();  
                             }else{
                               $("#saswp_website_schema").val(0);           
+                              $("#saswp_search_box_schema").parent().parent().hide();
                             }
                       break;
                       
@@ -455,6 +457,33 @@ jQuery(document).ready(function($){
                             }
                       break;
                       
+                      case 'saswp-defragment-checkbox':
+                          
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-defragment").val(1);             
+                            }else{
+                              $("#saswp-defragment").val(0);           
+                            }
+                      break;
+                      
+                      case 'saswp-cooked-checkbox':
+                          
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-cooked").val(1);             
+                            }else{
+                              $("#saswp-cooked").val(0);           
+                            }
+                      break;
+                      
+                      case 'saswp-flexmlx-compativility-checkbox':
+                          
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-flexmlx-compativility").val(1);             
+                            }else{
+                              $("#saswp-flexmlx-compativility").val(0);           
+                            }
+                      break;
+                      
                       
                       default:
                           break;
@@ -468,6 +497,7 @@ jQuery(document).ready(function($){
           
           $(".saswp_org_fields, .saswp_person_fields").parent().parent().addClass('saswp_hide');
           $(".saswp_kg_logo").parent().parent().parent().addClass('saswp_hide');
+          $("#sd-person-image").parent().parent().parent().addClass('saswp_hide');
           
           
           if(datatype == 'Organization'){
@@ -570,8 +600,62 @@ jQuery(document).ready(function($){
                                                                  
 
         });
+        
+        //Licensing jquery starts here
+        $(document).on("click",".saswp_license_activation", function(e){
+                e.preventDefault();
+                
+                var license_status = $(this).attr('license-status');
+                var add_on         = $(this).attr('add-on');
+                var license_key    = $("#"+add_on+"_addon_license_key").val();
+               
+            if(license_status && add_on && license_key){
+                
+                $.ajax({
+                            type: "POST",    
+                            url:ajaxurl,                    
+                            dataType: "json",
+                            data:{action:"saswp_license_status_check",license_key:license_key,license_status:license_status, add_on:add_on, saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
+                            success:function(response){                               
+                               
+                               $("#"+add_on+"_addon_license_key_status").val(response['status']);
+                                                                
+                              if(response['status'] =='active'){  
+                               $(".saswp-"+add_on+"-dashicons").addClass('dashicons-yes');
+                               $(".saswp-"+add_on+"-dashicons").removeClass('dashicons-no-alt');
+                               $(".saswp-"+add_on+"-dashicons").css("color", "green");
+                               
+                               $(".saswp_license_activation[add-on='" + add_on + "']").attr("license-status", "inactive");
+                               $(".saswp_license_activation[add-on='" + add_on + "']").text("Deactivate");
+                               
+                               $(".saswp_license_status_msg[add-on='" + add_on + "']").text('Activated');
+                               
+                               $(".saswp_license_status_msg[add-on='" + add_on + "']").css("color", "green");                                
+                               $(".saswp_license_status_msg[add-on='" + add_on + "']").text(response['message']);
+                                                                                             
+                              }else{
+                                  
+                               $(".saswp-"+add_on+"-dashicons").addClass('dashicons-no-alt');
+                               $(".saswp-"+add_on+"-dashicons").removeClass('dashicons-yes');
+                               $(".saswp-"+add_on+"-dashicons").css("color", "red");
+                               
+                               $(".saswp_license_activation[add-on='" + add_on + "']").attr("license-status", "active");
+                               $(".saswp_license_activation[add-on='" + add_on + "']").text("Activate");
+                               
+                               $(".saswp_license_status_msg[add-on='" + add_on + "']").css("color", "red"); 
+                               $(".saswp_license_status_msg[add-on='" + add_on + "']").text(response['message']);
+                              }
+                                                                                          
+                            },
+                            error: function(response){                    
+                                console.log(response);
+                            }
+                            });
+                            
+            }
 
-
+        });
+        //Licensing jquery ends here
   //query form send starts here
 
         $(".saswp-send-query").on("click", function(e){
@@ -833,6 +917,23 @@ jQuery(document).ready(function($){
             saswp_enable_rating_review();
         });
         
+        
+        $('#saswp-global-tabs a:first').addClass('saswp-global-selected');
+        $('.saswp-global-container').hide();
+        $('.saswp-global-container:first').show();
+        
+        $('#saswp-global-tabs a').click(function(){
+            var t = $(this).attr('data-id');
+            
+          if(!$(this).hasClass('saswp-global-selected')){ 
+            $('#saswp-global-tabs a').removeClass('saswp-global-selected');           
+            $(this).addClass('saswp-global-selected');
+
+            $('.saswp-global-container').hide();
+            $('#'+t).show();
+         }
+        });
+        
         //Importer from schema plugin ends here
         
         //custom fields modify schema starts here
@@ -858,6 +959,11 @@ jQuery(document).ready(function($){
                $(this).parent().parent('tr').find("td:eq(1)").html(html);
                saswpCustomSelect2();           
        } ); 
+        
+        
+       $(document).on("click", '.saswp-skip-button', function(){
+           $(this).parent().parent().hide();
+       }); 
         
        $(document).on("click", '.saswp-add-custom-fields', function(){          
           var schema_type = $('select#schema_type option:selected').val();

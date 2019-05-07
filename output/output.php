@@ -8,7 +8,8 @@ if (! defined('ABSPATH') ) exit;
 function saswp_kb_schema_output() {
     
 	global $sd_data;   
-        $input = array();        
+        $input     = array();    
+        $site_url  = get_site_url();
 	// Social profile
 	$sd_social_profile = array();
 
@@ -112,7 +113,8 @@ function saswp_kb_schema_output() {
 
 		$input = array(
                         '@context'		=>'http://schema.org',
-                        '@type'			=> isset($sd_data['saswp_organization_type']) ? esc_attr($sd_data['saswp_organization_type']):'Organization',
+                        '@type'			=> 'Organization',
+                        '@id'                   => $site_url.'/#Organization',
                         'name'			=> saswp_remove_warnings($sd_data, 'sd_name', 'saswp_string'),
                         'url'			=> saswp_remove_warnings($sd_data, 'sd_url', 'saswp_string'),
                         'sameAs'		=> $platform,                                        		
@@ -304,12 +306,19 @@ function saswp_schema_output() {
                         $extra_theme_review = $service_object->saswp_extra_theme_review_details(get_the_ID());
                                                                                               
                         if( 'Course' === $schema_type){
+                            
+                        $description = strip_tags(strip_shortcodes(get_the_excerpt()));
+
+                        if(!$description){
+                            $description = get_bloginfo('description');
+                        }
                          
                         $input1 = array(
 			'@context'			=> 'http://schema.org',
-			'@type'				=> $schema_type ,		
+			'@type'				=> $schema_type ,
+                        '@id'				=> get_permalink().'/#course',    
 			'name'			        => get_the_title(),
-			'description'                   => strip_tags(get_the_excerpt()),			
+			'description'                   => $description,			
 			'url'				=> get_permalink(),
 			'datePublished'                 => esc_html($date),
 			'dateModified'                  => esc_html($modified_date),
@@ -345,10 +354,10 @@ function saswp_schema_output() {
                         $input1 = array(
 			'@context'			=> 'http://schema.org',
 			'@type'				=> 'BlogPosting' ,
-
+                        '@id'				=> get_permalink().'/#blogposting',    
 			'mainEntityOfPage'              => get_permalink(),
 			'headline'			=> get_the_title(),
-			'description'                   => strip_tags(get_the_excerpt()),
+			'description'                   => strip_tags(strip_shortcodes(get_the_excerpt())),
 			'name'				=> get_the_title(),
 			'url'				=> get_permalink(),
 			'datePublished'                 => esc_html($date),
@@ -390,7 +399,8 @@ function saswp_schema_output() {
                             
                         $input1 = array(
 			'@context'			=> 'http://schema.org',
-			'@type'				=> $schema_type ,			
+			'@type'				=> $schema_type ,	
+                        '@id'				=> get_permalink().'/#audioobject',     
 			'name'			        => saswp_remove_warnings($schema_data, 'saswp_audio_schema_name', 'saswp_string'),
 			'description'                   => saswp_remove_warnings($schema_data, 'saswp_audio_schema_description', 'saswp_string'),			
 			'contentUrl'		        => saswp_remove_warnings($schema_data, 'saswp_audio_schema_contenturl', 'saswp_string'),
@@ -452,7 +462,8 @@ function saswp_schema_output() {
                             
                         $input1 = array(
 			'@context'			=> 'http://schema.org',
-			'@type'				=> $schema_type ,			
+			'@type'				=> $schema_type ,
+                        '@id'				=> get_permalink().'/#event',      
 			'name'			        => saswp_remove_warnings($schema_data, 'saswp_event_schema_name', 'saswp_string'),
 			'description'                   => saswp_remove_warnings($schema_data, 'saswp_event_schema_description', 'saswp_string'),						                            
                         'startDate'		        => isset($schema_data['saswp_event_schema_start_date']) && $schema_data['saswp_event_schema_start_date'] !='' ? date('Y-m-d\TH:i:s\Z',strtotime($schema_data['saswp_event_schema_start_date'])):'',
@@ -519,7 +530,8 @@ function saswp_schema_output() {
                             
                         $input1 = array(
 			'@context'			=> 'http://schema.org',
-			'@type'				=> $schema_type ,			
+			'@type'				=> $schema_type ,
+                        '@id'				=> get_permalink().'/#softwareapplication',         
 			'name'			        => saswp_remove_warnings($schema_data, 'saswp_software_schema_name', 'saswp_string'),
 			'description'                   => saswp_remove_warnings($schema_data, 'saswp_software_schema_description', 'saswp_string'),			
 			'operatingSystem'		=> saswp_remove_warnings($schema_data, 'saswp_software_schema_operating_system', 'saswp_string'),
@@ -642,11 +654,12 @@ function saswp_schema_output() {
 				$input1 = array(
 				'@context'			=> 'http://schema.org',
 				'@type'				=> $schema_type ,
+                                '@id'				=> get_permalink().'/#recipe',    
 				'url'				=> get_permalink(),
 				'name'			        => get_the_title(),
 				'datePublished'                 => esc_html($date),
 				'dateModified'                  => esc_html($modified_date),
-				'description'                   => strip_tags(get_the_excerpt()),
+				'description'                   => strip_tags(strip_shortcodes(get_the_excerpt())),
 				'mainEntity'                    => array(
 						'@type'				=> 'WebPage',
 						'@id'				=> get_permalink(),
@@ -714,11 +727,11 @@ function saswp_schema_output() {
                                     $input1 = array(
                                     '@context'			=> 'http://schema.org',
                                     '@type'				=> 'Product',
+                                    '@id'				=> get_permalink().'/#product',     
                                     'url'				=> get_permalink(),
                                     'name'                              => saswp_remove_warnings($product_details, 'product_name', 'saswp_string'),
                                     'sku'                               => saswp_remove_warnings($product_details, 'product_sku', 'saswp_string'),    
-                                    'description'                       => saswp_remove_warnings($product_details, 'product_description', 'saswp_string'),
-                                    'image'                             => isset($product_details['product_image'])? $product_details['product_image']:'',    
+                                    'description'                       => saswp_remove_warnings($product_details, 'product_description', 'saswp_string'),                                    
                                     'offers'                            => array(
                                                                                 '@type'	=> 'Offer',
                                                                                 'availability'      => saswp_remove_warnings($product_details, 'product_availability', 'saswp_string'),
@@ -728,7 +741,12 @@ function saswp_schema_output() {
                                                                                 'priceValidUntil'   => saswp_remove_warnings($product_details, 'product_priceValidUntil', 'saswp_string'),
                                                                              ),
                                         
-				  ); 
+				  );
+                                    
+                                  if(isset($product_details['product_image'])){
+                                    $input1 = array_merge($input1, $product_details['product_image']);
+                                  }  
+                                    
                                   if(isset($product_details['product_gtin8']) && $product_details['product_gtin8'] !=''){
                                     $input1['gtin8'] = esc_attr($product_details['product_gtin8']);  
                                   }
@@ -777,6 +795,7 @@ function saswp_schema_output() {
 				$input1 = array(
 				'@context'			=> 'http://schema.org',
 				'@type'				=> 'Product',
+                                '@id'				=> get_permalink().'/#product',    
 				'url'				=> get_permalink(),
 				'name'                          => saswp_remove_warnings($schema_data, 'saswp_product_schema_name', 'saswp_string'),
                                 'sku'                           => saswp_remove_warnings($schema_data, 'saswp_product_schema_sku', 'saswp_string'),
@@ -860,15 +879,16 @@ function saswp_schema_output() {
                                 $word_count = saswp_reading_time_and_word_count();
 				$input1 = array(
 					'@context'			=> 'http://schema.org',
-					'@type'				=> $schema_type ,										
+					'@type'				=> $schema_type ,
+                                        '@id'				=> get_permalink().'/#newsarticle',
 					'url'				=> get_permalink(),
 					'headline'			=> get_the_title(),
                                         'mainEntityOfPage'	        => get_the_permalink(),            
 					'datePublished'                 => esc_html($date),
 					'dateModified'                  => esc_html($modified_date),
-					'description'                   => strip_tags(get_the_excerpt()),
+					'description'                   => strip_tags(strip_shortcodes(get_the_excerpt())),
                                         'articleSection'                => $article_section,            
-                                        'articleBody'                   => strip_tags(get_the_excerpt()),            
+                                        'articleBody'                   => strip_tags(strip_shortcodes(get_the_excerpt())),            
 					'name'				=> get_the_title(), 					
 					'thumbnailUrl'                  => saswp_remove_warnings($image_details, 0, 'saswp_string'),
                                         'wordCount'                     => saswp_remove_warnings($word_count, 'word_count', 'saswp_string'),
@@ -927,6 +947,7 @@ function saswp_schema_output() {
 				$input1 = array(
 					'@context'			=> 'http://schema.org',
 					'@type'				=> $schema_type ,
+                                        '@id'				=> get_permalink().'/#service',
                                         'name'				=> saswp_remove_warnings($schema_data, 'saswp_service_schema_name', 'saswp_string'), 
 					'serviceType'                   => saswp_remove_warnings($schema_data, 'saswp_service_schema_type', 'saswp_string'),
 					'provider'                      => array(
@@ -1017,6 +1038,7 @@ function saswp_schema_output() {
                             $input1 = array(
                                     '@context'       => 'http://schema.org',
                                     '@type'          => 'Review',
+                                    '@id'	     => get_permalink().'/#review',
                                     'dateCreated'    => esc_html($date),
                                     'datePublished'  => esc_html($date),
                                     'dateModified'   => esc_html($modified_date),
@@ -1024,7 +1046,7 @@ function saswp_schema_output() {
                                     'name'           => get_the_title(),
                                     'keywords'       => tie_get_plain_terms( get_the_ID(), 'post_tag' ),
                                     'url'            => get_permalink(),
-                                    'description'    => strip_tags(get_the_excerpt()),
+                                    'description'    => strip_tags(strip_shortcodes(get_the_excerpt())),
                                     'copyrightYear'  => get_the_time( 'Y' ),                                                                                                           
                                     'author'	     => array(
                                                             '@type' 	=> 'Person',
@@ -1105,8 +1127,8 @@ function saswp_schema_output() {
                                     $input1['reviewBody']               = $schema_data['saswp_review_schema_description'];
                                     $input1['description']              = $schema_data['saswp_review_schema_description'];
                                 }else {
-                                    $input1['reviewBody']               = strip_tags(get_the_excerpt());
-                                    $input1['description']              = strip_tags(get_the_excerpt());
+                                    $input1['reviewBody']               = strip_tags(strip_shortcodes(get_the_excerpt()));
+                                    $input1['description']              = strip_tags(strip_shortcodes(get_the_excerpt()));
                                 }
                                 
                                 if(isset($schema_data['saswp_review_schema_item_type'])){
@@ -1277,22 +1299,28 @@ function saswp_schema_output() {
                                 			
 			if( 'VideoObject' === $schema_type){
                             
-				if(empty($image_details[0]) || $image_details[0] === NULL ){
-                                    
-                                        if(isset($sd_data['sd_logo'])){
-                                            $image_details[0] = $sd_data['sd_logo']['url'];
-                                        }
-                                    					
-				}												
-					
+                                            if(empty($image_details[0]) || $image_details[0] === NULL ){
+
+                                                    if(isset($sd_data['sd_logo'])){
+                                                        $image_details[0] = $sd_data['sd_logo']['url'];
+                                                    }
+
+                                            }				
+                                                $description = strip_tags(strip_shortcodes(get_the_excerpt()));
+
+                                                if(!$description){
+                                                    $description = get_bloginfo('description');
+                                                }
+                                                                                                                        
 						$input1 = array(
 						'@context'			=> 'http://schema.org',
 						'@type'				=> 'VideoObject',
+                                                '@id'                           => get_permalink().'/#videoobject',        
 						'url'				=> get_permalink(),
 						'headline'			=> get_the_title(),
 						'datePublished'                 => esc_html($date),
 						'dateModified'                  => esc_html($modified_date),
-						'description'                   => strip_tags(get_the_excerpt()),
+						'description'                   => $description,
 						'name'				=> get_the_title(),
 						'uploadDate'                    => esc_html($date),
 						'thumbnailUrl'                  => isset($image_details[0]) ? esc_url($image_details[0]):'',
@@ -1311,9 +1339,9 @@ function saswp_schema_output() {
 								),
 							)						                                                                                                      
 						);
-                                                if(!empty($publisher)){
+                                                 if(!empty($publisher)){
                             
-                                                 $input1 = array_merge($input1, $publisher);   
+                                                    $input1 = array_merge($input1, $publisher);   
                          
                                                  }
                                                 if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){
@@ -1357,9 +1385,10 @@ function saswp_schema_output() {
 				$input1 = array(
 				'@context'			=> 'http://schema.org',
 				'@type'				=> esc_attr($local_business),
+                                '@id'                           => get_permalink().'/#'. strtolower(esc_attr($local_business)),            
                                 'name'                          => saswp_remove_warnings($business_details, 'local_business_name', 'saswp_string'),                                   
 				'url'				=> get_permalink(),				
-				'description'                   => strip_tags(get_the_excerpt()),
+				'description'                   => strip_tags(strip_shortcodes(get_the_excerpt())),
                                 'image'                         => array(
                                                                         '@type'		=> 'ImageObject',
                                                                         'url'		=> isset($business_details['local_business_logo']) ? esc_url($business_details['local_business_logo']['url']):'',
@@ -1596,6 +1625,7 @@ function saswp_post_specific_schema_output() {
                                 $input1 = array(
                                     '@context'		  => 'http://schema.org',
                                     '@type'		  => 'QAPage',
+                                    '@id'                 => get_permalink().'/#qapage',
                                     'mainEntity'          => array(
                                             '@type'		  => 'Question' ,
                                             'name'		  => saswp_remove_warnings($all_post_meta, 'saswp_qa_question_title_'.$schema_id, 'saswp_array'),
@@ -1631,7 +1661,8 @@ function saswp_post_specific_schema_output() {
                                                     
                         $input1 = array(
 			'@context'			=> 'http://schema.org',
-			'@type'				=> 'Event' ,			
+			'@type'				=> 'Event' ,
+                        '@id'                           => get_permalink().'/#event',    
 			'name'			        => saswp_remove_warnings($all_post_meta, 'saswp_event_schema_name_'.$schema_id, 'saswp_array'),
 			'description'                   => saswp_remove_warnings($all_post_meta, 'saswp_event_schema_description_'.$schema_id, 'saswp_array'),			
 			'startDate'		        => isset($all_post_meta['saswp_event_schema_start_date_'.$schema_id])?date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_event_schema_start_date_'.$schema_id][0])):'',
@@ -1683,7 +1714,8 @@ function saswp_post_specific_schema_output() {
                          
                                 $input1 = array(
                                 '@context'			=> 'http://schema.org',
-                                '@type'				=> 'Course' ,		
+                                '@type'				=> 'Course' ,	
+                                '@id'                           => get_permalink().'/#course',    
                                 'name'			        => saswp_remove_warnings($all_post_meta, 'saswp_course_name_'.$schema_id, 'saswp_array'),
                                 'description'                   => saswp_remove_warnings($all_post_meta, 'saswp_course_description_'.$schema_id, 'saswp_array'),			
                                 'url'				=> saswp_remove_warnings($all_post_meta, 'saswp_course_url_'.$schema_id, 'saswp_array'),
@@ -1698,12 +1730,12 @@ function saswp_post_specific_schema_output() {
 
                                 if(!empty($aggregateRating)){
                                     
-                                    $input1['mainEntity']['aggregateRating'] = $aggregateRating;
+                                    $input1['aggregateRating'] = $aggregateRating;
                                     
                                 }
                                 if(!empty($kkstar_aggregateRating)){
                                     
-                                   $input1['mainEntity']['aggregateRating'] = $kkstar_aggregateRating;  
+                                    $input1['aggregateRating'] = $kkstar_aggregateRating;  
                                    
                                 }
                                 if(!empty($extra_theme_review)){
@@ -1720,7 +1752,7 @@ function saswp_post_specific_schema_output() {
 			$input1 = array(
 			'@context'			=> 'http://schema.org',
 			'@type'				=> $schema_type ,
-
+                        '@id'                           => get_permalink().'/#blogposting',  
 			'mainEntityOfPage'              => saswp_remove_warnings($all_post_meta, 'saswp_blogposting_main_entity_of_page_'.$schema_id, 'saswp_array'),
 			'headline'			=> saswp_remove_warnings($all_post_meta, 'saswp_blogposting_headline_'.$schema_id, 'saswp_array'),
 			'description'                   => saswp_remove_warnings($all_post_meta, 'saswp_blogposting_description_'.$schema_id, 'saswp_array'),
@@ -1758,7 +1790,8 @@ function saswp_post_specific_schema_output() {
                     		                                                    
 			$input1 = array(
 			'@context'			=> 'http://schema.org',
-			'@type'				=> $schema_type,			
+			'@type'				=> $schema_type,
+                        '@id'                           => get_permalink().'/#audioobject',    
 			'name'			        => saswp_remove_warnings($all_post_meta, 'saswp_audio_schema_name_'.$schema_id, 'saswp_array'),
 			'description'                   => saswp_remove_warnings($all_post_meta, 'saswp_audio_schema_description_'.$schema_id, 'saswp_array'),
 			'contentUrl'		        => saswp_remove_warnings($all_post_meta, 'saswp_audio_schema_contenturl_'.$schema_id, 'saswp_array'),
@@ -1787,7 +1820,8 @@ function saswp_post_specific_schema_output() {
                     		                                                    
 			$input1 = array(
 			'@context'			=> 'http://schema.org',
-			'@type'				=> 'SoftwareApplication',			
+			'@type'				=> 'SoftwareApplication',
+                        '@id'                           => get_permalink().'/#softwareapplication',     
 			'name'			        => saswp_remove_warnings($all_post_meta, 'saswp_software_schema_name_'.$schema_id, 'saswp_array'),
 			'description'                   => saswp_remove_warnings($all_post_meta, 'saswp_software_schema_description_'.$schema_id, 'saswp_array'),
 			'operatingSystem'		=> saswp_remove_warnings($all_post_meta, 'saswp_software_schema_operating_system_'.$schema_id, 'saswp_array'),
@@ -1828,6 +1862,7 @@ function saswp_post_specific_schema_output() {
 				$input1 = array(
 				'@context'			=> 'http://schema.org',
 				'@type'				=> 'WebPage' ,
+                                '@id'                           => get_permalink().'/#webpage',     
 				'name'				=> saswp_remove_warnings($all_post_meta, 'saswp_webpage_name_'.$schema_id, 'saswp_array'),
 				'url'				=> saswp_remove_warnings($all_post_meta, 'saswp_webpage_url_'.$schema_id, 'saswp_array'),
 				'description'                   => saswp_remove_warnings($all_post_meta, 'saswp_webpage_description_'.$schema_id, 'saswp_array'),
@@ -1880,6 +1915,7 @@ function saswp_post_specific_schema_output() {
 				$input1 = array(
 					'@context'			=> 'http://schema.org',
 					'@type'				=> 'Article',
+                                        '@id'                           => get_permalink().'/#article',
 					'mainEntityOfPage'              => saswp_remove_warnings($all_post_meta, 'saswp_article_main_entity_of_page_'.$schema_id, 'saswp_array'),
 					'image'				=> saswp_remove_warnings($all_post_meta, 'saswp_article_image_'.$schema_id, 'saswp_array'),
 					'headline'			=> saswp_remove_warnings($all_post_meta, 'saswp_article_headline_'.$schema_id, 'saswp_array'),
@@ -1921,6 +1957,7 @@ function saswp_post_specific_schema_output() {
 				$input1 = array(
 					'@context'			=> 'http://schema.org',
 					'@type'				=> 'TechArticle',
+                                        '@id'                           => get_permalink().'/#techarticle',
 					'mainEntityOfPage'              => saswp_remove_warnings($all_post_meta, 'saswp_tech_article_main_entity_of_page_'.$schema_id, 'saswp_array'),
 					'image'				=> saswp_remove_warnings($all_post_meta, 'saswp_tech_article_image_'.$schema_id, 'saswp_array'),
 					'headline'			=> saswp_remove_warnings($all_post_meta, 'saswp_tech_article_headline_'.$schema_id, 'saswp_array'),
@@ -2003,6 +2040,7 @@ function saswp_post_specific_schema_output() {
 				$input1 = array(
 				'@context'			=> 'http://schema.org',
 				'@type'				=> $schema_type ,
+                                '@id'                           => get_permalink().'/#recipe',    
 				'url'				=> saswp_remove_warnings($all_post_meta, 'saswp_recipe_url_'.$schema_id, 'saswp_array'),
 				'name'			        => saswp_remove_warnings($all_post_meta, 'saswp_recipe_name_'.$schema_id, 'saswp_array'),
                                 'author'			=> array(
@@ -2077,6 +2115,7 @@ function saswp_post_specific_schema_output() {
                                         $input1 = array(
                                         '@context'			=> 'http://schema.org',
                                         '@type'				=> 'Product',
+                                        '@id'                           => get_permalink().'/#product',    
                                         'url'				=> get_permalink(),
                                         'name'                          => saswp_remove_warnings($all_post_meta, 'saswp_product_schema_name_'.$schema_id, 'saswp_array'),
                                         'sku'                           => saswp_remove_warnings($all_post_meta, 'saswp_product_schema_sku_'.$schema_id, 'saswp_array'),
@@ -2167,7 +2206,8 @@ function saswp_post_specific_schema_output() {
                              
 				        $input1 = array(
 					'@context'			=> 'http://schema.org',
-					'@type'				=> 'NewsArticle' ,					
+					'@type'				=> 'NewsArticle' ,
+                                        '@id'                           => get_permalink().'/#newsarticle',    
 					'mainEntityOfPage'              => saswp_remove_warnings($all_post_meta, 'saswp_newsarticle_main_entity_of_page_'.$schema_id, 'saswp_array'),
 					'url'				=> saswp_remove_warnings($all_post_meta, 'saswp_newsarticle_URL_'.$schema_id, 'saswp_array'),
 					'headline'			=> saswp_remove_warnings($all_post_meta, 'saswp_newsarticle_headline_'.$schema_id, 'saswp_array'),
@@ -2221,6 +2261,7 @@ function saswp_post_specific_schema_output() {
 						$input1 = array(
 						'@context'			=> 'http://schema.org',
 						'@type'				=> 'VideoObject',
+                                                '@id'                           => get_permalink().'/#videoobject',    
 						'url'				=> saswp_remove_warnings($all_post_meta, 'saswp_video_object_url_'.$schema_id, 'saswp_array'),
 						'headline'			=> saswp_remove_warnings($all_post_meta, 'saswp_video_object_headline_'.$schema_id, 'saswp_array'),
 						'datePublished'                 => isset($all_post_meta['saswp_video_object_date_published_'.$schema_id])?date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_video_object_date_published_'.$schema_id][0])):'',
@@ -2277,6 +2318,7 @@ function saswp_post_specific_schema_output() {
 				$input1 = array(
 					'@context'			=> 'http://schema.org',
 					'@type'				=> $schema_type ,
+                                        '@id'                           => get_permalink().'/#service',    
                                         'name'				=> saswp_remove_warnings($all_post_meta, 'saswp_service_schema_name_'.$schema_id, 'saswp_array'), 
 					'serviceType'                   => saswp_remove_warnings($all_post_meta, 'saswp_service_schema_type_'.$schema_id, 'saswp_array'),
 					'provider'                      => array(
@@ -2353,6 +2395,7 @@ function saswp_post_specific_schema_output() {
                                 
 				$input1['@context']                     = 'http://schema.org';
                                 $input1['@type']                        = 'Review';
+                                $input1['@id']                          = get_permalink().'/#review';                                                           
                                 $input1['url']                          = get_permalink();                                
                                 $input1['datePublished']                = get_the_date("Y-m-d\TH:i:s\Z");
                                 $input1['dateModified']                 = get_the_modified_date("Y-m-d\TH:i:s\Z");
@@ -2386,8 +2429,8 @@ function saswp_post_specific_schema_output() {
                                     $input1['reviewBody']               = $all_post_meta['saswp_review_schema_description_'.$schema_id][0];
                                     $input1['description']              = $all_post_meta['saswp_review_schema_description_'.$schema_id][0];
                                 }else {
-                                    $input1['reviewBody']               = strip_tags(get_the_excerpt());
-                                    $input1['description']              = strip_tags(get_the_excerpt());
+                                    $input1['reviewBody']               = strip_tags(strip_shortcodes(get_the_excerpt()));
+                                    $input1['description']              = strip_tags(strip_shortcodes(get_the_excerpt()));
                                 }
                                 
                                 if(isset($all_post_meta['saswp_review_schema_item_type_'.$schema_id])){
@@ -2585,6 +2628,7 @@ function saswp_post_specific_schema_output() {
 				$input1 = array(
 				'@context'			=> 'http://schema.org',
 				'@type'				=> $local_business ,
+                                '@id'                           => get_permalink().'/#'. strtolower($local_business),        
                                 'name'                          => saswp_remove_warnings($all_post_meta, 'local_business_name_'.$schema_id, 'saswp_array'),                                   
 				'url'				=> saswp_remove_warnings($all_post_meta, 'local_business_name_url_'.$schema_id, 'saswp_array'),				
 				'description'                   => saswp_remove_warnings($all_post_meta, 'local_business_description_'.$schema_id, 'saswp_array'),				
@@ -2689,6 +2733,7 @@ function saswp_schema_breadcrumb_output(){
                 $input = array(
 					'@context'			=> 'http://schema.org',
 					'@type'				=> 'BreadcrumbList' ,
+                                        '@id'				=>  get_permalink().'#breadcrumb' ,
 					'itemListElement'	        => $bread_crumb_list,
 			); 
            
@@ -2721,7 +2766,7 @@ function saswp_kb_website_output(){
                     $input = array(
                             '@context'	  => 'http://schema.org',
                             '@type'		  => 'WebSite',
-                            'id'		  => '#website',
+                            '@id'		  => $site_url.'/#website',
                             'url'		  => $site_url,
                             'name'		  => $site_name,			
 			);  
@@ -2937,7 +2982,7 @@ function saswp_about_page_output(){
 						),
 				"url"		   => get_permalink(),
 				"headline"	   => get_the_title(),								
-				'description'	   => strip_tags(get_the_excerpt()),
+				'description'	   => strip_tags(strip_shortcodes(get_the_excerpt())),
 			);
                         
 			if(!empty($feature_image)){
@@ -2982,7 +3027,7 @@ function saswp_contact_page_output(){
 							),
 				"url"		   => get_permalink(),
 				"headline"	   => get_the_title(),								
-				'description'	   => strip_tags(get_the_excerpt()),
+				'description'	   => strip_tags(strip_shortcodes(get_the_excerpt())),
 			);
                         
                         if(!empty($feature_image)){

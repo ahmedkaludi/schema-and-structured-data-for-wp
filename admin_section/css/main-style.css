@@ -125,6 +125,9 @@ display: none !important;
 .saswp-tools .saswp-tooltip{
     width: 230px;
 }
+.saswp-tools .saswp-settings-list li {
+    display: -webkit-inline-box;
+}
 .saswp-error{
     color: #ff0000 !important;
 }
@@ -595,4 +598,38 @@ Compatibility tab css ends
 .saswp-add-on-plugin span{
     width: 250px;
     display: inline-block;
+}
+.saswp-knowledge-label label[for="saswp_search_box_schema_checkbox"] {
+    padding-left: 10px;
+}
+
+.saswp-knowledge-label label[for="saswp-woocommerce-booking-checkbox"] {
+    padding-left: 10px;
+}
+
+.saswp-knowledge-label label[for="saswp-woocommerce-membership-checkbox"] {
+    padding-left: 10px;
+}
+
+.saswp-global-selected{
+    color: #000000;
+    font-weight: 500;
+}
+#saswp-global-tabs a{
+    cursor: pointer;
+}
+#saswp-global-tabs{
+    padding-left: 5px;
+}
+.saswp-need-help {
+    float: right;
+    position: relative;
+    top: 10px;
+}
+.saswp-view-docs a{      
+    margin-right: 5px !important;
+    margin-top: 10px !important;
+}
+.saswp-tabs .nav-tab{
+    margin-left: 4px;
 }
