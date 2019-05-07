@@ -246,13 +246,20 @@ class saswp_google_review_page{
                             foreach ($reviews as $review){
                                 
                                 echo '<div class="saswp-g-review-panel">
-                                      <div class="saswp-g-review-body">
-                                      <img src="'.esc_url($review->profile_photo_url).'" alt="'.$review->author_name.'">
-                                      <span>'.gmdate("H:i d M y", $review->time).'</span><br>
-                                      <span>'.$review->author_name.'</span><br>
-                                      <span>Rating : '.$review->rating.'</span><br>
-                                      <span>'.substr($review->text,0,300).'</span>
-                                      </div>
+                                          <div class="saswp-glg-review-body">
+                                            <div class="saswp-rv-img">
+                                                <img src="'.esc_url($review->profile_photo_url).'" alt="'.$review->author_name.'">
+                                            </div>
+                                            <div class="saswp-rv-cnt">
+                                                <div class="saswp-str-rtng">
+                                                    <span class="saswp-athr">'.$review->author_name.'</span>
+                                                    <span class="saswp-rtng">Rating : '.$review->rating.'</span>
+                                                    <span class="saswp-g-plus"><a href="#">G+</a></span>
+                                                </div>
+                                                <span class="saswp-pt-dt">'.gmdate("H:i d M y", $review->time).'</span>
+                                                <p>'.substr($review->text,0,300).'</p>
+                                            </div>
+                                          </div>
                                       </div>';
 
                             }    
@@ -266,16 +273,16 @@ class saswp_google_review_page{
                     <div class="saswp-channel-list">
                       
                         
-                        <a class="saswp-accordion">Connect Google</a>
+                        <!-- <a class="saswp-accordion">Connect Google</a> -->
         
                         <div class="saswp-panel">
-
+                            <h3>Google Review Settings</h3>
                             <div class="saswp-input-fields">
-                                <input value="<?php if(isset($post_meta['saswp_google_place_id'])){ echo $post_meta['saswp_google_place_id'][0];}  ?>" type="text" id="saswp_google_place_id" name="saswp_google_place_id" placeholder="<?php echo esc_html__('Place Id', 'schema-and-structured-data-for-wp' ); ?>">   
+                                <label>Google ID:</label><input value="<?php if(isset($post_meta['saswp_google_place_id'])){ echo $post_meta['saswp_google_place_id'][0];}  ?>" type="text" id="saswp_google_place_id" name="saswp_google_place_id" placeholder="<?php echo esc_html__('Place Id', 'schema-and-structured-data-for-wp' ); ?>">   
                             </div>
 
                             <div class="saswp-input-fields">
-
+                                <label>Languages:</label>
                                 <select name="saswp_language_list" id="saswp_language_list">
                                          <?php  
                                             
@@ -298,6 +305,7 @@ class saswp_google_review_page{
                             </div>
 
                             <div class="saswp-input-fields">
+                                <label>Goolge API</label>
                                 <input value="<?php if(isset($post_meta['saswp_googel_api'])){ echo $post_meta['saswp_googel_api'][0];}  ?>" type="text" id="saswp_googel_api" name="saswp_googel_api" placeholder="<?php echo esc_html__('Google API', 'schema-and-structured-data-for-wp' ); ?>">   
                             </div>
                             

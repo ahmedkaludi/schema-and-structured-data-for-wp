@@ -656,51 +656,82 @@ Google review module starts here
 
 .saswp-panel {
   padding: 7px 18px;
-  display: none;
   background-color: white;
-  overflow: hidden;
+  box-shadow: 0px 0px 20px 1px #d2cccc;
 }
 
-
-.saswp-g-review-body{
-    margin-top: 10px;
-}
+/*** Review Design CSS ****/
 .saswp-g-review-header{
-    margin-top: 100px;
-}
-.saswp-review-list{
-    float: left;
-    width: 70%;
-    height: 500px;      
-}
-.saswp-channel-list{
-    width: 30%;
-    float: right;
-}
-.saswp-input-fields input{
-    width: 250px;
-    padding: 5px;
-}
-.saswp-input-fields select{
-    width: 250px;
-    padding: 5px;
-}
-.saswp-g-review-panel{
-    border-color: #ddd;
-    margin-bottom: 20px;
-    background-color: rgb(255, 255, 255);
-    box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 1px;
-    border-width: 1px;
-    border-style: solid;
-    border-color: transparent;
-    border-image: initial;
-    border-radius: 4px;
-    margin: 10px;
+    margin-top: 50px;
 }
 .saswp-g-review-body{
-    padding: 15px;
+    display:inline-grid;
+    grid-template-columns: 1fr 300px;
+    grid-gap:30px;
+    margin-top:30px;
 }
-
+.saswp-review-list{}
+.saswp-channel-list{
+    margin-right: 15px;
+}
+.saswp-input-fields{
+    display: inline-flex;
+    align-items: center;
+    margin-bottom: 8px;
+    width: 100%;
+}
+.saswp-input-fields label{
+    width: 130px;
+}
+.saswp-panel h3{
+    font-size: 20px;
+    line-height: 1.4;
+    color: #222;
+    text-align: center;
+    margin: 10px 0px 20px 0px;
+}
+.saswp-input-fields a.button-primary{
+    margin-top:10px;
+}
+.saswp-glg-review-body{
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    grid-gap: 20px;
+    background: #fff;
+    padding: 20px;
+    box-shadow: 0px 0px 20px 1px #d2cccc;
+    margin-bottom: 30px;
+}
+.saswp-g-plus{
+    float: right;
+    font-size: 15px;
+}
+.saswp-rtng{
+    padding-left: 5px;
+    font-size: 14px;
+}
+.saswp-pt-dt {
+    font-size: 12px;
+    color: #999;
+    font-weight: 600;
+    margin-top: 5px;
+    display: inline-block;
+}
+.saswp-athr{
+    font-size: 15px;
+    line-height: 1.4;
+    color: #000;
+    font-weight: bold;
+}
+.saswp-rv-cnt p{
+    font-size: 16px;
+    line-height: 1.6;
+    color: #000;
+    margin: 10px 0px 0px 0px;
+}
+.saswp-rv-img img{
+    max-width:100px;
+}
 /*
 Google review module ends here
 */

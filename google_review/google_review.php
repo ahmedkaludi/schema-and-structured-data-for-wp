@@ -79,7 +79,7 @@ class saswp_google_review{
         
         if($post_id){
             
-            echo $this->saswp_google_review_front_output($post_id);
+            return $this->saswp_google_review_front_output($post_id);
             
         }
         
@@ -108,13 +108,20 @@ class saswp_google_review{
                      foreach ($reviews as $review){
                                 
                                 $output.= '<div class="saswp-g-review-panel">
-                                      <div class="saswp-g-review-body">
-                                      <img src="'.esc_url($review->profile_photo_url).'" alt="'.$review->author_name.'">
-                                      <span>'.gmdate("H:i d M y", $review->time).'</span><br>
-                                      <span>'.$review->author_name.'</span><br>
-                                      <span>Rating : '.$review->rating.'</span><br>
-                                      <span>'.substr($review->text,0,300).'</span>
-                                      </div>
+                                          <div class="saswp-glg-review-body">
+                                            <div class="saswp-rv-img">
+                                                <img src="'.esc_url($review->profile_photo_url).'" alt="'.$review->author_name.'">
+                                            </div>
+                                            <div class="saswp-rv-cnt">
+                                                <div class="saswp-str-rtng">
+                                                    <span class="saswp-athr">'.$review->author_name.'</span>
+                                                    <span class="saswp-rtng">Rating : '.$review->rating.'</span>
+                                                    <span class="saswp-g-plus"><a href="#">G+</a></span>
+                                                </div>
+                                                <span class="saswp-pt-dt">'.gmdate("H:i d M y", $review->time).'</span>
+                                                <p>'.substr($review->text,0,300).'</p>
+                                            </div>
+                                          </div>
                                       </div>';
 
                             }
