@@ -997,7 +997,19 @@ function saswp_import_callback(){
                              'id'   => 'saswp-defragment',
                              'name' => 'sd_data[saswp-defragment]',                             
                         )
-		),  
+		),
+                array(
+			'label'  => 'Add Schema Markup in footer',
+			'id'     => 'saswp-markup-footer-checkbox',                        
+                        'name'   => 'saswp-markup-footer-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
+                        'note'  => 'By default schema markup will be added in header section',
+                        'hidden' => array(
+                             'id'   => 'saswp-markup-footer',
+                             'name' => 'sd_data[saswp-markup-footer]',                             
+                        )
+		),
                 
 	);        
         $field_objs->saswp_field_generator($meta_fields, $settings);  
@@ -1218,8 +1230,8 @@ function saswp_review_page_callback(){
 		),                        
                 array(
                             'label' => 'Google place API Key',
-                            'id'    => 'google_place_api_key',
-                            'name'  => 'sd_data[google_place_api_key]',
+                            'id'    => 'saswp_google_place_api_key',
+                            'name'  => 'sd_data[saswp_google_place_api_key]',
                             'class' => '',
                             'type'  => 'text',
                   )

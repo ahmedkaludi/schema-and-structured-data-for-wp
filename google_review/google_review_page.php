@@ -218,7 +218,7 @@ class saswp_google_review_page{
         }        
                                         
         ?>
-        
+            <h1 class="wp-heading-inline">Google Review</h1>
             <div class="saswp-g-review-container">
                  <form method="post" action="post.php">
                     <div class="saswp-g-review-header">
@@ -226,7 +226,7 @@ class saswp_google_review_page{
                             <input type="hidden" name="post_type" value="saswp-google-review">
                             <input type="hidden" name="saswp-page" value="collection">
                             <input type="hidden" id="sasw_post_ID" name="sasw_post_ID" value="<?php echo $post_id; ?>">
-                            <input type="text" value="<?php echo get_the_title($post_id); ?>" id="saswp_g_review_title" name="saswp_g_review_title" style="width: 90%;">
+                            <input type="text" value="Untitled" id="saswp_g_review_title" name="saswp_g_review_title" style="width: 90%;">
 
                             <button type="submit" class="btn btn-success button-primary" > <?php echo esc_html__('Save','schema-and-structured-data-for-wp'); ?>  </button>
                             <div>Use ShortCode [saswp_google_review id="<?php echo $post_id; ?>"]</div>
@@ -321,6 +321,7 @@ class saswp_google_review_page{
                 </div>
 
                 </form>
+                <a class="saswp-view-google-docs">View Documentation</a>   
             </div>
             
         <?php

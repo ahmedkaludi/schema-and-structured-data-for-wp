@@ -487,9 +487,20 @@ jQuery(document).ready(function($){
                       case 'saswp-google-review-checkbox':
                           
                             if ($(this).is(':checked')) {              
-                              $("#saswp-google-review").val(1);             
+                              $("#saswp-google-review").val(1); 
+                               $("#saswp_google_place_api_key").parent().parent().show();
                             }else{
                               $("#saswp-google-review").val(0);           
+                               $("#saswp_google_place_api_key").parent().parent().hide();
+                            }
+                      break;
+                      
+                      case 'saswp-markup-footer-checkbox':
+                          
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-markup-footer").val(1);                                
+                            }else{
+                              $("#saswp-markup-footer").val(0);                                          
                             }
                       break;
                       
@@ -1077,20 +1088,20 @@ jQuery(document).ready(function($){
         
         //Google review js starts here
         
-                // var acc = document.getElementsByClassName("saswp-accordion");
-                // var i;
-
-                // for (i = 0; i < acc.length; i++) {
-                //   acc[i].addEventListener("click", function() {
-                //     this.classList.toggle("active");
-                //     var panel = this.nextElementSibling;
-                //     if (panel.style.display === "block") {
-                //       panel.style.display = "none";
-                //     } else {
-                //       panel.style.display = "block";
-                //     }
-                //   });
-                // }
+//                var acc = document.getElementsByClassName("saswp-accordion");
+//                var i;
+//
+//                for (i = 0; i < acc.length; i++) {
+//                  acc[i].addEventListener("click", function() {
+//                    this.classList.toggle("active");
+//                    var panel = this.nextElementSibling;
+//                    if (panel.style.display === "block") {
+//                      panel.style.display = "none";
+//                    } else {
+//                      panel.style.display = "block";
+//                    }
+//                  });
+//                }
         
         $('a[href="'+saswp_localize_data.collection_post_add_url+'"]').attr( 'href', saswp_localize_data.collection_post_add_new_url); 
         

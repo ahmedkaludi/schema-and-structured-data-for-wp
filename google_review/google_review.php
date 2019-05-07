@@ -40,8 +40,8 @@ class saswp_google_review{
                         
         $collection_post_type = array(
 	    'labels' => array(
-	        'name' 			=> esc_html__( 'Collections', 'schema-and-structured-data-for-wp' ),	        
-	        'add_new' 		=> esc_html__( 'Add Collection', 'schema-and-structured-data-for-wp' ),
+	        'name' 			=> esc_html__( 'Google Review', 'schema-and-structured-data-for-wp' ),	        
+	        'add_new' 		=> esc_html__( 'Add Place', 'schema-and-structured-data-for-wp' ),
 	        'add_new_item'  	=> esc_html__( 'Edit Collection', 'schema-and-structured-data-for-wp' ),
                 'edit_item'             => esc_html__( 'Edit AD','schema-and-structured-data-for-wp'),                
 	    ),
@@ -77,8 +77,8 @@ class saswp_google_review{
         
         $post_id = $attr['id'];
         
-        if($post_id){
-            
+        if($post_id){   
+                        
             return $this->saswp_google_review_front_output($post_id);
             
         }

@@ -125,8 +125,8 @@ display: none !important;
 .saswp-tools .saswp-tooltip{
     width: 230px;
 }
-.saswp-tools .saswp-settings-list li {
-    display: -webkit-inline-box;
+.saswp-tools .saswp-knowledge-label {
+   float: left;
 }
 .saswp-error{
     color: #ff0000 !important;

@@ -3,23 +3,36 @@ function saswp_remove_amp_default_structure_data($metadata){
     return '';
 }
 
-add_filter( 'amp_init', 'saswp_structured_data' );
-function saswp_structured_data(){
-		
-	add_action( 'amp_post_template_head' , 'saswp_data_generator' );	
-	remove_action( 'amp_post_template_head', 'amp_post_template_add_schemaorg_metadata',99,1);
+add_action('cooked_amp_head', 'saswp_schema_markup_output');
+
+add_filter( 'amp_init', 'saswp_schema_markup_hook_on_init' );
+add_action( 'init', 'saswp_schema_markup_hook_on_init');
+
+function saswp_schema_markup_hook_on_init() {
+        
+        if(!is_admin()){
+         
+            global $sd_data;
+        
+            if(isset($sd_data['saswp-markup-footer']) && $sd_data['saswp-markup-footer'] == 1){
+               add_action('wp_footer', 'saswp_schema_markup_output');    
+               add_action( 'amp_post_template_footer' , 'saswp_schema_markup_output' );
+            }else{
+               add_action('wp_head', 'saswp_schema_markup_output');  
+               add_action( 'amp_post_template_head' , 'saswp_schema_markup_output' );
+            }   
+            
+            remove_action( 'amp_post_template_head', 'amp_post_template_add_schemaorg_metadata',99,1);
+            remove_action( 'amp_post_template_footer', 'amp_post_template_add_schemaorg_metadata',99,1);
+        }                       
 }
-
-add_action('cooked_amp_head', 'saswp_data_generator');
-add_action('wp_head', 'saswp_data_generator');
-
 
 /**
  * Function to show all the schema markup in the page head
  * @global type $sd_data
  * @global type json array
  */
-function saswp_data_generator() {
+function saswp_schema_markup_output() {
         
    global $sd_data;
    global $post;
@@ -256,7 +269,8 @@ function saswp_data_generator() {
         if($output){
             
             $stroutput = '['. trim($output). ']';
-            $filter_string = str_replace(',]', ']',$stroutput);           
+            $filter_string = str_replace(',]', ']',$stroutput);   
+            echo "\n";
             echo '<!-- Schema & Structured Data For WP v'.esc_attr(SASWP_VERSION).' - -->';
             echo "\n";
             echo '<script type="application/ld+json">'; 
