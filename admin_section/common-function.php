@@ -1344,17 +1344,17 @@ function saswp_frontend_enqueue(){
  function saswp_enque_amp_script(){
      
         global $sd_data;         
-        $saswp_review_details = esc_sql ( get_post_meta(get_the_ID(), 'saswp_review_details', true)); 
+        // $saswp_review_details = esc_sql ( get_post_meta(get_the_ID(), 'saswp_review_details', true)); 
         
-        $saswp_review_item_enable = 0;
+        // $saswp_review_item_enable = 0;
         
-        if(isset($saswp_review_details['saswp-review-item-enable'])){
+        // if(isset($saswp_review_details['saswp-review-item-enable'])){
             
-         $saswp_review_item_enable =  $saswp_review_details['saswp-review-item-enable'];  
+        //  $saswp_review_item_enable =  $saswp_review_details['saswp-review-item-enable'];  
          
-        }         
+        // }         
         
-        if($sd_data['saswp-review-module']== 1 && $saswp_review_item_enable == 1){                                  
+        // if($sd_data['saswp-review-module']== 1 && $saswp_review_item_enable == 1){                                  
      ?>
         .saswp-pc-wrap{
             background-color: #004f74;
@@ -1493,8 +1493,13 @@ function saswp_frontend_enqueue(){
                 margin-bottom:20px;
             }
         }
+
+
+
+
+        
     <?php
-     }
+     //}
   }
     add_action('amp_post_template_css','saswp_enque_amp_script');
     

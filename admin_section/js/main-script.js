@@ -1077,20 +1077,20 @@ jQuery(document).ready(function($){
         
         //Google review js starts here
         
-                var acc = document.getElementsByClassName("saswp-accordion");
-                var i;
+                // var acc = document.getElementsByClassName("saswp-accordion");
+                // var i;
 
-                for (i = 0; i < acc.length; i++) {
-                  acc[i].addEventListener("click", function() {
-                    this.classList.toggle("active");
-                    var panel = this.nextElementSibling;
-                    if (panel.style.display === "block") {
-                      panel.style.display = "none";
-                    } else {
-                      panel.style.display = "block";
-                    }
-                  });
-                }
+                // for (i = 0; i < acc.length; i++) {
+                //   acc[i].addEventListener("click", function() {
+                //     this.classList.toggle("active");
+                //     var panel = this.nextElementSibling;
+                //     if (panel.style.display === "block") {
+                //       panel.style.display = "none";
+                //     } else {
+                //       panel.style.display = "block";
+                //     }
+                //   });
+                // }
         
         $('a[href="'+saswp_localize_data.collection_post_add_url+'"]').attr( 'href', saswp_localize_data.collection_post_add_new_url); 
         
