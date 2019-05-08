@@ -14,7 +14,7 @@ class Saswp_Google_Review_Widget extends WP_Widget {
 	 */
 	function __construct() {
 		parent::__construct(
-			'saswp_Google_Review_Widget', // Base ID
+			'saswp_google_review_widget', // Base ID
 			esc_html__( 'Schema Google Review', 'schema-and-structured-data-for-wp' ), // Name
 			array( 'description' => esc_html__( 'Widget to display google reviews', 'schema-and-structured-data-for-wp' ), ) // Args
 		);
@@ -37,19 +37,30 @@ class Saswp_Google_Review_Widget extends WP_Widget {
                                 
                 $object = new saswp_google_review();
                 $all_ads = $object->saswp_fetch_all_google_review_post();
-                                
+                $goolge_review_obj = new saswp_google_review();
+                
                 foreach($all_ads as $ad){
                     
                     if($ad->ID == $instance['g_review']){   
                                                    
-                            $ad_code =  $object->saswp_google_review_front_output($instance['g_review']);          
-                            echo $ad_code;    
+                            $ad_code =  $object->saswp_google_review_front_output($instance['g_review']); 
                             
+                            $goolge_review = $goolge_review_obj->saswp_get_google_review_schema_markup($instance['g_review']);
+                            
+                            if($goolge_review){
+                                
+                                echo $ad_code.$goolge_review;    
+                            }else{
+                                
+                                echo $ad_code;    
+                            }
+                                                                                    
                     }   
                     
                 }
                 
-                echo html_entity_decode(esc_attr($args['after_widget']));		
+                echo html_entity_decode(esc_attr($args['after_widget']));                              
+                
 	}
 
 	/**

@@ -19,8 +19,7 @@ class saswp_google_review{
         }
         
     }
-        
-    
+            
     public function saswp_get_edit_post_link($link, $post_id, $context){
         
             $scr = get_current_screen();
@@ -78,11 +77,104 @@ class saswp_google_review{
         $post_id = $attr['id'];
         
         if($post_id){   
-                        
-            return $this->saswp_google_review_front_output($post_id);
+            
+            $schema_markup = $this->saswp_get_google_review_schema_markup($post_id);
+            $output = $this->saswp_google_review_front_output($post_id);
+            
+            if($schema_markup){
+               $output = $output.$schema_markup; 
+            }
+           return $output;
             
         }
         
+    }
+    
+    public function saswp_get_google_review_schema_markup($post_id){
+                
+                        global $wpdb;
+                        global $sd_data;                        
+                        $html = '';  
+                        
+                        $place_id = get_post_meta($post_id, $key='saswp_google_place_id', true ); 
+
+                        if($place_id){
+
+                            $place   = $wpdb->get_row($wpdb->prepare("SELECT * FROM " . $wpdb->prefix . "saswp_google_place WHERE place_id = %s", $place_id));
+                            
+                        }
+                                                            
+                        $author_id      = get_the_author_meta('ID');
+											
+			$author_details	= get_avatar_data($author_id);
+			$date 		= get_the_date("Y-m-d\TH:i:s\Z");
+			$modified_date 	= get_the_modified_date("Y-m-d\TH:i:s\Z");
+			$aurthor_name 	= get_the_author();
+                        
+                        if(!$aurthor_name){
+				
+                        $author_id    = get_post_field ('post_author', get_the_ID());
+		        $aurthor_name = get_the_author_meta( 'display_name' , $author_id ); 
+                        
+			}
+                        
+                        
+                        if($place->rating && isset($sd_data['saswp-google-review']) && $sd_data['saswp-google-review'] == 1){
+                         
+                            $total_score = esc_attr(number_format((float)$place->rating, 2, '.', ''));
+                            
+                            $input1 = array(
+                                    '@context'       => 'http://schema.org',
+                                    '@type'          => 'Review',
+                                    'dateCreated'    => esc_html($date),
+                                    'datePublished'  => esc_html($date),
+                                    'dateModified'   => esc_html($modified_date),
+                                    'headline'       => get_the_title(),
+                                    'name'           => get_the_title(),                                    
+                                    'url'            => get_permalink(),
+                                    'description'    => strip_tags(strip_shortcodes(get_the_excerpt())),
+                                    'copyrightYear'  => get_the_time( 'Y' ),                                                                                                           
+                                    'author'	     => array(
+                                                            '@type' 	=> 'Person',
+                                                            'name'		=> esc_attr($aurthor_name),
+                                                            'image'		=> array(
+                                                                    '@type'			=> 'ImageObject',
+                                                                    'url'			=> saswp_remove_warnings($author_details, 'url', 'saswp_string'),
+                                                                    'height'                    => saswp_remove_warnings($author_details, 'height', 'saswp_string'),
+                                                                    'width'			=> saswp_remove_warnings($author_details, 'width', 'saswp_string')
+                                                            ),
+							),                                                        
+                                
+                                    );
+                                    
+                                    $input1['itemReviewed'] = array(
+                                            '@type' => 'Thing',
+                                            'name'  => get_the_title(),
+                                    );
+
+                                    $input1['reviewRating'] = array(
+                                        '@type'       => 'Rating',
+                                        'worstRating' => 1,
+                                        'bestRating'  => 5,
+                                        'ratingValue' => esc_attr($total_score),                                        
+                                     ); 
+                                                                                                
+                            if(!empty($input1)){
+                                
+                                $html .= '<!-- Schema & Structured Data For Google Review v'.esc_attr(SASWP_VERSION).' - -->';
+                                $html .= "\n";
+                                $html .= '<script type="application/ld+json">'; 
+                                $html .= "\n";       
+                                $html .= json_encode($input1);       
+                                $html .= "\n";
+                                $html .= '</script>';
+                                $html .= "\n\n";
+                                
+                            }        
+                                                        
+                        }   
+                        
+                        return $html;              
     }
     
     public function saswp_google_review_front_output($post_id){
