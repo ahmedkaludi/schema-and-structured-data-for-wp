@@ -2,7 +2,7 @@
 /*
 Plugin Name: Schema & Structured Data for WP
 Description: Schema & Structured Data adds Google Rich Snippets markup according to Schema.org guidelines to structure your site for SEO. (AMP Compatible) 
-Version: 1.7
+Version: 1.8
 Text Domain: schema-and-structured-data-for-wp
 Domain Path: /languages
 Author: Magazine3
@@ -13,7 +13,7 @@ License: GPL2
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-define('SASWP_VERSION', '1.7');
+define('SASWP_VERSION', '1.8');
 define('SASWP_DIR_NAME_FILE', __FILE__ );
 define('SASWP_DIR_NAME', dirname( __FILE__ ));
 define('SASWP_DIR_URI', plugin_dir_url(__FILE__));
@@ -73,7 +73,18 @@ require_once SASWP_DIR_NAME.'/view/post_specific.php';
 require_once SASWP_DIR_NAME.'/view/review.php';  
 require_once SASWP_DIR_NAME.'/output/review-output.php'; 
 require_once SASWP_DIR_NAME.'/output/service.php'; 
+//Google Review Files
 
+
+global $sd_data;
+if(isset($sd_data['saswp-google-review']) && $sd_data['saswp-google-review'] == 1){
+
+require_once SASWP_DIR_NAME.'/google_review/google_review.php'; 
+require_once SASWP_DIR_NAME.'/google_review/google_review_page.php'; 
+require_once SASWP_DIR_NAME.'/google_review/google_review_setup.php'; 
+require_once SASWP_DIR_NAME.'/google_review/google_review_widget.php';     
+    
+}
 
 /**
  * set user defined message on plugin activate

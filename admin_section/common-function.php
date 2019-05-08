@@ -1344,17 +1344,17 @@ function saswp_frontend_enqueue(){
  function saswp_enque_amp_script(){
      
         global $sd_data;         
-        $saswp_review_details = esc_sql ( get_post_meta(get_the_ID(), 'saswp_review_details', true)); 
+         $saswp_review_details = esc_sql ( get_post_meta(get_the_ID(), 'saswp_review_details', true)); 
         
-        $saswp_review_item_enable = 0;
+         $saswp_review_item_enable = 0;
         
-        if(isset($saswp_review_details['saswp-review-item-enable'])){
+         if(isset($saswp_review_details['saswp-review-item-enable'])){
             
-         $saswp_review_item_enable =  $saswp_review_details['saswp-review-item-enable'];  
+          $saswp_review_item_enable =  $saswp_review_details['saswp-review-item-enable'];  
          
-        }         
+         }         
         
-        if($sd_data['saswp-review-module']== 1 && $saswp_review_item_enable == 1){                                  
+         if($sd_data['saswp-review-module']== 1 && $saswp_review_item_enable == 1){                                  
      ?>
         .saswp-pc-wrap{
             background-color: #004f74;
@@ -1493,8 +1493,114 @@ function saswp_frontend_enqueue(){
                 margin-bottom:20px;
             }
         }
+        
     <?php
      }
+     
+                   
+        if((has_shortcode( get_the_content(), 'saswp_google_review') || is_active_widget( false, false, 'saswp_google_review_widget',true )) && isset($sd_data['saswp-google-review']) && $sd_data['saswp-google-review'] == 1 ){
+            ?>
+        
+        /*** Review Design CSS ****/
+            .saswp-g-review-header{
+                margin-top: 50px;
+            }
+            .saswp-g-review-body{
+                display:inline-grid;
+                grid-template-columns: 1fr 300px;
+                grid-gap:30px;
+                margin-top:30px;
+                width:100%;
+            }
+            .saswp-review-list{}
+            .saswp-channel-list{
+                margin-right: 15px;
+            }
+            .saswp-input-fields{
+                display: inline-flex;
+                align-items: center;
+                margin-bottom: 8px;
+                width: 100%;
+            }
+            .saswp-input-fields label{
+                width: 130px;
+            }
+            .saswp-panel h3{
+                font-size: 20px;
+                line-height: 1.4;
+                color: #222;
+                text-align: center;
+                margin: 10px 0px 20px 0px;
+            }
+            .saswp-input-fields a.button-primary{
+                margin-top:10px;
+            }
+            .saswp-glg-review-body{
+                display: grid;
+                grid-template-columns: 100px 1fr;
+                grid-gap: 20px;
+                background: #fff;
+                padding: 20px;
+                box-shadow: 0px 0px 20px 1px #d2cccc;
+                margin-bottom: 30px;
+            }
+            .saswp-g-plus{
+                float: right;
+                font-size: 15px;
+                width: 20px;
+                height: 20px;
+            }
+            .saswp-g-plus amp-img{
+                width:100%;
+            }
+            .saswp-rtng{
+                padding-left: 5px;
+                font-size: 14px;
+            }
+            .saswp-pt-dt {
+                font-size: 12px;
+                color: #999;
+                font-weight: 600;
+                margin-top: 5px;
+                display: inline-block;
+            }
+            .saswp-athr{
+                font-size: 15px;
+                line-height: 1.4;
+                color: #000;
+                font-weight: bold;
+                display: inline-block;
+                vertical-align: middle;
+            }
+            .saswp-str-rtng .saswp-rvw-str{
+                display: inline-block;
+                vertical-align: middle;
+                padding-left: 10px;
+                width: auto;
+            }
+            .amp-sidebar .saswp-str-rtng .saswp-rvw-str{padding:5px 0px 0px 0px;}
+            .saswp-rv-cnt p{
+                font-size: 16px;
+                line-height: 1.6;
+                color: #000;
+                margin: 10px 0px 0px 0px;
+            }
+            .amp-sidebar .saswp-rv-img amp-img{max-width:50px;}
+            .amp-sidebar .saswp-glg-review-body {
+                display: inline-block;
+                width:100%;
+            }
+            .amp-sidebar .saswp-rv-img{
+                width:60px;
+                float:left;
+            }
+            .amp-sidebar .saswp-rtng{display:block;}
+        
+        
+        <?php
+        }
+     
+     
   }
     add_action('amp_post_template_css','saswp_enque_amp_script');
     

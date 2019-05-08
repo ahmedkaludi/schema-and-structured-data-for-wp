@@ -172,6 +172,15 @@ function saswp_admin_interface_render(){
             
             <p style="float: left;">Need Help?</p>  <a style="float: right;" class="button button-default" target="_blank" href="http://structured-data-for-wp.com/docs/">View Documentation</a>
             
+        </div>
+        <div class="saswp-upgrade-pro">
+        	<h2>Upgrade to Pro!</h2>
+        	<ul>
+        		<li>Premium features</li>
+        		<li>Dedicated Schema Support</li>
+        		<li>Active Development</li>
+        	</ul>
+        	<a target="_blank" href="http://structured-data-for-wp.com/pricing/">UPGRADE</a>
         </div> 
     </div>
 </div>
@@ -309,14 +318,82 @@ function saswp_handle_file_upload($option){
 }
 
 
-function saswp_premium_features_callback(){
-    echo 'features_test';
+function saswp_premium_features_callback(){ ?>
+	<div class="saswp-pre-ftrs-wrap">
+		<ul class="saswp-features-blocks">
+			<li><a target="_blank" href="http://structured-data-for-wp.com/extensions/woocommerce-compatibility-for-schema/">
+				<div class="saswp-features-ele">
+					<div class="saswp-ele-ic saswp-ele-1">
+						<img src="http://structured-data-for-wp.com/wp-content/uploads/edd/2019/05/woocommerce-icon.png">
+					</div>
+					<div class="saswp-ele-tlt">
+						<h3>WooCommerce Compatibility for Schema</h3>
+						<p>WooCommerce Compatibility extension is the number one solution to enhance your store with the right structured data.</p>
+					</div>
+				</div>
+				<div class="saswp-sts-btn">
+					<label class="saswp-sts-txt">Staus:<span>Inactive</span></label>
+					<span class="saswp-d-btn">Download</span>
+				</div>
+			</a></li>
+			<li><a target="_blank" href="http://structured-data-for-wp.com/extensions/cooked-compatibility-for-schema/">
+				<div class="saswp-features-ele">
+					<div class="saswp-ele-ic saswp-ele-2">
+						<img src="http://structured-data-for-wp.com/wp-content/uploads/edd/2019/05/cooked-schema-wp.png">
+					</div>
+					<div class="saswp-ele-tlt">
+						<h3>Cooked Compatibility for Schema</h3>
+						<p>This extension will be able to take all the proper recipe data and integrate it with the schema & structured data in AMP & non-AMP.</p>
+					</div>
+				</div>
+				<div class="saswp-sts-btn">
+					<label class="saswp-sts-txt">Staus:<span>Inactive</span></label>
+					<span class="saswp-d-btn">Download</span>
+				</div>
+			</a></li>
+		</ul>
+	</div>
+
+ <?php
 }
 
-function saswp_services_callback(){
-    echo 'services_test';
-}
+function saswp_services_callback(){ ?>
+   <div class="saswp-pre-ftrs-wrap">
+		<ul class="saswp-features-blocks">
+			<li><a target="_blank" href="http://structured-data-for-wp.com/services/google-news-schema-setup/">
+				<div class="saswp-features-ele">
+					<div class="saswp-ele-ic saswp-ele-3">
+						<img src="http://structured-data-for-wp.com/wp-content/uploads/edd/2019/05/news.png">
+					</div>
+					<div class="saswp-ele-tlt">
+						<h3>Google News Schema Setup</h3>
+						<p>Get quick approval to Google News with our service. Our structured data experts will set up the Google News schema properly on your website.</p>
+					</div>
+				</div>
+				<div class="saswp-sts-btn">
+					<label class="saswp-sts-txt">Staus:<span>Inactive</span></label>
+					<span class="saswp-d-btn">Download</span>
+				</div>
+			</a></li>
+			<li><a target="_blank" href="http://structured-data-for-wp.com/services/structured-data-setup-error-clean-up/">
+				<div class="saswp-features-ele">
+					<div class="saswp-ele-ic saswp-ele-4">
+						<img src="http://structured-data-for-wp.com/wp-content/uploads/edd/2019/05/schema-setup-icon.png">
+					</div>
+					<div class="saswp-ele-tlt">
+						<h3>Structured Data Setup & Error Clean Up</h3>
+						<p>We will help you setup Schema and Structured data on your website as per your requirements and as per recommendation by our expert developers.</p>
+					</div>
+				</div>
+				<div class="saswp-sts-btn">
+					<label class="saswp-sts-txt">Staus:<span>Inactive</span></label>
+					<span class="saswp-d-btn">Download</span>
+				</div>
+			</a></li>
+		</ul>
+	</div>
 
+<?php }
 function saswp_amp_page_callback(){
     
         $settings = saswp_defaultSettings();         
@@ -882,7 +959,10 @@ function saswp_general_page_callback(){
 			'type'  => 'media',
 		),                                                   
 	);
+         echo '<div class="saswp-heading">';
          echo '<h2>'.esc_html__('Default Data','schema-and-structured-data-for-wp').'</h2>';
+         echo '<span class="saswp-need-help"><a target="_blank" href="http://structured-data-for-wp.com/docs/">Need Help?</a></span>';
+         echo '</div>';
          echo '<div class="saswp-schema-type-fields">';
          $field_objs->saswp_field_generator($meta_fields_default, $settings);
          echo '</div>';  
@@ -929,7 +1009,19 @@ function saswp_import_callback(){
                              'id'   => 'saswp-defragment',
                              'name' => 'sd_data[saswp-defragment]',                             
                         )
-		),  
+		),
+                array(
+			'label'  => 'Add Schema Markup in footer',
+			'id'     => 'saswp-markup-footer-checkbox',                        
+                        'name'   => 'saswp-markup-footer-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
+                        'note'  => 'By default schema markup will be added in header section',
+                        'hidden' => array(
+                             'id'   => 'saswp-markup-footer',
+                             'name' => 'sd_data[saswp-markup-footer]',                             
+                        )
+		),
                 
 	);        
         $field_objs->saswp_field_generator($meta_fields, $settings);  
@@ -1136,10 +1228,28 @@ function saswp_review_page_callback(){
                              'id'   => 'saswp-review-module',
                              'name' => 'sd_data[saswp-review-module]',                             
                         )
-		),  
+		),
+                array(
+			'label'  => 'Google Review',
+			'id'     => 'saswp-google-review-checkbox',                        
+                        'name'   => 'saswp-google-review-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
+                        'hidden' => array(
+                             'id'   => 'saswp-google-review',
+                             'name' => 'sd_data[saswp-google-review]',                             
+                        )
+		),                        
+                array(
+                            'label' => 'Google place API Key',
+                            'id'    => 'saswp_google_place_api_key',
+                            'name'  => 'sd_data[saswp_google_place_api_key]',
+                            'class' => '',
+                            'type'  => 'text',
+                  )
                 
 	);        
-        $field_objs->saswp_field_generator($meta_fields, $settings);    
+        $field_objs->saswp_field_generator($meta_fields, $settings);      
        
 }
 
@@ -1561,7 +1671,10 @@ function saswp_enqueue_style_js( $hook ) {
             'ajax_url'                  => admin_url( 'admin-ajax.php' ),            
             'saswp_security_nonce'      => wp_create_nonce('saswp_ajax_check_nonce'),  
             'new_url_selector'          => esc_url(admin_url()).'post-new.php?post_type=saswp',
-            'new_url_href'              => htmlspecialchars_decode(wp_nonce_url(admin_url('index.php?page=saswp_add_new_data_type&'), '_wpnonce'))
+            'new_url_href'              => htmlspecialchars_decode(wp_nonce_url(admin_url('index.php?page=saswp_add_new_data_type&'), '_wpnonce')),
+            
+            'collection_post_add_url'                  => esc_url(admin_url()).'post-new.php?post_type=saswp-google-review',
+            'collection_post_add_new_url'              => htmlspecialchars_decode(wp_nonce_url(admin_url('admin.php?page=collection'), '_wpnonce'))
         );
         
         wp_localize_script( 'saswp-main-js', 'saswp_localize_data', $data );
