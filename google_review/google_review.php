@@ -153,7 +153,9 @@ class saswp_google_review{
                                                         <span class="saswp-athr">'.$review->author_name.'</span>
                                                         '.$starating.'                                  
                                                     </div> 
-                                                    <span class="saswp-g-plus"><a href="#">G+</a></span>
+                                                    <span class="saswp-g-plus">
+                                                        <a href="#">G+</a>
+                                                    </span>
                                                 </div>
                                                 <span class="saswp-pt-dt">'.gmdate("H:i d M y", $review->time).'</span>
                                                 <p>'.substr($review->text,0,300).'</p>
