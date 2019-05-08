@@ -1503,6 +1503,7 @@ function saswp_frontend_enqueue(){
                 grid-template-columns: 1fr 300px;
                 grid-gap:30px;
                 margin-top:30px;
+                width:100%;
             }
             .saswp-review-list{}
             .saswp-channel-list{

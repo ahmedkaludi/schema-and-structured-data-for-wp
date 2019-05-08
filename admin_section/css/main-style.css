@@ -685,6 +685,9 @@ Google review module starts here
 .saswp-input-fields label{
     width: 130px;
 }
+.saswp-input-fields select{
+    width:100%;
+}
 .saswp-panel h3{
     font-size: 20px;
     line-height: 1.4;
@@ -839,6 +842,7 @@ Google review module ends here
     grid-template-columns: 1fr 300px;
     grid-gap:30px;
     margin-top:30px;
+    width:100%;
 }
 .saswp-review-list{}
 .saswp-channel-list{
@@ -901,4 +905,7 @@ Google review module ends here
 }
 .saswp-rv-img img{
     max-width:100px;
+}
+.saswp-g-review-header div{
+    margin-top:10px;
 }

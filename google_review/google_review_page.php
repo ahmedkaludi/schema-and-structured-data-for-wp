@@ -229,7 +229,7 @@ class saswp_google_review_page{
                             <input type="hidden" name="post_type" value="saswp-google-review">
                             <input type="hidden" name="saswp-page" value="collection">
                             <input type="hidden" id="sasw_post_ID" name="sasw_post_ID" value="<?php echo $post_id; ?>">
-                            <input type="text" value="<?php if(get_the_title($post_id) == 'Auto Draft'){ echo 'Untitled'; }else{ echo 'yahoo'; } ?>" id="saswp_g_review_title" name="saswp_g_review_title" style="width: 90%;">
+                            <input type="text" value="<?php if(get_the_title($post_id) == 'Auto Draft'){ echo 'Untitled'; }else{ echo 'yahoo'; } ?>" id="saswp_g_review_title" name="saswp_g_review_title" style="width: 30%;">
 
                             <button type="submit" class="btn btn-success button-primary" > <?php echo esc_html__('Save','schema-and-structured-data-for-wp'); ?>  </button>
                             <div>Use ShortCode [saswp_google_review id="<?php echo $post_id; ?>"]</div>
