@@ -312,7 +312,7 @@ function saswp_handle_file_upload($option){
 function saswp_premium_features_callback(){ ?>
 	<div class="saswp-pre-ftrs-wrap">
 		<ul class="saswp-features-blocks">
-			<li><a href="http://structured-data-for-wp.com/extensions/woocommerce-compatibility-for-schema/">
+			<li><a target="_blank" href="http://structured-data-for-wp.com/extensions/woocommerce-compatibility-for-schema/">
 				<div class="saswp-features-ele">
 					<div class="saswp-ele-ic saswp-ele-1">
 						<img src="http://structured-data-for-wp.com/wp-content/uploads/edd/2019/05/woocommerce-icon.png">
@@ -327,7 +327,7 @@ function saswp_premium_features_callback(){ ?>
 					<span class="saswp-d-btn">Download</span>
 				</div>
 			</a></li>
-			<li><a href="http://structured-data-for-wp.com/extensions/cooked-compatibility-for-schema/">
+			<li><a target="_blank" href="http://structured-data-for-wp.com/extensions/cooked-compatibility-for-schema/">
 				<div class="saswp-features-ele">
 					<div class="saswp-ele-ic saswp-ele-2">
 						<img src="http://structured-data-for-wp.com/wp-content/uploads/edd/2019/05/cooked-schema-wp.png">
@@ -351,7 +351,7 @@ function saswp_premium_features_callback(){ ?>
 function saswp_services_callback(){ ?>
    <div class="saswp-pre-ftrs-wrap">
 		<ul class="saswp-features-blocks">
-			<li><a href="http://structured-data-for-wp.com/services/google-news-schema-setup/">
+			<li><a target="_blank" href="http://structured-data-for-wp.com/services/google-news-schema-setup/">
 				<div class="saswp-features-ele">
 					<div class="saswp-ele-ic saswp-ele-3">
 						<img src="http://structured-data-for-wp.com/wp-content/uploads/edd/2019/05/news.png">
@@ -366,7 +366,7 @@ function saswp_services_callback(){ ?>
 					<span class="saswp-d-btn">Download</span>
 				</div>
 			</a></li>
-			<li><a href="http://structured-data-for-wp.com/services/structured-data-setup-error-clean-up/">
+			<li><a target="_blank" href="http://structured-data-for-wp.com/services/structured-data-setup-error-clean-up/">
 				<div class="saswp-features-ele">
 					<div class="saswp-ele-ic saswp-ele-4">
 						<img src="http://structured-data-for-wp.com/wp-content/uploads/edd/2019/05/schema-setup-icon.png">
