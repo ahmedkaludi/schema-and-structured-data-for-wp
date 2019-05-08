@@ -362,8 +362,7 @@ class saswp_google_review_page{
                                                            
                 </div>
 
-                </form>
-                <a class="saswp-view-google-docs">View Documentation</a>   
+                </form>                
             </div>
             
         <?php

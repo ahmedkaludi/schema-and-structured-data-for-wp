@@ -2,7 +2,7 @@
 Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
-Tested up to: 5.1
+Tested up to: 5.2
 Stable tag: 1.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -73,7 +73,8 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Added: Review Module Schema markup has been added #205
 * Added: Defragment Schema (Merge all the schema markup in one markup) #223
 * Added: "Need Help" label in default data
-* Changes: PRE Release Checklist (Settings panel has many improvement with new more tabs) #236
+* Added: Option to to add schema markup in (header or footer) #165
+* Changes: PRE Release Checklist (Settings panel has many improvement with new tabs) #236
 * Bug Fixed: Missing Field “mainEntity.author in Q&A schema after Update #191
 * Bug Fixed: The property aggregateRating is not recognised by Google for an object of type Thing in course schema type #194
 * Bug Fixed: The description is required for VideoObject schema type on homepage #195
