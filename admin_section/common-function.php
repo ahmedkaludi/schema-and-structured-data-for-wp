@@ -1540,6 +1540,11 @@ function saswp_frontend_enqueue(){
             .saswp-g-plus{
                 float: right;
                 font-size: 15px;
+                width: 20px;
+                height: 20px;
+            }
+            .saswp-g-plus amp-img{
+                width:100%;
             }
             .saswp-rtng{
                 padding-left: 5px;
