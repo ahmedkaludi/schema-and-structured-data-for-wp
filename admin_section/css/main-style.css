@@ -914,3 +914,54 @@ Google review module ends here
 .saswp-g-review-header div{
     margin-top:10px;
 }
+
+/*** Upgrade Pro CSS ***/
+.saswp-upgrade-pro{
+    background: #fff;
+    padding: 25px;
+    border: 1px solid #d8d8d8;
+    display: inline-block;
+    margin-top: 10px;
+    width: 81%;
+}
+.saswp-upgrade-pro h2{
+    font-size: 20px;
+    margin: 0;
+    color: #23282d;
+    font-weight: 600;
+    text-align: center;
+}
+.saswp-upgrade-pro ul{
+    margin: 25px 0px 20px 0px;
+    display: inline-block;
+}
+.saswp-upgrade-pro ul li{
+    position: relative;
+    padding-left: 30px;
+    font-size: 14px;
+    line-height: 1.4;
+    margin-bottom: 10px;
+}
+.saswp-upgrade-pro ul li:before {
+    content: "";
+    background-image: url(../images/check.png);
+    background-repeat: no-repeat;
+    background-size: 20px;
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    left: 2px;
+    top: 2px;
+}
+.saswp-upgrade-pro a{
+    background: #d2150a;
+    padding: 10px 0px;
+    display: block;
+    text-align: center;
+    color: #fff;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    border-radius: 5px;
+}

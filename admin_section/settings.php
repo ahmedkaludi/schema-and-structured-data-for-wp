@@ -172,6 +172,15 @@ function saswp_admin_interface_render(){
             
             <p style="float: left;">Need Help?</p>  <a style="float: right;" class="button button-default" target="_blank" href="http://structured-data-for-wp.com/docs/">View Documentation</a>
             
+        </div>
+        <div class="saswp-upgrade-pro">
+        	<h2>Upgrade to Pro!</h2>
+        	<ul>
+        		<li>Premium features</li>
+        		<li>Dedicated Schema Support</li>
+        		<li>Active Development</li>
+        	</ul>
+        	<a target="_blank" href="http://structured-data-for-wp.com/pricing/">UPGRADE</a>
         </div> 
     </div>
 </div>
