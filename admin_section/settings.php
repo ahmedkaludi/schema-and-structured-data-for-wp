@@ -950,7 +950,10 @@ function saswp_general_page_callback(){
 			'type'  => 'media',
 		),                                                   
 	);
+         echo '<div class="saswp-heading">';
          echo '<h2>'.esc_html__('Default Data','schema-and-structured-data-for-wp').'</h2>';
+         echo '<span class="saswp-need-help"><a target="_blank" href="http://structured-data-for-wp.com/docs/">Need Help?</a></span>';
+         echo '</div>';
          echo '<div class="saswp-schema-type-fields">';
          $field_objs->saswp_field_generator($meta_fields_default, $settings);
          echo '</div>';  

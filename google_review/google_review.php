@@ -87,26 +87,61 @@ class saswp_google_review{
     
     public function saswp_google_review_front_output($post_id){
         
-        global $wpdb;
-        $reviews = null;
-        $output  = '';
+            global $wpdb;
+            $reviews = null;
+            $output  = '';
         
-        $place_id = get_post_meta($post_id, $key='saswp_google_place_id', true ); 
-        
-        if($place_id){
-         
-            $place   = $wpdb->get_row($wpdb->prepare("SELECT * FROM " . $wpdb->prefix . "saswp_google_place WHERE place_id = %s", $place_id));
-            
-            if($place->id){
-                
-                $reviews = $wpdb->get_results($wpdb->prepare("SELECT * FROM " . $wpdb->prefix . "saswp_google_review WHERE google_place_id = %d ORDER BY time DESC", $place->id));
-            
-            }
-                        
-        }   
+            $place_id = get_post_meta($post_id, $key='saswp_google_place_id', true ); 
+
+            if($place_id){
+
+                $place   = $wpdb->get_row($wpdb->prepare("SELECT * FROM " . $wpdb->prefix . "saswp_google_place WHERE place_id = %s", $place_id));
+
+                if($place->id){
+
+                    $reviews = $wpdb->get_results($wpdb->prepare("SELECT * FROM " . $wpdb->prefix . "saswp_google_review WHERE google_place_id = %d ORDER BY time DESC", $place->id));
+
+                }
+
+            }   
         
                      foreach ($reviews as $review){
+                         
+                         
+                         $review_rating = $review->rating;
                                 
+                                $starating = '';
+                                
+                                $starating .= '<div class="saswp-rvw-str">';
+                                for($j=0; $j<5; $j++){  
+                                        
+                                      if($review_rating >$j){
+                                      
+                                            $explod = explode('.', $review_rating);
+                                            
+                                            if(isset($explod[1])){
+                                                
+                                                if($j <$explod[0]){
+                                                    
+                                                    $starating.='<span class="str-ic"></span>';   
+                                                    
+                                                }else{
+                                                    
+                                                    $starating.='<span class="half-str"></span>';   
+                                                    
+                                                }                                           
+                                            }else{
+                                                
+                                                $starating.='<span class="str-ic"></span>';    
+                                                
+                                            }
+                                                                                                                           
+                                      } else{
+                                            $starating.='<span class="df-clr"></span>';   
+                                      }                                                                                                                                
+                                    }
+                                $starating .= '</div>';
+                                                                                                           
                                 $output.= '<div class="saswp-g-review-panel">
                                           <div class="saswp-glg-review-body">
                                             <div class="saswp-rv-img">
@@ -115,7 +150,7 @@ class saswp_google_review{
                                             <div class="saswp-rv-cnt">
                                                 <div class="saswp-str-rtng">
                                                     <span class="saswp-athr">'.$review->author_name.'</span>
-                                                    <span class="saswp-rtng">Rating : '.$review->rating.'</span>
+                                                   '.$starating.'
                                                     <span class="saswp-g-plus"><a href="#">G+</a></span>
                                                 </div>
                                                 <span class="saswp-pt-dt">'.gmdate("H:i d M y", $review->time).'</span>

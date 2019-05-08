@@ -218,7 +218,10 @@ class saswp_google_review_page{
         }        
                                         
         ?>
-            <h1 class="wp-heading-inline">Google Review</h1>
+        <div class="saswp-heading">
+            <h1 class="wp-heading-inline">Google Review  </h1><span class="saswp-need-help"><a target="_blank" href="http://structured-data-for-wp.com/docs/">Need Help?</a></span>
+        </div>
+
             <div class="saswp-g-review-container">
                  <form method="post" action="post.php">
                     <div class="saswp-g-review-header">
@@ -226,7 +229,7 @@ class saswp_google_review_page{
                             <input type="hidden" name="post_type" value="saswp-google-review">
                             <input type="hidden" name="saswp-page" value="collection">
                             <input type="hidden" id="sasw_post_ID" name="sasw_post_ID" value="<?php echo $post_id; ?>">
-                            <input type="text" value="Untitled" id="saswp_g_review_title" name="saswp_g_review_title" style="width: 90%;">
+                            <input type="text" value="<?php if(get_the_title($post_id) == 'Auto Draft'){ echo 'Untitled'; }else{ echo 'yahoo'; } ?>" id="saswp_g_review_title" name="saswp_g_review_title" style="width: 90%;">
 
                             <button type="submit" class="btn btn-success button-primary" > <?php echo esc_html__('Save','schema-and-structured-data-for-wp'); ?>  </button>
                             <div>Use ShortCode [saswp_google_review id="<?php echo $post_id; ?>"]</div>
@@ -240,11 +243,46 @@ class saswp_google_review_page{
                         
                        
                         <?php 
-                        
+                
                         if($reviews){
                             
                             foreach ($reviews as $review){
                                 
+                                $review_rating = $review->rating;
+                                
+                                $starating = '';
+                                
+                                $starating .= '<div class="saswp-rvw-str">';
+                                for($j=0; $j<5; $j++){  
+                                        
+                                      if($review_rating >$j){
+                                      
+                                            $explod = explode('.', $review_rating);
+                                            
+                                            if(isset($explod[1])){
+                                                
+                                                if($j <$explod[0]){
+                                                    
+                                                    $starating.='<span class="str-ic"></span>';   
+                                                    
+                                                }else{
+                                                    
+                                                    $starating.='<span class="half-str"></span>';   
+                                                    
+                                                }                                           
+                                            }else{
+                                                
+                                                $starating.='<span class="str-ic"></span>';    
+                                                
+                                            }
+                                                                                                                           
+                                      } else{
+                                            $starating.='<span class="df-clr"></span>';   
+                                      }                                                                                                                                
+                                    }
+                               $starating .= '</div>';
+                                
+                                                                                                                                
                                 echo '<div class="saswp-g-review-panel">
                                           <div class="saswp-glg-review-body">
                                             <div class="saswp-rv-img">
@@ -252,8 +290,8 @@ class saswp_google_review_page{
                                             </div>
                                             <div class="saswp-rv-cnt">
                                                 <div class="saswp-str-rtng">
-                                                    <span class="saswp-athr">'.$review->author_name.'</span>
-                                                    <span class="saswp-rtng">Rating : '.$review->rating.'</span>
+                                                    <span class="saswp-athr">'.$review->author_name.'</span>                                                        
+                                                    '.$starating.'                                                        
                                                     <span class="saswp-g-plus"><a href="#">G+</a></span>
                                                 </div>
                                                 <span class="saswp-pt-dt">'.gmdate("H:i d M y", $review->time).'</span>
@@ -261,7 +299,7 @@ class saswp_google_review_page{
                                             </div>
                                           </div>
                                       </div>';
-
+                                     
                             }    
                             
                         }                        
