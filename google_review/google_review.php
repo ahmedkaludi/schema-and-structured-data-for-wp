@@ -154,7 +154,7 @@ class saswp_google_review{
                                                         '.$starating.'                                  
                                                     </div> 
                                                     <span class="saswp-g-plus">
-                                                        <a href="#">G+</a>
+                                                        <a href="#"><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/google-img.png'.'"></a>
                                                     </span>
                                                 </div>
                                                 <span class="saswp-pt-dt">'.gmdate("H:i d M y", $review->time).'</span>
