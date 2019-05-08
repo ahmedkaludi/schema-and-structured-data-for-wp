@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.1
-Stable tag: 1.7
+Stable tag: 1.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -64,6 +64,28 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+
+= 1.8 (08 May 2019) =
+
+* New Feature: Google Reviews and its schema markup (Users can list their business reviews from google reviews using place id)  #61
+* Added: New docs link in the plugin and everywhere #202
+* Added: Review Module Schema markup has been added #205
+* Added: Defragment Schema (Merge all the schema markup in one markup) #223
+* Added: "Need Help" label in default data
+* Changes: PRE Release Checklist (Settings panel has many improvement with new more tabs) #236
+* Bug Fixed: Missing Field “mainEntity.author in Q&A schema after Update #191
+* Bug Fixed: The property aggregateRating is not recognised by Google for an object of type Thing in course schema type #194
+* Bug Fixed: The description is required for VideoObject schema type on homepage #195
+* Bug Fixed: Review Module Schema is not generating in the backend #205
+* Bug Fixed: Missing attributes have been added for the product schema generating from WooCommerce #205
+* Bug Fixed: Error in Article schema automatically generate by Yoast SEO in non-amp #231
+* Bug Fixed: Issue in the selecting the organisation type as twice, generating an error. #234
+* Bug Fixed: Debug errors after Version 1.7 #240
+* Bug Fixed: In AMP's Home page Breadcrumb scheme markup is generating two item list #244
+* Bug Fixed: Remove shortcode from schema markup description #250
+* Bug Fixed: Notification Improvements #239
+* Bug Fixed: The Support tab Email changes #238
 
 
 = 1.7 (24 April 2019) =

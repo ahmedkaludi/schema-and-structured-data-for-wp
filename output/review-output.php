@@ -39,9 +39,11 @@ Class saswp_review_output{
                         
 			}
                         $saswp_review_details           = esc_sql ( get_post_meta(get_the_ID(), 'saswp_review_details', true));
-                         
-                        $overall_rating   = $saswp_review_details['saswp-review-item-over-all'];
-                        
+                        $overall_rating = null; 
+                        if(isset($saswp_review_details['saswp-review-item-over-all'])){
+                            $overall_rating   = $saswp_review_details['saswp-review-item-over-all'];
+                        }
+                                                                        
                         if($overall_rating && isset($sd_data['saswp-review-module']) && $sd_data['saswp-review-module'] == 1){
                          
                             $total_score = esc_attr(number_format((float)$overall_rating, 2, '.', ''));
