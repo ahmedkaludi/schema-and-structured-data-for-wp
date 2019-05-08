@@ -1556,7 +1556,16 @@ function saswp_frontend_enqueue(){
                 line-height: 1.4;
                 color: #000;
                 font-weight: bold;
+                display: inline-block;
+                vertical-align: middle;
             }
+            .saswp-str-rtng .saswp-rvw-str{
+                display: inline-block;
+                vertical-align: middle;
+                padding-left: 10px;
+                width: auto;
+            }
+            .amp-sidebar .saswp-str-rtng .saswp-rvw-str{padding:5px 0px 0px 0px;}
             .saswp-rv-cnt p{
                 font-size: 16px;
                 line-height: 1.6;
