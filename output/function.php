@@ -89,31 +89,31 @@ function saswp_schema_markup_output() {
                                     
                         if(!empty($contact_page_output)){
                           
-                            $output .= json_encode($contact_page_output); 
+                            $output .= saswp_json_print_format($contact_page_output); 
                             $output .= ",";
                             $output .= "\n\n";                        
                         }			                        
                         if(!empty($about_page_output)){
                         
-                            $output .= json_encode($about_page_output);    
+                            $output .= saswp_json_print_format($about_page_output);    
                             $output .= ",";
                             $output .= "\n\n";
                         }                        
                         if(!empty($author_output)){
                            
-                            $output .= json_encode($author_output); 
+                            $output .= saswp_json_print_format($author_output); 
                             $output .= ",";
                             $output .= "\n\n";
                         }                                              
                         if(!empty($archive_output)){
                         
-                            $output .= json_encode($archive_output);   
+                            $output .= saswp_json_print_format($archive_output);   
                             $output .= ",";
                             $output .= "\n\n";
                         }
                         if(!empty($site_navigation)){
                                                                             
-                            $output .= json_encode($site_navigation);   
+                            $output .= saswp_json_print_format($site_navigation);   
                             $output .= ",";
                             $output .= "\n\n";                        
                         }
@@ -193,14 +193,14 @@ function saswp_schema_markup_output() {
                     
                     $final_output['@graph'][]   = $soutput;
                         
-                    $schema = json_encode($final_output);
+                    $schema = saswp_json_print_format($final_output);
                     $output .= $schema; 
                     $output .= ",";
                     $output .= "\n\n";     
                     
                     }else{
                         
-                        $schema = json_encode($soutput);
+                        $schema = saswp_json_print_format($soutput);
                         $output .= $schema; 
                         $output .= ",";
                         $output .= "\n\n"; 
@@ -213,19 +213,19 @@ function saswp_schema_markup_output() {
                 }else{
                     if(!empty($kb_website_output)){
                         
-                            $output .= json_encode($kb_website_output);  
+                            $output .= saswp_json_print_format($kb_website_output);  
                             $output .= ",";
                             $output .= "\n\n";
                         }
                     if(!empty($schema_breadcrumb_output)){
                         
-                            $output .= json_encode($schema_breadcrumb_output);   
+                            $output .= saswp_json_print_format($schema_breadcrumb_output);   
                             $output .= ",";
                             $output .= "\n\n";
                         }
                     if(!empty($kb_schema_output)){
                             
-                           $output .= json_encode($kb_schema_output);
+                           $output .= saswp_json_print_format($kb_schema_output);
                             $output .= ",";                        
                         }   
                 }
@@ -235,13 +235,13 @@ function saswp_schema_markup_output() {
                                                              
                         if(!empty($kb_website_output)){
                         
-                            $output .= json_encode($kb_website_output);  
+                            $output .= saswp_json_print_format($kb_website_output);  
                             $output .= ",";
                             $output .= "\n\n";
                         }                         
                         if(!empty($schema_breadcrumb_output)){
                         
-                            $output .= json_encode($schema_breadcrumb_output);   
+                            $output .= saswp_json_print_format($schema_breadcrumb_output);   
                             $output .= ",";
                             $output .= "\n\n";
                         }                        
@@ -249,7 +249,7 @@ function saswp_schema_markup_output() {
                             
                             foreach($schema_output as $schema){
                                 
-                                $schema = json_encode($schema);
+                                $schema = saswp_json_print_format($schema);
                                 $output .= $schema; 
                                 $output .= ",";
                                 $output .= "\n\n";   
@@ -258,7 +258,7 @@ function saswp_schema_markup_output() {
                         }                        
                         if(!empty($kb_schema_output)){
                             
-                           $output .= json_encode($kb_schema_output);
+                            $output .= saswp_json_print_format($kb_schema_output);
                             $output .= ",";                        
                         }       
                 
@@ -690,3 +690,16 @@ function saswp_remove_breadcrume_seo_by_rank_math($entry){
 }
 
 add_filter( 'rank_math/snippet/breadcrumb', 'saswp_remove_breadcrume_seo_by_rank_math' );
+
+
+function saswp_json_print_format($output_array){
+    
+    global $sd_data;
+    
+    if(isset($sd_data['saswp-pretty-print']) && $sd_data['saswp-pretty-print'] == 1){
+        return json_encode($output_array, JSON_PRETTY_PRINT);
+    }else{
+        return json_encode($output_array);
+    }
+        
+}

@@ -1022,6 +1022,18 @@ function saswp_import_callback(){
                              'name' => 'sd_data[saswp-markup-footer]',                             
                         )
 		),
+                array(
+			'label'  => 'Pretty Print Schema Markup',
+			'id'     => 'saswp-pretty-print-checkbox',                        
+                        'name'   => 'saswp-pretty-print-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
+                        'note'  => 'By default schema markup will be minified format',
+                        'hidden' => array(
+                             'id'   => 'saswp-pretty-print',
+                             'name' => 'sd_data[saswp-pretty-print]',                             
+                        )
+		),
                 
 	);        
         $field_objs->saswp_field_generator($meta_fields, $settings);  

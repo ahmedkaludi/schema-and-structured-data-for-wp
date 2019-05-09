@@ -504,6 +504,15 @@ jQuery(document).ready(function($){
                             }
                       break;
                       
+                      case 'saswp-pretty-print-checkbox':
+                          
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-pretty-print").val(1);                                
+                            }else{
+                              $("#saswp-pretty-print").val(0);                                          
+                            }
+                      break;
+                      
                       
                       default:
                           break;

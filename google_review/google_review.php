@@ -161,11 +161,12 @@ class saswp_google_review{
                                                                                                 
                             if(!empty($input1)){
                                 
+                                $html .= "\n";
                                 $html .= '<!-- Schema & Structured Data For Google Review v'.esc_attr(SASWP_VERSION).' - -->';
                                 $html .= "\n";
                                 $html .= '<script type="application/ld+json">'; 
                                 $html .= "\n";       
-                                $html .= json_encode($input1);       
+                                $html .= saswp_json_print_format($input1);       
                                 $html .= "\n";
                                 $html .= '</script>';
                                 $html .= "\n\n";
