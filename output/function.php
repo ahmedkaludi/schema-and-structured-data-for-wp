@@ -427,21 +427,25 @@ function saswp_reading_time_and_word_count() {
  * @param type $id
  * @return type array
  */
-function saswp_extract_kk_star_ratings($id){
+function saswp_extract_kk_star_ratings(){
         
             global $sd_data;    
-            
+            $kk_star_rating = array();
             if(isset($sd_data['saswp-kk-star-raring']) && $sd_data['saswp-kk-star-raring'] == 1 && is_plugin_active('kk-star-ratings/index.php')){
                
                 $best  = get_option('kksr_stars');
-                $score = get_post_meta($id, '_kksr_ratings', true) ? ((int) get_post_meta($id, '_kksr_ratings', true)) : 0;
-                $votes = get_post_meta($id, '_kksr_casts', true) ? ((int) get_post_meta($id, '_kksr_casts', true)) : 0;
-                $avg   = $score && $votes ? round((float)(($score/$votes)*($best/5)), 1) : 0;
-                $per   = $score && $votes ? round((float)((($score/$votes)/5)*100), 2) : 0;                
-                
+                $score = get_post_meta(get_the_ID(), '_kksr_ratings', true) ? ((int) get_post_meta(get_the_ID(), '_kksr_ratings', true)) : 0;
+                $votes = get_post_meta(get_the_ID(), '_kksr_casts', true) ? ((int) get_post_meta(get_the_ID(), '_kksr_casts', true)) : 0;
+                $avg   = $score && $votes ? round((float)(($score/$votes)*($best/5)), 1) : 0;                               
+                 
                 if($votes>0){
+                   
+                    $kk_star_rating['@type']       = 'AggregateRating';
+                    $kk_star_rating['bestRating']  = $best;
+                    $kk_star_rating['ratingCount'] = $votes;
+                    $kk_star_rating['ratingValue'] = $avg;                                                           
                     
-                    return compact('best', 'score', 'votes', 'avg', 'per');    
+                    return $kk_star_rating;
                     
                 }else{
                     
@@ -463,21 +467,26 @@ function saswp_extract_kk_star_ratings($id){
  * @param type $id
  * @return type array
  */
-function saswp_extract_wp_post_ratings($id){
+function saswp_extract_wp_post_ratings(){
         
             global $sd_data;    
+            
+            $wp_post_rating_ar = array();
             
             if(isset($sd_data['saswp-wppostratings-raring']) && $sd_data['saswp-wppostratings-raring'] == 1 && is_plugin_active('wp-postratings/wp-postratings.php')){
                
                 $best   = (int) get_option( 'postratings_max' );
-                $avg   = get_post_meta($id, 'ratings_average', true);
-                $votes = get_post_meta($id, 'ratings_users', true);
-                $per   = round((float)(($avg/5)*100), 2);  
+                $avg   = get_post_meta(get_the_ID(), 'ratings_average', true);
+                $votes = get_post_meta(get_the_ID(), 'ratings_users', true);                
                 
                 if($votes>0){
                     
-                    return compact('best', 'score', 'votes', 'avg', 'per');    
+                    $wp_post_rating_ar['@type']       = 'AggregateRating';
+                    $wp_post_rating_ar['bestRating']  = $best;
+                    $wp_post_rating_ar['ratingCount'] = $votes;
+                    $wp_post_rating_ar['ratingValue'] = $avg;                                                           
                     
+                    return $wp_post_rating_ar;
                 }else{
                     
                     return array();    
