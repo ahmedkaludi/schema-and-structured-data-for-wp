@@ -513,6 +513,15 @@ jQuery(document).ready(function($){
                             }
                       break;
                       
+                      case 'saswp-wppostratings-raring-checkbox':
+                          
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-wppostratings-raring").val(1);                                
+                            }else{
+                              $("#saswp-wppostratings-raring").val(0);                                          
+                            }
+                      break;
+                      
                       
                       default:
                           break;

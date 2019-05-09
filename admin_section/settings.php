@@ -1343,6 +1343,17 @@ function saswp_compatibility_page_callback(){
                                 'name' => 'sd_data[saswp-kk-star-raring]',                             
                         )
 		);
+        $wppostratings = array(
+			'label'  => 'WP-PostRatings',
+			'id'     => 'saswp-wppostratings-raring-checkbox',                        
+                        'name'   => 'saswp-wppostratings-raring-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
+                        'hidden' => array(
+                                'id'   => 'saswp-wppostratings-raring',
+                                'name' => 'sd_data[saswp-wppostratings-raring]',                             
+                        )
+		);
         $woocommerce = array(
 			'label'  => 'Woocommerce',
 			'id'     => 'saswp-woocommerce-checkbox',                        
@@ -1500,6 +1511,12 @@ function saswp_compatibility_page_callback(){
              
          }
          
+         if(!is_plugin_active('wp-postratings/wp-postratings.php')){
+             
+             $wppostratings['note'] = esc_html__('Requires selected plugin','schema-and-structured-data-for-wp');
+             
+         }
+         
 //         if(!is_plugin_active('wp-job-manager/wp-job-manager.php')){
 //                          
 //             $wpjobmanager['note'] = esc_html__('Requires selected plugin','schema-and-structured-data-for-wp');
@@ -1517,6 +1534,7 @@ function saswp_compatibility_page_callback(){
         
         $meta_fields = array(				
                 $kk_star,  
+                $wppostratings,
                 $woocommerce,
                 $woocommerce_bok,
                 $woocommerce_mem,

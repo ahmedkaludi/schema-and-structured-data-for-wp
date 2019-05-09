@@ -4,7 +4,6 @@ function saswp_remove_amp_default_structure_data($metadata){
 }
 
 add_action('cooked_amp_head', 'saswp_schema_markup_output');
-
 add_filter( 'amp_init', 'saswp_schema_markup_hook_on_init' );
 add_action( 'init', 'saswp_schema_markup_hook_on_init');
 
@@ -24,6 +23,15 @@ function saswp_schema_markup_hook_on_init() {
             
             remove_action( 'amp_post_template_head', 'amp_post_template_add_schemaorg_metadata',99,1);
             remove_action( 'amp_post_template_footer', 'amp_post_template_add_schemaorg_metadata',99,1);
+            
+            
+            if(isset($sd_data['saswp-wppostratings-raring']) && $sd_data['saswp-wppostratings-raring'] == 1){
+                
+                add_filter('wp_postratings_schema_itemtype', '__return_false');
+                add_filter('wp_postratings_google_structured_data', '__return_false');
+                
+            }
+                                                            
         }                       
 }
 
@@ -448,6 +456,41 @@ function saswp_extract_kk_star_ratings($id){
             }                        
        }
 
+       
+/**
+ * Extracting the value of wp-post-rating ratings plugins on current post
+ * @global type $sd_data
+ * @param type $id
+ * @return type array
+ */
+function saswp_extract_wp_post_ratings($id){
+        
+            global $sd_data;    
+            
+            if(isset($sd_data['saswp-wppostratings-raring']) && $sd_data['saswp-wppostratings-raring'] == 1 && is_plugin_active('wp-postratings/wp-postratings.php')){
+               
+                $best   = (int) get_option( 'postratings_max' );
+                $avg   = get_post_meta($id, 'ratings_average', true);
+                $votes = get_post_meta($id, 'ratings_users', true);
+                $per   = round((float)(($avg/5)*100), 2);  
+                
+                if($votes>0){
+                    
+                    return compact('best', 'score', 'votes', 'avg', 'per');    
+                    
+                }else{
+                    
+                    return array();    
+                    
+                }
+                
+            }else{
+                
+                return array();
+                
+            }                        
+       }       
+       
 /**
  * Gets all the comments of current post
  * @param type $post_id

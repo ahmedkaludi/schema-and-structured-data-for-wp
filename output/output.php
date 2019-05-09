@@ -258,6 +258,7 @@ function saswp_schema_output() {
                         
                         $aggregateRating        = array();
                         $kkstar_aggregateRating = array();
+                        $wp_post_rating_ar      = array();
                         $saswp_over_all_rating  = '';
                         
                         if(isset($saswp_review_details['saswp-review-item-over-all'])){
@@ -277,7 +278,7 @@ function saswp_schema_output() {
                         $saswp_review_count = "1";
                        
                         
-                        if($saswp_over_all_rating && $saswp_review_count && $saswp_review_item_enable ==1){
+                        if($saswp_over_all_rating && $saswp_review_count && $saswp_review_item_enable ==1 && isset($sd_data['saswp-review-module']) && $sd_data['saswp-review-module'] ==1){
                             
                            $aggregateRating =       array(
                                                             "@type"       => "AggregateRating",
@@ -287,8 +288,19 @@ function saswp_schema_output() {
                            
                         }
                         
-                        $kkstar_rating_data = saswp_extract_kk_star_ratings(get_the_ID()); 
+                        $kkstar_rating_data  = saswp_extract_kk_star_ratings(get_the_ID()); 
+                        $wp_post_rating_data = saswp_extract_wp_post_ratings(get_the_ID()); 
                         
+                        if(!empty($wp_post_rating_data)){
+                            
+                            $wp_post_rating_ar = array(
+                                                                "@type"       => "AggregateRating",                                                                
+                                                                "bestRating"  => saswp_remove_warnings($wp_post_rating_data, 'best', 'saswp_string'),
+                                                                "ratingCount" => saswp_remove_warnings($wp_post_rating_data, 'votes', 'saswp_string'),
+                                                                "ratingValue" => saswp_remove_warnings($wp_post_rating_data, 'avg', 'saswp_string')
+                                                          );
+                        }
+                                                
                         if(!empty($kkstar_rating_data)){
                             
                             $kkstar_aggregateRating =       array(
@@ -339,6 +351,9 @@ function saswp_schema_output() {
                                 if(!empty($kkstar_aggregateRating)){
                                    $input1['aggregateRating'] = $kkstar_aggregateRating;  
                                 }
+                                if(!empty($wp_post_rating_ar)){
+                                   $input1['aggregateRating'] = $wp_post_rating_ar;  
+                                }
                                 if(!empty($extra_theme_review)){
                                    $input1 = array_merge($input1, $extra_theme_review);
                                 }                               
@@ -382,6 +397,9 @@ function saswp_schema_output() {
                                 }
                                 if(!empty($kkstar_aggregateRating)){
                                    $input1['aggregateRating'] = $kkstar_aggregateRating;  
+                                }
+                                if(!empty($wp_post_rating_ar)){
+                                   $input1['aggregateRating'] = $wp_post_rating_ar;  
                                 }
                                 if(!empty($extra_theme_review)){
                                    $input1 = array_merge($input1, $extra_theme_review);
@@ -428,6 +446,9 @@ function saswp_schema_output() {
                                 }
                                 if(!empty($kkstar_aggregateRating)){
                                    $input1['aggregateRating'] = $kkstar_aggregateRating;  
+                                }
+                                if(!empty($wp_post_rating_ar)){
+                                   $input1['aggregateRating'] = $wp_post_rating_ar;  
                                 }
                                 if(!empty($extra_theme_review)){
                                    $input1 = array_merge($input1, $extra_theme_review);
@@ -509,6 +530,9 @@ function saswp_schema_output() {
                                 if(!empty($kkstar_aggregateRating)){
                                    $input1['aggregateRating'] = $kkstar_aggregateRating;  
                                 }
+                                if(!empty($wp_post_rating_ar)){
+                                   $input1['aggregateRating'] = $wp_post_rating_ar;  
+                                }
                                 if(!empty($extra_theme_review)){
                                    $input1 = array_merge($input1, $extra_theme_review);
                                 }                               
@@ -572,6 +596,9 @@ function saswp_schema_output() {
                                 if(!empty($kkstar_aggregateRating)){
                                    $input1['aggregateRating'] = $kkstar_aggregateRating;  
                                 }
+                                if(!empty($wp_post_rating_ar)){
+                                   $input1['aggregateRating'] = $wp_post_rating_ar;  
+                                }
                                 if(!empty($extra_theme_review)){
                                    $input1 = array_merge($input1, $extra_theme_review);
                                 }                               
@@ -599,6 +626,9 @@ function saswp_schema_output() {
                                 }
                                 if(!empty($kkstar_aggregateRating)){
                                    $input1['mainEntity']['aggregateRating'] = $kkstar_aggregateRating;  
+                                }
+                                if(!empty($wp_post_rating_ar)){
+                                   $input1['mainEntity']['aggregateRating'] = $wp_post_rating_ar;  
                                 }
                                 if(!empty($extra_theme_review)){
                                    $input1 = array_merge($input1, $extra_theme_review);
@@ -696,6 +726,9 @@ function saswp_schema_output() {
                                 }
                                 if(!empty($kkstar_aggregateRating)){
                                    $input1['aggregateRating'] = $kkstar_aggregateRating;  
+                                }
+                                if(!empty($wp_post_rating_ar)){
+                                   $input1['aggregateRating'] = $wp_post_rating_ar;  
                                 }
                                 if(!empty($extra_theme_review)){
                                    $input1 = array_merge($input1, $extra_theme_review);
@@ -850,6 +883,9 @@ function saswp_schema_output() {
                                 if(!empty($kkstar_aggregateRating)){
                                    $input1['aggregateRating'] = $kkstar_aggregateRating;  
                                 }
+                                if(!empty($wp_post_rating_ar)){
+                                   $input1['aggregateRating'] = $wp_post_rating_ar;  
+                                }
                                 if(!empty($extra_theme_review)){
                                    $input1 = array_merge($input1, $extra_theme_review);
                                 }
@@ -926,6 +962,10 @@ function saswp_schema_output() {
                                 }
                                 if(!empty($kkstar_aggregateRating)){
                                    $input1['aggregateRating'] = $kkstar_aggregateRating;  
+                                }
+                                
+                                if(!empty($wp_post_rating_ar)){
+                                   $input1['aggregateRating'] = $wp_post_rating_ar;  
                                 }
                                 if(!empty($extra_theme_review)){
                                    $input1 = array_merge($input1, $extra_theme_review);
@@ -1020,6 +1060,9 @@ function saswp_schema_output() {
                                 }
                                 if(!empty($kkstar_aggregateRating)){
                                    $input1['aggregateRating'] = $kkstar_aggregateRating;  
+                                }
+                                if(!empty($wp_post_rating_ar)){
+                                   $input1['aggregateRating'] = $wp_post_rating_ar;  
                                 }
                                 if(!empty($extra_theme_review)){
                                    $input1 = array_merge($input1, $extra_theme_review);
@@ -1357,6 +1400,9 @@ function saswp_schema_output() {
                                                if(!empty($kkstar_aggregateRating)){
                                                  $input1['aggregateRating'] = $kkstar_aggregateRating;  
                                                 }
+                                                if(!empty($wp_post_rating_ar)){
+                                                $input1['aggregateRating'] = $wp_post_rating_ar;  
+                                                }
                                                 if(!empty($extra_theme_review)){
                                                   $input1 = array_merge($input1, $extra_theme_review);
                                                  }
@@ -1434,6 +1480,9 @@ function saswp_schema_output() {
                                     if(!empty($kkstar_aggregateRating)){
                                     $input1['aggregateRating'] = $kkstar_aggregateRating;  
                                     } 
+                                    if(!empty($wp_post_rating_ar)){
+                                     $input1['aggregateRating'] = $wp_post_rating_ar;  
+                                     }
                                     if(!empty($extra_theme_review)){
                                     $input1 = array_merge($input1, $extra_theme_review);
                                     }
@@ -1568,8 +1617,10 @@ function saswp_post_specific_schema_output() {
 		
                         $saswp_review_details = esc_sql ( get_post_meta(get_the_ID(), 'saswp_review_details', true)); 
                         
-                        $aggregateRating = array();                        
-                        $saswp_over_all_rating ='';
+                        $aggregateRating        = array(); 
+                        $kkstar_aggregateRating = array();
+                        $wp_post_rating_ar      = array();
+                        $saswp_over_all_rating  ='';
                         
                         if(isset($saswp_review_details['saswp-review-item-over-all'])){
                             
@@ -1585,18 +1636,32 @@ function saswp_post_specific_schema_output() {
                         } 
                         $saswp_review_count = "1";                            
                         
-                        if($saswp_over_all_rating && $saswp_review_count && $saswp_review_item_enable ==1){
+                        
+                        if($saswp_over_all_rating && $saswp_review_count && $saswp_review_item_enable ==1 && isset($sd_data['saswp-review-module']) && $sd_data['saswp-review-module'] ==1){
                             
                            $aggregateRating =       array(
                                                             "@type"       => "AggregateRating",
                                                             "ratingValue" => esc_attr($saswp_over_all_rating),
                                                             "reviewCount" => esc_attr($saswp_review_count)
-                                                         ); 
-                           
+                                                         );                            
                         }
                         
-                        $kkstar_rating_data = saswp_extract_kk_star_ratings(get_the_ID());  
+                        $kkstar_rating_data = saswp_extract_kk_star_ratings(get_the_ID()); 
+                        $wp_post_rating_data = saswp_extract_wp_post_ratings(get_the_ID()); 
                         
+                        if(!empty($wp_post_rating_data)){
+                            
+                            $wp_post_rating_ar = array(
+                                                                "@type"       => "AggregateRating",
+                                                                "bestRating"  => saswp_remove_warnings($wp_post_rating_data, 'best', 'saswp_string'),
+                                                                "ratingCount" => saswp_remove_warnings($wp_post_rating_data, 'votes', 'saswp_string'),
+                                                                "ratingValue" => saswp_remove_warnings($wp_post_rating_data, 'avg', 'saswp_string'),
+                                                                "bestRating"  => saswp_remove_warnings($wp_post_rating_data, 'best', 'saswp_string'),
+                                                                "ratingCount" => saswp_remove_warnings($wp_post_rating_data, 'votes', 'saswp_string'),
+                                                                "ratingValue" => saswp_remove_warnings($wp_post_rating_data, 'avg', 'saswp_string')
+                                                          );
+                        }
+                                                                        
                         if(!empty($kkstar_rating_data)){
                             
                             $kkstar_aggregateRating =       array(
@@ -1704,6 +1769,9 @@ function saswp_post_specific_schema_output() {
                                 if(!empty($kkstar_aggregateRating)){
                                    $input1['aggregateRating'] = $kkstar_aggregateRating;  
                                 }
+                                if(!empty($wp_post_rating_ar)){
+                                   $input1['aggregateRating'] = $wp_post_rating_ar;  
+                                }
                                 if(!empty($extra_theme_review)){
                                    $input1 = array_merge($input1, $extra_theme_review);
                                 }                               
@@ -1737,6 +1805,9 @@ function saswp_post_specific_schema_output() {
                                     
                                     $input1['aggregateRating'] = $kkstar_aggregateRating;  
                                    
+                                }
+                                if(!empty($wp_post_rating_ar)){
+                                   $input1['aggregateRating'] = $wp_post_rating_ar;  
                                 }
                                 if(!empty($extra_theme_review)){
                                     
@@ -1781,6 +1852,9 @@ function saswp_post_specific_schema_output() {
                                 if(!empty($kkstar_aggregateRating)){
                                    $input1['aggregateRating'] = $kkstar_aggregateRating;  
                                 }
+                                if(!empty($wp_post_rating_ar)){
+                                   $input1['aggregateRating'] = $wp_post_rating_ar;  
+                                }
                                 if(!empty($extra_theme_review)){
                                    $input1 = array_merge($input1, $extra_theme_review);
                                 }
@@ -1810,6 +1884,9 @@ function saswp_post_specific_schema_output() {
                                 }
                                 if(!empty($kkstar_aggregateRating)){
                                    $input1['aggregateRating'] = $kkstar_aggregateRating;  
+                                }
+                                if(!empty($wp_post_rating_ar)){
+                                   $input1['aggregateRating'] = $wp_post_rating_ar;  
                                 }
                                 if(!empty($extra_theme_review)){
                                    $input1 = array_merge($input1, $extra_theme_review);
@@ -1850,6 +1927,9 @@ function saswp_post_specific_schema_output() {
                                 }
                                 if(!empty($kkstar_aggregateRating)){
                                    $input1['aggregateRating'] = $kkstar_aggregateRating;  
+                                }
+                                if(!empty($wp_post_rating_ar)){
+                                   $input1['aggregateRating'] = $wp_post_rating_ar;  
                                 }
                                 if(!empty($extra_theme_review)){
                                    $input1 = array_merge($input1, $extra_theme_review);
@@ -1901,6 +1981,9 @@ function saswp_post_specific_schema_output() {
                                    $input1['mainEntity']['aggregateRating'] = $kkstar_aggregateRating;  
                                    
                                 }
+                                if(!empty($wp_post_rating_ar)){
+                                   $input1['mainEntity']['aggregateRating'] = $wp_post_rating_ar;  
+                                }
                                 if(!empty($extra_theme_review)){
                                     
                                    $input1 = array_merge($input1, $extra_theme_review);
@@ -1943,6 +2026,9 @@ function saswp_post_specific_schema_output() {
                                    $input1['aggregateRating'] = $kkstar_aggregateRating; 
                                    
                                 }
+                                if(!empty($wp_post_rating_ar)){
+                                   $input1['aggregateRating'] = $wp_post_rating_ar;  
+                                }
                                 if(!empty($extra_theme_review)){
                                     
                                    $input1 = array_merge($input1, $extra_theme_review);
@@ -1984,6 +2070,9 @@ function saswp_post_specific_schema_output() {
                                     
                                    $input1['aggregateRating'] = $kkstar_aggregateRating; 
                                    
+                                }
+                                if(!empty($wp_post_rating_ar)){
+                                   $input1['aggregateRating'] = $wp_post_rating_ar;  
                                 }
                                 if(!empty($extra_theme_review)){
                                     
@@ -2104,6 +2193,9 @@ function saswp_post_specific_schema_output() {
                                 if(!empty($kkstar_aggregateRating)){
                                    $input1['aggregateRating'] = $kkstar_aggregateRating;  
                                 }
+                                if(!empty($wp_post_rating_ar)){
+                                   $input1['aggregateRating'] = $wp_post_rating_ar;  
+                                }
                                 if(!empty($extra_theme_review)){
                                    $input1 = array_merge($input1, $extra_theme_review);
                                 }
@@ -2165,6 +2257,9 @@ function saswp_post_specific_schema_output() {
                                         if(!empty($kkstar_aggregateRating)){
                                            $input1['aggregateRating'] = $kkstar_aggregateRating;  
                                         }
+                                        if(!empty($wp_post_rating_ar)){
+                                             $input1['aggregateRating'] = $wp_post_rating_ar;  
+                                         }
                                         if(!empty($extra_theme_review)){
                                            $input1 = array_merge($input1, $extra_theme_review);
                                         }  
@@ -2251,6 +2346,9 @@ function saswp_post_specific_schema_output() {
                                                 if(!empty($kkstar_aggregateRating)){
                                                    $input1['aggregateRating'] = $kkstar_aggregateRating;  
                                                 }
+                                                if(!empty($wp_post_rating_ar)){
+                                                   $input1['aggregateRating'] = $wp_post_rating_ar;  
+                                                }
 				}
 			
 			 if( 'VideoObject' === $schema_type){
@@ -2301,6 +2399,9 @@ function saswp_post_specific_schema_output() {
                                                 if(!empty($kkstar_aggregateRating)){
                                                    $input1['aggregateRating'] = $kkstar_aggregateRating;  
                                                 } 
+                                                if(!empty($wp_post_rating_ar)){
+                                                  $input1['aggregateRating'] = $wp_post_rating_ar;  
+                                                }
                                                 if(!empty($extra_theme_review)){
                                                     $input1 = array_merge($input1, $extra_theme_review);
                                                 }
@@ -2369,6 +2470,9 @@ function saswp_post_specific_schema_output() {
                                 }
                                 if(!empty($kkstar_aggregateRating)){
                                    $input1['aggregateRating'] = $kkstar_aggregateRating;  
+                                }
+                                if(!empty($wp_post_rating_ar)){
+                                   $input1['aggregateRating'] = $wp_post_rating_ar;  
                                 }
                                 if(!empty($extra_theme_review)){
                                    $input1 = array_merge($input1, $extra_theme_review);
@@ -2666,6 +2770,9 @@ function saswp_post_specific_schema_output() {
                                     if(!empty($kkstar_aggregateRating)){
                                        $input1['aggregateRating'] = $kkstar_aggregateRating;  
                                     }
+                                    if(!empty($wp_post_rating_ar)){
+                                      $input1['aggregateRating'] = $wp_post_rating_ar;  
+                                     }
                                     if(!empty($extra_theme_review)){
                                        $input1 = array_merge($input1, $extra_theme_review);
                                     }
