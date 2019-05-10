@@ -531,6 +531,15 @@ jQuery(document).ready(function($){
                             }
                       break;
                       
+                      case 'saswp-microdata-cleanup-checkbox':
+                          
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-microdata-cleanup").val(1);                                
+                            }else{
+                              $("#saswp-microdata-cleanup").val(0);                                          
+                            }
+                      break;
+                      
                       
                       default:
                           break;

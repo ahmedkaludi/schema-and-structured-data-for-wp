@@ -23,15 +23,18 @@ function saswp_schema_markup_hook_on_init() {
             
             remove_action( 'amp_post_template_head', 'amp_post_template_add_schemaorg_metadata',99,1);
             remove_action( 'amp_post_template_footer', 'amp_post_template_add_schemaorg_metadata',99,1);
-            
-            
+                        
             if(isset($sd_data['saswp-wppostratings-raring']) && $sd_data['saswp-wppostratings-raring'] == 1){
                 
                 add_filter('wp_postratings_schema_itemtype', '__return_false');
                 add_filter('wp_postratings_google_structured_data', '__return_false');
                 
             }
-                                                            
+            
+            if(isset($sd_data['saswp-microdata-cleanup']) && $sd_data['saswp-microdata-cleanup'] == 1){                
+                ob_start("saswp_remove_microdata");                
+            }
+                                                                                                           
         }                       
 }
 
@@ -754,4 +757,15 @@ function saswp_json_print_format($output_array){
         return json_encode($output_array);
     }
         
+}
+
+function saswp_remove_microdata($content){
+    
+    $content = preg_replace("/itemscope itemtype=(\"?)http(s?):\/\/schema.org\/(Article|BlogPosting|Blog|BreadcrumbList|AggregateRating|WebPage|Person|Organization|NewsArticle|Product)(\"?)/", "", $content);
+    $content = preg_replace("/itemscope=(\"?)itemscope(\"?) itemtype=(\"?)http(s?):\/\/schema.org\/(Article|BlogPosting|Blog|BreadcrumbList|AggregateRating|WebPage|Person|Organization|NewsArticle|Product)(\"?)/", "", $content);
+    
+    $content = preg_replace("/vcard/", "", $content);
+    $content = preg_replace("/hentry/", "", $content);
+     
+    return $content;
 }

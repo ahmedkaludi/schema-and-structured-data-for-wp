@@ -1034,6 +1034,17 @@ function saswp_import_callback(){
                              'name' => 'sd_data[saswp-pretty-print]',                             
                         )
 		),
+                array(
+			'label'  => 'MicroData CleanUp',
+			'id'     => 'saswp-microdata-cleanup-checkbox',                        
+                        'name'   => 'saswp-microdata-cleanup-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',                        
+                        'hidden' => array(
+                             'id'   => 'saswp-microdata-cleanup',
+                             'name' => 'sd_data[saswp-microdata-cleanup]',                             
+                        )
+		),
                 
 	);        
         $field_objs->saswp_field_generator($meta_fields, $settings);  
