@@ -332,6 +332,73 @@ function saswp_schema_output() {
                             $input1 = apply_filters('saswp_modify_course_schema_output', $input1 );    
                         }
                         
+                        
+                        if( 'DiscussionForumPosting' === $schema_type){
+                                                     
+                            if(isset($sd_data['saswp-bbpress']) && $sd_data['saswp-bbpress'] == 1 && is_plugin_active('bbpress/bbpress.php')){                                                                                                                                                                                            
+                                $input1 = array(
+                                '@context'			=> 'http://schema.org',
+                                '@type'				=> 'DiscussionForumPosting' ,
+                                '@id'				=> bbp_get_topic_permalink().'/#discussionforumposting',    			
+                                'headline'			=> bbp_get_topic_title(get_the_ID()),
+                                'description'                   => wp_strip_all_tags(strip_shortcodes(get_the_excerpt())),
+                                "articleSection"                => bbp_get_forum_title(),
+                                "articleBody"                   => wp_strip_all_tags(strip_shortcodes(get_the_content())),    
+                                'url'				=> bbp_get_topic_permalink(),
+                                'datePublished'                 => esc_html($date),
+                                'dateModified'                  => esc_html($modified_date),
+                                'author'			=> array(
+                                                                    '@type' 	        => 'Person',
+                                                                    'name'		=> esc_attr($aurthor_name) 
+                                                                ),                                    
+                                'interactionStatistic'          => array(
+                                                                    '@type'                     => 'InteractionCounter',
+                                                                    'interactionType'		=> 'http://schema.org/CommentAction',
+                                                                    'userInteractionCount'      => bbp_get_topic_reply_count(),
+                                        )    
+                                );
+                                
+                            }else{
+                                
+                                $input1 = array(
+                                '@context'			=> 'http://schema.org',
+                                '@type'				=> 'DiscussionForumPosting' ,
+                                '@id'				=> get_permalink().'/#blogposting',    			
+                                'headline'			=> get_the_title(),
+                                'description'                   => strip_tags(strip_shortcodes(get_the_excerpt())),			
+                                'url'				=> get_permalink(),
+                                'datePublished'                 => esc_html($date),
+                                'dateModified'                  => esc_html($modified_date),
+                                'author'			=> array(
+                                                                    '@type' 	        => 'Person',
+                                                                    'name'		=> esc_attr($aurthor_name) 
+                                                                )											
+                                    );
+                                
+                            }                                                                                                    
+                                if(!empty($publisher)){
+
+                                     $input1 = array_merge($input1, $publisher);   
+
+                                 }
+                                 
+                                if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){                                   
+                                    $service = new saswp_output_service();
+                                    $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
+                                }
+                                if(!empty($aggregateRating)){
+                                    $input1['aggregateRating'] = $aggregateRating;
+                                }                                
+                                if(!empty($extra_theme_review)){
+                                   $input1 = array_merge($input1, $extra_theme_review);
+                                }                               
+                                if(isset($sd_data['saswp_comments_schema']) && $sd_data['saswp_comments_schema'] == 1){
+                                   $input1['comment'] = saswp_get_comments(get_the_ID());
+                                }
+                            
+                                $input1 = apply_filters('saswp_modify_d_forum_posting_schema_output', $input1 ); 
+                        }
+                        
                         if( 'Blogposting' === $schema_type){
                          
                         $input1 = array(
@@ -1663,6 +1730,24 @@ function saswp_post_specific_schema_output() {
                                    $input1 = array_merge($input1, $extra_theme_review);
                                 }                               
                                                             
+                        }
+                        
+                         if( 'DiscussionForumPosting' === $schema_type){
+                            
+                            $input1 = array(
+                                '@context'			=> 'http://schema.org',
+                                '@type'				=> 'DiscussionForumPosting' ,
+                                '@id'				=> saswp_remove_warnings($all_post_meta, 'saswp_dfp_url_'.$schema_id, 'saswp_array').'/#blogposting',    			
+                                'headline'			=> saswp_remove_warnings($all_post_meta, 'saswp_dfp_headline_'.$schema_id, 'saswp_array'),
+                                'description'                   => saswp_remove_warnings($all_post_meta, 'saswp_dfp_description_'.$schema_id, 'saswp_array'),			
+                                'url'				=> saswp_remove_warnings($all_post_meta, 'saswp_dfp_url_'.$schema_id, 'saswp_array'),
+                                'datePublished'                 => isset($all_post_meta['saswp_dfp_date_published_'.$schema_id])?date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_dfp_date_published_'.$schema_id][0])):'',
+                                'dateModified'                  => isset($all_post_meta['saswp_dfp_date_modified_'.$schema_id])?date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_dfp_date_modified_'.$schema_id][0])):'',
+                                'author'			=> array(
+                                                                    '@type' 	        => 'Person',
+                                                                    'name'		=> saswp_remove_warnings($all_post_meta, 'saswp_dfp_author_name_'.$schema_id, 'saswp_array') 
+                                                                )											
+                                    );
                         }
                         
                          if( 'Course' === $schema_type){

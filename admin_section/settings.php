@@ -1423,6 +1423,18 @@ function saswp_compatibility_page_callback(){
                                     'name' => 'sd_data[saswp-dw-question-answer]',                             
                         )
 		);
+        
+        $bbpress = array(
+			'label'  => 'bbPress',
+			'id'     => 'saswp-bbpress-checkbox',                        
+                        'name'   => 'saswp-bbpress-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
+                        'hidden' => array(
+                                    'id'   => 'saswp-bbpress',
+                                    'name' => 'sd_data[saswp-bbpress]',                             
+                        )
+		);
                 
         $yoast      = array(
 			'label'   => 'Yoast SEO Plugin',
@@ -1439,6 +1451,12 @@ function saswp_compatibility_page_callback(){
         if(!is_plugin_active('taqyeem/taqyeem.php')  || get_template() != 'jannah'  ){
             
              $tagyeem['note'] = esc_html__('Requires selected plugin','schema-and-structured-data-for-wp');
+                          
+        }
+        
+        if(!is_plugin_active('bbpress/bbpress.php')){
+            
+             $bbpress['note'] = esc_html__('Requires selected plugin','schema-and-structured-data-for-wp');
                           
         }
         
@@ -1535,6 +1553,7 @@ function saswp_compatibility_page_callback(){
         $meta_fields = array(				
                 $kk_star,  
                 $wppostratings,
+                $bbpress,
                 $woocommerce,
                 $woocommerce_bok,
                 $woocommerce_mem,

@@ -661,22 +661,23 @@
                                 );                                                             
                 
                                 $all_schema_array = array(
-                                     'Article'              => 'Article',
-                                     'AudioObject'          => 'AudioObject',
-                                     'Blogposting'          => 'Blogposting',
-                                     'Course'               => 'Course', 
-                                     'Event'                => 'Event',                                          
-                                     'local_business'       => 'Local Business',
-                                     'NewsArticle'          => 'NewsArticle',
-                                     'Product'              => 'Product',
-                                     'qanda'                => 'Q&A',   
-                                     'Review'               => 'Review',                                     
-                                     'Recipe'               => 'Recipe',                                     
-                                     'Service'              => 'Service',
-                                     'SoftwareApplication'  => 'SoftwareApplication',       
-                                     'TechArticle'          => 'TechArticle', 
-                                     'VideoObject'          => 'VideoObject',
-                                     'WebPage'              => 'WebPage'                                                                
+                                     'Article'                  => 'Article',
+                                     'AudioObject'              => 'AudioObject',
+                                     'Blogposting'              => 'Blogposting',
+                                     'Course'                   => 'Course',
+                                     'DiscussionForumPosting'   => 'DiscussionForumPosting',
+                                     'Event'                    => 'Event',                                          
+                                     'local_business'           => 'Local Business',
+                                     'NewsArticle'              => 'NewsArticle',
+                                     'Product'                  => 'Product',
+                                     'qanda'                    => 'Q&A',   
+                                     'Review'                   => 'Review',                                     
+                                     'Recipe'                   => 'Recipe',                                     
+                                     'Service'                  => 'Service',
+                                     'SoftwareApplication'      => 'SoftwareApplication',       
+                                     'TechArticle'              => 'TechArticle', 
+                                     'VideoObject'              => 'VideoObject',
+                                     'WebPage'                  => 'WebPage'                                                                
                                  );
                                  $all_business_type = array(
                                     'animalshelter'                 => 'Animal Shelter',

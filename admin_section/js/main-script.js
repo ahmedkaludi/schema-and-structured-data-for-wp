@@ -522,6 +522,15 @@ jQuery(document).ready(function($){
                             }
                       break;
                       
+                      case 'saswp-bbpress-checkbox':
+                          
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-bbpress").val(1);                                
+                            }else{
+                              $("#saswp-bbpress").val(0);                                          
+                            }
+                      break;
+                      
                       
                       default:
                           break;

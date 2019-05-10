@@ -423,7 +423,30 @@ Class saswp_output_service{
                      $input1['provider']['sameAs'] =    $custom_fields['saswp_course_sameas'];
                     }
                     
-                    break;       
+                    break;    
+                    
+                case 'DiscussionForumPosting':      
+                      
+                    if(isset($custom_fields['saswp_dfp_headline'])){
+                     $input1['headline'] =    $custom_fields['saswp_dfp_headline'];
+                    }
+                    if(isset($custom_fields['saswp_dfp_description'])){
+                     $input1['description'] =    $custom_fields['saswp_dfp_description'];
+                    }
+                    if(isset($custom_fields['saswp_dfp_url'])){
+                     $input1['url'] =    $custom_fields['saswp_dfp_url'];
+                    }                    
+                    if(isset($custom_fields['saswp_dfp_date_published'])){
+                     $input1['datePublished'] =    $custom_fields['saswp_dfp_date_published'];
+                    }
+                    if(isset($custom_fields['saswp_dfp_date_modified'])){
+                     $input1['dateModified'] =    $custom_fields['saswp_dfp_date_modified'];
+                    }
+                    if(isset($custom_fields['saswp_dfp_author_name'])){
+                     $input1['author']['name'] =    $custom_fields['saswp_dfp_author_name'];
+                    }
+                                        
+                    break;        
                 
                 case 'Recipe':
                     if(isset($custom_fields['saswp_recipe_url'])){
@@ -1286,6 +1309,19 @@ Class saswp_output_service{
                         'saswp_course_provider_name'  => 'Provider Name',                          
                         'saswp_course_sameas'         => 'Provider SameAs',                                                
                         );                                        
+                    break;
+                
+                case 'DiscussionForumPosting':      
+                    
+                    $meta_field = array(                        
+                        'saswp_dfp_headline'           => 'Headline',
+                        'saswp_dfp_description'        => 'Description',
+                        'saswp_dfp_url'                => 'URL',                          
+                        'saswp_dfp_date_published'     => 'Date Published',
+                        'saswp_dfp_date_modified'      => 'Date Modified',
+                        'saswp_dfp_author_name'        => 'Author Name',                                                                                                  
+                        );     
+                    
                     break;
                 
                 case 'Recipe':

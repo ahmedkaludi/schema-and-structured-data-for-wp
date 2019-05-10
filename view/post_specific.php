@@ -1625,6 +1625,47 @@ class saswp_post_specific {
                     );
                     break;
                 
+                case 'DiscussionForumPosting':                                        
+                    $meta_field = array(
+                    array(
+                            'label' => 'Headline',
+                            'id' => 'saswp_dfp_headline_'.$schema_id,
+                            'type' => 'text',
+                            'default' => get_the_title()
+                    ),
+                    array(
+                            'label' => 'Description',
+                            'id' => 'saswp_dfp_description_'.$schema_id,
+                            'type' => 'textarea',
+                            'default' => $post->post_excerpt
+                    ) ,    
+                    array(
+                            'label' => 'URL',
+                            'id' => 'saswp_dfp_url_'.$schema_id,
+                            'type' => 'text',
+                            'default' => get_permalink()
+                    ),                     
+                    array(
+                            'label' => 'Date Published',
+                            'id' => 'saswp_dfp_date_published_'.$schema_id,
+                            'type' => 'text',
+                            'default' => get_the_date("Y-m-d")
+                    ), 
+                    array(
+                            'label' => 'Date Modified',
+                            'id' => 'saswp_dfp_date_modified_'.$schema_id,
+                            'type' => 'text',
+                            'default' => get_the_modified_date("Y-m-d")
+                    ),
+                    array(
+                            'label' => 'Author Name',
+                            'id' => 'saswp_dfp_author_name_'.$schema_id,
+                            'type' => 'text',
+                            'default' => $current_user->display_name
+                    )                    
+                    );
+                    break;
+                
                 case 'Recipe':
                     $meta_field = array(
                     array(
