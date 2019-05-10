@@ -96,9 +96,9 @@ class saswp_post_specific {
                 
              foreach ( $this->screen as $single_screen ) {
                  $post_title = '';
-                 if(count($this->all_schema) == 1){
-                        $all_schemas = $this->all_schema;
-                        $post_title = '('.$all_schemas[0]->post_title.')';                                      
+                    if(count($this->all_schema) == 1){
+                        $all_schemas = $this->all_schema;                        
+                        $post_title = '('.get_post_meta($all_schemas[0]->ID, 'schema_type', true).')';                                      
                      }
 			add_meta_box(
 				'post_specific',
@@ -168,7 +168,7 @@ class saswp_post_specific {
                  }   
                                   
                 echo '<div>';  
-                echo '<div><a href="#" class="saswp-restore-post-schema button">'.esc_html__( 'Restore Default Schema', 'schema-and-structured-data-for-wp' ).'</a></div>';  
+                echo '<div><a href="#" class="saswp-restore-post-schema button">'.esc_html__( 'Restore Default', 'schema-and-structured-data-for-wp' ).'</a></div>';  
                 echo '<div class="saswp-tab saswp-post-specific-tab-wrapper">';                
 		echo '<ul class="saswp-tab-nav">';
                 echo $tabs;                
@@ -195,7 +195,7 @@ class saswp_post_specific {
                  $this->meta_fields = $response;
                  $output = $this->saswp_saswp_post_specific( $post, $all_schema[0]->ID );  
                  $tabs_fields .= '<div>';
-                 $tabs_fields .= '<div class="saswp-single-post-restore"><a href="#" class="saswp-restore-post-schema button saswp-tab-links selected" saswp-schema-type="'.esc_attr($schema_type).'">'.esc_html__( 'Restore Default Schema', 'schema-and-structured-data-for-wp' ).'</a>'
+                 $tabs_fields .= '<div class="saswp-single-post-restore"><a href="#" class="saswp-restore-post-schema button saswp-tab-links selected" saswp-schema-type="'.esc_attr($schema_type).'">'.esc_html__( 'Restore Default', 'schema-and-structured-data-for-wp' ).'</a>'
                               . '<label class="saswp-switch" style="margin-left:10px;">'
                               . '<input type="checkbox" class="saswp-schema-type-toggle" value="1" data-schema-id="'.esc_attr($all_schema[0]->ID).'" data-post-id="'.esc_attr($post->ID).'" '.$checked.'>'
                               . '<span class="saswp-slider"></span>'
@@ -2364,6 +2364,18 @@ class saswp_post_specific {
                             'type' => 'text',
                             'default' => $image_details[0]
                     ),
+                    array(
+                            'label' => 'Content Url',
+                            'id' => 'saswp_video_object_content_url_'.$schema_id,
+                            'type' => 'text',
+                            'default' => get_permalink()
+                    ),
+                    array(
+                            'label' => 'Embed Url',
+                            'id' => 'saswp_video_object_embed_url_'.$schema_id,
+                            'type' => 'text',
+                            'default' => get_permalink()
+                    ),    
                     array(
                             'label' => 'Main Entity Id',
                             'id' => 'saswp_video_object_main_entity_id_'.$schema_id,

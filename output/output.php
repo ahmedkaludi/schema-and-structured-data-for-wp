@@ -1333,8 +1333,7 @@ function saswp_schema_output() {
 
                                                 if(!$description){
                                                     $description = get_bloginfo('description');
-                                                }
-                                                                                                                        
+                                                }                                                                                                                        
 						$input1 = array(
 						'@context'			=> 'http://schema.org',
 						'@type'				=> 'VideoObject',
@@ -2273,6 +2272,8 @@ function saswp_post_specific_schema_output() {
 						'name'				=> saswp_remove_warnings($all_post_meta, 'saswp_video_object_name_'.$schema_id, 'saswp_array'),
 						'uploadDate'                    => isset($all_post_meta['saswp_video_object_upload_date_'.$schema_id])?date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_video_object_upload_date_'.$schema_id][0])):'',
 						'thumbnailUrl'                  => saswp_remove_warnings($all_post_meta, 'saswp_video_object_thumbnail_url_'.$schema_id, 'saswp_array'),
+                                                'contentUrl'                    => saswp_remove_warnings($all_post_meta, 'saswp_video_object_content_url_'.$schema_id, 'saswp_array'),
+                                                'embedUrl'                      => saswp_remove_warnings($all_post_meta, 'saswp_video_object_embed_url_'.$schema_id, 'saswp_array'),
 						'mainEntity'                    => array(
 								'@type'				=> 'WebPage',
 								'@id'				=> saswp_remove_warnings($all_post_meta, 'saswp_video_object_main_entity_id_'.$schema_id, 'saswp_array'),

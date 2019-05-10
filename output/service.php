@@ -695,7 +695,13 @@ Class saswp_output_service{
                     }
                     if(isset($custom_fields['saswp_video_object_thumbnail_url'])){
                      $input1['thumbnailUrl'] =    $custom_fields['saswp_video_object_thumbnail_url'];
+                    }                                        
+                    if(isset($custom_fields['saswp_video_object_content_url'])){
+                     $input1['thumbnailUrl'] =    $custom_fields['saswp_video_object_content_url'];
                     }
+                    if(isset($custom_fields['saswp_video_object_embed_url'])){
+                     $input1['thumbnailUrl'] =    $custom_fields['saswp_video_object_embed_url'];
+                    }                                                            
                     if(isset($custom_fields['saswp_video_object_main_entity_id'])){
                      $input1['mainEntity']['@id'] =    $custom_fields['saswp_video_object_main_entity_id'];
                     }
@@ -1433,7 +1439,9 @@ Class saswp_output_service{
                         'saswp_video_object_description'        => 'Description',
                         'saswp_video_object_name'               => 'Name',
                         'saswp_video_object_upload_date'        => 'Upload Date',
-                        'saswp_video_object_thumbnail_url'      => 'Thumbnail Url',                        
+                        'saswp_video_object_thumbnail_url'      => 'Thumbnail Url',
+                        'saswp_video_object_content_url'        => 'Content URL',
+                        'saswp_video_object_embed_url'          => 'Embed Url',
                         'saswp_video_object_main_entity_id'     => 'Main Entity Id',
                         'saswp_video_object_author_name'        => 'Author Name',
                         'saswp_video_object_author_image'       => 'Author Image',
