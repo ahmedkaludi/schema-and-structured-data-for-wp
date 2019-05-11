@@ -312,11 +312,7 @@ class saswp_google_review_page{
                                                                                                                         
                     </div>
                     
-                    <div class="saswp-channel-list">
-                      
-                        
-                        <!-- <a class="saswp-accordion">Connect Google</a> -->
-        
+                    <div class="saswp-channel-list">                                                                             
                         <div class="saswp-panel">
                             <h3>Google Review Settings</h3>
                             <div class="saswp-input-fields">
