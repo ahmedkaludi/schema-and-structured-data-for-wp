@@ -3,7 +3,6 @@ function saswp_remove_amp_default_structure_data($metadata){
     return '';
 }
 
-add_action('cooked_amp_head', 'saswp_schema_markup_output');
 add_filter( 'amp_init', 'saswp_schema_markup_hook_on_init' );
 add_action( 'init', 'saswp_schema_markup_hook_on_init');
 
@@ -23,6 +22,8 @@ function saswp_schema_markup_hook_on_init() {
             
             remove_action( 'amp_post_template_head', 'amp_post_template_add_schemaorg_metadata',99,1);
             remove_action( 'amp_post_template_footer', 'amp_post_template_add_schemaorg_metadata',99,1);
+            add_filter( 'amp_post_template_metadata', 'saswp_remove_amp_default_structure_data');
+            add_action('cooked_amp_head', 'saswp_schema_markup_output');
                         
             if(isset($sd_data['saswp-wppostratings-raring']) && $sd_data['saswp-wppostratings-raring'] == 1){
                 
@@ -45,59 +46,48 @@ function saswp_schema_markup_hook_on_init() {
  */
 function saswp_schema_markup_output() {
         
-   global $sd_data;
-   global $post;
+        global $sd_data;
+        global $post;
    
-   $output                   = '';
-   $post_specific_enable     = '';
-   $kb_website_output        = array();
-   $kb_schema_output         = array();
-   $site_navigation          = array();
-   
-   
-   $site_navigation          = saswp_site_navigation_output();     
-   $contact_page_output      = saswp_contact_page_output();  	
-   $about_page_output        = saswp_about_page_output();      
-   $author_output            = saswp_author_output();
-   $archive_output           = saswp_archive_output();
-   
-   $schema_breadcrumb_output = saswp_schema_breadcrumb_output();  
+        $output                   = '';
+        $post_specific_enable     = '';
+        $kb_website_output        = array();
+        $kb_schema_output         = array();
+        $site_navigation          = array();
    
    
-   if(saswp_remove_warnings($sd_data, 'saswp-yoast', 'saswp_string') == 1 && (is_plugin_active('wordpress-seo/wp-seo.php') || is_plugin_active('wordpress-seo-premium/wp-seo-premium.php'))){                                             
-   }else{
-       $kb_website_output        = saswp_kb_website_output();      
-       $kb_schema_output         = saswp_kb_schema_output();
-       
-       
-   }         
+        $site_navigation          = saswp_site_navigation_output();     
+        $contact_page_output      = saswp_contact_page_output();  	
+        $about_page_output        = saswp_about_page_output();      
+        $author_output            = saswp_author_output();
+        $archive_output           = saswp_archive_output();
+
+        $schema_breadcrumb_output = saswp_schema_breadcrumb_output();  
    
-   if(is_singular()){
-       
-       $post_specific_enable  = get_option('modify_schema_post_enable_'.esc_attr($post->ID));
-       
-   }
    
-   if($post_specific_enable =='enable'){
-       
-       $schema_output            = saswp_post_specific_schema_output();  
+        if(saswp_remove_warnings($sd_data, 'saswp-yoast', 'saswp_string') == 1 && (is_plugin_active('wordpress-seo/wp-seo.php') || is_plugin_active('wordpress-seo-premium/wp-seo-premium.php'))){                                             
+        }else{
+            $kb_website_output        = saswp_kb_website_output();      
+            $kb_schema_output         = saswp_kb_schema_output();
+        }         
    
-   }else{
-       
-       $schema_output            = saswp_schema_output();    
-       
-   }   
- 
+        if(is_singular()){
+
+            $post_specific_enable  = get_option('modify_schema_post_enable_'.esc_attr($post->ID));
+
+        }
    
-   if($schema_output || $schema_breadcrumb_output || $kb_website_output || $archive_output || $author_output || $about_page_output || $contact_page_output){       
-      add_filter( 'amp_post_template_metadata', 'saswp_remove_amp_default_structure_data');
-   }         
-   
-	if( (   saswp_remove_warnings($sd_data, 'saswp-for-wordpress', 'saswp_string') =='' 
-            ||   1 == saswp_remove_warnings($sd_data, 'saswp-for-wordpress', 'saswp_string') && saswp_non_amp() ) 
-            || ( 1 == saswp_remove_warnings($sd_data, 'saswp-for-amp', 'saswp_string') && !saswp_non_amp() ) ) {
-		
-                                    
+        if($post_specific_enable =='enable'){
+
+            $schema_output            = saswp_post_specific_schema_output();  
+
+        }else{
+
+            $schema_output            = saswp_schema_output();    
+
+        }                   
+	if(saswp_global_option()) {
+		                                    
                         if(!empty($contact_page_output)){
                           
                             $output .= saswp_json_print_format($contact_page_output); 
@@ -128,9 +118,7 @@ function saswp_schema_markup_output() {
                             $output .= ",";
                             $output .= "\n\n";                        
                         }
-            
-            
-            
+                                    
             if(isset($sd_data['saswp-defragment']) && $sd_data['saswp-defragment'] == 1){
             
                 $output_schema_type_id = array();
@@ -291,8 +279,7 @@ function saswp_schema_markup_output() {
             echo '</script>';
             echo "\n\n";
         }
-        
-        
+                
 }
 
 add_filter('the_content', 'saswp_paywall_data_for_login');
@@ -725,9 +712,16 @@ add_action( 'init', 'saswp_remove_woocommerce_default_structured_data' );
  */
 function saswp_remove_yoast_json($data){
     
-    $data = array();
-    return $data;
-    
+    if(saswp_global_option()){
+        
+        $data = array();
+        return $data;
+        
+    }else{
+        
+        return $data;
+    }
+        
 }
 
 add_filter('wpseo_json_ld_output', 'saswp_remove_yoast_json', 10, 1);
@@ -740,8 +734,15 @@ add_filter('wpseo_json_ld_output', 'saswp_remove_yoast_json', 10, 1);
  */
 function saswp_remove_breadcrume_seo_by_rank_math($entry){
     
-    $entry = array();
-    return $entry;
+    if(saswp_global_option()){
+        
+        $entry = array();
+        return $entry;
+        
+    }else{
+        return $entry;
+    }
+        
 }
 
 add_filter( 'rank_math/snippet/breadcrumb', 'saswp_remove_breadcrume_seo_by_rank_math' );
@@ -761,11 +762,32 @@ function saswp_json_print_format($output_array){
 
 function saswp_remove_microdata($content){
     
-    $content = preg_replace("/itemscope itemtype=(\"?)http(s?):\/\/schema.org\/(Article|BlogPosting|Blog|BreadcrumbList|AggregateRating|WebPage|Person|Organization|NewsArticle|Product|CreativeWork)(\"?)/", "", $content);
-    $content = preg_replace("/itemscope=(\"?)itemscope(\"?) itemtype=(\"?)http(s?):\/\/schema.org\/(Article|BlogPosting|Blog|BreadcrumbList|AggregateRating|WebPage|Person|Organization|NewsArticle|Product|CreativeWork)(\"?)/", "", $content);
+    if(saswp_global_option()){
+        
+        $content = preg_replace("/itemscope itemtype=(\"?)http(s?):\/\/schema.org\/(Article|BlogPosting|Blog|BreadcrumbList|AggregateRating|WebPage|Person|Organization|NewsArticle|Product|CreativeWork|ImageObject)(\"?)/", "", $content);
+        $content = preg_replace("/itemscope=(\"?)itemscope(\"?) itemtype=(\"?)http(s?):\/\/schema.org\/(Article|BlogPosting|Blog|BreadcrumbList|AggregateRating|WebPage|Person|Organization|NewsArticle|Product|CreativeWork|ImageObject)(\"?)/", "", $content);    
+        $content = preg_replace("/vcard/", "", $content);
+        $content = preg_replace("/hentry/", "", $content);        
+    }             
     
-    $content = preg_replace("/vcard/", "", $content);
-    $content = preg_replace("/hentry/", "", $content);
-     
     return $content;
+}
+
+
+function saswp_global_option(){
+    
+            global $sd_data;
+            
+            if( (   saswp_remove_warnings($sd_data, 'saswp-for-wordpress', 'saswp_string') =='' 
+            ||   1 == saswp_remove_warnings($sd_data, 'saswp-for-wordpress', 'saswp_string') && saswp_non_amp() ) 
+            || ( 1 == saswp_remove_warnings($sd_data, 'saswp-for-amp', 'saswp_string') && !saswp_non_amp() ) ) {
+        
+                return true;
+        
+            }else{
+            
+                return false;
+                
+            }  
+            
 }
