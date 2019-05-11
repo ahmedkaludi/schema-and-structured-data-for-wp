@@ -51,26 +51,16 @@ function saswp_schema_markup_output() {
    
         $output                   = '';
         $post_specific_enable     = '';
-        $kb_website_output        = array();
-        $kb_schema_output         = array();
-        $site_navigation          = array();
-   
-   
+                              
         $site_navigation          = saswp_site_navigation_output();     
         $contact_page_output      = saswp_contact_page_output();  	
         $about_page_output        = saswp_about_page_output();      
         $author_output            = saswp_author_output();
         $archive_output           = saswp_archive_output();
-
-        $schema_breadcrumb_output = saswp_schema_breadcrumb_output();  
-   
-   
-        if(saswp_remove_warnings($sd_data, 'saswp-yoast', 'saswp_string') == 1 && (is_plugin_active('wordpress-seo/wp-seo.php') || is_plugin_active('wordpress-seo-premium/wp-seo-premium.php'))){                                             
-        }else{
-            $kb_website_output        = saswp_kb_website_output();      
-            $kb_schema_output         = saswp_kb_schema_output();
-        }         
-   
+        $schema_breadcrumb_output = saswp_schema_breadcrumb_output();                      
+        $kb_website_output        = saswp_kb_website_output();      
+        $kb_schema_output         = saswp_kb_schema_output();
+                 
         if(is_singular()){
 
             $post_specific_enable  = get_option('modify_schema_post_enable_'.esc_attr($post->ID));
@@ -712,7 +702,9 @@ add_action( 'init', 'saswp_remove_woocommerce_default_structured_data' );
  */
 function saswp_remove_yoast_json($data){
     
-    if(saswp_global_option()){
+    global $sd_data;
+    
+    if(saswp_global_option()  && saswp_remove_warnings($sd_data, 'saswp-yoast', 'saswp_string') == 1){
         
         $data = array();
         return $data;
