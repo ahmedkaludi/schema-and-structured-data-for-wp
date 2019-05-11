@@ -425,17 +425,29 @@ class saswp_post_specific {
                                         if(isset($media_value['width'])){
                                              $media_width =$media_value['width'];
                                         }
-                                                                                
+                                            
+                                        $image_pre = '';
+                                        if($media_thumbnail){
+                                            
+                                           $image_pre = '<div class="saswp_image_thumbnail">
+                                                         <img class="saswp_image_prev" src="'.esc_attr($media_thumbnail).'" />
+                                                         <a data-id="'.esc_attr($meta_field['id']).'" href="#" class="saswp_prev_close">X</a>
+                                                        </div>'; 
+                                            
+                                        }
 					$input = sprintf(
 						'<fieldset><input style="width: 80%%" id="%s" name="%s" type="text" value="%s">'
                                                 . '<input data-id="media" style="width: 19%%" class="button" id="%s_button" name="%s_button" type="button" value="Upload" />'
                                                 . '<input type="hidden" data-id="'.esc_attr($meta_field['id']).'_height" class="upload-height" name="'.esc_attr($meta_field['id']).'_height" id="'.esc_attr($meta_field['id']).'_height" value="'.esc_attr($media_height).'">'
                                                 . '<input type="hidden" data-id="'.esc_attr($meta_field['id']).'_width" class="upload-width" name="'.esc_attr($meta_field['id']).'_width" id="'.esc_attr($meta_field['id']).'_width" value="'.esc_attr($media_width).'">'
                                                 . '<input type="hidden" data-id="'.esc_attr($meta_field['id']).'_thumbnail" class="upload-thumbnail" name="'.esc_attr($meta_field['id']).'_thumbnail" id="'.esc_attr($meta_field['id']).'_thumbnail" value="'.esc_attr($media_thumbnail).'">'                                                
+                                                . '<div class="saswp_image_div_'.esc_attr($meta_field['id']).'">'                                               
+                                                . $image_pre                                                 
+                                                . '</div>'
                                                 .'</fieldset>',
 						$meta_field['id'],
 						$meta_field['id'],
-						$meta_value,
+						$media_thumbnail,
 						$meta_field['id'],
 						$meta_field['id']
 					);

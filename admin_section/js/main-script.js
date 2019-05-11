@@ -601,11 +601,35 @@ jQuery(document).ready(function($){
                              $("#sd_default_image_width").val(attachment.width);
                              $("#sd_default_image_height").val(attachment.height);
                         
-                         }
+                         }                         
+                         $(".saswp_image_div_"+id).html('<div class="saswp_image_thumbnail"><img class="saswp_image_prev" src="'+attachment.url+'"/><a data-id="'+id+'" href="#" class="saswp_prev_close">X</a></div>');
                         
 		})
 		.open();
 	});
+        
+        $(document).on("click", ".saswp_prev_close", function(e){
+                e.preventDefault();
+                
+                var id = $(this).attr('data-id');   
+                console.log(id);
+                $(this).parent().remove();                
+                $("#"+id).val('');
+                $("input[data-id='"+id+"_id']").val('');
+                $("input[data-id='"+id+"_height']").val('');
+                $("input[data-id='"+id+"_width']").val('');
+                $("input[data-id='"+id+"_thumbnail']").val('');
+                
+                 if(id === 'sd_default_image'){
+                             
+                    $("#sd_default_image_width").val('');
+                    $("#sd_default_image_height").val('');
+                        
+                } 
+                
+                
+        });
+        
         //Settings page jquery ends here
 
 

@@ -948,3 +948,18 @@ Google review module ends here
     letter-spacing: 1px;
     border-radius: 5px;
 }
+.saswp_image_prev{
+    max-width: 200px;
+    max-height: 200px;
+    float: left;
+    padding-left:2px;
+}
+.saswp_prev_close {    
+    position: relative;
+    width:30px;
+    height:30px;
+    top: 12px;    
+    font-size: 20px;
+    top: -5px;
+    text-decoration:none;
+    }

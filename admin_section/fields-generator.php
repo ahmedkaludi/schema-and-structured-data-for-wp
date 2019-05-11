@@ -93,6 +93,16 @@ class saswp_fields_generator {
                                                 
                                             }
                                         
+                                        $image_pre = '';
+                                        if(saswp_remove_warnings($mediavalue, 'thumbnail', 'saswp_string')){
+                                            
+                                           $image_pre = '<div class="saswp_image_thumbnail">
+                                                         <img class="saswp_image_prev" src="'.esc_attr(saswp_remove_warnings($mediavalue, 'thumbnail', 'saswp_string')).'" />
+                                                         <a data-id="'.esc_attr($meta_field['id']).'" href="#" class="saswp_prev_close">X</a>
+                                                        </div>'; 
+                                            
+                                        }    
+                                            
 					$input = sprintf(
 						'<fieldset><input %s class="%s" style="width: 80%%" id="%s" name="%s" type="text" value="%s">'
                                                 . '<input data-id="media" style="width: 19%%" class="button" id="%s_button" name="%s_button" type="button" value="Upload" />'
@@ -100,6 +110,9 @@ class saswp_fields_generator {
                                                 . '<input type="hidden" data-id="'.esc_attr($meta_field['id']).'_height" class="upload-height" name="sd_data['.esc_attr($meta_field['id']).'][height]" id="sd_data['.esc_attr($meta_field['id']).'][height]" value="'.esc_attr(saswp_remove_warnings($mediavalue, 'height', 'saswp_string')).'">'
                                                 . '<input type="hidden" data-id="'.esc_attr($meta_field['id']).'_width" class="upload-width" name="sd_data['.esc_attr($meta_field['id']).'][width]" id="sd_data['.esc_attr($meta_field['id']).'][width]" value="'.esc_attr(saswp_remove_warnings($mediavalue, 'width', 'saswp_string')).'">'
                                                 . '<input type="hidden" data-id="'.esc_attr($meta_field['id']).'_thumbnail" class="upload-thumbnail" name="sd_data['.esc_attr($meta_field['id']).'][thumbnail]" id="sd_data['.esc_attr($meta_field['id']).'][thumbnail]" value="'.esc_attr(saswp_remove_warnings($mediavalue, 'thumbnail', 'saswp_string')).'">'
+                                                . '<div class="saswp_image_div_'.esc_attr($meta_field['id']).'">'                                               
+                                                . $image_pre                                                 
+                                                . '</div>'	
                                                 . '</fieldset>',
                                                 $attribute_str,
                                                 $class,
