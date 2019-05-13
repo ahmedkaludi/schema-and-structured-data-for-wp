@@ -73,6 +73,7 @@ require_once SASWP_DIR_NAME.'/output/service.php';
 
 
 global $sd_data;
+
 if(isset($sd_data['saswp-google-review']) && $sd_data['saswp-google-review'] == 1){
 
 require_once SASWP_DIR_NAME.'/google_review/google_review.php'; 

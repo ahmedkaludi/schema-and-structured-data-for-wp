@@ -219,7 +219,7 @@ class saswp_google_review_page{
                                         
         ?>
         <div class="saswp-heading">
-            <h1 class="wp-heading-inline">Google Review  </h1><span class="saswp-need-help"><a target="_blank" href="http://structured-data-for-wp.com/docs/">Need Help?</a></span>
+            <h1 class="wp-heading-inline"><?php echo esc_html__('Google Review','schema-and-structured-data-for-wp'); ?>  </h1><span class="saswp-need-help"><a target="_blank" href="http://structured-data-for-wp.com/docs/article/how-to-display-google-review/"><?php echo esc_html__('Need Help?','schema-and-structured-data-for-wp'); ?></a></span>
         </div>
 
             <div class="saswp-g-review-container">
@@ -314,13 +314,13 @@ class saswp_google_review_page{
                     
                     <div class="saswp-channel-list">                                                                             
                         <div class="saswp-panel">
-                            <h3>Google Review Settings</h3>
+                            <h3><?php echo esc_html__('Google Review Settings','schema-and-structured-data-for-wp'); ?></h3>
                             <div class="saswp-input-fields">
-                                <label>Google ID:</label><input value="<?php if(isset($post_meta['saswp_google_place_id'])){ echo $post_meta['saswp_google_place_id'][0];}  ?>" type="text" id="saswp_google_place_id" name="saswp_google_place_id" placeholder="<?php echo esc_html__('Place Id', 'schema-and-structured-data-for-wp' ); ?>">   
+                                <label><?php echo esc_html__('Place ID','schema-and-structured-data-for-wp'); ?>:</label><input value="<?php if(isset($post_meta['saswp_google_place_id'])){ echo $post_meta['saswp_google_place_id'][0];}  ?>" type="text" id="saswp_google_place_id" name="saswp_google_place_id" placeholder="<?php echo esc_html__('Place Id', 'schema-and-structured-data-for-wp' ); ?>">   
                             </div>
 
                             <div class="saswp-input-fields">
-                                <label>Languages:</label>
+                                <label><?php echo esc_html__('Languages','schema-and-structured-data-for-wp'); ?>:</label>
                                 <select name="saswp_language_list" id="saswp_language_list">
                                          <?php  
                                             
@@ -343,12 +343,12 @@ class saswp_google_review_page{
                             </div>
 
                             <div class="saswp-input-fields">
-                                <label>Goolge API</label>
+                                <label><?php echo esc_html__('Goolge API','schema-and-structured-data-for-wp'); ?></label>
                                 <input value="<?php if(isset($post_meta['saswp_googel_api'])){ echo $post_meta['saswp_googel_api'][0];}  ?>" type="text" id="saswp_googel_api" name="saswp_googel_api" placeholder="<?php echo esc_html__('Google API', 'schema-and-structured-data-for-wp' ); ?>">   
                             </div>
                             
                             <div class="saswp-input-fields">
-                                <a class="saswp_coonect_google_place btn btn-success button-primary" >Connect Google</a>
+                                <a class="saswp_coonect_google_place btn btn-success button-primary" ><?php echo esc_html__('Connect Google','schema-and-structured-data-for-wp'); ?></a>
                             </div>
 
                         </div>                                                                                                
