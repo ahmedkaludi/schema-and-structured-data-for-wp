@@ -1815,14 +1815,14 @@ Class saswp_output_service{
                           
                           if($content){
                               
-                          $regex   = '/src="([^"]*)"/';                          
+                          $regex   = '/<img(.*?)src="(.*?)"(.*?)>/';                          
                           preg_match_all( $regex, $content, $attachments );   
-                                                                                                                                                                                                                                            
+                                                                              
                           $attach_images = array();
                           
                           if(!empty($attachments)){
                               $k = 0;
-                              foreach ($attachments[1] as $attachment) {
+                              foreach ($attachments[2] as $attachment) {
                                                                     
                                   $attach_details   = getimagesize($attachment);                                         
                                   if($attach_details){
