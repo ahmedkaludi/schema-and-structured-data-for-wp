@@ -49,6 +49,7 @@ function saswp_schema_markup_output() {
         global $sd_data;
         global $post;
    
+        $custom_option            = '';
         $output                   = '';
         $post_specific_enable     = '';
         $schema_output            = array();

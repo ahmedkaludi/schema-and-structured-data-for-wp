@@ -1731,8 +1731,7 @@ Class saswp_output_service{
                         
             if( is_array($image_details) ){                                
                                     
-                                        
-                                        
+                                                                                
                                         if(isset($image_details[1]) && ($image_details[1] < 1200) && function_exists('ampforwp_aq_resize')){
                                             
                                             $width  = array(1280, 640, 300);

@@ -1195,9 +1195,9 @@ function saswp_schema_output() {
                                 if(isset($schema_data['saswp_review_schema_image'])){
                                     
                                 $input1['itemReviewed']['image']['@type'] = 'ImageObject';
-                                $input1['itemReviewed']['image']['url']   = esc_url($schema_data['saswp_review_schema_image']);
-                                $input1['itemReviewed']['image']['width'] = esc_attr($schema_data['saswp_review_schema_image_detail']['width']);
-                                $input1['itemReviewed']['image']['height']= esc_attr($schema_data['saswp_review_schema_image_detail']['height']);
+                                $input1['itemReviewed']['image']['url']   = isset($schema_data['saswp_review_schema_image']) ? esc_url($schema_data['saswp_review_schema_image']) : '';
+                                $input1['itemReviewed']['image']['width'] = isset($schema_data['saswp_review_schema_image_detail']) ? esc_attr($schema_data['saswp_review_schema_image_detail']['width']) : '';
+                                $input1['itemReviewed']['image']['height']= isset($schema_data['saswp_review_schema_image_detail']) ? esc_attr($schema_data['saswp_review_schema_image_detail']['height']) : '';
                                     
                                 }
                                                                                                                                                                                                 
