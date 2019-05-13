@@ -1467,7 +1467,16 @@ function saswp_schema_output() {
                                     
                                     if(isset($business_details['local_menu'])){
                                       $input1['hasMenu'] = esc_url($business_details['local_menu']);   
-                                    } 
+                                    }
+                                    
+                                    
+                                    if(isset($business_details['local_latitude']) && isset($business_details['local_longitude'])){
+                                         
+                                        $input1['geo']['@type']     = 'GeoCoordinates';
+                                        $input1['geo']['latitude']  = $business_details['local_latitude'];
+                                        $input1['geo']['longitude'] = $business_details['local_longitude'];
+                                    }
+                                    
                                     
                                     $input1 = apply_filters('saswp_modify_local_business_schema_output', $input1 );
 			}
@@ -2678,7 +2687,19 @@ function saswp_post_specific_schema_output() {
                                     
                                     if(isset($all_post_meta['local_menu_'.$schema_id][0])){
                                       $input1['hasMenu'] = esc_url($all_post_meta['local_menu_'.$schema_id][0]);   
-                                    }                                                          
+                                    }
+                                    
+                                    if(isset($all_post_meta['local_latitude_'.$schema_id][0]) && isset($all_post_meta['local_longitude_'.$schema_id][0])){
+                                      
+                                        $input1['geo']['@type']     = 'GeoCoordinates';
+                                        $input1['geo']['latitude']  = $all_post_meta['local_latitude_'.$schema_id][0];
+                                        $input1['geo']['longitude'] = $all_post_meta['local_longitude_'.$schema_id][0];
+                                        
+                                    }
+                                    
+                                    
+                                    
+                                    
 			}
                         
                         

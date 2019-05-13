@@ -70,6 +70,12 @@ Class saswp_output_service{
                     if(isset($custom_fields['local_postal_code'])){
                      $input1['address']['postalCode'] =    $custom_fields['local_postal_code'];
                     }                    
+                    if(isset($custom_fields['local_latitude'])){
+                     $input1['geo']['latitude'] =    $custom_fields['local_latitude'];
+                    }                    
+                    if(isset($custom_fields['local_longitude'])){
+                     $input1['geo']['longitude'] =    $custom_fields['local_longitude'];
+                    }                                           
                     if(isset($custom_fields['local_phone'])){
                      $input1['telephone'] =    $custom_fields['local_phone'];
                     }
@@ -1203,7 +1209,9 @@ Class saswp_output_service{
                         'local_street_address'       => 'Street Address',                            
                         'local_city'                 => 'City',
                         'local_state'                => 'State',
-                        'local_postal_code'          => 'Postal Code',                         
+                        'local_postal_code'          => 'Postal Code',
+                        'local_latitude'             => 'Latitude',
+                        'local_longitude'            => 'Longitude',
                         'local_phone'                => 'Phone',
                         'local_website'              => 'Website',
                         'local_business_logo'        => 'Image', 

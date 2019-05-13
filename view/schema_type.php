@@ -1091,6 +1091,19 @@
                             <td><?php echo esc_html__('Postal Code', 'schema-and-structured-data-for-wp' ); ?></td>
                             <td><input value="<?php if(isset($business_details['local_postal_code'])) {echo esc_attr($business_details['local_postal_code']); } ?>" type="text" name="local_postal_code" placeholder="<?php echo esc_html__('Postal Code', 'schema-and-structured-data-for-wp' ); ?>"></td>
                         </tr>
+                        
+                                                
+                        <tr class="saswp-business-text-field-tr" <?php echo $style_business_type; ?>>
+                            <td><?php echo esc_html__('Latitude', 'schema-and-structured-data-for-wp' ); ?></td>
+                            <td><input value="<?php if(isset($business_details['local_latitude'])) {echo esc_attr($business_details['local_latitude']); } ?>" type="text" name="local_latitude" placeholder="<?php echo esc_html__('40.761293', 'schema-and-structured-data-for-wp' ); ?>"></td>
+                        </tr>
+                        
+                        <tr class="saswp-business-text-field-tr" <?php echo $style_business_type; ?>>
+                            <td><?php echo esc_html__('Longitude', 'schema-and-structured-data-for-wp' ); ?></td>
+                            <td><input value="<?php if(isset($business_details['local_longitude'])) {echo esc_attr($business_details['local_longitude']); } ?>" type="text" name="local_longitude" placeholder="<?php echo esc_html__('-73.982294', 'schema-and-structured-data-for-wp' ); ?>"></td>
+                        </tr>
+                        
+                                                
                         <tr class="saswp-business-text-field-tr" <?php echo $style_business_type; ?>>
                             <td><?php echo esc_html__('Phone', 'schema-and-structured-data-for-wp' ); ?></td>
                             <td><input value="<?php if(isset($business_details['local_phone'])){echo esc_attr($business_details['local_phone']); } ?>" type="text" name="local_phone" placeholder="<?php echo esc_html__('Phone', 'schema-and-structured-data-for-wp' ); ?>"></td>
@@ -1632,6 +1645,14 @@
                 if ( isset( $_POST['local_postal_code'] ) ){
                 $local_business_details['local_postal_code'] = sanitize_text_field($_POST['local_postal_code']);        
                 }
+                
+                if ( isset( $_POST['local_latitude'] ) ){
+                $local_business_details['local_latitude'] = sanitize_text_field($_POST['local_latitude']);        
+                }
+                if ( isset( $_POST['local_longitude'] ) ){
+                $local_business_details['local_longitude'] = sanitize_text_field($_POST['local_longitude']);        
+                }
+                                
                 if ( isset( $_POST['local_phone'] ) ){
                 $local_business_details['local_phone'] = sanitize_text_field($_POST['local_phone']);        
                 }

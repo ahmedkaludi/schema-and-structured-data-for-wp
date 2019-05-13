@@ -1103,6 +1103,18 @@ class saswp_post_specific {
                             'default' => $business_details['local_postal_code']
                        ),
                         array(
+                            'label' => 'Latitude',
+                            'id' => 'local_latitude_'.$schema_id,
+                            'type' => 'text',
+                            'default' => $business_details['local_latitude']
+                       ),
+                        array(
+                            'label' => 'Longitude',
+                            'id' => 'local_longitude_'.$schema_id,
+                            'type' => 'text',
+                            'default' => $business_details['local_longitude']
+                       ),
+                        array(
                             'label' => 'Phone',
                             'id' => 'local_phone_'.$schema_id,
                             'type' => 'text',
