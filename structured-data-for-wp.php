@@ -2,7 +2,7 @@
 /*
 Plugin Name: Schema & Structured Data for WP
 Description: Schema & Structured Data adds Google Rich Snippets markup according to Schema.org guidelines to structure your site for SEO. (AMP Compatible) 
-Version: 1.8
+Version: 1.8.1
 Text Domain: schema-and-structured-data-for-wp
 Domain Path: /languages
 Author: Magazine3
@@ -13,7 +13,7 @@ License: GPL2
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-define('SASWP_VERSION', '1.8');
+define('SASWP_VERSION', '1.8.1');
 define('SASWP_DIR_NAME_FILE', __FILE__ );
 define('SASWP_DIR_NAME', dirname( __FILE__ ));
 define('SASWP_DIR_URI', plugin_dir_url(__FILE__));
@@ -23,11 +23,7 @@ if(! defined('SASWP_ITEM_FOLDER_NAME')){
     define( 'SASWP_ITEM_FOLDER_NAME', $folderName );
 }
 define('SASWP_PLUGIN_URL', plugin_dir_url( __FILE__ ));
-
-//define('SASWP_EDD_SL_ITEM_ID', plugin_dir_url( __FILE__ ));
-define('SASWP_EDD_STORE_URL', 'http://accounts.structured-data-for-wp.com/');
-//define('SASWP_EDD_DATA_ITEM_NAME', 'Cooked compatibility for Schema' );
-
+define('SASWP_EDD_STORE_URL', 'http://structured-data-for-wp.com/');
 // including the output file
 require_once SASWP_DIR_NAME .'/output/function.php';
 require_once SASWP_DIR_NAME .'/output/output.php';
@@ -77,6 +73,7 @@ require_once SASWP_DIR_NAME.'/output/service.php';
 
 
 global $sd_data;
+
 if(isset($sd_data['saswp-google-review']) && $sd_data['saswp-google-review'] == 1){
 
 require_once SASWP_DIR_NAME.'/google_review/google_review.php'; 

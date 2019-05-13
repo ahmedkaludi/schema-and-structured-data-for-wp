@@ -24,6 +24,9 @@ Class saswp_review_output{
         
         public function saswp_display_review_box_schema(){
                           
+            
+                        if(saswp_global_option()){
+                         
                         global $sd_data;
                         $author_id      = get_the_author_meta('ID');
 											
@@ -91,7 +94,7 @@ Class saswp_review_output{
                                 echo "\n";
                                 echo '<script type="application/ld+json">'; 
                                 echo "\n";       
-                                echo json_encode($input1);       
+                                echo saswp_json_print_format($input1);       
                                 echo "\n";
                                 echo '</script>';
                                 echo "\n\n";
@@ -100,7 +103,8 @@ Class saswp_review_output{
                             
                             
                         }                                         
-            
+                                                                    
+                        }            
             
         }
 

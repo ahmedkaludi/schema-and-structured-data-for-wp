@@ -1595,6 +1595,28 @@ function saswp_frontend_enqueue(){
                 float:left;
             }
             .amp-sidebar .saswp-rtng{display:block;}
+            
+            .saswp-rvw-str .half-str{
+                display:inline-block;
+                width: 20px;
+                height: 16px;
+                background-repeat: no-repeat;
+                background-image: url(<?php echo esc_url(SASWP_DIR_URI.'/admin_section/images/half_star.png'); ?>);
+            }
+            .saswp-rvw-str .str-ic{
+                display:inline-block;
+                width: 20px;
+                height: 16px;
+                background-repeat: no-repeat;
+                background-image: url(<?php echo esc_url(SASWP_DIR_URI.'/admin_section/images/full_star.png'); ?>);
+            }
+            .saswp-rvw-str .df-clr{
+                display:inline-block;
+                width: 20px;
+                height: 16px;
+                background-repeat: no-repeat;
+                background-image: url(<?php echo esc_url(SASWP_DIR_URI.'/admin_section/images/blank_star.png'); ?>);
+            }
         
         
         <?php

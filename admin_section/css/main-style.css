@@ -639,23 +639,6 @@ Compatibility tab css ends
 /*
 Google review module starts here
 */
-.saswp-accordion {
-  background-color: #eee;
-  color: #444;
-  cursor: pointer;
-  padding: 6px;
-  width: 100%;
-  border: none;
-  text-align: left;
-  outline: none;
-  font-size: 15px;
-  transition: 0.4s;
-}
-
-.active, .saswp-accordion:hover {
-  background-color: #ccc; 
-}
-
 .saswp-panel {
   padding: 7px 18px;
   background-color: white;
@@ -965,3 +948,18 @@ Google review module ends here
     letter-spacing: 1px;
     border-radius: 5px;
 }
+.saswp_image_prev{
+    max-width: 200px;
+    max-height: 200px;
+    float: left;
+    padding-left:2px;
+}
+.saswp_prev_close {    
+    position: relative;
+    width:30px;
+    height:30px;
+    top: 12px;    
+    font-size: 20px;
+    top: -5px;
+    text-decoration:none;
+    }

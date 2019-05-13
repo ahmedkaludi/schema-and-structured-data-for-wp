@@ -70,6 +70,12 @@ Class saswp_output_service{
                     if(isset($custom_fields['local_postal_code'])){
                      $input1['address']['postalCode'] =    $custom_fields['local_postal_code'];
                     }                    
+                    if(isset($custom_fields['local_latitude'])){
+                     $input1['geo']['latitude'] =    $custom_fields['local_latitude'];
+                    }                    
+                    if(isset($custom_fields['local_longitude'])){
+                     $input1['geo']['longitude'] =    $custom_fields['local_longitude'];
+                    }                                           
                     if(isset($custom_fields['local_phone'])){
                      $input1['telephone'] =    $custom_fields['local_phone'];
                     }
@@ -423,7 +429,30 @@ Class saswp_output_service{
                      $input1['provider']['sameAs'] =    $custom_fields['saswp_course_sameas'];
                     }
                     
-                    break;       
+                    break;    
+                    
+                case 'DiscussionForumPosting':      
+                      
+                    if(isset($custom_fields['saswp_dfp_headline'])){
+                     $input1['headline'] =    $custom_fields['saswp_dfp_headline'];
+                    }
+                    if(isset($custom_fields['saswp_dfp_description'])){
+                     $input1['description'] =    $custom_fields['saswp_dfp_description'];
+                    }
+                    if(isset($custom_fields['saswp_dfp_url'])){
+                     $input1['url'] =    $custom_fields['saswp_dfp_url'];
+                    }                    
+                    if(isset($custom_fields['saswp_dfp_date_published'])){
+                     $input1['datePublished'] =    $custom_fields['saswp_dfp_date_published'];
+                    }
+                    if(isset($custom_fields['saswp_dfp_date_modified'])){
+                     $input1['dateModified'] =    $custom_fields['saswp_dfp_date_modified'];
+                    }
+                    if(isset($custom_fields['saswp_dfp_author_name'])){
+                     $input1['author']['name'] =    $custom_fields['saswp_dfp_author_name'];
+                    }
+                                        
+                    break;        
                 
                 case 'Recipe':
                     if(isset($custom_fields['saswp_recipe_url'])){
@@ -672,7 +701,13 @@ Class saswp_output_service{
                     }
                     if(isset($custom_fields['saswp_video_object_thumbnail_url'])){
                      $input1['thumbnailUrl'] =    $custom_fields['saswp_video_object_thumbnail_url'];
+                    }                                        
+                    if(isset($custom_fields['saswp_video_object_content_url'])){
+                     $input1['thumbnailUrl'] =    $custom_fields['saswp_video_object_content_url'];
                     }
+                    if(isset($custom_fields['saswp_video_object_embed_url'])){
+                     $input1['thumbnailUrl'] =    $custom_fields['saswp_video_object_embed_url'];
+                    }                                                            
                     if(isset($custom_fields['saswp_video_object_main_entity_id'])){
                      $input1['mainEntity']['@id'] =    $custom_fields['saswp_video_object_main_entity_id'];
                     }
@@ -1174,7 +1209,9 @@ Class saswp_output_service{
                         'local_street_address'       => 'Street Address',                            
                         'local_city'                 => 'City',
                         'local_state'                => 'State',
-                        'local_postal_code'          => 'Postal Code',                         
+                        'local_postal_code'          => 'Postal Code',
+                        'local_latitude'             => 'Latitude',
+                        'local_longitude'            => 'Longitude',
                         'local_phone'                => 'Phone',
                         'local_website'              => 'Website',
                         'local_business_logo'        => 'Image', 
@@ -1288,6 +1325,19 @@ Class saswp_output_service{
                         );                                        
                     break;
                 
+                case 'DiscussionForumPosting':      
+                    
+                    $meta_field = array(                        
+                        'saswp_dfp_headline'           => 'Headline',
+                        'saswp_dfp_description'        => 'Description',
+                        'saswp_dfp_url'                => 'URL',                          
+                        'saswp_dfp_date_published'     => 'Date Published',
+                        'saswp_dfp_date_modified'      => 'Date Modified',
+                        'saswp_dfp_author_name'        => 'Author Name',                                                                                                  
+                        );     
+                    
+                    break;
+                
                 case 'Recipe':
                     
                     $meta_field = array(                        
@@ -1397,7 +1447,9 @@ Class saswp_output_service{
                         'saswp_video_object_description'        => 'Description',
                         'saswp_video_object_name'               => 'Name',
                         'saswp_video_object_upload_date'        => 'Upload Date',
-                        'saswp_video_object_thumbnail_url'      => 'Thumbnail Url',                        
+                        'saswp_video_object_thumbnail_url'      => 'Thumbnail Url',
+                        'saswp_video_object_content_url'        => 'Content URL',
+                        'saswp_video_object_embed_url'          => 'Embed Url',
                         'saswp_video_object_main_entity_id'     => 'Main Entity Id',
                         'saswp_video_object_author_name'        => 'Author Name',
                         'saswp_video_object_author_image'       => 'Author Image',
@@ -1679,8 +1731,7 @@ Class saswp_output_service{
                         
             if( is_array($image_details) ){                                
                                     
-                                        
-                                        
+                                                                                
                                         if(isset($image_details[1]) && ($image_details[1] < 1200) && function_exists('ampforwp_aq_resize')){
                                             
                                             $width  = array(1280, 640, 300);
@@ -1756,21 +1807,69 @@ Class saswp_output_service{
                                         }
                                         
                                                                                                                                                                                                  
-                             }else{
-                                        
-                                        if(isset($sd_data['sd_default_image']['url']) && $sd_data['sd_default_image']['url'] !=''){
-                                        
-                                            $input2['image']['@type']  = 'ImageObject';
-                                            $input2['image']['@id']    = get_permalink().'#primaryimage';
-                                            $input2['image']['url']    = esc_url($sd_data['sd_default_image']['url']);
-                                            $input2['image']['width']  = esc_attr($sd_data['sd_default_image_width']);
-                                            $input2['image']['height'] = esc_attr($sd_data['sd_default_image_height']);                                                                 
-                                            
-                                        }
-                                        
-                                				
-		          }
+                             }
+                                                       
+                          //Get All the images available on post   
+                             
+                          $content = get_the_content();   
                           
+                          if($content){
+                              
+                          $regex   = '/src="([^"]*)"/';                          
+                          preg_match_all( $regex, $content, $attachments );   
+                                                                                                                                                                                                                                            
+                          $attach_images = array();
+                          
+                          if(!empty($attachments)){
+                              $k = 0;
+                              foreach ($attachments[1] as $attachment) {
+                                                                    
+                                  $attach_details   = getimagesize($attachment);                                         
+                                  if($attach_details){
+                                      
+                                      
+                                                $attach_images['image'][$k]['@type']  = 'ImageObject';                                                
+                                                $attach_images['image'][$k]['url']    = esc_url($attachment);
+                                                $attach_images['image'][$k]['width']  = esc_attr($attach_details[0]);
+                                                $attach_images['image'][$k]['height'] = esc_attr($attach_details[1]);
+                                      
+                                  }
+                                  
+                                  $k++;
+                              }
+                              
+                          }
+                          
+                          if(!empty($attach_images)){
+                              
+                              if(isset($input2['image'])){
+                              
+                                  $merged_arr = array_merge($input2['image'],$attach_images['image']);
+                                  $input2['image'] = $merged_arr;
+                                  
+                              }else{
+                                  $input2 = $attach_images;
+                              }
+                                                            
+                          }
+                          
+                          }
+                          
+                          if(empty($input2)){
+                              
+                            if(isset($sd_data['sd_default_image']['url']) && $sd_data['sd_default_image']['url'] !=''){
+                                        
+                                    $input2['image']['@type']  = 'ImageObject';
+                                    $input2['image']['@id']    = get_permalink().'#primaryimage';
+                                    $input2['image']['url']    = esc_url($sd_data['sd_default_image']['url']);
+                                    $input2['image']['width']  = esc_attr($sd_data['sd_default_image_width']);
+                                    $input2['image']['height'] = esc_attr($sd_data['sd_default_image_height']);                                                                 
+                                            
+                            }
+                              
+                              
+                          }
+                                                    
                           return $input2;
         }
         /**

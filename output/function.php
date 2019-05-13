@@ -3,8 +3,6 @@ function saswp_remove_amp_default_structure_data($metadata){
     return '';
 }
 
-add_action('cooked_amp_head', 'saswp_schema_markup_output');
-
 add_filter( 'amp_init', 'saswp_schema_markup_hook_on_init' );
 add_action( 'init', 'saswp_schema_markup_hook_on_init');
 
@@ -24,6 +22,20 @@ function saswp_schema_markup_hook_on_init() {
             
             remove_action( 'amp_post_template_head', 'amp_post_template_add_schemaorg_metadata',99,1);
             remove_action( 'amp_post_template_footer', 'amp_post_template_add_schemaorg_metadata',99,1);
+            add_filter( 'amp_post_template_metadata', 'saswp_remove_amp_default_structure_data');
+            add_action('cooked_amp_head', 'saswp_schema_markup_output');
+                        
+            if(isset($sd_data['saswp-wppostratings-raring']) && $sd_data['saswp-wppostratings-raring'] == 1){
+                
+                add_filter('wp_postratings_schema_itemtype', '__return_false');
+                add_filter('wp_postratings_google_structured_data', '__return_false');
+                
+            }
+            
+            if(isset($sd_data['saswp-microdata-cleanup']) && $sd_data['saswp-microdata-cleanup'] == 1){                
+                ob_start("saswp_remove_microdata");                
+            }
+                                                                                                           
         }                       
 }
 
@@ -34,96 +46,80 @@ function saswp_schema_markup_hook_on_init() {
  */
 function saswp_schema_markup_output() {
         
-   global $sd_data;
-   global $post;
+        global $sd_data;
+        global $post;
    
-   $output                   = '';
-   $post_specific_enable     = '';
-   $kb_website_output        = array();
-   $kb_schema_output         = array();
-   $site_navigation          = array();
+        $custom_option            = '';
+        $output                   = '';
+        $post_specific_enable     = '';
+        $schema_output            = array();
+                              
+        $site_navigation          = saswp_site_navigation_output();     
+        $contact_page_output      = saswp_contact_page_output();  	
+        $about_page_output        = saswp_about_page_output();      
+        $author_output            = saswp_author_output();
+        $archive_output           = saswp_archive_output();
+        $schema_breadcrumb_output = saswp_schema_breadcrumb_output();                      
+        $kb_website_output        = saswp_kb_website_output();      
+        $kb_schema_output         = saswp_kb_schema_output();
+                 
+        if(is_singular()){
+
+            $post_specific_enable  = get_option('modify_schema_post_enable_'.esc_attr($post->ID));
+            $custom_option         = get_option('custom_schema_post_enable_'.esc_attr($post->ID));
+
+        }
    
-   
-   $site_navigation          = saswp_site_navigation_output();     
-   $contact_page_output      = saswp_contact_page_output();  	
-   $about_page_output        = saswp_about_page_output();      
-   $author_output            = saswp_author_output();
-   $archive_output           = saswp_archive_output();
-   
-   $schema_breadcrumb_output = saswp_schema_breadcrumb_output();  
-   
-   
-   if(saswp_remove_warnings($sd_data, 'saswp-yoast', 'saswp_string') == 1 && (is_plugin_active('wordpress-seo/wp-seo.php') || is_plugin_active('wordpress-seo-premium/wp-seo-premium.php'))){                                             
-   }else{
-       $kb_website_output        = saswp_kb_website_output();      
-       $kb_schema_output         = saswp_kb_schema_output();
-       
-       
-   }         
-   
-   if(is_singular()){
-       
-       $post_specific_enable  = get_option('modify_schema_post_enable_'.esc_attr($post->ID));
-       
-   }
-   
-   if($post_specific_enable =='enable'){
-       
-       $schema_output            = saswp_post_specific_schema_output();  
-   
-   }else{
-       
-       $schema_output            = saswp_schema_output();    
-       
-   }   
- 
-   
-   if($schema_output || $schema_breadcrumb_output || $kb_website_output || $archive_output || $author_output || $about_page_output || $contact_page_output){       
-      add_filter( 'amp_post_template_metadata', 'saswp_remove_amp_default_structure_data');
-   }         
-   
-	if( (   saswp_remove_warnings($sd_data, 'saswp-for-wordpress', 'saswp_string') =='' 
-            ||   1 == saswp_remove_warnings($sd_data, 'saswp-for-wordpress', 'saswp_string') && saswp_non_amp() ) 
-            || ( 1 == saswp_remove_warnings($sd_data, 'saswp-for-amp', 'saswp_string') && !saswp_non_amp() ) ) {
-		
-                                    
+        if($post_specific_enable =='enable'){
+
+            $schema_output            = saswp_post_specific_schema_output();  
+
+        }else{
+            
+            if($custom_option !='enable'){
+                $schema_output            = saswp_schema_output();    
+            }
+            
+        }                   
+	if(saswp_global_option()) {
+		                                    
                         if(!empty($contact_page_output)){
                           
-                            $output .= json_encode($contact_page_output); 
+                            $output .= saswp_json_print_format($contact_page_output); 
                             $output .= ",";
                             $output .= "\n\n";                        
                         }			                        
                         if(!empty($about_page_output)){
                         
-                            $output .= json_encode($about_page_output);    
+                            $output .= saswp_json_print_format($about_page_output);    
                             $output .= ",";
                             $output .= "\n\n";
                         }                        
                         if(!empty($author_output)){
                            
-                            $output .= json_encode($author_output); 
+                            $output .= saswp_json_print_format($author_output); 
                             $output .= ",";
                             $output .= "\n\n";
                         }                                              
                         if(!empty($archive_output)){
                         
-                            $output .= json_encode($archive_output);   
+                            $output .= saswp_json_print_format($archive_output);   
                             $output .= ",";
                             $output .= "\n\n";
                         }
                         if(!empty($site_navigation)){
                                                                             
-                            $output .= json_encode($site_navigation);   
+                            $output .= saswp_json_print_format($site_navigation);   
                             $output .= ",";
                             $output .= "\n\n";                        
                         }
-            
-            
-            
+                                    
             if(isset($sd_data['saswp-defragment']) && $sd_data['saswp-defragment'] == 1){
             
                 $output_schema_type_id = array();
                 
+                if(!empty($schema_output)){
+                    
                 foreach($schema_output as $soutput){
             
                     $output_schema_type_id[] = $soutput['@type'];
@@ -193,14 +189,14 @@ function saswp_schema_markup_output() {
                     
                     $final_output['@graph'][]   = $soutput;
                         
-                    $schema = json_encode($final_output);
+                    $schema = saswp_json_print_format($final_output);
                     $output .= $schema; 
                     $output .= ",";
                     $output .= "\n\n";     
                     
                     }else{
                         
-                        $schema = json_encode($soutput);
+                        $schema = saswp_json_print_format($soutput);
                         $output .= $schema; 
                         $output .= ",";
                         $output .= "\n\n"; 
@@ -208,24 +204,24 @@ function saswp_schema_markup_output() {
                     }
                                                                                                           
             }
-                                                
+            }                                 
                 if(in_array('Blogposting', $output_schema_type_id) || in_array('Article', $output_schema_type_id) || in_array('TechArticle', $output_schema_type_id) || in_array('NewsArticle', $output_schema_type_id) ){                                                                                            
                 }else{
                     if(!empty($kb_website_output)){
                         
-                            $output .= json_encode($kb_website_output);  
+                            $output .= saswp_json_print_format($kb_website_output);  
                             $output .= ",";
                             $output .= "\n\n";
                         }
                     if(!empty($schema_breadcrumb_output)){
                         
-                            $output .= json_encode($schema_breadcrumb_output);   
+                            $output .= saswp_json_print_format($schema_breadcrumb_output);   
                             $output .= ",";
                             $output .= "\n\n";
                         }
                     if(!empty($kb_schema_output)){
                             
-                           $output .= json_encode($kb_schema_output);
+                           $output .= saswp_json_print_format($kb_schema_output);
                             $output .= ",";                        
                         }   
                 }
@@ -235,13 +231,13 @@ function saswp_schema_markup_output() {
                                                              
                         if(!empty($kb_website_output)){
                         
-                            $output .= json_encode($kb_website_output);  
+                            $output .= saswp_json_print_format($kb_website_output);  
                             $output .= ",";
                             $output .= "\n\n";
                         }                         
                         if(!empty($schema_breadcrumb_output)){
                         
-                            $output .= json_encode($schema_breadcrumb_output);   
+                            $output .= saswp_json_print_format($schema_breadcrumb_output);   
                             $output .= ",";
                             $output .= "\n\n";
                         }                        
@@ -249,7 +245,7 @@ function saswp_schema_markup_output() {
                             
                             foreach($schema_output as $schema){
                                 
-                                $schema = json_encode($schema);
+                                $schema = saswp_json_print_format($schema);
                                 $output .= $schema; 
                                 $output .= ",";
                                 $output .= "\n\n";   
@@ -258,12 +254,34 @@ function saswp_schema_markup_output() {
                         }                        
                         if(!empty($kb_schema_output)){
                             
-                           $output .= json_encode($kb_schema_output);
+                            $output .= saswp_json_print_format($kb_schema_output);
                             $output .= ",";                        
                         }       
                 
-            }                                                                            
-                        			              		
+            }
+                        
+            if($custom_option == 'enable'){
+                
+                 $custom_output  = get_post_meta($post->ID, 'saswp_custom_schema_field', true);
+                 
+                 if($custom_output){
+                     
+                        echo "\n";
+                        echo '<!-- Schema & Structured Data For WP Custom Markup v'.esc_attr(SASWP_VERSION).' - -->';
+                        echo "\n";
+                        echo '<script type="application/ld+json">'; 
+                        echo "\n";       
+                        echo $custom_output;       
+                        echo "\n";
+                        echo '</script>';
+                        echo "\n\n";
+                     
+                 }
+                
+                
+            }
+            
+                                    			              		
 	}
                         
         if($output){
@@ -280,8 +298,7 @@ function saswp_schema_markup_output() {
             echo '</script>';
             echo "\n\n";
         }
-        
-        
+                
 }
 
 add_filter('the_content', 'saswp_paywall_data_for_login');
@@ -419,21 +436,25 @@ function saswp_reading_time_and_word_count() {
  * @param type $id
  * @return type array
  */
-function saswp_extract_kk_star_ratings($id){
+function saswp_extract_kk_star_ratings(){
         
             global $sd_data;    
-            
+            $kk_star_rating = array();
             if(isset($sd_data['saswp-kk-star-raring']) && $sd_data['saswp-kk-star-raring'] == 1 && is_plugin_active('kk-star-ratings/index.php')){
                
                 $best  = get_option('kksr_stars');
-                $score = get_post_meta($id, '_kksr_ratings', true) ? ((int) get_post_meta($id, '_kksr_ratings', true)) : 0;
-                $votes = get_post_meta($id, '_kksr_casts', true) ? ((int) get_post_meta($id, '_kksr_casts', true)) : 0;
-                $avg   = $score && $votes ? round((float)(($score/$votes)*($best/5)), 1) : 0;
-                $per   = $score && $votes ? round((float)((($score/$votes)/5)*100), 2) : 0;                
-                
+                $score = get_post_meta(get_the_ID(), '_kksr_ratings', true) ? ((int) get_post_meta(get_the_ID(), '_kksr_ratings', true)) : 0;
+                $votes = get_post_meta(get_the_ID(), '_kksr_casts', true) ? ((int) get_post_meta(get_the_ID(), '_kksr_casts', true)) : 0;
+                $avg   = $score && $votes ? round((float)(($score/$votes)*($best/5)), 1) : 0;                               
+                 
                 if($votes>0){
+                   
+                    $kk_star_rating['@type']       = 'AggregateRating';
+                    $kk_star_rating['bestRating']  = $best;
+                    $kk_star_rating['ratingCount'] = $votes;
+                    $kk_star_rating['ratingValue'] = $avg;                                                           
                     
-                    return compact('best', 'score', 'votes', 'avg', 'per');    
+                    return $kk_star_rating;
                     
                 }else{
                     
@@ -448,6 +469,46 @@ function saswp_extract_kk_star_ratings($id){
             }                        
        }
 
+       
+/**
+ * Extracting the value of wp-post-rating ratings plugins on current post
+ * @global type $sd_data
+ * @param type $id
+ * @return type array
+ */
+function saswp_extract_wp_post_ratings(){
+        
+            global $sd_data;    
+            
+            $wp_post_rating_ar = array();
+            
+            if(isset($sd_data['saswp-wppostratings-raring']) && $sd_data['saswp-wppostratings-raring'] == 1 && is_plugin_active('wp-postratings/wp-postratings.php')){
+               
+                $best   = (int) get_option( 'postratings_max' );
+                $avg   = get_post_meta(get_the_ID(), 'ratings_average', true);
+                $votes = get_post_meta(get_the_ID(), 'ratings_users', true);                
+                
+                if($votes>0){
+                    
+                    $wp_post_rating_ar['@type']       = 'AggregateRating';
+                    $wp_post_rating_ar['bestRating']  = $best;
+                    $wp_post_rating_ar['ratingCount'] = $votes;
+                    $wp_post_rating_ar['ratingValue'] = $avg;                                                           
+                    
+                    return $wp_post_rating_ar;
+                }else{
+                    
+                    return array();    
+                    
+                }
+                
+            }else{
+                
+                return array();
+                
+            }                        
+       }       
+       
 /**
  * Gets all the comments of current post
  * @param type $post_id
@@ -670,9 +731,18 @@ add_action( 'init', 'saswp_remove_woocommerce_default_structured_data' );
  */
 function saswp_remove_yoast_json($data){
     
-    $data = array();
-    return $data;
+    global $sd_data;
     
+    if(saswp_global_option()  && saswp_remove_warnings($sd_data, 'saswp-yoast', 'saswp_string') == 1){
+        
+        $data = array();
+        return $data;
+        
+    }else{
+        
+        return $data;
+    }
+        
 }
 
 add_filter('wpseo_json_ld_output', 'saswp_remove_yoast_json', 10, 1);
@@ -685,8 +755,60 @@ add_filter('wpseo_json_ld_output', 'saswp_remove_yoast_json', 10, 1);
  */
 function saswp_remove_breadcrume_seo_by_rank_math($entry){
     
-    $entry = array();
-    return $entry;
+    if(saswp_global_option()){
+        
+        $entry = array();
+        return $entry;
+        
+    }else{
+        return $entry;
+    }
+        
 }
 
 add_filter( 'rank_math/snippet/breadcrumb', 'saswp_remove_breadcrume_seo_by_rank_math' );
+
+
+function saswp_json_print_format($output_array){
+    
+    global $sd_data;
+    
+    if(isset($sd_data['saswp-pretty-print']) && $sd_data['saswp-pretty-print'] == 1){
+        return json_encode($output_array, JSON_PRETTY_PRINT);
+    }else{
+        return json_encode($output_array);
+    }
+        
+}
+
+function saswp_remove_microdata($content){
+    
+    if(saswp_global_option()){
+        
+        $content = preg_replace("/itemscope itemtype=(\"?)http(s?):\/\/schema.org\/(Article|BlogPosting|Blog|BreadcrumbList|AggregateRating|WebPage|Person|Organization|NewsArticle|Product|CreativeWork|ImageObject)(\"?)/", "", $content);
+        $content = preg_replace("/itemscope=(\"?)itemscope(\"?) itemtype=(\"?)http(s?):\/\/schema.org\/(Article|BlogPosting|Blog|BreadcrumbList|AggregateRating|WebPage|Person|Organization|NewsArticle|Product|CreativeWork|ImageObject)(\"?)/", "", $content);    
+        $content = preg_replace("/vcard/", "", $content);
+        $content = preg_replace("/hentry/", "", $content);        
+    }             
+    
+    return $content;
+}
+
+
+function saswp_global_option(){
+    
+            global $sd_data;
+            
+            if( (   saswp_remove_warnings($sd_data, 'saswp-for-wordpress', 'saswp_string') =='' 
+            ||   1 == saswp_remove_warnings($sd_data, 'saswp-for-wordpress', 'saswp_string') && saswp_non_amp() ) 
+            || ( 1 == saswp_remove_warnings($sd_data, 'saswp-for-amp', 'saswp_string') && !saswp_non_amp() ) ) {
+        
+                return true;
+        
+            }else{
+            
+                return false;
+                
+            }  
+            
+}

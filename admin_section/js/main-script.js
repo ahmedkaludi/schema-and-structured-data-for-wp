@@ -504,6 +504,42 @@ jQuery(document).ready(function($){
                             }
                       break;
                       
+                      case 'saswp-pretty-print-checkbox':
+                          
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-pretty-print").val(1);                                
+                            }else{
+                              $("#saswp-pretty-print").val(0);                                          
+                            }
+                      break;
+                      
+                      case 'saswp-wppostratings-raring-checkbox':
+                          
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-wppostratings-raring").val(1);                                
+                            }else{
+                              $("#saswp-wppostratings-raring").val(0);                                          
+                            }
+                      break;
+                      
+                      case 'saswp-bbpress-checkbox':
+                          
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-bbpress").val(1);                                
+                            }else{
+                              $("#saswp-bbpress").val(0);                                          
+                            }
+                      break;
+                      
+                      case 'saswp-microdata-cleanup-checkbox':
+                          
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-microdata-cleanup").val(1);                                
+                            }else{
+                              $("#saswp-microdata-cleanup").val(0);                                          
+                            }
+                      break;
+                      
                       
                       default:
                           break;
@@ -565,11 +601,35 @@ jQuery(document).ready(function($){
                              $("#sd_default_image_width").val(attachment.width);
                              $("#sd_default_image_height").val(attachment.height);
                         
-                         }
+                         }                         
+                         $(".saswp_image_div_"+id).html('<div class="saswp_image_thumbnail"><img class="saswp_image_prev" src="'+attachment.url+'"/><a data-id="'+id+'" href="#" class="saswp_prev_close">X</a></div>');
                         
 		})
 		.open();
 	});
+        
+        $(document).on("click", ".saswp_prev_close", function(e){
+                e.preventDefault();
+                
+                var id = $(this).attr('data-id');   
+                console.log(id);
+                $(this).parent().remove();                
+                $("#"+id).val('');
+                $("input[data-id='"+id+"_id']").val('');
+                $("input[data-id='"+id+"_height']").val('');
+                $("input[data-id='"+id+"_width']").val('');
+                $("input[data-id='"+id+"_thumbnail']").val('');
+                
+                 if(id === 'sd_default_image'){
+                             
+                    $("#sd_default_image_width").val('');
+                    $("#sd_default_image_height").val('');
+                        
+                } 
+                
+                
+        });
+        
         //Settings page jquery ends here
 
 
@@ -823,6 +883,27 @@ jQuery(document).ready(function($){
          $('.saswp-local-schema-time-picker').timepicker({ 'timeFormat': 'H:i:s'});
         }
         $('.saswp-local-schema-time-picker').timepicker({ 'timeFormat': 'H:i:s'});
+        
+        $(".saswp_custom_schema_post_enable").on("click", function(e){
+            
+            e.preventDefault();  
+            
+            var current = $(this);
+            current.addClass('updating-message');
+            e.preventDefault();                                                    
+                         $.get(ajaxurl, 
+                             { action:"saswp_custom_schema_post_enable", post_id: saswp_localize_data.post_id,saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
+                              function(response){   
+                               current.remove();                           
+                               $("#post_specific .inside").append(response); 
+                               current.removeClass('updating-message');                               
+                               $(".saswp-modify_schema_post_enable").remove();                                                                                      
+                             });
+            
+            
+           
+        });
+        
         $(".saswp-modify_schema_post_enable").on("click", function(e){
             var current = $(this);
             current.addClass('updating-message');
@@ -831,6 +912,7 @@ jQuery(document).ready(function($){
                              { action:"saswp_modify_schema_post_enable", post_id: saswp_localize_data.post_id,saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
                               function(response){   
                                current.remove();   
+                               $(".saswp_custom_schema_post_enable").remove();
                                $("#post_specific .inside").append(response); 
                                current.removeClass('updating-message');
                                saswpAddTimepicker();  
@@ -906,10 +988,14 @@ jQuery(document).ready(function($){
         }).change();  
         
         $(document).on("click", ".saswp-restore-post-schema", function(e){
-            e.preventDefault(); 
-            var current = $(this);
-            current.addClass('updating-message');
-            var schema_ids = JSON.parse($(".saswp-post-specific-schema-ids").val());                           
+                    e.preventDefault(); 
+                    var current = $(this);
+                    current.addClass('updating-message');
+            
+                    if($(".saswp-post-specific-schema-ids").val()){
+                        var schema_ids = JSON.parse($(".saswp-post-specific-schema-ids").val());                           
+                    }
+            
                          $.post(ajaxurl, 
                              { action:"saswp_restore_schema", schema_ids:schema_ids,post_id: saswp_localize_data.post_id, saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
                               function(response){                                  
@@ -1086,22 +1172,7 @@ jQuery(document).ready(function($){
         //custom fields modify schema ends here
         
         
-        //Google review js starts here
-        
-//                var acc = document.getElementsByClassName("saswp-accordion");
-//                var i;
-//
-//                for (i = 0; i < acc.length; i++) {
-//                  acc[i].addEventListener("click", function() {
-//                    this.classList.toggle("active");
-//                    var panel = this.nextElementSibling;
-//                    if (panel.style.display === "block") {
-//                      panel.style.display = "none";
-//                    } else {
-//                      panel.style.display = "block";
-//                    }
-//                  });
-//                }
+        //Google review js starts here        
         
         $('a[href="'+saswp_localize_data.collection_post_add_url+'"]').attr( 'href', saswp_localize_data.collection_post_add_new_url); 
         
