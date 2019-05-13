@@ -1800,21 +1800,69 @@ Class saswp_output_service{
                                         }
                                         
                                                                                                                                                                                                  
-                             }else{
-                                        
-                                        if(isset($sd_data['sd_default_image']['url']) && $sd_data['sd_default_image']['url'] !=''){
-                                        
-                                            $input2['image']['@type']  = 'ImageObject';
-                                            $input2['image']['@id']    = get_permalink().'#primaryimage';
-                                            $input2['image']['url']    = esc_url($sd_data['sd_default_image']['url']);
-                                            $input2['image']['width']  = esc_attr($sd_data['sd_default_image_width']);
-                                            $input2['image']['height'] = esc_attr($sd_data['sd_default_image_height']);                                                                 
-                                            
-                                        }
-                                        
-                                				
-		          }
+                             }
+                                                       
+                          //Get All the images available on post   
+                             
+                          $content = get_the_content();   
                           
+                          if($content){
+                              
+                          $regex   = '/src="([^"]*)"/';                          
+                          preg_match_all( $regex, $content, $attachments );   
+                                                                                                                                                                                                                                            
+                          $attach_images = array();
+                          
+                          if(!empty($attachments)){
+                              $k = 0;
+                              foreach ($attachments[1] as $attachment) {
+                                                                    
+                                  $attach_details   = getimagesize($attachment);                                         
+                                  if($attach_details){
+                                      
+                                      
+                                                $attach_images['image'][$k]['@type']  = 'ImageObject';                                                
+                                                $attach_images['image'][$k]['url']    = esc_url($attachment);
+                                                $attach_images['image'][$k]['width']  = esc_attr($attach_details[0]);
+                                                $attach_images['image'][$k]['height'] = esc_attr($attach_details[1]);
+                                      
+                                  }
+                                  
+                                  $k++;
+                              }
+                              
+                          }
+                          
+                          if(!empty($attach_images)){
+                              
+                              if(isset($input2['image'])){
+                              
+                                  $merged_arr = array_merge($input2['image'],$attach_images['image']);
+                                  $input2['image'] = $merged_arr;
+                                  
+                              }else{
+                                  $input2 = $attach_images;
+                              }
+                                                            
+                          }
+                          
+                          }
+                          
+                          if(empty($input2)){
+                              
+                            if(isset($sd_data['sd_default_image']['url']) && $sd_data['sd_default_image']['url'] !=''){
+                                        
+                                    $input2['image']['@type']  = 'ImageObject';
+                                    $input2['image']['@id']    = get_permalink().'#primaryimage';
+                                    $input2['image']['url']    = esc_url($sd_data['sd_default_image']['url']);
+                                    $input2['image']['width']  = esc_attr($sd_data['sd_default_image_width']);
+                                    $input2['image']['height'] = esc_attr($sd_data['sd_default_image_height']);                                                                 
+                                            
+                            }
+                              
+                              
+                          }
+                                                    
                           return $input2;
         }
         /**
