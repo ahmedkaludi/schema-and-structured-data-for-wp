@@ -81,7 +81,6 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Bug Fixed: If porto theme is activated, there are validation issues in product schema type. #163
 
 
-
 = 1.8 (08 May 2019) =
 
 * New Feature: Google Reviews and its schema markup (Users can list their business reviews from google reviews using place id)  #61
