@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.2
-Stable tag: 1.8
+Stable tag: 1.8.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -64,6 +64,22 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+
+= 1.8.1 (13 May 2019) =
+
+* New Feature: An option for adding own custom json schema markup on every post #257
+* Added: Compatibility with WP-PostRatings ( https://wordpress.org/plugins/wp-postratings/ )#208
+* Added: Compatibility with bbPress ( https://wordpress.org/plugins/bbpress/ )#208
+* Added: Option to minified or pretty print schema markup #166
+* Added: To show all images of the article in the structured data. #84
+* Added: Geo Location (latitude and longitude) fields in local schema #90
+* Added: Micro data cleanup option (This option cleans all the micro data on page to valid the json markup) #262
+* Added: Image preview panel on every images, When these are added. #249
+* Bug Fixed: Content url and Embed url are missing in video object of structured data #190
+* Bug Fixed: Remove unnecessary css which effect on whole wordpress admin panel #264
+* Bug Fixed: If porto theme is activated, there are validation issues in product schema type. #163
+
 
 
 = 1.8 (08 May 2019) =
