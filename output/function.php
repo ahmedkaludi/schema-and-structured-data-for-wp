@@ -51,6 +51,7 @@ function saswp_schema_markup_output() {
    
         $output                   = '';
         $post_specific_enable     = '';
+        $schema_output            = array();
                               
         $site_navigation          = saswp_site_navigation_output();     
         $contact_page_output      = saswp_contact_page_output();  	
@@ -64,6 +65,7 @@ function saswp_schema_markup_output() {
         if(is_singular()){
 
             $post_specific_enable  = get_option('modify_schema_post_enable_'.esc_attr($post->ID));
+            $custom_option         = get_option('custom_schema_post_enable_'.esc_attr($post->ID));
 
         }
    
@@ -72,9 +74,11 @@ function saswp_schema_markup_output() {
             $schema_output            = saswp_post_specific_schema_output();  
 
         }else{
-
-            $schema_output            = saswp_schema_output();    
-
+            
+            if($custom_option !='enable'){
+                $schema_output            = saswp_schema_output();    
+            }
+            
         }                   
 	if(saswp_global_option()) {
 		                                    
@@ -113,6 +117,8 @@ function saswp_schema_markup_output() {
             
                 $output_schema_type_id = array();
                 
+                if(!empty($schema_output)){
+                    
                 foreach($schema_output as $soutput){
             
                     $output_schema_type_id[] = $soutput['@type'];
@@ -197,7 +203,7 @@ function saswp_schema_markup_output() {
                     }
                                                                                                           
             }
-                                                
+            }                                 
                 if(in_array('Blogposting', $output_schema_type_id) || in_array('Article', $output_schema_type_id) || in_array('TechArticle', $output_schema_type_id) || in_array('NewsArticle', $output_schema_type_id) ){                                                                                            
                 }else{
                     if(!empty($kb_website_output)){
@@ -251,8 +257,30 @@ function saswp_schema_markup_output() {
                             $output .= ",";                        
                         }       
                 
-            }                                                                            
-                        			              		
+            }
+                        
+            if($custom_option == 'enable'){
+                
+                 $custom_output  = get_post_meta($post->ID, 'saswp_custom_schema_field', true);
+                 
+                 if($custom_output){
+                     
+                        echo "\n";
+                        echo '<!-- Schema & Structured Data For WP Custom Markup v'.esc_attr(SASWP_VERSION).' - -->';
+                        echo "\n";
+                        echo '<script type="application/ld+json">'; 
+                        echo "\n";       
+                        echo $custom_output;       
+                        echo "\n";
+                        echo '</script>';
+                        echo "\n\n";
+                     
+                 }
+                
+                
+            }
+            
+                                    			              		
 	}
                         
         if($output){

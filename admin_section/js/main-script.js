@@ -883,6 +883,27 @@ jQuery(document).ready(function($){
          $('.saswp-local-schema-time-picker').timepicker({ 'timeFormat': 'H:i:s'});
         }
         $('.saswp-local-schema-time-picker').timepicker({ 'timeFormat': 'H:i:s'});
+        
+        $(".saswp_custom_schema_post_enable").on("click", function(e){
+            
+            e.preventDefault();  
+            
+            var current = $(this);
+            current.addClass('updating-message');
+            e.preventDefault();                                                    
+                         $.get(ajaxurl, 
+                             { action:"saswp_custom_schema_post_enable", post_id: saswp_localize_data.post_id,saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
+                              function(response){   
+                               current.remove();                           
+                               $("#post_specific .inside").append(response); 
+                               current.removeClass('updating-message');                               
+                               $(".saswp-modify_schema_post_enable").remove();                                                                                      
+                             });
+            
+            
+           
+        });
+        
         $(".saswp-modify_schema_post_enable").on("click", function(e){
             var current = $(this);
             current.addClass('updating-message');
@@ -891,6 +912,7 @@ jQuery(document).ready(function($){
                              { action:"saswp_modify_schema_post_enable", post_id: saswp_localize_data.post_id,saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
                               function(response){   
                                current.remove();   
+                               $(".saswp_custom_schema_post_enable").remove();
                                $("#post_specific .inside").append(response); 
                                current.removeClass('updating-message');
                                saswpAddTimepicker();  
@@ -966,10 +988,14 @@ jQuery(document).ready(function($){
         }).change();  
         
         $(document).on("click", ".saswp-restore-post-schema", function(e){
-            e.preventDefault(); 
-            var current = $(this);
-            current.addClass('updating-message');
-            var schema_ids = JSON.parse($(".saswp-post-specific-schema-ids").val());                           
+                    e.preventDefault(); 
+                    var current = $(this);
+                    current.addClass('updating-message');
+            
+                    if($(".saswp-post-specific-schema-ids").val()){
+                        var schema_ids = JSON.parse($(".saswp-post-specific-schema-ids").val());                           
+                    }
+            
                          $.post(ajaxurl, 
                              { action:"saswp_restore_schema", schema_ids:schema_ids,post_id: saswp_localize_data.post_id, saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
                               function(response){                                  

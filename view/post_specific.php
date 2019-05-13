@@ -18,6 +18,8 @@ class saswp_post_specific {
                 
                 add_action( 'wp_ajax_saswp_modify_schema_post_enable', array($this,'saswp_modify_schema_post_enable'));
                 
+                add_action( 'wp_ajax_saswp_custom_schema_post_enable', array($this,'saswp_custom_schema_post_enable'));
+                
                 add_action( 'wp_ajax_saswp_restore_schema', array($this,'saswp_restore_schema'));
                 
                 add_action( 'wp_ajax_saswp_enable_disable_schema_on_post', array($this,'saswp_enable_disable_schema_on_post'));
@@ -82,12 +84,15 @@ class saswp_post_specific {
                 }                                                                           
         }
 
-        public function saswp_post_specifc_add_meta_boxes($post) {
+        public function saswp_post_specifc_add_meta_boxes() {
             
+            global $post;
+                        
             $post_specific_id = '';
             if(is_object($post)){
                 $post_specific_id = $post->ID;
-            }           
+            }     
+            $custom_option = get_option('custom_schema_post_enable_'.esc_attr($post->ID));
             if(count($this->all_schema)>0 && get_post_status($post_specific_id)=='publish'){
                 
             $show_post_types = get_post_types();
@@ -95,11 +100,12 @@ class saswp_post_specific {
             $this->screen = $show_post_types;
                 
              foreach ( $this->screen as $single_screen ) {
-                 $post_title = '';
-                    if(count($this->all_schema) == 1){
+                      $post_title = '';
+                    if(count($this->all_schema) == 1 && $custom_option !='enable'){
                         $all_schemas = $this->all_schema;                        
                         $post_title = '('.get_post_meta($all_schemas[0]->ID, 'schema_type', true).')';                                      
                      }
+                                                                                    
 			add_meta_box(
 				'post_specific',
 				esc_html__( 'Post Specific Schema - '.$post_title, 'schema-and-structured-data-for-wp' ),
@@ -213,16 +219,24 @@ class saswp_post_specific {
             
 		wp_nonce_field( 'post_specific_data', 'post_specific_nonce' );                                
                 global $post;  
-                $option = get_option('modify_schema_post_enable_'.esc_attr($post->ID));
+                $modify_option = get_option('modify_schema_post_enable_'.esc_attr($post->ID));
+                $custom_option = get_option('custom_schema_post_enable_'.esc_attr($post->ID));
                 
-                if($option == 'enable'){
+                if($modify_option == 'enable'){
                     
                   $this->saswp_post_meta_box_fields($post);  
                 
-                }else{
-                    
-                  echo '<a class="button saswp-modify_schema_post_enable">'.esc_html__( 'Modify Schema', 'schema-and-structured-data-for-wp' ).'</a>' ;
+                }else if($custom_option == 'enable'){
                   
+                  echo '<a class="button saswp-restore-post-schema">Restore Default</a>';              
+                  echo '<textarea style="margin-left:5px;" placeholder="{ Json Markup }" id="saswp_custom_schema_field" name="saswp_custom_schema_field" rows="5" cols="100">'
+                  . get_post_meta($post->ID, 'saswp_custom_schema_field', true)
+                  . '</textarea>';
+                  
+                }else{
+                                                            
+                  echo '<a class="button saswp-modify_schema_post_enable">'.esc_html__( 'Modify Current Schema', 'schema-and-structured-data-for-wp' ).'</a>' ;
+                  echo '<a style="margin-left:5px;" class="button saswp_custom_schema_post_enable">'.esc_html__( 'Add Custom Schema', 'schema-and-structured-data-for-wp' ).'</a>' ;  
                 }                               
                                                                                                                                                                    		
 	}
@@ -256,7 +270,8 @@ class saswp_post_specific {
                     
                 }
                                     
-                update_option('modify_schema_post_enable_'.$post_id, 'disable'); 
+                update_option('modify_schema_post_enable_'.$post_id, 'disable');
+                update_option('custom_schema_post_enable_'.$post_id, 'disable');
                 
                 if($result){ 
                     
@@ -269,6 +284,39 @@ class saswp_post_specific {
                 }                                              
                  wp_die();
                 }
+                
+        public function saswp_custom_schema_post_enable(){
+            
+                if ( ! isset( $_GET['saswp_security_nonce'] ) ){
+                    return; 
+                }
+                if ( !wp_verify_nonce( $_GET['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
+                   return;  
+                }  
+                
+                 $post_id = sanitize_text_field($_GET['post_id']);
+                 update_option('custom_schema_post_enable_'.$post_id, 'enable');    
+                 
+                 $args = array(
+                    'p'         => $post_id, // ID of a page, post, or custom type
+                    'post_type' => 'any'
+                  );
+                 
+                $my_posts = new WP_Query($args);
+                
+                if ( $my_posts->have_posts() ) {
+                    
+                  while ( $my_posts->have_posts() ) : $my_posts->the_post();   
+                  
+                   echo $this->saswp_post_meta_box_callback();   
+                   
+                  endwhile;
+                  
+                }
+                                                   
+                 wp_die();
+                 
+                }        
         
         public function saswp_modify_schema_post_enable(){
             
@@ -641,7 +689,17 @@ class saswp_post_specific {
                 if ( ! current_user_can( 'edit_post', $post_id ) ) 
                        return $post_id;    
                 
-                $option = get_option('modify_schema_post_enable_'.$post_id);
+                $option         = get_option('modify_schema_post_enable_'.$post_id);
+                $custom_option  = get_option('custom_schema_post_enable_'.$post_id);
+                
+                if($custom_option == 'enable'){
+                    
+                    if(isset($_POST['saswp_custom_schema_field'])){
+                        $custom_schema = sanitize_textarea_field($_POST['saswp_custom_schema_field']);
+                        update_post_meta( $post_id, 'saswp_custom_schema_field', $custom_schema );
+                    }
+                    
+                }
                 
                 if($option != 'enable'){
                     return;
