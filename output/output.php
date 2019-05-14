@@ -1482,6 +1482,18 @@ function saswp_schema_output() {
 			}
                         
                         
+                        //Speakable schema
+                        
+                        if($schema_type == 'TechArticle' || $schema_type == 'Article' || $schema_type == 'Blogposting' || $schema_type == 'NewsArticle' || $schema_type == 'WebPage'){
+               
+                            $input1['speakable']['@type'] = 'SpeakableSpecification';
+                            $input1['speakable']['xpath'] = array(
+                                 "/html/head/title",
+                                 "/html/head/meta[@name='description']/@content"
+                            );
+                           
+                        }
+                        
                         if($schema_type !='Review' || (isset($sd_data['saswp-the-events-calendar']) && $sd_data['saswp-the-events-calendar'] == 0) || (isset($sd_data['saswp-woocommerce']) && $sd_data['saswp-woocommerce'] == 0)){
                             
                             //kk star rating 
@@ -1818,6 +1830,19 @@ function saswp_post_specific_schema_output() {
 				'name'			=> saswp_remove_warnings($all_post_meta, 'saswp_blogposting_organization_name_'.$schema_id, 'saswp_array'),
 				),
 			);
+                        
+                        
+                                 
+                            if(isset($all_post_meta['saswp_blogposting_speakable_'.$schema_id]) && $all_post_meta['saswp_blogposting_speakable_'.$schema_id][0] == 1 ){
+                               
+                                $input1['speakable']['@type'] = 'SpeakableSpecification';
+                                $input1['speakable']['xpath'] = array(
+                                     "/html/head/title",
+                                     "/html/head/meta[@name='description']/@content"
+                                );
+
+                            }
+                        
                                if(!empty($aggregateRating)){
                                     $input1['aggregateRating'] = $aggregateRating;
                                 }                                
@@ -1925,6 +1950,18 @@ function saswp_post_specific_schema_output() {
 					
 				
 				);
+                                
+                                
+                                if(isset($all_post_meta['saswp_webpage_speakable_'.$schema_id]) && $all_post_meta['saswp_webpage_speakable_'.$schema_id][0] == 1){
+
+                                    $input1['speakable']['@type'] = 'SpeakableSpecification';
+                                    $input1['speakable']['xpath'] = array(
+                                         "/html/head/title",
+                                         "/html/head/meta[@name='description']/@content"
+                                    );
+
+                                }
+                            
                                 if(!empty($aggregateRating)){
                                     
                                     $input1['mainEntity']['aggregateRating'] = $aggregateRating;
@@ -1967,7 +2004,18 @@ function saswp_post_specific_schema_output() {
 						'name'			=> saswp_remove_warnings($all_post_meta, 'saswp_article_organization_name_'.$schema_id, 'saswp_array'),
 					),
                                     
-				);                                
+				);
+                                
+                                if(isset($all_post_meta['saswp_article_speakable_'.$schema_id]) && $all_post_meta['saswp_article_speakable_'.$schema_id][0] == 1){
+
+                                $input1['speakable']['@type'] = 'SpeakableSpecification';
+                                $input1['speakable']['xpath'] = array(
+                                     "/html/head/title",
+                                     "/html/head/meta[@name='description']/@content"
+                                );
+
+                               }
+                                
                                 if(!empty($extra_theme_review)){
                                     
                                    $input1 = array_merge($input1, $extra_theme_review);
@@ -2004,7 +2052,17 @@ function saswp_post_specific_schema_output() {
 						'name'			=> saswp_remove_warnings($all_post_meta, 'saswp_tech_article_organization_name_'.$schema_id, 'saswp_array'),
 					),
                                     
-				);                                
+				); 
+                                
+                                if(isset($all_post_meta['saswp_tech_article_speakable_'.$schema_id]) && $all_post_meta['saswp_tech_article_speakable_'.$schema_id][0] == 1){
+
+                                $input1['speakable']['@type'] = 'SpeakableSpecification';
+                                $input1['speakable']['xpath'] = array(
+                                     "/html/head/title",
+                                     "/html/head/meta[@name='description']/@content"
+                                );
+
+                                }
                                 if(!empty($extra_theme_review)){
                                     
                                    $input1 = array_merge($input1, $extra_theme_review);
@@ -2259,6 +2317,16 @@ function saswp_post_specific_schema_output() {
 							'name'				=> saswp_remove_warnings($all_post_meta, 'saswp_newsarticle_organization_name_'.$schema_id, 'saswp_array'),
 							),
 					);
+                                        
+                                            if(isset($all_post_meta['saswp_newsarticle_speakable_'.$schema_id]) && $all_post_meta['saswp_newsarticle_speakable_'.$schema_id][0] == 1){
+
+                                                $input1['speakable']['@type'] = 'SpeakableSpecification';
+                                                $input1['speakable']['xpath'] = array(
+                                                     "/html/head/title",
+                                                     "/html/head/meta[@name='description']/@content"
+                                                );
+
+                                             }
                                                 if(!empty($aggregateRating)){
                                                     $input1['aggregateRating'] = $aggregateRating;
                                                 }                                                

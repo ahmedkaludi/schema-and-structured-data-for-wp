@@ -1239,7 +1239,13 @@ class saswp_post_specific {
                             'id' => 'saswp_blogposting_organization_logo_'.$schema_id,
                             'type' => 'media',
                             'default' => isset($sd_data['sd_logo']) ? $sd_data['sd_logo']['url'] : ''
-                    )                         
+                    ),
+                    array(
+                        'label' => 'Speakable',
+                        'id' => 'saswp_blogposting_speakable_'.$schema_id,
+                        'type' => 'checkbox',
+
+                    )
                     );
                     break;
                 
@@ -1357,7 +1363,13 @@ class saswp_post_specific {
                             'id' => 'saswp_newsarticle_organization_logo_'.$schema_id,
                             'type' => 'media',
                             'default' => isset($sd_data['sd_logo'])? $sd_data['sd_logo']['url']:''
-                    ),    
+                    ),  
+                    array(
+                        'label' => 'Speakable',
+                        'id' => 'saswp_newsarticle_speakable_'.$schema_id,
+                        'type' => 'checkbox',
+
+                    )   
                     );
                     break;
                 
@@ -1429,7 +1441,13 @@ class saswp_post_specific {
                             'id' => 'saswp_webpage_organization_logo_'.$schema_id,
                             'type' => 'media',
                             'default' => isset($sd_data['sd_logo']) ? $sd_data['sd_logo']['url']:''
-                    ),     
+                    ),
+                    array(
+                        'label' => 'Speakable',
+                        'id' => 'saswp_webpage_speakable_'.$schema_id,
+                        'type' => 'checkbox',
+
+                    )    
                     );
                     break;
                 
@@ -1488,7 +1506,13 @@ class saswp_post_specific {
                             'id' => 'saswp_article_organization_logo_'.$schema_id,
                             'type' => 'media',
                             'default' => isset($sd_data['sd_logo']) ? $sd_data['sd_logo']['url']:''
-                    )                                                     
+                    ),
+                    array(
+                        'label' => 'Speakable',
+                        'id' => 'saswp_article_speakable_'.$schema_id,
+                        'type' => 'checkbox',
+
+                    )    
                     );
                     break;
                 
@@ -1656,7 +1680,13 @@ class saswp_post_specific {
                             'id' => 'saswp_tech_article_organization_logo_'.$schema_id,
                             'type' => 'media',
                             'default' => isset($sd_data['sd_logo']) ? $sd_data['sd_logo']['url']:''
-                    )                                                     
+                    ),
+                    array(
+                        'label' => 'Speakable',
+                        'id' => 'saswp_tech_article_speakable_'.$schema_id,
+                        'type' => 'checkbox',
+
+                    )    
                     );
                     break;
                 

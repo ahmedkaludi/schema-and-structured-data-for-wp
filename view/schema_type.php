@@ -534,6 +534,7 @@
                 $schema_type         = '';
                 $business_type       = '';                
                 $custom_logo_id      = '';
+                $speakable           = '';
                 
                 $business_details    = array();
                 $logo                = array();
@@ -594,6 +595,9 @@
                             break;
 
                         default:
+                            
+                            $speakable       = esc_sql ( get_post_meta($post->ID, 'saswp_enable_speakable_schema', true)  );
+                            
                             break;
                     }    
                                                                   
@@ -858,7 +862,7 @@
                                <?php } ?>
                                                                                                                                                            
                            </td>
-                        </tr>    
+                        </tr>                                                                                                                                                                         
                         <tr class="saswp-business-type-tr" <?php echo $style_business_type; ?>>
                             <td>
                             <?php echo esc_html__('Business Type', 'schema-and-structured-data-for-wp' ); ?>    
@@ -1599,6 +1603,15 @@
                                                 
                         <!-- Event Schema type ends here -->   
                         
+                        
+                        <tr>
+                           <td>
+                               <label for="saswp-speakable"><?php echo esc_html__( 'Speakable ' ,'schema-and-structured-data-for-wp');?></label>
+                           </td>
+                           <td>
+                              <input class="saswp-enable-speakable" type="checkbox" name="saswp_enable_speakable_schema" value="1" <?php if(isset($speakable) && $speakable == 1){echo 'checked'; }else{ echo ''; } ?>>                                                                                                           
+                           </td>
+                        </tr>
                     </table>  
                    
                 </div>
@@ -2016,6 +2029,17 @@
                                           
                    update_post_meta( $post_id, 'saswp_event_schema_details', $event_schema_details );                                        
                 }
+                
+                if ( isset( $_POST['saswp_enable_speakable_schema'] ) ){
+                    
+                    update_post_meta( $post_id, 'saswp_enable_speakable_schema', sanitize_text_field($_POST['saswp_enable_speakable_schema']) );                                                                       
+                    
+                }else{
+                    
+                   update_post_meta( $post_id, 'saswp_enable_speakable_schema', '0' );                                                                        
+                   
+                }
+                
                               
         }           
 
