@@ -1824,14 +1824,14 @@ Class saswp_output_service{
                               $k = 0;
                               foreach ($attachments[2] as $attachment) {
                                                                     
-                                  $attach_details   = getimagesize($attachment);                                         
-                                  if($attach_details){
-                                      
-                                      
+                                  $attach_details   = saswp_get_attachment_details_by_url($attachment);  
+                                  
+                                  if(!empty($attach_details)){
+                                                                            
                                                 $attach_images['image'][$k]['@type']  = 'ImageObject';                                                
                                                 $attach_images['image'][$k]['url']    = esc_url($attachment);
-                                                $attach_images['image'][$k]['width']  = esc_attr($attach_details[0]);
-                                                $attach_images['image'][$k]['height'] = esc_attr($attach_details[1]);
+                                                $attach_images['image'][$k]['width']  = esc_attr($attach_details[1]);
+                                                $attach_images['image'][$k]['height'] = esc_attr($attach_details[2]);
                                       
                                   }
                                   
