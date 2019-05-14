@@ -89,11 +89,15 @@ class saswp_post_specific {
             global $post;
                         
             $post_specific_id = '';
+            $schema_count = 0;
             if(is_object($post)){
                 $post_specific_id = $post->ID;
             }     
+            if(!empty($this->all_schema)){
+              $schema_count = count($this->all_schema);  
+            }
             $custom_option = get_option('custom_schema_post_enable_'.esc_attr($post->ID));
-            if(count($this->all_schema)>0 && get_post_status($post_specific_id)=='publish'){
+            if($schema_count > 0 && get_post_status($post_specific_id)=='publish'){
                 
             $show_post_types = get_post_types();
             unset($show_post_types['adsforwp'],$show_post_types['saswp'],$show_post_types['attachment'], $show_post_types['revision'], $show_post_types['nav_menu_item'], $show_post_types['user_request'], $show_post_types['custom_css']);            
@@ -101,7 +105,7 @@ class saswp_post_specific {
                 
              foreach ( $this->screen as $single_screen ) {
                       $post_title = '';
-                    if(count($this->all_schema) == 1 && $custom_option !='enable'){
+                    if($schema_count == 1 && $custom_option !='enable'){
                         $all_schemas = $this->all_schema;                        
                         $post_title = '('.get_post_meta($all_schemas[0]->ID, 'schema_type', true).')';                                      
                      }
@@ -705,10 +709,15 @@ class saswp_post_specific {
                     return;
                 }  
                
-                $post_meta = array();                    
-                $post_meta = $_POST;    
+                $post_meta    = array();                    
+                $post_meta    = $_POST;    
+                $schema_count = 0;
                 
-                if(count($this->all_schema)>0){
+                if(!empty($this->all_schema)){
+                  $schema_count = count($this->all_schema);  
+                }
+                
+                if($schema_count > 0){
                                                                       
                  foreach($this->all_schema as $schema){
                      
