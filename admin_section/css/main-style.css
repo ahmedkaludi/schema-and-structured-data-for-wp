@@ -962,4 +962,17 @@ Google review module ends here
     font-size: 20px;
     top: -5px;
     text-decoration:none;
-    }
+    }    
+/*** How to schema css starts here ***/    
+
+.saswp-how-to-step-table, .saswp-how-to-tool-table{
+    border: 1px solid #aaa;
+    margin-top: 10px;
+    margin-bottom: 10px !important;
+    
+}
+.saswp-how-to-tool-section{
+    margin-bottom: 10px;
+}
+
+/*** How to schema css ends here ***/    
