@@ -1687,6 +1687,12 @@ class saswp_post_specific {
                             'default' => $business_details['local_menu']
                        ),
                         array(
+                            'label' => 'HasMap',
+                            'id' => 'local_hasmap_'.$schema_id,
+                            'type' => 'text',
+                            'default' => $business_details['local_hasmap']
+                       ),
+                        array(
                             'label' => 'Serves Cuisine',
                             'id' => 'local_serves_cuisine_'.$schema_id,
                             'type' => 'text',

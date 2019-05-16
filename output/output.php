@@ -1468,6 +1468,9 @@ function saswp_schema_output() {
                                     if(isset($business_details['local_menu'])){
                                       $input1['hasMenu'] = esc_url($business_details['local_menu']);   
                                     }
+                                    if(isset($business_details['local_hasmap'])){
+                                      $input1['hasMap'] = esc_url($business_details['local_hasmap']);   
+                                    }
                                     
                                     
                                     if(isset($business_details['local_latitude']) && isset($business_details['local_longitude'])){
@@ -2726,7 +2729,7 @@ function saswp_post_specific_schema_output() {
                                     
                                 
                                 
-                                    if(isset($all_post_meta['local_enable_rating_'.$schema_id])){
+                                    if(isset($all_post_meta['local_enable_rating_'.$schema_id]) && saswp_remove_warnings($all_post_meta, 'local_rating_'.$schema_id, 'saswp_array') && saswp_remove_warnings($all_post_meta, 'local_review_count_'.$schema_id, 'saswp_array')){
                                  
                                           $input1['aggregateRating'] = array(
                                                             "@type"       => "AggregateRating",
@@ -2755,6 +2758,10 @@ function saswp_post_specific_schema_output() {
                                     
                                     if(isset($all_post_meta['local_menu_'.$schema_id][0])){
                                       $input1['hasMenu'] = esc_url($all_post_meta['local_menu_'.$schema_id][0]);   
+                                    }
+                                    
+                                    if(isset($all_post_meta['local_hasmap_'.$schema_id][0])){
+                                      $input1['hasMap'] = esc_url($all_post_meta['local_hasmap_'.$schema_id][0]);   
                                     }
                                     
                                     if(isset($all_post_meta['local_latitude_'.$schema_id][0]) && isset($all_post_meta['local_longitude_'.$schema_id][0])){

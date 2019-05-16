@@ -91,6 +91,12 @@ Class saswp_output_service{
                     if(isset($custom_fields['local_price_range'])){
                      $input1['priceRange'] =    $custom_fields['local_price_range'];
                     }
+                    if(isset($custom_fields['local_hasmap'])){
+                     $input1['hasMap'] =    $custom_fields['local_hasmap'];
+                    }
+                    if(isset($custom_fields['local_menu'])){
+                     $input1['hasMenu'] =    $custom_fields['local_menu'];
+                    }
                                      
                     break;
                 
@@ -1216,7 +1222,9 @@ Class saswp_output_service{
                         'local_website'              => 'Website',
                         'local_business_logo'        => 'Image', 
                         'saswp_dayofweek'            => 'Operation Days',
-                        'local_price_range'          => 'Price Range',                                                                                                                                             
+                        'local_price_range'          => 'Price Range', 
+                        'local_hasmap'               => 'HasMap',
+                        'local_menu'                 => 'Memu',
                         );                   
                     break;
                 

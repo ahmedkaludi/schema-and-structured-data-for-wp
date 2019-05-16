@@ -1145,6 +1145,11 @@
                         </tr>
                         
                         <tr class="saswp-business-text-field-tr" <?php echo $style_business_type; ?>>
+                            <td><?php echo esc_html__('HasMap', 'schema-and-structured-data-for-wp' ); ?></td>
+                            <td><input  value="<?php if(isset($business_details['local_hasmap'])){echo esc_attr($business_details['local_hasmap']); } ?>" type="text" name="local_hasmap" placeholder="https://goo.gl/maps/tb9hzMLNp942" ></td>
+                        </tr>
+                        
+                        <tr class="saswp-business-text-field-tr" <?php echo $style_business_type; ?>>
                             <td><?php echo esc_html__('Serves Cuisine ', 'schema-and-structured-data-for-wp' ); ?></td>
                             <td><input  value="<?php echo esc_attr($business_details['local_serves_cuisine']); ?>" type="text" name="local_serves_cuisine" placeholder="<?php echo esc_html__('American, Chinese', 'schema-and-structured-data-for-wp' ); ?>" ></td>
                         </tr>
@@ -1690,6 +1695,10 @@
                 
                 if ( isset( $_POST['local_menu'] ) ){
                 $local_business_details['local_menu'] = sanitize_text_field($_POST['local_menu']);        
+                }
+                
+                if ( isset( $_POST['local_hasmap'] ) ){
+                $local_business_details['local_hasmap'] = sanitize_text_field($_POST['local_hasmap']);        
                 }
                 
                 if ( isset( $_POST['local_serves_cuisine'] ) ){
