@@ -128,7 +128,7 @@ class saswp_post_specific {
             $tabs              = '';
             $tabs_fields       = '';
             $schema_ids        = array();
-            $howto_data = array();
+            $howto_data        = array();
 
             $schema_enable = get_post_meta($post->ID, 'saswp_enable_disable_schema', true);
                                 
@@ -153,6 +153,7 @@ class saswp_post_specific {
                       
                      $howto_data['howto_tool_'.$schema->ID]  = esc_sql ( get_post_meta($post->ID, 'howto_tool_'.$schema->ID, true)  );              
                      $howto_data['howto_step_'.$schema->ID]  = esc_sql ( get_post_meta($post->ID, 'howto_step_'.$schema->ID, true)  );              
+                     $howto_data['howto_supply_'.$schema->ID]  = esc_sql ( get_post_meta($post->ID, 'howto_supply_'.$schema->ID, true)  );              
                          
                      }                     
                                                                
@@ -169,25 +170,163 @@ class saswp_post_specific {
                      $tabs_fields .= '<table class="form-table"><tbody>' . $output . '</tbody></table>';
                      $tabs_fields .= '</div>';
                      
+                     //How to schema starts here
+                    if($schema_type == 'HowTo'){
                      $tabs_fields .= '<div class="saswp-table-create-onajax">';
                      
+                     //tool section starts here
+                     $tabs_fields .= '<div class="saswp-how-to-tool-section" data-id="'.esc_attr($schema->ID).'">';
+                                                                                                           
+                     if(isset($howto_data['howto_tool_'.$schema->ID])){
                      
-//                    if($schema_type == 'HowTo'){
-//                     
-//                      $tabs_fields .= '<div class="saswp-how-to-tool-section">';
-//                     $tabs_fields .= '<a data-id="'.esc_attr($schema->ID).'" class="button saswp-how-to-tool">How To Tool</a>';
-//                     $tabs_fields .= '</div>';
-//                     
-//                     $tabs_fields .= '<div class="saswp-how-to-step-section">';
-//                     $tabs_fields .= '<a data-id="'.esc_attr($schema->ID).'" class="button saswp-how-to-step">How To Step</a>';
-//                     $tabs_fields .= '</div>';
-//                     
-//                    }
+                         $howto_tool = $howto_data['howto_tool_'.$schema->ID];                                                     
+                         $tool_html  = '';
+                         
+                         if(!empty($howto_tool)){
+                             $i = 0;
+                             foreach ($howto_tool as $tool){
+                             
+                             $tool_html .='<div class="saswp-how-to-tool-table-div" data-id="'.$i.'">'
+                                        . '<a class="saswp-table-close">X</a>'
+                                        . '<table class="form-table saswp-how-to-tool-table">'                                                                                            
+                                        . '<tr>'
+                                        . '<th>Tool Name</th><td><input style="width:100%" type="text" id="saswp_howto_tool_name_'.$i.'_'.esc_attr($schema->ID).'" name="howto_tool_'.esc_attr($schema->ID).'['.$i.'][saswp_howto_tool_name]" value="'.esc_attr($tool['saswp_howto_tool_name']).'"></td>'
+                                        . '</tr>'
+                                        . '<tr>'
+                                        . '<th>Tool Image</th>'
+                                        . '<td>'
+                                        . '<fieldset>'
+                                        . '<input style="width:80%" type="text" id="saswp_howto_tool_image_'.$i.'_'.esc_attr($schema->ID).'" name="saswp_howto_tool_image_'.$i.'_'.esc_attr($schema->ID).'" value="'.wp_get_attachment_url(esc_attr($tool['saswp_howto_tool_image_id'])).'">'
+                                        . '<input type="hidden" data-id="saswp_howto_tool_image_'.$i.'_'.esc_attr($schema->ID).'_id" name="howto_tool_'.esc_attr($schema->ID).'['.$i.'][saswp_howto_tool_image_id]" id="saswp_howto_tool_image_'.$i.'_'.esc_attr($schema->ID).'_id" value="'.esc_attr($tool['saswp_howto_tool_image_id']).'">'
+                                        . '<input data-id="media" style="width: 19%" class="button" id="saswp_howto_tool_image_'.$i.'_'.esc_attr($schema->ID).'_button" name="saswp_howto_tool_image_'.$i.'_'.esc_attr($schema->ID).'_button" type="button" value="Upload">'
+                                        . '<div class="saswp_image_div_saswp_howto_tool_image_'.$i.'_'.esc_attr($schema->ID).'"><div class="saswp_image_thumbnail">'
+                                        . '<img class="saswp_image_prev" src="'.wp_get_attachment_url(esc_attr($tool['saswp_howto_tool_image_id'])).'">'
+                                        . '<a data-id="saswp_howto_tool_image_'.$i.'_'.esc_attr($schema->ID).'" href="#" class="saswp_prev_close">X</a>'
+                                        . '</div></div>'
+                                        . '</fieldset>'
+                                        . '</td>'
+                                        . '</tr>'
+                                        . '</table>'
+                                        . '</div>';                                          
+                             
+                             $i++;
+                         }
+                         
+                         }
+                                                  
+                          $tabs_fields .= $tool_html;
+                     }
+                                                                                    
+                     $tabs_fields .= '<a data-id="'.esc_attr($schema->ID).'" class="button saswp-how-to-tool">Add HowTo Tool</a>';
+                     $tabs_fields .= '</div>';
+                     //tool section ends here
+                     
+                     
+                     //supply section starts here
+                     $tabs_fields .= '<div class="saswp-how-to-supply-section" data-id="'.esc_attr($schema->ID).'">';
+                                                                                                           
+                     if(isset($howto_data['howto_supply_'.$schema->ID])){
+                     
+                         $howto_supply = $howto_data['howto_supply_'.$schema->ID];                                                     
+                         $supply_html  = '';
+                         
+                         if(!empty($howto_supply)){
+                             $i = 0;
+                             foreach ($howto_supply as $supply){
+                             
+                             $supply_html .='<div class="saswp-how-to-supply-table-div" data-id="'.$i.'">'
+                                        . '<a class="saswp-table-close">X</a>'
+                                        . '<table class="form-table saswp-how-to-supply-table">'                                                                                            
+                                        . '<tr>'
+                                        . '<th>Supply Name</th><td><input style="width:100%" type="text" id="saswp_howto_supply_name_'.$i.'_'.esc_attr($schema->ID).'" name="howto_supply_'.esc_attr($schema->ID).'['.$i.'][saswp_howto_supply_name]" value="'.esc_attr($supply['saswp_howto_supply_name']).'"></td>'
+                                        . '</tr>'
+                                        . '<tr>'
+                                        . '<th>Supply Image</th>'
+                                        . '<td>'
+                                        . '<fieldset>'
+                                        . '<input style="width:80%" type="text" id="saswp_howto_supply_image_'.$i.'_'.esc_attr($schema->ID).'" name="saswp_howto_supply_image_'.$i.'_'.esc_attr($schema->ID).'" value="'.wp_get_attachment_url(esc_attr($supply['saswp_howto_supply_image_id'])).'">'
+                                        . '<input type="hidden" data-id="saswp_howto_supply_image_'.$i.'_'.esc_attr($schema->ID).'_id" name="howto_supply_'.esc_attr($schema->ID).'['.$i.'][saswp_howto_supply_image_id]" id="saswp_howto_supply_image_'.$i.'_'.esc_attr($schema->ID).'_id" value="'.esc_attr($supply['saswp_howto_supply_image_id']).'">'
+                                        . '<input data-id="media" style="width: 19%" class="button" id="saswp_howto_supply_image_'.$i.'_'.esc_attr($schema->ID).'_button" name="saswp_howto_supply_image_'.$i.'_'.esc_attr($schema->ID).'_button" type="button" value="Upload">'
+                                        . '<div class="saswp_image_div_saswp_howto_supply_image_'.$i.'_'.esc_attr($schema->ID).'"><div class="saswp_image_thumbnail">'
+                                        . '<img class="saswp_image_prev" src="'.wp_get_attachment_url(esc_attr($supply['saswp_howto_supply_image_id'])).'">'
+                                        . '<a data-id="saswp_howto_supply_image_'.$i.'_'.esc_attr($schema->ID).'" href="#" class="saswp_prev_close">X</a>'
+                                        . '</div></div>'
+                                        . '</fieldset>'
+                                        . '</td>'
+                                        . '</tr>'
+                                        . '</table>'
+                                        . '</div>';                                          
+                             
+                             $i++;
+                         }
+                         
+                         }
+                                                  
+                          $tabs_fields .= $supply_html;
+                     }
+                                                                                    
+                     $tabs_fields .= '<a data-id="'.esc_attr($schema->ID).'" class="button saswp-how-to-supply">Add HowTo Supply</a>';
+                     $tabs_fields .= '</div>';
+                     //supply section ends here
                      
                      
                      
+                     //step section starts here
+                     $tabs_fields .= '<div class="saswp-how-to-step-section" data-id="'.esc_attr($schema->ID).'">';                                          
+                     
+                     if(isset($howto_data['howto_step_'.$schema->ID])){
+                     
+                         $howto_step = $howto_data['howto_step_'.$schema->ID];   
+                         $step_html  = '';
+                         
+                         if(!empty($howto_step)){
+                             $i = 0;
+                             foreach ($howto_step as $key => $step){
+                             
+                             $step_html .='<div class="saswp-how-to-step-table-div" data-id="'.$i.'">'
+                                        . '<a class="saswp-table-close">X</a>'
+                                        . '<table class="form-table saswp-how-to-step-table">'                                                                                          
+                                        . '<tr>'
+                                        . '<th>Step Name</th><td><input style="width:100%" type="text" id="saswp_howto_step_name_'.$i.'_'.esc_attr($schema->ID).'" name="howto_step_'.esc_attr($schema->ID).'['.$i.'][saswp_howto_step_name]" value="'.esc_attr($step['saswp_howto_step_name']).'"></td>'
+                                        . '</tr>'
+                                        . '<tr>'
+                                        . '<th>HowToDirection Text</th><td><input style="width:100%" type="text" id="saswp_howto_direction_text_'.$i.'_'.esc_attr($schema->ID).'" name="howto_step_'.esc_attr($schema->ID).'['.$i.'][saswp_howto_direction_text]" value="'.esc_attr($step['saswp_howto_direction_text']).'"></td>'
+                                        . '</tr>'
+                                        . '<tr>'
+                                        . '<th>HowToTip Text</th><td><input style="width:100%" type="text" id="saswp_howto_tip_text_'.$i.'_'.esc_attr($schema->ID).'" name="howto_step_'.esc_attr($schema->ID).'['.$i.'][saswp_howto_tip_text]" value="'.esc_attr($step['saswp_howto_tip_text']).'"></td>'
+                                        . '</tr>'
+                                        . '<tr>'
+                                        . '<th>Step Image</th>'
+                                        . '<td>'
+                                        . '<fieldset>'
+                                        . '<input style="width:80%" type="text" id="saswp_howto_step_image_'.$i.'_'.esc_attr($schema->ID).'" name="saswp_howto_step_image_'.esc_attr($schema->ID).'['.$i.']" value="'.wp_get_attachment_url(esc_attr($step['saswp_howto_step_image_id'])).'">'
+                                        . '<input type="hidden" data-id="saswp_howto_step_image_'.$i.'_'.esc_attr($schema->ID).'_id" name="howto_step_'.esc_attr($schema->ID).'['.$i.'][saswp_howto_step_image_id]" id="saswp_howto_step_image_'.$i.'_'.esc_attr($schema->ID).'_id" value="'.esc_attr($step['saswp_howto_step_image_id']).'">'
+                                        . '<input data-id="media" style="width: 19%" class="button" id="saswp_howto_step_image_'.$i.'_'.esc_attr($schema->ID).'_button" name="saswp_howto_step_image_'.$i.'_'.esc_attr($schema->ID).'_button" type="button" value="Upload">'
+                                        . '<div class="saswp_image_div_saswp_howto_step_image_'.$i.'_'.esc_attr($schema->ID).'"><div class="saswp_image_thumbnail">'
+                                        . '<img class="saswp_image_prev" src="'.wp_get_attachment_url(esc_attr($step['saswp_howto_step_image_id'])).'">'
+                                        . '<a data-id="saswp_howto_step_image_'.$i.'_'.esc_attr($schema->ID).'" href="#" class="saswp_prev_close">X</a>'
+                                        . '</div></div>'
+                                        . '</fieldset>'
+                                        . '</td>'
+                                        . '</tr>'
+                                        . '</table>'
+                                        . '</div>';                                                  
+                             
+                             $i++;
+                         }
+                         
+                         }
+                         
+                          $tabs_fields .= $step_html;
+                     }
+                                                                                                    
+                     $tabs_fields .= '<a data-id="'.esc_attr($schema->ID).'" class="button saswp-how-to-step">Add HowTo Step</a>';
+                     $tabs_fields .= '</div>';                     
+                     //step section ends here
                      
                      $tabs_fields .= '</div>';
+                     }
+                      //How to schema ends here 
                      
                      $tabs_fields .= '</div>';
                      
@@ -204,61 +343,109 @@ class saswp_post_specific {
                      $tabs_fields .= '<table class="form-table"><tbody>' . $output . '</tbody></table>';
                      $tabs_fields .= '</div>';
                      
+                     
+                     
+                     
+                     //How to schema starts here
+                    if($schema_type == 'HowTo'){
                      $tabs_fields .= '<div class="saswp-table-create-onajax">';
                      
                      
-                     //from here all changes
-                    if($schema_type == 'HowTo'){
-                     
-                     $tabs_fields .= '<div class="saswp-how-to-tool-section">';
-                     
-                     $tabs_fields .= '<div class="saswp-how-to-tool-table-div">';
-                     
-                       
-                     
+                     $tabs_fields .= '<div class="saswp-how-to-tool-section" data-id="'.esc_attr($schema->ID).'">';
+                                                                                                           
                      if(isset($howto_data['howto_tool_'.$schema->ID])){
                      
                          $howto_tool = $howto_data['howto_tool_'.$schema->ID];                                                     
                          $tool_html  = '';
                          
                          if(!empty($howto_tool)){
-                         
-                             foreach ($howto_tool as $key  => $tool){
+                             $i = 0;
+                             foreach ($howto_tool as $tool){
                              
-                             $tool_html .= '<table class="form-table saswp-how-to-tool-table" data-id="'.esc_attr($key).'">'                                                                                            
+                             $tool_html .='<div class="saswp-how-to-tool-table-div" data-id="'.$i.'">'
+                                        . '<a class="saswp-table-close">X</a>'
+                                        . '<table class="form-table saswp-how-to-tool-table">'                                                                                            
                                         . '<tr>'
-                                        . '<th>Tool Name</th><td><input style="width:100%" type="text" id="saswp_howto_tool_name_'.esc_attr($key).'_'.esc_attr($schema->ID).'" name="howto_tool_'.esc_attr($schema->ID).'[0][saswp_howto_tool_name]" value="'.esc_attr($tool['saswp_howto_tool_name']).'"></td>'
+                                        . '<th>Tool Name</th><td><input style="width:100%" type="text" id="saswp_howto_tool_name_'.$i.'_'.esc_attr($schema->ID).'" name="howto_tool_'.esc_attr($schema->ID).'['.$i.'][saswp_howto_tool_name]" value="'.esc_attr($tool['saswp_howto_tool_name']).'"></td>'
                                         . '</tr>'
                                         . '<tr>'
                                         . '<th>Tool Image</th>'
                                         . '<td>'
                                         . '<fieldset>'
-                                        . '<input style="width:80%" type="text" id="saswp_howto_tool_image_'.esc_attr($key).'_'.esc_attr($schema->ID).'" name="saswp_howto_tool_image_'.esc_attr($key).'_'.esc_attr($schema->ID).'" value="'.wp_get_attachment_url(esc_attr($tool['saswp_howto_tool_image_id'])).'">'
-                                        . '<input type="hidden" data-id="saswp_howto_tool_image_'.esc_attr($key).'_'.esc_attr($schema->ID).'_id" name="howto_tool_'.esc_attr($schema->ID).'[0][saswp_howto_tool_image_id]" id="saswp_howto_tool_image_'.esc_attr($key).'_'.esc_attr($schema->ID).'_id" value="'.esc_attr($tool['saswp_howto_tool_image_id']).'">'
-                                        . '<input data-id="media" style="width: 19%" class="button" id="saswp_howto_tool_image_'.esc_attr($key).'_'.esc_attr($schema->ID).'_button" name="saswp_howto_tool_image_'.esc_attr($key).'_'.esc_attr($schema->ID).'_button" type="button" value="Upload">'
-                                        . '<div class="saswp_image_div_saswp_howto_tool_image_'.esc_attr($key).'_'.esc_attr($schema->ID).'"><div class="saswp_image_thumbnail">'
+                                        . '<input style="width:80%" type="text" id="saswp_howto_tool_image_'.$i.'_'.esc_attr($schema->ID).'" name="saswp_howto_tool_image_'.$i.'_'.esc_attr($schema->ID).'" value="'.wp_get_attachment_url(esc_attr($tool['saswp_howto_tool_image_id'])).'">'
+                                        . '<input type="hidden" data-id="saswp_howto_tool_image_'.$i.'_'.esc_attr($schema->ID).'_id" name="howto_tool_'.esc_attr($schema->ID).'['.$i.'][saswp_howto_tool_image_id]" id="saswp_howto_tool_image_'.$i.'_'.esc_attr($schema->ID).'_id" value="'.esc_attr($tool['saswp_howto_tool_image_id']).'">'
+                                        . '<input data-id="media" style="width: 19%" class="button" id="saswp_howto_tool_image_'.$i.'_'.esc_attr($schema->ID).'_button" name="saswp_howto_tool_image_'.$i.'_'.esc_attr($schema->ID).'_button" type="button" value="Upload">'
+                                        . '<div class="saswp_image_div_saswp_howto_tool_image_'.$i.'_'.esc_attr($schema->ID).'"><div class="saswp_image_thumbnail">'
                                         . '<img class="saswp_image_prev" src="'.wp_get_attachment_url(esc_attr($tool['saswp_howto_tool_image_id'])).'">'
-                                        . '<a data-id="saswp_howto_tool_image_'.esc_attr($key).'_'.esc_attr($schema->ID).'" href="#" class="saswp_prev_close">X</a>'
+                                        . '<a data-id="saswp_howto_tool_image_'.$i.'_'.esc_attr($schema->ID).'" href="#" class="saswp_prev_close">X</a>'
                                         . '</div></div>'
                                         . '</fieldset>'
                                         . '</td>'
                                         . '</tr>'
-                                        . '</table>';                                                
+                                        . '</table>'
+                                        . '</div>';                                          
                              
-                             
+                             $i++;
                          }
                          
                          }
                                                   
                           $tabs_fields .= $tool_html;
                      }
-                                                               
-                     $tabs_fields .= '</div>';
+                                                                                    
                      $tabs_fields .= '<a data-id="'.esc_attr($schema->ID).'" class="button saswp-how-to-tool">Add HowTo Tool</a>';
                      $tabs_fields .= '</div>';
                      
-                     $tabs_fields .= '<div class="saswp-how-to-step-section">';                     
-                     $tabs_fields .= '<div class="saswp-how-to-step-table-div">';  
+                     
+                     //supply section starts here
+                     $tabs_fields .= '<div class="saswp-how-to-supply-section" data-id="'.esc_attr($schema->ID).'">';
+                                                                                                           
+                     if(isset($howto_data['howto_supply_'.$schema->ID])){
+                     
+                         $howto_supply = $howto_data['howto_supply_'.$schema->ID];                                                     
+                         $supply_html  = '';
+                         
+                         if(!empty($howto_supply)){
+                             $i = 0;
+                             foreach ($howto_supply as $supply){
+                             
+                             $supply_html .='<div class="saswp-how-to-supply-table-div" data-id="'.$i.'">'
+                                        . '<a class="saswp-table-close">X</a>'
+                                        . '<table class="form-table saswp-how-to-supply-table">'                                                                                            
+                                        . '<tr>'
+                                        . '<th>Supply Name</th><td><input style="width:100%" type="text" id="saswp_howto_supply_name_'.$i.'_'.esc_attr($schema->ID).'" name="howto_supply_'.esc_attr($schema->ID).'['.$i.'][saswp_howto_supply_name]" value="'.esc_attr($supply['saswp_howto_supply_name']).'"></td>'
+                                        . '</tr>'
+                                        . '<tr>'
+                                        . '<th>Supply Image</th>'
+                                        . '<td>'
+                                        . '<fieldset>'
+                                        . '<input style="width:80%" type="text" id="saswp_howto_supply_image_'.$i.'_'.esc_attr($schema->ID).'" name="saswp_howto_supply_image_'.$i.'_'.esc_attr($schema->ID).'" value="'.wp_get_attachment_url(esc_attr($supply['saswp_howto_supply_image_id'])).'">'
+                                        . '<input type="hidden" data-id="saswp_howto_supply_image_'.$i.'_'.esc_attr($schema->ID).'_id" name="howto_supply_'.esc_attr($schema->ID).'['.$i.'][saswp_howto_supply_image_id]" id="saswp_howto_supply_image_'.$i.'_'.esc_attr($schema->ID).'_id" value="'.esc_attr($supply['saswp_howto_supply_image_id']).'">'
+                                        . '<input data-id="media" style="width: 19%" class="button" id="saswp_howto_supply_image_'.$i.'_'.esc_attr($schema->ID).'_button" name="saswp_howto_supply_image_'.$i.'_'.esc_attr($schema->ID).'_button" type="button" value="Upload">'
+                                        . '<div class="saswp_image_div_saswp_howto_supply_image_'.$i.'_'.esc_attr($schema->ID).'"><div class="saswp_image_thumbnail">'
+                                        . '<img class="saswp_image_prev" src="'.wp_get_attachment_url(esc_attr($supply['saswp_howto_supply_image_id'])).'">'
+                                        . '<a data-id="saswp_howto_supply_image_'.$i.'_'.esc_attr($schema->ID).'" href="#" class="saswp_prev_close">X</a>'
+                                        . '</div></div>'
+                                        . '</fieldset>'
+                                        . '</td>'
+                                        . '</tr>'
+                                        . '</table>'
+                                        . '</div>';                                          
+                             
+                             $i++;
+                         }
+                         
+                         }
+                                                  
+                          $tabs_fields .= $supply_html;
+                     }
+                                                                                    
+                     $tabs_fields .= '<a data-id="'.esc_attr($schema->ID).'" class="button saswp-how-to-supply">Add HowTo Supply</a>';
+                     $tabs_fields .= '</div>';
+                     //supply section ends here
+                     
+                                          
+                     $tabs_fields .= '<div class="saswp-how-to-step-section" data-id="'.esc_attr($schema->ID).'">';                                          
                      
                      if(isset($howto_data['howto_step_'.$schema->ID])){
                      
@@ -266,52 +453,52 @@ class saswp_post_specific {
                          $step_html  = '';
                          
                          if(!empty($howto_step)){
-                             
+                             $i = 0;
                              foreach ($howto_step as $key => $step){
                              
-                             $step_html .= '<table class="form-table saswp-how-to-step-table" data-id="'.esc_attr($key).'">'                                                                                          
+                             $step_html .='<div class="saswp-how-to-step-table-div" data-id="'.$i.'">'
+                                        . '<a class="saswp-table-close">X</a>'
+                                        . '<table class="form-table saswp-how-to-step-table">'                                                                                          
                                         . '<tr>'
-                                        . '<th>Step Name</th><td><input style="width:100%" type="text" id="saswp_howto_step_name_'.esc_attr($key).'_'.esc_attr($schema->ID).'" name="howto_step_'.esc_attr($schema->ID).'[0][saswp_howto_step_name]" value="'.esc_attr($step['saswp_howto_step_name']).'"></td>'
+                                        . '<th>Step Name</th><td><input style="width:100%" type="text" id="saswp_howto_step_name_'.$i.'_'.esc_attr($schema->ID).'" name="howto_step_'.esc_attr($schema->ID).'['.$i.'][saswp_howto_step_name]" value="'.esc_attr($step['saswp_howto_step_name']).'"></td>'
                                         . '</tr>'
                                         . '<tr>'
-                                        . '<th>HowToDirection Text</th><td><input style="width:100%" type="text" id="saswp_howto_direction_text_'.esc_attr($key).'_'.esc_attr($schema->ID).'" name="howto_step_'.esc_attr($schema->ID).'[0][saswp_howto_direction_text]" value="'.esc_attr($step['saswp_howto_direction_text']).'"></td>'
+                                        . '<th>HowToDirection Text</th><td><input style="width:100%" type="text" id="saswp_howto_direction_text_'.$i.'_'.esc_attr($schema->ID).'" name="howto_step_'.esc_attr($schema->ID).'['.$i.'][saswp_howto_direction_text]" value="'.esc_attr($step['saswp_howto_direction_text']).'"></td>'
                                         . '</tr>'
                                         . '<tr>'
-                                        . '<th>HowToTip Text</th><td><input style="width:100%" type="text" id="saswp_howto_tip_text_'.esc_attr($key).'_'.esc_attr($schema->ID).'" name="howto_step_'.esc_attr($schema->ID).'[0][saswp_howto_tip_text]" value="'.esc_attr($step['saswp_howto_tip_text']).'"></td>'
+                                        . '<th>HowToTip Text</th><td><input style="width:100%" type="text" id="saswp_howto_tip_text_'.$i.'_'.esc_attr($schema->ID).'" name="howto_step_'.esc_attr($schema->ID).'['.$i.'][saswp_howto_tip_text]" value="'.esc_attr($step['saswp_howto_tip_text']).'"></td>'
                                         . '</tr>'
                                         . '<tr>'
                                         . '<th>Step Image</th>'
                                         . '<td>'
                                         . '<fieldset>'
-                                        . '<input style="width:80%" type="text" id="saswp_howto_step_image_'.esc_attr($key).'_'.esc_attr($schema->ID).'" name="saswp_howto_step_image_'.esc_attr($schema->ID).'[0]" value="'.wp_get_attachment_url(esc_attr($step['saswp_howto_step_image_id'])).'">'
-                                        . '<input type="hidden" data-id="saswp_howto_step_image_'.esc_attr($key).'_'.esc_attr($schema->ID).'_id" name="howto_step_'.esc_attr($schema->ID).'[0][saswp_howto_step_image_id]" id="saswp_howto_step_image_'.esc_attr($key).'_'.esc_attr($schema->ID).'_id" value="'.esc_attr($step['saswp_howto_step_image_id']).'">'
-                                        . '<input data-id="media" style="width: 19%" class="button" id="saswp_howto_step_image_'.esc_attr($key).'_'.esc_attr($schema->ID).'_button" name="saswp_howto_step_image_'.esc_attr($key).'_'.esc_attr($schema->ID).'_button" type="button" value="Upload">'
-                                        . '<div class="saswp_image_div_saswp_howto_step_image_'.esc_attr($key).'_'.esc_attr($schema->ID).'"><div class="saswp_image_thumbnail">'
+                                        . '<input style="width:80%" type="text" id="saswp_howto_step_image_'.$i.'_'.esc_attr($schema->ID).'" name="saswp_howto_step_image_'.esc_attr($schema->ID).'['.$i.']" value="'.wp_get_attachment_url(esc_attr($step['saswp_howto_step_image_id'])).'">'
+                                        . '<input type="hidden" data-id="saswp_howto_step_image_'.$i.'_'.esc_attr($schema->ID).'_id" name="howto_step_'.esc_attr($schema->ID).'['.$i.'][saswp_howto_step_image_id]" id="saswp_howto_step_image_'.$i.'_'.esc_attr($schema->ID).'_id" value="'.esc_attr($step['saswp_howto_step_image_id']).'">'
+                                        . '<input data-id="media" style="width: 19%" class="button" id="saswp_howto_step_image_'.$i.'_'.esc_attr($schema->ID).'_button" name="saswp_howto_step_image_'.$i.'_'.esc_attr($schema->ID).'_button" type="button" value="Upload">'
+                                        . '<div class="saswp_image_div_saswp_howto_step_image_'.$i.'_'.esc_attr($schema->ID).'"><div class="saswp_image_thumbnail">'
                                         . '<img class="saswp_image_prev" src="'.wp_get_attachment_url(esc_attr($step['saswp_howto_step_image_id'])).'">'
-                                        . '<a data-id="saswp_howto_step_image_'.esc_attr($key).'_'.esc_attr($schema->ID).'" href="#" class="saswp_prev_close">X</a>'
+                                        . '<a data-id="saswp_howto_step_image_'.$i.'_'.esc_attr($schema->ID).'" href="#" class="saswp_prev_close">X</a>'
                                         . '</div></div>'
                                         . '</fieldset>'
                                         . '</td>'
                                         . '</tr>'
-                                        . '</table>';                                                  
+                                        . '</table>'
+                                        . '</div>';                                                  
                              
-                             
+                             $i++;
                          }
                          
                          }
                          
                           $tabs_fields .= $step_html;
                      }
-
-                     
-                     $tabs_fields .= '</div>';                                                              
+                                                                                                    
                      $tabs_fields .= '<a data-id="'.esc_attr($schema->ID).'" class="button saswp-how-to-step">Add HowTo Step</a>';
                      $tabs_fields .= '</div>';
-                     
-                     }
-                     
-                                                                                    
                      $tabs_fields .= '</div>';
+                     }
+                      //How to schema ends here                                                                                   
+                    
                      
                      $tabs_fields .= '</div>';
                      
@@ -345,6 +532,13 @@ class saswp_post_specific {
                  $checked = 'checked';    
                  }
                  
+                 if($schema_type == 'HowTo'){
+                      
+                     $howto_data['howto_tool_'.$all_schema[0]->ID]  = esc_sql ( get_post_meta($post->ID, 'howto_tool_'.$all_schema[0]->ID, true)  );              
+                     $howto_data['howto_step_'.$all_schema[0]->ID]  = esc_sql ( get_post_meta($post->ID, 'howto_step_'.$all_schema[0]->ID, true)  );                                     
+                     $howto_data['howto_supply_'.$all_schema[0]->ID]  = esc_sql ( get_post_meta($post->ID, 'howto_supply_'.$all_schema[0]->ID, true)  );                                     
+                }
+                 
                  $this->meta_fields = $response;
                  $output = $this->saswp_saswp_post_specific( $post, $all_schema[0]->ID );  
                  $tabs_fields .= '<div>';
@@ -359,28 +553,167 @@ class saswp_post_specific {
                  $tabs_fields .= '</div>';
                  
                  
-                 $tabs_fields .= '<div class="saswp-table-create-onajax">';
-                 
-                 if($schema_type == 'HowTo'){
+                 //How to schema starts here
+                    if($schema_type == 'HowTo'){
+                        
+                     $tabs_fields .= '<div class="saswp-table-create-onajax">';
                      
                      
-                     $tabs_fields .= '<div class="saswp-how-to-tool-section">';
-                     $tabs_fields .= '<a data-id="'.esc_attr($schema->ID).'" class="button saswp-how-to-tool">How To Tool</a>';
+                     //tool section starts here
+                     $tabs_fields .= '<div class="saswp-how-to-tool-section" data-id="'.esc_attr($all_schema[0]->ID).'">';
+                                                                                                           
+                     if(isset($howto_data['howto_tool_'.$all_schema[0]->ID])){
+                     
+                         $howto_tool = $howto_data['howto_tool_'.$all_schema[0]->ID];                                                     
+                         $tool_html  = '';
+                         
+                         if(!empty($howto_tool)){
+                             $i = 0;
+                             foreach ($howto_tool as $tool){
+                             
+                             $tool_html .='<div class="saswp-how-to-tool-table-div" data-id="'.$i.'">'
+                                        . '<a class="saswp-table-close">X</a>'
+                                        . '<table class="form-table saswp-how-to-tool-table">'                                                                                            
+                                        . '<tr>'
+                                        . '<th>Tool Name</th><td><input style="width:100%" type="text" id="saswp_howto_tool_name_'.$i.'_'.esc_attr($all_schema[0]->ID).'" name="howto_tool_'.esc_attr($all_schema[0]->ID).'['.$i.'][saswp_howto_tool_name]" value="'.esc_attr($tool['saswp_howto_tool_name']).'"></td>'
+                                        . '</tr>'
+                                        . '<tr>'
+                                        . '<th>Tool Image</th>'
+                                        . '<td>'
+                                        . '<fieldset>'
+                                        . '<input style="width:80%" type="text" id="saswp_howto_tool_image_'.$i.'_'.esc_attr($all_schema[0]->ID).'" name="saswp_howto_tool_image_'.$i.'_'.esc_attr($all_schema[0]->ID).'" value="'.wp_get_attachment_url(esc_attr($tool['saswp_howto_tool_image_id'])).'">'
+                                        . '<input type="hidden" data-id="saswp_howto_tool_image_'.$i.'_'.esc_attr($all_schema[0]->ID).'_id" name="howto_tool_'.esc_attr($all_schema[0]->ID).'['.$i.'][saswp_howto_tool_image_id]" id="saswp_howto_tool_image_'.$i.'_'.esc_attr($all_schema[0]->ID).'_id" value="'.esc_attr($tool['saswp_howto_tool_image_id']).'">'
+                                        . '<input data-id="media" style="width: 19%" class="button" id="saswp_howto_tool_image_'.$i.'_'.esc_attr($all_schema[0]->ID).'_button" name="saswp_howto_tool_image_'.$i.'_'.esc_attr($all_schema[0]->ID).'_button" type="button" value="Upload">'
+                                        . '<div class="saswp_image_div_saswp_howto_tool_image_'.$i.'_'.esc_attr($all_schema[0]->ID).'"><div class="saswp_image_thumbnail">'
+                                        . '<img class="saswp_image_prev" src="'.wp_get_attachment_url(esc_attr($tool['saswp_howto_tool_image_id'])).'">'
+                                        . '<a data-id="saswp_howto_tool_image_'.$i.'_'.esc_attr($all_schema[0]->ID).'" href="#" class="saswp_prev_close">X</a>'
+                                        . '</div></div>'
+                                        . '</fieldset>'
+                                        . '</td>'
+                                        . '</tr>'
+                                        . '</table>'
+                                        . '</div>';                                          
+                             
+                             $i++;
+                         }
+                         
+                         }
+                                                  
+                          $tabs_fields .= $tool_html;
+                     }
+                                                                                    
+                     $tabs_fields .= '<a data-id="'.esc_attr($all_schema[0]->ID).'" class="button saswp-how-to-tool">Add HowTo Tool</a>';
+                     $tabs_fields .= '</div>';
+                     //tool section ends here here
+                     
+                     
+                     //supply section starts here
+                     $tabs_fields .= '<div class="saswp-how-to-supply-section" data-id="'.esc_attr($all_schema[0]->ID).'">';
+                                                                                                           
+                     if(isset($howto_data['howto_supply_'.$all_schema[0]->ID])){
+                     
+                         $howto_supply = $howto_data['howto_supply_'.$all_schema[0]->ID];                                                     
+                         $supply_html  = '';
+                         
+                         if(!empty($howto_supply)){
+                             $i = 0;
+                             foreach ($howto_supply as $supply){
+                             
+                             $supply_html .='<div class="saswp-how-to-supply-table-div" data-id="'.$i.'">'
+                                        . '<a class="saswp-table-close">X</a>'
+                                        . '<table class="form-table saswp-how-to-supply-table">'                                                                                            
+                                        . '<tr>'
+                                        . '<th>Supply Name</th><td><input style="width:100%" type="text" id="saswp_howto_supply_name_'.$i.'_'.esc_attr($all_schema[0]->ID).'" name="howto_supply_'.esc_attr($all_schema[0]->ID).'['.$i.'][saswp_howto_supply_name]" value="'.esc_attr($supply['saswp_howto_supply_name']).'"></td>'
+                                        . '</tr>'
+                                        . '<tr>'
+                                        . '<th>Supply Image</th>'
+                                        . '<td>'
+                                        . '<fieldset>'
+                                        . '<input style="width:80%" type="text" id="saswp_howto_supply_image_'.$i.'_'.esc_attr($all_schema[0]->ID).'" name="saswp_howto_supply_image_'.$i.'_'.esc_attr($all_schema[0]->ID).'" value="'.wp_get_attachment_url(esc_attr($supply['saswp_howto_supply_image_id'])).'">'
+                                        . '<input type="hidden" data-id="saswp_howto_supply_image_'.$i.'_'.esc_attr($all_schema[0]->ID).'_id" name="howto_supply_'.esc_attr($all_schema[0]->ID).'['.$i.'][saswp_howto_supply_image_id]" id="saswp_howto_supply_image_'.$i.'_'.esc_attr($all_schema[0]->ID).'_id" value="'.esc_attr($supply['saswp_howto_supply_image_id']).'">'
+                                        . '<input data-id="media" style="width: 19%" class="button" id="saswp_howto_supply_image_'.$i.'_'.esc_attr($all_schema[0]->ID).'_button" name="saswp_howto_supply_image_'.$i.'_'.esc_attr($all_schema[0]->ID).'_button" type="button" value="Upload">'
+                                        . '<div class="saswp_image_div_saswp_howto_supply_image_'.$i.'_'.esc_attr($all_schema[0]->ID).'"><div class="saswp_image_thumbnail">'
+                                        . '<img class="saswp_image_prev" src="'.wp_get_attachment_url(esc_attr($supply['saswp_howto_supply_image_id'])).'">'
+                                        . '<a data-id="saswp_howto_supply_image_'.$i.'_'.esc_attr($all_schema[0]->ID).'" href="#" class="saswp_prev_close">X</a>'
+                                        . '</div></div>'
+                                        . '</fieldset>'
+                                        . '</td>'
+                                        . '</tr>'
+                                        . '</table>'
+                                        . '</div>';                                          
+                             
+                             $i++;
+                         }
+                         
+                         }
+                                                  
+                          $tabs_fields .= $supply_html;
+                     }
+                                                                                    
+                     $tabs_fields .= '<a data-id="'.esc_attr($all_schema[0]->ID).'" class="button saswp-how-to-supply">Add HowTo Supply</a>';
+                     $tabs_fields .= '</div>';
+                     //supply section ends here here
+                     
+                     
+                     
+                     
+                     //step section starts here
+                     $tabs_fields .= '<div class="saswp-how-to-step-section" data-id="'.esc_attr($all_schema[0]->ID).'">';                                          
+                     
+                     if(isset($howto_data['howto_step_'.$all_schema[0]->ID])){
+                     
+                         $howto_step = $howto_data['howto_step_'.$all_schema[0]->ID];   
+                         $step_html  = '';
+                         
+                         if(!empty($howto_step)){
+                             $i = 0;
+                             foreach ($howto_step as $key => $step){
+                             
+                             $step_html .='<div class="saswp-how-to-step-table-div" data-id="'.$i.'">'
+                                        . '<a class="saswp-table-close">X</a>'
+                                        . '<table class="form-table saswp-how-to-step-table">'                                                                                          
+                                        . '<tr>'
+                                        . '<th>Step Name</th><td><input style="width:100%" type="text" id="saswp_howto_step_name_'.$i.'_'.esc_attr($all_schema[0]->ID).'" name="howto_step_'.esc_attr($all_schema[0]->ID).'['.$i.'][saswp_howto_step_name]" value="'.esc_attr($step['saswp_howto_step_name']).'"></td>'
+                                        . '</tr>'
+                                        . '<tr>'
+                                        . '<th>HowToDirection Text</th><td><input style="width:100%" type="text" id="saswp_howto_direction_text_'.$i.'_'.esc_attr($all_schema[0]->ID).'" name="howto_step_'.esc_attr($all_schema[0]->ID).'['.$i.'][saswp_howto_direction_text]" value="'.esc_attr($step['saswp_howto_direction_text']).'"></td>'
+                                        . '</tr>'
+                                        . '<tr>'
+                                        . '<th>HowToTip Text</th><td><input style="width:100%" type="text" id="saswp_howto_tip_text_'.$i.'_'.esc_attr($all_schema[0]->ID).'" name="howto_step_'.esc_attr($all_schema[0]->ID).'['.$i.'][saswp_howto_tip_text]" value="'.esc_attr($step['saswp_howto_tip_text']).'"></td>'
+                                        . '</tr>'
+                                        . '<tr>'
+                                        . '<th>Step Image</th>'
+                                        . '<td>'
+                                        . '<fieldset>'
+                                        . '<input style="width:80%" type="text" id="saswp_howto_step_image_'.$i.'_'.esc_attr($all_schema[0]->ID).'" name="saswp_howto_step_image_'.esc_attr($all_schema[0]->ID).'['.$i.']" value="'.wp_get_attachment_url(esc_attr($step['saswp_howto_step_image_id'])).'">'
+                                        . '<input type="hidden" data-id="saswp_howto_step_image_'.$i.'_'.esc_attr($all_schema[0]->ID).'_id" name="howto_step_'.esc_attr($all_schema[0]->ID).'['.$i.'][saswp_howto_step_image_id]" id="saswp_howto_step_image_'.$i.'_'.esc_attr($all_schema[0]->ID).'_id" value="'.esc_attr($step['saswp_howto_step_image_id']).'">'
+                                        . '<input data-id="media" style="width: 19%" class="button" id="saswp_howto_step_image_'.$i.'_'.esc_attr($all_schema[0]->ID).'_button" name="saswp_howto_step_image_'.$i.'_'.esc_attr($all_schema[0]->ID).'_button" type="button" value="Upload">'
+                                        . '<div class="saswp_image_div_saswp_howto_step_image_'.$i.'_'.esc_attr($all_schema[0]->ID).'"><div class="saswp_image_thumbnail">'
+                                        . '<img class="saswp_image_prev" src="'.wp_get_attachment_url(esc_attr($step['saswp_howto_step_image_id'])).'">'
+                                        . '<a data-id="saswp_howto_step_image_'.$i.'_'.esc_attr($all_schema[0]->ID).'" href="#" class="saswp_prev_close">X</a>'
+                                        . '</div></div>'
+                                        . '</fieldset>'
+                                        . '</td>'
+                                        . '</tr>'
+                                        . '</table>'
+                                        . '</div>';                                                  
+                             
+                             $i++;
+                         }
+                         
+                         }
+                         
+                          $tabs_fields .= $step_html;
+                     }
+                                                                                                    
+                     $tabs_fields .= '<a data-id="'.esc_attr($all_schema[0]->ID).'" class="button saswp-how-to-step">Add HowTo Step</a>';
                      $tabs_fields .= '</div>';
                      
-                     $tabs_fields .= '<div class="saswp-how-to-step-section">';
-                     $tabs_fields .= '<a data-id="'.esc_attr($schema->ID).'" class="button saswp-how-to-step">How To Step</a>';
+                     //step section ends here here
                      $tabs_fields .= '</div>';
-                 }
-                 
-                 
-                 
-                 
-                 
-                 $tabs_fields .= '</div>';
-                 
-                 
-                 
+                     }
+                      //How to schema ends here 
+                                                   
                  $tabs_fields .= '</div>';
                  $tabs_fields .= '<input class="saswp-post-specific-schema-ids" type="hidden" value="'. json_encode($schema_ids).'">';
                  $tabs_fields .= '</div>';
@@ -892,22 +1225,26 @@ class saswp_post_specific {
                  foreach($this->all_schema as $schema){
                      
                      //How to schema starts here
+                     $howto_tool = array();
+                     $howto_step = array();
+                     $howto_supply = array();
                 
                      if(isset($_POST['howto_step_'.$schema->ID])){
                          
-                         $howto_arr = $_POST['howto_step_'.$schema->ID];
-                         
-                         update_post_meta( $post_id, 'howto_step_'.$schema->ID, $howto_arr);
-                         
-                     }
-                     
+                         $howto_step = $_POST['howto_step_'.$schema->ID];                                                                          
+                     }                                            
                      if(isset($_POST['howto_tool_'.$schema->ID])){
                          
-                         $howto_arr = $_POST['howto_tool_'.$schema->ID];
-                         
-                         update_post_meta( $post_id, 'howto_tool_'.$schema->ID, $howto_arr);
-                         
+                         $howto_tool = $_POST['howto_tool_'.$schema->ID];                                                                          
                      }
+                     if(isset($_POST['howto_supply_'.$schema->ID])){
+                         
+                         $howto_supply = $_POST['howto_supply_'.$schema->ID];                                                                          
+                     }
+                     
+                     update_post_meta( $post_id, 'howto_step_'.$schema->ID, $howto_step);
+                     update_post_meta( $post_id, 'howto_tool_'.$schema->ID, $howto_tool);
+                     update_post_meta( $post_id, 'howto_supply_'.$schema->ID, $howto_supply);
                                                                                
                 //How to schema ends here
                                                                
@@ -2814,7 +3151,16 @@ class saswp_post_specific {
                                 'placeholder' => 'Name'
                             ), 
                     ),
-                        
+                    array(
+                            'label'      => 'Description',
+                            'id'         => 'saswp_howto_description_'.$schema_id,
+                            'type'       => 'textarea',                            
+                    ), 
+                    array(
+                            'label'      => 'Image',
+                            'id'         => 'saswp_howto_image_'.$schema_id,
+                            'type'       => 'media',                            
+                    ),     
                     array(
                             'label'      => 'Estimated Cost Currency',
                             'id'         => 'saswp_howto_ec_currency_'.$schema_id,

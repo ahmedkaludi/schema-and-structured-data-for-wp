@@ -1088,15 +1088,132 @@ jQuery(document).ready(function($){
         
         
         
-       $(document).on("click", ".saswp-how-to-tool", function(){
+       $(document).on("click", ".saswp-how-to-supply", function(e){
+           e.preventDefault();
            
-           console.log('dddd');
+           var schema_id = $(this).attr('data-id');
+           var index =  $(".saswp-how-to-supply-table-div").length;
+           
+           if(!index){
+               index = 0;
+           }
+                   
+            var html = '';
+            
+                   html += '<div class="saswp-how-to-supply-table-div" data-id="'+index+'">'
+                        +  '<a class="saswp-table-close">X</a>'
+                        + '<table class="form-table saswp-how-to-supply-table">'                                                                                           
+                        + '<tr>'
+                        + '<th>Supply Name</th><td><input style="width:100%" type="text" id="saswp_howto_supply_name_'+index+'_'+schema_id+'" name="howto_supply_'+schema_id+'['+index+'][saswp_howto_supply_name]"></td>'
+                        + '</tr>'
+                        + '<tr>'
+                        + '<th>Supply Image</th>'
+                        + '<td>'
+                        + '<fieldset>'
+                        + '<input style="width:80%" type="text" id="saswp_howto_supply_image_'+index+'_'+schema_id+'" name="saswp_howto_supply_image_'+index+'_'+schema_id+'">'
+                        + '<input type="hidden" data-id="saswp_howto_supply_image_'+index+'_'+schema_id+'_id" name="howto_supply_'+schema_id+'['+index+'][saswp_howto_supply_image_id]" id="saswp_howto_supply_image_'+index+'_'+schema_id+'_id">'
+                        + '<input data-id="media" style="width: 19%" class="button" id="saswp_howto_supply_image_'+index+'_'+schema_id+'_button" name="saswp_howto_supply_image_'+index+'_'+schema_id+'_button" type="button" value="Upload">'
+                        + '<div class="saswp_image_div_saswp_howto_supply_image_'+index+'_'+schema_id+'">'                                                
+                        + '</div>'
+                        + '</fieldset>'
+                        + '</td>'
+                        + '</tr>'
+                        + '</table>'
+                        + '</div>';
+           if(html){
+               $('.saswp-how-to-supply-section[data-id="'+schema_id+'"]').append(html);
+           }
+            
+           
+       }); 
+        
+       $(document).on("click", ".saswp-how-to-tool", function(e){
+           e.preventDefault();
+           
+           var schema_id = $(this).attr('data-id');
+           var index =  $(".saswp-how-to-tool-table-div").length;
+           
+           if(!index){
+               index = 0;
+           }
+                   
+            var html = '';
+            
+                   html += '<div class="saswp-how-to-tool-table-div" data-id="'+index+'">'
+                        +  '<a class="saswp-table-close">X</a>'
+                        + '<table class="form-table saswp-how-to-tool-table">'                                                                                           
+                        + '<tr>'
+                        + '<th>Tool Name</th><td><input style="width:100%" type="text" id="saswp_howto_tool_name_'+index+'_'+schema_id+'" name="howto_tool_'+schema_id+'['+index+'][saswp_howto_tool_name]"></td>'
+                        + '</tr>'
+                        + '<tr>'
+                        + '<th>Tool Image</th>'
+                        + '<td>'
+                        + '<fieldset>'
+                        + '<input style="width:80%" type="text" id="saswp_howto_tool_image_'+index+'_'+schema_id+'" name="saswp_howto_tool_image_'+index+'_'+schema_id+'">'
+                        + '<input type="hidden" data-id="saswp_howto_tool_image_'+index+'_'+schema_id+'_id" name="howto_tool_'+schema_id+'['+index+'][saswp_howto_tool_image_id]" id="saswp_howto_tool_image_'+index+'_'+schema_id+'_id">'
+                        + '<input data-id="media" style="width: 19%" class="button" id="saswp_howto_tool_image_'+index+'_'+schema_id+'_button" name="saswp_howto_tool_image_'+index+'_'+schema_id+'_button" type="button" value="Upload">'
+                        + '<div class="saswp_image_div_saswp_howto_tool_image_'+index+'_'+schema_id+'">'                                                
+                        + '</div>'
+                        + '</fieldset>'
+                        + '</td>'
+                        + '</tr>'
+                        + '</table>'
+                        + '</div>';
+           if(html){
+               $('.saswp-how-to-tool-section[data-id="'+schema_id+'"]').append(html);
+           }
+            
+           
        });
        
-       $(document).on("click", ".saswp-how-to-step", function(){
+       $(document).on("click", ".saswp-how-to-step", function(e){
+           e.preventDefault();
+                      
+           var schema_id =  $(this).attr('data-id');
+           var index     =  $(".saswp-how-to-step-table-div").length;
            
-           console.log('dddd');
+           if(!index){
+               index = 0;
+           }
+                   
+            var html = '';
+            
+                 html+='<div class="saswp-how-to-step-table-div" data-id="'+index+'">'
+                     + '<a class="saswp-table-close">X</a>'
+                     + '<table class="form-table saswp-how-to-step-table">'                                                                                          
+                     + '<tr>'
+                     + '<th>Step Name</th><td><input style="width:100%" type="text" id="saswp_howto_step_name_'+index+'_'+schema_id+'" name="howto_step_'+schema_id+'['+index+'][saswp_howto_step_name]" ></td>'
+                     + '</tr>'
+                     + '<tr>'
+                     + '<th>HowToDirection Text</th><td><input style="width:100%" type="text" id="saswp_howto_direction_text_'+index+'_'+schema_id+'" name="howto_step_'+schema_id+'['+index+'][saswp_howto_direction_text]"></td>'
+                     + '</tr>'
+                     + '<tr>'
+                     + '<th>HowToTip Text</th><td><input style="width:100%" type="text" id="saswp_howto_tip_text_'+index+'_'+schema_id+'" name="howto_step_'+schema_id+'['+index+'][saswp_howto_tip_text]"></td>'
+                     + '</tr>'
+                     + '<tr>'
+                     + '<th>Step Image</th>'
+                     + '<td>'
+                     + '<fieldset>'
+                     + '<input style="width:80%" type="text" id="saswp_howto_step_image_'+index+'_'+schema_id+'" name="saswp_howto_step_image_'+schema_id+'['+index+']">'
+                     + '<input type="hidden" data-id="saswp_howto_step_image_'+index+'_'+schema_id+'_id" name="howto_step_'+schema_id+'['+index+'][saswp_howto_step_image_id]" id="saswp_howto_step_image_'+index+'_'+schema_id+'_id">'
+                     + '<input data-id="media" style="width: 19%" class="button" id="saswp_howto_step_image_'+index+'_'+schema_id+'_button" name="saswp_howto_step_image_'+index+'_'+schema_id+'_button" type="button" value="Upload">'
+                     + '<div class="saswp_image_div_saswp_howto_step_image_'+index+'_'+schema_id+'">'                                                                                
+                     + '</div>'
+                     + '</fieldset>'
+                     + '</td>'
+                     + '</tr>'
+                     + '</table>'
+                     + '</div>';
+             
+           if(html){
+               $('.saswp-how-to-step-section[data-id="'+schema_id+'"]').append(html);
+           }
            
+           
+       });
+       
+       $(document).on("click", ".saswp-table-close", function(){
+           $(this).parent().remove();
        });
         
         

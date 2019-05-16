@@ -965,7 +965,7 @@ Google review module ends here
     }    
 /*** How to schema css starts here ***/    
 
-.saswp-how-to-step-table, .saswp-how-to-tool-table{
+.saswp-how-to-step-table, .saswp-how-to-tool-table, .saswp-how-to-supply-table{
     border: 1px solid #aaa;
     margin-top: 10px;
     margin-bottom: 10px !important;
@@ -973,6 +973,10 @@ Google review module ends here
 }
 .saswp-how-to-tool-section{
     margin-bottom: 10px;
+}
+.saswp-table-close{
+    float: right;
+    cursor: pointer;
 }
 
 /*** How to schema css ends here ***/    
