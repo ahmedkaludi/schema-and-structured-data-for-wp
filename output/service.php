@@ -1735,6 +1735,7 @@ Class saswp_output_service{
         public function saswp_get_fetaure_image(){
             
             global $sd_data;
+            global $post;
             $input2          = array();
             $image_id 	     = get_post_thumbnail_id();
 	    $image_details   = wp_get_attachment_image_src($image_id, 'full'); 
@@ -1834,14 +1835,14 @@ Class saswp_output_service{
                               $k = 0;
                               foreach ($attachments[2] as $attachment) {
                                                                     
-                                  $attach_details   = saswp_get_attachment_details_by_url($attachment);  
+                                  $attach_details   = saswp_get_attachment_details_by_url($attachment, $post->ID, $k );
                                   
                                   if(!empty($attach_details)){
                                                                             
                                                 $attach_images['image'][$k]['@type']  = 'ImageObject';                                                
                                                 $attach_images['image'][$k]['url']    = esc_url($attachment);
-                                                $attach_images['image'][$k]['width']  = esc_attr($attach_details[1]);
-                                                $attach_images['image'][$k]['height'] = esc_attr($attach_details[2]);
+                                                $attach_images['image'][$k]['width']  = esc_attr($attach_details[0]);
+                                                $attach_images['image'][$k]['height'] = esc_attr($attach_details[1]);
                                       
                                   }
                                   

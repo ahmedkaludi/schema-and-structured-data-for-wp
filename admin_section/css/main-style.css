@@ -965,15 +965,15 @@ Google review module ends here
     }    
 /*** How to schema css starts here ***/    
 
-.saswp-how-to-step-table, .saswp-how-to-tool-table, .saswp-how-to-supply-table{
+.saswp-how-to-supply-table-div, .saswp-how-to-tool-table-div, .saswp-how-to-step-table-div{
     border: 1px solid #aaa;
-    margin-top: 10px;
-    margin-bottom: 10px !important;
-    
+    margin-top: 5px;
+            
 }
-.saswp-how-to-tool-section{
-    margin-bottom: 10px;
+.saswp-how-to-supply,.saswp-how-to-step,.saswp-how-to-tool{
+    margin-top: 5px;
 }
+
 .saswp-table-close{
     float: right;
     cursor: pointer;
