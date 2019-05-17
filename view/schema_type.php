@@ -673,6 +673,7 @@
                                      'Event'                    => 'Event',
                                      'HowTo'                    => 'HowTo',   
                                      'local_business'           => 'Local Business',
+                                     'MedicalCondition'         => 'MedicalCondition',
                                      'NewsArticle'              => 'NewsArticle',
                                      'Product'                  => 'Product',
                                      'qanda'                    => 'Q&A',   
