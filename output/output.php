@@ -204,8 +204,8 @@ function saswp_schema_output() {
             $schema_options = $schemaConditionals['schema_options'];
         }   
         	        
-	$schema_type    = saswp_remove_warnings($schemaConditionals, 'schema_type', 'saswp_string');         
-        $schema_post_id = saswp_remove_warnings($schemaConditionals, 'post_id', 'saswp_string');
+	$schema_type      = saswp_remove_warnings($schemaConditionals, 'schema_type', 'saswp_string');         
+        $schema_post_id   = saswp_remove_warnings($schemaConditionals, 'post_id', 'saswp_string');        
            
         
         $logo           = ''; 
@@ -290,7 +290,11 @@ function saswp_schema_output() {
                         
                         $extra_theme_review = array();                        
                         $extra_theme_review = $service_object->saswp_extra_theme_review_details(get_the_ID());
-                                                                                              
+                        
+                        if($schema_type == 'HowTo'){
+                            $input1 = array();
+                        }
+                        
                         if( 'Course' === $schema_type){
                             
                         $description = strip_tags(strip_shortcodes(get_the_excerpt()));
@@ -1488,12 +1492,19 @@ function saswp_schema_output() {
                         //Speakable schema
                         
                         if($schema_type == 'TechArticle' || $schema_type == 'Article' || $schema_type == 'Blogposting' || $schema_type == 'NewsArticle' || $schema_type == 'WebPage'){
-               
-                            $input1['speakable']['@type'] = 'SpeakableSpecification';
-                            $input1['speakable']['xpath'] = array(
-                                 "/html/head/title",
-                                 "/html/head/meta[@name='description']/@content"
-                            );
+                                           
+                              $speakable_status = get_post_meta($schema_post_id, 'saswp_enable_speakable_schema', true);
+                            
+                              if($speakable_status){
+                            
+                                  $input1['speakable']['@type'] = 'SpeakableSpecification';
+                                  $input1['speakable']['xpath'] = array(
+                                         "/html/head/title",
+                                         "/html/head/meta[@name='description']/@content"
+                                    );
+                                  
+                              }
+                            
                            
                         }
                         
@@ -1619,6 +1630,8 @@ function saswp_post_specific_schema_output() {
             
         foreach($all_schemas as $schema){
             
+        $input1 = array(); 
+        
         $schema_id      = $schema;   	
 	$schema_type    = esc_sql ( get_post_meta($schema_id, 'schema_type', true)  );        
         $schema_post_id = $post->ID;  
@@ -1659,7 +1672,135 @@ function saswp_post_specific_schema_output() {
                         $service_object     = new saswp_output_service();
                         $extra_theme_review = $service_object->saswp_extra_theme_review_details(get_the_ID());
             
-                        
+                         if('HowTo' === $schema_type){
+                             
+                            $howto_image = get_post_meta( get_the_ID(), 'saswp_howto_schema_image_'.$schema_id.'_detail',true); 
+                            
+                             
+                            $tool    = esc_sql ( get_post_meta($schema_post_id, 'howto_tool_'.$schema_id, true)  );              
+                            $step    = esc_sql ( get_post_meta($schema_post_id, 'howto_step_'.$schema_id, true)  );              
+                            $supply  = esc_sql ( get_post_meta($schema_post_id, 'howto_supply_'.$schema_id, true)  );              
+                            
+                            
+                            $input1['@context']              = 'http://schema.org';
+                            $input1['@type']                 = 'HowTo';
+                            $input1['name']                  = saswp_remove_warnings($all_post_meta, 'saswp_howto_schema_name_'.$schema_id, 'saswp_array');
+                            $input1['datePublished']         = isset($all_post_meta['saswp_howto_ec_schema_date_published_'.$schema_id])?date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_howto_ec_schema_date_published_'.$schema_id][0])):'';
+			    $input1['dateModified']          = isset($all_post_meta['saswp_howto_ec_schema_date_modified_'.$schema_id])?date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_howto_ec_schema_date_modified_'.$schema_id][0])):'';
+                            $input1['description']           = saswp_remove_warnings($all_post_meta, 'saswp_howto_schema_description_'.$schema_id, 'saswp_array');
+                              
+                            if(!(empty($howto_image))){
+                             
+                            $input1['image']['@type']        = 'ImageObject';
+                            $input1['image']['url']          = isset($howto_image['thumbnail']) ? esc_url($howto_image['thumbnail']):'';
+                            $input1['image']['height']       = isset($howto_image['width'])     ? esc_attr($howto_image['width'])   :'';
+                            $input1['image']['width']        = isset($howto_image['height'])    ? esc_attr($howto_image['height'])  :'';
+                                
+                            }                            
+                            
+                            $input1['estimatedCost']['@type']   = 'MonetaryAmount';
+                            $input1['estimatedCost']['currency']= saswp_remove_warnings($all_post_meta, 'saswp_howto_ec_schema_currency_'.$schema_id, 'saswp_array');
+                            $input1['estimatedCost']['value']   = saswp_remove_warnings($all_post_meta, 'saswp_howto_ec_schema_value_'.$schema_id, 'saswp_array');
+                                                        
+                            $supply_arr = array();
+                            if(!empty($supply)){
+                                
+                                foreach($supply as $val){
+                                   
+                                    $supply_data = array();
+                                    $supply_data['@type'] = 'HowToSupply';
+                                    $supply_data['name'] = $val['saswp_howto_supply_name'];
+                                    
+                                    if(isset($val['saswp_howto_supply_image_id'])){
+                                        
+                                        $image_details   = wp_get_attachment_image_src($val['saswp_howto_supply_image_id']); 
+                                        
+                                                $supply_data['image']['@type']  = 'ImageObject';                                                
+                                                $supply_data['image']['url']    = esc_url($image_details[0]);
+                                                $supply_data['image']['width']  = esc_attr($image_details[1]);
+                                                $supply_data['image']['height'] = esc_attr($image_details[2]);
+                                        
+                                        
+                                        
+                                    }
+                                   $supply_arr[] =  $supply_data;
+                                }
+                               $input1['supply'] = $supply_arr;
+                            }
+                                                        
+                            $tool_arr = array();
+                            if(!empty($tool)){
+                                
+                                foreach($tool as $val){
+                                   
+                                    $supply_data = array();
+                                    $supply_data['@type'] = 'HowToTool';
+                                    $supply_data['name'] = $val['saswp_howto_tool_name'];
+                                    
+                                    if(isset($val['saswp_howto_tool_image_id'])){
+                                        
+                                        $image_details   = wp_get_attachment_image_src($val['saswp_howto_tool_image_id']); 
+                                        
+                                                $supply_data['image']['@type']  = 'ImageObject';                                                
+                                                $supply_data['image']['url']    = esc_url($image_details[0]);
+                                                $supply_data['image']['width']  = esc_attr($image_details[1]);
+                                                $supply_data['image']['height'] = esc_attr($image_details[2]);
+                                        
+                                        
+                                        
+                                    }
+                                   $tool_arr[] =  $supply_data;
+                                }
+                               $input1['tool'] = $tool_arr;
+                            }
+                                                                                    
+                            //step
+                            
+                            $step_arr = array();                            
+                            if(!empty($step)){
+                                
+                                foreach($step as $key => $val){
+                                   
+                                    $supply_data = array();
+                                    $direction   = array();
+                                    $tip         = array();
+                                    
+                                    $direction['@type']     = 'HowToDirection';
+                                    $direction['text']      = $val['saswp_howto_direction_text'];
+                                    
+                                    $tip['@type']           = 'HowToTip';
+                                    $tip['text']            = $val['saswp_howto_tip_text'];
+                                    
+                                    
+                                    $supply_data['@type']   = 'HowToStep';
+                                    $supply_data['url']     = get_permalink().'#step'.++$key;
+                                    $supply_data['name']    = $val['saswp_howto_step_name'];                                                                                                            
+                                    $supply_data['itemListElement']  = array($direction, $tip);
+                                    
+                                    if(isset($val['saswp_howto_step_image_id'])){
+                                        
+                                        $image_details   = wp_get_attachment_image_src($val['saswp_howto_step_image_id']); 
+                                        
+                                                $supply_data['image']['@type']  = 'ImageObject';                                                
+                                                $supply_data['image']['url']    = esc_url($image_details[0]);
+                                                $supply_data['image']['width']  = esc_attr($image_details[1]);
+                                                $supply_data['image']['height'] = esc_attr($image_details[2]);
+                                        
+                                        
+                                        
+                                    }
+                                    
+                                   $step_arr[] =  $supply_data;
+                                   
+                                }
+                                
+                               $input1['step'] = $step_arr;
+                               
+                            }
+                            
+                             $input1['totalTime'] = saswp_remove_warnings($all_post_meta, 'saswp_howto_schema_totaltime_'.$schema_id, 'saswp_array');
+                                                       
+                            }
                         
                          if( 'qanda' === $schema_type){      
                              
@@ -2778,7 +2919,7 @@ function saswp_post_specific_schema_output() {
 			}
                         
                         
-                        if($schema_type != 'Review'){
+                         if($schema_type != 'Review'){
                             
                             //kk star rating 
                         

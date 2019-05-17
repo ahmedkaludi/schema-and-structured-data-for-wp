@@ -1086,14 +1086,16 @@ jQuery(document).ready(function($){
            $(this).parent().parent().hide();
        }); 
         
-        
+        //How to schema js starts here
         
        $(document).on("click", ".saswp-how-to-supply", function(e){
            e.preventDefault();
            
            var schema_id = $(this).attr('data-id');
-           var index =  $(".saswp-how-to-supply-table-div").length;
-           
+           var count =  $(".saswp-how-to-supply-table-div").length;
+           var index = $( ".saswp-how-to-supply-table-div:nth-child("+count+")" ).attr('data-id');
+               index = ++index;
+               
            if(!index){
                index = 0;
            }
@@ -1130,8 +1132,10 @@ jQuery(document).ready(function($){
        $(document).on("click", ".saswp-how-to-tool", function(e){
            e.preventDefault();
            
-           var schema_id = $(this).attr('data-id');
-           var index =  $(".saswp-how-to-tool-table-div").length;
+          var schema_id = $(this).attr('data-id');
+          var count =  $(".saswp-how-to-tool-table-div").length;
+          var index = $( ".saswp-how-to-tool-table-div:nth-child("+count+")" ).attr('data-id');
+               index = ++index;
            
            if(!index){
                index = 0;
@@ -1169,8 +1173,10 @@ jQuery(document).ready(function($){
        $(document).on("click", ".saswp-how-to-step", function(e){
            e.preventDefault();
                       
-           var schema_id =  $(this).attr('data-id');
-           var index     =  $(".saswp-how-to-step-table-div").length;
+          var schema_id = $(this).attr('data-id');
+          var count =  $(".saswp-how-to-step-table-div").length;
+          var index = $( ".saswp-how-to-step-table-div:nth-child("+count+")" ).attr('data-id');
+              index = ++index;
            
            if(!index){
                index = 0;
@@ -1216,6 +1222,7 @@ jQuery(document).ready(function($){
            $(this).parent().remove();
        });
         
+       //How to schema js ends here
         
        $(document).on("click", '.saswp-add-custom-fields', function(){          
           var schema_type = $('select#schema_type option:selected').val();

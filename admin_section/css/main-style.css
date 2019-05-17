@@ -971,12 +971,15 @@ Google review module ends here
             
 }
 .saswp-how-to-supply,.saswp-how-to-step,.saswp-how-to-tool{
-    margin-top: 5px;
+    margin-top: 5px !important;
 }
 
 .saswp-table-close{
     float: right;
     cursor: pointer;
+}
+.saswp-table-create-onajax table th, .saswp-table-create-onajax table td{
+    padding: 5px;
 }
 
 /*** How to schema css ends here ***/    

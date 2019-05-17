@@ -141,6 +141,18 @@ class saswp_post_specific {
                          if(!empty($howto_supply)){
                              $i = 0;
                              foreach ($howto_supply as $supply){
+                               
+                             $img_prev = '';
+                             
+                             if(wp_get_attachment_url($supply['saswp_howto_supply_image_id'])){
+                                 
+                             $img_prev = '<div class="saswp_image_thumbnail">'
+                                        . '<img class="saswp_image_prev" src="'.wp_get_attachment_url(esc_attr($supply['saswp_howto_supply_image_id'])).'">'
+                                        . '<a data-id="saswp_howto_supply_image_'.$i.'_'.esc_attr($schema_id).'" href="#" class="saswp_prev_close">X</a>'
+                                        . '</div>';     
+                                 
+                             }    
+                                
                              
                              $supply_html .='<div class="saswp-how-to-supply-table-div" data-id="'.$i.'">'
                                         . '<a class="saswp-table-close">X</a>'
@@ -155,10 +167,9 @@ class saswp_post_specific {
                                         . '<input style="width:80%" type="text" id="saswp_howto_supply_image_'.$i.'_'.esc_attr($schema_id).'" name="saswp_howto_supply_image_'.$i.'_'.esc_attr($schema_id).'" value="'.wp_get_attachment_url(esc_attr($supply['saswp_howto_supply_image_id'])).'">'
                                         . '<input type="hidden" data-id="saswp_howto_supply_image_'.$i.'_'.esc_attr($schema_id).'_id" name="howto_supply_'.esc_attr($schema_id).'['.$i.'][saswp_howto_supply_image_id]" id="saswp_howto_supply_image_'.$i.'_'.esc_attr($schema_id).'_id" value="'.esc_attr($supply['saswp_howto_supply_image_id']).'">'
                                         . '<input data-id="media" style="width: 19%" class="button" id="saswp_howto_supply_image_'.$i.'_'.esc_attr($schema_id).'_button" name="saswp_howto_supply_image_'.$i.'_'.esc_attr($schema_id).'_button" type="button" value="Upload">'
-                                        . '<div class="saswp_image_div_saswp_howto_supply_image_'.$i.'_'.esc_attr($schema_id).'"><div class="saswp_image_thumbnail">'
-                                        . '<img class="saswp_image_prev" src="'.wp_get_attachment_url(esc_attr($supply['saswp_howto_supply_image_id'])).'">'
-                                        . '<a data-id="saswp_howto_supply_image_'.$i.'_'.esc_attr($schema_id).'" href="#" class="saswp_prev_close">X</a>'
-                                        . '</div></div>'
+                                        . '<div class="saswp_image_div_saswp_howto_supply_image_'.$i.'_'.esc_attr($schema_id).'">'
+                                        . $img_prev                                                                              
+                                        . '</div>'
                                         . '</fieldset>'
                                         . '</td>'
                                         . '</tr>'
@@ -192,6 +203,17 @@ class saswp_post_specific {
                              $i = 0;
                              foreach ($howto_tool as $tool){
                              
+                             $img_prev ='';
+                             
+                             if(wp_get_attachment_url($tool['saswp_howto_tool_image_id'])){
+                                 
+                                 $img_prev = '<div class="saswp_image_thumbnail">'
+                                            . '<img class="saswp_image_prev" src="'.wp_get_attachment_url(esc_attr($tool['saswp_howto_tool_image_id'])).'">'
+                                            . '<a data-id="saswp_howto_tool_image_'.$i.'_'.esc_attr($schema_id).'" href="#" class="saswp_prev_close">X</a>'
+                                            . '</div>';
+                                 
+                             }
+                                 
                              $tool_html .='<div class="saswp-how-to-tool-table-div" data-id="'.$i.'">'
                                         . '<a class="saswp-table-close">X</a>'
                                         . '<table class="form-table saswp-how-to-tool-table">'                                                                                            
@@ -205,10 +227,9 @@ class saswp_post_specific {
                                         . '<input style="width:80%" type="text" id="saswp_howto_tool_image_'.$i.'_'.esc_attr($schema_id).'" name="saswp_howto_tool_image_'.$i.'_'.esc_attr($schema_id).'" value="'.wp_get_attachment_url(esc_attr($tool['saswp_howto_tool_image_id'])).'">'
                                         . '<input type="hidden" data-id="saswp_howto_tool_image_'.$i.'_'.esc_attr($schema_id).'_id" name="howto_tool_'.esc_attr($schema_id).'['.$i.'][saswp_howto_tool_image_id]" id="saswp_howto_tool_image_'.$i.'_'.esc_attr($schema_id).'_id" value="'.esc_attr($tool['saswp_howto_tool_image_id']).'">'
                                         . '<input data-id="media" style="width: 19%" class="button" id="saswp_howto_tool_image_'.$i.'_'.esc_attr($schema_id).'_button" name="saswp_howto_tool_image_'.$i.'_'.esc_attr($schema_id).'_button" type="button" value="Upload">'
-                                        . '<div class="saswp_image_div_saswp_howto_tool_image_'.$i.'_'.esc_attr($schema_id).'"><div class="saswp_image_thumbnail">'
-                                        . '<img class="saswp_image_prev" src="'.wp_get_attachment_url(esc_attr($tool['saswp_howto_tool_image_id'])).'">'
-                                        . '<a data-id="saswp_howto_tool_image_'.$i.'_'.esc_attr($schema_id).'" href="#" class="saswp_prev_close">X</a>'
-                                        . '</div></div>'
+                                        . '<div class="saswp_image_div_saswp_howto_tool_image_'.$i.'_'.esc_attr($schema_id).'">'
+                                        . $img_prev
+                                        . '</div>'
                                         . '</fieldset>'
                                         . '</td>'
                                         . '</tr>'
@@ -242,6 +263,17 @@ class saswp_post_specific {
                              $i = 0;
                              foreach ($howto_step as $key => $step){
                              
+                             $img_prev = '';
+                             
+                             if(wp_get_attachment_url($step['saswp_howto_step_image_id'])){
+                                 
+                                $img_prev = '<div class="saswp_image_thumbnail">'
+                                            . '<img class="saswp_image_prev" src="'.wp_get_attachment_url(esc_attr($step['saswp_howto_step_image_id'])).'">'
+                                            . '<a data-id="saswp_howto_step_image_'.$i.'_'.esc_attr($schema_id).'" href="#" class="saswp_prev_close">X</a>'
+                                            . '</div>';
+                                 
+                             }
+                                 
                              $step_html .='<div class="saswp-how-to-step-table-div" data-id="'.$i.'">'
                                         . '<a class="saswp-table-close">X</a>'
                                         . '<table class="form-table saswp-how-to-step-table">'                                                                                          
@@ -261,10 +293,9 @@ class saswp_post_specific {
                                         . '<input style="width:80%" type="text" id="saswp_howto_step_image_'.$i.'_'.esc_attr($schema_id).'" name="saswp_howto_step_image_'.esc_attr($schema_id).'['.$i.']" value="'.wp_get_attachment_url(esc_attr($step['saswp_howto_step_image_id'])).'">'
                                         . '<input type="hidden" data-id="saswp_howto_step_image_'.$i.'_'.esc_attr($schema_id).'_id" name="howto_step_'.esc_attr($schema_id).'['.$i.'][saswp_howto_step_image_id]" id="saswp_howto_step_image_'.$i.'_'.esc_attr($schema_id).'_id" value="'.esc_attr($step['saswp_howto_step_image_id']).'">'
                                         . '<input data-id="media" style="width: 19%" class="button" id="saswp_howto_step_image_'.$i.'_'.esc_attr($schema_id).'_button" name="saswp_howto_step_image_'.$i.'_'.esc_attr($schema_id).'_button" type="button" value="Upload">'
-                                        . '<div class="saswp_image_div_saswp_howto_step_image_'.$i.'_'.esc_attr($schema_id).'"><div class="saswp_image_thumbnail">'
-                                        . '<img class="saswp_image_prev" src="'.wp_get_attachment_url(esc_attr($step['saswp_howto_step_image_id'])).'">'
-                                        . '<a data-id="saswp_howto_step_image_'.$i.'_'.esc_attr($schema_id).'" href="#" class="saswp_prev_close">X</a>'
-                                        . '</div></div>'
+                                        . '<div class="saswp_image_div_saswp_howto_step_image_'.$i.'_'.esc_attr($schema_id).'">'
+                                        . $img_prev
+                                        . '</div>'
                                         . '</fieldset>'
                                         . '</td>'
                                         . '</tr>'
@@ -2861,7 +2892,7 @@ class saswp_post_specific {
                     $meta_field = array(
                     array(
                             'label'      => 'Name',
-                            'id'         => 'saswp_howto_name_'.$schema_id,
+                            'id'         => 'saswp_howto_schema_name_'.$schema_id,
                             'type'       => 'text',
                             'attributes' => array(
                                 'placeholder' => 'Name'
@@ -2869,17 +2900,17 @@ class saswp_post_specific {
                     ),
                     array(
                             'label'      => 'Description',
-                            'id'         => 'saswp_howto_description_'.$schema_id,
+                            'id'         => 'saswp_howto_schema_description_'.$schema_id,
                             'type'       => 'textarea',                            
                     ), 
                     array(
                             'label'      => 'Image',
-                            'id'         => 'saswp_howto_image_'.$schema_id,
+                            'id'         => 'saswp_howto_schema_image_'.$schema_id,
                             'type'       => 'media',                            
                     ),     
                     array(
                             'label'      => 'Estimated Cost Currency',
-                            'id'         => 'saswp_howto_ec_currency_'.$schema_id,
+                            'id'         => 'saswp_howto_ec_schema_currency_'.$schema_id,
                             'type'       => 'text',
                             'attributes' => array(
                                 'placeholder' => 'USD'
@@ -2887,7 +2918,7 @@ class saswp_post_specific {
                     ),
                     array(
                             'label'      => 'Estimated Cost Value',
-                            'id'         => 'saswp_howto_ec_value_'.$schema_id,
+                            'id'         => 'saswp_howto_ec_schema_value_'.$schema_id,
                             'type'       => 'text',
                             'attributes' => array(
                                 'placeholder' => '20'
@@ -2895,12 +2926,23 @@ class saswp_post_specific {
                     ),
                     array(
                             'label'      => 'Total Time',
-                            'id'         => 'saswp_howto_totaltime_'.$schema_id,
+                            'id'         => 'saswp_howto_schema_totaltime_'.$schema_id,
                             'type'       => 'text', 
                             'attributes' => array(
                                 'placeholder' => 'PT30M'
                             ), 
-                    )                                                                                         
+                    ),
+                     array(
+                            'label'      => 'Date Published',
+                            'id'         => 'saswp_howto_ec_schema_date_published_'.$schema_id,
+                            'type'       => 'text', 
+                            
+                    ),
+                        array(
+                            'label'      => 'Date Modified',
+                            'id'         => 'saswp_howto_ec_schema_date_modified_'.$schema_id,
+                            'type'       => 'text',                             
+                    )
                    );
                     break;
                 
