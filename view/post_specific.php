@@ -675,14 +675,7 @@ class saswp_post_specific {
                                                 $media_value['thumbnail'] = $business_details['local_business_logo']['url'];                                             
                                         }
                                         
-                                        if (strpos($meta_field['id'], 'product_schema_image') !== false && empty($media_value_meta)) {
-                                            
-                                                $business_details = esc_sql ( get_post_meta($schema_id, 'saswp_product_schema_details', true)  );                                                                                            
-                                                $media_value['height'] = $business_details['saswp_product_schema_image']['height'];                                                                                         
-                                                $media_value['width'] = $business_details['saswp_product_schema_image']['width'];                                                                                         
-                                                $media_value['thumbnail'] = $business_details['saswp_product_schema_image']['url'];                                             
-                                        }
-                                        
+                                                                                
                                         if (strpos($meta_field['id'], 'service_schema_image') !== false && empty($media_value_meta)) {
                                             
                                                 $business_details = esc_sql ( get_post_meta($schema_id, 'saswp_service_schema_details', true)  );                                                                                            
@@ -2263,56 +2256,48 @@ class saswp_post_specific {
                     break;
                 
                 case 'Product':                                                           
-                    $product_schema_details = esc_sql ( get_post_meta($schema_id, 'saswp_product_schema_details', true)  );
+                    
                     $meta_field = array(
                         
                     array(
                             'label' => 'Name',
                             'id' => 'saswp_product_schema_name_'.$schema_id,
-                            'type' => 'text',
-                            'default' => saswp_remove_warnings($product_schema_details, 'saswp_product_schema_name', 'saswp_string'),
+                            'type' => 'text',                            
                     ),
                     array(
                             'label' => 'Description',
                             'id' => 'saswp_product_schema_description_'.$schema_id,
-                            'type' => 'textarea',
-                            'default' => saswp_remove_warnings($product_schema_details, 'saswp_product_schema_description', 'saswp_string'),
+                            'type' => 'textarea',                            
                     ), 
                         array(
                             'label' => 'Image',
                             'id' => 'saswp_product_schema_image_'.$schema_id,
-                            'type' => 'media',
-                            'default' => $product_schema_details['saswp_product_schema_image']['url'], 
+                            'type' => 'media',                            
                      ),
                          array(
                             'label' => 'Brand Name',
                             'id' => 'saswp_product_schema_brand_name_'.$schema_id,
-                            'type' => 'text',
-                            'default' => saswp_remove_warnings($product_schema_details, 'saswp_product_schema_brand_name', 'saswp_string'), 
+                            'type' => 'text',                            
                      ),
                         array(
                             'label' => 'Price',
                             'id' => 'saswp_product_schema_price_'.$schema_id,
-                            'type' => 'text',
-                            'default' => saswp_remove_warnings($product_schema_details, 'saswp_product_schema_price', 'saswp_string'), 
+                            'type' => 'text',                            
                      ),
                         array(
                             'label' => 'Price Valid Until',
                             'id' => 'saswp_product_schema_priceValidUntil_'.$schema_id,
-                            'type' => 'text',
-                             'default' => saswp_remove_warnings($product_schema_details, 'saswp_product_schema_priceValidUntil', 'saswp_string'), 
+                            'type' => 'text',                             
                        ),
                         array(
                             'label' => 'Currency',
                             'id' => 'saswp_product_schema_currency_'.$schema_id,
-                            'type' => 'text',
-                            'default' => saswp_remove_warnings($product_schema_details, 'saswp_product_schema_currency', 'saswp_string'), 
+                            'type' => 'text',                            
                       ),
                         array(
                             'label'   => 'Availability',
                             'id'      => 'saswp_product_schema_availability_'.$schema_id,
-                            'type'    => 'select',
-                            'default' => saswp_remove_warnings($product_schema_details, 'saswp_product_schema_availability', 'saswp_string'), 
+                            'type'    => 'select',                            
                             'options' => array(
                                      'InStock'           => 'In Stock',
                                      'OutOfStock'        => 'Out Of Stock',
@@ -2323,8 +2308,7 @@ class saswp_post_specific {
                         array(
                             'label'   => 'Condition',
                             'id'      => 'saswp_product_schema_condition_'.$schema_id,
-                            'type'    => 'select',
-                            'default' => saswp_remove_warnings($product_schema_details, 'saswp_product_schema_condition', 'saswp_string'), 
+                            'type'    => 'select',                            
                             'options' => array(
                                      'NewCondition'              => 'New',
                                      'UsedCondition'             => 'Used',
@@ -2335,46 +2319,39 @@ class saswp_post_specific {
                         array(
                             'label' => 'SKU',
                             'id' => 'saswp_product_schema_sku_'.$schema_id,
-                            'type' => 'text',
-                            'default' => saswp_remove_warnings($product_schema_details, 'saswp_product_schema_sku', 'saswp_string'), 
+                            'type' => 'text',                            
                      ),
                         array(
                             'label' => 'MPN',
                             'id' => 'saswp_product_schema_mpn_'.$schema_id,
                             'type' => 'text',
-                            'note'   => 'OR',
-                            'default' => saswp_remove_warnings($product_schema_details, 'saswp_product_schema_mpn', 'saswp_string'), 
+                            'note'   => 'OR',                            
                        ),
                         array(
                             'label' => 'ISBN',
                             'id' => 'saswp_product_schema_isbn_'.$schema_id,
                             'type' => 'text',
-                            'note'   => 'OR',
-                            'default' => saswp_remove_warnings($product_schema_details, 'saswp_product_schema_isbn', 'saswp_string'), 
+                            'note'   => 'OR',                           
                      ),
                         array(
                             'label' => 'GTIN8',
                             'id' => 'saswp_product_schema_gtin8_'.$schema_id,
-                            'type' => 'text', 
-                            'default' => saswp_remove_warnings($product_schema_details, 'saswp_product_schema_gtin8', 'saswp_string'),                           
+                            'type' => 'text',                             
                        ),
                         array(
                             'label' => 'Aggregate Rating',
                             'id' => 'saswp_product_schema_enable_rating_'.$schema_id,
-                            'type' => 'checkbox',
-                            //'default' => saswp_remove_warnings($product_schema_details, 'saswp_product_schema_enable_rating', 'saswp_string')
+                            'type' => 'checkbox',                            
                         ),
                         array(
                             'label' => 'Rating',
                             'id' => 'saswp_product_schema_rating_'.$schema_id,
-                            'type' => 'text',
-                            'default' => saswp_remove_warnings($product_schema_details, 'saswp_product_schema_rating', 'saswp_string')
+                            'type' => 'text',                            
                         ),
                         array(
                             'label' => 'Number of Reviews',
                             'id' => 'saswp_product_schema_review_count_'.$schema_id,
-                            'type' => 'text',
-                            'default' => saswp_remove_warnings($product_schema_details, 'saswp_product_schema_review_count', 'saswp_string')
+                            'type' => 'text',                            
                         ),
                         
                     );
