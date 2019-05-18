@@ -316,9 +316,10 @@ class saswp_post_specific {
                          
                          $tabs_fields .= '<div class="saswp-table-create-onajax">';
                          
-                         $tabs_fields .= '<div class="saswp-how-to-supply-section-main">';                                                  
-                         $tabs_fields .= '<div class="saswp-how-to-supply-section" data-id="'.esc_attr($schema_id).'">';
                          
+                         //supply section starts here
+                         $tabs_fields .= '<div class="saswp-how-to-supply-section-main">';                                                  
+                         $tabs_fields .= '<div class="saswp-how-to-supply-section" data-id="'.esc_attr($schema_id).'">';                         
                          if(isset($howto_data['howto_supply_'.$schema_id])){
                              
                              $howto_supply = $howto_data['howto_supply_'.$schema_id];                                                     
@@ -341,11 +342,74 @@ class saswp_post_specific {
                              
                              $tabs_fields .= $supply_html;
                              
-                         }
-                         
+                         }                         
                          $tabs_fields .= '</div>';
                          $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-how-to-supply">Add HowTo Supply</a>';                                                                                                    
                          $tabs_fields .= '</div>';                                                                           
+                         //supply section ends here here
+                         
+                         //tool section starts here
+                          $tabs_fields .= '<div class="saswp-how-to-tool-section-main">';                                                  
+                         $tabs_fields .= '<div class="saswp-how-to-tool-section" data-id="'.esc_attr($schema_id).'">';                         
+                         if(isset($howto_data['howto_tool_'.$schema_id])){
+                             
+                             $howto_tool = $howto_data['howto_tool_'.$schema_id];                                                     
+                             $tool_html  = '';
+                             
+                             if(!empty($howto_tool)){
+                                 
+                                    $i = 0;
+                                    foreach ($howto_tool as $tool){
+                                                                                                                        
+                                        $tool_html .= '<div class="saswp-how-to-tool-table-div" data-id="'.$i.'">';
+                                        $tool_html .= '<a class="saswp-table-close">X</a>';
+                                        $tool_html .= $this->saswp_get_dynamic_html($schema_id, 'howto_tool', $i, $tool);
+                                        $tool_html .= '</div>';
+                                        
+                                     $i++;   
+                                    }
+                                 
+                             }
+                             
+                             $tabs_fields .= $tool_html;
+                             
+                         }                         
+                         $tabs_fields .= '</div>';
+                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-how-to-tool">Add HowTo Tool</a>';                                                                                                    
+                         $tabs_fields .= '</div>';                                                                        
+                         //tool section ends here here
+                         
+                         //step section starts here here
+                         $tabs_fields .= '<div class="saswp-how-to-step-section-main">';                                                  
+                         $tabs_fields .= '<div class="saswp-how-to-step-section" data-id="'.esc_attr($schema_id).'">';                         
+                         if(isset($howto_data['howto_step_'.$schema_id])){
+                             
+                             $howto_step = $howto_data['howto_step_'.$schema_id];                                                     
+                             $step_html  = '';
+                             
+                             if(!empty($howto_step)){
+                                 
+                                    $i = 0;
+                                    foreach ($howto_step as $step){
+                                                                                                                        
+                                        $step_html .= '<div class="saswp-how-to-step-table-div" data-id="'.$i.'">';
+                                        $step_html .= '<a class="saswp-table-close">X</a>';
+                                        $step_html .= $this->saswp_get_dynamic_html($schema_id, 'howto_step', $i, $step);
+                                        $step_html .= '</div>';
+                                        
+                                     $i++;   
+                                    }
+                                 
+                             }
+                             
+                             $tabs_fields .= $step_html;
+                             
+                         }                         
+                         $tabs_fields .= '</div>';
+                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-how-to-step">Add HowTo Step</a>';                                                                                                    
+                         $tabs_fields .= '</div>';  
+                         //step section ends here here
+                         
                          
                          $tabs_fields .= '</div>';
                      }                      
@@ -367,11 +431,110 @@ class saswp_post_specific {
                      $tabs_fields .= '</div>';
                      
                      //How to schema starts here
-                      if($schema_type == 'HowTo'){
-                      //$tabs_fields.= $this->saswp_get_howto_schema_html($schema->ID, $howto_data);   
-                          $this->saswp_get_dynamic_html();
-                     }
-                     //How to schema ends here                                                                                   
+                     if($schema_type == 'HowTo'){
+                      
+                         $schema_id = $schema->ID;
+                         
+                         $tabs_fields .= '<div class="saswp-table-create-onajax">';
+                         
+                         
+                         //supply section starts here
+                         $tabs_fields .= '<div class="saswp-how-to-supply-section-main">';                                                  
+                         $tabs_fields .= '<div class="saswp-how-to-supply-section" data-id="'.esc_attr($schema_id).'">';                         
+                         if(isset($howto_data['howto_supply_'.$schema_id])){
+                             
+                             $howto_supply = $howto_data['howto_supply_'.$schema_id];                                                     
+                             $supply_html  = '';
+                             
+                             if(!empty($howto_supply)){
+                                 
+                                    $i = 0;
+                                    foreach ($howto_supply as $supply){
+                                                                                                                        
+                                        $supply_html .= '<div class="saswp-how-to-supply-table-div" data-id="'.$i.'">';
+                                        $supply_html .= '<a class="saswp-table-close">X</a>';
+                                        $supply_html .= $this->saswp_get_dynamic_html($schema_id, 'howto_supply', $i, $supply);
+                                        $supply_html .= '</div>';
+                                        
+                                     $i++;   
+                                    }
+                                 
+                             }
+                             
+                             $tabs_fields .= $supply_html;
+                             
+                         }                         
+                         $tabs_fields .= '</div>';
+                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-how-to-supply">Add HowTo Supply</a>';                                                                                                    
+                         $tabs_fields .= '</div>';                                                                           
+                         //supply section ends here here
+                         
+                         //tool section starts here
+                          $tabs_fields .= '<div class="saswp-how-to-tool-section-main">';                                                  
+                         $tabs_fields .= '<div class="saswp-how-to-tool-section" data-id="'.esc_attr($schema_id).'">';                         
+                         if(isset($howto_data['howto_tool_'.$schema_id])){
+                             
+                             $howto_tool = $howto_data['howto_tool_'.$schema_id];                                                     
+                             $tool_html  = '';
+                             
+                             if(!empty($howto_tool)){
+                                 
+                                    $i = 0;
+                                    foreach ($howto_tool as $tool){
+                                                                                                                        
+                                        $tool_html .= '<div class="saswp-how-to-tool-table-div" data-id="'.$i.'">';
+                                        $tool_html .= '<a class="saswp-table-close">X</a>';
+                                        $tool_html .= $this->saswp_get_dynamic_html($schema_id, 'howto_tool', $i, $tool);
+                                        $tool_html .= '</div>';
+                                        
+                                     $i++;   
+                                    }
+                                 
+                             }
+                             
+                             $tabs_fields .= $tool_html;
+                             
+                         }                         
+                         $tabs_fields .= '</div>';
+                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-how-to-tool">Add HowTo Tool</a>';                                                                                                    
+                         $tabs_fields .= '</div>';                                                                        
+                         //tool section ends here here
+                         
+                         //step section starts here here
+                         $tabs_fields .= '<div class="saswp-how-to-step-section-main">';                                                  
+                         $tabs_fields .= '<div class="saswp-how-to-step-section" data-id="'.esc_attr($schema_id).'">';                         
+                         if(isset($howto_data['howto_step_'.$schema_id])){
+                             
+                             $howto_step = $howto_data['howto_step_'.$schema_id];                                                     
+                             $step_html  = '';
+                             
+                             if(!empty($howto_step)){
+                                 
+                                    $i = 0;
+                                    foreach ($howto_step as $step){
+                                                                                                                        
+                                        $step_html .= '<div class="saswp-how-to-step-table-div" data-id="'.$i.'">';
+                                        $step_html .= '<a class="saswp-table-close">X</a>';
+                                        $step_html .= $this->saswp_get_dynamic_html($schema_id, 'howto_step', $i, $step);
+                                        $step_html .= '</div>';
+                                        
+                                     $i++;   
+                                    }
+                                 
+                             }
+                             
+                             $tabs_fields .= $step_html;
+                             
+                         }                         
+                         $tabs_fields .= '</div>';
+                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-how-to-step">Add HowTo Step</a>';                                                                                                    
+                         $tabs_fields .= '</div>';  
+                         //step section ends here here
+                         
+                         
+                         $tabs_fields .= '</div>';
+                     }                      
+                      //How to schema ends here                                                                                 
                     
                      $tabs_fields .= '</div>';
                      
@@ -427,12 +590,110 @@ class saswp_post_specific {
                  
                  
                  //How to schema starts here
-                  if($schema_type == 'HowTo'){
-                      //$tabs_fields.= $this->saswp_get_howto_schema_html($all_schema[0]->ID, $howto_data);   
+                     if($schema_type == 'HowTo'){
                       
-                      $this->saswp_get_dynamic_html();
-                   }
-                 //How to schema ends here 
+                         $schema_id = $schema->ID;
+                         
+                         $tabs_fields .= '<div class="saswp-table-create-onajax">';
+                         
+                         
+                         //supply section starts here
+                         $tabs_fields .= '<div class="saswp-how-to-supply-section-main">';                                                  
+                         $tabs_fields .= '<div class="saswp-how-to-supply-section" data-id="'.esc_attr($schema_id).'">';                         
+                         if(isset($howto_data['howto_supply_'.$schema_id])){
+                             
+                             $howto_supply = $howto_data['howto_supply_'.$schema_id];                                                     
+                             $supply_html  = '';
+                             
+                             if(!empty($howto_supply)){
+                                 
+                                    $i = 0;
+                                    foreach ($howto_supply as $supply){
+                                                                                                                        
+                                        $supply_html .= '<div class="saswp-how-to-supply-table-div" data-id="'.$i.'">';
+                                        $supply_html .= '<a class="saswp-table-close">X</a>';
+                                        $supply_html .= $this->saswp_get_dynamic_html($schema_id, 'howto_supply', $i, $supply);
+                                        $supply_html .= '</div>';
+                                        
+                                     $i++;   
+                                    }
+                                 
+                             }
+                             
+                             $tabs_fields .= $supply_html;
+                             
+                         }                         
+                         $tabs_fields .= '</div>';
+                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-how-to-supply">Add HowTo Supply</a>';                                                                                                    
+                         $tabs_fields .= '</div>';                                                                           
+                         //supply section ends here here
+                         
+                         //tool section starts here
+                          $tabs_fields .= '<div class="saswp-how-to-tool-section-main">';                                                  
+                         $tabs_fields .= '<div class="saswp-how-to-tool-section" data-id="'.esc_attr($schema_id).'">';                         
+                         if(isset($howto_data['howto_tool_'.$schema_id])){
+                             
+                             $howto_tool = $howto_data['howto_tool_'.$schema_id];                                                     
+                             $tool_html  = '';
+                             
+                             if(!empty($howto_tool)){
+                                 
+                                    $i = 0;
+                                    foreach ($howto_tool as $tool){
+                                                                                                                        
+                                        $tool_html .= '<div class="saswp-how-to-tool-table-div" data-id="'.$i.'">';
+                                        $tool_html .= '<a class="saswp-table-close">X</a>';
+                                        $tool_html .= $this->saswp_get_dynamic_html($schema_id, 'howto_tool', $i, $tool);
+                                        $tool_html .= '</div>';
+                                        
+                                     $i++;   
+                                    }
+                                 
+                             }
+                             
+                             $tabs_fields .= $tool_html;
+                             
+                         }                         
+                         $tabs_fields .= '</div>';
+                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-how-to-tool">Add HowTo Tool</a>';                                                                                                    
+                         $tabs_fields .= '</div>';                                                                        
+                         //tool section ends here here
+                         
+                         //step section starts here here
+                         $tabs_fields .= '<div class="saswp-how-to-step-section-main">';                                                  
+                         $tabs_fields .= '<div class="saswp-how-to-step-section" data-id="'.esc_attr($schema_id).'">';                         
+                         if(isset($howto_data['howto_step_'.$schema_id])){
+                             
+                             $howto_step = $howto_data['howto_step_'.$schema_id];                                                     
+                             $step_html  = '';
+                             
+                             if(!empty($howto_step)){
+                                 
+                                    $i = 0;
+                                    foreach ($howto_step as $step){
+                                                                                                                        
+                                        $step_html .= '<div class="saswp-how-to-step-table-div" data-id="'.$i.'">';
+                                        $step_html .= '<a class="saswp-table-close">X</a>';
+                                        $step_html .= $this->saswp_get_dynamic_html($schema_id, 'howto_step', $i, $step);
+                                        $step_html .= '</div>';
+                                        
+                                     $i++;   
+                                    }
+                                 
+                             }
+                             
+                             $tabs_fields .= $step_html;
+                             
+                         }                         
+                         $tabs_fields .= '</div>';
+                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-how-to-step">Add HowTo Step</a>';                                                                                                    
+                         $tabs_fields .= '</div>';  
+                         //step section ends here here
+                         
+                         
+                         $tabs_fields .= '</div>';
+                     }                      
+                      //How to schema ends here
                                                    
                  $tabs_fields .= '</div>';
                  $tabs_fields .= '<input class="saswp-post-specific-schema-ids" type="hidden" value="'. json_encode($schema_ids).'">';
