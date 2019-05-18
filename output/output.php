@@ -295,6 +295,10 @@ function saswp_schema_output() {
                             $input1 = array();
                         }
                         
+                        if($schema_type == 'MedicalCondition'){
+                            $input1 = array();
+                        }
+                        
                         if( 'Course' === $schema_type){
                             
                         $description = strip_tags(strip_shortcodes(get_the_excerpt()));
@@ -1741,6 +1745,81 @@ function saswp_post_specific_schema_output() {
                              $input1['totalTime'] = saswp_remove_warnings($all_post_meta, 'saswp_howto_schema_totaltime_'.$schema_id, 'saswp_array');
                                                        
                             }
+                            
+                         if('MedicalCondition' === $schema_type){
+                                                         
+                            $howto_image = get_post_meta( get_the_ID(), 'saswp_mc_schema_image_'.$schema_id.'_detail',true);  
+                             
+                            $cause       = esc_sql ( get_post_meta($schema_post_id, 'mc_cause_'.$schema_id, true));              
+                            $symptom     = esc_sql ( get_post_meta($schema_post_id, 'mc_symptom_'.$schema_id, true));              
+                            $riskfactro  = esc_sql ( get_post_meta($schema_post_id, 'mc_risk_factor_'.$schema_id, true));              
+                            
+                            
+                            $input1['@context']                     = 'http://schema.org';
+                            $input1['@type']                        = 'MedicalCondition';
+                            $input1['name']                         = saswp_remove_warnings($all_post_meta, 'saswp_mc_schema_name_'.$schema_id, 'saswp_array');
+                            $input1['alternateName']                = saswp_remove_warnings($all_post_meta, 'saswp_mc_schema_alternate_name_'.$schema_id, 'saswp_array');                            
+                            $input1['description']                  = saswp_remove_warnings($all_post_meta, 'saswp_mc_schema_description_'.$schema_id, 'saswp_array');
+                            
+                            if(!(empty($howto_image))){
+                             
+                            $input1['image']['@type']        = 'ImageObject';
+                            $input1['image']['url']          = isset($howto_image['thumbnail']) ? esc_url($howto_image['thumbnail']):'';
+                            $input1['image']['height']       = isset($howto_image['width'])     ? esc_attr($howto_image['width'])   :'';
+                            $input1['image']['width']        = isset($howto_image['height'])    ? esc_attr($howto_image['height'])  :'';
+                                
+                            }
+                                                                                                             
+                            $input1['associatedAnatomy']['@type']   = 'AnatomicalStructure';
+                            $input1['associatedAnatomy']['name']    = saswp_remove_warnings($all_post_meta, 'saswp_mc_schema_anatomy_name_'.$schema_id, 'saswp_array');                            
+                                                        
+                            $input1['code']['@type']                = 'MedicalCode';
+                            $input1['code']['code']                 = saswp_remove_warnings($all_post_meta, 'saswp_mc_schema_medical_code_'.$schema_id, 'saswp_array');                            
+                            $input1['code']['codingSystem']         = saswp_remove_warnings($all_post_meta, 'saswp_mc_schema_coding_system_'.$schema_id, 'saswp_array');                            
+                                                        
+                            $cause_arr = array();
+                            if(!empty($cause)){
+                                
+                                foreach($cause as $val){
+                                   
+                                    $supply_data = array();
+                                    $supply_data['@type'] = 'MedicalCause';
+                                    $supply_data['name'] = $val['saswp_mc_cause_name'];
+                                    
+                                   $cause_arr[] =  $supply_data;
+                                }
+                               $input1['cause'] = $cause_arr;
+                            }
+                            
+                            $symptom_arr = array();
+                            if(!empty($symptom)){
+                                
+                                foreach($symptom as $val){
+                                   
+                                    $supply_data = array();
+                                    $supply_data['@type'] = 'MedicalSymptom';
+                                    $supply_data['name'] = $val['saswp_mc_symptom_name'];
+                                    
+                                   $symptom_arr[] =  $supply_data;
+                                }
+                               $input1['signOrSymptom'] = $symptom_arr;
+                            }
+                            
+                            $riskfactor_arr = array();
+                            if(!empty($riskfactro)){
+                                
+                                foreach($riskfactro as $val){
+                                   
+                                    $supply_data = array();
+                                    $supply_data['@type'] = 'MedicalRiskFactor';
+                                    $supply_data['name'] = $val['saswp_mc_risk_factor_name'];
+                                    
+                                   $riskfactor_arr[] =  $supply_data;
+                                }
+                               $input1['riskFactor'] = $riskfactor_arr;
+                            }
+                                                                                                                                                                                                   
+                            }   
                         
                          if( 'qanda' === $schema_type){      
                              

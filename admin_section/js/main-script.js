@@ -1085,7 +1085,99 @@ jQuery(document).ready(function($){
        $(document).on("click", '.saswp-skip-button', function(){
            $(this).parent().parent().hide();
        }); 
+       
+    
+        //Medical condition schema starts here
         
+        $(document).on("click", ".saswp-mc-cause", function(e){
+           e.preventDefault();
+           
+           var schema_id = $(this).attr('data-id');
+           var count =  $(".saswp-mc-cause-table-div").length;
+           var index = $( ".saswp-mc-cause-table-div:nth-child("+count+")" ).attr('data-id');
+               index = ++index;
+               
+           if(!index){
+               index = 0;
+           }
+                   
+            var html = '';
+            
+                   html += '<div class="saswp-mc-cause-table-div" data-id="'+index+'">'    
+                        +  '<a class="saswp-table-close">X</a>'
+                        + '<table class="form-table saswp-mc-cause-table">'                                                                                           
+                        + '<tr>'
+                        + '<th>Cause</th><td><input style="width:100%" type="text" id="saswp_mc_cause_name_'+index+'_'+schema_id+'" name="mc_cause_'+schema_id+'['+index+'][saswp_mc_cause_name]"></td>'
+                        + '</tr>'                        
+                        + '</table>'
+                        + '</div>';
+           if(html){
+               $('.saswp-mc-cause-section[data-id="'+schema_id+'"]').append(html);
+           }
+            
+           
+       });
+       
+        $(document).on("click", ".saswp-mc-symptom", function(e){
+           e.preventDefault();
+           
+           var schema_id = $(this).attr('data-id');
+           var count =  $(".saswp-mc-symptom-table-div").length;
+           var index = $( ".saswp-mc-symptom-table-div:nth-child("+count+")" ).attr('data-id');
+               index = ++index;
+               
+           if(!index){
+               index = 0;
+           }
+                   
+            var html = '';
+            
+                   html += '<div class="saswp-mc-symptom-table-div" data-id="'+index+'">'
+                        +  '<a class="saswp-table-close">X</a>'
+                        + '<table class="form-table saswp-mc-symptom-table">'                                                                                           
+                        + '<tr>'
+                        + '<th>symptom Name</th><td><input style="width:100%" type="text" id="saswp_mc_symptom_name_'+index+'_'+schema_id+'" name="mc_symptom_'+schema_id+'['+index+'][saswp_mc_symptom_name]"></td>'
+                        + '</tr>'                        
+                        + '</table>'
+                        + '</div>';
+           if(html){
+               $('.saswp-mc-symptom-section[data-id="'+schema_id+'"]').append(html);
+           }
+            
+           
+       });
+       
+       $(document).on("click", ".saswp-mc-risk_factor", function(e){
+           e.preventDefault();
+           
+           var schema_id = $(this).attr('data-id');
+           var count =  $(".saswp-mc-risk_factor-table-div").length;
+           var index = $( ".saswp-mc-risk_factor-table-div:nth-child("+count+")" ).attr('data-id');
+               index = ++index;
+               
+           if(!index){
+               index = 0;
+           }
+                   
+            var html = '';
+            
+                   html += '<div class="saswp-mc-risk_factor-table-div" data-id="'+index+'">'
+                        +  '<a class="saswp-table-close">X</a>'
+                        + '<table class="form-table saswp-mc-risk_factor-table">'                                                                                           
+                        + '<tr>'
+                        + '<th>Risk Factor Name</th><td><input style="width:100%" type="text" id="saswp_mc_risk_factor_name_'+index+'_'+schema_id+'" name="mc_risk_factor_'+schema_id+'['+index+'][saswp_mc_risk_factor_name]"></td>'
+                        + '</tr>'                        
+                        + '</table>'
+                        + '</div>';
+           if(html){
+               $('.saswp-mc-risk_factor-section[data-id="'+schema_id+'"]').append(html);
+           }
+            
+           
+       });
+        
+        //Medical condition schema ends here
+    
         //How to schema js starts here
         
        $(document).on("click", ".saswp-how-to-supply", function(e){

@@ -195,6 +195,48 @@ class saswp_post_specific {
                     );
 
                     break;
+                
+                case 'mc_symptom':
+                    
+                    $meta_fields = array(
+                    
+                    array(
+			'label'     => 'Sign Or Symptom',
+			'name'      => 'saswp_mc_symptom_name',
+			'type'      => 'text',                        
+		    )                 
+                                        
+                    );
+
+                    break;
+                
+                case 'mc_risk_factor':
+                    
+                    $meta_fields = array(
+                    
+                    array(
+			'label'     => 'Risk Factor',
+			'name'      => 'saswp_mc_risk_factor_name',
+			'type'      => 'text',                        
+		    )                   
+                                        
+                    );
+
+                    break;
+                
+                case 'mc_cause':
+                    
+                    $meta_fields = array(
+                    
+                    array(
+			'label'     => 'Cause',
+			'name'      => 'saswp_mc_cause_name',
+			'type'      => 'text',                        
+		    )                   
+                                        
+                    );
+
+                    break;
 
                 default:
                     break;
@@ -268,6 +310,7 @@ class saswp_post_specific {
             $tabs_fields       = '';
             $schema_ids        = array();
             $howto_data        = array();
+            $mc_data           = array();
 
             $schema_enable = get_post_meta($post->ID, 'saswp_enable_disable_schema', true);
                                 
@@ -294,7 +337,16 @@ class saswp_post_specific {
                      $howto_data['howto_step_'.$schema->ID]  = esc_sql ( get_post_meta($post->ID, 'howto_step_'.$schema->ID, true)  );              
                      $howto_data['howto_supply_'.$schema->ID]  = esc_sql ( get_post_meta($post->ID, 'howto_supply_'.$schema->ID, true)  );              
                          
-                     }                     
+                     }
+
+                     if($schema_type == 'MedicalCondition'){
+                      
+                     $mc_data['mc_cause_'.$schema->ID]  = esc_sql ( get_post_meta($post->ID, 'mc_cause_'.$schema->ID, true)  );              
+                     $mc_data['mc_symptom_'.$schema->ID]  = esc_sql ( get_post_meta($post->ID, 'mc_symptom_'.$schema->ID, true)  );              
+                     $mc_data['mc_risk_factor_'.$schema->ID]  = esc_sql ( get_post_meta($post->ID, 'mc_risk_factor_'.$schema->ID, true)  );              
+                         
+                     
+                     }
                                                                
                      if($key==0){
                          
@@ -414,6 +466,117 @@ class saswp_post_specific {
                          $tabs_fields .= '</div>';
                      }                      
                       //How to schema ends here 
+                     
+                     //Medical condition schema starts here
+                     if($schema_type == 'MedicalCondition'){
+                      
+                         $schema_id = $schema->ID;
+                         
+                         $tabs_fields .= '<div class="saswp-table-create-onajax">';
+                         
+                         
+                         //cause section starts here
+                          
+                         $tabs_fields .= '<div class="saswp-mc-cause-section-main">';                                                  
+                         $tabs_fields .= '<div class="saswp-mc-cause-section" data-id="'.esc_attr($schema_id).'">';                         
+                         if(isset($mc_data['mc_cause_'.$schema_id])){
+                             
+                             $mc_cause = $mc_data['mc_cause_'.$schema_id];  
+                             
+                             $cause_html  = '';
+                             
+                             if(!empty($mc_cause)){
+                                 
+                                    $i = 0;
+                                    foreach ($mc_cause as $cause){
+                                                                                                                        
+                                        $cause_html .= '<div class="saswp-mc-cause-table-div" data-id="'.$i.'">';
+                                        $cause_html .= '<a class="saswp-table-close">X</a>';
+                                        $cause_html .= $this->saswp_get_dynamic_html($schema_id, 'mc_cause', $i, $cause);
+                                        $cause_html .= '</div>';
+                                        
+                                     $i++;   
+                                    }
+                                 
+                             }
+                             
+                             $tabs_fields .= $cause_html;
+                             
+                         }                         
+                         $tabs_fields .= '</div>';
+                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-mc-cause">Add MC Cause</a>';                                                                                                    
+                         $tabs_fields .= '</div>'; 
+                         
+                         //cause section ends here here
+                         
+                         //symptom section starts here
+                         $tabs_fields .= '<div class="saswp-mc-symptom-section-main">';                                                  
+                         $tabs_fields .= '<div class="saswp-mc-symptom-section" data-id="'.esc_attr($schema_id).'">';                         
+                         if(isset($mc_data['mc_symptom_'.$schema_id])){
+                             
+                             $mc_symptom = $mc_data['mc_symptom_'.$schema_id];                                                     
+                             $symptom_html  = '';
+                             
+                             if(!empty($mc_symptom)){
+                                 
+                                    $i = 0;
+                                    foreach ($mc_symptom as $symptom){
+                                                                                                                        
+                                        $symptom_html .= '<div class="saswp-mc-symptom-table-div" data-id="'.$i.'">';
+                                        $symptom_html .= '<a class="saswp-table-close">X</a>';
+                                        $symptom_html .= $this->saswp_get_dynamic_html($schema_id, 'mc_symptom', $i, $symptom);
+                                        $symptom_html .= '</div>';
+                                        
+                                     $i++;   
+                                    }
+                                 
+                             }
+                             
+                             $tabs_fields .= $symptom_html;
+                             
+                         }                         
+                         $tabs_fields .= '</div>';
+                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-mc-symptom">Add MC Symptom</a>';                                                                                                    
+                         $tabs_fields .= '</div>'; 
+                         //symptom section ends here
+                         
+                         //risk factor starts here
+                         $tabs_fields .= '<div class="saswp-mc-risk_factor-section-main">';                                                  
+                         $tabs_fields .= '<div class="saswp-mc-risk_factor-section" data-id="'.esc_attr($schema_id).'">';                         
+                         if(isset($mc_data['mc_risk_factor_'.$schema_id])){
+                             
+                             $mc_risk_factor = $mc_data['mc_risk_factor_'.$schema_id];                                                     
+                             $risk_factor_html  = '';
+                             
+                             if(!empty($mc_risk_factor)){
+                                 
+                                    $i = 0;
+                                    foreach ($mc_risk_factor as $risk_factor){
+                                                                                                                        
+                                        $risk_factor_html .= '<div class="saswp-mc-risk_factor-table-div" data-id="'.$i.'">';
+                                        $risk_factor_html .= '<a class="saswp-table-close">X</a>';
+                                        $risk_factor_html .= $this->saswp_get_dynamic_html($schema_id, 'mc_risk_factor', $i, $risk_factor);
+                                        $risk_factor_html .= '</div>';
+                                        
+                                     $i++;   
+                                    }
+                                 
+                             }
+                             
+                             $tabs_fields .= $risk_factor_html;
+                             
+                         }                         
+                         $tabs_fields .= '</div>';
+                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-mc-risk_factor">Add MC Risk Factor</a>';                                                                                                    
+                         $tabs_fields .= '</div>'; 
+                         //risk factor ends here
+                                                                                                    
+                         $tabs_fields .= '</div>';
+                     }                      
+                     //Medical condition schema ends here
+                     
+                     
+                     
                      
                      $tabs_fields .= '</div>';
                      
@@ -573,6 +736,13 @@ class saswp_post_specific {
                      $howto_data['howto_tool_'.$all_schema[0]->ID]  = esc_sql ( get_post_meta($post->ID, 'howto_tool_'.$all_schema[0]->ID, true)  );              
                      $howto_data['howto_step_'.$all_schema[0]->ID]  = esc_sql ( get_post_meta($post->ID, 'howto_step_'.$all_schema[0]->ID, true)  );                                     
                      $howto_data['howto_supply_'.$all_schema[0]->ID]  = esc_sql ( get_post_meta($post->ID, 'howto_supply_'.$all_schema[0]->ID, true)  );                                     
+                }
+                if($schema_type == 'MedicalCondition'){
+                      
+                     $mc_data['mc_cause_'.$schema->ID]  = esc_sql ( get_post_meta($post->ID, 'mc_cause_'.$schema->ID, true)  );              
+                     $mc_data['mc_symptom_'.$schema->ID]  = esc_sql ( get_post_meta($post->ID, 'mc_symptom_'.$schema->ID, true)  );              
+                     $mc_data['mc_risk_factor_'.$schema->ID]  = esc_sql ( get_post_meta($post->ID, 'mc_risk_factor_'.$schema->ID, true)  );              
+                         
                 }
                  
                  $this->meta_fields = $response;
@@ -1220,7 +1390,33 @@ class saswp_post_specific {
                      update_post_meta( $post_id, 'howto_tool_'.$schema->ID, $howto_tool);
                      update_post_meta( $post_id, 'howto_supply_'.$schema->ID, $howto_supply);
                                                                                
-                //How to schema ends here
+                    //How to schema ends here
+                     
+                     
+                     //MedicalCondition schema starts here
+                     $mc_cause          = array();
+                     $mc_symptom        = array();
+                     $mc_r_factor = array();
+                
+                     if(isset($_POST['mc_cause_'.$schema->ID])){
+                         
+                         $mc_cause = $_POST['mc_cause_'.$schema->ID];                                                                          
+                     }                                            
+                     if(isset($_POST['mc_symptom_'.$schema->ID])){
+                         
+                         $mc_symptom = $_POST['mc_symptom_'.$schema->ID];                                                                          
+                     }
+                     if(isset($_POST['mc_risk_factor_'.$schema->ID])){
+                         
+                         $mc_r_factor = $_POST['mc_risk_factor_'.$schema->ID];                                                                          
+                     }
+                     
+                     update_post_meta( $post_id, 'mc_cause_'.$schema->ID, $mc_cause);
+                     update_post_meta( $post_id, 'mc_symptom_'.$schema->ID, $mc_symptom);
+                     update_post_meta( $post_id, 'mc_risk_factor_'.$schema->ID, $mc_r_factor);
+                                                                               
+                    //MedicalCondition schema ends here
+                     
                                                                
                      $response          = $this->saswp_get_fields_by_schema_type($schema->ID); 
                      
@@ -3161,6 +3357,68 @@ class saswp_post_specific {
                             'id'         => 'saswp_howto_ec_schema_date_modified_'.$schema_id,
                             'type'       => 'text',                             
                     )
+                   );
+                    break;
+                
+                case 'MedicalCondition':
+                    
+                    $meta_field = array(
+                    array(
+                            'label'      => 'Name',
+                            'id'         => 'saswp_mc_schema_name_'.$schema_id,
+                            'type'       => 'text',
+                            'attributes' => array(
+                                'placeholder' => 'Name'
+                            ), 
+                    ),
+                    array(
+                            'label'      => 'Alternate Name',
+                            'id'         => 'saswp_mc_schema_alternate_name_'.$schema_id,
+                            'type'       => 'text',
+                            'attributes' => array(
+                                'placeholder' => 'Alternate Name'
+                            ), 
+                    ),    
+                    array(
+                            'label'      => 'Description',
+                            'id'         => 'saswp_mc_schema_description_'.$schema_id,
+                            'type'       => 'textarea',                            
+                    ),
+                    array(
+                            'label'      => 'Image',
+                            'id'         => 'saswp_mc_schema_image_'.$schema_id,
+                            'type'       => 'media',                            
+                    ),                             
+                    array(
+                            'label'      => 'associated Anatomy Name',
+                            'id'         => 'saswp_mc_schema_anatomy_name_'.$schema_id,
+                            'type'       => 'text',
+                            'attributes' => array(
+                                'placeholder' => 'Name'
+                            ), 
+                    ),
+                    array(
+                            'label'      => 'Medical Code',
+                            'id'         => 'saswp_mc_schema_medical_code_'.$schema_id,
+                            'type'       => 'text',
+                            'attributes' => array(
+                                'placeholder' => '413'
+                            ), 
+                    ),
+                    array(
+                            'label'      => 'Coding System',
+                            'id'         => 'saswp_mc_schema_coding_system_'.$schema_id,
+                            'type'       => 'text', 
+                            'attributes' => array(
+                                'placeholder' => 'ICD-9'
+                            ), 
+                    ),
+                     array(
+                            'label'      => 'Diagnosis Name',
+                            'id'         => 'saswp_mc_schema_diagnosis_name_'.$schema_id,
+                            'type'       => 'text', 
+                            
+                    )                     
                    );
                     break;
                 
