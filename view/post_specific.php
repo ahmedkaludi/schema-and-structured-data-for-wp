@@ -697,7 +697,116 @@ class saswp_post_specific {
                          
                          $tabs_fields .= '</div>';
                      }                      
-                      //How to schema ends here                                                                                 
+                      //How to schema ends here   
+                     
+                     
+                     //Medical condition schema starts here
+                     if($schema_type == 'MedicalCondition'){
+                      
+                         $schema_id = $schema->ID;
+                         
+                         $tabs_fields .= '<div class="saswp-table-create-onajax">';
+                         
+                         
+                         //cause section starts here
+                          
+                         $tabs_fields .= '<div class="saswp-mc-cause-section-main">';                                                  
+                         $tabs_fields .= '<div class="saswp-mc-cause-section" data-id="'.esc_attr($schema_id).'">';                         
+                         if(isset($mc_data['mc_cause_'.$schema_id])){
+                             
+                             $mc_cause = $mc_data['mc_cause_'.$schema_id];  
+                             
+                             $cause_html  = '';
+                             
+                             if(!empty($mc_cause)){
+                                 
+                                    $i = 0;
+                                    foreach ($mc_cause as $cause){
+                                                                                                                        
+                                        $cause_html .= '<div class="saswp-mc-cause-table-div" data-id="'.$i.'">';
+                                        $cause_html .= '<a class="saswp-table-close">X</a>';
+                                        $cause_html .= $this->saswp_get_dynamic_html($schema_id, 'mc_cause', $i, $cause);
+                                        $cause_html .= '</div>';
+                                        
+                                     $i++;   
+                                    }
+                                 
+                             }
+                             
+                             $tabs_fields .= $cause_html;
+                             
+                         }                         
+                         $tabs_fields .= '</div>';
+                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-mc-cause">Add MC Cause</a>';                                                                                                    
+                         $tabs_fields .= '</div>'; 
+                         
+                         //cause section ends here here
+                         
+                         //symptom section starts here
+                         $tabs_fields .= '<div class="saswp-mc-symptom-section-main">';                                                  
+                         $tabs_fields .= '<div class="saswp-mc-symptom-section" data-id="'.esc_attr($schema_id).'">';                         
+                         if(isset($mc_data['mc_symptom_'.$schema_id])){
+                             
+                             $mc_symptom = $mc_data['mc_symptom_'.$schema_id];                                                     
+                             $symptom_html  = '';
+                             
+                             if(!empty($mc_symptom)){
+                                 
+                                    $i = 0;
+                                    foreach ($mc_symptom as $symptom){
+                                                                                                                        
+                                        $symptom_html .= '<div class="saswp-mc-symptom-table-div" data-id="'.$i.'">';
+                                        $symptom_html .= '<a class="saswp-table-close">X</a>';
+                                        $symptom_html .= $this->saswp_get_dynamic_html($schema_id, 'mc_symptom', $i, $symptom);
+                                        $symptom_html .= '</div>';
+                                        
+                                     $i++;   
+                                    }
+                                 
+                             }
+                             
+                             $tabs_fields .= $symptom_html;
+                             
+                         }                         
+                         $tabs_fields .= '</div>';
+                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-mc-symptom">Add MC Symptom</a>';                                                                                                    
+                         $tabs_fields .= '</div>'; 
+                         //symptom section ends here
+                         
+                         //risk factor starts here
+                         $tabs_fields .= '<div class="saswp-mc-risk_factor-section-main">';                                                  
+                         $tabs_fields .= '<div class="saswp-mc-risk_factor-section" data-id="'.esc_attr($schema_id).'">';                         
+                         if(isset($mc_data['mc_risk_factor_'.$schema_id])){
+                             
+                             $mc_risk_factor = $mc_data['mc_risk_factor_'.$schema_id];                                                     
+                             $risk_factor_html  = '';
+                             
+                             if(!empty($mc_risk_factor)){
+                                 
+                                    $i = 0;
+                                    foreach ($mc_risk_factor as $risk_factor){
+                                                                                                                        
+                                        $risk_factor_html .= '<div class="saswp-mc-risk_factor-table-div" data-id="'.$i.'">';
+                                        $risk_factor_html .= '<a class="saswp-table-close">X</a>';
+                                        $risk_factor_html .= $this->saswp_get_dynamic_html($schema_id, 'mc_risk_factor', $i, $risk_factor);
+                                        $risk_factor_html .= '</div>';
+                                        
+                                     $i++;   
+                                    }
+                                 
+                             }
+                             
+                             $tabs_fields .= $risk_factor_html;
+                             
+                         }                         
+                         $tabs_fields .= '</div>';
+                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-mc-risk_factor">Add MC Risk Factor</a>';                                                                                                    
+                         $tabs_fields .= '</div>'; 
+                         //risk factor ends here
+                                                                                                    
+                         $tabs_fields .= '</div>';
+                     }                      
+                     //Medical condition schema ends here
                     
                      $tabs_fields .= '</div>';
                      
@@ -863,8 +972,116 @@ class saswp_post_specific {
                          
                          $tabs_fields .= '</div>';
                      }                      
-                      //How to schema ends here
-                                                   
+                 //How to schema ends here
+                     
+                 //Medical condition schema starts here
+                     if($schema_type == 'MedicalCondition'){
+                      
+                         $schema_id = $schema->ID;
+                         
+                         $tabs_fields .= '<div class="saswp-table-create-onajax">';
+                         
+                         
+                         //cause section starts here
+                          
+                         $tabs_fields .= '<div class="saswp-mc-cause-section-main">';                                                  
+                         $tabs_fields .= '<div class="saswp-mc-cause-section" data-id="'.esc_attr($schema_id).'">';                         
+                         if(isset($mc_data['mc_cause_'.$schema_id])){
+                             
+                             $mc_cause = $mc_data['mc_cause_'.$schema_id];  
+                             
+                             $cause_html  = '';
+                             
+                             if(!empty($mc_cause)){
+                                 
+                                    $i = 0;
+                                    foreach ($mc_cause as $cause){
+                                                                                                                        
+                                        $cause_html .= '<div class="saswp-mc-cause-table-div" data-id="'.$i.'">';
+                                        $cause_html .= '<a class="saswp-table-close">X</a>';
+                                        $cause_html .= $this->saswp_get_dynamic_html($schema_id, 'mc_cause', $i, $cause);
+                                        $cause_html .= '</div>';
+                                        
+                                     $i++;   
+                                    }
+                                 
+                             }
+                             
+                             $tabs_fields .= $cause_html;
+                             
+                         }                         
+                         $tabs_fields .= '</div>';
+                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-mc-cause">Add MC Cause</a>';                                                                                                    
+                         $tabs_fields .= '</div>'; 
+                         
+                         //cause section ends here here
+                         
+                         //symptom section starts here
+                         $tabs_fields .= '<div class="saswp-mc-symptom-section-main">';                                                  
+                         $tabs_fields .= '<div class="saswp-mc-symptom-section" data-id="'.esc_attr($schema_id).'">';                         
+                         if(isset($mc_data['mc_symptom_'.$schema_id])){
+                             
+                             $mc_symptom = $mc_data['mc_symptom_'.$schema_id];                                                     
+                             $symptom_html  = '';
+                             
+                             if(!empty($mc_symptom)){
+                                 
+                                    $i = 0;
+                                    foreach ($mc_symptom as $symptom){
+                                                                                                                        
+                                        $symptom_html .= '<div class="saswp-mc-symptom-table-div" data-id="'.$i.'">';
+                                        $symptom_html .= '<a class="saswp-table-close">X</a>';
+                                        $symptom_html .= $this->saswp_get_dynamic_html($schema_id, 'mc_symptom', $i, $symptom);
+                                        $symptom_html .= '</div>';
+                                        
+                                     $i++;   
+                                    }
+                                 
+                             }
+                             
+                             $tabs_fields .= $symptom_html;
+                             
+                         }                         
+                         $tabs_fields .= '</div>';
+                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-mc-symptom">Add MC Symptom</a>';                                                                                                    
+                         $tabs_fields .= '</div>'; 
+                         //symptom section ends here
+                         
+                         //risk factor starts here
+                         $tabs_fields .= '<div class="saswp-mc-risk_factor-section-main">';                                                  
+                         $tabs_fields .= '<div class="saswp-mc-risk_factor-section" data-id="'.esc_attr($schema_id).'">';                         
+                         if(isset($mc_data['mc_risk_factor_'.$schema_id])){
+                             
+                             $mc_risk_factor = $mc_data['mc_risk_factor_'.$schema_id];                                                     
+                             $risk_factor_html  = '';
+                             
+                             if(!empty($mc_risk_factor)){
+                                 
+                                    $i = 0;
+                                    foreach ($mc_risk_factor as $risk_factor){
+                                                                                                                        
+                                        $risk_factor_html .= '<div class="saswp-mc-risk_factor-table-div" data-id="'.$i.'">';
+                                        $risk_factor_html .= '<a class="saswp-table-close">X</a>';
+                                        $risk_factor_html .= $this->saswp_get_dynamic_html($schema_id, 'mc_risk_factor', $i, $risk_factor);
+                                        $risk_factor_html .= '</div>';
+                                        
+                                     $i++;   
+                                    }
+                                 
+                             }
+                             
+                             $tabs_fields .= $risk_factor_html;
+                             
+                         }                         
+                         $tabs_fields .= '</div>';
+                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-mc-risk_factor">Add MC Risk Factor</a>';                                                                                                    
+                         $tabs_fields .= '</div>'; 
+                         //risk factor ends here
+                                                                                                    
+                         $tabs_fields .= '</div>';
+                     }                      
+                     //Medical condition schema ends here
+                                                                                             
                  $tabs_fields .= '</div>';
                  $tabs_fields .= '<input class="saswp-post-specific-schema-ids" type="hidden" value="'. json_encode($schema_ids).'">';
                  $tabs_fields .= '</div>';
@@ -3419,6 +3636,137 @@ class saswp_post_specific {
                             'type'       => 'text', 
                             
                     )                     
+                   );
+                    break;
+                
+                case 'VideoGame':
+                    
+                    $meta_field = array(
+                    array(
+                            'label'      => 'Name',
+                            'id'         => 'saswp_vg_schema_name_'.$schema_id,
+                            'type'       => 'text',
+                            'attributes' => array(
+                                'placeholder' => 'Name'
+                            ), 
+                    ),
+                    array(
+                            'label'      => 'URL',
+                            'id'         => 'saswp_vg_schema_url_'.$schema_id,
+                            'type'       => 'text',
+                            
+                    ),
+                    array(
+                            'label'      => 'Image',
+                            'id'         => 'saswp_vg_schema_image_'.$schema_id,
+                            'type'       => 'media',
+                            
+                    ),
+                    array(
+                            'label'      => 'Description',
+                            'id'         => 'saswp_vg_schema_description_'.$schema_id,
+                            'type'       => 'textarea',
+                            
+                    ),
+                    array(
+                            'label'      => 'Operating System',
+                            'id'         => 'saswp_vg_schema_operating_system_'.$schema_id,
+                            'type'       => 'text',
+                            
+                    ),
+                    array(
+                            'label'      => 'Application Category',
+                            'id'         => 'saswp_vg_schema_application_category_'.$schema_id,
+                            'type'       => 'text',
+                            
+                    ),
+                    array(
+                            'label'      => 'Author Name',
+                            'id'         => 'saswp_vg_schema_author_name_'.$schema_id,
+                            'type'       => 'text',
+                            
+                    ),
+                    array(
+                            'label'      => 'Price',
+                            'id'         => 'saswp_vg_schema_price_'.$schema_id,
+                            'type'       => 'text',
+                            
+                    ),
+                    array(
+                            'label'      => 'Price Currency',
+                            'id'         => 'saswp_vg_schema_price_currency_'.$schema_id,
+                            'type'       => 'text',
+                            
+                    ),    
+                    array(
+                            'label'   => 'Availability',
+                            'id'      => 'saswp_vg_schema_price_availability_'.$schema_id,
+                            'type'    => 'select',                            
+                            'options' => array(
+                                     'InStock'           => 'In Stock',
+                                     'OutOfStock'        => 'Out Of Stock',
+                                     'Discontinued'      => 'Discontinued',
+                                     'PreOrder'          => 'Pre Order', 
+                            ) 
+                       ), 
+                    array(
+                            'label'      => 'Publisher',
+                            'id'         => 'saswp_vg_schema_publisher_'.$schema_id,
+                            'type'       => 'text',
+                            
+                    ),
+                    array(
+                            'label'      => 'Genre',
+                            'id'         => 'saswp_vg_schema_genre_'.$schema_id,
+                            'type'       => 'text',
+                            
+                    ),
+                    array(
+                            'label'      => 'Processor Requirements',
+                            'id'         => 'saswp_vg_schema_processor_requirements_'.$schema_id,
+                            'type'       => 'text',
+                            
+                    ),
+                    array(
+                            'label'      => 'Memory Requirements',
+                            'id'         => 'saswp_vg_schema_memory_requirements_'.$schema_id,
+                            'type'       => 'text',
+                            
+                    ),
+                    array(
+                            'label'      => 'Storage Requirements',
+                            'id'         => 'saswp_vg_schema_storage_requirements_'.$schema_id,
+                            'type'       => 'text',
+                            
+                    ),
+                    array(
+                            'label'      => 'Game Platform',
+                            'id'         => 'saswp_vg_schema_game_platform_'.$schema_id,
+                            'type'       => 'text',
+                            
+                    ),
+                    array(
+                            'label'      => 'Cheat Code',
+                            'id'         => 'saswp_vg_schema_cheat_code_'.$schema_id,
+                            'type'       => 'text',
+                            
+                    ),
+                    array(
+                            'label' => 'Aggregate Rating',
+                            'id' => 'saswp_vg_schema_enable_rating_'.$schema_id,
+                            'type' => 'checkbox',                          
+                        ),
+                        array(
+                            'label' => 'Rating',
+                            'id' => 'saswp_vg_schema_rating_'.$schema_id,
+                            'type' => 'text',                           
+                        ),
+                        array(
+                            'label' => 'Number of Reviews',
+                            'id' => 'saswp_vg_schema_review_count_'.$schema_id,
+                            'type' => 'text',                           
+                        ),    
+                        
                    );
                     break;
                 

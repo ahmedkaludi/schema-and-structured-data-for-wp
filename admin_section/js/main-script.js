@@ -1136,7 +1136,7 @@ jQuery(document).ready(function($){
                         +  '<a class="saswp-table-close">X</a>'
                         + '<table class="form-table saswp-mc-symptom-table">'                                                                                           
                         + '<tr>'
-                        + '<th>symptom Name</th><td><input style="width:100%" type="text" id="saswp_mc_symptom_name_'+index+'_'+schema_id+'" name="mc_symptom_'+schema_id+'['+index+'][saswp_mc_symptom_name]"></td>'
+                        + '<th>Symptom Name</th><td><input style="width:100%" type="text" id="saswp_mc_symptom_name_'+index+'_'+schema_id+'" name="mc_symptom_'+schema_id+'['+index+'][saswp_mc_symptom_name]"></td>'
                         + '</tr>'                        
                         + '</table>'
                         + '</div>';

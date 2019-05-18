@@ -681,7 +681,8 @@
                                      'Recipe'                   => 'Recipe',                                     
                                      'Service'                  => 'Service',
                                      'SoftwareApplication'      => 'SoftwareApplication',       
-                                     'TechArticle'              => 'TechArticle', 
+                                     'TechArticle'              => 'TechArticle',
+                                     'VideoGame'                => 'VideoGame',
                                      'VideoObject'              => 'VideoObject',
                                      'WebPage'                  => 'WebPage'                                                                
                                  );
