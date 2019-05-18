@@ -680,6 +680,7 @@
                                      'Review'                   => 'Review',                                     
                                      'Recipe'                   => 'Recipe',                                     
                                      'Service'                  => 'Service',
+                                     'TVSeries'                 => 'TVSeries',
                                      'SoftwareApplication'      => 'SoftwareApplication',       
                                      'TechArticle'              => 'TechArticle',
                                      'VideoGame'                => 'VideoGame',

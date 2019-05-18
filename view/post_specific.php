@@ -234,9 +234,48 @@ class saswp_post_specific {
 			'type'      => 'text',                        
 		    )                   
                                         
+                    );                                    
+
+                    break;
+                
+                
+                case 'tvseries_actor':
+                    
+                    $meta_fields = array(
+                    
+                    array(
+			'label'     => 'Actor Name',
+			'name'      => 'saswp_tvseries_actor_name',
+			'type'      => 'text',                        
+		    )                   
+                                        
+                    );    
+
+                    break;
+                
+                case 'tvseries_season':
+                    
+                    $meta_fields = array(
+                    
+                    array(
+			'label'     => 'Season Name',
+			'name'      => 'saswp_tvseries_season_name',
+			'type'      => 'text',                        
+		    ),
+                    array(
+			'label'     => 'Season Published Date',
+			'name'      => 'saswp_tvseries_season_published_date',
+			'type'      => 'text',                        
+		    ),
+                    array(
+			'label'     => 'Number Of Episodes',
+			'name'      => 'saswp_tvseries_season_episodes',
+			'type'      => 'text',                        
+		    )                                                            
                     );
 
                     break;
+                
 
                 default:
                     break;
@@ -311,6 +350,7 @@ class saswp_post_specific {
             $schema_ids        = array();
             $howto_data        = array();
             $mc_data           = array();
+            $tvseries_data     = array();
 
             $schema_enable = get_post_meta($post->ID, 'saswp_enable_disable_schema', true);
                                 
@@ -344,8 +384,14 @@ class saswp_post_specific {
                      $mc_data['mc_cause_'.$schema->ID]  = esc_sql ( get_post_meta($post->ID, 'mc_cause_'.$schema->ID, true)  );              
                      $mc_data['mc_symptom_'.$schema->ID]  = esc_sql ( get_post_meta($post->ID, 'mc_symptom_'.$schema->ID, true)  );              
                      $mc_data['mc_risk_factor_'.$schema->ID]  = esc_sql ( get_post_meta($post->ID, 'mc_risk_factor_'.$schema->ID, true)  );              
-                         
+                                              
+                     }
                      
+                     if($schema_type == 'TVSeries'){
+                      
+                     $tvseries_data['tvseries_actor_'.$schema->ID]   = esc_sql ( get_post_meta($post->ID, 'tvseries_actor_'.$schema->ID, true)  );              
+                     $tvseries_data['tvseries_season_'.$schema->ID]  = esc_sql ( get_post_meta($post->ID, 'tvseries_season_'.$schema->ID, true)  );                                   
+                                              
                      }
                                                                
                      if($key==0){
@@ -575,8 +621,83 @@ class saswp_post_specific {
                      }                      
                      //Medical condition schema ends here
                      
-                     
-                     
+                     //TVSeries schema starts herre
+                     if($schema_type == 'TVSeries'){
+                      
+                         $schema_id = $schema->ID;
+                         
+                         $tabs_fields .= '<div class="saswp-table-create-onajax">';
+                                                  
+                         //actor section starts here                          
+                         $tabs_fields .= '<div class="saswp-tvseries-actor-section-main">';                                                  
+                         $tabs_fields .= '<div class="saswp-tvseries-actor-section" data-id="'.esc_attr($schema_id).'">';                         
+                         if(isset($tvseries_data['tvseries_actor_'.$schema_id])){
+                             
+                             $tvseries_actor = $tvseries_data['tvseries_actor_'.$schema_id];  
+                             
+                             $actor_html  = '';
+                             
+                             if(!empty($tvseries_actor)){
+                                 
+                                    $i = 0;
+                                    foreach ($tvseries_actor as $actor){
+                                                                                                                        
+                                        $actor_html .= '<div class="saswp-tvseries-actor-table-div" data-id="'.$i.'">';
+                                        $actor_html .= '<a class="saswp-table-close">X</a>';
+                                        $actor_html .= $this->saswp_get_dynamic_html($schema_id, 'tvseries_actor', $i, $actor);
+                                        $actor_html .= '</div>';
+                                        
+                                     $i++;   
+                                    }
+                                 
+                             }
+                             
+                             $tabs_fields .= $actor_html;
+                             
+                         }                         
+                         $tabs_fields .= '</div>';
+                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-tvseries-actor">Add TVSeries Actor</a>';                                                                                                    
+                         $tabs_fields .= '</div>';                          
+                         //actor section ends here here
+
+                         //season section starts here
+                         
+                         $tabs_fields .= '<div class="saswp-tvseries-season-section-main">';                                                  
+                         $tabs_fields .= '<div class="saswp-tvseries-season-section" data-id="'.esc_attr($schema_id).'">';                         
+                         if(isset($tvseries_data['tvseries_season_'.$schema_id])){
+                             
+                             $tvseries_season = $tvseries_data['tvseries_season_'.$schema_id];  
+                             
+                             $season_html  = '';
+                             
+                             if(!empty($tvseries_season)){
+                                 
+                                    $i = 0;
+                                    foreach ($tvseries_season as $season){
+                                                                                                                        
+                                        $season_html .= '<div class="saswp-tvseries-season-table-div" data-id="'.$i.'">';
+                                        $season_html .= '<a class="saswp-table-close">X</a>';
+                                        $season_html .= $this->saswp_get_dynamic_html($schema_id, 'tvseries_season', $i, $season);
+                                        $season_html .= '</div>';
+                                        
+                                     $i++;   
+                                    }
+                                 
+                             }
+                             
+                             $tabs_fields .= $season_html;
+                             
+                         }                         
+                         $tabs_fields .= '</div>';
+                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-tvseries-season">Add TVSeries Season</a>';                                                                                                    
+                         $tabs_fields .= '</div>';
+                         
+                         //season section ends here
+                                                                           
+                                                                                                    
+                         $tabs_fields .= '</div>';
+                     }                     
+                     //TvSeries schema ends here
                      
                      $tabs_fields .= '</div>';
                      
@@ -698,8 +819,7 @@ class saswp_post_specific {
                          $tabs_fields .= '</div>';
                      }                      
                       //How to schema ends here   
-                     
-                     
+                                          
                      //Medical condition schema starts here
                      if($schema_type == 'MedicalCondition'){
                       
@@ -808,6 +928,85 @@ class saswp_post_specific {
                      }                      
                      //Medical condition schema ends here
                     
+                     //TVSeries schema starts herre
+                     if($schema_type == 'TVSeries'){
+                      
+                         $schema_id = $schema->ID;
+                         
+                         $tabs_fields .= '<div class="saswp-table-create-onajax">';
+                                                  
+                         //actor section starts here                          
+                         $tabs_fields .= '<div class="saswp-tvseries-actor-section-main">';                                                  
+                         $tabs_fields .= '<div class="saswp-tvseries-actor-section" data-id="'.esc_attr($schema_id).'">';                         
+                         if(isset($tvseries_data['tvseries_actor_'.$schema_id])){
+                             
+                             $tvseries_actor = $tvseries_data['tvseries_actor_'.$schema_id];  
+                             
+                             $actor_html  = '';
+                             
+                             if(!empty($tvseries_actor)){
+                                 
+                                    $i = 0;
+                                    foreach ($tvseries_actor as $actor){
+                                                                                                                        
+                                        $actor_html .= '<div class="saswp-tvseries-actor-table-div" data-id="'.$i.'">';
+                                        $actor_html .= '<a class="saswp-table-close">X</a>';
+                                        $actor_html .= $this->saswp_get_dynamic_html($schema_id, 'tvseries_actor', $i, $actor);
+                                        $actor_html .= '</div>';
+                                        
+                                     $i++;   
+                                    }
+                                 
+                             }
+                             
+                             $tabs_fields .= $actor_html;
+                             
+                         }                         
+                         $tabs_fields .= '</div>';
+                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-tvseries-actor">Add TVSeries Actor</a>';                                                                                                    
+                         $tabs_fields .= '</div>';                          
+                         //actor section ends here here
+
+                         //season section starts here
+                         
+                         $tabs_fields .= '<div class="saswp-tvseries-season-section-main">';                                                  
+                         $tabs_fields .= '<div class="saswp-tvseries-season-section" data-id="'.esc_attr($schema_id).'">';                         
+                         if(isset($tvseries_data['tvseries_season_'.$schema_id])){
+                             
+                             $tvseries_season = $tvseries_data['tvseries_season_'.$schema_id];  
+                             
+                             $season_html  = '';
+                             
+                             if(!empty($tvseries_season)){
+                                 
+                                    $i = 0;
+                                    foreach ($tvseries_season as $season){
+                                                                                                                        
+                                        $season_html .= '<div class="saswp-tvseries-season-table-div" data-id="'.$i.'">';
+                                        $season_html .= '<a class="saswp-table-close">X</a>';
+                                        $season_html .= $this->saswp_get_dynamic_html($schema_id, 'tvseries_season', $i, $season);
+                                        $season_html .= '</div>';
+                                        
+                                     $i++;   
+                                    }
+                                 
+                             }
+                             
+                             $tabs_fields .= $season_html;
+                             
+                         }                         
+                         $tabs_fields .= '</div>';
+                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-tvseries-season">Add TVSeries Season</a>';                                                                                                    
+                         $tabs_fields .= '</div>';
+                         
+                         //season section ends here
+                                                                           
+                                                                                                    
+                         $tabs_fields .= '</div>';
+                     }                     
+                     //TvSeries schema ends here
+                     
+                     
                      $tabs_fields .= '</div>';
                      
                      } 
@@ -852,6 +1051,12 @@ class saswp_post_specific {
                      $mc_data['mc_symptom_'.$schema->ID]  = esc_sql ( get_post_meta($post->ID, 'mc_symptom_'.$schema->ID, true)  );              
                      $mc_data['mc_risk_factor_'.$schema->ID]  = esc_sql ( get_post_meta($post->ID, 'mc_risk_factor_'.$schema->ID, true)  );              
                          
+                }
+                if($schema_type == 'TVSeries'){
+                      
+                     $tvseries_data['tvseries_actor_'.$schema->ID]   = esc_sql ( get_post_meta($post->ID, 'tvseries_actor_'.$schema->ID, true)  );              
+                     $tvseries_data['tvseries_season_'.$schema->ID]  = esc_sql ( get_post_meta($post->ID, 'tvseries_season_'.$schema->ID, true)  );                                   
+                                              
                 }
                  
                  $this->meta_fields = $response;
@@ -1080,8 +1285,87 @@ class saswp_post_specific {
                                                                                                     
                          $tabs_fields .= '</div>';
                      }                      
-                     //Medical condition schema ends here
-                                                                                             
+                 //Medical condition schema ends here
+                     
+                 //TVSeries schema starts herre
+                     if($schema_type == 'TVSeries'){
+                      
+                         $schema_id = $schema->ID;
+                         
+                         $tabs_fields .= '<div class="saswp-table-create-onajax">';
+                                                  
+                         //actor section starts here                          
+                         $tabs_fields .= '<div class="saswp-tvseries-actor-section-main">';                                                  
+                         $tabs_fields .= '<div class="saswp-tvseries-actor-section" data-id="'.esc_attr($schema_id).'">';                         
+                         if(isset($tvseries_data['tvseries_actor_'.$schema_id])){
+                             
+                             $tvseries_actor = $tvseries_data['tvseries_actor_'.$schema_id];  
+                             
+                             $actor_html  = '';
+                             
+                             if(!empty($tvseries_actor)){
+                                 
+                                    $i = 0;
+                                    foreach ($tvseries_actor as $actor){
+                                                                                                                        
+                                        $actor_html .= '<div class="saswp-tvseries-actor-table-div" data-id="'.$i.'">';
+                                        $actor_html .= '<a class="saswp-table-close">X</a>';
+                                        $actor_html .= $this->saswp_get_dynamic_html($schema_id, 'tvseries_actor', $i, $actor);
+                                        $actor_html .= '</div>';
+                                        
+                                     $i++;   
+                                    }
+                                 
+                             }
+                             
+                             $tabs_fields .= $actor_html;
+                             
+                         }                         
+                         $tabs_fields .= '</div>';
+                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-tvseries-actor">Add TVSeries Actor</a>';                                                                                                    
+                         $tabs_fields .= '</div>';                          
+                         //actor section ends here here
+
+                         //season section starts here
+                         
+                         $tabs_fields .= '<div class="saswp-tvseries-season-section-main">';                                                  
+                         $tabs_fields .= '<div class="saswp-tvseries-season-section" data-id="'.esc_attr($schema_id).'">';                         
+                         if(isset($tvseries_data['tvseries_season_'.$schema_id])){
+                             
+                             $tvseries_season = $tvseries_data['tvseries_season_'.$schema_id];  
+                             
+                             $season_html  = '';
+                             
+                             if(!empty($tvseries_season)){
+                                 
+                                    $i = 0;
+                                    foreach ($tvseries_season as $season){
+                                                                                                                        
+                                        $season_html .= '<div class="saswp-tvseries-season-table-div" data-id="'.$i.'">';
+                                        $season_html .= '<a class="saswp-table-close">X</a>';
+                                        $season_html .= $this->saswp_get_dynamic_html($schema_id, 'tvseries_season', $i, $season);
+                                        $season_html .= '</div>';
+                                        
+                                     $i++;   
+                                    }
+                                 
+                             }
+                             
+                             $tabs_fields .= $season_html;
+                             
+                         }                         
+                         $tabs_fields .= '</div>';
+                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-tvseries-season">Add TVSeries Season</a>';                                                                                                    
+                         $tabs_fields .= '</div>';
+                         
+                         //season section ends here
+                                                                           
+                                                                                                    
+                         $tabs_fields .= '</div>';
+                     }                     
+                 //TvSeries schema ends here    
+                     
+                                                                                                                  
                  $tabs_fields .= '</div>';
                  $tabs_fields .= '<input class="saswp-post-specific-schema-ids" type="hidden" value="'. json_encode($schema_ids).'">';
                  $tabs_fields .= '</div>';
@@ -1633,6 +1917,26 @@ class saswp_post_specific {
                      update_post_meta( $post_id, 'mc_risk_factor_'.$schema->ID, $mc_r_factor);
                                                                                
                     //MedicalCondition schema ends here
+                     
+                     
+                     //TVSeries schema starts here
+                     $tv_actor          = array();
+                     $tv_season         = array();                     
+                
+                     if(isset($_POST['tvseries_actor_'.$schema->ID])){
+                         
+                         $tv_actor = $_POST['tvseries_actor_'.$schema->ID];                                                                          
+                     }                                            
+                     if(isset($_POST['tvseries_season_'.$schema->ID])){
+                         
+                         $tv_season = $_POST['tvseries_season_'.$schema->ID];                                                                          
+                     }
+                     
+                     
+                     update_post_meta( $post_id, 'tvseries_actor_'.$schema->ID, $tv_actor);
+                     update_post_meta( $post_id, 'tvseries_season_'.$schema->ID, $tv_season);                     
+                                                                               
+                    //TVSeries schema ends here
                      
                                                                
                      $response          = $this->saswp_get_fields_by_schema_type($schema->ID); 
@@ -3766,6 +4070,39 @@ class saswp_post_specific {
                             'id' => 'saswp_vg_schema_review_count_'.$schema_id,
                             'type' => 'text',                           
                         ),    
+                        
+                   );
+                    break;
+                
+                case 'TVSeries':
+                    
+                    $meta_field = array(
+                    array(
+                            'label'      => 'Name',
+                            'id'         => 'saswp_tvseries_schema_name_'.$schema_id,
+                            'type'       => 'text',
+                            'attributes' => array(
+                                'placeholder' => 'Name'
+                            ), 
+                    ),
+                     array(
+                            'label'      => 'Image',
+                            'id'         => 'saswp_tvseries_schema_image_'.$schema_id,
+                            'type'       => 'media'                            
+                    ),
+                    array(
+                            'label'      => 'Author Name',
+                            'id'         => 'saswp_tvseries_schema_author_name_'.$schema_id,
+                            'type'       => 'text',
+                            'attributes' => array(
+                                'placeholder' => 'Author Name'
+                            ), 
+                    ),    
+                    array(
+                            'label'      => 'Description',
+                            'id'         => 'saswp_tvseries_schema_description_'.$schema_id,
+                            'type'       => 'textarea'                            
+                    )  
                         
                    );
                     break;

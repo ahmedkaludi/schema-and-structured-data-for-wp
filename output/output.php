@@ -293,6 +293,9 @@ function saswp_schema_output() {
                         
                         if($schema_type == 'HowTo'){
                             $input1 = array();
+                        }
+                        if($schema_type == 'TVSeries'){
+                            $input1 = array();
                         }                        
                         if($schema_type == 'MedicalCondition'){
                             $input1 = array();
@@ -1618,7 +1621,7 @@ function saswp_post_specific_schema_output() {
                         $service_object     = new saswp_output_service();
                         $extra_theme_review = $service_object->saswp_extra_theme_review_details(get_the_ID());
             
-                         if('HowTo' === $schema_type){
+                         if( 'HowTo' === $schema_type){
                              
                             $howto_image = get_post_meta( get_the_ID(), 'saswp_howto_schema_image_'.$schema_id.'_detail',true); 
                             
@@ -1630,6 +1633,7 @@ function saswp_post_specific_schema_output() {
                             
                             $input1['@context']              = 'http://schema.org';
                             $input1['@type']                 = 'HowTo';
+                            $input1['@id']                   = get_permalink().'/#HowTo';
                             $input1['name']                  = saswp_remove_warnings($all_post_meta, 'saswp_howto_schema_name_'.$schema_id, 'saswp_array');
                             $input1['datePublished']         = isset($all_post_meta['saswp_howto_ec_schema_date_published_'.$schema_id])?date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_howto_ec_schema_date_published_'.$schema_id][0])):'';
 			    $input1['dateModified']          = isset($all_post_meta['saswp_howto_ec_schema_date_modified_'.$schema_id])?date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_howto_ec_schema_date_modified_'.$schema_id][0])):'';
@@ -1748,7 +1752,65 @@ function saswp_post_specific_schema_output() {
                                                        
                             }
                             
-                         if('MedicalCondition' === $schema_type){
+                         if( 'TVSeries' === $schema_type){
+                             
+                            $howto_image = get_post_meta( get_the_ID(), 'saswp_tvseries_schema_image_'.$schema_id.'_detail',true); 
+                            
+                             
+                            $actor     = esc_sql ( get_post_meta($schema_post_id, 'tvseries_actor_'.$schema_id, true)  );              
+                            $season    = esc_sql ( get_post_meta($schema_post_id, 'tvseries_season_'.$schema_id, true)  );                                          
+                                                        
+                            $input1['@context']              = 'http://schema.org';
+                            $input1['@type']                 = 'TVSeries';
+                            $input1['@id']                   = get_permalink().'/#TVSeries';                                            
+                            $input1['name']                  = saswp_remove_warnings($all_post_meta, 'saswp_tvseries_schema_name_'.$schema_id, 'saswp_array');                            			    
+                            $input1['description']           = saswp_remove_warnings($all_post_meta, 'saswp_tvseries_schema_description_'.$schema_id, 'saswp_array');
+                              
+                            if(!(empty($howto_image))){
+                             
+                            $input1['image']['@type']        = 'ImageObject';
+                            $input1['image']['url']          = isset($howto_image['thumbnail']) ? esc_url($howto_image['thumbnail']):'';
+                            $input1['image']['height']       = isset($howto_image['width'])     ? esc_attr($howto_image['width'])   :'';
+                            $input1['image']['width']        = isset($howto_image['height'])    ? esc_attr($howto_image['height'])  :'';
+                                
+                            }                            
+                            
+                            $input1['author']['@type']       = 'Person';
+                            $input1['author']['name']        = saswp_remove_warnings($all_post_meta, 'saswp_tvseries_schema_author_name_'.$schema_id, 'saswp_array');                            
+                                                        
+                            $supply_arr = array();
+                            if(!empty($actor)){
+                                
+                                foreach($actor as $val){
+                                   
+                                    $supply_data = array();
+                                    $supply_data['@type'] = 'Person';
+                                    $supply_data['name']  = $val['saswp_tvseries_actor_name'];
+                                    
+                                    $supply_arr[] =  $supply_data;
+                                }
+                               $input1['actor'] = $supply_arr;
+                            }
+                                                        
+                            $tool_arr = array();
+                            if(!empty($season)){
+                                
+                                foreach($season as $val){
+                                   
+                                    $supply_data = array();
+                                    $supply_data['@type']            = 'TVSeason';
+                                    $supply_data['datePublished']    = $val['saswp_tvseries_season_published_date'];
+                                    $supply_data['name']             = $val['saswp_tvseries_season_name'];
+                                    $supply_data['numberOfEpisodes'] = $val['saswp_tvseries_season_episodes'];
+                                                                        
+                                    $tool_arr[] =  $supply_data;
+                                }
+                               $input1['containsSeason'] = $tool_arr;
+                            }
+                                                                                                              
+                            }   
+                            
+                         if( 'MedicalCondition' === $schema_type){
                                                          
                             $howto_image = get_post_meta( get_the_ID(), 'saswp_mc_schema_image_'.$schema_id.'_detail',true);  
                              
@@ -1759,6 +1821,7 @@ function saswp_post_specific_schema_output() {
                             
                             $input1['@context']                     = 'http://schema.org';
                             $input1['@type']                        = 'MedicalCondition';
+                            $input1['@id']                          = get_permalink().'/#MedicalCondition';
                             $input1['name']                         = saswp_remove_warnings($all_post_meta, 'saswp_mc_schema_name_'.$schema_id, 'saswp_array');
                             $input1['alternateName']                = saswp_remove_warnings($all_post_meta, 'saswp_mc_schema_alternate_name_'.$schema_id, 'saswp_array');                            
                             $input1['description']                  = saswp_remove_warnings($all_post_meta, 'saswp_mc_schema_description_'.$schema_id, 'saswp_array');
@@ -1823,13 +1886,14 @@ function saswp_post_specific_schema_output() {
                                                                                                                                                                                                    
                             }
                             
-                         if('VideoGame' === $schema_type){
+                         if( 'VideoGame' === $schema_type){
                                                          
                             $howto_image = get_post_meta( get_the_ID(), 'saswp_vg_schema_image_'.$schema_id.'_detail',true);  
                              
                                                                                     
                             $input1['@context']                     = 'http://schema.org';
                             $input1['@type']                        = 'VideoGame';
+                            $input1['@id']                          = get_permalink().'/#VideoGame'; 
                             $input1['name']                         = saswp_remove_warnings($all_post_meta, 'saswp_vg_schema_name_'.$schema_id, 'saswp_array');
                             $input1['url']                          = saswp_remove_warnings($all_post_meta, 'saswp_vg_schema_url_'.$schema_id, 'saswp_array');                            
                             $input1['description']                  = saswp_remove_warnings($all_post_meta, 'saswp_vg_schema_description_'.$schema_id, 'saswp_array');

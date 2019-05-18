@@ -1087,6 +1087,74 @@ jQuery(document).ready(function($){
        }); 
        
     
+        //TvSeries schema starts here
+        
+        $(document).on("click", ".saswp-tvseries-actor", function(e){
+           e.preventDefault();
+           
+           var schema_id = $(this).attr('data-id');
+           var count =  $(".saswp-tvseries-actor-table-div").length;
+           var index = $( ".saswp-tvseries-actor-table-div:nth-child("+count+")" ).attr('data-id');
+               index = ++index;
+               
+           if(!index){
+               index = 0;
+           }
+                   
+            var html = '';
+            
+                   html += '<div class="saswp-tvseries-actor-table-div" data-id="'+index+'">'    
+                        +  '<a class="saswp-table-close">X</a>'
+                        + '<table class="form-table saswp-tvseries-actor-table">'                                                                                           
+                        + '<tr>'
+                        + '<th>Actor Name</th><td><input style="width:100%" type="text" id="saswp_tvseries_actor_name_'+index+'_'+schema_id+'" name="tvseries_actor_'+schema_id+'['+index+'][saswp_tvseries_actor_name]"></td>'
+                        + '</tr>'                        
+                        + '</table>'
+                        + '</div>';
+           if(html){
+               $('.saswp-tvseries-actor-section[data-id="'+schema_id+'"]').append(html);
+           }
+            
+           
+       });
+       
+        $(document).on("click", ".saswp-tvseries-season", function(e){
+           e.preventDefault();
+           
+           var schema_id = $(this).attr('data-id');
+           var count =  $(".saswp-tvseries-season-table-div").length;
+           var index = $( ".saswp-tvseries-season-table-div:nth-child("+count+")" ).attr('data-id');
+               index = ++index;
+               
+           if(!index){
+               index = 0;
+           }
+                   
+            var html = '';
+            
+                   html += '<div class="saswp-tvseries-season-table-div" data-id="'+index+'">'    
+                        +  '<a class="saswp-table-close">X</a>'
+                        + '<table class="form-table saswp-tvseries-season-table">'                                                                                           
+                        + '<tr>'
+                        + '<th>Season</th><td><input style="width:100%" type="text" id="saswp_tvseries_season_name_'+index+'_'+schema_id+'" name="tvseries_season_'+schema_id+'['+index+'][saswp_tvseries_season_name]"></td>'
+                        + '</tr>'
+                        + '<tr>'
+                        + '<th>Season Published Date</th><td><input style="width:100%" type="text" id="saswp_tvseries_season_name_'+index+'_'+schema_id+'" name="tvseries_season_'+schema_id+'['+index+'][saswp_tvseries_season_published_date]"></td>'
+                        + '</tr>'
+                        + '<tr>'
+                        + '<th>Number Of Episodes</th><td><input style="width:100%" type="text" id="saswp_tvseries_season_name_'+index+'_'+schema_id+'" name="tvseries_season_'+schema_id+'['+index+'][saswp_tvseries_season_episodes]"></td>'
+                        + '</tr>'
+                        + '</table>'
+                        + '</div>';
+           if(html){
+               $('.saswp-tvseries-season-section[data-id="'+schema_id+'"]').append(html);
+           }
+            
+           
+       });
+        
+        //TvSeries schema ends here
+    
         //Medical condition schema starts here
         
         $(document).on("click", ".saswp-mc-cause", function(e){
