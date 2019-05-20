@@ -322,9 +322,17 @@ class saswp_post_specific {
                                                 break;
                                          
 				default:
-                                                                       
+                                                    
+                                    $class = '';
+
+                                    if (strpos($meta_field['name'].'_'.$index.'_'.$schema_id, 'published_date') !== false){                                                                                                           
+
+                                            $class = 'class="saswp-local-schema-datepicker-picker"';    
+                                    }
+                                                                                                            
                                      $input = sprintf(
-						'<input  style="width:100%%" id="%s" name="%s" type="%s" value="%s">',						
+						'<input %s  style="width:100%%" id="%s" name="%s" type="%s" value="%s">',
+                                                $class,
 						$meta_field['name'].'_'.$index.'_'.$schema_id,
 						$meta_name.'_'.$schema_id.'['.$index.']['.$meta_field['name'].']',
 						$meta_field['type'],

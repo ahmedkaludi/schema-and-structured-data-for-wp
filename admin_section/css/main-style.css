@@ -966,15 +966,20 @@ Google review module ends here
     }    
 /*** How to schema css starts here ***/    
 
-.saswp-how-to-supply-table-div, .saswp-how-to-tool-table-div, .saswp-how-to-step-table-div{
+.saswp-how-to-supply-table-div, 
+.saswp-how-to-tool-table-div, 
+.saswp-how-to-step-table-div,
+.saswp-tvseries-actor-table-div,
+.saswp-tvseries-season-table-div,
+.saswp-mc-symptom-table-div,
+.saswp-mc-risk_factor-table-div,
+.saswp-mc-cause-table-div
+{
     border: 1px solid #aaa;
     margin-top: 5px;
+    margin-bottom: 5px;
             
 }
-.saswp-how-to-supply,.saswp-how-to-step,.saswp-how-to-tool{
-    margin-top: 5px !important;
-}
-
 .saswp-table-close{
     float: right;
     cursor: pointer;
