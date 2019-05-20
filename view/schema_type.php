@@ -665,27 +665,49 @@
                                 );                                                             
                 
                                 $all_schema_array = array(
-                                     'Article'                  => 'Article',
-                                     'AudioObject'              => 'AudioObject',
-                                     'Blogposting'              => 'Blogposting',
-                                     'Course'                   => 'Course',
-                                     'DiscussionForumPosting'   => 'DiscussionForumPosting',
-                                     'Event'                    => 'Event',
-                                     'HowTo'                    => 'HowTo',   
-                                     'local_business'           => 'Local Business',
-                                     'MedicalCondition'         => 'MedicalCondition',
-                                     'NewsArticle'              => 'NewsArticle',
-                                     'Product'                  => 'Product',
-                                     'qanda'                    => 'Q&A',   
-                                     'Review'                   => 'Review',                                     
-                                     'Recipe'                   => 'Recipe',                                     
-                                     'Service'                  => 'Service',
-                                     'TVSeries'                 => 'TVSeries',
-                                     'SoftwareApplication'      => 'SoftwareApplication',       
-                                     'TechArticle'              => 'TechArticle',
-                                     'VideoGame'                => 'VideoGame',
-                                     'VideoObject'              => 'VideoObject',
-                                     'WebPage'                  => 'WebPage'                                                                
+                                    
+                                    'Accommodation' => array(
+                                            'Apartment'                => 'Apartment',
+                                            'House'                    => 'House',
+                                            'SingleFamilyResidence'    => 'SingleFamilyResidence',
+                                    ),
+                                     'CreativeWork' => array(
+                                            'Article'                  => 'Article', 
+                                            'Blogposting'              => 'Blogposting',
+                                            'Course'                   => 'Course',
+                                            'DiscussionForumPosting'   => 'DiscussionForumPosting',
+                                            'HowTo'                    => 'HowTo',                                                                                           
+                                            'NewsArticle'              => 'NewsArticle',                                            
+                                            'qanda'                    => 'Q&A',   
+                                            'Review'                   => 'Review',
+                                            'Recipe'                   => 'Recipe', 
+                                            'TVSeries'                 => 'TVSeries',
+                                            'SoftwareApplication'      => 'SoftwareApplication',       
+                                            'TechArticle'              => 'TechArticle',                                                                                        
+                                            'WebPage'                  => 'WebPage'                                                                
+                                    ),
+                                    'Event' => array(
+                                        'Event'                    => 'Event',
+                                    ),
+                                    'Game' =>  array(
+                                         'VideoGame'                => 'VideoGame'                                         
+                                     ),
+                                    'Intangible' => array(
+                                        'Service'                  => 'Service',
+                                    ),
+                                    'MediaObject' =>  array(
+                                         'AudioObject'              => 'AudioObject',
+                                         'VideoObject'              => 'VideoObject'
+                                     ),
+                                    'MedicalEntity' => array(
+                                        'MedicalCondition'         => 'MedicalCondition',
+                                    ),
+                                    'Organization' => array(
+                                        'local_business'           => 'Local Business',
+                                    ),                                                                                                                                                                                    
+                                    'Product' => array(
+                                        'Product'                  => 'Product',
+                                    )                                    
                                  );
                                  $all_business_type = array(
                                     'animalshelter'                 => 'Animal Shelter',
@@ -849,13 +871,27 @@
                            <td><select class="saswp-schame-type-select" id="schema_type" name="schema_type">
                                 <?php
                                   
-                                  foreach ($all_schema_array as $key => $value) {
-                                    $sel = '';
-                                    if($schema_type==$key){
-                                      $sel = 'selected';
+                                  if(!empty($all_schema_array)){
+                                     
+                                      foreach ($all_schema_array as $parent_type => $type) {
+                                       
+                                       $option_html = '';   
+                                       
+                                       foreach($type as $key => $value){
+                                        $sel = '';
+                                        if($schema_type == $key){
+                                          $sel = 'selected';
+                                        }
+                                            $option_html.= "<option value='".esc_attr($key)."' ".esc_attr($sel).">".esc_html__($value, 'schema-and-structured-data-for-wp' )."</option>";    
+                                           
+                                       }   
+                                                                                                                                                                  
+                                                echo '<optgroup label="'.$parent_type.'">';
+                                                echo $option_html;   
+                                                echo '</optgroup>';                                                                                 
                                     }
-                                    echo "<option value='".esc_attr($key)."' ".esc_attr($sel).">".esc_html__($value, 'schema-and-structured-data-for-wp' )."</option>";
-                                  }
+                                                                            
+                                  }                                                                    
                                 ?>
                             </select>
                                

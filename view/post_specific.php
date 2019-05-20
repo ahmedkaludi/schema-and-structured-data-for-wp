@@ -4115,6 +4115,216 @@ class saswp_post_specific {
                    );
                     break;
                 
+                case 'Apartment':
+                    
+                    $meta_field = array(
+                    array(
+                            'label'      => 'Name',
+                            'id'         => 'saswp_apartment_schema_name_'.$schema_id,
+                            'type'       => 'text',
+                            'attributes' => array(
+                                'placeholder' => 'Name'
+                            ), 
+                    ),
+                    array(
+                            'label'      => 'URL',
+                            'id'         => 'saswp_apartment_schema_url_'.$schema_id,
+                            'type'       => 'text',
+                            'default'    => get_permalink()
+                    ),
+                    array(
+                            'label'      => 'Image',
+                            'id'         => 'saswp_apartment_schema_image_'.$schema_id,
+                            'type'       => 'media',
+                            'default'    => get_permalink()
+                    ),    
+                    array(
+                            'label'      => 'Description',
+                            'id'         => 'saswp_apartment_schema_description_'.$schema_id,
+                            'type'       => 'textarea',
+                            'attributes' => array(
+                                'placeholder' => 'Description'
+                            ), 
+                    ),
+                    array(
+                            'label'      => 'Number Of Rooms',
+                            'id'         => 'saswp_apartment_schema_numberofrooms_'.$schema_id,
+                            'type'       => 'text',
+                            'attributes' => array(
+                                'placeholder' => '5'
+                            ), 
+                    ),
+                    array(
+                            'label'      => 'Country',
+                            'id'         => 'saswp_apartment_schema_country_'.$schema_id,
+                            'type'       => 'text',                           
+                    ),
+                    array(
+                            'label'      => 'Locality',
+                            'id'         => 'saswp_apartment_schema_locality_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),
+                    array(
+                            'label'      => 'Region',
+                            'id'         => 'saswp_apartment_schema_region_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),
+                    array(
+                            'label'      => 'Postal Code',
+                            'id'         => 'saswp_apartment_schema_postalcode_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),
+                    array(
+                            'label'      => 'Telephone',
+                            'id'         => 'saswp_apartment_schema_telephone_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),    
+                                              
+                   );
+                    break;
+                case 'House':
+                    
+                    $meta_field = array(
+                    array(
+                            'label'      => 'Name',
+                            'id'         => 'saswp_house_schema_name_'.$schema_id,
+                            'type'       => 'text',
+                            'attributes' => array(
+                                'placeholder' => 'Name'
+                            ), 
+                    ),
+                    array(
+                            'label'      => 'URL',
+                            'id'         => 'saswp_house_schema_url_'.$schema_id,
+                            'type'       => 'text',
+                            'default'    => get_permalink()
+                    ),
+                    array(
+                            'label'      => 'Image',
+                            'id'         => 'saswp_house_schema_image_'.$schema_id,
+                            'type'       => 'media',                            
+                    ),
+                    array(
+                            'label'      => 'Description',
+                            'id'         => 'saswp_house_schema_description_'.$schema_id,
+                            'type'       => 'textarea',
+                            'attributes' => array(
+                                'placeholder' => 'Description'
+                            ), 
+                    ),
+                     array(
+                            'label'      => 'Pets Allowed',
+                            'id'         => 'saswp_house_schema_pets_allowed_'.$schema_id,
+                            'type'       => 'select',
+                            'options' => array(
+                                     'yes'       => 'Yes',
+                                     'no'        => 'No'                                                                          
+                            ) 
+                    ),
+                    array(
+                            'label'      => 'Country',
+                            'id'         => 'saswp_house_schema_country_'.$schema_id,
+                            'type'       => 'text',                           
+                    ),
+                    array(
+                            'label'      => 'Locality',
+                            'id'         => 'saswp_house_schema_locality_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),
+                    array(
+                            'label'      => 'Region',
+                            'id'         => 'saswp_house_schema_region_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),
+                    array(
+                            'label'      => 'Postal Code',
+                            'id'         => 'saswp_house_schema_postalcode_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),
+                    array(
+                            'label'      => 'Telephone',
+                            'id'         => 'saswp_house_schema_telephone_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),    
+                                              
+                   );
+                    break;                
+                case 'SingleFamilyResidence':
+                    
+                    $meta_field = array(
+                    array(
+                            'label'      => 'Name',
+                            'id'         => 'saswp_sfr_schema_name_'.$schema_id,
+                            'type'       => 'text',
+                            'attributes' => array(
+                                'placeholder' => 'Name'
+                            ), 
+                    ),
+                    array(
+                            'label'      => 'URL',
+                            'id'         => 'saswp_sfr_schema_url_'.$schema_id,
+                            'type'       => 'text',
+                            'default'    => get_permalink()
+                    ),
+                    array(
+                            'label'      => 'Image',
+                            'id'         => 'saswp_sfr_schema_image_'.$schema_id,
+                            'type'       => 'media',                            
+                    ),
+                    array(
+                            'label'      => 'Description',
+                            'id'         => 'saswp_sfr_schema_description_'.$schema_id,
+                            'type'       => 'textarea',
+                            'attributes' => array(
+                                'placeholder' => 'Description'
+                            ), 
+                    ),
+                    array(
+                            'label'      => 'Number Of Rooms',
+                            'id'         => 'saswp_sfr_schema_numberofrooms_'.$schema_id,
+                            'type'       => 'text',
+                            'attributes' => array(
+                                'placeholder' => '5'
+                            ), 
+                    ),    
+                     array(
+                            'label'      => 'Pets Allowed',
+                            'id'         => 'saswp_sfr_schema_pets_allowed_'.$schema_id,
+                            'type'       => 'select',
+                            'options' => array(
+                                     'yes'       => 'Yes',
+                                     'no'        => 'No'                                                                          
+                            ) 
+                    ),
+                    array(
+                            'label'      => 'Country',
+                            'id'         => 'saswp_sfr_schema_country_'.$schema_id,
+                            'type'       => 'text',                           
+                    ),
+                    array(
+                            'label'      => 'Locality',
+                            'id'         => 'saswp_sfr_schema_locality_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),
+                    array(
+                            'label'      => 'Region',
+                            'id'         => 'saswp_sfr_schema_region_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),
+                    array(
+                            'label'      => 'Postal Code',
+                            'id'         => 'saswp_sfr_schema_postalcode_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),
+                    array(
+                            'label'      => 'Telephone',
+                            'id'         => 'saswp_sfr_schema_telephone_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),
+                                              
+                   );
+                    break;
+                
                 default:
                     break;
             }                           
