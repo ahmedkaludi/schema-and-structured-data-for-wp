@@ -627,12 +627,12 @@ function saswp_list_items_generator(){
                 $breadcrumbslist = array();
                 
         if(is_single()){    
-            
+
 			if(!empty($bc_titles) && !empty($bc_links)){      
                             
 				for($i=0;$i<sizeof($bc_titles);$i++){
                                     
-                                    if($bc_links[$i] && $bc_titles[$i]){
+                                    if(array_key_exists($i, $bc_links) && array_key_exists($i, $bc_titles)){
                                     
                                         $breadcrumbslist[] = array(
 								'@type'			=> 'ListItem',
@@ -658,7 +658,7 @@ function saswp_list_items_generator(){
                             
                             for($i=0;$i<sizeof($bc_titles);$i++){
                             
-                                if($bc_links[$i] && $bc_titles[$i]){
+                                if(array_key_exists($i, $bc_links) && array_key_exists($i, $bc_titles)){
                                  
                                     $breadcrumbslist[] = array(
 								'@type'			=> 'ListItem',
@@ -684,7 +684,7 @@ function saswp_list_items_generator(){
              
              for($i=0;$i<sizeof($bc_titles);$i++){
                  
-                    if($bc_links[$i] && $bc_titles[$i]){
+                    if(array_key_exists($i, $bc_links) && array_key_exists($i, $bc_titles)){
                                                
                         $breadcrumbslist[] = array(
 								        '@type'		=> 'ListItem',
@@ -702,7 +702,7 @@ function saswp_list_items_generator(){
                           
          }               	
 }
-
+        
        return $breadcrumbslist;
 }
 
