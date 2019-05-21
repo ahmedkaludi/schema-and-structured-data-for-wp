@@ -1927,22 +1927,30 @@ Class saswp_output_service{
                             }
                                                         
                         }
-                                                                                                
-                        if($logo !='' && $height !='' && $width !=''){
-                         
-                            $publisher['publisher']['@type']         = 'Organization';                        
+                            
+                        
+                        if($site_name){
+                        
+                            
+                            $publisher['publisher']['@type']         = 'Organization';
+                            $publisher['publisher']['name']          = esc_attr($site_name);
+                            
+                            
+                            if($logo !='' && $height !='' && $width !=''){
+                                                                             
                             $publisher['publisher']['logo']['@type'] = 'ImageObject';
                             $publisher['publisher']['logo']['url']   = esc_url($logo);
                             $publisher['publisher']['logo']['width'] = esc_attr($width);
                             $publisher['publisher']['logo']['height']= esc_attr($height);                        
-                            $publisher['publisher']['name']          = esc_attr($site_name); 
-
+                             
                             $default_logo['url']    = esc_url($logo);
                             $default_logo['height'] = esc_attr($height);
                             $default_logo['width']  = esc_attr($width);
                             
-                        }  
-                        
+                          }
+                                                        
+                        }
+                                                                          
                         if($d_logo){
                             return $default_logo;
                         }else{
