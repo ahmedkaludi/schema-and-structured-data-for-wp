@@ -4248,7 +4248,8 @@ class saswp_post_specific {
                     ),    
                                               
                    );
-                    break;                
+                    break;   
+                
                 case 'SingleFamilyResidence':
                     
                     $meta_field = array(
@@ -4321,6 +4322,415 @@ class saswp_post_specific {
                             'id'         => 'saswp_sfr_schema_telephone_'.$schema_id,
                             'type'       => 'text',                            
                     ),
+                                              
+                   );
+                    break;
+                
+                case 'TouristAttraction':
+                    
+                    $meta_field = array(
+                    array(
+                            'label'      => 'Name',
+                            'id'         => 'saswp_ta_schema_name_'.$schema_id,
+                            'type'       => 'text',
+                            'attributes' => array(
+                                'placeholder' => 'Name'
+                            ), 
+                    ),
+                    array(
+                            'label'      => 'Description',
+                            'id'         => 'saswp_ta_schema_description_'.$schema_id,
+                            'type'       => 'textarea',
+                            'attributes' => array(
+                                'placeholder' => 'Description'
+                            ), 
+                    ),
+                    array(
+                            'label'      => 'Image',
+                            'id'         => 'saswp_ta_schema_image_'.$schema_id,
+                            'type'       => 'media',                            
+                    ),    
+                    array(
+                            'label'      => 'URL',
+                            'id'         => 'saswp_ta_schema_url_'.$schema_id,
+                            'type'       => 'text',
+                            'default'    => get_permalink()
+                    ),
+                    array(
+                            'label'      => 'Is Accessible For Free',
+                            'id'         => 'saswp_ta_schema_is_acceesible_free_'.$schema_id,
+                            'type'       => 'select',
+                            'options' => array(
+                                'true' => 'True',
+                                'false' => 'False',
+                            ),
+                    ),
+                    array(
+                            'label'      => 'Address Locality',
+                            'id'         => 'saswp_ta_schema_locality_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),
+                    array(
+                            'label'      => 'Address Region',
+                            'id'         => 'saswp_ta_schema_region_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),    
+                    array(
+                            'label'      => 'Address Country',
+                            'id'         => 'saswp_ta_schema_country_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),
+                    array(
+                            'label'      => 'Address PostalCode',
+                            'id'         => 'saswp_ta_schema_postal_code_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),    
+                                              
+                   );
+                    break;
+                
+                case 'TouristDestination':
+                    
+                    $meta_field = array(
+                    array(
+                            'label'      => 'Name',
+                            'id'         => 'saswp_td_schema_name_'.$schema_id,
+                            'type'       => 'text',
+                            'attributes' => array(
+                                'placeholder' => 'Name'
+                            ), 
+                    ),
+                    array(
+                            'label'      => 'Description',
+                            'id'         => 'saswp_td_schema_description_'.$schema_id,
+                            'type'       => 'textarea',
+                            'attributes' => array(
+                                'placeholder' => 'Description'
+                            ), 
+                    ),
+                    array(
+                            'label'      => 'Image',
+                            'id'         => 'saswp_td_schema_image_'.$schema_id,
+                            'type'       => 'media',                            
+                    ),    
+                    array(
+                            'label'      => 'URL',
+                            'id'         => 'saswp_td_schema_url_'.$schema_id,
+                            'type'       => 'text',
+                            'default'    => get_permalink()
+                    ),                                                                                
+                    array(
+                            'label'      => 'Address Locality',
+                            'id'         => 'saswp_td_schema_locality_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),
+                    array(
+                            'label'      => 'Address Region',
+                            'id'         => 'saswp_td_schema_region_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),    
+                    array(
+                            'label'      => 'Address Country',
+                            'id'         => 'saswp_td_schema_country_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),
+                    array(
+                            'label'      => 'Address PostalCode',
+                            'id'         => 'saswp_td_schema_postal_code_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),    
+                                              
+                   );
+                    break;
+                
+                case 'LandmarksOrHistoricalBuildings':
+                    
+                    $meta_field = array(
+                    array(
+                            'label'      => 'Name',
+                            'id'         => 'saswp_lorh_schema_name_'.$schema_id,
+                            'type'       => 'text',
+                            'attributes' => array(
+                                'placeholder' => 'Name'
+                            ), 
+                    ),
+                    array(
+                            'label'      => 'Description',
+                            'id'         => 'saswp_lorh_schema_description_'.$schema_id,
+                            'type'       => 'textarea',
+                            'attributes' => array(
+                                'placeholder' => 'Description'
+                            ), 
+                    ),
+                    array(
+                            'label'      => 'Image',
+                            'id'         => 'saswp_lorh_schema_image_'.$schema_id,
+                            'type'       => 'media',                            
+                    ),    
+                    array(
+                            'label'      => 'URL',
+                            'id'         => 'saswp_lorh_schema_url_'.$schema_id,
+                            'type'       => 'text',
+                            'default'    => get_permalink()
+                    ), 
+                    array(
+                            'label'      => 'Has Map',
+                            'id'         => 'saswp_lorh_schema_hasmap_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),
+                    array(
+                            'label'      => 'Is Accessible For Free',
+                            'id'         => 'saswp_lorh_schema_is_acceesible_free_'.$schema_id,
+                            'type'       => 'select',
+                            'options'    => array(
+                                    'true'   => 'True',
+                                    'false'  => 'False',
+                            )
+                    ),
+                    array(
+                            'label'      => 'Maximum Attendee Capacity',
+                            'id'         => 'saswp_lorh_schema_maximum_a_capacity_'.$schema_id,
+                            'type'       => 'number',                            
+                    ),    
+                    array(
+                            'label'      => 'Address Locality',
+                            'id'         => 'saswp_lorh_schema_locality_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),
+                    array(
+                            'label'      => 'Address Region',
+                            'id'         => 'saswp_lorh_schema_region_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),    
+                    array(
+                            'label'      => 'Address Country',
+                            'id'         => 'saswp_lorh_schema_country_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),
+                    array(
+                            'label'      => 'Address PostalCode',
+                            'id'         => 'saswp_lorh_schema_postal_code_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),    
+                                              
+                   );
+                    break;
+                
+                case 'HinduTemple':
+                    
+                    $meta_field = array(
+                    array(
+                            'label'      => 'Name',
+                            'id'         => 'saswp_hindutemple_schema_name_'.$schema_id,
+                            'type'       => 'text',
+                            'attributes' => array(
+                                'placeholder' => 'Name'
+                            ), 
+                    ),
+                    array(
+                            'label'      => 'Description',
+                            'id'         => 'saswp_hindutemple_schema_description_'.$schema_id,
+                            'type'       => 'textarea',
+                            'attributes' => array(
+                                'placeholder' => 'Description'
+                            ), 
+                    ),
+                    array(
+                            'label'      => 'Image',
+                            'id'         => 'saswp_hindutemple_schema_image_'.$schema_id,
+                            'type'       => 'media',                            
+                    ),    
+                    array(
+                            'label'      => 'URL',
+                            'id'         => 'saswp_hindutemple_schema_url_'.$schema_id,
+                            'type'       => 'text',
+                            'default'    => get_permalink()
+                    ),  
+                    array(
+                            'label'      => 'Has Map',
+                            'id'         => 'saswp_hindutemple_schema_hasmap_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),                      
+                    array(
+                            'label'      => 'Is Accessible For Free',
+                            'id'         => 'saswp_hindutemple_schema_is_accesible_free_'.$schema_id,
+                            'type'       => 'select',
+                            'options'    => array(
+                                    'true'   => 'True',
+                                    'false'  => 'False',
+                            )
+                    ),
+                    array(
+                            'label'      => 'Maximum Attendee Capacity',
+                            'id'         => 'saswp_hindutemple_schema_maximum_a_capacity_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),    
+                    array(
+                            'label'      => 'Address Locality',
+                            'id'         => 'saswp_hindutemple_schema_locality_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),
+                    array(
+                            'label'      => 'Address Region',
+                            'id'         => 'saswp_hindutemple_schema_region_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),    
+                    array(
+                            'label'      => 'Address Country',
+                            'id'         => 'saswp_hindutemple_schema_country_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),
+                    array(
+                            'label'      => 'Address PostalCode',
+                            'id'         => 'saswp_hindutemple_schema_postal_code_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),    
+                                              
+                   );
+                    break;
+                
+                case 'Church':
+                    
+                    $meta_field = array(
+                    array(
+                            'label'      => 'Name',
+                            'id'         => 'saswp_church_schema_name_'.$schema_id,
+                            'type'       => 'text',
+                            'attributes' => array(
+                                'placeholder' => 'Name'
+                            ), 
+                    ),
+                    array(
+                            'label'      => 'Description',
+                            'id'         => 'saswp_church_schema_description_'.$schema_id,
+                            'type'       => 'textarea',
+                            'attributes' => array(
+                                'placeholder' => 'Description'
+                            ), 
+                    ),
+                    array(
+                            'label'      => 'Image',
+                            'id'         => 'saswp_church_schema_image_'.$schema_id,
+                            'type'       => 'media',                            
+                    ),    
+                    array(
+                            'label'      => 'URL',
+                            'id'         => 'saswp_church_schema_url_'.$schema_id,
+                            'type'       => 'text',
+                            'default'    => get_permalink()
+                    ),  
+                    array(
+                            'label'      => 'Has Map',
+                            'id'         => 'saswp_church_schema_hasmap_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),                      
+                    array(
+                            'label'      => 'Is Accessible For Free',
+                            'id'         => 'saswp_church_schema_is_accesible_free_'.$schema_id,
+                            'type'       => 'select',
+                            'options'    => array(
+                                    'true'   => 'True',
+                                    'false'  => 'False',
+                            )
+                    ),
+                    array(
+                            'label'      => 'Maximum Attendee Capacity',
+                            'id'         => 'saswp_church_schema_maximum_a_capacity_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),    
+                    array(
+                            'label'      => 'Address Locality',
+                            'id'         => 'saswp_church_schema_locality_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),
+                    array(
+                            'label'      => 'Address Region',
+                            'id'         => 'saswp_church_schema_region_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),    
+                    array(
+                            'label'      => 'Address Country',
+                            'id'         => 'saswp_church_schema_country_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),
+                    array(
+                            'label'      => 'Address PostalCode',
+                            'id'         => 'saswp_church_schema_postal_code_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),    
+                                              
+                   );
+                    break;
+                
+                case 'Mosque':
+                    
+                    $meta_field = array(
+                    array(
+                            'label'      => 'Name',
+                            'id'         => 'saswp_mosque_schema_name_'.$schema_id,
+                            'type'       => 'text',
+                            'attributes' => array(
+                                'placeholder' => 'Name'
+                            ), 
+                    ),
+                    array(
+                            'label'      => 'Description',
+                            'id'         => 'saswp_mosque_schema_description_'.$schema_id,
+                            'type'       => 'textarea',
+                            'attributes' => array(
+                                'placeholder' => 'Description'
+                            ), 
+                    ),
+                    array(
+                            'label'      => 'Image',
+                            'id'         => 'saswp_mosque_schema_image_'.$schema_id,
+                            'type'       => 'media',                            
+                    ),    
+                    array(
+                            'label'      => 'URL',
+                            'id'         => 'saswp_mosque_schema_url_'.$schema_id,
+                            'type'       => 'text',
+                            'default'    => get_permalink()
+                    ),
+                    array(
+                            'label'      => 'Has Map',
+                            'id'         => 'saswp_mosque_schema_hasmap_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),                      
+                    array(
+                            'label'      => 'Is Accessible For Free',
+                            'id'         => 'saswp_mosque_schema_is_accesible_free_'.$schema_id,
+                            'type'       => 'select',
+                            'options'    => array(
+                                    'true'   => 'True',
+                                    'false'  => 'False',
+                            )
+                    ),
+                    array(
+                            'label'      => 'Maximum Attendee Capacity',
+                            'id'         => 'saswp_mosque_schema_maximum_a_capacity_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),  
+                    array(
+                            'label'      => 'Address Locality',
+                            'id'         => 'saswp_mosque_schema_locality_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),    
+                    array(
+                            'label'      => 'Address Region',
+                            'id'         => 'saswp_mosque_schema_region_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),    
+                    array(
+                            'label'      => 'Address Country',
+                            'id'         => 'saswp_mosque_schema_country_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),
+                    array(
+                            'label'      => 'Address PostalCode',
+                            'id'         => 'saswp_mosque_schema_postal_code_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),    
                                               
                    );
                     break;

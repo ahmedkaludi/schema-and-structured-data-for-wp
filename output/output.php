@@ -298,6 +298,12 @@ function saswp_schema_output() {
                             $schema_type == 'MedicalCondition'     ||
                             $schema_type == 'Apartment'            ||   
                             $schema_type == 'House'                ||
+                            $schema_type == 'TouristDestination'   ||
+                            $schema_type == 'TouristAttraction'    ||                                
+                            $schema_type == 'LandmarksOrHistoricalBuildings' ||
+                            $schema_type == 'HinduTemple'          ||
+                            $schema_type == 'Church'               ||
+                            $schema_type == 'Mosque'               ||                                    
                             $schema_type == 'SingleFamilyResidence' ) {
                                
                                     $input1 = array();
@@ -1620,6 +1626,201 @@ function saswp_post_specific_schema_output() {
                         $service_object     = new saswp_output_service();
                         $extra_theme_review = $service_object->saswp_extra_theme_review_details(get_the_ID());
             
+                         if( 'Mosque' === $schema_type){
+                             
+                            $howto_image = get_post_meta( get_the_ID(), 'saswp_mosque_schema_image_'.$schema_id.'_detail',true); 
+                            
+                                                                                   
+                            $input1['@context']              = 'http://schema.org';
+                            $input1['@type']                 = 'Mosque';
+                            $input1['@id']                   = get_permalink().'/#Mosque';
+                            $input1['url']                   = saswp_remove_warnings($all_post_meta, 'saswp_mosque_schema_url_'.$schema_id, 'saswp_array');                            
+                            $input1['name']                  = saswp_remove_warnings($all_post_meta, 'saswp_mosque_schema_name_'.$schema_id, 'saswp_array');                            
+                            $input1['description']           = saswp_remove_warnings($all_post_meta, 'saswp_mosque_schema_description_'.$schema_id, 'saswp_array');
+                              
+                            if(!(empty($howto_image))){
+                             
+                            $input1['image']['@type']        = 'ImageObject';
+                            $input1['image']['url']          = isset($howto_image['thumbnail']) ? esc_url($howto_image['thumbnail']):'';
+                            $input1['image']['height']       = isset($howto_image['width'])     ? esc_attr($howto_image['width'])   :'';
+                            $input1['image']['width']        = isset($howto_image['height'])    ? esc_attr($howto_image['height'])  :'';
+                                
+                            }  
+                            
+                            $input1['isAccessibleForFree']        = saswp_remove_warnings($all_post_meta, 'saswp_mosque_schema_is_accesible_free_'.$schema_id, 'saswp_array');                            
+                            $input1['maximumAttendeeCapacity']    = saswp_remove_warnings($all_post_meta, 'saswp_mosque_schema_maximum_a_capacity_'.$schema_id, 'saswp_array');
+                            $input1['hasMap']                     = saswp_remove_warnings($all_post_meta, 'saswp_mosque_schema_hasmap_'.$schema_id, 'saswp_array');
+                            
+                            $input1['address']['@type']             = 'PostalAddress';
+                            $input1['address']['addressCountry']    = saswp_remove_warnings($all_post_meta, 'saswp_mosque_schema_country_'.$schema_id, 'saswp_array');
+                            $input1['address']['addressLocality']   = saswp_remove_warnings($all_post_meta, 'saswp_mosque_schema_locality_'.$schema_id, 'saswp_array');
+                            $input1['address']['addressRegion']     = saswp_remove_warnings($all_post_meta, 'saswp_mosque_schema_region_'.$schema_id, 'saswp_array');
+                            $input1['address']['PostalCode']        = saswp_remove_warnings($all_post_meta, 'saswp_mosque_schema_postal_code_'.$schema_id, 'saswp_array');
+                                                                                   
+                            }  
+                        
+                         if( 'Church' === $schema_type){
+                             
+                            $howto_image = get_post_meta( get_the_ID(), 'saswp_church_schema_image_'.$schema_id.'_detail',true); 
+                            
+                                                                                   
+                            $input1['@context']              = 'http://schema.org';
+                            $input1['@type']                 = 'Church';
+                            $input1['@id']                   = get_permalink().'/#Church';
+                            $input1['url']                   = saswp_remove_warnings($all_post_meta, 'saswp_church_schema_url_'.$schema_id, 'saswp_array');                            
+                            $input1['name']                  = saswp_remove_warnings($all_post_meta, 'saswp_church_schema_name_'.$schema_id, 'saswp_array');                            
+                            $input1['description']           = saswp_remove_warnings($all_post_meta, 'saswp_church_schema_description_'.$schema_id, 'saswp_array');
+                              
+                            if(!(empty($howto_image))){
+                             
+                            $input1['image']['@type']        = 'ImageObject';
+                            $input1['image']['url']          = isset($howto_image['thumbnail']) ? esc_url($howto_image['thumbnail']):'';
+                            $input1['image']['height']       = isset($howto_image['width'])     ? esc_attr($howto_image['width'])   :'';
+                            $input1['image']['width']        = isset($howto_image['height'])    ? esc_attr($howto_image['height'])  :'';
+                                
+                            }  
+                            
+                            $input1['isAccessibleForFree']    = saswp_remove_warnings($all_post_meta, 'saswp_church_schema_is_acceesible_free_'.$schema_id, 'saswp_array');                           
+                            $input1['maximumAttendeeCapacity']    = saswp_remove_warnings($all_post_meta, 'saswp_church_schema_maximum_a_capacity_'.$schema_id, 'saswp_array');
+                            $input1['hasMap']                     = saswp_remove_warnings($all_post_meta, 'saswp_church_schema_hasmap_'.$schema_id, 'saswp_array');
+                            
+                            $input1['address']['@type']             = 'PostalAddress';
+                            $input1['address']['addressCountry']    = saswp_remove_warnings($all_post_meta, 'saswp_church_schema_country_'.$schema_id, 'saswp_array');
+                            $input1['address']['addressLocality']   = saswp_remove_warnings($all_post_meta, 'saswp_church_schema_locality_'.$schema_id, 'saswp_array');
+                            $input1['address']['addressRegion']     = saswp_remove_warnings($all_post_meta, 'saswp_church_schema_region_'.$schema_id, 'saswp_array');
+                            $input1['address']['PostalCode']        = saswp_remove_warnings($all_post_meta, 'saswp_church_schema_postal_code_'.$schema_id, 'saswp_array');
+                                                                                   
+                            }   
+                        
+                         if( 'HinduTemple' === $schema_type){
+                             
+                            $howto_image = get_post_meta( get_the_ID(), 'saswp_hindutemple_schema_image_'.$schema_id.'_detail',true); 
+                            
+                                                                                   
+                            $input1['@context']              = 'http://schema.org';
+                            $input1['@type']                 = 'HinduTemple';
+                            $input1['@id']                   = get_permalink().'/#HinduTemple';
+                            $input1['url']                   = saswp_remove_warnings($all_post_meta, 'saswp_hindutemple_schema_url_'.$schema_id, 'saswp_array');                            
+                            $input1['name']                  = saswp_remove_warnings($all_post_meta, 'saswp_hindutemple_schema_name_'.$schema_id, 'saswp_array');                            
+                            $input1['description']           = saswp_remove_warnings($all_post_meta, 'saswp_hindutemple_schema_description_'.$schema_id, 'saswp_array');
+                              
+                            if(!(empty($howto_image))){
+                             
+                            $input1['image']['@type']        = 'ImageObject';
+                            $input1['image']['url']          = isset($howto_image['thumbnail']) ? esc_url($howto_image['thumbnail']):'';
+                            $input1['image']['height']       = isset($howto_image['width'])     ? esc_attr($howto_image['width'])   :'';
+                            $input1['image']['width']        = isset($howto_image['height'])    ? esc_attr($howto_image['height'])  :'';
+                                
+                            }  
+                                                        
+                            $input1['isAccessibleForFree']        = saswp_remove_warnings($all_post_meta, 'saswp_hindutemple_schema_is_accesible_free_'.$schema_id, 'saswp_array');                           
+                            $input1['maximumAttendeeCapacity']    = saswp_remove_warnings($all_post_meta, 'saswp_hindutemple_schema_maximum_a_capacity_'.$schema_id, 'saswp_array');
+                            $input1['hasMap']                     = saswp_remove_warnings($all_post_meta, 'saswp_hindutemple_schema_hasmap_'.$schema_id, 'saswp_array');
+                            
+                            $input1['address']['@type']             = 'PostalAddress';
+                            $input1['address']['addressCountry']    = saswp_remove_warnings($all_post_meta, 'saswp_hindutemple_schema_country_'.$schema_id, 'saswp_array');
+                            $input1['address']['addressLocality']   = saswp_remove_warnings($all_post_meta, 'saswp_hindutemple_schema_locality_'.$schema_id, 'saswp_array');
+                            $input1['address']['addressRegion']     = saswp_remove_warnings($all_post_meta, 'saswp_hindutemple_schema_region_'.$schema_id, 'saswp_array');
+                            $input1['address']['PostalCode']        = saswp_remove_warnings($all_post_meta, 'saswp_hindutemple_schema_postal_code_'.$schema_id, 'saswp_array');
+                                                                                   
+                            }   
+                        
+                         if( 'LandmarksOrHistoricalBuildings' === $schema_type){
+                             
+                            $howto_image = get_post_meta( get_the_ID(), 'saswp_lorh_schema_image_'.$schema_id.'_detail',true); 
+                            
+                                                                                   
+                            $input1['@context']              = 'http://schema.org';
+                            $input1['@type']                 = 'LandmarksOrHistoricalBuildings';
+                            $input1['@id']                   = get_permalink().'/#LandmarksOrHistoricalBuildings';
+                            $input1['url']                   = saswp_remove_warnings($all_post_meta, 'saswp_lorh_schema_url_'.$schema_id, 'saswp_array');                            
+                            $input1['name']                  = saswp_remove_warnings($all_post_meta, 'saswp_lorh_schema_name_'.$schema_id, 'saswp_array');                            
+                            $input1['description']           = saswp_remove_warnings($all_post_meta, 'saswp_lorh_schema_description_'.$schema_id, 'saswp_array');
+                              
+                            if(!(empty($howto_image))){
+                             
+                            $input1['image']['@type']        = 'ImageObject';
+                            $input1['image']['url']          = isset($howto_image['thumbnail']) ? esc_url($howto_image['thumbnail']):'';
+                            $input1['image']['height']       = isset($howto_image['width'])     ? esc_attr($howto_image['width'])   :'';
+                            $input1['image']['width']        = isset($howto_image['height'])    ? esc_attr($howto_image['height'])  :'';
+                                
+                            }  
+                            
+                            $input1['hasMap']                     = saswp_remove_warnings($all_post_meta, 'saswp_lorh_schema_hasmap_'.$schema_id, 'saswp_array');                        
+                            $input1['isAccessibleForFree']        = saswp_remove_warnings($all_post_meta, 'saswp_lorh_schema_is_acceesible_free_'.$schema_id, 'saswp_array');
+                            $input1['maximumAttendeeCapacity']    = saswp_remove_warnings($all_post_meta, 'saswp_lorh_schema_maximum_a_capacity_'.$schema_id, 'saswp_array');                          
+                            
+                            $input1['address']['@type']             = 'PostalAddress';
+                            $input1['address']['addressCountry']    = saswp_remove_warnings($all_post_meta, 'saswp_lorh_schema_address_country_'.$schema_id, 'saswp_array');
+                            $input1['address']['addressLocality']   = saswp_remove_warnings($all_post_meta, 'saswp_lorh_schema_address_locality_'.$schema_id, 'saswp_array');
+                            $input1['address']['addressRegion']     = saswp_remove_warnings($all_post_meta, 'saswp_lorh_schema_address_region_'.$schema_id, 'saswp_array');
+                            $input1['address']['PostalCode']        = saswp_remove_warnings($all_post_meta, 'saswp_lorh_schema_address_postal_code_'.$schema_id, 'saswp_array');
+                                                                                   
+                            }   
+                        
+                         if( 'TouristAttraction' === $schema_type){
+                             
+                            $howto_image = get_post_meta( get_the_ID(), 'saswp_ta_schema_image_'.$schema_id.'_detail',true); 
+                            
+                                                                                   
+                            $input1['@context']              = 'http://schema.org';
+                            $input1['@type']                 = 'TouristAttraction';
+                            $input1['@id']                   = get_permalink().'/#TouristAttraction';
+                            $input1['url']                   = saswp_remove_warnings($all_post_meta, 'saswp_ta_schema_url_'.$schema_id, 'saswp_array');                            
+                            $input1['name']                  = saswp_remove_warnings($all_post_meta, 'saswp_ta_schema_name_'.$schema_id, 'saswp_array');                            
+                            $input1['description']           = saswp_remove_warnings($all_post_meta, 'saswp_ta_schema_description_'.$schema_id, 'saswp_array');
+                              
+                            if(!(empty($howto_image))){
+                             
+                            $input1['image']['@type']        = 'ImageObject';
+                            $input1['image']['url']          = isset($howto_image['thumbnail']) ? esc_url($howto_image['thumbnail']):'';
+                            $input1['image']['height']       = isset($howto_image['width'])     ? esc_attr($howto_image['width'])   :'';
+                            $input1['image']['width']        = isset($howto_image['height'])    ? esc_attr($howto_image['height'])  :'';
+                                
+                            }  
+                            
+                            $input1['isAccessibleForFree']    = saswp_remove_warnings($all_post_meta, 'saswp_ta_schema_is_acceesible_free_'.$schema_id, 'saswp_array');
+//                            $input1['openingHours']           = saswp_remove_warnings($all_post_meta, 'saswp_ta_schema_opening_hours_'.$schema_id, 'saswp_array');
+//                            $input1['currenciesAccepted']     = saswp_remove_warnings($all_post_meta, 'saswp_ta_schema_currencies_accepted_'.$schema_id, 'saswp_array');
+//                            $input1['paymentAccepted']        = saswp_remove_warnings($all_post_meta, 'saswp_ta_schema_payment_accepted_'.$schema_id, 'saswp_array');
+                            
+                            $input1['address']['@type']             = 'PostalAddress';
+                            $input1['address']['addressCountry']    = saswp_remove_warnings($all_post_meta, 'saswp_ta_schema_address_country_'.$schema_id, 'saswp_array');
+                            $input1['address']['addressLocality']   = saswp_remove_warnings($all_post_meta, 'saswp_ta_schema_address_locality_'.$schema_id, 'saswp_array');
+                            $input1['address']['addressRegion']     = saswp_remove_warnings($all_post_meta, 'saswp_ta_schema_address_region_'.$schema_id, 'saswp_array');
+                            $input1['address']['PostalCode']        = saswp_remove_warnings($all_post_meta, 'saswp_ta_schema_address_postal_code_'.$schema_id, 'saswp_array');
+                                                                                   
+                            }
+                         
+                         if( 'TouristDestination' === $schema_type){
+                             
+                            $howto_image = get_post_meta( get_the_ID(), 'saswp_td_schema_image_'.$schema_id.'_detail',true); 
+                            
+                                                                                   
+                            $input1['@context']              = 'http://schema.org';
+                            $input1['@type']                 = 'TouristDestination';
+                            $input1['@id']                   = get_permalink().'/#TouristDestination';
+                            $input1['url']                   = saswp_remove_warnings($all_post_meta, 'saswp_td_schema_url_'.$schema_id, 'saswp_array');                            
+                            $input1['name']                  = saswp_remove_warnings($all_post_meta, 'saswp_td_schema_name_'.$schema_id, 'saswp_array');                            
+                            $input1['description']           = saswp_remove_warnings($all_post_meta, 'saswp_td_schema_description_'.$schema_id, 'saswp_array');
+                              
+                            if(!(empty($howto_image))){
+                             
+                            $input1['image']['@type']        = 'ImageObject';
+                            $input1['image']['url']          = isset($howto_image['thumbnail']) ? esc_url($howto_image['thumbnail']):'';
+                            $input1['image']['height']       = isset($howto_image['width'])     ? esc_attr($howto_image['width'])   :'';
+                            $input1['image']['width']        = isset($howto_image['height'])    ? esc_attr($howto_image['height'])  :'';
+                                
+                            }  
+                                                        
+                            
+                            $input1['address']['@type']             = 'PostalAddress';
+                            $input1['address']['addressCountry']    = saswp_remove_warnings($all_post_meta, 'saswp_td_schema_address_country_'.$schema_id, 'saswp_array');
+                            $input1['address']['addressLocality']   = saswp_remove_warnings($all_post_meta, 'saswp_td_schema_address_locality_'.$schema_id, 'saswp_array');
+                            $input1['address']['addressRegion']     = saswp_remove_warnings($all_post_meta, 'saswp_td_schema_address_region_'.$schema_id, 'saswp_array');
+                            $input1['address']['PostalCode'] = saswp_remove_warnings($all_post_meta, 'saswp_td_schema_address_postal_code_'.$schema_id, 'saswp_array');                                                       
+                            
+                            }   
                         
                          if( 'Apartment' === $schema_type){
                              

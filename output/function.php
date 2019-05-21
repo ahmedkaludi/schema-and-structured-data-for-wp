@@ -1,6 +1,11 @@
 <?php
 function saswp_remove_amp_default_structure_data($metadata){
-    return '';
+   
+    if(is_array($metadata)){
+        return array();
+    }else{
+        return ''; 
+    }      
 }
 
 add_filter( 'amp_init', 'saswp_schema_markup_hook_on_init' );

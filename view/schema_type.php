@@ -695,11 +695,11 @@
                                     'Intangible' => array(
                                         'Service'                  => 'Service',
                                     ),
-                                    'MediaObject' =>  array(
+                                    'Media' =>  array(
                                          'AudioObject'              => 'AudioObject',
                                          'VideoObject'              => 'VideoObject'
                                      ),
-                                    'MedicalEntity' => array(
+                                    'Medical' => array(
                                         'MedicalCondition'         => 'MedicalCondition',
                                     ),
                                     'Organization' => array(
@@ -707,7 +707,17 @@
                                     ),                                                                                                                                                                                    
                                     'Product' => array(
                                         'Product'                  => 'Product',
-                                    )                                    
+                                    ),
+                                    'Place' => array(
+                                        'TouristAttraction'               => 'TouristAttraction',
+                                        'TouristDestination'              => 'TouristDestination',
+                                        'LandmarksOrHistoricalBuildings'  => 'LandmarksOrHistoricalBuildings',
+                                    ),
+                                    'PlaceOfWorship' => array(
+                                        'HinduTemple'         => 'HinduTemple',
+                                        'Church'              => 'Church',
+                                        'Mosque'              => 'Mosque',
+                                    )
                                  );
                                  $all_business_type = array(
                                     'animalshelter'                 => 'Animal Shelter',
