@@ -359,10 +359,12 @@
             $output        = '';
             $item          = sanitize_text_field($_GET['item']);  
             $schema_id     = sanitize_text_field($_GET['schema_id']);
-            $post_id       = sanitize_text_field($_GET['post_id']);                                                     
-            $post_specific = sanitize_text_field($_GET['post_specific']);  
+            $post_id       = sanitize_text_field($_GET['post_id']);    
             
-                       
+            if(isset($_GET['post_specific'])){
+                $post_specific = sanitize_text_field($_GET['post_specific']);  
+            }
+                                               
              $meta_fields = saswp_item_reviewed_fields($item, $post_specific, $schema_id);
              
             
@@ -534,6 +536,7 @@
                 $schema_type         = '';
                 $business_type       = '';                
                 $custom_logo_id      = '';
+                $speakable           = '';
                 
                 $business_details    = array();
                 $logo                = array();
@@ -594,6 +597,9 @@
                             break;
 
                         default:
+                            
+                            $speakable       = esc_sql ( get_post_meta($post->ID, 'saswp_enable_speakable_schema', true)  );
+                            
                             break;
                     }    
                                                                   
@@ -661,23 +667,59 @@
                                 );                                                             
                 
                                 $all_schema_array = array(
-                                     'Article'                  => 'Article',
-                                     'AudioObject'              => 'AudioObject',
-                                     'Blogposting'              => 'Blogposting',
-                                     'Course'                   => 'Course',
-                                     'DiscussionForumPosting'   => 'DiscussionForumPosting',
-                                     'Event'                    => 'Event',                                          
-                                     'local_business'           => 'Local Business',
-                                     'NewsArticle'              => 'NewsArticle',
-                                     'Product'                  => 'Product',
-                                     'qanda'                    => 'Q&A',   
-                                     'Review'                   => 'Review',                                     
-                                     'Recipe'                   => 'Recipe',                                     
-                                     'Service'                  => 'Service',
-                                     'SoftwareApplication'      => 'SoftwareApplication',       
-                                     'TechArticle'              => 'TechArticle', 
-                                     'VideoObject'              => 'VideoObject',
-                                     'WebPage'                  => 'WebPage'                                                                
+                                    
+                                    'Accommodation' => array(
+                                            'Apartment'                => 'Apartment',
+                                            'House'                    => 'House',
+                                            'SingleFamilyResidence'    => 'SingleFamilyResidence',
+                                    ),
+                                     'CreativeWork' => array(
+                                            'Article'                  => 'Article', 
+                                            'Blogposting'              => 'Blogposting',
+                                            'Course'                   => 'Course',
+                                            'DiscussionForumPosting'   => 'DiscussionForumPosting',
+                                            'HowTo'                    => 'HowTo',                                                                                           
+                                            'NewsArticle'              => 'NewsArticle',                                            
+                                            'qanda'                    => 'Q&A',   
+                                            'Review'                   => 'Review',
+                                            'Recipe'                   => 'Recipe', 
+                                            'TVSeries'                 => 'TVSeries',
+                                            'SoftwareApplication'      => 'SoftwareApplication',       
+                                            'TechArticle'              => 'TechArticle',                                                                                        
+                                            'WebPage'                  => 'WebPage'                                                                
+                                    ),
+                                    'Event' => array(
+                                        'Event'                    => 'Event',
+                                    ),
+                                    'Game' =>  array(
+                                         'VideoGame'                => 'VideoGame'                                         
+                                     ),
+                                    'Intangible' => array(
+                                        'Service'                  => 'Service',
+                                    ),
+                                    'Media' =>  array(
+                                         'AudioObject'              => 'AudioObject',
+                                         'VideoObject'              => 'VideoObject'
+                                     ),
+                                    'Medical' => array(
+                                        'MedicalCondition'         => 'MedicalCondition',
+                                    ),
+                                    'Organization' => array(
+                                        'local_business'           => 'Local Business',
+                                    ),                                                                                                                                                                                    
+                                    'Product' => array(
+                                        'Product'                  => 'Product',
+                                    ),
+                                    'Place' => array(
+                                        'TouristAttraction'               => 'TouristAttraction',
+                                        'TouristDestination'              => 'TouristDestination',
+                                        'LandmarksOrHistoricalBuildings'  => 'LandmarksOrHistoricalBuildings',
+                                    ),
+                                    'PlaceOfWorship' => array(
+                                        'HinduTemple'         => 'HinduTemple',
+                                        'Church'              => 'Church',
+                                        'Mosque'              => 'Mosque',
+                                    )
                                  );
                                  $all_business_type = array(
                                     'animalshelter'                 => 'Animal Shelter',
@@ -841,13 +883,27 @@
                            <td><select class="saswp-schame-type-select" id="schema_type" name="schema_type">
                                 <?php
                                   
-                                  foreach ($all_schema_array as $key => $value) {
-                                    $sel = '';
-                                    if($schema_type==$key){
-                                      $sel = 'selected';
+                                  if(!empty($all_schema_array)){
+                                     
+                                      foreach ($all_schema_array as $parent_type => $type) {
+                                       
+                                       $option_html = '';   
+                                       
+                                       foreach($type as $key => $value){
+                                        $sel = '';
+                                        if($schema_type == $key){
+                                          $sel = 'selected';
+                                        }
+                                            $option_html.= "<option value='".esc_attr($key)."' ".esc_attr($sel).">".esc_html__($value, 'schema-and-structured-data-for-wp' )."</option>";    
+                                           
+                                       }   
+                                                                                                                                                                  
+                                                echo '<optgroup label="'.$parent_type.'">';
+                                                echo $option_html;   
+                                                echo '</optgroup>';                                                                                 
                                     }
-                                    echo "<option value='".esc_attr($key)."' ".esc_attr($sel).">".esc_html__($value, 'schema-and-structured-data-for-wp' )."</option>";
-                                  }
+                                                                            
+                                  }                                                                    
                                 ?>
                             </select>
                                
@@ -858,7 +914,7 @@
                                <?php } ?>
                                                                                                                                                            
                            </td>
-                        </tr>    
+                        </tr>                                                                                                                                                                         
                         <tr class="saswp-business-type-tr" <?php echo $style_business_type; ?>>
                             <td>
                             <?php echo esc_html__('Business Type', 'schema-and-structured-data-for-wp' ); ?>    
@@ -1140,8 +1196,13 @@
                         </tr>
                         
                         <tr class="saswp-business-text-field-tr" <?php echo $style_business_type; ?>>
+                            <td><?php echo esc_html__('HasMap', 'schema-and-structured-data-for-wp' ); ?></td>
+                            <td><input  value="<?php if(isset($business_details['local_hasmap'])){echo esc_attr($business_details['local_hasmap']); } ?>" type="text" name="local_hasmap" placeholder="https://goo.gl/maps/tb9hzMLNp942" ></td>
+                        </tr>
+                        
+                        <tr class="saswp-business-text-field-tr" <?php echo $style_business_type; ?>>
                             <td><?php echo esc_html__('Serves Cuisine ', 'schema-and-structured-data-for-wp' ); ?></td>
-                            <td><input  value="<?php echo esc_attr($business_details['local_serves_cuisine']); ?>" type="text" name="local_serves_cuisine" placeholder="<?php echo esc_html__('American, Chinese', 'schema-and-structured-data-for-wp' ); ?>" ></td>
+                            <td><input  value="<?php isset($business_details['local_serves_cuisine'])? esc_attr($business_details['local_serves_cuisine']): ''; ?>" type="text" name="local_serves_cuisine" placeholder="<?php echo esc_html__('American, Chinese', 'schema-and-structured-data-for-wp' ); ?>" ></td>
                         </tr>
                         
                         
@@ -1261,7 +1322,7 @@
                             <td><?php echo esc_html__('Item Reviewed Type', 'schema-and-structured-data-for-wp' ); ?></td>
                             <td>
                                 
-                                <select data-id="<?php echo esc_attr($post->ID); ?>" name="saswp_review_schema_item_type" class="saswp-item-reviewed">
+                                <select data-id="<?php if(is_object($post)){ echo esc_attr($post->ID); }  ?>" name="saswp_review_schema_item_type" class="saswp-item-reviewed">
                                 <?php                                  
                                   foreach ($item_reviewed as $key => $value) {
                                     $sel = '';
@@ -1292,128 +1353,7 @@
                         
                         
                         <!-- Review Schema type ends here -->
-                        
-                        <!-- Product Schema type starts here -->
-                        
-                        <tr class="saswp-product-text-field-tr">
-                            <td><?php echo esc_html__('Name', 'schema-and-structured-data-for-wp' ); ?></td>
-                            <td><input  value="<?php if(isset($product_details['saswp_product_schema_name'])){echo esc_attr($product_details['saswp_product_schema_name']); } ?>" type="text" name="saswp_product_schema_name" placeholder="<?php echo esc_html__('Name', 'schema-and-structured-data-for-wp' ); ?>" ></td>
-                        </tr>
-                        <tr class="saswp-product-text-field-tr">
-                            <td><?php echo esc_html__('Description', 'schema-and-structured-data-for-wp' ); ?></td>
-                            <td><textarea placeholder="Description" rows="3" cols="70" name="saswp_product_schema_description"><?php if(isset($product_details['saswp_product_schema_description'])){echo esc_attr($product_details['saswp_product_schema_description']); } ?></textarea></td>
-                        </tr>
-                        <tr class="saswp-product-text-field-tr">
-                            <td><?php echo esc_html__('Image', 'schema-and-structured-data-for-wp' ); ?></td>
-                            <td style="display: flex; width: 97%">
-                                <input value="<?php if(isset($product_details['saswp_product_schema_image'])) { echo esc_url($product_details['saswp_product_schema_image']['url']);} else { echo esc_url(saswp_remove_warnings($logo, 0, 'saswp_string')); } ?>" id="saswp_product_schema_image" type="text" name="saswp_product_schema_image[url]" placeholder="<?php echo esc_html__('Image', 'schema-and-structured-data-for-wp' ); ?>" readonly="readonly" style="background: #FFF;">
-                                <input value="<?php if(isset($product_details['saswp_product_schema_image'])) { echo esc_attr($product_details['saswp_product_schema_image']['id']);} else { echo esc_attr($custom_logo_id); }?>" data-id="saswp_product_schema_image_id" type="hidden" name="saswp_product_schema_image[id]">
-                                <input value="<?php if(isset($product_details['saswp_product_schema_image'])) { echo esc_attr($product_details['saswp_product_schema_image']['width']);} else { echo esc_attr(saswp_remove_warnings($logo, 1, 'saswp_string')); } ?>" data-id="saswp_product_schema_image_width" type="hidden" name="saswp_product_schema_image[width]">
-                                <input value="<?php if(isset($product_details['saswp_product_schema_image'])) { echo esc_attr($product_details['saswp_product_schema_image']['height']);} else { echo esc_attr(saswp_remove_warnings($logo, 2, 'saswp_string')); } ?>" data-id="saswp_product_schema_image_height" type="hidden" name="saswp_product_schema_image[height]">
-                                <input data-id="media" class="button" id="saswp_product_schema_image_button" type="button" value="Upload">
-                            </td>
-                        </tr>
-                        
-                        <tr class="saswp-product-text-field-tr">
-                            <td><?php echo esc_html__('Brand Name', 'schema-and-structured-data-for-wp' ); ?></td>
-                            <td><input  value="<?php if(isset($product_details['saswp_product_schema_brand_name'])){echo esc_attr($product_details['saswp_product_schema_brand_name']); } ?>" type="text" name="saswp_product_schema_brand_name" placeholder="<?php echo esc_html__('Brand Name', 'schema-and-structured-data-for-wp' ); ?>" ></td>
-                        </tr>
-                        
-                        <tr class="saswp-product-text-field-tr">
-                            <td><?php echo esc_html__('Price', 'schema-and-structured-data-for-wp' ); ?></td>
-                            <td><input  value="<?php if(isset($product_details['saswp_product_schema_price'])){echo esc_attr($product_details['saswp_product_schema_price']); } ?>" type="text" name="saswp_product_schema_price" placeholder="<?php echo esc_html__('Eg. 95.00', 'schema-and-structured-data-for-wp' ); ?>" ></td>
-                        </tr>
-                        
-                        <tr class="saswp-product-text-field-tr">
-                            <td><?php echo esc_html__('Price Valid Until', 'schema-and-structured-data-for-wp' ); ?></td>
-                            <td><input class="saswp-local-schema-datepicker-picker"  value="<?php if(isset($product_details['saswp_product_schema_priceValidUntil'])){echo esc_attr($product_details['saswp_product_schema_priceValidUntil']); } ?>" type="text" name="saswp_product_schema_priceValidUntil"></td>
-                        </tr>
-                        
-                        <tr class="saswp-product-text-field-tr">
-                            <td><?php echo esc_html__('Currency', 'schema-and-structured-data-for-wp' ); ?></td>
-                            <td><input  value="<?php if(isset($product_details['saswp_product_schema_currency'])){echo esc_attr($product_details['saswp_product_schema_currency']); } ?>" type="text" name="saswp_product_schema_currency" placeholder="<?php echo esc_html__('Eg: GBP, RMB, USD', 'schema-and-structured-data-for-wp' ); ?>" ></td>
-                        </tr>
-                        
-                        <tr class="saswp-product-text-field-tr">
-                            <td><?php echo esc_html__('Availability', 'schema-and-structured-data-for-wp' ); ?></td>
-                            <td>
-                                <select name="saswp_product_schema_availability">
-                                <?php
-                                  
-                                  foreach ($availability as $key => $value) {
-                                    $sel = '';
-                                    if(saswp_remove_warnings($product_details, 'saswp_product_schema_availability', 'saswp_string')==$key){
-                                      $sel = 'selected';
-                                    }
-                                    echo "<option value='".esc_attr($key)."' ".esc_attr($sel).">".esc_html__($value, 'schema-and-structured-data-for-wp' )."</option>";
-                                  }
-                                ?>
-                            </select>
-                            </td>
-                        </tr>
-                        
-                        <tr class="saswp-product-text-field-tr">
-                            <td><?php echo esc_html__('Item Condition', 'schema-and-structured-data-for-wp' ); ?></td>
-                            <td>
-                                <select name="saswp_product_schema_condition">
-                                <?php
-                                  
-                                  foreach ($item_condition as $key => $value) {
-                                    $sel = '';
-                                    if(saswp_remove_warnings($product_details, 'saswp_product_schema_condition', 'saswp_string')==$key){
-                                      $sel = 'selected';
-                                    }
-                                    echo "<option value='".esc_attr($key)."' ".esc_attr($sel).">".esc_html__($value, 'schema-and-structured-data-for-wp' )."</option>";
-                                  }
-                                ?>
-                                </select>
-                            </td>
-                        </tr>
-                        
-                        <tr class="saswp-product-text-field-tr">
-                            <td><?php echo esc_html__('SKU', 'schema-and-structured-data-for-wp' ); ?></td>
-                            <td><input  value="<?php if(isset($product_details['saswp_product_schema_sku'])){echo esc_attr($product_details['saswp_product_schema_sku']); } ?>" type="text" name="saswp_product_schema_sku" ></td>
-                        </tr>
-                        
-                        <tr class="saswp-product-text-field-tr">
-                            <td><?php echo esc_html__('MPN', 'schema-and-structured-data-for-wp' ); ?></td>
-                            <td><input  value="<?php if(isset($product_details['saswp_product_schema_mpn'])){echo esc_attr($product_details['saswp_product_schema_mpn']); } ?>" type="text" name="saswp_product_schema_mpn" >
-                                <span>OR</span>  
-                            </td>
-                        </tr>
-                        
-                        <tr class="saswp-product-text-field-tr">
-                            <td><?php echo esc_html__('ISBN', 'schema-and-structured-data-for-wp' ); ?></td>
-                            <td><input  value="<?php if(isset($product_details['saswp_product_schema_isbn'])){echo esc_attr($product_details['saswp_product_schema_isbn']); } ?>" type="text" name="saswp_product_schema_isbn" >
-                                <span>OR</span>  
-                            </td>
-                        </tr>
-                        <tr class="saswp-product-text-field-tr">
-                            <td><?php echo esc_html__('GTIN8', 'schema-and-structured-data-for-wp' ); ?></td>
-                            <td><input  value="<?php if(isset($product_details['saswp_product_schema_gtin8'])){echo esc_attr($product_details['saswp_product_schema_gtin8']); } ?>" type="text" name="saswp_product_schema_gtin8" >                                
-                            </td>
-                        </tr>    
-                        
-                        
-                        
-                        <tr class="saswp-product-text-field-tr">
-                            <td><?php echo esc_html__('Aggregate Rating', 'schema-and-structured-data-for-wp' ); ?></td>
-                            <td>
-                                <input class="saswp-enable-rating-review-product" type="checkbox" name="saswp_product_schema_enable_rating" value="1" <?php if(isset($product_details['saswp_product_schema_enable_rating'])){echo 'checked'; }else{ echo ''; } ?>>
-                            </td>
-                        </tr>
-                        
-                        <tr class="saswp-product-text-field-tr saswp-rating-review-product">
-                            <td><?php echo esc_html__('Rating', 'schema-and-structured-data-for-wp' ); ?></td>
-                            <td><input  value="<?php if(isset($product_details['saswp_product_schema_rating'])){echo esc_attr($product_details['saswp_product_schema_rating']); } ?>" type="text" name="saswp_product_schema_rating" placeholder="<?php echo esc_html__('5.0', 'schema-and-structured-data-for-wp' ); ?>" ></td>
-                        </tr>
-                        <tr class="saswp-product-text-field-tr saswp-rating-review-product">
-                            <td><?php echo esc_html__('Number of Reviews', 'schema-and-structured-data-for-wp' ); ?></td>
-                            <td><input  value="<?php if(isset($product_details['saswp_product_schema_review_count'])){echo esc_attr($product_details['saswp_product_schema_review_count']); } ?>" type="text" name="saswp_product_schema_review_count" placeholder="<?php echo esc_html__('10', 'schema-and-structured-data-for-wp' ); ?>" ></td>
-                        </tr>
-                        
-                        <!-- Product Schema type ends here -->
-                        
+                                                                        
                         <!-- AudioObject Schema type starts here -->
                         
                         <tr class="saswp-audio-text-field-tr">
@@ -1599,6 +1539,15 @@
                                                 
                         <!-- Event Schema type ends here -->   
                         
+                        
+                        <tr>
+                           <td>
+                               <label for="saswp-speakable"><?php echo esc_html__( 'Speakable ' ,'schema-and-structured-data-for-wp');?></label>
+                           </td>
+                           <td>
+                              <input class="saswp-enable-speakable" type="checkbox" name="saswp_enable_speakable_schema" value="1" <?php if(isset($speakable) && $speakable == 1){echo 'checked'; }else{ echo ''; } ?>>                                                                                                           
+                           </td>
+                        </tr>
                     </table>  
                    
                 </div>
@@ -1676,6 +1625,10 @@
                 
                 if ( isset( $_POST['local_menu'] ) ){
                 $local_business_details['local_menu'] = sanitize_text_field($_POST['local_menu']);        
+                }
+                
+                if ( isset( $_POST['local_hasmap'] ) ){
+                $local_business_details['local_hasmap'] = sanitize_text_field($_POST['local_hasmap']);        
                 }
                 
                 if ( isset( $_POST['local_serves_cuisine'] ) ){
@@ -1823,69 +1776,7 @@
                     
                                        
                 }
-
-                if($schema_type =='Product'){
-                    
-                   if ( isset( $_POST['saswp_product_schema_name'] ) ){
-                     $product_schema_details['saswp_product_schema_name'] = sanitize_text_field($_POST['saswp_product_schema_name']);        
-                   }
-                   if ( isset( $_POST['saswp_product_schema_description'] ) ){
-                     $product_schema_details['saswp_product_schema_description'] = sanitize_textarea_field($_POST['saswp_product_schema_description']);        
-                   }
-                   if ( isset( $_POST['saswp_product_schema_image'] ) ){
-                    $product_schema_details['saswp_product_schema_image']['id']      = sanitize_text_field($_POST['saswp_product_schema_image']['id']);    
-                    $product_schema_details['saswp_product_schema_image']['url']     = esc_url_raw($_POST['saswp_product_schema_image']['url']);
-                    $product_schema_details['saswp_product_schema_image']['width']   = sanitize_text_field($_POST['saswp_product_schema_image']['width']);
-                    $product_schema_details['saswp_product_schema_image']['height']  = sanitize_text_field($_POST['saswp_product_schema_image']['height']);
-                   }
-                   
-                   if ( isset( $_POST['saswp_product_schema_brand_name'] ) ){
-                     $product_schema_details['saswp_product_schema_brand_name'] = sanitize_text_field($_POST['saswp_product_schema_brand_name']);        
-                   }
-                   if ( isset( $_POST['saswp_product_schema_price'] ) ){
-                     $product_schema_details['saswp_product_schema_price'] = sanitize_text_field($_POST['saswp_product_schema_price']);        
-                   }
-                   if ( isset( $_POST['saswp_product_schema_currency'] ) ){
-                     $product_schema_details['saswp_product_schema_currency'] = sanitize_text_field($_POST['saswp_product_schema_currency']);        
-                   }
-                   if ( isset( $_POST['saswp_product_schema_availability'] ) ){
-                     $product_schema_details['saswp_product_schema_availability'] = sanitize_text_field($_POST['saswp_product_schema_availability']);        
-                   }
-                   if ( isset( $_POST['saswp_product_schema_condition'] ) ){
-                     $product_schema_details['saswp_product_schema_condition'] = sanitize_text_field($_POST['saswp_product_schema_condition']);        
-                   }
-                   
-                   
-                   if ( isset( $_POST['saswp_product_schema_sku'] ) ){
-                     $product_schema_details['saswp_product_schema_sku'] = sanitize_text_field($_POST['saswp_product_schema_sku']);        
-                   }
-                   if ( isset( $_POST['saswp_product_schema_mpn'] ) ){
-                     $product_schema_details['saswp_product_schema_mpn'] = sanitize_text_field($_POST['saswp_product_schema_mpn']);        
-                   }
-                   if ( isset( $_POST['saswp_product_schema_isbn'] ) ){
-                     $product_schema_details['saswp_product_schema_isbn'] = sanitize_text_field($_POST['saswp_product_schema_isbn']);        
-                   }
-                   if ( isset( $_POST['saswp_product_schema_gtin8'] ) ){
-                     $product_schema_details['saswp_product_schema_gtin8'] = sanitize_text_field($_POST['saswp_product_schema_gtin8']);        
-                   }
-                   if ( isset( $_POST['saswp_product_schema_priceValidUntil'] ) ){
-                     $product_schema_details['saswp_product_schema_priceValidUntil'] = sanitize_text_field($_POST['saswp_product_schema_priceValidUntil']);        
-                   }
-                   
-                    if ( isset( $_POST['saswp_product_schema_enable_rating'] ) ){
-                    $product_schema_details['saswp_product_schema_enable_rating'] = sanitize_text_field($_POST['saswp_product_schema_enable_rating']);        
-                    }
-                    if ( isset( $_POST['saswp_product_schema_rating'] ) ){
-                    $product_schema_details['saswp_product_schema_rating'] = sanitize_text_field($_POST['saswp_product_schema_rating']);        
-                    }
-                    if ( isset( $_POST['saswp_product_schema_review_count'] ) ){
-                    $product_schema_details['saswp_product_schema_review_count'] = sanitize_text_field($_POST['saswp_product_schema_review_count']);        
-                    }
-                   
-                   update_post_meta( $post_id, 'saswp_product_schema_details', $product_schema_details );
-                   
-                }
-                
+                                
                 if($schema_type == 'AudioObject' ){
                     
                     if ( isset( $_POST['saswp_audio_schema_name'] ) ){
@@ -2016,6 +1907,17 @@
                                           
                    update_post_meta( $post_id, 'saswp_event_schema_details', $event_schema_details );                                        
                 }
+                
+                if ( isset( $_POST['saswp_enable_speakable_schema'] ) ){
+                    
+                    update_post_meta( $post_id, 'saswp_enable_speakable_schema', sanitize_text_field($_POST['saswp_enable_speakable_schema']) );                                                                       
+                    
+                }else{
+                    
+                   update_post_meta( $post_id, 'saswp_enable_speakable_schema', '0' );                                                                        
+                   
+                }
+                
                               
         }           
 

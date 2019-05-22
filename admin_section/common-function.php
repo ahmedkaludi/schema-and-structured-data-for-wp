@@ -1199,7 +1199,7 @@ function saswp_admin_link($tab = '', $args = array()){
                     $link = admin_url( 'admin.php?page=' . $page );
             }
             else {
-                    $link = network_admin_url( 'admin.php?page=' . $page );
+                    $link = admin_url( 'admin.php?page=' . $page );                    
             }
 
             if ( $tab ) {
@@ -1639,3 +1639,31 @@ function saswp_frontend_enqueue(){
 			} 
                         return $aurthor_name;
     }
+    
+    function saswp_get_attachment_details_by_url($url, $post_id = '',$count='') {
+        
+        $response = array();
+        
+        $cached_data = get_transient('saswp_imageobject_' .$post_id.'_'.$count );   
+        
+        if (empty($cached_data)) {
+            
+            $image = @getimagesize($url);
+         
+            $response[0] =  $image[0]; //width
+            $response[1] =  $image[1]; //height
+
+            if(empty($image) || $image == false){
+                $img_id         = attachment_url_to_postid($url);
+                $imageDetail    = wp_get_attachment_image_src( $img_id , 'full');
+                $response[0]    = $imageDetail[1]; // width
+                $response[1]    = $imageDetail[2]; // height
+            }
+            set_transient('saswp_imageobject_' .$post_id.'_'.$count, $response,  24*30*HOUR_IN_SECONDS );   
+
+            $cached_data = $response;
+        }
+                                            
+        return $cached_data;
+                	
+}

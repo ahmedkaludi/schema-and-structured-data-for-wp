@@ -349,7 +349,8 @@ clear: both;
    display: inline-block;
     width: 25%;
     vertical-align: top; 
-    
+    box-sizing: border-box;
+    padding-right:10px;
 }
 .saswp-post-specific-container{
     display: inline-block;
@@ -366,12 +367,15 @@ clear: both;
     display: block;
     background-color: inherit;
     color: black;
-    padding: 10px 16px;    
+    padding: 6px 10px;    
     outline: none;
     text-align: left;
     cursor: pointer;
     transition: 0.3s;
-    font-size: 17px;  
+    font-size: 15px;
+        width: 130px;
+    overflow: hidden;
+    margin-right: 10px;
 }
 .saswp-star-rating{
     cursor: pointer;
@@ -471,10 +475,11 @@ Compatibility tab css ends
 On/Off Buttons starts here
 */
 .saswp-switch {
-  position: relative;
-  display: inline-block;
-  width: 60px;
-  height: 36px;
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 22px;
+    border: 20px;
 }
 
 .saswp-switch input { 
@@ -490,25 +495,26 @@ On/Off Buttons starts here
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #ccc;
-  -webkit-transition: .4s;
+  background-color: #5a6783;
   transition: .4s;
+  border-radius: 20px;
 }
 
 .saswp-slider:before {
-  position: absolute;
-  content: "";
-  height: 26px;
-  width: 26px;
-  left: 4px;
-  bottom: 4px;
-  background-color: white;
-  -webkit-transition: .4s;
-  transition: .4s;
+    position: absolute;
+    content: "";
+    height: 15px;
+    width: 15px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 20px;
 }
 
 input:checked + .saswp-slider {
   background-color: #61bd3b;
+  border-radius: 30px;
 }
 
 input:focus + .saswp-slider {
@@ -516,9 +522,8 @@ input:focus + .saswp-slider {
 }
 
 input:checked + .saswp-slider:before {
-  -webkit-transform: translateX(26px);
-  -ms-transform: translateX(26px);
-  transform: translateX(26px);
+  
+  transform: translateX(15px);
 }
 
 /* Rounded sliders */
@@ -533,15 +538,13 @@ input:checked + .saswp-slider:before {
 .saswp-tab-nav li{
     display: flex;    
     align-items: center;
+    justify-content: space-between;
+    margin-bottom:10px;
+    border-bottom: 1px solid #eee;
 }
+
 .saswp-tab-nav .selected{
     background-color: #ccc;
-}
-.saswp-tab-links{
-    display: flex;
-    flex-grow: 1;
-    background: transparent;
-    width: 113px;
 }
 .saswp-single-post-restore .saswp-switch{
     height: 28px;
@@ -962,4 +965,29 @@ Google review module ends here
     font-size: 20px;
     top: -5px;
     text-decoration:none;
-    }
+    }    
+/*** How to schema css starts here ***/    
+
+.saswp-how-to-supply-table-div, 
+.saswp-how-to-tool-table-div, 
+.saswp-how-to-step-table-div,
+.saswp-tvseries-actor-table-div,
+.saswp-tvseries-season-table-div,
+.saswp-mc-symptom-table-div,
+.saswp-mc-risk_factor-table-div,
+.saswp-mc-cause-table-div
+{
+    border: 1px solid #aaa;
+    margin-top: 5px;
+    margin-bottom: 5px;
+            
+}
+.saswp-table-close{
+    float: right;
+    cursor: pointer;
+}
+.saswp-table-create-onajax table th, .saswp-table-create-onajax table td{
+    padding: 5px;
+}
+
+/*** How to schema css ends here ***/    

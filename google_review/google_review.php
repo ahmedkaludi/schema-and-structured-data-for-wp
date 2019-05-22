@@ -23,8 +23,14 @@ class saswp_google_review{
     public function saswp_get_edit_post_link($link, $post_id, $context){
         
             $scr = get_current_screen();
-        
-            if ($scr->id == 'edit-saswp-google-review' && $context == 'display') {
+            
+            $id = '';
+            
+            if(is_object($scr)){
+                $id = $scr->id;
+            }
+            
+            if ($id == 'edit-saswp-google-review' && $context == 'display') {
                 
                     return wp_nonce_url(admin_url('admin.php?post_id='.$post_id.'&page=collection'), '_wpnonce');
                     

@@ -260,6 +260,13 @@ jQuery(document).ready(function($) {
                    $(this).find('select').attr('disabled', true);
                }                               
             }); 
+            if(schematype == 'TechArticle' || schematype == 'Article' || schematype == 'Blogposting' || schematype == 'NewsArticle' || schematype == 'WebPage'){
+               
+                $(".saswp-enable-speakable").parent().parent().show();
+            }else{
+                $(".saswp-enable-speakable").parent().parent().hide();
+            }
+            
             if(schematype == 'local_business'){
              $(".saswp-option-table-class tr").eq(1).show();   
              $(".saswp-business-text-field-tr").show(); 
@@ -313,6 +320,12 @@ jQuery(document).ready(function($) {
                    $(this).find('select').attr('disabled', true);
                }                               
             }); 
+            if(schematype == 'TechArticle' || schematype == 'Article' || schematype == 'Blogposting' || schematype == 'NewsArticle' || schematype == 'WebPage'){
+               
+                $(".saswp-enable-speakable").parent().parent().show();
+            }else{
+                $(".saswp-enable-speakable").parent().parent().hide();
+            }
             if(schematype == 'local_business'){
             $(".saswp-"+businesstype+'-tr').show();
             $(".saswp-business-text-field-tr").show(); 

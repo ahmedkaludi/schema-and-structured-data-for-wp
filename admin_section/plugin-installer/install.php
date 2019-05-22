@@ -664,15 +664,55 @@
 
 
 function saswp_general_setting_fields_callback(){
-    
-	global $sd_data;
-	$settings = $sd_data;
+                                
+	global $sd_data;	
         $saswp_kb_type ='';
         
         if(isset($sd_data['saswp_kb_type'])){
           $saswp_kb_type =  $sd_data['saswp_kb_type']; 
         }
+        $about_page   =   '';
+        $contact_page =   '';
         
+        
+        $pages = get_posts( array(
+                'order'       => 'ASC',
+                'orderby'     => 'ID',
+                'post_type'   => 'page',
+                'post_status' => 'publish',
+        ) );
+        
+        if(!empty($pages)){
+            
+            foreach ($pages as $page){
+              
+               $about_page .= '<option value="'.esc_attr($page->ID).'">'.esc_attr($page->post_title).'</option>'; 
+               $contact_page .= '<option value="'.esc_attr($page->ID).'">'.esc_attr($page->post_title).'</option>'; 
+                
+            }
+            
+        }
+        if($about_page){
+            
+            $about_page   = '<li class="saswp_fields">
+			    <label>'.esc_html__('About', 'schema-and-structured-data-for-wp').'</label>	                                                            
+                            <select name="sd_data[sd_about_page]" id="sd_about_page-select">
+                            <option value="">Select an item</option>    
+                            '.$about_page.'
+                            </select>                            	                                
+                          </li>';            
+        }
+        
+        if($contact_page){
+            
+            $contact_page   = '<li class="saswp_fields">
+			    <label>'.esc_html__('Contact', 'schema-and-structured-data-for-wp').'</label>	                                                            
+                            <select name="sd_data[sd_contact_page]" id="sd_contact_page-select">
+                            <option value="">Select an item</option>
+                            '.$contact_page.'
+                            </select>                            	                                
+                          </li>';            
+        }                     
 	$returnHtml = '<li class="saswp_fields">
 			<label>'.esc_html__('Data Type', 'schema-and-structured-data-for-wp').'</label>
 			<select name="sd_data[saswp_kb_type]">
@@ -680,28 +720,8 @@ function saswp_general_setting_fields_callback(){
 				<option value="Person" '.($saswp_kb_type=='Person'? 'selected' : '').'>'.esc_html__('Person', 'schema-and-structured-data-for-wp').'</option>
 			</select>
 		</li>
-		<li class="saswp_fields">
-			<label>'.esc_html__('About', 'schema-and-structured-data-for-wp').'</label>
-			 '. wp_dropdown_pages( array( 
-								'name' => 'sd_data[sd_about_page]', 
-                                                                'id' => 'sd_about_page',
-								'echo' => 0, 
-								'show_option_none' => esc_attr( 'Select an item' ), 
-								'option_none_value' => '', 
-								'selected' =>  isset($settings['sd_about_page']) ? $settings['sd_about_page'] : '',
-							)).'
-		</li>
-		<li class="saswp_fields">
-			<label>'.esc_html__('Contact', 'schema-and-structured-data-for-wp').'</label>
-			'.wp_dropdown_pages( array( 
-					'name' => 'sd_data[sd_contact_page]', 
-		                        'id' => 'sd_contact_page-select',
-					'echo' => 0, 
-					'show_option_none' => esc_attr( 'Select an item' ), 
-					'option_none_value' => '', 
-					'selected' =>  isset($settings['sd_contact_page']) ? $settings['sd_contact_page'] : '',
-				)).'
-		</li>';
+                '.$about_page.'
+                '.$contact_page.'';				
 		return $returnHtml;
 }
 

@@ -33,7 +33,14 @@ jQuery(document).ready(function($){
                    $(this).hide(); 
                    $(this).find('select').attr('disabled', true);
                }                               
-            }); 
+            });              
+            if(schematype == 'TechArticle' || schematype == 'Article' || schematype == 'Blogposting' || schematype == 'NewsArticle' || schematype == 'WebPage'){
+               
+                $(".saswp-enable-speakable").parent().parent().show();
+            }else{
+                $(".saswp-enable-speakable").parent().parent().hide();
+            }
+            
             if(schematype == 'local_business'){
              $(".saswp-option-table-class tr").eq(1).show();   
              $(".saswp-business-text-field-tr").show();
@@ -90,6 +97,14 @@ jQuery(document).ready(function($){
                    $(this).find('select').attr('disabled', true);
                }                               
             }); 
+            
+            if(schematype == 'TechArticle' || schematype == 'Article' || schematype == 'Blogposting' || schematype == 'NewsArticle' || schematype == 'WebPage'){
+               
+                $(".saswp-enable-speakable").parent().parent().show();
+            }else{
+                $(".saswp-enable-speakable").parent().parent().hide();
+            }
+            
             if(schematype == 'local_business'){
             $(".saswp-"+businesstype+'-tr').show(); 
             $(".saswp-business-text-field-tr").show(); 
@@ -1070,6 +1085,307 @@ jQuery(document).ready(function($){
        $(document).on("click", '.saswp-skip-button', function(){
            $(this).parent().parent().hide();
        }); 
+       
+    
+        //TvSeries schema starts here
+        
+        $(document).on("click", ".saswp-tvseries-actor", function(e){
+           e.preventDefault();
+           
+           var schema_id = $(this).attr('data-id');
+           var count =  $(".saswp-tvseries-actor-table-div").length;
+           var index = $( ".saswp-tvseries-actor-table-div:nth-child("+count+")" ).attr('data-id');
+               index = ++index;
+               
+           if(!index){
+               index = 0;
+           }
+                   
+            var html = '';
+            
+                   html += '<div class="saswp-tvseries-actor-table-div" data-id="'+index+'">'    
+                        +  '<a class="saswp-table-close">X</a>'
+                        + '<table class="form-table saswp-tvseries-actor-table">'                                                                                           
+                        + '<tr>'
+                        + '<th>Actor Name</th><td><input style="width:100%" type="text" id="saswp_tvseries_actor_name_'+index+'_'+schema_id+'" name="tvseries_actor_'+schema_id+'['+index+'][saswp_tvseries_actor_name]"></td>'
+                        + '</tr>'                        
+                        + '</table>'
+                        + '</div>';
+           if(html){
+               $('.saswp-tvseries-actor-section[data-id="'+schema_id+'"]').append(html);
+           }
+            
+           
+       });
+       
+        $(document).on("click", ".saswp-tvseries-season", function(e){
+           e.preventDefault();
+           
+           var schema_id = $(this).attr('data-id');
+           var count =  $(".saswp-tvseries-season-table-div").length;
+           var index = $( ".saswp-tvseries-season-table-div:nth-child("+count+")" ).attr('data-id');
+               index = ++index;
+               
+           if(!index){
+               index = 0;
+           }
+                   
+            var html = '';
+            
+                   html += '<div class="saswp-tvseries-season-table-div" data-id="'+index+'">'    
+                        +  '<a class="saswp-table-close">X</a>'
+                        + '<table class="form-table saswp-tvseries-season-table">'                                                                                           
+                        + '<tr>'
+                        + '<th>Season</th><td><input style="width:100%" type="text" id="saswp_tvseries_season_name_'+index+'_'+schema_id+'" name="tvseries_season_'+schema_id+'['+index+'][saswp_tvseries_season_name]"></td>'
+                        + '</tr>'
+                        + '<tr>'
+                        + '<th>Season Published Date</th><td><input class="saswp-local-schema-datepicker-picker" style="width:100%" type="text" id="saswp_tvseries_season_published_date_'+index+'_'+schema_id+'" name="tvseries_season_'+schema_id+'['+index+'][saswp_tvseries_season_published_date]"></td>'
+                        + '</tr>'
+                        + '<tr>'
+                        + '<th>Number Of Episodes</th><td><input style="width:100%" type="text" id="saswp_tvseries_season_episodes_'+index+'_'+schema_id+'" name="tvseries_season_'+schema_id+'['+index+'][saswp_tvseries_season_episodes]"></td>'
+                        + '</tr>'
+                        + '</table>'
+                        + '</div>';
+           if(html){
+               
+               $('.saswp-tvseries-season-section[data-id="'+schema_id+'"]').append(html);
+               saswp_schema_datepicker();
+                              
+           }
+            
+           
+       });
+        
+        //TvSeries schema ends here
+    
+        //Medical condition schema starts here
+        
+        $(document).on("click", ".saswp-mc-cause", function(e){
+           e.preventDefault();
+           
+           var schema_id = $(this).attr('data-id');
+           var count =  $(".saswp-mc-cause-table-div").length;
+           var index = $( ".saswp-mc-cause-table-div:nth-child("+count+")" ).attr('data-id');
+               index = ++index;
+               
+           if(!index){
+               index = 0;
+           }
+                   
+            var html = '';
+            
+                   html += '<div class="saswp-mc-cause-table-div" data-id="'+index+'">'    
+                        +  '<a class="saswp-table-close">X</a>'
+                        + '<table class="form-table saswp-mc-cause-table">'                                                                                           
+                        + '<tr>'
+                        + '<th>Cause</th><td><input style="width:100%" type="text" id="saswp_mc_cause_name_'+index+'_'+schema_id+'" name="mc_cause_'+schema_id+'['+index+'][saswp_mc_cause_name]"></td>'
+                        + '</tr>'                        
+                        + '</table>'
+                        + '</div>';
+           if(html){
+               $('.saswp-mc-cause-section[data-id="'+schema_id+'"]').append(html);
+           }
+            
+           
+       });
+       
+        $(document).on("click", ".saswp-mc-symptom", function(e){
+           e.preventDefault();
+           
+           var schema_id = $(this).attr('data-id');
+           var count =  $(".saswp-mc-symptom-table-div").length;
+           var index = $( ".saswp-mc-symptom-table-div:nth-child("+count+")" ).attr('data-id');
+               index = ++index;
+               
+           if(!index){
+               index = 0;
+           }
+                   
+            var html = '';
+            
+                   html += '<div class="saswp-mc-symptom-table-div" data-id="'+index+'">'
+                        +  '<a class="saswp-table-close">X</a>'
+                        + '<table class="form-table saswp-mc-symptom-table">'                                                                                           
+                        + '<tr>'
+                        + '<th>Symptom Name</th><td><input style="width:100%" type="text" id="saswp_mc_symptom_name_'+index+'_'+schema_id+'" name="mc_symptom_'+schema_id+'['+index+'][saswp_mc_symptom_name]"></td>'
+                        + '</tr>'                        
+                        + '</table>'
+                        + '</div>';
+           if(html){
+               $('.saswp-mc-symptom-section[data-id="'+schema_id+'"]').append(html);
+           }
+            
+           
+       });
+       
+       $(document).on("click", ".saswp-mc-risk_factor", function(e){
+           e.preventDefault();
+           
+           var schema_id = $(this).attr('data-id');
+           var count =  $(".saswp-mc-risk_factor-table-div").length;
+           var index = $( ".saswp-mc-risk_factor-table-div:nth-child("+count+")" ).attr('data-id');
+               index = ++index;
+               
+           if(!index){
+               index = 0;
+           }
+                   
+            var html = '';
+            
+                   html += '<div class="saswp-mc-risk_factor-table-div" data-id="'+index+'">'
+                        +  '<a class="saswp-table-close">X</a>'
+                        + '<table class="form-table saswp-mc-risk_factor-table">'                                                                                           
+                        + '<tr>'
+                        + '<th>Risk Factor Name</th><td><input style="width:100%" type="text" id="saswp_mc_risk_factor_name_'+index+'_'+schema_id+'" name="mc_risk_factor_'+schema_id+'['+index+'][saswp_mc_risk_factor_name]"></td>'
+                        + '</tr>'                        
+                        + '</table>'
+                        + '</div>';
+           if(html){
+               $('.saswp-mc-risk_factor-section[data-id="'+schema_id+'"]').append(html);
+           }
+            
+           
+       });
+        
+        //Medical condition schema ends here
+    
+        //How to schema js starts here
+        
+       $(document).on("click", ".saswp-how-to-supply", function(e){
+           e.preventDefault();
+           
+           var schema_id = $(this).attr('data-id');
+           var count =  $(".saswp-how-to-supply-table-div").length;
+           var index = $( ".saswp-how-to-supply-table-div:nth-child("+count+")" ).attr('data-id');
+               index = ++index;
+               
+           if(!index){
+               index = 0;
+           }
+                   
+            var html = '';
+            
+                   html += '<div class="saswp-how-to-supply-table-div" data-id="'+index+'">'
+                        +  '<a class="saswp-table-close">X</a>'
+                        + '<table class="form-table saswp-how-to-supply-table">'                                                                                           
+                        + '<tr>'
+                        + '<th>Supply Name</th><td><input style="width:100%" type="text" id="saswp_howto_supply_name_'+index+'_'+schema_id+'" name="howto_supply_'+schema_id+'['+index+'][saswp_howto_supply_name]"></td>'
+                        + '</tr>'
+                        + '<tr>'
+                        + '<th>Supply Image</th>'
+                        + '<td>'
+                        + '<fieldset>'
+                        + '<input style="width:80%" type="text" id="saswp_howto_supply_image_'+index+'_'+schema_id+'" name="saswp_howto_supply_image_'+index+'_'+schema_id+'">'
+                        + '<input type="hidden" data-id="saswp_howto_supply_image_'+index+'_'+schema_id+'_id" name="howto_supply_'+schema_id+'['+index+'][saswp_howto_supply_image_id]" id="saswp_howto_supply_image_'+index+'_'+schema_id+'_id">'
+                        + '<input data-id="media" style="width: 19%" class="button" id="saswp_howto_supply_image_'+index+'_'+schema_id+'_button" name="saswp_howto_supply_image_'+index+'_'+schema_id+'_button" type="button" value="Upload">'
+                        + '<div class="saswp_image_div_saswp_howto_supply_image_'+index+'_'+schema_id+'">'                                                
+                        + '</div>'
+                        + '</fieldset>'
+                        + '</td>'
+                        + '</tr>'
+                        + '</table>'
+                        + '</div>';
+           if(html){
+               $('.saswp-how-to-supply-section[data-id="'+schema_id+'"]').append(html);
+           }
+            
+           
+       }); 
+        
+       $(document).on("click", ".saswp-how-to-tool", function(e){
+           e.preventDefault();
+           
+          var schema_id = $(this).attr('data-id');
+          var count =  $(".saswp-how-to-tool-table-div").length;
+          var index = $( ".saswp-how-to-tool-table-div:nth-child("+count+")" ).attr('data-id');
+               index = ++index;
+           
+           if(!index){
+               index = 0;
+           }
+                   
+            var html = '';
+            
+                   html += '<div class="saswp-how-to-tool-table-div" data-id="'+index+'">'
+                        +  '<a class="saswp-table-close">X</a>'
+                        + '<table class="form-table saswp-how-to-tool-table">'                                                                                           
+                        + '<tr>'
+                        + '<th>Tool Name</th><td><input style="width:100%" type="text" id="saswp_howto_tool_name_'+index+'_'+schema_id+'" name="howto_tool_'+schema_id+'['+index+'][saswp_howto_tool_name]"></td>'
+                        + '</tr>'
+                        + '<tr>'
+                        + '<th>Tool Image</th>'
+                        + '<td>'
+                        + '<fieldset>'
+                        + '<input style="width:80%" type="text" id="saswp_howto_tool_image_'+index+'_'+schema_id+'" name="saswp_howto_tool_image_'+index+'_'+schema_id+'">'
+                        + '<input type="hidden" data-id="saswp_howto_tool_image_'+index+'_'+schema_id+'_id" name="howto_tool_'+schema_id+'['+index+'][saswp_howto_tool_image_id]" id="saswp_howto_tool_image_'+index+'_'+schema_id+'_id">'
+                        + '<input data-id="media" style="width: 19%" class="button" id="saswp_howto_tool_image_'+index+'_'+schema_id+'_button" name="saswp_howto_tool_image_'+index+'_'+schema_id+'_button" type="button" value="Upload">'
+                        + '<div class="saswp_image_div_saswp_howto_tool_image_'+index+'_'+schema_id+'">'                                                
+                        + '</div>'
+                        + '</fieldset>'
+                        + '</td>'
+                        + '</tr>'
+                        + '</table>'
+                        + '</div>';
+           if(html){
+               $('.saswp-how-to-tool-section[data-id="'+schema_id+'"]').append(html);
+           }
+            
+           
+       });
+       
+       $(document).on("click", ".saswp-how-to-step", function(e){
+           e.preventDefault();
+                      
+          var schema_id = $(this).attr('data-id');
+          var count =  $(".saswp-how-to-step-table-div").length;
+          var index = $( ".saswp-how-to-step-table-div:nth-child("+count+")" ).attr('data-id');
+              index = ++index;
+           
+           if(!index){
+               index = 0;
+           }
+                   
+            var html = '';
+            
+                 html+='<div class="saswp-how-to-step-table-div" data-id="'+index+'">'
+                     + '<a class="saswp-table-close">X</a>'
+                     + '<table class="form-table saswp-how-to-step-table">'                                                                                          
+                     + '<tr>'
+                     + '<th>Step Name</th><td><input style="width:100%" type="text" id="saswp_howto_step_name_'+index+'_'+schema_id+'" name="howto_step_'+schema_id+'['+index+'][saswp_howto_step_name]" ></td>'
+                     + '</tr>'
+                     + '<tr>'
+                     + '<th>HowToDirection Text</th><td><input style="width:100%" type="text" id="saswp_howto_direction_text_'+index+'_'+schema_id+'" name="howto_step_'+schema_id+'['+index+'][saswp_howto_direction_text]"></td>'
+                     + '</tr>'
+                     + '<tr>'
+                     + '<th>HowToTip Text</th><td><input style="width:100%" type="text" id="saswp_howto_tip_text_'+index+'_'+schema_id+'" name="howto_step_'+schema_id+'['+index+'][saswp_howto_tip_text]"></td>'
+                     + '</tr>'
+                     + '<tr>'
+                     + '<th>Step Image</th>'
+                     + '<td>'
+                     + '<fieldset>'
+                     + '<input style="width:80%" type="text" id="saswp_howto_step_image_'+index+'_'+schema_id+'" name="saswp_howto_step_image_'+schema_id+'['+index+']">'
+                     + '<input type="hidden" data-id="saswp_howto_step_image_'+index+'_'+schema_id+'_id" name="howto_step_'+schema_id+'['+index+'][saswp_howto_step_image_id]" id="saswp_howto_step_image_'+index+'_'+schema_id+'_id">'
+                     + '<input data-id="media" style="width: 19%" class="button" id="saswp_howto_step_image_'+index+'_'+schema_id+'_button" name="saswp_howto_step_image_'+index+'_'+schema_id+'_button" type="button" value="Upload">'
+                     + '<div class="saswp_image_div_saswp_howto_step_image_'+index+'_'+schema_id+'">'                                                                                
+                     + '</div>'
+                     + '</fieldset>'
+                     + '</td>'
+                     + '</tr>'
+                     + '</table>'
+                     + '</div>';
+             
+           if(html){
+               $('.saswp-how-to-step-section[data-id="'+schema_id+'"]').append(html);
+           }
+           
+           
+       });
+       
+       $(document).on("click", ".saswp-table-close", function(){
+           $(this).parent().remove();
+       });
+        
+       //How to schema js ends here
         
        $(document).on("click", '.saswp-add-custom-fields', function(){          
           var schema_type = $('select#schema_type option:selected').val();

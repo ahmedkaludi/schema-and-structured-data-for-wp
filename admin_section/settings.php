@@ -324,7 +324,7 @@ function saswp_premium_features_callback(){ ?>
 			<li><a target="_blank" href="http://structured-data-for-wp.com/extensions/woocommerce-compatibility-for-schema/">
 				<div class="saswp-features-ele">
 					<div class="saswp-ele-ic saswp-ele-1">
-						<img src="http://structured-data-for-wp.com/wp-content/uploads/edd/2019/05/woocommerce-icon.png">
+                                            <img src="<?php echo SASWP_PLUGIN_URL; ?>/admin_section/images/woocommerce-icon.png">
 					</div>
 					<div class="saswp-ele-tlt">
 						<h3>WooCommerce Compatibility for Schema</h3>
@@ -339,7 +339,7 @@ function saswp_premium_features_callback(){ ?>
 			<li><a target="_blank" href="http://structured-data-for-wp.com/extensions/cooked-compatibility-for-schema/">
 				<div class="saswp-features-ele">
 					<div class="saswp-ele-ic saswp-ele-2">
-						<img src="http://structured-data-for-wp.com/wp-content/uploads/edd/2019/05/cooked-schema-wp.png">
+                                            <img src="<?php echo SASWP_PLUGIN_URL; ?>/admin_section/images/cooked-schema-wp.png">
 					</div>
 					<div class="saswp-ele-tlt">
 						<h3>Cooked Compatibility for Schema</h3>
@@ -363,7 +363,7 @@ function saswp_services_callback(){ ?>
 			<li><a target="_blank" href="http://structured-data-for-wp.com/services/google-news-schema-setup/">
 				<div class="saswp-features-ele">
 					<div class="saswp-ele-ic saswp-ele-3">
-						<img src="http://structured-data-for-wp.com/wp-content/uploads/edd/2019/05/news.png">
+                                            <img src="<?php echo SASWP_PLUGIN_URL; ?>/admin_section/images/news.png">
 					</div>
 					<div class="saswp-ele-tlt">
 						<h3>Google News Schema Setup</h3>
@@ -378,7 +378,7 @@ function saswp_services_callback(){ ?>
 			<li><a target="_blank" href="http://structured-data-for-wp.com/services/structured-data-setup-error-clean-up/">
 				<div class="saswp-features-ele">
 					<div class="saswp-ele-ic saswp-ele-4">
-						<img src="http://structured-data-for-wp.com/wp-content/uploads/edd/2019/05/schema-setup-icon.png">
+                                            <img src="<?php echo SASWP_PLUGIN_URL; ?>/admin_section/images/schema-setup-icon.png">
 					</div>
 					<div class="saswp-ele-tlt">
 						<h3>Structured Data Setup & Error Clean Up</h3>

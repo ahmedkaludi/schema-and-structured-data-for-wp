@@ -91,6 +91,12 @@ Class saswp_output_service{
                     if(isset($custom_fields['local_price_range'])){
                      $input1['priceRange'] =    $custom_fields['local_price_range'];
                     }
+                    if(isset($custom_fields['local_hasmap'])){
+                     $input1['hasMap'] =    $custom_fields['local_hasmap'];
+                    }
+                    if(isset($custom_fields['local_menu'])){
+                     $input1['hasMenu'] =    $custom_fields['local_menu'];
+                    }
                                      
                     break;
                 
@@ -1216,7 +1222,9 @@ Class saswp_output_service{
                         'local_website'              => 'Website',
                         'local_business_logo'        => 'Image', 
                         'saswp_dayofweek'            => 'Operation Days',
-                        'local_price_range'          => 'Price Range',                                                                                                                                             
+                        'local_price_range'          => 'Price Range', 
+                        'local_hasmap'               => 'HasMap',
+                        'local_menu'                 => 'Memu',
                         );                   
                     break;
                 
@@ -1604,6 +1612,7 @@ Class saswp_output_service{
 					'@context'			=> 'http://schema.org',
 					'@type'				=> 'TechArticle',
                                         '@id'				=> get_permalink().'/#techarticle',
+                                        'url'				=> get_permalink(),
 					'mainEntityOfPage'              => get_permalink(),					
 					'headline'			=> get_the_title(),
 					'description'                   => strip_tags(strip_shortcodes(get_the_excerpt())),
@@ -1633,6 +1642,7 @@ Class saswp_output_service{
 					'@context'			=> 'http://schema.org',
 					'@type'				=> 'Article',
                                         '@id'				=> get_permalink().'/#article',
+                                        'url'				=> get_permalink(),
 					'mainEntityOfPage'              => get_permalink(),					
 					'headline'			=> get_the_title(),
 					'description'                   => strip_tags(strip_shortcodes(get_the_excerpt())),
@@ -1725,6 +1735,7 @@ Class saswp_output_service{
         public function saswp_get_fetaure_image(){
             
             global $sd_data;
+            global $post;
             $input2          = array();
             $image_id 	     = get_post_thumbnail_id();
 	    $image_details   = wp_get_attachment_image_src($image_id, 'full'); 
@@ -1815,19 +1826,19 @@ Class saswp_output_service{
                           
                           if($content){
                               
-                          $regex   = '/src="([^"]*)"/';                          
+                          $regex   = '/<img(.*?)src="(.*?)"(.*?)>/';                          
                           preg_match_all( $regex, $content, $attachments );   
-                                                                                                                                                                                                                                            
+                                                                              
                           $attach_images = array();
                           
                           if(!empty($attachments)){
                               $k = 0;
-                              foreach ($attachments[1] as $attachment) {
+                              foreach ($attachments[2] as $attachment) {
                                                                     
-                                  $attach_details   = getimagesize($attachment);                                         
-                                  if($attach_details){
-                                      
-                                      
+                                  $attach_details   = saswp_get_attachment_details_by_url($attachment, $post->ID, $k );
+                                  
+                                  if(!empty($attach_details)){
+                                                                            
                                                 $attach_images['image'][$k]['@type']  = 'ImageObject';                                                
                                                 $attach_images['image'][$k]['url']    = esc_url($attachment);
                                                 $attach_images['image'][$k]['width']  = esc_attr($attach_details[0]);
@@ -1916,22 +1927,30 @@ Class saswp_output_service{
                             }
                                                         
                         }
-                                                                                                
-                        if($logo !='' && $height !='' && $width !=''){
-                         
-                            $publisher['publisher']['@type']         = 'Organization';                        
+                            
+                        
+                        if($site_name){
+                        
+                            
+                            $publisher['publisher']['@type']         = 'Organization';
+                            $publisher['publisher']['name']          = esc_attr($site_name);
+                            
+                            
+                            if($logo !='' && $height !='' && $width !=''){
+                                                                             
                             $publisher['publisher']['logo']['@type'] = 'ImageObject';
                             $publisher['publisher']['logo']['url']   = esc_url($logo);
                             $publisher['publisher']['logo']['width'] = esc_attr($width);
                             $publisher['publisher']['logo']['height']= esc_attr($height);                        
-                            $publisher['publisher']['name']          = esc_attr($site_name); 
-
+                             
                             $default_logo['url']    = esc_url($logo);
                             $default_logo['height'] = esc_attr($height);
                             $default_logo['width']  = esc_attr($width);
                             
-                        }  
-                        
+                          }
+                                                        
+                        }
+                                                                          
                         if($d_logo){
                             return $default_logo;
                         }else{

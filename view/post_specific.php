@@ -7,7 +7,7 @@ class saswp_post_specific {
         protected $options_response          = array();
         protected $modify_schema_post_enable = false;
         
-                
+                               
         public function saswp_post_specific_hooks(){
             
                 add_action( 'admin_init', array( $this, 'saswp_get_all_schema_list' ) );
@@ -89,11 +89,16 @@ class saswp_post_specific {
             global $post;
                         
             $post_specific_id = '';
+            $schema_count = 0;
             if(is_object($post)){
                 $post_specific_id = $post->ID;
             }     
+            if(!empty($this->all_schema)){
+              $schema_count = count($this->all_schema);  
+            }
+            
             $custom_option = get_option('custom_schema_post_enable_'.esc_attr($post->ID));
-            if(count($this->all_schema)>0 && get_post_status($post_specific_id)=='publish'){
+            if($schema_count > 0 && get_post_status($post_specific_id)=='publish'){
                 
             $show_post_types = get_post_types();
             unset($show_post_types['adsforwp'],$show_post_types['saswp'],$show_post_types['attachment'], $show_post_types['revision'], $show_post_types['nav_menu_item'], $show_post_types['user_request'], $show_post_types['custom_css']);            
@@ -101,7 +106,7 @@ class saswp_post_specific {
                 
              foreach ( $this->screen as $single_screen ) {
                       $post_title = '';
-                    if(count($this->all_schema) == 1 && $custom_option !='enable'){
+                    if($schema_count == 1 && $custom_option !='enable'){
                         $all_schemas = $this->all_schema;                        
                         $post_title = '('.get_post_meta($all_schemas[0]->ID, 'schema_type', true).')';                                      
                      }
@@ -119,11 +124,241 @@ class saswp_post_specific {
             }		
 	}
         
+        public function saswp_get_dynamic_html($schema_id, $meta_name, $index, $data){
+                
+                                             
+            switch ($meta_name) {
+                
+                case 'howto_supply':
+                    
+                    $meta_fields = array(
+                    
+                    array(
+			'label'     => 'Supply Name',
+			'name'      => 'saswp_howto_supply_name',
+			'type'      => 'text',                        
+		    ),
+                    array(
+			'label'     => 'Supply Image',
+			'name'      => 'saswp_howto_supply_image',
+			'type'      => 'media',                        
+		    ),
+                                        
+                    );
+
+                    break;
+                
+                case 'howto_tool':
+                    
+                    $meta_fields = array(
+                    
+                    array(
+			'label'     => 'Tool Name',
+			'name'      => 'saswp_howto_tool_name',
+			'type'      => 'text',                        
+		    ),
+                    array(
+			'label'     => 'Tool Image',
+			'name'      => 'saswp_howto_tool_image',
+			'type'      => 'media',                        
+		    ),
+                                        
+                    );
+
+                    break;
+                
+                case 'howto_step':
+                    
+                    $meta_fields = array(
+                    
+                    array(
+			'label'     => 'Step Name',
+			'name'      => 'saswp_howto_step_name',
+			'type'      => 'text',                        
+		    ),
+                    array(
+			'label'     => 'HowToDirection Text',
+			'name'      => 'saswp_howto_direction_text',
+			'type'      => 'text',                        
+		    ),
+                    array(
+			'label'     => 'HowToTip Text',
+			'name'      => 'saswp_howto_tip_text',
+			'type'      => 'text',                        
+		    ),    
+                    array(
+			'label'     => 'Step Image',
+			'name'      => 'saswp_howto_step_image',
+			'type'      => 'media',                        
+		    ),
+                                        
+                    );
+
+                    break;
+                
+                case 'mc_symptom':
+                    
+                    $meta_fields = array(
+                    
+                    array(
+			'label'     => 'Sign Or Symptom',
+			'name'      => 'saswp_mc_symptom_name',
+			'type'      => 'text',                        
+		    )                 
+                                        
+                    );
+
+                    break;
+                
+                case 'mc_risk_factor':
+                    
+                    $meta_fields = array(
+                    
+                    array(
+			'label'     => 'Risk Factor',
+			'name'      => 'saswp_mc_risk_factor_name',
+			'type'      => 'text',                        
+		    )                   
+                                        
+                    );
+
+                    break;
+                
+                case 'mc_cause':
+                    
+                    $meta_fields = array(
+                    
+                    array(
+			'label'     => 'Cause',
+			'name'      => 'saswp_mc_cause_name',
+			'type'      => 'text',                        
+		    )                   
+                                        
+                    );                                    
+
+                    break;
+                
+                
+                case 'tvseries_actor':
+                    
+                    $meta_fields = array(
+                    
+                    array(
+			'label'     => 'Actor Name',
+			'name'      => 'saswp_tvseries_actor_name',
+			'type'      => 'text',                        
+		    )                   
+                                        
+                    );    
+
+                    break;
+                
+                case 'tvseries_season':
+                    
+                    $meta_fields = array(
+                    
+                    array(
+			'label'     => 'Season Name',
+			'name'      => 'saswp_tvseries_season_name',
+			'type'      => 'text',                        
+		    ),
+                    array(
+			'label'     => 'Season Published Date',
+			'name'      => 'saswp_tvseries_season_published_date',
+			'type'      => 'text',                        
+		    ),
+                    array(
+			'label'     => 'Number Of Episodes',
+			'name'      => 'saswp_tvseries_season_episodes',
+			'type'      => 'text',                        
+		    )                                                            
+                    );
+
+                    break;
+                
+
+                default:
+                    break;
+            }
+               
+            
+                $output  = '';                                                                                                                                                         
+		foreach ( $meta_fields as $meta_field ) {
+                    
+                    
+			$label = '<label for="' . $meta_field['name'] . '">' . esc_html__( $meta_field['label'], 'schema-and-structured-data-for-wp' ) . '</label>';			
+			                                                                        
+			switch ( $meta_field['type'] ) {
+                            
+                                
+								                                
+                                case 'media':
+                                                $name = $meta_field['name'].'_'.$index.'_'.$schema_id;
+                                    
+                                                $img_prev = '';
+                                                $src      = '';
+                                                
+                                                if(wp_get_attachment_url($data[$meta_field['name'].'_id'])){
+                                                 
+                                                $src = wp_get_attachment_url(esc_attr($data[$meta_field['name'].'_id']));
+                                                    
+                                                $img_prev = '<div class="saswp_image_thumbnail">'
+                                                           . '<img class="saswp_image_prev" src="'.esc_url($src).'">'
+                                                           . '<a data-id="'.$name.'" href="#" class="saswp_prev_close">X</a>'
+                                                           . '</div>';     
+
+                                                }
+                                        
+                                                
+                                                $input = '<fieldset>
+                                                        <input style="width:79%" type="text" id="'.$name.'" name="'.$name.'" value="'.esc_url($src).'">
+                                                        <input type="hidden" data-id="'.$name.'_id" name="'.$meta_name.'_'.$schema_id.'['.$index.']['.$meta_field['name'].'_id]'.'" id="'.$name.'_id" value="'.esc_attr($data[$meta_field['name'].'_id']).'">
+                                                        <input data-id="media" style="width: 19%" class="button" id="'.$name.'_button" name="'.$name.'_button" type="button" value="Upload">
+                                                        <div class="saswp_image_div_'.$name.'">'.$img_prev.'</div>
+                                                        </fieldset>';
+                                                
+                                            
+                                                                                                                        
+                                                break;
+                                         
+				default:
+                                                    
+                                    $class = '';
+
+                                    if (strpos($meta_field['name'].'_'.$index.'_'.$schema_id, 'published_date') !== false){                                                                                                           
+
+                                            $class = 'class="saswp-local-schema-datepicker-picker"';    
+                                    }
+                                                                                                            
+                                     $input = sprintf(
+						'<input %s  style="width:100%%" id="%s" name="%s" type="%s" value="%s">',
+                                                $class,
+						$meta_field['name'].'_'.$index.'_'.$schema_id,
+						$meta_name.'_'.$schema_id.'['.$index.']['.$meta_field['name'].']',
+						$meta_field['type'],
+						$data[$meta_field['name']]                                            
+                                             );
+                                        
+					
+			}
+                        
+			$output .= '<tr><th>'.$label.'</th><td>'.$input.'</td></tr>';
+		}
+                
+                                                               		                                
+		 $response = '<table class="form-table">'.$output.'</table>';                 
+                 return $response;
+                 
+        }
+        
         public function saswp_post_meta_box_fields($post){    
             
-            $tabs         = '';
-            $tabs_fields  = '';
-            $schema_ids   = array();
+            $tabs              = '';
+            $tabs_fields       = '';
+            $schema_ids        = array();
+            $howto_data        = array();
+            $mc_data           = array();
+            $tvseries_data     = array();
 
             $schema_enable = get_post_meta($post->ID, 'saswp_enable_disable_schema', true);
                                 
@@ -143,7 +378,30 @@ class saswp_post_specific {
                      
                      $output       = $this->saswp_saswp_post_specific( $post, $schema->ID ); 
                      $schema_type  = esc_sql ( get_post_meta($schema->ID, 'schema_type', true)  ); 
+                       
+                     if($schema_type == 'HowTo'){
+                      
+                     $howto_data['howto_tool_'.$schema->ID]  = esc_sql ( get_post_meta($post->ID, 'howto_tool_'.$schema->ID, true)  );              
+                     $howto_data['howto_step_'.$schema->ID]  = esc_sql ( get_post_meta($post->ID, 'howto_step_'.$schema->ID, true)  );              
+                     $howto_data['howto_supply_'.$schema->ID]  = esc_sql ( get_post_meta($post->ID, 'howto_supply_'.$schema->ID, true)  );              
+                         
+                     }
+
+                     if($schema_type == 'MedicalCondition'){
+                      
+                     $mc_data['mc_cause_'.$schema->ID]  = esc_sql ( get_post_meta($post->ID, 'mc_cause_'.$schema->ID, true)  );              
+                     $mc_data['mc_symptom_'.$schema->ID]  = esc_sql ( get_post_meta($post->ID, 'mc_symptom_'.$schema->ID, true)  );              
+                     $mc_data['mc_risk_factor_'.$schema->ID]  = esc_sql ( get_post_meta($post->ID, 'mc_risk_factor_'.$schema->ID, true)  );              
+                                              
+                     }
                      
+                     if($schema_type == 'TVSeries'){
+                      
+                     $tvseries_data['tvseries_actor_'.$schema->ID]   = esc_sql ( get_post_meta($post->ID, 'tvseries_actor_'.$schema->ID, true)  );              
+                     $tvseries_data['tvseries_season_'.$schema->ID]  = esc_sql ( get_post_meta($post->ID, 'tvseries_season_'.$schema->ID, true)  );                                   
+                                              
+                     }
+                                                               
                      if($key==0){
                          
                      $tabs .='<li class="selected"><a saswp-schema-type="'.esc_attr($schema_type).'" data-id="saswp_specific_'.esc_attr($schema->ID).'" class="saswp-tab-links selected">'.esc_attr($schema->post_title).'</a>'
@@ -153,7 +411,302 @@ class saswp_post_specific {
                              . '</li>';    
                      
                      $tabs_fields .= '<div data-id="'.esc_attr($schema->ID).'" id="saswp_specific_'.esc_attr($schema->ID).'" class="saswp-post-specific-wrapper">';
+                     $tabs_fields .= '<div class="saswp-table-create-onload">';
                      $tabs_fields .= '<table class="form-table"><tbody>' . $output . '</tbody></table>';
+                     $tabs_fields .= '</div>';
+                     
+                     //How to schema starts here
+                     if($schema_type == 'HowTo'){
+                      
+                         $schema_id = $schema->ID;
+                         
+                         $tabs_fields .= '<div class="saswp-table-create-onajax">';
+                         
+                         
+                         //supply section starts here
+                         $tabs_fields .= '<div class="saswp-how-to-supply-section-main">';                                                  
+                         $tabs_fields .= '<div class="saswp-how-to-supply-section" data-id="'.esc_attr($schema_id).'">';                         
+                         if(isset($howto_data['howto_supply_'.$schema_id])){
+                             
+                             $howto_supply = $howto_data['howto_supply_'.$schema_id];                                                     
+                             $supply_html  = '';
+                             
+                             if(!empty($howto_supply)){
+                                 
+                                    $i = 0;
+                                    foreach ($howto_supply as $supply){
+                                                                                                                        
+                                        $supply_html .= '<div class="saswp-how-to-supply-table-div" data-id="'.$i.'">';
+                                        $supply_html .= '<a class="saswp-table-close">X</a>';
+                                        $supply_html .= $this->saswp_get_dynamic_html($schema_id, 'howto_supply', $i, $supply);
+                                        $supply_html .= '</div>';
+                                        
+                                     $i++;   
+                                    }
+                                 
+                             }
+                             
+                             $tabs_fields .= $supply_html;
+                             
+                         }                         
+                         $tabs_fields .= '</div>';
+                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-how-to-supply">Add HowTo Supply</a>';                                                                                                    
+                         $tabs_fields .= '</div>';                                                                           
+                         //supply section ends here here
+                         
+                         //tool section starts here
+                          $tabs_fields .= '<div class="saswp-how-to-tool-section-main">';                                                  
+                         $tabs_fields .= '<div class="saswp-how-to-tool-section" data-id="'.esc_attr($schema_id).'">';                         
+                         if(isset($howto_data['howto_tool_'.$schema_id])){
+                             
+                             $howto_tool = $howto_data['howto_tool_'.$schema_id];                                                     
+                             $tool_html  = '';
+                             
+                             if(!empty($howto_tool)){
+                                 
+                                    $i = 0;
+                                    foreach ($howto_tool as $tool){
+                                                                                                                        
+                                        $tool_html .= '<div class="saswp-how-to-tool-table-div" data-id="'.$i.'">';
+                                        $tool_html .= '<a class="saswp-table-close">X</a>';
+                                        $tool_html .= $this->saswp_get_dynamic_html($schema_id, 'howto_tool', $i, $tool);
+                                        $tool_html .= '</div>';
+                                        
+                                     $i++;   
+                                    }
+                                 
+                             }
+                             
+                             $tabs_fields .= $tool_html;
+                             
+                         }                         
+                         $tabs_fields .= '</div>';
+                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-how-to-tool">Add HowTo Tool</a>';                                                                                                    
+                         $tabs_fields .= '</div>';                                                                        
+                         //tool section ends here here
+                         
+                         //step section starts here here
+                         $tabs_fields .= '<div class="saswp-how-to-step-section-main">';                                                  
+                         $tabs_fields .= '<div class="saswp-how-to-step-section" data-id="'.esc_attr($schema_id).'">';                         
+                         if(isset($howto_data['howto_step_'.$schema_id])){
+                             
+                             $howto_step = $howto_data['howto_step_'.$schema_id];                                                     
+                             $step_html  = '';
+                             
+                             if(!empty($howto_step)){
+                                 
+                                    $i = 0;
+                                    foreach ($howto_step as $step){
+                                                                                                                        
+                                        $step_html .= '<div class="saswp-how-to-step-table-div" data-id="'.$i.'">';
+                                        $step_html .= '<a class="saswp-table-close">X</a>';
+                                        $step_html .= $this->saswp_get_dynamic_html($schema_id, 'howto_step', $i, $step);
+                                        $step_html .= '</div>';
+                                        
+                                     $i++;   
+                                    }
+                                 
+                             }
+                             
+                             $tabs_fields .= $step_html;
+                             
+                         }                         
+                         $tabs_fields .= '</div>';
+                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-how-to-step">Add HowTo Step</a>';                                                                                                    
+                         $tabs_fields .= '</div>';  
+                         //step section ends here here
+                         
+                         
+                         $tabs_fields .= '</div>';
+                     }                      
+                      //How to schema ends here 
+                     
+                     //Medical condition schema starts here
+                     if($schema_type == 'MedicalCondition'){
+                      
+                         $schema_id = $schema->ID;
+                         
+                         $tabs_fields .= '<div class="saswp-table-create-onajax">';
+                         
+                         
+                         //cause section starts here
+                          
+                         $tabs_fields .= '<div class="saswp-mc-cause-section-main">';                                                  
+                         $tabs_fields .= '<div class="saswp-mc-cause-section" data-id="'.esc_attr($schema_id).'">';                         
+                         if(isset($mc_data['mc_cause_'.$schema_id])){
+                             
+                             $mc_cause = $mc_data['mc_cause_'.$schema_id];  
+                             
+                             $cause_html  = '';
+                             
+                             if(!empty($mc_cause)){
+                                 
+                                    $i = 0;
+                                    foreach ($mc_cause as $cause){
+                                                                                                                        
+                                        $cause_html .= '<div class="saswp-mc-cause-table-div" data-id="'.$i.'">';
+                                        $cause_html .= '<a class="saswp-table-close">X</a>';
+                                        $cause_html .= $this->saswp_get_dynamic_html($schema_id, 'mc_cause', $i, $cause);
+                                        $cause_html .= '</div>';
+                                        
+                                     $i++;   
+                                    }
+                                 
+                             }
+                             
+                             $tabs_fields .= $cause_html;
+                             
+                         }                         
+                         $tabs_fields .= '</div>';
+                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-mc-cause">Add MC Cause</a>';                                                                                                    
+                         $tabs_fields .= '</div>'; 
+                         
+                         //cause section ends here here
+                         
+                         //symptom section starts here
+                         $tabs_fields .= '<div class="saswp-mc-symptom-section-main">';                                                  
+                         $tabs_fields .= '<div class="saswp-mc-symptom-section" data-id="'.esc_attr($schema_id).'">';                         
+                         if(isset($mc_data['mc_symptom_'.$schema_id])){
+                             
+                             $mc_symptom = $mc_data['mc_symptom_'.$schema_id];                                                     
+                             $symptom_html  = '';
+                             
+                             if(!empty($mc_symptom)){
+                                 
+                                    $i = 0;
+                                    foreach ($mc_symptom as $symptom){
+                                                                                                                        
+                                        $symptom_html .= '<div class="saswp-mc-symptom-table-div" data-id="'.$i.'">';
+                                        $symptom_html .= '<a class="saswp-table-close">X</a>';
+                                        $symptom_html .= $this->saswp_get_dynamic_html($schema_id, 'mc_symptom', $i, $symptom);
+                                        $symptom_html .= '</div>';
+                                        
+                                     $i++;   
+                                    }
+                                 
+                             }
+                             
+                             $tabs_fields .= $symptom_html;
+                             
+                         }                         
+                         $tabs_fields .= '</div>';
+                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-mc-symptom">Add MC Symptom</a>';                                                                                                    
+                         $tabs_fields .= '</div>'; 
+                         //symptom section ends here
+                         
+                         //risk factor starts here
+                         $tabs_fields .= '<div class="saswp-mc-risk_factor-section-main">';                                                  
+                         $tabs_fields .= '<div class="saswp-mc-risk_factor-section" data-id="'.esc_attr($schema_id).'">';                         
+                         if(isset($mc_data['mc_risk_factor_'.$schema_id])){
+                             
+                             $mc_risk_factor = $mc_data['mc_risk_factor_'.$schema_id];                                                     
+                             $risk_factor_html  = '';
+                             
+                             if(!empty($mc_risk_factor)){
+                                 
+                                    $i = 0;
+                                    foreach ($mc_risk_factor as $risk_factor){
+                                                                                                                        
+                                        $risk_factor_html .= '<div class="saswp-mc-risk_factor-table-div" data-id="'.$i.'">';
+                                        $risk_factor_html .= '<a class="saswp-table-close">X</a>';
+                                        $risk_factor_html .= $this->saswp_get_dynamic_html($schema_id, 'mc_risk_factor', $i, $risk_factor);
+                                        $risk_factor_html .= '</div>';
+                                        
+                                     $i++;   
+                                    }
+                                 
+                             }
+                             
+                             $tabs_fields .= $risk_factor_html;
+                             
+                         }                         
+                         $tabs_fields .= '</div>';
+                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-mc-risk_factor">Add MC Risk Factor</a>';                                                                                                    
+                         $tabs_fields .= '</div>'; 
+                         //risk factor ends here
+                                                                                                    
+                         $tabs_fields .= '</div>';
+                     }                      
+                     //Medical condition schema ends here
+                     
+                     //TVSeries schema starts herre
+                     if($schema_type == 'TVSeries'){
+                      
+                         $schema_id = $schema->ID;
+                         
+                         $tabs_fields .= '<div class="saswp-table-create-onajax">';
+                                                  
+                         //actor section starts here                          
+                         $tabs_fields .= '<div class="saswp-tvseries-actor-section-main">';                                                  
+                         $tabs_fields .= '<div class="saswp-tvseries-actor-section" data-id="'.esc_attr($schema_id).'">';                         
+                         if(isset($tvseries_data['tvseries_actor_'.$schema_id])){
+                             
+                             $tvseries_actor = $tvseries_data['tvseries_actor_'.$schema_id];  
+                             
+                             $actor_html  = '';
+                             
+                             if(!empty($tvseries_actor)){
+                                 
+                                    $i = 0;
+                                    foreach ($tvseries_actor as $actor){
+                                                                                                                        
+                                        $actor_html .= '<div class="saswp-tvseries-actor-table-div" data-id="'.$i.'">';
+                                        $actor_html .= '<a class="saswp-table-close">X</a>';
+                                        $actor_html .= $this->saswp_get_dynamic_html($schema_id, 'tvseries_actor', $i, $actor);
+                                        $actor_html .= '</div>';
+                                        
+                                     $i++;   
+                                    }
+                                 
+                             }
+                             
+                             $tabs_fields .= $actor_html;
+                             
+                         }                         
+                         $tabs_fields .= '</div>';
+                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-tvseries-actor">Add TVSeries Actor</a>';                                                                                                    
+                         $tabs_fields .= '</div>';                          
+                         //actor section ends here here
+
+                         //season section starts here
+                         
+                         $tabs_fields .= '<div class="saswp-tvseries-season-section-main">';                                                  
+                         $tabs_fields .= '<div class="saswp-tvseries-season-section" data-id="'.esc_attr($schema_id).'">';                         
+                         if(isset($tvseries_data['tvseries_season_'.$schema_id])){
+                             
+                             $tvseries_season = $tvseries_data['tvseries_season_'.$schema_id];  
+                             
+                             $season_html  = '';
+                             
+                             if(!empty($tvseries_season)){
+                                 
+                                    $i = 0;
+                                    foreach ($tvseries_season as $season){
+                                                                                                                        
+                                        $season_html .= '<div class="saswp-tvseries-season-table-div" data-id="'.$i.'">';
+                                        $season_html .= '<a class="saswp-table-close">X</a>';
+                                        $season_html .= $this->saswp_get_dynamic_html($schema_id, 'tvseries_season', $i, $season);
+                                        $season_html .= '</div>';
+                                        
+                                     $i++;   
+                                    }
+                                 
+                             }
+                             
+                             $tabs_fields .= $season_html;
+                             
+                         }                         
+                         $tabs_fields .= '</div>';
+                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-tvseries-season">Add TVSeries Season</a>';                                                                                                    
+                         $tabs_fields .= '</div>';
+                         
+                         //season section ends here
+                                                                           
+                                                                                                    
+                         $tabs_fields .= '</div>';
+                     }                     
+                     //TvSeries schema ends here
+                     
                      $tabs_fields .= '</div>';
                      
                      }else{
@@ -165,7 +718,303 @@ class saswp_post_specific {
                              . '<span class="saswp-slider"></span>'
                              . '</li>';    
                      $tabs_fields .= '<div data-id="'.esc_attr($schema->ID).'" id="saswp_specific_'.esc_attr($schema->ID).'" class="saswp-post-specific-wrapper saswp_hide">';
+                     $tabs_fields .= '<div class="saswp-table-create-onload">';
                      $tabs_fields .= '<table class="form-table"><tbody>' . $output . '</tbody></table>';
+                     $tabs_fields .= '</div>';
+                     
+                     //How to schema starts here
+                     if($schema_type == 'HowTo'){
+                      
+                         $schema_id = $schema->ID;
+                         
+                         $tabs_fields .= '<div class="saswp-table-create-onajax">';
+                         
+                         
+                         //supply section starts here
+                         $tabs_fields .= '<div class="saswp-how-to-supply-section-main">';                                                  
+                         $tabs_fields .= '<div class="saswp-how-to-supply-section" data-id="'.esc_attr($schema_id).'">';                         
+                         if(isset($howto_data['howto_supply_'.$schema_id])){
+                             
+                             $howto_supply = $howto_data['howto_supply_'.$schema_id];                                                     
+                             $supply_html  = '';
+                             
+                             if(!empty($howto_supply)){
+                                 
+                                    $i = 0;
+                                    foreach ($howto_supply as $supply){
+                                                                                                                        
+                                        $supply_html .= '<div class="saswp-how-to-supply-table-div" data-id="'.$i.'">';
+                                        $supply_html .= '<a class="saswp-table-close">X</a>';
+                                        $supply_html .= $this->saswp_get_dynamic_html($schema_id, 'howto_supply', $i, $supply);
+                                        $supply_html .= '</div>';
+                                        
+                                     $i++;   
+                                    }
+                                 
+                             }
+                             
+                             $tabs_fields .= $supply_html;
+                             
+                         }                         
+                         $tabs_fields .= '</div>';
+                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-how-to-supply">Add HowTo Supply</a>';                                                                                                    
+                         $tabs_fields .= '</div>';                                                                           
+                         //supply section ends here here
+                         
+                         //tool section starts here
+                          $tabs_fields .= '<div class="saswp-how-to-tool-section-main">';                                                  
+                         $tabs_fields .= '<div class="saswp-how-to-tool-section" data-id="'.esc_attr($schema_id).'">';                         
+                         if(isset($howto_data['howto_tool_'.$schema_id])){
+                             
+                             $howto_tool = $howto_data['howto_tool_'.$schema_id];                                                     
+                             $tool_html  = '';
+                             
+                             if(!empty($howto_tool)){
+                                 
+                                    $i = 0;
+                                    foreach ($howto_tool as $tool){
+                                                                                                                        
+                                        $tool_html .= '<div class="saswp-how-to-tool-table-div" data-id="'.$i.'">';
+                                        $tool_html .= '<a class="saswp-table-close">X</a>';
+                                        $tool_html .= $this->saswp_get_dynamic_html($schema_id, 'howto_tool', $i, $tool);
+                                        $tool_html .= '</div>';
+                                        
+                                     $i++;   
+                                    }
+                                 
+                             }
+                             
+                             $tabs_fields .= $tool_html;
+                             
+                         }                         
+                         $tabs_fields .= '</div>';
+                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-how-to-tool">Add HowTo Tool</a>';                                                                                                    
+                         $tabs_fields .= '</div>';                                                                        
+                         //tool section ends here here
+                         
+                         //step section starts here here
+                         $tabs_fields .= '<div class="saswp-how-to-step-section-main">';                                                  
+                         $tabs_fields .= '<div class="saswp-how-to-step-section" data-id="'.esc_attr($schema_id).'">';                         
+                         if(isset($howto_data['howto_step_'.$schema_id])){
+                             
+                             $howto_step = $howto_data['howto_step_'.$schema_id];                                                     
+                             $step_html  = '';
+                             
+                             if(!empty($howto_step)){
+                                 
+                                    $i = 0;
+                                    foreach ($howto_step as $step){
+                                                                                                                        
+                                        $step_html .= '<div class="saswp-how-to-step-table-div" data-id="'.$i.'">';
+                                        $step_html .= '<a class="saswp-table-close">X</a>';
+                                        $step_html .= $this->saswp_get_dynamic_html($schema_id, 'howto_step', $i, $step);
+                                        $step_html .= '</div>';
+                                        
+                                     $i++;   
+                                    }
+                                 
+                             }
+                             
+                             $tabs_fields .= $step_html;
+                             
+                         }                         
+                         $tabs_fields .= '</div>';
+                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-how-to-step">Add HowTo Step</a>';                                                                                                    
+                         $tabs_fields .= '</div>';  
+                         //step section ends here here
+                         
+                         
+                         $tabs_fields .= '</div>';
+                     }                      
+                      //How to schema ends here   
+                                          
+                     //Medical condition schema starts here
+                     if($schema_type == 'MedicalCondition'){
+                      
+                         $schema_id = $schema->ID;
+                         
+                         $tabs_fields .= '<div class="saswp-table-create-onajax">';
+                         
+                         
+                         //cause section starts here
+                          
+                         $tabs_fields .= '<div class="saswp-mc-cause-section-main">';                                                  
+                         $tabs_fields .= '<div class="saswp-mc-cause-section" data-id="'.esc_attr($schema_id).'">';                         
+                         if(isset($mc_data['mc_cause_'.$schema_id])){
+                             
+                             $mc_cause = $mc_data['mc_cause_'.$schema_id];  
+                             
+                             $cause_html  = '';
+                             
+                             if(!empty($mc_cause)){
+                                 
+                                    $i = 0;
+                                    foreach ($mc_cause as $cause){
+                                                                                                                        
+                                        $cause_html .= '<div class="saswp-mc-cause-table-div" data-id="'.$i.'">';
+                                        $cause_html .= '<a class="saswp-table-close">X</a>';
+                                        $cause_html .= $this->saswp_get_dynamic_html($schema_id, 'mc_cause', $i, $cause);
+                                        $cause_html .= '</div>';
+                                        
+                                     $i++;   
+                                    }
+                                 
+                             }
+                             
+                             $tabs_fields .= $cause_html;
+                             
+                         }                         
+                         $tabs_fields .= '</div>';
+                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-mc-cause">Add MC Cause</a>';                                                                                                    
+                         $tabs_fields .= '</div>'; 
+                         
+                         //cause section ends here here
+                         
+                         //symptom section starts here
+                         $tabs_fields .= '<div class="saswp-mc-symptom-section-main">';                                                  
+                         $tabs_fields .= '<div class="saswp-mc-symptom-section" data-id="'.esc_attr($schema_id).'">';                         
+                         if(isset($mc_data['mc_symptom_'.$schema_id])){
+                             
+                             $mc_symptom = $mc_data['mc_symptom_'.$schema_id];                                                     
+                             $symptom_html  = '';
+                             
+                             if(!empty($mc_symptom)){
+                                 
+                                    $i = 0;
+                                    foreach ($mc_symptom as $symptom){
+                                                                                                                        
+                                        $symptom_html .= '<div class="saswp-mc-symptom-table-div" data-id="'.$i.'">';
+                                        $symptom_html .= '<a class="saswp-table-close">X</a>';
+                                        $symptom_html .= $this->saswp_get_dynamic_html($schema_id, 'mc_symptom', $i, $symptom);
+                                        $symptom_html .= '</div>';
+                                        
+                                     $i++;   
+                                    }
+                                 
+                             }
+                             
+                             $tabs_fields .= $symptom_html;
+                             
+                         }                         
+                         $tabs_fields .= '</div>';
+                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-mc-symptom">Add MC Symptom</a>';                                                                                                    
+                         $tabs_fields .= '</div>'; 
+                         //symptom section ends here
+                         
+                         //risk factor starts here
+                         $tabs_fields .= '<div class="saswp-mc-risk_factor-section-main">';                                                  
+                         $tabs_fields .= '<div class="saswp-mc-risk_factor-section" data-id="'.esc_attr($schema_id).'">';                         
+                         if(isset($mc_data['mc_risk_factor_'.$schema_id])){
+                             
+                             $mc_risk_factor = $mc_data['mc_risk_factor_'.$schema_id];                                                     
+                             $risk_factor_html  = '';
+                             
+                             if(!empty($mc_risk_factor)){
+                                 
+                                    $i = 0;
+                                    foreach ($mc_risk_factor as $risk_factor){
+                                                                                                                        
+                                        $risk_factor_html .= '<div class="saswp-mc-risk_factor-table-div" data-id="'.$i.'">';
+                                        $risk_factor_html .= '<a class="saswp-table-close">X</a>';
+                                        $risk_factor_html .= $this->saswp_get_dynamic_html($schema_id, 'mc_risk_factor', $i, $risk_factor);
+                                        $risk_factor_html .= '</div>';
+                                        
+                                     $i++;   
+                                    }
+                                 
+                             }
+                             
+                             $tabs_fields .= $risk_factor_html;
+                             
+                         }                         
+                         $tabs_fields .= '</div>';
+                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-mc-risk_factor">Add MC Risk Factor</a>';                                                                                                    
+                         $tabs_fields .= '</div>'; 
+                         //risk factor ends here
+                                                                                                    
+                         $tabs_fields .= '</div>';
+                     }                      
+                     //Medical condition schema ends here
+                    
+                     //TVSeries schema starts herre
+                     if($schema_type == 'TVSeries'){
+                      
+                         $schema_id = $schema->ID;
+                         
+                         $tabs_fields .= '<div class="saswp-table-create-onajax">';
+                                                  
+                         //actor section starts here                          
+                         $tabs_fields .= '<div class="saswp-tvseries-actor-section-main">';                                                  
+                         $tabs_fields .= '<div class="saswp-tvseries-actor-section" data-id="'.esc_attr($schema_id).'">';                         
+                         if(isset($tvseries_data['tvseries_actor_'.$schema_id])){
+                             
+                             $tvseries_actor = $tvseries_data['tvseries_actor_'.$schema_id];  
+                             
+                             $actor_html  = '';
+                             
+                             if(!empty($tvseries_actor)){
+                                 
+                                    $i = 0;
+                                    foreach ($tvseries_actor as $actor){
+                                                                                                                        
+                                        $actor_html .= '<div class="saswp-tvseries-actor-table-div" data-id="'.$i.'">';
+                                        $actor_html .= '<a class="saswp-table-close">X</a>';
+                                        $actor_html .= $this->saswp_get_dynamic_html($schema_id, 'tvseries_actor', $i, $actor);
+                                        $actor_html .= '</div>';
+                                        
+                                     $i++;   
+                                    }
+                                 
+                             }
+                             
+                             $tabs_fields .= $actor_html;
+                             
+                         }                         
+                         $tabs_fields .= '</div>';
+                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-tvseries-actor">Add TVSeries Actor</a>';                                                                                                    
+                         $tabs_fields .= '</div>';                          
+                         //actor section ends here here
+
+                         //season section starts here
+                         
+                         $tabs_fields .= '<div class="saswp-tvseries-season-section-main">';                                                  
+                         $tabs_fields .= '<div class="saswp-tvseries-season-section" data-id="'.esc_attr($schema_id).'">';                         
+                         if(isset($tvseries_data['tvseries_season_'.$schema_id])){
+                             
+                             $tvseries_season = $tvseries_data['tvseries_season_'.$schema_id];  
+                             
+                             $season_html  = '';
+                             
+                             if(!empty($tvseries_season)){
+                                 
+                                    $i = 0;
+                                    foreach ($tvseries_season as $season){
+                                                                                                                        
+                                        $season_html .= '<div class="saswp-tvseries-season-table-div" data-id="'.$i.'">';
+                                        $season_html .= '<a class="saswp-table-close">X</a>';
+                                        $season_html .= $this->saswp_get_dynamic_html($schema_id, 'tvseries_season', $i, $season);
+                                        $season_html .= '</div>';
+                                        
+                                     $i++;   
+                                    }
+                                 
+                             }
+                             
+                             $tabs_fields .= $season_html;
+                             
+                         }                         
+                         $tabs_fields .= '</div>';
+                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-tvseries-season">Add TVSeries Season</a>';                                                                                                    
+                         $tabs_fields .= '</div>';
+                         
+                         //season section ends here
+                                                                           
+                                                                                                    
+                         $tabs_fields .= '</div>';
+                     }                     
+                     //TvSeries schema ends here
+                     
+                     
                      $tabs_fields .= '</div>';
                      
                      } 
@@ -198,6 +1047,26 @@ class saswp_post_specific {
                  $checked = 'checked';    
                  }
                  
+                 if($schema_type == 'HowTo'){
+                      
+                     $howto_data['howto_tool_'.$all_schema[0]->ID]  = esc_sql ( get_post_meta($post->ID, 'howto_tool_'.$all_schema[0]->ID, true)  );              
+                     $howto_data['howto_step_'.$all_schema[0]->ID]  = esc_sql ( get_post_meta($post->ID, 'howto_step_'.$all_schema[0]->ID, true)  );                                     
+                     $howto_data['howto_supply_'.$all_schema[0]->ID]  = esc_sql ( get_post_meta($post->ID, 'howto_supply_'.$all_schema[0]->ID, true)  );                                     
+                }
+                if($schema_type == 'MedicalCondition'){
+                      
+                     $mc_data['mc_cause_'.$schema->ID]  = esc_sql ( get_post_meta($post->ID, 'mc_cause_'.$schema->ID, true)  );              
+                     $mc_data['mc_symptom_'.$schema->ID]  = esc_sql ( get_post_meta($post->ID, 'mc_symptom_'.$schema->ID, true)  );              
+                     $mc_data['mc_risk_factor_'.$schema->ID]  = esc_sql ( get_post_meta($post->ID, 'mc_risk_factor_'.$schema->ID, true)  );              
+                         
+                }
+                if($schema_type == 'TVSeries'){
+                      
+                     $tvseries_data['tvseries_actor_'.$schema->ID]   = esc_sql ( get_post_meta($post->ID, 'tvseries_actor_'.$schema->ID, true)  );              
+                     $tvseries_data['tvseries_season_'.$schema->ID]  = esc_sql ( get_post_meta($post->ID, 'tvseries_season_'.$schema->ID, true)  );                                   
+                                              
+                }
+                 
                  $this->meta_fields = $response;
                  $output = $this->saswp_saswp_post_specific( $post, $all_schema[0]->ID );  
                  $tabs_fields .= '<div>';
@@ -207,7 +1076,304 @@ class saswp_post_specific {
                               . '<span class="saswp-slider"></span>'
                               . '</div>';
                  $tabs_fields .= '<div id="saswp_specific_'.esc_attr($all_schema[0]->ID).'" class="saswp-post-specific-wrapper">';
+                 $tabs_fields .= '<div class="saswp-table-create-onload">';
                  $tabs_fields .= '<table class="form-table"><tbody>' . $output . '</tbody></table>';
+                 $tabs_fields .= '</div>';
+                 
+                 
+                 //How to schema starts here
+                     if($schema_type == 'HowTo'){
+                      
+                         $schema_id = $schema->ID;
+                         
+                         $tabs_fields .= '<div class="saswp-table-create-onajax">';
+                         
+                         
+                         //supply section starts here
+                         $tabs_fields .= '<div class="saswp-how-to-supply-section-main">';                                                  
+                         $tabs_fields .= '<div class="saswp-how-to-supply-section" data-id="'.esc_attr($schema_id).'">';                         
+                         if(isset($howto_data['howto_supply_'.$schema_id])){
+                             
+                             $howto_supply = $howto_data['howto_supply_'.$schema_id];                                                     
+                             $supply_html  = '';
+                             
+                             if(!empty($howto_supply)){
+                                 
+                                    $i = 0;
+                                    foreach ($howto_supply as $supply){
+                                                                                                                        
+                                        $supply_html .= '<div class="saswp-how-to-supply-table-div" data-id="'.$i.'">';
+                                        $supply_html .= '<a class="saswp-table-close">X</a>';
+                                        $supply_html .= $this->saswp_get_dynamic_html($schema_id, 'howto_supply', $i, $supply);
+                                        $supply_html .= '</div>';
+                                        
+                                     $i++;   
+                                    }
+                                 
+                             }
+                             
+                             $tabs_fields .= $supply_html;
+                             
+                         }                         
+                         $tabs_fields .= '</div>';
+                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-how-to-supply">Add HowTo Supply</a>';                                                                                                    
+                         $tabs_fields .= '</div>';                                                                           
+                         //supply section ends here here
+                         
+                         //tool section starts here
+                          $tabs_fields .= '<div class="saswp-how-to-tool-section-main">';                                                  
+                         $tabs_fields .= '<div class="saswp-how-to-tool-section" data-id="'.esc_attr($schema_id).'">';                         
+                         if(isset($howto_data['howto_tool_'.$schema_id])){
+                             
+                             $howto_tool = $howto_data['howto_tool_'.$schema_id];                                                     
+                             $tool_html  = '';
+                             
+                             if(!empty($howto_tool)){
+                                 
+                                    $i = 0;
+                                    foreach ($howto_tool as $tool){
+                                                                                                                        
+                                        $tool_html .= '<div class="saswp-how-to-tool-table-div" data-id="'.$i.'">';
+                                        $tool_html .= '<a class="saswp-table-close">X</a>';
+                                        $tool_html .= $this->saswp_get_dynamic_html($schema_id, 'howto_tool', $i, $tool);
+                                        $tool_html .= '</div>';
+                                        
+                                     $i++;   
+                                    }
+                                 
+                             }
+                             
+                             $tabs_fields .= $tool_html;
+                             
+                         }                         
+                         $tabs_fields .= '</div>';
+                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-how-to-tool">Add HowTo Tool</a>';                                                                                                    
+                         $tabs_fields .= '</div>';                                                                        
+                         //tool section ends here here
+                         
+                         //step section starts here here
+                         $tabs_fields .= '<div class="saswp-how-to-step-section-main">';                                                  
+                         $tabs_fields .= '<div class="saswp-how-to-step-section" data-id="'.esc_attr($schema_id).'">';                         
+                         if(isset($howto_data['howto_step_'.$schema_id])){
+                             
+                             $howto_step = $howto_data['howto_step_'.$schema_id];                                                     
+                             $step_html  = '';
+                             
+                             if(!empty($howto_step)){
+                                 
+                                    $i = 0;
+                                    foreach ($howto_step as $step){
+                                                                                                                        
+                                        $step_html .= '<div class="saswp-how-to-step-table-div" data-id="'.$i.'">';
+                                        $step_html .= '<a class="saswp-table-close">X</a>';
+                                        $step_html .= $this->saswp_get_dynamic_html($schema_id, 'howto_step', $i, $step);
+                                        $step_html .= '</div>';
+                                        
+                                     $i++;   
+                                    }
+                                 
+                             }
+                             
+                             $tabs_fields .= $step_html;
+                             
+                         }                         
+                         $tabs_fields .= '</div>';
+                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-how-to-step">Add HowTo Step</a>';                                                                                                    
+                         $tabs_fields .= '</div>';  
+                         //step section ends here here
+                         
+                         
+                         $tabs_fields .= '</div>';
+                     }                      
+                 //How to schema ends here
+                     
+                 //Medical condition schema starts here
+                     if($schema_type == 'MedicalCondition'){
+                      
+                         $schema_id = $schema->ID;
+                         
+                         $tabs_fields .= '<div class="saswp-table-create-onajax">';
+                         
+                         
+                         //cause section starts here
+                          
+                         $tabs_fields .= '<div class="saswp-mc-cause-section-main">';                                                  
+                         $tabs_fields .= '<div class="saswp-mc-cause-section" data-id="'.esc_attr($schema_id).'">';                         
+                         if(isset($mc_data['mc_cause_'.$schema_id])){
+                             
+                             $mc_cause = $mc_data['mc_cause_'.$schema_id];  
+                             
+                             $cause_html  = '';
+                             
+                             if(!empty($mc_cause)){
+                                 
+                                    $i = 0;
+                                    foreach ($mc_cause as $cause){
+                                                                                                                        
+                                        $cause_html .= '<div class="saswp-mc-cause-table-div" data-id="'.$i.'">';
+                                        $cause_html .= '<a class="saswp-table-close">X</a>';
+                                        $cause_html .= $this->saswp_get_dynamic_html($schema_id, 'mc_cause', $i, $cause);
+                                        $cause_html .= '</div>';
+                                        
+                                     $i++;   
+                                    }
+                                 
+                             }
+                             
+                             $tabs_fields .= $cause_html;
+                             
+                         }                         
+                         $tabs_fields .= '</div>';
+                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-mc-cause">Add MC Cause</a>';                                                                                                    
+                         $tabs_fields .= '</div>'; 
+                         
+                         //cause section ends here here
+                         
+                         //symptom section starts here
+                         $tabs_fields .= '<div class="saswp-mc-symptom-section-main">';                                                  
+                         $tabs_fields .= '<div class="saswp-mc-symptom-section" data-id="'.esc_attr($schema_id).'">';                         
+                         if(isset($mc_data['mc_symptom_'.$schema_id])){
+                             
+                             $mc_symptom = $mc_data['mc_symptom_'.$schema_id];                                                     
+                             $symptom_html  = '';
+                             
+                             if(!empty($mc_symptom)){
+                                 
+                                    $i = 0;
+                                    foreach ($mc_symptom as $symptom){
+                                                                                                                        
+                                        $symptom_html .= '<div class="saswp-mc-symptom-table-div" data-id="'.$i.'">';
+                                        $symptom_html .= '<a class="saswp-table-close">X</a>';
+                                        $symptom_html .= $this->saswp_get_dynamic_html($schema_id, 'mc_symptom', $i, $symptom);
+                                        $symptom_html .= '</div>';
+                                        
+                                     $i++;   
+                                    }
+                                 
+                             }
+                             
+                             $tabs_fields .= $symptom_html;
+                             
+                         }                         
+                         $tabs_fields .= '</div>';
+                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-mc-symptom">Add MC Symptom</a>';                                                                                                    
+                         $tabs_fields .= '</div>'; 
+                         //symptom section ends here
+                         
+                         //risk factor starts here
+                         $tabs_fields .= '<div class="saswp-mc-risk_factor-section-main">';                                                  
+                         $tabs_fields .= '<div class="saswp-mc-risk_factor-section" data-id="'.esc_attr($schema_id).'">';                         
+                         if(isset($mc_data['mc_risk_factor_'.$schema_id])){
+                             
+                             $mc_risk_factor = $mc_data['mc_risk_factor_'.$schema_id];                                                     
+                             $risk_factor_html  = '';
+                             
+                             if(!empty($mc_risk_factor)){
+                                 
+                                    $i = 0;
+                                    foreach ($mc_risk_factor as $risk_factor){
+                                                                                                                        
+                                        $risk_factor_html .= '<div class="saswp-mc-risk_factor-table-div" data-id="'.$i.'">';
+                                        $risk_factor_html .= '<a class="saswp-table-close">X</a>';
+                                        $risk_factor_html .= $this->saswp_get_dynamic_html($schema_id, 'mc_risk_factor', $i, $risk_factor);
+                                        $risk_factor_html .= '</div>';
+                                        
+                                     $i++;   
+                                    }
+                                 
+                             }
+                             
+                             $tabs_fields .= $risk_factor_html;
+                             
+                         }                         
+                         $tabs_fields .= '</div>';
+                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-mc-risk_factor">Add MC Risk Factor</a>';                                                                                                    
+                         $tabs_fields .= '</div>'; 
+                         //risk factor ends here
+                                                                                                    
+                         $tabs_fields .= '</div>';
+                     }                      
+                 //Medical condition schema ends here
+                     
+                 //TVSeries schema starts herre
+                     if($schema_type == 'TVSeries'){
+                      
+                         $schema_id = $schema->ID;
+                         
+                         $tabs_fields .= '<div class="saswp-table-create-onajax">';
+                                                  
+                         //actor section starts here                          
+                         $tabs_fields .= '<div class="saswp-tvseries-actor-section-main">';                                                  
+                         $tabs_fields .= '<div class="saswp-tvseries-actor-section" data-id="'.esc_attr($schema_id).'">';                         
+                         if(isset($tvseries_data['tvseries_actor_'.$schema_id])){
+                             
+                             $tvseries_actor = $tvseries_data['tvseries_actor_'.$schema_id];  
+                             
+                             $actor_html  = '';
+                             
+                             if(!empty($tvseries_actor)){
+                                 
+                                    $i = 0;
+                                    foreach ($tvseries_actor as $actor){
+                                                                                                                        
+                                        $actor_html .= '<div class="saswp-tvseries-actor-table-div" data-id="'.$i.'">';
+                                        $actor_html .= '<a class="saswp-table-close">X</a>';
+                                        $actor_html .= $this->saswp_get_dynamic_html($schema_id, 'tvseries_actor', $i, $actor);
+                                        $actor_html .= '</div>';
+                                        
+                                     $i++;   
+                                    }
+                                 
+                             }
+                             
+                             $tabs_fields .= $actor_html;
+                             
+                         }                         
+                         $tabs_fields .= '</div>';
+                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-tvseries-actor">Add TVSeries Actor</a>';                                                                                                    
+                         $tabs_fields .= '</div>';                          
+                         //actor section ends here here
+
+                         //season section starts here
+                         
+                         $tabs_fields .= '<div class="saswp-tvseries-season-section-main">';                                                  
+                         $tabs_fields .= '<div class="saswp-tvseries-season-section" data-id="'.esc_attr($schema_id).'">';                         
+                         if(isset($tvseries_data['tvseries_season_'.$schema_id])){
+                             
+                             $tvseries_season = $tvseries_data['tvseries_season_'.$schema_id];  
+                             
+                             $season_html  = '';
+                             
+                             if(!empty($tvseries_season)){
+                                 
+                                    $i = 0;
+                                    foreach ($tvseries_season as $season){
+                                                                                                                        
+                                        $season_html .= '<div class="saswp-tvseries-season-table-div" data-id="'.$i.'">';
+                                        $season_html .= '<a class="saswp-table-close">X</a>';
+                                        $season_html .= $this->saswp_get_dynamic_html($schema_id, 'tvseries_season', $i, $season);
+                                        $season_html .= '</div>';
+                                        
+                                     $i++;   
+                                    }
+                                 
+                             }
+                             
+                             $tabs_fields .= $season_html;
+                             
+                         }                         
+                         $tabs_fields .= '</div>';
+                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-tvseries-season">Add TVSeries Season</a>';                                                                                                    
+                         $tabs_fields .= '</div>';
+                         
+                         //season section ends here
+                                                                           
+                                                                                                    
+                         $tabs_fields .= '</div>';
+                     }                     
+                 //TvSeries schema ends here    
+                     
+                                                                                                                  
                  $tabs_fields .= '</div>';
                  $tabs_fields .= '<input class="saswp-post-specific-schema-ids" type="hidden" value="'. json_encode($schema_ids).'">';
                  $tabs_fields .= '</div>';
@@ -424,40 +1590,45 @@ class saswp_post_specific {
                                         if (strpos($meta_field['id'], 'business_logo') !== false && empty($media_value_meta)) {
                                             
                                                 $business_details = esc_sql ( get_post_meta($schema_id, 'saswp_local_business_details', true)  );                                                                                            
-                                                $media_value['height'] = $business_details['local_business_logo']['height'];                                                                                         
-                                                $media_value['width'] = $business_details['local_business_logo']['width'];                                                                                         
-                                                $media_value['thumbnail'] = $business_details['local_business_logo']['url'];                                             
+                                                if(array_key_exists('local_business_logo', $business_details) && is_array($business_details['local_business_logo'])){
+                                                 
+                                                    $media_value['height'] = $business_details['local_business_logo']['height'];                                                                                         
+                                                    $media_value['width'] = $business_details['local_business_logo']['width'];                                                                                         
+                                                    $media_value['thumbnail'] = $business_details['local_business_logo']['url'];                                             
+                                                    
+                                                }                                                
                                         }
                                         
-                                        if (strpos($meta_field['id'], 'product_schema_image') !== false && empty($media_value_meta)) {
-                                            
-                                                $business_details = esc_sql ( get_post_meta($schema_id, 'saswp_product_schema_details', true)  );                                                                                            
-                                                $media_value['height'] = $business_details['saswp_product_schema_image']['height'];                                                                                         
-                                                $media_value['width'] = $business_details['saswp_product_schema_image']['width'];                                                                                         
-                                                $media_value['thumbnail'] = $business_details['saswp_product_schema_image']['url'];                                             
-                                        }
-                                        
+                                                                                
                                         if (strpos($meta_field['id'], 'service_schema_image') !== false && empty($media_value_meta)) {
                                             
-                                                $business_details = esc_sql ( get_post_meta($schema_id, 'saswp_service_schema_details', true)  );                                                                                            
-                                                $media_value['height'] = $business_details['saswp_service_schema_image']['height'];                                                                                         
-                                                $media_value['width'] = $business_details['saswp_service_schema_image']['width'];                                                                                         
-                                                $media_value['thumbnail'] = $business_details['saswp_service_schema_image']['url'];                                             
+                                                $business_details = esc_sql ( get_post_meta($schema_id, 'saswp_service_schema_details', true)  );   
+                                                
+                                                if(array_key_exists('saswp_service_schema_image', $business_details) && is_array($business_details['saswp_service_schema_image'])){
+                                                    $media_value['height'] = $business_details['saswp_service_schema_image']['height'];                                                                                         
+                                                    $media_value['width'] = $business_details['saswp_service_schema_image']['width'];                                                                                         
+                                                    $media_value['thumbnail'] = $business_details['saswp_service_schema_image']['url'];                                             
+                                                }
+                                                                                                
                                         }
                                         
                                         if (strpos($meta_field['id'], 'review_schema_image') !== false && empty($media_value_meta)) {
-                                            
-                                                $business_details = esc_sql ( get_post_meta($schema_id, 'saswp_review_schema_details', true)  );                                                                                            
-                                                $media_value['height']    = $business_details['saswp_review_schema_image']['height'];                                                                                         
-                                                $media_value['width']     = $business_details['saswp_review_schema_image']['width'];                                                                                         
-                                                $media_value['thumbnail'] = $business_details['saswp_review_schema_image']['url'];                                             
+                                                
+                                               $business_details = esc_sql ( get_post_meta($schema_id, 'saswp_review_schema_details', true)  ); 
+                                                if(array_key_exists('saswp_review_schema_image', $business_details)  && is_array($business_details['saswp_review_schema_image'])){
+                                                 $media_value['height']    = $business_details['saswp_review_schema_image']['height'];                                                                                         
+                                                 $media_value['width']     = $business_details['saswp_review_schema_image']['width'];                                                                                         
+                                                 $media_value['thumbnail'] = $business_details['saswp_review_schema_image']['url'];                                                
+                                                }                                                
                                         }
                                         if (strpos($meta_field['id'], 'event_schema_image') !== false && empty($media_value_meta)) {
                                             
-                                                $business_details = esc_sql ( get_post_meta($schema_id, 'saswp_event_schema_details', true)  );                                                                                            
-                                                $media_value['height']    = $business_details['saswp_event_schema_image']['height'];                                                                                         
-                                                $media_value['width']     = $business_details['saswp_event_schema_image']['width'];                                                                                         
-                                                $media_value['thumbnail'] = $business_details['saswp_event_schema_image']['url'];                                             
+                                                $business_details = esc_sql ( get_post_meta($schema_id, 'saswp_event_schema_details', true)  ); 
+                                                if(array_key_exists('saswp_event_schema_image', $business_details) && is_array($business_details['saswp_event_schema_image'])){
+                                                 $media_value['height']    = $business_details['saswp_event_schema_image']['height'];                                                                                         
+                                                 $media_value['width']     = $business_details['saswp_event_schema_image']['width'];                                                                                         
+                                                 $media_value['thumbnail'] = $business_details['saswp_event_schema_image']['url'];                                                
+                                                }                                                
                                         }
                                              
                                         $media_height    = '';
@@ -678,7 +1849,7 @@ class saswp_post_specific {
 	}	
         
 	public function saswp_post_specific_save_fields( $post_id ) {
-            
+                                            
 		if ( ! isset( $_POST['post_specific_nonce'] ) )
 			return $post_id;
 		$nonce = $_POST['post_specific_nonce'];
@@ -704,15 +1875,136 @@ class saswp_post_specific {
                 if($option != 'enable'){
                     return;
                 }  
-               
-                $post_meta = array();                    
-                $post_meta = $_POST;    
+                                                                               
+                $post_meta    = array();                    
                 
-                if(count($this->all_schema)>0){
+                if(is_array($_POST)){
+                    $post_meta    = $_POST;
+                }
+                    
+                $schema_count = 0;
+                                                
+                if(!empty($this->all_schema)){
+                  $schema_count = count($this->all_schema);  
+                }
+                
+                if($schema_count > 0){
                                                                       
                  foreach($this->all_schema as $schema){
                      
-                     $response          = $this->saswp_get_fields_by_schema_type($schema->ID);                          
+                     //How to schema starts here
+                     $howto_tool = array();
+                     $howto_step = array();
+                     $howto_supply = array();
+                
+                     if( isset($_POST['howto_step_'.$schema->ID]) && is_array($_POST['howto_step_'.$schema->ID])){
+                         
+                         $data = $_POST['howto_step_'.$schema->ID];   
+                                                 
+                         foreach ($data as $step){
+                             
+                             $howto_step[] = array_map( 'sanitize_text_field', $step );
+                         }                         
+                     }
+                     
+                     if(isset($_POST['howto_tool_'.$schema->ID]) && is_array($_POST['howto_tool_'.$schema->ID])){
+                         
+                         $data = $_POST['howto_tool_'.$schema->ID];  
+                         
+                         foreach ($data as $tool){
+                             
+                             $howto_tool[] = array_map( 'sanitize_text_field', $tool );
+                         }
+                         
+                     }
+                     if(isset($_POST['howto_supply_'.$schema->ID]) && is_array($_POST['howto_supply_'.$schema->ID])){
+                         
+                         $data = $_POST['howto_supply_'.$schema->ID]; 
+                         
+                         foreach ($data as $supply){
+                             
+                             $howto_supply[] = array_map( 'sanitize_text_field', $supply );
+                         }
+                     }
+                     
+                     update_post_meta( $post_id, 'howto_step_'.$schema->ID, $howto_step);
+                     update_post_meta( $post_id, 'howto_tool_'.$schema->ID, $howto_tool);
+                     update_post_meta( $post_id, 'howto_supply_'.$schema->ID, $howto_supply);
+                                                                               
+                    //How to schema ends here
+                     
+                     
+                     //MedicalCondition schema starts here
+                     $mc_cause          = array();
+                     $mc_symptom        = array();
+                     $mc_r_factor       = array();
+                
+                     if(isset($_POST['mc_cause_'.$schema->ID]) && is_array($_POST['mc_cause_'.$schema->ID])){
+                         
+                         $data = $_POST['mc_cause_'.$schema->ID];  
+                         
+                         foreach ($data as $supply){
+                             
+                             $mc_cause[] = array_map( 'sanitize_text_field', $supply );
+                         }
+                     }                                            
+                     if(isset($_POST['mc_symptom_'.$schema->ID]) && is_array($_POST['mc_symptom_'.$schema->ID])){
+                         
+                         $data = $_POST['mc_symptom_'.$schema->ID]; 
+                         
+                         foreach ($data as $supply){
+                             
+                             $mc_symptom[] = array_map( 'sanitize_text_field', $supply );
+                         }
+                     }
+                     if(isset($_POST['mc_risk_factor_'.$schema->ID]) && is_array($_POST['mc_risk_factor_'.$schema->ID])){
+                         
+                         $data = $_POST['mc_risk_factor_'.$schema->ID]; 
+                         
+                         foreach ($data as $supply){
+                             
+                             $mc_r_factor[] = array_map( 'sanitize_text_field', $supply );
+                         }
+                     }
+                     
+                     update_post_meta( $post_id, 'mc_cause_'.$schema->ID, $mc_cause);
+                     update_post_meta( $post_id, 'mc_symptom_'.$schema->ID, $mc_symptom);
+                     update_post_meta( $post_id, 'mc_risk_factor_'.$schema->ID, $mc_r_factor);
+                                                                               
+                    //MedicalCondition schema ends here
+                     
+                     
+                     //TVSeries schema starts here
+                     $tv_actor          = array();
+                     $tv_season         = array();                     
+                
+                     if(isset($_POST['tvseries_actor_'.$schema->ID]) && is_array($_POST['tvseries_actor_'.$schema->ID])){
+                         
+                         $data = $_POST['tvseries_actor_'.$schema->ID];  
+                         
+                         foreach ($data as $supply){
+                             
+                             $tv_actor[] = array_map( 'sanitize_text_field', $supply );
+                         }
+                     }                                            
+                     if(isset($_POST['tvseries_season_'.$schema->ID]) && is_array($_POST['tvseries_season_'.$schema->ID])){
+                         
+                         $data = $_POST['tvseries_season_'.$schema->ID];  
+                         
+                         foreach ($data as $supply){
+                             
+                             $tv_season[] = array_map( 'sanitize_text_field', $supply );
+                         }
+                     }
+                     
+                     
+                     update_post_meta( $post_id, 'tvseries_actor_'.$schema->ID, $tv_actor);
+                     update_post_meta( $post_id, 'tvseries_season_'.$schema->ID, $tv_season);                     
+                                                                               
+                    //TVSeries schema ends here
+                                                                                    
+                     $response          = $this->saswp_get_fields_by_schema_type($schema->ID); 
+                     
                      $this->meta_fields = $response; 
                      
                         foreach ( $this->meta_fields as $meta_field ) {
@@ -747,8 +2039,9 @@ class saswp_post_specific {
 			} else if ( $meta_field['type'] === 'checkbox' ) {
 				update_post_meta( $post_id, $meta_field['id'], '0' );
 			}
-		   }                                
-                 }                                                                                      
+		   }
+                   
+                }                                                                                      
             }                                                                		                                                                               
 	}
         
@@ -1151,6 +2444,12 @@ class saswp_post_specific {
                             'default' => $business_details['local_menu']
                        ),
                         array(
+                            'label' => 'HasMap',
+                            'id' => 'local_hasmap_'.$schema_id,
+                            'type' => 'text',
+                            'default' => $business_details['local_hasmap']
+                       ),
+                        array(
                             'label' => 'Serves Cuisine',
                             'id' => 'local_serves_cuisine_'.$schema_id,
                             'type' => 'text',
@@ -1239,7 +2538,13 @@ class saswp_post_specific {
                             'id' => 'saswp_blogposting_organization_logo_'.$schema_id,
                             'type' => 'media',
                             'default' => isset($sd_data['sd_logo']) ? $sd_data['sd_logo']['url'] : ''
-                    )                         
+                    ),
+                    array(
+                        'label' => 'Speakable',
+                        'id' => 'saswp_blogposting_speakable_'.$schema_id,
+                        'type' => 'checkbox',
+
+                    )
                     );
                     break;
                 
@@ -1357,7 +2662,13 @@ class saswp_post_specific {
                             'id' => 'saswp_newsarticle_organization_logo_'.$schema_id,
                             'type' => 'media',
                             'default' => isset($sd_data['sd_logo'])? $sd_data['sd_logo']['url']:''
-                    ),    
+                    ),  
+                    array(
+                        'label' => 'Speakable',
+                        'id' => 'saswp_newsarticle_speakable_'.$schema_id,
+                        'type' => 'checkbox',
+
+                    )   
                     );
                     break;
                 
@@ -1429,7 +2740,13 @@ class saswp_post_specific {
                             'id' => 'saswp_webpage_organization_logo_'.$schema_id,
                             'type' => 'media',
                             'default' => isset($sd_data['sd_logo']) ? $sd_data['sd_logo']['url']:''
-                    ),     
+                    ),
+                    array(
+                        'label' => 'Speakable',
+                        'id' => 'saswp_webpage_speakable_'.$schema_id,
+                        'type' => 'checkbox',
+
+                    )    
                     );
                     break;
                 
@@ -1488,7 +2805,13 @@ class saswp_post_specific {
                             'id' => 'saswp_article_organization_logo_'.$schema_id,
                             'type' => 'media',
                             'default' => isset($sd_data['sd_logo']) ? $sd_data['sd_logo']['url']:''
-                    )                                                     
+                    ),
+                    array(
+                        'label' => 'Speakable',
+                        'id' => 'saswp_article_speakable_'.$schema_id,
+                        'type' => 'checkbox',
+
+                    )    
                     );
                     break;
                 
@@ -1656,7 +2979,13 @@ class saswp_post_specific {
                             'id' => 'saswp_tech_article_organization_logo_'.$schema_id,
                             'type' => 'media',
                             'default' => isset($sd_data['sd_logo']) ? $sd_data['sd_logo']['url']:''
-                    )                                                     
+                    ),
+                    array(
+                        'label' => 'Speakable',
+                        'id' => 'saswp_tech_article_speakable_'.$schema_id,
+                        'type' => 'checkbox',
+
+                    )    
                     );
                     break;
                 
@@ -1950,56 +3279,48 @@ class saswp_post_specific {
                     break;
                 
                 case 'Product':                                                           
-                    $product_schema_details = esc_sql ( get_post_meta($schema_id, 'saswp_product_schema_details', true)  );
+                    
                     $meta_field = array(
                         
                     array(
                             'label' => 'Name',
                             'id' => 'saswp_product_schema_name_'.$schema_id,
-                            'type' => 'text',
-                            'default' => saswp_remove_warnings($product_schema_details, 'saswp_product_schema_name', 'saswp_string'),
+                            'type' => 'text',                            
                     ),
                     array(
                             'label' => 'Description',
                             'id' => 'saswp_product_schema_description_'.$schema_id,
-                            'type' => 'textarea',
-                            'default' => saswp_remove_warnings($product_schema_details, 'saswp_product_schema_description', 'saswp_string'),
+                            'type' => 'textarea',                            
                     ), 
                         array(
                             'label' => 'Image',
                             'id' => 'saswp_product_schema_image_'.$schema_id,
-                            'type' => 'media',
-                            'default' => $product_schema_details['saswp_product_schema_image']['url'], 
+                            'type' => 'media',                            
                      ),
                          array(
                             'label' => 'Brand Name',
                             'id' => 'saswp_product_schema_brand_name_'.$schema_id,
-                            'type' => 'text',
-                            'default' => saswp_remove_warnings($product_schema_details, 'saswp_product_schema_brand_name', 'saswp_string'), 
+                            'type' => 'text',                            
                      ),
                         array(
                             'label' => 'Price',
                             'id' => 'saswp_product_schema_price_'.$schema_id,
-                            'type' => 'text',
-                            'default' => saswp_remove_warnings($product_schema_details, 'saswp_product_schema_price', 'saswp_string'), 
+                            'type' => 'text',                            
                      ),
                         array(
                             'label' => 'Price Valid Until',
                             'id' => 'saswp_product_schema_priceValidUntil_'.$schema_id,
-                            'type' => 'text',
-                             'default' => saswp_remove_warnings($product_schema_details, 'saswp_product_schema_priceValidUntil', 'saswp_string'), 
+                            'type' => 'text',                             
                        ),
                         array(
                             'label' => 'Currency',
                             'id' => 'saswp_product_schema_currency_'.$schema_id,
-                            'type' => 'text',
-                            'default' => saswp_remove_warnings($product_schema_details, 'saswp_product_schema_currency', 'saswp_string'), 
+                            'type' => 'text',                            
                       ),
                         array(
                             'label'   => 'Availability',
                             'id'      => 'saswp_product_schema_availability_'.$schema_id,
-                            'type'    => 'select',
-                            'default' => saswp_remove_warnings($product_schema_details, 'saswp_product_schema_availability', 'saswp_string'), 
+                            'type'    => 'select',                            
                             'options' => array(
                                      'InStock'           => 'In Stock',
                                      'OutOfStock'        => 'Out Of Stock',
@@ -2010,8 +3331,7 @@ class saswp_post_specific {
                         array(
                             'label'   => 'Condition',
                             'id'      => 'saswp_product_schema_condition_'.$schema_id,
-                            'type'    => 'select',
-                            'default' => saswp_remove_warnings($product_schema_details, 'saswp_product_schema_condition', 'saswp_string'), 
+                            'type'    => 'select',                            
                             'options' => array(
                                      'NewCondition'              => 'New',
                                      'UsedCondition'             => 'Used',
@@ -2022,46 +3342,39 @@ class saswp_post_specific {
                         array(
                             'label' => 'SKU',
                             'id' => 'saswp_product_schema_sku_'.$schema_id,
-                            'type' => 'text',
-                            'default' => saswp_remove_warnings($product_schema_details, 'saswp_product_schema_sku', 'saswp_string'), 
+                            'type' => 'text',                            
                      ),
                         array(
                             'label' => 'MPN',
                             'id' => 'saswp_product_schema_mpn_'.$schema_id,
                             'type' => 'text',
-                            'note'   => 'OR',
-                            'default' => saswp_remove_warnings($product_schema_details, 'saswp_product_schema_mpn', 'saswp_string'), 
+                            'note'   => 'OR',                            
                        ),
                         array(
                             'label' => 'ISBN',
                             'id' => 'saswp_product_schema_isbn_'.$schema_id,
                             'type' => 'text',
-                            'note'   => 'OR',
-                            'default' => saswp_remove_warnings($product_schema_details, 'saswp_product_schema_isbn', 'saswp_string'), 
+                            'note'   => 'OR',                           
                      ),
                         array(
                             'label' => 'GTIN8',
                             'id' => 'saswp_product_schema_gtin8_'.$schema_id,
-                            'type' => 'text', 
-                            'default' => saswp_remove_warnings($product_schema_details, 'saswp_product_schema_gtin8', 'saswp_string'),                           
+                            'type' => 'text',                             
                        ),
                         array(
                             'label' => 'Aggregate Rating',
                             'id' => 'saswp_product_schema_enable_rating_'.$schema_id,
-                            'type' => 'checkbox',
-                            //'default' => saswp_remove_warnings($product_schema_details, 'saswp_product_schema_enable_rating', 'saswp_string')
+                            'type' => 'checkbox',                            
                         ),
                         array(
                             'label' => 'Rating',
                             'id' => 'saswp_product_schema_rating_'.$schema_id,
-                            'type' => 'text',
-                            'default' => saswp_remove_warnings($product_schema_details, 'saswp_product_schema_rating', 'saswp_string')
+                            'type' => 'text',                            
                         ),
                         array(
                             'label' => 'Number of Reviews',
                             'id' => 'saswp_product_schema_review_count_'.$schema_id,
-                            'type' => 'text',
-                            'default' => saswp_remove_warnings($product_schema_details, 'saswp_product_schema_review_count', 'saswp_string')
+                            'type' => 'text',                            
                         ),
                         
                     );
@@ -2571,6 +3884,911 @@ class saswp_post_specific {
                             'type' => 'text',                           
                     ),                        
                         
+                   );
+                    break;
+                
+                case 'HowTo':
+                    
+                    $meta_field = array(
+                    array(
+                            'label'      => 'Name',
+                            'id'         => 'saswp_howto_schema_name_'.$schema_id,
+                            'type'       => 'text',
+                            'attributes' => array(
+                                'placeholder' => 'Name'
+                            ), 
+                    ),
+                    array(
+                            'label'      => 'Description',
+                            'id'         => 'saswp_howto_schema_description_'.$schema_id,
+                            'type'       => 'textarea',                            
+                    ), 
+                    array(
+                            'label'      => 'Image',
+                            'id'         => 'saswp_howto_schema_image_'.$schema_id,
+                            'type'       => 'media',                            
+                    ),     
+                    array(
+                            'label'      => 'Estimated Cost Currency',
+                            'id'         => 'saswp_howto_ec_schema_currency_'.$schema_id,
+                            'type'       => 'text',
+                            'attributes' => array(
+                                'placeholder' => 'USD'
+                            ), 
+                    ),
+                    array(
+                            'label'      => 'Estimated Cost Value',
+                            'id'         => 'saswp_howto_ec_schema_value_'.$schema_id,
+                            'type'       => 'text',
+                            'attributes' => array(
+                                'placeholder' => '20'
+                            ), 
+                    ),
+                    array(
+                            'label'      => 'Total Time',
+                            'id'         => 'saswp_howto_schema_totaltime_'.$schema_id,
+                            'type'       => 'text', 
+                            'attributes' => array(
+                                'placeholder' => 'PT30M'
+                            ), 
+                    ),
+                     array(
+                            'label'      => 'Date Published',
+                            'id'         => 'saswp_howto_ec_schema_date_published_'.$schema_id,
+                            'type'       => 'text', 
+                            
+                    ),
+                        array(
+                            'label'      => 'Date Modified',
+                            'id'         => 'saswp_howto_ec_schema_date_modified_'.$schema_id,
+                            'type'       => 'text',                             
+                    )
+                   );
+                    break;
+                
+                case 'MedicalCondition':
+                    
+                    $meta_field = array(
+                    array(
+                            'label'      => 'Name',
+                            'id'         => 'saswp_mc_schema_name_'.$schema_id,
+                            'type'       => 'text',
+                            'attributes' => array(
+                                'placeholder' => 'Name'
+                            ), 
+                    ),
+                    array(
+                            'label'      => 'Alternate Name',
+                            'id'         => 'saswp_mc_schema_alternate_name_'.$schema_id,
+                            'type'       => 'text',
+                            'attributes' => array(
+                                'placeholder' => 'Alternate Name'
+                            ), 
+                    ),    
+                    array(
+                            'label'      => 'Description',
+                            'id'         => 'saswp_mc_schema_description_'.$schema_id,
+                            'type'       => 'textarea',                            
+                    ),
+                    array(
+                            'label'      => 'Image',
+                            'id'         => 'saswp_mc_schema_image_'.$schema_id,
+                            'type'       => 'media',                            
+                    ),                             
+                    array(
+                            'label'      => 'associated Anatomy Name',
+                            'id'         => 'saswp_mc_schema_anatomy_name_'.$schema_id,
+                            'type'       => 'text',
+                            'attributes' => array(
+                                'placeholder' => 'Name'
+                            ), 
+                    ),
+                    array(
+                            'label'      => 'Medical Code',
+                            'id'         => 'saswp_mc_schema_medical_code_'.$schema_id,
+                            'type'       => 'text',
+                            'attributes' => array(
+                                'placeholder' => '413'
+                            ), 
+                    ),
+                    array(
+                            'label'      => 'Coding System',
+                            'id'         => 'saswp_mc_schema_coding_system_'.$schema_id,
+                            'type'       => 'text', 
+                            'attributes' => array(
+                                'placeholder' => 'ICD-9'
+                            ), 
+                    ),
+                     array(
+                            'label'      => 'Diagnosis Name',
+                            'id'         => 'saswp_mc_schema_diagnosis_name_'.$schema_id,
+                            'type'       => 'text', 
+                            
+                    )                     
+                   );
+                    break;
+                
+                case 'VideoGame':
+                    
+                    $meta_field = array(
+                    array(
+                            'label'      => 'Name',
+                            'id'         => 'saswp_vg_schema_name_'.$schema_id,
+                            'type'       => 'text',
+                            'attributes' => array(
+                                'placeholder' => 'Name'
+                            ), 
+                    ),
+                    array(
+                            'label'      => 'URL',
+                            'id'         => 'saswp_vg_schema_url_'.$schema_id,
+                            'type'       => 'text',
+                            
+                    ),
+                    array(
+                            'label'      => 'Image',
+                            'id'         => 'saswp_vg_schema_image_'.$schema_id,
+                            'type'       => 'media',
+                            
+                    ),
+                    array(
+                            'label'      => 'Description',
+                            'id'         => 'saswp_vg_schema_description_'.$schema_id,
+                            'type'       => 'textarea',
+                            
+                    ),
+                    array(
+                            'label'      => 'Operating System',
+                            'id'         => 'saswp_vg_schema_operating_system_'.$schema_id,
+                            'type'       => 'text',
+                            
+                    ),
+                    array(
+                            'label'      => 'Application Category',
+                            'id'         => 'saswp_vg_schema_application_category_'.$schema_id,
+                            'type'       => 'text',
+                            
+                    ),
+                    array(
+                            'label'      => 'Author Name',
+                            'id'         => 'saswp_vg_schema_author_name_'.$schema_id,
+                            'type'       => 'text',
+                            
+                    ),
+                    array(
+                            'label'      => 'Price',
+                            'id'         => 'saswp_vg_schema_price_'.$schema_id,
+                            'type'       => 'text',
+                            
+                    ),
+                    array(
+                            'label'      => 'Price Currency',
+                            'id'         => 'saswp_vg_schema_price_currency_'.$schema_id,
+                            'type'       => 'text',
+                            
+                    ),    
+                    array(
+                            'label'   => 'Availability',
+                            'id'      => 'saswp_vg_schema_price_availability_'.$schema_id,
+                            'type'    => 'select',                            
+                            'options' => array(
+                                     'InStock'           => 'In Stock',
+                                     'OutOfStock'        => 'Out Of Stock',
+                                     'Discontinued'      => 'Discontinued',
+                                     'PreOrder'          => 'Pre Order', 
+                            ) 
+                       ), 
+                    array(
+                            'label'      => 'Publisher',
+                            'id'         => 'saswp_vg_schema_publisher_'.$schema_id,
+                            'type'       => 'text',
+                            
+                    ),
+                    array(
+                            'label'      => 'Genre',
+                            'id'         => 'saswp_vg_schema_genre_'.$schema_id,
+                            'type'       => 'text',
+                            
+                    ),
+                    array(
+                            'label'      => 'Processor Requirements',
+                            'id'         => 'saswp_vg_schema_processor_requirements_'.$schema_id,
+                            'type'       => 'text',
+                            
+                    ),
+                    array(
+                            'label'      => 'Memory Requirements',
+                            'id'         => 'saswp_vg_schema_memory_requirements_'.$schema_id,
+                            'type'       => 'text',
+                            
+                    ),
+                    array(
+                            'label'      => 'Storage Requirements',
+                            'id'         => 'saswp_vg_schema_storage_requirements_'.$schema_id,
+                            'type'       => 'text',
+                            
+                    ),
+                    array(
+                            'label'      => 'Game Platform',
+                            'id'         => 'saswp_vg_schema_game_platform_'.$schema_id,
+                            'type'       => 'text',
+                            
+                    ),
+                    array(
+                            'label'      => 'Cheat Code',
+                            'id'         => 'saswp_vg_schema_cheat_code_'.$schema_id,
+                            'type'       => 'text',
+                            
+                    ),
+                    array(
+                            'label' => 'Aggregate Rating',
+                            'id' => 'saswp_vg_schema_enable_rating_'.$schema_id,
+                            'type' => 'checkbox',                          
+                        ),
+                        array(
+                            'label' => 'Rating',
+                            'id' => 'saswp_vg_schema_rating_'.$schema_id,
+                            'type' => 'text',                           
+                        ),
+                        array(
+                            'label' => 'Number of Reviews',
+                            'id' => 'saswp_vg_schema_review_count_'.$schema_id,
+                            'type' => 'text',                           
+                        ),    
+                        
+                   );
+                    break;
+                
+                case 'TVSeries':
+                    
+                    $meta_field = array(
+                    array(
+                            'label'      => 'Name',
+                            'id'         => 'saswp_tvseries_schema_name_'.$schema_id,
+                            'type'       => 'text',
+                            'attributes' => array(
+                                'placeholder' => 'Name'
+                            ), 
+                    ),
+                     array(
+                            'label'      => 'Image',
+                            'id'         => 'saswp_tvseries_schema_image_'.$schema_id,
+                            'type'       => 'media'                            
+                    ),
+                    array(
+                            'label'      => 'Author Name',
+                            'id'         => 'saswp_tvseries_schema_author_name_'.$schema_id,
+                            'type'       => 'text',
+                            'attributes' => array(
+                                'placeholder' => 'Author Name'
+                            ), 
+                    ),    
+                    array(
+                            'label'      => 'Description',
+                            'id'         => 'saswp_tvseries_schema_description_'.$schema_id,
+                            'type'       => 'textarea'                            
+                    )  
+                        
+                   );
+                    break;
+                
+                case 'Apartment':
+                    
+                    $meta_field = array(
+                    array(
+                            'label'      => 'Name',
+                            'id'         => 'saswp_apartment_schema_name_'.$schema_id,
+                            'type'       => 'text',
+                            'attributes' => array(
+                                'placeholder' => 'Name'
+                            ), 
+                    ),
+                    array(
+                            'label'      => 'URL',
+                            'id'         => 'saswp_apartment_schema_url_'.$schema_id,
+                            'type'       => 'text',
+                            'default'    => get_permalink()
+                    ),
+                    array(
+                            'label'      => 'Image',
+                            'id'         => 'saswp_apartment_schema_image_'.$schema_id,
+                            'type'       => 'media',
+                            'default'    => get_permalink()
+                    ),    
+                    array(
+                            'label'      => 'Description',
+                            'id'         => 'saswp_apartment_schema_description_'.$schema_id,
+                            'type'       => 'textarea',
+                            'attributes' => array(
+                                'placeholder' => 'Description'
+                            ), 
+                    ),
+                    array(
+                            'label'      => 'Number Of Rooms',
+                            'id'         => 'saswp_apartment_schema_numberofrooms_'.$schema_id,
+                            'type'       => 'text',
+                            'attributes' => array(
+                                'placeholder' => '5'
+                            ), 
+                    ),
+                    array(
+                            'label'      => 'Country',
+                            'id'         => 'saswp_apartment_schema_country_'.$schema_id,
+                            'type'       => 'text',                           
+                    ),
+                    array(
+                            'label'      => 'Locality',
+                            'id'         => 'saswp_apartment_schema_locality_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),
+                    array(
+                            'label'      => 'Region',
+                            'id'         => 'saswp_apartment_schema_region_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),
+                    array(
+                            'label'      => 'Postal Code',
+                            'id'         => 'saswp_apartment_schema_postalcode_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),
+                    array(
+                            'label'      => 'Telephone',
+                            'id'         => 'saswp_apartment_schema_telephone_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),    
+                                              
+                   );
+                    break;
+                case 'House':
+                    
+                    $meta_field = array(
+                    array(
+                            'label'      => 'Name',
+                            'id'         => 'saswp_house_schema_name_'.$schema_id,
+                            'type'       => 'text',
+                            'attributes' => array(
+                                'placeholder' => 'Name'
+                            ), 
+                    ),
+                    array(
+                            'label'      => 'URL',
+                            'id'         => 'saswp_house_schema_url_'.$schema_id,
+                            'type'       => 'text',
+                            'default'    => get_permalink()
+                    ),
+                    array(
+                            'label'      => 'Image',
+                            'id'         => 'saswp_house_schema_image_'.$schema_id,
+                            'type'       => 'media',                            
+                    ),
+                    array(
+                            'label'      => 'Description',
+                            'id'         => 'saswp_house_schema_description_'.$schema_id,
+                            'type'       => 'textarea',
+                            'attributes' => array(
+                                'placeholder' => 'Description'
+                            ), 
+                    ),
+                     array(
+                            'label'      => 'Pets Allowed',
+                            'id'         => 'saswp_house_schema_pets_allowed_'.$schema_id,
+                            'type'       => 'select',
+                            'options' => array(
+                                     'yes'       => 'Yes',
+                                     'no'        => 'No'                                                                          
+                            ) 
+                    ),
+                    array(
+                            'label'      => 'Country',
+                            'id'         => 'saswp_house_schema_country_'.$schema_id,
+                            'type'       => 'text',                           
+                    ),
+                    array(
+                            'label'      => 'Locality',
+                            'id'         => 'saswp_house_schema_locality_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),
+                    array(
+                            'label'      => 'Region',
+                            'id'         => 'saswp_house_schema_region_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),
+                    array(
+                            'label'      => 'Postal Code',
+                            'id'         => 'saswp_house_schema_postalcode_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),
+                    array(
+                            'label'      => 'Telephone',
+                            'id'         => 'saswp_house_schema_telephone_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),    
+                                              
+                   );
+                    break;   
+                
+                case 'SingleFamilyResidence':
+                    
+                    $meta_field = array(
+                    array(
+                            'label'      => 'Name',
+                            'id'         => 'saswp_sfr_schema_name_'.$schema_id,
+                            'type'       => 'text',
+                            'attributes' => array(
+                                'placeholder' => 'Name'
+                            ), 
+                    ),
+                    array(
+                            'label'      => 'URL',
+                            'id'         => 'saswp_sfr_schema_url_'.$schema_id,
+                            'type'       => 'text',
+                            'default'    => get_permalink()
+                    ),
+                    array(
+                            'label'      => 'Image',
+                            'id'         => 'saswp_sfr_schema_image_'.$schema_id,
+                            'type'       => 'media',                            
+                    ),
+                    array(
+                            'label'      => 'Description',
+                            'id'         => 'saswp_sfr_schema_description_'.$schema_id,
+                            'type'       => 'textarea',
+                            'attributes' => array(
+                                'placeholder' => 'Description'
+                            ), 
+                    ),
+                    array(
+                            'label'      => 'Number Of Rooms',
+                            'id'         => 'saswp_sfr_schema_numberofrooms_'.$schema_id,
+                            'type'       => 'text',
+                            'attributes' => array(
+                                'placeholder' => '5'
+                            ), 
+                    ),    
+                     array(
+                            'label'      => 'Pets Allowed',
+                            'id'         => 'saswp_sfr_schema_pets_allowed_'.$schema_id,
+                            'type'       => 'select',
+                            'options' => array(
+                                     'yes'       => 'Yes',
+                                     'no'        => 'No'                                                                          
+                            ) 
+                    ),
+                    array(
+                            'label'      => 'Country',
+                            'id'         => 'saswp_sfr_schema_country_'.$schema_id,
+                            'type'       => 'text',                           
+                    ),
+                    array(
+                            'label'      => 'Locality',
+                            'id'         => 'saswp_sfr_schema_locality_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),
+                    array(
+                            'label'      => 'Region',
+                            'id'         => 'saswp_sfr_schema_region_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),
+                    array(
+                            'label'      => 'Postal Code',
+                            'id'         => 'saswp_sfr_schema_postalcode_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),
+                    array(
+                            'label'      => 'Telephone',
+                            'id'         => 'saswp_sfr_schema_telephone_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),
+                                              
+                   );
+                    break;
+                
+                case 'TouristAttraction':
+                    
+                    $meta_field = array(
+                    array(
+                            'label'      => 'Name',
+                            'id'         => 'saswp_ta_schema_name_'.$schema_id,
+                            'type'       => 'text',
+                            'attributes' => array(
+                                'placeholder' => 'Name'
+                            ), 
+                    ),
+                    array(
+                            'label'      => 'Description',
+                            'id'         => 'saswp_ta_schema_description_'.$schema_id,
+                            'type'       => 'textarea',
+                            'attributes' => array(
+                                'placeholder' => 'Description'
+                            ), 
+                    ),
+                    array(
+                            'label'      => 'Image',
+                            'id'         => 'saswp_ta_schema_image_'.$schema_id,
+                            'type'       => 'media',                            
+                    ),    
+                    array(
+                            'label'      => 'URL',
+                            'id'         => 'saswp_ta_schema_url_'.$schema_id,
+                            'type'       => 'text',
+                            'default'    => get_permalink()
+                    ),
+                    array(
+                            'label'      => 'Is Accessible For Free',
+                            'id'         => 'saswp_ta_schema_is_acceesible_free_'.$schema_id,
+                            'type'       => 'select',
+                            'options' => array(
+                                'true' => 'True',
+                                'false' => 'False',
+                            ),
+                    ),
+                    array(
+                            'label'      => 'Address Locality',
+                            'id'         => 'saswp_ta_schema_locality_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),
+                    array(
+                            'label'      => 'Address Region',
+                            'id'         => 'saswp_ta_schema_region_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),    
+                    array(
+                            'label'      => 'Address Country',
+                            'id'         => 'saswp_ta_schema_country_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),
+                    array(
+                            'label'      => 'Address PostalCode',
+                            'id'         => 'saswp_ta_schema_postal_code_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),    
+                                              
+                   );
+                    break;
+                
+                case 'TouristDestination':
+                    
+                    $meta_field = array(
+                    array(
+                            'label'      => 'Name',
+                            'id'         => 'saswp_td_schema_name_'.$schema_id,
+                            'type'       => 'text',
+                            'attributes' => array(
+                                'placeholder' => 'Name'
+                            ), 
+                    ),
+                    array(
+                            'label'      => 'Description',
+                            'id'         => 'saswp_td_schema_description_'.$schema_id,
+                            'type'       => 'textarea',
+                            'attributes' => array(
+                                'placeholder' => 'Description'
+                            ), 
+                    ),
+                    array(
+                            'label'      => 'Image',
+                            'id'         => 'saswp_td_schema_image_'.$schema_id,
+                            'type'       => 'media',                            
+                    ),    
+                    array(
+                            'label'      => 'URL',
+                            'id'         => 'saswp_td_schema_url_'.$schema_id,
+                            'type'       => 'text',
+                            'default'    => get_permalink()
+                    ),                                                                                
+                    array(
+                            'label'      => 'Address Locality',
+                            'id'         => 'saswp_td_schema_locality_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),
+                    array(
+                            'label'      => 'Address Region',
+                            'id'         => 'saswp_td_schema_region_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),    
+                    array(
+                            'label'      => 'Address Country',
+                            'id'         => 'saswp_td_schema_country_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),
+                    array(
+                            'label'      => 'Address PostalCode',
+                            'id'         => 'saswp_td_schema_postal_code_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),    
+                                              
+                   );
+                    break;
+                
+                case 'LandmarksOrHistoricalBuildings':
+                    
+                    $meta_field = array(
+                    array(
+                            'label'      => 'Name',
+                            'id'         => 'saswp_lorh_schema_name_'.$schema_id,
+                            'type'       => 'text',
+                            'attributes' => array(
+                                'placeholder' => 'Name'
+                            ), 
+                    ),
+                    array(
+                            'label'      => 'Description',
+                            'id'         => 'saswp_lorh_schema_description_'.$schema_id,
+                            'type'       => 'textarea',
+                            'attributes' => array(
+                                'placeholder' => 'Description'
+                            ), 
+                    ),
+                    array(
+                            'label'      => 'Image',
+                            'id'         => 'saswp_lorh_schema_image_'.$schema_id,
+                            'type'       => 'media',                            
+                    ),    
+                    array(
+                            'label'      => 'URL',
+                            'id'         => 'saswp_lorh_schema_url_'.$schema_id,
+                            'type'       => 'text',
+                            'default'    => get_permalink()
+                    ), 
+                    array(
+                            'label'      => 'Has Map',
+                            'id'         => 'saswp_lorh_schema_hasmap_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),
+                    array(
+                            'label'      => 'Is Accessible For Free',
+                            'id'         => 'saswp_lorh_schema_is_acceesible_free_'.$schema_id,
+                            'type'       => 'select',
+                            'options'    => array(
+                                    'true'   => 'True',
+                                    'false'  => 'False',
+                            )
+                    ),
+                    array(
+                            'label'      => 'Maximum Attendee Capacity',
+                            'id'         => 'saswp_lorh_schema_maximum_a_capacity_'.$schema_id,
+                            'type'       => 'number',                            
+                    ),    
+                    array(
+                            'label'      => 'Address Locality',
+                            'id'         => 'saswp_lorh_schema_locality_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),
+                    array(
+                            'label'      => 'Address Region',
+                            'id'         => 'saswp_lorh_schema_region_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),    
+                    array(
+                            'label'      => 'Address Country',
+                            'id'         => 'saswp_lorh_schema_country_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),
+                    array(
+                            'label'      => 'Address PostalCode',
+                            'id'         => 'saswp_lorh_schema_postal_code_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),    
+                                              
+                   );
+                    break;
+                
+                case 'HinduTemple':
+                    
+                    $meta_field = array(
+                    array(
+                            'label'      => 'Name',
+                            'id'         => 'saswp_hindutemple_schema_name_'.$schema_id,
+                            'type'       => 'text',
+                            'attributes' => array(
+                                'placeholder' => 'Name'
+                            ), 
+                    ),
+                    array(
+                            'label'      => 'Description',
+                            'id'         => 'saswp_hindutemple_schema_description_'.$schema_id,
+                            'type'       => 'textarea',
+                            'attributes' => array(
+                                'placeholder' => 'Description'
+                            ), 
+                    ),
+                    array(
+                            'label'      => 'Image',
+                            'id'         => 'saswp_hindutemple_schema_image_'.$schema_id,
+                            'type'       => 'media',                            
+                    ),    
+                    array(
+                            'label'      => 'URL',
+                            'id'         => 'saswp_hindutemple_schema_url_'.$schema_id,
+                            'type'       => 'text',
+                            'default'    => get_permalink()
+                    ),  
+                    array(
+                            'label'      => 'Has Map',
+                            'id'         => 'saswp_hindutemple_schema_hasmap_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),                      
+                    array(
+                            'label'      => 'Is Accessible For Free',
+                            'id'         => 'saswp_hindutemple_schema_is_accesible_free_'.$schema_id,
+                            'type'       => 'select',
+                            'options'    => array(
+                                    'true'   => 'True',
+                                    'false'  => 'False',
+                            )
+                    ),
+                    array(
+                            'label'      => 'Maximum Attendee Capacity',
+                            'id'         => 'saswp_hindutemple_schema_maximum_a_capacity_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),    
+                    array(
+                            'label'      => 'Address Locality',
+                            'id'         => 'saswp_hindutemple_schema_locality_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),
+                    array(
+                            'label'      => 'Address Region',
+                            'id'         => 'saswp_hindutemple_schema_region_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),    
+                    array(
+                            'label'      => 'Address Country',
+                            'id'         => 'saswp_hindutemple_schema_country_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),
+                    array(
+                            'label'      => 'Address PostalCode',
+                            'id'         => 'saswp_hindutemple_schema_postal_code_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),    
+                                              
+                   );
+                    break;
+                
+                case 'Church':
+                    
+                    $meta_field = array(
+                    array(
+                            'label'      => 'Name',
+                            'id'         => 'saswp_church_schema_name_'.$schema_id,
+                            'type'       => 'text',
+                            'attributes' => array(
+                                'placeholder' => 'Name'
+                            ), 
+                    ),
+                    array(
+                            'label'      => 'Description',
+                            'id'         => 'saswp_church_schema_description_'.$schema_id,
+                            'type'       => 'textarea',
+                            'attributes' => array(
+                                'placeholder' => 'Description'
+                            ), 
+                    ),
+                    array(
+                            'label'      => 'Image',
+                            'id'         => 'saswp_church_schema_image_'.$schema_id,
+                            'type'       => 'media',                            
+                    ),    
+                    array(
+                            'label'      => 'URL',
+                            'id'         => 'saswp_church_schema_url_'.$schema_id,
+                            'type'       => 'text',
+                            'default'    => get_permalink()
+                    ),  
+                    array(
+                            'label'      => 'Has Map',
+                            'id'         => 'saswp_church_schema_hasmap_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),                      
+                    array(
+                            'label'      => 'Is Accessible For Free',
+                            'id'         => 'saswp_church_schema_is_accesible_free_'.$schema_id,
+                            'type'       => 'select',
+                            'options'    => array(
+                                    'true'   => 'True',
+                                    'false'  => 'False',
+                            )
+                    ),
+                    array(
+                            'label'      => 'Maximum Attendee Capacity',
+                            'id'         => 'saswp_church_schema_maximum_a_capacity_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),    
+                    array(
+                            'label'      => 'Address Locality',
+                            'id'         => 'saswp_church_schema_locality_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),
+                    array(
+                            'label'      => 'Address Region',
+                            'id'         => 'saswp_church_schema_region_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),    
+                    array(
+                            'label'      => 'Address Country',
+                            'id'         => 'saswp_church_schema_country_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),
+                    array(
+                            'label'      => 'Address PostalCode',
+                            'id'         => 'saswp_church_schema_postal_code_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),    
+                                              
+                   );
+                    break;
+                
+                case 'Mosque':
+                    
+                    $meta_field = array(
+                    array(
+                            'label'      => 'Name',
+                            'id'         => 'saswp_mosque_schema_name_'.$schema_id,
+                            'type'       => 'text',
+                            'attributes' => array(
+                                'placeholder' => 'Name'
+                            ), 
+                    ),
+                    array(
+                            'label'      => 'Description',
+                            'id'         => 'saswp_mosque_schema_description_'.$schema_id,
+                            'type'       => 'textarea',
+                            'attributes' => array(
+                                'placeholder' => 'Description'
+                            ), 
+                    ),
+                    array(
+                            'label'      => 'Image',
+                            'id'         => 'saswp_mosque_schema_image_'.$schema_id,
+                            'type'       => 'media',                            
+                    ),    
+                    array(
+                            'label'      => 'URL',
+                            'id'         => 'saswp_mosque_schema_url_'.$schema_id,
+                            'type'       => 'text',
+                            'default'    => get_permalink()
+                    ),
+                    array(
+                            'label'      => 'Has Map',
+                            'id'         => 'saswp_mosque_schema_hasmap_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),                      
+                    array(
+                            'label'      => 'Is Accessible For Free',
+                            'id'         => 'saswp_mosque_schema_is_accesible_free_'.$schema_id,
+                            'type'       => 'select',
+                            'options'    => array(
+                                    'true'   => 'True',
+                                    'false'  => 'False',
+                            )
+                    ),
+                    array(
+                            'label'      => 'Maximum Attendee Capacity',
+                            'id'         => 'saswp_mosque_schema_maximum_a_capacity_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),  
+                    array(
+                            'label'      => 'Address Locality',
+                            'id'         => 'saswp_mosque_schema_locality_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),    
+                    array(
+                            'label'      => 'Address Region',
+                            'id'         => 'saswp_mosque_schema_region_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),    
+                    array(
+                            'label'      => 'Address Country',
+                            'id'         => 'saswp_mosque_schema_country_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),
+                    array(
+                            'label'      => 'Address PostalCode',
+                            'id'         => 'saswp_mosque_schema_postal_code_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),    
+                                              
                    );
                     break;
                 
