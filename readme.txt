@@ -68,7 +68,7 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 = 1.8.4 (22 May 2019) =
 
-* Added: Accomodation Schema type (House, Apartment and SingleFamilyResidence )#208
+* Added: Accomodation Schema type ( House, Apartment and SingleFamilyResidence )#208
 * Added: Speakable Schema type #208
 * Added: HowTo Schema type #208
 * Added: TvSeries Schema type #208
@@ -81,10 +81,9 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Bug Fixed: Warning: count() ( Parameter must be an array or an object that implements Countable ) #273
 * Bug Fixed: About and Contact page dropdown not appearing on setup wizard ( Multisite Issue ) #282
 * Bug Fixed: PHP Error: Undefined offset #285
-* Bug Fixed: Basic issues (Image icon should come from plugin own directory and If the logo is not there, then it should show logo mission error) #283
+* Bug Fixed: Basic issues ( Image icon should come from plugin own directory and If the logo is not there, then it should show logo mission error ) #283
 * Improvement: Product select should not have the fields on installer #266
 * Improvement: HasMap field should be there in local schema #276
-
 
 
 = 1.8.3 (16 May 2019) =
