@@ -1865,10 +1865,13 @@ class saswp_post_specific {
                 }  
                                                                                
                 $post_meta    = array();                    
-                $post_meta    = $_POST;    
-                $schema_count = 0;
                 
-                                
+                if(is_array($_POST)){
+                    $post_meta    = $_POST;
+                }
+                    
+                $schema_count = 0;
+                                                
                 if(!empty($this->all_schema)){
                   $schema_count = count($this->all_schema);  
                 }
@@ -1882,17 +1885,34 @@ class saswp_post_specific {
                      $howto_step = array();
                      $howto_supply = array();
                 
-                     if(isset($_POST['howto_step_'.$schema->ID])){
+                     if( isset($_POST['howto_step_'.$schema->ID]) && is_array($_POST['howto_step_'.$schema->ID])){
                          
-                         $howto_step = $_POST['howto_step_'.$schema->ID];                                                                          
-                     }                                            
-                     if(isset($_POST['howto_tool_'.$schema->ID])){
-                         
-                         $howto_tool = $_POST['howto_tool_'.$schema->ID];                                                                          
+                         $data = $_POST['howto_step_'.$schema->ID];   
+                                                 
+                         foreach ($data as $step){
+                             
+                             $howto_step[] = array_map( 'sanitize_text_field', $step );
+                         }                         
                      }
-                     if(isset($_POST['howto_supply_'.$schema->ID])){
+                     
+                     if(isset($_POST['howto_tool_'.$schema->ID]) && is_array($_POST['howto_tool_'.$schema->ID])){
                          
-                         $howto_supply = $_POST['howto_supply_'.$schema->ID];                                                                          
+                         $data = $_POST['howto_tool_'.$schema->ID];  
+                         
+                         foreach ($data as $tool){
+                             
+                             $howto_tool[] = array_map( 'sanitize_text_field', $tool );
+                         }
+                         
+                     }
+                     if(isset($_POST['howto_supply_'.$schema->ID]) && is_array($_POST['howto_supply_'.$schema->ID])){
+                         
+                         $data = $_POST['howto_supply_'.$schema->ID]; 
+                         
+                         foreach ($data as $supply){
+                             
+                             $howto_supply[] = array_map( 'sanitize_text_field', $supply );
+                         }
                      }
                      
                      update_post_meta( $post_id, 'howto_step_'.$schema->ID, $howto_step);
@@ -1905,19 +1925,34 @@ class saswp_post_specific {
                      //MedicalCondition schema starts here
                      $mc_cause          = array();
                      $mc_symptom        = array();
-                     $mc_r_factor = array();
+                     $mc_r_factor       = array();
                 
-                     if(isset($_POST['mc_cause_'.$schema->ID])){
+                     if(isset($_POST['mc_cause_'.$schema->ID]) && is_array($_POST['mc_cause_'.$schema->ID])){
                          
-                         $mc_cause = $_POST['mc_cause_'.$schema->ID];                                                                          
+                         $data = $_POST['mc_cause_'.$schema->ID];  
+                         
+                         foreach ($data as $supply){
+                             
+                             $mc_cause[] = array_map( 'sanitize_text_field', $supply );
+                         }
                      }                                            
-                     if(isset($_POST['mc_symptom_'.$schema->ID])){
+                     if(isset($_POST['mc_symptom_'.$schema->ID]) && is_array($_POST['mc_symptom_'.$schema->ID])){
                          
-                         $mc_symptom = $_POST['mc_symptom_'.$schema->ID];                                                                          
+                         $data = $_POST['mc_symptom_'.$schema->ID]; 
+                         
+                         foreach ($data as $supply){
+                             
+                             $mc_symptom[] = array_map( 'sanitize_text_field', $supply );
+                         }
                      }
-                     if(isset($_POST['mc_risk_factor_'.$schema->ID])){
+                     if(isset($_POST['mc_risk_factor_'.$schema->ID]) && is_array($_POST['mc_risk_factor_'.$schema->ID])){
                          
-                         $mc_r_factor = $_POST['mc_risk_factor_'.$schema->ID];                                                                          
+                         $data = $_POST['mc_risk_factor_'.$schema->ID]; 
+                         
+                         foreach ($data as $supply){
+                             
+                             $mc_r_factor[] = array_map( 'sanitize_text_field', $supply );
+                         }
                      }
                      
                      update_post_meta( $post_id, 'mc_cause_'.$schema->ID, $mc_cause);
@@ -1931,13 +1966,23 @@ class saswp_post_specific {
                      $tv_actor          = array();
                      $tv_season         = array();                     
                 
-                     if(isset($_POST['tvseries_actor_'.$schema->ID])){
+                     if(isset($_POST['tvseries_actor_'.$schema->ID]) && is_array($_POST['tvseries_actor_'.$schema->ID])){
                          
-                         $tv_actor = $_POST['tvseries_actor_'.$schema->ID];                                                                          
+                         $data = $_POST['tvseries_actor_'.$schema->ID];  
+                         
+                         foreach ($data as $supply){
+                             
+                             $tv_actor[] = array_map( 'sanitize_text_field', $supply );
+                         }
                      }                                            
-                     if(isset($_POST['tvseries_season_'.$schema->ID])){
+                     if(isset($_POST['tvseries_season_'.$schema->ID]) && is_array($_POST['tvseries_season_'.$schema->ID])){
                          
-                         $tv_season = $_POST['tvseries_season_'.$schema->ID];                                                                          
+                         $data = $_POST['tvseries_season_'.$schema->ID];  
+                         
+                         foreach ($data as $supply){
+                             
+                             $tv_season[] = array_map( 'sanitize_text_field', $supply );
+                         }
                      }
                      
                      
@@ -1945,8 +1990,7 @@ class saswp_post_specific {
                      update_post_meta( $post_id, 'tvseries_season_'.$schema->ID, $tv_season);                     
                                                                                
                     //TVSeries schema ends here
-                     
-                                                               
+                                                                                    
                      $response          = $this->saswp_get_fields_by_schema_type($schema->ID); 
                      
                      $this->meta_fields = $response; 
