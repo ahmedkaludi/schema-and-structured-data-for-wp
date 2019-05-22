@@ -68,15 +68,15 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 = 1.8.4 (22 May 2019) =
 
-* Added: Accomodation Schema type ( House, Apartment and SingleFamilyResidence )#208
-* Added: Speakable Schema type #208
-* Added: HowTo Schema type #208
-* Added: TvSeries Schema type #208
-* Added: VideoGame Schema type #208
-* Added: MedicalCondition Schema type #208
-* Added: TouristAttraction Schema type #208
-* Added: TouristDestination Schema type #208
-* Added: PlaceOfWorship Schema type ( HinduTemple, Church and Mosque ) #208
+* Added: Accomodation Schema type ( House, Apartment and SingleFamilyResidence )#41
+* Added: Speakable Schema type #79
+* Added: HowTo Schema type #268
+* Added: TvSeries Schema type #108
+* Added: VideoGame Schema type #77
+* Added: MedicalCondition Schema type #58
+* Added: TouristAttraction Schema type #167
+* Added: TouristDestination Schema type #167
+* Added: PlaceOfWorship Schema type ( HinduTemple, Church and Mosque ) #167
 * Bug Fixed: [BUG REPORT] Sorry, you are not allowed to access this page ( Multisite Issue ) #286
 * Bug Fixed: Warning: count() ( Parameter must be an array or an object that implements Countable ) #273
 * Bug Fixed: About and Contact page dropdown not appearing on setup wizard ( Multisite Issue ) #282
