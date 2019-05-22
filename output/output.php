@@ -2387,8 +2387,8 @@ function saswp_post_specific_schema_output() {
                         $slogo = get_post_meta( get_the_ID(), 'saswp_blogposting_organization_logo_'.$schema_id.'_detail',true);                                 
 			$input1 = array(
 			'@context'			=> 'http://schema.org',
-			'@type'				=> $schema_type ,
-                        '@id'                           => get_permalink().'/#blogposting',  
+			'@type'				=> 'Blogposting' ,
+                        '@id'                           => get_permalink().'/#Blogposting',  
 			'mainEntityOfPage'              => saswp_remove_warnings($all_post_meta, 'saswp_blogposting_main_entity_of_page_'.$schema_id, 'saswp_array'),
 			'headline'			=> saswp_remove_warnings($all_post_meta, 'saswp_blogposting_headline_'.$schema_id, 'saswp_array'),
 			'description'                   => saswp_remove_warnings($all_post_meta, 'saswp_blogposting_description_'.$schema_id, 'saswp_array'),
