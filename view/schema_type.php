@@ -1322,7 +1322,7 @@
                             <td><?php echo esc_html__('Item Reviewed Type', 'schema-and-structured-data-for-wp' ); ?></td>
                             <td>
                                 
-                                <select data-id="<?php echo esc_attr($post->ID); ?>" name="saswp_review_schema_item_type" class="saswp-item-reviewed">
+                                <select data-id="<?php if(is_object($post)){ echo esc_attr($post->ID); }  ?>" name="saswp_review_schema_item_type" class="saswp-item-reviewed">
                                 <?php                                  
                                   foreach ($item_reviewed as $key => $value) {
                                     $sel = '';
