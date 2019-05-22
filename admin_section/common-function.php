@@ -1354,7 +1354,7 @@ function saswp_frontend_enqueue(){
       
       if(isset($sd_data['saswp-google-review']) && $sd_data['saswp-google-review'] == 1 ){
           
-          wp_enqueue_style( 'saswp-style', SASWP_PLUGIN_URL . 'admin_section/css/saswp-style.min.css', false , SASWP_VERSION );       
+                 wp_enqueue_style( 'saswp-style', SASWP_PLUGIN_URL . 'admin_section/css/saswp-style.min.css', false , SASWP_VERSION );       
           
       }
       

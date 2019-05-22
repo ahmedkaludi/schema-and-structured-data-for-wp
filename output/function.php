@@ -173,10 +173,13 @@ function saswp_schema_markup_output() {
                     
                     if($kb_schema_output){
                     
-                        $kb_website_output['publisher'] = array(
+                        if($kb_website_output){
+                            
+                            $kb_website_output['publisher'] = array(
                             '@id' => $kb_schema_output['@id']
-                        );
-
+                            );                            
+                        }
+                        
                         $soutput['publisher'] = array(
                             '@id' => $kb_schema_output['@id']
                         );
