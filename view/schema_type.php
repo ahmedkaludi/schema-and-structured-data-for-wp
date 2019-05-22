@@ -1200,7 +1200,7 @@
                         
                         <tr class="saswp-business-text-field-tr" <?php echo $style_business_type; ?>>
                             <td><?php echo esc_html__('Serves Cuisine ', 'schema-and-structured-data-for-wp' ); ?></td>
-                            <td><input  value="<?php echo esc_attr($business_details['local_serves_cuisine']); ?>" type="text" name="local_serves_cuisine" placeholder="<?php echo esc_html__('American, Chinese', 'schema-and-structured-data-for-wp' ); ?>" ></td>
+                            <td><input  value="<?php isset($business_details['local_serves_cuisine'])? esc_attr($business_details['local_serves_cuisine']): ''; ?>" type="text" name="local_serves_cuisine" placeholder="<?php echo esc_html__('American, Chinese', 'schema-and-structured-data-for-wp' ); ?>" ></td>
                         </tr>
                         
                         
