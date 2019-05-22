@@ -286,7 +286,7 @@ class saswp_post_specific {
 		foreach ( $meta_fields as $meta_field ) {
                     
                     
-			$label = '<label for="' . $meta_field['name'] . '">' . esc_html__( $meta_field['label'], 'ads-for-wp' ) . '</label>';			
+			$label = '<label for="' . $meta_field['name'] . '">' . esc_html__( $meta_field['label'], 'schema-and-structured-data-for-wp' ) . '</label>';			
 			                                                                        
 			switch ( $meta_field['type'] ) {
                             
@@ -303,7 +303,7 @@ class saswp_post_specific {
                                                 $src = wp_get_attachment_url(esc_attr($data[$meta_field['name'].'_id']));
                                                     
                                                 $img_prev = '<div class="saswp_image_thumbnail">'
-                                                           . '<img class="saswp_image_prev" src="'.$src.'">'
+                                                           . '<img class="saswp_image_prev" src="'.esc_url($src).'">'
                                                            . '<a data-id="'.$name.'" href="#" class="saswp_prev_close">X</a>'
                                                            . '</div>';     
 
@@ -311,8 +311,8 @@ class saswp_post_specific {
                                         
                                                 
                                                 $input = '<fieldset>
-                                                        <input style="width:79%" type="text" id="'.$name.'" name="'.$name.'" value="'.$src.'">
-                                                        <input type="hidden" data-id="'.$name.'_id" name="'.$meta_name.'_'.$schema_id.'['.$index.']['.$meta_field['name'].'_id]'.'" id="'.$name.'_id" value="'.$data[$meta_field['name'].'_id'].'">
+                                                        <input style="width:79%" type="text" id="'.$name.'" name="'.$name.'" value="'.esc_url($src).'">
+                                                        <input type="hidden" data-id="'.$name.'_id" name="'.$meta_name.'_'.$schema_id.'['.$index.']['.$meta_field['name'].'_id]'.'" id="'.$name.'_id" value="'.esc_attr($data[$meta_field['name'].'_id']).'">
                                                         <input data-id="media" style="width: 19%" class="button" id="'.$name.'_button" name="'.$name.'_button" type="button" value="Upload">
                                                         <div class="saswp_image_div_'.$name.'">'.$img_prev.'</div>
                                                         </fieldset>';
@@ -1983,8 +1983,9 @@ class saswp_post_specific {
 			} else if ( $meta_field['type'] === 'checkbox' ) {
 				update_post_meta( $post_id, $meta_field['id'], '0' );
 			}
-		   }                                
-                 }                                                                                      
+		   }
+                   
+                }                                                                                      
             }                                                                		                                                                               
 	}
         
