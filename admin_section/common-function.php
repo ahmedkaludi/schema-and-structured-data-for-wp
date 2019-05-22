@@ -1199,7 +1199,7 @@ function saswp_admin_link($tab = '', $args = array()){
                     $link = admin_url( 'admin.php?page=' . $page );
             }
             else {
-                    $link = network_admin_url( 'admin.php?page=' . $page );
+                    $link = admin_url( 'admin.php?page=' . $page );                    
             }
 
             if ( $tab ) {
