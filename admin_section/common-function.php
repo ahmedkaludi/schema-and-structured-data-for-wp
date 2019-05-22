@@ -1335,10 +1335,32 @@ function saswp_defaultSettings(){
             return $settings;
             
         }
-function saswp_frontend_enqueue(){      
-      wp_enqueue_style( 'saswp-style', SASWP_PLUGIN_URL . 'admin_section/css/saswp-style.css', false , SASWP_VERSION );       
+function saswp_frontend_enqueue(){ 
+    
+      global $sd_data;
+      
+                  
+      if(isset($sd_data['saswp-review-module']) && $sd_data['saswp-review-module'] == 1){
+                                      
+                $review_details     = esc_sql ( get_post_meta(get_the_ID(), 'saswp_review_details', true));
+                
+                if(isset($review_details['saswp-review-item-enable'])){
+                    
+                    wp_enqueue_style( 'saswp-style', SASWP_PLUGIN_URL . 'admin_section/css/saswp-style.min.css', false , SASWP_VERSION );       
+                    
+                }                              
+                                                   
+      }  
+      
+      if(isset($sd_data['saswp-google-review']) && $sd_data['saswp-google-review'] == 1 ){
+          
+          wp_enqueue_style( 'saswp-style', SASWP_PLUGIN_URL . 'admin_section/css/saswp-style.min.css', false , SASWP_VERSION );       
+          
+      }
+      
                 
   }
+  
   add_action( 'wp_enqueue_scripts', 'saswp_frontend_enqueue' );
   
  function saswp_enque_amp_script(){
