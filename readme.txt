@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.2
-Stable tag: 1.8.2
+Stable tag: 1.8.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -64,6 +64,32 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+
+= 1.8.4 (22 May 2019) =
+
+* Added: Accomodation Schema type (House, Apartment and SingleFamilyResidence )#208
+* Added: Speakable Schema type #208
+* Added: HowTo Schema type #208
+* Added: TvSeries Schema type #208
+* Added: VideoGame Schema type #208
+* Added: MedicalCondition Schema type #208
+* Added: TouristAttraction Schema type #208
+* Added: TouristDestination Schema type #208
+* Added: PlaceOfWorship Schema type ( HinduTemple, Church and Mosque ) #208
+* Bug Fixed: [BUG REPORT] Sorry, you are not allowed to access this page ( Multisite Issue ) #286
+* Bug Fixed: Warning: count() ( Parameter must be an array or an object that implements Countable ) #273
+* Bug Fixed: About and Contact page dropdown not appearing on setup wizard ( Multisite Issue ) #282
+* Bug Fixed: PHP Error: Undefined offset #285
+* Bug Fixed: Basic issues (Image icon should come from plugin own directory and If the logo is not there, then it should show logo mission error) #283
+* Improvement: Product select should not have the fields on installer #266
+* Improvement: HasMap field should be there in local schema #276
+
+
+
+= 1.8.3 (16 May 2019) =
+
+* Bug Fixed: Warning: getimagesize #271
 
 
 = 1.8.2 (13 May 2019) =
