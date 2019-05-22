@@ -1590,33 +1590,45 @@ class saswp_post_specific {
                                         if (strpos($meta_field['id'], 'business_logo') !== false && empty($media_value_meta)) {
                                             
                                                 $business_details = esc_sql ( get_post_meta($schema_id, 'saswp_local_business_details', true)  );                                                                                            
-                                                $media_value['height'] = $business_details['local_business_logo']['height'];                                                                                         
-                                                $media_value['width'] = $business_details['local_business_logo']['width'];                                                                                         
-                                                $media_value['thumbnail'] = $business_details['local_business_logo']['url'];                                             
+                                                if(array_key_exists('local_business_logo', $business_details) && is_array($business_details['local_business_logo'])){
+                                                 
+                                                    $media_value['height'] = $business_details['local_business_logo']['height'];                                                                                         
+                                                    $media_value['width'] = $business_details['local_business_logo']['width'];                                                                                         
+                                                    $media_value['thumbnail'] = $business_details['local_business_logo']['url'];                                             
+                                                    
+                                                }                                                
                                         }
                                         
                                                                                 
                                         if (strpos($meta_field['id'], 'service_schema_image') !== false && empty($media_value_meta)) {
                                             
-                                                $business_details = esc_sql ( get_post_meta($schema_id, 'saswp_service_schema_details', true)  );                                                                                            
-                                                $media_value['height'] = $business_details['saswp_service_schema_image']['height'];                                                                                         
-                                                $media_value['width'] = $business_details['saswp_service_schema_image']['width'];                                                                                         
-                                                $media_value['thumbnail'] = $business_details['saswp_service_schema_image']['url'];                                             
+                                                $business_details = esc_sql ( get_post_meta($schema_id, 'saswp_service_schema_details', true)  );   
+                                                
+                                                if(array_key_exists('saswp_service_schema_image', $business_details) && is_array($business_details['saswp_service_schema_image'])){
+                                                    $media_value['height'] = $business_details['saswp_service_schema_image']['height'];                                                                                         
+                                                    $media_value['width'] = $business_details['saswp_service_schema_image']['width'];                                                                                         
+                                                    $media_value['thumbnail'] = $business_details['saswp_service_schema_image']['url'];                                             
+                                                }
+                                                                                                
                                         }
                                         
                                         if (strpos($meta_field['id'], 'review_schema_image') !== false && empty($media_value_meta)) {
-                                            
-                                                $business_details = esc_sql ( get_post_meta($schema_id, 'saswp_review_schema_details', true)  );                                                                                            
-                                                $media_value['height']    = $business_details['saswp_review_schema_image']['height'];                                                                                         
-                                                $media_value['width']     = $business_details['saswp_review_schema_image']['width'];                                                                                         
-                                                $media_value['thumbnail'] = $business_details['saswp_review_schema_image']['url'];                                             
+                                                
+                                               $business_details = esc_sql ( get_post_meta($schema_id, 'saswp_review_schema_details', true)  ); 
+                                                if(array_key_exists('saswp_review_schema_image', $business_details)  && is_array($business_details['saswp_review_schema_image'])){
+                                                 $media_value['height']    = $business_details['saswp_review_schema_image']['height'];                                                                                         
+                                                 $media_value['width']     = $business_details['saswp_review_schema_image']['width'];                                                                                         
+                                                 $media_value['thumbnail'] = $business_details['saswp_review_schema_image']['url'];                                                
+                                                }                                                
                                         }
                                         if (strpos($meta_field['id'], 'event_schema_image') !== false && empty($media_value_meta)) {
                                             
-                                                $business_details = esc_sql ( get_post_meta($schema_id, 'saswp_event_schema_details', true)  );                                                                                            
-                                                $media_value['height']    = $business_details['saswp_event_schema_image']['height'];                                                                                         
-                                                $media_value['width']     = $business_details['saswp_event_schema_image']['width'];                                                                                         
-                                                $media_value['thumbnail'] = $business_details['saswp_event_schema_image']['url'];                                             
+                                                $business_details = esc_sql ( get_post_meta($schema_id, 'saswp_event_schema_details', true)  ); 
+                                                if(array_key_exists('saswp_event_schema_image', $business_details) && is_array($business_details['saswp_event_schema_image'])){
+                                                 $media_value['height']    = $business_details['saswp_event_schema_image']['height'];                                                                                         
+                                                 $media_value['width']     = $business_details['saswp_event_schema_image']['width'];                                                                                         
+                                                 $media_value['thumbnail'] = $business_details['saswp_event_schema_image']['url'];                                                
+                                                }                                                
                                         }
                                              
                                         $media_height    = '';
