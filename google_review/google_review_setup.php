@@ -195,7 +195,7 @@ function saswp_business_image($result_json) {
         $request_url = add_query_arg(
             array(
                 'photoreference' => $result_json->photos[0]->photo_reference,
-                'key'            => $sd_data['google_place_api_key'],
+                'key'            => isset($sd_data['google_place_api_key']) ? $sd_data['google_place_api_key']:'',
                 'maxwidth'       => '300',
                 'maxheight'      => '300',
             ),

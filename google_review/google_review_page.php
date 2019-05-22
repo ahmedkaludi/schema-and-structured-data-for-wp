@@ -209,7 +209,7 @@ class saswp_google_review_page{
             $place_id = trim($post_meta['saswp_google_place_id'][0]);
             $place    = $wpdb->get_row($wpdb->prepare("SELECT * FROM " . $wpdb->prefix . "saswp_google_place WHERE place_id = %s", $place_id));
             
-            if($place->id){
+            if(is_object($place)){
                 
                 $reviews = $wpdb->get_results($wpdb->prepare("SELECT * FROM " . $wpdb->prefix . "saswp_google_review WHERE google_place_id = %d ORDER BY time DESC", $place->id));               
                 
