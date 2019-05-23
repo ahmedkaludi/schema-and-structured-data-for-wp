@@ -1,13 +1,4 @@
 <?php
-function saswp_remove_amp_default_structure_data($metadata){
-   
-    if(is_array($metadata)){
-        return array();
-    }else{
-        return ''; 
-    }      
-}
-
 add_filter( 'amp_init', 'saswp_schema_markup_hook_on_init' );
 add_action( 'init', 'saswp_schema_markup_hook_on_init');
 
@@ -26,8 +17,7 @@ function saswp_schema_markup_hook_on_init() {
             }   
             
             remove_action( 'amp_post_template_head', 'amp_post_template_add_schemaorg_metadata',99,1);
-            remove_action( 'amp_post_template_footer', 'amp_post_template_add_schemaorg_metadata',99,1);
-            add_filter( 'amp_post_template_metadata', 'saswp_remove_amp_default_structure_data');
+            remove_action( 'amp_post_template_footer', 'amp_post_template_add_schemaorg_metadata',99,1);            
             add_action('cooked_amp_head', 'saswp_schema_markup_output');
                         
             if(isset($sd_data['saswp-wppostratings-raring']) && $sd_data['saswp-wppostratings-raring'] == 1){
