@@ -965,7 +965,10 @@ Google review module ends here
     font-size: 20px;
     top: -5px;
     text-decoration:none;
-    }    
+    } 
+.saswp-nav-menu-list label{
+    padding-left: 10px;
+}    
 /*** How to schema css starts here ***/    
 
 .saswp-how-to-supply-table-div, 

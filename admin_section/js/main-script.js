@@ -328,9 +328,11 @@ jQuery(document).ready(function($){
                       case 'saswp_site_navigation_menu_checkbox':
                           
                             if ($(this).is(':checked')) {              
-                              $("#saswp_site_navigation_menu").val(1);             
+                              $("#saswp_site_navigation_menu").val(1);
+                              $(".saswp-nav-menu-list").show();
                             }else{
                               $("#saswp_site_navigation_menu").val(0);           
+                              $(".saswp-nav-menu-list").hide();
                             }
                       break;
                       

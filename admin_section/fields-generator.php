@@ -20,7 +20,7 @@ class saswp_fields_generator {
         
         return $tooltip_message;
     }
-    public function saswp_field_generator( $meta_fields, $settings ) {            
+    public function saswp_field_generator( $meta_fields, $settings, $field_type = null ) {            
         
 		$output          = '';
                 $tooltip_message = '';
@@ -218,6 +218,32 @@ class saswp_fields_generator {
 //                        }
                                                 
 		}
+                if($field_type == 'general'){
+                                        
+                    $locations = get_nav_menu_locations();
+                    
+                    if($locations){
+                        
+                        foreach ($locations as $type => $id){
+                             
+                            $checked = '';
+                            
+                            if(isset($settings['saswp-'.$type])){
+                                $checked = 'checked';
+                            }
+                            
+                            $output .= '<li class="saswp-nav-menu-list"><div class="saswp-knowledge-label"><label>'.wp_get_nav_menu_name($type).'</label></div>'
+                                    . '<div class="saswp-knowledge-field">'
+                                    . '<input type="checkbox" name="sd_data[saswp-'.$type.']" class="regular-text" value="1" '.$checked.'>'
+                                    . '</div>'
+                                    . '</li>';
+
+                        }    
+            
+                    }
+                                       			 
+                }
+                
 		echo '<div><div class="saswp-settings-list"><ul>' . wp_kses($output, $allowed_html) . '</ul></div></div>';
 	}	        
 }

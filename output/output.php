@@ -3766,8 +3766,7 @@ function saswp_site_navigation_output(){
     $input = array();    
             
     $menuLocations = get_nav_menu_locations();
-    
-        
+                
     if(!empty($menuLocations) && (isset($sd_data['saswp_site_navigation_menu']) &&  $sd_data['saswp_site_navigation_menu'] == 1 )  ){
         
         $navObj = array();
@@ -3775,8 +3774,10 @@ function saswp_site_navigation_output(){
         foreach($menuLocations as $type => $id){
             
             $menuItems = wp_get_nav_menu_items($id);
-            
-            if($menuItems){
+                      
+            if(isset($sd_data['saswp-'.$type])){
+                
+               if($menuItems){
                 
                 if(!saswp_non_amp()){
                                      
@@ -3816,8 +3817,10 @@ function saswp_site_navigation_output(){
                     
                 }                                                                    
                 
+              }
+            
             }
-                        
+                                                
         }
               
         if($navObj){
