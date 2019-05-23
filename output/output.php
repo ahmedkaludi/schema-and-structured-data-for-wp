@@ -3766,6 +3766,7 @@ function saswp_site_navigation_output(){
     $input = array();    
             
     $menuLocations = get_nav_menu_locations();
+    
         
     if(!empty($menuLocations) && (isset($sd_data['saswp_site_navigation_menu']) &&  $sd_data['saswp_site_navigation_menu'] == 1 )  ){
         
