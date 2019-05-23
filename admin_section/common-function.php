@@ -1662,26 +1662,36 @@ function saswp_frontend_enqueue(){
                         return $aurthor_name;
     }
     
-    function saswp_get_attachment_details_by_url($url, $post_id = '',$count='') {
+    function saswp_get_attachment_details($attachments, $post_id = null) {
         
         $response = array();
         
-        $cached_data = get_transient('saswp_imageobject_' .$post_id.'_'.$count );   
+        $cached_data = get_transient('saswp_imageobject_' .$post_id); 
         
         if (empty($cached_data)) {
-            
+                       
+            foreach ($attachments as $url){
+             
+            $image_data = array();    
             $image = @getimagesize($url);
-         
-            $response[0] =  $image[0]; //width
-            $response[1] =  $image[1]; //height
+                     
+            $image_data[0] =  $image[0]; //width
+            $image_data[1] =  $image[1]; //height
+            
 
-            if(empty($image) || $image == false){
-                $img_id         = attachment_url_to_postid($url);
-                $imageDetail    = wp_get_attachment_image_src( $img_id , 'full');
-                $response[0]    = $imageDetail[1]; // width
-                $response[1]    = $imageDetail[2]; // height
+                if(empty($image) || $image == false){
+                    
+                    $img_id           = attachment_url_to_postid($url);
+                    $imageDetail      = wp_get_attachment_image_src( $img_id , 'full');
+                    $image_data[0]    = $imageDetail[1]; // width
+                    $image_data[1]    = $imageDetail[2]; // height
+                    
+                }
+                
+              $response[] = $image_data;  
             }
-            set_transient('saswp_imageobject_' .$post_id.'_'.$count, $response,  24*30*HOUR_IN_SECONDS );   
+                                  
+            set_transient('saswp_imageobject_' .$post_id, $response,  24*30*HOUR_IN_SECONDS );   
 
             $cached_data = $response;
         }

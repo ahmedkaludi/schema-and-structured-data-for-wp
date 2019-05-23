@@ -1,5 +1,13 @@
 <?php
 
+add_action ( 'save_post' , 'saswp_delete_post_transient' );
+
+function saswp_delete_post_transient( $post_id ){
+        
+     delete_transient('saswp_imageobject_' .$post_id);
+    
+}
+
 function saswp_get_saved_schema_ids(){
     
     $schema_ids = array();
