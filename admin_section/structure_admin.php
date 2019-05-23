@@ -181,6 +181,14 @@ function saswp_get_all_schema_posts(){
               
               }
               
+              if(empty($conditions)){
+                  
+                 $conditions['key_1'] = 'post_type';
+                 $conditions['key_2'] = 'equal';
+                 $conditions['key_3'] = 'post';
+                 
+              }
+              
               $returnData[] = array(
                     'schema_type'      => get_post_meta( $post_id, 'schema_type', true),
                     'schema_options'   => get_post_meta( $post_id, 'schema_options', true),
