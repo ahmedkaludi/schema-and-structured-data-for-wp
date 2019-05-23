@@ -93,6 +93,16 @@ function saswp_admin_notice_activation_hook() {
     set_transient( 'saswp_admin_notice_transient', true, 5 );
     update_option( "saswp_activation_date", date("Y-m-d"));
     
+    //Save first installation date
+    
+    $installation_date = get_option('saswp_installation_date');
+    
+    if(!$installation_date){
+        
+        update_option('saswp_installation_date', date("Y-m-d"));
+        
+    }
+            
 }
 
 add_action( 'admin_notices', 'saswp_admin_notice' );
