@@ -1591,6 +1591,7 @@ Class saswp_output_service{
                         $input1         = array();
             
                         $author_id      = get_the_author_meta('ID');
+                        $author_desc    = get_the_author_meta( 'user_description' ); 
                         $image_id 	= get_post_thumbnail_id();
 			$image_details 	= wp_get_attachment_image_src($image_id, 'full');                       			
 			$date 		= get_the_date("Y-m-d\TH:i:s\Z");
@@ -1620,7 +1621,8 @@ Class saswp_output_service{
 					'dateModified'                  => esc_html($modified_date),
 					'author'			=> array(
 							'@type' 	=> 'Person',
-							'name'		=> esc_attr($aurthor_name) 
+							'name'		=> esc_attr($aurthor_name),
+                                                        'description'   => esc_attr($author_desc),
                                                          ),
 					'publisher'			=> array(
 						'@type'			=> 'Organization',
@@ -1650,7 +1652,8 @@ Class saswp_output_service{
 					'dateModified'                  => esc_html($modified_date),
 					'author'			=> array(
 							'@type' 	=> 'Person',
-							'name'		=> esc_attr($aurthor_name) 
+							'name'		=> esc_attr($aurthor_name),
+                                                        'description'   => esc_attr($author_desc),
                                                          ),
 					'publisher'			=> array(
 						'@type'			=> 'Organization',
@@ -1690,7 +1693,9 @@ Class saswp_output_service{
 						'dateModified'		=> esc_html($modified_date),
 						'author'			=> array(
 								'@type' 	=> 'Person',
-								'name'		=> esc_attr($aurthor_name), ),
+								'name'		=> esc_attr($aurthor_name),
+                                                                'description'   => esc_attr($author_desc)
+                                                                ),
 						'publisher'			=> array(
 							'@type'			=> 'Organization',
 							'logo' 			=> array(

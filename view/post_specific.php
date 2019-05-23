@@ -2239,6 +2239,7 @@ class saswp_post_specific {
                 
 	    }
             $current_user       = wp_get_current_user();
+            $author_desc       = get_the_author_meta( 'user_description' ); 
             $author_details	= get_avatar_data($current_user->ID);           
             $schema_type        = esc_sql ( get_post_meta($schema_id, 'schema_type', true)  );  
             
@@ -2528,6 +2529,12 @@ class saswp_post_specific {
                             'default' => $current_user->display_name
                     ),
                     array(
+                            'label' => 'Author Description',
+                            'id' => 'saswp_blogposting_author_description_'.$schema_id,
+                            'type' => 'textarea',
+                            'default' => $author_desc
+                    ),    
+                    array(
                             'label' => 'Organization Name',
                             'id' => 'saswp_blogposting_organization_name_'.$schema_id,
                             'type' => 'text',
@@ -2644,7 +2651,13 @@ class saswp_post_specific {
                             'id' => 'saswp_newsarticle_author_name_'.$schema_id,
                             'type' => 'text',
                             'default' => $current_user->display_name
-                    ), 
+                    ),
+                    array(
+                            'label' => 'Author Description',
+                            'id' => 'saswp_newsarticle_author_description_'.$schema_id,
+                            'type' => 'textarea',
+                            'default' => $author_desc
+                    ),    
                     array(
                             'label' => 'Author Image',
                             'id' => 'saswp_newsarticle_author_image_'.$schema_id,
@@ -2730,6 +2743,12 @@ class saswp_post_specific {
                             'default' => $current_user->display_name
                     ),
                     array(
+                            'label' => 'Author Description',
+                            'id' => 'saswp_webpage_author_description_'.$schema_id,
+                            'type' => 'textarea',
+                            'default' => $author_desc
+                    ),    
+                    array(
                             'label' => 'Organization Name',
                             'id' => 'saswp_webpage_organization_name_'.$schema_id,
                             'type' => 'text',
@@ -2794,6 +2813,12 @@ class saswp_post_specific {
                             'type' => 'text',
                             'default' => $current_user->display_name
                     ),
+                    array(
+                            'label' => 'Author Description',
+                            'id' => 'saswp_article_author_description_'.$schema_id,
+                            'type' => 'textarea',
+                            'default' => $author_desc
+                    ),    
                     array(
                             'label' => 'Organization Name',
                             'id' => 'saswp_article_organization_name_'.$schema_id,
@@ -2969,6 +2994,12 @@ class saswp_post_specific {
                             'default' => $current_user->display_name
                     ),
                     array(
+                            'label' => 'Author Description',
+                            'id' => 'saswp_tech_article_author_name_'.$schema_id,
+                            'type' => 'textarea',
+                            'default' => $author_desc
+                    ),    
+                    array(
                             'label' => 'Organization Name',
                             'id' => 'saswp_tech_article_organization_name_'.$schema_id,
                             'type' => 'text',
@@ -3073,7 +3104,14 @@ class saswp_post_specific {
                             'id' => 'saswp_dfp_author_name_'.$schema_id,
                             'type' => 'text',
                             'default' => $current_user->display_name
-                    )                    
+                    ),
+                    array(
+                            'label'   => 'Author Description',
+                            'id'      => 'saswp_dfp_author_description_'.$schema_id,
+                            'type'    => 'textarea',
+                            'default' => $author_desc
+                    )    
+                        
                     );
                     break;
                 
@@ -3121,6 +3159,12 @@ class saswp_post_specific {
                             'type' => 'text',
                             'default' => $current_user->display_name
                     ),
+                    array(
+                            'label' => 'Author Description',
+                            'id' => 'saswp_recipe_author_description_'.$schema_id,
+                            'type' => 'textarea',
+                            'default' => $author_desc
+                    ),    
                     array(
                             'label' => 'Author Image',
                             'id' => 'saswp_recipe_author_image_'.$schema_id,
@@ -3627,11 +3671,17 @@ class saswp_post_specific {
                             'default' => get_the_modified_date("Y-m-d")
                     ),
                     array(
-                            'label' => 'Author',
+                            'label' => 'Author Name',
                             'id' => 'saswp_audio_schema_author_name_'.$schema_id,
                             'type' => 'text',
                             'default' => saswp_remove_warnings($service_schema_details, 'saswp_audio_author_name', 'saswp_string')
-                    ),    
+                    ),
+                    array(
+                            'label'   => 'Author Description',
+                            'id'      => 'saswp_audio_schema_author_description_'.$schema_id,
+                            'type'    => 'textarea',
+                            'default' => $author_desc
+                    )    
                                                 
                     );
                     break;
@@ -3783,6 +3833,12 @@ class saswp_post_specific {
                             'type' => 'text',
                             'default' => $current_user->display_name    
                     ),
+                    array(
+                            'label' => 'Author Description',
+                            'id' => 'saswp_video_object_author_description_'.$schema_id,
+                            'type' => 'textarea',
+                            'default' => $author_desc
+                    ),    
                     array(
                             'label' => 'Author Image',
                             'id' => 'saswp_video_object_author_image_'.$schema_id,
@@ -4239,6 +4295,7 @@ class saswp_post_specific {
                                               
                    );
                     break;
+                
                 case 'House':
                     
                     $meta_field = array(
