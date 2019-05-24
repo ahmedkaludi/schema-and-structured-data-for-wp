@@ -2733,7 +2733,7 @@ class saswp_post_specific {
                             'label' => 'Description',
                             'id' => 'saswp_blogposting_description_'.$schema_id,
                             'type' => 'textarea',
-                            'default' => $post->post_excerpt,   
+                            'default' => get_the_excerpt()
                     ),
                     array(
                             'label' => 'Name',
@@ -2839,7 +2839,7 @@ class saswp_post_specific {
                             'label' => 'Description',
                             'id' => 'saswp_newsarticle_description_'.$schema_id,
                             'type' => 'textarea',
-                            'default' => $post->post_excerpt
+                            'default' => get_the_excerpt()
                     ),
                      array(
                             'label' => 'Article Section',
@@ -2940,7 +2940,7 @@ class saswp_post_specific {
                             'label' => 'Description',
                             'id' => 'saswp_webpage_description_'.$schema_id,
                             'type' => 'textarea',
-                            'default' => $post->post_excerpt
+                            'default' => get_the_excerpt()
                     ),
                     array(
                             'label' => 'Main Entity Of Page',
@@ -3030,7 +3030,7 @@ class saswp_post_specific {
                             'label' => 'Description',
                             'id' => 'saswp_article_description_'.$schema_id,
                             'type' => 'textarea',
-                            'default' => $post->post_excerpt
+                            'default' => get_the_excerpt()
                     ) , 
                     array(
                             'label' => 'Date Published',
@@ -3210,7 +3210,7 @@ class saswp_post_specific {
                             'label' => 'Description',
                             'id' => 'saswp_tech_article_description_'.$schema_id,
                             'type' => 'textarea',
-                            'default' => $post->post_excerpt
+                            'default' => get_the_excerpt()
                     ) , 
                     array(
                             'label' => 'Date Published',
@@ -3316,7 +3316,7 @@ class saswp_post_specific {
                             'label' => 'Description',
                             'id' => 'saswp_dfp_description_'.$schema_id,
                             'type' => 'textarea',
-                            'default' => $post->post_excerpt
+                            'default' => get_the_excerpt()
                     ) ,    
                     array(
                             'label' => 'URL',
@@ -3382,7 +3382,7 @@ class saswp_post_specific {
                             'label' => 'Description',
                             'id' => 'saswp_recipe_description_'.$schema_id,
                             'type' => 'textarea',
-                            'default' => $post->post_excerpt
+                            'default' => get_the_excerpt()
                     ),
                     array(
                             'label' => 'Main Entity Id',
@@ -4026,7 +4026,7 @@ class saswp_post_specific {
                             'label' => 'Description',
                             'id' => 'saswp_video_object_description_'.$schema_id,
                             'type' => 'textarea',
-                            'default' => $post->post_excerpt
+                            'default' => get_the_excerpt()
                     ),
                     array(
                             'label' => 'Name',
