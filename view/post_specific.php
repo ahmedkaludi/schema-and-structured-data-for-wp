@@ -2816,7 +2816,12 @@ class saswp_post_specific {
                             'id' => 'saswp_newsarticle_URL_'.$schema_id,
                             'type' => 'text',
                             'default' => get_permalink(),
-                    ),	
+                    ),
+                    array(
+                            'label' => 'Image',
+                            'id' => 'saswp_newsarticle_image_'.$schema_id,
+                            'type' => 'media',                            
+                    ),    
                     array(
                             'label' => 'Headline',
                             'id' => 'saswp_newsarticle_headline_'.$schema_id,

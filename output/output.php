@@ -2968,6 +2968,7 @@ function saswp_post_specific_schema_output() {
                                         '@id'                           => get_permalink().'/#newsarticle',    
 					'mainEntityOfPage'              => saswp_remove_warnings($all_post_meta, 'saswp_newsarticle_main_entity_of_page_'.$schema_id, 'saswp_array'),
 					'url'				=> saswp_remove_warnings($all_post_meta, 'saswp_newsarticle_URL_'.$schema_id, 'saswp_array'),
+                                        'image'				=> saswp_remove_warnings($all_post_meta, 'saswp_newsarticle_image_'.$schema_id, 'saswp_array'),
 					'headline'			=> saswp_remove_warnings($all_post_meta, 'saswp_newsarticle_headline_'.$schema_id, 'saswp_array'),
 					'datePublished'                 => isset($all_post_meta['saswp_newsarticle_date_published_'.$schema_id])?date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_newsarticle_date_published_'.$schema_id][0])):'',
 					'dateModified'                  => isset($all_post_meta['saswp_newsarticle_date_modified_'.$schema_id])?date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_newsarticle_date_modified_'.$schema_id][0])):'',
