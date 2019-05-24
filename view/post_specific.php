@@ -276,6 +276,40 @@ class saswp_post_specific {
 
                     break;
                 
+                case 'trip_itinerary':
+                    
+                    $meta_fields = array(
+                    
+                    array(
+			'label'     => 'Itinerary Type',
+			'name'      => 'saswp_trip_itinerary_type',
+			'type'      => 'select',
+                        'options'   => array(
+                                'City'                            => 'City',
+                                'LandmarksOrHistoricalBuildings'  => 'LandmarksOrHistoricalBuildings',
+                                'AdministrativeArea'              => 'AdministrativeArea',
+                                'LakeBodyOfWater'                 => 'LakeBodyOfWater'
+                        )
+		    ),
+                    array(
+			'label'     => 'Itinerary Name',
+			'name'      => 'saswp_trip_itinerary_name',
+			'type'      => 'text'                        
+		    ),
+                     array(
+			'label'     => 'Itinerary Description',
+			'name'      => 'saswp_trip_itinerary_description',
+			'type'      => 'textarea'                        
+		    ),
+                     array(
+			'label'     => 'Itinerary URL',
+			'name'      => 'saswp_trip_itinerary_url',
+			'type'      => 'text'                        
+		    ),   
+                    );
+
+                    break;
+                
 
                 default:
                     break;
@@ -320,6 +354,36 @@ class saswp_post_specific {
                                             
                                                                                                                         
                                                 break;
+                                                
+                                case 'textarea':
+					$input = sprintf(
+						'<textarea style="width: 100%%" id="%s" name="%s" rows="5">%s</textarea>',                                                
+						$meta_field['name'].'_'.$index.'_'.$schema_id,
+						$meta_name.'_'.$schema_id.'['.$index.']['.$meta_field['name'].']',
+						$data[$meta_field['name']]
+					);
+                                        
+					break;                
+                                
+                                case 'select':                                        
+                                                                                     
+					$input = sprintf(
+						'<select id="%s" name="%s">',                                                
+						$meta_field['name'].'_'.$index.'_'.$schema_id,
+						$meta_name.'_'.$schema_id.'['.$index.']['.$meta_field['name'].']'
+					);
+					foreach ( $meta_field['options'] as $key => $value ) {
+                                            
+						$meta_field_value = !is_numeric( $key ) ? $key : $value;
+						$input .= sprintf(
+							'<option %s value="%s">%s</option>',
+							$data[$meta_field['name']] === $meta_field_value ? 'selected' : '',
+							$meta_field_value,
+							esc_html__($value, 'schema-and-structured-data-for-wp' )
+						);
+					}
+					$input .= '</select>';
+					break;                
                                          
 				default:
                                                     
@@ -356,9 +420,11 @@ class saswp_post_specific {
             $tabs              = '';
             $tabs_fields       = '';
             $schema_ids        = array();
+            
             $howto_data        = array();
             $mc_data           = array();
             $tvseries_data     = array();
+            $trip_data         = array();
 
             $schema_enable = get_post_meta($post->ID, 'saswp_enable_disable_schema', true);
                                 
@@ -399,6 +465,12 @@ class saswp_post_specific {
                       
                      $tvseries_data['tvseries_actor_'.$schema->ID]   = esc_sql ( get_post_meta($post->ID, 'tvseries_actor_'.$schema->ID, true)  );              
                      $tvseries_data['tvseries_season_'.$schema->ID]  = esc_sql ( get_post_meta($post->ID, 'tvseries_season_'.$schema->ID, true)  );                                   
+                                              
+                     }
+                     
+                     if($schema_type == 'Trip'){
+                      
+                     $trip_data['trip_itinerary_'.$schema->ID]   = esc_sql ( get_post_meta($post->ID, 'trip_itinerary_'.$schema->ID, true)  );                                   
                                               
                      }
                                                                
@@ -707,6 +779,53 @@ class saswp_post_specific {
                      }                     
                      //TvSeries schema ends here
                      
+                     
+                     //Trip schema starts herre
+                     if($schema_type == 'Trip'){
+                      
+                         $schema_id = $schema->ID;
+                         
+                         $tabs_fields .= '<div class="saswp-table-create-onajax">';
+                         
+                         //itinerary section starts here
+                         
+                         $tabs_fields .= '<div class="saswp-trip-itinerary-section-main">';                                                  
+                         $tabs_fields .= '<div class="saswp-trip-itinerary-section" data-id="'.esc_attr($schema_id).'">';                         
+                         if(isset($trip_data['trip_itinerary_'.$schema_id])){
+                             
+                             $trip_itinerary = $trip_data['trip_itinerary_'.$schema_id];  
+                             
+                             $itinerary_html  = '';
+                             
+                             if(!empty($trip_itinerary)){
+                                 
+                                    $i = 0;
+                                    foreach ($trip_itinerary as $itinerary){
+                                                                                                                        
+                                        $itinerary_html .= '<div class="saswp-trip-itinerary-table-div" data-id="'.$i.'">';
+                                        $itinerary_html .= '<a class="saswp-table-close">X</a>';
+                                        $itinerary_html .= $this->saswp_get_dynamic_html($schema_id, 'trip_itinerary', $i, $itinerary);
+                                        $itinerary_html .= '</div>';
+                                        
+                                     $i++;   
+                                    }
+                                 
+                             }
+                             
+                             $tabs_fields .= $itinerary_html;
+                             
+                         }                         
+                         $tabs_fields .= '</div>';
+                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-trip-itinerary">Add Trip Itinerary</a>';                                                                                                    
+                         $tabs_fields .= '</div>';
+                         
+                         //itinerary section ends here
+                                                                           
+                                                                                                    
+                         $tabs_fields .= '</div>';
+                     }                   
+                     //Trip schema ends here
+                     
                      $tabs_fields .= '</div>';
                      
                      }else{
@@ -1014,6 +1133,51 @@ class saswp_post_specific {
                      }                     
                      //TvSeries schema ends here
                      
+                     //Trip schema starts herre
+                     if($schema_type == 'Trip'){
+                      
+                         $schema_id = $schema->ID;
+                         
+                         $tabs_fields .= '<div class="saswp-table-create-onajax">';
+                         
+                         //itinerary section starts here
+                         
+                         $tabs_fields .= '<div class="saswp-trip-itinerary-section-main">';                                                  
+                         $tabs_fields .= '<div class="saswp-trip-itinerary-section" data-id="'.esc_attr($schema_id).'">';                         
+                         if(isset($trip_data['trip_itinerary_'.$schema_id])){
+                             
+                             $trip_itinerary = $trip_data['trip_itinerary_'.$schema_id];  
+                             
+                             $itinerary_html  = '';
+                             
+                             if(!empty($trip_itinerary)){
+                                 
+                                    $i = 0;
+                                    foreach ($trip_itinerary as $itinerary){
+                                                                                                                        
+                                        $itinerary_html .= '<div class="saswp-trip-itinerary-table-div" data-id="'.$i.'">';
+                                        $itinerary_html .= '<a class="saswp-table-close">X</a>';
+                                        $itinerary_html .= $this->saswp_get_dynamic_html($schema_id, 'trip_itinerary', $i, $itinerary);
+                                        $itinerary_html .= '</div>';
+                                        
+                                     $i++;   
+                                    }
+                                 
+                             }
+                             
+                             $tabs_fields .= $itinerary_html;
+                             
+                         }                         
+                         $tabs_fields .= '</div>';
+                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-trip-itinerary">Add Trip Itinerary</a>';                                                                                                    
+                         $tabs_fields .= '</div>';
+                         
+                         //itinerary section ends here
+                                                                           
+                                                                                                    
+                         $tabs_fields .= '</div>';
+                     }                   
+                     //Trip schema ends here
                      
                      $tabs_fields .= '</div>';
                      
@@ -1066,7 +1230,13 @@ class saswp_post_specific {
                      $tvseries_data['tvseries_season_'.$schema->ID]  = esc_sql ( get_post_meta($post->ID, 'tvseries_season_'.$schema->ID, true)  );                                   
                                               
                 }
-                 
+                
+                if($schema_type == 'Trip'){
+                      
+                     $trip_data['trip_itinerary_'.$schema->ID]   = esc_sql ( get_post_meta($post->ID, 'trip_itinerary_'.$schema->ID, true)  );                                   
+                                              
+                }
+                                 
                  $this->meta_fields = $response;
                  $output = $this->saswp_saswp_post_specific( $post, $all_schema[0]->ID );  
                  $tabs_fields .= '<div>';
@@ -1373,6 +1543,51 @@ class saswp_post_specific {
                      }                     
                  //TvSeries schema ends here    
                      
+                 //Trip schema starts herre
+                     if($schema_type == 'Trip'){
+                      
+                         $schema_id = $schema->ID;
+                         
+                         $tabs_fields .= '<div class="saswp-table-create-onajax">';
+                         
+                         //itinerary section starts here
+                         
+                         $tabs_fields .= '<div class="saswp-trip-itinerary-section-main">';                                                  
+                         $tabs_fields .= '<div class="saswp-trip-itinerary-section" data-id="'.esc_attr($schema_id).'">';                         
+                         if(isset($trip_data['trip_itinerary_'.$schema_id])){
+                             
+                             $trip_itinerary = $trip_data['trip_itinerary_'.$schema_id];  
+                             
+                             $itinerary_html  = '';
+                             
+                             if(!empty($trip_itinerary)){
+                                 
+                                    $i = 0;
+                                    foreach ($trip_itinerary as $itinerary){
+                                                                                                                        
+                                        $itinerary_html .= '<div class="saswp-trip-itinerary-table-div" data-id="'.$i.'">';
+                                        $itinerary_html .= '<a class="saswp-table-close">X</a>';
+                                        $itinerary_html .= $this->saswp_get_dynamic_html($schema_id, 'trip_itinerary', $i, $itinerary);
+                                        $itinerary_html .= '</div>';
+                                        
+                                     $i++;   
+                                    }
+                                 
+                             }
+                             
+                             $tabs_fields .= $itinerary_html;
+                             
+                         }                         
+                         $tabs_fields .= '</div>';
+                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-trip-itinerary">Add Trip Itinerary</a>';                                                                                                    
+                         $tabs_fields .= '</div>';
+                         
+                         //itinerary section ends here
+                                                                           
+                                                                                                    
+                         $tabs_fields .= '</div>';
+                     }                   
+                     //Trip schema ends here    
                                                                                                                   
                  $tabs_fields .= '</div>';
                  $tabs_fields .= '<input class="saswp-post-specific-schema-ids" type="hidden" value="'. json_encode($schema_ids).'">';
@@ -2004,6 +2219,26 @@ class saswp_post_specific {
                      update_post_meta( $post_id, 'tvseries_season_'.$schema->ID, $tv_season);                     
                                                                                
                     //TVSeries schema ends here
+                     
+                     
+                     //Trip schema starts here
+                     
+                     $trip_itinerary          = array();
+                                                       
+                     if(isset($_POST['trip_itinerary_'.$schema->ID]) && is_array($_POST['trip_itinerary_'.$schema->ID])){
+                         
+                         $data = $_POST['trip_itinerary_'.$schema->ID];  
+                         
+                         foreach ($data as $supply){
+                             
+                             $trip_itinerary[] = array_map( 'sanitize_text_field', $supply );
+                         }
+                         
+                     }                                            
+                                                               
+                     update_post_meta( $post_id, 'trip_itinerary_'.$schema->ID, $trip_itinerary);                     
+                     
+                     //Trip schema ends here
                                                                                     
                      $response          = $this->saswp_get_fields_by_schema_type($schema->ID); 
                      
@@ -4962,6 +5197,41 @@ class saswp_post_specific {
                     ),    
                    
                                               
+                   );
+                    break;
+               
+                case 'Trip':
+                    
+                    $meta_field = array(
+                    array(
+                            'label'      => 'Name',
+                            'id'         => 'saswp_trip_schema_name_'.$schema_id,
+                            'type'       => 'text',
+                            'attributes' => array(
+                                'placeholder' => 'Name'
+                            ), 
+                    ),
+                    array(
+                            'label'      => 'Description',
+                            'id'         => 'saswp_trip_schema_description_'.$schema_id,
+                            'type'       => 'textarea',
+                            'attributes' => array(
+                                'placeholder' => 'Description'
+                            )
+                    ),
+                    array(
+                            'label'      => 'URL',
+                            'id'         => 'saswp_trip_schema_url_'.$schema_id,
+                            'type'       => 'text',
+                            'default'    => get_permalink() 
+                    ),
+                    array(
+                            'label'      => 'Image',
+                            'id'         => 'saswp_trip_schema_image_'.$schema_id,
+                            'type'       => 'media'                            
+                    )    
+                        
+                        
                    );
                     break;
                 

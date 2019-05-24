@@ -1089,6 +1089,61 @@ jQuery(document).ready(function($){
        }); 
        
     
+    
+        //Trip schema starts here
+        
+        $(document).on("click", ".saswp-trip-itinerary", function(e){
+           e.preventDefault();
+           
+           var schema_id = $(this).attr('data-id');
+           var count =  $(".saswp-trip-itinerary-table-div").length;
+           var index = $( ".saswp-trip-itinerary-table-div:nth-child("+count+")" ).attr('data-id');
+               index = ++index;
+               
+           if(!index){
+               index = 0;
+           }
+                   
+            var html = '';
+            
+                   html += '<div class="saswp-trip-itinerary-table-div" data-id="'+index+'">'    
+                        +  '<a class="saswp-table-close">X</a>'
+                        + '<table class="form-table saswp-trip-itinerary-table">'                                                                                           
+                
+                        + '<tr>'
+                        + '<th>Itinerary Type</th>'
+                        + '<td>'
+                        + '<select id="saswp_trip_itinerary_type_'+index+'_'+schema_id+'" name="trip_itinerary_'+schema_id+'['+index+'][saswp_trip_itinerary_type]">'
+                        + '<option value="City">City</option>'
+                        + '<option value="LandmarksOrHistoricalBuildings">LandmarksOrHistoricalBuildings</option>'
+                        + '<option value="AdministrativeArea">AdministrativeArea</option>'
+                        + '<option value="LakeBodyOfWater">LakeBodyOfWater</option>'
+                        + '</select></td>'
+                        + '</tr>'
+                        
+                        + '<tr>'
+                        + '<th>Itinerary Name</th><td><input style="width:100%" type="text" id="saswp_trip_itinerary_name_'+index+'_'+schema_id+'" name="trip_itinerary_'+schema_id+'['+index+'][saswp_trip_itinerary_name]"></td>'
+                        + '</tr>'
+                
+                        + '<tr>'
+                        + '<th>Itinerary Description</th><td><textarea placeholder="Description" style="width: 100%" id="saswp_trip_itinerary_description_'+index+'_'+schema_id+'" name="trip_itinerary_'+schema_id+'['+index+'][saswp_trip_itinerary_description]" rows="5"></textarea></td>'
+                        + '</tr>'
+                
+                        + '<tr>'
+                        + '<th>Itinerary URL</th><td><input style="width:100%" type="text" id="saswp_trip_itinerary_url_'+index+'_'+schema_id+'" name="trip_itinerary_'+schema_id+'['+index+'][saswp_trip_itinerary_url]"></td>'
+                        + '</tr>'
+                
+                        + '</table>'
+                        + '</div>';
+           if(html){
+               $('.saswp-trip-itinerary-section[data-id="'+schema_id+'"]').append(html);
+           }
+            
+           
+       });
+        
+        //Trip schema ends here
+        
         //TvSeries schema starts here
         
         $(document).on("click", ".saswp-tvseries-actor", function(e){
@@ -1220,7 +1275,7 @@ jQuery(document).ready(function($){
            
        });
        
-       $(document).on("click", ".saswp-mc-risk_factor", function(e){
+        $(document).on("click", ".saswp-mc-risk_factor", function(e){
            e.preventDefault();
            
            var schema_id = $(this).attr('data-id');

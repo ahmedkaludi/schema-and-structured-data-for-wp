@@ -978,6 +978,7 @@ Google review module ends here
 .saswp-tvseries-season-table-div,
 .saswp-mc-symptom-table-div,
 .saswp-mc-risk_factor-table-div,
+.saswp-trip-itinerary-table-div,
 .saswp-mc-cause-table-div
 {
     border: 1px solid #aaa;
@@ -991,6 +992,9 @@ Google review module ends here
 }
 .saswp-table-create-onajax table th, .saswp-table-create-onajax table td{
     padding: 5px;
+}
+.saswp-table-create-onajax select{
+    width: 98%;
 }
 
 /*** How to schema css ends here ***/    

@@ -304,6 +304,7 @@ function saswp_schema_output() {
                             $schema_type == 'Church'               ||
                             $schema_type == 'Mosque'               ||
                             $schema_type == 'JobPosting'           ||
+                            $schema_type == 'Trip'                 ||        
                             $schema_type == 'SingleFamilyResidence' ) {
                                
                                     $input1 = array();
@@ -1633,6 +1634,50 @@ function saswp_post_specific_schema_output() {
                         $service_object     = new saswp_output_service();
                         $extra_theme_review = $service_object->saswp_extra_theme_review_details(get_the_ID());
             
+                         if( 'Trip' === $schema_type){
+                             
+                            $howto_image = get_post_meta( get_the_ID(), 'saswp_trip_schema_image_'.$schema_id.'_detail',true); 
+                            
+                                                                                   
+                            $input1['@context']              = 'http://schema.org';
+                            $input1['@type']                 = 'Trip';
+                            $input1['@id']                   = get_permalink().'/#Trip';
+                            $input1['url']                   = saswp_remove_warnings($all_post_meta, 'saswp_trip_schema_url_'.$schema_id, 'saswp_array');                            
+                            $input1['name']                  = saswp_remove_warnings($all_post_meta, 'saswp_trip_schema_name_'.$schema_id, 'saswp_array');                            
+                            $input1['description']           = saswp_remove_warnings($all_post_meta, 'saswp_trip_schema_description_'.$schema_id, 'saswp_array');                            
+                                                                                      
+                            if(!(empty($howto_image))){
+                             
+                            $input1['image']['@type']        = 'ImageObject';
+                            $input1['image']['url']          = isset($howto_image['thumbnail']) ? esc_url($howto_image['thumbnail']):'';
+                            $input1['image']['height']       = isset($howto_image['width'])     ? esc_attr($howto_image['width'])   :'';
+                            $input1['image']['width']        = isset($howto_image['height'])    ? esc_attr($howto_image['height'])  :'';
+                                
+                            }
+                           
+                            
+                            $itinerary  = esc_sql ( get_post_meta($schema_post_id, 'trip_itinerary_'.$schema_id, true)  );
+                            
+                            $itinerary_arr = array();
+                            
+                            if(!empty($itinerary)){
+                                
+                                foreach($itinerary as $val){
+                                   
+                                    $supply_data = array();
+                                    $supply_data['@type']        = $val['saswp_trip_itinerary_type'];
+                                    $supply_data['name']         = $val['saswp_trip_itinerary_name'];
+                                    $supply_data['description']  = $val['saswp_trip_itinerary_description'];
+                                    $supply_data['url']          = $val['saswp_trip_itinerary_url'];
+                                    
+                                    
+                                   $itinerary_arr[] =  $supply_data;
+                                }
+                               $input1['itinerary'] = $itinerary_arr;
+                            }
+                            
+                            }   
+                            
                          if( 'JobPosting' === $schema_type){
                              
                             $howto_image = get_post_meta( get_the_ID(), 'saswp_jobposting_schema_ho_logo_'.$schema_id.'_detail',true); 
@@ -1676,7 +1721,7 @@ function saswp_post_specific_schema_output() {
                             $input1['baseSalary']['value']['value']    = saswp_remove_warnings($all_post_meta, 'saswp_jobposting_schema_bs_value_'.$schema_id, 'saswp_array');
                             $input1['baseSalary']['value']['unitText'] = saswp_remove_warnings($all_post_meta, 'saswp_jobposting_schema_bs_unittext_'.$schema_id, 'saswp_array');
                                                         
-                            }     
+                            }      
                         
                          if( 'Mosque' === $schema_type){
                              
