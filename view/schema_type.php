@@ -695,7 +695,8 @@
                                          'VideoGame'                => 'VideoGame'                                         
                                      ),
                                     'Intangible' => array(
-                                        'Service'                  => 'Service',
+                                        'Service'                     => 'Service',
+                                        'JobPosting'                  => 'JobPosting',    
                                     ),
                                     'Media' =>  array(
                                          'AudioObject'              => 'AudioObject',

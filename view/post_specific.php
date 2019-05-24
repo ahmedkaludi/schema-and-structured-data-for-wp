@@ -1797,6 +1797,8 @@ class saswp_post_specific {
                                                      || strpos($meta_field['id'], 'saswp_event_schema_start_date') !== false
                                                      || strpos($meta_field['id'], 'saswp_event_schema_end_date') !== false
                                                      || strpos($meta_field['id'], 'saswp_event_schema_validfrom') !== false
+                                                     || strpos($meta_field['id'], 'dateposted') !== false
+                                                     || strpos($meta_field['id'], 'validthrough') !== false
                                                      ) {
                                              $class='saswp-local-schema-datepicker-picker';    
                                              }
@@ -4845,6 +4847,120 @@ class saswp_post_specific {
                             'id'         => 'saswp_mosque_schema_postal_code_'.$schema_id,
                             'type'       => 'text',                            
                     ),    
+                                              
+                   );
+                    break;
+                
+                case 'JobPosting':
+                    
+                    $meta_field = array(
+                    array(
+                            'label'      => 'Title',
+                            'id'         => 'saswp_jobposting_schema_title_'.$schema_id,
+                            'type'       => 'text',
+                            'attributes' => array(
+                                'placeholder' => 'Title'
+                            ), 
+                    ),
+                    array(
+                            'label'      => 'Description',
+                            'id'         => 'saswp_jobposting_schema_description_'.$schema_id,
+                            'type'       => 'textarea',
+                            'attributes' => array(
+                                'placeholder' => 'Description'
+                            ), 
+                    ),
+                    array(
+                            'label'      => 'URL',
+                            'id'         => 'saswp_jobposting_schema_url_'.$schema_id,
+                            'type'       => 'text',
+                            'default'    => get_permalink()
+                    ),     
+                    array(
+                            'label'      => 'Date Posted',
+                            'id'         => 'saswp_jobposting_schema_dateposted_'.$schema_id,
+                            'type'       => 'text',                             
+                    ),
+                    array(
+                            'label'      => 'Valid Through',
+                            'id'         => 'saswp_jobposting_schema_validthrough_'.$schema_id,
+                            'type'       => 'text',                             
+                    ),
+                    array(
+                            'label'      => 'Employment Type',
+                            'id'         => 'saswp_jobposting_schema_employment_type_'.$schema_id,
+                            'type'       => 'select', 
+                            'options'    => array(
+                                'Full-Time'  => 'Full-Time',
+                                'Part-Time'  => 'Part-Time',
+                                'Contractor' => 'Contractor',       
+                            )
+                    ), 
+                    array(
+                            'label'      => 'Hiring Organization Name',
+                            'id'         => 'saswp_jobposting_schema_ho_name_'.$schema_id,
+                            'type'       => 'text',                             
+                    ),
+                    array(
+                            'label'      => 'Hiring Organization URL',
+                            'id'         => 'saswp_jobposting_schema_ho_url_'.$schema_id,
+                            'type'       => 'text',                             
+                    ),
+                    array(
+                            'label'      => 'Hiring Organization Logo',
+                            'id'         => 'saswp_jobposting_schema_ho_logo_'.$schema_id,
+                            'type'       => 'media',                             
+                    ),
+                    array(
+                            'label'      => 'Street Address',
+                            'id'         => 'saswp_jobposting_schema_street_address_'.$schema_id,
+                            'type'       => 'text',                             
+                    ),
+                    array(
+                            'label'      => 'Address Locality',
+                            'id'         => 'saswp_jobposting_schema_locality_'.$schema_id,
+                            'type'       => 'text',                             
+                    ),
+                    array(
+                            'label'      => 'Address Region',
+                            'id'         => 'saswp_jobposting_schema_region_'.$schema_id,
+                            'type'       => 'text',                             
+                    ),
+                    array(
+                            'label'      => 'Address Postal Code',
+                            'id'         => 'saswp_jobposting_schema_postalcode_'.$schema_id,
+                            'type'       => 'text',                             
+                    ),
+                    array(
+                            'label'      => 'Address Country',
+                            'id'         => 'saswp_jobposting_schema_country_'.$schema_id,
+                            'type'       => 'text',                             
+                    ),
+                    array(
+                            'label'      => 'Base Salary Currency',
+                            'id'         => 'saswp_jobposting_schema_bs_currency_'.$schema_id,
+                            'type'       => 'text', 
+                            'attributes' => array(
+                                'placeholder' => 'USD'
+                            )
+                    ),
+                    array(
+                            'label'      => 'Base Salary Value',
+                            'id'         => 'saswp_jobposting_schema_bs_value_'.$schema_id,
+                            'type'       => 'text', 
+                            'attributes' => array(
+                                'placeholder' => '40.00'
+                            )
+                    ),
+                    array(
+                            'label'      => 'Base Salary Unit Text',
+                            'id'         => 'saswp_jobposting_schema_bs_unittext_'.$schema_id,
+                            'type'       => 'text', 
+                            'attributes' => array(
+                                'placeholder' => 'Hour'
+                            )
+                    ),    
+                   
                                               
                    );
                     break;

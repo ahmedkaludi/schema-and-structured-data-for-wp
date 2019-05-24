@@ -302,7 +302,8 @@ function saswp_schema_output() {
                             $schema_type == 'LandmarksOrHistoricalBuildings' ||
                             $schema_type == 'HinduTemple'          ||
                             $schema_type == 'Church'               ||
-                            $schema_type == 'Mosque'               ||                                    
+                            $schema_type == 'Mosque'               ||
+                            $schema_type == 'JobPosting'           ||
                             $schema_type == 'SingleFamilyResidence' ) {
                                
                                     $input1 = array();
@@ -1632,6 +1633,51 @@ function saswp_post_specific_schema_output() {
                         $service_object     = new saswp_output_service();
                         $extra_theme_review = $service_object->saswp_extra_theme_review_details(get_the_ID());
             
+                         if( 'JobPosting' === $schema_type){
+                             
+                            $howto_image = get_post_meta( get_the_ID(), 'saswp_jobposting_schema_ho_logo_'.$schema_id.'_detail',true); 
+                            
+                                                                                   
+                            $input1['@context']              = 'http://schema.org';
+                            $input1['@type']                 = 'JobPosting';
+                            $input1['@id']                   = get_permalink().'/#JobPosting';
+                            $input1['url']                   = saswp_remove_warnings($all_post_meta, 'saswp_jobposting_schema_url_'.$schema_id, 'saswp_array');                            
+                            $input1['title']                 = saswp_remove_warnings($all_post_meta, 'saswp_jobposting_schema_title_'.$schema_id, 'saswp_array');                            
+                            $input1['description']           = saswp_remove_warnings($all_post_meta, 'saswp_jobposting_schema_description_'.$schema_id, 'saswp_array');
+                            $input1['datePosted']            = isset($all_post_meta['saswp_jobposting_schema_dateposted_'.$schema_id])?date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_jobposting_schema_dateposted_'.$schema_id][0])):'';                            
+                            $input1['validThrough']          = isset($all_post_meta['saswp_jobposting_schema_validthrough_'.$schema_id])?date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_jobposting_schema_validthrough_'.$schema_id][0])):'';                            
+                            $input1['employmentType']        = saswp_remove_warnings($all_post_meta, 'saswp_jobposting_schema_employment_type_'.$schema_id, 'saswp_array');
+                              
+                            $input1['hiringOrganization']['@type']     = 'Organization';
+                            $input1['hiringOrganization']['name']      = saswp_remove_warnings($all_post_meta, 'saswp_jobposting_schema_ho_name_'.$schema_id, 'saswp_array');
+                            $input1['hiringOrganization']['sameAs']    = saswp_remove_warnings($all_post_meta, 'saswp_jobposting_schema_ho_url_'.$schema_id, 'saswp_array');
+                            
+                            if(!(empty($howto_image))){
+                             
+                            $input1['hiringOrganization']['logo']['@type']        = 'ImageObject';
+                            $input1['hiringOrganization']['logo']['url']          = isset($howto_image['thumbnail']) ? esc_url($howto_image['thumbnail']):'';
+                            $input1['hiringOrganization']['logo']['height']       = isset($howto_image['width'])     ? esc_attr($howto_image['width'])   :'';
+                            $input1['hiringOrganization']['logo']['width']        = isset($howto_image['height'])    ? esc_attr($howto_image['height'])  :'';
+                                
+                            }
+                            
+                            $input1['jobLocation']['@type']                        = 'Place';
+                            $input1['jobLocation']['address']['@type']             = 'PostalAddress';                            
+                            $input1['jobLocation']['address']['streetAddress']     = saswp_remove_warnings($all_post_meta, 'saswp_jobposting_schema_street_address_'.$schema_id, 'saswp_array');
+                            $input1['jobLocation']['address']['addressLocality']   = saswp_remove_warnings($all_post_meta, 'saswp_jobposting_schema_locality_'.$schema_id, 'saswp_array');
+                            $input1['jobLocation']['address']['addressRegion']     = saswp_remove_warnings($all_post_meta, 'saswp_jobposting_schema_region_'.$schema_id, 'saswp_array');
+                            $input1['jobLocation']['address']['addressCountry']    = saswp_remove_warnings($all_post_meta, 'saswp_jobposting_schema_country_'.$schema_id, 'saswp_array');
+                            $input1['jobLocation']['address']['PostalCode']        = saswp_remove_warnings($all_post_meta, 'saswp_jobposting_schema_postalcode_'.$schema_id, 'saswp_array');
+
+                            
+                            $input1['baseSalary']['@type']             = 'MonetaryAmount';
+                            $input1['baseSalary']['currency']          = saswp_remove_warnings($all_post_meta, 'saswp_jobposting_schema_bs_currency_'.$schema_id, 'saswp_array');
+                            $input1['baseSalary']['value']['@type']    = 'QuantitativeValue';
+                            $input1['baseSalary']['value']['value']    = saswp_remove_warnings($all_post_meta, 'saswp_jobposting_schema_bs_value_'.$schema_id, 'saswp_array');
+                            $input1['baseSalary']['value']['unitText'] = saswp_remove_warnings($all_post_meta, 'saswp_jobposting_schema_bs_unittext_'.$schema_id, 'saswp_array');
+                                                        
+                            }     
+                        
                          if( 'Mosque' === $schema_type){
                              
                             $howto_image = get_post_meta( get_the_ID(), 'saswp_mosque_schema_image_'.$schema_id.'_detail',true); 

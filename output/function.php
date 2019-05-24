@@ -9,7 +9,7 @@ function saswp_schema_markup_hook_on_init() {
             global $sd_data;
         
             if(isset($sd_data['saswp-markup-footer']) && $sd_data['saswp-markup-footer'] == 1){
-               add_action('wp_footer', 'saswp_schema_markup_output');    
+               add_action( 'wp_footer', 'saswp_schema_markup_output');    
                add_action( 'amp_post_template_footer' , 'saswp_schema_markup_output' );
             }else{
                add_action('wp_head', 'saswp_schema_markup_output');  
