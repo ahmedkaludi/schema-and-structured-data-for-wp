@@ -2014,6 +2014,7 @@ class saswp_post_specific {
                                                      || strpos($meta_field['id'], 'saswp_event_schema_validfrom') !== false
                                                      || strpos($meta_field['id'], 'dateposted') !== false
                                                      || strpos($meta_field['id'], 'validthrough') !== false
+                                                     || strpos($meta_field['id'], 'date_of_birth') !== false
                                                      ) {
                                              $class='saswp-local-schema-datepicker-picker';    
                                              }
