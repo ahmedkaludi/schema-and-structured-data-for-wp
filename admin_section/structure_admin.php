@@ -282,6 +282,29 @@ function saswp_comparison_logic_checker($input){
                   }
               }            
           break;
+          
+          
+          // Posts
+      case 'homepage':    
+          
+            $homepage ='false';  
+          
+            if(is_home() || is_front_page() || ampforwp_is_home()){
+               $homepage = 'true';  
+            }
+                      
+            if ( $comparison == 'equal' ) {
+                if ( $homepage == $data ) {
+                  $result = true;
+                }
+            }
+            if ( $comparison == 'not_equal') {              
+                if ( $homepage != $data ) {
+                  $result = true;
+                }
+            }
+
+        break;
 
       // Logged in User Type
          case 'user_type':            
@@ -596,6 +619,7 @@ if(is_admin()){
           'post_type'           =>  esc_html__("Post Type",'schema-and-structured-data-for-wp'),
           'show_globally'       =>  esc_html__("Show Globally",'schema-and-structured-data-for-wp'),    
           'user_type'           =>  esc_html__("Logged in User Type",'schema-and-structured-data-for-wp'),
+          'homepage'            =>  esc_html__("Homepage", 'schema-and-structured-data-for-wp'),  
         ),
         esc_html__("Post",'schema-and-structured-data-for-wp') => array(
           'post'                =>  esc_html__("Post",'schema-and-structured-data-for-wp'),
