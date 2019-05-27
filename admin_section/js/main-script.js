@@ -901,24 +901,23 @@ jQuery(document).ready(function($){
         }
         $('.saswp-local-schema-time-picker').timepicker({ 'timeFormat': 'H:i:s'});
         
-        $(".saswp_custom_schema_post_enable").on("click", function(e){
+        $(document).on("click",".saswp-add-custom-schema", function(e){
             
             e.preventDefault();  
             
-            var current = $(this);
-            current.addClass('updating-message');
-            e.preventDefault();                                                    
-                         $.get(ajaxurl, 
-                             { action:"saswp_custom_schema_post_enable", post_id: saswp_localize_data.post_id,saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
-                              function(response){   
-                               current.remove();                           
-                               $("#post_specific .inside").append(response); 
-                               current.removeClass('updating-message');                               
-                               $(".saswp-modify_schema_post_enable").remove();                                                                                      
-                             });
+            $(".saswp-add-custom-schema-field").removeClass('saswp_hide');
+            $(this).hide();
+                       
+        });
+        
+        $(document).on("click", ".saswp-delete-custom-schema", function(e){
             
+            e.preventDefault();  
             
-           
+            $("#saswp_custom_schema_field").val('');
+            $(".saswp-add-custom-schema-field").addClass('saswp_hide');
+            $(".saswp-add-custom-schema").show();
+                                               
         });
         
         $(".saswp-modify_schema_post_enable").on("click", function(e){
@@ -929,7 +928,7 @@ jQuery(document).ready(function($){
                              { action:"saswp_modify_schema_post_enable", post_id: saswp_localize_data.post_id,saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
                               function(response){   
                                current.remove();   
-                               $(".saswp_custom_schema_post_enable").remove();
+                               $(".saswp-add-custom-schema-div").remove();
                                $("#post_specific .inside").append(response); 
                                current.removeClass('updating-message');
                                saswpAddTimepicker();  

@@ -61,7 +61,7 @@ function saswp_schema_markup_output() {
         if(is_singular()){
 
             $post_specific_enable  = get_option('modify_schema_post_enable_'.esc_attr($post->ID));
-            $custom_option         = get_option('custom_schema_post_enable_'.esc_attr($post->ID));
+            $custom_markup         = get_post_meta($post->ID, 'saswp_custom_schema_field', true);
 
         }
    
@@ -70,11 +70,9 @@ function saswp_schema_markup_output() {
             $schema_output            = saswp_post_specific_schema_output();  
 
         }else{
-            
-            if($custom_option !='enable'){
-                $schema_output            = saswp_schema_output();    
-            }
-            
+                       
+            $schema_output            = saswp_schema_output();    
+                       
         }                   
 	if(saswp_global_option()) {
 		                                    
@@ -258,25 +256,25 @@ function saswp_schema_markup_output() {
                 
             }
                         
-            if($custom_option == 'enable'){
-                
-                 $custom_output  = get_post_meta($post->ID, 'saswp_custom_schema_field', true);
-                 
-                 if($custom_output){
-                     
-                        echo "\n";
-                        echo '<!-- Schema & Structured Data For WP Custom Markup v'.esc_attr(SASWP_VERSION).' - -->';
-                        echo "\n";
-                        echo '<script type="application/ld+json">'; 
-                        echo "\n";       
-                        echo $custom_output;       
-                        echo "\n";
-                        echo '</script>';
-                        echo "\n\n";
-                     
-                 }
-                
-                
+            if($custom_markup){
+                                      
+                        $result = json_decode($custom_markup);
+                    
+                        if($result != false){
+                        
+                            echo "\n";
+                            echo '<!-- Schema & Structured Data For WP Custom Markup v'.esc_attr(SASWP_VERSION).' - -->';
+                            echo "\n";
+                            echo '<script type="application/ld+json">'; 
+                            echo "\n";       
+                            echo $custom_markup;       
+                            echo "\n";
+                            echo '</script>';
+                            echo "\n\n";
+                            
+                        }
+                                                
+                                                                      
             }
             
                                     			              		

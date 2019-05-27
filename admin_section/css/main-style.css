@@ -966,6 +966,12 @@ Google review module ends here
     top: -5px;
     text-decoration:none;
     } 
+.saswp-add-custom-schema-div{   
+    margin-top: 10px;
+    border-top: 1px solid #eee;
+    padding-top: 5px;
+}
+
 .saswp-nav-menu-list label{
     padding-left: 10px;
 }    

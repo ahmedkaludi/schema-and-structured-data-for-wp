@@ -17,9 +17,7 @@ class saswp_post_specific {
                 add_action( 'wp_ajax_saswp_get_sub_business_ajax', array($this,'saswp_get_sub_business_ajax'));
                 
                 add_action( 'wp_ajax_saswp_modify_schema_post_enable', array($this,'saswp_modify_schema_post_enable'));
-                
-                add_action( 'wp_ajax_saswp_custom_schema_post_enable', array($this,'saswp_custom_schema_post_enable'));
-                
+                                                
                 add_action( 'wp_ajax_saswp_restore_schema', array($this,'saswp_restore_schema'));
                 
                 add_action( 'wp_ajax_saswp_enable_disable_schema_on_post', array($this,'saswp_enable_disable_schema_on_post'));
@@ -1196,6 +1194,33 @@ class saswp_post_specific {
                 echo '<div class="saswp-post-specific-container">';                
                 echo $tabs_fields;                                 
                 echo '</div>';
+                                
+                //custom schema starts here
+                
+                $custom_markup = get_post_meta($post->ID, 'saswp_custom_schema_field', true);
+                  
+                  echo '<div class="saswp-add-custom-schema-div">';                            
+                  
+                  if($custom_markup){
+                      
+                      echo '<a style="display:none;" class="button saswp-add-custom-schema">'.esc_html__( 'Add Custom Schema', 'schema-and-structured-data-for-wp' ).'</a>' ;                   
+                      echo '<div class="saswp-add-custom-schema-field">';
+                  
+                  }else{
+                      
+                      echo '<a class="button saswp-add-custom-schema">'.esc_html__( 'Add Custom Schema', 'schema-and-structured-data-for-wp' ).'</a>' ;                   
+                      echo '<div class="saswp-add-custom-schema-field saswp_hide">';
+                  }
+                                                      
+                  echo '<a class="button saswp-delete-custom-schema">Delete Custom Schema</a>';              
+                  echo '<textarea style="margin-left:5px;" placeholder="{ Json Markup }" id="saswp_custom_schema_field" name="saswp_custom_schema_field" rows="5" cols="100">'
+                  . $custom_markup
+                  . '</textarea>';
+                  echo '</div>';                                    
+                  echo '</div>';
+                
+                //custom schema ends here
+                                
                 echo '<input class="saswp-post-specific-schema-ids" type="hidden" value="'. json_encode($schema_ids).'">';
                 echo '</div>'; 
                                   
@@ -1590,6 +1615,34 @@ class saswp_post_specific {
                      //Trip schema ends here    
                                                                                                                   
                  $tabs_fields .= '</div>';
+                 
+                 //custom schema starts here
+                
+                $custom_markup = get_post_meta($post->ID, 'saswp_custom_schema_field', true);
+                  
+                  $tabs_fields.= '<div class="saswp-add-custom-schema-div">';                            
+                  
+                  if($custom_markup){
+                      
+                      $tabs_fields.= '<a style="display:none;" class="button saswp-add-custom-schema">'.esc_html__( 'Add Custom Schema', 'schema-and-structured-data-for-wp' ).'</a>' ;                   
+                      $tabs_fields.= '<div class="saswp-add-custom-schema-field">';
+                  
+                  }else{
+                      
+                      $tabs_fields.= '<a class="button saswp-add-custom-schema">'.esc_html__( 'Add Custom Schema', 'schema-and-structured-data-for-wp' ).'</a>' ;                   
+                      $tabs_fields.= '<div class="saswp-add-custom-schema-field saswp_hide">';
+                  }
+                                                      
+                  $tabs_fields.= '<a class="button saswp-delete-custom-schema">Delete Custom Schema</a>';              
+                  $tabs_fields.= '<textarea style="margin-left:5px;" placeholder="{ Json Markup }" id="saswp_custom_schema_field" name="saswp_custom_schema_field" rows="5" cols="100">'
+                  . $custom_markup
+                  . '</textarea>';
+                  $tabs_fields.= '</div>';                                    
+                  $tabs_fields.= '</div>';
+                
+                //custom schema ends here
+                 
+                 
                  $tabs_fields .= '<input class="saswp-post-specific-schema-ids" type="hidden" value="'. json_encode($schema_ids).'">';
                  $tabs_fields .= '</div>';
                  echo $tabs_fields;                                                  
@@ -1598,26 +1651,42 @@ class saswp_post_specific {
 
         public function saswp_post_meta_box_callback() { 
             
-		wp_nonce_field( 'post_specific_data', 'post_specific_nonce' );                                
                 global $post;  
-                $modify_option = get_option('modify_schema_post_enable_'.esc_attr($post->ID));
-                $custom_option = get_option('custom_schema_post_enable_'.esc_attr($post->ID));
+                
+		wp_nonce_field( 'post_specific_data', 'post_specific_nonce' );                                  
+                $modify_option = get_option('modify_schema_post_enable_'.esc_attr($post->ID));                
                 
                 if($modify_option == 'enable'){
                     
                   $this->saswp_post_meta_box_fields($post);  
                 
-                }else if($custom_option == 'enable'){
-                  
-                  echo '<a class="button saswp-restore-post-schema">Restore Default</a>';              
-                  echo '<textarea style="margin-left:5px;" placeholder="{ Json Markup }" id="saswp_custom_schema_field" name="saswp_custom_schema_field" rows="5" cols="100">'
-                  . get_post_meta($post->ID, 'saswp_custom_schema_field', true)
-                  . '</textarea>';
-                  
                 }else{
                                                             
                   echo '<a class="button saswp-modify_schema_post_enable">'.esc_html__( 'Modify Current Schema', 'schema-and-structured-data-for-wp' ).'</a>' ;
-                  echo '<a style="margin-left:5px;" class="button saswp_custom_schema_post_enable">'.esc_html__( 'Add Custom Schema', 'schema-and-structured-data-for-wp' ).'</a>' ;  
+                  
+                  $custom_markup = get_post_meta($post->ID, 'saswp_custom_schema_field', true);
+                  
+                  echo '<div class="saswp-add-custom-schema-div">';                            
+                  
+                  if($custom_markup){
+                      
+                      echo '<a style="display:none;" class="button saswp-add-custom-schema">'.esc_html__( 'Add Custom Schema', 'schema-and-structured-data-for-wp' ).'</a>' ;                   
+                      echo '<div class="saswp-add-custom-schema-field">';
+                  
+                  }else{
+                      
+                      echo '<a class="button saswp-add-custom-schema">'.esc_html__( 'Add Custom Schema', 'schema-and-structured-data-for-wp' ).'</a>' ;                   
+                      echo '<div class="saswp-add-custom-schema-field saswp_hide">';
+                  }
+                                                      
+                  echo '<a class="button saswp-delete-custom-schema">Delete Custom Schema</a>';              
+                  echo '<textarea style="margin-left:5px;" placeholder="{ Json Markup }" id="saswp_custom_schema_field" name="saswp_custom_schema_field" rows="5" cols="100">'
+                  . $custom_markup
+                  . '</textarea>';
+                  echo '</div>';                                    
+                  echo '</div>';
+                  
+                  
                 }                               
                                                                                                                                                                    		
 	}
@@ -1650,10 +1719,10 @@ class saswp_post_specific {
                      }
                     
                 }
-                                    
-                update_option('modify_schema_post_enable_'.$post_id, 'disable');
-                update_option('custom_schema_post_enable_'.$post_id, 'disable');
                 
+                update_post_meta($post_id, 'saswp_custom_schema_field', '');
+                update_option('modify_schema_post_enable_'.$post_id, 'disable');
+                               
                 if($result){ 
                     
                     echo json_encode(array('status'=> 't', 'msg'=>esc_html__( 'Schema has been restored', 'schema-and-structured-data-for-wp' )));
@@ -1665,39 +1734,7 @@ class saswp_post_specific {
                 }                                              
                  wp_die();
                 }
-                
-        public function saswp_custom_schema_post_enable(){
-            
-                if ( ! isset( $_GET['saswp_security_nonce'] ) ){
-                    return; 
-                }
-                if ( !wp_verify_nonce( $_GET['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
-                   return;  
-                }  
-                
-                 $post_id = sanitize_text_field($_GET['post_id']);
-                 update_option('custom_schema_post_enable_'.$post_id, 'enable');    
-                 
-                 $args = array(
-                    'p'         => $post_id, // ID of a page, post, or custom type
-                    'post_type' => 'any'
-                  );
-                 
-                $my_posts = new WP_Query($args);
-                
-                if ( $my_posts->have_posts() ) {
-                    
-                  while ( $my_posts->have_posts() ) : $my_posts->the_post();   
-                  
-                   echo $this->saswp_post_meta_box_callback();   
-                   
-                  endwhile;
-                  
-                }
-                                                   
-                 wp_die();
-                 
-                }        
+                             
         
         public function saswp_modify_schema_post_enable(){
             
@@ -2079,17 +2116,12 @@ class saswp_post_specific {
                        return $post_id;    
                 
                 $option         = get_option('modify_schema_post_enable_'.$post_id);
-                $custom_option  = get_option('custom_schema_post_enable_'.$post_id);
+                                                                    
                 
-                if($custom_option == 'enable'){
-                    
-                    if(isset($_POST['saswp_custom_schema_field'])){
-                        $custom_schema = sanitize_textarea_field($_POST['saswp_custom_schema_field']);
-                        update_post_meta( $post_id, 'saswp_custom_schema_field', $custom_schema );
-                    }
-                    
-                }
+                $custom_schema = sanitize_textarea_field($_POST['saswp_custom_schema_field']);
+                update_post_meta( $post_id, 'saswp_custom_schema_field', $custom_schema );
                 
+                                                    
                 if($option != 'enable'){
                     return;
                 }  
