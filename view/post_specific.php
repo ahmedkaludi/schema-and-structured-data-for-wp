@@ -5240,6 +5240,100 @@ class saswp_post_specific {
                    );
                     break;
                 
+                case 'Person':
+                    
+                    $meta_field = array(
+                    array(
+                            'label'      => 'Name',
+                            'id'         => 'saswp_person_schema_name_'.$schema_id,
+                            'type'       => 'text',                           
+                    ),
+                    array(
+                            'label'      => 'Description',
+                            'id'         => 'saswp_person_schema_description_'.$schema_id,
+                            'type'       => 'textarea',                           
+                    ),    
+                    array(
+                            'label'      => 'URL',
+                            'id'         => 'saswp_person_schema_url_'.$schema_id,
+                            'type'       => 'text',
+                            'default'    => get_permalink()
+                    ),    
+                    array(
+                            'label'      => 'Street Address',
+                            'id'         => 'saswp_person_schema_street_address_'.$schema_id,
+                            'type'       => 'text',
+                           
+                    ),
+                    array(
+                            'label'      => 'Locality',
+                            'id'         => 'saswp_person_schema_locality_'.$schema_id,
+                            'type'       => 'text',
+                           
+                    ),
+                    array(
+                            'label'      => 'Region',
+                            'id'         => 'saswp_person_schema_region_'.$schema_id,
+                            'type'       => 'text',                           
+                    ),
+                    array(
+                            'label'      => 'Postal Code',
+                            'id'         => 'saswp_person_schema_postal_code_'.$schema_id,
+                            'type'       => 'text',                           
+                    ),
+                    array(
+                            'label'      => 'Country',
+                            'id'         => 'saswp_person_schema_country_'.$schema_id,
+                            'type'       => 'text',                           
+                    ),
+                    array(
+                            'label'      => 'Email',
+                            'id'         => 'saswp_person_schema_email_'.$schema_id,
+                            'type'       => 'text',                           
+                    ),
+                    array(
+                            'label'      => 'Telephone',
+                            'id'         => 'saswp_person_schema_telephone_'.$schema_id,
+                            'type'       => 'text',                           
+                    ),    
+                    array(
+                            'label'      => 'Gender',
+                            'id'         => 'saswp_person_schema_gender_'.$schema_id,
+                            'type'       => 'select',
+                            'options'    => array(
+                                    'Male'   => 'Male',
+                                    'Female' => 'Female',    
+                            )
+                    ),
+                    array(
+                            'label'      => 'Date Of Birth',
+                            'id'         => 'saswp_person_schema_date_of_birth_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),
+                    array(
+                            'label'      => 'Member Of',
+                            'id'         => 'saswp_person_schema_member_of_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),
+                    array(
+                            'label'      => 'Nationality',
+                            'id'         => 'saswp_person_schema_nationality_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),
+                    array(
+                            'label'      => 'Image',
+                            'id'         => 'saswp_person_schema_image_'.$schema_id,
+                            'type'       => 'media',                            
+                    ),
+                    array(
+                            'label'      => 'Job Title',
+                            'id'         => 'saswp_person_schema_job_title_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),    
+                                                                    
+                   );
+                    break;
+                
                 default:
                     break;
             }                           

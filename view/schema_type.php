@@ -722,6 +722,9 @@
                                         'HinduTemple'         => 'HinduTemple',
                                         'Church'              => 'Church',
                                         'Mosque'              => 'Mosque',
+                                    ),
+                                    'Thing' => array(
+                                        'Person'             => 'Person',                                                                                
                                     )
                                  );
                                  $all_business_type = array(

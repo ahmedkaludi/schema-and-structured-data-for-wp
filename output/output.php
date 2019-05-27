@@ -304,7 +304,8 @@ function saswp_schema_output() {
                             $schema_type == 'Church'               ||
                             $schema_type == 'Mosque'               ||
                             $schema_type == 'JobPosting'           ||
-                            $schema_type == 'Trip'                 ||        
+                            $schema_type == 'Trip'                 ||
+                            $schema_type == 'Person'               ||    
                             $schema_type == 'SingleFamilyResidence' ) {
                                
                                     $input1 = array();
@@ -1634,6 +1635,44 @@ function saswp_post_specific_schema_output() {
                         $service_object     = new saswp_output_service();
                         $extra_theme_review = $service_object->saswp_extra_theme_review_details(get_the_ID());
             
+                        
+                         if( 'Person' === $schema_type){
+                             
+                            $image = get_post_meta( get_the_ID(), 'saswp_trip_schema_image_'.$schema_id.'_detail',true); 
+                            
+                                                                                   
+                            $input1['@context']              = 'http://schema.org';
+                            $input1['@type']                 = 'Person';
+                            $input1['@id']                   = get_permalink().'/#Person';
+                            $input1['url']                   = saswp_remove_warnings($all_post_meta, 'saswp_person_schema_url_'.$schema_id, 'saswp_array');                            
+                            $input1['name']                  = saswp_remove_warnings($all_post_meta, 'saswp_person_schema_name_'.$schema_id, 'saswp_array');                                                        
+                            $input1['description']           = saswp_remove_warnings($all_post_meta, 'saswp_person_schema_description_'.$schema_id, 'saswp_array');                                                        
+                            $input1['gender']                = saswp_remove_warnings($all_post_meta, 'saswp_person_schema_gender_'.$schema_id, 'saswp_array');                                                        
+                            $input1['birthDate']             = isset($all_post_meta['saswp_person_schema_date_of_birth_'.$schema_id])?date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_person_schema_date_of_birth_'.$schema_id][0])):'';
+                            $input1['nationality']           = saswp_remove_warnings($all_post_meta, 'saswp_person_schema_nationality_'.$schema_id, 'saswp_array');                                                        
+                            $input1['jobTitle']              = saswp_remove_warnings($all_post_meta, 'saswp_person_schema_job_title_'.$schema_id, 'saswp_array');                                                        
+                            
+                            $input1['address']['@type']             = 'PostalAddress';
+                            $input1['address']['streetAddress']     = saswp_remove_warnings($all_post_meta, 'saswp_person_schema_street_address_'.$schema_id, 'saswp_array');
+                            $input1['address']['addressCountry']    = saswp_remove_warnings($all_post_meta, 'saswp_person_schema_country_'.$schema_id, 'saswp_array');
+                            $input1['address']['addressLocality']   = saswp_remove_warnings($all_post_meta, 'saswp_person_schema_locality_'.$schema_id, 'saswp_array');
+                            $input1['address']['addressRegion']     = saswp_remove_warnings($all_post_meta, 'saswp_person_schema_region_'.$schema_id, 'saswp_array');
+                            $input1['address']['PostalCode']        = saswp_remove_warnings($all_post_meta, 'saswp_person_schema_postal_code_'.$schema_id, 'saswp_array');
+                            
+                            $input1['telephone']                    = saswp_remove_warnings($all_post_meta, 'saswp_person_schema_telephone_'.$schema_id, 'saswp_array');                                                        
+                            $input1['email']                        = saswp_remove_warnings($all_post_meta, 'saswp_person_schema_email_'.$schema_id, 'saswp_array');                                                        
+                                                                                      
+                            if(!(empty($image))){
+
+                            $input1['image']['@type']        = 'ImageObject';
+                            $input1['image']['url']          = isset($image['thumbnail']) ? esc_url($image['thumbnail']):'';
+                            $input1['image']['height']       = isset($image['width'])     ? esc_attr($image['width'])   :'';
+                            $input1['image']['width']        = isset($image['height'])    ? esc_attr($image['height'])  :'';
+
+                            }
+                            
+                         }         
+                        
                          if( 'Trip' === $schema_type){
                              
                             $howto_image = get_post_meta( get_the_ID(), 'saswp_trip_schema_image_'.$schema_id.'_detail',true); 
