@@ -1699,3 +1699,41 @@ function saswp_frontend_enqueue(){
         return $cached_data;
                 	
 }
+/**
+ * Here we are modifying the default excerpt
+ * @global type $post
+ * @return type
+ */
+function saswp_get_the_excerpt() {
+            
+    global $post;
+    $excerpt = '';
+    if(is_object($post)){
+    
+    $excerpt = $post->post_excerpt;
+    
+    if(empty($excerpt)){
+        
+        $excerpt_length = apply_filters( 'excerpt_length', 55 );
+
+        $excerpt_more = '';
+        $excerpt      = wp_trim_words( $post->post_content, $excerpt_length, $excerpt_more );
+    }
+    
+    if(strpos($excerpt, "<p>")!==false){
+        
+        $regex = '/<p>(.*?)<\/p>/';
+        preg_match_all($regex, $excerpt, $matches);
+        
+        if(is_array($matches[1])){
+            $excerpt = implode(" ", $matches[1]); 
+        }
+       
+    }
+    
+     $excerpt = wp_strip_all_tags(strip_shortcodes($excerpt)); 
+     
+    }
+        
+    return $excerpt;
+}
