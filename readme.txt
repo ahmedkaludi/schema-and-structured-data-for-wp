@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.2
-Stable tag: 1.8.4
+Stable tag: 1.8.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -64,6 +64,24 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+
+= 1.8.5 (28 May 2019) =
+
+* Added: Person schema type #220
+* Added: Trip schema type #289
+* Added: JobPosting schema type #289
+* Added: Author fields should have description field #275
+* Added: Homepage selection in the "Placement" dropdown #280
+* Bug Fixed: Remove shortcode and share button text from schema markup description #250
+* Bug Fixed: Modify schema does not take default description #295
+* Bug Fixed: saswp-style.css should only load wherever its need #287
+* Bug Fixed: Unspecified Type error when defragmentation is enabled and website schema is disabled #291
+* Improvement: getimagesize function improvement #278
+* Improvement: Site Navigation Menu option should have list of menus to be added in schema markup #272
+* Improvement: If Yoast compatibility is on make sure, We skip the schema of the Yoast, not the whole metadata and og tags #288
+* Improvement: If target location is empty than by default target location should be post #292
+* Improvement: An option for adding own custom json schema markup on every post along with current schema #274
 
 
 = 1.8.4 (22 May 2019) =

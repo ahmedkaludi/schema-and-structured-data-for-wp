@@ -1591,6 +1591,7 @@ Class saswp_output_service{
                         $input1         = array();
             
                         $author_id      = get_the_author_meta('ID');
+                        $author_desc    = get_the_author_meta( 'user_description' ); 
                         $image_id 	= get_post_thumbnail_id();
 			$image_details 	= wp_get_attachment_image_src($image_id, 'full');                       			
 			$date 		= get_the_date("Y-m-d\TH:i:s\Z");
@@ -1615,12 +1616,13 @@ Class saswp_output_service{
                                         'url'				=> get_permalink(),
 					'mainEntityOfPage'              => get_permalink(),					
 					'headline'			=> get_the_title(),
-					'description'                   => strip_tags(strip_shortcodes(get_the_excerpt())),
+					'description'                   => saswp_get_the_excerpt(),
 					'datePublished'                 => esc_html($date),
 					'dateModified'                  => esc_html($modified_date),
 					'author'			=> array(
 							'@type' 	=> 'Person',
-							'name'		=> esc_attr($aurthor_name) 
+							'name'		=> esc_attr($aurthor_name),
+                                                        'description'   => esc_attr($author_desc),
                                                          ),
 					'publisher'			=> array(
 						'@type'			=> 'Organization',
@@ -1645,12 +1647,13 @@ Class saswp_output_service{
                                         'url'				=> get_permalink(),
 					'mainEntityOfPage'              => get_permalink(),					
 					'headline'			=> get_the_title(),
-					'description'                   => strip_tags(strip_shortcodes(get_the_excerpt())),
+					'description'                   => saswp_get_the_excerpt(),
 					'datePublished'                 => esc_html($date),
 					'dateModified'                  => esc_html($modified_date),
 					'author'			=> array(
 							'@type' 	=> 'Person',
-							'name'		=> esc_attr($aurthor_name) 
+							'name'		=> esc_attr($aurthor_name),
+                                                        'description'   => esc_attr($author_desc),
                                                          ),
 					'publisher'			=> array(
 						'@type'			=> 'Organization',
@@ -1679,18 +1682,20 @@ Class saswp_output_service{
                                 '@id'				=> get_permalink().'/#webpage',
 				'name'				=> get_the_title(),
 				'url'				=> get_permalink(),
-				'description'                   => strip_tags(strip_shortcodes(get_the_excerpt())),
+				'description'                   => saswp_get_the_excerpt(),
 				'mainEntity'                    => array(
 						'@type'			=> 'Article',
 						'mainEntityOfPage'	=> get_permalink(),
 						'image'			=> esc_url($image_details[0]),
 						'headline'		=> get_the_title(),
-						'description'		=> strip_tags(strip_shortcodes(get_the_excerpt())),
+						'description'		=> saswp_get_the_excerpt(),
 						'datePublished' 	=> esc_html($date),
 						'dateModified'		=> esc_html($modified_date),
 						'author'			=> array(
 								'@type' 	=> 'Person',
-								'name'		=> esc_attr($aurthor_name), ),
+								'name'		=> esc_attr($aurthor_name),
+                                                                'description'   => esc_attr($author_desc)
+                                                                ),
 						'publisher'			=> array(
 							'@type'			=> 'Organization',
 							'logo' 			=> array(
@@ -1827,22 +1832,23 @@ Class saswp_output_service{
                           if($content){
                               
                           $regex   = '/<img(.*?)src="(.*?)"(.*?)>/';                          
-                          preg_match_all( $regex, $content, $attachments );   
-                                                                              
+                          preg_match_all( $regex, $content, $attachments ); 
+                                                                                                                                                                                      
                           $attach_images = array();
                           
                           if(!empty($attachments)){
+                              
+                              $attach_details   = saswp_get_attachment_details($attachments[2], $post->ID);
+                              
                               $k = 0;
                               foreach ($attachments[2] as $attachment) {
-                                                                    
-                                  $attach_details   = saswp_get_attachment_details_by_url($attachment, $post->ID, $k );
-                                  
+                                                                                                                                       
                                   if(!empty($attach_details)){
                                                                             
                                                 $attach_images['image'][$k]['@type']  = 'ImageObject';                                                
                                                 $attach_images['image'][$k]['url']    = esc_url($attachment);
-                                                $attach_images['image'][$k]['width']  = esc_attr($attach_details[0]);
-                                                $attach_images['image'][$k]['height'] = esc_attr($attach_details[1]);
+                                                $attach_images['image'][$k]['width']  = esc_attr($attach_details[$k][0]);
+                                                $attach_images['image'][$k]['height'] = esc_attr($attach_details[$k][1]);
                                       
                                   }
                                   

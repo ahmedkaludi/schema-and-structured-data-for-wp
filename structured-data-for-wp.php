@@ -2,7 +2,7 @@
 /*
 Plugin Name: Schema & Structured Data for WP
 Description: Schema & Structured Data adds Google Rich Snippets markup according to Schema.org guidelines to structure your site for SEO. (AMP Compatible) 
-Version: 1.8.4
+Version: 1.8.5
 Text Domain: schema-and-structured-data-for-wp
 Domain Path: /languages
 Author: Magazine3
@@ -13,7 +13,7 @@ License: GPL2
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-define('SASWP_VERSION', '1.8.4');
+define('SASWP_VERSION', '1.8.5');
 define('SASWP_DIR_NAME_FILE', __FILE__ );
 define('SASWP_DIR_NAME', dirname( __FILE__ ));
 define('SASWP_DIR_URI', plugin_dir_url(__FILE__));
@@ -93,6 +93,16 @@ function saswp_admin_notice_activation_hook() {
     set_transient( 'saswp_admin_notice_transient', true, 5 );
     update_option( "saswp_activation_date", date("Y-m-d"));
     
+    //Save first installation date
+    
+    $installation_date = get_option('saswp_installation_date');
+    
+    if(!$installation_date){
+        
+        update_option('saswp_installation_date', date("Y-m-d"));
+        
+    }
+            
 }
 
 add_action( 'admin_notices', 'saswp_admin_notice' );
@@ -164,7 +174,7 @@ function saswp_admin_notice(){
         <div class="updated notice is-dismissible message notice notice-alt saswp-feedback-notice">
             <p>
                   <span><?php echo esc_html__('You have not setup default image in Schema & Structured Data For WP.', 'schema-and-structured-data-for-wp') ?> </span>                                               
-                  <a href="<?php echo esc_url( admin_url( 'admin.php?page=structured_data_options&tab=schema' ) ); ?>"> <?php echo esc_html__('Please Setup', 'schema-and-structured-data-for-wp') ?></a>
+                  <a href="<?php echo esc_url( admin_url( 'admin.php?page=structured_data_options&tab=general' ) ); ?>"> <?php echo esc_html__('Please Setup', 'schema-and-structured-data-for-wp') ?></a>
             </p>
         </div>
 

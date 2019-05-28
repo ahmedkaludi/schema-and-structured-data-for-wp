@@ -965,7 +965,16 @@ Google review module ends here
     font-size: 20px;
     top: -5px;
     text-decoration:none;
-    }    
+    } 
+.saswp-add-custom-schema-div{   
+    margin-top: 10px;
+    border-top: 1px solid #eee;
+    padding-top: 5px;
+}
+
+.saswp-nav-menu-list label{
+    padding-left: 10px;
+}    
 /*** How to schema css starts here ***/    
 
 .saswp-how-to-supply-table-div, 
@@ -975,6 +984,7 @@ Google review module ends here
 .saswp-tvseries-season-table-div,
 .saswp-mc-symptom-table-div,
 .saswp-mc-risk_factor-table-div,
+.saswp-trip-itinerary-table-div,
 .saswp-mc-cause-table-div
 {
     border: 1px solid #aaa;
@@ -988,6 +998,9 @@ Google review module ends here
 }
 .saswp-table-create-onajax table th, .saswp-table-create-onajax table td{
     padding: 5px;
+}
+.saswp-table-create-onajax select{
+    width: 98%;
 }
 
 /*** How to schema css ends here ***/    

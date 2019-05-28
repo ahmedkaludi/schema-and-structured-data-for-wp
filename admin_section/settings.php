@@ -446,6 +446,7 @@ function saswp_general_page_callback(){
     
 	$settings = saswp_defaultSettings(); 
         $field_objs = new saswp_fields_generator(); 
+        $locations = get_nav_menu_locations();
         
         $meta_fields_default = array(	
                 array(
@@ -515,8 +516,11 @@ function saswp_general_page_callback(){
                              'id'   => 'saswp_comments_schema',
                              'name' => 'sd_data[saswp_comments_schema]',                             
                         )
-		),
-                array(
+		)
+                                
+            );
+            if($locations){
+             $meta_fields_default[] =   array(
 			'label'  => 'Site Navigation Menu',
 			'id'     => 'saswp_site_navigation_menu_checkbox', 
                         'name'   => 'saswp_site_navigation_menu_checkbox',
@@ -526,10 +530,8 @@ function saswp_general_page_callback(){
                              'id'   => 'saswp_site_navigation_menu',
                              'name' => 'sd_data[saswp_site_navigation_menu]',                             
                         )
-		)
-                
-            )
-        
+		); 
+            }                    
         ?>
 
 
@@ -589,7 +591,7 @@ function saswp_general_page_callback(){
         
         
         echo '<div class="saswp-archive-div">';
-        $field_objs->saswp_field_generator($meta_fields_default, $settings);
+        $field_objs->saswp_field_generator($meta_fields_default, $settings, 'general');
         echo '</div>';
         
         ?>

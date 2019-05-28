@@ -695,7 +695,10 @@
                                          'VideoGame'                => 'VideoGame'                                         
                                      ),
                                     'Intangible' => array(
-                                        'Service'                  => 'Service',
+                                        'JobPosting'                  => 'JobPosting', 
+                                        'Service'                     => 'Service',
+                                        'Trip'                        => 'Trip',    
+                                           
                                     ),
                                     'Media' =>  array(
                                          'AudioObject'              => 'AudioObject',
@@ -719,6 +722,9 @@
                                         'HinduTemple'         => 'HinduTemple',
                                         'Church'              => 'Church',
                                         'Mosque'              => 'Mosque',
+                                    ),
+                                    'Thing' => array(
+                                        'Person'             => 'Person',                                                                                
                                     )
                                  );
                                  $all_business_type = array(

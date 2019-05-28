@@ -1335,10 +1335,32 @@ function saswp_defaultSettings(){
             return $settings;
             
         }
-function saswp_frontend_enqueue(){      
-      wp_enqueue_style( 'saswp-style', SASWP_PLUGIN_URL . 'admin_section/css/saswp-style.css', false , SASWP_VERSION );       
+function saswp_frontend_enqueue(){ 
+    
+      global $sd_data;
+      
+                  
+      if(isset($sd_data['saswp-review-module']) && $sd_data['saswp-review-module'] == 1){
+                                      
+                $review_details     = esc_sql ( get_post_meta(get_the_ID(), 'saswp_review_details', true));
+                
+                if(isset($review_details['saswp-review-item-enable'])){
+                    
+                    wp_enqueue_style( 'saswp-style', SASWP_PLUGIN_URL . 'admin_section/css/saswp-style.min.css', false , SASWP_VERSION );       
+                    
+                }                              
+                                                   
+      }  
+      
+      if(isset($sd_data['saswp-google-review']) && $sd_data['saswp-google-review'] == 1 ){
+          
+                 wp_enqueue_style( 'saswp-style', SASWP_PLUGIN_URL . 'admin_section/css/saswp-style.min.css', false , SASWP_VERSION );       
+          
+      }
+      
                 
   }
+  
   add_action( 'wp_enqueue_scripts', 'saswp_frontend_enqueue' );
   
  function saswp_enque_amp_script(){
@@ -1640,30 +1662,78 @@ function saswp_frontend_enqueue(){
                         return $aurthor_name;
     }
     
-    function saswp_get_attachment_details_by_url($url, $post_id = '',$count='') {
+    function saswp_get_attachment_details($attachments, $post_id = null) {
         
         $response = array();
         
-        $cached_data = get_transient('saswp_imageobject_' .$post_id.'_'.$count );   
+        $cached_data = get_transient('saswp_imageobject_' .$post_id); 
         
         if (empty($cached_data)) {
-            
+                       
+            foreach ($attachments as $url){
+             
+            $image_data = array();    
             $image = @getimagesize($url);
-         
-            $response[0] =  $image[0]; //width
-            $response[1] =  $image[1]; //height
+                     
+            $image_data[0] =  $image[0]; //width
+            $image_data[1] =  $image[1]; //height
+            
 
-            if(empty($image) || $image == false){
-                $img_id         = attachment_url_to_postid($url);
-                $imageDetail    = wp_get_attachment_image_src( $img_id , 'full');
-                $response[0]    = $imageDetail[1]; // width
-                $response[1]    = $imageDetail[2]; // height
+                if(empty($image) || $image == false){
+                    
+                    $img_id           = attachment_url_to_postid($url);
+                    $imageDetail      = wp_get_attachment_image_src( $img_id , 'full');
+                    $image_data[0]    = $imageDetail[1]; // width
+                    $image_data[1]    = $imageDetail[2]; // height
+                    
+                }
+                
+              $response[] = $image_data;  
             }
-            set_transient('saswp_imageobject_' .$post_id.'_'.$count, $response,  24*30*HOUR_IN_SECONDS );   
+                                  
+            set_transient('saswp_imageobject_' .$post_id, $response,  24*30*HOUR_IN_SECONDS );   
 
             $cached_data = $response;
         }
                                             
         return $cached_data;
                 	
+}
+/**
+ * Here we are modifying the default excerpt
+ * @global type $post
+ * @return type
+ */
+function saswp_get_the_excerpt() {
+            
+    global $post;
+    $excerpt = '';
+    if(is_object($post)){
+    
+    $excerpt = $post->post_excerpt;
+    
+    if(empty($excerpt)){
+        
+        $excerpt_length = apply_filters( 'excerpt_length', 55 );
+
+        $excerpt_more = '';
+        $excerpt      = wp_trim_words( $post->post_content, $excerpt_length, $excerpt_more );
+    }
+    
+    if(strpos($excerpt, "<p>")!==false){
+        
+        $regex = '/<p>(.*?)<\/p>/';
+        preg_match_all($regex, $excerpt, $matches);
+        
+        if(is_array($matches[1])){
+            $excerpt = implode(" ", $matches[1]); 
+        }
+       
+    }
+    
+     $excerpt = wp_strip_all_tags(strip_shortcodes($excerpt)); 
+     
+    }
+        
+    return $excerpt;
 }

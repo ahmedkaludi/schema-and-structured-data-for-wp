@@ -50,6 +50,15 @@ function saswp_ajax_select_creator($data = '', $saved_data= '', $current_number 
             unset($choices['saswp']);
             
             break;
+        
+         case "homepage":
+
+            $choices = array(
+                'true'  => 'True',
+                'false' => 'False',                                
+            ); 
+             
+            break;
 
           case "page":
 

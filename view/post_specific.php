@@ -17,9 +17,7 @@ class saswp_post_specific {
                 add_action( 'wp_ajax_saswp_get_sub_business_ajax', array($this,'saswp_get_sub_business_ajax'));
                 
                 add_action( 'wp_ajax_saswp_modify_schema_post_enable', array($this,'saswp_modify_schema_post_enable'));
-                
-                add_action( 'wp_ajax_saswp_custom_schema_post_enable', array($this,'saswp_custom_schema_post_enable'));
-                
+                                                
                 add_action( 'wp_ajax_saswp_restore_schema', array($this,'saswp_restore_schema'));
                 
                 add_action( 'wp_ajax_saswp_enable_disable_schema_on_post', array($this,'saswp_enable_disable_schema_on_post'));
@@ -276,6 +274,40 @@ class saswp_post_specific {
 
                     break;
                 
+                case 'trip_itinerary':
+                    
+                    $meta_fields = array(
+                    
+                    array(
+			'label'     => 'Itinerary Type',
+			'name'      => 'saswp_trip_itinerary_type',
+			'type'      => 'select',
+                        'options'   => array(
+                                'City'                            => 'City',
+                                'LandmarksOrHistoricalBuildings'  => 'LandmarksOrHistoricalBuildings',
+                                'AdministrativeArea'              => 'AdministrativeArea',
+                                'LakeBodyOfWater'                 => 'LakeBodyOfWater'
+                        )
+		    ),
+                    array(
+			'label'     => 'Itinerary Name',
+			'name'      => 'saswp_trip_itinerary_name',
+			'type'      => 'text'                        
+		    ),
+                     array(
+			'label'     => 'Itinerary Description',
+			'name'      => 'saswp_trip_itinerary_description',
+			'type'      => 'textarea'                        
+		    ),
+                     array(
+			'label'     => 'Itinerary URL',
+			'name'      => 'saswp_trip_itinerary_url',
+			'type'      => 'text'                        
+		    ),   
+                    );
+
+                    break;
+                
 
                 default:
                     break;
@@ -320,6 +352,36 @@ class saswp_post_specific {
                                             
                                                                                                                         
                                                 break;
+                                                
+                                case 'textarea':
+					$input = sprintf(
+						'<textarea style="width: 100%%" id="%s" name="%s" rows="5">%s</textarea>',                                                
+						$meta_field['name'].'_'.$index.'_'.$schema_id,
+						$meta_name.'_'.$schema_id.'['.$index.']['.$meta_field['name'].']',
+						$data[$meta_field['name']]
+					);
+                                        
+					break;                
+                                
+                                case 'select':                                        
+                                                                                     
+					$input = sprintf(
+						'<select id="%s" name="%s">',                                                
+						$meta_field['name'].'_'.$index.'_'.$schema_id,
+						$meta_name.'_'.$schema_id.'['.$index.']['.$meta_field['name'].']'
+					);
+					foreach ( $meta_field['options'] as $key => $value ) {
+                                            
+						$meta_field_value = !is_numeric( $key ) ? $key : $value;
+						$input .= sprintf(
+							'<option %s value="%s">%s</option>',
+							$data[$meta_field['name']] === $meta_field_value ? 'selected' : '',
+							$meta_field_value,
+							esc_html__($value, 'schema-and-structured-data-for-wp' )
+						);
+					}
+					$input .= '</select>';
+					break;                
                                          
 				default:
                                                     
@@ -356,9 +418,11 @@ class saswp_post_specific {
             $tabs              = '';
             $tabs_fields       = '';
             $schema_ids        = array();
+            
             $howto_data        = array();
             $mc_data           = array();
             $tvseries_data     = array();
+            $trip_data         = array();
 
             $schema_enable = get_post_meta($post->ID, 'saswp_enable_disable_schema', true);
                                 
@@ -399,6 +463,12 @@ class saswp_post_specific {
                       
                      $tvseries_data['tvseries_actor_'.$schema->ID]   = esc_sql ( get_post_meta($post->ID, 'tvseries_actor_'.$schema->ID, true)  );              
                      $tvseries_data['tvseries_season_'.$schema->ID]  = esc_sql ( get_post_meta($post->ID, 'tvseries_season_'.$schema->ID, true)  );                                   
+                                              
+                     }
+                     
+                     if($schema_type == 'Trip'){
+                      
+                     $trip_data['trip_itinerary_'.$schema->ID]   = esc_sql ( get_post_meta($post->ID, 'trip_itinerary_'.$schema->ID, true)  );                                   
                                               
                      }
                                                                
@@ -707,6 +777,53 @@ class saswp_post_specific {
                      }                     
                      //TvSeries schema ends here
                      
+                     
+                     //Trip schema starts herre
+                     if($schema_type == 'Trip'){
+                      
+                         $schema_id = $schema->ID;
+                         
+                         $tabs_fields .= '<div class="saswp-table-create-onajax">';
+                         
+                         //itinerary section starts here
+                         
+                         $tabs_fields .= '<div class="saswp-trip-itinerary-section-main">';                                                  
+                         $tabs_fields .= '<div class="saswp-trip-itinerary-section" data-id="'.esc_attr($schema_id).'">';                         
+                         if(isset($trip_data['trip_itinerary_'.$schema_id])){
+                             
+                             $trip_itinerary = $trip_data['trip_itinerary_'.$schema_id];  
+                             
+                             $itinerary_html  = '';
+                             
+                             if(!empty($trip_itinerary)){
+                                 
+                                    $i = 0;
+                                    foreach ($trip_itinerary as $itinerary){
+                                                                                                                        
+                                        $itinerary_html .= '<div class="saswp-trip-itinerary-table-div" data-id="'.$i.'">';
+                                        $itinerary_html .= '<a class="saswp-table-close">X</a>';
+                                        $itinerary_html .= $this->saswp_get_dynamic_html($schema_id, 'trip_itinerary', $i, $itinerary);
+                                        $itinerary_html .= '</div>';
+                                        
+                                     $i++;   
+                                    }
+                                 
+                             }
+                             
+                             $tabs_fields .= $itinerary_html;
+                             
+                         }                         
+                         $tabs_fields .= '</div>';
+                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-trip-itinerary">Add Trip Itinerary</a>';                                                                                                    
+                         $tabs_fields .= '</div>';
+                         
+                         //itinerary section ends here
+                                                                           
+                                                                                                    
+                         $tabs_fields .= '</div>';
+                     }                   
+                     //Trip schema ends here
+                     
                      $tabs_fields .= '</div>';
                      
                      }else{
@@ -1014,6 +1131,51 @@ class saswp_post_specific {
                      }                     
                      //TvSeries schema ends here
                      
+                     //Trip schema starts herre
+                     if($schema_type == 'Trip'){
+                      
+                         $schema_id = $schema->ID;
+                         
+                         $tabs_fields .= '<div class="saswp-table-create-onajax">';
+                         
+                         //itinerary section starts here
+                         
+                         $tabs_fields .= '<div class="saswp-trip-itinerary-section-main">';                                                  
+                         $tabs_fields .= '<div class="saswp-trip-itinerary-section" data-id="'.esc_attr($schema_id).'">';                         
+                         if(isset($trip_data['trip_itinerary_'.$schema_id])){
+                             
+                             $trip_itinerary = $trip_data['trip_itinerary_'.$schema_id];  
+                             
+                             $itinerary_html  = '';
+                             
+                             if(!empty($trip_itinerary)){
+                                 
+                                    $i = 0;
+                                    foreach ($trip_itinerary as $itinerary){
+                                                                                                                        
+                                        $itinerary_html .= '<div class="saswp-trip-itinerary-table-div" data-id="'.$i.'">';
+                                        $itinerary_html .= '<a class="saswp-table-close">X</a>';
+                                        $itinerary_html .= $this->saswp_get_dynamic_html($schema_id, 'trip_itinerary', $i, $itinerary);
+                                        $itinerary_html .= '</div>';
+                                        
+                                     $i++;   
+                                    }
+                                 
+                             }
+                             
+                             $tabs_fields .= $itinerary_html;
+                             
+                         }                         
+                         $tabs_fields .= '</div>';
+                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-trip-itinerary">Add Trip Itinerary</a>';                                                                                                    
+                         $tabs_fields .= '</div>';
+                         
+                         //itinerary section ends here
+                                                                           
+                                                                                                    
+                         $tabs_fields .= '</div>';
+                     }                   
+                     //Trip schema ends here
                      
                      $tabs_fields .= '</div>';
                      
@@ -1032,6 +1194,33 @@ class saswp_post_specific {
                 echo '<div class="saswp-post-specific-container">';                
                 echo $tabs_fields;                                 
                 echo '</div>';
+                                
+                //custom schema starts here
+                
+                $custom_markup = get_post_meta($post->ID, 'saswp_custom_schema_field', true);
+                  
+                  echo '<div class="saswp-add-custom-schema-div">';                            
+                  
+                  if($custom_markup){
+                      
+                      echo '<a style="display:none;" class="button saswp-add-custom-schema">'.esc_html__( 'Add Custom Schema', 'schema-and-structured-data-for-wp' ).'</a>' ;                   
+                      echo '<div class="saswp-add-custom-schema-field">';
+                  
+                  }else{
+                      
+                      echo '<a class="button saswp-add-custom-schema">'.esc_html__( 'Add Custom Schema', 'schema-and-structured-data-for-wp' ).'</a>' ;                   
+                      echo '<div class="saswp-add-custom-schema-field saswp_hide">';
+                  }
+                                                      
+                  echo '<a class="button saswp-delete-custom-schema">Delete Custom Schema</a>';              
+                  echo '<textarea style="margin-left:5px;" placeholder="{ Json Markup }" id="saswp_custom_schema_field" name="saswp_custom_schema_field" rows="5" cols="100">'
+                  . $custom_markup
+                  . '</textarea>';
+                  echo '</div>';                                    
+                  echo '</div>';
+                
+                //custom schema ends here
+                                
                 echo '<input class="saswp-post-specific-schema-ids" type="hidden" value="'. json_encode($schema_ids).'">';
                 echo '</div>'; 
                                   
@@ -1066,7 +1255,13 @@ class saswp_post_specific {
                      $tvseries_data['tvseries_season_'.$schema->ID]  = esc_sql ( get_post_meta($post->ID, 'tvseries_season_'.$schema->ID, true)  );                                   
                                               
                 }
-                 
+                
+                if($schema_type == 'Trip'){
+                      
+                     $trip_data['trip_itinerary_'.$schema->ID]   = esc_sql ( get_post_meta($post->ID, 'trip_itinerary_'.$schema->ID, true)  );                                   
+                                              
+                }
+                                 
                  $this->meta_fields = $response;
                  $output = $this->saswp_saswp_post_specific( $post, $all_schema[0]->ID );  
                  $tabs_fields .= '<div>';
@@ -1373,8 +1568,81 @@ class saswp_post_specific {
                      }                     
                  //TvSeries schema ends here    
                      
+                 //Trip schema starts herre
+                     if($schema_type == 'Trip'){
+                      
+                         $schema_id = $schema->ID;
+                         
+                         $tabs_fields .= '<div class="saswp-table-create-onajax">';
+                         
+                         //itinerary section starts here
+                         
+                         $tabs_fields .= '<div class="saswp-trip-itinerary-section-main">';                                                  
+                         $tabs_fields .= '<div class="saswp-trip-itinerary-section" data-id="'.esc_attr($schema_id).'">';                         
+                         if(isset($trip_data['trip_itinerary_'.$schema_id])){
+                             
+                             $trip_itinerary = $trip_data['trip_itinerary_'.$schema_id];  
+                             
+                             $itinerary_html  = '';
+                             
+                             if(!empty($trip_itinerary)){
+                                 
+                                    $i = 0;
+                                    foreach ($trip_itinerary as $itinerary){
+                                                                                                                        
+                                        $itinerary_html .= '<div class="saswp-trip-itinerary-table-div" data-id="'.$i.'">';
+                                        $itinerary_html .= '<a class="saswp-table-close">X</a>';
+                                        $itinerary_html .= $this->saswp_get_dynamic_html($schema_id, 'trip_itinerary', $i, $itinerary);
+                                        $itinerary_html .= '</div>';
+                                        
+                                     $i++;   
+                                    }
+                                 
+                             }
+                             
+                             $tabs_fields .= $itinerary_html;
+                             
+                         }                         
+                         $tabs_fields .= '</div>';
+                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-trip-itinerary">Add Trip Itinerary</a>';                                                                                                    
+                         $tabs_fields .= '</div>';
+                         
+                         //itinerary section ends here
+                                                                           
+                                                                                                    
+                         $tabs_fields .= '</div>';
+                     }                   
+                     //Trip schema ends here    
                                                                                                                   
                  $tabs_fields .= '</div>';
+                 
+                 //custom schema starts here
+                
+                $custom_markup = get_post_meta($post->ID, 'saswp_custom_schema_field', true);
+                  
+                  $tabs_fields.= '<div class="saswp-add-custom-schema-div">';                            
+                  
+                  if($custom_markup){
+                      
+                      $tabs_fields.= '<a style="display:none;" class="button saswp-add-custom-schema">'.esc_html__( 'Add Custom Schema', 'schema-and-structured-data-for-wp' ).'</a>' ;                   
+                      $tabs_fields.= '<div class="saswp-add-custom-schema-field">';
+                  
+                  }else{
+                      
+                      $tabs_fields.= '<a class="button saswp-add-custom-schema">'.esc_html__( 'Add Custom Schema', 'schema-and-structured-data-for-wp' ).'</a>' ;                   
+                      $tabs_fields.= '<div class="saswp-add-custom-schema-field saswp_hide">';
+                  }
+                                                      
+                  $tabs_fields.= '<a class="button saswp-delete-custom-schema">Delete Custom Schema</a>';              
+                  $tabs_fields.= '<textarea style="margin-left:5px;" placeholder="{ Json Markup }" id="saswp_custom_schema_field" name="saswp_custom_schema_field" rows="5" cols="100">'
+                  . $custom_markup
+                  . '</textarea>';
+                  $tabs_fields.= '</div>';                                    
+                  $tabs_fields.= '</div>';
+                
+                //custom schema ends here
+                 
+                 
                  $tabs_fields .= '<input class="saswp-post-specific-schema-ids" type="hidden" value="'. json_encode($schema_ids).'">';
                  $tabs_fields .= '</div>';
                  echo $tabs_fields;                                                  
@@ -1383,26 +1651,42 @@ class saswp_post_specific {
 
         public function saswp_post_meta_box_callback() { 
             
-		wp_nonce_field( 'post_specific_data', 'post_specific_nonce' );                                
                 global $post;  
-                $modify_option = get_option('modify_schema_post_enable_'.esc_attr($post->ID));
-                $custom_option = get_option('custom_schema_post_enable_'.esc_attr($post->ID));
+                
+		wp_nonce_field( 'post_specific_data', 'post_specific_nonce' );                                  
+                $modify_option = get_option('modify_schema_post_enable_'.esc_attr($post->ID));                
                 
                 if($modify_option == 'enable'){
                     
                   $this->saswp_post_meta_box_fields($post);  
                 
-                }else if($custom_option == 'enable'){
-                  
-                  echo '<a class="button saswp-restore-post-schema">Restore Default</a>';              
-                  echo '<textarea style="margin-left:5px;" placeholder="{ Json Markup }" id="saswp_custom_schema_field" name="saswp_custom_schema_field" rows="5" cols="100">'
-                  . get_post_meta($post->ID, 'saswp_custom_schema_field', true)
-                  . '</textarea>';
-                  
                 }else{
                                                             
                   echo '<a class="button saswp-modify_schema_post_enable">'.esc_html__( 'Modify Current Schema', 'schema-and-structured-data-for-wp' ).'</a>' ;
-                  echo '<a style="margin-left:5px;" class="button saswp_custom_schema_post_enable">'.esc_html__( 'Add Custom Schema', 'schema-and-structured-data-for-wp' ).'</a>' ;  
+                  
+                  $custom_markup = get_post_meta($post->ID, 'saswp_custom_schema_field', true);
+                  
+                  echo '<div class="saswp-add-custom-schema-div">';                            
+                  
+                  if($custom_markup){
+                      
+                      echo '<a style="display:none;" class="button saswp-add-custom-schema">'.esc_html__( 'Add Custom Schema', 'schema-and-structured-data-for-wp' ).'</a>' ;                   
+                      echo '<div class="saswp-add-custom-schema-field">';
+                  
+                  }else{
+                      
+                      echo '<a class="button saswp-add-custom-schema">'.esc_html__( 'Add Custom Schema', 'schema-and-structured-data-for-wp' ).'</a>' ;                   
+                      echo '<div class="saswp-add-custom-schema-field saswp_hide">';
+                  }
+                                                      
+                  echo '<a class="button saswp-delete-custom-schema">Delete Custom Schema</a>';              
+                  echo '<textarea style="margin-left:5px;" placeholder="{ Json Markup }" id="saswp_custom_schema_field" name="saswp_custom_schema_field" rows="5" cols="100">'
+                  . $custom_markup
+                  . '</textarea>';
+                  echo '</div>';                                    
+                  echo '</div>';
+                  
+                  
                 }                               
                                                                                                                                                                    		
 	}
@@ -1435,10 +1719,10 @@ class saswp_post_specific {
                      }
                     
                 }
-                                    
-                update_option('modify_schema_post_enable_'.$post_id, 'disable');
-                update_option('custom_schema_post_enable_'.$post_id, 'disable');
                 
+                update_post_meta($post_id, 'saswp_custom_schema_field', '');
+                update_option('modify_schema_post_enable_'.$post_id, 'disable');
+                               
                 if($result){ 
                     
                     echo json_encode(array('status'=> 't', 'msg'=>esc_html__( 'Schema has been restored', 'schema-and-structured-data-for-wp' )));
@@ -1450,39 +1734,7 @@ class saswp_post_specific {
                 }                                              
                  wp_die();
                 }
-                
-        public function saswp_custom_schema_post_enable(){
-            
-                if ( ! isset( $_GET['saswp_security_nonce'] ) ){
-                    return; 
-                }
-                if ( !wp_verify_nonce( $_GET['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
-                   return;  
-                }  
-                
-                 $post_id = sanitize_text_field($_GET['post_id']);
-                 update_option('custom_schema_post_enable_'.$post_id, 'enable');    
-                 
-                 $args = array(
-                    'p'         => $post_id, // ID of a page, post, or custom type
-                    'post_type' => 'any'
-                  );
-                 
-                $my_posts = new WP_Query($args);
-                
-                if ( $my_posts->have_posts() ) {
-                    
-                  while ( $my_posts->have_posts() ) : $my_posts->the_post();   
-                  
-                   echo $this->saswp_post_meta_box_callback();   
-                   
-                  endwhile;
-                  
-                }
-                                                   
-                 wp_die();
-                 
-                }        
+                             
         
         public function saswp_modify_schema_post_enable(){
             
@@ -1797,6 +2049,9 @@ class saswp_post_specific {
                                                      || strpos($meta_field['id'], 'saswp_event_schema_start_date') !== false
                                                      || strpos($meta_field['id'], 'saswp_event_schema_end_date') !== false
                                                      || strpos($meta_field['id'], 'saswp_event_schema_validfrom') !== false
+                                                     || strpos($meta_field['id'], 'dateposted') !== false
+                                                     || strpos($meta_field['id'], 'validthrough') !== false
+                                                     || strpos($meta_field['id'], 'date_of_birth') !== false
                                                      ) {
                                              $class='saswp-local-schema-datepicker-picker';    
                                              }
@@ -1861,17 +2116,12 @@ class saswp_post_specific {
                        return $post_id;    
                 
                 $option         = get_option('modify_schema_post_enable_'.$post_id);
-                $custom_option  = get_option('custom_schema_post_enable_'.$post_id);
+                                                                    
                 
-                if($custom_option == 'enable'){
-                    
-                    if(isset($_POST['saswp_custom_schema_field'])){
-                        $custom_schema = sanitize_textarea_field($_POST['saswp_custom_schema_field']);
-                        update_post_meta( $post_id, 'saswp_custom_schema_field', $custom_schema );
-                    }
-                    
-                }
+                $custom_schema = sanitize_textarea_field($_POST['saswp_custom_schema_field']);
+                update_post_meta( $post_id, 'saswp_custom_schema_field', $custom_schema );
                 
+                                                    
                 if($option != 'enable'){
                     return;
                 }  
@@ -2002,6 +2252,26 @@ class saswp_post_specific {
                      update_post_meta( $post_id, 'tvseries_season_'.$schema->ID, $tv_season);                     
                                                                                
                     //TVSeries schema ends here
+                     
+                     
+                     //Trip schema starts here
+                     
+                     $trip_itinerary          = array();
+                                                       
+                     if(isset($_POST['trip_itinerary_'.$schema->ID]) && is_array($_POST['trip_itinerary_'.$schema->ID])){
+                         
+                         $data = $_POST['trip_itinerary_'.$schema->ID];  
+                         
+                         foreach ($data as $supply){
+                             
+                             $trip_itinerary[] = array_map( 'sanitize_text_field', $supply );
+                         }
+                         
+                     }                                            
+                                                               
+                     update_post_meta( $post_id, 'trip_itinerary_'.$schema->ID, $trip_itinerary);                     
+                     
+                     //Trip schema ends here
                                                                                     
                      $response          = $this->saswp_get_fields_by_schema_type($schema->ID); 
                      
@@ -2239,6 +2509,7 @@ class saswp_post_specific {
                 
 	    }
             $current_user       = wp_get_current_user();
+            $author_desc       = get_the_author_meta( 'user_description' ); 
             $author_details	= get_avatar_data($current_user->ID);           
             $schema_type        = esc_sql ( get_post_meta($schema_id, 'schema_type', true)  );  
             
@@ -2495,7 +2766,7 @@ class saswp_post_specific {
                             'label' => 'Description',
                             'id' => 'saswp_blogposting_description_'.$schema_id,
                             'type' => 'textarea',
-                            'default' => $post->post_excerpt,   
+                            'default' => get_the_excerpt()
                     ),
                     array(
                             'label' => 'Name',
@@ -2527,6 +2798,12 @@ class saswp_post_specific {
                             'type' => 'text',
                             'default' => $current_user->display_name
                     ),
+                    array(
+                            'label' => 'Author Description',
+                            'id' => 'saswp_blogposting_author_description_'.$schema_id,
+                            'type' => 'textarea',
+                            'default' => $author_desc
+                    ),    
                     array(
                             'label' => 'Organization Name',
                             'id' => 'saswp_blogposting_organization_name_'.$schema_id,
@@ -2572,7 +2849,12 @@ class saswp_post_specific {
                             'id' => 'saswp_newsarticle_URL_'.$schema_id,
                             'type' => 'text',
                             'default' => get_permalink(),
-                    ),	
+                    ),
+                    array(
+                            'label' => 'Image',
+                            'id' => 'saswp_newsarticle_image_'.$schema_id,
+                            'type' => 'media',                            
+                    ),    
                     array(
                             'label' => 'Headline',
                             'id' => 'saswp_newsarticle_headline_'.$schema_id,
@@ -2595,7 +2877,7 @@ class saswp_post_specific {
                             'label' => 'Description',
                             'id' => 'saswp_newsarticle_description_'.$schema_id,
                             'type' => 'textarea',
-                            'default' => $post->post_excerpt
+                            'default' => get_the_excerpt()
                     ),
                      array(
                             'label' => 'Article Section',
@@ -2644,7 +2926,13 @@ class saswp_post_specific {
                             'id' => 'saswp_newsarticle_author_name_'.$schema_id,
                             'type' => 'text',
                             'default' => $current_user->display_name
-                    ), 
+                    ),
+                    array(
+                            'label' => 'Author Description',
+                            'id' => 'saswp_newsarticle_author_description_'.$schema_id,
+                            'type' => 'textarea',
+                            'default' => $author_desc
+                    ),    
                     array(
                             'label' => 'Author Image',
                             'id' => 'saswp_newsarticle_author_image_'.$schema_id,
@@ -2690,7 +2978,7 @@ class saswp_post_specific {
                             'label' => 'Description',
                             'id' => 'saswp_webpage_description_'.$schema_id,
                             'type' => 'textarea',
-                            'default' => $post->post_excerpt
+                            'default' => get_the_excerpt()
                     ),
                     array(
                             'label' => 'Main Entity Of Page',
@@ -2729,6 +3017,12 @@ class saswp_post_specific {
                             'type' => 'text',
                             'default' => $current_user->display_name
                     ),
+                    array(
+                            'label' => 'Author Description',
+                            'id' => 'saswp_webpage_author_description_'.$schema_id,
+                            'type' => 'textarea',
+                            'default' => $author_desc
+                    ),    
                     array(
                             'label' => 'Organization Name',
                             'id' => 'saswp_webpage_organization_name_'.$schema_id,
@@ -2774,7 +3068,7 @@ class saswp_post_specific {
                             'label' => 'Description',
                             'id' => 'saswp_article_description_'.$schema_id,
                             'type' => 'textarea',
-                            'default' => $post->post_excerpt
+                            'default' => get_the_excerpt()
                     ) , 
                     array(
                             'label' => 'Date Published',
@@ -2794,6 +3088,12 @@ class saswp_post_specific {
                             'type' => 'text',
                             'default' => $current_user->display_name
                     ),
+                    array(
+                            'label' => 'Author Description',
+                            'id' => 'saswp_article_author_description_'.$schema_id,
+                            'type' => 'textarea',
+                            'default' => $author_desc
+                    ),    
                     array(
                             'label' => 'Organization Name',
                             'id' => 'saswp_article_organization_name_'.$schema_id,
@@ -2948,7 +3248,7 @@ class saswp_post_specific {
                             'label' => 'Description',
                             'id' => 'saswp_tech_article_description_'.$schema_id,
                             'type' => 'textarea',
-                            'default' => $post->post_excerpt
+                            'default' => get_the_excerpt()
                     ) , 
                     array(
                             'label' => 'Date Published',
@@ -2968,6 +3268,12 @@ class saswp_post_specific {
                             'type' => 'text',
                             'default' => $current_user->display_name
                     ),
+                    array(
+                            'label' => 'Author Description',
+                            'id' => 'saswp_tech_article_author_name_'.$schema_id,
+                            'type' => 'textarea',
+                            'default' => $author_desc
+                    ),    
                     array(
                             'label' => 'Organization Name',
                             'id' => 'saswp_tech_article_organization_name_'.$schema_id,
@@ -3048,7 +3354,7 @@ class saswp_post_specific {
                             'label' => 'Description',
                             'id' => 'saswp_dfp_description_'.$schema_id,
                             'type' => 'textarea',
-                            'default' => $post->post_excerpt
+                            'default' => get_the_excerpt()
                     ) ,    
                     array(
                             'label' => 'URL',
@@ -3073,7 +3379,14 @@ class saswp_post_specific {
                             'id' => 'saswp_dfp_author_name_'.$schema_id,
                             'type' => 'text',
                             'default' => $current_user->display_name
-                    )                    
+                    ),
+                    array(
+                            'label'   => 'Author Description',
+                            'id'      => 'saswp_dfp_author_description_'.$schema_id,
+                            'type'    => 'textarea',
+                            'default' => $author_desc
+                    )    
+                        
                     );
                     break;
                 
@@ -3107,7 +3420,7 @@ class saswp_post_specific {
                             'label' => 'Description',
                             'id' => 'saswp_recipe_description_'.$schema_id,
                             'type' => 'textarea',
-                            'default' => $post->post_excerpt
+                            'default' => get_the_excerpt()
                     ),
                     array(
                             'label' => 'Main Entity Id',
@@ -3121,6 +3434,12 @@ class saswp_post_specific {
                             'type' => 'text',
                             'default' => $current_user->display_name
                     ),
+                    array(
+                            'label' => 'Author Description',
+                            'id' => 'saswp_recipe_author_description_'.$schema_id,
+                            'type' => 'textarea',
+                            'default' => $author_desc
+                    ),    
                     array(
                             'label' => 'Author Image',
                             'id' => 'saswp_recipe_author_image_'.$schema_id,
@@ -3627,11 +3946,17 @@ class saswp_post_specific {
                             'default' => get_the_modified_date("Y-m-d")
                     ),
                     array(
-                            'label' => 'Author',
+                            'label' => 'Author Name',
                             'id' => 'saswp_audio_schema_author_name_'.$schema_id,
                             'type' => 'text',
                             'default' => saswp_remove_warnings($service_schema_details, 'saswp_audio_author_name', 'saswp_string')
-                    ),    
+                    ),
+                    array(
+                            'label'   => 'Author Description',
+                            'id'      => 'saswp_audio_schema_author_description_'.$schema_id,
+                            'type'    => 'textarea',
+                            'default' => $author_desc
+                    )    
                                                 
                     );
                     break;
@@ -3739,7 +4064,7 @@ class saswp_post_specific {
                             'label' => 'Description',
                             'id' => 'saswp_video_object_description_'.$schema_id,
                             'type' => 'textarea',
-                            'default' => $post->post_excerpt
+                            'default' => get_the_excerpt()
                     ),
                     array(
                             'label' => 'Name',
@@ -3783,6 +4108,12 @@ class saswp_post_specific {
                             'type' => 'text',
                             'default' => $current_user->display_name    
                     ),
+                    array(
+                            'label' => 'Author Description',
+                            'id' => 'saswp_video_object_author_description_'.$schema_id,
+                            'type' => 'textarea',
+                            'default' => $author_desc
+                    ),    
                     array(
                             'label' => 'Author Image',
                             'id' => 'saswp_video_object_author_image_'.$schema_id,
@@ -4239,6 +4570,7 @@ class saswp_post_specific {
                                               
                    );
                     break;
+                
                 case 'House':
                     
                     $meta_field = array(
@@ -4789,6 +5121,249 @@ class saswp_post_specific {
                             'type'       => 'text',                            
                     ),    
                                               
+                   );
+                    break;
+                
+                case 'JobPosting':
+                    
+                    $meta_field = array(
+                    array(
+                            'label'      => 'Title',
+                            'id'         => 'saswp_jobposting_schema_title_'.$schema_id,
+                            'type'       => 'text',
+                            'attributes' => array(
+                                'placeholder' => 'Title'
+                            ), 
+                    ),
+                    array(
+                            'label'      => 'Description',
+                            'id'         => 'saswp_jobposting_schema_description_'.$schema_id,
+                            'type'       => 'textarea',
+                            'attributes' => array(
+                                'placeholder' => 'Description'
+                            ), 
+                    ),
+                    array(
+                            'label'      => 'URL',
+                            'id'         => 'saswp_jobposting_schema_url_'.$schema_id,
+                            'type'       => 'text',
+                            'default'    => get_permalink()
+                    ),     
+                    array(
+                            'label'      => 'Date Posted',
+                            'id'         => 'saswp_jobposting_schema_dateposted_'.$schema_id,
+                            'type'       => 'text',                             
+                    ),
+                    array(
+                            'label'      => 'Valid Through',
+                            'id'         => 'saswp_jobposting_schema_validthrough_'.$schema_id,
+                            'type'       => 'text',                             
+                    ),
+                    array(
+                            'label'      => 'Employment Type',
+                            'id'         => 'saswp_jobposting_schema_employment_type_'.$schema_id,
+                            'type'       => 'select', 
+                            'options'    => array(
+                                'Full-Time'  => 'Full-Time',
+                                'Part-Time'  => 'Part-Time',
+                                'Contractor' => 'Contractor',       
+                            )
+                    ), 
+                    array(
+                            'label'      => 'Hiring Organization Name',
+                            'id'         => 'saswp_jobposting_schema_ho_name_'.$schema_id,
+                            'type'       => 'text',                             
+                    ),
+                    array(
+                            'label'      => 'Hiring Organization URL',
+                            'id'         => 'saswp_jobposting_schema_ho_url_'.$schema_id,
+                            'type'       => 'text',                             
+                    ),
+                    array(
+                            'label'      => 'Hiring Organization Logo',
+                            'id'         => 'saswp_jobposting_schema_ho_logo_'.$schema_id,
+                            'type'       => 'media',                             
+                    ),
+                    array(
+                            'label'      => 'Street Address',
+                            'id'         => 'saswp_jobposting_schema_street_address_'.$schema_id,
+                            'type'       => 'text',                             
+                    ),
+                    array(
+                            'label'      => 'Address Locality',
+                            'id'         => 'saswp_jobposting_schema_locality_'.$schema_id,
+                            'type'       => 'text',                             
+                    ),
+                    array(
+                            'label'      => 'Address Region',
+                            'id'         => 'saswp_jobposting_schema_region_'.$schema_id,
+                            'type'       => 'text',                             
+                    ),
+                    array(
+                            'label'      => 'Address Postal Code',
+                            'id'         => 'saswp_jobposting_schema_postalcode_'.$schema_id,
+                            'type'       => 'text',                             
+                    ),
+                    array(
+                            'label'      => 'Address Country',
+                            'id'         => 'saswp_jobposting_schema_country_'.$schema_id,
+                            'type'       => 'text',                             
+                    ),
+                    array(
+                            'label'      => 'Base Salary Currency',
+                            'id'         => 'saswp_jobposting_schema_bs_currency_'.$schema_id,
+                            'type'       => 'text', 
+                            'attributes' => array(
+                                'placeholder' => 'USD'
+                            )
+                    ),
+                    array(
+                            'label'      => 'Base Salary Value',
+                            'id'         => 'saswp_jobposting_schema_bs_value_'.$schema_id,
+                            'type'       => 'text', 
+                            'attributes' => array(
+                                'placeholder' => '40.00'
+                            )
+                    ),
+                    array(
+                            'label'      => 'Base Salary Unit Text',
+                            'id'         => 'saswp_jobposting_schema_bs_unittext_'.$schema_id,
+                            'type'       => 'text', 
+                            'attributes' => array(
+                                'placeholder' => 'Hour'
+                            )
+                    ),    
+                   
+                                              
+                   );
+                    break;
+               
+                case 'Trip':
+                    
+                    $meta_field = array(
+                    array(
+                            'label'      => 'Name',
+                            'id'         => 'saswp_trip_schema_name_'.$schema_id,
+                            'type'       => 'text',
+                            'attributes' => array(
+                                'placeholder' => 'Name'
+                            ), 
+                    ),
+                    array(
+                            'label'      => 'Description',
+                            'id'         => 'saswp_trip_schema_description_'.$schema_id,
+                            'type'       => 'textarea',
+                            'attributes' => array(
+                                'placeholder' => 'Description'
+                            )
+                    ),
+                    array(
+                            'label'      => 'URL',
+                            'id'         => 'saswp_trip_schema_url_'.$schema_id,
+                            'type'       => 'text',
+                            'default'    => get_permalink() 
+                    ),
+                    array(
+                            'label'      => 'Image',
+                            'id'         => 'saswp_trip_schema_image_'.$schema_id,
+                            'type'       => 'media'                            
+                    )    
+                        
+                        
+                   );
+                    break;
+                
+                case 'Person':
+                    
+                    $meta_field = array(
+                    array(
+                            'label'      => 'Name',
+                            'id'         => 'saswp_person_schema_name_'.$schema_id,
+                            'type'       => 'text',                           
+                    ),
+                    array(
+                            'label'      => 'Description',
+                            'id'         => 'saswp_person_schema_description_'.$schema_id,
+                            'type'       => 'textarea',                           
+                    ),    
+                    array(
+                            'label'      => 'URL',
+                            'id'         => 'saswp_person_schema_url_'.$schema_id,
+                            'type'       => 'text',
+                            'default'    => get_permalink()
+                    ),    
+                    array(
+                            'label'      => 'Street Address',
+                            'id'         => 'saswp_person_schema_street_address_'.$schema_id,
+                            'type'       => 'text',
+                           
+                    ),
+                    array(
+                            'label'      => 'Locality',
+                            'id'         => 'saswp_person_schema_locality_'.$schema_id,
+                            'type'       => 'text',
+                           
+                    ),
+                    array(
+                            'label'      => 'Region',
+                            'id'         => 'saswp_person_schema_region_'.$schema_id,
+                            'type'       => 'text',                           
+                    ),
+                    array(
+                            'label'      => 'Postal Code',
+                            'id'         => 'saswp_person_schema_postal_code_'.$schema_id,
+                            'type'       => 'text',                           
+                    ),
+                    array(
+                            'label'      => 'Country',
+                            'id'         => 'saswp_person_schema_country_'.$schema_id,
+                            'type'       => 'text',                           
+                    ),
+                    array(
+                            'label'      => 'Email',
+                            'id'         => 'saswp_person_schema_email_'.$schema_id,
+                            'type'       => 'text',                           
+                    ),
+                    array(
+                            'label'      => 'Telephone',
+                            'id'         => 'saswp_person_schema_telephone_'.$schema_id,
+                            'type'       => 'text',                           
+                    ),    
+                    array(
+                            'label'      => 'Gender',
+                            'id'         => 'saswp_person_schema_gender_'.$schema_id,
+                            'type'       => 'select',
+                            'options'    => array(
+                                    'Male'   => 'Male',
+                                    'Female' => 'Female',    
+                            )
+                    ),
+                    array(
+                            'label'      => 'Date Of Birth',
+                            'id'         => 'saswp_person_schema_date_of_birth_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),
+                    array(
+                            'label'      => 'Member Of',
+                            'id'         => 'saswp_person_schema_member_of_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),
+                    array(
+                            'label'      => 'Nationality',
+                            'id'         => 'saswp_person_schema_nationality_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),
+                    array(
+                            'label'      => 'Image',
+                            'id'         => 'saswp_person_schema_image_'.$schema_id,
+                            'type'       => 'media',                            
+                    ),
+                    array(
+                            'label'      => 'Job Title',
+                            'id'         => 'saswp_person_schema_job_title_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),    
+                                                                    
                    );
                     break;
                 

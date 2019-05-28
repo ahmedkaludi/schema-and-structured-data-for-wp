@@ -142,7 +142,7 @@ class saswp_google_review{
                                     'headline'       => get_the_title(),
                                     'name'           => get_the_title(),                                    
                                     'url'            => get_permalink(),
-                                    'description'    => strip_tags(strip_shortcodes(get_the_excerpt())),
+                                    'description'    => saswp_get_the_excerpt(),
                                     'copyrightYear'  => get_the_time( 'Y' ),                                                                                                           
                                     'author'	     => array(
                                                             '@type' 	=> 'Person',
