@@ -1459,6 +1459,17 @@ function saswp_compatibility_page_callback(){
                                 'id'   => 'saswp-yoast',
                                 'name' => 'sd_data[saswp-yoast]',                             
                         )
+		);
+        $rankmath      = array(
+			'label'   => 'Rank Math',
+			'id'      => 'saswp-rankmath-checkbox',                        
+                        'name'    => 'saswp-rankmath-checkbox',
+			'type'    => 'checkbox',
+                        'class'   => 'checkbox saswp-checkbox',
+                        'hidden'  => array(
+                                'id'   => 'saswp-rankmath',
+                                'name' => 'sd_data[saswp-rankmath]',                             
+                        )
 		);        
                 
         if(!is_plugin_active('taqyeem/taqyeem.php')  || get_template() != 'jannah'  ){
@@ -1477,6 +1488,12 @@ function saswp_compatibility_page_callback(){
         if(!is_plugin_active('wordpress-seo/wp-seo.php') && !is_plugin_active('wordpress-seo-premium/wp-seo-premium.php')){
             
              $yoast['note'] = esc_html__('Requires selected plugin','schema-and-structured-data-for-wp');
+             
+             
+        }
+        if(!is_plugin_active('seo-by-rank-math/rank-math.php') && !is_plugin_active('seo-by-rank-math-premium/rank-math-premium.php')){
+            
+             $rankmath['note'] = esc_html__('Requires selected plugin','schema-and-structured-data-for-wp');
              
              
         }
@@ -1576,7 +1593,8 @@ function saswp_compatibility_page_callback(){
                 $extratheme,
                 $dwquestiton,
                 //$wpjobmanager,
-                $yoast,                
+                $yoast,
+                $rankmath
                 
 	);       
         

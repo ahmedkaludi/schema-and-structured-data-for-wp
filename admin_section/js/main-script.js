@@ -415,6 +415,15 @@ jQuery(document).ready(function($){
                               $("#saswp-yoast").val(0);           
                             }
                       break;
+                     
+                     case 'saswp-rankmath-checkbox':
+                          
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-rankmath").val(1);             
+                            }else{
+                              $("#saswp-rankmath").val(0);           
+                            }
+                      break;
                       
                       case 'saswp-tagyeem-checkbox':
                           
@@ -1574,11 +1583,7 @@ jQuery(document).ready(function($){
         
         
         //google review js ends here
-        
-        
-        
-        
-        
+                                        
         //Adding settings button beside add schema type button on schema type list page       
         
         if ('saswp' == saswp_app_object.post_type && saswp_app_object.page_now == 'edit.php') {
