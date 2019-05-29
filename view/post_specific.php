@@ -3538,7 +3538,7 @@ class saswp_post_specific {
                             'attributes' => array(
                                 'placeholder' => 'Preheat the oven to 350 degrees F. Grease and flour a 9x9 inch pan; large bowl, combine flour, sugar, baking powder, and salt. pan.;'
                             ),
-                            'note' => 'Note: Separate Ingredient step by semicolon ( ; )'  
+                            'note' => 'Note: Separate Instructions step by semicolon ( ; )'  
                     ), 
                     array(
                             'label' => 'Video Name',
