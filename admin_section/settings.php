@@ -1736,31 +1736,29 @@ function saswp_support_page_callback(){
  * Enqueue CSS and JS
  */
 function saswp_enqueue_style_js( $hook ) {    
-                  
+                
+        $data = array(                                    
+            'post_id'                      => get_the_ID(),
+            'ajax_url'                     => admin_url( 'admin-ajax.php' ),            
+            'saswp_security_nonce'         => wp_create_nonce('saswp_ajax_check_nonce'),  
+            'new_url_selector'             => esc_url(admin_url()).'post-new.php?post_type=saswp',
+            'new_url_href'                 => htmlspecialchars_decode(wp_nonce_url(admin_url('index.php?page=saswp_add_new_data_type&'), '_wpnonce')),            
+            'collection_post_add_url'      => esc_url(admin_url()).'post-new.php?post_type=saswp-google-review',
+            'collection_post_add_new_url'  => htmlspecialchars_decode(wp_nonce_url(admin_url('admin.php?page=collection'), '_wpnonce'))
+        );
+        
 	// Color picker CSS
 	// @refer https://make.wordpress.org/core/2012/11/30/new-color-picker-in-wp-3-5/
         wp_enqueue_style( 'wp-color-picker' );	
 	// Everything needed for media upload
         wp_enqueue_media();	
-	// Main JS
-        
+	     
         wp_register_script( 'saswp-main-js', SASWP_PLUGIN_URL . 'admin_section/js/main-script.min.js', array('jquery'), SASWP_VERSION , true );
-        
-        $data = array(                                    
-            'post_id'                   => get_the_ID(),
-            'ajax_url'                  => admin_url( 'admin-ajax.php' ),            
-            'saswp_security_nonce'      => wp_create_nonce('saswp_ajax_check_nonce'),  
-            'new_url_selector'          => esc_url(admin_url()).'post-new.php?post_type=saswp',
-            'new_url_href'              => htmlspecialchars_decode(wp_nonce_url(admin_url('index.php?page=saswp_add_new_data_type&'), '_wpnonce')),
-            
-            'collection_post_add_url'                  => esc_url(admin_url()).'post-new.php?post_type=saswp-google-review',
-            'collection_post_add_new_url'              => htmlspecialchars_decode(wp_nonce_url(admin_url('admin.php?page=collection'), '_wpnonce'))
-        );
-        
+                        
         wp_localize_script( 'saswp-main-js', 'saswp_localize_data', $data );
         
         wp_enqueue_script( 'saswp-main-js' );
-        //Main Css 
+        
         wp_enqueue_style( 'saswp-main-css', SASWP_PLUGIN_URL . 'admin_section/css/main-style.min.css', false , SASWP_VERSION );
 }
 add_action( 'admin_enqueue_scripts', 'saswp_enqueue_style_js' );
