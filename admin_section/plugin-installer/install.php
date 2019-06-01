@@ -10,8 +10,7 @@
  * @author    Richard Tabor, from ThemeBeans.com
  * @copyright Copyright (c) 2017, Merlin WP of Inventionn LLC
  * @license   Licensed GPLv3 for open source use
- */
-	$saswp_settings = saswp_defaultSettings();
+ */	
 	$saswp_installer_config = array(
 					'installer_dir' => 'plugin-installer',
 					'plugin_title'  => esc_html__( ucfirst( 'Schema & Structured Data for WP' ), 'schema-and-structured-data-for-wp'),
