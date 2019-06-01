@@ -1744,7 +1744,7 @@ function saswp_enqueue_style_js( $hook ) {
         wp_enqueue_media();	
 	// Main JS
         
-        wp_register_script( 'saswp-main-js', SASWP_PLUGIN_URL . 'admin_section/js/main-script.js', array('jquery'), SASWP_VERSION , true );
+        wp_register_script( 'saswp-main-js', SASWP_PLUGIN_URL . 'admin_section/js/main-script.min.js', array('jquery'), SASWP_VERSION , true );
         
         $data = array(                                    
             'post_id'                   => get_the_ID(),
@@ -1761,6 +1761,6 @@ function saswp_enqueue_style_js( $hook ) {
         
         wp_enqueue_script( 'saswp-main-js' );
         //Main Css 
-        wp_enqueue_style( 'saswp-main-css', SASWP_PLUGIN_URL . 'admin_section/css/main-style.css', false , SASWP_VERSION );
+        wp_enqueue_style( 'saswp-main-css', SASWP_PLUGIN_URL . 'admin_section/css/main-style.min.css', false , SASWP_VERSION );
 }
 add_action( 'admin_enqueue_scripts', 'saswp_enqueue_style_js' );

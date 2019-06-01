@@ -754,7 +754,7 @@ add_action( 'wp_print_scripts', 'saswp_dequeue_script', 100 );
         
         }
         
-       wp_register_script( 'structure_admin', plugin_dir_url(__FILE__) . '/js/structure_admin.js', array( 'jquery'), SASWP_VERSION, true );
+       wp_register_script( 'structure_admin', plugin_dir_url(__FILE__) . '/js/structure_admin.min.js', array( 'jquery'), SASWP_VERSION, true );
        
        $post_type='';
        $current_screen = get_Current_screen(); 
