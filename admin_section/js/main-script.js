@@ -1497,7 +1497,7 @@ jQuery(document).ready(function($){
        });
        saswpCustomSelect2();
        function saswpCustomSelect2(){          
-       if((saswp_app_object.post_type == 'saswp' || saswp_app_object.page_now =='saswp') && saswp_app_object.page_now !='saswp_page_structured_data_options'){
+       if((saswp_localize_data.post_type == 'saswp' || saswp_localize_data.page_now =='saswp') && saswp_localize_data.page_now !='saswp_page_structured_data_options'){
            
            $('.saswp-custom-fields-select2').select2({
   		ajax: {
@@ -1580,15 +1580,14 @@ jQuery(document).ready(function($){
                             });
           }
        });
-        
-        
+                
         //google review js ends here
                                         
         //Adding settings button beside add schema type button on schema type list page       
         
-        if ('saswp' == saswp_app_object.post_type && saswp_app_object.page_now == 'edit.php') {
+        if ('saswp' == saswp_localize_data.post_type && saswp_localize_data.page_now == 'edit.php') {
         
-         jQuery(jQuery(".wrap a")[0]).after("<a href='"+saswp_app_object.saswp_settings_url+"' id='' class='page-title-action'>Settings</a>");
+         jQuery(jQuery(".wrap a")[0]).after("<a href='"+saswp_localize_data.saswp_settings_url+"' id='' class='page-title-action'>Settings</a>");
          
         }
                

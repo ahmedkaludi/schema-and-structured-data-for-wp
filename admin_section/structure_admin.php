@@ -781,15 +781,7 @@ add_action( 'wp_print_scripts', 'saswp_dequeue_script', 100 );
            
         wp_localize_script( 'structure_admin', 'saswp_app_object', $data_array );
         wp_enqueue_script( 'structure_admin' );
-
-        wp_enqueue_script( 'saswp-timepicker-js', SASWP_PLUGIN_URL . 'admin_section/js/jquery.timepicker.js', false, SASWP_VERSION);
-         //Main Css 
-        wp_enqueue_style( 'saswp-timepicker-css', SASWP_PLUGIN_URL . 'admin_section/css/jquery.timepicker.css', false , SASWP_VERSION );
-
-        wp_enqueue_script( 'jquery-ui-datepicker' );
-        wp_register_style( 'jquery-ui', SASWP_PLUGIN_URL. 'admin_section/css/jquery-ui.css' );
-        wp_enqueue_style( 'jquery-ui' );   
-           
+                    
         wp_enqueue_style('saswp-select2-style', SASWP_PLUGIN_URL. 'admin_section/css/select2.min.css' , false, SASWP_VERSION);
         wp_enqueue_script('saswp-select2-script', SASWP_PLUGIN_URL. 'admin_section/js/select2.min.js', false, SASWP_VERSION);
         

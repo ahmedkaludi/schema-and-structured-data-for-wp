@@ -1735,7 +1735,15 @@ function saswp_support_page_callback(){
 /**
  * Enqueue CSS and JS
  */
-function saswp_enqueue_style_js( $hook ) {    
+function saswp_enqueue_style_js( $hook ) { 
+    
+        $post_type = '';
+        
+        $current_screen = get_current_screen(); 
+       
+        if(isset($current_screen->post_type)){                  
+            $post_type = $current_screen->post_type;                
+        }    
                 
         $data = array(                                    
             'post_id'                      => get_the_ID(),
@@ -1744,15 +1752,26 @@ function saswp_enqueue_style_js( $hook ) {
             'new_url_selector'             => esc_url(admin_url()).'post-new.php?post_type=saswp',
             'new_url_href'                 => htmlspecialchars_decode(wp_nonce_url(admin_url('index.php?page=saswp_add_new_data_type&'), '_wpnonce')),            
             'collection_post_add_url'      => esc_url(admin_url()).'post-new.php?post_type=saswp-google-review',
-            'collection_post_add_new_url'  => htmlspecialchars_decode(wp_nonce_url(admin_url('admin.php?page=collection'), '_wpnonce'))
+            'collection_post_add_new_url'  => htmlspecialchars_decode(wp_nonce_url(admin_url('admin.php?page=collection'), '_wpnonce')),
+            'post_type'                    => $post_type,   
+            'page_now'                     => $hook,
+            'saswp_settings_url'           => esc_url(admin_url('edit.php?post_type=saswp&page=structured_data_options'))                       
         );
         
 	// Color picker CSS
 	// @refer https://make.wordpress.org/core/2012/11/30/new-color-picker-in-wp-3-5/
         wp_enqueue_style( 'wp-color-picker' );	
 	// Everything needed for media upload
-        wp_enqueue_media();	
-	     
+        wp_enqueue_media();
+        
+        	
+        wp_enqueue_script( 'saswp-timepicker-js', SASWP_PLUGIN_URL . 'admin_section/js/jquery.timepicker.js', false, SASWP_VERSION);        
+        wp_enqueue_style( 'saswp-timepicker-css', SASWP_PLUGIN_URL . 'admin_section/css/jquery.timepicker.css', false , SASWP_VERSION );
+
+        wp_enqueue_script( 'jquery-ui-datepicker' );
+        wp_register_style( 'jquery-ui', SASWP_PLUGIN_URL. 'admin_section/css/jquery-ui.css' );
+        wp_enqueue_style( 'jquery-ui' ); 
+        
         wp_register_script( 'saswp-main-js', SASWP_PLUGIN_URL . 'admin_section/js/main-script.min.js', array('jquery'), SASWP_VERSION , true );
                         
         wp_localize_script( 'saswp-main-js', 'saswp_localize_data', $data );
