@@ -72,6 +72,9 @@ require_once SASWP_DIR_NAME.'/output/service.php';
 //Google Review Files
 
 
+
+function saswp_include_require_files(){
+
 global $sd_data;
 
 if(isset($sd_data['saswp-google-review']) && $sd_data['saswp-google-review'] == 1){
@@ -81,8 +84,11 @@ require_once SASWP_DIR_NAME.'/google_review/google_review_page.php';
 require_once SASWP_DIR_NAME.'/google_review/google_review_setup.php'; 
 require_once SASWP_DIR_NAME.'/google_review/google_review_widget.php';     
     
+}    
+    
 }
 
+add_action( 'init', 'saswp_include_require_files' );
 /**
  * set user defined message on plugin activate
  */

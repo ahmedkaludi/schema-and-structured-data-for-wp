@@ -221,11 +221,13 @@ class saswp_fields_generator {
                 if($field_type == 'general'){
                                         
                     $locations = get_nav_menu_locations();
-                    
+                                                            
                     if($locations){
                         
-                        foreach ($locations as $type => $id){
+                        foreach ($locations as $type => $menu_id){
                              
+                            if($menu_id){
+                            
                             $checked = '';
                             
                             if(isset($settings['saswp-'.$type])){
@@ -237,7 +239,9 @@ class saswp_fields_generator {
                                     . '<input type="checkbox" name="sd_data[saswp-'.$type.']" class="regular-text" value="1" '.$checked.'>'
                                     . '</div>'
                                     . '</li>';
-
+                                
+                            }
+                            
                         }    
             
                     }

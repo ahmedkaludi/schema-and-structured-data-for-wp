@@ -81,7 +81,7 @@ function saswp_admin_interface_render(){
                         
                         echo '<div id="saswp-global-tabs" style="margin-top: 10px;">';
                         
-                        echo '<a data-id="saswp-general-container">General Settings</a> | <a data-id="saswp-knowledge-container">Knowledge Graph</a> | <a data-id="saswp-default-container" >Default Data</a>';
+                        echo '<a data-id="saswp-general-container">'.esc_html__('General Settings','schema-and-structured-data-for-wp').'</a> | <a data-id="saswp-knowledge-container">'.esc_html__('Knowledge Graph','schema-and-structured-data-for-wp').'</a> | <a data-id="saswp-default-container" >'.esc_html__('Default Data','schema-and-structured-data-for-wp').'</a>';
                         
                         echo'</div> ';
                         
@@ -437,8 +437,12 @@ function saswp_amp_page_callback(){
                              'name' => 'sd_data[saswp-for-wordpress]',                             
                         )
 		)                                         
-	);
-        echo '<h2>'.esc_html__('Set Up','schema-and-structured-data-for-wp').'</h2>';
+	);        
+         echo '<div class="saswp-heading">';
+         echo '<h2>'.esc_html__('Display On','schema-and-structured-data-for-wp').'</h2>';        
+         echo '</div>';
+         echo '<p>Using this option, one can hide and show schema markup on AMP and Non AMP</p>';
+        
         $field_objs->saswp_field_generator($meta_fields, $settings);    
 }
 
@@ -537,9 +541,13 @@ function saswp_general_page_callback(){
 
     <div class="saswp-global-container" id="saswp-general-container">
                         
-        <div class="saswp-settings-list">        
-        <h2><?php echo esc_html__('Page Schema','schema-and-structured-data-for-wp') ?>   </h2>
-
+        <div class="saswp-settings-list">      
+            
+            <div class="saswp-heading">
+              <h2><?php echo esc_html__('General Settings','schema-and-structured-data-for-wp'); ?></h2>
+              <span class="saswp-need-help"><a target="_blank" href="http://structured-data-for-wp.com/docs/">Need Help?</a></span>
+            </div>
+            <p>This is a global schema settings, to display about, contact, website, archive, breadcrumbs, comments and site navigation schema type</p>   
         <ul><li><div style="float:left;clear: both;"><label class="saswp-tooltip">
         <?php echo esc_html__('About','schema-and-structured-data-for-wp') ?>
                 <span class="saswp-tooltiptext"><?php echo esc_html__('Set the about page of of your website','schema-and-structured-data-for-wp') ?></span>
@@ -614,28 +622,6 @@ function saswp_general_page_callback(){
 				'Person'       => 'Person',
 			)
                     ),
-//		array(
-//			'label' => 'Organization Type',
-//			'id'    => 'saswp_organization_type',
-//                        'name'  => 'sd_data[saswp_organization_type]',
-//                        'class' => 'saswp_org_fields',
-//			'type'  => 'select',
-//			'options' => array(                                
-//				'Organization'              => 'Organization',
-//				'Airline'                   => 'Airline',
-//                                'Consortium'                => 'Consortium',
-//                                'Corporation'               => 'Corporation',
-//                                'EducationalOrganization'   => 'EducationalOrganization',
-//                                'GovernmentOrganization'    => 'GovernmentOrganization',
-//                                'LibrarySystem'             => 'LibrarySystem',                                
-//                                'MedicalOrganization'       => 'MedicalOrganization',
-//                                'NewsMediaOrganization'     => 'NewsMediaOrganization',
-//                                'NGO'                       => 'NGO',
-//                                'PerformingGroup'           => 'PerformingGroup',
-//                                'SportsOrganization'        => 'SportsOrganization',
-//                                'WorkersUnion'              => 'WorkersUnion',
-//			)
-//                   ),
                 array(
 			'label' => 'Organization Name',
 			'id'    => 'sd_name',
@@ -738,7 +724,12 @@ function saswp_general_page_callback(){
 		   ),
                 
 	);
+        
+        echo '<div class="saswp-heading">';
         echo '<h2>'.esc_html__('Knowledge Graph','schema-and-structured-data-for-wp').'</h2>';
+        echo '<span class="saswp-need-help"><a target="_blank" href="http://structured-data-for-wp.com/docs/">Need Help?</a></span>';         
+        echo '</div>';                
+        echo '<p>The Knowledge Graph is a knowledge base used by Google and its services to enhance its search engine\'s results</p>';
         echo '<div class="saswp-knowledge-base">';
         $field_objs->saswp_field_generator($meta_fields, $settings);
         echo '</div>';
@@ -952,19 +943,13 @@ function saswp_general_page_callback(){
                         'name'  => 'sd_data[sd_default_image_height]',
                         'class' => 'regular-text',                        
 			'type'  => 'text',
-		),
-                array(
-			'label' => 'Default Thumbnail for VideoObject',
-			'id'    => 'sd_default_video_thumbnail',
-                        'name'  => 'sd_data[sd_default_video_thumbnail][url]',
-                        'class' => 'saswp-sd_default_video_thumbnail',
-			'type'  => 'media',
-		),                                                   
+		)                                                                   
 	);
          echo '<div class="saswp-heading">';
          echo '<h2>'.esc_html__('Default Data','schema-and-structured-data-for-wp').'</h2>';
-         echo '<span class="saswp-need-help"><a target="_blank" href="http://structured-data-for-wp.com/docs/">Need Help?</a></span>';
+         echo '<span class="saswp-need-help"><a target="_blank" href="http://structured-data-for-wp.com/docs/">Need Help?</a></span>';         
          echo '</div>';
+         echo '<p>If schema markup doest not have image, it adds this image to validate schema markup</p>';
          echo '<div class="saswp-schema-type-fields">';
          $field_objs->saswp_field_generator($meta_fields_default, $settings);
          echo '</div>';  
@@ -1007,6 +992,7 @@ function saswp_import_callback(){
                         'name'   => 'saswp-defragment-checkbox',
 			'type'   => 'checkbox',
                         'class'  => 'checkbox saswp-checkbox',
+                        'note'   => 'It relates all schema markups on page to a main entity and merge all markupd to a single markup',
                         'hidden' => array(
                              'id'   => 'saswp-defragment',
                              'name' => 'sd_data[saswp-defragment]',                             
@@ -1041,7 +1027,8 @@ function saswp_import_callback(){
 			'id'     => 'saswp-microdata-cleanup-checkbox',                        
                         'name'   => 'saswp-microdata-cleanup-checkbox',
 			'type'   => 'checkbox',
-                        'class'  => 'checkbox saswp-checkbox',                        
+                        'class'  => 'checkbox saswp-checkbox',   
+                        'note'   => 'It removes all the microdata generated by third party plugins which cause validation error on google testing tool',   
                         'hidden' => array(
                              'id'   => 'saswp-microdata-cleanup',
                              'name' => 'sd_data[saswp-microdata-cleanup]',                             
@@ -1249,6 +1236,7 @@ function saswp_review_page_callback(){
                         'name'   => 'saswp-review-module-checkbox',
 			'type'   => 'checkbox',
                         'class'  => 'checkbox saswp-checkbox',
+                        'note'   => 'This option enables the review metabox on every post/page',
                         'hidden' => array(
                              'id'   => 'saswp-review-module',
                              'name' => 'sd_data[saswp-review-module]',                             
@@ -1260,6 +1248,7 @@ function saswp_review_page_callback(){
                         'name'   => 'saswp-google-review-checkbox',
 			'type'   => 'checkbox',
                         'class'  => 'checkbox saswp-checkbox',
+                        'note'   => 'This option enables the google review section',
                         'hidden' => array(
                              'id'   => 'saswp-google-review',
                              'name' => 'sd_data[saswp-google-review]',                             
@@ -1269,6 +1258,7 @@ function saswp_review_page_callback(){
                             'label' => 'Google place API Key',
                             'id'    => 'saswp_google_place_api_key',
                             'name'  => 'sd_data[saswp_google_place_api_key]',
+                            'note'   => 'How to get place API Key ? <a target="_blank" href="https://structured-data-for-wp.com/docs/article/how-to-display-google-review/">Click Here</a>',
                             'class' => '',
                             'type'  => 'text',
                   )
