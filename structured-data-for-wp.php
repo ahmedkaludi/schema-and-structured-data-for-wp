@@ -95,8 +95,7 @@ add_action( 'init', 'saswp_include_require_files' );
 register_activation_hook( __FILE__, 'saswp_admin_notice_activation_hook' );
 
 function saswp_admin_notice_activation_hook() {
-    
-    set_transient( 'saswp_admin_notice_transient', true, 5 );
+        
     update_option( "saswp_activation_date", date("Y-m-d"));
     
     //Save first installation date
