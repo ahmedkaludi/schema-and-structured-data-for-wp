@@ -124,37 +124,30 @@ function saswp_admin_notice(){
     
     $nonce = wp_create_nonce( 'saswp_install_wizard_nonce' );  
     
-    $setup_notice = '<div class="updated notice is-dismissible message notice notice-alt saswp-setup-notice">'
+    $setup_notice = '<div class="updated notice message notice notice-alt saswp-setup-notice">'
                     . '<p>'
                     . '<strong>'.esc_html__('Welcome to Schema & Structured Data For WP', 'schema-and-structured-data-for-wp').'</strong>'
-                    .' - '.esc_html__('You are almost ready', 'schema-and-structured-data-for-wp')
-                    . ' <a class="button button-primary" href="'.esc_url(admin_url( 'plugins.php?page=saswp-setup-wizard' ).'&_saswp_nonce='.$nonce).'">'
+                    .' - '.esc_html__('You are almost ready :)', 'schema-and-structured-data-for-wp')
+                    . '</p>'
+                    . '<p>'
+                    . '<a class="button button-primary" href="'.esc_url(admin_url( 'plugins.php?page=saswp-setup-wizard' ).'&_saswp_nonce='.$nonce).'">'
                     . esc_html__('Run the Setup Wizard', 'schema-and-structured-data-for-wp')
                     . '</a> '
-                    .'<a class="button button-primary saswp-skip-button">'
+                    .'<a class="button saswp-skip-button">'
                     . esc_html__('Skip Setup', 'schema-and-structured-data-for-wp')
                     . '</a>'
                     . '</p>'
                     . '</div>';        
     
-    /* Check transient, if available display notice */
-    if( get_transient( 'saswp_admin_notice_transient' ) ){
-        
-        echo $setup_notice;
-        /* Delete transient, only display this notice once. */
-        delete_transient( 'saswp_admin_notice_transient' );
-        
-    }    
     
-           
-    $post_type       = get_post_type();         
+          
     $sd_data         = get_option('sd_data'); 
-    
-    if(($post_type == 'saswp' || $screen_id =='saswp_page_structured_data_options') && !isset($sd_data['sd_initial_wizard_status'])){
+        
+    if(($screen_id =='saswp_page_structured_data_options' ||$screen_id == 'plugins' || $screen_id =='edit-saswp' || $screen_id == 'saswp') && !isset($sd_data['sd_initial_wizard_status'])){
             
         echo $setup_notice;
         
-     }     
+    }     
      //Feedback notice
     $activation_date  =  get_option("saswp_activation_date");  
     $activation_never =  get_option("saswp_activation_never");      

@@ -1,4 +1,22 @@
 <?php
+function saswp_skip_wizard(){                  
+    
+        if ( ! isset( $_POST['saswp_security_nonce'] ) ){
+           return; 
+        }
+        if ( !wp_verify_nonce( $_POST['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
+           return;  
+        }    
+        
+        $sd_data = get_option('sd_data');
+        $sd_data['sd_initial_wizard_status'] = 0;
+        update_option('sd_data', $sd_data);
+        
+        wp_die();           
+}
+
+add_action('wp_ajax_saswp_skip_wizard', 'saswp_skip_wizard');
+
 
 add_action ( 'save_post' , 'saswp_delete_post_transient' );
 

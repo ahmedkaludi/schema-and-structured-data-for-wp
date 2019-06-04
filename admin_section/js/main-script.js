@@ -1092,8 +1092,16 @@ jQuery(document).ready(function($){
        } ); 
         
         
-       $(document).on("click", '.saswp-skip-button', function(){
+       $(document).on("click", '.saswp-skip-button', function(e){
+           e.preventDefault();
            $(this).parent().parent().hide();
+           
+                    $.post(ajaxurl, 
+                        { action:"saswp_skip_wizard", saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
+                         function(response){                                  
+                          		   		
+                        },'json');
+           
        }); 
        
     

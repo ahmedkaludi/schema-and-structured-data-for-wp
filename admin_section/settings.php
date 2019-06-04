@@ -138,8 +138,7 @@ function saswp_admin_interface_render(){
 				// Output save settings button
                                 submit_button( esc_html__('Save Settings', 'schema-and-structured-data-for-wp') );
 				?>
-			</div>
-                    <input type="hidden" name="sd_data[sd_initial_wizard_status]" value="1">
+			</div>                    
 		</form>
 	</div>
     <div class="saswp-settings-second-div">
