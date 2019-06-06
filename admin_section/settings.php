@@ -331,7 +331,17 @@ function saswp_premium_features_callback(){ ?>
 					</div>
 				</div>
 				<div class="saswp-sts-btn">
-					<label class="saswp-sts-txt">Staus:<span>Inactive</span></label>
+                                    
+                                        <?php
+                                        
+                                        if(is_plugin_active('woocommerce-compatibility-for-schema/woocommerce-compatibility-for-schema.php')){                                           
+                                          echo '<label class="saswp-sts-txt">Status :<span>Active</span></label>';                                          
+                                        }else{                                            
+                                           echo '<label class="saswp-sts-txt">Status :<span>Inactive</span></label>'; 
+                                        }
+                                        
+                                        ?>
+                                    					
 					<span class="saswp-d-btn">Download</span>
 				</div>
 			</a></li>
@@ -346,7 +356,18 @@ function saswp_premium_features_callback(){ ?>
 					</div>
 				</div>
 				<div class="saswp-sts-btn">
-					<label class="saswp-sts-txt">Staus:<span>Inactive</span></label>
+                                    
+                                        <?php
+                                        
+                                        if(is_plugin_active('cooked-compatibility-for-schema/cooked-compatibility-for-schema.php')){                                        
+                                            echo '<label class="saswp-sts-txt">Status :<span>Active</span></label>';                                            
+                                        }else{
+                                            echo '<label class="saswp-sts-txt">Status :<span>Inactive</span></label>';
+                                        }
+                                        
+                                        ?>
+                                    
+					
 					<span class="saswp-d-btn">Download</span>
 				</div>
 			</a></li>
