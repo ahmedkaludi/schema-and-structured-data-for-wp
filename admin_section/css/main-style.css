@@ -451,6 +451,21 @@ Compatibility tab css starts here
     float: left;
     clear: both;
 }
+.saswp-tools .saswp-knowledge-label {
+    float: left;
+    clear: both;
+}
+.saswp-tools .saswp-knowledge-field {
+    float: right;
+    width: 69%;
+    padding-bottom: 10px;
+}
+.saswp_kg_logo, .saswp_person_fields{
+    background-color: #fff !important;
+}
+.saswp_image_thumbnail{
+    padding-top: 5px;
+}
 .saswp-compatibility .saswp-knowledge-field {
     float: right;
     width: 75%;
@@ -629,7 +644,10 @@ Compatibility tab css ends
 }
 .saswp-heading{
     display: inline-flex;
-    align-items: baseline;
+    align-items: baseline;    
+}
+.saswp-heading h2{
+    margin-bottom: 0px;
 }
 .saswp-view-docs a{      
     margin-right: 5px !important;

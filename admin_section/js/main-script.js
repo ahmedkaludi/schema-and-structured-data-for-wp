@@ -141,23 +141,31 @@ jQuery(document).ready(function($){
     //Settings page jquery starts here    
  
     
+    function saswp_compatibliy_notes(current, id){
+        
+                var plugin_name =  id.replace('-checkbox','');
+                var text = $("#"+plugin_name).next('p').text(); 
+
+                if (current.is(':checked') && text !=='') {              
+                      $("#"+plugin_name).next('p').removeClass('saswp_hide');                   
+                }else{
+
+                    if($("#"+plugin_name).next('p').attr('data-id') == 1){
+                        $("#"+plugin_name).next('p').text('This feature is only available in pro version');
+                    }else{
+                        $("#"+plugin_name).next('p').addClass('saswp_hide');
+                    }                                                        
+                }
+        
+    }
+    
      
     $(".saswp-checkbox").change(function(){
         
                         var id = $(this).attr("id");
-                        var plugin_name =  id.replace('-checkbox','');
-                        var text = $("#"+plugin_name).next('p').text(); 
+                        var current = $(this);
+                                                                                                                        
                         
-                        if ($(this).is(':checked') && text !=='') {              
-                              $("#"+plugin_name).next('p').removeClass('saswp_hide');                   
-                        }else{
-                            
-                            if($("#"+plugin_name).next('p').attr('data-id') == 1){
-                                $("#"+plugin_name).next('p').text('This feature is only available in pro version');
-                            }else{
-                                $("#"+plugin_name).next('p').addClass('saswp_hide');
-                            }                                                        
-                        }                                                                                  
                   switch(id){
                       case 'saswp-for-wordpress-checkbox':  
                           
@@ -365,6 +373,7 @@ jQuery(document).ready(function($){
                       
                       case 'saswp-kk-star-raring-checkbox':
                           
+                          saswp_compatibliy_notes(current, id); 
                             if ($(this).is(':checked')) {              
                               $("#saswp-kk-star-raring").val(1);             
                             }else{
@@ -372,7 +381,7 @@ jQuery(document).ready(function($){
                             }
                       break;
                       case 'saswp-woocommerce-checkbox':
-                          
+                          saswp_compatibliy_notes(current, id); 
                             if ($(this).is(':checked')) {              
                               $("#saswp-woocommerce").val(1);                              
                             }else{
@@ -381,7 +390,7 @@ jQuery(document).ready(function($){
                       break;
                       
                       case 'saswp-extra-checkbox':
-                          
+                          saswp_compatibliy_notes(current, id); 
                             if ($(this).is(':checked')) {              
                               $("#saswp-extra").val(1);             
                             }else{
@@ -390,7 +399,7 @@ jQuery(document).ready(function($){
                       break;
                       
                       case 'saswp-dw-question-answer-checkbox':
-                          
+                          saswp_compatibliy_notes(current, id); 
                             if ($(this).is(':checked')) {              
                               $("#saswp-dw-question-answer").val(1);             
                             }else{
@@ -399,7 +408,7 @@ jQuery(document).ready(function($){
                       break;
                       
                       case 'saswp-wp-job-manager-checkbox':
-                          
+                          saswp_compatibliy_notes(current, id); 
                             if ($(this).is(':checked')) {              
                               $("#saswp-wp-job-manager").val(1);             
                             }else{
@@ -408,7 +417,7 @@ jQuery(document).ready(function($){
                       break;
                       
                       case 'saswp-yoast-checkbox':
-                          
+                          saswp_compatibliy_notes(current, id); 
                             if ($(this).is(':checked')) {              
                               $("#saswp-yoast").val(1);             
                             }else{
@@ -417,7 +426,7 @@ jQuery(document).ready(function($){
                       break;
                      
                      case 'saswp-rankmath-checkbox':
-                          
+                          saswp_compatibliy_notes(current, id); 
                             if ($(this).is(':checked')) {              
                               $("#saswp-rankmath").val(1);             
                             }else{
@@ -426,7 +435,7 @@ jQuery(document).ready(function($){
                       break;
                       
                       case 'saswp-tagyeem-checkbox':
-                          
+                          saswp_compatibliy_notes(current, id); 
                             if ($(this).is(':checked')) {              
                               $("#saswp-tagyeem").val(1);             
                             }else{
@@ -435,7 +444,7 @@ jQuery(document).ready(function($){
                       break;
                       
                       case 'saswp-the-events-calendar-checkbox':
-                          
+                          saswp_compatibliy_notes(current, id); 
                             if ($(this).is(':checked')) {              
                               $("#saswp-the-events-calendar").val(1);             
                             }else{
@@ -443,17 +452,9 @@ jQuery(document).ready(function($){
                             }
                       break;
                       
-                      case 'saswp-the-events-calendar-checkbox':
-                          
-                            if ($(this).is(':checked')) {              
-                              $("#saswp-the-events-calendar").val(1);             
-                            }else{
-                              $("#saswp-the-events-calendar").val(0);           
-                            }
-                      break;
-                      
+                                           
                       case 'saswp-woocommerce-booking-checkbox':
-                          
+                          saswp_compatibliy_notes(current, id); 
                             if ($(this).is(':checked')) {              
                               $("#saswp-woocommerce-booking").val(1);  
                               $("#saswp-woocommerce-booking-main").val(1); 
@@ -464,7 +465,7 @@ jQuery(document).ready(function($){
                       break;
                       
                       case 'saswp-woocommerce-booking-main-checkbox':
-                          
+                          saswp_compatibliy_notes(current, id); 
                             if ($(this).is(':checked')) {              
                               $("#saswp-woocommerce-booking-main").val(1);  
                               $("#saswp-woocommerce-booking").val(1); 
@@ -475,7 +476,7 @@ jQuery(document).ready(function($){
                       break;
                       
                       case 'saswp-woocommerce-membership-checkbox':
-                          
+                          saswp_compatibliy_notes(current, id); 
                             if ($(this).is(':checked')) {              
                               $("#saswp-woocommerce-membership").val(1);             
                             }else{
@@ -493,7 +494,7 @@ jQuery(document).ready(function($){
                       break;
                       
                       case 'saswp-cooked-checkbox':
-                          
+                          saswp_compatibliy_notes(current, id); 
                             if ($(this).is(':checked')) {              
                               $("#saswp-cooked").val(1);             
                             }else{
@@ -502,7 +503,7 @@ jQuery(document).ready(function($){
                       break;
                       
                       case 'saswp-flexmlx-compativility-checkbox':
-                          
+                          saswp_compatibliy_notes(current, id); 
                             if ($(this).is(':checked')) {              
                               $("#saswp-flexmlx-compativility").val(1);             
                             }else{
@@ -540,7 +541,7 @@ jQuery(document).ready(function($){
                       break;
                       
                       case 'saswp-wppostratings-raring-checkbox':
-                          
+                          saswp_compatibliy_notes(current, id); 
                             if ($(this).is(':checked')) {              
                               $("#saswp-wppostratings-raring").val(1);                                
                             }else{
@@ -549,7 +550,7 @@ jQuery(document).ready(function($){
                       break;
                       
                       case 'saswp-bbpress-checkbox':
-                          
+                          saswp_compatibliy_notes(current, id); 
                             if ($(this).is(':checked')) {              
                               $("#saswp-bbpress").val(1);                                
                             }else{
@@ -573,7 +574,7 @@ jQuery(document).ready(function($){
                              
          }).change();
         
-          $("#saswp_kb_type").change(function(){
+    $("#saswp_kb_type").change(function(){
               
           var datatype = $(this).val(); 
           
@@ -598,9 +599,8 @@ jQuery(document).ready(function($){
           }
 
      }).change(); 
-     
-     
-     $(document).on("click", "input[data-id=media]" ,function(e) {	// Application Icon upload
+          
+    $(document).on("click", "input[data-id=media]" ,function(e) {	// Application Icon upload
 		e.preventDefault();
                 var current = $(this);
                 var button = current;
@@ -634,7 +634,7 @@ jQuery(document).ready(function($){
 		.open();
 	});
         
-        $(document).on("click", ".saswp_prev_close", function(e){
+    $(document).on("click", ".saswp_prev_close", function(e){
                 e.preventDefault();
                 
                 var id = $(this).attr('data-id');   
@@ -659,7 +659,7 @@ jQuery(document).ready(function($){
         //Settings page jquery ends here
 
 
-        $(document).on("change",".saswp-schema-type-toggle", function(e){
+    $(document).on("change",".saswp-schema-type-toggle", function(e){
                var schema_id = $(this).attr("data-schema-id"); 
                var post_id =   $(this).attr("data-post-id");     
                if($(this).is(':checked')){
@@ -682,7 +682,7 @@ jQuery(document).ready(function($){
         });
 
 
-         $(document).on("click",".saswp-reset-data", function(e){
+    $(document).on("click",".saswp-reset-data", function(e){
                 e.preventDefault();
              
                 var saswp_confirm = confirm("Are you sure?");
@@ -708,7 +708,7 @@ jQuery(document).ready(function($){
         });
         
         //Licensing jquery starts here
-        $(document).on("click",".saswp_license_activation", function(e){
+    $(document).on("click",".saswp_license_activation", function(e){
                 e.preventDefault();
                 
                 var license_status = $(this).attr('license-status');
@@ -764,7 +764,7 @@ jQuery(document).ready(function($){
         //Licensing jquery ends here
   //query form send starts here
 
-        $(".saswp-send-query").on("click", function(e){
+    $(".saswp-send-query").on("click", function(e){
             e.preventDefault();   
             var message = $("#saswp_query_message").val();              
             if($.trim(message) !=''){
@@ -795,7 +795,7 @@ jQuery(document).ready(function($){
         
         //Importer from schema plugin starts here
 
-        $(".saswp-import-plugins").on("click", function(e){
+    $(".saswp-import-plugins").on("click", function(e){
             e.preventDefault();   
             var current_selection = $(this);
             current_selection.addClass('updating-message');
@@ -816,7 +816,7 @@ jQuery(document).ready(function($){
         });
         
         
-        $(".saswp-feedback-no-thanks").on("click", function(e){
+    $(".saswp-feedback-no-thanks").on("click", function(e){
             e.preventDefault();               
                          $.get(ajaxurl, 
                              { action:"saswp_feeback_no_thanks"},
@@ -827,7 +827,7 @@ jQuery(document).ready(function($){
                              },'json');
         });
         
-        $(".saswp-feedback-remindme").on("click", function(e){
+    $(".saswp-feedback-remindme").on("click", function(e){
             e.preventDefault();               
                          $.get(ajaxurl, 
                              { action:"saswp_feeback_remindme"},
@@ -838,7 +838,7 @@ jQuery(document).ready(function($){
                              },'json');
         });
         
-         $(document).on("change",'.saswp-local-business-type-select', function(e){
+    $(document).on("change",'.saswp-local-business-type-select', function(e){
             e.preventDefault();    
                         var current = $(this);    
                         var business_type = $(this).val();
@@ -864,47 +864,43 @@ jQuery(document).ready(function($){
         });
         
         
-        function saswp_item_reviewed_call(){
-            
-            $(".saswp-item-reviewed").change(function(e){
-            e.preventDefault();
-            var schema_type =""; 
-            
-            if($('select#schema_type option:selected').val()){
-               schema_type = $('select#schema_type option:selected').val();    
-            }       
-            if($(".saswp-tab-links.selected").attr('saswp-schema-type')){
-               schema_type = $(".saswp-tab-links.selected").attr('saswp-schema-type');    
-            }
-            
-            if(schema_type === 'Review'){
-                
-                        var current = $(this);    
-                        var item    = $(this).val();
-                        var post_id = saswp_localize_data.post_id;
-                        var schema_id = $(current).attr('data-id');  
-                        var post_specific = $(current).attr('post-specific');  
-                         $.get(ajaxurl, 
-                             { action:"saswp_get_item_reviewed_fields",schema_id:schema_id,  post_specific:post_specific ,item:item, post_id:post_id, saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
-                              function(response){    
-                                  
-                                $(current).parent().parent().nextAll().remove(".saswp-review-tr");                                    
-                                $(current).parent().parent().after(response);    
-                                
-                             });
-                
-            }
-                        
-                             
-        }).change();
-            
+    function saswp_item_reviewed_call(){
+
+        $(".saswp-item-reviewed").change(function(e){
+        e.preventDefault();
+        var schema_type =""; 
+
+        if($('select#schema_type option:selected').val()){
+           schema_type = $('select#schema_type option:selected').val();    
+        }       
+        if($(".saswp-tab-links.selected").attr('saswp-schema-type')){
+           schema_type = $(".saswp-tab-links.selected").attr('saswp-schema-type');    
         }
-        saswp_item_reviewed_call();
-        
-        
-        
-        
-        
+
+        if(schema_type === 'Review'){
+
+                    var current = $(this);    
+                    var item    = $(this).val();
+                    var post_id = saswp_localize_data.post_id;
+                    var schema_id = $(current).attr('data-id');  
+                    var post_specific = $(current).attr('post-specific');  
+                     $.get(ajaxurl, 
+                         { action:"saswp_get_item_reviewed_fields",schema_id:schema_id,  post_specific:post_specific ,item:item, post_id:post_id, saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
+                          function(response){    
+
+                            $(current).parent().parent().nextAll().remove(".saswp-review-tr");                                    
+                            $(current).parent().parent().after(response);    
+
+                         });
+
+        }
+
+
+    }).change();
+
+    }
+    saswp_item_reviewed_call();
+                                        
         function saswpAddTimepicker(){
          $('.saswp-local-schema-time-picker').timepicker({ 'timeFormat': 'H:i:s'});
         }
