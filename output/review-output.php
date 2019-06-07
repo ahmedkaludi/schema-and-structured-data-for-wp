@@ -24,10 +24,14 @@ Class saswp_review_output{
         
         public function saswp_display_review_box_schema(){
                           
-            
-                        if(saswp_global_option()){
-                         
                         global $sd_data;
+            
+                        if(saswp_global_option() && isset($sd_data['saswp-review-module']) && $sd_data['saswp-review-module'] == 1){
+                          
+                            $saswp_review_details           = esc_sql ( get_post_meta(get_the_ID(), 'saswp_review_details', true));    
+                                                                        
+                            if(isset($saswp_review_details['saswp-review-item-enable'])){
+                          
                         $author_id      = get_the_author_meta('ID');
 											
 			$author_details	= get_avatar_data($author_id);
@@ -41,13 +45,13 @@ Class saswp_review_output{
 		        $aurthor_name = get_the_author_meta( 'display_name' , $author_id ); 
                         
 			}
-                        $saswp_review_details           = esc_sql ( get_post_meta(get_the_ID(), 'saswp_review_details', true));
+                        
                         $overall_rating = null; 
                         if(isset($saswp_review_details['saswp-review-item-over-all'])){
                             $overall_rating   = $saswp_review_details['saswp-review-item-over-all'];
                         }
                                                                         
-                        if($overall_rating && isset($sd_data['saswp-review-module']) && $sd_data['saswp-review-module'] == 1){
+                        if($overall_rating){
                          
                             $total_score = esc_attr(number_format((float)$overall_rating, 2, '.', ''));
                             
@@ -92,7 +96,7 @@ Class saswp_review_output{
                                 
                                 echo '<!-- Schema & Structured Data For WP Review Module v'.esc_attr(SASWP_VERSION).' - -->';
                                 echo "\n";
-                                echo '<script type="application/ld+json">'; 
+                                echo '<script type="application/ld+json" class="saswp-schema-markup-output">'; 
                                 echo "\n";       
                                 echo saswp_json_print_format($input1);       
                                 echo "\n";
@@ -102,7 +106,10 @@ Class saswp_review_output{
                             }        
                             
                             
-                        }                                         
+                        }
+                             
+                             
+                      } 
                                                                     
                         }            
             
