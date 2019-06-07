@@ -103,6 +103,15 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
 
+= 1.8.6 (28 May 2019) =
+
+* Bug Fixed: Notice: Undefined variable: custom_markup #308
+* Bug Fixed: JS and CSS should be included where it's need. #294
+* Bug Fixed: Remove duplicate queries #296
+* Bug Fixed: Google Review Module ( update_post_meta was called earlier than its actually call ) #307
+* Bug Fixed: When extensions are active then it should show #313
+
+
 
 = 1.8.5 (28 May 2019) =
 

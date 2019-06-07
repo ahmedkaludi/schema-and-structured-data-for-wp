@@ -265,7 +265,7 @@ function saswp_schema_markup_output() {
                             echo "\n";
                             echo '<!-- Schema & Structured Data For WP Custom Markup v'.esc_attr(SASWP_VERSION).' - -->';
                             echo "\n";
-                            echo '<script type="application/ld+json">'; 
+                            echo '<script type="application/ld+json" class="saswp-schema-markup-output">'; 
                             echo "\n";       
                             echo $custom_markup;       
                             echo "\n";
@@ -287,7 +287,7 @@ function saswp_schema_markup_output() {
             echo "\n";
             echo '<!-- Schema & Structured Data For WP v'.esc_attr(SASWP_VERSION).' - -->';
             echo "\n";
-            echo '<script type="application/ld+json">'; 
+            echo '<script type="application/ld+json" class="saswp-schema-markup-output">'; 
             echo "\n";       
             echo $filter_string;       
             echo "\n";

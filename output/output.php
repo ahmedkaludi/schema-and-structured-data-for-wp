@@ -2975,19 +2975,27 @@ function saswp_post_specific_schema_output() {
                                         $reviews = array();
                                       
                                          foreach ($product_details['product_reviews'] as $review){
+                                             
+                                             
+                                          $review_fields = array();
                                           
-                                          $reviews[] = array(
-                                                                        '@type'	=> 'Review',
-                                                                        'author'	=> esc_attr($review['author']),
-                                                                        'datePublished'	=> esc_html($review['datePublished']),
-                                                                        'description'	=> $review['description'],  
-                                                                        'reviewRating'  => array(
-                                                                                '@type'	=> 'Rating',
-                                                                                'bestRating'	=> '5',
-                                                                                'ratingValue'	=> esc_attr($review['reviewRating']),
-                                                                                'worstRating'	=> '1',
-                                                                        )  
-                                          );
+                                          $review_fields['@type']         = 'Review';
+                                          $review_fields['author']        = esc_attr($review['author']);
+                                          $review_fields['datePublished'] = esc_html($review['datePublished']);
+                                          $review_fields['description']   = $review['description'];
+                                                                                    
+                                          if(isset($review['reviewRating']) && $review['reviewRating'] !=''){
+                                              
+                                                $review_fields['reviewRating']['@type']   = 'Rating';
+                                                $review_fields['reviewRating']['bestRating']   = '5';
+                                                $review_fields['reviewRating']['ratingValue']   = esc_attr($review['reviewRating']);
+                                                $review_fields['reviewRating']['worstRating']   = '1';
+                                          
+                                          }
+                                          
+                                          
+                                                                                    
+                                          $reviews[] = $review_fields;
                                           
                                       }
                                       $input1['review'] =  $reviews;
