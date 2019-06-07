@@ -1,4 +1,4 @@
-﻿=== Schema & Structured Data for WP & AMP ===
+=== Schema & Structured Data for WP & AMP ===
 Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
@@ -68,7 +68,7 @@ Schema & Structured Data for WP & AMP adds Google Rich Snippets markup according
 * Church
 * Mosque
 * Person
-[View All] (https://structured-data-for-wp.com/docs/article/how-many-schema-types-do-we-support/)
+* [View All](https://structured-data-for-wp.com/docs/article/how-many-schema-types-do-we-support/)
 
 ### Extensions
 
