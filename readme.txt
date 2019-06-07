@@ -34,7 +34,7 @@ Schema & Structured Data adds Google Rich Snippets markup according to Schema.or
 = Premium =
 
 * Cooked Compatibility For Schema
-* woocommerce Compatibility For Schema
+* Woocommerce Compatibility For Schema
 
 
 = Supported Schema Types: =

@@ -2872,6 +2872,7 @@ function saswp_post_specific_schema_output() {
                                 'recipeIngredient'               => $ingredient, 
                                 'recipeInstructions'             => $instruction,  
                                 'video'                          => array(
+                                                                        '@type'        => 'VideoObject',
                                                                         'name'         => saswp_remove_warnings($all_post_meta, 'saswp_recipe_video_name_'.$schema_id, 'saswp_array'),
                                                                         'description'  => saswp_remove_warnings($all_post_meta, 'saswp_recipe_video_description_'.$schema_id, 'saswp_array'),
                                                                         'thumbnailUrl' => saswp_remove_warnings($all_post_meta, 'saswp_recipe_video_thumbnailurl_'.$schema_id, 'saswp_array'),  
