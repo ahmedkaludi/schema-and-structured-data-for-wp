@@ -9,11 +9,12 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 
 == Description ==
-Schema & Structured Data adds Google Rich Snippets markup according to Schema.org guidelines to structure your site for SEO. (AMP Compatible) 
 
-= Features =
+Schema & Structured Data for WP & AMP adds Google Rich Snippets markup according to Schema.org guidelines to structure your site for SEO. (AMP Compatible) 
 
-* <strong>Schema Types</strong>: Currently, We have 33 schema types such as Blog Posting, News article, Local Business, Web page, Article, Recipe, Product, and Video Object. We are going to add all the schema types in the future. You can request the one you want and we will add it for you! 
+### Features 
+
+* <strong>Schema Types</strong>: Currently, We have 33 schema types such as Blog Posting, News article, Local Business, Web page, Article, Recipe, Product, and Video Object [view all](https://structured-data-for-wp.com/docs/article/how-many-schema-types-do-we-support/). We are going to add all the schema types in the future. You can request the one you want and we will add it for you! 
 * <strong>Conditional Display Fields</strong>: Meaning you include or exclude any posts, pages, post types, taxonomies and more! 
 * <strong>Knowlegde Base Support</strong>: Recognize the content based on the organization or a person via data type option.
 * <strong>Full AMP Compatiblity</strong>: Supports the AMP for WP and AMP by Automattic plugins. 
@@ -28,16 +29,11 @@ Schema & Structured Data adds Google Rich Snippets markup according to Schema.or
 * <strong>JSON-LD</strong> Format
 * <strong>Easy to use</strong> Setup Wizard
 * <strong>Breadcrumbs</strong> Listing Support
-* <strong>Comments</strong> Listing Support
+* <strong>Comments</strong> Post comments Support
 * <strong>Constant Development & New Features</strong>: We’ll be releasing the constant updates along with the more handy features as soon as we get the feedback from the users.
 
-= Premium =
 
-* Cooked Compatibility For Schema
-* Woocommerce Compatibility For Schema
-
-
-= Supported Schema Types: =
+### Supported Schema Types
 
 * Apartment
 * House
@@ -72,16 +68,16 @@ Schema & Structured Data adds Google Rich Snippets markup according to Schema.or
 * Church
 * Mosque
 * Person
+[View All] (https://structured-data-for-wp.com/docs/article/how-many-schema-types-do-we-support/)
 
+### Extensions
 
-**We Act Fast on Feedback!**
-We are actively developing this plugin and our aim is to make this plugin into the #1 solution for Schema and Google Structured Data in the world. You can [Request a Feature](https://github.com/ahmedkaludi/schema-and-structured-data-for-wp/issues) or [Report a Bug](http://magazine3.company/contact/).
+Some useful extensions to extend Schema & Structured Data for WP & AMP features, check [Woocommerce Compatibility For Schema](https://structured-data-for-wp.com/extensions/woocommerce-compatibility-for-schema/), [Cooked Compatibility For Schema](https://structured-data-for-wp.com/extensions/cooked-compatibility-for-schema/) and We are going to add more.
 
-**Technical Support**
-Support is provided in [Forum](https://wordpress.org/support/plugin/schema-and-structured-data-for-wp). You can also [Contact us](http://magazine3.company/contact/), our turn around time on email is around 12 hours. 
+### Bug Reports
 
-**Would you like to contribute?**
-You may now contribute to this Schema plugin on Github: [View repository](https://github.com/ahmedkaludi/schema-and-structured-data-for-wp) on Github
+Bug reports for Schema & Structured Data for WP & AMP are [welcomed on GitHub](https://github.com/ahmedkaludi/schema-and-structured-data-for-wp/issues). Please note GitHub is not a support forum, and issues that aren't properly qualified as bugs will be closed.
+
 
 == Frequently Asked Questions ==
 
