@@ -1785,12 +1785,12 @@ function saswp_enqueue_style_js( $hook ) {
         wp_register_style( 'jquery-ui', SASWP_PLUGIN_URL. 'admin_section/css/jquery-ui.css' );
         wp_enqueue_style( 'jquery-ui' ); 
         
-        wp_register_script( 'saswp-main-js', SASWP_PLUGIN_URL . 'admin_section/js/main-script.js', array('jquery'), SASWP_VERSION , true );
+        wp_register_script( 'saswp-main-js', SASWP_PLUGIN_URL . 'admin_section/js/main-script.min.js', array('jquery'), SASWP_VERSION , true );
                         
         wp_localize_script( 'saswp-main-js', 'saswp_localize_data', $data );
         
         wp_enqueue_script( 'saswp-main-js' );
         
-        wp_enqueue_style( 'saswp-main-css', SASWP_PLUGIN_URL . 'admin_section/css/main-style.css', false , SASWP_VERSION );
+        wp_enqueue_style( 'saswp-main-css', SASWP_PLUGIN_URL . 'admin_section/css/main-style.min.css', false , SASWP_VERSION );
 }
 add_action( 'admin_enqueue_scripts', 'saswp_enqueue_style_js' );

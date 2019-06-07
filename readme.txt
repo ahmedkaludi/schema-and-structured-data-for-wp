@@ -112,6 +112,7 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Bug Fixed: When extensions are active then it should show #313
 * Bug Fixed: Compatibility conflicts with WooCommerce SEO #312
 * Bug Fixed: '@type' => 'VideoObject' is missing in recipe schema video entity #314
+* Bug Fixed: Navigation Menu should have Assigned location name #310
 
 
 = 1.8.5 (28 May 2019) =
