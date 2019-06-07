@@ -103,7 +103,7 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
 
-= 1.8.6 (28 May 2019) =
+= 1.8.6 (07 June 2019) =
 
 * Bug Fixed: Notice: Undefined variable: custom_markup #308
 * Bug Fixed: JS and CSS should be included where it's need. #294
