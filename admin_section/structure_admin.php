@@ -1,4 +1,22 @@
 <?php
+function saswp_skip_wizard(){                  
+    
+        if ( ! isset( $_POST['saswp_security_nonce'] ) ){
+           return; 
+        }
+        if ( !wp_verify_nonce( $_POST['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
+           return;  
+        }    
+        
+        $sd_data = get_option('sd_data');
+        $sd_data['sd_initial_wizard_status'] = 0;
+        update_option('sd_data', $sd_data);
+        
+        wp_die();           
+}
+
+add_action('wp_ajax_saswp_skip_wizard', 'saswp_skip_wizard');
+
 
 add_action ( 'save_post' , 'saswp_delete_post_transient' );
 
@@ -743,43 +761,26 @@ add_action( 'wp_print_scripts', 'saswp_dequeue_script', 100 );
   
       
   function saswp_style_script_include($hook) {
-      
-     global $pagenow, $typenow;
-               
+                          
     if (is_admin()) {
-      
-        if($hook == 'saswp' || get_post_type() == 'saswp'){
-            
-            wp_dequeue_script( 'avada-fusion-options' );
-        
-        }
-        
-       wp_register_script( 'structure_admin', plugin_dir_url(__FILE__) . '/js/structure_admin.js', array( 'jquery'), SASWP_VERSION, true );
+                                           
+       $post_found_status = $post_type = '';
+       $current_screen = get_current_screen(); 
        
-       $post_type='';
-       $current_screen = get_Current_screen(); 
-       
-       if(isset($current_screen->post_type)){
-                  
-           $post_type = $current_screen->post_type;     
-           
-       } 
-       
-       $post_found_status ='';
-       
+       if(isset($current_screen->post_type)){                  
+           $post_type = $current_screen->post_type;                
+       }        
+              
        $saswp_posts       = json_decode(get_transient('saswp_transient_schema_ids'), true);
        
-       if(!$saswp_posts){
-        
-        $saswp_posts = saswp_get_saved_schema_ids();
-        
+       if(!$saswp_posts){        
+        $saswp_posts = saswp_get_saved_schema_ids();        
        }      
        
-       if(empty($saswp_posts)){
-           
-        $post_found_status ='not_found';   
-        
+       if(empty($saswp_posts)){           
+        $post_found_status ='not_found';           
        }       
+       
       $data_array = array(
           
           'ajax_url'                  => admin_url( 'admin-ajax.php' ), 
@@ -789,21 +790,16 @@ add_action( 'wp_print_scripts', 'saswp_dequeue_script', 100 );
           'saswp_settings_url'        => esc_url(admin_url('edit.php?post_type=saswp&page=structured_data_options'))                       
           
       );
-      
-       wp_localize_script( 'structure_admin', 'saswp_app_object', $data_array );
-       wp_enqueue_script( 'structure_admin' );
-      
-       wp_enqueue_script( 'saswp-timepicker-js', SASWP_PLUGIN_URL . 'admin_section/js/jquery.timepicker.js', false, SASWP_VERSION);
-        //Main Css 
-       wp_enqueue_style( 'saswp-timepicker-css', SASWP_PLUGIN_URL . 'admin_section/css/jquery.timepicker.css', false , SASWP_VERSION );
-       
-       wp_enqueue_script( 'jquery-ui-datepicker' );
-       wp_register_style( 'jquery-ui', SASWP_PLUGIN_URL. 'admin_section/css/jquery-ui.css' );
-       wp_enqueue_style( 'jquery-ui' );
-      
+                   
       //Enque select 2 script starts here      
        if($hook == 'saswp' || get_post_type() == 'saswp'){
            
+        wp_dequeue_script( 'avada-fusion-options' );   
+        wp_register_script( 'structure_admin', SASWP_PLUGIN_URL . 'admin_section/js/structure_admin.min.js', array( 'jquery'), SASWP_VERSION, true );   
+           
+        wp_localize_script( 'structure_admin', 'saswp_app_object', $data_array );
+        wp_enqueue_script( 'structure_admin' );
+                    
         wp_enqueue_style('saswp-select2-style', SASWP_PLUGIN_URL. 'admin_section/css/select2.min.css' , false, SASWP_VERSION);
         wp_enqueue_script('saswp-select2-script', SASWP_PLUGIN_URL. 'admin_section/js/select2.min.js', false, SASWP_VERSION);
         

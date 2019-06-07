@@ -81,7 +81,7 @@ function saswp_admin_interface_render(){
                         
                         echo '<div id="saswp-global-tabs" style="margin-top: 10px;">';
                         
-                        echo '<a data-id="saswp-general-container">General Settings</a> | <a data-id="saswp-knowledge-container">Knowledge Graph</a> | <a data-id="saswp-default-container" >Default Data</a>';
+                        echo '<a data-id="saswp-general-container">'.esc_html__('General Settings','schema-and-structured-data-for-wp').'</a> | <a data-id="saswp-knowledge-container">'.esc_html__('Knowledge Graph','schema-and-structured-data-for-wp').'</a> | <a data-id="saswp-default-container" >'.esc_html__('Default Data','schema-and-structured-data-for-wp').'</a>';
                         
                         echo'</div> ';
                         
@@ -138,7 +138,7 @@ function saswp_admin_interface_render(){
 				// Output save settings button
                                 submit_button( esc_html__('Save Settings', 'schema-and-structured-data-for-wp') );
 				?>
-			</div>
+			</div>  
                     <input type="hidden" name="sd_data[sd_initial_wizard_status]" value="1">
 		</form>
 	</div>
@@ -332,7 +332,17 @@ function saswp_premium_features_callback(){ ?>
 					</div>
 				</div>
 				<div class="saswp-sts-btn">
-					<label class="saswp-sts-txt">Staus:<span>Inactive</span></label>
+                                    
+                                        <?php
+                                        
+                                        if(is_plugin_active('woocommerce-compatibility-for-schema/woocommerce-compatibility-for-schema.php')){                                           
+                                          echo '<label class="saswp-sts-txt">Status :<span>Active</span></label>';                                          
+                                        }else{                                            
+                                           echo '<label class="saswp-sts-txt">Status :<span>Inactive</span></label>'; 
+                                        }
+                                        
+                                        ?>
+                                    					
 					<span class="saswp-d-btn">Download</span>
 				</div>
 			</a></li>
@@ -347,7 +357,18 @@ function saswp_premium_features_callback(){ ?>
 					</div>
 				</div>
 				<div class="saswp-sts-btn">
-					<label class="saswp-sts-txt">Staus:<span>Inactive</span></label>
+                                    
+                                        <?php
+                                        
+                                        if(is_plugin_active('cooked-compatibility-for-schema/cooked-compatibility-for-schema.php')){                                        
+                                            echo '<label class="saswp-sts-txt">Status :<span>Active</span></label>';                                            
+                                        }else{
+                                            echo '<label class="saswp-sts-txt">Status :<span>Inactive</span></label>';
+                                        }
+                                        
+                                        ?>
+                                    
+					
 					<span class="saswp-d-btn">Download</span>
 				</div>
 			</a></li>
@@ -437,8 +458,12 @@ function saswp_amp_page_callback(){
                              'name' => 'sd_data[saswp-for-wordpress]',                             
                         )
 		)                                         
-	);
-        echo '<h2>'.esc_html__('Set Up','schema-and-structured-data-for-wp').'</h2>';
+	);        
+         echo '<div class="saswp-heading">';
+         echo '<h2>'.esc_html__('Display On','schema-and-structured-data-for-wp').'</h2>';        
+         echo '</div>';
+         echo '<p>Using this option, one can hide and show schema markup on AMP and Non AMP</p>';
+        
         $field_objs->saswp_field_generator($meta_fields, $settings);    
 }
 
@@ -537,9 +562,12 @@ function saswp_general_page_callback(){
 
     <div class="saswp-global-container" id="saswp-general-container">
                         
-        <div class="saswp-settings-list">        
-        <h2><?php echo esc_html__('Page Schema','schema-and-structured-data-for-wp') ?>   </h2>
-
+        <div class="saswp-settings-list">      
+            
+            <div class="saswp-heading">
+              <h2><?php echo esc_html__('General Settings','schema-and-structured-data-for-wp'); ?></h2>              
+            </div>
+            <p>This is a global schema settings, to display about, contact, website, archive, breadcrumbs, comments and site navigation schema type. <a target="_blank" href="http://structured-data-for-wp.com/docs/article/what-is-general-settings-in-schema/">Learn More</a></p>   
         <ul><li><div style="float:left;clear: both;"><label class="saswp-tooltip">
         <?php echo esc_html__('About','schema-and-structured-data-for-wp') ?>
                 <span class="saswp-tooltiptext"><?php echo esc_html__('Set the about page of of your website','schema-and-structured-data-for-wp') ?></span>
@@ -614,28 +642,6 @@ function saswp_general_page_callback(){
 				'Person'       => 'Person',
 			)
                     ),
-//		array(
-//			'label' => 'Organization Type',
-//			'id'    => 'saswp_organization_type',
-//                        'name'  => 'sd_data[saswp_organization_type]',
-//                        'class' => 'saswp_org_fields',
-//			'type'  => 'select',
-//			'options' => array(                                
-//				'Organization'              => 'Organization',
-//				'Airline'                   => 'Airline',
-//                                'Consortium'                => 'Consortium',
-//                                'Corporation'               => 'Corporation',
-//                                'EducationalOrganization'   => 'EducationalOrganization',
-//                                'GovernmentOrganization'    => 'GovernmentOrganization',
-//                                'LibrarySystem'             => 'LibrarySystem',                                
-//                                'MedicalOrganization'       => 'MedicalOrganization',
-//                                'NewsMediaOrganization'     => 'NewsMediaOrganization',
-//                                'NGO'                       => 'NGO',
-//                                'PerformingGroup'           => 'PerformingGroup',
-//                                'SportsOrganization'        => 'SportsOrganization',
-//                                'WorkersUnion'              => 'WorkersUnion',
-//			)
-//                   ),
                 array(
 			'label' => 'Organization Name',
 			'id'    => 'sd_name',
@@ -738,7 +744,11 @@ function saswp_general_page_callback(){
 		   ),
                 
 	);
-        echo '<h2>'.esc_html__('Knowledge Graph','schema-and-structured-data-for-wp').'</h2>';
+        
+        echo '<div class="saswp-heading">';
+        echo '<h2>'.esc_html__('Knowledge Graph','schema-and-structured-data-for-wp').'</h2>';                 
+        echo '</div>';                
+        echo '<p>The Knowledge Graph is a knowledge base used by Google and its services to enhance its search engine\'s results. <a target="_blank" href="http://structured-data-for-wp.com/docs/article/how-to-setup-knowledge-graph-in-schema-in-wordpress/">Learn More</a> </p>';
         echo '<div class="saswp-knowledge-base">';
         $field_objs->saswp_field_generator($meta_fields, $settings);
         echo '</div>';
@@ -952,19 +962,12 @@ function saswp_general_page_callback(){
                         'name'  => 'sd_data[sd_default_image_height]',
                         'class' => 'regular-text',                        
 			'type'  => 'text',
-		),
-                array(
-			'label' => 'Default Thumbnail for VideoObject',
-			'id'    => 'sd_default_video_thumbnail',
-                        'name'  => 'sd_data[sd_default_video_thumbnail][url]',
-                        'class' => 'saswp-sd_default_video_thumbnail',
-			'type'  => 'media',
-		),                                                   
+		)                                                                   
 	);
          echo '<div class="saswp-heading">';
-         echo '<h2>'.esc_html__('Default Data','schema-and-structured-data-for-wp').'</h2>';
-         echo '<span class="saswp-need-help"><a target="_blank" href="http://structured-data-for-wp.com/docs/">Need Help?</a></span>';
+         echo '<h2>'.esc_html__('Default Data','schema-and-structured-data-for-wp').'</h2>';                  
          echo '</div>';
+         echo '<p>If schema markup doest not have image, it adds this image to validate schema markup. <a target="_blank" href="http://structured-data-for-wp.com/docs/article/how-to-set-up-the-default-structured-data-values/">Learn More</a></p>';
          echo '<div class="saswp-schema-type-fields">';
          $field_objs->saswp_field_generator($meta_fields_default, $settings);
          echo '</div>';  
@@ -1007,6 +1010,7 @@ function saswp_import_callback(){
                         'name'   => 'saswp-defragment-checkbox',
 			'type'   => 'checkbox',
                         'class'  => 'checkbox saswp-checkbox',
+                        'note'   => 'It relates all schema markups on page to a main entity and merge all markup to a single markup. <a target="_blank" href="https://structured-data-for-wp.com/docs/article/what-is-defragment-schema-markup-and-how-to-add-it/">Learn More</a>',
                         'hidden' => array(
                              'id'   => 'saswp-defragment',
                              'name' => 'sd_data[saswp-defragment]',                             
@@ -1041,7 +1045,8 @@ function saswp_import_callback(){
 			'id'     => 'saswp-microdata-cleanup-checkbox',                        
                         'name'   => 'saswp-microdata-cleanup-checkbox',
 			'type'   => 'checkbox',
-                        'class'  => 'checkbox saswp-checkbox',                        
+                        'class'  => 'checkbox saswp-checkbox',   
+                        'note'   => 'It removes all the microdata generated by third party plugins which cause validation error on google testing tool',   
                         'hidden' => array(
                              'id'   => 'saswp-microdata-cleanup',
                              'name' => 'sd_data[saswp-microdata-cleanup]',                             
@@ -1249,6 +1254,7 @@ function saswp_review_page_callback(){
                         'name'   => 'saswp-review-module-checkbox',
 			'type'   => 'checkbox',
                         'class'  => 'checkbox saswp-checkbox',
+                        'note'   => 'This option enables the review metabox on every post/page. <a target="_blank" href="http://structured-data-for-wp.com/docs/article/how-to-use-review-in-schema-and-structure-data/">Learn More</a>',
                         'hidden' => array(
                              'id'   => 'saswp-review-module',
                              'name' => 'sd_data[saswp-review-module]',                             
@@ -1260,6 +1266,7 @@ function saswp_review_page_callback(){
                         'name'   => 'saswp-google-review-checkbox',
 			'type'   => 'checkbox',
                         'class'  => 'checkbox saswp-checkbox',
+                        'note'   => 'This option enables the google review section. <a target="_blank" href="https://structured-data-for-wp.com/docs/article/how-to-display-google-review/">Learn More</a>',
                         'hidden' => array(
                              'id'   => 'saswp-google-review',
                              'name' => 'sd_data[saswp-google-review]',                             
@@ -1269,6 +1276,7 @@ function saswp_review_page_callback(){
                             'label' => 'Google place API Key',
                             'id'    => 'saswp_google_place_api_key',
                             'name'  => 'sd_data[saswp_google_place_api_key]',
+                            'note'   => 'How to get place API Key ? <a target="_blank" href="https://structured-data-for-wp.com/docs/article/how-to-display-google-review/">Click Here</a>',
                             'class' => '',
                             'type'  => 'text',
                   )
@@ -1302,7 +1310,7 @@ function saswp_email_schema_callback(){
         
         if(!is_plugin_active('woocommerce-compatibility-for-schema/woocommerce-compatibility-for-schema.php')){
                       
-             $woocommerce['note'] = esc_html__('This feature requires WooCommerce Addon','schema-and-structured-data-for-wp').' <a target="_blank" href="http://structured-data-for-wp.com/woocommerce-compatibility-for-schema/">Link</a>';
+             $woocommerce['note'] = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="http://structured-data-for-wp.com/woocommerce-compatibility-for-schema/">WooCommerce Addon</a>';
                                       
         }
         
@@ -1459,6 +1467,17 @@ function saswp_compatibility_page_callback(){
                                 'id'   => 'saswp-yoast',
                                 'name' => 'sd_data[saswp-yoast]',                             
                         )
+		);
+        $rankmath      = array(
+			'label'   => 'Rank Math',
+			'id'      => 'saswp-rankmath-checkbox',                        
+                        'name'    => 'saswp-rankmath-checkbox',
+			'type'    => 'checkbox',
+                        'class'   => 'checkbox saswp-checkbox',
+                        'hidden'  => array(
+                                'id'   => 'saswp-rankmath',
+                                'name' => 'sd_data[saswp-rankmath]',                             
+                        )
 		);        
                 
         if(!is_plugin_active('taqyeem/taqyeem.php')  || get_template() != 'jannah'  ){
@@ -1477,6 +1496,12 @@ function saswp_compatibility_page_callback(){
         if(!is_plugin_active('wordpress-seo/wp-seo.php') && !is_plugin_active('wordpress-seo-premium/wp-seo-premium.php')){
             
              $yoast['note'] = esc_html__('Requires selected plugin','schema-and-structured-data-for-wp');
+             
+             
+        }
+        if(!is_plugin_active('seo-by-rank-math/rank-math.php') && !is_plugin_active('seo-by-rank-math-premium/rank-math-premium.php')){
+            
+             $rankmath['note'] = esc_html__('Requires selected plugin','schema-and-structured-data-for-wp');
              
              
         }
@@ -1507,20 +1532,20 @@ function saswp_compatibility_page_callback(){
         
         if(!is_plugin_active('woocommerce-compatibility-for-schema/woocommerce-compatibility-for-schema.php')){
                       
-             $woocommerce_bok['note'] = esc_html__('This feature requires Woocommerce Booking Addon','schema-and-structured-data-for-wp').' <a target="_blank" href="http://structured-data-for-wp.com/woocommerce-compatibility-for-schema/">Link</a>';
+             $woocommerce_bok['note'] = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="http://structured-data-for-wp.com/woocommerce-compatibility-for-schema/">Woocommerce Addon</a>';
                                       
         }
                                 
         if(!is_plugin_active('woocommerce-compatibility-for-schema/woocommerce-compatibility-for-schema.php')){
                       
-            $woocommerce_mem['note'] = esc_html__('This feature requires Woocommerce Memberships Addon','schema-and-structured-data-for-wp').' <a target="_blank" href="http://structured-data-for-wp.com/woocommerce-compatibility-for-schema/">Link</a>';
+            $woocommerce_mem['note'] = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="http://structured-data-for-wp.com/woocommerce-compatibility-for-schema/">Woocommerce Addon</a>';
                                       
         }
         
         
         if(!is_plugin_active('cooked-compatibility-for-schema/cooked-compatibility-for-schema.php')){
                           
-             $cooked['note'] = esc_html__('This feature requires Cooked Addon','schema-and-structured-data-for-wp').' <a target="_blank" href="http://structured-data-for-wp.com/cooked-compatibility-for-schema/">Link</a>';
+             $cooked['note'] = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="http://structured-data-for-wp.com/cooked-compatibility-for-schema/">Cooked Addon</a>';
              
          }
          
@@ -1576,9 +1601,15 @@ function saswp_compatibility_page_callback(){
                 $extratheme,
                 $dwquestiton,
                 //$wpjobmanager,
-                $yoast,                
+                $yoast,
+                $rankmath
                 
-	);       
+	);     
+        
+        echo '<div class="saswp-heading">';
+        echo '<h2>'.esc_html__('Compatibility','schema-and-structured-data-for-wp').'</h2>';                
+        echo '</div>';
+        echo '<p>'.esc_html__('These are the list of plugin\'s name which are compatible with Schema & Structured Data For WP.','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/docs/article-categories/compatibility/">Learn More</a></p>';
         
         $field_objs->saswp_field_generator($meta_fields, $settings);
         
@@ -1717,32 +1748,49 @@ function saswp_support_page_callback(){
 /**
  * Enqueue CSS and JS
  */
-function saswp_enqueue_style_js( $hook ) {    
-                  
+function saswp_enqueue_style_js( $hook ) { 
+    
+        $post_type = '';
+        
+        $current_screen = get_current_screen(); 
+       
+        if(isset($current_screen->post_type)){                  
+            $post_type = $current_screen->post_type;                
+        }    
+                
+        $data = array(                                    
+            'post_id'                      => get_the_ID(),
+            'ajax_url'                     => admin_url( 'admin-ajax.php' ),            
+            'saswp_security_nonce'         => wp_create_nonce('saswp_ajax_check_nonce'),  
+            'new_url_selector'             => esc_url(admin_url()).'post-new.php?post_type=saswp',
+            'new_url_href'                 => htmlspecialchars_decode(wp_nonce_url(admin_url('index.php?page=saswp_add_new_data_type&'), '_wpnonce')),            
+            'collection_post_add_url'      => esc_url(admin_url()).'post-new.php?post_type=saswp-google-review',
+            'collection_post_add_new_url'  => htmlspecialchars_decode(wp_nonce_url(admin_url('admin.php?page=collection'), '_wpnonce')),
+            'post_type'                    => $post_type,   
+            'page_now'                     => $hook,
+            'saswp_settings_url'           => esc_url(admin_url('edit.php?post_type=saswp&page=structured_data_options'))                       
+        );
+        
 	// Color picker CSS
 	// @refer https://make.wordpress.org/core/2012/11/30/new-color-picker-in-wp-3-5/
         wp_enqueue_style( 'wp-color-picker' );	
 	// Everything needed for media upload
-        wp_enqueue_media();	
-	// Main JS
+        wp_enqueue_media();
         
-        wp_register_script( 'saswp-main-js', SASWP_PLUGIN_URL . 'admin_section/js/main-script.js', array('jquery'), SASWP_VERSION , true );
+        	
+        wp_enqueue_script( 'saswp-timepicker-js', SASWP_PLUGIN_URL . 'admin_section/js/jquery.timepicker.js', false, SASWP_VERSION);        
+        wp_enqueue_style( 'saswp-timepicker-css', SASWP_PLUGIN_URL . 'admin_section/css/jquery.timepicker.css', false , SASWP_VERSION );
+
+        wp_enqueue_script( 'jquery-ui-datepicker' );
+        wp_register_style( 'jquery-ui', SASWP_PLUGIN_URL. 'admin_section/css/jquery-ui.css' );
+        wp_enqueue_style( 'jquery-ui' ); 
         
-        $data = array(                                    
-            'post_id'                   => get_the_ID(),
-            'ajax_url'                  => admin_url( 'admin-ajax.php' ),            
-            'saswp_security_nonce'      => wp_create_nonce('saswp_ajax_check_nonce'),  
-            'new_url_selector'          => esc_url(admin_url()).'post-new.php?post_type=saswp',
-            'new_url_href'              => htmlspecialchars_decode(wp_nonce_url(admin_url('index.php?page=saswp_add_new_data_type&'), '_wpnonce')),
-            
-            'collection_post_add_url'                  => esc_url(admin_url()).'post-new.php?post_type=saswp-google-review',
-            'collection_post_add_new_url'              => htmlspecialchars_decode(wp_nonce_url(admin_url('admin.php?page=collection'), '_wpnonce'))
-        );
-        
+        wp_register_script( 'saswp-main-js', SASWP_PLUGIN_URL . 'admin_section/js/main-script.min.js', array('jquery'), SASWP_VERSION , true );
+                        
         wp_localize_script( 'saswp-main-js', 'saswp_localize_data', $data );
         
         wp_enqueue_script( 'saswp-main-js' );
-        //Main Css 
-        wp_enqueue_style( 'saswp-main-css', SASWP_PLUGIN_URL . 'admin_section/css/main-style.css', false , SASWP_VERSION );
+        
+        wp_enqueue_style( 'saswp-main-css', SASWP_PLUGIN_URL . 'admin_section/css/main-style.min.css', false , SASWP_VERSION );
 }
 add_action( 'admin_enqueue_scripts', 'saswp_enqueue_style_js' );

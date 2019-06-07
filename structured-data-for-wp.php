@@ -2,7 +2,7 @@
 /*
 Plugin Name: Schema & Structured Data for WP
 Description: Schema & Structured Data adds Google Rich Snippets markup according to Schema.org guidelines to structure your site for SEO. (AMP Compatible) 
-Version: 1.8.5
+Version: 1.8.6
 Text Domain: schema-and-structured-data-for-wp
 Domain Path: /languages
 Author: Magazine3
@@ -13,7 +13,7 @@ License: GPL2
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-define('SASWP_VERSION', '1.8.5');
+define('SASWP_VERSION', '1.8.6');
 define('SASWP_DIR_NAME_FILE', __FILE__ );
 define('SASWP_DIR_NAME', dirname( __FILE__ ));
 define('SASWP_DIR_URI', plugin_dir_url(__FILE__));
@@ -72,6 +72,9 @@ require_once SASWP_DIR_NAME.'/output/service.php';
 //Google Review Files
 
 
+
+function saswp_include_require_files(){
+
 global $sd_data;
 
 if(isset($sd_data['saswp-google-review']) && $sd_data['saswp-google-review'] == 1){
@@ -81,16 +84,18 @@ require_once SASWP_DIR_NAME.'/google_review/google_review_page.php';
 require_once SASWP_DIR_NAME.'/google_review/google_review_setup.php'; 
 require_once SASWP_DIR_NAME.'/google_review/google_review_widget.php';     
     
+}    
+    
 }
 
+add_action( 'init', 'saswp_include_require_files' );
 /**
  * set user defined message on plugin activate
  */
 register_activation_hook( __FILE__, 'saswp_admin_notice_activation_hook' );
 
 function saswp_admin_notice_activation_hook() {
-    
-    set_transient( 'saswp_admin_notice_transient', true, 5 );
+        
     update_option( "saswp_activation_date", date("Y-m-d"));
     
     //Save first installation date
@@ -118,37 +123,30 @@ function saswp_admin_notice(){
     
     $nonce = wp_create_nonce( 'saswp_install_wizard_nonce' );  
     
-    $setup_notice = '<div class="updated notice is-dismissible message notice notice-alt saswp-setup-notice">'
+    $setup_notice = '<div class="updated notice message notice notice-alt saswp-setup-notice">'
                     . '<p>'
                     . '<strong>'.esc_html__('Welcome to Schema & Structured Data For WP', 'schema-and-structured-data-for-wp').'</strong>'
-                    .' - '.esc_html__('You are almost ready', 'schema-and-structured-data-for-wp')
-                    . ' <a class="button button-primary" href="'.esc_url(admin_url( 'plugins.php?page=saswp-setup-wizard' ).'&_saswp_nonce='.$nonce).'">'
+                    .' - '.esc_html__('You are almost ready :)', 'schema-and-structured-data-for-wp')
+                    . '</p>'
+                    . '<p>'
+                    . '<a class="button button-primary" href="'.esc_url(admin_url( 'plugins.php?page=saswp-setup-wizard' ).'&_saswp_nonce='.$nonce).'">'
                     . esc_html__('Run the Setup Wizard', 'schema-and-structured-data-for-wp')
                     . '</a> '
-                    .'<a class="button button-primary saswp-skip-button">'
+                    .'<a class="button saswp-skip-button">'
                     . esc_html__('Skip Setup', 'schema-and-structured-data-for-wp')
                     . '</a>'
                     . '</p>'
                     . '</div>';        
     
-    /* Check transient, if available display notice */
-    if( get_transient( 'saswp_admin_notice_transient' ) ){
-        
-        echo $setup_notice;
-        /* Delete transient, only display this notice once. */
-        delete_transient( 'saswp_admin_notice_transient' );
-        
-    }    
     
-           
-    $post_type       = get_post_type();         
+          
     $sd_data         = get_option('sd_data'); 
-    
-    if(($post_type == 'saswp' || $screen_id =='saswp_page_structured_data_options') && !isset($sd_data['sd_initial_wizard_status'])){
+        
+    if(($screen_id =='saswp_page_structured_data_options' ||$screen_id == 'plugins' || $screen_id =='edit-saswp' || $screen_id == 'saswp') && !isset($sd_data['sd_initial_wizard_status'])){
             
         echo $setup_notice;
         
-     }     
+    }     
      //Feedback notice
     $activation_date  =  get_option("saswp_activation_date");  
     $activation_never =  get_option("saswp_activation_never");      

@@ -94,10 +94,9 @@ $saswp_add_data_type_config = array(
                 
                 
 		// Enqueue styles.
-		wp_enqueue_style( 'saswp_add_new', SASWP_PLUGIN_URL. $saswp_add_data_type_config['installer_dir']. '/css/saswp-add-new' . $suffix . '.css' , array( 'wp-admin' ), '0.1');
+		wp_enqueue_style( 'saswp_add_new', SASWP_PLUGIN_URL. $saswp_add_data_type_config['installer_dir']. '/css/saswp-add-new.min' . $suffix . '.css' , array( 'wp-admin' ), '0.1');
 		// Enqueue javascript.
-		wp_enqueue_script( 'saswp_add_new', SASWP_PLUGIN_URL. $saswp_add_data_type_config['installer_dir']. '/js/saswp-add-new' . $suffix . '.js' , array( 'jquery-core' ), '0.1' );
-		//wp_enqueue_script( 'saswp_install_script', SASWP_PLUGIN_URL. '/admin_section/js/main-script.js' , array( 'jquery-core' ), '0.1' );
+		wp_enqueue_script( 'saswp_add_new', SASWP_PLUGIN_URL. $saswp_add_data_type_config['installer_dir']. '/js/saswp-add-new.min' . $suffix . '.js' , array( 'jquery-core' ), '0.1' );		
                 
                 //Enque datepicker
                 wp_enqueue_script( 'jquery-ui-datepicker' );
@@ -105,7 +104,7 @@ $saswp_add_data_type_config = array(
                 wp_enqueue_style( 'jquery-ui' );
                 
                 
-                wp_enqueue_script( 'structure_admin', SASWP_PLUGIN_URL. $saswp_add_data_type_config['installer_dir']. '/js/structure_admin' . $suffix . '.js' , array( 'jquery' ), '0.1' );
+                wp_enqueue_script( 'structure_admin', SASWP_PLUGIN_URL. $saswp_add_data_type_config['installer_dir']. '/js/structure_admin.min' . $suffix . '.js' , array( 'jquery' ), '0.1' );
 		
                 wp_localize_script( 'structure_admin', 'saswp_app_object', array(
 			'ajax_url'      		=> admin_url( 'admin-ajax.php' ),						

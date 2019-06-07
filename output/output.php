@@ -2872,6 +2872,7 @@ function saswp_post_specific_schema_output() {
                                 'recipeIngredient'               => $ingredient, 
                                 'recipeInstructions'             => $instruction,  
                                 'video'                          => array(
+                                                                        '@type'        => 'VideoObject',
                                                                         'name'         => saswp_remove_warnings($all_post_meta, 'saswp_recipe_video_name_'.$schema_id, 'saswp_array'),
                                                                         'description'  => saswp_remove_warnings($all_post_meta, 'saswp_recipe_video_description_'.$schema_id, 'saswp_array'),
                                                                         'thumbnailUrl' => saswp_remove_warnings($all_post_meta, 'saswp_recipe_video_thumbnailurl_'.$schema_id, 'saswp_array'),  
@@ -2975,19 +2976,27 @@ function saswp_post_specific_schema_output() {
                                         $reviews = array();
                                       
                                          foreach ($product_details['product_reviews'] as $review){
+                                             
+                                             
+                                          $review_fields = array();
                                           
-                                          $reviews[] = array(
-                                                                        '@type'	=> 'Review',
-                                                                        'author'	=> esc_attr($review['author']),
-                                                                        'datePublished'	=> esc_html($review['datePublished']),
-                                                                        'description'	=> $review['description'],  
-                                                                        'reviewRating'  => array(
-                                                                                '@type'	=> 'Rating',
-                                                                                'bestRating'	=> '5',
-                                                                                'ratingValue'	=> esc_attr($review['reviewRating']),
-                                                                                'worstRating'	=> '1',
-                                                                        )  
-                                          );
+                                          $review_fields['@type']         = 'Review';
+                                          $review_fields['author']        = esc_attr($review['author']);
+                                          $review_fields['datePublished'] = esc_html($review['datePublished']);
+                                          $review_fields['description']   = $review['description'];
+                                                                                    
+                                          if(isset($review['reviewRating']) && $review['reviewRating'] !=''){
+                                              
+                                                $review_fields['reviewRating']['@type']   = 'Rating';
+                                                $review_fields['reviewRating']['bestRating']   = '5';
+                                                $review_fields['reviewRating']['ratingValue']   = esc_attr($review['reviewRating']);
+                                                $review_fields['reviewRating']['worstRating']   = '1';
+                                          
+                                          }
+                                          
+                                          
+                                                                                    
+                                          $reviews[] = $review_fields;
                                           
                                       }
                                       $input1['review'] =  $reviews;
@@ -3895,14 +3904,16 @@ function saswp_site_navigation_output(){
             
     global $sd_data;
     $input = array();    
-            
-    $menuLocations = get_nav_menu_locations();
+                                
+    if(isset($sd_data['saswp_site_navigation_menu']) &&  $sd_data['saswp_site_navigation_menu'] == 1 ){
                 
-    if(!empty($menuLocations) && (isset($sd_data['saswp_site_navigation_menu']) &&  $sd_data['saswp_site_navigation_menu'] == 1 )  ){
-        
         $navObj = array();
         
-        foreach($menuLocations as $type => $id){
+        $menuLocations = get_nav_menu_locations();
+        
+        if(!empty($menuLocations)){
+         
+            foreach($menuLocations as $type => $id){
             
             $menuItems = wp_get_nav_menu_items($id);
                       
@@ -3952,7 +3963,9 @@ function saswp_site_navigation_output(){
             
             }
                                                 
-        }
+            }
+            
+        }        
               
         if($navObj){
             

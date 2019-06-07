@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.2
-Stable tag: 1.8.5
+Stable tag: 1.8.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -13,28 +13,66 @@ Schema & Structured Data adds Google Rich Snippets markup according to Schema.or
 
 = Features =
 
-* <strong>Schema Types</strong>: are divided into 8 types such as Blog Posting, News article, Local Business, Web page, Article, Recipe, Product, and Video Object. We are going to add all the schema types in the future. You can request the one you want and we will add it for you! 
-* <strong>Conditional Display Feilds</strong>: Meaning you include or exclude any posts, pages, post types, taxonomies and more! 
+* <strong>Schema Types</strong>: Currently, We have 33 schema types such as Blog Posting, News article, Local Business, Web page, Article, Recipe, Product, and Video Object. We are going to add all the schema types in the future. You can request the one you want and we will add it for you! 
+* <strong>Conditional Display Fields</strong>: Meaning you include or exclude any posts, pages, post types, taxonomies and more! 
 * <strong>Knowlegde Base Support</strong>: Recognize the content based on the organization or a person via data type option.
-* <strong>Full AMP Compatiblity</strong>: Supports the AMP for WP and AMP by Automattic plugins.  
+* <strong>Full AMP Compatiblity</strong>: Supports the AMP for WP and AMP by Automattic plugins. 
+* <strong>Advanced Settings</strong>: Play with output of schema markup using these options (Defragment, Add in Footer, Pretty Print, MicroData CleanUp etc.)
+* <strong>Migration</strong>: Import the data from other schema plugins such as (SEO Pressor, WP SEO Schema, Schema Plugin etc )
+* <strong>Compatibility</strong>: Generate the schema markup for the plugins. We have provided schema support for them. Few of them are - kk Star Ratings, WP-PostRatings, bbPress
+* <strong>Google Review</strong>: Display your business google reviews and its schema markup on your website.
+* <strong>Review Module</strong>: Create your own review rating box with pros and cons and its schema markup 
 * <strong>Unlimited Custom Post Types</strong>: You can control to represent the Rich Snippets data in the google search console using unlimited custom post types.
 * <strong>Easy to use</strong> with Minimal Settings
 * <strong>Archive Page Listing</strong> Support 
 * <strong>JSON-LD</strong> Format
 * <strong>Easy to use</strong> Setup Wizard
 * <strong>Breadcrumbs</strong> Listing Support
-* <strong>Constant Development & New Features</strong>: We’ll be releasing the constant updates along with the more handy features as soon as we get the feedback from the users.
+* <strong>Comments</strong> Listing Support
 * <strong>Constant Development & New Features</strong>: We’ll be releasing the constant updates along with the more handy features as soon as we get the feedback from the users.
 
-= Supported Schema & Structured Data Types: =
-* LocalBusiness Schema with all the sub categories
-* BlogPosting Schema
-* News Article Schema
-* WebPage Schema
-* NewsArticle Schema
-* Recipe Schema
-* Product Schema
-* VideoObject Schema
+= Premium =
+
+* Cooked Compatibility For Schema
+* Woocommerce Compatibility For Schema
+
+
+= Supported Schema Types: =
+
+* Apartment
+* House
+* SingleFamilyResidence
+* Article
+* Blogposting
+* Course
+* DiscussionForumPosting
+* HowTo
+* NewsArticle
+* QAPage
+* Review
+* Recipe
+* TVSeries
+* SoftwareApplication
+* TechArticle
+* WebPage
+* Event
+* VideoGame
+* JobPosting
+* Service
+* Trip
+* AudioObject
+* VideoObject
+* MedicalCondition
+* LocalBusiness with all the sub categories
+* Product
+* TouristAttraction
+* TouristDestination
+* LandmarksOrHistoricalBuildings
+* HinduTemple
+* Church
+* Mosque
+* Person
+
 
 **We Act Fast on Feedback!**
 We are actively developing this plugin and our aim is to make this plugin into the #1 solution for Schema and Google Structured Data in the world. You can [Request a Feature](https://github.com/ahmedkaludi/schema-and-structured-data-for-wp/issues) or [Report a Bug](http://magazine3.company/contact/).
@@ -64,6 +102,17 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.8.6 (07 June 2019) =
+
+* Bug Fixed: Notice: Undefined variable: custom_markup #308
+* Bug Fixed: JS and CSS should be included where it's need. #294
+* Bug Fixed: Remove duplicate queries #296
+* Bug Fixed: Google Review Module ( update_post_meta was called earlier than its actually call ) #307
+* Bug Fixed: When extensions are active then it should show #313
+* Bug Fixed: Compatibility conflicts with WooCommerce SEO #312
+* Bug Fixed: '@type' => 'VideoObject' is missing in recipe schema video entity #314
+* Bug Fixed: Navigation Menu should have Assigned location name #310
 
 
 = 1.8.5 (28 May 2019) =

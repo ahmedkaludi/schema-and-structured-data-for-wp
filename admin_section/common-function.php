@@ -58,16 +58,17 @@
                 }                
              update_option('sd_data', $sd_data); 
              update_option('saswp-file-upload_url','');
-            }                                    
+             
             if ( count($errorDesc) ){
               echo implode("\n<br/>", $errorDesc);              
               $wpdb->query('ROLLBACK');             
             }else{
               $wpdb->query('COMMIT'); 
               return true;
-            }            
-        
-                             
+            }
+             
+            }                                    
+                                                             
     }   
 /**
      * We are here exporting all schema types and its settings as a backup file     
@@ -1226,12 +1227,12 @@ function saswp_get_tab( $default = '', $available = array() ) {
 
 add_action('plugins_loaded', 'saswp_defaultSettings' );
 
-             $sd_data=array();                
+                             
 function saswp_defaultSettings(){
     
             global $sd_data;    
-            $sd_name = 'default';
-            $logo    = array();
+            $sd_name  = 'default';
+            $logo     = array();
             $bloginfo = get_bloginfo('name', 'display'); 
             
             if($bloginfo){
@@ -1330,9 +1331,9 @@ function saswp_defaultSettings(){
                 $defaults['sd_default_image_height']  = array_key_exists(2, $logo)? $logo[2]:'';                                
             }
                         
-            $sd_data = $settings = get_option( 'sd_data', $defaults);     
-            
-            return $settings;
+            $sd_data = get_option( 'sd_data', $defaults);     
+                       
+            return $sd_data;
             
         }
 function saswp_frontend_enqueue(){ 

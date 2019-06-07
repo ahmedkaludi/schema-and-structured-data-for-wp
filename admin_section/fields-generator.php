@@ -211,33 +211,33 @@ class saswp_fields_generator {
                         $allowed_html = saswp_expanded_allowed_tags();
                         
                         $output .= '<li><div class="saswp-knowledge-label">'.$label.'</div><div class="saswp-knowledge-field">'.$input.'<p class="">'.$note.'</p></div></li>';			
-//                        if($note =='' || $proversion == 1){                            
-//                            $output .= '<li><div class="saswp-knowledge-label">'.$label.'</div><div class="saswp-knowledge-field">'.$input.'<p data-id="'.esc_attr($proversion).'">'.$note.'</p></div></li>';			
-//                        }else{
-//                            $output .= '<li><div class="saswp-knowledge-label">'.$label.'</div><div class="saswp-knowledge-field">'.$input.'<p class="">'.$note.'</p></div></li>';			
-//                        }
                                                 
 		}
                 if($field_type == 'general'){
                                         
-                    $locations = get_nav_menu_locations();
-                    
-                    if($locations){
+                    $reg_menus  = get_registered_nav_menus();
+                    $locations  = get_nav_menu_locations();
+                                                            
+                    if($reg_menus){
                         
-                        foreach ($locations as $type => $id){
-                             
+                        foreach ($reg_menus as $type => $title){
+                                                                                                                 
+                            if($locations[$type]){
+                            
                             $checked = '';
                             
                             if(isset($settings['saswp-'.$type])){
                                 $checked = 'checked';
                             }
                             
-                            $output .= '<li class="saswp-nav-menu-list"><div class="saswp-knowledge-label"><label>'.wp_get_nav_menu_name($type).'</label></div>'
+                            $output .= '<li class="saswp-nav-menu-list"><div class="saswp-knowledge-label"><label>'.esc_attr($title).'</label></div>'
                                     . '<div class="saswp-knowledge-field">'
                                     . '<input type="checkbox" name="sd_data[saswp-'.$type.']" class="regular-text" value="1" '.$checked.'>'
                                     . '</div>'
                                     . '</li>';
-
+                                
+                            }
+                            
                         }    
             
                     }

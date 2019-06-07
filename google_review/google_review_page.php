@@ -1,13 +1,17 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-if(!function_exists('wp_get_current_user')) {
-    include(ABSPATH . "wp-includes/pluggable.php"); 
-}
-       
-        if(isset($_POST['sasw_post_ID'])){
+add_action('admin_init', 'saswp_add_google_places');
+
+function saswp_add_google_places(){
+
+    if(!function_exists('wp_get_current_user')) {
+        include(ABSPATH . "wp-includes/pluggable.php"); 
+    }
+
+    if(isset($_POST['place_post_ID'])){
                       
-            $post_id    = sanitize_text_field($_POST['sasw_post_ID']);
+            $post_id    = sanitize_text_field($_POST['place_post_ID']);
             $post_title = sanitize_text_field($_POST['saswp_g_review_title']);
             
             $post = array(                 
@@ -44,6 +48,8 @@ if(!function_exists('wp_get_current_user')) {
             }
             
         }
+    
+}
 
 class saswp_google_review_page{
         
@@ -228,7 +234,7 @@ class saswp_google_review_page{
 
                             <input type="hidden" name="post_type" value="saswp-google-review">
                             <input type="hidden" name="saswp-page" value="collection">
-                            <input type="hidden" id="sasw_post_ID" name="sasw_post_ID" value="<?php echo $post_id; ?>">
+                            <input type="hidden" id="place_post_ID" name="place_post_ID" value="<?php echo $post_id; ?>">
                             <input type="text" value="<?php if(get_the_title($post_id) == 'Auto Draft'){ echo 'Untitled'; }else{ echo get_the_title($post_id); } ?>" id="saswp_g_review_title" name="saswp_g_review_title" style="width: 30%;">
 
                             <button type="submit" class="btn btn-success button-primary" > <?php echo esc_html__('Save','schema-and-structured-data-for-wp'); ?>  </button>
