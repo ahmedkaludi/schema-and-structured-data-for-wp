@@ -567,7 +567,7 @@ function saswp_general_page_callback(){
             <div class="saswp-heading">
               <h2><?php echo esc_html__('General Settings','schema-and-structured-data-for-wp'); ?></h2>              
             </div>
-            <p>This is a global schema settings, to display about, contact, website, archive, breadcrumbs, comments and site navigation schema type. <a target="_blank" href="http://structured-data-for-wp.com/docs/">Learn More</a></p>   
+            <p>This is a global schema settings, to display about, contact, website, archive, breadcrumbs, comments and site navigation schema type. <a target="_blank" href="http://structured-data-for-wp.com/docs/article/what-is-general-settings-in-schema/">Learn More</a></p>   
         <ul><li><div style="float:left;clear: both;"><label class="saswp-tooltip">
         <?php echo esc_html__('About','schema-and-structured-data-for-wp') ?>
                 <span class="saswp-tooltiptext"><?php echo esc_html__('Set the about page of of your website','schema-and-structured-data-for-wp') ?></span>
