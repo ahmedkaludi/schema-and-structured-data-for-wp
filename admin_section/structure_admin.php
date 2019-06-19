@@ -307,7 +307,7 @@ function saswp_comparison_logic_checker($input){
           
             $homepage ='false';  
           
-            if(is_home() || is_front_page() || ampforwp_is_home()){
+            if(is_home() || is_front_page() || ( function_exists('ampforwp_is_home') && ampforwp_is_home()) ){
                $homepage = 'true';  
             }
                       
