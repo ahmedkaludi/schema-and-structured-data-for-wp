@@ -217,12 +217,12 @@ class saswp_fields_generator {
                                         
                     $reg_menus  = get_registered_nav_menus();
                     $locations  = get_nav_menu_locations();
-                                                            
+                    
                     if($reg_menus){
                         
                         foreach ($reg_menus as $type => $title){
-                                                                                                                 
-                            if($locations[$type]){
+                                                                                             
+                            if(array_key_exists($type, $locations) && $locations[$type]){
                             
                             $checked = '';
                             
