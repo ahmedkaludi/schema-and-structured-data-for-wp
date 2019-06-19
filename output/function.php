@@ -731,13 +731,38 @@ function saswp_remove_yoast_product_schema(){
      if(saswp_global_option()  && saswp_remove_warnings($sd_data, 'saswp-yoast', 'saswp_string') == 1){
       
        if(isset($wp_filter['wp_footer'])){
-        foreach($wp_filter['wp_footer']->callbacks as $key=>$actions){
-            foreach ($actions as $actualKey=>$priorities){
-                if ($priorities['function'][0] instanceof WPSEO_WooCommerce_Schema && $priorities['function'][1] == 'output_schema_footer') {
-                   unset($wp_filter['wp_footer']->callbacks[$key][$actualKey]);
-                }   
-            }   
-        }
+         
+        $callbacks =  $wp_filter['wp_footer']->callbacks;
+        
+        if(is_array($callbacks)){
+        
+            foreach($callbacks as $key=>$actions){
+                
+            if(is_array($actions)){
+            
+                foreach ($actions as $actualKey => $priorities){
+                
+                    if(is_array($priorities['function'])){
+                    
+                        if(is_object($priorities['function'][0])){
+                        
+                            if ($priorities['function'][0] instanceof WPSEO_WooCommerce_Schema && $priorities['function'][1] == 'output_schema_footer') {
+                                 unset($wp_filter['wp_footer']->callbacks[$key][$actualKey]);
+                            }
+                            
+                        }
+                                                                        
+                    }
+                                                                                
+                }
+                
+            }    
+                                           
+          }
+            
+        }   
+        
+        
       }
          
     }             
