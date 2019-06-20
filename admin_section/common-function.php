@@ -1292,12 +1292,19 @@ function saswp_defaultSettings(){
 
                     //AMP Block           
                     'saswp-for-amp'            => 1, 
-                    'saswp-for-wordpress'      => 1,      
+                    'saswp-for-wordpress'      => 1,
+                    'saswp-yoast'              => 1,
                     'saswp-logo-width'         => '60',
                     'saswp-logo-height'        => '60',                                                            
                     'sd_initial_wizard_status' => 1,                                        
 
-            );	            
+            );	         
+            
+            if(is_plugin_active('wordpress-seo/wp-seo.php') || is_plugin_active('wordpress-seo-premium/wp-seo-premium.php')){
+            
+             $defaults['saswp-yoast']   = 1;
+                          
+            }
             
             if(is_array($logo)){
                 
