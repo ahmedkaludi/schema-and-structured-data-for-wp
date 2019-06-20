@@ -74,6 +74,10 @@ Schema & Structured Data for WP & AMP adds Google Rich Snippets markup according
 
 Some useful extensions to extend Schema & Structured Data for WP & AMP features, check [Woocommerce Compatibility For Schema](https://structured-data-for-wp.com/extensions/woocommerce-compatibility-for-schema/), [Cooked Compatibility For Schema](https://structured-data-for-wp.com/extensions/cooked-compatibility-for-schema/) and We are going to add more.
 
+### Support
+
+We try our best to provide support on WordPress.org forums. However, We have a special [team support](https://structured-data-for-wp.com/contact-us/) where you can ask us questions and get help about. Delivering a good user experience means a lot to us and so we try our best to reply each and every question that gets asked.
+
 ### Bug Reports
 
 Bug reports for Schema & Structured Data for WP & AMP are [welcomed on GitHub](https://github.com/ahmedkaludi/schema-and-structured-data-for-wp/issues). Please note GitHub is not a support forum, and issues that aren't properly qualified as bugs will be closed.
