@@ -1028,7 +1028,7 @@ function saswp_custom_breadcrumbs() {
                 
                 if($post_type == 'post') {
                     
-                     $variables1_titles[] = get_the_title();
+                     $variables1_titles[] = saswp_get_the_title();
                      $variables2_links[]  = get_permalink();                     
                      
                 }
@@ -1075,12 +1075,12 @@ function saswp_custom_breadcrumbs() {
                     
                 }
              
-                    $variables1_titles[]    = get_the_title();
+                    $variables1_titles[]    = saswp_get_the_title();
                     $variables2_links[]     = get_permalink();
                    
             } else {      
                 
-                   $variables1_titles[]     = get_the_title();
+                   $variables1_titles[]     = saswp_get_the_title();
                    $variables2_links[]      = get_permalink();
             }
               

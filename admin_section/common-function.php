@@ -1710,11 +1710,12 @@ function saswp_frontend_enqueue(){
 /**
  * Here we are modifying the default excerpt
  * @global type $post
- * @return type
+ * @return type string
  */
 function saswp_get_the_excerpt() {
             
     global $post;
+    global $sd_data;
     $excerpt = '';
     if(is_object($post)){
     
@@ -1742,6 +1743,51 @@ function saswp_get_the_excerpt() {
      $excerpt = wp_strip_all_tags(strip_shortcodes($excerpt)); 
      
     }
+    
+    if(saswp_global_option()  && saswp_remove_warnings($sd_data, 'saswp-yoast', 'saswp_string') == 1){
         
+        $yoast_meta_des = get_post_meta($post->ID, '_yoast_wpseo_metadesc', true);
+        
+        if($yoast_meta_des){
+            
+            $excerpt = $yoast_meta_des;
+            
+        }
+        
+    }
+                
     return $excerpt;
+}
+
+/**
+ * Here we are modifying the default title
+ * @global type $post
+ * @return type string
+ */
+function saswp_get_the_title(){
+    
+    global $post;
+    global $sd_data;
+                    
+    if(saswp_global_option()  && saswp_remove_warnings($sd_data, 'saswp-yoast', 'saswp_string') == 1){
+        
+        $yoast_title = get_post_meta($post->ID, '_yoast_wpseo_title', true);
+        
+        if($yoast_title){
+            
+            $title = $yoast_title;
+            
+        }else{
+            
+            $title = get_the_title();
+            
+        }
+        
+    }else{
+        
+       $title = get_the_title();
+    }
+            
+    return $title; 
+    
 }

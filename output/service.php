@@ -1111,7 +1111,7 @@ Class saswp_output_service{
                 }
                                                                                                                                               
                 $dw_qa['@type']       = 'Question';
-                $dw_qa['name']        = get_the_title(); 
+                $dw_qa['name']        = saswp_get_the_title(); 
                 $dw_qa['upvoteCount'] = get_post_meta( $post_id, '_dwqa_votes', true );                                             
                 
                 $args = array(
@@ -1615,7 +1615,7 @@ Class saswp_output_service{
                                         '@id'				=> get_permalink().'/#techarticle',
                                         'url'				=> get_permalink(),
 					'mainEntityOfPage'              => get_permalink(),					
-					'headline'			=> get_the_title(),
+					'headline'			=> saswp_get_the_title(),
 					'description'                   => saswp_get_the_excerpt(),
 					'datePublished'                 => esc_html($date),
 					'dateModified'                  => esc_html($modified_date),
@@ -1646,7 +1646,7 @@ Class saswp_output_service{
                                         '@id'				=> get_permalink().'/#article',
                                         'url'				=> get_permalink(),
 					'mainEntityOfPage'              => get_permalink(),					
-					'headline'			=> get_the_title(),
+					'headline'			=> saswp_get_the_title(),
 					'description'                   => saswp_get_the_excerpt(),
 					'datePublished'                 => esc_html($date),
 					'dateModified'                  => esc_html($modified_date),
@@ -1680,14 +1680,14 @@ Class saswp_output_service{
 				'@context'			=> 'http://schema.org',
 				'@type'				=> 'WebPage' ,
                                 '@id'				=> get_permalink().'/#webpage',
-				'name'				=> get_the_title(),
+				'name'				=> saswp_get_the_title(),
 				'url'				=> get_permalink(),
 				'description'                   => saswp_get_the_excerpt(),
 				'mainEntity'                    => array(
 						'@type'			=> 'Article',
 						'mainEntityOfPage'	=> get_permalink(),
 						'image'			=> esc_url($image_details[0]),
-						'headline'		=> get_the_title(),
+						'headline'		=> saswp_get_the_title(),
 						'description'		=> saswp_get_the_excerpt(),
 						'datePublished' 	=> esc_html($date),
 						'dateModified'		=> esc_html($modified_date),

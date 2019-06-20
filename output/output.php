@@ -323,7 +323,7 @@ function saswp_schema_output() {
 			'@context'			=> 'http://schema.org',
 			'@type'				=> $schema_type ,
                         '@id'				=> get_permalink().'/#course',    
-			'name'			        => get_the_title(),
+			'name'			        => saswp_get_the_title(),
 			'description'                   => $description,			
 			'url'				=> get_permalink(),
 			'datePublished'                 => esc_html($date),
@@ -384,7 +384,7 @@ function saswp_schema_output() {
                                 '@context'			=> 'http://schema.org',
                                 '@type'				=> 'DiscussionForumPosting' ,
                                 '@id'				=> get_permalink().'/#blogposting',    			
-                                'headline'			=> get_the_title(),
+                                'headline'			=> saswp_get_the_title(),
                                 'description'                   => saswp_get_the_excerpt(),			
                                 'url'				=> get_permalink(),
                                 'datePublished'                 => esc_html($date),
@@ -426,9 +426,9 @@ function saswp_schema_output() {
 			'@type'				=> 'BlogPosting' ,
                         '@id'				=> get_permalink().'/#blogposting',    
 			'mainEntityOfPage'              => get_permalink(),
-			'headline'			=> get_the_title(),
+			'headline'			=> saswp_get_the_title(),
 			'description'                   => saswp_get_the_excerpt(),
-			'name'				=> get_the_title(),
+			'name'				=> saswp_get_the_title(),
 			'url'				=> get_permalink(),
 			'datePublished'                 => esc_html($date),
 			'dateModified'                  => esc_html($modified_date),
@@ -714,7 +714,7 @@ function saswp_schema_output() {
 				'@type'				=> $schema_type ,
                                 '@id'				=> get_permalink().'/#recipe',    
 				'url'				=> get_permalink(),
-				'name'			        => get_the_title(),
+				'name'			        => saswp_get_the_title(),
 				'datePublished'                 => esc_html($date),
 				'dateModified'                  => esc_html($modified_date),
 				'description'                   => saswp_get_the_excerpt(),
@@ -876,14 +876,14 @@ function saswp_schema_output() {
 					'@type'				=> $schema_type ,
                                         '@id'				=> get_permalink().'/#newsarticle',
 					'url'				=> get_permalink(),
-					'headline'			=> get_the_title(),
+					'headline'			=> saswp_get_the_title(),
                                         'mainEntityOfPage'	        => get_the_permalink(),            
 					'datePublished'                 => esc_html($date),
 					'dateModified'                  => esc_html($modified_date),
 					'description'                   => saswp_get_the_excerpt(),
                                         'articleSection'                => $article_section,            
                                         'articleBody'                   => saswp_get_the_excerpt(),            
-					'name'				=> get_the_title(), 					
+					'name'				=> saswp_get_the_title(), 					
 					'thumbnailUrl'                  => saswp_remove_warnings($image_details, 0, 'saswp_string'),
                                         'wordCount'                     => saswp_remove_warnings($word_count, 'word_count', 'saswp_string'),
                                         'timeRequired'                  => saswp_remove_warnings($word_count, 'timerequired', 'saswp_string'),            
@@ -1031,8 +1031,8 @@ function saswp_schema_output() {
                                     'dateCreated'    => esc_html($date),
                                     'datePublished'  => esc_html($date),
                                     'dateModified'   => esc_html($modified_date),
-                                    'headline'       => get_the_title(),
-                                    'name'           => get_the_title(),
+                                    'headline'       => saswp_get_the_title(),
+                                    'name'           => saswp_get_the_title(),
                                     'keywords'       => tie_get_plain_terms( get_the_ID(), 'post_tag' ),
                                     'url'            => get_permalink(),
                                     'description'    => saswp_get_the_excerpt(),
@@ -1061,7 +1061,7 @@ function saswp_schema_output() {
                                     
                                     $input1['itemReviewed'] = array(
                                             '@type' => 'Thing',
-                                            'name'  => get_the_title(),
+                                            'name'  => saswp_get_the_title(),
                                     );
 
                                     $input1['reviewRating'] = array(
@@ -1305,11 +1305,11 @@ function saswp_schema_output() {
 						'@type'				=> 'VideoObject',
                                                 '@id'                           => get_permalink().'/#videoobject',        
 						'url'				=> get_permalink(),
-						'headline'			=> get_the_title(),
+						'headline'			=> saswp_get_the_title(),
 						'datePublished'                 => esc_html($date),
 						'dateModified'                  => esc_html($modified_date),
 						'description'                   => $description,
-						'name'				=> get_the_title(),
+						'name'				=> saswp_get_the_title(),
 						'uploadDate'                    => esc_html($date),
 						'thumbnailUrl'                  => isset($image_details[0]) ? esc_url($image_details[0]):'',
 						'mainEntity'                    => array(
@@ -3759,7 +3759,7 @@ function saswp_archive_output(){
                                 $category_posts[] =  array(
                                 
                                                     '@type' 		=> esc_attr($schema_type),
-                                                    'headline' 		=> get_the_title(),
+                                                    'headline' 		=> saswp_get_the_title(),
                                                     'url' 		=> get_the_permalink(),
                                                     'datePublished'     => get_the_date('c'),
                                                     'dateModified'      => get_the_modified_date('c'),
@@ -3881,7 +3881,7 @@ function saswp_about_page_output(){
                                                             "@id"             => get_permalink(),
 						),
 				"url"		   => get_permalink(),
-				"headline"	   => get_the_title(),								
+				"headline"	   => saswp_get_the_title(),								
 				'description'	   => saswp_get_the_excerpt(),
 			);
                         
@@ -3926,7 +3926,7 @@ function saswp_contact_page_output(){
 							"@id" 	=> get_permalink(),
 							),
 				"url"		   => get_permalink(),
-				"headline"	   => get_the_title(),								
+				"headline"	   => saswp_get_the_title(),								
 				'description'	   => saswp_get_the_excerpt(),
 			);
                         

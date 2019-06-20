@@ -2776,7 +2776,7 @@ class saswp_post_specific {
                             'label' => 'Headline',
                             'id' => 'saswp_blogposting_headline_'.$schema_id,
                             'type' => 'text',
-                            'default'=> get_the_title()
+                            'default'=> saswp_get_the_title()
                     ),
                     array(
                             'label' => 'Description',
@@ -2788,7 +2788,7 @@ class saswp_post_specific {
                             'label' => 'Name',
                             'id' => 'saswp_blogposting_name_'.$schema_id,
                             'type' => 'text',
-                            'default' => get_the_title()
+                            'default' => saswp_get_the_title()
                     ), 
                     array(
                             'label' => 'URL',
@@ -2890,7 +2890,7 @@ class saswp_post_specific {
                             'label' => 'Headline',
                             'id' => 'saswp_newsarticle_headline_'.$schema_id,
                             'type' => 'text',
-                            'default' => get_the_title(),
+                            'default' => saswp_get_the_title(),
                     ),
                     array(
                             'label' => 'Date Published',
@@ -2926,7 +2926,7 @@ class saswp_post_specific {
                             'label' => 'Name',
                             'id' => 'saswp_newsarticle_name_'.$schema_id,
                             'type' => 'text',
-                            'default' => get_the_title()
+                            'default' => saswp_get_the_title()
                     ), 
                      array(
                             'label' => 'Thumbnail URL',
@@ -3011,7 +3011,7 @@ class saswp_post_specific {
                             'label' => 'Name',
                             'id' => 'saswp_webpage_name_'.$schema_id,
                             'type' => 'text',
-                            'default' => get_the_title()
+                            'default' => saswp_get_the_title()
                     ),
                     array(
                             'label' => 'URL',
@@ -3040,7 +3040,7 @@ class saswp_post_specific {
                             'label' => 'Headline',
                             'id' => 'saswp_webpage_headline_'.$schema_id,
                             'type' => 'text',
-                            'default' => get_the_title(),
+                            'default' => saswp_get_the_title(),
                     ),
                    
                     array(
@@ -3111,7 +3111,7 @@ class saswp_post_specific {
                             'label' => 'Headline',
                             'id' => 'saswp_article_headline_'.$schema_id,
                             'type' => 'text',
-                            'default' => get_the_title()
+                            'default' => saswp_get_the_title()
                     ),
                     array(
                             'label' => 'Description',
@@ -3306,7 +3306,7 @@ class saswp_post_specific {
                             'label' => 'Headline',
                             'id' => 'saswp_tech_article_headline_'.$schema_id,
                             'type' => 'text',
-                            'default' => get_the_title()
+                            'default' => saswp_get_the_title()
                     ),
                     array(
                             'label' => 'Description',
@@ -3380,7 +3380,7 @@ class saswp_post_specific {
                             'label' => 'Name',
                             'id' => 'saswp_course_name_'.$schema_id,
                             'type' => 'text',
-                            'default' => get_the_title()
+                            'default' => saswp_get_the_title()
                     ),
                     array(
                             'label' => 'Description',
@@ -3427,7 +3427,7 @@ class saswp_post_specific {
                             'label' => 'Headline',
                             'id' => 'saswp_dfp_headline_'.$schema_id,
                             'type' => 'text',
-                            'default' => get_the_title()
+                            'default' => saswp_get_the_title()
                     ),
                     array(
                             'label' => 'Description',
@@ -3481,7 +3481,7 @@ class saswp_post_specific {
                             'label' => 'Name',
                             'id' => 'saswp_recipe_name_'.$schema_id,
                             'type' => 'text',
-                            'default' => get_the_title()
+                            'default' => saswp_get_the_title()
                     ),
                     array(
                         'label' => 'Image',
@@ -4146,7 +4146,7 @@ class saswp_post_specific {
                             'label' => 'Headline',
                             'id' => 'saswp_video_object_headline_'.$schema_id,
                             'type' => 'text',
-                            'default' => get_the_title()
+                            'default' => saswp_get_the_title()
                     ),
                     array(
                             'label' => 'Date Published',
@@ -4170,7 +4170,7 @@ class saswp_post_specific {
                             'label' => 'Name',
                             'id' => 'saswp_video_object_name_'.$schema_id,
                             'type' => 'text',
-                            'default' => get_the_title()
+                            'default' => saswp_get_the_title()
                     ),
                     array(
                             'label' => 'Upload Date',
