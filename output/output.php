@@ -2796,8 +2796,9 @@ function saswp_post_specific_schema_output() {
 	
 			 if( 'Recipe' === $schema_type){
                              
-				$recipe_logo    = get_post_meta( get_the_ID(), 'saswp_article_organization_logo_'.$schema_id.'_detail',true);
-                                $recipe_image   = get_post_meta( get_the_ID(), 'saswp_recipe_author_image_'.$schema_id.'_detail',true);
+                $recipe_logo    = get_post_meta( get_the_ID(), 'saswp_recipe_organization_logo_'.$schema_id.'_detail',true);
+                $recipe_image   = get_post_meta( get_the_ID(), 'saswp_recipe_image_'.$schema_id.'_detail',true);                                                                           
+                $recipe_author_image   = get_post_meta( get_the_ID(), 'saswp_recipe_author_image_'.$schema_id.'_detail',true);
                                 
                                 $ingredient     = array();
                                 $instruction    = array();
@@ -2844,7 +2845,13 @@ function saswp_post_specific_schema_output() {
 				'@type'				=> $schema_type ,
                                 '@id'                           => get_permalink().'/#recipe',    
 				'url'				=> saswp_remove_warnings($all_post_meta, 'saswp_recipe_url_'.$schema_id, 'saswp_array'),
-				'name'			        => saswp_remove_warnings($all_post_meta, 'saswp_recipe_name_'.$schema_id, 'saswp_array'),
+                'name'			        => saswp_remove_warnings($all_post_meta, 'saswp_recipe_name_'.$schema_id, 'saswp_array'),
+                'image'                         =>array(
+                    '@type'		=> 'ImageObject',
+                    'url'		=> saswp_remove_warnings( $recipe_image, 'thumbnail', 'saswp_string'),
+                    'width'		=> saswp_remove_warnings( $recipe_image, 'width', 'saswp_string'),
+                    'height'    => saswp_remove_warnings( $recipe_image , 'height', 'saswp_string'),
+                    ),
                                 'author'			=> array(
 								'@type' 	=> 'Person',
 								'name'		=> saswp_remove_warnings($all_post_meta, 'saswp_recipe_author_name_'.$schema_id, 'saswp_array'),
@@ -2852,8 +2859,8 @@ function saswp_post_specific_schema_output() {
 								'Image'		=> array(
 									'@type'			=> 'ImageObject',
 									'url'			=> saswp_remove_warnings($all_post_meta, 'saswp_recipe_author_image_'.$schema_id, 'saswp_array'),
-									'height'		=> saswp_remove_warnings($recipe_image, 'height', 'saswp_string'),
-									'width'			=> saswp_remove_warnings($recipe_image, 'width', 'saswp_string')
+									'height'		=> saswp_remove_warnings($recipe_author_image, 'height', 'saswp_string'),
+									'width'			=> saswp_remove_warnings($recipe_author_image, 'width', 'saswp_string')
 								),
 							),
                                                                         
@@ -2901,7 +2908,16 @@ function saswp_post_specific_schema_output() {
 					),
 					
 				
-				);
+                );
+                                if(saswp_remove_warnings($all_post_meta, 'saswp_recipe_schema_enable_rating_'.$schema_id, 'saswp_array') == 1 && saswp_remove_warnings($all_post_meta, 'saswp_recipe_schema_rating_'.$schema_id, 'saswp_array') && saswp_remove_warnings($all_post_meta, 'saswp_recipe_schema_review_count_'.$schema_id, 'saswp_array')){   
+                                                
+                                    $input1['aggregateRating'] = array(
+                                                    "@type"       => "AggregateRating",
+                                                    "ratingValue" => saswp_remove_warnings($all_post_meta, 'saswp_recipe_schema_rating_'.$schema_id, 'saswp_array'),
+                                                    "reviewCount" => saswp_remove_warnings($all_post_meta, 'saswp_recipe_schema_review_count_'.$schema_id, 'saswp_array')
+                                                );                                       
+                                }
+                   
                                 if(!empty($aggregateRating)){
                                     $input1['aggregateRating'] = $aggregateRating;
                                 }                                

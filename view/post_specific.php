@@ -2086,6 +2086,8 @@ class saswp_post_specific {
                            $meta_field['id'] == 'saswp_product_schema_review_count_'.$schema_id ||
                            $meta_field['id'] == 'saswp_review_schema_review_count_'.$schema_id  ||
                            $meta_field['id'] == 'local_review_count_'.$schema_id                ||
+                           $meta_field['id'] == 'saswp_recipe_schema_rating_'.$schema_id        ||
+                           $meta_field['id'] == 'saswp_recipe_schema_review_count_'.$schema_id ||
                            $meta_field['id'] == 'saswp_software_schema_rating_count_'.$schema_id     
                                 
                           )
@@ -3405,6 +3407,11 @@ class saswp_post_specific {
                             'default' => get_the_title()
                     ),
                     array(
+                        'label' => 'Image',
+                        'id' => 'saswp_recipe_image_'.$schema_id,
+                        'type' => 'media'                        
+                   ),
+                    array(
                             'label' => 'Date Published',
                             'id' => 'saswp_recipe_date_published_'.$schema_id,
                             'type' => 'text',
@@ -3593,7 +3600,23 @@ class saswp_post_specific {
                             'attributes' => array(
                                 'placeholder' => 'PT1M33S'
                             ),
-                    ),                                                                            
+                    ),   
+                    array(
+                        'label' => 'Aggregate Rating',
+                        'id' => 'saswp_recipe_schema_enable_rating_'.$schema_id,
+                        'type' => 'checkbox',                            
+                    ),
+                    array(
+                        'label' => 'Rating',
+                        'id' => 'saswp_recipe_schema_rating_'.$schema_id,
+                        'type' => 'text',                            
+                    ),
+                    array(
+                        'label' => 'Number of Reviews',
+                        'id' => 'saswp_recipe_schema_review_count_'.$schema_id,
+                        'type' => 'text',                            
+                    )
+
                     );
                     break;
                 
