@@ -1551,10 +1551,9 @@ function saswp_schema_output() {
  */
 function saswp_post_specific_schema_output() {
     
-	global $post;
+	global $post;                                
         global $sd_data;   
-        
-        
+                
         $logo      = ''; 
         $height    = '';
         $width     = '';
@@ -2561,6 +2560,14 @@ function saswp_post_specific_schema_output() {
                                 );
 
                             }
+                                if(saswp_remove_warnings($all_post_meta, 'saswp_blogposting_enable_rating_'.$schema_id, 'saswp_array') == 1 && saswp_remove_warnings($all_post_meta, 'saswp_blogposting_rating_'.$schema_id, 'saswp_array') && saswp_remove_warnings($all_post_meta, 'saswp_blogposting_review_count_'.$schema_id, 'saswp_array')){   
+                                                
+                                    $input1['aggregateRating'] = array(
+                                                    "@type"       => "AggregateRating",
+                                                    "ratingValue" => saswp_remove_warnings($all_post_meta, 'saswp_blogposting_rating_'.$schema_id, 'saswp_array'),
+                                                    "reviewCount" => saswp_remove_warnings($all_post_meta, 'saswp_blogposting_review_count_'.$schema_id, 'saswp_array')
+                                                );                                       
+                                }
                         
                                if(!empty($aggregateRating)){
                                     $input1['aggregateRating'] = $aggregateRating;
@@ -2738,6 +2745,15 @@ function saswp_post_specific_schema_output() {
                                 );
 
                                }
+                               
+                               if(saswp_remove_warnings($all_post_meta, 'saswp_article_enable_rating_'.$schema_id, 'saswp_array') == 1 && saswp_remove_warnings($all_post_meta, 'saswp_article_rating_'.$schema_id, 'saswp_array') && saswp_remove_warnings($all_post_meta, 'saswp_article_review_count_'.$schema_id, 'saswp_array')){   
+                                                
+                                    $input1['aggregateRating'] = array(
+                                                    "@type"       => "AggregateRating",
+                                                    "ratingValue" => saswp_remove_warnings($all_post_meta, 'saswp_article_rating_'.$schema_id, 'saswp_array'),
+                                                    "reviewCount" => saswp_remove_warnings($all_post_meta, 'saswp_article_review_count_'.$schema_id, 'saswp_array')
+                                                );                                       
+                                }
                                 
                                 if(!empty($extra_theme_review)){
                                     
@@ -2787,6 +2803,17 @@ function saswp_post_specific_schema_output() {
                                 );
 
                                 }
+                                
+                                if(saswp_remove_warnings($all_post_meta, 'saswp_tech_article_enable_rating_'.$schema_id, 'saswp_array') == 1 && saswp_remove_warnings($all_post_meta, 'saswp_tech_article_rating_'.$schema_id, 'saswp_array') && saswp_remove_warnings($all_post_meta, 'saswp_tech_article_review_count_'.$schema_id, 'saswp_array')){   
+                                                
+                                    $input1['aggregateRating'] = array(
+                                                    "@type"       => "AggregateRating",
+                                                    "ratingValue" => saswp_remove_warnings($all_post_meta, 'saswp_tech_article_rating_'.$schema_id, 'saswp_array'),
+                                                    "reviewCount" => saswp_remove_warnings($all_post_meta, 'saswp_tech_article_review_count_'.$schema_id, 'saswp_array')
+                                                );                                       
+                                }
+                                
+                                
                                 if(!empty($extra_theme_review)){
                                     
                                    $input1 = array_merge($input1, $extra_theme_review);
@@ -3079,6 +3106,15 @@ function saswp_post_specific_schema_output() {
                                                 );
 
                                              }
+                                                if(saswp_remove_warnings($all_post_meta, 'saswp_newsarticle_enable_rating_'.$schema_id, 'saswp_array') == 1 && saswp_remove_warnings($all_post_meta, 'saswp_newsarticle_rating_'.$schema_id, 'saswp_array') && saswp_remove_warnings($all_post_meta, 'saswp_newsarticle_review_count_'.$schema_id, 'saswp_array')){   
+                                                
+                                                      $input1['aggregateRating'] = array(
+                                                                "@type"       => "AggregateRating",
+                                                                "ratingValue" => saswp_remove_warnings($all_post_meta, 'saswp_newsarticle_rating_'.$schema_id, 'saswp_array'),
+                                                                "reviewCount" => saswp_remove_warnings($all_post_meta, 'saswp_newsarticle_review_count_'.$schema_id, 'saswp_array')
+                                                            );                                       
+                                                }
+                                
                                                 if(!empty($aggregateRating)){
                                                     $input1['aggregateRating'] = $aggregateRating;
                                                 }                                                

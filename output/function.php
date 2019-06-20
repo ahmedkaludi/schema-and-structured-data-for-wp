@@ -417,7 +417,7 @@ function saswp_reading_time_and_word_count() {
 
     // Count the words in the content.
     $word_count      = 0;
-    $text            = trim( strip_tags( get_the_content() ) );
+    $text            = trim( strip_tags( @get_the_content() ) );
     $word_count      = substr_count( "$text ", ' ' );
 
     // How many seconds (total)?
