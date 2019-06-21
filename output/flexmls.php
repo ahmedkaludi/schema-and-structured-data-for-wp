@@ -1,4 +1,7 @@
 <?php 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 class saswp_flexmls_list extends flexmlsConnectPageCore{
     
         public $shorcode = array();

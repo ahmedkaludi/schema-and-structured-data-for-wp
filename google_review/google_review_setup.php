@@ -1,5 +1,4 @@
 <?php
-
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 add_action('admin_init', 'saswp_create_database_for_existing_users');

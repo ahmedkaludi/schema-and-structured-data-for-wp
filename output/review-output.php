@@ -1,4 +1,6 @@
 <?php 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) exit;
 Class saswp_review_output{
                     
         public function saswp_review_hooks(){

@@ -1,6 +1,8 @@
 <?php 
-Class saswp_output_service{
-            
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) exit;
+
+Class saswp_output_service{           
         /**
          * List of hooks used in current class
          */

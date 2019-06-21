@@ -72,14 +72,13 @@ jQuery(document).ready(function($){
              $(".saswp-softwareapplication-text-field-tr").show();               
              }
              
-              $(".saswp-schem-type-note").addClass('saswp_hide');
+             $(".saswp-schem-type-note").addClass('saswp_hide');
              if(schematype == 'qanda'){
               $(".saswp-schem-type-note").removeClass('saswp_hide');   
              }
              
              $(".saswp-job-posting-note").addClass('saswp_hide');
-             
-             
+                          
 //             if(schematype == 'JobPosting'){
 //              $(".saswp-job-posting-note").removeClass('saswp_hide');   
 //             }
