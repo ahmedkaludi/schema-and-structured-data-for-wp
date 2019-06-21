@@ -113,22 +113,10 @@ class saswp_google_review{
                             $place   = $wpdb->get_row($wpdb->prepare("SELECT * FROM " . $wpdb->prefix . "saswp_google_place WHERE place_id = %s", $place_id));
                             
                         }
-                                                            
-                        $author_id      = get_the_author_meta('ID');
-											
-			$author_details	= get_avatar_data($author_id);
+                                                                                    														
 			$date 		= get_the_date("Y-m-d\TH:i:s\Z");
 			$modified_date 	= get_the_modified_date("Y-m-d\TH:i:s\Z");
-			$aurthor_name 	= get_the_author();
-                        
-                        if(!$aurthor_name){
-				
-                        $author_id    = get_post_field ('post_author', get_the_ID());
-		        $aurthor_name = get_the_author_meta( 'display_name' , $author_id ); 
-                        
-			}
-                        
-                        
+			                                                                                                
                         if($place->rating && isset($sd_data['saswp-google-review']) && $sd_data['saswp-google-review'] == 1){
                          
                             $total_score = esc_attr(number_format((float)$place->rating, 2, '.', ''));
@@ -144,17 +132,7 @@ class saswp_google_review{
                                     'url'            => get_permalink(),
                                     'description'    => saswp_get_the_excerpt(),
                                     'copyrightYear'  => get_the_time( 'Y' ),                                                                                                           
-                                    'author'	     => array(
-                                                            '@type' 	=> 'Person',
-                                                            'name'		=> esc_attr($aurthor_name),
-                                                            'image'		=> array(
-                                                                    '@type'			=> 'ImageObject',
-                                                                    'url'			=> saswp_remove_warnings($author_details, 'url', 'saswp_string'),
-                                                                    'height'                    => saswp_remove_warnings($author_details, 'height', 'saswp_string'),
-                                                                    'width'			=> saswp_remove_warnings($author_details, 'width', 'saswp_string')
-                                                            ),
-							),                                                        
-                                
+                                    'author'	     => saswp_get_author_details()                                                                                        
                                     );
                                     
                                     $input1['itemReviewed'] = array(

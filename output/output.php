@@ -235,24 +235,21 @@ function saswp_schema_output() {
             
         }                                                                      
 	
-		// Generate author id
-	   		$author_id      = get_the_author_meta('ID');                         
-                        $author_desc    = get_the_author_meta( 'user_description' );                                                		
+			   		                                                                                           		
 			$image_id 	= get_post_thumbnail_id();
-			$image_details 	= wp_get_attachment_image_src($image_id, 'full');			
-			$author_details	= get_avatar_data($author_id);
+			$image_details 	= wp_get_attachment_image_src($image_id, 'full');						
 			$date 		= get_the_date("Y-m-d\TH:i:s\Z");
 			$modified_date 	= get_the_modified_date("Y-m-d\TH:i:s\Z");
 			$aurthor_name 	= get_the_author();
+                        $author_id      = get_the_author_meta('ID');   
                         
                         if(!$aurthor_name){
 				
-                        $author_id    = get_post_field ('post_author', $schema_post_id);
+                        $author_id    = get_post_field('post_author', $schema_post_id);
 		        $aurthor_name = get_the_author_meta( 'display_name' , $author_id ); 
                         
 			}
-                        
-                        
+                                                
                         $saswp_review_details   = esc_sql ( get_post_meta(get_the_ID(), 'saswp_review_details', true)); 
                         
                         $aggregateRating        = array();                                                
@@ -366,11 +363,7 @@ function saswp_schema_output() {
                                 'url'				=> bbp_get_topic_permalink(),
                                 'datePublished'                 => esc_html($date),
                                 'dateModified'                  => esc_html($modified_date),
-                                'author'			=> array(
-                                                                    '@type' 	        => 'Person',
-                                                                    'name'		=> esc_attr($aurthor_name),
-                                                                    'description'       => esc_attr($author_desc),
-                                                                ),                                    
+                                'author'			=> saswp_get_author_details(),                                    
                                 'interactionStatistic'          => array(
                                                                     '@type'                     => 'InteractionCounter',
                                                                     'interactionType'		=> 'http://schema.org/CommentAction',
@@ -389,11 +382,8 @@ function saswp_schema_output() {
                                 'url'				=> get_permalink(),
                                 'datePublished'                 => esc_html($date),
                                 'dateModified'                  => esc_html($modified_date),
-                                'author'			=> array(
-                                                                    '@type' 	        => 'Person',
-                                                                    'name'		=> esc_attr($aurthor_name) 
-                                                                )											
-                                    );
+                                'author'			=> saswp_get_author_details()											
+                                );
                                 
                             }                                                                                                    
                                 if(!empty($publisher)){
@@ -432,12 +422,8 @@ function saswp_schema_output() {
 			'url'				=> get_permalink(),
 			'datePublished'                 => esc_html($date),
 			'dateModified'                  => esc_html($modified_date),
-			'author'			=> array(
-                                                            '@type' 	        => 'Person',
-                                                            'name'		=> esc_attr($aurthor_name),
-                                                            'description'       => esc_attr($author_desc)
-                                                        )											
-                            );
+			'author'			=> saswp_get_author_details()											
+                        );
                                 if(!empty($publisher)){
                             
                                      $input1 = array_merge($input1, $publisher);   
@@ -476,11 +462,7 @@ function saswp_schema_output() {
                         'encodingFormat'                => saswp_remove_warnings($schema_data, 'saswp_audio_schema_encoding_format', 'saswp_string'),	   
 			'datePublished'                 => esc_html($date),
 			'dateModified'                  => esc_html($modified_date),
-			'author'			=> array(
-                                                            '@type'             => 'Person',
-                                                            'name'              => esc_attr($aurthor_name),
-                                                            'description'       => esc_attr($author_desc)
-                                        ),			
+			'author'			=> saswp_get_author_details()			
                             );
                                 if(!empty($publisher)){
                             
@@ -606,11 +588,7 @@ function saswp_schema_output() {
                                                          ),        
 			'datePublished'                 => esc_html($date),
 			'dateModified'                  => esc_html($modified_date),
-			'author'			=> array(
-                                                            '@type'             => 'Person',
-                                                            'name'              => esc_attr($aurthor_name),
-                                                            'description'       => esc_attr($author_desc)
-                                        ),			
+			'author'			=> saswp_get_author_details()			
                         );
                         
                                 if(isset($schema_data['saswp_software_schema_rating']) && $schema_data['saswp_software_schema_rating'] >0 && isset($schema_data['saswp_software_schema_rating_count']) && $schema_data['saswp_software_schema_rating_count'] >0 && $schema_data['saswp_software_schema_enable_rating'] == 1){
@@ -721,19 +699,7 @@ function saswp_schema_output() {
 				'mainEntity'                    => array(
 						'@type'				=> 'WebPage',
 						'@id'				=> get_permalink(),
-						'author'			=> array(
-								'@type' 	=> 'Person',
-								'name'		=> esc_attr($aurthor_name),
-                                                                'description'   => esc_attr($author_desc),
-								'image'		=> array(
-									'@type'			=> 'ImageObject',
-									'url'			=> saswp_remove_warnings($author_details, 'url', 'saswp_string'),
-									'height'		=> saswp_remove_warnings($author_details, 'height', 'saswp_string'),
-									'width'			=> saswp_remove_warnings($author_details, 'width', 'saswp_string')
-								),
-							),						
-                                                
-                                    
+						'author'			=> saswp_get_author_details()						                                                                                    
 					),                                        					
 				
 				);
@@ -781,7 +747,7 @@ function saswp_schema_output() {
                                 if((isset($sd_data['saswp-woocommerce']) && $sd_data['saswp-woocommerce'] == 1) && !empty($product_details)){
                                     
                                     $input1 = array(
-                                    '@context'			=> 'http://schema.org',
+                                    '@context'			        => 'http://schema.org',
                                     '@type'				=> 'Product',
                                     '@id'				=> get_permalink().'/#product',     
                                     'url'				=> get_permalink(),
@@ -891,17 +857,7 @@ function saswp_schema_output() {
                                                                             '@type' => 'WebPage',
                                                                             '@id'   => get_permalink(),
 						), 
-					'author'			=> array(
-							'@type' 			=> 'Person',
-							'name'				=> esc_attr($aurthor_name),
-                                                        'description'                   => esc_attr($author_desc),
-							'Image'				=> array(
-                                                                        '@type'				=> 'ImageObject',
-                                                                        'url'				=> saswp_remove_warnings($author_details, 'url', 'saswp_string'),
-                                                                        'height'			=> saswp_remove_warnings($author_details, 'height', 'saswp_string'),
-                                                                        'width'				=> saswp_remove_warnings($author_details, 'width', 'saswp_string')
-									)
-							)					                                                    
+					'author'			=> saswp_get_author_details()					                                                    
 					);
                                 if(!empty($publisher)){
                             
@@ -1037,17 +993,7 @@ function saswp_schema_output() {
                                     'url'            => get_permalink(),
                                     'description'    => saswp_get_the_excerpt(),
                                     'copyrightYear'  => get_the_time( 'Y' ),                                                                                                           
-                                    'author'	     => array(
-                                                            '@type' 	=> 'Person',
-                                                            'name'		=> esc_attr($aurthor_name),
-                                                            'description'       => esc_attr($author_desc),
-                                                            'image'		=> array(
-                                                                    '@type'			=> 'ImageObject',
-                                                                    'url'			=> saswp_remove_warnings($author_details, 'url', 'saswp_string'),
-                                                                    'height'                    => saswp_remove_warnings($author_details, 'height', 'saswp_string'),
-                                                                    'width'			=> saswp_remove_warnings($author_details, 'width', 'saswp_string')
-                                                            ),
-							),                                                        
+                                    'author'	     => saswp_get_author_details()                                                        
                                 
                                     );
                                     
@@ -1316,17 +1262,7 @@ function saswp_schema_output() {
 								'@type'				=> 'WebPage',
 								'@id'				=> get_permalink(),
 								), 
-						'author'			=> array(
-								'@type' 			=> 'Person',
-								'name'				=> esc_attr($aurthor_name),
-                                                                'description'                   => esc_attr($author_desc),
-								'image'				=> array(
-								'@type'				=> 'ImageObject',
-								'url'				=> saswp_remove_warnings($author_details, 'url', 'saswp_string'),
-								'height'			=> saswp_remove_warnings($author_details, 'height', 'saswp_string'),
-								'width'				=> saswp_remove_warnings($author_details, 'width', 'saswp_string')
-								),
-							)						                                                                                                      
+						'author'			=> saswp_get_author_details()						                                                                                                      
 						);
                                                  if(!empty($publisher)){
                             
@@ -3558,9 +3494,7 @@ function saswp_post_specific_schema_output() {
                                         
                                     }
                                     
-                                    
-                                    
-                                    
+                                                                                                            
 			}
                         
                         

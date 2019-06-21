@@ -1791,3 +1791,37 @@ function saswp_get_the_title(){
     return $title; 
     
 }
+
+function saswp_get_author_details(){
+    
+    global $post;
+    
+    $author_details = array();            
+    
+    $author_id          = get_the_author_meta('ID');
+    $author_name 	= get_the_author();
+    $author_desc        = get_the_author_meta( 'user_description' );     
+                                       
+    if(!$author_name && is_object($post)){
+
+        $author_id    = get_post_field ('post_author', $post->ID);
+        $author_name  = get_the_author_meta( 'display_name' , $author_id );                         	
+    }
+    
+    $author_image	= get_avatar_data($author_id);
+       
+    $author_details['@type']           = 'Person';
+    $author_details['name']            = esc_attr($author_name);
+    $author_details['description']     = esc_attr($author_desc);
+    
+    if(isset($author_image['url']) && isset($author_image['height']) && $author_image['width']){
+        
+    $author_details['image']['@type']  = 'ImageObject';
+    $author_details['image']['url']    = $author_image['url'];
+    $author_details['image']['height'] = $author_image['height'];
+    $author_details['image']['width']  = $author_image['width'];
+        
+    }
+            
+    return $author_details;
+}
