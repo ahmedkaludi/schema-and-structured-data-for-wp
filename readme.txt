@@ -110,7 +110,7 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Bug Fixed: Micro Data cleanup properly does not work #337
 * Bug Fixed: View Post option should not be there in schema post type admin menu bar #327
 * Bug Fixed: count(): Parameter must be an array or an object that implements Countable in #309
-* Improvement: If the yoast plugin is active then the checkbox should be 'on' by default in the Compatibility section #338
+* Improvement: If Yoast plugin is active then the checkbox should be on by default in the compatibility section #338
 * Improvement: Change message "AMP Requires Selected Plugin" in AMP tab #328
 * Added: Aggregate rating fields in Recipe Schema type #331
 
