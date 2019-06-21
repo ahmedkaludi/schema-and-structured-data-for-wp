@@ -1,4 +1,6 @@
 <?php 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) exit;
 Class saswp_review_output{
                     
         public function saswp_review_hooks(){
@@ -61,8 +63,8 @@ Class saswp_review_output{
                                     'dateCreated'    => esc_html($date),
                                     'datePublished'  => esc_html($date),
                                     'dateModified'   => esc_html($modified_date),
-                                    'headline'       => get_the_title(),
-                                    'name'           => get_the_title(),                                    
+                                    'headline'       => saswp_get_the_title(),
+                                    'name'           => saswp_get_the_title(),                                    
                                     'url'            => get_permalink(),
                                     'description'    => saswp_get_the_excerpt(),
                                     'copyrightYear'  => get_the_time( 'Y' ),                                                                                                           
@@ -81,7 +83,7 @@ Class saswp_review_output{
                                     
                                     $input1['itemReviewed'] = array(
                                             '@type' => 'Thing',
-                                            'name'  => get_the_title(),
+                                            'name'  => saswp_get_the_title(),
                                     );
 
                                     $input1['reviewRating'] = array(

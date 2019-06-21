@@ -1975,10 +1975,12 @@ class saswp_post_specific {
                                 
                                 case 'checkbox':
                                     
-                                        $rating_class = 'class="saswp-enable-rating-review-'.strtolower($schema_type).'"';
-                                        
-                                        
-                                        
+                                        $rating_class = '';
+                                         
+                                        if (strpos($meta_field['id'], 'speakable') === false){
+                                             $rating_class = 'class="saswp-enable-rating-review-'.strtolower($schema_type).'"';   
+                                        }
+                                                                            
 					$input = sprintf(
 						'<input %s %s id="%s" name="%s" type="checkbox" value="1">',
                                                 $rating_class,
@@ -2080,12 +2082,26 @@ class saswp_post_specific {
                            $meta_field['id'] == 'saswp_product_schema_rating_'.$schema_id       ||
                            $meta_field['id'] == 'saswp_review_schema_rating_'.$schema_id        ||
                            $meta_field['id'] == 'local_rating_'.$schema_id                      ||
-                           $meta_field['id'] == 'saswp_software_schema_rating_'.$schema_id      ||     
+                           $meta_field['id'] == 'saswp_software_schema_rating_'.$schema_id      ||  
+                                
+                           $meta_field['id'] == 'saswp_article_rating_'.$schema_id              ||
+                           $meta_field['id'] == 'saswp_article_review_count_'.$schema_id        ||     
+                           
+                           $meta_field['id'] == 'saswp_newsarticle_rating_'.$schema_id          ||
+                           $meta_field['id'] == 'saswp_newsarticle_review_count_'.$schema_id    ||          
+                                
+                           $meta_field['id'] == 'saswp_blogposting_rating_'.$schema_id          ||
+                           $meta_field['id'] == 'saswp_blogposting_review_count_'.$schema_id    ||               
+                                
+                           $meta_field['id'] == 'saswp_tech_article_rating_'.$schema_id         ||
+                           $meta_field['id'] == 'saswp_tech_article_review_count_'.$schema_id   ||                    
                            
                            $meta_field['id'] == 'saswp_service_schema_review_count_'.$schema_id || 
                            $meta_field['id'] == 'saswp_product_schema_review_count_'.$schema_id ||
                            $meta_field['id'] == 'saswp_review_schema_review_count_'.$schema_id  ||
                            $meta_field['id'] == 'local_review_count_'.$schema_id                ||
+                           $meta_field['id'] == 'saswp_recipe_schema_rating_'.$schema_id        ||
+                           $meta_field['id'] == 'saswp_recipe_schema_review_count_'.$schema_id ||
                            $meta_field['id'] == 'saswp_software_schema_rating_count_'.$schema_id     
                                 
                           )
@@ -2509,7 +2525,7 @@ class saswp_post_specific {
                 
 	    }
             $current_user       = wp_get_current_user();
-            $author_desc       = get_the_author_meta( 'user_description' ); 
+            $author_desc        = get_the_author_meta( 'user_description' ); 
             $author_details	= get_avatar_data($current_user->ID);           
             $schema_type        = esc_sql ( get_post_meta($schema_id, 'schema_type', true)  );  
             
@@ -2760,7 +2776,7 @@ class saswp_post_specific {
                             'label' => 'Headline',
                             'id' => 'saswp_blogposting_headline_'.$schema_id,
                             'type' => 'text',
-                            'default'=> get_the_title()
+                            'default'=> saswp_get_the_title()
                     ),
                     array(
                             'label' => 'Description',
@@ -2772,7 +2788,7 @@ class saswp_post_specific {
                             'label' => 'Name',
                             'id' => 'saswp_blogposting_name_'.$schema_id,
                             'type' => 'text',
-                            'default' => get_the_title()
+                            'default' => saswp_get_the_title()
                     ), 
                     array(
                             'label' => 'URL',
@@ -2821,7 +2837,22 @@ class saswp_post_specific {
                         'id' => 'saswp_blogposting_speakable_'.$schema_id,
                         'type' => 'checkbox',
 
-                    )
+                    ),
+                    array(
+                        'label' => 'Aggregate Rating',
+                        'id' => 'saswp_blogposting_enable_rating_'.$schema_id,
+                        'type' => 'checkbox',                            
+                    ),
+                    array(
+                        'label' => 'Rating Value',
+                        'id' => 'saswp_blogposting_rating_'.$schema_id,
+                        'type' => 'text',                            
+                    ),
+                    array(
+                        'label' => 'Review Count',
+                        'id' => 'saswp_blogposting_review_count_'.$schema_id,
+                        'type' => 'text',                            
+                    )    
                     );
                     break;
                 
@@ -2859,7 +2890,7 @@ class saswp_post_specific {
                             'label' => 'Headline',
                             'id' => 'saswp_newsarticle_headline_'.$schema_id,
                             'type' => 'text',
-                            'default' => get_the_title(),
+                            'default' => saswp_get_the_title(),
                     ),
                     array(
                             'label' => 'Date Published',
@@ -2889,19 +2920,18 @@ class saswp_post_specific {
                             'label' => 'Article Body',
                             'id' => 'saswp_newsarticle_body_'.$schema_id,
                             'type' => 'textarea',
-                            'default' => get_the_content()
+                            'default' => $post->post_content
                     ),
                      array(
                             'label' => 'Name',
                             'id' => 'saswp_newsarticle_name_'.$schema_id,
                             'type' => 'text',
-                            'default' => get_the_title()
+                            'default' => saswp_get_the_title()
                     ), 
                      array(
                             'label' => 'Thumbnail URL',
                             'id' => 'saswp_newsarticle_thumbnailurl_'.$schema_id,
-                            'type' => 'text',
-                            'default' => $image_details[0]
+                            'type' => 'text'                            
                     ),
                     array(
                             'label' => 'Word Count',
@@ -2950,12 +2980,27 @@ class saswp_post_specific {
                             'id' => 'saswp_newsarticle_organization_logo_'.$schema_id,
                             'type' => 'media',
                             'default' => isset($sd_data['sd_logo'])? $sd_data['sd_logo']['url']:''
-                    ),  
+                    ),                         
                     array(
                         'label' => 'Speakable',
                         'id' => 'saswp_newsarticle_speakable_'.$schema_id,
                         'type' => 'checkbox',
 
+                    ),
+                     array(
+                        'label' => 'Aggregate Rating',
+                        'id' => 'saswp_newsarticle_enable_rating_'.$schema_id,
+                        'type' => 'checkbox',                            
+                    ),
+                    array(
+                        'label' => 'Rating Value',
+                        'id' => 'saswp_newsarticle_rating_'.$schema_id,
+                        'type' => 'text',                            
+                    ),
+                    array(
+                        'label' => 'Review Count',
+                        'id' => 'saswp_newsarticle_review_count_'.$schema_id,
+                        'type' => 'text',                            
                     )   
                     );
                     break;
@@ -2966,7 +3011,7 @@ class saswp_post_specific {
                             'label' => 'Name',
                             'id' => 'saswp_webpage_name_'.$schema_id,
                             'type' => 'text',
-                            'default' => get_the_title()
+                            'default' => saswp_get_the_title()
                     ),
                     array(
                             'label' => 'URL',
@@ -2989,14 +3034,13 @@ class saswp_post_specific {
                     array(
                             'label' => 'Image',
                             'id' => 'saswp_webpage_image_'.$schema_id,
-                            'type' => 'media',
-                            'default' => $image_details[0]
+                            'type' => 'media',                            
                     ), 
                     array(
                             'label' => 'Headline',
                             'id' => 'saswp_webpage_headline_'.$schema_id,
                             'type' => 'text',
-                            'default' => get_the_title(),
+                            'default' => saswp_get_the_title(),
                     ),
                    
                     array(
@@ -3053,16 +3097,21 @@ class saswp_post_specific {
                             'default' => get_permalink()
                     ),
                     array(
+                            'label'   => 'URL',
+                            'id'      => 'saswp_article_url_'.$schema_id,
+                            'type'    => 'text',
+                            'default' => get_permalink(),
+                    ),    
+                    array(
                             'label' => 'Image',
                             'id' => 'saswp_article_image_'.$schema_id,
-                            'type' => 'media',
-                            'default' => $image_details[0]
+                            'type' => 'media'                            
                     ),
                     array(
                             'label' => 'Headline',
                             'id' => 'saswp_article_headline_'.$schema_id,
                             'type' => 'text',
-                            'default' => get_the_title()
+                            'default' => saswp_get_the_title()
                     ),
                     array(
                             'label' => 'Description',
@@ -3111,6 +3160,21 @@ class saswp_post_specific {
                         'id' => 'saswp_article_speakable_'.$schema_id,
                         'type' => 'checkbox',
 
+                    ),
+                    array(
+                        'label' => 'Aggregate Rating',
+                        'id' => 'saswp_article_enable_rating_'.$schema_id,
+                        'type' => 'checkbox',                            
+                    ),
+                    array(
+                        'label' => 'Rating Value',
+                        'id' => 'saswp_article_rating_'.$schema_id,
+                        'type' => 'text',                            
+                    ),
+                    array(
+                        'label' => 'Review Count',
+                        'id' => 'saswp_article_review_count_'.$schema_id,
+                        'type' => 'text',                            
                     )    
                     );
                     break;
@@ -3242,7 +3306,7 @@ class saswp_post_specific {
                             'label' => 'Headline',
                             'id' => 'saswp_tech_article_headline_'.$schema_id,
                             'type' => 'text',
-                            'default' => get_the_title()
+                            'default' => saswp_get_the_title()
                     ),
                     array(
                             'label' => 'Description',
@@ -3291,6 +3355,21 @@ class saswp_post_specific {
                         'id' => 'saswp_tech_article_speakable_'.$schema_id,
                         'type' => 'checkbox',
 
+                    ),
+                    array(
+                        'label' => 'Aggregate Rating',
+                        'id' => 'saswp_tech_article_enable_rating_'.$schema_id,
+                        'type' => 'checkbox',                            
+                    ),
+                    array(
+                        'label' => 'Rating Value',
+                        'id' => 'saswp_tech_article_rating_'.$schema_id,
+                        'type' => 'text',                            
+                    ),
+                    array(
+                        'label' => 'Review Count',
+                        'id' => 'saswp_tech_article_review_count_'.$schema_id,
+                        'type' => 'text',                            
                     )    
                     );
                     break;
@@ -3301,7 +3380,7 @@ class saswp_post_specific {
                             'label' => 'Name',
                             'id' => 'saswp_course_name_'.$schema_id,
                             'type' => 'text',
-                            'default' => get_the_title()
+                            'default' => saswp_get_the_title()
                     ),
                     array(
                             'label' => 'Description',
@@ -3348,7 +3427,7 @@ class saswp_post_specific {
                             'label' => 'Headline',
                             'id' => 'saswp_dfp_headline_'.$schema_id,
                             'type' => 'text',
-                            'default' => get_the_title()
+                            'default' => saswp_get_the_title()
                     ),
                     array(
                             'label' => 'Description',
@@ -3402,8 +3481,13 @@ class saswp_post_specific {
                             'label' => 'Name',
                             'id' => 'saswp_recipe_name_'.$schema_id,
                             'type' => 'text',
-                            'default' => get_the_title()
+                            'default' => saswp_get_the_title()
                     ),
+                    array(
+                        'label' => 'Image',
+                        'id' => 'saswp_recipe_image_'.$schema_id,
+                        'type' => 'media'                        
+                   ),
                     array(
                             'label' => 'Date Published',
                             'id' => 'saswp_recipe_date_published_'.$schema_id,
@@ -3593,7 +3677,23 @@ class saswp_post_specific {
                             'attributes' => array(
                                 'placeholder' => 'PT1M33S'
                             ),
-                    ),                                                                            
+                    ),   
+                    array(
+                        'label' => 'Aggregate Rating',
+                        'id' => 'saswp_recipe_schema_enable_rating_'.$schema_id,
+                        'type' => 'checkbox',                            
+                    ),
+                    array(
+                        'label' => 'Rating',
+                        'id' => 'saswp_recipe_schema_rating_'.$schema_id,
+                        'type' => 'text',                            
+                    ),
+                    array(
+                        'label' => 'Number of Reviews',
+                        'id' => 'saswp_recipe_schema_review_count_'.$schema_id,
+                        'type' => 'text',                            
+                    )
+
                     );
                     break;
                 
@@ -4046,7 +4146,7 @@ class saswp_post_specific {
                             'label' => 'Headline',
                             'id' => 'saswp_video_object_headline_'.$schema_id,
                             'type' => 'text',
-                            'default' => get_the_title()
+                            'default' => saswp_get_the_title()
                     ),
                     array(
                             'label' => 'Date Published',
@@ -4070,7 +4170,7 @@ class saswp_post_specific {
                             'label' => 'Name',
                             'id' => 'saswp_video_object_name_'.$schema_id,
                             'type' => 'text',
-                            'default' => get_the_title()
+                            'default' => saswp_get_the_title()
                     ),
                     array(
                             'label' => 'Upload Date',

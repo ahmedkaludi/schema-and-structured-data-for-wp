@@ -1,6 +1,8 @@
 <?php 
-Class saswp_output_service{
-            
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) exit;
+
+Class saswp_output_service{           
         /**
          * List of hooks used in current class
          */
@@ -1111,7 +1113,7 @@ Class saswp_output_service{
                 }
                                                                                                                                               
                 $dw_qa['@type']       = 'Question';
-                $dw_qa['name']        = get_the_title(); 
+                $dw_qa['name']        = saswp_get_the_title(); 
                 $dw_qa['upvoteCount'] = get_post_meta( $post_id, '_dwqa_votes', true );                                             
                 
                 $args = array(
@@ -1559,8 +1561,7 @@ Class saswp_output_service{
          */
         public function saswp_schema_markup_generator($schema_type){
             
-                        global $post;
-
+                        global $post;                        
                         global $sd_data;
             
                         $logo         = ''; 
@@ -1589,22 +1590,13 @@ Class saswp_output_service{
                         }
                         
                         $input1         = array();
-            
-                        $author_id      = get_the_author_meta('ID');
-                        $author_desc    = get_the_author_meta( 'user_description' ); 
+                                                            
                         $image_id 	= get_post_thumbnail_id();
 			$image_details 	= wp_get_attachment_image_src($image_id, 'full');                       			
 			$date 		= get_the_date("Y-m-d\TH:i:s\Z");
 			$modified_date 	= get_the_modified_date("Y-m-d\TH:i:s\Z");
-			$aurthor_name 	= '';   
-                        
-                        if(!$aurthor_name && is_object($post)){
 			
-                            $author_id    = get_post_field ('post_author', $post->ID);
-                            $aurthor_name = get_the_author_meta( 'display_name' , $author_id );                         	
-			}
-                        
-                        
+                                                
             switch ($schema_type) {
                 
                 case 'TechArticle':
@@ -1615,15 +1607,11 @@ Class saswp_output_service{
                                         '@id'				=> get_permalink().'/#techarticle',
                                         'url'				=> get_permalink(),
 					'mainEntityOfPage'              => get_permalink(),					
-					'headline'			=> get_the_title(),
+					'headline'			=> saswp_get_the_title(),
 					'description'                   => saswp_get_the_excerpt(),
 					'datePublished'                 => esc_html($date),
 					'dateModified'                  => esc_html($modified_date),
-					'author'			=> array(
-							'@type' 	=> 'Person',
-							'name'		=> esc_attr($aurthor_name),
-                                                        'description'   => esc_attr($author_desc),
-                                                         ),
+					'author'			=> saswp_get_author_details(),
 					'publisher'			=> array(
 						'@type'			=> 'Organization',
 						'logo' 			=> array(
@@ -1646,15 +1634,11 @@ Class saswp_output_service{
                                         '@id'				=> get_permalink().'/#article',
                                         'url'				=> get_permalink(),
 					'mainEntityOfPage'              => get_permalink(),					
-					'headline'			=> get_the_title(),
+					'headline'			=> saswp_get_the_title(),
 					'description'                   => saswp_get_the_excerpt(),
 					'datePublished'                 => esc_html($date),
 					'dateModified'                  => esc_html($modified_date),
-					'author'			=> array(
-							'@type' 	=> 'Person',
-							'name'		=> esc_attr($aurthor_name),
-                                                        'description'   => esc_attr($author_desc),
-                                                         ),
+					'author'			=> saswp_get_author_details(),
 					'publisher'			=> array(
 						'@type'			=> 'Organization',
 						'logo' 			=> array(
@@ -1680,22 +1664,18 @@ Class saswp_output_service{
 				'@context'			=> 'http://schema.org',
 				'@type'				=> 'WebPage' ,
                                 '@id'				=> get_permalink().'/#webpage',
-				'name'				=> get_the_title(),
+				'name'				=> saswp_get_the_title(),
 				'url'				=> get_permalink(),
 				'description'                   => saswp_get_the_excerpt(),
 				'mainEntity'                    => array(
 						'@type'			=> 'Article',
 						'mainEntityOfPage'	=> get_permalink(),
 						'image'			=> esc_url($image_details[0]),
-						'headline'		=> get_the_title(),
+						'headline'		=> saswp_get_the_title(),
 						'description'		=> saswp_get_the_excerpt(),
 						'datePublished' 	=> esc_html($date),
 						'dateModified'		=> esc_html($modified_date),
-						'author'			=> array(
-								'@type' 	=> 'Person',
-								'name'		=> esc_attr($aurthor_name),
-                                                                'description'   => esc_attr($author_desc)
-                                                                ),
+						'author'			=> saswp_get_author_details(),
 						'publisher'			=> array(
 							'@type'			=> 'Organization',
 							'logo' 			=> array(
@@ -1924,7 +1904,7 @@ Class saswp_output_service{
                                 
                             }
                             
-                            if(isset($custom_logo)){
+                            if(isset($custom_logo) && is_array($custom_logo)){
                                 
                                 $logo           = array_key_exists(0, $custom_logo)? $custom_logo[0]:'';
                                 $height         = array_key_exists(1, $custom_logo)? $custom_logo[1]:'';

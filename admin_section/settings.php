@@ -439,7 +439,7 @@ function saswp_amp_page_callback(){
             $non_amp_enable_field['attributes'] = array(
                  'disabled' => 'disabled'
              );
-             $non_amp_enable_field['note'] = esc_html__('AMP Requires selected plugin','schema-and-structured-data-for-wp');
+             $non_amp_enable_field['note'] = esc_html__('Requires','schema-and-structured-data-for-wp'). ' <a target="_blank" href="https://wordpress.org/plugins/accelerated-mobile-pages/">AMP for WP</a> or <a target="_blank" href="https://wordpress.org/plugins/amp/">AMP</a>';
              $settings['saswp-for-amp'] = 0;	
             
         }
@@ -460,7 +460,7 @@ function saswp_amp_page_callback(){
 		)                                         
 	);        
          echo '<div class="saswp-heading">';
-         echo '<h2>'.esc_html__('Display On','schema-and-structured-data-for-wp').'</h2>';        
+         echo '<h2>'.esc_html__('Enable On','schema-and-structured-data-for-wp').'</h2>';        
          echo '</div>';
          echo '<p>Using this option, one can hide and show schema markup on AMP and Non AMP</p>';
         
@@ -1304,7 +1304,7 @@ function saswp_email_schema_callback(){
         
         if(!is_plugin_active('woocommerce/woocommerce.php') || !is_plugin_active('woocommerce-bookings/woocommerce-bookings.php')){
                       
-             $woocommerce['note'] = esc_html__('Requires selected plugin','schema-and-structured-data-for-wp');
+             $woocommerce['note'] = esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/woocommerce/">Woocommerce</a>';
                                       
         }
         
@@ -1482,50 +1482,50 @@ function saswp_compatibility_page_callback(){
                 
         if(!is_plugin_active('taqyeem/taqyeem.php')  || get_template() != 'jannah'  ){
             
-             $tagyeem['note'] = esc_html__('Requires selected plugin','schema-and-structured-data-for-wp');
+             $tagyeem['note'] = esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://codecanyon.net/item/taqyeem-wordpress-review-plugin/4558799">Taqyeem</a>';
                           
         }
         
         if(!is_plugin_active('bbpress/bbpress.php')){
             
-             $bbpress['note'] = esc_html__('Requires selected plugin','schema-and-structured-data-for-wp');
+             $bbpress['note'] = esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/bbpress/">bbPress</a>';
                           
         }
         
         
         if(!is_plugin_active('wordpress-seo/wp-seo.php') && !is_plugin_active('wordpress-seo-premium/wp-seo-premium.php')){
             
-             $yoast['note'] = esc_html__('Requires selected plugin','schema-and-structured-data-for-wp');
+             $yoast['note'] = esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wordpress-seo/">Yoast SEO</a>';
              
              
         }
         if(!is_plugin_active('seo-by-rank-math/rank-math.php') && !is_plugin_active('seo-by-rank-math-premium/rank-math-premium.php')){
             
-             $rankmath['note'] = esc_html__('Requires selected plugin','schema-and-structured-data-for-wp');
+             $rankmath['note'] = esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/seo-by-rank-math/">WordPress SEO Plugin – Rank Math</a>';
              
              
         }
         
         if(!is_plugin_active('kk-star-ratings/index.php')){
             
-             $kk_star['note'] = esc_html__('Requires selected plugin','schema-and-structured-data-for-wp');             
+             $kk_star['note'] = esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/kk-star-ratings/">kk Star Rating</a>';             
              
         }
                     
         if(!is_plugin_active('woocommerce/woocommerce.php')){
          
-             $woocommerce['note'] = esc_html__('Requires selected plugin','schema-and-structured-data-for-wp');
+             $woocommerce['note'] = esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/woocommerce/">Woocommerce</a>';
                          
         }
         if(!is_plugin_active('woocommerce/woocommerce.php') || !is_plugin_active('woocommerce-bookings/woocommerce-bookings.php')){
                       
-            $woocommerce_bok['note'] = esc_html__('Requires selected plugin','schema-and-structured-data-for-wp');
+            $woocommerce_bok['note'] = esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/woocommerce/">Woocommerce</a>';
                                       
         }
                                 
         if(!is_plugin_active('woocommerce/woocommerce.php') || !is_plugin_active('woocommerce-memberships/woocommerce-memberships.php')){
                       
-           $woocommerce_mem['note'] = esc_html__('Requires selected plugin','schema-and-structured-data-for-wp');
+           $woocommerce_mem['note'] = esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/woocommerce/">Woocommerce</a>';
                                       
         }
         
@@ -1551,25 +1551,25 @@ function saswp_compatibility_page_callback(){
          
         if(is_plugin_active('cooked/cooked.php') || is_plugin_active('cooked-pro/cooked-pro.php')){                                                    
          }else{
-         $cooked['note'] = esc_html__('Requires selected plugin','schema-and-structured-data-for-wp');    
+         $cooked['note'] = esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/cooked/">Cooked</a>';    
          } 
                                                                          
         if(get_template() != 'Extra'){
              
-             $extratheme['note']      = esc_html__('Theme is not activated','schema-and-structured-data-for-wp');
+             $extratheme['note']      = esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://www.elegantthemes.com/gallery/extra/">Extra Theme</a>';
              
              
         }
                          
          if(!is_plugin_active('dw-question-answer/dw-question-answer.php')){
              
-             $dwquestiton['note'] = esc_html__('Requires selected plugin','schema-and-structured-data-for-wp');
+             $dwquestiton['note'] = esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/dw-question-answer/">DW Question Answer</a>';
              
          }
          
          if(!is_plugin_active('wp-postratings/wp-postratings.php')){
              
-             $wppostratings['note'] = esc_html__('Requires selected plugin','schema-and-structured-data-for-wp');
+             $wppostratings['note'] = esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wp-postratings/">WP-PostRatings</a>';
              
          }
          
@@ -1581,7 +1581,7 @@ function saswp_compatibility_page_callback(){
          
          if(!is_plugin_active('the-events-calendar/the-events-calendar.php')){
                           
-             $the_events_calendar['note'] = esc_html__('Requires selected plugin','schema-and-structured-data-for-wp');
+             $the_events_calendar['note'] = esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/the-events-calendar/">The Events Calendar</a>';
              
          }
                   
@@ -1637,7 +1637,7 @@ function saswp_compatibility_page_callback(){
                         'name'       => 'saswp-flexmlx-compativility-checkbox',
 			'type'       => 'checkbox',
                         'class'      => 'checkbox saswp-checkbox',
-                        'note'       => 'Requires selected plugin',                        
+                        'note'       => 'Requires <a target="_blank" href="https://wordpress.org/plugins/flexmls-idx/">FlexMLS IDX</a>',                        
                         'hidden' => array(
                              'id'   => 'saswp-flexmlx-compativility',
                              'name' => 'sd_data[saswp-flexmlx-compativility]',                             

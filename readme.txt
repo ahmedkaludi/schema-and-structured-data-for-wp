@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.2
-Stable tag: 1.8.6
+Stable tag: 1.8.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -74,6 +74,10 @@ Schema & Structured Data for WP & AMP adds Google Rich Snippets markup according
 
 Some useful extensions to extend Schema & Structured Data for WP & AMP features, check [Woocommerce Compatibility For Schema](https://structured-data-for-wp.com/extensions/woocommerce-compatibility-for-schema/), [Cooked Compatibility For Schema](https://structured-data-for-wp.com/extensions/cooked-compatibility-for-schema/) and We are going to add more.
 
+### Support
+
+We try our best to provide support on WordPress.org forums. However, We have a special [team support](https://structured-data-for-wp.com/contact-us/) where you can ask us questions and get help. Delivering a good user experience means a lot to us and so we try our best to reply each and every question that gets asked.
+
 ### Bug Reports
 
 Bug reports for Schema & Structured Data for WP & AMP are [welcomed on GitHub](https://github.com/ahmedkaludi/schema-and-structured-data-for-wp/issues). Please note GitHub is not a support forum, and issues that aren't properly qualified as bugs will be closed.
@@ -98,6 +102,18 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.8.7 (21 June 2019) =
+
+* Bug Fixed: Fatal error ( Uncaught Error: Cannot use object of type Closure as array ) #317
+* Bug Fixed: Call to undefined function ampforwp_is_home() #330
+* Bug Fixed: Micro Data cleanup properly does not work #337
+* Bug Fixed: View Post option should not be there in schema post type admin menu bar #327
+* Bug Fixed: count(): Parameter must be an array or an object that implements Countable in #309
+* Improvement: If Yoast plugin is active then the checkbox should be on by default in the compatibility section #338
+* Improvement: Change message "AMP Requires Selected Plugin" in AMP tab #328
+* Added: Aggregate rating fields in Recipe Schema type #331
+
 
 = 1.8.6 (07 June 2019) =
 

@@ -307,7 +307,7 @@ function saswp_comparison_logic_checker($input){
           
             $homepage ='false';  
           
-            if(is_home() || is_front_page() || ampforwp_is_home()){
+            if(is_home() || is_front_page() || ( function_exists('ampforwp_is_home') && ampforwp_is_home()) ){
                $homepage = 'true';  
             }
                       
@@ -591,6 +591,7 @@ if(is_admin()){
           'has_archive'           => false,
           'exclude_from_search'   => true,
           'publicly_queryable'    => false,
+          'show_in_admin_bar'     => false,
           'supports'              => array('title'),  
           'menu_position'         => 100
           
@@ -1027,7 +1028,7 @@ function saswp_custom_breadcrumbs() {
                 
                 if($post_type == 'post') {
                     
-                     $variables1_titles[] = get_the_title();
+                     $variables1_titles[] = saswp_get_the_title();
                      $variables2_links[]  = get_permalink();                     
                      
                 }
@@ -1074,12 +1075,12 @@ function saswp_custom_breadcrumbs() {
                     
                 }
              
-                    $variables1_titles[]    = get_the_title();
+                    $variables1_titles[]    = saswp_get_the_title();
                     $variables2_links[]     = get_permalink();
                    
             } else {      
                 
-                   $variables1_titles[]     = get_the_title();
+                   $variables1_titles[]     = saswp_get_the_title();
                    $variables2_links[]      = get_permalink();
             }
               

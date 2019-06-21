@@ -1,4 +1,6 @@
 <?php
+// Exit if accessed directly
+if ( ! defined('ABSPATH') ) exit;
 /**
      * We are here fetching all schema and its settings from backup files
      * note: Transaction is applied on this function, if any error occure all the data will be rollbacked
@@ -1292,12 +1294,19 @@ function saswp_defaultSettings(){
 
                     //AMP Block           
                     'saswp-for-amp'            => 1, 
-                    'saswp-for-wordpress'      => 1,      
+                    'saswp-for-wordpress'      => 1,
+                    'saswp-yoast'              => 1,
                     'saswp-logo-width'         => '60',
                     'saswp-logo-height'        => '60',                                                            
                     'sd_initial_wizard_status' => 1,                                        
 
-            );	            
+            );	         
+            
+            if(is_plugin_active('wordpress-seo/wp-seo.php') || is_plugin_active('wordpress-seo-premium/wp-seo-premium.php')){
+            
+             $defaults['saswp-yoast']   = 1;
+                          
+            }
             
             if(is_array($logo)){
                 
@@ -1703,11 +1712,12 @@ function saswp_frontend_enqueue(){
 /**
  * Here we are modifying the default excerpt
  * @global type $post
- * @return type
+ * @return type string
  */
 function saswp_get_the_excerpt() {
             
     global $post;
+    global $sd_data;
     $excerpt = '';
     if(is_object($post)){
     
@@ -1735,6 +1745,96 @@ function saswp_get_the_excerpt() {
      $excerpt = wp_strip_all_tags(strip_shortcodes($excerpt)); 
      
     }
+    
+    if(saswp_global_option()  && saswp_remove_warnings($sd_data, 'saswp-yoast', 'saswp_string') == 1){
         
+        $yoast_meta_des = get_post_meta($post->ID, '_yoast_wpseo_metadesc', true);
+        
+        if($yoast_meta_des){
+            
+            $excerpt = $yoast_meta_des;
+            
+        }
+        
+    }
+                
     return $excerpt;
+}
+
+/**
+ * since @1.8.7
+ * Here we are modifying the default title
+ * @global type $post
+ * @return type string
+ */
+function saswp_get_the_title(){
+    
+    global $post;
+    global $sd_data;
+                    
+    if(saswp_global_option()  && saswp_remove_warnings($sd_data, 'saswp-yoast', 'saswp_string') == 1){
+        
+        if(is_object($post)){
+        
+            $yoast_title = get_post_meta($post->ID, '_yoast_wpseo_title', true);
+            
+        }
+                
+        if($yoast_title){
+            
+            $title = $yoast_title;
+            
+        }else{
+            
+            $title = get_the_title();
+            
+        }
+        
+    }else{
+        
+       $title = get_the_title();
+    }
+            
+    return $title; 
+    
+}
+/**
+ * since @1.8.7
+ * Get the author details 
+ * @global type $post
+ * @return type array
+ */
+function saswp_get_author_details(){
+    
+    global $post;
+    
+    $author_details = array();            
+    
+    $author_id          = get_the_author_meta('ID');
+    $author_name 	= get_the_author();
+    $author_desc        = get_the_author_meta( 'user_description' );     
+                                       
+    if(!$author_name && is_object($post)){
+
+        $author_id    = get_post_field ('post_author', $post->ID);
+        $author_name  = get_the_author_meta( 'display_name' , $author_id ); 
+        
+    }
+    
+    $author_image	= get_avatar_data($author_id);
+       
+    $author_details['@type']           = 'Person';
+    $author_details['name']            = esc_attr($author_name);
+    $author_details['description']     = esc_attr($author_desc);
+    
+    if(isset($author_image['url']) && isset($author_image['height']) && isset($author_image['width'])){
+        
+        $author_details['image']['@type']  = 'ImageObject';
+        $author_details['image']['url']    = $author_image['url'];
+        $author_details['image']['height'] = $author_image['height'];
+        $author_details['image']['width']  = $author_image['width'];
+        
+    }
+            
+    return $author_details;
 }
