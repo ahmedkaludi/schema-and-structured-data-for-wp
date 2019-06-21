@@ -1,4 +1,6 @@
 <?php
+// Exit if accessed directly
+if ( ! defined('ABSPATH') ) exit;
 /**
      * We are here fetching all schema and its settings from backup files
      * note: Transaction is applied on this function, if any error occure all the data will be rollbacked
@@ -1760,6 +1762,7 @@ function saswp_get_the_excerpt() {
 }
 
 /**
+ * since @1.8.7
  * Here we are modifying the default title
  * @global type $post
  * @return type string
@@ -1771,8 +1774,12 @@ function saswp_get_the_title(){
                     
     if(saswp_global_option()  && saswp_remove_warnings($sd_data, 'saswp-yoast', 'saswp_string') == 1){
         
-        $yoast_title = get_post_meta($post->ID, '_yoast_wpseo_title', true);
+        if(is_object($post)){
         
+            $yoast_title = get_post_meta($post->ID, '_yoast_wpseo_title', true);
+            
+        }
+                
         if($yoast_title){
             
             $title = $yoast_title;
@@ -1791,7 +1798,12 @@ function saswp_get_the_title(){
     return $title; 
     
 }
-
+/**
+ * since @1.8.7
+ * Get the author details 
+ * @global type $post
+ * @return type array
+ */
 function saswp_get_author_details(){
     
     global $post;
@@ -1805,7 +1817,8 @@ function saswp_get_author_details(){
     if(!$author_name && is_object($post)){
 
         $author_id    = get_post_field ('post_author', $post->ID);
-        $author_name  = get_the_author_meta( 'display_name' , $author_id );                         	
+        $author_name  = get_the_author_meta( 'display_name' , $author_id ); 
+        
     }
     
     $author_image	= get_avatar_data($author_id);
@@ -1814,12 +1827,12 @@ function saswp_get_author_details(){
     $author_details['name']            = esc_attr($author_name);
     $author_details['description']     = esc_attr($author_desc);
     
-    if(isset($author_image['url']) && isset($author_image['height']) && $author_image['width']){
+    if(isset($author_image['url']) && isset($author_image['height']) && isset($author_image['width'])){
         
-    $author_details['image']['@type']  = 'ImageObject';
-    $author_details['image']['url']    = $author_image['url'];
-    $author_details['image']['height'] = $author_image['height'];
-    $author_details['image']['width']  = $author_image['width'];
+        $author_details['image']['@type']  = 'ImageObject';
+        $author_details['image']['url']    = $author_image['url'];
+        $author_details['image']['height'] = $author_image['height'];
+        $author_details['image']['width']  = $author_image['width'];
         
     }
             

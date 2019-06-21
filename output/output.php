@@ -240,13 +240,13 @@ function saswp_schema_output() {
 			$image_details 	= wp_get_attachment_image_src($image_id, 'full');						
 			$date 		= get_the_date("Y-m-d\TH:i:s\Z");
 			$modified_date 	= get_the_modified_date("Y-m-d\TH:i:s\Z");
-			$aurthor_name 	= get_the_author();
+			$author_name 	= get_the_author();
                         $author_id      = get_the_author_meta('ID');   
                         
-                        if(!$aurthor_name){
+                        if(!$author_name){
 				
                         $author_id    = get_post_field('post_author', $schema_post_id);
-		        $aurthor_name = get_the_author_meta( 'display_name' , $author_id ); 
+		        $author_name = get_the_author_meta( 'display_name' , $author_id ); 
                         
 			}
                                                 
@@ -478,10 +478,10 @@ function saswp_schema_output() {
                                     $input1['aggregateRating'] = $aggregateRating;
                                 }                                
                                 if(!empty($extra_theme_review)){
-                                   $input1 = array_merge($input1, $extra_theme_review);
+                                    $input1 = array_merge($input1, $extra_theme_review);
                                 }                               
                                 if(isset($sd_data['saswp_comments_schema']) && $sd_data['saswp_comments_schema'] ==1){
-                                            $input1['comment'] = saswp_get_comments(get_the_ID());
+                                    $input1['comment'] = saswp_get_comments(get_the_ID());
                                 }   
                                 
                                 $input1 = apply_filters('saswp_modify_audio_object_schema_output', $input1 );
@@ -1023,9 +1023,8 @@ function saswp_schema_output() {
                              $schema_data = saswp_get_schema_data($schema_post_id, 'saswp_review_schema_details');  
                                                         
                             if(isset($schema_data['saswp_review_schema_item_type'])){
-                            
-                                
-                                $review_author = $aurthor_name;
+                                                            
+                                $review_author = $author_name;
                                 
                                 if(isset($schema_data['saswp_review_schema_author'])){
                                     
@@ -1091,8 +1090,7 @@ function saswp_schema_output() {
                                 if(isset($schema_data['saswp_review_schema_itemreviewed_sameas'])){                                    
                                     $input1['itemReviewed']['sameAs']   = esc_url($schema_data['saswp_review_schema_itemreviewed_sameas']);                                    
                                 }
-                                
-                                
+                                                                
                                 if(isset($schema_data['saswp_review_schema_director'])){
                                     
                                  $input1['itemReviewed']['director']   = esc_attr($schema_data['saswp_review_schema_director']);   
@@ -1751,7 +1749,7 @@ function saswp_post_specific_schema_output() {
                                 
                             }  
                             
-                            $input1['isAccessibleForFree']    = saswp_remove_warnings($all_post_meta, 'saswp_church_schema_is_acceesible_free_'.$schema_id, 'saswp_array');                           
+                            $input1['isAccessibleForFree']        = saswp_remove_warnings($all_post_meta, 'saswp_church_schema_is_acceesible_free_'.$schema_id, 'saswp_array');                           
                             $input1['maximumAttendeeCapacity']    = saswp_remove_warnings($all_post_meta, 'saswp_church_schema_maximum_a_capacity_'.$schema_id, 'saswp_array');
                             $input1['hasMap']                     = saswp_remove_warnings($all_post_meta, 'saswp_church_schema_hasmap_'.$schema_id, 'saswp_array');
                             
@@ -2759,9 +2757,9 @@ function saswp_post_specific_schema_output() {
 	
 			 if( 'Recipe' === $schema_type){
                              
-                $recipe_logo    = get_post_meta( get_the_ID(), 'saswp_recipe_organization_logo_'.$schema_id.'_detail',true);
-                $recipe_image   = get_post_meta( get_the_ID(), 'saswp_recipe_image_'.$schema_id.'_detail',true);                                                                           
-                $recipe_author_image   = get_post_meta( get_the_ID(), 'saswp_recipe_author_image_'.$schema_id.'_detail',true);
+                                $recipe_logo    = get_post_meta( get_the_ID(), 'saswp_recipe_organization_logo_'.$schema_id.'_detail',true);
+                                $recipe_image   = get_post_meta( get_the_ID(), 'saswp_recipe_image_'.$schema_id.'_detail',true);                                                                           
+                                $recipe_author_image   = get_post_meta( get_the_ID(), 'saswp_recipe_author_image_'.$schema_id.'_detail',true);
                                 
                                 $ingredient     = array();
                                 $instruction    = array();
