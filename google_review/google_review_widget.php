@@ -31,37 +31,31 @@ class Saswp_Google_Review_Widget extends WP_Widget {
 	public function widget( $args, $instance ) {
                           
 		echo html_entity_decode(esc_attr($args['before_widget']));
-//		if ( ! empty( $instance['title'] ) ) {
-//			echo $args['before_title'] . apply_filters( 'widget_title', $instance['title'] ) . $args['after_title'];
-//		}
-                                
-                $object = new saswp_google_review();
-                $all_ads = $object->saswp_fetch_all_google_review_post();
-                $goolge_review_obj = new saswp_google_review();
+		
+		if ( ! class_exists('saswp_google_review')) {
+            require_once SASWP_DIR_NAME.'/google_review/google_review.php';
+        }
+
+        $object 	= new saswp_google_review();
+        $all_ads 	= $object->saswp_fetch_all_google_review_post();
+        $goolge_review_obj = new saswp_google_review();
+        
+        foreach($all_ads as $ad){
+            
+            if($ad->ID == $instance['g_review']){   
+                                           
+                $ad_code =  $object->saswp_google_review_front_output($instance['g_review']); 
+                $goolge_review = $goolge_review_obj->saswp_get_google_review_schema_markup($instance['g_review']);
                 
-                foreach($all_ads as $ad){
-                    
-                    if($ad->ID == $instance['g_review']){   
-                                                   
-                            $ad_code =  $object->saswp_google_review_front_output($instance['g_review']); 
-                            
-                            $goolge_review = $goolge_review_obj->saswp_get_google_review_schema_markup($instance['g_review']);
-                            
-                            if($goolge_review){
-                                
-                                echo $ad_code.$goolge_review;    
-                            }else{
-                                
-                                echo $ad_code;    
-                            }
-                                                                                    
-                    }   
-                    
+                if($goolge_review){
+                    echo $ad_code . $goolge_review;    
+                } else {
+                    echo $ad_code;
                 }
-                
-                echo html_entity_decode(esc_attr($args['after_widget']));                              
-                
-	}
+            }
+        }
+        echo html_entity_decode(esc_attr($args['after_widget']));
+    }
 
 	/**
 	 * Back-end widget form.
@@ -73,46 +67,24 @@ class Saswp_Google_Review_Widget extends WP_Widget {
 	public function form( $instance ) {
             
 		$title = ! empty( $instance['title'] ) ? $instance['title'] : esc_html__( 'Review Title', 'schema-and-structured-data-for-wp' );
-                $ads   = ! empty( $instance['g_review'] ) ? $instance['g_review'] : esc_html__( 'review list to be display', 'schema-and-structured-data-for-wp' );                                
-                
-		?>
-
-<!--		<p>
-		<label for="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>">
-                    <?php esc_attr_e( 'Title:', 'schema-and-structured-data-for-wp' ); ?></label> 
-		<input 
-                    class="widefat" 
-                    id="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>" 
-                    name="<?php echo esc_attr( $this->get_field_name( 'title' ) ); ?>" 
-                    type="text" 
-                    value="<?php echo esc_attr( $title ); ?>">
-		</p>-->
-                
-                <p>
-		<label for="<?php echo esc_attr( $this->get_field_id( 'g_review' ) ); ?>">
-                    <?php esc_attr_e( 'Places :', 'schema-and-structured-data-for-wp' ); ?>
-                </label> 
-                
-                 <?php 
+                $ads   = ! empty( $instance['g_review'] ) ? $instance['g_review'] : esc_html__( 'review list to be display', 'schema-and-structured-data-for-wp' );?>
+        <p>
+        	<label for="<?php echo esc_attr( $this->get_field_id( 'g_review' ) ); ?>">
+        		<?php esc_attr_e( 'Places :', 'schema-and-structured-data-for-wp' ); ?></label><?php 
                  
-                 $ads_select_html = '';                 
-                 $object  = new saswp_google_review();
-                 $all_ads = $object->saswp_fetch_all_google_review_post();                 
-                 
-                 foreach($all_ads as $ad){
-                     
-                     $ads_select_html .= '<option '. esc_attr(selected( $ads, $ad->ID, false)).' value="'.esc_attr($ad->ID).'">'.esc_html__($ad->post_title, 'schema-and-structured-data-for-wp').'</option>';
-                     
-                 }
-                                                   
-                 echo '<select id="'.esc_attr( $this->get_field_id( 'g_review' )).'" name="'.esc_attr( $this->get_field_name( 'g_review' )).'">'
-                         .$ads_select_html.                         
-                      '</select>';
-                 ?>                       
-		
-		</p>
-                                              
-		<?php 
+            $ads_select_html = '';  
+            if ( ! class_exists('saswp_google_review')) {
+            	require_once SASWP_DIR_NAME.'/google_review/google_review.php';
+            }                
+            $object  = new saswp_google_review();
+            $all_ads = $object->saswp_fetch_all_google_review_post();
+            foreach($all_ads as $ad){
+                $ads_select_html .= '<option '. esc_attr(selected( $ads, $ad->ID, false)).' value="'.esc_attr($ad->ID).'">'.esc_html__($ad->post_title, 'schema-and-structured-data-for-wp').'</option>';
+            }
+            echo '<select id="'.esc_attr( $this->get_field_id( 'g_review' )).'" name="'.esc_attr( $this->get_field_name( 'g_review' )).'">'
+                     .$ads_select_html.                         
+                  '</select>';?>
+        </p><?php 
 	}
 
 	/**
@@ -134,8 +106,7 @@ class Saswp_Google_Review_Widget extends WP_Widget {
                 
 	}
 
-} // class Adsforwp_Ads_Widget
-
+} // class Saswp_Google_Review_Widget
 
 /**
  * We are registering our widget here in wordpress
