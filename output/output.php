@@ -418,6 +418,7 @@ function saswp_schema_output() {
 			'mainEntityOfPage'              => get_permalink(),
 			'headline'			=> saswp_get_the_title(),
 			'description'                   => saswp_get_the_excerpt(),
+                        'articleBody'                   => saswp_get_the_content(),    
 			'name'				=> saswp_get_the_title(),
 			'url'				=> get_permalink(),
 			'datePublished'                 => esc_html($date),
@@ -848,7 +849,7 @@ function saswp_schema_output() {
 					'dateModified'                  => esc_html($modified_date),
 					'description'                   => saswp_get_the_excerpt(),
                                         'articleSection'                => $article_section,            
-                                        'articleBody'                   => saswp_get_the_excerpt(),            
+                                        'articleBody'                   => saswp_get_the_content(),        
 					'name'				=> saswp_get_the_title(), 					
 					'thumbnailUrl'                  => saswp_remove_warnings($image_details, 0, 'saswp_string'),
                                         'wordCount'                     => saswp_remove_warnings($word_count, 'word_count', 'saswp_string'),
@@ -992,6 +993,7 @@ function saswp_schema_output() {
                                     'keywords'       => tie_get_plain_terms( get_the_ID(), 'post_tag' ),
                                     'url'            => get_permalink(),
                                     'description'    => saswp_get_the_excerpt(),
+                                    'articleBody'    => saswp_get_the_content(),
                                     'copyrightYear'  => get_the_time( 'Y' ),                                                                                                           
                                     'author'	     => saswp_get_author_details()                                                        
                                 

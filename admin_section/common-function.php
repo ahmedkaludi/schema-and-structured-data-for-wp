@@ -1720,6 +1720,22 @@ function saswp_frontend_enqueue(){
                 	
 }
 /**
+ * Here we are getting article full body content
+ * @global type $post
+ * @return type string
+ */
+function saswp_get_the_content(){
+                
+    global $post;
+    $content = '';        
+    if(is_object($post)){
+        $content = get_post_field('post_content', $post->ID);
+    }
+           
+    return $content;
+    
+}
+/**
  * Here we are modifying the default excerpt
  * @global type $post
  * @return type string
