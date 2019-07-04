@@ -1754,6 +1754,9 @@
 					case 'text':
 						$_POST[ $meta_field['id'] ] = sanitize_text_field( $_POST[ $meta_field['id'] ] );
 						break;
+                                        default:
+						$_POST[ $meta_field['id'] ] = sanitize_text_field( $_POST[ $meta_field['id'] ] );
+						break;    
 				}
                                  $review_schema_details[$meta_field['id']] = $_POST[ $meta_field['id'] ];
                                                            

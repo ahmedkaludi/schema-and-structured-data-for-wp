@@ -4,7 +4,10 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 add_action('admin_init', 'saswp_create_database_for_existing_users');
 
 function saswp_create_database_for_existing_users(){
-    
+        
+                if ( ! current_user_can( 'manage_options' ) ) {
+                    return;
+                }
 		$status = get_option('saswp-database-on-first-load');
         
 		if($status != 'enable'){

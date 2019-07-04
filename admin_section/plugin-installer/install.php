@@ -162,7 +162,7 @@
 				<circle class="icon--checkmark__circle" cx="26" cy="26" r="25" fill="none"/><path class="icon--checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
 			</svg>
 
-			<h1><?php echo esc_attr($stepDetails['title']); ?></h1>
+			<h1><?php echo $stepDetails['title']; ?></h1>
 
 			<p><?php echo esc_html__( 'This Installation Wizard helps you to setup the necessary options for schema & structured data. It is optional & should take only a few minutes.', 'schema-and-structured-data-for-wp' ); ?></p>
 	
@@ -190,10 +190,10 @@
 			<svg class="icon icon--checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
 				<circle class="icon--checkmark__circle" cx="26" cy="26" r="25" fill="none"/><path class="icon--checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
 			</svg>
-			
-			<h1><?php echo esc_attr($stepDetails['title']); ?></h1>
+			<!--Escaping has been done above while adding to array ref array $saswp_installer_config-->
+			<h1><?php echo $stepDetails['title']; ?></h1>
 
-			<p><?php echo isset($stepDetails['description'])? $stepDetails['description'] : ''; ?></p>
+                        <p><?php echo isset($stepDetails['description'])? $stepDetails['description'] : ''; ?></p>
 			
 		</div>
 		<form action="" method="post">
@@ -235,8 +235,8 @@
 			<svg class="icon icon--checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
 				<circle class="icon--checkmark__circle" cx="26" cy="26" r="25" fill="none"/><path class="icon--checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
 			</svg>
-			
-			<h1><?php echo esc_attr($stepDetails['title']); ?></h1>
+			<!--Escaping has been done above while adding to array ref array $saswp_installer_config-->
+			<h1><?php echo $stepDetails['title']; ?></h1>
 
 			<p><?php echo isset($stepDetails['description'])? $stepDetails['description'] : ''; ?></p>
 			
@@ -280,10 +280,10 @@
 			<svg class="icon icon--checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
 				<circle class="icon--checkmark__circle" cx="26" cy="26" r="25" fill="none"/><path class="icon--checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
 			</svg>
-			
-			<h1><?php echo esc_attr($stepDetails['title']); ?></h1>
+			<!--Escaping has been done above while adding to array ref array $saswp_installer_config-->
+			<h1><?php echo $stepDetails['title']; ?></h1>
 
-			<p><?php echo isset($stepDetails['description'])? $stepDetails['description'] : ''; ?></p>
+                        <p><?php echo isset($stepDetails['description'])? $stepDetails['description'] : ''; ?></p>
 		</div>
 		<form action="" method="post">
 			
@@ -295,7 +295,6 @@
 				</li>
 			</ul>
 			
-
 			<footer class="merlin__content__footer">
 				<?php saswp_skip_button(); ?>
 				
@@ -324,13 +323,11 @@
 			<svg class="icon icon--checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
 				<circle class="icon--checkmark__circle" cx="26" cy="26" r="25" fill="none"/><path class="icon--checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
 			</svg>
-			
-			<h1><?php echo esc_attr($stepDetails['title']); ?></h1>
+			<!--Escaping has been done above while adding to array ref array $saswp_installer_config-->
+			<h1><?php echo $stepDetails['title']; ?></h1>
 
-			<p><?php echo isset($stepDetails['description'])? $stepDetails['description'] : ''; ?></p>
-			
-			
-			
+                        <p><?php echo isset($stepDetails['description'])? $stepDetails['description'] : ''; ?></p>
+									
 		</div>
 		<form action="" method="post">
 			
@@ -356,17 +353,11 @@
 	<?php
 	}
 	
-	
-
-
-
-
-	
-	
 	function saswp_save_steps_data(){ 
-	            if(! current_user_can( 'manage_options' ) ) {
-					return ;
-				}
+            
+                 if(! current_user_can( 'manage_options' ) ) {
+                    return ;
+                 }
                  if ( ! isset( $_POST['wpnonce'] ) ){
                     return; 
                  }
@@ -375,9 +366,9 @@
                  }                                 
                 if(isset($_POST['sd_data'])){
                     
-                $pre_sd_data = get_option('sd_data'); 
-                $pre_sd_data['sd_initial_wizard_status'] =1;                
-                $sd_data = $_POST['sd_data'];
+                $pre_sd_data                              = get_option('sd_data'); 
+                $pre_sd_data['sd_initial_wizard_status']  = 1;                
+                $sd_data                                  = array_map('sanitize_text_field', $_POST['sd_data']);
                 
                 if($pre_sd_data){
                     
@@ -394,8 +385,8 @@
                             
 				foreach ($checkbox as $key => $value) {
                                     
-					$postType   = $_POST['sd_data_create__post_schema'][$key]['posttype'];
-					$schemaType = $_POST['sd_data_create__post_schema'][$key]['schema_type'];
+					$postType   = sanitize_text_field($_POST['sd_data_create__post_schema'][$key]['posttype']);
+					$schemaType = sanitize_text_field($_POST['sd_data_create__post_schema'][$key]['schema_type']);
 					
 					$postarr = array(
                                             'post_type'   => 'saswp',
@@ -420,7 +411,7 @@
                                             ) 
                                             
                                            );
-                                        
+                                        $data_group_array = saswp_sanitize_multi_array($data_group_array, 'data_array');
 					$schema_options_array = array('isAccessibleForFree'=>False,'notAccessibleForFree'=>0,'paywall_class_name'=>'');
 					update_post_meta( $insertedPageId, 'data_group_array', $data_group_array);
 					update_post_meta( $insertedPageId, 'schema_type', $schemaType);
@@ -431,8 +422,6 @@
 				
 			}
 			/**/
-
-
 
 		}
 		wp_send_json(
@@ -772,9 +761,9 @@ function saswp_select_schema_fields_callback(){
     	foreach ($post_types as $key => $value) {
             
     		$returnHtml .= '<li class="merlin__drawer--import-content__list-item status post-type-fields">
-    					<input type="checkbox" name="sd_data_create__post_schema_checkbox['.$key.']" id="sd_data_create__post_schema_'.$key.'" class="checkbox" value="1" >
-    					<label for="sd_data_create__post_schema_'.$key.'"><i></i><span>'.ucfirst($value).'</span></label>
-    					<input type="hidden" name="sd_data_create__post_schema['.$key.'][posttype]" class="checkbox" value="'.$key.'" >
+    					<input type="checkbox" name="sd_data_create__post_schema_checkbox['.esc_attr($key).']" id="sd_data_create__post_schema_'.esc_attr($key).'" class="checkbox" value="1" >
+    					<label for="sd_data_create__post_schema_'.esc_attr($key).'"><i></i><span>'.esc_html(ucfirst($value)).'</span></label>
+    					<input type="hidden" name="sd_data_create__post_schema['.esc_attr($key).'][posttype]" class="checkbox" value="'.esc_attr($key).'" >
 
     					<select id="schema_type" name="sd_data_create__post_schema['.$key.'][schema_type]">
                 			<option value="">'.esc_html__('Select Schema Type', 'schema-and-structured-data-for-wp').'</option>

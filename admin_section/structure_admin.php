@@ -88,12 +88,17 @@ add_action( 'untrash_saswp', 'saswp_update_ids_on_untrash' );
 
 function saswp_reset_all_settings(){   
     
+        if ( ! current_user_can( 'manage_options' ) ) {
+             return;
+        }
+        
         if ( ! isset( $_POST['saswp_security_nonce'] ) ){
            return; 
         }
         if ( !wp_verify_nonce( $_POST['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
            return;  
-        }            
+        }
+        
         $result = '';
         
         update_option( 'sd_data', array());  
@@ -830,7 +835,7 @@ add_action( 'wp_print_scripts', 'saswp_dequeue_script', 100 );
     
     if(isset($_POST['data_group_array'])){        
         
-    $post_data_group_array = $_POST['data_group_array'];    
+    $post_data_group_array = (array) $_POST['data_group_array'];    
     
     foreach($post_data_group_array as $groups){        
         
@@ -854,6 +859,8 @@ add_action( 'wp_print_scripts', 'saswp_dequeue_script', 100 );
     }                      
     if(isset($_POST['data_group_array'])){
         
+      $post_data_group_array = saswp_sanitize_multi_array($post_data_group_array, 'data_array'); 
+      
       update_post_meta(
         $post_id, 
         'data_group_array', 
@@ -1246,6 +1253,10 @@ add_action('wp_ajax_saswp_send_query_message', 'saswp_send_query_message');
      */
 function saswp_import_plugin_data(){                  
     
+        if ( ! current_user_can( 'manage_options' ) ) {
+             return;
+        }
+        
         if ( ! isset( $_GET['saswp_security_nonce'] ) ){
            return; 
         }
@@ -1446,7 +1457,9 @@ function saswp_license_status($add_on, $license_status, $license_key){
 
 function saswp_license_status_check(){  
     
-          
+        if ( ! current_user_can( 'manage_options' ) ) {
+             return;
+        }
         if ( ! isset( $_POST['saswp_security_nonce'] ) ){
            return; 
         }

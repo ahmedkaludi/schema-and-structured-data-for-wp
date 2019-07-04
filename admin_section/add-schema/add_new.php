@@ -202,8 +202,8 @@ $saswp_add_data_type_config = array(
 			<svg class="icon icon--checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
 				<circle class="icon--checkmark__circle" cx="26" cy="26" r="25" fill="none"/><path class="icon--checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
 			</svg>
-			
-			<h1><?php echo esc_attr($stepDetails['title']); ?></h1>
+			<!--Escaping has been done above while adding to array ref array $saswp_installer_config-->
+			<h1><?php echo $stepDetails['title']; ?></h1>
 
 			<p><?php echo isset($stepDetails['description'])? $stepDetails['description'] : ''; ?></p>
 									
@@ -222,7 +222,6 @@ $saswp_add_data_type_config = array(
 				
 			</ul>
 			
-
 			<footer class="merlin__content__footer">
 				<?php saswp_add_new_skip_button(); ?>
 				
@@ -251,8 +250,8 @@ $saswp_add_data_type_config = array(
 			<svg class="icon icon--checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
 				<circle class="icon--checkmark__circle" cx="26" cy="26" r="25" fill="none"/><path class="icon--checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
 			</svg>
-			
-			<h1><?php echo esc_attr($stepDetails['title']); ?></h1>
+			<!--Escaping has been done above while adding to array ref array $saswp_installer_config-->
+			<h1><?php echo $stepDetails['title']; ?></h1>
 			<p><?php echo isset($stepDetails['description'])? $stepDetails['description'] : ''; ?></p>
 		</div>
                     
@@ -322,8 +321,8 @@ $saswp_add_data_type_config = array(
 			<svg class="icon icon--checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
 				<circle class="icon--checkmark__circle" cx="26" cy="26" r="25" fill="none"/><path class="icon--checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
 			</svg>
-			
-			<h1><?php echo esc_attr($stepDetails['title']); ?></h1>
+			<!--Escaping has been done above while adding to array ref array $saswp_installer_config-->
+			<h1><?php echo $stepDetails['title']; ?></h1>
 
 			<p><?php echo isset($stepDetails['description'])? $stepDetails['description'] : ''; ?></p>
 			
@@ -400,7 +399,8 @@ $saswp_add_data_type_config = array(
                 $post_data_group_array  = array();
                 $temp_condition_array   = array();
                 $show_globally          = false;
-                $post_data_group_array  = $_POST['data_group_array'];
+                $post_data_group_array  = (array) $_POST['data_group_array'];
+                
                 if(is_array($post_data_group_array)){
                 
 	                foreach($post_data_group_array as $groups){  
@@ -425,7 +425,9 @@ $saswp_add_data_type_config = array(
                 
                 $post_data_group_array['group-0']['data_array'] = $temp_condition_array;  
                 
-                }   
+                }
+                
+                $post_data_group_array = saswp_sanitize_multi_array($post_data_group_array, 'data_array'); 
                 
                 update_post_meta(
                     $post_id, 

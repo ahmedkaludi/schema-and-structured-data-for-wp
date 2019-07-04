@@ -1124,7 +1124,7 @@ function saswp_import_callback(){
             </ul>                   
 	<?php   
         echo '<h2>'.esc_html__('Import / Export','schema-and-structured-data-for-wp').'</h2>'; 
-        $url =  admin_url('admin-ajax.php?action=saswp_export_all_settings_and_schema');
+        $url = wp_nonce_url(admin_url('admin-ajax.php?action=saswp_export_all_settings_and_schema'), '_wpnonce');         
         ?>
         <ul>
                 <li>
@@ -1771,6 +1771,7 @@ function saswp_enqueue_style_js( $hook ) {
             'saswp_settings_url'           => esc_url(admin_url('edit.php?post_type=saswp&page=structured_data_options'))                       
         );
         
+        $data = apply_filters('saswp_localize_filter',$data,'saswp_localize_data');
 	// Color picker CSS
 	// @refer https://make.wordpress.org/core/2012/11/30/new-color-picker-in-wp-3-5/
         wp_enqueue_style( 'wp-color-picker' );	

@@ -2319,6 +2319,8 @@ class saswp_post_specific {
 					case 'text':
 						$post_meta[ $meta_field['id'] ] = sanitize_text_field( $post_meta[ $meta_field['id'] ] );
 						break;
+                                        default:
+						$post_meta[ $meta_field['id'] ] = sanitize_text_field( $post_meta[ $meta_field['id'] ] );						
                                             
 				}
 				update_post_meta( $post_id, $meta_field['id'], $post_meta[ $meta_field['id'] ] );

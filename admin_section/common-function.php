@@ -79,6 +79,16 @@ if ( ! defined('ABSPATH') ) exit;
      */
     function saswp_export_all_settings_and_schema(){   
         
+        if ( ! current_user_can( 'manage_options' ) ) {
+             return;
+        }
+        if ( ! isset( $_GET['_wpnonce'] ) ){
+             return; 
+        }
+        if ( !wp_verify_nonce( $_GET['_wpnonce'], '_wpnonce' ) ){
+             return;  
+        }
+        
         $export_data     = array();
         $export_data_all = array();
         $schema_post     = array();       
@@ -1837,4 +1847,38 @@ function saswp_get_author_details(){
     }
             
     return $author_details;
+}
+
+/** 
+ * Function to sanitize display condition and user targeting
+ * @param type $array
+ * @param type $type
+ * @return type array
+ */
+function saswp_sanitize_multi_array($array, $type){
+    
+    if($array){
+               
+        foreach($array as $group => $condition){
+            
+            $group_condition = $condition[$type];
+            
+            foreach ($group_condition as $con_key => $con_val){
+                
+                foreach($con_val as $key => $val){
+                        
+                        $con_val[$key] =   sanitize_text_field($val);
+                        
+                }
+                
+                $group_condition[$con_key] = $con_val;
+            }
+            
+            $array[$group] = $condition;
+            
+        }
+        
+    }
+    
+    return $array;
 }

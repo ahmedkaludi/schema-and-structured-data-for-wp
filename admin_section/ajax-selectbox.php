@@ -15,10 +15,10 @@ function saswp_ajax_select_creator($data = '', $saved_data= '', $current_number 
               $response = sanitize_text_field(wp_unslash($_POST["id"]));
             }
             if ( isset( $_POST["number"] ) ) {
-              $current_number   = intval($_POST["number"]);
+              $current_number   = intval(sanitize_text_field($_POST["number"]));
             }
             if ( isset( $_POST["group_number"] ) ) {
-              $current_group_number   = intval($_POST["group_number"]);
+              $current_group_number   = intval(sanitize_text_field($_POST["group_number"]));
             }
             
         }else{

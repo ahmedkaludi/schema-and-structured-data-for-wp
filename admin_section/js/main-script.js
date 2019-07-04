@@ -10,6 +10,94 @@ function getParameterByName(name, url) {
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
 jQuery(document).ready(function($){   
+    
+    /* Newletters js starts here */      
+        
+            if(saswp_localize_data.do_tour){
+                
+                var content = '<h3>Thanks for using Structured Data!</h3>';
+			content += '<p>Do you want the latest on <b>Structured Data update</b> before others and some best resources on monetization in a single email? - Free just for users of Structured Data!</p>';
+                        content += '<style type="text/css">';
+                        content += '.wp-pointer-buttons{ padding:0; overflow: hidden; }';
+                        content += '.wp-pointer-content .button-secondary{  left: -25px;background: transparent;top: 5px; border: 0;position: relative; padding: 0; box-shadow: none;margin: 0;color: #0085ba;} .wp-pointer-content .button-primary{ display:none}	#afw_mc_embed_signup{background:#fff; clear:left; font:14px Helvetica,Arial,sans-serif; }';
+                        content += '</style>';                        
+                        content += '<div id="afw_mc_embed_signup">';
+                        content += '<form action="//app.mailerlite.com/webforms/submit/o1s7u3" data-id="258182" data-code="o1s7u3" method="POST" target="_blank">';
+                        content += '<div id="afw_mc_embed_signup_scroll">';
+                        content += '<div class="afw-mc-field-group" style="    margin-left: 15px;    width: 195px;    float: left;">';
+                        content += '<input type="text" name="fields[name]" class="form-control" placeholder="Name" hidden value="'+saswp_localize_data.current_user_name+'" style="display:none">';
+                        content += '<input type="text" value="'+saswp_localize_data.current_user_email+'" name="fields[email]" class="form-control" placeholder="Email*"  style="      width: 180px;    padding: 6px 5px;">';
+                        content += '<input type="text" name="fields[company]" class="form-control" placeholder="Website" hidden style=" display:none; width: 168px; padding: 6px 5px;" value="'+saswp_localize_data.get_home_url+'">';
+                        content += '<input type="hidden" name="ml-submit" value="1" />';
+                        content += '</div>';
+                        content += '<div id="mce-responses">';
+                        content += '<div class="response" id="mce-error-response" style="display:none"></div>';
+                        content += '<div class="response" id="mce-success-response" style="display:none"></div>';
+                        content += '</div>';
+                        content += '<div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_a631df13442f19caede5a5baf_c9a71edce6" tabindex="-1" value=""></div>';
+                        content += '<input type="submit" value="Subscribe" name="subscribe" id="pointer-close" class="button mc-newsletter-sent" style=" background: #0085ba; border-color: #006799; padding: 0px 16px; text-shadow: 0 -1px 1px #006799,1px 0 1px #006799,0 1px 1px #006799,-1px 0 1px #006799; height: 30px; margin-top: 1px; color: #fff; box-shadow: 0 1px 0 #006799;">';
+                        content += '</div>';
+                        content += '</form>';
+                        content += '</div>';
+                
+                var setup;                
+                var wp_pointers_tour_opts = {
+                    content:content,
+                    position:{
+                        edge:"top",
+                        align:"left"
+                    }
+                };
+                                
+                wp_pointers_tour_opts = $.extend (wp_pointers_tour_opts, {
+                        buttons: function (event, t) {
+                                button= jQuery ('<a id="pointer-close" class="button-secondary">' + saswp_localize_data.button1 + '</a>');
+                                button_2= jQuery ('#pointer-close.button');
+                                button.bind ('click.pointer', function () {
+                                        t.element.pointer ('close');
+                                });
+                                button_2.on('click', function() {
+                                        t.element.pointer ('close');
+                                } );
+                                return button;
+                        },
+                        close: function () {
+                                $.post (saswp_localize_data.ajax_url, {
+                                        pointer: 'saswp_subscribe_pointer222',
+                                        action: 'dismiss-wp-pointer'
+                                });
+                        },
+                        show: function(event, t){
+                         t.pointer.css({'left':'170px', 'top':'160px'});
+                      }                                               
+                });
+                setup = function () {
+                        $(saswp_localize_data.displayID).pointer(wp_pointers_tour_opts).pointer('open');
+                         if (saswp_localize_data.button2) {
+                                jQuery ('#pointer-close').after ('<a id="pointer-primary" class="button-primary">' + saswp_localize_data.button2+ '</a>');
+                                jQuery ('#pointer-primary').click (function () {
+                                        saswp_localize_data.function_name;
+                                });
+                                jQuery ('#pointer-close').click (function () {
+                                        $.post (saswp_localize_data.ajax_url, {
+                                                pointer: 'saswp_subscribe_pointer222',
+                                                action: 'dismiss-wp-pointer'
+                                        });
+                                });
+                         }
+                };
+                if (wp_pointers_tour_opts.position && wp_pointers_tour_opts.position.defer_loading) {
+                        $(window).bind('load.wp-pointers', setup);
+                }
+                else {
+                        setup ();
+                }
+                
+            }
+                
+    /* Newletters js ends here */ 
+    
+    
 	$(".saswp-tabs a").click(function(e){
 		var href = $(this).attr('href');                
 		var currentTab = getParameterByName('tab',href);
