@@ -181,15 +181,12 @@ class saswp_google_review{
                 if($place->id){
 
                     $reviews = $wpdb->get_results($wpdb->prepare("SELECT * FROM " . $wpdb->prefix . "saswp_google_review WHERE google_place_id = %d ORDER BY time DESC", $place->id));
-
-                }
-
-            }   
-        
-                     foreach ($reviews as $review){
-                         
-                         
-                         $review_rating = $review->rating;
+                                        
+                    if($reviews){
+                        
+                        foreach ($reviews as $review){
+                                                  
+                                $review_rating = $review->rating;
                                 
                                 $starating = '';
                                 
@@ -245,6 +242,12 @@ class saswp_google_review{
                                       </div>';
 
                             }
+                        
+                    }                    
+
+                }
+
+            }                                
         
         return $output;
         
