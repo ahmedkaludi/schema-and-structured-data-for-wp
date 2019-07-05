@@ -1880,15 +1880,15 @@ Class saswp_output_service{
          */
         public function saswp_get_publisher($d_logo = null){
                 
-                        global $sd_data;   
-                        
+                        global $sd_data;  
+                                                                        
                         $publisher    = array();
                         $default_logo = array();
                         $custom_logo  = array();
                                       
-                        $logo      = isset($sd_data['sd_logo']) ?  $sd_data['sd_logo']['url']:'';	
-			$height    = isset($sd_data['sd_logo']) ?  $sd_data['sd_logo']['height']:'';
-			$width     = isset($sd_data['sd_logo']) ?  $sd_data['sd_logo']['width']:'';
+                        $logo      = isset($sd_data['sd_logo']['url']) ?     $sd_data['sd_logo']['url']:'';	
+			$height    = isset($sd_data['sd_logo']['height']) ?  $sd_data['sd_logo']['height']:'';
+			$width     = isset($sd_data['sd_logo']['width']) ?   $sd_data['sd_logo']['width']:'';
                         $site_name = isset($sd_data['sd_name']) && $sd_data['sd_name'] !='' ? $sd_data['sd_name']:get_bloginfo();
                                                                                                                        
                         if($logo =='' && $height =='' && $width ==''){
