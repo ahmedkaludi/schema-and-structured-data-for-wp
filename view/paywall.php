@@ -1,4 +1,7 @@
-<?php                                                                               
+<?php    
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 	add_action( 'add_meta_boxes', 'saswp_schema_options_add_meta_box' ) ;
 	add_action( 'save_post', 'saswp_schema_options_add_meta_box_save' ) ;
 	

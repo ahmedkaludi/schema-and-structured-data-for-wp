@@ -1,4 +1,7 @@
 <?php
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 function saswp_skip_wizard(){                  
     
         if ( ! isset( $_POST['saswp_security_nonce'] ) ){

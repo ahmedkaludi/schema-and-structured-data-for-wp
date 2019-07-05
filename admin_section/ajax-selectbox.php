@@ -1,4 +1,7 @@
 <?php
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 add_action('wp_ajax_create_ajax_select_sdwp','saswp_ajax_select_creator');
 function saswp_ajax_select_creator($data = '', $saved_data= '', $current_number = '', $current_group_number ='') {
  

@@ -1,4 +1,6 @@
 <?php
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) exit;
 /**
  * Admin Settings
  * Function saswp_add_menu_links
@@ -339,11 +341,10 @@ function saswp_premium_features_callback(){ ?>
                                           echo '<label class="saswp-sts-txt">Status :<span>Active</span></label>';                                          
                                         }else{                                            
                                            echo '<label class="saswp-sts-txt">Status :<span>Inactive</span></label>'; 
+                                           echo '<span class="saswp-d-btn">Download</span>';
                                         }
                                         
-                                        ?>
-                                    					
-					<span class="saswp-d-btn">Download</span>
+                                        ?>                                    										
 				</div>
 			</a></li>
 			<li><a target="_blank" href="http://structured-data-for-wp.com/extensions/cooked-compatibility-for-schema/">
@@ -364,12 +365,10 @@ function saswp_premium_features_callback(){ ?>
                                             echo '<label class="saswp-sts-txt">Status :<span>Active</span></label>';                                            
                                         }else{
                                             echo '<label class="saswp-sts-txt">Status :<span>Inactive</span></label>';
+                                            echo '<span class="saswp-d-btn">Download</span>';
                                         }
                                         
-                                        ?>
-                                    
-					
-					<span class="saswp-d-btn">Download</span>
+                                        ?>                                    										
 				</div>
 			</a></li>
 		</ul>
@@ -648,6 +647,9 @@ function saswp_general_page_callback(){
                         'name'  => 'sd_data[sd_name]',
                         'class' => 'regular-text saswp_org_fields',                        
 			'type'  => 'text',
+                        'attributes' => array(
+                                'placeholder' => 'Organization Name'
+                            )
 		),
                                
                 array(
@@ -656,6 +658,9 @@ function saswp_general_page_callback(){
                         'name'  => 'sd_data[sd_url]',
                         'class' => 'regular-text saswp_org_fields',                        
 			'type'  => 'text',
+                        'attributes' => array(
+                                'placeholder' => 'https://www.example.com'
+                            )
 		), 
                 array(
 			'label' => 'Contact Type',
@@ -676,7 +681,7 @@ function saswp_general_page_callback(){
                                 'baggage tracking'    => 'Baggage Tracking',
                                 'roadside assistance' => 'Roadside Assistance',
                                 'package tracking'    => 'Package Tracking',
-			)
+			)                        
                    ),
                     array(
                             'label' => 'Contact Number',
@@ -684,6 +689,9 @@ function saswp_general_page_callback(){
                             'name'  => 'sd_data[saswp_kb_telephone]',
                             'class' => 'regular-text saswp_org_fields',                        
                             'type'  => 'text',
+                            'attributes' => array(
+                                    'placeholder' => '+1-012-012-0124'
+                            )
                     ),
                     array(
                             'label' => 'Contact URL',
@@ -691,6 +699,9 @@ function saswp_general_page_callback(){
                             'name'  => 'sd_data[saswp_kb_contact_url]',
                             'class' => 'regular-text saswp_org_fields',                        
                             'type'  => 'text',
+                            'attributes' => array(
+                                    'placeholder' => 'https://www.example.com/contact'
+                            )
                     ),
                                    
                    array(
@@ -699,6 +710,9 @@ function saswp_general_page_callback(){
                         'name'  => 'sd_data[sd-person-name]',
                         'class' => 'regular-text saswp_person_fields',                        
 			'type'  => 'text',
+                        'attributes' => array(
+                                    'placeholder' => 'Name'
+                            )
 		    ),
                     array(
 			'label' => 'Job Title',
@@ -706,6 +720,9 @@ function saswp_general_page_callback(){
                         'name'  => 'sd_data[sd-person-job-title]',
                         'class' => 'regular-text saswp_person_fields',                        
 			'type'  => 'text',
+                        'attributes' => array(
+                                    'placeholder' => 'Job Title'
+                            )
 		    ),  
                     array(
 			'label'      => 'Image',
@@ -723,6 +740,9 @@ function saswp_general_page_callback(){
                         'name'   => 'sd_data[sd-person-phone-number]',
                         'class'  => 'regular-text saswp_person_fields',                        
 			'type'   => 'text',
+                        'attributes' => array(
+                                    'placeholder' => '+1-012-012-0124'
+                            )
 		    ),
                      array(
 			'label' => 'URL',
@@ -730,6 +750,9 @@ function saswp_general_page_callback(){
                         'name'  => 'sd_data[sd-person-url]',
                         'class' => 'regular-text saswp_person_fields',                        
 			'type'  => 'text',
+                        'attributes' => array(
+                                            'placeholder' => 'https://www.example.com/person'
+                        )                             
 		    ),
                     array(
 			'label' => 'Logo',
@@ -739,7 +762,7 @@ function saswp_general_page_callback(){
 			'type'  => 'media',
                         'note'  => 'According to google validation tool, Logo size must be 160*50 or 600*60',
                         'attributes' => array(
-                                'readonly' => 'readonly'
+                                'readonly' => 'readonly'                                
                             )    
 		   ),
                 
@@ -774,7 +797,7 @@ function saswp_general_page_callback(){
                         'class' => 'regular-text',                        
 			'type'  => 'text',
                         'attributes' => array(
-                            'placeholder' => 'https://'
+                            'placeholder' => 'https://facebook.com/'
                         )
 		    ),
                 array(
@@ -795,7 +818,7 @@ function saswp_general_page_callback(){
                         'class'      => 'regular-text',                        
 			'type'       => 'text',
                         'attributes' => array(
-                            'placeholder' => 'https://'
+                            'placeholder' => 'https://twitter.com'
                         )
 		    ),              
                 array(
@@ -816,7 +839,7 @@ function saswp_general_page_callback(){
                         'class'      => 'regular-text',                        
 			'type'       => 'text',
                         'attributes' => array(
-                            'placeholder' => 'https://'
+                            'placeholder' => 'https://instagram.com'
                         )
 		    ), 
                 array(
@@ -837,7 +860,7 @@ function saswp_general_page_callback(){
                         'class'      => 'regular-text',                        
 			'type'       => 'text',
                         'attributes' => array(
-                            'placeholder' => 'https://'
+                            'placeholder' => 'https://youtube.com'
                         )
 		    ),
                array(
@@ -858,7 +881,7 @@ function saswp_general_page_callback(){
                         'class'      => 'regular-text',                        
 			'type'       => 'text',
                         'attributes' => array(
-                            'placeholder' => 'https://'
+                            'placeholder' => 'https://linkedin.com'
                         )
 		    ),
                 array(
@@ -879,7 +902,7 @@ function saswp_general_page_callback(){
                         'class'      => 'regular-text',                        
 			'type'       => 'text',
                         'attributes' => array(
-                            'placeholder' => 'https://'
+                            'placeholder' => 'https://pinterest.com'
                         )
 		    ),
                 array(
@@ -900,7 +923,7 @@ function saswp_general_page_callback(){
                         'class'      => 'regular-text',                        
 			'type'       => 'text',
                         'attributes' => array(
-                            'placeholder' => 'https://'
+                            'placeholder' => 'https://soundcloud.com'
                         )
 		    ),
              array(
@@ -921,7 +944,7 @@ function saswp_general_page_callback(){
                         'class'      => 'regular-text',                        
 			'type'       => 'text',
                         'attributes' => array(
-                            'placeholder' => 'https://'
+                            'placeholder' => 'https://tumblr.com'
                         )
 		    ),
                 			

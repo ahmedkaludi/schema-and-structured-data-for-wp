@@ -1,4 +1,7 @@
 <?php       
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) exit;
+
         function saswp_item_reviewed_fields($item, $post_specific = null, $schema_id = null){
             
             $post_fix = '';

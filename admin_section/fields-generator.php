@@ -1,4 +1,7 @@
 <?php
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 /*
   Metabox to show ads type such as custom and adsense 
  */
@@ -72,19 +75,22 @@ class saswp_fields_generator {
                         
                         }
 			
-			
+                        $attribute_str ='';
+                        
+                        if(!empty($attribute)){
+                            
+                            foreach ($attribute as $key => $attr ){
+
+                                $attribute_str .=''.esc_attr($key).'="'.esc_attr($attr).'"';
+                           
+                            }
+                        
+                        }            
+                        			                        
 			switch ( $meta_field['type'] ) {
                             
 				case 'media':
-                                    
-                                        $attribute_str ='';
-                                    
-                                        foreach ($attribute as $key => $attr ){
-                                            
-                                           $attribute_str .=''.$key.'="'.$attr.'"';
-                                           
-                                        }
-                                    
+                                                                                                     
                                         $mediavalue = array();
                                     
                                             if(isset($settings[$meta_field['id']])){
@@ -125,13 +131,6 @@ class saswp_fields_generator {
 					break;
 				case 'checkbox':
                                     
-                                        $attribute_str ='';
-                                    
-                                        foreach ($attribute as $key => $attr ){
-                                            
-                                           $attribute_str .=''.$key.'="'.$attr.'"';
-                                           
-                                        }
                                         $hiddenvalue ="";
                                         
                                         if(array_key_exists('id', $hidden) && isset($settings[$hidden['id']])){
@@ -197,13 +196,14 @@ class saswp_fields_generator {
                                         }
                                     
 					$input = sprintf(
-						'<input class="%s" %s id="%s" name="%s" type="%s" value="%s">',
+						'<input class="%s" %s id="%s" name="%s" type="%s" value="%s" %s>',
                                                 $class,
 						$meta_field['type'] !== 'color' ? 'style="width: 100%"' : '',
 						esc_attr(saswp_remove_warnings($meta_field, 'id', 'saswp_string')),
 						esc_attr(saswp_remove_warnings($meta_field, 'name', 'saswp_string')),
 						esc_attr(saswp_remove_warnings($meta_field, 'type', 'saswp_string')),
-						esc_attr($stng_meta_field)
+						esc_attr($stng_meta_field),
+                                                $attribute_str
 					);	
 									
 			}

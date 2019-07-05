@@ -1,4 +1,8 @@
-<?php class saswp_ads_newsletter {
+<?php 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) exit;
+
+class saswp_ads_newsletter {
         
 	function __construct () {
 		

@@ -1774,7 +1774,7 @@ function saswp_get_the_excerpt() {
     
     if(saswp_global_option()  && saswp_remove_warnings($sd_data, 'saswp-yoast', 'saswp_string') == 1){
         
-        $yoast_meta_des = get_post_meta($post->ID, '_yoast_wpseo_metadesc', true);
+        $yoast_meta_des = saswp_convert_yoast_metafields($post->ID, 'metadesc');
         
         if($yoast_meta_des){
             
@@ -1787,6 +1787,26 @@ function saswp_get_the_excerpt() {
     return $excerpt;
 }
 
+/**
+ * since @1.8.9
+ * Here, we are getting meta fields value from yoast seo
+ * @global type $post
+ * @return type string
+ */
+function saswp_convert_yoast_metafields ($post_id, $field) {
+        
+    if(class_exists('WPSEO_Meta') && class_exists('WPSEO_Replace_Vars')){
+     
+        $string =  WPSEO_Meta::get_value( $field, $post_id );
+        if ($string !== '') {
+            $replacer = new WPSEO_Replace_Vars();
+
+            return $replacer->replace( $string, get_post($post_id) );
+        }
+    
+    }         
+    return '';
+}
 /**
  * since @1.8.7
  * Here we are modifying the default title
@@ -1801,8 +1821,8 @@ function saswp_get_the_title(){
     if(saswp_global_option()  && saswp_remove_warnings($sd_data, 'saswp-yoast', 'saswp_string') == 1){
         
         if(is_object($post)){
-        
-            $yoast_title = get_post_meta($post->ID, '_yoast_wpseo_title', true);
+                    
+            $yoast_title = saswp_convert_yoast_metafields($post->ID, 'title');
             
         }
                 

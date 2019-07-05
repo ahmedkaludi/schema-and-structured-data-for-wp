@@ -1,4 +1,7 @@
 <?php
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 class saswp_post_specific {
     
 	private   $screen                    = array();
