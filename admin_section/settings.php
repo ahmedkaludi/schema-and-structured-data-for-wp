@@ -176,7 +176,7 @@ function saswp_admin_interface_render(){
             
         </div>
         <div class="saswp-upgrade-pro">
-        	<h2>Upgrade to Pro!</h2>
+        	<h2><?php echo esc_html__('Upgrade to Pro!','schema-and-structured-data-for-wp') ?></h2>
         	<ul>
         		<li><?php echo esc_html__('Premium features','schema-and-structured-data-for-wp') ?></li>
         		<li><?php echo esc_html__('Dedicated Schema Support','schema-and-structured-data-for-wp') ?></li>
