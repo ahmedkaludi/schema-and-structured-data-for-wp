@@ -8,23 +8,37 @@ if ( ! defined('ABSPATH') ) exit;
      * @return boolean
      */
     add_action('admin_init', 'saswp_import_all_settings_and_schema',9);
+    
     function saswp_import_all_settings_and_schema(){
+                        
+        if ( ! current_user_can( 'manage_options' ) ) {
+             return;
+        }
         
-        $url = get_option('saswp-file-upload_url');        
         global $wpdb;
-        $result = '';
-        $errorDesc   = array();
-         
+        
+        $result          = '';
+        $errorDesc       = array();
+        $all_schema_post = array();
+        
+        $url = get_option('saswp-file-upload_url');                        
+        
         if($url){
             
         $json_data       = file_get_contents($url);
-        $json_array      = json_decode($json_data, true);       
-        $all_schema_post = $json_array['posts'];
-         
-        $sd_data     = $json_array['sd_data'];                
+        
+        if($json_data){
+            
+        $json_array      = json_decode($json_data, true);        
+        if(array_key_exists('posts', $json_array)){
+        
+            $all_schema_post = $json_array['posts'];
+            
+        }                        
+                                
         $schema_post = array();                     
                
-        if($all_schema_post){
+            if($all_schema_post && is_array($all_schema_post)){
             // begin transaction
             $wpdb->query('START TRANSACTION');
             
@@ -36,40 +50,66 @@ if ( ! defined('ABSPATH') ) exit;
                 $wpdb->query("UPDATE ".$wpdb->prefix."posts SET guid ='".esc_sql($guid)."' WHERE ID ='".esc_sql($post_id)."'");   
                                 
                 if ( isset( $schema_post['schema_type'] ) ){
-                        update_post_meta( $post_id, 'schema_type', esc_attr( $schema_post['schema_type'] ) );
+                        update_post_meta( $post_id, 'schema_type', sanitize_text_field($schema_post['schema_type'])  );
                 }
                                 
                 if ( isset( $schema_post['saswp_business_type'] ) ){
-                        update_post_meta( $post_id, 'saswp_business_type', $schema_post['saswp_business_type']  );
+                        update_post_meta( $post_id, 'saswp_business_type', sanitize_text_field($schema_post['saswp_business_type'])  );
                 }
                 
                 if ( isset( $schema_post['saswp_business_name'] ) ){
-                        update_post_meta( $post_id, 'saswp_business_name', $schema_post['saswp_business_name']  );
+                        update_post_meta( $post_id, 'saswp_business_name', sanitize_text_field($schema_post['saswp_business_name'])  );
                 }
                 
                 if ( isset( $schema_post['saswp_local_business_details'] ) ){
-                        update_post_meta( $post_id, 'saswp_local_business_details', $schema_post['saswp_local_business_details']  );
+                    
+                        $local_data = $schema_post['saswp_local_business_details'];
+                        
+                        foreach($local_data as $key => $local){
+                                                        
+                            if($key == 'local_business_logo'){
+                                
+                                $local_data[$key] = array_map('sanitize_text_field', $local);
+                            }else{
+                                $local_data[$key] = sanitize_text_field($local);
+                            }
+                                                        
+                        }
+                        
+                        update_post_meta( $post_id, 'saswp_local_business_details', $local_data  );
                 }
+                
                 if ( isset( $schema_post['data_group_array'] ) ){
-                        update_post_meta( $post_id, 'data_group_array', $schema_post['data_group_array']  );
+                        $data_array = saswp_sanitize_multi_array($schema_post['data_group_array'], 'data_array'); 
+                        update_post_meta( $post_id, 'data_group_array', $data_array  );
                 }                                                                                                     
                 if(is_wp_error($result)){
                     $errorDesc[] = $result->get_error_message();
                 }
-                }          
-                }                
-             update_option('sd_data', $sd_data); 
+                } 
+                
+            }    
+            
+            if(array_key_exists('sd_data', $json_array)){
+                        
+                $sd_data = array_map( 'sanitize_text_field' ,$json_array['sd_data']);
+                update_option('sd_data', $sd_data); 
+            } 
+                         
              update_option('saswp-file-upload_url','');
+            
+        }
+                        
              
-            if ( count($errorDesc) ){
-              echo implode("\n<br/>", $errorDesc);              
-              $wpdb->query('ROLLBACK');             
-            }else{
-              $wpdb->query('COMMIT'); 
-              return true;
-            }
+        if ( count($errorDesc) ){
+          echo implode("\n<br/>", $errorDesc);              
+          $wpdb->query('ROLLBACK');             
+        }else{
+          $wpdb->query('COMMIT'); 
+          return true;
+        }
              
-            }                                    
+       }                                    
                                                              
     }   
 /**
@@ -155,9 +195,10 @@ if ( ! defined('ABSPATH') ) exit;
                 $export_data[$schema->ID]['saswp_local_business_details'] = $local_business_details;                 
               }       
                 
-                $get_sd_data = get_option('sd_data');                
-                $export_data_all['posts'] =$export_data;
-                $export_data_all['sd_data'] =$get_sd_data;
+                $get_sd_data                = get_option('sd_data');                
+                $export_data_all['posts']   = $export_data;
+                $export_data_all['sd_data'] = $get_sd_data;
+                
                 header('Content-type: application/json');
                 header('Content-disposition: attachment; filename=structuredatabackup.json');
                 echo json_encode($export_data_all);   
@@ -224,7 +265,8 @@ if ( ! defined('ABSPATH') ) exit;
                     'comment_count'         => $schema->comment_count,
                     'filter'                => $schema->filter, 
                     
-                );                                      
+                );    
+                
                 $post_id = wp_insert_post($schema_post);
                 $result  = $post_id;
                 $guid    = get_option('siteurl') .'/?post_type=saswp&p='.$post_id;                
@@ -264,9 +306,9 @@ if ( ! defined('ABSPATH') ) exit;
                   $schema_article_type = $schema_post_meta['_schema_article_type'][0];  
                 }                      
                 $saswp_meta_key = array(
-                    'schema_type' => $schema_article_type,
-                    'data_group_array'=>$data_group_array,
-                    'imported_from' => 'schema'
+                    'schema_type'      => $schema_article_type,
+                    'data_group_array' => $data_group_array,
+                    'imported_from'    => 'schema'
                 );
                 
                 foreach ($saswp_meta_key as $key => $val){                     
@@ -285,11 +327,11 @@ if ( ! defined('ABSPATH') ) exit;
                                 
                 $saswp_plugin_options = array(                    
                     'sd_logo'   => array(
-                                        'url'           =>$schema_plugin_options['logo'],  
-                                        'id'            =>$custom_logo_id,
-                                        'height'        =>'600',
-                                        'width'         =>'60',
-                                        'thumbnail'     =>$schema_plugin_options['logo']        
+                                        'url'           => $schema_plugin_options['logo'],  
+                                        'id'            => $custom_logo_id,
+                                        'height'        => '600',
+                                        'width'         => '60',
+                                        'thumbnail'     => $schema_plugin_options['logo']        
                             ),                                                                                                                                                             
                     'saswp_kb_contact_1'       => 0,                                                                            
                     //AMP Block           
@@ -500,11 +542,11 @@ if ( ! defined('ABSPATH') ) exit;
                        $image_details 	= wp_get_attachment_image_src($settings['seop_home_logo'], 'full');
               
                        $local_business_details['local_business_logo'] = array(
-                                'url'           =>$image_details[0],  
-                                'id'            =>$settings['site_image'],
-                                'height'        =>$image_details[1],
-                                'width'         =>$image_details[2],
-                                'thumbnail'     =>$image_details[0]        
+                                'url'           => $image_details[0],  
+                                'id'            => $settings['site_image'],
+                                'height'        => $image_details[1],
+                                'width'         => $image_details[2],
+                                'thumbnail'     => $image_details[0]        
                             ); 
                     }
                                                           
@@ -664,23 +706,23 @@ if ( ! defined('ABSPATH') ) exit;
                     
                     }
                                                                 
-          if(isset($settings['person']['name'])){
-           $saswp_plugin_options['sd-person-name'] =  $settings['person']['name'];     
-          }
-          
-          if(isset($settings['person']['jobTitle'])){
-           $saswp_plugin_options['sd-person-job-title'] =  $settings['person']['jobTitle'];        
-          }
-           
-          if(isset($settings['person']['image'])){
-              $image_details 	= wp_get_attachment_image_src($settings['person']['image'], 'full');
-              
-              $saswp_plugin_options['sd-person-image'] = array(
-                                'url'           =>$image_details[0],  
-                                'id'            =>$settings['organization_logo'],
-                                'height'        =>$image_details[1],
-                                'width'         =>$image_details[2],
-                                'thumbnail'     =>$image_details[0]        
+                if(isset($settings['person']['name'])){
+                 $saswp_plugin_options['sd-person-name'] =  $settings['person']['name'];     
+                }
+
+                if(isset($settings['person']['jobTitle'])){
+                 $saswp_plugin_options['sd-person-job-title'] =  $settings['person']['jobTitle'];        
+                }
+
+                if(isset($settings['person']['image'])){
+                $image_details 	= wp_get_attachment_image_src($settings['person']['image'], 'full');
+
+                $saswp_plugin_options['sd-person-image'] = array(
+                                'url'           => $image_details[0],  
+                                'id'            => $settings['organization_logo'],
+                                'height'        => $image_details[1],
+                                'width'         => $image_details[2],
+                                'thumbnail'     => $image_details[0]        
                             );                                                  
           }         
                
@@ -688,11 +730,11 @@ if ( ! defined('ABSPATH') ) exit;
               $image_details 	= wp_get_attachment_image_src($settings['organization_logo'], 'full');	   
               
               $saswp_plugin_options['sd_logo'] = array(
-                                'url'           =>$image_details[0],  
-                                'id'            =>$settings['organization_logo'],
-                                'height'        =>$image_details[1],
-                                'width'         =>$image_details[2],
-                                'thumbnail'     =>$image_details[0]        
+                                'url'           => $image_details[0],  
+                                'id'            => $settings['organization_logo'],
+                                'height'        => $image_details[1],
+                                'width'         => $image_details[2],
+                                'thumbnail'     => $image_details[0]        
                             );                               
           }          
           if(isset($settings['contact']['contactType'])){
@@ -1670,16 +1712,16 @@ function saswp_frontend_enqueue(){
     
     function saswp_get_the_author_name(){
         
-                        $author_id      = get_the_author_meta('ID');														
-			$aurthor_name 	= get_the_author();
-                        
-                        if(!$aurthor_name){
-				
-                            $author_id    = get_post_field ('post_author', get_the_ID());
-                            $aurthor_name = get_the_author_meta( 'display_name' , $author_id ); 
-                        
-			} 
-                        return $aurthor_name;
+            $author_id          = get_the_author_meta('ID');														
+            $aurthor_name 	= get_the_author();
+
+            if(!$aurthor_name){
+
+                $author_id    = get_post_field ('post_author', get_the_ID());
+                $aurthor_name = get_the_author_meta( 'display_name' , $author_id ); 
+
+            } 
+            return $aurthor_name;
     }
     
     function saswp_get_attachment_details($attachments, $post_id = null) {

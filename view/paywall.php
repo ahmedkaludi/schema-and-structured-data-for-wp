@@ -106,7 +106,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                             echo $option;
                             echo '</select></td>';
                             
-                            echo '<td><select class="saswp-custom-fields-select2" name="saswp_custom_fields['.$fieldkey.']">';
+                            echo '<td><select class="saswp-custom-fields-select2" name="saswp_custom_fields['.esc_attr($fieldkey).']">';
                             echo '<option value="'.esc_attr($fieldval).'">'.preg_replace( '/^_/', '', esc_html( str_replace( '_', ' ', $fieldval ) ) ).'</option>';
                             echo '</select></td>';
                             
@@ -159,7 +159,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                                                 'notAccessibleForFree'  => $notAccessibleForFree,
                                                 'paywall_class_name'    => $paywall_class_name, 
                                                 'enable_custom_field'   => $enable_custom_field
-                         );   
+                                            );   
                  
                  update_post_meta( $post_id, 'schema_options', $saswp_schema_options);
                  update_post_meta( $post_id, 'saswp_custom_fields', $custom_fields);

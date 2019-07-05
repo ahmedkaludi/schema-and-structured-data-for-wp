@@ -23,6 +23,7 @@ class saswp_fields_generator {
         
         return $tooltip_message;
     }
+    
     public function saswp_field_generator( $meta_fields, $settings, $field_type = null ) {            
         
 		$output          = '';

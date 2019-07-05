@@ -172,17 +172,17 @@ function saswp_admin_interface_render(){
     </div>
         <div class="saswp-view-docs">
             
-            <p style="float: left;">Need Help?</p>  <a style="float: right;" class="button button-default" target="_blank" href="http://structured-data-for-wp.com/docs/">View Documentation</a>
+            <p style="float: left;"><?php echo esc_html__('Need Help?','schema-and-structured-data-for-wp') ?></p>  <a style="float: right;" class="button button-default" target="_blank" href="http://structured-data-for-wp.com/docs/"><?php echo esc_html__('View Documentation','schema-and-structured-data-for-wp') ?></a>
             
         </div>
         <div class="saswp-upgrade-pro">
-        	<h2>Upgrade to Pro!</h2>
+        	<h2><?php echo esc_html__('Upgrade to Pro!','schema-and-structured-data-for-wp') ?><?php echo esc_html__('View Documentation','schema-and-structured-data-for-wp') ?></h2>
         	<ul>
-        		<li>Premium features</li>
-        		<li>Dedicated Schema Support</li>
-        		<li>Active Development</li>
+        		<li><?php echo esc_html__('Premium features','schema-and-structured-data-for-wp') ?></li>
+        		<li><?php echo esc_html__('Dedicated Schema Support','schema-and-structured-data-for-wp') ?></li>
+        		<li><?php echo esc_html__('Active Development','schema-and-structured-data-for-wp') ?></li>
         	</ul>
-        	<a target="_blank" href="http://structured-data-for-wp.com/pricing/">UPGRADE</a>
+        	<a target="_blank" href="http://structured-data-for-wp.com/pricing/"><?php echo esc_html__('UPGRADE','schema-and-structured-data-for-wp') ?></a>
         </div> 
     </div>
 </div>
@@ -329,8 +329,8 @@ function saswp_premium_features_callback(){ ?>
                                             <img src="<?php echo SASWP_PLUGIN_URL; ?>/admin_section/images/woocommerce-icon.png">
 					</div>
 					<div class="saswp-ele-tlt">
-						<h3>WooCommerce Compatibility for Schema</h3>
-						<p>WooCommerce Compatibility extension is the number one solution to enhance your store with the right structured data.</p>
+						<h3><?php echo esc_html__('WooCommerce Compatibility for Schema','schema-and-structured-data-for-wp') ?></h3>
+						<p><?php echo esc_html__('WooCommerce Compatibility extension is the number one solution to enhance your store with the right structured data.','schema-and-structured-data-for-wp') ?></p>
 					</div>
 				</div>
 				<div class="saswp-sts-btn">
@@ -353,8 +353,8 @@ function saswp_premium_features_callback(){ ?>
                                             <img src="<?php echo SASWP_PLUGIN_URL; ?>/admin_section/images/cooked-schema-wp.png">
 					</div>
 					<div class="saswp-ele-tlt">
-						<h3>Cooked Compatibility for Schema</h3>
-						<p>This extension will be able to take all the proper recipe data and integrate it with the schema & structured data in AMP & non-AMP.</p>
+						<h3><?php echo esc_html__('Cooked Compatibility for Schema','schema-and-structured-data-for-wp') ?></h3>
+						<p><?php echo esc_html__('This extension will be able to take all the proper recipe data and integrate it with the schema & structured data in AMP & non-AMP.','schema-and-structured-data-for-wp') ?></p>
 					</div>
 				</div>
 				<div class="saswp-sts-btn">
@@ -386,13 +386,13 @@ function saswp_services_callback(){ ?>
                                             <img src="<?php echo SASWP_PLUGIN_URL; ?>/admin_section/images/news.png">
 					</div>
 					<div class="saswp-ele-tlt">
-						<h3>Google News Schema Setup</h3>
-						<p>Get quick approval to Google News with our service. Our structured data experts will set up the Google News schema properly on your website.</p>
+						<h3><?php echo esc_html__('Google News Schema Setup','schema-and-structured-data-for-wp') ?></h3>
+						<p><?php echo esc_html__('Get quick approval to Google News with our service. Our structured data experts will set up the Google News schema properly on your website.','schema-and-structured-data-for-wp') ?></p>
 					</div>
 				</div>
 				<div class="saswp-sts-btn">
-					<label class="saswp-sts-txt">Staus:<span>Inactive</span></label>
-					<span class="saswp-d-btn">Download</span>
+					<label class="saswp-sts-txt"><?php echo esc_html__('Staus:','schema-and-structured-data-for-wp') ?><span><?php echo esc_html__('Inactive','schema-and-structured-data-for-wp') ?></span></label>
+					<span class="saswp-d-btn"><?php echo esc_html__('Download','schema-and-structured-data-for-wp') ?></span>
 				</div>
 			</a></li>
 			<li><a target="_blank" href="http://structured-data-for-wp.com/services/structured-data-setup-error-clean-up/">
@@ -401,13 +401,13 @@ function saswp_services_callback(){ ?>
                                             <img src="<?php echo SASWP_PLUGIN_URL; ?>/admin_section/images/schema-setup-icon.png">
 					</div>
 					<div class="saswp-ele-tlt">
-						<h3>Structured Data Setup & Error Clean Up</h3>
-						<p>We will help you setup Schema and Structured data on your website as per your requirements and as per recommendation by our expert developers.</p>
+						<h3><?php echo esc_html__('Structured Data Setup & Error Clean Up','schema-and-structured-data-for-wp') ?></h3>
+						<p><?php echo esc_html__('We will help you setup Schema and Structured data on your website as per your requirements and as per recommendation by our expert developers.','schema-and-structured-data-for-wp') ?></p>
 					</div>
 				</div>
 				<div class="saswp-sts-btn">
-					<label class="saswp-sts-txt">Staus:<span>Inactive</span></label>
-					<span class="saswp-d-btn">Download</span>
+					<label class="saswp-sts-txt"><?php echo esc_html__('Staus:','schema-and-structured-data-for-wp') ?><span><?php echo esc_html__('Inactive','schema-and-structured-data-for-wp') ?></span></label>
+					<span class="saswp-d-btn"><?php echo esc_html__('Download','schema-and-structured-data-for-wp') ?></span>
 				</div>
 			</a></li>
 		</ul>
@@ -566,7 +566,7 @@ function saswp_general_page_callback(){
             <div class="saswp-heading">
               <h2><?php echo esc_html__('General Settings','schema-and-structured-data-for-wp'); ?></h2>              
             </div>
-            <p>This is a global schema settings, to display about, contact, website, archive, breadcrumbs, comments and site navigation schema type. <a target="_blank" href="http://structured-data-for-wp.com/docs/article/what-is-general-settings-in-schema/">Learn More</a></p>   
+            <p><?php echo esc_html__('This is a global schema settings, to display about, contact, website, archive, breadcrumbs, comments and site navigation schema type.','schema-and-structured-data-for-wp') ?> <a target="_blank" href="http://structured-data-for-wp.com/docs/article/what-is-general-settings-in-schema/"><?php echo esc_html__('Learn More','schema-and-structured-data-for-wp') ?></a></p>   
         <ul><li><div style="float:left;clear: both;"><label class="saswp-tooltip">
         <?php echo esc_html__('About','schema-and-structured-data-for-wp') ?>
                 <span class="saswp-tooltiptext"><?php echo esc_html__('Set the about page of of your website','schema-and-structured-data-for-wp') ?></span>
@@ -604,7 +604,7 @@ function saswp_general_page_callback(){
 			'echo'              => 0, 
 			'show_option_none'  => esc_html( 'Select an item', 'schema-and-structured-data-for-wp' ), 
 			'option_none_value' => '', 
-			'selected'          =>  isset($settings['sd_contact_page']) ? $settings['sd_contact_page'] : '',
+			'selected'          =>  isset($settings['sd_contact_page']) ? esc_attr($settings['sd_contact_page']) : '',
 		)); ?>
 	     		 </label>       
        	 		</div>

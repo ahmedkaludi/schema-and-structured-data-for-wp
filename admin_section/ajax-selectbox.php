@@ -121,11 +121,16 @@ function saswp_ajax_select_creator($data = '', $saved_data= '', $current_number 
 
             $templates = get_page_templates();
             
-            foreach($templates as $k => $v){
+            if($templates){
+                
+                foreach($templates as $k => $v){
             
-              $choices[$v] = $k;
+                     $choices[$v] = $k;
               
+                }
+                
             }
+            
 
             break;
 
@@ -285,8 +290,7 @@ function saswp_post_taxonomy_generator(){
     
     $taxonomies = '';  
     $choices    = array();
-    
-    
+        
     $taxonomies = get_taxonomies( array('public' => true), 'objects' );
     
     if($taxonomies){
@@ -318,9 +322,11 @@ function saswp_create_ajax_select_taxonomy($selectedParentValue = '',$selectedVa
     if( $_SERVER['REQUEST_METHOD']=='POST'){
         
         $is_ajax = true;
+        
         if(! current_user_can( 'manage_options' ) ) {
           exit;
         }
+        
         if(wp_verify_nonce($_POST["saswp_call_nonce"],'saswp_select_action_nonce')){
             
               if(isset($_POST['id'])){
@@ -328,16 +334,19 @@ function saswp_create_ajax_select_taxonomy($selectedParentValue = '',$selectedVa
                 $selectedParentValue = sanitize_text_field(wp_unslash($_POST['id']));
                 
               }
+              
               if(isset($_POST['number'])){
                   
-                $current_number = intval($_POST['number']);
+                $current_number = intval(sanitize_text_field($_POST['number']));
                 
               }
+              
               if ( isset( $_POST["group_number"] ) ) {
                   
-              $current_group_number   = intval($_POST["group_number"]);
+                $current_group_number   = intval(sanitize_text_field($_POST["group_number"]));
               
               }
+              
         }else{
             
             exit;

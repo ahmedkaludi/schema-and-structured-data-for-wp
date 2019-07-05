@@ -339,17 +339,17 @@ class saswp_post_specific {
                                                     
                                                 $img_prev = '<div class="saswp_image_thumbnail">'
                                                            . '<img class="saswp_image_prev" src="'.esc_url($src).'">'
-                                                           . '<a data-id="'.$name.'" href="#" class="saswp_prev_close">X</a>'
+                                                           . '<a data-id="'.esc_attr($name).'" href="#" class="saswp_prev_close">X</a>'
                                                            . '</div>';     
 
                                                 }
                                         
-                                                
+                                                //$img_prev is already escapped
                                                 $input = '<fieldset>
-                                                        <input style="width:79%" type="text" id="'.$name.'" name="'.$name.'" value="'.esc_url($src).'">
-                                                        <input type="hidden" data-id="'.$name.'_id" name="'.$meta_name.'_'.$schema_id.'['.$index.']['.$meta_field['name'].'_id]'.'" id="'.$name.'_id" value="'.esc_attr($data[$meta_field['name'].'_id']).'">
-                                                        <input data-id="media" style="width: 19%" class="button" id="'.$name.'_button" name="'.$name.'_button" type="button" value="Upload">
-                                                        <div class="saswp_image_div_'.$name.'">'.$img_prev.'</div>
+                                                        <input style="width:79%" type="text" id="'.esc_attr($name).'" name="'.esc_attr($name).'" value="'.esc_url($src).'">
+                                                        <input type="hidden" data-id="'.esc_attr($name).'_id" name="'.esc_attr($meta_name).'_'.esc_attr($schema_id).'['.esc_attr($index).']['.esc_attr($$meta_field['name']).'_id]'.'" id="'.esc_attr($name).'_id" value="'.esc_attr($data[$meta_field['name'].'_id']).'">
+                                                        <input data-id="media" style="width: 19%" class="button" id="'.esc_attr($name).'_button" name="'.esc_attr($name).'_button" type="button" value="Upload">
+                                                        <div class="saswp_image_div_'.esc_attr($name).'">'.$img_prev.'</div>
                                                         </fieldset>';
                                                 
                                             
@@ -359,9 +359,9 @@ class saswp_post_specific {
                                 case 'textarea':
 					$input = sprintf(
 						'<textarea style="width: 100%%" id="%s" name="%s" rows="5">%s</textarea>',                                                
-						$meta_field['name'].'_'.$index.'_'.$schema_id,
-						$meta_name.'_'.$schema_id.'['.$index.']['.$meta_field['name'].']',
-						$data[$meta_field['name']]
+						esc_attr($meta_field['name']).'_'.esc_attr($index).'_'.esc_attr($schema_id),
+						esc_attr($meta_name).'_'.esc_attr($schema_id).'['.esc_attr($index).']['.esc_attr($meta_field['name']).']',
+						esc_html($data[$meta_field['name']])
 					);
                                         
 					break;                
@@ -370,8 +370,8 @@ class saswp_post_specific {
                                                                                      
 					$input = sprintf(
 						'<select id="%s" name="%s">',                                                
-						$meta_field['name'].'_'.$index.'_'.$schema_id,
-						$meta_name.'_'.$schema_id.'['.$index.']['.$meta_field['name'].']'
+						esc_attr($meta_field['name']).'_'.esc_attr($index).'_'.esc_attr($schema_id),
+						esc_attr($meta_name).'_'.esc_attr($schema_id).'['.esc_attr($index).']['.esc_attr($meta_field['name']).']'
 					);
 					foreach ( $meta_field['options'] as $key => $value ) {
                                             
@@ -398,19 +398,19 @@ class saswp_post_specific {
                                      $input = sprintf(
 						'<input %s  style="width:100%%" id="%s" name="%s" type="%s" value="%s">',
                                                 $class,
-						$meta_field['name'].'_'.$index.'_'.$schema_id,
-						$meta_name.'_'.$schema_id.'['.$index.']['.$meta_field['name'].']',
-						$meta_field['type'],
-						$data[$meta_field['name']]                                            
+						esc_attr($meta_field['name']).'_'.esc_attr($index).'_'.esc_attr($schema_id),
+						esc_attr($meta_name).'_'.esc_attr($schema_id).'['.esc_attr($index).']['.esc_attr($meta_field['name']).']',
+						esc_attr($meta_field['type']),
+						esc_attr($data[$meta_field['name']])                                            
                                              );
                                         
 					
 			}
-                        
+                        //$lable and $input has been escapped while create this variable
 			$output .= '<tr><th>'.$label.'</th><td>'.$input.'</td></tr>';
 		}
                 
-                                                               		                                
+                //$output has been escapped while create this variable                                               		                                
 		 $response = '<table class="form-table">'.$output.'</table>';                 
                  return $response;
                  
@@ -485,6 +485,7 @@ class saswp_post_specific {
                      
                      $tabs_fields .= '<div data-id="'.esc_attr($schema->ID).'" id="saswp_specific_'.esc_attr($schema->ID).'" class="saswp-post-specific-wrapper">';
                      $tabs_fields .= '<div class="saswp-table-create-onload">';
+                     //varible $output has been escapped while creating it
                      $tabs_fields .= '<table class="form-table"><tbody>' . $output . '</tbody></table>';
                      $tabs_fields .= '</div>';
                      
@@ -523,7 +524,7 @@ class saswp_post_specific {
                              
                          }                         
                          $tabs_fields .= '</div>';
-                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-how-to-supply">Add HowTo Supply</a>';                                                                                                    
+                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-how-to-supply">'.esc_html__( 'Add HowTo Supply', 'schema-and-structured-data-for-wp' ).'</a>';                                                                                                    
                          $tabs_fields .= '</div>';                                                                           
                          //supply section ends here here
                          
@@ -554,7 +555,7 @@ class saswp_post_specific {
                              
                          }                         
                          $tabs_fields .= '</div>';
-                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-how-to-tool">Add HowTo Tool</a>';                                                                                                    
+                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-how-to-tool">'.esc_html__( 'Add HowTo Tool', 'schema-and-structured-data-for-wp' ).'</a>';                                                                                                    
                          $tabs_fields .= '</div>';                                                                        
                          //tool section ends here here
                          
@@ -585,7 +586,7 @@ class saswp_post_specific {
                              
                          }                         
                          $tabs_fields .= '</div>';
-                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-how-to-step">Add HowTo Step</a>';                                                                                                    
+                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-how-to-step">'.esc_html__( 'Add HowTo Step', 'schema-and-structured-data-for-wp' ).'</a>';                                                                                                    
                          $tabs_fields .= '</div>';  
                          //step section ends here here
                          
@@ -631,7 +632,7 @@ class saswp_post_specific {
                              
                          }                         
                          $tabs_fields .= '</div>';
-                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-mc-cause">Add MC Cause</a>';                                                                                                    
+                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-mc-cause">'.esc_html__( 'Add MC Cause', 'schema-and-structured-data-for-wp' ).'</a>';                                                                                                    
                          $tabs_fields .= '</div>'; 
                          
                          //cause section ends here here
@@ -663,7 +664,7 @@ class saswp_post_specific {
                              
                          }                         
                          $tabs_fields .= '</div>';
-                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-mc-symptom">Add MC Symptom</a>';                                                                                                    
+                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-mc-symptom">'.esc_html__( 'Add MC Symptom', 'schema-and-structured-data-for-wp' ).'</a>';                                                                                                    
                          $tabs_fields .= '</div>'; 
                          //symptom section ends here
                          
@@ -694,7 +695,7 @@ class saswp_post_specific {
                              
                          }                         
                          $tabs_fields .= '</div>';
-                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-mc-risk_factor">Add MC Risk Factor</a>';                                                                                                    
+                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-mc-risk_factor">'.esc_html__( 'Add MC Risk Factor', 'schema-and-structured-data-for-wp' ).'</a>';                                                                                                    
                          $tabs_fields .= '</div>'; 
                          //risk factor ends here
                                                                                                     
@@ -737,7 +738,7 @@ class saswp_post_specific {
                              
                          }                         
                          $tabs_fields .= '</div>';
-                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-tvseries-actor">Add TVSeries Actor</a>';                                                                                                    
+                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-tvseries-actor">'.esc_html__( 'Add TVSeries Actor', 'schema-and-structured-data-for-wp' ).'</a>';                                                                                                    
                          $tabs_fields .= '</div>';                          
                          //actor section ends here here
 
@@ -770,7 +771,7 @@ class saswp_post_specific {
                              
                          }                         
                          $tabs_fields .= '</div>';
-                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-tvseries-season">Add TVSeries Season</a>';                                                                                                    
+                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-tvseries-season">'.esc_html__( 'Add TVSeries Season', 'schema-and-structured-data-for-wp' ).'</a>';                                                                                                    
                          $tabs_fields .= '</div>';
                          
                          //season section ends here
@@ -817,7 +818,7 @@ class saswp_post_specific {
                              
                          }                         
                          $tabs_fields .= '</div>';
-                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-trip-itinerary">Add Trip Itinerary</a>';                                                                                                    
+                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-trip-itinerary">'.esc_html__( 'Add Trip Itinerary', 'schema-and-structured-data-for-wp' ).'</a>';                                                                                                    
                          $tabs_fields .= '</div>';
                          
                          //itinerary section ends here
@@ -877,7 +878,7 @@ class saswp_post_specific {
                              
                          }                         
                          $tabs_fields .= '</div>';
-                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-how-to-supply">Add HowTo Supply</a>';                                                                                                    
+                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-how-to-supply">'.esc_html__( 'Add HowTo Supply', 'schema-and-structured-data-for-wp' ).'</a>';                                                                                                    
                          $tabs_fields .= '</div>';                                                                           
                          //supply section ends here here
                          
@@ -908,7 +909,7 @@ class saswp_post_specific {
                              
                          }                         
                          $tabs_fields .= '</div>';
-                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-how-to-tool">Add HowTo Tool</a>';                                                                                                    
+                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-how-to-tool">'.esc_html__( 'Add HowTo Tool', 'schema-and-structured-data-for-wp' ).'</a>';                                                                                                    
                          $tabs_fields .= '</div>';                                                                        
                          //tool section ends here here
                          
@@ -939,7 +940,7 @@ class saswp_post_specific {
                              
                          }                         
                          $tabs_fields .= '</div>';
-                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-how-to-step">Add HowTo Step</a>';                                                                                                    
+                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-how-to-step">'.esc_html__( 'Add HowTo Step', 'schema-and-structured-data-for-wp' ).'</a>';                                                                                                    
                          $tabs_fields .= '</div>';  
                          //step section ends here here
                          
@@ -1017,7 +1018,7 @@ class saswp_post_specific {
                              
                          }                         
                          $tabs_fields .= '</div>';
-                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-mc-symptom">Add MC Symptom</a>';                                                                                                    
+                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-mc-symptom">'.esc_html__( 'Add MC Symptom', 'schema-and-structured-data-for-wp' ).'</a>';                                                                                                    
                          $tabs_fields .= '</div>'; 
                          //symptom section ends here
                          
@@ -1048,7 +1049,7 @@ class saswp_post_specific {
                              
                          }                         
                          $tabs_fields .= '</div>';
-                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-mc-risk_factor">Add MC Risk Factor</a>';                                                                                                    
+                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-mc-risk_factor">'.esc_html__( 'Add MC Risk Factor', 'schema-and-structured-data-for-wp' ).'</a>';                                                                                                    
                          $tabs_fields .= '</div>'; 
                          //risk factor ends here
                                                                                                     
@@ -1091,7 +1092,7 @@ class saswp_post_specific {
                              
                          }                         
                          $tabs_fields .= '</div>';
-                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-tvseries-actor">Add TVSeries Actor</a>';                                                                                                    
+                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-tvseries-actor">'.esc_html__( 'Add TVSeries Actor', 'schema-and-structured-data-for-wp' ).'</a>';                                                                                                    
                          $tabs_fields .= '</div>';                          
                          //actor section ends here here
 
@@ -1124,7 +1125,7 @@ class saswp_post_specific {
                              
                          }                         
                          $tabs_fields .= '</div>';
-                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-tvseries-season">Add TVSeries Season</a>';                                                                                                    
+                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-tvseries-season">'.esc_html__( 'Add TVSeries Season', 'schema-and-structured-data-for-wp' ).'</a>';                                                                                                    
                          $tabs_fields .= '</div>';
                          
                          //season section ends here
@@ -1170,7 +1171,7 @@ class saswp_post_specific {
                              
                          }                         
                          $tabs_fields .= '</div>';
-                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-trip-itinerary">Add Trip Itinerary</a>';                                                                                                    
+                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-trip-itinerary">'.esc_html__( 'Add Trip Itinerary', 'schema-and-structured-data-for-wp' ).'</a>';                                                                                                    
                          $tabs_fields .= '</div>';
                          
                          //itinerary section ends here
@@ -1319,7 +1320,7 @@ class saswp_post_specific {
                          //supply section ends here here
                          
                          //tool section starts here
-                          $tabs_fields .= '<div class="saswp-how-to-tool-section-main">';                                                  
+                         $tabs_fields .= '<div class="saswp-how-to-tool-section-main">';                                                  
                          $tabs_fields .= '<div class="saswp-how-to-tool-section" data-id="'.esc_attr($schema_id).'">';                         
                          if(isset($howto_data['howto_tool_'.$schema_id])){
                              
@@ -1391,8 +1392,7 @@ class saswp_post_specific {
                          $schema_id = $schema->ID;
                          
                          $tabs_fields .= '<div class="saswp-table-create-onajax">';
-                         
-                         
+                                                  
                          //cause section starts here
                           
                          $tabs_fields .= '<div class="saswp-mc-cause-section-main">';                                                  
@@ -1454,7 +1454,7 @@ class saswp_post_specific {
                              
                          }                         
                          $tabs_fields .= '</div>';
-                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-mc-symptom">Add MC Symptom</a>';                                                                                                    
+                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-mc-symptom">'.esc_html__( 'Add MC Symptom', 'schema-and-structured-data-for-wp' ).'</a>';                                                                                                    
                          $tabs_fields .= '</div>'; 
                          //symptom section ends here
                          
@@ -1485,7 +1485,7 @@ class saswp_post_specific {
                              
                          }                         
                          $tabs_fields .= '</div>';
-                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-mc-risk_factor">Add MC Risk Factor</a>';                                                                                                    
+                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-mc-risk_factor">'.esc_html__( 'Add MC Risk Factor', 'schema-and-structured-data-for-wp' ).'</a>';                                                                                                    
                          $tabs_fields .= '</div>'; 
                          //risk factor ends here
                                                                                                     
@@ -1528,7 +1528,7 @@ class saswp_post_specific {
                              
                          }                         
                          $tabs_fields .= '</div>';
-                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-tvseries-actor">Add TVSeries Actor</a>';                                                                                                    
+                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-tvseries-actor">'.esc_html__( 'Add TVSeries Actor', 'schema-and-structured-data-for-wp' ).'</a>';                                                                                                    
                          $tabs_fields .= '</div>';                          
                          //actor section ends here here
 
@@ -1561,7 +1561,7 @@ class saswp_post_specific {
                              
                          }                         
                          $tabs_fields .= '</div>';
-                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-tvseries-season">Add TVSeries Season</a>';                                                                                                    
+                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-tvseries-season">'.esc_html__( 'Add TVSeries Season', 'schema-and-structured-data-for-wp' ).'</a>';                                                                                                    
                          $tabs_fields .= '</div>';
                          
                          //season section ends here
@@ -1607,7 +1607,7 @@ class saswp_post_specific {
                              
                          }                         
                          $tabs_fields .= '</div>';
-                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-trip-itinerary">Add Trip Itinerary</a>';                                                                                                    
+                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-trip-itinerary">'.esc_html__( 'Add Trip Itinerary', 'schema-and-structured-data-for-wp' ).'</a>';                                                                                                    
                          $tabs_fields .= '</div>';
                          
                          //itinerary section ends here
@@ -1811,7 +1811,7 @@ class saswp_post_specific {
                             
                             foreach ($meta_field['attributes'] as $key => $attr ){
                                 
-                                           $attributes .=''.$key.'="'.$attr.'"';
+                                           $attributes .=''.esc_attr($key).'="'.esc_attr($attr).'"';
                                 }
                                 
                         }                        

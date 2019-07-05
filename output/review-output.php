@@ -33,7 +33,7 @@ Class saswp_review_output{
                           
                             $saswp_review_details           = esc_sql ( get_post_meta(get_the_ID(), 'saswp_review_details', true));    
                                                                         
-                            if(isset($saswp_review_details['saswp-review-item-enable'])){
+                        if(isset($saswp_review_details['saswp-review-item-enable'])){
                           
                         $author_id      = get_the_author_meta('ID');
 											

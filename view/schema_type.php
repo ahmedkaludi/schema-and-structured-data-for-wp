@@ -369,8 +369,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             }
                                                
              $meta_fields = saswp_item_reviewed_fields($item, $post_specific, $schema_id);
-             
-            
+                         
              foreach ($meta_fields as $meta_field){
                  
                  
@@ -380,7 +379,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                       
                             foreach ($meta_field['attributes'] as $key => $attr ){
                                 
-                                           $attributes .=''.$key.'="'.$attr.'"';
+                                           $attributes .=''.esc_attr($key).'="'.esc_attr($attr).'"';
                                            
                             }
                  }
@@ -447,15 +446,15 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                          
                          $input = sprintf(
 						' <input style="width: 80%%" id="%s" name="%s" type="text" value="%s" readonly>'                                                
-                                                . '<input type="hidden" data-id="'.esc_attr($meta_field['id']).'_height" class="upload-height" name="'.esc_attr($meta_field['id']).'_height" id="'.esc_attr($meta_field['id']).'_height" value="'.$media_value['height'].'">'
-                                                . '<input type="hidden" data-id="'.esc_attr($meta_field['id']).'_width" class="upload-width" name="'.esc_attr($meta_field['id']).'_width" id="'.esc_attr($meta_field['id']).'_width" value="'.$media_value['width'].'">'
-                                                . '<input type="hidden" data-id="'.esc_attr($meta_field['id']).'_thumbnail" class="upload-thumbnail" name="'.esc_attr($meta_field['id']).'_thumbnail" id="'.esc_attr($meta_field['id']).'_thumbnail" value="'.$media_value['thumbnail'].'">'
+                                                . '<input type="hidden" data-id="'.esc_attr($meta_field['id']).'_height" class="upload-height" name="'.esc_attr($meta_field['id']).'_height" id="'.esc_attr($meta_field['id']).'_height" value="'.esc_attr($media_value['height']).'">'
+                                                . '<input type="hidden" data-id="'.esc_attr($meta_field['id']).'_width" class="upload-width" name="'.esc_attr($meta_field['id']).'_width" id="'.esc_attr($meta_field['id']).'_width" value="'.esc_attr($media_value['width']).'">'
+                                                . '<input type="hidden" data-id="'.esc_attr($meta_field['id']).'_thumbnail" class="upload-thumbnail" name="'.esc_attr($meta_field['id']).'_thumbnail" id="'.esc_attr($meta_field['id']).'_thumbnail" value="'.esc_url($media_value['thumbnail']).'">'
                                                 . '<input data-id="media" style="width: 19%%" class="button" id="%s_button" name="%s_button" type="button" value="Upload" />',
-						$meta_field['id'],
-						$meta_field['id'],
-						$meta_value,
-						$meta_field['id'],
-						$meta_field['id']
+						esc_attr($meta_field['id']),
+						esc_attr($meta_field['id']),
+						esc_url($meta_value),
+						esc_attr($meta_field['id']),
+						esc_attr($meta_field['id'])
 					);
 
 
@@ -884,7 +883,8 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                                         'toystore'              => 'Toy Store',
                                         'wholesalestore'        => 'Wholesale Store'
                                  );
-                ?>                                               
+                ?>                   
+                <!-- Below variable $style_business_type is static -->
                 <div class="misc-pub-section">
                     <table class="option-table-class saswp-option-table-class">
                         <tr>
@@ -907,7 +907,8 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                                            
                                        }   
                                                                                                                                                                   
-                                                echo '<optgroup label="'.$parent_type.'">';
+                                                echo '<optgroup label="'.esc_attr($parent_type).'">';
+                                                //Escaping is done while adding data in this variable
                                                 echo $option_html;   
                                                 echo '</optgroup>';                                                                                 
                                     }
@@ -984,7 +985,6 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                         <td>
                             <select id="saswp_entertainment" name="saswp_business_name">
                                 <?php
-
                                   
                                   foreach ($all_entertainment_array as $key => $value) {
                                     $sel = '';
@@ -1304,9 +1304,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                             <td><?php echo esc_html__('Service Offer', 'schema-and-structured-data-for-wp' ); ?></td>
                             <td><textarea placeholder="Apartment light cleaning, Carpet cleaning" rows="3" cols="70" name="saswp_service_schema_service_offer"><?php if(isset($service_details['saswp_service_schema_service_offer'])){echo esc_attr($service_details['saswp_service_schema_service_offer']); } ?></textarea><p>Note: Enter all the service offer in comma separated</p></td>
                         </tr>
-                        
-                        
-                        
+                                                                        
                         <tr class="saswp-service-text-field-tr" <?php echo $style_service_name; ?>>
                             <td><?php echo esc_html__('Aggregate Rating', 'schema-and-structured-data-for-wp' ); ?></td>
                             <td>
@@ -1322,8 +1320,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                             <td><?php echo esc_html__('Number of Reviews', 'schema-and-structured-data-for-wp' ); ?></td>
                             <td><input  value="<?php if(isset($service_details['saswp_service_schema_review_count'])){echo esc_attr($service_details['saswp_service_schema_review_count']); } ?>" type="text" name="saswp_service_schema_review_count" placeholder="<?php echo esc_html__('10', 'schema-and-structured-data-for-wp' ); ?>" ></td>
                         </tr>
-                        
-                        
+                                                
                         <!-- Service Schema type ends here -->
                         
                         <!-- Review Schema type starts here -->
