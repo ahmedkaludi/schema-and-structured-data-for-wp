@@ -1,4 +1,13 @@
 <?php
+/**
+ * Field Generator class
+ *
+ * @author   Magazine3
+ * @category Admin
+ * @path     google_review/google_review
+ * @Version 1.8
+ */
+
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
 

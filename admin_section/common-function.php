@@ -128,6 +128,7 @@ if ( ! defined('ABSPATH') ) exit;
         if ( ! isset( $_GET['_wpnonce'] ) ){
              return; 
         }
+        
         if ( !wp_verify_nonce( $_GET['_wpnonce'], '_wpnonce' ) ){
              return;  
         }
@@ -147,7 +148,9 @@ if ( ! defined('ABSPATH') ) exit;
                 
                  ); 
         
-        if($all_schema_post){     
+        $get_sd_data                = get_option('sd_data');
+        
+        if($all_schema_post || $get_sd_data){     
             
             foreach($all_schema_post as $schema){    
                 
@@ -197,8 +200,7 @@ if ( ! defined('ABSPATH') ) exit;
                 $export_data[$schema->ID]['data_group_array']             = $data_group_array; 
                 $export_data[$schema->ID]['saswp_local_business_details'] = $local_business_details;                 
               }       
-                
-                $get_sd_data                = get_option('sd_data');                
+                                                  
                 $export_data_all['posts']   = $export_data;
                 $export_data_all['sd_data'] = $get_sd_data;
                 

@@ -306,15 +306,23 @@ function saswp_custom_upload_mimes($mimes = array()) {
 add_action('upload_mimes', 'saswp_custom_upload_mimes');
 
 function saswp_handle_file_upload($option){
-
-  if(!empty($_FILES["saswp_import_backup"]["tmp_name"])){
-  
-    $urls = wp_handle_upload($_FILES["saswp_import_backup"], array('test_form' => FALSE));    
-    $url = $urls["url"];
-    update_option('saswp-file-upload_url',esc_url($url));
     
-  }
+    if ( ! current_user_can( 'upload_files' ) ) {
+		return $option;
+    }
+
+  $fileInfo = wp_check_filetype(basename($_FILES['saswp_import_backup']['name']));
+    
+  if (!empty($fileInfo['ext']) && $fileInfo['ext'] == 'json') {
+      
+      if(!empty($_FILES["saswp_import_backup"]["tmp_name"])){
   
+        $urls = wp_handle_upload($_FILES["saswp_import_backup"], array('test_form' => FALSE));    
+        $url = $urls["url"];
+        update_option('saswp-file-upload_url',esc_url($url));
+    
+     }
+  }           
   return $option;
   
 }
@@ -582,7 +590,7 @@ function saswp_general_page_callback(){
 			'echo'              => 0, 
 			'show_option_none'  => esc_html__( 'Select an item', 'schema-and-structured-data-for-wp' ), 
 			'option_none_value' => '', 
-			'selected'          =>  isset($settings['sd_about_page']) ? $settings['sd_about_page'] : '',
+			'selected'          =>  isset($settings['sd_about_page']) ? esc_attr($settings['sd_about_page']) : '',
 		)); ?>
 	      </label>  
         </div>
@@ -613,8 +621,6 @@ function saswp_general_page_callback(){
 		</div> 
         
         <?php
-        
-        
         
         echo '<div class="saswp-archive-div">';
         $field_objs->saswp_field_generator($meta_fields_default, $settings, 'general');
@@ -796,7 +802,7 @@ function saswp_general_page_callback(){
                         'class' => 'regular-text',                        
 			'type'  => 'text',
                         'attributes' => array(
-                            'placeholder' => 'https://facebook.com/'
+                            'placeholder' => 'https://facebook.com'
                         )
 		    ),
                 array(

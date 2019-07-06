@@ -112,9 +112,12 @@ class saswp_post_specific {
                 
             $show_post_types = get_post_types();
             unset($show_post_types['adsforwp'],$show_post_types['saswp'],$show_post_types['attachment'], $show_post_types['revision'], $show_post_types['nav_menu_item'], $show_post_types['user_request'], $show_post_types['custom_css']);            
+            
             $this->screen = $show_post_types;
-                
-             foreach ( $this->screen as $single_screen ) {
+            
+             if($this->screen){
+                 
+                 foreach ( $this->screen as $single_screen ) {
                       $post_title = '';
                     if($schema_count == 1 && $custom_option !='enable'){
                         $all_schemas = $this->all_schema;                        
@@ -131,6 +134,8 @@ class saswp_post_specific {
 			);
                         
 		}   
+             }   
+             
             }		
 	}
         
