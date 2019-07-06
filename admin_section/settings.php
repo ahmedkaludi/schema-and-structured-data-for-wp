@@ -461,7 +461,7 @@ function saswp_amp_page_callback(){
          echo '<div class="saswp-heading">';
          echo '<h2>'.esc_html__('Enable On','schema-and-structured-data-for-wp').'</h2>';        
          echo '</div>';
-         echo '<p>Using this option, one can hide and show schema markup on AMP and Non AMP</p>';
+         echo '<p>'.esc_html__('Using this option, one can hide and show schema markup on AMP and Non AMP','schema-and-structured-data-for-wp').'</p>';
         
         $field_objs->saswp_field_generator($meta_fields, $settings);    
 }
@@ -557,7 +557,6 @@ function saswp_general_page_callback(){
 		); 
             }                    
         ?>
-
 
     <div class="saswp-global-container" id="saswp-general-container">
                         
@@ -771,7 +770,7 @@ function saswp_general_page_callback(){
         echo '<div class="saswp-heading">';
         echo '<h2>'.esc_html__('Knowledge Graph','schema-and-structured-data-for-wp').'</h2>';                 
         echo '</div>';                
-        echo '<p>The Knowledge Graph is a knowledge base used by Google and its services to enhance its search engine\'s results. <a target="_blank" href="http://structured-data-for-wp.com/docs/article/how-to-setup-knowledge-graph-in-schema-in-wordpress/">Learn More</a> </p>';
+        echo '<p>'.esc_html__('The Knowledge Graph is a knowledge base used by Google and its services to enhance its search engine\'s results.','schema-and-structured-data-for-wp').' <a target="_blank" href="http://structured-data-for-wp.com/docs/article/how-to-setup-knowledge-graph-in-schema-in-wordpress/">'.esc_html__('Learn More','schema-and-structured-data-for-wp').'</a> </p>';
         echo '<div class="saswp-knowledge-base">';
         $field_objs->saswp_field_generator($meta_fields, $settings);
         echo '</div>';
@@ -952,18 +951,14 @@ function saswp_general_page_callback(){
          echo '<div class="saswp-social-fileds">';
          $field_objs->saswp_field_generator($social_meta_fields, $settings);
          echo '</div>';
-        
-        
+                
         ?>
-        
-        
-        
+                        
     </div>
     <div class="saswp-global-container" id="saswp-default-container">
     
         <?php
-        
-        
+                
         $meta_fields_default = array(	                                		                             
                 array(
 			'label' => 'Default Image',
@@ -985,12 +980,13 @@ function saswp_general_page_callback(){
                         'name'  => 'sd_data[sd_default_image_height]',
                         'class' => 'regular-text',                        
 			'type'  => 'text',
+                        'note'  => esc_html__('According to google validation tool, Image size must be greater than or equal to 1200*728','schema-and-structured-data-for-wp')
 		)                                                                   
 	);
          echo '<div class="saswp-heading">';
          echo '<h2>'.esc_html__('Default Data','schema-and-structured-data-for-wp').'</h2>';                  
          echo '</div>';
-         echo '<p>If schema markup doest not have image, it adds this image to validate schema markup. <a target="_blank" href="http://structured-data-for-wp.com/docs/article/how-to-set-up-the-default-structured-data-values/">Learn More</a></p>';
+         echo '<p>'.esc_html__('If schema markup doest not have image, it adds this image to validate schema markup.','schema-and-structured-data-for-wp').' <a target="_blank" href="http://structured-data-for-wp.com/docs/article/how-to-set-up-the-default-structured-data-values/">'.esc_html__('Learn More','schema-and-structured-data-for-wp').'</a></p>';
          echo '<div class="saswp-schema-type-fields">';
          $field_objs->saswp_field_generator($meta_fields_default, $settings);
          echo '</div>';  
@@ -1080,15 +1076,9 @@ function saswp_import_callback(){
         $field_objs->saswp_field_generator($meta_fields, $settings);  
         
         ?>
-
-
-        
-
+       
         <?php
-        
-        
-        
-        
+                                
         $message               = 'This plugin\'s data already has been imported. Do you want to import again?. click on button above button.';
         $schema_message        = '';
         $schema_pro_message    = '';
@@ -1305,8 +1295,7 @@ function saswp_review_page_callback(){
                   )
                 
 	);        
-        $field_objs->saswp_field_generator($meta_fields, $settings);      
-       
+        $field_objs->saswp_field_generator($meta_fields, $settings);             
 }
 
 function saswp_email_schema_callback(){
@@ -1336,8 +1325,7 @@ function saswp_email_schema_callback(){
              $woocommerce['note'] = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="http://structured-data-for-wp.com/woocommerce-compatibility-for-schema/">WooCommerce Addon</a>';
                                       
         }
-        
-                           
+                                   
         $field_objs = new saswp_fields_generator();
         $meta_fields = array(				               
                 $woocommerce,                                              
