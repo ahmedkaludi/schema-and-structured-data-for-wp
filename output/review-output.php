@@ -1,9 +1,19 @@
 <?php 
+/**
+ * Review Output Class
+ *
+ * @author   Magazine3
+ * @category Frontend
+ * @path  output/review-output
+ */
+
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 Class saswp_review_output{
-                    
+        /**
+         * All the hooks list which are used in review module
+         */            
         public function saswp_review_hooks(){
             
             add_filter('the_content', array($this, 'saswp_display_review_box'));             
@@ -11,7 +21,11 @@ Class saswp_review_output{
             add_action('amp_post_template_head', array($this, 'saswp_display_review_box_schema')); 
                                     
         }
-        
+        /**
+         * Display the review box via shortcode
+         * @param type $attr
+         * @return type string
+         */
         public function saswp_review_display_via_shortcode($attr){
             
             $review_id = $attr['id'];
@@ -24,7 +38,11 @@ Class saswp_review_output{
             }
             
         }
-        
+        /**
+         * Generate and add the schema markup for review box
+         * @global type $sd_data
+         * echo string
+         */
         public function saswp_display_review_box_schema(){
                           
                         global $sd_data;
@@ -117,7 +135,10 @@ Class saswp_review_output{
                         }            
             
         }
-
+        /**
+         * Generate the review box html with its dynamic data
+         * @return string
+         */
         public function saswp_get_review_box_content(){
             
             $saswp_review_details           = array();
@@ -271,8 +292,13 @@ Class saswp_review_output{
                                            
             return $boxdata;
             
-        }
-        
+        }        
+        /**
+         * Display the review box
+         * @global type $sd_data
+         * @param type $content
+         * @return string
+         */
         public function saswp_display_review_box($content){
             
             global $sd_data;  

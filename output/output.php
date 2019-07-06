@@ -1,4 +1,12 @@
 <?php
+/**
+ * Output Page
+ *
+ * @author   Magazine3
+ * @category Frontend
+ * @path  output/output
+ * @version 1.0
+ */
 if (! defined('ABSPATH') ) exit;
 /**
  * Function generates knowledge graph schema

@@ -1,4 +1,13 @@
 <?php
+/**
+ * Function Page
+ *
+ * @author   Magazine3
+ * @category Frontend
+ * @path  output/function
+ * @Version 1.0
+ */
+
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
 

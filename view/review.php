@@ -1,4 +1,13 @@
 <?php
+/**
+ * Review Class
+ *
+ * @author   Magazine3
+ * @category Admin
+ * @path     view/review
+ * @Version 1.0
+ */
+
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
 

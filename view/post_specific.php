@@ -1,4 +1,13 @@
 <?php
+/**
+ * Post Specific Class
+ *
+ * @author   Magazine3
+ * @category Admin
+ * @path     view/post_specific
+ * @version 1.0.4
+ */
+
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
 

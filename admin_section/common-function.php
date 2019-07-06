@@ -65,7 +65,9 @@ if ( ! defined('ABSPATH') ) exit;
                     
                         $local_data = $schema_post['saswp_local_business_details'];
                         
-                        foreach($local_data as $key => $local){
+                        if($local_data){
+                            
+                            foreach($local_data as $key => $local){
                                                         
                             if($key == 'local_business_logo'){
                                 
@@ -74,8 +76,9 @@ if ( ! defined('ABSPATH') ) exit;
                                 $local_data[$key] = sanitize_text_field($local);
                             }
                                                         
+                            }
                         }
-                        
+                                                                        
                         update_post_meta( $post_id, 'saswp_local_business_details', $local_data  );
                 }
                 
@@ -229,8 +232,8 @@ if ( ! defined('ABSPATH') ) exit;
         $all_schema_post = get_posts(
                     array(
                             'post_type' 	 => 'schema',                                                                                   
-                            'posts_per_page' => -1,   
-                            'post_status' => 'any',
+                            'posts_per_page'     => -1,   
+                            'post_status'        => 'any',
                     )
                  );         
         

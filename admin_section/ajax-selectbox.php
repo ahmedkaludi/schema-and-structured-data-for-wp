@@ -370,22 +370,26 @@ function saswp_create_ajax_select_taxonomy($selectedParentValue = '',$selectedVa
     
     $choices = '<option value="all">'.esc_html__('All','schema-and-structured-data-for-wp').'</option>';
     
-    foreach($taxonomies as $taxonomy) {
+    if(!empty($taxonomies)){
         
-      $sel="";
+        foreach($taxonomies as $taxonomy) {
+        
+        $sel="";
       
-      if($selectedValue == $taxonomy->slug){
+        if($selectedValue == $taxonomy->slug){
           
-        $sel = "selected";
+          $sel = "selected";
         
-      }
-      $choices .= '<option value="'.esc_attr($taxonomy->slug).'" '.esc_attr($sel).'>'.esc_html__($taxonomy->name,'schema-and-structured-data-for-wp').'</option>';
+        }
+        $choices .= '<option value="'.esc_attr($taxonomy->slug).'" '.esc_attr($sel).'>'.esc_html__($taxonomy->name,'schema-and-structured-data-for-wp').'</option>';
       
     }
     
     $allowed_html = saswp_expanded_allowed_tags();  
     
     echo '<select  class="widefat ajax-output-child" name="data_group_array[group-'. esc_attr($current_group_number) .'][data_array]['.esc_attr($current_number).'][key_4]">'. wp_kses($choices, $allowed_html).'</select>';
+        
+    }    
     
     if($is_ajax){
       die;

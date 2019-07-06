@@ -1,4 +1,12 @@
 <?php       
+/**
+ * Schema Type Page
+ *
+ * @author   Magazine3
+ * @category Admin
+ * @path     view/schema_type
+ */
+
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
 

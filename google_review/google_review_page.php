@@ -1,8 +1,22 @@
 <?php
+/**
+ * Google Review Page
+ *
+ * @author   Magazine3
+ * @category Admin
+ * @path     google_review/google_review_page
+ * @Version 1.8
+ */
+
+// Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 add_action('admin_init', 'saswp_add_google_places');
 
+/**
+ * Function to save google place review by place id
+ * Since @version 1.8
+ */
 function saswp_add_google_places(){
 
     if(!function_exists('wp_get_current_user')) {
@@ -59,7 +73,11 @@ class saswp_google_review_page{
         add_action( 'wp_ajax_saswp_connect_google_place', array($this,'saswp_connect_google_place'));
                 
     }
-    
+    /**
+     * Ajax Function to connect google place api with place id
+     * @return type json
+     * Since @version 1.8
+     */
     public function saswp_connect_google_place(){
         
                 if ( ! isset( $_POST['saswp_security_nonce'] ) ){
@@ -113,7 +131,11 @@ class saswp_google_review_page{
                 array($this, 'saswp_admin_google_review_interface_render'));             
                 
     }
-    
+    /**
+     * Function to create google review page in admin area
+     * @global type $wpdb
+     * Since @version 1.8
+     */
     public function saswp_admin_google_review_interface_render(){
         
          global $wpdb;

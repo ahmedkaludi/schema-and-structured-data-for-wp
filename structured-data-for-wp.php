@@ -23,6 +23,7 @@ if(! defined('SASWP_ITEM_FOLDER_NAME')){
     define( 'SASWP_ITEM_FOLDER_NAME', $folderName );
 }
 define('SASWP_PLUGIN_URL', plugin_dir_url( __FILE__ ));
+define('SASWP_PLUGIN_BASENAME', plugin_basename(__FILE__));
 define('SASWP_EDD_STORE_URL', 'http://structured-data-for-wp.com/');
 // including the output file
 require_once SASWP_DIR_NAME .'/output/function.php';
@@ -42,10 +43,12 @@ if ( ! function_exists('saswp_non_amp') ){
       
     $non_amp = true;
     
-    if(function_exists('ampforwp_is_amp_endpoint') && ampforwp_is_amp_endpoint() ) {
+    if(function_exists('ampforwp_is_amp_endpoint')) {
         
-      $non_amp = false;
-             
+     if(ampforwp_is_amp_endpoint()){
+        $non_amp = false;   
+     }   
+                           
     } 
     
     return $non_amp;
@@ -184,7 +187,7 @@ add_filter('plugin_row_meta' , 'saswp_add_plugin_meta_links', 10, 2);
 
 function saswp_add_plugin_meta_links($meta_fields, $file) {
     
-    if ( plugin_basename(__FILE__) == $file ) {
+    if ( SASWP_PLUGIN_BASENAME == $file ) {
         
       $plugin_url = "https://wordpress.org/support/plugin/schema-and-structured-data-for-wp";      
       $hire_url   = "https://ampforwp.com/hire/";

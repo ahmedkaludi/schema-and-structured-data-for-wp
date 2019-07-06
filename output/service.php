@@ -1,4 +1,12 @@
 <?php 
+/**
+ * Service Class
+ *
+ * @author   Magazine3
+ * @category Frontend
+ * @path  output/service
+ */
+
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
 
