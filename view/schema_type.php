@@ -9,11 +9,21 @@
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
-
+/**
+ * List of hooks used in this file
+ */
 add_action( 'wp_ajax_saswp_get_item_reviewed_fields', 'saswp_get_item_reviewed_fields' ) ;
 add_action( 'save_post', 'saswp_schema_type_add_meta_box_save' ) ;
 add_action( 'add_meta_boxes', 'saswp_schema_type_add_meta_box' ) ;
 
+/**
+ * Function to get review schema type fields as an array
+ * @param type $item
+ * @param type $post_specific
+ * @param type $schema_id
+ * @return array
+ * @since 1.0.8
+ */
 function saswp_item_reviewed_fields($item, $post_specific = null, $schema_id = null){
 
     $post_fix = '';
@@ -358,7 +368,11 @@ function saswp_item_reviewed_fields($item, $post_specific = null, $schema_id = n
     return  $reviewed_field;       
 
 }
-
+/**
+ * Function to get review schema type html markup
+ * @since 1.0.8 
+ * @return type html string
+ */
 function saswp_get_item_reviewed_fields(){
 
     if ( ! isset( $_GET['saswp_security_nonce'] ) ){
@@ -379,8 +393,10 @@ function saswp_get_item_reviewed_fields(){
     }
 
      $meta_fields = saswp_item_reviewed_fields($item, $post_specific, $schema_id);
-
-     foreach ($meta_fields as $meta_field){
+     
+     if($meta_fields){
+            
+         foreach ($meta_fields as $meta_field){
 
 
           $attributes ='';
@@ -502,12 +518,20 @@ function saswp_get_item_reviewed_fields(){
                  .  '</tr>';
 
     }
+         
+     }
+     
 
     echo $output;
 
     wp_die();
 }
-
+/**
+ * Register a schema type metabox
+ * @return null
+ * @since version 1.0
+ * 
+ */
 function saswp_schema_type_add_meta_box() {
 
     add_meta_box(
@@ -520,7 +544,13 @@ function saswp_schema_type_add_meta_box() {
     );
 
 }
-
+/**
+ * Function to get schema type meta 
+ * @global type $post
+ * @param type $value
+ * @return boolean
+ * @since version 1.0
+ */
 function saswp_schema_type_get_meta( $value ) {
 
     global $post;
@@ -533,7 +563,12 @@ function saswp_schema_type_get_meta( $value ) {
             return false;
     }
 }
-
+/**
+ * Function to generate html markup for schema type metabox
+ * @param type $post
+ * return null
+ * @since version 1.0
+ */
 function saswp_schema_type_meta_box_callback( $post) {
 
         wp_nonce_field( 'saswp_schema_type_nonce', 'saswp_schema_type_nonce' );  
@@ -1567,7 +1602,12 @@ function saswp_schema_type_meta_box_callback( $post) {
         </div>
             <?php
 } 
-
+/**
+ * Function to save schema type metabox value
+ * @param type $post_id
+ * @return type null
+ * @since version 1.0
+ */
 function saswp_schema_type_add_meta_box_save( $post_id ) {     
             
                 if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;

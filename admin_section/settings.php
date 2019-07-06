@@ -1717,10 +1717,7 @@ function saswp_compatibility_page_callback(){
             $field_objs->saswp_field_generator($meta_fields_text, $settings);
 
             echo '</div>';    
-        }
-        
-        
-        
+        }                        
                         
 }
 

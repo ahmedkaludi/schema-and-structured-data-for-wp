@@ -1,4 +1,13 @@
 <?php 
+/**
+ * Newsletter class
+ *
+ * @author   Magazine3
+ * @category Admin
+ * @path     admin_section/newsletter
+ * @Version 1.0
+ */
+
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
 
