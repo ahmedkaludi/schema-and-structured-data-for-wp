@@ -120,7 +120,7 @@ function saswp_schema_markup_output() {
             
                     $output_schema_type_id[] = $soutput['@type'];
                     
-                    if($soutput['@type'] == 'Blogposting'|| $soutput['@type'] == 'Article' || $soutput['@type'] == 'TechArticle' || $soutput['@type'] == 'NewsArticle'){
+                    if($soutput['@type'] == 'BlogPosting'|| $soutput['@type'] == 'Article' || $soutput['@type'] == 'TechArticle' || $soutput['@type'] == 'NewsArticle'){
                         
                     
                     $final_output = array();
@@ -204,7 +204,7 @@ function saswp_schema_markup_output() {
                                                                                                           
             }
             }                                 
-                if(in_array('Blogposting', $output_schema_type_id) || in_array('Article', $output_schema_type_id) || in_array('TechArticle', $output_schema_type_id) || in_array('NewsArticle', $output_schema_type_id) ){                                                                                            
+                if(in_array('BlogPosting', $output_schema_type_id) || in_array('Article', $output_schema_type_id) || in_array('TechArticle', $output_schema_type_id) || in_array('NewsArticle', $output_schema_type_id) ){                                                                                            
                 }else{
                     if(!empty($kb_website_output)){
                         
