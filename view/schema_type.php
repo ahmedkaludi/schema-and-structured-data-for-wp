@@ -683,13 +683,6 @@ function saswp_schema_type_meta_box_callback( $post) {
                              'PreOrder'          => 'Pre Order',                                     
                         );
 
-                        $item_condition = array(
-                             'NewCondition'              => 'New',
-                             'UsedCondition'             => 'Used',
-                             'RefurbishedCondition'      => 'Refurbished',
-                             'DamagedCondition'          => 'Damaged',                                     
-                        );
-
                         $item_reviewed = array(
                              'Article'               => 'Article',
                              'Adultentertainment'    => 'Adult Entertainment',

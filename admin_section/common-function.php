@@ -1,4 +1,12 @@
 <?php
+/**
+ * Common function file
+ *
+ * @author   Magazine3
+ * @category Admin
+ * @path     admin_section/common-function
+ * @version 1.1
+ */
 // Exit if accessed directly
 if ( ! defined('ABSPATH') ) exit;
 /**

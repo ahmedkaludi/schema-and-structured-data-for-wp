@@ -1,4 +1,13 @@
 <?php
+/**
+ * Settings Page
+ *
+ * @author   Magazine3
+ * @category Admin
+ * @path     admin_section/settings
+ * @version 1.0
+ */
+
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
 /**

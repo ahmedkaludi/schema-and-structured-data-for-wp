@@ -19,7 +19,9 @@ class saswp_post_specific {
         protected $options_response          = array();
         protected $modify_schema_post_enable = false;
         
-                               
+        /**
+         * List of hooks used in this context
+         */                       
         public function saswp_post_specific_hooks(){
             
                 add_action( 'admin_init', array( $this, 'saswp_get_all_schema_list' ) );
@@ -35,7 +37,9 @@ class saswp_post_specific {
                 add_action( 'wp_ajax_saswp_enable_disable_schema_on_post', array($this,'saswp_enable_disable_schema_on_post'));
                 
         }
-        
+        /**
+         * 
+         */
         public function saswp_enable_disable_schema_on_post(){
             
                 if ( ! isset( $_POST['saswp_security_nonce'] ) ){
@@ -1710,7 +1714,11 @@ class saswp_post_specific {
                 }                               
                                                                                                                                                                    		
 	}
-        
+        /**
+         * Function to restoere all the post specific schema on a particular post/page
+         * @return type string
+         * @since version 1.0.4
+         */
         public function saswp_restore_schema(){
             
                 if ( ! isset( $_POST['saswp_security_nonce'] ) ){
@@ -1754,8 +1762,11 @@ class saswp_post_specific {
                 }                                              
                  wp_die();
                 }
-                             
-        
+        /**
+         * Generate the post specific metabox html with dynamic values on ajax call
+         * @return type string
+         * @since version 1.0.4
+         */                             
         public function saswp_modify_schema_post_enable(){
             
                 if ( ! isset( $_GET['saswp_security_nonce'] ) ){
@@ -2138,7 +2149,12 @@ class saswp_post_specific {
 		}
                 return $output;                                               
 	}	
-        
+        /**
+         * Function to save post specific metabox fields value
+         * @param type $post_id
+         * @return type null
+         * @since version 1.0.4
+         */
 	public function saswp_post_specific_save_fields( $post_id ) {
                                             
 		if ( ! isset( $_POST['post_specific_nonce'] ) )
@@ -2373,7 +2389,12 @@ class saswp_post_specific {
            }
             wp_die();
         }
-        
+        /**
+         * Function to get fields as an array of sub business(LocalBusiness Schema)
+         * @param type $business_type
+         * @return array
+         * @since version 1.0.4
+         */
         public function saswp_get_sub_business_array($business_type){
             
             $sub_business_options = array();
@@ -2523,7 +2544,14 @@ class saswp_post_specific {
                     }
             return  $sub_business_options;       
         }
-        
+        /**
+         * Function to get the fields of a particular schema type as an array
+         * @global type $post
+         * @global type $sd_data
+         * @param type $schema_id
+         * @return array
+         * @since version 1.0.4
+         */
         public function saswp_get_fields_by_schema_type( $schema_id ) {  
             
             global $post;

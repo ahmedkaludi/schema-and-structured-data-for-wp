@@ -1,4 +1,13 @@
 <?php
+/**
+ * Ajax Selectbox Page
+ *
+ * @author   Magazine3
+ * @category Admin
+ * @path     admin_section/ajax-selectbox
+ * @version 1.1
+ */
+
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
 

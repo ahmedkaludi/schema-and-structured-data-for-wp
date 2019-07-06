@@ -1,4 +1,13 @@
 <?php
+/**
+ * Structure admin page
+ *
+ * @author   Magazine3
+ * @category Admin
+ * @path     admin_section/structure_admin
+ * @version 1.0
+ */
+
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
 
