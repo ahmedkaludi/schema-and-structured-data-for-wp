@@ -259,8 +259,7 @@ function saswp_schema_markup_output() {
                 
             }
                         
-            if($custom_markup){
-                                      
+            if($custom_markup){                                     
                         $result = json_decode($custom_markup);
                     
                         if($result != false){

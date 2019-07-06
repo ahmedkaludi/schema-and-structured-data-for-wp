@@ -1220,6 +1220,9 @@ class saswp_post_specific {
                   echo '<textarea style="margin-left:5px;" placeholder="{ Json Markup }" id="saswp_custom_schema_field" name="saswp_custom_schema_field" rows="5" cols="100">'
                   . $custom_markup
                   . '</textarea>';
+                  if(json_decode($custom_markup) == false){
+                      echo '<p style="text-align:center;color:red;margin-top:0px;">'.esc_html__( 'Not a valid json', 'schema-and-structured-data-for-wp' ).'</p>';
+                  }                  
                   echo '</div>';                                    
                   echo '</div>';
                 
@@ -1781,7 +1784,7 @@ class saswp_post_specific {
                 
                 if(empty($image_details[0]) || $image_details[0] === NULL ){
                 
-                 if(isset($sd_data['sd_logo'])){
+                 if(isset($sd_data['sd_logo']['url'])){
                      $image_details[0] = $sd_data['sd_logo']['url'];
                  }
                                     
@@ -2524,7 +2527,7 @@ class saswp_post_specific {
             
             if(empty($image_details[0]) || $image_details[0] === NULL ){
              
-                if(isset($sd_data['sd_logo'])){
+                if(isset($sd_data['sd_logo']['url'])){
                     $image_details[0] = $sd_data['sd_logo']['url'];
                 }
                 
