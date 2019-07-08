@@ -1420,7 +1420,7 @@ function saswp_license_status($add_on, $license_status, $license_key){
 						$message = __( 'Your license is not active for this URL.' );
 						break;
 					case 'item_name_mismatch' :
-						$message = sprintf( __( 'This appears to be an invalid license key for %s.' ), EDD_SAMPLE_ITEM_NAME );
+						$message = __( 'This appears to be an invalid license key.' );
 						break;
 					case 'no_activations_left':
 						$message = __( 'Your license key has reached its activation limit.' );

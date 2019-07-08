@@ -386,7 +386,7 @@ function saswp_get_item_reviewed_fields(){
     $output        = '';
     $item          = sanitize_text_field($_GET['item']);  
     $schema_id     = sanitize_text_field($_GET['schema_id']);
-    $post_id       = sanitize_text_field($_GET['post_id']);    
+    $post_id       = intval($_GET['post_id']);    
 
     if(isset($_GET['post_specific'])){
         $post_specific = sanitize_text_field($_GET['post_specific']);  

@@ -82,6 +82,12 @@ We try our best to provide support on WordPress.org forums. However, We have a s
 
 Bug reports for Schema & Structured Data for WP & AMP are [welcomed on GitHub](https://github.com/ahmedkaludi/schema-and-structured-data-for-wp/issues). Please note GitHub is not a support forum, and issues that aren't properly qualified as bugs will be closed.
 
+### Credits
+
+Merlin WP used https://github.com/richtabor/MerlinWP - License URI: https://github.com/richtabor/MerlinWP/blob/master/LICENSE,
+jquery-timepicker used https://github.com/jonthornton/jquery-timepicker
+
+
 
 == Frequently Asked Questions ==
 

@@ -91,13 +91,11 @@
 		$step = isset( $_GET['step'] ) ? sanitize_key( $_GET['step'] ) :  $saswp_installer_config['start_steps'];
 		$title = $saswp_installer_config['steps'][$step]['title'];
 		$saswp_installer_config['current_step']['step_id'] = $step;
-		
-		// Use minified libraries if dev mode is turned on.
-		$suffix = '';
+						
 		// Enqueue styles.
-		wp_enqueue_style( 'saswp_install', SASWP_PLUGIN_URL. '/admin_section/css/saswp-install.min' . $suffix . '.css' , array( 'wp-admin' ), SASWP_VERSION );
+		wp_enqueue_style( 'saswp_install', SASWP_PLUGIN_URL. '/admin_section/css/saswp-install.min.css' , array( 'wp-admin' ), SASWP_VERSION );
 		// Enqueue javascript.
-		wp_enqueue_script( 'saswp_install', SASWP_PLUGIN_URL. '/admin_section/js/saswp-install.min' . $suffix . '.js' , array( 'jquery-core' ), SASWP_VERSION );		
+		wp_enqueue_script( 'saswp_install', SASWP_PLUGIN_URL. '/admin_section/js/saswp-install.min.js' , array( 'jquery-core' ), SASWP_VERSION );		
 		
 		wp_localize_script( 'saswp_install', 'saswp_install_params', array(
 			'ajaxurl'      		=> admin_url( 'admin-ajax.php' ),

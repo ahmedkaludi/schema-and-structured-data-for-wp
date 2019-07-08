@@ -50,8 +50,8 @@ class saswp_post_specific {
                 } 
                 
                 $schema_enable = array();
-                $post_id       = sanitize_text_field($_POST['post_id']);
-                $schema_id     = sanitize_text_field($_POST['schema_id']);
+                $post_id       = intval($_POST['post_id']);
+                $schema_id     = intval($_POST['schema_id']);
                 $status        = sanitize_text_field($_POST['status']);
               
                 
@@ -1729,7 +1729,7 @@ class saswp_post_specific {
                 } 
                 
                 $result     = '';
-                $post_id    = sanitize_text_field($_POST['post_id']); 
+                $post_id    = intval($_POST['post_id']); 
                 $schema_ids = array_map( 'sanitize_text_field', $_POST['schema_ids'] );
                    
                 if($schema_ids){
@@ -1776,7 +1776,7 @@ class saswp_post_specific {
                    return;  
                 }  
                 
-                 $post_id = sanitize_text_field($_GET['post_id']);
+                 $post_id = intval($_GET['post_id']);
                  update_option('modify_schema_post_enable_'.$post_id, 'enable');    
                  
                  $args = array(

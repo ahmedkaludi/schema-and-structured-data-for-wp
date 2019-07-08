@@ -94,22 +94,19 @@ $saswp_add_data_type_config = array(
 		$step = isset( $_GET['step'] ) ? sanitize_key( $_GET['step'] ) :  $saswp_add_data_type_config['start_steps'];
 		$title = $saswp_add_data_type_config['steps'][$step]['title'];
 		$saswp_add_data_type_config['current_step']['step_id'] = $step;
-		
-		// Use minified libraries if dev mode is turned on.
-		$suffix = '';
-                
+						                
                 wp_enqueue_media ();
                                 
                 // Enqueue styles.
-		wp_enqueue_style( 'saswp-timepicker-js', SASWP_PLUGIN_URL. $saswp_add_data_type_config['installer_dir']. '/css/jquery.timepicker' . $suffix . '.css' , array( 'wp-admin' ), '0.1');
+		wp_enqueue_style( 'saswp-timepicker-js', SASWP_PLUGIN_URL. $saswp_add_data_type_config['installer_dir']. '/css/jquery.timepicker.css' , array( 'wp-admin' ), '0.1');
 		// Enqueue javascript.
-		wp_enqueue_script( 'saswp-timepicker-css', SASWP_PLUGIN_URL. $saswp_add_data_type_config['installer_dir']. '/js/jquery.timepicker' . $suffix . '.js' , array( 'jquery-core' ), '0.1' );
+		wp_enqueue_script( 'saswp-timepicker-css', SASWP_PLUGIN_URL. $saswp_add_data_type_config['installer_dir']. '/js/jquery.timepicker.js' , array( 'jquery-core' ), '0.1' );
                 
                 
 		// Enqueue styles.
-		wp_enqueue_style( 'saswp_add_new', SASWP_PLUGIN_URL. $saswp_add_data_type_config['installer_dir']. '/css/saswp-add-new.min' . $suffix . '.css' , array( 'wp-admin' ), '0.1');
+		wp_enqueue_style( 'saswp_add_new', SASWP_PLUGIN_URL. $saswp_add_data_type_config['installer_dir']. '/css/saswp-add-new.min.css' , array( 'wp-admin' ), '0.1');
 		// Enqueue javascript.
-		wp_enqueue_script( 'saswp_add_new', SASWP_PLUGIN_URL. $saswp_add_data_type_config['installer_dir']. '/js/saswp-add-new.min' . $suffix . '.js' , array( 'jquery-core' ), '0.1' );		
+		wp_enqueue_script( 'saswp_add_new', SASWP_PLUGIN_URL. $saswp_add_data_type_config['installer_dir']. '/js/saswp-add-new.min.js' , array( 'jquery-core' ), '0.1' );		
                 
                 //Enque datepicker
                 wp_enqueue_script( 'jquery-ui-datepicker' );
@@ -117,7 +114,7 @@ $saswp_add_data_type_config = array(
                 wp_enqueue_style( 'jquery-ui' );
                 
                 
-                wp_enqueue_script( 'structure_admin', SASWP_PLUGIN_URL. $saswp_add_data_type_config['installer_dir']. '/js/structure_admin.min' . $suffix . '.js' , array( 'jquery' ), '0.1' );
+                wp_enqueue_script( 'structure_admin', SASWP_PLUGIN_URL. $saswp_add_data_type_config['installer_dir']. '/js/structure_admin.min.js' , array( 'jquery' ), '0.1' );
 		
                 wp_localize_script( 'structure_admin', 'saswp_app_object', array(
 			'ajax_url'      		=> admin_url( 'admin-ajax.php' ),						
@@ -408,7 +405,7 @@ $saswp_add_data_type_config = array(
                                 
                 if(isset($_POST['data_group_array']) && isset($_POST['saswp_post_id'])){
                     
-                $post_id                = sanitize_text_field($_POST['saswp_post_id']);    
+                $post_id                = intval($_POST['saswp_post_id']);    
                 $post_data_group_array  = array();
                 $temp_condition_array   = array();
                 $show_globally          = false;

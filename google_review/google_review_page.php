@@ -221,7 +221,7 @@ class saswp_google_review_page{
         
         if(isset($_GET['post_id'])){
             
-            $post_id = sanitize_text_field($_GET['post_id']);
+            $post_id = intval($_GET['post_id']);
             
             
             $post_meta = get_post_meta($post_id, $key='', true );            
