@@ -1587,7 +1587,7 @@ function saswp_compatibility_page_callback(){
              
         }
                          
-         if(!is_plugin_active('dw-question-answer/dw-question-answer.php')){
+         if(!is_plugin_active('dw-question-answer/dw-question-answer.php') && !is_plugin_active('dw-question-answer-pro/dw-question-answer.php')){
              
              $dwquestiton['note'] = esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/dw-question-answer/">DW Question Answer</a>';
              
