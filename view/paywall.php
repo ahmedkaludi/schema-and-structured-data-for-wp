@@ -1,4 +1,16 @@
-<?php                                                                               
+<?php    
+/**
+ * Paywall page
+ *
+ * @author   Magazine3
+ * @category Admin
+ * @path     view/paywall
+ * @version 1.0
+ */
+
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 	add_action( 'add_meta_boxes', 'saswp_schema_options_add_meta_box' ) ;
 	add_action( 'save_post', 'saswp_schema_options_add_meta_box_save' ) ;
 	
@@ -103,7 +115,7 @@
                             echo $option;
                             echo '</select></td>';
                             
-                            echo '<td><select class="saswp-custom-fields-select2" name="saswp_custom_fields['.$fieldkey.']">';
+                            echo '<td><select class="saswp-custom-fields-select2" name="saswp_custom_fields['.esc_attr($fieldkey).']">';
                             echo '<option value="'.esc_attr($fieldval).'">'.preg_replace( '/^_/', '', esc_html( str_replace( '_', ' ', $fieldval ) ) ).'</option>';
                             echo '</select></td>';
                             
@@ -156,7 +168,7 @@
                                                 'notAccessibleForFree'  => $notAccessibleForFree,
                                                 'paywall_class_name'    => $paywall_class_name, 
                                                 'enable_custom_field'   => $enable_custom_field
-                         );   
+                                            );   
                  
                  update_post_meta( $post_id, 'schema_options', $saswp_schema_options);
                  update_post_meta( $post_id, 'saswp_custom_fields', $custom_fields);

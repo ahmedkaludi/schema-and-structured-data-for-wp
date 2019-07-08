@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.2
-Stable tag: 1.8.8
+Stable tag: 1.8.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -82,6 +82,12 @@ We try our best to provide support on WordPress.org forums. However, We have a s
 
 Bug reports for Schema & Structured Data for WP & AMP are [welcomed on GitHub](https://github.com/ahmedkaludi/schema-and-structured-data-for-wp/issues). Please note GitHub is not a support forum, and issues that aren't properly qualified as bugs will be closed.
 
+### Credits
+
+Merlin WP used https://github.com/richtabor/MerlinWP - License URI: https://github.com/richtabor/MerlinWP/blob/master/LICENSE,
+jquery-timepicker used https://github.com/jonthornton/jquery-timepicker
+
+
 
 == Frequently Asked Questions ==
 
@@ -102,6 +108,18 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.8.9 (08 July 2019) =
+
+* Added: Translation panel. User can add own text for List of labels which is being output in content #361
+* Added: compatibility with DWQA Pro version plugin ( https://wordpress.org/plugins/dw-question-answer ) #372
+* Added: Social fields in local business schema type
+* Added: Error message should be shown if custom schema markup is not valid
+* Bug Fixed: Defragmentation is not working for BlogPost schema type #367
+* Bug Fixed: Schema title attributes show invalid title when yoast compatibility is enabled , like this (%%title%%%page%%sep) #364
+* Bug Fixed: Description and Article body have same data #363
+* Bug Fixed: Debug Warning & notices #362
+* Bug Fixed: Micro data clean up is not working properly. #359
 
 = 1.8.8 (22 June 2019) =
 * Bug Fixed: Uncaught Error: Class 'saswp_google_review' not found. #351

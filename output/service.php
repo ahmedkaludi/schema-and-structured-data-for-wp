@@ -1,4 +1,12 @@
 <?php 
+/**
+ * Service Class
+ *
+ * @author   Magazine3
+ * @category Frontend
+ * @path  output/service
+ */
+
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
 
@@ -1102,7 +1110,7 @@ Class saswp_output_service{
                                                 
                 $post_type = get_post_type($post_id);
                 
-                if($post_type =='dwqa-question' && isset($sd_data['saswp-dw-question-answer']) && $sd_data['saswp-dw-question-answer'] ==1 && is_plugin_active('dw-question-answer/dw-question-answer.php')){
+                if($post_type =='dwqa-question' && isset($sd_data['saswp-dw-question-answer']) && $sd_data['saswp-dw-question-answer'] ==1 && (is_plugin_active('dw-question-answer/dw-question-answer.php') || is_plugin_active('dw-question-answer-pro/dw-question-answer.php')) ){
                  
                 $post_meta      = get_post_meta($post_id, $key='', true);
                 
@@ -1609,6 +1617,7 @@ Class saswp_output_service{
 					'mainEntityOfPage'              => get_permalink(),					
 					'headline'			=> saswp_get_the_title(),
 					'description'                   => saswp_get_the_excerpt(),
+                                        'articleBody'                   => saswp_get_the_content(),
 					'datePublished'                 => esc_html($date),
 					'dateModified'                  => esc_html($modified_date),
 					'author'			=> saswp_get_author_details(),
@@ -1636,6 +1645,7 @@ Class saswp_output_service{
 					'mainEntityOfPage'              => get_permalink(),					
 					'headline'			=> saswp_get_the_title(),
 					'description'                   => saswp_get_the_excerpt(),
+                                        'articleBody'                   => saswp_get_the_content(),
 					'datePublished'                 => esc_html($date),
 					'dateModified'                  => esc_html($modified_date),
 					'author'			=> saswp_get_author_details(),
@@ -1673,6 +1683,7 @@ Class saswp_output_service{
 						'image'			=> esc_url($image_details[0]),
 						'headline'		=> saswp_get_the_title(),
 						'description'		=> saswp_get_the_excerpt(),
+                                                'articleBody'           => saswp_get_the_content(),
 						'datePublished' 	=> esc_html($date),
 						'dateModified'		=> esc_html($modified_date),
 						'author'			=> saswp_get_author_details(),
@@ -1877,15 +1888,15 @@ Class saswp_output_service{
          */
         public function saswp_get_publisher($d_logo = null){
                 
-                        global $sd_data;   
-                        
+                        global $sd_data;  
+                                                                        
                         $publisher    = array();
                         $default_logo = array();
                         $custom_logo  = array();
                                       
-                        $logo      = isset($sd_data['sd_logo']) ?  $sd_data['sd_logo']['url']:'';	
-			$height    = isset($sd_data['sd_logo']) ?  $sd_data['sd_logo']['height']:'';
-			$width     = isset($sd_data['sd_logo']) ?  $sd_data['sd_logo']['width']:'';
+                        $logo      = isset($sd_data['sd_logo']['url']) ?     $sd_data['sd_logo']['url']:'';	
+			$height    = isset($sd_data['sd_logo']['height']) ?  $sd_data['sd_logo']['height']:'';
+			$width     = isset($sd_data['sd_logo']['width']) ?   $sd_data['sd_logo']['width']:'';
                         $site_name = isset($sd_data['sd_name']) && $sd_data['sd_name'] !='' ? $sd_data['sd_name']:get_bloginfo();
                                                                                                                        
                         if($logo =='' && $height =='' && $width ==''){

@@ -1,4 +1,13 @@
 <?php
+/**
+ * Function Page
+ *
+ * @author   Magazine3
+ * @category Frontend
+ * @path  output/function
+ * @Version 1.0
+ */
+
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
 
@@ -8,7 +17,7 @@ add_action( 'init', 'saswp_schema_markup_hook_on_init');
 function saswp_schema_markup_hook_on_init() {
         
         if(!is_admin()){
-         
+            
             global $sd_data;
         
             if(isset($sd_data['saswp-markup-footer']) && $sd_data['saswp-markup-footer'] == 1){
@@ -120,7 +129,7 @@ function saswp_schema_markup_output() {
             
                     $output_schema_type_id[] = $soutput['@type'];
                     
-                    if($soutput['@type'] == 'Blogposting'|| $soutput['@type'] == 'Article' || $soutput['@type'] == 'TechArticle' || $soutput['@type'] == 'NewsArticle'){
+                    if($soutput['@type'] == 'BlogPosting'|| $soutput['@type'] == 'Article' || $soutput['@type'] == 'TechArticle' || $soutput['@type'] == 'NewsArticle'){
                         
                     
                     $final_output = array();
@@ -204,7 +213,7 @@ function saswp_schema_markup_output() {
                                                                                                           
             }
             }                                 
-                if(in_array('Blogposting', $output_schema_type_id) || in_array('Article', $output_schema_type_id) || in_array('TechArticle', $output_schema_type_id) || in_array('NewsArticle', $output_schema_type_id) ){                                                                                            
+                if(in_array('BlogPosting', $output_schema_type_id) || in_array('Article', $output_schema_type_id) || in_array('TechArticle', $output_schema_type_id) || in_array('NewsArticle', $output_schema_type_id) ){                                                                                            
                 }else{
                     if(!empty($kb_website_output)){
                         
@@ -259,8 +268,7 @@ function saswp_schema_markup_output() {
                 
             }
                         
-            if($custom_markup){
-                                      
+            if($custom_markup){                                     
                         $result = json_decode($custom_markup);
                     
                         if($result != false){
@@ -837,10 +845,10 @@ function saswp_remove_microdata($content){
     
     if(saswp_global_option()){
         
-        $content = preg_replace("/itemscope itemtype=(\"?)http(s?):\/\/schema.org\/(Article|BlogPosting|Blog|BreadcrumbList|AggregateRating|WebPage|Person|Organization|NewsArticle|Product|CreativeWork|ImageObject)(\"?)/", "", $content);
-        $content = preg_replace("/itemscope=(\"?)itemscope(\"?) itemtype=(\"?)http(s?):\/\/schema.org\/(Article|BlogPosting|Blog|BreadcrumbList|AggregateRating|WebPage|Person|Organization|NewsArticle|Product|CreativeWork|ImageObject)(\"?)/", "", $content);    
-        $content = preg_replace("/itemscope=(\"?)itemprop(\"?) itemType=(\"?)http(s?):\/\/schema.org\/(Article|BlogPosting|Blog|BreadcrumbList|AggregateRating|WebPage|Person|Organization|NewsArticle|Product|CreativeWork|ImageObject)(\"?)/", "", $content);    
-        $content = preg_replace("/itemscope itemprop=\"(.*?)\" itemType=(\"?)http(s?):\/\/schema.org\/(Article|BlogPosting|Blog|BreadcrumbList|AggregateRating|WebPage|Person|Organization|NewsArticle|Product|CreativeWork|ImageObject)(\"?)/", "", $content);    
+        $content = preg_replace("/itemscope itemtype=(\"?)http(s?):\/\/schema.org\/(Person|Mosque|Church|HinduTemple|LandmarksOrHistoricalBuildings|TouristDestination|TouristAttraction|Place|LocalBusiness|MedicalCondition|VideoObject|AudioObject|Trip|Service|JobPosting|VideoGame|Game|TechArticle|SoftwareApplication|TVSeries|Recipe|Review|HowTo|DiscussionForumPosting|Course|SingleFamilyResidence|House|Apartment|Event|Article|BlogPosting|Blog|BreadcrumbList|AggregateRating|WebPage|Person|Organization|NewsArticle|Product|CreativeWork|ImageObject|UserComments|WPHeader|WPSideBar|WPFooter|WPAdBlock|SiteNavigationElement)(\"?)/", "", $content);
+        $content = preg_replace("/itemscope=(\"?)itemscope(\"?) itemtype=(\"?)http(s?):\/\/schema.org\/(Person|Mosque|Church|HinduTemple|LandmarksOrHistoricalBuildings|TouristDestination|TouristAttraction|Place|LocalBusiness|MedicalCondition|VideoObject|AudioObject|Trip|Service|JobPosting|VideoGame|Game|TechArticle|SoftwareApplication|TVSeries|Recipe|Review|HowTo|DiscussionForumPosting|Course|SingleFamilyResidence|House|Apartment|Event|Article|BlogPosting|Blog|BreadcrumbList|AggregateRating|WebPage|Person|Organization|NewsArticle|Product|CreativeWork|ImageObject|UserComments|WPHeader|WPSideBar|WPFooter|WPAdBlock|SiteNavigationElement)(\"?)/", "", $content);    
+        $content = preg_replace("/itemscope=(\"?)itemprop(\"?) itemType=(\"?)http(s?):\/\/schema.org\/(Person|Mosque|Church|HinduTemple|LandmarksOrHistoricalBuildings|TouristDestination|TouristAttraction|Place|LocalBusiness|MedicalCondition|VideoObject|AudioObject|Trip|Service|JobPosting|VideoGame|Game|TechArticle|SoftwareApplication|TVSeries|Recipe|Review|HowTo|DiscussionForumPosting|Course|SingleFamilyResidence|House|Apartment|Event|Article|BlogPosting|Blog|BreadcrumbList|AggregateRating|WebPage|Person|Organization|NewsArticle|Product|CreativeWork|ImageObject|UserComments|WPHeader|WPSideBar|WPFooter|WPAdBlock|SiteNavigationElement)(\"?)/", "", $content);    
+        $content = preg_replace("/itemscope itemprop=\"(.*?)\" itemType=(\"?)http(s?):\/\/schema.org\/(Person|Mosque|Church|HinduTemple|LandmarksOrHistoricalBuildings|TouristDestination|TouristAttraction|Place|LocalBusiness|MedicalCondition|VideoObject|AudioObject|Trip|Service|JobPosting|VideoGame|Game|TechArticle|SoftwareApplication|TVSeries|Recipe|Review|HowTo|DiscussionForumPosting|Course|SingleFamilyResidence|House|Apartment|Event|Article|BlogPosting|Blog|BreadcrumbList|AggregateRating|WebPage|Person|Organization|NewsArticle|Product|CreativeWork|ImageObject|UserComments|WPHeader|WPSideBar|WPFooter|WPAdBlock|SiteNavigationElement)(\"?)/", "", $content);    
         $content = preg_replace("/vcard/", "", $content);
         $content = preg_replace("/hentry/", "", $content);        
     }             

@@ -1,4 +1,14 @@
 <?php
+/**
+ * Google Review Class
+ *
+ * @author   Magazine3
+ * @category Admin
+ * @path     google_review/google_review
+ * @Version 1.8
+ */
+
+// Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 class saswp_google_review{
@@ -6,6 +16,10 @@ class saswp_google_review{
     public function __construct() {
         	                
     }
+    /**
+     * List of hooks used in google review class
+     * since @version 1.8
+     */
     public function saswp_google_review_hooks(){
         
         add_action( 'init', array($this, 'saswp_add_google_review_menu_links'),20);  
@@ -40,7 +54,10 @@ class saswp_google_review{
                 
             }
     }
-     
+    /**
+     * Function to register google review post type
+     * @since version 1.8 
+     */ 
     public function saswp_add_google_review_menu_links() {
                         
         $collection_post_type = array(
@@ -63,7 +80,11 @@ class saswp_google_review{
     register_post_type( 'saswp-google-review', $collection_post_type );   
                                 
     }
-    
+    /**
+     * Function to fetch all the google place post
+     * @return type array
+     * @since version 1.8
+     */
     public function saswp_fetch_all_google_review_post(){
             
               $all_post = get_posts(
@@ -76,8 +97,12 @@ class saswp_google_review{
                                       
         return $all_post;        
     }
-    
-    
+    /**
+     * Function to get google review list by using shortcode
+     * @param type $attr
+     * @return string
+     * @since @version 1.8
+     */    
     public function saswp_google_review_shortcode($attr){
         
         $post_id = $attr['id'];
@@ -99,7 +124,15 @@ class saswp_google_review{
         }
         
     }
-    
+    /**
+     * Function to generate google review schema markup
+     * @global type $wpdb
+     * @global type $sd_data
+     * @param type $post_id
+     * @return string
+     * @since Version 1.8
+     * 
+     */
     public function saswp_get_google_review_schema_markup($post_id){
                 
                         global $wpdb;
@@ -165,7 +198,13 @@ class saswp_google_review{
                         
                         return $html;              
     }
-    
+    /**
+     * Function to show google review list at user end
+     * @global type $wpdb
+     * @param type $post_id
+     * @return string
+     * @since version 1.8
+     */
     public function saswp_google_review_front_output($post_id){
         
             global $wpdb;
@@ -181,15 +220,12 @@ class saswp_google_review{
                 if($place->id){
 
                     $reviews = $wpdb->get_results($wpdb->prepare("SELECT * FROM " . $wpdb->prefix . "saswp_google_review WHERE google_place_id = %d ORDER BY time DESC", $place->id));
-
-                }
-
-            }   
-        
-                     foreach ($reviews as $review){
-                         
-                         
-                         $review_rating = $review->rating;
+                                        
+                    if($reviews){
+                        
+                        foreach ($reviews as $review){
+                                                  
+                                $review_rating = $review->rating;
                                 
                                 $starating = '';
                                 
@@ -245,12 +281,17 @@ class saswp_google_review{
                                       </div>';
 
                             }
+                        
+                    }                    
+
+                }
+
+            }                                
         
         return $output;
         
     }
-    
-                
+                    
 }
 
 if (class_exists('saswp_google_review')) {

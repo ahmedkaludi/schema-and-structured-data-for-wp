@@ -1,4 +1,13 @@
 <?php 
+/**
+ * Flexmls Class
+ *
+ * @author   Magazine3
+ * @category Frontend
+ * @path  output/flexmls
+ * @Version 1.0.7
+ */
+
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
 

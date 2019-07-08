@@ -1,8 +1,22 @@
 <?php
+/**
+ * Google Review Page
+ *
+ * @author   Magazine3
+ * @category Admin
+ * @path     google_review/google_review_page
+ * @Version 1.8
+ */
+
+// Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 add_action('admin_init', 'saswp_add_google_places');
 
+/**
+ * Function to save google place review by place id
+ * Since @version 1.8
+ */
 function saswp_add_google_places(){
 
     if(!function_exists('wp_get_current_user')) {
@@ -59,7 +73,11 @@ class saswp_google_review_page{
         add_action( 'wp_ajax_saswp_connect_google_place', array($this,'saswp_connect_google_place'));
                 
     }
-    
+    /**
+     * Ajax Function to connect google place api with place id
+     * @return type json
+     * Since @version 1.8
+     */
     public function saswp_connect_google_place(){
         
                 if ( ! isset( $_POST['saswp_security_nonce'] ) ){
@@ -113,7 +131,11 @@ class saswp_google_review_page{
                 array($this, 'saswp_admin_google_review_interface_render'));             
                 
     }
-    
+    /**
+     * Function to create google review page in admin area
+     * @global type $wpdb
+     * Since @version 1.8
+     */
     public function saswp_admin_google_review_interface_render(){
         
          global $wpdb;
@@ -199,7 +221,8 @@ class saswp_google_review_page{
         
         if(isset($_GET['post_id'])){
             
-            $post_id = $_GET['post_id'];
+            $post_id = intval($_GET['post_id']);
+            
             
             $post_meta = get_post_meta($post_id, $key='', true );            
             
@@ -245,9 +268,7 @@ class saswp_google_review_page{
                 <div class="saswp-g-review-body">
                     
                     <div class="saswp-review-list">
-                        
-                        
-                       
+                                                                       
                         <?php 
                 
                         if($reviews){
@@ -259,6 +280,7 @@ class saswp_google_review_page{
                                 $starating = '';
                                 
                                 $starating .= '<div class="saswp-rvw-str">';
+                                
                                 for($j=0; $j<5; $j++){  
                                         
                                       if($review_rating >$j){
@@ -292,12 +314,12 @@ class saswp_google_review_page{
                                 echo '<div class="saswp-g-review-panel">
                                           <div class="saswp-glg-review-body">
                                             <div class="saswp-rv-img">
-                                                <img src="'.esc_url($review->profile_photo_url).'" alt="'.$review->author_name.'">
+                                                <img src="'.esc_url($review->profile_photo_url).'" alt="'.esc_attr($review->author_name).'">
                                             </div>
                                             <div class="saswp-rv-cnt">
                                                 <div class="saswp-str-rtng">
                                                     <div class="saswp-str">
-                                                        <span class="saswp-athr">'.$review->author_name.'</span>
+                                                        <span class="saswp-athr">'.esc_attr($review->author_name).'</span>
                                                         '.$starating.'                                  
                                                     </div>               
                                                     <span class="saswp-g-plus">

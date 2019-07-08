@@ -1,5 +1,23 @@
 <?php
+/**
+ * Ajax Selectbox Page
+ *
+ * @author   Magazine3
+ * @category Admin
+ * @path     admin_section/ajax-selectbox
+ * @version 1.1
+ */
+
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) exit;
+
+/**
+ * List of hooks used in this context
+ */
 add_action('wp_ajax_create_ajax_select_sdwp','saswp_ajax_select_creator');
+add_action('wp_ajax_create_ajax_select_sdwp_taxonomy','saswp_create_ajax_select_taxonomy');
+
+
 function saswp_ajax_select_creator($data = '', $saved_data= '', $current_number = '', $current_group_number ='') {
  
     $response = $data;
@@ -15,10 +33,10 @@ function saswp_ajax_select_creator($data = '', $saved_data= '', $current_number 
               $response = sanitize_text_field(wp_unslash($_POST["id"]));
             }
             if ( isset( $_POST["number"] ) ) {
-              $current_number   = intval($_POST["number"]);
+              $current_number   = intval(sanitize_text_field($_POST["number"]));
             }
             if ( isset( $_POST["group_number"] ) ) {
-              $current_group_number   = intval($_POST["group_number"]);
+              $current_group_number   = intval(sanitize_text_field($_POST["group_number"]));
             }
             
         }else{
@@ -118,11 +136,16 @@ function saswp_ajax_select_creator($data = '', $saved_data= '', $current_number 
 
             $templates = get_page_templates();
             
-            foreach($templates as $k => $v){
+            if($templates){
+                
+                foreach($templates as $k => $v){
             
-              $choices[$v] = $k;
+                     $choices[$v] = $k;
               
+                }
+                
             }
+            
 
             break;
 
@@ -277,13 +300,16 @@ function saswp_ajax_select_creator($data = '', $saved_data= '', $current_number 
 // endif;  
 
 }
-// Generate Proper Post Taxonomy for select and to add data.
+/**
+ * Function to Generate Proper Post Taxonomy for select and to add data.
+ * @return type array
+ * @since version 1.0
+ */
 function saswp_post_taxonomy_generator(){
     
     $taxonomies = '';  
     $choices    = array();
-    
-    
+        
     $taxonomies = get_taxonomies( array('public' => true), 'objects' );
     
     if($taxonomies){
@@ -305,9 +331,14 @@ function saswp_post_taxonomy_generator(){
       
     return $choices;
 }
-
-add_action('wp_ajax_create_ajax_select_sdwp_taxonomy','saswp_create_ajax_select_taxonomy');
-
+/**
+ * Function to create taxonomy
+ * @param type $selectedParentValue
+ * @param type $selectedValue
+ * @param type $current_number
+ * @param type $current_group_number
+ * @since version 1.0
+ */
 function saswp_create_ajax_select_taxonomy($selectedParentValue = '',$selectedValue='', $current_number ='', $current_group_number  = ''){
     
     $is_ajax = false;
@@ -315,9 +346,11 @@ function saswp_create_ajax_select_taxonomy($selectedParentValue = '',$selectedVa
     if( $_SERVER['REQUEST_METHOD']=='POST'){
         
         $is_ajax = true;
+        
         if(! current_user_can( 'manage_options' ) ) {
           exit;
         }
+        
         if(wp_verify_nonce($_POST["saswp_call_nonce"],'saswp_select_action_nonce')){
             
               if(isset($_POST['id'])){
@@ -325,16 +358,19 @@ function saswp_create_ajax_select_taxonomy($selectedParentValue = '',$selectedVa
                 $selectedParentValue = sanitize_text_field(wp_unslash($_POST['id']));
                 
               }
+              
               if(isset($_POST['number'])){
                   
-                $current_number = intval($_POST['number']);
+                $current_number = intval(sanitize_text_field($_POST['number']));
                 
               }
+              
               if ( isset( $_POST["group_number"] ) ) {
                   
-              $current_group_number   = intval($_POST["group_number"]);
+                $current_group_number   = intval(sanitize_text_field($_POST["group_number"]));
               
               }
+              
         }else{
             
             exit;
@@ -358,22 +394,26 @@ function saswp_create_ajax_select_taxonomy($selectedParentValue = '',$selectedVa
     
     $choices = '<option value="all">'.esc_html__('All','schema-and-structured-data-for-wp').'</option>';
     
-    foreach($taxonomies as $taxonomy) {
+    if(!empty($taxonomies)){
         
-      $sel="";
+        foreach($taxonomies as $taxonomy) {
+        
+        $sel="";
       
-      if($selectedValue == $taxonomy->slug){
+        if($selectedValue == $taxonomy->slug){
           
-        $sel = "selected";
+          $sel = "selected";
         
-      }
-      $choices .= '<option value="'.esc_attr($taxonomy->slug).'" '.esc_attr($sel).'>'.esc_html__($taxonomy->name,'schema-and-structured-data-for-wp').'</option>';
+        }
+        $choices .= '<option value="'.esc_attr($taxonomy->slug).'" '.esc_attr($sel).'>'.esc_html__($taxonomy->name,'schema-and-structured-data-for-wp').'</option>';
       
     }
     
     $allowed_html = saswp_expanded_allowed_tags();  
     
     echo '<select  class="widefat ajax-output-child" name="data_group_array[group-'. esc_attr($current_group_number) .'][data_array]['.esc_attr($current_number).'][key_4]">'. wp_kses($choices, $allowed_html).'</select>';
+        
+    }    
     
     if($is_ajax){
       die;

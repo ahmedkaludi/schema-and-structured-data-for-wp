@@ -1,4 +1,16 @@
 <?php
+/**
+ * Google Review Widget Class
+ *
+ * @author   Magazine3
+ * @category Admin
+ * @path     google_review/google_review_widget
+ * @Version 1.8
+ */
+
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 /* 
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -99,8 +111,7 @@ class Saswp_Google_Review_Widget extends WP_Widget {
 	 */
 	public function update( $new_instance, $old_instance ) {
             
-		$instance = array();                
-		//$instance['title'] = ( ! empty( $new_instance['title'] ) ) ? sanitize_text_field( $new_instance['title'] ) : '';
+		$instance = array();                		
                 $instance['g_review'] = ( ! empty( $new_instance['g_review'] ) ) ? sanitize_text_field( $new_instance['g_review'] ) : '';                                
 		return $instance;
                 

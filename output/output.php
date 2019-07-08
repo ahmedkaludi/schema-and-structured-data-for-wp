@@ -1,4 +1,12 @@
 <?php
+/**
+ * Output Page
+ *
+ * @author   Magazine3
+ * @category Frontend
+ * @path  output/output
+ * @version 1.0
+ */
 if (! defined('ABSPATH') ) exit;
 /**
  * Function generates knowledge graph schema
@@ -418,6 +426,7 @@ function saswp_schema_output() {
 			'mainEntityOfPage'              => get_permalink(),
 			'headline'			=> saswp_get_the_title(),
 			'description'                   => saswp_get_the_excerpt(),
+                        'articleBody'                   => saswp_get_the_content(),    
 			'name'				=> saswp_get_the_title(),
 			'url'				=> get_permalink(),
 			'datePublished'                 => esc_html($date),
@@ -848,7 +857,7 @@ function saswp_schema_output() {
 					'dateModified'                  => esc_html($modified_date),
 					'description'                   => saswp_get_the_excerpt(),
                                         'articleSection'                => $article_section,            
-                                        'articleBody'                   => saswp_get_the_excerpt(),            
+                                        'articleBody'                   => saswp_get_the_content(),        
 					'name'				=> saswp_get_the_title(), 					
 					'thumbnailUrl'                  => saswp_remove_warnings($image_details, 0, 'saswp_string'),
                                         'wordCount'                     => saswp_remove_warnings($word_count, 'word_count', 'saswp_string'),
@@ -992,6 +1001,7 @@ function saswp_schema_output() {
                                     'keywords'       => tie_get_plain_terms( get_the_ID(), 'post_tag' ),
                                     'url'            => get_permalink(),
                                     'description'    => saswp_get_the_excerpt(),
+                                    'articleBody'    => saswp_get_the_content(),
                                     'copyrightYear'  => get_the_time( 'Y' ),                                                                                                           
                                     'author'	     => saswp_get_author_details()                                                        
                                 
@@ -1308,7 +1318,7 @@ function saswp_schema_output() {
                                 '@id'                           => get_permalink().'/#'. strtolower(esc_attr($local_business)),            
                                 'name'                          => saswp_remove_warnings($business_details, 'local_business_name', 'saswp_string'),                                   
 				'url'				=> get_permalink(),				
-				'description'                   => saswp_get_the_excerpt(),
+				'description'                   => saswp_remove_warnings($business_details, 'local_business_description', 'saswp_string'),
                                 'image'                         => array(
                                                                         '@type'		=> 'ImageObject',
                                                                         'url'		=> isset($business_details['local_business_logo']) ? esc_url($business_details['local_business_logo']['url']):'',
@@ -1372,6 +1382,40 @@ function saswp_schema_output() {
                                     if(isset($business_details['local_hasmap'])){
                                       $input1['hasMap'] = esc_url($business_details['local_hasmap']);   
                                     }
+                                    
+                                    //social fields starts here
+                                    
+                                    $local_social = array();
+                                    
+                                    if(isset($business_details['local_facebook']) && $business_details['local_facebook'] !=''){
+                                      $local_social[] = esc_url($business_details['local_facebook']);   
+                                    }
+                                    if(isset($business_details['local_twitter']) && $business_details['local_twitter'] !=''){
+                                      $local_social[] = esc_url($business_details['local_twitter']);   
+                                    }
+                                    if(isset($business_details['local_instagram']) && $business_details['local_instagram'] !=''){
+                                      $local_social[] = esc_url($business_details['local_instagram']);   
+                                    }
+                                    if(isset($business_details['local_pinterest']) && $business_details['local_pinterest'] !=''){
+                                      $local_social[] = esc_url($business_details['local_pinterest']);   
+                                    }
+                                    if(isset($business_details['local_linkedin']) && $business_details['local_linkedin'] !=''){
+                                      $local_social[] = esc_url($business_details['local_linkedin']);   
+                                    }
+                                    if(isset($business_details['local_soundcloud']) && $business_details['local_soundcloud'] !=''){
+                                      $local_social[] = esc_url($business_details['local_soundcloud']);   
+                                    }
+                                    if(isset($business_details['local_tumblr']) && $business_details['local_tumblr'] !=''){
+                                      $local_social[] = esc_url($business_details['local_tumblr']);   
+                                    }
+                                    if(isset($business_details['local_youtube']) && $business_details['local_youtube'] !=''){
+                                      $local_social[] = esc_url($business_details['local_youtube']);   
+                                    }
+                                    
+                                    if(!empty($local_social)){
+                                      $input1['sameAs'] =  $local_social; 
+                                    }
+                                    //social fields ends here
                                     
                                     
                                     if(isset($business_details['local_latitude']) && isset($business_details['local_longitude'])){
@@ -3476,6 +3520,40 @@ function saswp_post_specific_schema_output() {
                                       $input1['servesCuisine'] = esc_attr($all_post_meta['local_serves_cuisine_'.$schema_id][0]);   
                                     }
                                     
+                                    //social fields starts here
+                                    
+                                    $local_social = array();
+                                    
+                                    if(isset($all_post_meta['local_facebook_'.$schema_id][0]) && $all_post_meta['local_facebook_'.$schema_id][0] !=''){
+                                      $local_social[] = esc_url($all_post_meta['local_facebook_'.$schema_id][0]);   
+                                    }
+                                    if(isset($all_post_meta['local_twitter_'.$schema_id][0]) && $all_post_meta['local_twitter_'.$schema_id][0] !=''){
+                                      $local_social[] = esc_url($all_post_meta['local_twitter_'.$schema_id][0]);   
+                                    }
+                                    if(isset($all_post_meta['local_instagram_'.$schema_id][0]) && $all_post_meta['local_instagram_'.$schema_id][0] !=''){
+                                      $local_social[] = esc_url($all_post_meta['local_instagram_'.$schema_id][0]);   
+                                    }
+                                    if(isset($all_post_meta['local_pinterest_'.$schema_id][0]) && $all_post_meta['local_pinterest_'.$schema_id][0] !=''){
+                                      $local_social[] = esc_url($all_post_meta['local_pinterest_'.$schema_id][0]);   
+                                    }
+                                    if(isset($all_post_meta['local_linkedin_'.$schema_id][0]) && $all_post_meta['local_linkedin_'.$schema_id][0] !=''){
+                                      $local_social[] = esc_url($all_post_meta['local_linkedin_'.$schema_id][0]);   
+                                    }
+                                    if(isset($all_post_meta['local_soundcloud_'.$schema_id][0]) && $all_post_meta['local_soundcloud_'.$schema_id][0] !=''){
+                                      $local_social[] = esc_url($all_post_meta['local_soundcloud_'.$schema_id][0]);   
+                                    }
+                                    if(isset($all_post_meta['local_tumblr_'.$schema_id][0]) && $all_post_meta['local_tumblr_'.$schema_id][0] !=''){
+                                      $local_social[] = esc_url($all_post_meta['local_tumblr_'.$schema_id][0]);   
+                                    }
+                                    if(isset($all_post_meta['local_youtube_'.$schema_id][0]) && $all_post_meta['local_youtube_'.$schema_id][0] !=''){
+                                      $local_social[] = esc_url($all_post_meta['local_youtube_'.$schema_id][0]);   
+                                    }
+                                    
+                                    if(!empty($local_social)){
+                                      $input1['sameAs'] =  $local_social; 
+                                    }
+                                    //social fields ends here
+                                                                                                            
                                     if(isset($all_post_meta['local_menu_'.$schema_id][0])){
                                       $input1['hasMenu'] = esc_url($all_post_meta['local_menu_'.$schema_id][0]);   
                                     }

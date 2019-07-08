@@ -1,4 +1,17 @@
 <?php
+/**
+ * Merlin WP
+ * Better WordPress Theme Onboarding
+ *
+ * The following code is a derivative work from the
+ * Envato WordPress Theme Setup Wizard by David Baker.
+
+ * @link      https://merlinwp.com/
+ * @author    Richard Tabor, from ThemeBeans.com
+ * @copyright Copyright (c) 2017, Merlin WP of Inventionn LLC
+ * @license   Licensed GPLv3 for open source use
+ */	
+
 //compatible with the Blackbar plugin starts here
 if( in_array( filter_input( INPUT_GET, 'page' ), array( 'saswp-setup-wizard', 'saswp_add_new_data_type' ))) {
     add_filter( 'blackbar/enabled', '__return_false' );
@@ -81,22 +94,19 @@ $saswp_add_data_type_config = array(
 		$step = isset( $_GET['step'] ) ? sanitize_key( $_GET['step'] ) :  $saswp_add_data_type_config['start_steps'];
 		$title = $saswp_add_data_type_config['steps'][$step]['title'];
 		$saswp_add_data_type_config['current_step']['step_id'] = $step;
-		
-		// Use minified libraries if dev mode is turned on.
-		$suffix = '';
-                
+						                
                 wp_enqueue_media ();
                                 
                 // Enqueue styles.
-		wp_enqueue_style( 'saswp-timepicker-js', SASWP_PLUGIN_URL. $saswp_add_data_type_config['installer_dir']. '/css/jquery.timepicker' . $suffix . '.css' , array( 'wp-admin' ), '0.1');
+		wp_enqueue_style( 'saswp-timepicker-js', SASWP_PLUGIN_URL. $saswp_add_data_type_config['installer_dir']. '/css/jquery.timepicker.css' , array( 'wp-admin' ), '0.1');
 		// Enqueue javascript.
-		wp_enqueue_script( 'saswp-timepicker-css', SASWP_PLUGIN_URL. $saswp_add_data_type_config['installer_dir']. '/js/jquery.timepicker' . $suffix . '.js' , array( 'jquery-core' ), '0.1' );
+		wp_enqueue_script( 'saswp-timepicker-css', SASWP_PLUGIN_URL. $saswp_add_data_type_config['installer_dir']. '/js/jquery.timepicker.js' , array( 'jquery-core' ), '0.1' );
                 
                 
 		// Enqueue styles.
-		wp_enqueue_style( 'saswp_add_new', SASWP_PLUGIN_URL. $saswp_add_data_type_config['installer_dir']. '/css/saswp-add-new.min' . $suffix . '.css' , array( 'wp-admin' ), '0.1');
+		wp_enqueue_style( 'saswp_add_new', SASWP_PLUGIN_URL. $saswp_add_data_type_config['installer_dir']. '/css/saswp-add-new.min.css' , array( 'wp-admin' ), '0.1');
 		// Enqueue javascript.
-		wp_enqueue_script( 'saswp_add_new', SASWP_PLUGIN_URL. $saswp_add_data_type_config['installer_dir']. '/js/saswp-add-new.min' . $suffix . '.js' , array( 'jquery-core' ), '0.1' );		
+		wp_enqueue_script( 'saswp_add_new', SASWP_PLUGIN_URL. $saswp_add_data_type_config['installer_dir']. '/js/saswp-add-new.min.js' , array( 'jquery-core' ), '0.1' );		
                 
                 //Enque datepicker
                 wp_enqueue_script( 'jquery-ui-datepicker' );
@@ -104,7 +114,7 @@ $saswp_add_data_type_config = array(
                 wp_enqueue_style( 'jquery-ui' );
                 
                 
-                wp_enqueue_script( 'structure_admin', SASWP_PLUGIN_URL. $saswp_add_data_type_config['installer_dir']. '/js/structure_admin.min' . $suffix . '.js' , array( 'jquery' ), '0.1' );
+                wp_enqueue_script( 'structure_admin', SASWP_PLUGIN_URL. $saswp_add_data_type_config['installer_dir']. '/js/structure_admin.min.js' , array( 'jquery' ), '0.1' );
 		
                 wp_localize_script( 'structure_admin', 'saswp_app_object', array(
 			'ajax_url'      		=> admin_url( 'admin-ajax.php' ),						
@@ -202,8 +212,8 @@ $saswp_add_data_type_config = array(
 			<svg class="icon icon--checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
 				<circle class="icon--checkmark__circle" cx="26" cy="26" r="25" fill="none"/><path class="icon--checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
 			</svg>
-			
-			<h1><?php echo esc_attr($stepDetails['title']); ?></h1>
+			<!--Escaping has been done above while adding to array ref array $saswp_installer_config-->
+			<h1><?php echo $stepDetails['title']; ?></h1>
 
 			<p><?php echo isset($stepDetails['description'])? $stepDetails['description'] : ''; ?></p>
 									
@@ -222,7 +232,6 @@ $saswp_add_data_type_config = array(
 				
 			</ul>
 			
-
 			<footer class="merlin__content__footer">
 				<?php saswp_add_new_skip_button(); ?>
 				
@@ -251,8 +260,8 @@ $saswp_add_data_type_config = array(
 			<svg class="icon icon--checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
 				<circle class="icon--checkmark__circle" cx="26" cy="26" r="25" fill="none"/><path class="icon--checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
 			</svg>
-			
-			<h1><?php echo esc_attr($stepDetails['title']); ?></h1>
+			<!--Escaping has been done above while adding to array ref array $saswp_installer_config-->
+			<h1><?php echo $stepDetails['title']; ?></h1>
 			<p><?php echo isset($stepDetails['description'])? $stepDetails['description'] : ''; ?></p>
 		</div>
                     
@@ -322,8 +331,8 @@ $saswp_add_data_type_config = array(
 			<svg class="icon icon--checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
 				<circle class="icon--checkmark__circle" cx="26" cy="26" r="25" fill="none"/><path class="icon--checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
 			</svg>
-			
-			<h1><?php echo esc_attr($stepDetails['title']); ?></h1>
+			<!--Escaping has been done above while adding to array ref array $saswp_installer_config-->
+			<h1><?php echo $stepDetails['title']; ?></h1>
 
 			<p><?php echo isset($stepDetails['description'])? $stepDetails['description'] : ''; ?></p>
 			
@@ -396,11 +405,12 @@ $saswp_add_data_type_config = array(
                                 
                 if(isset($_POST['data_group_array']) && isset($_POST['saswp_post_id'])){
                     
-                $post_id                = sanitize_text_field($_POST['saswp_post_id']);    
+                $post_id                = intval($_POST['saswp_post_id']);    
                 $post_data_group_array  = array();
                 $temp_condition_array   = array();
                 $show_globally          = false;
-                $post_data_group_array  = $_POST['data_group_array'];
+                $post_data_group_array  = (array) $_POST['data_group_array'];
+                
                 if(is_array($post_data_group_array)){
                 
 	                foreach($post_data_group_array as $groups){  
@@ -425,7 +435,9 @@ $saswp_add_data_type_config = array(
                 
                 $post_data_group_array['group-0']['data_array'] = $temp_condition_array;  
                 
-                }   
+                }
+                
+                $post_data_group_array = saswp_sanitize_multi_array($post_data_group_array, 'data_array'); 
                 
                 update_post_meta(
                     $post_id, 

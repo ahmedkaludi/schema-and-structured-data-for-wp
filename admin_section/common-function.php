@@ -1,30 +1,91 @@
 <?php
+/**
+ * Common function file
+ *
+ * @author   Magazine3
+ * @category Admin
+ * @path     admin_section/common-function
+ * @version 1.1
+ */
+
 // Exit if accessed directly
 if ( ! defined('ABSPATH') ) exit;
-/**
+          
+    /**
+     * List of hooks used in this context
+     */
+    add_action('admin_init', 'saswp_import_all_settings_and_schema',9);
+    add_action( 'wp_ajax_saswp_export_all_settings_and_schema', 'saswp_export_all_settings_and_schema');
+    add_action('plugins_loaded', 'saswp_defaultSettings' );
+    add_action( 'wp_enqueue_scripts', 'saswp_frontend_enqueue' );
+    add_action('amp_post_template_css','saswp_enqueue_amp_script');
+    
+    
+    //global variable to store List of labels starts here   
+        $translation_labels = array(
+            'translation-pros'            => 'Pros',
+            'translation-cons'            => 'Cons',
+            'translation-review-overview' => 'Review Overview',
+            'translation-overall-score'   => 'Overall Score',
+        );
+          //global variable to store List of labels ends here
+        
+      /**
+       * Function to get manual translated text 
+       * @global array $translation_labels
+       * @global type $sd_data
+       * @param type $label_key
+       * @return string
+       */    
+     function saswp_label_text($label_key){
+         
+         global $translation_labels;
+         global $sd_data;
+         
+         if(isset($sd_data[$label_key]) && $sd_data[$label_key] !=''){
+             return $sd_data[$label_key];
+         }else{
+             return $translation_labels[$label_key];
+         }
+                                    
+     }     
+    
+    /**
      * We are here fetching all schema and its settings from backup files
      * note: Transaction is applied on this function, if any error occure all the data will be rollbacked
      * @global type $wpdb
      * @return boolean
-     */
-    add_action('admin_init', 'saswp_import_all_settings_and_schema',9);
+     */        
     function saswp_import_all_settings_and_schema(){
+                        
+        if ( ! current_user_can( 'manage_options' ) ) {
+             return;
+        }
         
-        $url = get_option('saswp-file-upload_url');        
         global $wpdb;
-        $result = '';
-        $errorDesc   = array();
-         
+        
+        $result          = '';
+        $errorDesc       = array();
+        $all_schema_post = array();
+        
+        $url = get_option('saswp-file-upload_url');                        
+        
         if($url){
             
         $json_data       = file_get_contents($url);
-        $json_array      = json_decode($json_data, true);       
-        $all_schema_post = $json_array['posts'];
-         
-        $sd_data     = $json_array['sd_data'];                
+        
+        if($json_data){
+            
+        $json_array      = json_decode($json_data, true);        
+        if(array_key_exists('posts', $json_array)){
+        
+            $all_schema_post = $json_array['posts'];
+            
+        }                        
+                                
         $schema_post = array();                     
                
-        if($all_schema_post){
+            if($all_schema_post && is_array($all_schema_post)){
             // begin transaction
             $wpdb->query('START TRANSACTION');
             
@@ -36,48 +97,88 @@ if ( ! defined('ABSPATH') ) exit;
                 $wpdb->query("UPDATE ".$wpdb->prefix."posts SET guid ='".esc_sql($guid)."' WHERE ID ='".esc_sql($post_id)."'");   
                                 
                 if ( isset( $schema_post['schema_type'] ) ){
-                        update_post_meta( $post_id, 'schema_type', esc_attr( $schema_post['schema_type'] ) );
+                        update_post_meta( $post_id, 'schema_type', sanitize_text_field($schema_post['schema_type'])  );
                 }
                                 
                 if ( isset( $schema_post['saswp_business_type'] ) ){
-                        update_post_meta( $post_id, 'saswp_business_type', $schema_post['saswp_business_type']  );
+                        update_post_meta( $post_id, 'saswp_business_type', sanitize_text_field($schema_post['saswp_business_type'])  );
                 }
                 
                 if ( isset( $schema_post['saswp_business_name'] ) ){
-                        update_post_meta( $post_id, 'saswp_business_name', $schema_post['saswp_business_name']  );
+                        update_post_meta( $post_id, 'saswp_business_name', sanitize_text_field($schema_post['saswp_business_name'])  );
                 }
                 
                 if ( isset( $schema_post['saswp_local_business_details'] ) ){
-                        update_post_meta( $post_id, 'saswp_local_business_details', $schema_post['saswp_local_business_details']  );
+                    
+                        $local_data = $schema_post['saswp_local_business_details'];
+                        
+                        if($local_data){
+                            
+                            foreach($local_data as $key => $local){
+                                                        
+                            if($key == 'local_business_logo'){
+                                
+                                $local_data[$key] = array_map('sanitize_text_field', $local);
+                            }else{
+                                $local_data[$key] = sanitize_text_field($local);
+                            }
+                                                        
+                            }
+                        }
+                                                                        
+                        update_post_meta( $post_id, 'saswp_local_business_details', $local_data  );
                 }
+                
                 if ( isset( $schema_post['data_group_array'] ) ){
-                        update_post_meta( $post_id, 'data_group_array', $schema_post['data_group_array']  );
+                        $data_array = saswp_sanitize_multi_array($schema_post['data_group_array'], 'data_array'); 
+                        update_post_meta( $post_id, 'data_group_array', $data_array  );
                 }                                                                                                     
                 if(is_wp_error($result)){
                     $errorDesc[] = $result->get_error_message();
                 }
-                }          
-                }                
-             update_option('sd_data', $sd_data); 
+                } 
+                
+            }    
+            
+            if(array_key_exists('sd_data', $json_array)){
+                        
+                $sd_data = array_map( 'sanitize_text_field' ,$json_array['sd_data']);
+                update_option('sd_data', $sd_data); 
+            } 
+                         
              update_option('saswp-file-upload_url','');
+            
+        }
+                        
              
-            if ( count($errorDesc) ){
-              echo implode("\n<br/>", $errorDesc);              
-              $wpdb->query('ROLLBACK');             
-            }else{
-              $wpdb->query('COMMIT'); 
-              return true;
-            }
+        if ( count($errorDesc) ){
+          echo implode("\n<br/>", $errorDesc);              
+          $wpdb->query('ROLLBACK');             
+        }else{
+          $wpdb->query('COMMIT'); 
+          return true;
+        }
              
-            }                                    
+       }                                    
                                                              
     }   
-/**
+    /**
      * We are here exporting all schema types and its settings as a backup file     
      * @global type $wpdb
      * @return boolean
      */
     function saswp_export_all_settings_and_schema(){   
+        
+        if ( ! current_user_can( 'manage_options' ) ) {
+             return;
+        }
+        if ( ! isset( $_GET['_wpnonce'] ) ){
+             return; 
+        }
+        
+        if ( !wp_verify_nonce( $_GET['_wpnonce'], '_wpnonce' ) ){
+             return;  
+        }
         
         $export_data     = array();
         $export_data_all = array();
@@ -94,7 +195,9 @@ if ( ! defined('ABSPATH') ) exit;
                 
                  ); 
         
-        if($all_schema_post){     
+        $get_sd_data                = get_option('sd_data');
+        
+        if($all_schema_post || $get_sd_data){     
             
             foreach($all_schema_post as $schema){    
                 
@@ -144,10 +247,10 @@ if ( ! defined('ABSPATH') ) exit;
                 $export_data[$schema->ID]['data_group_array']             = $data_group_array; 
                 $export_data[$schema->ID]['saswp_local_business_details'] = $local_business_details;                 
               }       
+                                                  
+                $export_data_all['posts']   = $export_data;
+                $export_data_all['sd_data'] = $get_sd_data;
                 
-                $get_sd_data = get_option('sd_data');                
-                $export_data_all['posts'] =$export_data;
-                $export_data_all['sd_data'] =$get_sd_data;
                 header('Content-type: application/json');
                 header('Content-disposition: attachment; filename=structuredatabackup.json');
                 echo json_encode($export_data_all);   
@@ -160,9 +263,8 @@ if ( ! defined('ABSPATH') ) exit;
                 
         }                          
         wp_die();
-    }
-    add_action( 'wp_ajax_saswp_export_all_settings_and_schema', 'saswp_export_all_settings_and_schema');
-/**
+    }    
+    /**
      * We are here fetching all schema and its settings from schema plugin
      * note: Transaction is applied on this function, if any error occure all the data will be rollbacked
      * @global type $wpdb
@@ -178,8 +280,8 @@ if ( ! defined('ABSPATH') ) exit;
         $all_schema_post = get_posts(
                     array(
                             'post_type' 	 => 'schema',                                                                                   
-                            'posts_per_page' => -1,   
-                            'post_status' => 'any',
+                            'posts_per_page'     => -1,   
+                            'post_status'        => 'any',
                     )
                  );         
         
@@ -214,7 +316,8 @@ if ( ! defined('ABSPATH') ) exit;
                     'comment_count'         => $schema->comment_count,
                     'filter'                => $schema->filter, 
                     
-                );                                      
+                );    
+                
                 $post_id = wp_insert_post($schema_post);
                 $result  = $post_id;
                 $guid    = get_option('siteurl') .'/?post_type=saswp&p='.$post_id;                
@@ -254,9 +357,9 @@ if ( ! defined('ABSPATH') ) exit;
                   $schema_article_type = $schema_post_meta['_schema_article_type'][0];  
                 }                      
                 $saswp_meta_key = array(
-                    'schema_type' => $schema_article_type,
-                    'data_group_array'=>$data_group_array,
-                    'imported_from' => 'schema'
+                    'schema_type'      => $schema_article_type,
+                    'data_group_array' => $data_group_array,
+                    'imported_from'    => 'schema'
                 );
                 
                 foreach ($saswp_meta_key as $key => $val){                     
@@ -275,11 +378,11 @@ if ( ! defined('ABSPATH') ) exit;
                                 
                 $saswp_plugin_options = array(                    
                     'sd_logo'   => array(
-                                        'url'           =>$schema_plugin_options['logo'],  
-                                        'id'            =>$custom_logo_id,
-                                        'height'        =>'600',
-                                        'width'         =>'60',
-                                        'thumbnail'     =>$schema_plugin_options['logo']        
+                                        'url'           => $schema_plugin_options['logo'],  
+                                        'id'            => $custom_logo_id,
+                                        'height'        => '600',
+                                        'width'         => '60',
+                                        'thumbnail'     => $schema_plugin_options['logo']        
                             ),                                                                                                                                                             
                     'saswp_kb_contact_1'       => 0,                                                                            
                     //AMP Block           
@@ -490,11 +593,11 @@ if ( ! defined('ABSPATH') ) exit;
                        $image_details 	= wp_get_attachment_image_src($settings['seop_home_logo'], 'full');
               
                        $local_business_details['local_business_logo'] = array(
-                                'url'           =>$image_details[0],  
-                                'id'            =>$settings['site_image'],
-                                'height'        =>$image_details[1],
-                                'width'         =>$image_details[2],
-                                'thumbnail'     =>$image_details[0]        
+                                'url'           => $image_details[0],  
+                                'id'            => $settings['site_image'],
+                                'height'        => $image_details[1],
+                                'width'         => $image_details[2],
+                                'thumbnail'     => $image_details[0]        
                             ); 
                     }
                                                           
@@ -654,23 +757,23 @@ if ( ! defined('ABSPATH') ) exit;
                     
                     }
                                                                 
-          if(isset($settings['person']['name'])){
-           $saswp_plugin_options['sd-person-name'] =  $settings['person']['name'];     
-          }
-          
-          if(isset($settings['person']['jobTitle'])){
-           $saswp_plugin_options['sd-person-job-title'] =  $settings['person']['jobTitle'];        
-          }
-           
-          if(isset($settings['person']['image'])){
-              $image_details 	= wp_get_attachment_image_src($settings['person']['image'], 'full');
-              
-              $saswp_plugin_options['sd-person-image'] = array(
-                                'url'           =>$image_details[0],  
-                                'id'            =>$settings['organization_logo'],
-                                'height'        =>$image_details[1],
-                                'width'         =>$image_details[2],
-                                'thumbnail'     =>$image_details[0]        
+                if(isset($settings['person']['name'])){
+                 $saswp_plugin_options['sd-person-name'] =  $settings['person']['name'];     
+                }
+
+                if(isset($settings['person']['jobTitle'])){
+                 $saswp_plugin_options['sd-person-job-title'] =  $settings['person']['jobTitle'];        
+                }
+
+                if(isset($settings['person']['image'])){
+                $image_details 	= wp_get_attachment_image_src($settings['person']['image'], 'full');
+
+                $saswp_plugin_options['sd-person-image'] = array(
+                                'url'           => $image_details[0],  
+                                'id'            => $settings['organization_logo'],
+                                'height'        => $image_details[1],
+                                'width'         => $image_details[2],
+                                'thumbnail'     => $image_details[0]        
                             );                                                  
           }         
                
@@ -678,11 +781,11 @@ if ( ! defined('ABSPATH') ) exit;
               $image_details 	= wp_get_attachment_image_src($settings['organization_logo'], 'full');	   
               
               $saswp_plugin_options['sd_logo'] = array(
-                                'url'           =>$image_details[0],  
-                                'id'            =>$settings['organization_logo'],
-                                'height'        =>$image_details[1],
-                                'width'         =>$image_details[2],
-                                'thumbnail'     =>$image_details[0]        
+                                'url'           => $image_details[0],  
+                                'id'            => $settings['organization_logo'],
+                                'height'        => $image_details[1],
+                                'width'         => $image_details[2],
+                                'thumbnail'     => $image_details[0]        
                             );                               
           }          
           if(isset($settings['contact']['contactType'])){
@@ -714,6 +817,7 @@ if ( ! defined('ABSPATH') ) exit;
                  
        
     }
+    
     function saswp_import_schema_pro_plugin_data(){           
                                                                      
         $schema_post = array();
@@ -1116,264 +1220,271 @@ if ( ! defined('ABSPATH') ) exit;
             }            
         }
                              
+    }    
+    //Function to expand html tags form allowed html tags in wordpress    
+    function saswp_expanded_allowed_tags() {
+                $my_allowed = wp_kses_allowed_html( 'post' );
+                // form fields - input
+                $my_allowed['input']  = array(
+                        'class'        => array(),
+                        'id'           => array(),
+                        'name'         => array(),
+                        'value'        => array(),
+                        'type'         => array(),
+                        'style'        => array(),
+                        'placeholder'  => array(),
+                        'maxlength'    => array(),
+                        'checked'      => array(),
+                        'readonly'     => array(),
+                        'disabled'     => array(),
+                        'width'        => array(),  
+                        'data-id'      => array(),
+                        'checked'      => array()
+                );
+                $my_allowed['hidden']  = array(                    
+                        'id'           => array(),
+                        'name'         => array(),
+                        'value'        => array(),
+                        'type'         => array(), 
+                        'data-id'         => array(), 
+                );
+                //number
+                $my_allowed['number'] = array(
+                        'class'        => array(),
+                        'id'           => array(),
+                        'name'         => array(),
+                        'value'        => array(),
+                        'type'         => array(),
+                        'style'        => array(),                    
+                        'width'        => array(),                    
+                ); 
+                //textarea
+                 $my_allowed['textarea'] = array(
+                        'class' => array(),
+                        'id'    => array(),
+                        'name'  => array(),
+                        'value' => array(),
+                        'type'  => array(),
+                        'style'  => array(),
+                        'rows'  => array(),                                                            
+                );              
+                // select
+                $my_allowed['select'] = array(
+                        'class'  => array(),
+                        'id'     => array(),
+                        'name'   => array(),
+                        'value'  => array(),
+                        'type'   => array(),                    
+                );
+                // checkbox
+                $my_allowed['checkbox'] = array(
+                        'class'  => array(),
+                        'id'     => array(),
+                        'name'   => array(),
+                        'value'  => array(),
+                        'type'   => array(),  
+                        'disabled'=> array(),  
+                );
+                //  options
+                $my_allowed['option'] = array(
+                        'selected' => array(),
+                        'value' => array(),
+                );                       
+                // style
+                $my_allowed['style'] = array(
+                        'types' => array(),
+                );
+                return $my_allowed;
+            }    
+            
+    function saswp_admin_link($tab = '', $args = array()){
+
+                $page = 'structured_data_options';
+
+                if ( ! is_multisite() ) {
+                        $link = admin_url( 'admin.php?page=' . $page );
+                }
+                else {
+                        $link = admin_url( 'admin.php?page=' . $page );                    
+                }
+
+                if ( $tab ) {
+                        $link .= '&tab=' . $tab;
+                }
+
+                if ( $args ) {
+                        foreach ( $args as $arg => $value ) {
+                                $link .= '&' . $arg . '=' . urlencode( $value );
+                        }
+                }
+
+                return esc_url($link);
     }
     
+    function saswp_get_tab( $default = '', $available = array() ) {
 
-//Function to expand html tags form allowed html tags in wordpress    
-function saswp_expanded_allowed_tags() {
-            $my_allowed = wp_kses_allowed_html( 'post' );
-            // form fields - input
-            $my_allowed['input']  = array(
-                    'class'        => array(),
-                    'id'           => array(),
-                    'name'         => array(),
-                    'value'        => array(),
-                    'type'         => array(),
-                    'style'        => array(),
-                    'placeholder'  => array(),
-                    'maxlength'    => array(),
-                    'checked'      => array(),
-                    'readonly'     => array(),
-                    'disabled'     => array(),
-                    'width'        => array(),  
-                    'data-id'      => array(),
-                    'checked'      => array()
-            );
-            $my_allowed['hidden']  = array(                    
-                    'id'           => array(),
-                    'name'         => array(),
-                    'value'        => array(),
-                    'type'         => array(), 
-                    'data-id'         => array(), 
-            );
-            //number
-            $my_allowed['number'] = array(
-                    'class'        => array(),
-                    'id'           => array(),
-                    'name'         => array(),
-                    'value'        => array(),
-                    'type'         => array(),
-                    'style'        => array(),                    
-                    'width'        => array(),                    
-            ); 
-            //textarea
-             $my_allowed['textarea'] = array(
-                    'class' => array(),
-                    'id'    => array(),
-                    'name'  => array(),
-                    'value' => array(),
-                    'type'  => array(),
-                    'style'  => array(),
-                    'rows'  => array(),                                                            
-            );              
-            // select
-            $my_allowed['select'] = array(
-                    'class'  => array(),
-                    'id'     => array(),
-                    'name'   => array(),
-                    'value'  => array(),
-                    'type'   => array(),                    
-            );
-            // checkbox
-            $my_allowed['checkbox'] = array(
-                    'class'  => array(),
-                    'id'     => array(),
-                    'name'   => array(),
-                    'value'  => array(),
-                    'type'   => array(),  
-                    'disabled'=> array(),  
-            );
-            //  options
-            $my_allowed['option'] = array(
-                    'selected' => array(),
-                    'value' => array(),
-            );                       
-            // style
-            $my_allowed['style'] = array(
-                    'types' => array(),
-            );
-            return $my_allowed;
-        }    
-function saswp_admin_link($tab = '', $args = array()){
-           
-            $page = 'structured_data_options';
-            
-            if ( ! is_multisite() ) {
-                    $link = admin_url( 'admin.php?page=' . $page );
+                $tab = isset( $_GET['tab'] ) ? sanitize_text_field(wp_unslash($_GET['tab'])) : $default;            
+                if ( ! in_array( $tab, $available ) ) {
+                        $tab = $default;
+                }
+
+                return $tab;
             }
-            else {
-                    $link = admin_url( 'admin.php?page=' . $page );                    
-            }
+    /**
+     * Function to get schema settings
+     * @global type $sd_data
+     * @return type array
+     * @since version 1.0
+     */        
+    function saswp_defaultSettings(){
 
-            if ( $tab ) {
-                    $link .= '&tab=' . $tab;
-            }
+                global $sd_data;    
+                $sd_name  = 'default';
+                $logo     = array();
+                $bloginfo = get_bloginfo('name', 'display'); 
 
-            if ( $args ) {
-                    foreach ( $args as $arg => $value ) {
-                            $link .= '&' . $arg . '=' . urlencode( $value );
-                    }
-            }
+                if($bloginfo){
 
-            return esc_url($link);
-}
-function saswp_get_tab( $default = '', $available = array() ) {
+                $sd_name =$bloginfo;
 
-            $tab = isset( $_GET['tab'] ) ? sanitize_text_field(wp_unslash($_GET['tab'])) : $default;            
-            if ( ! in_array( $tab, $available ) ) {
-                    $tab = $default;
-            }
+                }
 
-            return $tab;
-        }
+                $current_url    = get_home_url();           
+                $custom_logo_id = get_theme_mod( 'custom_logo' );
 
-add_action('plugins_loaded', 'saswp_defaultSettings' );
+                if($custom_logo_id){                
+                    $logo       = wp_get_attachment_image_src( $custom_logo_id , 'full' );               
+                }
 
-                             
-function saswp_defaultSettings(){
-    
-            global $sd_data;    
-            $sd_name  = 'default';
-            $logo     = array();
-            $bloginfo = get_bloginfo('name', 'display'); 
-            
-            if($bloginfo){
-                
-            $sd_name =$bloginfo;
-            
-            }
-            
-            $current_url    = get_home_url();           
-            $custom_logo_id = get_theme_mod( 'custom_logo' );
-            
-            if($custom_logo_id){                
-                $logo       = wp_get_attachment_image_src( $custom_logo_id , 'full' );               
-            }
-            
-            $user_id        = get_current_user_id();
-            $username       = '';
-            
-            if($user_id>0){
-                
-                $user_info = get_userdata($user_id);
-                $username = $user_info->data->display_name;
-                
-            }
-            $defaults = array(
-                    //General Block
-                    'sd_about_page'      => '',
-                    'sd_contact_page'    => '',         
-                    //knowledge Block
-                    'saswp_kb_type'      => 'Organization',    
-                    'sd_name'            => $sd_name,   
-                    'sd_alt_name'        => $sd_name,
-                    'sd_url'             => $current_url,                    
-                    'sd-person-name'     => $username,                    
-                    'sd-person-job-title'=> '',
-                    'sd-person-url'      => $current_url,
-                    'sd-person-image'    => array(
-                                'url'           =>'',
-                                'id'            =>'',
-                                'height'        =>'',
-                                'width'         =>'',
-                                'thumbnail'     =>'' 
-                                ),
-                    'sd-person-phone-number' => '',
-                    'saswp_kb_telephone'     => '',
-                    'saswp_contact_type'     => '',
-                    'saswp_kb_contact_1'     => 0,
-                    //Social
-                    'sd_facebook'            => '',
-                    'sd_twitter'             => '',                    
-                    'sd_instagram'           => '',
-                    'sd_youtube'             => '',
-                    'sd_linkedin'            => '',
-                    'sd_pinterest'           => '',
-                    'sd_soundcloud'          => '',
-                    'sd_tumblr'              => '',                  
+                $user_id        = get_current_user_id();
+                $username       = '';
 
-                    //AMP Block           
-                    'saswp-for-amp'            => 1, 
-                    'saswp-for-wordpress'      => 1,
-                    'saswp-yoast'              => 1,
-                    'saswp-logo-width'         => '60',
-                    'saswp-logo-height'        => '60',                                                            
-                    'sd_initial_wizard_status' => 1,                                        
+                if($user_id>0){
 
-            );	         
-            
-            if(is_plugin_active('wordpress-seo/wp-seo.php') || is_plugin_active('wordpress-seo-premium/wp-seo-premium.php')){
-            
-             $defaults['saswp-yoast']   = 1;
-                          
-            }
-            
-            if(is_array($logo)){
-                
-                $defaults['sd_logo']  = array(
-                                'url'           => array_key_exists(0, $logo)? $logo[0]:'',
-                                'id'            => $custom_logo_id,
-                                'height'        => array_key_exists(2, $logo)? $logo[2]:'',
-                                'width'         => array_key_exists(1, $logo)? $logo[1]:'',
-                                'thumbnail'     => array_key_exists(0, $logo)? $logo[0]:''        
-                            );
-                
-                $defaults['sd-data-logo-ampforwp'] = array(
-                        
+                    $user_info = get_userdata($user_id);
+                    $username = $user_info->data->display_name;
+
+                }
+                $defaults = array(
+                        //General Block
+                        'sd_about_page'      => '',
+                        'sd_contact_page'    => '',         
+                        //knowledge Block
+                        'saswp_kb_type'      => 'Organization',    
+                        'sd_name'            => $sd_name,   
+                        'sd_alt_name'        => $sd_name,
+                        'sd_url'             => $current_url,                    
+                        'sd-person-name'     => $username,                    
+                        'sd-person-job-title'=> '',
+                        'sd-person-url'      => $current_url,
+                        'sd-person-image'    => array(
+                                    'url'           =>'',
+                                    'id'            =>'',
+                                    'height'        =>'',
+                                    'width'         =>'',
+                                    'thumbnail'     =>'' 
+                                    ),
+                        'sd-person-phone-number' => '',
+                        'saswp_kb_telephone'     => '',
+                        'saswp_contact_type'     => '',
+                        'saswp_kb_contact_1'     => 0,
+                        //Social
+                        'sd_facebook'            => '',
+                        'sd_twitter'             => '',                    
+                        'sd_instagram'           => '',
+                        'sd_youtube'             => '',
+                        'sd_linkedin'            => '',
+                        'sd_pinterest'           => '',
+                        'sd_soundcloud'          => '',
+                        'sd_tumblr'              => '',                  
+
+                        //AMP Block           
+                        'saswp-for-amp'            => 1, 
+                        'saswp-for-wordpress'      => 1,
+                        'saswp-yoast'              => 1,
+                        'saswp-logo-width'         => '60',
+                        'saswp-logo-height'        => '60',                                                            
+                        'sd_initial_wizard_status' => 1,                                        
+
+                );	         
+
+                if(is_plugin_active('wordpress-seo/wp-seo.php') || is_plugin_active('wordpress-seo-premium/wp-seo-premium.php')){
+
+                 $defaults['saswp-yoast']   = 1;
+
+                }
+
+                if(is_array($logo)){
+
+                    $defaults['sd_logo']  = array(
+                                    'url'           => array_key_exists(0, $logo)? $logo[0]:'',
+                                    'id'            => $custom_logo_id,
+                                    'height'        => array_key_exists(2, $logo)? $logo[2]:'',
+                                    'width'         => array_key_exists(1, $logo)? $logo[1]:'',
+                                    'thumbnail'     => array_key_exists(0, $logo)? $logo[0]:''        
+                                );
+
+                    $defaults['sd-data-logo-ampforwp'] = array(
+
+                                'url'       => array_key_exists(0, $logo)? $logo[0]:'',
+                                'id'        => $custom_logo_id,
+                                'height'    => array_key_exists(2, $logo)? $logo[2]:'',
+                                'width'     => array_key_exists(1, $logo)? $logo[1]:'',
+                                'thumbnail' => array_key_exists(0, $logo)? $logo[0]:''        
+
+                        );
+
+                    $defaults['sd_default_image'] = array(
                             'url'       => array_key_exists(0, $logo)? $logo[0]:'',
                             'id'        => $custom_logo_id,
                             'height'    => array_key_exists(2, $logo)? $logo[2]:'',
                             'width'     => array_key_exists(1, $logo)? $logo[1]:'',
                             'thumbnail' => array_key_exists(0, $logo)? $logo[0]:''        
-                    
-                    );
-                
-                $defaults['sd_default_image'] = array(
-                        'url'       => array_key_exists(0, $logo)? $logo[0]:'',
-                        'id'        => $custom_logo_id,
-                        'height'    => array_key_exists(2, $logo)? $logo[2]:'',
-                        'width'     => array_key_exists(1, $logo)? $logo[1]:'',
-                        'thumbnail' => array_key_exists(0, $logo)? $logo[0]:''        
-                    );
-                
-                $defaults['sd_default_image_width']   = array_key_exists(1, $logo)? $logo[1]:'';
-                $defaults['sd_default_image_height']  = array_key_exists(2, $logo)? $logo[2]:'';                                
+                        );
+
+                    $defaults['sd_default_image_width']   = array_key_exists(1, $logo)? $logo[1]:'';
+                    $defaults['sd_default_image_height']  = array_key_exists(2, $logo)? $logo[2]:'';                                
+                }
+
+                $sd_data = get_option( 'sd_data', $defaults);     
+
+                return $sd_data;
+
             }
-                        
-            $sd_data = get_option( 'sd_data', $defaults);     
-                       
-            return $sd_data;
-            
-        }
-function saswp_frontend_enqueue(){ 
-    
-      global $sd_data;
-      
-                  
-      if(isset($sd_data['saswp-review-module']) && $sd_data['saswp-review-module'] == 1){
-                                      
-                $review_details     = esc_sql ( get_post_meta(get_the_ID(), 'saswp_review_details', true));
-                
-                if(isset($review_details['saswp-review-item-enable'])){
-                    
-                    wp_enqueue_style( 'saswp-style', SASWP_PLUGIN_URL . 'admin_section/css/saswp-style.min.css', false , SASWP_VERSION );       
-                    
-                }                              
-                                                   
-      }  
-      
-      if(isset($sd_data['saswp-google-review']) && $sd_data['saswp-google-review'] == 1 ){
-          
-                 wp_enqueue_style( 'saswp-style', SASWP_PLUGIN_URL . 'admin_section/css/saswp-style.min.css', false , SASWP_VERSION );       
-          
-      }
-      
-                
-  }
-  
-  add_action( 'wp_enqueue_scripts', 'saswp_frontend_enqueue' );
-  
- function saswp_enque_amp_script(){
+    /**
+     * Function to enqueue css and js in frontend
+     * @global type $sd_data
+     */        
+    function saswp_frontend_enqueue(){ 
+
+          global $sd_data;
+
+
+          if(isset($sd_data['saswp-review-module']) && $sd_data['saswp-review-module'] == 1){
+
+                    $review_details     = esc_sql ( get_post_meta(get_the_ID(), 'saswp_review_details', true));
+
+                    if(isset($review_details['saswp-review-item-enable'])){
+
+                        wp_enqueue_style( 'saswp-style', SASWP_PLUGIN_URL . 'admin_section/css/saswp-style.min.css', false , SASWP_VERSION );       
+
+                    }                              
+
+          }  
+
+          if(isset($sd_data['saswp-google-review']) && $sd_data['saswp-google-review'] == 1 ){
+
+                     wp_enqueue_style( 'saswp-style', SASWP_PLUGIN_URL . 'admin_section/css/saswp-style.min.css', false , SASWP_VERSION );       
+
+          }
+
+
+      }     
+    /**
+     * Function to enqueue css in amp version
+     * @global type $sd_data
+     */  
+    function saswp_enqueue_amp_script(){
      
         global $sd_data;         
          $saswp_review_details = esc_sql ( get_post_meta(get_the_ID(), 'saswp_review_details', true)); 
@@ -1656,22 +1767,29 @@ function saswp_frontend_enqueue(){
      
      
   }
-    add_action('amp_post_template_css','saswp_enque_amp_script');
-    
+    /**
+     * Function to get author name
+     * @return type string
+     */    
     function saswp_get_the_author_name(){
         
-                        $author_id      = get_the_author_meta('ID');														
-			$aurthor_name 	= get_the_author();
-                        
-                        if(!$aurthor_name){
-				
-                            $author_id    = get_post_field ('post_author', get_the_ID());
-                            $aurthor_name = get_the_author_meta( 'display_name' , $author_id ); 
-                        
-			} 
-                        return $aurthor_name;
+            $author_id          = get_the_author_meta('ID');														
+            $aurthor_name 	= get_the_author();
+
+            if(!$aurthor_name){
+
+                $author_id    = get_post_field ('post_author', get_the_ID());
+                $aurthor_name = get_the_author_meta( 'display_name' , $author_id ); 
+
+            } 
+            return $aurthor_name;
     }
-    
+    /**
+     * Function to get post attachement details by attachement url or id
+     * @param type $attachments
+     * @param type $post_id
+     * @return type array
+     */
     function saswp_get_attachment_details($attachments, $post_id = null) {
         
         $response = array();
@@ -1709,132 +1827,200 @@ function saswp_frontend_enqueue(){
         return $cached_data;
                 	
 }
-/**
- * Here we are modifying the default excerpt
- * @global type $post
- * @return type string
- */
-function saswp_get_the_excerpt() {
-            
-    global $post;
-    global $sd_data;
-    $excerpt = '';
-    if(is_object($post)){
-    
-    $excerpt = $post->post_excerpt;
-    
-    if(empty($excerpt)){
-        
-        $excerpt_length = apply_filters( 'excerpt_length', 55 );
+    /**
+     * Here we are getting article full body content
+     * @global type $post
+     * @return type string
+     */
+    function saswp_get_the_content(){
 
-        $excerpt_more = '';
-        $excerpt      = wp_trim_words( $post->post_content, $excerpt_length, $excerpt_more );
-    }
-    
-    if(strpos($excerpt, "<p>")!==false){
-        
-        $regex = '/<p>(.*?)<\/p>/';
-        preg_match_all($regex, $excerpt, $matches);
-        
-        if(is_array($matches[1])){
-            $excerpt = implode(" ", $matches[1]); 
-        }
-       
-    }
-    
-     $excerpt = wp_strip_all_tags(strip_shortcodes($excerpt)); 
-     
-    }
-    
-    if(saswp_global_option()  && saswp_remove_warnings($sd_data, 'saswp-yoast', 'saswp_string') == 1){
-        
-        $yoast_meta_des = get_post_meta($post->ID, '_yoast_wpseo_metadesc', true);
-        
-        if($yoast_meta_des){
-            
-            $excerpt = $yoast_meta_des;
-            
-        }
-        
-    }
-                
-    return $excerpt;
-}
-
-/**
- * since @1.8.7
- * Here we are modifying the default title
- * @global type $post
- * @return type string
- */
-function saswp_get_the_title(){
-    
-    global $post;
-    global $sd_data;
-                    
-    if(saswp_global_option()  && saswp_remove_warnings($sd_data, 'saswp-yoast', 'saswp_string') == 1){
-        
+        global $post;
+        $content = '';        
         if(is_object($post)){
-        
-            $yoast_title = get_post_meta($post->ID, '_yoast_wpseo_title', true);
-            
+            $content = get_post_field('post_content', $post->ID);
         }
-                
-        if($yoast_title){
-            
-            $title = $yoast_title;
-            
-        }else{
-            
-            $title = get_the_title();
-            
-        }
-        
-    }else{
-        
-       $title = get_the_title();
-    }
-            
-    return $title; 
-    
-}
-/**
- * since @1.8.7
- * Get the author details 
- * @global type $post
- * @return type array
- */
-function saswp_get_author_details(){
-    
-    global $post;
-    
-    $author_details = array();            
-    
-    $author_id          = get_the_author_meta('ID');
-    $author_name 	= get_the_author();
-    $author_desc        = get_the_author_meta( 'user_description' );     
-                                       
-    if(!$author_name && is_object($post)){
 
-        $author_id    = get_post_field ('post_author', $post->ID);
-        $author_name  = get_the_author_meta( 'display_name' , $author_id ); 
-        
+        return $content;
+
     }
-    
-    $author_image	= get_avatar_data($author_id);
-       
-    $author_details['@type']           = 'Person';
-    $author_details['name']            = esc_attr($author_name);
-    $author_details['description']     = esc_attr($author_desc);
-    
-    if(isset($author_image['url']) && isset($author_image['height']) && isset($author_image['width'])){
-        
-        $author_details['image']['@type']  = 'ImageObject';
-        $author_details['image']['url']    = $author_image['url'];
-        $author_details['image']['height'] = $author_image['height'];
-        $author_details['image']['width']  = $author_image['width'];
-        
+    /**
+     * Here we are modifying the default excerpt
+     * @global type $post
+     * @return type string
+     */
+    function saswp_get_the_excerpt() {
+
+        global $post;
+        global $sd_data;
+        $excerpt = '';
+        if(is_object($post)){
+
+        $excerpt = $post->post_excerpt;
+
+        if(empty($excerpt)){
+
+            $excerpt_length = apply_filters( 'excerpt_length', 55 );
+
+            $excerpt_more = '';
+            $excerpt      = wp_trim_words( $post->post_content, $excerpt_length, $excerpt_more );
+        }
+
+        if(strpos($excerpt, "<p>")!==false){
+
+            $regex = '/<p>(.*?)<\/p>/';
+            preg_match_all($regex, $excerpt, $matches);
+
+            if(is_array($matches[1])){
+                $excerpt = implode(" ", $matches[1]); 
+            }
+
+        }
+
+         $excerpt = wp_strip_all_tags(strip_shortcodes($excerpt)); 
+
+        }
+
+        if(saswp_global_option()  && saswp_remove_warnings($sd_data, 'saswp-yoast', 'saswp_string') == 1){
+
+            $yoast_meta_des = saswp_convert_yoast_metafields($post->ID, 'metadesc');
+
+            if($yoast_meta_des){
+
+                $excerpt = $yoast_meta_des;
+
+            }
+
+        }
+
+        return $excerpt;
     }
+    /**
+     * since @1.8.9
+     * Here, we are getting meta fields value from yoast seo
+     * @global type $post
+     * @return type string
+     */
+    function saswp_convert_yoast_metafields ($post_id, $field) {
+
+        if(class_exists('WPSEO_Meta') && class_exists('WPSEO_Replace_Vars')){
+
+            $string =  WPSEO_Meta::get_value( $field, $post_id );
+            if ($string !== '') {
+                $replacer = new WPSEO_Replace_Vars();
+
+                return $replacer->replace( $string, get_post($post_id) );
+            }
+
+        }         
+        return '';
+    }
+    /**
+     * since @1.8.7
+     * Here we are modifying the default title
+     * @global type $post
+     * @return type string
+     */
+    function saswp_get_the_title(){
+
+        global $post;
+        global $sd_data;
+
+        if(saswp_global_option()  && saswp_remove_warnings($sd_data, 'saswp-yoast', 'saswp_string') == 1){
+
+            if(is_object($post)){
+
+                $yoast_title = saswp_convert_yoast_metafields($post->ID, 'title');
+
+            }
+
+            if($yoast_title){
+
+                $title = $yoast_title;
+
+            }else{
+
+                $title = get_the_title();
+
+            }
+
+        }else{
+
+           $title = get_the_title();
+        }
+
+        return $title; 
+
+    }
+    /**
+     * since @1.8.7
+     * Get the author details 
+     * @global type $post
+     * @return type array
+     */
+    function saswp_get_author_details(){
+
+        global $post;
+
+        $author_details = array();            
+
+        $author_id          = get_the_author_meta('ID');
+        $author_name 	= get_the_author();
+        $author_desc        = get_the_author_meta( 'user_description' );     
+
+        if(!$author_name && is_object($post)){
+
+            $author_id    = get_post_field ('post_author', $post->ID);
+            $author_name  = get_the_author_meta( 'display_name' , $author_id ); 
+
+        }
+
+        $author_image	= get_avatar_data($author_id);
+
+        $author_details['@type']           = 'Person';
+        $author_details['name']            = esc_attr($author_name);
+        $author_details['description']     = esc_attr($author_desc);
+
+        if(isset($author_image['url']) && isset($author_image['height']) && isset($author_image['width'])){
+
+            $author_details['image']['@type']  = 'ImageObject';
+            $author_details['image']['url']    = $author_image['url'];
+            $author_details['image']['height'] = $author_image['height'];
+            $author_details['image']['width']  = $author_image['width'];
+
+        }
+
+        return $author_details;
+    }
+    /** 
+     * Function to sanitize display condition and user targeting
+     * @param type $array
+     * @param type $type
+     * @return type array
+     */
+    function saswp_sanitize_multi_array($array, $type){
+    
+    if($array){
+               
+        foreach($array as $group => $condition){
             
-    return $author_details;
+            $group_condition = $condition[$type];
+            
+            foreach ($group_condition as $con_key => $con_val){
+                
+                foreach($con_val as $key => $val){
+                        
+                        $con_val[$key] =   sanitize_text_field($val);
+                        
+                }
+                
+                $group_condition[$con_key] = $con_val;
+            }
+            
+            $array[$group] = $condition;
+            
+        }
+        
+    }
+    
+    return $array;
 }

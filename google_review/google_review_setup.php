@@ -1,10 +1,29 @@
 <?php
+/**
+ * Google Review Setup Page
+ *
+ * @author   Magazine3
+ * @category Admin
+ * @path     google_review/google_review_setup
+ * @Version 1.8
+ */
+
+// Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 add_action('admin_init', 'saswp_create_database_for_existing_users');
+add_action('the_post', 'saswp_create_database_for_existing_users');
 
+/**
+ * Function to initiate database installation
+ * @return type null
+ * @Since version 1.8
+ */
 function saswp_create_database_for_existing_users(){
-    
+        
+                if ( ! current_user_can( 'manage_options' ) ) {
+                    return;
+                }
 		$status = get_option('saswp-database-on-first-load');
         
 		if($status != 'enable'){
@@ -15,10 +34,11 @@ function saswp_create_database_for_existing_users(){
 		}                                                                  
  		   
 }
-
-add_action('the_post', 'saswp_create_database_for_existing_users');
-
-
+/**
+ * Function to install database tables for google review
+ * @global type $wpdb
+ * @Since version 1.8
+ */
 function saswp_google_review_database_install() {
     
 	global $wpdb;                
@@ -83,7 +103,13 @@ function saswp_google_review_database_install() {
 	}
 
 }
-
+/**
+ * Function to retrive google review data from google with maps api
+ * @param type $place_id
+ * @param string $language
+ * @return type array
+ * @Since version 1.8 
+ */
 function saswp_get_google_review_data($place_id, $language=null){
     
     if($language){
@@ -107,7 +133,13 @@ function saswp_get_google_review_data($place_id, $language=null){
     }
                 
 }
-
+/**
+ * Function to save retrived google review data from google place 
+ * @global type $wpdb
+ * @param type $place
+ * @return type string
+ * @Since version 1.8
+ */
 function saswp_save_google_reviews($place) {
        
     global $wpdb;
@@ -183,8 +215,13 @@ function saswp_save_google_reviews($place) {
     
     return $response;
 }
-
-
+/**
+ * Function to retrive image from google place 
+ * @global type $sd_data
+ * @param type $result_json
+ * @return type string
+ * @Since version 1.8
+ */
 function saswp_business_image($result_json) {
     
     global $sd_data;

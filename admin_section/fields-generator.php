@@ -1,4 +1,16 @@
 <?php
+/**
+ * Field Generator class
+ *
+ * @author   Magazine3
+ * @category Admin
+ * @path     google_review/google_review
+ * @Version 1.8
+ */
+
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 /*
   Metabox to show ads type such as custom and adsense 
  */
@@ -20,6 +32,13 @@ class saswp_fields_generator {
         
         return $tooltip_message;
     }
+    /**
+     * Function to generate html element from the given elements array
+     * @param type $meta_fields
+     * @param type $settings
+     * @param type $field_type
+     * @since version 1.0
+     */
     public function saswp_field_generator( $meta_fields, $settings, $field_type = null ) {            
         
 		$output          = '';
@@ -72,19 +91,22 @@ class saswp_fields_generator {
                         
                         }
 			
-			
+                        $attribute_str ='';
+                        
+                        if(!empty($attribute)){
+                            
+                            foreach ($attribute as $key => $attr ){
+
+                                $attribute_str .=''.esc_attr($key).'="'.esc_attr($attr).'"';
+                           
+                            }
+                        
+                        }            
+                        			                        
 			switch ( $meta_field['type'] ) {
                             
 				case 'media':
-                                    
-                                        $attribute_str ='';
-                                    
-                                        foreach ($attribute as $key => $attr ){
-                                            
-                                           $attribute_str .=''.$key.'="'.$attr.'"';
-                                           
-                                        }
-                                    
+                                                                                                     
                                         $mediavalue = array();
                                     
                                             if(isset($settings[$meta_field['id']])){
@@ -125,13 +147,6 @@ class saswp_fields_generator {
 					break;
 				case 'checkbox':
                                     
-                                        $attribute_str ='';
-                                    
-                                        foreach ($attribute as $key => $attr ){
-                                            
-                                           $attribute_str .=''.$key.'="'.$attr.'"';
-                                           
-                                        }
                                         $hiddenvalue ="";
                                         
                                         if(array_key_exists('id', $hidden) && isset($settings[$hidden['id']])){
@@ -197,13 +212,14 @@ class saswp_fields_generator {
                                         }
                                     
 					$input = sprintf(
-						'<input class="%s" %s id="%s" name="%s" type="%s" value="%s">',
+						'<input class="%s" %s id="%s" name="%s" type="%s" value="%s" %s>',
                                                 $class,
 						$meta_field['type'] !== 'color' ? 'style="width: 100%"' : '',
 						esc_attr(saswp_remove_warnings($meta_field, 'id', 'saswp_string')),
 						esc_attr(saswp_remove_warnings($meta_field, 'name', 'saswp_string')),
 						esc_attr(saswp_remove_warnings($meta_field, 'type', 'saswp_string')),
-						esc_attr($stng_meta_field)
+						esc_attr($stng_meta_field),
+                                                $attribute_str
 					);	
 									
 			}
