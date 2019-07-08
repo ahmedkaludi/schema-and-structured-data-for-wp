@@ -612,7 +612,7 @@ function saswp_schema_type_meta_box_callback( $post) {
 
                     $business_type    = esc_sql ( get_post_meta($post->ID, 'saswp_business_type', true)  ); 
                     $business_name    = esc_sql ( get_post_meta($post->ID, 'saswp_business_name', true)  ); 
-                    $business_details = esc_sql ( get_post_meta($post->ID, 'saswp_local_business_details', true)  );                             
+                    $business_details = esc_sql ( get_post_meta($post->ID, 'saswp_local_business_details', true)  );                                                 
                     $dayoftheweek     = get_post_meta($post->ID, 'saswp_dayofweek', true);
 
                     break;
@@ -1177,6 +1177,10 @@ function saswp_schema_type_meta_box_callback( $post) {
                     <td><input value="<?php if(isset($business_details['local_business_name'])) { echo esc_attr($business_details['local_business_name']); }  ?>" type="text" name="local_business_name" placeholder="<?php echo esc_html__('Business Name', 'schema-and-structured-data-for-wp' ); ?>"></td>
                 </tr>
                 <tr class="saswp-business-text-field-tr" <?php echo $style_business_type; ?>>
+                    <td><?php echo esc_html__('Description', 'schema-and-structured-data-for-wp' ); ?></td>
+                    <td><textarea placeholder="Description" rows="3" cols="70" name="local_business_description"><?php if(isset($business_details['local_business_description'])){echo esc_attr($business_details['local_business_description']); } ?></textarea></td>
+                </tr>
+                <tr class="saswp-business-text-field-tr" <?php echo $style_business_type; ?>>
                     <td><?php echo esc_html__('Street Address', 'schema-and-structured-data-for-wp' ); ?></td>
                     <td><input value="<?php if(isset($business_details['local_street_address'])) { echo esc_attr($business_details['local_street_address']); } ?>" type="text" name="local_street_address" placeholder="<?php echo esc_html__('Street Address', 'schema-and-structured-data-for-wp' ); ?>"></td>
                 </tr>
@@ -1192,8 +1196,6 @@ function saswp_schema_type_meta_box_callback( $post) {
                     <td><?php echo esc_html__('Postal Code', 'schema-and-structured-data-for-wp' ); ?></td>
                     <td><input value="<?php if(isset($business_details['local_postal_code'])) {echo esc_attr($business_details['local_postal_code']); } ?>" type="text" name="local_postal_code" placeholder="<?php echo esc_html__('Postal Code', 'schema-and-structured-data-for-wp' ); ?>"></td>
                 </tr>
-
-
                 <tr class="saswp-business-text-field-tr" <?php echo $style_business_type; ?>>
                     <td><?php echo esc_html__('Latitude', 'schema-and-structured-data-for-wp' ); ?></td>
                     <td><input value="<?php if(isset($business_details['local_latitude'])) {echo esc_attr($business_details['local_latitude']); } ?>" type="text" name="local_latitude" placeholder="<?php echo esc_html__('40.761293', 'schema-and-structured-data-for-wp' ); ?>"></td>
@@ -1203,8 +1205,6 @@ function saswp_schema_type_meta_box_callback( $post) {
                     <td><?php echo esc_html__('Longitude', 'schema-and-structured-data-for-wp' ); ?></td>
                     <td><input value="<?php if(isset($business_details['local_longitude'])) {echo esc_attr($business_details['local_longitude']); } ?>" type="text" name="local_longitude" placeholder="<?php echo esc_html__('-73.982294', 'schema-and-structured-data-for-wp' ); ?>"></td>
                 </tr>
-
-
                 <tr class="saswp-business-text-field-tr" <?php echo $style_business_type; ?>>
                     <td><?php echo esc_html__('Phone', 'schema-and-structured-data-for-wp' ); ?></td>
                     <td><input value="<?php if(isset($business_details['local_phone'])){echo esc_attr($business_details['local_phone']); } ?>" type="text" name="local_phone" placeholder="<?php echo esc_html__('Phone', 'schema-and-structured-data-for-wp' ); ?>"></td>
@@ -1246,10 +1246,48 @@ function saswp_schema_type_meta_box_callback( $post) {
                 </tr>
 
                 <tr class="saswp-business-text-field-tr" <?php echo $style_business_type; ?>>
-                    <td><?php echo esc_html__('Serves Cuisine ', 'schema-and-structured-data-for-wp' ); ?></td>
-                    <td><input  value="<?php isset($business_details['local_serves_cuisine'])? esc_attr($business_details['local_serves_cuisine']): ''; ?>" type="text" name="local_serves_cuisine" placeholder="<?php echo esc_html__('American, Chinese', 'schema-and-structured-data-for-wp' ); ?>" ></td>
+                    <td><?php echo esc_html__('Serves Cuisine', 'schema-and-structured-data-for-wp' ); ?></td>
+                    <td><input  value="<?php echo (isset($business_details['local_serves_cuisine'])? esc_attr($business_details['local_serves_cuisine']): ''); ?>" type="text" name="local_serves_cuisine" placeholder="<?php echo esc_html__('American, Chinese', 'schema-and-structured-data-for-wp' ); ?>" ></td>
                 </tr>
-
+                
+                <tr class="saswp-business-text-field-tr" <?php echo $style_business_type; ?>>
+                    <td><?php echo esc_html__('Facebook', 'schema-and-structured-data-for-wp' ); ?></td>
+                    <td><input  value="<?php echo (isset($business_details['local_facebook'])? esc_attr($business_details['local_facebook']): ''); ?>" type="text" name="local_facebook" placeholder="<?php echo esc_html__('https://facebook.com/examplepage', 'schema-and-structured-data-for-wp' ); ?>" ></td>
+                </tr>
+                
+                <tr class="saswp-business-text-field-tr" <?php echo $style_business_type; ?>>
+                    <td><?php echo esc_html__('Twitter', 'schema-and-structured-data-for-wp' ); ?></td>
+                    <td><input  value="<?php echo  (isset($business_details['local_twitter'])? esc_attr($business_details['local_twitter']): ''); ?>" type="text" name="local_twitter" placeholder="<?php echo esc_html__('https://twitter.com/examplepage', 'schema-and-structured-data-for-wp' ); ?>" ></td>
+                </tr>
+                
+                <tr class="saswp-business-text-field-tr" <?php echo $style_business_type; ?>>
+                    <td><?php echo esc_html__('Instagram', 'schema-and-structured-data-for-wp' ); ?></td>
+                    <td><input  value="<?php echo (isset($business_details['local_instagram'])? esc_attr($business_details['local_instagram']): ''); ?>" type="text" name="local_instagram" placeholder="<?php echo esc_html__('https://instagram.com/examplepage', 'schema-and-structured-data-for-wp' ); ?>" ></td>
+                </tr>
+                
+                <tr class="saswp-business-text-field-tr" <?php echo $style_business_type; ?>>
+                    <td><?php echo esc_html__('Pinterest', 'schema-and-structured-data-for-wp' ); ?></td>
+                    <td><input  value="<?php echo (isset($business_details['local_pinterest'])? esc_attr($business_details['local_pinterest']): ''); ?>" type="text" name="local_pinterest" placeholder="<?php echo esc_html__('https://pinterest.com/examplepage', 'schema-and-structured-data-for-wp' ); ?>" ></td>
+                </tr>
+                <tr class="saswp-business-text-field-tr" <?php echo $style_business_type; ?>>
+                    <td><?php echo esc_html__('LinkedIn', 'schema-and-structured-data-for-wp' ); ?></td>
+                    <td><input  value="<?php echo (isset($business_details['local_linkedin'])? esc_attr($business_details['local_linkedin']): ''); ?>" type="text" name="local_linkedin" placeholder="<?php echo esc_html__('https://linkedin.com/examplepage', 'schema-and-structured-data-for-wp' ); ?>" ></td>
+                </tr>
+                
+                <tr class="saswp-business-text-field-tr" <?php echo $style_business_type; ?>>
+                    <td><?php echo esc_html__('SoundCloud', 'schema-and-structured-data-for-wp' ); ?></td>
+                    <td><input  value="<?php echo (isset($business_details['local_soundcloud'])? esc_attr($business_details['local_soundcloud']): ''); ?>" type="text" name="local_soundcloud" placeholder="<?php echo esc_html__('https://soundcloud.com//examplepage', 'schema-and-structured-data-for-wp' ); ?>" ></td>
+                </tr>
+                
+                <tr class="saswp-business-text-field-tr" <?php echo $style_business_type; ?>>
+                    <td><?php echo esc_html__('Tumblr', 'schema-and-structured-data-for-wp' ); ?></td>
+                    <td><input  value="<?php echo (isset($business_details['local_tumblr'])? esc_attr($business_details['local_tumblr']): ''); ?>" type="text" name="local_tumblr" placeholder="<?php echo esc_html__('https://tumblr.com//examplepage', 'schema-and-structured-data-for-wp' ); ?>" ></td>
+                </tr>
+                
+                <tr class="saswp-business-text-field-tr" <?php echo $style_business_type; ?>>
+                    <td><?php echo esc_html__('Youtube', 'schema-and-structured-data-for-wp' ); ?></td>
+                    <td><input  value="<?php echo (isset($business_details['local_youtube'])? esc_attr($business_details['local_youtube']): ''); ?>" type="text" name="local_youtube" placeholder="<?php echo esc_html__('https://youtube.com//examplepage', 'schema-and-structured-data-for-wp' ); ?>" ></td>
+                </tr>
 
                 <tr class="saswp-business-text-field-tr" <?php echo $style_business_type; ?>>
                     <td><?php echo esc_html__('Aggregate Rating', 'schema-and-structured-data-for-wp' ); ?></td>
@@ -1624,9 +1662,15 @@ function saswp_schema_type_add_meta_box_save( $post_id ) {
                 }
                 
                 $local_business_details = array();
+                
                 if ( isset( $_POST['local_business_name'] ) ){
                 $local_business_details['local_business_name'] = sanitize_text_field($_POST['local_business_name']);        
                 }
+                
+                if ( isset( $_POST['local_business_description'] ) ){
+                $local_business_details['local_business_description'] = sanitize_textarea_field($_POST['local_business_description']);        
+                }
+                
                 if ( isset( $_POST['local_street_address'] ) ){
                 $local_business_details['local_street_address'] = sanitize_text_field($_POST['local_street_address']);        
                 }
@@ -1680,6 +1724,34 @@ function saswp_schema_type_add_meta_box_save( $post_id ) {
                 $local_business_details['local_serves_cuisine'] = sanitize_text_field($_POST['local_serves_cuisine']);        
                 }
                 
+                //social fields starts here
+                
+                if ( isset( $_POST['local_facebook'] ) ){
+                $local_business_details['local_facebook'] = esc_url_raw($_POST['local_facebook']);        
+                }
+                if ( isset( $_POST['local_twitter'] ) ){
+                $local_business_details['local_twitter'] = esc_url_raw($_POST['local_twitter']);        
+                }
+                if ( isset( $_POST['local_instagram'] ) ){
+                $local_business_details['local_instagram'] = esc_url_raw($_POST['local_instagram']);        
+                }
+                if ( isset( $_POST['local_pinterest'] ) ){
+                $local_business_details['local_pinterest'] = esc_url_raw($_POST['local_pinterest']);        
+                }
+                if ( isset( $_POST['local_linkedin'] ) ){
+                $local_business_details['local_linkedin'] = esc_url_raw($_POST['local_linkedin']);        
+                }
+                if ( isset( $_POST['local_soundcloud'] ) ){
+                $local_business_details['local_soundcloud'] = esc_url_raw($_POST['local_soundcloud']);        
+                }
+                if ( isset( $_POST['local_tumblr'] ) ){
+                $local_business_details['local_tumblr'] = esc_url_raw($_POST['local_tumblr']);        
+                }
+                if ( isset( $_POST['local_youtube'] ) ){
+                $local_business_details['local_youtube'] = esc_url_raw($_POST['local_youtube']);        
+                }
+                                
+                //social fields ends here
                 if ( isset( $_POST['local_enable_rating'] ) ){
                 $local_business_details['local_enable_rating'] = sanitize_text_field($_POST['local_enable_rating']);        
                 }

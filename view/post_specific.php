@@ -2791,7 +2791,55 @@ class saswp_post_specific {
                             'id' => 'local_serves_cuisine_'.$schema_id,
                             'type' => 'text',
                             'default' => $business_details['local_serves_cuisine']
-                       ),
+                       ),                                                
+                        array(
+                            'label' => 'Facebook',
+                            'id' => 'local_facebook_'.$schema_id,
+                            'type' => 'text',
+                            'default' => $business_details['local_facebook']
+                        ),
+                        array(
+                            'label' => 'Twitter',
+                            'id' => 'local_twitter_'.$schema_id,
+                            'type' => 'text',
+                            'default' => $business_details['local_twitter']
+                        ),
+                        array(
+                            'label' => 'Instagram',
+                            'id' => 'local_instagram_'.$schema_id,
+                            'type' => 'text',
+                            'default' => $business_details['local_instagram']
+                        ),
+                        array(
+                            'label' => 'Pinterest',
+                            'id' => 'local_pinterest_'.$schema_id,
+                            'type' => 'text',
+                            'default' => $business_details['local_pinterest']
+                        ),
+                        array(
+                            'label' => 'Linkedin',
+                            'id' => 'local_linkedin_'.$schema_id,
+                            'type' => 'text',
+                            'default' => $business_details['local_linkedin']
+                        ),
+                        array(
+                            'label' => 'Soundcloud',
+                            'id' => 'local_soundcloud_'.$schema_id,
+                            'type' => 'text',
+                            'default' => $business_details['local_soundcloud']
+                        ),
+                        array(
+                            'label' => 'local_tumblr',
+                            'id' => 'local_tumblr_'.$schema_id,
+                            'type' => 'text',
+                            'default' => $business_details['local_tumblr']
+                        ),
+                        array(
+                            'label' => 'Youtube',
+                            'id' => 'local_youtube_'.$schema_id,
+                            'type' => 'text',
+                            'default' => $business_details['local_youtube']
+                        ),                                                                                                                        
                         array(
                             'label' => 'Aggregate Rating',
                             'id' => 'local_enable_rating_'.$schema_id,

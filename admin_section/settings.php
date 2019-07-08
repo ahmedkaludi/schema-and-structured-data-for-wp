@@ -1597,13 +1597,7 @@ function saswp_compatibility_page_callback(){
              
              $wppostratings['note'] = esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wp-postratings/">WP-PostRatings</a>';
              
-         }
-         
-//         if(!is_plugin_active('wp-job-manager/wp-job-manager.php')){
-//                          
-//             $wpjobmanager['note'] = esc_html__('Requires selected plugin','schema-and-structured-data-for-wp');
-//             
-//         }
+         }         
          
          if(!is_plugin_active('the-events-calendar/the-events-calendar.php')){
                           
