@@ -365,7 +365,7 @@ class saswp_post_specific {
                                                 //$img_prev is already escapped
                                                 $input = '<fieldset>
                                                         <input style="width:79%" type="text" id="'.esc_attr($name).'" name="'.esc_attr($name).'" value="'.esc_url($src).'">
-                                                        <input type="hidden" data-id="'.esc_attr($name).'_id" name="'.esc_attr($meta_name).'_'.esc_attr($schema_id).'['.esc_attr($index).']['.esc_attr($$meta_field['name']).'_id]'.'" id="'.esc_attr($name).'_id" value="'.esc_attr($data[$meta_field['name'].'_id']).'">
+                                                        <input type="hidden" data-id="'.esc_attr($name).'_id" name="'.esc_attr($meta_name).'_'.esc_attr($schema_id).'['.esc_attr($index).']['.esc_attr($meta_field['name']).'_id]'.'" id="'.esc_attr($name).'_id" value="'.esc_attr($data[$meta_field['name'].'_id']).'">
                                                         <input data-id="media" style="width: 19%" class="button" id="'.esc_attr($name).'_button" name="'.esc_attr($name).'_button" type="button" value="Upload">
                                                         <div class="saswp_image_div_'.esc_attr($name).'">'.$img_prev.'</div>
                                                         </fieldset>';
@@ -2168,8 +2168,7 @@ class saswp_post_specific {
                        return $post_id;    
                 
                 $option         = get_option('modify_schema_post_enable_'.$post_id);
-                                                                    
-                
+                                                                                    
                 $custom_schema = sanitize_textarea_field($_POST['saswp_custom_schema_field']);
                 update_post_meta( $post_id, 'saswp_custom_schema_field', $custom_schema );
                 
@@ -2229,9 +2228,9 @@ class saswp_post_specific {
                          }
                      }
                      
-                     update_post_meta( $post_id, 'howto_step_'.$schema->ID, $howto_step);
-                     update_post_meta( $post_id, 'howto_tool_'.$schema->ID, $howto_tool);
-                     update_post_meta( $post_id, 'howto_supply_'.$schema->ID, $howto_supply);
+                     update_post_meta( $post_id, 'howto_step_'.intval($schema->ID), $howto_step);
+                     update_post_meta( $post_id, 'howto_tool_'.intval($schema->ID), $howto_tool);
+                     update_post_meta( $post_id, 'howto_supply_'.intval($schema->ID), $howto_supply);
                                                                                
                     //How to schema ends here
                      
@@ -2269,9 +2268,9 @@ class saswp_post_specific {
                          }
                      }
                      
-                     update_post_meta( $post_id, 'mc_cause_'.$schema->ID, $mc_cause);
-                     update_post_meta( $post_id, 'mc_symptom_'.$schema->ID, $mc_symptom);
-                     update_post_meta( $post_id, 'mc_risk_factor_'.$schema->ID, $mc_r_factor);
+                     update_post_meta( $post_id, 'mc_cause_'.intval($schema->ID), $mc_cause);
+                     update_post_meta( $post_id, 'mc_symptom_'.intval($schema->ID), $mc_symptom);
+                     update_post_meta( $post_id, 'mc_risk_factor_'.intval($schema->ID), $mc_r_factor);
                                                                                
                     //MedicalCondition schema ends here
                      
@@ -2300,8 +2299,8 @@ class saswp_post_specific {
                      }
                      
                      
-                     update_post_meta( $post_id, 'tvseries_actor_'.$schema->ID, $tv_actor);
-                     update_post_meta( $post_id, 'tvseries_season_'.$schema->ID, $tv_season);                     
+                     update_post_meta( $post_id, 'tvseries_actor_'.intval($schema->ID), $tv_actor);
+                     update_post_meta( $post_id, 'tvseries_season_'.intval($schema->ID), $tv_season);                     
                                                                                
                     //TVSeries schema ends here
                      
