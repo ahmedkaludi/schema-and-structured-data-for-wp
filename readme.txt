@@ -109,6 +109,18 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
 
+= 1.8.9 (08 July 2019) =
+
+* Added: Translation panel. User can add own text for List of labels which is being output in content #361
+* Added: compatibility with DWQA Pro version plugin ( https://wordpress.org/plugins/dw-question-answer ) #372
+* Added: Social fields in local business schema type
+* Added: Error message should be shown if custom schema markup is not valid
+* Bug Fixed: Defragmentation is not working for BlogPost schema #367
+* Bug Fixed: Schema title attributes show invalid title when yoast compatibility is enabled , like this (%%title%%%page%%sep) #364
+* Bug Fixed: Description and Article body have same data #363
+* Bug Fixed: Debug Warning & notices #362
+* Bug Fixed: Micro data clean up is not working properly. #359
+
 = 1.8.8 (22 June 2019) =
 * Bug Fixed: Uncaught Error: Class 'saswp_google_review' not found. #351
 
