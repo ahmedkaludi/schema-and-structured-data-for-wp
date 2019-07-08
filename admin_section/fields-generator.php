@@ -32,7 +32,13 @@ class saswp_fields_generator {
         
         return $tooltip_message;
     }
-    
+    /**
+     * Function to generate html element from the given elements array
+     * @param type $meta_fields
+     * @param type $settings
+     * @param type $field_type
+     * @since version 1.0
+     */
     public function saswp_field_generator( $meta_fields, $settings, $field_type = null ) {            
         
 		$output          = '';

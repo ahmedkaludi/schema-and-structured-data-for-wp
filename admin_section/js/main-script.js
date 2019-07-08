@@ -1148,6 +1148,24 @@ jQuery(document).ready(function($){
          }
         });
         
+        
+        $('#saswp-tools-tabs a:first').addClass('saswp-global-selected');
+        $('.saswp-tools-container').hide();
+        $('.saswp-tools-container:first').show();
+        
+        $('#saswp-tools-tabs a').click(function(){
+            var t = $(this).attr('data-id');
+            
+          if(!$(this).hasClass('saswp-global-selected')){ 
+            $('#saswp-tools-tabs a').removeClass('saswp-global-selected');           
+            $(this).addClass('saswp-global-selected');
+
+            $('.saswp-tools-container').hide();
+            $('#'+t).show();
+         }
+        });
+        
+        
         //Importer from schema plugin ends here
         
         //custom fields modify schema starts here

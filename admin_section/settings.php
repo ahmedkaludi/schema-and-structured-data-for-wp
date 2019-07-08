@@ -122,6 +122,12 @@ function saswp_admin_interface_render(){
 			echo "</div>";
                         
                         echo "<div class='saswp-tools' ".( $tab != 'tools' ? 'style="display:none;"' : '').">";
+                        
+                            echo '<div id="saswp-tools-tabs" style="margin-top: 10px;">';
+
+                            echo '<a data-id="saswp-tools-advanced-container">'.esc_html__('Advanced','schema-and-structured-data-for-wp').'</a> | <a data-id="saswp-tools-translation-container">'.esc_html__('Translation Panel','schema-and-structured-data-for-wp').'</a>';
+
+                            echo'</div> ';
 			     // Status
                         
 			        do_settings_sections( 'saswp_tools_section' );	// Page slug
@@ -1031,10 +1037,7 @@ function saswp_check_data_imported_from($plugin_post_type_name){
 function saswp_import_callback(){
     
         global $sd_data;
-        
-        
-        echo '<h2>'.esc_html__('Advanced Settings','schema-and-structured-data-for-wp').'</h2>'; 
-        
+                                
         $settings = saswp_defaultSettings();         
         $field_objs = new saswp_fields_generator();
         $meta_fields = array(				
@@ -1088,7 +1091,7 @@ function saswp_import_callback(){
 		),
                 
 	);        
-        $field_objs->saswp_field_generator($meta_fields, $settings);  
+        
         
         ?>
        
@@ -1123,9 +1126,15 @@ function saswp_import_callback(){
             
           $wp_seo_schema_message = $message;   
          
-        }
-        
-	 echo '<h2>'.esc_html__('Migration','schema-and-structured-data-for-wp').'</h2>';       	                  
+        }        	 
+                              
+         ?>
+        <div class="saswp-tools-container" id="saswp-tools-advanced-container">
+            
+         <?php   
+                echo '<h2>'.esc_html__('Advanced Settings','schema-and-structured-data-for-wp').'</h2>'; 
+                $field_objs->saswp_field_generator($meta_fields, $settings);  
+		echo '<h2>'.esc_html__('Migration','schema-and-structured-data-for-wp').'</h2>';       	                  
         ?>	
             <ul>
                 <li><div class="saswp-tools-field-title"><div class="saswp-tooltip"><span class="saswp-tooltiptext"><?php echo esc_html__('All the settings and data you can import from this plugin when you click start importing','schema-and-structured-data-for-wp') ?></span><strong><?php echo esc_html__('Schema Plugin','schema-and-structured-data-for-wp'); ?></strong></div><button data-id="schema" class="button saswp-import-plugins"><?php echo esc_html__('Import','schema-and-structured-data-for-wp'); ?></button>
@@ -1176,11 +1185,8 @@ function saswp_import_callback(){
                 </li> 
                 
             </ul>
-
-
         <?php    
-        
-                        
+                                
         $add_on = array();
                 
         if(is_plugin_active('cooked-compatibility-for-schema/cooked-compatibility-for-schema.php')){
@@ -1264,8 +1270,46 @@ function saswp_import_callback(){
             echo '</ul>';
             
         }
-                          
-         ?>
+            
+         ?>   
+            
+        </div>
+        <div class="saswp-tools-container" id="saswp-tools-translation-container">
+          <?php 
+          echo '<h2>'.esc_html__('Translation Panel','schema-and-structured-data-for-wp').'</h2>';
+          
+          global  $translation_labels;
+                              
+           ?> 
+            <table>
+            
+           <?php 
+           if(is_array($translation_labels)){
+               
+               foreach($translation_labels as $key => $val){
+               if(isset($settings[$key]) && $settings[$key] !='' ){
+                   $translation = $settings[$key];
+               }else{
+                   $translation = $val;
+               }
+               
+                echo  '<tr>'
+                    . '<td><strong>'.esc_attr($val).'</strong></td>'
+                    . '<td><input class="regular-text" type="text" name="sd_data['.esc_attr($key).']" value="'. esc_attr($translation).'"></td>'
+                    . '</tr>';
+               }
+           
+           }
+           
+           ?>
+            
+            </table>
+          <?php
+          ?>  
+            
+        </div>
+
+        
 
 <?php
          

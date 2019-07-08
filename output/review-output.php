@@ -177,11 +177,11 @@ Class saswp_review_output{
              $boxdata .='
                 <div class="saswp-pc-wrap">
                     <div class="saswp-lst">
-                        <span>'.esc_html__('Pros', 'schema-and-structured-data-for-wp').'</span><br>
+                        <span>'.saswp_label_text('translation-pros').'</span><br>
                          '.wpautop( stripslashes ( $saswp_review_props ) ).'
                     </div>
                     <div class="saswp-lst">   
-                        <span>'.esc_html__('Cons', 'schema-and-structured-data-for-wp').'</span><br>
+                        <span>'.saswp_label_text('translation-cons').'</span><br>
                         '.wpautop( stripslashes ( $saswp_review_cons ) ).'
                     </div>
                 </div>';   
@@ -193,7 +193,7 @@ Class saswp_review_output{
                 $boxdata.='<table class="saswp-rvw">
                         <tbody>
                         <div class="saswp-rvw-hd">
-                            <span>'.esc_html__('REVIEW OVERVIEW', 'schema-and-structured-data-for-wp').'</span>
+                            <span>'.saswp_label_text('translation-review-overview').'</span>
                         </div>';  
                   
                 if(isset($saswp_review_item_feature)){
@@ -281,7 +281,7 @@ Class saswp_review_output{
                                           
                                       }
                                                                                 
-                                       $boxdata.='</div><span class="ovs">'.esc_html__('OVERALL SCORE', 'schema-and-structured-data-for-wp').'</span>';
+                                       $boxdata.='</div><span class="ovs">'.saswp_label_text('translation-overall-score').'</span>';
                                     }                                                                                                                                                                                       
                                $boxdata.=' </div>
                             </td>

@@ -11,7 +11,13 @@
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
 
+/**
+ * List of hooks used in this context
+ */
 add_action('wp_ajax_create_ajax_select_sdwp','saswp_ajax_select_creator');
+add_action('wp_ajax_create_ajax_select_sdwp_taxonomy','saswp_create_ajax_select_taxonomy');
+
+
 function saswp_ajax_select_creator($data = '', $saved_data= '', $current_number = '', $current_group_number ='') {
  
     $response = $data;
@@ -294,7 +300,11 @@ function saswp_ajax_select_creator($data = '', $saved_data= '', $current_number 
 // endif;  
 
 }
-// Generate Proper Post Taxonomy for select and to add data.
+/**
+ * Function to Generate Proper Post Taxonomy for select and to add data.
+ * @return type array
+ * @since version 1.0
+ */
 function saswp_post_taxonomy_generator(){
     
     $taxonomies = '';  
@@ -321,9 +331,14 @@ function saswp_post_taxonomy_generator(){
       
     return $choices;
 }
-
-add_action('wp_ajax_create_ajax_select_sdwp_taxonomy','saswp_create_ajax_select_taxonomy');
-
+/**
+ * Function to create taxonomy
+ * @param type $selectedParentValue
+ * @param type $selectedValue
+ * @param type $current_number
+ * @param type $current_group_number
+ * @since version 1.0
+ */
 function saswp_create_ajax_select_taxonomy($selectedParentValue = '',$selectedValue='', $current_number ='', $current_group_number  = ''){
     
     $is_ajax = false;

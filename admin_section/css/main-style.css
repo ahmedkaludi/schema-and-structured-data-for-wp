@@ -639,6 +639,12 @@ Compatibility tab css ends
 #saswp-global-tabs{
     padding-left: 5px;
 }
+#saswp-tools-tabs a{
+    cursor: pointer;
+}
+#saswp-tools-tabs{
+    padding-left: 5px;
+}
 .saswp-need-help {
     padding-left: 60px;
 }

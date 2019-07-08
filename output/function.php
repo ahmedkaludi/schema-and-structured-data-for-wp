@@ -17,7 +17,7 @@ add_action( 'init', 'saswp_schema_markup_hook_on_init');
 function saswp_schema_markup_hook_on_init() {
         
         if(!is_admin()){
-         
+            
             global $sd_data;
         
             if(isset($sd_data['saswp-markup-footer']) && $sd_data['saswp-markup-footer'] == 1){
