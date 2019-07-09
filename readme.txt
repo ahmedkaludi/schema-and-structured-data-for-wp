@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.2
-Stable tag: 1.8.9
+Stable tag: 1.8.9.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -108,6 +108,12 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.8.9.1 (09 July 2019) =
+
+* Bug Fixed: Undefined variable: schema in /view/post_specific.php #376
+* Bug Fixed: URL Field is Recommended in How to supply schema. #375
+* Bug Fixed: The text inside tag 'script type=application/ld+json' contains 'html comments', which is disallowed. #374
 
 = 1.8.9 (08 July 2019) =
 

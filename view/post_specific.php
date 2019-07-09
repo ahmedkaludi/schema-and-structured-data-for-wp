@@ -158,6 +158,11 @@ class saswp_post_specific {
 			'type'      => 'text',                        
 		    ),
                     array(
+			'label'     => 'Supply URL',
+			'name'      => 'saswp_howto_supply_url',
+			'type'      => 'text',                        
+		    ),    
+                    array(
 			'label'     => 'Supply Image',
 			'name'      => 'saswp_howto_supply_image',
 			'type'      => 'media',                        
@@ -176,6 +181,11 @@ class saswp_post_specific {
 			'name'      => 'saswp_howto_tool_name',
 			'type'      => 'text',                        
 		    ),
+                    array(
+			'label'     => 'Tool URL',
+			'name'      => 'saswp_howto_tool_url',
+			'type'      => 'text',                        
+		    ),    
                     array(
 			'label'     => 'Tool Image',
 			'name'      => 'saswp_howto_tool_image',
@@ -256,8 +266,7 @@ class saswp_post_specific {
                     );                                    
 
                     break;
-                
-                
+                                
                 case 'tvseries_actor':
                     
                     $meta_fields = array(
@@ -1234,7 +1243,7 @@ class saswp_post_specific {
                       echo '<div class="saswp-add-custom-schema-field saswp_hide">';
                   }
                                                       
-                  echo '<a class="button saswp-delete-custom-schema">Delete Custom Schema</a>';              
+                  echo '<a class="button saswp-delete-custom-schema">'.esc_html__( 'Delete Custom Schema', 'schema-and-structured-data-for-wp' ).'</a>';              
                   echo '<textarea style="margin-left:5px;" placeholder="{ Json Markup }" id="saswp_custom_schema_field" name="saswp_custom_schema_field" rows="5" cols="100">'
                   . $custom_markup
                   . '</textarea>';
@@ -1269,21 +1278,21 @@ class saswp_post_specific {
                 }
                 if($schema_type == 'MedicalCondition'){
                       
-                     $mc_data['mc_cause_'.$schema->ID]  = esc_sql ( get_post_meta($post->ID, 'mc_cause_'.$schema->ID, true)  );              
-                     $mc_data['mc_symptom_'.$schema->ID]  = esc_sql ( get_post_meta($post->ID, 'mc_symptom_'.$schema->ID, true)  );              
-                     $mc_data['mc_risk_factor_'.$schema->ID]  = esc_sql ( get_post_meta($post->ID, 'mc_risk_factor_'.$schema->ID, true)  );              
+                     $mc_data['mc_cause_'.$all_schema[0]->ID]  = esc_sql ( get_post_meta($post->ID, 'mc_cause_'.$all_schema[0]->ID, true)  );              
+                     $mc_data['mc_symptom_'.$all_schema[0]->ID]  = esc_sql ( get_post_meta($post->ID, 'mc_symptom_'.$all_schema[0]->ID, true)  );              
+                     $mc_data['mc_risk_factor_'.$all_schema[0]->ID]  = esc_sql ( get_post_meta($post->ID, 'mc_risk_factor_'.$all_schema[0]->ID, true)  );              
                          
                 }
                 if($schema_type == 'TVSeries'){
                       
-                     $tvseries_data['tvseries_actor_'.$schema->ID]   = esc_sql ( get_post_meta($post->ID, 'tvseries_actor_'.$schema->ID, true)  );              
-                     $tvseries_data['tvseries_season_'.$schema->ID]  = esc_sql ( get_post_meta($post->ID, 'tvseries_season_'.$schema->ID, true)  );                                   
+                     $tvseries_data['tvseries_actor_'.$all_schema[0]->ID]   = esc_sql ( get_post_meta($post->ID, 'tvseries_actor_'.$all_schema[0]->ID, true)  );              
+                     $tvseries_data['tvseries_season_'.$all_schema[0]->ID]  = esc_sql ( get_post_meta($post->ID, 'tvseries_season_'.$all_schema[0]->ID, true)  );                                   
                                               
                 }
                 
                 if($schema_type == 'Trip'){
                       
-                     $trip_data['trip_itinerary_'.$schema->ID]   = esc_sql ( get_post_meta($post->ID, 'trip_itinerary_'.$schema->ID, true)  );                                   
+                     $trip_data['trip_itinerary_'.$all_schema[0]->ID]   = esc_sql ( get_post_meta($post->ID, 'trip_itinerary_'.$all_schema[0]->ID, true)  );                                   
                                               
                 }
                                  
@@ -1304,7 +1313,7 @@ class saswp_post_specific {
                  //How to schema starts here
                      if($schema_type == 'HowTo'){
                       
-                         $schema_id = $schema->ID;
+                         $schema_id = $all_schema[0]->ID;
                          
                          $tabs_fields .= '<div class="saswp-table-create-onajax">';
                          
@@ -1410,7 +1419,7 @@ class saswp_post_specific {
                  //Medical condition schema starts here
                      if($schema_type == 'MedicalCondition'){
                       
-                         $schema_id = $schema->ID;
+                         $schema_id = $all_schema[0]->ID;
                          
                          $tabs_fields .= '<div class="saswp-table-create-onajax">';
                                                   
@@ -1517,7 +1526,7 @@ class saswp_post_specific {
                  //TVSeries schema starts herre
                      if($schema_type == 'TVSeries'){
                       
-                         $schema_id = $schema->ID;
+                         $schema_id = $all_schema[0]->ID;
                          
                          $tabs_fields .= '<div class="saswp-table-create-onajax">';
                                                   
@@ -1595,7 +1604,7 @@ class saswp_post_specific {
                  //Trip schema starts herre
                      if($schema_type == 'Trip'){
                       
-                         $schema_id = $schema->ID;
+                         $schema_id = $all_schema[0]->ID;
                          
                          $tabs_fields .= '<div class="saswp-table-create-onajax">';
                          
