@@ -1838,8 +1838,9 @@ if ( ! defined('ABSPATH') ) exit;
         $content = '';        
         if(is_object($post)){
             $content = get_post_field('post_content', $post->ID);
+            $content = wp_strip_all_tags(strip_shortcodes($content)); 
         }
-
+        
         return $content;
 
     }

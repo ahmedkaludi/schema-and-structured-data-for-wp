@@ -3757,9 +3757,9 @@ function saswp_archive_output(){
                                     "logo" => array(
                                         "@type"     => "ImageObject",
                                         "name"      => esc_attr($site_name),
-                                        "width"     => esc_attr($logo['width']),
-                                        "height"    => esc_attr($logo['height']),
-                                        "url"       => esc_url($logo['url'])
+                                        "width"     => isset($logo['width'])  ? esc_attr($logo['width']):'',
+                                        "height"    => isset($logo['height']) ? esc_attr($logo['height']):'',
+                                        "url"       => isset($logo['url'])    ? esc_attr($logo['url']):''
                                      )                                        			        
 				);
                                 
@@ -3897,12 +3897,12 @@ function saswp_about_page_output(){
                         
 			if(!empty($feature_image)){
                             
-                         $input = array_merge($input, $feature_image);   
+                            $input = array_merge($input, $feature_image);   
                          
                         }
                         if(!empty($publisher)){
                             
-                         $input = array_merge($input, $publisher);   
+                            $input = array_merge($input, $publisher);   
                          
                         }
 			return apply_filters('saswp_modify_about_page_output', $input);                       
