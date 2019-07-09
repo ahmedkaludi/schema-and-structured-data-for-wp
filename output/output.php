@@ -2071,7 +2071,8 @@ function saswp_post_specific_schema_output() {
                                    
                                     $supply_data = array();
                                     $supply_data['@type'] = 'HowToSupply';
-                                    $supply_data['name'] = $val['saswp_howto_supply_name'];
+                                    $supply_data['name']  = $val['saswp_howto_supply_name'];
+                                    $supply_data['url']   = $val['saswp_howto_supply_url'];
                                     
                                     if(isset($val['saswp_howto_supply_image_id'])){
                                         
@@ -2098,6 +2099,7 @@ function saswp_post_specific_schema_output() {
                                     $supply_data = array();
                                     $supply_data['@type'] = 'HowToTool';
                                     $supply_data['name'] = $val['saswp_howto_tool_name'];
+                                    $supply_data['url']  = $val['saswp_howto_tool_url'];
                                     
                                     if(isset($val['saswp_howto_tool_image_id'])){
                                         
