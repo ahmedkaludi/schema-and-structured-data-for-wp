@@ -9,6 +9,55 @@ function getParameterByName(name, url) {
     if (!results[2]) return "";
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
+
+function saswp_fields_html_generator(index, schema_id, fields_type, div_type, schema_fields){
+            
+            var html = '';
+            
+            html += '<div class="saswp-'+div_type+'-table-div" data-id="'+index+'">'
+                        +  '<a class="saswp-table-close">X</a>'
+                        + '<table class="form-table saswp-'+div_type+'-table">' 
+                
+            $.each(schema_fields, function(eachindex, element){
+                                                                                  
+                switch(element.type) {
+                    
+                    case "text":
+                      
+                        html += '<tr>'
+                        + '<th>'+element.label+'</th><td><input style="width:100%" type="text" id="'+element.name+'_'+index+'_'+schema_id+'" name="'+fields_type+schema_id+'['+index+']['+element.name+']"></td>'
+                        + '</tr>';                        
+                      
+                      break;
+                      
+                    case "media":
+                        
+                        html += '<tr>'
+                        + '<th>'+element.label+'</th>'
+                        + '<td>'
+                        + '<fieldset>'
+                        + '<input style="width:80%" type="text" id="'+element.name+'_'+index+'_'+schema_id+'" name="'+element.name+'_'+index+'_'+schema_id+'">'
+                        + '<input type="hidden" data-id="'+element.name+'_'+index+'_'+schema_id+'_id" name="'+fields_type+schema_id+'['+index+']['+element.name+'_id]" id="'+element.name+'_'+index+'_'+schema_id+'_id">'
+                        + '<input data-id="media" style="width: 19%" class="button" id="'+element.name+'_'+index+'_'+schema_id+'_button" name="'+element.name+'_'+index+'_'+schema_id+'_button" type="button" value="Upload">'
+                        + '<div class="saswp_image_div_'+element.name+'_'+index+'_'+schema_id+'">'                                                
+                        + '</div>'
+                        + '</fieldset>'
+                        + '</td>'
+                        + '</tr>';
+                      
+                      break;
+                    default:
+                      // code block
+                  }
+                                                                                            
+            });                                                             
+            html += '</table>'
+                 + '</div>';
+            
+            return html;
+            
+        }
+        
 jQuery(document).ready(function($){   
     
     /* Newletters js starts here */      
@@ -1204,9 +1253,7 @@ jQuery(document).ready(function($){
                         },'json');
            
        }); 
-       
-    
-    
+               
         //Trip schema starts here
         
         $(document).on("click", ".saswp-trip-itinerary", function(e){
@@ -1424,7 +1471,7 @@ jQuery(document).ready(function($){
         //Medical condition schema ends here
     
         //How to schema js starts here
-        
+                        
        $(document).on("click", ".saswp-how-to-supply", function(e){
            e.preventDefault();
            
@@ -1436,34 +1483,30 @@ jQuery(document).ready(function($){
            if(!index){
                index = 0;
            }
-                   
-            var html = '';
+            var fields_type = 'howto_supply_'; 
+            var div_type    = 'how-to-supply';
+            var schema_fields = [
+                {
+                 label: "Supply Name",
+                 name : "saswp_howto_supply_name",
+                 type :  "text"   
+                },
+                {
+                 label: "Supply URL",
+                 name : "saswp_howto_supply_url",
+                 type :  "text"   
+                },
+                {
+                 label: "Supply Image",
+                 name : "saswp_howto_supply_image",
+                 type :  "media"   
+                }
+            ];       
             
-                   html += '<div class="saswp-how-to-supply-table-div" data-id="'+index+'">'
-                        +  '<a class="saswp-table-close">X</a>'
-                        + '<table class="form-table saswp-how-to-supply-table">'                                                                                           
-                        + '<tr>'
-                        + '<th>Supply Name</th><td><input style="width:100%" type="text" id="saswp_howto_supply_name_'+index+'_'+schema_id+'" name="howto_supply_'+schema_id+'['+index+'][saswp_howto_supply_name]"></td>'
-                        + '</tr>'
-                        + '<tr>'
-                        + '<th>Supply URL</th><td><input style="width:100%" type="text" id="saswp_howto_supply_url_'+index+'_'+schema_id+'" name="howto_supply_'+schema_id+'['+index+'][saswp_howto_supply_url]"></td>'
-                        + '</tr>'
-                        + '<tr>'
-                        + '<th>Supply Image</th>'
-                        + '<td>'
-                        + '<fieldset>'
-                        + '<input style="width:80%" type="text" id="saswp_howto_supply_image_'+index+'_'+schema_id+'" name="saswp_howto_supply_image_'+index+'_'+schema_id+'">'
-                        + '<input type="hidden" data-id="saswp_howto_supply_image_'+index+'_'+schema_id+'_id" name="howto_supply_'+schema_id+'['+index+'][saswp_howto_supply_image_id]" id="saswp_howto_supply_image_'+index+'_'+schema_id+'_id">'
-                        + '<input data-id="media" style="width: 19%" class="button" id="saswp_howto_supply_image_'+index+'_'+schema_id+'_button" name="saswp_howto_supply_image_'+index+'_'+schema_id+'_button" type="button" value="Upload">'
-                        + '<div class="saswp_image_div_saswp_howto_supply_image_'+index+'_'+schema_id+'">'                                                
-                        + '</div>'
-                        + '</fieldset>'
-                        + '</td>'
-                        + '</tr>'
-                        + '</table>'
-                        + '</div>';
+            var html = saswp_fields_html_generator(index, schema_id, fields_type, div_type, schema_fields);
+                                           
            if(html){
-               $('.saswp-how-to-supply-section[data-id="'+schema_id+'"]').append(html);
+               $('.saswp-'+div_type+'-section[data-id="'+schema_id+'"]').append(html);
            }
             
            
