@@ -138,6 +138,7 @@ class saswp_google_review_page{
      */
     public function saswp_admin_google_review_interface_render(){
         
+        
          global $wpdb;
         
          $language = array(
@@ -222,8 +223,7 @@ class saswp_google_review_page{
         if(isset($_GET['post_id'])){
             
             $post_id = intval($_GET['post_id']);
-            
-            
+                        
             $post_meta = get_post_meta($post_id, $key='', true );            
             
             

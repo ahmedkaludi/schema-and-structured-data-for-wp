@@ -443,6 +443,7 @@ function saswp_schema_output() {
                                     $service = new saswp_output_service();
                                     $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
                                 }
+                                
                                 if(!empty($aggregateRating)){
                                     $input1['aggregateRating'] = $aggregateRating;
                                 }                                
@@ -3749,8 +3750,7 @@ function saswp_archive_output(){
                                         $archive_image['width']  = esc_attr($sd_data['sd_default_image_width']);
                                         $archive_image['height'] = esc_attr($sd_data['sd_default_image_height']);                                  
                                     }
-                                    
-                                    
+                                                                        
                                 }
                                 
 				$publisher_info = array(

@@ -120,14 +120,16 @@ function saswp_get_google_review_data($place_id, $language=null){
         
     if($place_id){
             
-        $result = wp_remote_get('https://maps.googleapis.com/maps/api/place/details/json?placeid='.$place_id.'&key=AIzaSyAQ1j_iD1npoqTRuhrIx-ADeVZjQddUqKs'.$language);        
+        $result = @wp_remote_get('https://maps.googleapis.com/maps/api/place/details/json?placeid='.$place_id.'&key=AIzaSyAQ1j_iD1npoqTRuhrIx-ADeVZjQddUqKs'.$language);        
         
-        if($result){
+        if(isset($result['body'])){
 
            $result = json_decode($result['body']);           
            $result->result->business_photo = saswp_business_image($result->result);           
            $response = saswp_save_google_reviews($result->result);
            return $response;
+        }else{
+           return null;
         }        
                         
     }

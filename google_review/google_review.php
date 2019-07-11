@@ -117,7 +117,8 @@ class saswp_google_review{
             $output = $this->saswp_google_review_front_output($post_id);
             
             if($schema_markup){
-               $output = $output.$schema_markup; 
+               $output = $output.$schema_markup;
+               
             }
            return $output;
             
@@ -185,7 +186,7 @@ class saswp_google_review{
                                 $html .= "\n";
                                 $html .= '<!-- Schema & Structured Data For Google Review v'.esc_attr(SASWP_VERSION).' - -->';
                                 $html .= "\n";
-                                $html .= '<script type="application/ld+json">'; 
+                                $html .= '<script type="application/ld+json" class="saswp-google-review-markup">'; 
                                 $html .= "\n";       
                                 $html .= saswp_json_print_format($input1);       
                                 $html .= "\n";
