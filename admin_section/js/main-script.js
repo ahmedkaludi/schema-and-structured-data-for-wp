@@ -1082,7 +1082,7 @@ jQuery(document).ready(function($){
         saswp_schema_datepicker();
         function saswp_schema_datepicker(){
         
-            $('.saswp-local-schema-datepicker-picker').datepicker({
+            $('.saswp-datepicker-picker').datepicker({
              dateFormat: "yy-mm-dd",
              minDate: 0
           });
@@ -1360,7 +1360,7 @@ jQuery(document).ready(function($){
                         + '<th>Season</th><td><input style="width:100%" type="text" id="saswp_tvseries_season_name_'+index+'_'+schema_id+'" name="tvseries_season_'+schema_id+'['+index+'][saswp_tvseries_season_name]"></td>'
                         + '</tr>'
                         + '<tr>'
-                        + '<th>Season Published Date</th><td><input class="saswp-local-schema-datepicker-picker" style="width:100%" type="text" id="saswp_tvseries_season_published_date_'+index+'_'+schema_id+'" name="tvseries_season_'+schema_id+'['+index+'][saswp_tvseries_season_published_date]"></td>'
+                        + '<th>Season Published Date</th><td><input class="saswp-datepicker-picker" style="width:100%" type="text" id="saswp_tvseries_season_published_date_'+index+'_'+schema_id+'" name="tvseries_season_'+schema_id+'['+index+'][saswp_tvseries_season_published_date]"></td>'
                         + '</tr>'
                         + '<tr>'
                         + '<th>Number Of Episodes</th><td><input style="width:100%" type="text" id="saswp_tvseries_season_episodes_'+index+'_'+schema_id+'" name="tvseries_season_'+schema_id+'['+index+'][saswp_tvseries_season_episodes]"></td>'

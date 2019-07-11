@@ -63,7 +63,7 @@ require_once SASWP_DIR_NAME.'/admin_section/common-function.php';
 require_once SASWP_DIR_NAME.'/admin_section/fields-generator.php';  
 require_once SASWP_DIR_NAME.'/admin_section/newsletter.php';  
 require_once SASWP_DIR_NAME.'/admin_section/plugin-installer/install.php';  
-//Loading Metaboxes
+//Loading View files
 require_once SASWP_DIR_NAME.'/view/help.php';  
 require_once SASWP_DIR_NAME.'/view/schema_type.php';  
 require_once SASWP_DIR_NAME.'/view/paywall.php';  
@@ -72,6 +72,10 @@ require_once SASWP_DIR_NAME.'/view/post_specific.php';
 require_once SASWP_DIR_NAME.'/view/review.php';  
 require_once SASWP_DIR_NAME.'/output/review-output.php'; 
 require_once SASWP_DIR_NAME.'/output/service.php'; 
+//Loading Reviews files
+require_once SASWP_DIR_NAME.'/reviews/reviews_admin.php'; 
+require_once SASWP_DIR_NAME.'/reviews/reviews_setup.php'; 
+
 require_once SASWP_DIR_NAME.'/google_review/google_review_widget.php';  
 //Google Review Files
 

@@ -419,7 +419,7 @@ class saswp_post_specific {
 
                                     if (strpos($meta_field['name'].'_'.$index.'_'.$schema_id, 'published_date') !== false){                                                                                                           
 
-                                            $class = 'class="saswp-local-schema-datepicker-picker"';    
+                                            $class = 'class="saswp-datepicker-picker"';    
                                     }
                                                                                                             
                                      $input = sprintf(
@@ -2095,7 +2095,7 @@ class saswp_post_specific {
                                                      || strpos($meta_field['id'], 'validthrough') !== false
                                                      || strpos($meta_field['id'], 'date_of_birth') !== false
                                                      ) {
-                                             $class='saswp-local-schema-datepicker-picker';    
+                                             $class='saswp-datepicker-picker';    
                                              }
                                              
                                             $input = sprintf(

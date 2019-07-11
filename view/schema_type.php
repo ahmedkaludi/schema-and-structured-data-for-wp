@@ -1556,12 +1556,12 @@ function saswp_schema_type_meta_box_callback( $post) {
 
                 <tr class="saswp-event-text-field-tr">
                     <td><?php echo esc_html__('Start Date', 'schema-and-structured-data-for-wp' ); ?></td>
-                    <td><input class="saswp-local-schema-datepicker-picker" value="<?php if(isset($event_details['saswp_event_schema_start_date'])){echo esc_attr($event_details['saswp_event_schema_start_date']); } ?>" type="text" name="saswp_event_schema_start_date" placeholder="<?php echo esc_html__('2018-12-12', 'schema-and-structured-data-for-wp' ); ?>" ></td>
+                    <td><input class="saswp-datepicker-picker" value="<?php if(isset($event_details['saswp_event_schema_start_date'])){echo esc_attr($event_details['saswp_event_schema_start_date']); } ?>" type="text" name="saswp_event_schema_start_date" placeholder="<?php echo esc_html__('2018-12-12', 'schema-and-structured-data-for-wp' ); ?>" ></td>
                 </tr>                                                
 
                 <tr class="saswp-event-text-field-tr">
                     <td><?php echo esc_html__('End Date', 'schema-and-structured-data-for-wp' ); ?></td>
-                    <td><input class="saswp-local-schema-datepicker-picker" value="<?php if(isset($event_details['saswp_event_schema_end_date'])){echo esc_attr($event_details['saswp_event_schema_end_date']); } ?>" type="text" name="saswp_event_schema_end_date" placeholder="<?php echo esc_html__('2018-12-12', 'schema-and-structured-data-for-wp' ); ?>" ></td>
+                    <td><input class="saswp-datepicker-picker" value="<?php if(isset($event_details['saswp_event_schema_end_date'])){echo esc_attr($event_details['saswp_event_schema_end_date']); } ?>" type="text" name="saswp_event_schema_end_date" placeholder="<?php echo esc_html__('2018-12-12', 'schema-and-structured-data-for-wp' ); ?>" ></td>
                 </tr>
 
                 <tr class="saswp-event-text-field-tr">
@@ -1609,7 +1609,7 @@ function saswp_schema_type_meta_box_callback( $post) {
 
                 <tr class="saswp-event-text-field-tr">
                     <td><?php echo esc_html__('Valid From', 'schema-and-structured-data-for-wp' ); ?></td>
-                    <td><input class="saswp-local-schema-datepicker-picker" value="<?php if(isset($event_details['saswp_event_schema_validfrom'])){echo esc_attr($event_details['saswp_event_schema_validfrom']); } ?>" type="text" name="saswp_event_schema_validfrom"></td>
+                    <td><input class="saswp-datepicker-picker" value="<?php if(isset($event_details['saswp_event_schema_validfrom'])){echo esc_attr($event_details['saswp_event_schema_validfrom']); } ?>" type="text" name="saswp_event_schema_validfrom"></td>
                 </tr>
 
                 <tr class="saswp-event-text-field-tr">

@@ -360,7 +360,7 @@ jQuery(document).ready(function($) {
         saswp_schema_datepicker();
         function saswp_schema_datepicker(){
         
-            $('.saswp-local-schema-datepicker-picker').datepicker({
+            $('.saswp-datepicker-picker').datepicker({
              dateFormat: "yy-mm-dd",
              minDate: 0
           });

@@ -1027,4 +1027,14 @@ Google review module ends here
     width: 98%;
 }
 
-/*** How to schema css ends here ***/    
+/*** How to schema css ends here ***/   
+
+/*** Reviews css starts here ***/   
+
+.saswp-image-preview img {
+    border-radius: 50px;
+}
+.saswp_review_platform{
+    float: left;
+}
+/*** Reviews css ends here ***/   
