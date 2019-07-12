@@ -1088,8 +1088,14 @@ jQuery(document).ready(function($){
           });
         }
         
+        saswp_reviews_datepicker();
+        function saswp_reviews_datepicker(){
         
-        
+            $('.saswp-reviews-datepicker-picker').datepicker({
+             dateFormat: "yy-mm-dd"            
+          });
+        }
+                        
         //Review js starts here
         
         $(document).on("click", ".saswp-add-more-item",function(e){

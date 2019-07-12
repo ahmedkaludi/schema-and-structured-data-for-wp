@@ -34,22 +34,22 @@ class saswp_reviews_admin {
 			'label'   => 'Review Text',
 			'id'      => 'saswp_review_text',
 			'type'    => 'textarea',                        			
-		    ), 
+		    ),
+                array(
+			'label'   => 'Review Link',
+			'id'      => 'saswp_review_link',
+			'type'    => 'text',                        			
+		    ),    
                 array(
 			'label'   => 'Review Platform',
 			'id'      => 'saswp_review_platform',
 			'type'    => 'select',
-                        'options' => array(
-                            'google'   => 'Google',
-                            'facebook' => 'Facebook',
-                            'yelp'     => 'Yelp',
-                            'zomato'   => 'zomato'
-                        )
+                        
 		    ),     
                                             
 	);
 	public function __construct() {
-            
+                
 		add_action( 'add_meta_boxes', array( $this, 'saswp_add_meta_boxes' ) );
 		add_action( 'save_post', array( $this, 'saswp_save_fields' ) );
                 add_action( 'admin_init', array( $this, 'saswp_removing_reviews_wysiwig' ) );
@@ -75,13 +75,15 @@ class saswp_reviews_admin {
                 
 	}
 	public function saswp_meta_box_callback( $post ) {
-            
+                
 		wp_nonce_field( 'saswp_reviews_data', 'saswp_reviews_nonce' );
 		$this->saswp_field_generator( $post );
                 
 	}
 	public function saswp_field_generator( $post ) {
             
+                $this->meta_fields[6]['options'] = saswp_get_terms_as_array();
+                
 		$output = '';                     
 		foreach ( $this->meta_fields as $meta_field ) {
                     
@@ -120,12 +122,11 @@ class saswp_reviews_admin {
                                                 $attributes    
 					);
 					foreach ( $meta_field['options'] as $key => $value ) {
-						$meta_field_value = !is_numeric( $key ) ? $key : $value;
-                                                
+						                                                
 						$input .= sprintf(
 							'<option %s value="%s">%s</option>',
-							$meta_value === $meta_field_value ? 'selected' : '',
-							$meta_field_value,
+							$meta_value == $key ? 'selected' : '',
+							$key,
 							esc_html__($value, 'schema-and-structured-data-for-wp')
 						);
 					}
@@ -215,7 +216,7 @@ class saswp_reviews_admin {
                                              $class = '';
                                              if (strpos($meta_field['id'], 'saswp_review_date') !== false ){
                                              
-                                                $class='saswp-datepicker-picker';    
+                                                $class='saswp-reviews-datepicker-picker';    
                                                 
                                              }
                                                                               
@@ -252,7 +253,9 @@ class saswp_reviews_admin {
                         return $post_id;
                 
 			$post_meta = array();                    
-			$post_meta = $_POST; // Sanitized below before saving
+			$post_meta = (array) $_POST; // Sanitized below before saving
+                        
+                        $this->meta_fields[6]['options'] = saswp_get_terms_as_array();
                         
 			foreach ( $this->meta_fields as $meta_field ) {
 

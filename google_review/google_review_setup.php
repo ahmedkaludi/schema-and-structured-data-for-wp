@@ -117,10 +117,12 @@ function saswp_get_google_review_data($place_id, $language=null){
         $language = '&language='.$language;
         
     }
+                global $sd_data; 
+                
+    if($place_id && isset($sd_data['saswp_google_place_api_key']) && $sd_data['saswp_google_place_api_key'] !=''){
         
-    if($place_id){
-            
-        $result = @wp_remote_get('https://maps.googleapis.com/maps/api/place/details/json?placeid='.$place_id.'&key=AIzaSyAQ1j_iD1npoqTRuhrIx-ADeVZjQddUqKs'.$language);        
+
+        $result = @wp_remote_get('https://maps.googleapis.com/maps/api/place/details/json?placeid='.trim($place_id).'&key='.trim($sd_data['saswp_google_place_api_key']).$language);        
         
         if(isset($result['body'])){
 

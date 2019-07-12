@@ -67,8 +67,12 @@ function saswp_reviews_custom_columns_set( $column, $post_id ) {
                     break;
                 case 'saswp_review_platform' :
                     
-                    $platform = get_post_meta( $post_id, $key='saswp_review_platform', true);                   
-                    echo '<span class="saswp-g-plus"><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/'.esc_attr($platform).'-img.png'.'"/></span>';
+                    $platform = get_post_meta( $post_id, $key='saswp_review_platform', true);  
+                    $term     = get_term( $platform, 'platform' );
+                    if(isset($term->slug)){
+                        echo '<span class="saswp-g-plus"><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/'.esc_attr($term->slug).'-img.png'.'" alt="Icon" /></span>';
+                    }
+                    
                                                                                                                                                             
                     break;
                 case 'saswp_review_date' :
@@ -149,8 +153,12 @@ function saswp_enqueue_rateyo_script( $hook ) {
                 
         if($post_type =='saswp_reviews'){
             
-            $rating_val = get_post_meta( get_the_ID(), $key='saswp_review_rating', true);                   
-                 
+            $rating_val= 0;
+            $rv_rating = get_post_meta( get_the_ID(), $key='saswp_review_rating', true);
+            if($rv_rating){
+                $rating_val = $rv_rating;
+            }
+                                                
             $data = array(                                    
                 'rating_val'                      => $rating_val, 
                 'readonly'                        => false, 
@@ -222,7 +230,72 @@ function saswp_create_platform_custom_taxonomy() {
    }
       
   }  
-  
+     
+}
+
+function saswp_get_terms_as_array(){
+    
+    $terms_array = array();
+    $terms = get_terms( 'platform', array( 'hide_empty' => false ) );  
+    
+    if($terms){
+        foreach ($terms as $val){
+            $terms_array[$val->term_id] = $val->name;
+            
+        }
+    }
+    
+    return $terms_array;
+    
 }
 
 
+/**
+ * Filter slugs
+ * @global type $typenow
+ * @global type $wp_query
+ */
+function saswp_reviews_filter() {
+    
+  global $typenow;
+  global $wp_query;
+    if ( $typenow == 'saswp_reviews' ) { // Your custom post type slug
+      $plugins = saswp_get_terms_as_array();
+      $current_plugin = '';
+      if( isset( $_GET['slug'] ) ) {
+        $current_plugin = esc_attr($_GET['slug']); // Check if option has been selected
+      } ?>
+      <select name="slug" id="slug">
+        <option value="all" <?php selected( 'all', $current_plugin ); ?>><?php esc_html_e( 'All', 'schema-and-structured-data-for-wp' ); ?></option>
+        <?php foreach( $plugins as $key=>$value ) { ?>
+          <option value="<?php echo esc_attr( $key ); ?>" <?php selected( $key, $current_plugin ); ?>><?php echo esc_attr( $value ); ?></option>
+        <?php } ?>
+      </select>
+  <?php }
+}
+
+add_action( 'restrict_manage_posts', 'saswp_reviews_filter' );
+
+
+/**
+ * Function to add display type filter in ads list dashboard
+ * @global type $pagenow
+ * @param type $query
+ */
+function saswp_sort_reviews_by_platform( $query ) {
+    
+  global $pagenow;
+  // Get the post type
+  $post_type = isset( $_GET['post_type'] ) ? $_GET['post_type'] : '';
+  
+  if ( is_admin() && $pagenow == 'edit.php' && $post_type == 'saswp_reviews' && isset( $_GET['slug'] ) && $_GET['slug'] !='all' ) {
+      
+    $query->query_vars['meta_key']     = 'saswp_review_platform';
+    $query->query_vars['meta_value']   = esc_attr($_GET['slug']);
+    $query->query_vars['meta_compare'] = '=';
+    
+  }
+  
+}
+
+add_filter( 'parse_query', 'saswp_sort_reviews_by_platform' );

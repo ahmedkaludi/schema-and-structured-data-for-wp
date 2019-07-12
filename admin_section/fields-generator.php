@@ -39,8 +39,8 @@ class saswp_fields_generator {
      * @param type $field_type
      * @since version 1.0
      */
-    public function saswp_field_generator( $meta_fields, $settings, $field_type = null ) {            
-        
+    public function saswp_field_generator( $meta_fields, $settings, $field_type = null ) {  
+                        
 		$output          = '';
                 $tooltip_message = '';
                 
@@ -223,10 +223,45 @@ class saswp_fields_generator {
 					);	
 									
 			}
+                        $reviews ='';
+                        if($meta_field['id'] == 'saswp_google_place_api_key'){
+                            
+                            $location = '';
+                            
+                            if(isset($settings['saswp_reviews_location_name']) && !empty($settings['saswp_reviews_location_name'])){
+                                $rv_loc = $settings['saswp_reviews_location_name'];
+                                
+                                foreach($rv_loc as $rvl){
+                                    if($rvl){
+                                        $location .= '<tr>'
+                                        . '<td><strong>Location</strong></td>'
+                                        . '<td><input class="saswp-g-location-field" name="sd_data[saswp_reviews_location_name][]" type="text" value="'. esc_attr($rvl).'"></td>'
+                                        . '<td><span class="dashicons dashicons-yes" style="color: #46b450;"></span></td>'
+                                        . '<td><a class="button button-default saswp-fetch-g-reviews">Fetch Reviews</a></td>'
+                                        . '<td><a type="button" class="saswp-remove-review-item button">x</a></td>'
+                                        . '</tr>'; 
+                                    }
+                                   
+                                }
+                            }
+                            
+                            $reviews = '<div class="saswp-g-reviews-settings saswp-knowledge-label">'
+                                . '<div><a class="button button-default saswp-add-g-location-btn">Add Location</a></div>'
+                                . '<div>'
+                                . '<table class="saswp-g-reviews-settings-table">'
+                                . $location                                 
+                                . '</table>'
+                                . '</div>'
+                                . '</div>';
+                        }
                         
                         $allowed_html = saswp_expanded_allowed_tags();
                         
-                        $output .= '<li><div class="saswp-knowledge-label">'.$label.'</div><div class="saswp-knowledge-field">'.$input.'<p class="">'.$note.'</p></div></li>';			
+                        $output .= '<li><div class="saswp-knowledge-label">'.$label.'</div>'
+                                .  '<div class="saswp-knowledge-field">'.$input.'<p class="">'.$note.'</p></div>'
+                                .  $reviews                                  
+                                .  '</li>';
+                                
                                                 
 		}
                 if($field_type == 'general'){

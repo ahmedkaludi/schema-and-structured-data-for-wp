@@ -74,7 +74,8 @@ require_once SASWP_DIR_NAME.'/output/review-output.php';
 require_once SASWP_DIR_NAME.'/output/service.php'; 
 //Loading Reviews files
 require_once SASWP_DIR_NAME.'/reviews/reviews_admin.php'; 
-require_once SASWP_DIR_NAME.'/reviews/reviews_setup.php'; 
+require_once SASWP_DIR_NAME.'/reviews/reviews_setup.php';
+require_once SASWP_DIR_NAME.'/reviews/reviews_service.php';
 
 require_once SASWP_DIR_NAME.'/google_review/google_review_widget.php';  
 //Google Review Files
