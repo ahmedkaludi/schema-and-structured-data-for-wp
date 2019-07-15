@@ -4,7 +4,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-add_action( 'init', 'saswp_add_reviews_menu_links',20); 
+add_action( 'init', 'saswp_register_saswp_reviews',20); 
+add_action( 'init', 'saswp_register_saswp_reviews_location',20); 
 
 add_action( 'manage_saswp_reviews_posts_custom_column' , 'saswp_reviews_custom_columns_set', 10, 2 );
 add_filter( 'manage_saswp_reviews_posts_columns', 'saswp_reviews_custom_columns' );
@@ -13,7 +14,35 @@ add_filter( 'manage_saswp_reviews_posts_columns', 'saswp_reviews_custom_columns'
  * Function to register reviews post type
  * since @version 1.9
  */
-function saswp_add_reviews_menu_links() {
+function saswp_register_saswp_reviews_location() {
+                        
+        $post_type = array(
+	    'labels' => array(
+	        'name' 			=> esc_html__( 'Location', 'schema-and-structured-data-for-wp' ),	        
+	        'add_new' 		=> esc_html__( 'Add Location', 'schema-and-structured-data-for-wp' ),
+	        'add_new_item'  	=> esc_html__( 'Edit Location', 'schema-and-structured-data-for-wp' ),
+                'edit_item'             => esc_html__( 'Edit Location','schema-and-structured-data-for-wp'),                
+	    ),
+      	'public' 		=> false,
+      	'has_archive' 		=> false,
+      	'exclude_from_search'	=> true,
+    	'publicly_queryable'	=> false,
+       // 'show_in_menu'          => 'edit.php?post_type=saswp',                
+        'show_ui'               => false,
+	'show_in_nav_menus'     => false,			
+        'show_admin_column'     => true,        
+	'rewrite'               => false,        
+    );
+        
+    register_post_type( 'saswp_rvs_location', $post_type );   
+                                
+}
+
+/**
+ * Function to register reviews post type
+ * since @version 1.9
+ */
+function saswp_register_saswp_reviews() {
                         
         $post_type = array(
 	    'labels' => array(
