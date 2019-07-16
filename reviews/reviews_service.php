@@ -15,15 +15,74 @@ class saswp_reviews_service {
         
     public function saswp_service_hooks(){
         add_action( 'wp_ajax_saswp_fetch_google_reviews', array($this,'saswp_fetch_google_reviews'));
+        add_shortcode('saswp-reviews', array($this,'saswp_reviews_shortcode'));
     }
-                
-    public function saswp_save_free_reviews_data($place, $place_id) {
+    
+    public function saswp_reviews_shortcode($attr){
         
+        
+        if(isset($attr['id'])){
+            
+        }
+        if(isset($attr['name'])){
+            
+        }
+        if(isset($attr['count'])){
+            
+        }
+        if(isset($attr['rating'])){
+            
+        }
+        if(isset($attr['platform'])){
+            
+        }
+        
+        $output = 'yahooo';
+        
+        return $output;
+        
+    }
+    public function saswp_save_free_reviews_data($result, $place_id) {
+                
+        $place_saved   = array();
+        $reviews_saved = array();
+        
+        if (isset($result['place_id']) && $result['place_id'] != '') {
+                                                                   
+                $user_id     = get_current_user_id();
+                $postarr = array(
+                    'post_author'           => $user_id,                                                            
+                    'post_title'            => $result['name'],                    
+                    'post_status'           => 'publish',                                                            
+                    'post_name'             => $result['name'],                                                            
+                    'post_type'             => 'saswp_rvs_location',
+                                                                             
+                );
+                   
+                $post_id = wp_insert_post(  $postarr );   
+                $place_saved[] = $post_id;                                                  
+                $review_meta = array(
+                        'saswp_rvs_location_id'                 => $result['place_id'],      
+                        'saswp_rvs_location_review_count'       => $result['user_ratings_total'], 
+                        'saswp_rvs_location_avg_rating'         => $result['rating'],
+                        'saswp_rvs_location_icon'               => $result['icon'],
+                        'saswp_rvs_location_address'            => $result['formatted_address'],
+                );
+
+                if($post_id && !empty($review_meta) && is_array($review_meta)){
+                                        
+                    foreach ($review_meta as $key => $val){                     
+                        update_post_meta($post_id, $key, $val);  
+                    }
+            
+                 }
+                            
+        }
         
                                             
-        if (isset($place['reviews'])) {
+        if (isset($result['reviews'])) {
             
-            $reviews = $place['reviews'];
+            $reviews = $result['reviews'];
             
             foreach ($reviews as $review) {
                
@@ -38,7 +97,7 @@ class saswp_reviews_service {
                 );
                    
                 $post_id = wp_insert_post(  $postarr );   
-                
+                $reviews_saved[] = $post_id;
                 $term     = get_term_by( 'slug','google', 'platform' );
                 
                 $media_detail = array();
@@ -79,11 +138,19 @@ class saswp_reviews_service {
             }
         }
         
-        return $response;
+        if(!empty($place_saved) || !empty($reviews_saved)){
+            return true;
+        }else{
+            return false;
+        }
+                
     }
     
     public function saswp_save_paid_reviews_data($result, $place_id) {
-                               
+            
+        $place_saved   = array();
+        $reviews_saved = array();
+        
         if (isset($result['unique_id']) && $result['unique_id'] != '') {
                                                                    
                 $user_id     = get_current_user_id();
@@ -97,11 +164,11 @@ class saswp_reviews_service {
                 );
                    
                 $post_id = wp_insert_post(  $postarr );   
-                                                 
+                $place_saved[] =  $post_id;                                
                 $review_meta = array(
                         'saswp_rvs_location_id'                 => $result['unique_id'],      
-                        'saswp_rvs_location_review_count'       => $result['unique_id'], 
-                        'saswp_rvs_location_avg_rating'         => $result['unique_id'], 
+                        'saswp_rvs_location_review_count'       => $result['review_count'], 
+                        'saswp_rvs_location_avg_rating'         => $result['average_rating'],                                                
                 );
 
                 if($post_id && !empty($review_meta) && is_array($review_meta)){
@@ -132,7 +199,7 @@ class saswp_reviews_service {
                 );
                    
                 $post_id = wp_insert_post(  $postarr );   
-                                                
+                $reviews_saved[] =  $post_id;                              
                 $media_detail = array();
                 
                 if(isset($review['saswp_reviewer_image'])){
@@ -170,39 +237,70 @@ class saswp_reviews_service {
                 
             }
         }
+        
+        if(!empty($place_saved) || !empty($reviews_saved)){
+            return true;
+        }else{
+            return false;
+        }
                 
     }
     
-    public function saswp_get_paid_reviews_data($location){
+    public function saswp_get_paid_reviews_data($location, $api_key){
                 
         global $sd_data;
         
-        $api_key = '54244555454';
+        //$api_key = base64_encode( urlencode( "n8KP16uvGZA6xvFTtb8IAA:i4pmOV0duXJv7TyF5IvyFdh5wDIqfJOovKjs92ei878" ) );
         
+        $api_key = '545455456454';
+        
+        $current_user = wp_get_current_user();
+        $current_user = $current_user->data;        
         $body = array(
-            'user_email' => 'abddd@gmail.com',
-            'user_name' => 'Raju',
+            'user_login'  => $current_user->user_login,
+            'user_email' => $current_user->user_email,
+            'place_id'   => $location,    
+        );
+        $header = array(
+           'Authorization' => 'Basic' . $api_key 
         );
         
         $result = @wp_remote_post('http://localhost/wordpress/wp-json/reviews-route/add_profile',
                     array(
-                       'headers' => array('Content-Type' => 'application/json; charset=utf-8'),
-                        'body'      => json_encode($body),
-                        'method'    => 'POST'
-                   )
-                   
-                ); 
+                        'method'      => 'POST',
+                        'timeout'     => 45,
+                        'redirection' => 5,
+                        'httpversion' => '1.1',
+                        'blocking'    => true,
+                        'headers'     => $header,
+                        'body'        => $body,
+                        'cookies'     => array()
+                    )                                      
+                );                         
+              
+       if(wp_remote_retrieve_response_code($result) == 200 && wp_remote_retrieve_body($result)){
+            
+              $api_key = '23030303';  
+              $result = @wp_remote_get('http://localhost/wordpress/wp-json/reviews-route/get_reviews?api_key='.$api_key.'&place_id='.$location);        
+              
+              if(isset($result['body'])){
+              $result = json_decode($result['body'],true);              
+              $response = $this->saswp_save_paid_reviews_data($result, $location);
+              
+              return $response;
+              }else{
+               return null;
+              }
+        }
         
-       // print_r($result);die;
-        $result = @wp_remote_get('http://localhost/wordpress/wp-json/reviews-route/get_reviews?api_key=54561616');        
-        
-        if(isset($result['body'])){
-           $result = json_decode($result['body'],true);              
-           $response = $this->saswp_save_paid_reviews_data($result, $location);
-           return $response;
-        }else{
-           return null;
-        }        
+        if ( is_wp_error( $result ) ) {
+            $error_message = $result->get_error_message();
+            echo "Something went wrong: $error_message";
+        } else {
+            echo 'Response:<pre>';
+            print_r( $result );
+            echo '</pre>';
+        }
                 
     }
     
@@ -220,6 +318,7 @@ class saswp_reviews_service {
         }        
                                             
     }
+    
     public function saswp_fetch_google_reviews(){
                 
                 if ( ! current_user_can( 'manage_options' ) ) {
@@ -233,23 +332,34 @@ class saswp_reviews_service {
                 if ( !wp_verify_nonce( $_POST['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
                    return;  
                 }
-                
-                $location   = '';
-                
-                $google_api = '';
-                
+                global $sd_data;
+                $location  = '';
+                                                
                 if(isset($_POST['location'])){
                     $location = sanitize_text_field($_POST['location']);
                 }
                                                 
                 if($location){
-                 
+                    
+                   if(isset($sd_data['saswp_reviews_location_name'])){
+                          
+                       if(!in_array($location, $sd_data['saswp_reviews_location_name'])){
+                           array_push($sd_data['saswp_reviews_location_name'], $location);                       
+                       }
+                                              
+                   }else{
+                       $sd_data['saswp_reviews_location_name'] = array($location);  
+                       
+                   }
+                  update_option('sd_data', $sd_data);    
+                  
+                  $result = null;
                   $api_key        = '56564646';
                   $api_key_status = 'valid';
                     
-                  if($api_key && $api_key_status == 'valid'){
+                  if($api_key && $api_key_status == 'validd'){
                         
-                      $result = $this->saswp_get_paid_reviews_data($location);
+                          $result = $this->saswp_get_paid_reviews_data($location, $api_key);
                       
                   }else{
                       

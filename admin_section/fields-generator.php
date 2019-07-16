@@ -223,7 +223,8 @@ class saswp_fields_generator {
 					);	
 									
 			}
-                        $reviews ='';
+                        $reviews =  $pro_api = '';
+                        $toggle_button = '';
                         if($meta_field['id'] == 'saswp_google_place_api_key'){
                             
                             $location = '';
@@ -234,7 +235,7 @@ class saswp_fields_generator {
                                 foreach($rv_loc as $rvl){
                                     if($rvl){
                                         $location .= '<tr>'
-                                        . '<td><strong>Location</strong></td>'
+                                        . '<td><strong>Place Id</strong></td>'
                                         . '<td><input class="saswp-g-location-field" name="sd_data[saswp_reviews_location_name][]" type="text" value="'. esc_attr($rvl).'"></td>'
                                         . '<td><span class="dashicons dashicons-yes" style="color: #46b450;"></span></td>'
                                         . '<td><a class="button button-default saswp-fetch-g-reviews">Fetch Reviews</a></td>'
@@ -245,19 +246,42 @@ class saswp_fields_generator {
                                 }
                             }
                             
-                            $reviews = '<div class="saswp-g-reviews-settings saswp-knowledge-label">'
-                                . '<div><a class="button button-default saswp-add-g-location-btn">Add Location</a></div>'
+                            $reviews = '<div class="saswp-g-reviews-settings saswp-knowledge-label">'                                
                                 . '<div>'
                                 . '<table class="saswp-g-reviews-settings-table">'
                                 . $location                                 
                                 . '</table>'
                                 . '</div>'
+                                . '<div><a class="button button-default saswp-add-g-location-btn">Add Location</a></div>'    
                                 . '</div>';
+                            
+                            $toggle_button = '<div class="saswp-knowledge-label">
+                                            <div class="saswp_reviews_toggle">
+                                            <input id="saswp_review_toggle_btn" type="checkbox">
+                                            <label for="saswp_review_toggle_btn">
+                                            <div class="saswp_reviews_toggle__switch" data-checked="All" data-unchecked="5 Reviews"></div>
+                                            <div class="saswp_reviews_toggle__label-text"></div>
+                                            </label>
+                                            </div>
+                                            </div>';
+                            $pro_api    = '<div class="saswp-knowledge-label">
+                                           <label class="saswp-tooltip" for="saswp_google_place_api_key">Pro API Key<span class="saswp-tooltiptext"></span>
+                                           </label>
+                                           </div>
+                                            <div class="saswp-knowledge-field">
+                                            <div>
+                                            <input style="width:100%" type="text" name="sd_data[saswp-saswp_g_pro_api_key]" value="">
+                                            </div>
+                                            </div>';
+                            
                         }
                         
                         $allowed_html = saswp_expanded_allowed_tags();
                         
-                        $output .= '<li><div class="saswp-knowledge-label">'.$label.'</div>'
+                        $output .= '<li>'
+                                .  $toggle_button
+                                .  $pro_api
+                                .  '<div class="saswp-knowledge-label">'.$label.'</div>'
                                 .  '<div class="saswp-knowledge-field">'.$input.'<p class="">'.$note.'</p></div>'
                                 .  $reviews                                  
                                 .  '</li>';

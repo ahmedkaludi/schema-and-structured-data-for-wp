@@ -1027,14 +1027,103 @@ Google review module ends here
     width: 98%;
 }
 
-/*** How to schema css ends here ***/   
+/*** How to schema css ends here ***/    
 
-/*** Reviews css starts here ***/   
+/*** Toggle button css starts here ***/    
 
-.saswp-image-preview img {
-    border-radius: 50px;
+.saswp_reviews_toggle input[type="checkbox"] {
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
 }
-.saswp_review_platform{
-    float: left;
+.saswp_reviews_toggle label {
+    font-size: 14px;
+        -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    position: relative;
+    display: flex;
+    align-items: center;
 }
-/*** Reviews css ends here ***/   
+.saswp_reviews_toggle label .saswp_reviews_toggle__switch {
+    height: 36px;
+    flex: 0 0 134px;
+    border-radius: 4px;
+}
+.saswp_reviews_toggle label .saswp_reviews_toggle__switch {
+    transition: background-color 0.3s cubic-bezier(0, 1, 0.5, 1);
+    background: #848484;
+}
+.saswp_reviews_toggle label .saswp_reviews_toggle__switch:before {
+    left: 67px;
+    font-size: 12px;
+    line-height: 36px;
+    width: 67px;
+    padding: 0 12px;
+}
+.saswp_reviews_toggle label .saswp_reviews_toggle__switch:before {
+    color: rgba(255, 255, 255, 0.5);
+}
+.saswp_reviews_toggle label .saswp_reviews_toggle__switch:before {
+    content: attr(data-checked);
+    position: absolute;
+    top: 0;
+    text-transform: uppercase;
+    text-align: center;
+}
+.saswp_reviews_toggle label .saswp_reviews_toggle__switch:after {
+    top: 2px;
+    left: 2px;
+    border-radius: 2px;
+    width: 65px;
+    line-height: 32px;
+    font-size: 12px;
+}
+.saswp_reviews_toggle label .saswp_reviews_toggle__switch:after {
+    content: attr(data-unchecked);
+    position: absolute;
+    z-index: 5;
+    text-transform: uppercase;
+    text-align: center;
+    background: white;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+}
+.saswp_reviews_toggle label .saswp_reviews_toggle__label-text {
+    flex: 1;
+}
+.saswp_reviews_toggle label .saswp_reviews_toggle__label-text {
+    flex: 1;
+    padding-left: 32px;
+}
+.saswp_reviews_toggle input[type="checkbox"]:checked ~ label .saswp_reviews_toggle__switch:after {
+    -webkit-transform: translate3d(65px, 0, 0);
+     transform: translate3d(65px, 0, 0); 
+}
+.saswp_reviews_toggle input[type="checkbox"]:checked ~ label .saswp_reviews_toggle__switch:before {
+    content: attr(data-unchecked);
+    left: 0;
+}
+.saswp_reviews_toggle input[type="checkbox"]:checked ~ label .saswp_reviews_toggle__switch:after {
+    content: attr(data-checked);
+}
+.saswp_reviews_toggle label .saswp_reviews_toggle__switch:after {
+    content: attr(data-unchecked);
+    position: absolute;
+    z-index: 5;
+    text-transform: uppercase;
+    text-align: center;
+    background: white;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+}
+.saswp_reviews_toggle label .saswp_reviews_toggle__switch:before {
+    left: 67px;
+    font-size: 12px;
+    line-height: 36px;
+    width: 67px;
+    padding: 0 12px;
+}
+/*** Toggle button css ends here ***/    
