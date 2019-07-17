@@ -1294,6 +1294,16 @@ if ( ! defined('ABSPATH') ) exit;
                 $my_allowed['style'] = array(
                         'types' => array(),
                 );
+                $my_allowed['a'] = array(
+                        'href' => array(),
+                        'add-on' => array(),
+                        'license-status' => array(),
+                        'class' => array(),
+                );
+                $my_allowed['p'] = array(                        
+                        'add-on' => array(),                        
+                        'class' => array(),
+                );
                 return $my_allowed;
             }    
             

@@ -223,26 +223,28 @@ class saswp_fields_generator {
 					);	
 									
 			}
-                        $reviews =  $pro_api = '';
-                        $toggle_button = '';
+                        $reviews =  $pro_api = $toggle_button = '';
+                        
                         if($meta_field['id'] == 'saswp_google_place_api_key'){
                             
                             $location = '';
                             
                             if(isset($settings['saswp_reviews_location_name']) && !empty($settings['saswp_reviews_location_name'])){
                                 $rv_loc = $settings['saswp_reviews_location_name'];
-                                
+                                $rv_blocks = $settings['saswp_reviews_location_blocks'];
+                                $i=0;
                                 foreach($rv_loc as $rvl){
                                     if($rvl){
                                         $location .= '<tr>'
                                         . '<td><strong>Place Id</strong></td>'
                                         . '<td><input class="saswp-g-location-field" name="sd_data[saswp_reviews_location_name][]" type="text" value="'. esc_attr($rvl).'"></td>'
-                                        . '<td><span class="dashicons dashicons-yes" style="color: #46b450;"></span></td>'
+                                        . '<td><input class="saswp-g-blocks-field" name="sd_data[saswp_reviews_location_blocks][]" type="number" placeholder="1" value="'. esc_attr($rv_blocks[$i]).'"></td>'                                        
                                         . '<td><a class="button button-default saswp-fetch-g-reviews">Fetch Reviews</a></td>'
                                         . '<td><a type="button" class="saswp-remove-review-item button">x</a></td>'
+                                        . '<td><p class="saswp-rv-fetched-msg"></p></td>'        
                                         . '</tr>'; 
                                     }
-                                   
+                                   $i++;
                                 }
                             }
                             
@@ -257,22 +259,42 @@ class saswp_fields_generator {
                             
                             $toggle_button = '<div class="saswp-knowledge-label">
                                             <div class="saswp_reviews_toggle">
-                                            <input id="saswp_review_toggle_btn" type="checkbox">
+                                            <input name="sd_data[saswp_review_toggle]" id="saswp_review_toggle_btn" type="checkbox" value="1" '.(isset($settings['saswp_review_toggle']) ? 'checked': '').'>
                                             <label for="saswp_review_toggle_btn">
                                             <div class="saswp_reviews_toggle__switch" data-checked="All" data-unchecked="5 Reviews"></div>
                                             <div class="saswp_reviews_toggle__label-text"></div>
                                             </label>
                                             </div>
                                             </div>';
+                                                                                                               
+                            $on                 = 'Google';
+                            $license_key        = '';
+                            $license_status     = 'inactive';
+                            $license_status_msg = '';
+                            $rv_limits          = '';
+                            
+                            if(isset($settings[strtolower($on).'_addon_license_key'])){
+                            $license_key =   $settings[strtolower($on).'_addon_license_key'];
+                            }
+
+                            if(isset($settings[strtolower($on).'_addon_license_key_status'])){
+                              $license_status =   $settings[strtolower($on).'_addon_license_key_status'];
+                            }
+
+                            if(isset($settings[strtolower($on).'_addon_license_key_message'])){
+                              $license_status_msg =   $settings[strtolower($on).'_addon_license_key_message'];
+                            }
+                            
+                            if(isset($settings[strtolower($on).'_addon_reviews_limits']) && $license_status =='active'){
+                              $rv_limits =   $settings[strtolower($on).'_addon_reviews_limits'];
+                            }
+                                                                                   
                             $pro_api    = '<div class="saswp-knowledge-label">
-                                           <label class="saswp-tooltip" for="saswp_google_place_api_key">Pro API Key<span class="saswp-tooltiptext"></span>
-                                           </label>
-                                           </div>
-                                            <div class="saswp-knowledge-field">
-                                            <div>
-                                            <input style="width:100%" type="text" name="sd_data[saswp-saswp_g_pro_api_key]" value="">
+                                            <strong>Pro API Key</strong>
                                             </div>
-                                            </div>';
+                                           <div class="saswp-knowledge-field">
+                                            '.saswp_get_license_section_html($on, $license_key, $license_status, $license_status_msg, $lable=false, $rv_limits).'
+                                          </div>';
                             
                         }
                         

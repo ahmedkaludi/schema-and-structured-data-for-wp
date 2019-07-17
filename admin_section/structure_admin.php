@@ -1363,14 +1363,84 @@ add_action('wp_ajax_saswp_feeback_remindme', 'saswp_feeback_remindme');
  * Licensing code starts here
  */
 
+function saswp_reviews_limits_by_price_id($price_id){
+    
+    $limits = 0;
+    
+    switch ($price_id) {
+        
+        case 1:
+
+         $limits = 100;  
+            
+        break;
+    
+        case 2:
+
+         $limits = 200;  
+            
+        break;
+    
+        case 3:
+
+         $limits = 500;  
+            
+        break;
+
+        default:
+            break;
+    }
+    
+    return $limits;
+    
+}
+
+function saswp_create_reviews_user($license_key, $add_on){
+    
+    if($license_key && $add_on){
+        
+        $current_user = wp_get_current_user();
+        $current_user = $current_user->data;        
+        $body = array(
+            'user_login'    => $current_user->user_login,
+            'user_email'    => $current_user->user_email,
+            'api_key'       => $license_key,
+            'add_on'        => $add_on,
+            'user_url'      => home_url(),
+        );
+        $server_url =  'http://localhost/wordpress/wp-json/reviews-route/create_user';       
+        $result = @wp_remote_post($server_url,
+                    array(
+                        'method'      => 'POST',
+                        'timeout'     => 45,
+                        'redirection' => 5,
+                        'httpversion' => '1.1',
+                        'blocking'    => true,                        
+                        'body'        => $body,                        
+                    )                                      
+                );                    
+        if(wp_remote_retrieve_response_code($result) == 200 && wp_remote_retrieve_body($result)){              
+                return wp_remote_retrieve_body($result);              
+              }else{
+                return null;
+              }
+        }
+        
+        if ( is_wp_error( $result ) ) {
+            $error_message = $result->get_error_message();
+            echo "Something went wrong: $error_message";
+        }                                     
+    
+}
 
 function saswp_license_status($add_on, $license_status, $license_key){
-                              
+                                      
                 $item_name = array(
                        'cooked'      => 'Cooked compatibility for Schema',
-                       'woocommerce' => 'Woocommerce compatibility for Schema'   
+                       'woocommerce' => 'Woocommerce compatibility for Schema',
+                       'google'      => 'Google'  
                 );
-                                                                    
+                                                                                    
                 $edd_action = '';
                 if($license_status =='active'){
                    $edd_action = 'activate_license'; 
@@ -1388,6 +1458,7 @@ function saswp_license_status($add_on, $license_status, $license_key){
 			'url'        => home_url(),
                         'beta'       => false,
 		);
+                
                 $message        = '';
                 $current_status = '';
                 $response = wp_remote_post( SASWP_EDD_STORE_URL, array( 'timeout' => 15, 'sslverify' => false, 'body' => $api_params ) );
@@ -1441,9 +1512,19 @@ function saswp_license_status($add_on, $license_status, $license_key){
                     
                     if($license_status == 'active'){
                         
+                        if($item_name[strtolower($add_on)] == 'google'){
+                            $user_create = saswp_create_reviews_user($license_key, $item_name[strtolower($add_on)]);                            
+                            $license[strtolower($add_on).'_addon_user_id']  = $user_create;
+                        } 
+                        
                         $license[strtolower($add_on).'_addon_license_key_status']  = 'active';
                         $license[strtolower($add_on).'_addon_license_key']         = $license_key;
                         $license[strtolower($add_on).'_addon_license_key_message'] = 'active';
+                        
+                        if(isset($license_data->price_id)){
+                         $license[strtolower($add_on).'_addon_reviews_limits'] = saswp_reviews_limits_by_price_id($license_data->price_id);    
+                        }
+                        
                         $current_status = 'active';
                         $message = 'Activated';
                     }
@@ -1473,10 +1554,10 @@ function saswp_license_status_check(){
              return;
         }
         if ( ! isset( $_POST['saswp_security_nonce'] ) ){
-           return; 
+             return; 
         }
         if ( !wp_verify_nonce( $_POST['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
-           return;  
+             return;  
         }    
         
         $add_on           = sanitize_text_field($_POST['add_on']);

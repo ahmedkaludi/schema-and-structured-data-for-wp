@@ -1226,43 +1226,7 @@ function saswp_import_callback(){
                 }
                 
                 echo '<li>';
-                echo '<div class="saswp-tools-field-title">';
-                
-                echo '<div class="" style="display:inline-block">';
-                echo '<strong>'.esc_html__(''.$on.' Compatibility For Schema','schema-and-structured-data-for-wp').'</strong>';
-                echo '</div>';
-                
-                if($license_status == 'active'){
-                
-                    echo '<span class="dashicons dashicons-yes saswp-'.strtolower($on).'-dashicons" style="color: #46b450;"></span>';    
-                    
-                }else{
-                
-                    echo '<span class="dashicons dashicons-no-alt saswp-'.strtolower($on).'-dashicons" style="color: #dc3232;"></span>';
-                    
-                }
-                                                
-                echo '<input type="text" placeholder="Enter License Key" id="'.strtolower($on).'_addon_license_key" name="sd_data['.strtolower($on).'_addon_license_key]" value="'.esc_attr($license_key).'">';
-                
-                echo '<input type="hidden" id="'.strtolower($on).'_addon_license_key_status" name="sd_data['.strtolower($on).'_addon_license_key_status]" value="'.esc_attr($license_status).'">';                
-                
-                if($license_status == 'active'){
-                
-                    echo '<a license-status="inactive" add-on="'.strtolower($on).'" class="button button-default saswp_license_activation">'.esc_html__('Deactivate', 'schema-and-structured-data-for-wp').'</a>';
-                    
-                }else{
-                
-                    echo '<a license-status="active" add-on="'.strtolower($on).'" class="button button-default saswp_license_activation">'.esc_html__('Activate', 'schema-and-structured-data-for-wp').'</a>';
-                    
-                }
-                
-                if($license_status_msg !='active'){
-                    echo '<p style="color:red;" add-on="'.strtolower($on).'" class="saswp_license_status_msg">'.$license_status_msg.'</p>';
-                }                
-                                                
-                echo '<p>'.esc_html__('Enter your '.$on.' addon license key to activate updates & support.','schema-and-structured-data-for-wp').'</p>';
-                
-                echo '</div>';
+                echo saswp_get_license_section_html($on, $license_key, $license_status, $license_status_msg, $label=true, $limits=false);
                 echo '</li>';
                 
             }
@@ -1291,8 +1255,7 @@ function saswp_import_callback(){
                    $translation = $settings[$key];
                }else{
                    $translation = $val;
-               }
-               
+               }               
                 echo  '<tr>'
                     . '<td><strong>'.esc_attr($val).'</strong></td>'
                     . '<td><input class="regular-text" type="text" name="sd_data['.esc_attr($key).']" value="'. esc_attr($translation).'"></td>'
@@ -1313,6 +1276,60 @@ function saswp_import_callback(){
 
 <?php
          
+}
+
+function saswp_get_license_section_html($on, $license_key, $license_status, $license_status_msg, $label=null, $limits=null){
+            
+    $limits_html = $response = '';
+    
+    if($limits){
+       $limits_html = '<span style="padding:10px;">Maximum Reviws Limits '. esc_attr($limits).'</span>'; 
+    }
+    
+    $response.= '<div class="saswp-tools-field-title">';
+                
+               if($label == true){
+                $response.= '<div class="" style="display:inline-block">';
+                $response.= '<strong>'.esc_html__(''.$on.' Compatibility For Schema','schema-and-structured-data-for-wp').'</strong>';
+                $response.= '</div>';
+               }
+                
+                
+                if($license_status == 'active'){
+                
+                    $response.= '<span class="dashicons dashicons-yes saswp-'.strtolower($on).'-dashicons" style="color: #46b450;"></span>';    
+                    
+                }else{
+                
+                    $response.= '<span class="dashicons dashicons-no-alt saswp-'.strtolower($on).'-dashicons" style="color: #dc3232;"></span>';
+                    
+                }
+                                                
+                $response.= '<input type="text" placeholder="Enter License Key" id="'.strtolower($on).'_addon_license_key" name="sd_data['.strtolower($on).'_addon_license_key]" value="'.esc_attr($license_key).'">';
+                
+                $response.= '<input type="hidden" id="'.strtolower($on).'_addon_license_key_status" name="sd_data['.strtolower($on).'_addon_license_key_status]" value="'.esc_attr($license_status).'">';                
+                
+                if($license_status == 'active'){
+                
+                    $response.= '<a license-status="inactive" add-on="'.strtolower($on).'" class="button button-default saswp_license_activation">'.esc_html__('Deactivate', 'schema-and-structured-data-for-wp').'</a>'.$limits_html;
+                    
+                }else{
+                
+                    $response.= '<a license-status="active" add-on="'.strtolower($on).'" class="button button-default saswp_license_activation">'.esc_html__('Activate', 'schema-and-structured-data-for-wp').'</a>'.$limits_html;
+                    
+                }
+                
+                if($license_status_msg !='active'){
+                    
+                    $response.= '<p style="color:red;" add-on="'.strtolower($on).'" class="saswp_license_status_msg">'.$license_status_msg.'</p>';
+                }                
+                                                
+                $response.= '<p>'.esc_html__('Enter your '.$on.' addon license key to activate updates & support.','schema-and-structured-data-for-wp').'</p>';
+                
+                $response.= '</div>';
+                
+                return $response;
+    
 }
 
 function saswp_review_page_callback(){

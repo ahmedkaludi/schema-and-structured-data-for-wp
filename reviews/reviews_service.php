@@ -18,28 +18,201 @@ class saswp_reviews_service {
         add_shortcode('saswp-reviews', array($this,'saswp_reviews_shortcode'));
     }
     
+    
+    public function saswp_get_reviews_schema_markup(){
+                                        
+                            global $sd_data; 
+                        
+                            $html = '';                                                                                                                                      														
+                            $date 		= get_the_date("Y-m-d\TH:i:s\Z");
+                            $modified_date 	= get_the_modified_date("Y-m-d\TH:i:s\Z");
+			                                                                                                                                                 
+                            $total_score = esc_attr(number_format((float)5, 2, '.', ''));
+                            
+                            $input1 = array(
+                                    '@context'       => 'http://schema.org',
+                                    '@type'          => 'Review',
+                                    'dateCreated'    => esc_html($date),
+                                    'datePublished'  => esc_html($date),
+                                    'dateModified'   => esc_html($modified_date),
+                                    'headline'       => saswp_get_the_title(),
+                                    'name'           => saswp_get_the_title(),                                    
+                                    'url'            => get_permalink(),
+                                    'description'    => saswp_get_the_excerpt(),
+                                    'copyrightYear'  => get_the_time( 'Y' ),                                                                                                           
+                                    'author'	     => saswp_get_author_details()                                                                                        
+                                    );
+                                    
+                                    $input1['itemReviewed'] = array(
+                                            '@type' => 'Thing',
+                                            'name'  => saswp_get_the_title(),
+                                    );
+
+                                    $input1['reviewRating'] = array(
+                                        '@type'       => 'Rating',
+                                        'worstRating' => 1,
+                                        'bestRating'  => 5,
+                                        'ratingValue' => esc_attr($total_score),                                        
+                                     ); 
+                                                                                                
+                            if(!empty($input1)){
+                                
+                                $html .= "\n";
+                                $html .= '<!-- Schema & Structured Data For Reviews v'.esc_attr(SASWP_VERSION).' - -->';
+                                $html .= "\n";
+                                $html .= '<script type="application/ld+json" class="saswp-reviews-markup">'; 
+                                $html .= "\n";       
+                                $html .= saswp_json_print_format($input1);       
+                                $html .= "\n";
+                                $html .= '</script>';
+                                $html .= "\n\n";
+                                
+                            }        
+                                                                                                        
+                        return $html;              
+    }
+    
+    public function saswp_reviews_html_markup($reviews){
+        
+        $output = '';
+        if($reviews){
+                        
+            foreach ($reviews as $review){
+
+                    $review_rating = $review['saswp_review_rating'];
+
+                    $starating = saswp_get_rating_html_by_value($review_rating);
+
+                    $term     = get_term( $review['saswp_review_platform'], 'platform' );
+
+                    $output.= '<div class="saswp-g-review-panel">
+                              <div class="saswp-glg-review-body">
+                                <div class="saswp-rv-img">
+                                    <img src="'.esc_url($review['saswp_reviewer_image']).'" alt="'.$review['saswp_reviewer_name'].'">
+                                </div>
+                                <div class="saswp-rv-cnt">
+                                    <div class="saswp-str-rtng">
+                                        <div class="saswp-str">
+                                            <span class="saswp-athr">'.$review['saswp_reviewer_name'].'</span>
+                                            '.$starating.'                                  
+                                        </div> 
+                                        <span class="saswp-g-plus">
+                                            <a href="#"><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/'.$term->slug.'-img.png'.'"></a>
+                                        </span>
+                                    </div>                                                
+                                    <p>'.substr($review['saswp_review_text'],0,300).'</p>
+                                </div>
+                              </div>
+                          </div>';
+
+                }
+
+             wp_enqueue_style( 'saswp-style', SASWP_PLUGIN_URL . 'admin_section/css/saswp-style.min.css', false , SASWP_VERSION );       
+
+            } 
+        return $output;            
+        
+    }
+    public function saswp_reviews_front_output($attr){
+        
+        
+            $arg = array();
+            $arg['post_type']      = 'saswp_reviews';
+            $arg['posts_per_page'] = -1;
+            $arg['post_status']    = 'publish';
+            
+            if(isset($attr['id'])){
+              $arg['attachment_id']    = $attr['id'];  
+            }
+            if(isset($attr['title'])){
+              $arg['title']    = $attr['title'];  
+            }
+            if(isset($attr['count'])){
+                $arg['posts_per_page'] = $attr['count'];
+            }
+            
+            $meta_query = array();
+                    
+            if(isset($attr['rating'])){
+                    $meta_query[] = array(
+                        'key'     => 'saswp_review_rating',
+                        'value'   => $attr['rating'],
+                        'compare' => '='
+                    );
+            }
+            if(isset($attr['platform'])){
+                $term     = get_term_by( 'slug', $attr['platform'], 'platform' );
+                
+                  $meta_query[] =   array(
+                        'key'     => 'saswp_review_platform',
+                        'value'   => $term->term_id,
+                        'compare' => '='
+                    );
+            }
+                        
+            $meta_query_args = array(            
+            array(
+                'relation' => 'AND',
+                 $meta_query 
+                )
+            );
+            
+            $arg['meta_query'] = $meta_query_args;
+                                
+            $posts_list = get_posts($arg); 
+                 
+            $reviews = array();
+            
+            $post_meta = array(              
+              'saswp_reviewer_image',
+              'saswp_reviewer_name',
+              'saswp_review_rating',
+              'saswp_review_date',
+              'saswp_review_text',
+              'saswp_review_link',
+              'saswp_review_platform',
+            );
+        
+            if($posts_list){
+                foreach($posts_list as $post){
+                
+                $review_data = array();
+                $post_id = $post->ID; 
+                                
+                foreach($post_meta as $meta_key){
+                    
+                    $review_data[$meta_key] = get_post_meta($post_id, $meta_key, true ); 
+                    
+                }
+                   $reviews[] = $review_data;  
+                }
+            }
+            $output = '';
+            if($reviews){
+               $output = $this->saswp_reviews_html_markup($reviews);    
+            }
+            
+            return $output;
+                                        
+    }
+    
     public function saswp_reviews_shortcode($attr){
+                                        
         
-        
-        if(isset($attr['id'])){
-            
-        }
-        if(isset($attr['name'])){
-            
-        }
-        if(isset($attr['count'])){
-            
-        }
-        if(isset($attr['rating'])){
-            
-        }
-        if(isset($attr['platform'])){
-            
+        if(saswp_global_option()){
+                
+          $schema_markup = $this->saswp_get_reviews_schema_markup();
+                
         }
         
-        $output = 'yahooo';
+        $response = $this->saswp_reviews_front_output($attr);
         
-        return $output;
+        if($schema_markup){
+               $response = $response.$schema_markup;
+               
+        }
+        
+        return $response;
         
     }
     public function saswp_save_free_reviews_data($result, $place_id) {
@@ -246,21 +419,18 @@ class saswp_reviews_service {
                 
     }
     
-    public function saswp_get_paid_reviews_data($location, $api_key){
-                
-        global $sd_data;
-        
+    public function saswp_get_paid_reviews_data($location, $api_key, $user_id, $blocks){
+                                
         //$api_key = base64_encode( urlencode( "n8KP16uvGZA6xvFTtb8IAA:i4pmOV0duXJv7TyF5IvyFdh5wDIqfJOovKjs92ei878" ) );
         
         $api_key = '545455456454';
-        
-        $current_user = wp_get_current_user();
-        $current_user = $current_user->data;        
-        $body = array(
-            'user_login'  => $current_user->user_login,
-            'user_email' => $current_user->user_email,
-            'place_id'   => $location,    
+                            
+        $body = array(                        
+            'place_id'   => $location, 
+            'user_id'    => $user_id, 
+            'blocks'     => $blocks, 
         );
+        
         $header = array(
            'Authorization' => 'Basic' . $api_key 
         );
@@ -279,11 +449,11 @@ class saswp_reviews_service {
                 );                         
               
        if(wp_remote_retrieve_response_code($result) == 200 && wp_remote_retrieve_body($result)){
-            
-              $api_key = '23030303';  
+                           
               $result = @wp_remote_get('http://localhost/wordpress/wp-json/reviews-route/get_reviews?api_key='.$api_key.'&place_id='.$location);        
               
               if(isset($result['body'])){
+                  
               $result = json_decode($result['body'],true);              
               $response = $this->saswp_save_paid_reviews_data($result, $location);
               
@@ -333,10 +503,14 @@ class saswp_reviews_service {
                    return;  
                 }
                 global $sd_data;
-                $location  = '';
+                $location  = $blocks = '';
                                                 
                 if(isset($_POST['location'])){
                     $location = sanitize_text_field($_POST['location']);
+                }
+                
+                if(isset($_POST['location'])){
+                    $blocks = intval($_POST['blocks']);
                 }
                                                 
                 if($location){
@@ -354,23 +528,26 @@ class saswp_reviews_service {
                   update_option('sd_data', $sd_data);    
                   
                   $result = null;
-                  $api_key        = '56564646';
-                  $api_key_status = 'valid';
+                  $api_key        = $sd_data['google_addon_license_key'];
+                  $api_key_status = $sd_data['google_addon_license_key_status'];
+                  $user_id        = $sd_data['google_addon_user_id'];
                     
-                  if($api_key && $api_key_status == 'validd'){
+                  if($api_key && $api_key_status == 'active' && $user_id){
                         
-                          $result = $this->saswp_get_paid_reviews_data($location, $api_key);
+                          $result = $this->saswp_get_paid_reviews_data($location, $api_key, $user_id, $blocks);
                       
                   }else{
                       
                       if(isset($sd_data['saswp_google_place_api_key']) && $sd_data['saswp_google_place_api_key'] !=''){
+                          
                           $result = $this->saswp_get_free_reviews_data($location);
+                          
                       }                      
                       
                   }  
                                                         
                   if($result){
-                      
+                                            
                       echo json_encode(array('status' => 't'));
                       
                   }else{
