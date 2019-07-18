@@ -453,8 +453,7 @@ function saswp_amp_page_callback(){
                              'name' => 'sd_data[saswp-for-amp]',                             
                         )
 		) ;                                        
-                
-        
+                        
         if ( is_plugin_active('accelerated-mobile-pages/accelerated-moblie-pages.php') || is_plugin_active('amp/amp.php') ) {                         
         }else{
             
@@ -490,7 +489,7 @@ function saswp_amp_page_callback(){
 }
 
 function saswp_general_page_callback(){	
-    
+            
 	$settings = saswp_defaultSettings(); 
         $field_objs = new saswp_fields_generator(); 
         $locations = get_nav_menu_locations();
@@ -1787,7 +1786,7 @@ function saswp_compatibility_page_callback(){
 
 
 function saswp_support_page_callback(){
-    
+            
     ?>
      <div class="saswp_support_div">
             <strong><?php echo esc_html__('If you have any query, please write the query in below box or email us at', 'schema-and-structured-data-for-wp') ?> <a href="mailto:team@ampforwp.com">team@ampforwp.com</a>. <?php echo esc_html__('We will reply to your email address shortly', 'schema-and-structured-data-for-wp') ?></strong>

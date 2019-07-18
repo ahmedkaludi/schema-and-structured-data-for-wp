@@ -420,47 +420,53 @@ class saswp_reviews_service {
     }
     
     public function saswp_get_paid_reviews_data($location, $api_key, $user_id, $blocks){
-                                
-        //$api_key = base64_encode( urlencode( "n8KP16uvGZA6xvFTtb8IAA:i4pmOV0duXJv7TyF5IvyFdh5wDIqfJOovKjs92ei878" ) );
-        
-        $api_key = '545455456454';
                             
         $body = array(                        
             'place_id'   => $location, 
             'user_id'    => $user_id, 
-            'blocks'     => $blocks, 
+            'blocks'     => $blocks,
+            'api_key'    => $api_key,
         );
         
-        $header = array(
-           'Authorization' => 'Basic' . $api_key 
-        );
-        
-        $result = @wp_remote_post('http://localhost/wordpress/wp-json/reviews-route/add_profile',
+        $server_url = 'http://localhost/wordpress/wp-json/reviews-route/add_profile';                 
+        $result = @wp_remote_post($server_url,
                     array(
                         'method'      => 'POST',
                         'timeout'     => 45,
                         'redirection' => 5,
                         'httpversion' => '1.1',
-                        'blocking'    => true,
-                        'headers'     => $header,
-                        'body'        => $body,
-                        'cookies'     => array()
+                        'blocking'    => true,                        
+                        'body'        => $body,                        
                     )                                      
                 );                         
               
        if(wp_remote_retrieve_response_code($result) == 200 && wp_remote_retrieve_body($result)){
-                           
-              $result = @wp_remote_get('http://localhost/wordpress/wp-json/reviews-route/get_reviews?api_key='.$api_key.'&place_id='.$location);        
-              
-              if(isset($result['body'])){
+            
+              $add_response = json_decode(wp_remote_retrieve_body($result), true); 
+            
+              if($add_response['status']){
                   
-              $result = json_decode($result['body'],true);              
-              $response = $this->saswp_save_paid_reviews_data($result, $location);
-              
-              return $response;
+                  $server_url = 'http://localhost/wordpress/wp-json/reviews-route/get_reviews?api_key='.$api_key.'&place_id='.$location;   
+                  $get_response = @wp_remote_get($server_url);
+                  
+                   if(isset($get_response['body'])){
+
+                   $get_response = json_decode($get_response['body'],true); 
+
+                   $response = $this->saswp_save_paid_reviews_data($get_response, $location);
+                   
+                   if($response){
+                       return $add_response;
+                   }else{
+                       return array('status'=>false, 'message' => 'Data is not saved');
+                   }
+                   
+                   } 
+                                   
               }else{
-               return null;
-              }
+                  return $add_response;
+              }  
+              
         }
         
         if ( is_wp_error( $result ) ) {
@@ -474,15 +480,32 @@ class saswp_reviews_service {
                 
     }
     
-    public function saswp_get_free_reviews_data($place_id){
-                
-        global $sd_data;                         
+    public function saswp_get_free_reviews_data($place_id, $g_api){
+                                                   
+        $result = @wp_remote_get('https://maps.googleapis.com/maps/api/place/details/json?placeid='.trim($place_id).'&key='.trim($g_api));                
         
-        $result = @wp_remote_get('https://maps.googleapis.com/maps/api/place/details/json?placeid='.trim($place_id).'&key='.trim($sd_data['saswp_google_place_api_key']).$language);                
         if(isset($result['body'])){
-           $result = json_decode($result['body'],true);                                          
-           $response = $this->saswp_save_free_reviews_data($result['result'], $place_id);
-           return $response;
+            
+           $result = json_decode($result['body'],true);   
+           
+           if($result['result']){
+               
+               $response = $this->saswp_save_free_reviews_data($result['result'], $place_id);
+               
+               if($response){
+                    return array('status' => true, 'message' => 'fetched successfully');
+               }else{                                             
+                    return array('status' => false, 'message' => 'Not fetched');
+               }
+               
+           }else{
+               if($result['error_message']){
+                   return array('status' => false, 'message' => $result['error_message']);
+               }else{
+                   return array('status' => false, 'message' => 'Something went wrong');
+               }                             
+           }
+                                                       
         }else{
            return null;
         }        
@@ -503,13 +526,21 @@ class saswp_reviews_service {
                    return;  
                 }
                 global $sd_data;
-                $location  = $blocks = '';
+                $location  = $blocks = $premium_status = $g_api = '';
                                                 
                 if(isset($_POST['location'])){
                     $location = sanitize_text_field($_POST['location']);
                 }
                 
-                if(isset($_POST['location'])){
+                if(isset($_POST['g_api'])){
+                    $g_api = sanitize_text_field($_POST['g_api']);
+                }
+                
+                if(isset($_POST['blocks'])){
+                    $premium_status = sanitize_text_field($_POST['premium_status']);
+                }
+                
+                if(isset($_POST['blocks'])){
                     $blocks = intval($_POST['blocks']);
                 }
                                                 
@@ -530,31 +561,26 @@ class saswp_reviews_service {
                   $result = null;
                   $api_key        = $sd_data['google_addon_license_key'];
                   $api_key_status = $sd_data['google_addon_license_key_status'];
-                  $user_id        = $sd_data['google_addon_user_id'];
-                    
-                  if($api_key && $api_key_status == 'active' && $user_id){
-                        
-                          $result = $this->saswp_get_paid_reviews_data($location, $api_key, $user_id, $blocks);
+                  $user_id        = get_option('google_addon_user_id');
+                     
+                  if($api_key && $api_key_status == 'active' && $user_id && $premium_status == 'premium'){                       
                       
+                       $result = $this->saswp_get_paid_reviews_data($location, $api_key, $user_id, $blocks); 
+                       
+                       if($result['status'] && $result['message']){
+                              update_option('google_addon_reviews_limits', intval($result['message']));
+                       }
+                       
                   }else{
                       
-                      if(isset($sd_data['saswp_google_place_api_key']) && $sd_data['saswp_google_place_api_key'] !=''){
-                          
-                          $result = $this->saswp_get_free_reviews_data($location);
-                          
+                      if($g_api){
+                                                                              
+                          $result = $this->saswp_get_free_reviews_data($location, $g_api);                                                                                                                                  
                       }                      
                       
                   }  
                                                         
-                  if($result){
-                                            
-                      echo json_encode(array('status' => 't'));
-                      
-                  }else{
-                      
-                      echo json_encode(array('status' => 'f'));
-                      
-                  }
+                  echo json_encode($result);
                     
                 }
                 

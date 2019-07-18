@@ -285,8 +285,8 @@ class saswp_fields_generator {
                               $license_status_msg =   $settings[strtolower($on).'_addon_license_key_message'];
                             }
                             
-                            if(isset($settings[strtolower($on).'_addon_reviews_limits']) && $license_status =='active'){
-                              $rv_limits =   $settings[strtolower($on).'_addon_reviews_limits'];
+                            if($license_status =='active'){
+                              $rv_limits =   get_option(strtolower($on).'_addon_reviews_limits');
                             }
                                                                                    
                             $pro_api    = '<div class="saswp-knowledge-label">

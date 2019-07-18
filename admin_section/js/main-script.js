@@ -10,6 +10,46 @@ function getParameterByName(name, url) {
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
 
+    function saswp_schema_datepicker(){
+        
+            $('.saswp-datepicker-picker').datepicker({
+             dateFormat: "yy-mm-dd",
+             minDate: 0
+          });
+        }
+
+      var saswp_meta_fields = [];
+       function saswp_get_post_specific_schema_fields(index, meta_name, div_type, schema_id, fields_type){
+                            
+                            if (!saswp_meta_fields[fields_type]) {
+                                
+                                $.get(ajaxurl, 
+                                    { action:"saswp_get_schema_dynamic_fields_ajax",meta_name:meta_name, saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
+                                     function(response){                                  
+                                         saswp_meta_fields[fields_type] = response;
+                                         console.log(saswp_meta_fields);
+                                         var html = saswp_fields_html_generator(index, schema_id, fields_type, div_type, response);
+
+                                           if(html){
+                                               $('.saswp-'+div_type+'-section[data-id="'+schema_id+'"]').append(html);
+                                               saswp_schema_datepicker();
+                                           }
+
+                                    },'json');
+                                
+                            }else{
+                                
+                              var html = saswp_fields_html_generator(index, schema_id, fields_type, div_type, saswp_meta_fields[fields_type]);
+
+                               if(html){
+                                   $('.saswp-'+div_type+'-section[data-id="'+schema_id+'"]').append(html);
+                                   saswp_schema_datepicker();
+                               }
+                                                                
+                            }
+                            
+                             
+       }
 function saswp_fields_html_generator(index, schema_id, fields_type, div_type, schema_fields){
             
             var html = '';
@@ -19,16 +59,48 @@ function saswp_fields_html_generator(index, schema_id, fields_type, div_type, sc
                         + '<table class="form-table saswp-'+div_type+'-table">' 
                 
             $.each(schema_fields, function(eachindex, element){
-                                                                                  
+                                
+                var meta_class = "";
+                if(element.name == 'saswp_tvseries_season_published_date'){
+                    meta_class = "saswp-datepicker-picker";    
+                }
+                
                 switch(element.type) {
                     
                     case "text":
                       
                         html += '<tr>'
-                        + '<th>'+element.label+'</th><td><input style="width:100%" type="text" id="'+element.name+'_'+index+'_'+schema_id+'" name="'+fields_type+schema_id+'['+index+']['+element.name+']"></td>'
+                        + '<th>'+element.label+'</th><td><input class="'+meta_class+'" style="width:100%" type="text" id="'+element.name+'_'+index+'_'+schema_id+'" name="'+fields_type+schema_id+'['+index+']['+element.name+']"></td>'
                         + '</tr>';                        
                       
                       break;
+                      
+                    case "textarea":
+                      
+                        html += '<tr>'
+                        + '<th>'+element.label+'</th><td><textarea style="width: 100%" id="'+element.name+'_'+index+'_'+schema_id+'" name="'+fields_type+schema_id+'['+index+']['+element.name+']" rows="5"></textarea></td>'
+                        + '</tr>';                        
+                      
+                      break;
+                     case "select":
+                        
+                        var options_html = "";                        
+                        $.each(element.options, function(opt_index, opt_element){                            
+                            options_html += '<option value="'+opt_index+'">'+opt_element+'</option>';
+                        });
+                        
+                         html += '<tr>'
+                        + '<th>'+element.label+'</th>'
+                        + '<td>'
+                        
+                        + '<select id="'+element.name+'_'+index+'_'+schema_id+'" name="'+fields_type+schema_id+'['+index+']['+element.name+']">'
+                        + options_html
+                        + '</select>'
+                        
+                        + '</td>'
+                        + '</tr>';
+                         
+                     break;
                       
                     case "media":
                         
@@ -52,8 +124,8 @@ function saswp_fields_html_generator(index, schema_id, fields_type, div_type, sc
                                                                                             
             });                                                             
             html += '</table>'
-                 + '</div>';
-            
+                    + '</div>';
+                     
             return html;
             
         }
@@ -846,7 +918,8 @@ jQuery(document).ready(function($){
         //Licensing jquery starts here
     $(document).on("click",".saswp_license_activation", function(e){
                 e.preventDefault();
-                
+                var current = $(this);
+                current.addClass('updating-message');
                 var license_status = $(this).attr('license-status');
                 var add_on         = $(this).attr('add-on');
                 var license_key    = $("#"+add_on+"_addon_license_key").val();
@@ -887,7 +960,7 @@ jQuery(document).ready(function($){
                                $(".saswp_license_status_msg[add-on='" + add_on + "']").css("color", "red"); 
                                $(".saswp_license_status_msg[add-on='" + add_on + "']").text(response['message']);
                               }
-                                                                                          
+                               current.removeClass('updating-message');                                                           
                             },
                             error: function(response){                    
                                 console.log(response);
@@ -1079,14 +1152,7 @@ jQuery(document).ready(function($){
                              });
                              
         });
-        saswp_schema_datepicker();
-        function saswp_schema_datepicker(){
-        
-            $('.saswp-datepicker-picker').datepicker({
-             dateFormat: "yy-mm-dd",
-             minDate: 0
-          });
-        }
+        saswp_schema_datepicker();        
         
         saswp_reviews_datepicker();
         function saswp_reviews_datepicker(){
@@ -1095,7 +1161,7 @@ jQuery(document).ready(function($){
              dateFormat: "yy-mm-dd"            
           });
         }
-                        
+        
         //Review js starts here
         
         $(document).on("click", ".saswp-add-more-item",function(e){
@@ -1259,355 +1325,24 @@ jQuery(document).ready(function($){
                         },'json');
            
        }); 
-               
-        //Trip schema starts here
-        
-        $(document).on("click", ".saswp-trip-itinerary", function(e){
-           e.preventDefault();
-           
-           var schema_id = $(this).attr('data-id');
-           var count =  $(".saswp-trip-itinerary-table-div").length;
-           var index = $( ".saswp-trip-itinerary-table-div:nth-child("+count+")" ).attr('data-id');
-               index = ++index;
-               
-           if(!index){
-               index = 0;
-           }
-                   
-            var html = '';
-            
-                   html += '<div class="saswp-trip-itinerary-table-div" data-id="'+index+'">'    
-                        +  '<a class="saswp-table-close">X</a>'
-                        + '<table class="form-table saswp-trip-itinerary-table">'                                                                                           
-                
-                        + '<tr>'
-                        + '<th>Itinerary Type</th>'
-                        + '<td>'
-                        + '<select id="saswp_trip_itinerary_type_'+index+'_'+schema_id+'" name="trip_itinerary_'+schema_id+'['+index+'][saswp_trip_itinerary_type]">'
-                        + '<option value="City">City</option>'
-                        + '<option value="LandmarksOrHistoricalBuildings">LandmarksOrHistoricalBuildings</option>'
-                        + '<option value="AdministrativeArea">AdministrativeArea</option>'
-                        + '<option value="LakeBodyOfWater">LakeBodyOfWater</option>'
-                        + '</select></td>'
-                        + '</tr>'
-                        
-                        + '<tr>'
-                        + '<th>Itinerary Name</th><td><input style="width:100%" type="text" id="saswp_trip_itinerary_name_'+index+'_'+schema_id+'" name="trip_itinerary_'+schema_id+'['+index+'][saswp_trip_itinerary_name]"></td>'
-                        + '</tr>'
-                
-                        + '<tr>'
-                        + '<th>Itinerary Description</th><td><textarea placeholder="Description" style="width: 100%" id="saswp_trip_itinerary_description_'+index+'_'+schema_id+'" name="trip_itinerary_'+schema_id+'['+index+'][saswp_trip_itinerary_description]" rows="5"></textarea></td>'
-                        + '</tr>'
-                
-                        + '<tr>'
-                        + '<th>Itinerary URL</th><td><input style="width:100%" type="text" id="saswp_trip_itinerary_url_'+index+'_'+schema_id+'" name="trip_itinerary_'+schema_id+'['+index+'][saswp_trip_itinerary_url]"></td>'
-                        + '</tr>'
-                
-                        + '</table>'
-                        + '</div>';
-           if(html){
-               $('.saswp-trip-itinerary-section[data-id="'+schema_id+'"]').append(html);
-           }
-            
-           
-       });
-        
-        //Trip schema ends here
-        
-        //TvSeries schema starts here
-        
-        $(document).on("click", ".saswp-tvseries-actor", function(e){
-           e.preventDefault();
-           
-           var schema_id = $(this).attr('data-id');
-           var count =  $(".saswp-tvseries-actor-table-div").length;
-           var index = $( ".saswp-tvseries-actor-table-div:nth-child("+count+")" ).attr('data-id');
-               index = ++index;
-               
-           if(!index){
-               index = 0;
-           }
-                   
-            var html = '';
-            
-                   html += '<div class="saswp-tvseries-actor-table-div" data-id="'+index+'">'    
-                        +  '<a class="saswp-table-close">X</a>'
-                        + '<table class="form-table saswp-tvseries-actor-table">'                                                                                           
-                        + '<tr>'
-                        + '<th>Actor Name</th><td><input style="width:100%" type="text" id="saswp_tvseries_actor_name_'+index+'_'+schema_id+'" name="tvseries_actor_'+schema_id+'['+index+'][saswp_tvseries_actor_name]"></td>'
-                        + '</tr>'                        
-                        + '</table>'
-                        + '</div>';
-           if(html){
-               $('.saswp-tvseries-actor-section[data-id="'+schema_id+'"]').append(html);
-           }
-            
-           
-       });
-       
-        $(document).on("click", ".saswp-tvseries-season", function(e){
-           e.preventDefault();
-           
-           var schema_id = $(this).attr('data-id');
-           var count =  $(".saswp-tvseries-season-table-div").length;
-           var index = $( ".saswp-tvseries-season-table-div:nth-child("+count+")" ).attr('data-id');
-               index = ++index;
-               
-           if(!index){
-               index = 0;
-           }
-                   
-            var html = '';
-            
-                   html += '<div class="saswp-tvseries-season-table-div" data-id="'+index+'">'    
-                        +  '<a class="saswp-table-close">X</a>'
-                        + '<table class="form-table saswp-tvseries-season-table">'                                                                                           
-                        + '<tr>'
-                        + '<th>Season</th><td><input style="width:100%" type="text" id="saswp_tvseries_season_name_'+index+'_'+schema_id+'" name="tvseries_season_'+schema_id+'['+index+'][saswp_tvseries_season_name]"></td>'
-                        + '</tr>'
-                        + '<tr>'
-                        + '<th>Season Published Date</th><td><input class="saswp-datepicker-picker" style="width:100%" type="text" id="saswp_tvseries_season_published_date_'+index+'_'+schema_id+'" name="tvseries_season_'+schema_id+'['+index+'][saswp_tvseries_season_published_date]"></td>'
-                        + '</tr>'
-                        + '<tr>'
-                        + '<th>Number Of Episodes</th><td><input style="width:100%" type="text" id="saswp_tvseries_season_episodes_'+index+'_'+schema_id+'" name="tvseries_season_'+schema_id+'['+index+'][saswp_tvseries_season_episodes]"></td>'
-                        + '</tr>'
-                        + '</table>'
-                        + '</div>';
-           if(html){
-               
-               $('.saswp-tvseries-season-section[data-id="'+schema_id+'"]').append(html);
-               saswp_schema_datepicker();
-                              
-           }
-            
-           
-       });
-        
-        //TvSeries schema ends here
-    
-        //Medical condition schema starts here
-        
-        $(document).on("click", ".saswp-mc-cause", function(e){
-           e.preventDefault();
-           
-           var schema_id = $(this).attr('data-id');
-           var count =  $(".saswp-mc-cause-table-div").length;
-           var index = $( ".saswp-mc-cause-table-div:nth-child("+count+")" ).attr('data-id');
-               index = ++index;
-               
-           if(!index){
-               index = 0;
-           }
-                   
-            var html = '';
-            
-                   html += '<div class="saswp-mc-cause-table-div" data-id="'+index+'">'    
-                        +  '<a class="saswp-table-close">X</a>'
-                        + '<table class="form-table saswp-mc-cause-table">'                                                                                           
-                        + '<tr>'
-                        + '<th>Cause</th><td><input style="width:100%" type="text" id="saswp_mc_cause_name_'+index+'_'+schema_id+'" name="mc_cause_'+schema_id+'['+index+'][saswp_mc_cause_name]"></td>'
-                        + '</tr>'                        
-                        + '</table>'
-                        + '</div>';
-           if(html){
-               $('.saswp-mc-cause-section[data-id="'+schema_id+'"]').append(html);
-           }
-            
-           
-       });
-       
-        $(document).on("click", ".saswp-mc-symptom", function(e){
-           e.preventDefault();
-           
-           var schema_id = $(this).attr('data-id');
-           var count =  $(".saswp-mc-symptom-table-div").length;
-           var index = $( ".saswp-mc-symptom-table-div:nth-child("+count+")" ).attr('data-id');
-               index = ++index;
-               
-           if(!index){
-               index = 0;
-           }
-                   
-            var html = '';
-            
-                   html += '<div class="saswp-mc-symptom-table-div" data-id="'+index+'">'
-                        +  '<a class="saswp-table-close">X</a>'
-                        + '<table class="form-table saswp-mc-symptom-table">'                                                                                           
-                        + '<tr>'
-                        + '<th>Symptom Name</th><td><input style="width:100%" type="text" id="saswp_mc_symptom_name_'+index+'_'+schema_id+'" name="mc_symptom_'+schema_id+'['+index+'][saswp_mc_symptom_name]"></td>'
-                        + '</tr>'                        
-                        + '</table>'
-                        + '</div>';
-           if(html){
-               $('.saswp-mc-symptom-section[data-id="'+schema_id+'"]').append(html);
-           }
-            
-           
-       });
-       
-        $(document).on("click", ".saswp-mc-risk_factor", function(e){
-           e.preventDefault();
-           
-           var schema_id = $(this).attr('data-id');
-           var count =  $(".saswp-mc-risk_factor-table-div").length;
-           var index = $( ".saswp-mc-risk_factor-table-div:nth-child("+count+")" ).attr('data-id');
-               index = ++index;
-               
-           if(!index){
-               index = 0;
-           }
-                   
-            var html = '';
-            
-                   html += '<div class="saswp-mc-risk_factor-table-div" data-id="'+index+'">'
-                        +  '<a class="saswp-table-close">X</a>'
-                        + '<table class="form-table saswp-mc-risk_factor-table">'                                                                                           
-                        + '<tr>'
-                        + '<th>Risk Factor Name</th><td><input style="width:100%" type="text" id="saswp_mc_risk_factor_name_'+index+'_'+schema_id+'" name="mc_risk_factor_'+schema_id+'['+index+'][saswp_mc_risk_factor_name]"></td>'
-                        + '</tr>'                        
-                        + '</table>'
-                        + '</div>';
-           if(html){
-               $('.saswp-mc-risk_factor-section[data-id="'+schema_id+'"]').append(html);
-           }
-            
-           
-       });
-        
-        //Medical condition schema ends here
-    
-        //How to schema js starts here
-                        
-       $(document).on("click", ".saswp-how-to-supply", function(e){
-           e.preventDefault();
-           
-           var schema_id = $(this).attr('data-id');
-           var count =  $(".saswp-how-to-supply-table-div").length;
-           var index = $( ".saswp-how-to-supply-table-div:nth-child("+count+")" ).attr('data-id');
-               index = ++index;
-               
-           if(!index){
-               index = 0;
-           }
-            var fields_type = 'howto_supply_'; 
-            var div_type    = 'how-to-supply';
-            var schema_fields = [
-                {
-                 label: "Supply Name",
-                 name : "saswp_howto_supply_name",
-                 type :  "text"   
-                },
-                {
-                 label: "Supply URL",
-                 name : "saswp_howto_supply_url",
-                 type :  "text"   
-                },
-                {
-                 label: "Supply Image",
-                 name : "saswp_howto_supply_image",
-                 type :  "media"   
-                }
-            ];       
-            
-            var html = saswp_fields_html_generator(index, schema_id, fields_type, div_type, schema_fields);
-                                           
-           if(html){
-               $('.saswp-'+div_type+'-section[data-id="'+schema_id+'"]').append(html);
-           }
-            
-           
-       }); 
-        
-       $(document).on("click", ".saswp-how-to-tool", function(e){
-           e.preventDefault();
-           
-          var schema_id = $(this).attr('data-id');
-          var count =  $(".saswp-how-to-tool-table-div").length;
-          var index = $( ".saswp-how-to-tool-table-div:nth-child("+count+")" ).attr('data-id');
-               index = ++index;
-           
-           if(!index){
-               index = 0;
-           }
-                   
-            var html = '';
-            
-                   html += '<div class="saswp-how-to-tool-table-div" data-id="'+index+'">'
-                        +  '<a class="saswp-table-close">X</a>'
-                        + '<table class="form-table saswp-how-to-tool-table">'                                                                                           
-                        + '<tr>'
-                        + '<th>Tool Name</th><td><input style="width:100%" type="text" id="saswp_howto_tool_name_'+index+'_'+schema_id+'" name="howto_tool_'+schema_id+'['+index+'][saswp_howto_tool_name]"></td>'
-                        + '</tr>'
-                        + '<tr>'
-                        + '<th>Tool URL</th><td><input style="width:100%" type="text" id="saswp_howto_tool_url_'+index+'_'+schema_id+'" name="howto_tool_'+schema_id+'['+index+'][saswp_howto_tool_url]"></td>'
-                        + '</tr>'
-                        + '<tr>'
-                        + '<th>Tool Image</th>'
-                        + '<td>'
-                        + '<fieldset>'
-                        + '<input style="width:80%" type="text" id="saswp_howto_tool_image_'+index+'_'+schema_id+'" name="saswp_howto_tool_image_'+index+'_'+schema_id+'">'
-                        + '<input type="hidden" data-id="saswp_howto_tool_image_'+index+'_'+schema_id+'_id" name="howto_tool_'+schema_id+'['+index+'][saswp_howto_tool_image_id]" id="saswp_howto_tool_image_'+index+'_'+schema_id+'_id">'
-                        + '<input data-id="media" style="width: 19%" class="button" id="saswp_howto_tool_image_'+index+'_'+schema_id+'_button" name="saswp_howto_tool_image_'+index+'_'+schema_id+'_button" type="button" value="Upload">'
-                        + '<div class="saswp_image_div_saswp_howto_tool_image_'+index+'_'+schema_id+'">'                                                
-                        + '</div>'
-                        + '</fieldset>'
-                        + '</td>'
-                        + '</tr>'
-                        + '</table>'
-                        + '</div>';
-           if(html){
-               $('.saswp-how-to-tool-section[data-id="'+schema_id+'"]').append(html);
-           }
-            
-           
-       });
-       
-       $(document).on("click", ".saswp-how-to-step", function(e){
+                                                                                    
+       $(document).on("click", ".saswp_add_schema_fields_on_fly", function(e){
            e.preventDefault();
                       
-          var schema_id = $(this).attr('data-id');
-          var count =  $(".saswp-how-to-step-table-div").length;
-          var index = $( ".saswp-how-to-step-table-div:nth-child("+count+")" ).attr('data-id');
+          var schema_id   = $(this).attr('data-id');
+          var fields_type = $(this).attr('fields_type'); 
+          var div_type    = $(this).attr('div_type');
+          
+          var count =  $(".saswp-"+div_type+"-table-div").length;
+          var index = $( ".saswp-"+div_type+"-table-div:nth-child("+count+")" ).attr('data-id');
               index = ++index;
            
            if(!index){
                index = 0;
            }
-                   
-            var html = '';
+                       
+            saswp_get_post_specific_schema_fields(index, fields_type, div_type, schema_id, fields_type+'_');               
             
-                 html+='<div class="saswp-how-to-step-table-div" data-id="'+index+'">'
-                     + '<a class="saswp-table-close">X</a>'
-                     + '<table class="form-table saswp-how-to-step-table">'                                                                                          
-                     + '<tr>'
-                     + '<th>Step Name</th><td><input style="width:100%" type="text" id="saswp_howto_step_name_'+index+'_'+schema_id+'" name="howto_step_'+schema_id+'['+index+'][saswp_howto_step_name]" ></td>'
-                     + '</tr>'
-                     + '<tr>'
-                     + '<th>HowToDirection Text</th><td><input style="width:100%" type="text" id="saswp_howto_direction_text_'+index+'_'+schema_id+'" name="howto_step_'+schema_id+'['+index+'][saswp_howto_direction_text]"></td>'
-                     + '</tr>'
-                     + '<tr>'
-                     + '<th>HowToTip Text</th><td><input style="width:100%" type="text" id="saswp_howto_tip_text_'+index+'_'+schema_id+'" name="howto_step_'+schema_id+'['+index+'][saswp_howto_tip_text]"></td>'
-                     + '</tr>'
-                     + '<tr>'
-                     + '<th>Step Image</th>'
-                     + '<td>'
-                     + '<fieldset>'
-                     + '<input style="width:80%" type="text" id="saswp_howto_step_image_'+index+'_'+schema_id+'" name="saswp_howto_step_image_'+schema_id+'['+index+']">'
-                     + '<input type="hidden" data-id="saswp_howto_step_image_'+index+'_'+schema_id+'_id" name="howto_step_'+schema_id+'['+index+'][saswp_howto_step_image_id]" id="saswp_howto_step_image_'+index+'_'+schema_id+'_id">'
-                     + '<input data-id="media" style="width: 19%" class="button" id="saswp_howto_step_image_'+index+'_'+schema_id+'_button" name="saswp_howto_step_image_'+index+'_'+schema_id+'_button" type="button" value="Upload">'
-                     + '<div class="saswp_image_div_saswp_howto_step_image_'+index+'_'+schema_id+'">'                                                                                
-                     + '</div>'
-                     + '</fieldset>'
-                     + '</td>'
-                     + '</tr>'
-                     + '</table>'
-                     + '</div>';
-             
-           if(html){
-               $('.saswp-how-to-step-section[data-id="'+schema_id+'"]').append(html);
-           }
-           
-           
        });
        
        $(document).on("click", ".saswp-table-close", function(){
@@ -1754,6 +1489,92 @@ jQuery(document).ready(function($){
          jQuery(jQuery(".wrap a")[0]).after("<a href='"+saswp_localize_data.saswp_settings_url+"' id='' class='page-title-action'>Settings</a>");
          
         }
+        
+        //star rating stars here
+            if(typeof(saswp_reviews_data) !== 'undefined'){
+            
+             $(".saswp-rating-div").rateYo({
+                
+              rating: saswp_reviews_data.rating_val,
+              halfStar: true,
+              //normalFill: "#ffd700",
+              readOnly: saswp_reviews_data.readonly,
+              onSet: function (rating, rateYoInstance) {
+                $(this).next().val(rating);
+                console.log(rating);
+                }
+                              
+            });
+                
+            }
+            $(document).on("click", ".saswp-add-g-location-btn", function(e){
+                e.preventDefault();
+                    var html = '';
+                        html    += '<tr>'
+                                + '<td><strong>Place Id</strong></td>'
+                                + '<td><input class="saswp-g-location-field" name="sd_data[saswp_reviews_location_name][]" type="text" value=""></td>'                                
+                        
+                                + '<td><input class="saswp-g-blocks-field" name="sd_data[saswp_reviews_location_blocks][]" type="number" placeholder="1"></td>'                                    
+                        
+                                + '<td><a class="button button-default saswp-fetch-g-reviews">Fetch Reviews</a></td>'
+                                + '<td><a type="button" class="saswp-remove-review-item button">x</a></td>'
+                                + '</tr>';                
+                if(html){
+                    $(".saswp-g-reviews-settings-table").append(html);
+                }
+                
+            });
+        
+            $(document).on("click", '.saswp-fetch-g-reviews', function(){          
+          
+              var current = $(this);  
+              current.addClass('updating-message');
+              
+              var location = $(this).parent().parent().find('.saswp-g-location-field').val();
+              var blocks   = $(this).parent().parent().find('.saswp-g-blocks-field').val();
+                            
+                if(location !=''){
+                    $.ajax({
+                                  type: "POST",    
+                                  url:ajaxurl,                    
+                                  dataType: "json",
+                                  data:{action:"saswp_fetch_google_reviews",location:location,blocks:blocks, saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
+                                  success:function(response){    
+                                      if(response['status'] =='t'){
+                                         current.parent().parent().find('.saswp-rv-fetched-msg').text('Success');
+                                         current.parent().parent().find('.saswp-rv-fetched-msg').css("color", "green");
+                                      }else{
+                                         current.parent().parent().find('.saswp-rv-fetched-msg').text('Failed'); 
+                                         current.parent().parent().find('.saswp-rv-fetched-msg').css("color", "red");
+                                      }  
+                                      current.removeClass('updating-message');
+                                  },
+                                  error: function(response){                    
+                                      console.log(response);
+                                  }
+                                  });
+                }
+            });
+            
+            $("#saswp_review_toggle_btn").change(function(){
+                if ($(this).is(':checked')) {
+                    $("#saswp_google_place_api_key").parent().hide();
+                    $("#google_addon_license_key").parent().parent().show();
+                    
+                    $("#saswp_google_place_api_key").parent().prev().hide();
+                    $("#google_addon_license_key").parent().parent().prev().show();
+                    
+                }else{
+                    $("#saswp_google_place_api_key").parent().show();
+                    $("#google_addon_license_key").parent().parent().hide();
+                    
+                    $("#saswp_google_place_api_key").parent().prev().show();
+                    $("#google_addon_license_key").parent().parent().prev().hide();
+                    
+                }
+            }).change();
+                    
+        //rating ends here
                
       
 });

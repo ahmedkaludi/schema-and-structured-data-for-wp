@@ -109,7 +109,13 @@ function saswp_reviews_custom_columns_set( $column, $post_id ) {
                     $name = get_post_meta( $post_id, $key='saswp_review_date', true);
                     echo esc_attr($name);
                                                                                                                                                             
-                    break;                
+                    break;
+                case 'saswp_review_place_id' :
+                    
+                    $name = get_post_meta( $post_id, $key='saswp_review_location_id', true);
+                    echo esc_attr($name);
+                                                                                                                                                            
+                    break;    
                
             }
 }
@@ -123,7 +129,8 @@ function saswp_reviews_custom_columns($columns) {
     $columns['title']                      = esc_html__( 'Title', 'schema-and-structured-data-for-wp' );    
     $columns['saswp_review_rating']        = '<a>'.esc_html__( 'Rating', 'schema-and-structured-data-for-wp' ).'<a>';    
     $columns['saswp_review_platform']      = '<a>'.esc_html__( 'Platform', 'schema-and-structured-data-for-wp' ).'<a>';    
-    $columns['saswp_review_date']          = '<a>'.esc_html__( 'Review Date', 'schema-and-structured-data-for-wp' ).'<a>';        
+    $columns['saswp_review_date']          = '<a>'.esc_html__( 'Review Date', 'schema-and-structured-data-for-wp' ).'<a>'; 
+    $columns['saswp_review_place_id']      = '<a>'.esc_html__( 'Place ID', 'schema-and-structured-data-for-wp' ).'<a>';    
     
     return $columns;
 }

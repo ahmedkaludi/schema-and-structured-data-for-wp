@@ -1419,7 +1419,7 @@ function saswp_create_reviews_user($license_key, $add_on){
                         'body'        => $body,                        
                     )                                      
                 );                    
-        if(wp_remote_retrieve_response_code($result) == 200 && wp_remote_retrieve_body($result)){              
+        if(wp_remote_retrieve_response_code($result) == 200 && wp_remote_retrieve_body($result)){                   
                 return wp_remote_retrieve_body($result);              
               }else{
                 return null;
@@ -1461,7 +1461,7 @@ function saswp_license_status($add_on, $license_status, $license_key){
                 
                 $message        = '';
                 $current_status = '';
-                $response = wp_remote_post( SASWP_EDD_STORE_URL, array( 'timeout' => 15, 'sslverify' => false, 'body' => $api_params ) );
+                $response = @wp_remote_post( SASWP_EDD_STORE_URL, array( 'timeout' => 15, 'sslverify' => false, 'body' => $api_params ) );
                            
                 // make sure the response came back okay
 		if ( is_wp_error( $response ) || 200 !== wp_remote_retrieve_response_code( $response ) ) {
@@ -1509,22 +1509,32 @@ function saswp_license_status($add_on, $license_status, $license_key){
                         $license[strtolower($add_on).'_addon_license_key_message']= $message;
                     
                 }else{
-                    
+
                     if($license_status == 'active'){
-                        
-                        if($item_name[strtolower($add_on)] == 'google'){
-                            $user_create = saswp_create_reviews_user($license_key, $item_name[strtolower($add_on)]);                            
-                            $license[strtolower($add_on).'_addon_user_id']  = $user_create;
+                                        
+                        if(strtolower($add_on) == 'google'){
+                            
+                            $user_create = saswp_create_reviews_user($license_key, strtolower($add_on));
+                            
+                            if($user_create){
+                                update_option(strtolower($add_on).'_addon_user_id', intval($user_create));
+                                
+                                if(isset($license_data->price_id)){
+                            
+                                    $rv_limits = saswp_reviews_limits_by_price_id($license_data->price_id);  
+                                                  
+                                        update_option(strtolower($add_on).'_addon_reviews_limits', intval($rv_limits));        
+                                    
+                                    }
+                                
+                            }
+                                                                                    
                         } 
                         
                         $license[strtolower($add_on).'_addon_license_key_status']  = 'active';
                         $license[strtolower($add_on).'_addon_license_key']         = $license_key;
                         $license[strtolower($add_on).'_addon_license_key_message'] = 'active';
-                        
-                        if(isset($license_data->price_id)){
-                         $license[strtolower($add_on).'_addon_reviews_limits'] = saswp_reviews_limits_by_price_id($license_data->price_id);    
-                        }
-                        
+                                                                        
                         $current_status = 'active';
                         $message = 'Activated';
                     }
