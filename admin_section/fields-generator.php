@@ -238,7 +238,7 @@ class saswp_fields_generator {
                                         $location .= '<tr>'
                                         . '<td><strong>Place Id</strong></td>'
                                         . '<td><input class="saswp-g-location-field" name="sd_data[saswp_reviews_location_name][]" type="text" value="'. esc_attr($rvl).'"></td>'
-                                        . '<td><input class="saswp-g-blocks-field" name="sd_data[saswp_reviews_location_blocks][]" type="number" placeholder="1" value="'. esc_attr($rv_blocks[$i]).'"></td>'                                        
+                                        . '<td><strong>Blocks </strong><input class="saswp-g-blocks-field" name="sd_data[saswp_reviews_location_blocks][]" type="number" placeholder="1 blocks = 10 reviews" value="'. esc_attr($rv_blocks[$i]).'"></td>'                                        
                                         . '<td><a class="button button-default saswp-fetch-g-reviews">Fetch Reviews</a></td>'
                                         . '<td><a type="button" class="saswp-remove-review-item button">x</a></td>'
                                         . '<td><p class="saswp-rv-fetched-msg"></p></td>'        

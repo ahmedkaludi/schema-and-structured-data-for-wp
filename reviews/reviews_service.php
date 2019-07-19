@@ -235,11 +235,11 @@ class saswp_reviews_service {
                 $post_id = wp_insert_post(  $postarr );   
                 $place_saved[] = $post_id;                                                  
                 $review_meta = array(
-                        'saswp_rvs_location_id'                 => $result['place_id'],      
-                        'saswp_rvs_location_review_count'       => $result['user_ratings_total'], 
-                        'saswp_rvs_location_avg_rating'         => $result['rating'],
-                        'saswp_rvs_location_icon'               => $result['icon'],
-                        'saswp_rvs_location_address'            => $result['formatted_address'],
+                        'saswp_rvs_loc_id'                 => $result['place_id'],      
+                        'saswp_rvs_loc_review_count'       => $result['user_ratings_total'], 
+                        'saswp_rvs_loc_avg_rating'         => $result['rating'],
+                        'saswp_rvs_loc_icon'               => $result['icon'],
+                        'saswp_rvs_loc_address'            => $result['formatted_address'],
                 );
 
                 if($post_id && !empty($review_meta) && is_array($review_meta)){
@@ -323,25 +323,40 @@ class saswp_reviews_service {
             
         $place_saved   = array();
         $reviews_saved = array();
-        
-        if (isset($result['unique_id']) && $result['unique_id'] != '') {
+                
+        if (isset($result['saswp_rvs_loc_id']) && $result['saswp_rvs_loc_id'] != '') {
                                                                    
                 $user_id     = get_current_user_id();
                 $postarr = array(
                     'post_author'           => $user_id,                                                            
-                    'post_title'            => 'Location-'.$result['unique_id'],                    
+                    'post_title'            => 'Location-'.$result['saswp_rvs_loc_id'],                    
                     'post_status'           => 'publish',                                                            
                     'post_name'             => 'Default Review',                                                            
                     'post_type'             => 'saswp_rvs_location',
                                                                              
                 );
-                   
+                   $posts_list = get_posts( 
+                        array(
+                            'post_type' 	 => 'saswp_rvs_location',                                                                                   
+                            'posts_per_page'     => -1,   
+                            'post_status'        => 'publish',
+                            'meta_query'  => array(
+                                array(
+                                'key'     => 'saswp_rvs_loc_id',
+                                'value'   => $result['saswp_rvs_loc_id'],
+                                'compare' => '==',
+                                 )
+                            )
+                           
+                        ) );    
+                                                                        
+                if(empty($posts_list)){
                 $post_id = wp_insert_post(  $postarr );   
                 $place_saved[] =  $post_id;                                
                 $review_meta = array(
-                        'saswp_rvs_location_id'                 => $result['unique_id'],      
-                        'saswp_rvs_location_review_count'       => $result['review_count'], 
-                        'saswp_rvs_location_avg_rating'         => $result['average_rating'],                                                
+                        'saswp_rvs_loc_id'                 => $result['saswp_rvs_loc_id'],      
+                        'saswp_rvs_loc_review_count'       => $result['saswp_rvs_loc_review_count'],                        
+                        'saswp_rvs_loc_avg_rating'         => $result['saswp_rvs_loc_avg_rating'],                                                
                 );
 
                 if($post_id && !empty($review_meta) && is_array($review_meta)){
@@ -351,10 +366,10 @@ class saswp_reviews_service {
                     }
             
                  }
+                }
                             
         }
-                
-        
+                        
         if (isset($result['reviews']) && is_array($result['reviews'])) {
             
             $reviews = $result['reviews'];
@@ -370,7 +385,25 @@ class saswp_reviews_service {
                     'post_type'             => 'saswp_reviews',
                                                                              
                 );
-                   
+                
+                
+                $posts_list = get_posts( 
+                        array(
+                            'post_type' 	 => 'saswp_reviews',                                                                                   
+                            'posts_per_page'     => -1,   
+                            'post_status'        => 'publish',
+                            'meta_query'  => array(
+                                array(
+                                'key'     => 'saswp_review_id',
+                                'value'   => $review['saswp_review_id'],
+                                'compare' => '==',
+                                 )
+                            )
+                           
+                        ) );
+                                                                                
+                if(empty($posts_list)){
+                    
                 $post_id = wp_insert_post(  $postarr );   
                 $reviews_saved[] =  $post_id;                              
                 $media_detail = array();
@@ -388,6 +421,7 @@ class saswp_reviews_service {
                 }                
                 
                 $review_meta = array(
+                        'saswp_review_id'             => $review['saswp_review_id'],
                         'saswp_review_platform'       => $review['saswp_review_platform'],
                         'saswp_review_location_id'    => $place_id,
                         'saswp_review_time'           => $review['saswp_review_time'], 
@@ -407,6 +441,10 @@ class saswp_reviews_service {
                     }
             
                  }
+                    
+                    
+                }
+                
                 
             }
         }
@@ -420,7 +458,7 @@ class saswp_reviews_service {
     }
     
     public function saswp_get_paid_reviews_data($location, $api_key, $user_id, $blocks){
-                            
+                        
         $body = array(                        
             'place_id'   => $location, 
             'user_id'    => $user_id, 
@@ -438,15 +476,15 @@ class saswp_reviews_service {
                         'blocking'    => true,                        
                         'body'        => $body,                        
                     )                                      
-                );                         
-              
+                );  
+        
        if(wp_remote_retrieve_response_code($result) == 200 && wp_remote_retrieve_body($result)){
             
               $add_response = json_decode(wp_remote_retrieve_body($result), true); 
-            
+             
               if($add_response['status']){
                   
-                  $server_url = 'http://localhost/wordpress/wp-json/reviews-route/get_reviews?api_key='.$api_key.'&place_id='.$location;   
+                  $server_url = 'http://localhost/wordpress/wp-json/reviews-route/get_reviews?api_key='.$api_key.'&place_id='.$location.'&user_id='.$user_id;   
                   $get_response = @wp_remote_get($server_url);
                   
                    if(isset($get_response['body'])){
@@ -579,7 +617,11 @@ class saswp_reviews_service {
                       }                      
                       
                   }  
-                                                        
+                         
+                  if($result['status'] && is_numeric($result['message'])){
+                      $result['message'] = 'Remains Limit '. $result['message'];
+                  }
+                  
                   echo json_encode($result);
                     
                 }
