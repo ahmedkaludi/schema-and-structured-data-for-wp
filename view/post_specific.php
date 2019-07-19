@@ -497,7 +497,9 @@ class saswp_post_specific {
                                         )                                                                          
                                        );
                     
-                        $type_fields = $schema_type_fields[$schema_type];  
+                        $type_fields = array_key_exists($schema_type, $schema_type_fields);  
+                        
+                        if($type_fields){
                         
                         $tabs_fields .= '<div class="saswp-table-create-onajax">';
                         
@@ -537,8 +539,9 @@ class saswp_post_specific {
                         }
                         
                         $tabs_fields .= '</div>';
-                                                                                                                                                              
-                     
+                            
+                        }
+                                                                                                                                                                                                                                   
                      return $tabs_fields;
             
         }
