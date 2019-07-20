@@ -174,6 +174,7 @@ class saswp_reviews_service {
             );
         
             if($posts_list){
+                
                 foreach($posts_list as $post){
                 
                 $review_data = array();
@@ -198,21 +199,21 @@ class saswp_reviews_service {
     
     public function saswp_reviews_shortcode($attr){
                                         
-        $response = '';
+        $response = $schema_markup ='';
         
         if(saswp_global_option()){
                 
           $schema_markup = $this->saswp_get_reviews_schema_markup();
           
-          $response = $this->saswp_reviews_front_output($attr);
-        
-            if($schema_markup){
-                   $response = $response.$schema_markup;
-
-            }
-                
         }
-                        
+          
+        $response = $this->saswp_reviews_front_output($attr);
+
+        if($schema_markup){
+               $response = $response.$schema_markup;
+
+        }
+                                                
         return $response;
         
     }

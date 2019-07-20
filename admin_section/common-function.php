@@ -1295,8 +1295,9 @@ if ( ! defined('ABSPATH') ) exit;
                         'types' => array(),
                 );
                 $my_allowed['a'] = array(
-                        'href' => array(),
-                        'add-on' => array(),
+                        'href'           => array(),
+                        'target'         => array(),
+                        'add-on'         => array(),
                         'license-status' => array(),
                         'class' => array(),
                 );

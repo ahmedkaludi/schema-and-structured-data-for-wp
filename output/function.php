@@ -822,7 +822,12 @@ function saswp_remove_rank_math_schema($entry){
 
 add_action( 'rank_math/json_ld', 'saswp_remove_rank_math_schema',99 );
 
-
+/**
+ * Function to format json output
+ * @global type $sd_data
+ * @param type $output_array
+ * @return type json 
+ */
 function saswp_json_print_format($output_array){
     
     global $sd_data;
@@ -856,7 +861,12 @@ function saswp_remove_microdata($content){
     return $content;
 }
 
-
+/**
+ * This is a global option to hide and show all the features of this plugin.
+ * @global type $sd_data
+ * @return boolean
+ *
+ */
 function saswp_global_option(){
     
             global $sd_data;
@@ -873,4 +883,34 @@ function saswp_global_option(){
                 
             }  
             
+}
+/**
+ * Function to get post tags as a comma separated string.
+ * @global type $post
+ * @return string
+ * @since version 1.9
+ */
+function saswp_get_the_tags(){
+
+    global $post;
+    $tag_str = '';
+    
+    if(is_object($post)){
+        
+      $tags = get_the_tags($post->ID);
+      
+      if($tags){
+          
+          foreach($tags as $tag){
+              
+            $tag_str .= $tag->name.', '; 
+              
+          }
+          
+      }
+        
+        
+    }    
+    return $tag_str;
+    
 }

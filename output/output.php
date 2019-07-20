@@ -426,7 +426,8 @@ function saswp_schema_output() {
 			'mainEntityOfPage'              => get_permalink(),
 			'headline'			=> saswp_get_the_title(),
 			'description'                   => saswp_get_the_excerpt(),
-                        'articleBody'                   => saswp_get_the_content(),    
+                        'articleBody'                   => saswp_get_the_content(), 
+                        'keywords'                      => saswp_get_the_tags(),    
 			'name'				=> saswp_get_the_title(),
 			'url'				=> get_permalink(),
 			'datePublished'                 => esc_html($date),
@@ -858,7 +859,8 @@ function saswp_schema_output() {
 					'dateModified'                  => esc_html($modified_date),
 					'description'                   => saswp_get_the_excerpt(),
                                         'articleSection'                => $article_section,            
-                                        'articleBody'                   => saswp_get_the_content(),        
+                                        'articleBody'                   => saswp_get_the_content(), 
+                                        'keywords'                      => saswp_get_the_tags(),
 					'name'				=> saswp_get_the_title(), 					
 					'thumbnailUrl'                  => saswp_remove_warnings($image_details, 0, 'saswp_string'),
                                         'wordCount'                     => saswp_remove_warnings($word_count, 'word_count', 'saswp_string'),
@@ -1429,8 +1431,7 @@ function saswp_schema_output() {
                                     
                                     $input1 = apply_filters('saswp_modify_local_business_schema_output', $input1 );
 			}
-                        
-                        
+                                                
                         //Speakable schema
                         
                         if($schema_type == 'TechArticle' || $schema_type == 'Article' || $schema_type == 'Blogposting' || $schema_type == 'NewsArticle' || $schema_type == 'WebPage'){
@@ -2509,6 +2510,7 @@ function saswp_post_specific_schema_output() {
 			'mainEntityOfPage'              => saswp_remove_warnings($all_post_meta, 'saswp_blogposting_main_entity_of_page_'.$schema_id, 'saswp_array'),
 			'headline'			=> saswp_remove_warnings($all_post_meta, 'saswp_blogposting_headline_'.$schema_id, 'saswp_array'),
 			'description'                   => saswp_remove_warnings($all_post_meta, 'saswp_blogposting_description_'.$schema_id, 'saswp_array'),
+                        'keywords'                      => saswp_remove_warnings($all_post_meta, 'saswp_blogposting_keywords_'.$schema_id, 'saswp_array'),
 			'name'				=> saswp_remove_warnings($all_post_meta, 'saswp_blogposting_name_'.$schema_id, 'saswp_array'),
 			'url'				=> saswp_remove_warnings($all_post_meta, 'saswp_blogposting_url_'.$schema_id, 'saswp_array'),
 			'datePublished'                 => isset($all_post_meta['saswp_blogposting_date_published_'.$schema_id])?date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_blogposting_date_published_'.$schema_id][0])):'',
@@ -2639,6 +2641,7 @@ function saswp_post_specific_schema_output() {
 						'image'			=> saswp_remove_warnings($all_post_meta, 'saswp_webpage_image_'.$schema_id, 'saswp_array'),
 						'headline'		=> saswp_remove_warnings($all_post_meta, 'saswp_webpage_headline_'.$schema_id, 'saswp_array'),
 						'description'		=> saswp_remove_warnings($all_post_meta, 'saswp_webpage_description_'.$schema_id, 'saswp_array'),
+                                                'keywords'		=> saswp_remove_warnings($all_post_meta, 'saswp_webpage_keywords_'.$schema_id, 'saswp_array'),
 						'datePublished' 	=> isset($all_post_meta['saswp_webpage_date_published_'.$schema_id])?date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_webpage_date_published_'.$schema_id][0])):'',
 						'dateModified'		=> isset($all_post_meta['saswp_webpage_date_modified_'.$schema_id])?date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_webpage_date_modified_'.$schema_id][0])):'',
 						'author'			=> array(
@@ -2697,6 +2700,7 @@ function saswp_post_specific_schema_output() {
 					'image'				=> saswp_remove_warnings($all_post_meta, 'saswp_article_image_'.$schema_id, 'saswp_array'),
 					'headline'			=> saswp_remove_warnings($all_post_meta, 'saswp_article_headline_'.$schema_id, 'saswp_array'),
 					'description'                   => saswp_remove_warnings($all_post_meta, 'saswp_article_description_'.$schema_id, 'saswp_array'),
+                                        'keywords'		        => saswp_remove_warnings($all_post_meta, 'saswp_article_keywords_'.$schema_id, 'saswp_array'),
 					'datePublished'                 => isset($all_post_meta['saswp_article_date_published_'.$schema_id])?date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_article_date_published_'.$schema_id][0])):'',
 					'dateModified'                  => isset($all_post_meta['saswp_article_date_modified_'.$schema_id])?date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_article_date_modified_'.$schema_id][0])):'',
 					'author'			=> array(
@@ -2755,6 +2759,7 @@ function saswp_post_specific_schema_output() {
 					'image'				=> saswp_remove_warnings($all_post_meta, 'saswp_tech_article_image_'.$schema_id, 'saswp_array'),
 					'headline'			=> saswp_remove_warnings($all_post_meta, 'saswp_tech_article_headline_'.$schema_id, 'saswp_array'),
 					'description'                   => saswp_remove_warnings($all_post_meta, 'saswp_tech_article_description_'.$schema_id, 'saswp_array'),
+                                        'keywords'		        => saswp_remove_warnings($all_post_meta, 'saswp_tech_article_keywords_'.$schema_id, 'saswp_array'),
 					'datePublished'                 => isset($all_post_meta['saswp_tech_article_date_published_'.$schema_id])?date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_tech_article_date_published_'.$schema_id][0])):'',
 					'dateModified'                  => isset($all_post_meta['saswp_tech_article_date_modified_'.$schema_id])?date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_tech_article_date_modified_'.$schema_id][0])):'',
 					'author'			=> array(
@@ -3045,6 +3050,7 @@ function saswp_post_specific_schema_output() {
 					'datePublished'                 => isset($all_post_meta['saswp_newsarticle_date_published_'.$schema_id])?date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_newsarticle_date_published_'.$schema_id][0])):'',
 					'dateModified'                  => isset($all_post_meta['saswp_newsarticle_date_modified_'.$schema_id])?date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_newsarticle_date_modified_'.$schema_id][0])):'',
 					'description'                   => saswp_remove_warnings($all_post_meta, 'saswp_newsarticle_description_'.$schema_id, 'saswp_array'),
+                                        'keywords'		        => saswp_remove_warnings($all_post_meta, 'saswp_newsarticle_keywords_'.$schema_id, 'saswp_array'),
                                         'articleSection'                => saswp_remove_warnings($all_post_meta, 'saswp_newsarticle_section_'.$schema_id, 'saswp_array'),
                                         'articleBody'                   => saswp_remove_warnings($all_post_meta, 'saswp_newsarticle_body_'.$schema_id, 'saswp_array'),     
 					'name'				=> saswp_remove_warnings($all_post_meta, 'saswp_newsarticle_name_'.$schema_id, 'saswp_array'), 					

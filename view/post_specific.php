@@ -1923,6 +1923,12 @@ class saswp_post_specific {
                             'default' => get_the_excerpt()
                     ),
                     array(
+                            'label' => 'Keywords',
+                            'id' => 'saswp_blogposting_keywords_'.$schema_id,
+                            'type' => 'text',
+                            'default' => saswp_get_the_tags()
+                    ),    
+                    array(
                             'label' => 'Name',
                             'id' => 'saswp_blogposting_name_'.$schema_id,
                             'type' => 'text',
@@ -2048,6 +2054,12 @@ class saswp_post_specific {
                             'type' => 'textarea',
                             'default' => get_the_excerpt()
                     ),
+                    array(
+                            'label' => 'Keywords',
+                            'id' => 'saswp_newsarticle_keywords_'.$schema_id,
+                            'type' => 'text',
+                            'default' => saswp_get_the_tags()
+                    ),    
                      array(
                             'label' => 'Article Section',
                             'id' => 'saswp_newsarticle_section_'.$schema_id,
@@ -2164,6 +2176,12 @@ class saswp_post_specific {
                             'default' => get_the_excerpt()
                     ),
                     array(
+                            'label' => 'Keywords',
+                            'id' => 'saswp_webpage_keywords_'.$schema_id,
+                            'type' => 'text',
+                            'default' => saswp_get_the_tags()
+                    ),
+                    array(
                             'label' => 'Main Entity Of Page',
                             'id' => 'saswp_webpage_main_entity_of_page_'.$schema_id,
                             'type' => 'text',
@@ -2256,7 +2274,13 @@ class saswp_post_specific {
                             'id' => 'saswp_article_description_'.$schema_id,
                             'type' => 'textarea',
                             'default' => get_the_excerpt()
-                    ) , 
+                    ),
+                    array(
+                            'label' => 'Keywords',
+                            'id' => 'saswp_article_keywords_'.$schema_id,
+                            'type' => 'text',
+                            'default' => saswp_get_the_tags()
+                    ),    
                     array(
                             'label' => 'Date Published',
                             'id' => 'saswp_article_date_published_'.$schema_id,
@@ -2452,6 +2476,12 @@ class saswp_post_specific {
                             'type' => 'textarea',
                             'default' => get_the_excerpt()
                     ) , 
+                    array(
+                            'label' => 'Keywords',
+                            'id' => 'saswp_tech_article_keywords_'.$schema_id,
+                            'type' => 'text',
+                            'default' => saswp_get_the_tags()
+                    ),     
                     array(
                             'label' => 'Date Published',
                             'id' => 'saswp_tech_article_date_published_'.$schema_id,
