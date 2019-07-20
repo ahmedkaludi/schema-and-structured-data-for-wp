@@ -198,20 +198,21 @@ class saswp_reviews_service {
     
     public function saswp_reviews_shortcode($attr){
                                         
+        $response = '';
         
         if(saswp_global_option()){
                 
           $schema_markup = $this->saswp_get_reviews_schema_markup();
+          
+          $response = $this->saswp_reviews_front_output($attr);
+        
+            if($schema_markup){
+                   $response = $response.$schema_markup;
+
+            }
                 
         }
-        
-        $response = $this->saswp_reviews_front_output($attr);
-        
-        if($schema_markup){
-               $response = $response.$schema_markup;
-               
-        }
-        
+                        
         return $response;
         
     }
@@ -466,7 +467,7 @@ class saswp_reviews_service {
             'api_key'    => $api_key,
         );
         
-        $server_url = 'http://localhost/wordpress/wp-json/reviews-route/add_profile';                 
+        $server_url = 'https://api.structured-data-for-wp.com/wp-json/reviews-route/add_profile';                 
         $result = @wp_remote_post($server_url,
                     array(
                         'method'      => 'POST',
@@ -484,7 +485,7 @@ class saswp_reviews_service {
              
               if($add_response['status']){
                   
-                  $server_url = 'http://localhost/wordpress/wp-json/reviews-route/get_reviews?api_key='.$api_key.'&place_id='.$location.'&user_id='.$user_id;   
+                  $server_url = 'https://api.structured-data-for-wp.com/wp-json/reviews-route/get_reviews?api_key='.$api_key.'&place_id='.$location.'&user_id='.$user_id;   
                   $get_response = @wp_remote_get($server_url);
                   
                    if(isset($get_response['body'])){
@@ -596,13 +597,13 @@ class saswp_reviews_service {
                    }
                   update_option('sd_data', $sd_data);    
                   
-                  $result = null;
+                  $result         = null;
                   $api_key        = $sd_data['google_addon_license_key'];
                   $api_key_status = $sd_data['google_addon_license_key_status'];
                   $user_id        = get_option('google_addon_user_id');
                      
                   if($api_key && $api_key_status == 'active' && $user_id && $premium_status == 'premium'){                       
-                      
+                        
                        $result = $this->saswp_get_paid_reviews_data($location, $api_key, $user_id, $blocks); 
                        
                        if($result['status'] && $result['message']){

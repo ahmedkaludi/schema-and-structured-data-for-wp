@@ -1408,7 +1408,7 @@ function saswp_create_reviews_user($license_key, $add_on){
             'add_on'        => $add_on,
             'user_url'      => home_url(),
         );
-        $server_url =  'http://localhost/wordpress/wp-json/reviews-route/create_user';       
+        $server_url =  'https://api.structured-data-for-wp.com/wp-json/reviews-route/create_user';       
         $result = @wp_remote_post($server_url,
                     array(
                         'method'      => 'POST',
@@ -1589,3 +1589,85 @@ add_action('wp_ajax_saswp_license_status_check', 'saswp_license_status_check');
 /**
  * Licensing code ends here
  */
+
+add_action( 'upgrader_process_complete', 'saswp_upgrade_function',10, 2);
+
+function saswp_upgrade_function( $upgrader_object, $options ) {
+    
+    $current_plugin_path_name = SASWP_PLUGIN_BASENAME;
+
+    if ($options['action'] == 'update' && $options['type'] == 'plugin' ){
+                
+       foreach($options['plugins'] as $each_plugin){
+           
+          if ($each_plugin==$current_plugin_path_name){
+            
+             saswp_review_module_upgradation();
+              
+          }
+       }
+    }
+}
+
+
+function saswp_review_module_upgradation(){
+                    
+            $upgrade_option = get_option('saswp_google_upgrade');
+
+            if(!$upgrade_option){
+               
+                global $sd_data;
+                
+                $g_review_status = $g_review_api = '';
+                
+                if(isset($sd_data['saswp-google-review']) && $sd_data['saswp-google-review'] == 1){
+                    $g_review_status = $sd_data['saswp-google-review'];
+                }
+                
+                if(isset($sd_data['saswp_google_place_api_key']) && $sd_data['saswp_google_place_api_key'] != ''){
+                    $g_review_api = $sd_data['saswp_google_place_api_key'];
+                }
+                
+                if($g_review_status && $g_review_api){
+                                     
+                    $posts_list = get_posts( 
+                        array(
+                            'post_type' 	 => 'saswp-google-review',                                                                                   
+                            'posts_per_page'     => -1,   
+                            'post_status'        => 'publish',
+                            'meta_query'  => array(
+                                array(
+                                'key'     => 'saswp_google_place_id',                                
+                                'compare' => 'EXISTS',
+                                 )
+                            )
+                           
+                    ) );
+                                                            
+                    if($posts_list){
+                        
+                        if(class_exists('saswp_reviews_service')){
+                        
+                            $service = new saswp_reviews_service(); 
+                        
+                                foreach($posts_list as $list){
+
+                                    $g_place_id = get_post_meta($list->ID, $key='saswp_google_place_id', true);
+                                    
+                                    if($g_place_id){
+                                        $service->saswp_get_free_reviews_data($g_place_id, $g_review_api); 
+                                    }
+
+                                }
+                                                        
+                        }
+                        
+                }
+                                                            
+                } 
+                
+                 update_option('saswp_google_upgrade', date("Y-m-d"));
+                 
+           }
+                                    
+}

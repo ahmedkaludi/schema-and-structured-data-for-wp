@@ -1349,6 +1349,12 @@ function saswp_review_page_callback(){
                         )
 		),
                 array(
+			'label'  => 'Reviews Pro API Key',
+			'id'     => 'saswp-reviews-pro-api',                        
+                        'name'   => 'saswp-reviews-pro-api',
+			'type'   => 'text',                                                                     
+		),
+                array(
 			'label'  => 'Google Review',
 			'id'     => 'saswp-google-review-checkbox',                        
                         'name'   => 'saswp-google-review-checkbox',
@@ -1359,7 +1365,18 @@ function saswp_review_page_callback(){
                              'id'   => 'saswp-google-review',
                              'name' => 'sd_data[saswp-google-review]',                             
                         )
-		),                        
+		),
+                array(
+			'label'  => 'Use Free Version',
+			'id'     => 'saswp-google-rv-free-checkbox',                        
+                        'name'   => 'saswp-google-rv-free-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',                        
+                        'hidden' => array(
+                             'id'   => 'saswp-google-review-free',
+                             'name' => 'sd_data[saswp-google-review-free]',                             
+                        )
+		),
                 array(
                             'label' => 'Google place API Key',
                             'id'    => 'saswp_google_place_api_key',
@@ -1367,7 +1384,15 @@ function saswp_review_page_callback(){
                             'note'   => 'How to get place API Key ? <a target="_blank" href="https://structured-data-for-wp.com/docs/article/how-to-display-google-review/">Click Here</a>',
                             'class' => '',
                             'type'  => 'text',
-                  )
+                  ),
+                array(
+                            'label' => 'Place',
+                            'id'    => 'saswp-google-place-section',
+                            'name'  => 'sd_data[saswp-google-place-section]',
+                            'type'  => 'text',
+                            
+                  )  
+                  
                 
 	);        
         $field_objs->saswp_field_generator($meta_fields, $settings);             

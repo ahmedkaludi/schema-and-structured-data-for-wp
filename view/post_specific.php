@@ -497,7 +497,7 @@ class saswp_post_specific {
                                         )                                                                          
                                        );
                     
-                        $type_fields = array_key_exists($schema_type, $schema_type_fields);  
+                        $type_fields = array_key_exists($schema_type, $schema_type_fields) ? $schema_type_fields[$schema_type]:'';  
                         
                         if($type_fields){
                         
