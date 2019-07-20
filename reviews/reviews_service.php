@@ -4,21 +4,28 @@
  *
  * @author   Magazine3
  * @category Admin
- * @path     admin_section/newsletter
- * @Version 1.0
+ * @path     reviews/reviews_service
+ * @Version 1.9
  */
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 class saswp_reviews_service {
-        
+    
+    /**
+     * List of hooks used in this context
+     */
     public function saswp_service_hooks(){
         add_action( 'wp_ajax_saswp_fetch_google_reviews', array($this,'saswp_fetch_google_reviews'));
         add_shortcode('saswp-reviews', array($this,'saswp_reviews_shortcode'));
     }
     
-    
+    /**
+     * Function to get reviews schema markup
+     * @global type $sd_data
+     * @return string
+     */
     public function saswp_get_reviews_schema_markup(){
                                         
                             global $sd_data; 
@@ -72,6 +79,11 @@ class saswp_reviews_service {
                         return $html;              
     }
     
+    /**
+     * Function to generate reviews html
+     * @param type $reviews
+     * @return string
+     */
     public function saswp_reviews_html_markup($reviews){
         
         $output = '';
@@ -113,6 +125,12 @@ class saswp_reviews_service {
         return $output;            
         
     }
+    
+    /**
+     * Function to show value using shortcode "saswp-reviews"
+     * @param type $attr
+     * @return type
+     */
     public function saswp_reviews_front_output($attr){
         
         
@@ -217,6 +235,7 @@ class saswp_reviews_service {
         return $response;
         
     }
+    
     public function saswp_save_free_reviews_data($result, $place_id) {
                 
         $place_saved   = array();
@@ -633,6 +652,7 @@ class saswp_reviews_service {
     }
 	                       
 }
+
 $saswp_service_obj = new saswp_reviews_service();
 $saswp_service_obj->saswp_service_hooks();
 ?>

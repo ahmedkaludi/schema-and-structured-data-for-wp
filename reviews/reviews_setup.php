@@ -1,9 +1,16 @@
 <?php
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * Post Specific Class
+ *
+ * @author   Magazine3
+ * @category Admin
+ * @path     reviews/reviews_setup
+ * @version 1.9
  */
+
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 add_action( 'init', 'saswp_register_saswp_reviews',20); 
 add_action( 'init', 'saswp_register_saswp_reviews_location',20); 
 
@@ -101,8 +108,7 @@ function saswp_reviews_custom_columns_set( $column, $post_id ) {
                     if(isset($term->slug)){
                         echo '<span class="saswp-g-plus"><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/'.esc_attr($term->slug).'-img.png'.'" alt="Icon" /></span>';
                     }
-                    
-                                                                                                                                                            
+                                                                                                                                                                                
                     break;
                 case 'saswp_review_date' :
                     

@@ -1,9 +1,16 @@
 <?php
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * Post Specific Class
+ *
+ * @author   Magazine3
+ * @category Admin
+ * @path     reviews/reviews_admin
+ * @version 1.9
  */
+
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 class saswp_reviews_admin {
         
 	private $screen = array(		
@@ -48,6 +55,7 @@ class saswp_reviews_admin {
 		    ),     
                                             
 	);
+        
 	public function __construct() {
                 
 		add_action( 'add_meta_boxes', array( $this, 'saswp_add_meta_boxes' ) );
@@ -55,11 +63,21 @@ class saswp_reviews_admin {
                 add_action( 'admin_init', array( $this, 'saswp_removing_reviews_wysiwig' ) );
                 
 	}
+        
+        /**
+         * Function to disable default wordpress editor
+         * @since version 1.9
+         */
         public function saswp_removing_reviews_wysiwig(){
             
             remove_post_type_support( 'saswp_reviews', 'editor');   
             
         }
+        
+        /**
+         * Function to add review_content metabox 
+         * @since version 1.9
+         */
 	public function saswp_add_meta_boxes() {
             
 		foreach ( $this->screen as $single_screen ) {
@@ -74,12 +92,19 @@ class saswp_reviews_admin {
 		}
                 
 	}
+                
 	public function saswp_meta_box_callback( $post ) {
                 
 		wp_nonce_field( 'saswp_reviews_data', 'saswp_reviews_nonce' );
 		$this->saswp_field_generator( $post );
                 
 	}
+        
+        /**
+         * Function to generate html elements based on passed array as a parameter
+         * @param type $post
+         * @since version 1.9
+         */
 	public function saswp_field_generator( $post ) {
             
                 $this->meta_fields[6]['options'] = saswp_get_terms_as_array();
@@ -240,7 +265,13 @@ class saswp_reviews_admin {
                 $allowed_html = saswp_expanded_allowed_tags();                                                		                                
 		echo '<table class="form-table saswp-ad-type-table"><tbody>' . wp_kses($output, $allowed_html) . '</tbody></table>';
 	}
-	              
+	
+        /**
+         * Function to save current metabox elements value into database
+         * @param type $post_id
+         * @return type
+         * @since version 1.9
+         */
 	public function saswp_save_fields( $post_id ) { 
             
 		if ( ! isset( $_POST['saswp_reviews_nonce'] ) )

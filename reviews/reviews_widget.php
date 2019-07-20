@@ -4,8 +4,8 @@
  *
  * @author   Magazine3
  * @category Admin
- * @path     google_review/google_review_widget
- * @Version 1.8
+ * @path     reviews/reviews_widget
+ * @Version 1.9
  */
 
 // Exit if accessed directly.
