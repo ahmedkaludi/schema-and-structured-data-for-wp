@@ -1612,7 +1612,7 @@ Class saswp_output_service{
                     $input1 = array(
 					'@context'			=> 'http://schema.org',
 					'@type'				=> 'TechArticle',
-                                        '@id'				=> get_permalink().'/#techarticle',
+                                        '@id'				=> trailingslashit(get_permalink()).'#techarticle',
                                         'url'				=> get_permalink(),
 					'mainEntityOfPage'              => get_permalink(),					
 					'headline'			=> saswp_get_the_title(),
@@ -1641,7 +1641,7 @@ Class saswp_output_service{
                     $input1 = array(
 					'@context'			=> 'http://schema.org',
 					'@type'				=> 'Article',
-                                        '@id'				=> get_permalink().'/#article',
+                                        '@id'				=> trailingslashit(get_permalink()).'#article',
                                         'url'				=> get_permalink(),
 					'mainEntityOfPage'              => get_permalink(),					
 					'headline'			=> saswp_get_the_title(),
@@ -1675,7 +1675,7 @@ Class saswp_output_service{
                     $input1 = array(
 				'@context'			=> 'http://schema.org',
 				'@type'				=> 'WebPage' ,
-                                '@id'				=> get_permalink().'/#webpage',
+                                '@id'				=> trailingslashit(get_permalink()).'#webpage',
 				'name'				=> saswp_get_the_title(),
 				'url'				=> get_permalink(),
 				'description'                   => saswp_get_the_excerpt(),

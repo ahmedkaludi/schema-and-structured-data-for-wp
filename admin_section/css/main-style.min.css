@@ -759,6 +759,7 @@ Google review module starts here
 }
 .saswp-rv-img img{
     max-width:100px;
+    border-radius: 100%;
 }
 /*
 Google review module ends here

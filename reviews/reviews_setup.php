@@ -87,7 +87,7 @@ function saswp_reviews_custom_columns_set( $column, $post_id ) {
                         $image_url = SASWP_PLUGIN_URL.'/admin_section/images/default_user.jpg';
                     }
                     $url = admin_url( 'post.php?post='.$post_id.'&action=edit' );
-                    echo '<div class="saswp-image-preview">'
+                    echo '<div class="saswp-rv-img">'
                        . '<a href="'.esc_url($url).'">'
                        . '<span><img height="65" width="65" src="'.esc_url($image_url).'" alt="Reviewer"></span>'
                        . '<span><strong>'.esc_attr($name).'</strong></span>'

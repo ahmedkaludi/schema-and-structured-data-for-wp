@@ -56,20 +56,11 @@ class Saswp_Reviews_Widget extends WP_Widget {
           $attr = array(
               'count' => $instance['g_review']
           );  
-            
-          $schema_markup = $this->_serviceClass->saswp_get_reviews_schema_markup();
-          
+                                
           $response = $this->_serviceClass->saswp_reviews_front_output($attr);
-        
-            if($schema_markup){
-                   $response = $response.$schema_markup;
-
-            }
-                
+                        
         }
-        
-        
-        
+                        
         echo $response;
         
         echo html_entity_decode(esc_attr($args['after_widget']));
@@ -84,13 +75,14 @@ class Saswp_Reviews_Widget extends WP_Widget {
 	 */
 	public function form( $instance ) {
             
+            
 		$title = ! empty( $instance['title'] ) ? $instance['title'] : esc_html__( 'Review Title', 'schema-and-structured-data-for-wp' );
                 $ads   = ! empty( $instance['g_review'] ) ? $instance['g_review'] : esc_html__( 'review list to be display', 'schema-and-structured-data-for-wp' );?>
         <p>
         	<label for="<?php echo esc_attr( $this->get_field_id( 'g_review' ) ); ?>">
         		<?php esc_attr_e( 'Reviews :', 'schema-and-structured-data-for-wp' ); ?>
                 </label>
-                <input id="<?php echo esc_attr( $this->get_field_id( 'g_review' )); ?>" name="<?php echo esc_attr( $this->get_field_name( 'g_review' ) ); ?>" type="text" placeholder="review count" value="5">
+            <input id="<?php echo esc_attr( $this->get_field_id( 'g_review' )); ?>" name="<?php echo esc_attr( $this->get_field_name( 'g_review' ) ); ?>" type="text" placeholder="review count" value="<?php echo (isset($instance['g_review']) ? $instance['g_review'] : 5); ?>">
         </p>
             <?php 
 	}

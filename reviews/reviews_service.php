@@ -26,16 +26,29 @@ class saswp_reviews_service {
      * @global type $sd_data
      * @return string
      */
-    public function saswp_get_reviews_schema_markup(){
+    public function saswp_get_reviews_schema_markup($reviews){
                                         
                             global $sd_data; 
-                        
+                            
+                            $sumofrating = 0;
+                            $avg_rating  = 1;
+                            
+                            if($reviews){
+                                
+                                foreach($reviews as $rv){
+                                    $sumofrating += $rv['saswp_review_rating'];
+                                }
+                                
+                                if($sumofrating> 0){
+                                  $avg_rating = $sumofrating /  count($reviews); 
+                                }
+                                
+                            }
+                                                                                        
                             $html = '';                                                                                                                                      														
                             $date 		= get_the_date("Y-m-d\TH:i:s\Z");
                             $modified_date 	= get_the_modified_date("Y-m-d\TH:i:s\Z");
-			                                                                                                                                                 
-                            $total_score = esc_attr(number_format((float)5, 2, '.', ''));
-                            
+			                                                                                                                                                                                                         
                             $input1 = array(
                                     '@context'       => 'http://schema.org',
                                     '@type'          => 'Review',
@@ -59,7 +72,7 @@ class saswp_reviews_service {
                                         '@type'       => 'Rating',
                                         'worstRating' => 1,
                                         'bestRating'  => 5,
-                                        'ratingValue' => esc_attr($total_score),                                        
+                                        'ratingValue' => esc_attr($avg_rating),                                        
                                      ); 
                                                                                                 
                             if(!empty($input1)){
@@ -206,9 +219,23 @@ class saswp_reviews_service {
                    $reviews[] = $review_data;  
                 }
             }
-            $output = '';
+            $output = $schema_markup = '';
+            
             if($reviews){
-               $output = $this->saswp_reviews_html_markup($reviews);    
+                
+               $output = $this->saswp_reviews_html_markup($reviews);  
+                              
+               if(saswp_global_option()){
+                
+                 $schema_markup = $this->saswp_get_reviews_schema_markup($reviews);
+                 
+                 if($schema_markup){
+                      $output = $output.$schema_markup;
+
+                  }
+          
+                 }
+                              
             }
             
             return $output;
@@ -216,22 +243,9 @@ class saswp_reviews_service {
     }
     
     public function saswp_reviews_shortcode($attr){
-                                        
-        $response = $schema_markup ='';
-        
-        if(saswp_global_option()){
-                
-          $schema_markup = $this->saswp_get_reviews_schema_markup();
-          
-        }
-          
+                                                        
         $response = $this->saswp_reviews_front_output($attr);
-
-        if($schema_markup){
-               $response = $response.$schema_markup;
-
-        }
-                                                
+                                               
         return $response;
         
     }

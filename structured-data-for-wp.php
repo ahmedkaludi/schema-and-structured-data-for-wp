@@ -77,22 +77,6 @@ require_once SASWP_DIR_NAME.'/reviews/reviews_admin.php';
 require_once SASWP_DIR_NAME.'/reviews/reviews_setup.php';
 require_once SASWP_DIR_NAME.'/reviews/reviews_service.php';
 require_once SASWP_DIR_NAME.'/reviews/reviews_widget.php';
-
-//Google Review Files
-
-function saswp_include_require_files(){
-
-global $sd_data;
-
-if(isset($sd_data['saswp-google-review']) && $sd_data['saswp-google-review'] == 1){
-
-
-      
-}    
-    
-}
-
-add_action( 'init', 'saswp_include_require_files' );
 /**
  * set user defined message on plugin activate
  */
