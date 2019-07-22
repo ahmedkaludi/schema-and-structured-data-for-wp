@@ -80,29 +80,7 @@ require_once SASWP_DIR_NAME.'/reviews/reviews_widget.php';
 /**
  * set user defined message on plugin activate
  */
-register_activation_hook( __FILE__, 'saswp_admin_notice_activation_hook' );
-
-function saswp_admin_notice_activation_hook() {
-            
-    $settings = (array) get_option('sd_data');
-    
-    $settings['saswp-for-amp'] = 1;
-    
-    update_option( "sd_data", $settings);    
-    
-    update_option( "saswp_activation_date", date("Y-m-d"));
-    
-    //Save first installation date
-    
-    $installation_date = get_option('saswp_installation_date');
-    
-    if(!$installation_date){
-        
-        update_option('saswp_installation_date', date("Y-m-d"));
-        
-    }
-            
-}
+register_activation_hook( __FILE__, 'saswp_on_activation' );
 
 add_action( 'admin_notices', 'saswp_admin_notice' );
 

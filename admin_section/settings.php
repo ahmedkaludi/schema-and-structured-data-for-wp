@@ -1457,6 +1457,7 @@ function saswp_compatibility_page_callback(){
                         'name'   => 'saswp-the-events-calendar-checkbox',
 			'type'   => 'checkbox',
                         'class'  => 'checkbox saswp-checkbox',
+                        'note'   => saswp_get_field_note('the_events_calendar'),
                         'hidden' => array(
                                 'id'   => 'saswp-the-events-calendar',
                                 'name' => 'sd_data[saswp-the-events-calendar]',                             
@@ -1470,6 +1471,7 @@ function saswp_compatibility_page_callback(){
                         'name'   => 'saswp-kk-star-raring-checkbox',
 			'type'   => 'checkbox',
                         'class'  => 'checkbox saswp-checkbox',
+                        'note'   => saswp_get_field_note('kk_star_rating'),
                         'hidden' => array(
                                 'id'   => 'saswp-kk-star-raring',
                                 'name' => 'sd_data[saswp-kk-star-raring]',                             
@@ -1481,6 +1483,7 @@ function saswp_compatibility_page_callback(){
                         'name'   => 'saswp-wppostratings-raring-checkbox',
 			'type'   => 'checkbox',
                         'class'  => 'checkbox saswp-checkbox',
+                        'note'   => saswp_get_field_note('wp_post_rating'),
                         'hidden' => array(
                                 'id'   => 'saswp-wppostratings-raring',
                                 'name' => 'sd_data[saswp-wppostratings-raring]',                             
@@ -1492,6 +1495,7 @@ function saswp_compatibility_page_callback(){
                         'name'   => 'saswp-woocommerce-checkbox',
 			'type'   => 'checkbox',
                         'class'  => 'checkbox saswp-checkbox',
+                        'note'   => saswp_get_field_note('woocommerce'),
                         'hidden' => array(
                                 'id'   => 'saswp-woocommerce',
                                 'name' => 'sd_data[saswp-woocommerce]',                             
@@ -1515,6 +1519,7 @@ function saswp_compatibility_page_callback(){
                         'name'   => 'saswp-cooked-checkbox',
 			'type'   => 'checkbox',
                         'class'  => 'checkbox saswp-checkbox',
+                        'note'   => saswp_get_field_note('cooked'),
                         'hidden' => array(
                                 'id'   => 'saswp-cooked',
                                 'name' => 'sd_data[saswp-cooked]',                             
@@ -1550,6 +1555,7 @@ function saswp_compatibility_page_callback(){
                         'name'   => 'saswp-dw-question-answer-checkbox',
 			'type'   => 'checkbox',
                         'class'  => 'checkbox saswp-checkbox',
+                        'note'   => saswp_get_field_note('dw_qna'),
                         'hidden' => array(
                                     'id'   => 'saswp-dw-question-answer',
                                     'name' => 'sd_data[saswp-dw-question-answer]',                             
@@ -1562,6 +1568,7 @@ function saswp_compatibility_page_callback(){
                         'name'   => 'saswp-bbpress-checkbox',
 			'type'   => 'checkbox',
                         'class'  => 'checkbox saswp-checkbox',
+                        'note'   => saswp_get_field_note('bb_press'),
                         'hidden' => array(
                                     'id'   => 'saswp-bbpress',
                                     'name' => 'sd_data[saswp-bbpress]',                             
@@ -1573,6 +1580,7 @@ function saswp_compatibility_page_callback(){
 			'id'      => 'saswp-yoast-checkbox',                        
                         'name'    => 'saswp-yoast-checkbox',
 			'type'    => 'checkbox',
+                        'note'   => saswp_get_field_note('yoast_seo'),
                         'class'   => 'checkbox saswp-checkbox',
                         'hidden'  => array(
                                 'id'   => 'saswp-yoast',
@@ -1585,49 +1593,20 @@ function saswp_compatibility_page_callback(){
                         'name'    => 'saswp-rankmath-checkbox',
 			'type'    => 'checkbox',
                         'class'   => 'checkbox saswp-checkbox',
+                        'note'   => saswp_get_field_note('rank_math'),
                         'hidden'  => array(
                                 'id'   => 'saswp-rankmath',
                                 'name' => 'sd_data[saswp-rankmath]',                             
                         )
-		);        
-                
+		);      
+        
+        
         if(!is_plugin_active('taqyeem/taqyeem.php')  || get_template() != 'jannah'  ){
             
              $tagyeem['note'] = esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://codecanyon.net/item/taqyeem-wordpress-review-plugin/4558799">Taqyeem</a>';
                           
         }
         
-        if(!is_plugin_active('bbpress/bbpress.php')){
-            
-             $bbpress['note'] = esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/bbpress/">bbPress</a>';
-                          
-        }
-        
-        
-        if(!is_plugin_active('wordpress-seo/wp-seo.php') && !is_plugin_active('wordpress-seo-premium/wp-seo-premium.php')){
-            
-             $yoast['note'] = esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wordpress-seo/">Yoast SEO</a>';
-             
-             
-        }
-        if(!is_plugin_active('seo-by-rank-math/rank-math.php') && !is_plugin_active('seo-by-rank-math-premium/rank-math-premium.php')){
-            
-             $rankmath['note'] = esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/seo-by-rank-math/">WordPress SEO Plugin – Rank Math</a>';
-             
-             
-        }
-        
-        if(!is_plugin_active('kk-star-ratings/index.php')){
-            
-             $kk_star['note'] = esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/kk-star-ratings/">kk Star Rating</a>';             
-             
-        }
-                    
-        if(!is_plugin_active('woocommerce/woocommerce.php')){
-         
-             $woocommerce['note'] = esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/woocommerce/">Woocommerce</a>';
-                         
-        }
         if(!is_plugin_active('woocommerce/woocommerce.php') || !is_plugin_active('woocommerce-bookings/woocommerce-bookings.php')){
                       
             $woocommerce_bok['note'] = esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/woocommerce/">Woocommerce</a>';
@@ -1646,24 +1625,13 @@ function saswp_compatibility_page_callback(){
              $woocommerce_bok['note'] = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="http://structured-data-for-wp.com/woocommerce-compatibility-for-schema/">Woocommerce Addon</a>';
                                       
         }
-                                
-        if(!is_plugin_active('woocommerce-compatibility-for-schema/woocommerce-compatibility-for-schema.php')){
-                      
-            $woocommerce_mem['note'] = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="http://structured-data-for-wp.com/woocommerce-compatibility-for-schema/">Woocommerce Addon</a>';
-                                      
-        }
-        
         
         if(!is_plugin_active('cooked-compatibility-for-schema/cooked-compatibility-for-schema.php')){
                           
              $cooked['note'] = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="http://structured-data-for-wp.com/cooked-compatibility-for-schema/">Cooked Addon</a>';
              
          }
-         
-        if(is_plugin_active('cooked/cooked.php') || is_plugin_active('cooked-pro/cooked-pro.php')){                                                    
-         }else{
-         $cooked['note'] = esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/cooked/">Cooked</a>';    
-         } 
+       
                                                                          
         if(get_template() != 'Extra'){
              
@@ -1671,26 +1639,7 @@ function saswp_compatibility_page_callback(){
              
              
         }
-                         
-         if(!is_plugin_active('dw-question-answer/dw-question-answer.php') && !is_plugin_active('dw-question-answer-pro/dw-question-answer.php')){
-             
-             $dwquestiton['note'] = esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/dw-question-answer/">DW Question Answer</a>';
-             
-         }
-         
-         if(!is_plugin_active('wp-postratings/wp-postratings.php')){
-             
-             $wppostratings['note'] = esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wp-postratings/">WP-PostRatings</a>';
-             
-         }         
-         
-         if(!is_plugin_active('the-events-calendar/the-events-calendar.php')){
-                          
-             $the_events_calendar['note'] = esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/the-events-calendar/">The Events Calendar</a>';
-             
-         }
-                  
-                        
+                                                 
         $field_objs = new saswp_fields_generator();
         
         $meta_fields = array(				
@@ -1897,3 +1846,25 @@ function saswp_enqueue_style_js( $hook ) {
         wp_enqueue_style( 'saswp-main-css', SASWP_PLUGIN_URL . 'admin_section/css/main-style.min.css', false , SASWP_VERSION );
 }
 add_action( 'admin_enqueue_scripts', 'saswp_enqueue_style_js' );
+
+function saswp_get_field_note($pname){
+    
+    $notes = array(            
+            'kk_star_rating'      => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/kk-star-ratings/">kk Star Rating</a>',
+            'wp_post_rating'      => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wp-postratings/">WP-PostRatings</a>',
+            'bb_press'            => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/bbpress/">bbPress</a>',
+            'woocommerce'         => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/woocommerce/">Woocommerce</a>',
+            'cooked'              => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/cooked/">Cooked</a>',
+            'the_events_calendar' => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/the-events-calendar/">The Events Calendar</a>',
+            'yoast_seo'           => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wordpress-seo/">Yoast SEO</a>',
+            'rank_math'           => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/seo-by-rank-math/">WordPress SEO Plugin – Rank Math</a>',            
+            'dw_qna'              => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/dw-question-answer/">DW Question Answer</a>'
+        );
+            
+    if(!saswp_check_plugin_active_status($pname)){
+        
+        return $notes[$pname];
+        
+    }
+    
+}
