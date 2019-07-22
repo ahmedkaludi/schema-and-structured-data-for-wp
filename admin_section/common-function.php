@@ -1959,7 +1959,11 @@ if ( ! defined('ABSPATH') ) exit;
 
            $title = get_the_title();
         }
-
+                
+        if (strlen($title) > 110){
+            $title = substr($title, 0, 106) . ' ...';
+        }
+        
         return $title; 
 
     }
