@@ -7,6 +7,10 @@ and open the template in the editor.
     Created on : Jul 27, 2018, 5:36:26 PM
     Author     : Magazine3
 */
+.saswp_warning{
+    color: #ef6c00 !important;   
+}
+
 .saswp_hide{
     display: none;
 }
@@ -465,6 +469,7 @@ Compatibility tab css starts here
 }
 .saswp_image_thumbnail{
     padding-top: 5px;
+    display: inline-block;
 }
 .saswp-compatibility .saswp-knowledge-field {
     float: right;
