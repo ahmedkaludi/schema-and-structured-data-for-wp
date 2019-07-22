@@ -723,12 +723,45 @@ jQuery(document).ready(function($){
                           
                             if ($(this).is(':checked')) {              
                               $("#saswp-google-review").val(1); 
-                               $("#saswp_google_place_api_key").parent().parent().show();
+                              
+                               $("#saswp-google-review-free").parent().parent().show();
+                               if($("#saswp-google-rv-free-checkbox").is(":checked")){
+                                  $("#saswp_google_place_api_key").parent().parent().show();
+                               }else{
+                                  $("#saswp_google_place_api_key").parent().parent().hide(); 
+                               }
+                               
+                               $(".saswp-g-reviews-settings-table").parent().parent().parent().show(); 
+                                                                                                                           
                             }else{
-                              $("#saswp-google-review").val(0);           
-                               $("#saswp_google_place_api_key").parent().parent().hide();
+                               $("#saswp-google-review").val(0);           
+                               $("#saswp-google-review-free").parent().parent().hide();
+                                $("#saswp_google_place_api_key").parent().parent().hide(); 
+                                $(".saswp-g-reviews-settings-table").parent().parent().parent().hide(); 
+                               
+                               
                             }
                       break;
+                      
+                      case 'saswp-google-rv-free-checkbox':
+                          
+                            if($("#saswp-google-review-checkbox").is(":checked")){
+                                if ($(this).is(':checked')) {              
+                              $("#saswp-google-review-free").val(1); 
+                               $("#saswp_google_place_api_key").parent().parent().show();
+                            }else{
+                                $("#saswp-google-review-free").val(0);                    
+                                $("#saswp_google_place_api_key").parent().parent().hide();
+                            }
+                                
+                            }else{
+                                $("#saswp-google-review-free").val(0);                    
+                                $("#saswp_google_place_api_key").parent().parent().hide();
+                            }
+                          
+                            
+                      break;
+                      
                       
                       case 'saswp-markup-footer-checkbox':
                           
@@ -967,6 +1000,9 @@ jQuery(document).ready(function($){
                             }
                             });
                             
+            }else{
+                alert('Please enter value license key');
+                current.removeClass('updating-message'); 
             }
 
         });
@@ -1508,16 +1544,17 @@ jQuery(document).ready(function($){
                 
             }
             $(document).on("click", ".saswp-add-g-location-btn", function(e){
+                
                 e.preventDefault();
                     var html = '';
                         html    += '<tr>'
-                                + '<td><strong>Place Id</strong></td>'
-                                + '<td><input class="saswp-g-location-field" name="sd_data[saswp_reviews_location_name][]" type="text" value=""></td>'                                
-                        
-                                + '<td><input class="saswp-g-blocks-field" name="sd_data[saswp_reviews_location_blocks][]" type="number" placeholder="1"></td>'                                    
-                        
-                                + '<td><a class="button button-default saswp-fetch-g-reviews">Fetch Reviews</a></td>'
-                                + '<td><a type="button" class="saswp-remove-review-item button">x</a></td>'
+                                + '<td style="width:12%;"><strong>Place Id</strong></td>'
+                                + '<td style="width:20%;"><input class="saswp-g-location-field" name="sd_data[saswp_reviews_location_name][]" type="text" value=""></td>'                                
+                                + '<td style="width:10%;"><strong>Blocks</strong></td>'
+                                + '<td style="width:10%;"><input class="saswp-g-blocks-field" name="sd_data[saswp_reviews_location_blocks][]" type="number" placeholder="10"></td>'                                                            
+                                + '<td style="width:10%;"><a class="button button-default saswp-fetch-g-reviews">Fetch</a></td>'
+                                + '<td style="width:10%;"><a type="button" class="saswp-remove-review-item button">x</a></td>'
+                                + '<td style="width:10%;"><p class="saswp-rv-fetched-msg"></p></td>' 
                                 + '</tr>';                
                 if(html){
                     $(".saswp-g-reviews-settings-table").append(html);
@@ -1526,25 +1563,31 @@ jQuery(document).ready(function($){
             });
         
             $(document).on("click", '.saswp-fetch-g-reviews', function(){          
-          
+                                                              
               var current = $(this);  
+              var premium_status = 'premium';
               current.addClass('updating-message');
+              
+              if($("#saswp-google-rv-free-checkbox").is(':checked')){
+                    var premium_status = 'free';
+               }
               
               var location = $(this).parent().parent().find('.saswp-g-location-field').val();
               var blocks   = $(this).parent().parent().find('.saswp-g-blocks-field').val();
+              var g_api    = $("#saswp_google_place_api_key").val();
                             
                 if(location !=''){
                     $.ajax({
                                   type: "POST",    
                                   url:ajaxurl,                    
                                   dataType: "json",
-                                  data:{action:"saswp_fetch_google_reviews",location:location,blocks:blocks, saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
+                                  data:{action:"saswp_fetch_google_reviews",location:location,blocks:blocks,g_api:g_api,premium_status:premium_status, saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
                                   success:function(response){    
                                       if(response['status'] =='t'){
                                          current.parent().parent().find('.saswp-rv-fetched-msg').text('Success');
                                          current.parent().parent().find('.saswp-rv-fetched-msg').css("color", "green");
                                       }else{
-                                         current.parent().parent().find('.saswp-rv-fetched-msg').text('Failed'); 
+                                         current.parent().parent().find('.saswp-rv-fetched-msg').text(response['message']); 
                                          current.parent().parent().find('.saswp-rv-fetched-msg').css("color", "red");
                                       }  
                                       current.removeClass('updating-message');
@@ -1555,25 +1598,7 @@ jQuery(document).ready(function($){
                                   });
                 }
             });
-            
-            $("#saswp_review_toggle_btn").change(function(){
-                if ($(this).is(':checked')) {
-                    $("#saswp_google_place_api_key").parent().hide();
-                    $("#google_addon_license_key").parent().parent().show();
-                    
-                    $("#saswp_google_place_api_key").parent().prev().hide();
-                    $("#google_addon_license_key").parent().parent().prev().show();
-                    
-                }else{
-                    $("#saswp_google_place_api_key").parent().show();
-                    $("#google_addon_license_key").parent().parent().hide();
-                    
-                    $("#saswp_google_place_api_key").parent().prev().show();
-                    $("#google_addon_license_key").parent().parent().prev().hide();
-                    
-                }
-            }).change();
-                    
+                                            
         //rating ends here
                
       

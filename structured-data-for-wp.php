@@ -83,7 +83,13 @@ require_once SASWP_DIR_NAME.'/reviews/reviews_widget.php';
 register_activation_hook( __FILE__, 'saswp_admin_notice_activation_hook' );
 
 function saswp_admin_notice_activation_hook() {
-        
+            
+    $settings = (array) get_option('sd_data');
+    
+    $settings['saswp-for-amp'] = 1;
+    
+    update_option( "sd_data", $settings);    
+    
     update_option( "saswp_activation_date", date("Y-m-d"));
     
     //Save first installation date

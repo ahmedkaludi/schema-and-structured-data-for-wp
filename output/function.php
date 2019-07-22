@@ -29,7 +29,8 @@ function saswp_schema_markup_hook_on_init() {
             }   
             saswp_remove_yoast_product_schema();
             remove_action( 'amp_post_template_head', 'amp_post_template_add_schemaorg_metadata',99,1);
-            remove_action( 'amp_post_template_footer', 'amp_post_template_add_schemaorg_metadata',99,1);            
+            remove_action( 'amp_post_template_footer', 'amp_post_template_add_schemaorg_metadata',99,1);  
+            remove_action('wp_footer', 'orbital_markup_site');
             add_action('cooked_amp_head', 'saswp_schema_markup_output');
                         
             if(isset($sd_data['saswp-wppostratings-raring']) && $sd_data['saswp-wppostratings-raring'] == 1){
