@@ -346,7 +346,17 @@ function saswp_handle_file_upload($option){
 function saswp_premium_features_callback(){ ?>
 	<div class="saswp-pre-ftrs-wrap">
 		<ul class="saswp-features-blocks">
-			<li><a target="_blank" href="http://structured-data-for-wp.com/extensions/woocommerce-compatibility-for-schema/">
+			<li>
+                             <?php
+                                        $woocommerce_active_text = '';
+                                        if(is_plugin_active('woocommerce-compatibility-for-schema/woocommerce-compatibility-for-schema.php')){                                           
+                                          $woocommerce_active_text = '<label class="saswp-sts-txt">Status :<span style="color:green">Active</span></label>';                                          ;
+                                        }else{                                            
+                                           $woocommerce_active_text .= '<label class="saswp-sts-txt">Status :<span>Inactive</span></label>'; 
+                                           $woocommerce_active_text .= '<a target="_blank" href="http://structured-data-for-wp.com/extensions/woocommerce-compatibility-for-schema/"><span class="saswp-d-btn">Download</span></a>';
+                                        }
+                                        
+                                        ?>                                                        
 				<div class="saswp-features-ele">
 					<div class="saswp-ele-ic saswp-ele-1">
                                             <img src="<?php echo SASWP_PLUGIN_URL; ?>/admin_section/images/woocommerce-icon.png">
@@ -358,19 +368,26 @@ function saswp_premium_features_callback(){ ?>
 				</div>
 				<div class="saswp-sts-btn">
                                     
+                                    <?php echo $woocommerce_active_text; ?>
+                                                                           										
+				</div>
+			</li>
+			<li>
+                            
                                         <?php
                                         
-                                        if(is_plugin_active('woocommerce-compatibility-for-schema/woocommerce-compatibility-for-schema.php')){                                           
-                                          echo '<label class="saswp-sts-txt">Status :<span>Active</span></label>';                                          
-                                        }else{                                            
-                                           echo '<label class="saswp-sts-txt">Status :<span>Inactive</span></label>'; 
-                                           echo '<span class="saswp-d-btn">Download</span>';
+                                        $cooked_active_text = '';
+                                        
+                                        if(is_plugin_active('cooked-compatibility-for-schema/cooked-compatibility-for-schema.php')){                                        
+                                            $cooked_active_text = '<label class="saswp-sts-txt">Status :<span style="color:green;">Active</span></label>';                                            
+                                        }else{
+                                            $cooked_active_text .='<label class="saswp-sts-txt">Status :<span>Inactive</span></label>';
+                                            $cooked_active_text .='<a target="_blank" href="http://structured-data-for-wp.com/extensions/cooked-compatibility-for-schema/"><span class="saswp-d-btn">Download</span></a>';
                                         }
                                         
-                                        ?>                                    										
-				</div>
-			</a></li>
-			<li><a target="_blank" href="http://structured-data-for-wp.com/extensions/cooked-compatibility-for-schema/">
+                                        ?> 
+                            
+                            
 				<div class="saswp-features-ele">
 					<div class="saswp-ele-ic saswp-ele-2">
                                             <img src="<?php echo SASWP_PLUGIN_URL; ?>/admin_section/images/cooked-schema-wp.png">
@@ -382,18 +399,10 @@ function saswp_premium_features_callback(){ ?>
 				</div>
 				<div class="saswp-sts-btn">
                                     
-                                        <?php
-                                        
-                                        if(is_plugin_active('cooked-compatibility-for-schema/cooked-compatibility-for-schema.php')){                                        
-                                            echo '<label class="saswp-sts-txt">Status :<span>Active</span></label>';                                            
-                                        }else{
-                                            echo '<label class="saswp-sts-txt">Status :<span>Inactive</span></label>';
-                                            echo '<span class="saswp-d-btn">Download</span>';
-                                        }
-                                        
-                                        ?>                                    										
+                                    <?php echo $cooked_active_text; ?>
+                                                                           										
 				</div>
-			</a></li>
+			</li>
 		</ul>
 	</div>
 
@@ -403,7 +412,7 @@ function saswp_premium_features_callback(){ ?>
 function saswp_services_callback(){ ?>
    <div class="saswp-pre-ftrs-wrap">
 		<ul class="saswp-features-blocks">
-			<li><a target="_blank" href="http://structured-data-for-wp.com/services/google-news-schema-setup/">
+			<li>
 				<div class="saswp-features-ele">
 					<div class="saswp-ele-ic saswp-ele-3">
                                             <img src="<?php echo SASWP_PLUGIN_URL; ?>/admin_section/images/news.png">
@@ -413,12 +422,14 @@ function saswp_services_callback(){ ?>
 						<p><?php echo esc_html__('Get quick approval to Google News with our service. Our structured data experts will set up the Google News schema properly on your website.','schema-and-structured-data-for-wp') ?></p>
 					</div>
 				</div>
-				<div class="saswp-sts-btn">
-					<label class="saswp-sts-txt"><?php echo esc_html__('Staus:','schema-and-structured-data-for-wp') ?><span><?php echo esc_html__('Inactive','schema-and-structured-data-for-wp') ?></span></label>
-					<span class="saswp-d-btn"><?php echo esc_html__('Download','schema-and-structured-data-for-wp') ?></span>
+                            <a target="_blank" href="http://structured-data-for-wp.com/services/google-news-schema-setup/">
+                                <div class="saswp-sts-btn">					
+					<span class="saswp-d-btn"><?php echo esc_html__('Try it','schema-and-structured-data-for-wp') ?></span>
 				</div>
-			</a></li>
-			<li><a target="_blank" href="http://structured-data-for-wp.com/services/structured-data-setup-error-clean-up/">
+                            </a>
+				
+			</li>
+			<li>
 				<div class="saswp-features-ele">
 					<div class="saswp-ele-ic saswp-ele-4">
                                             <img src="<?php echo SASWP_PLUGIN_URL; ?>/admin_section/images/schema-setup-icon.png">
@@ -428,11 +439,13 @@ function saswp_services_callback(){ ?>
 						<p><?php echo esc_html__('We will help you setup Schema and Structured data on your website as per your requirements and as per recommendation by our expert developers.','schema-and-structured-data-for-wp') ?></p>
 					</div>
 				</div>
-				<div class="saswp-sts-btn">
-					<label class="saswp-sts-txt"><?php echo esc_html__('Staus:','schema-and-structured-data-for-wp') ?><span><?php echo esc_html__('Inactive','schema-and-structured-data-for-wp') ?></span></label>
-					<span class="saswp-d-btn"><?php echo esc_html__('Download','schema-and-structured-data-for-wp') ?></span>
-				</div>
-			</a></li>
+                                <a target="_blank" href="http://structured-data-for-wp.com/services/structured-data-setup-error-clean-up/">
+                                    <div class="saswp-sts-btn">					
+					<span class="saswp-d-btn"><?php echo esc_html__('Try it','schema-and-structured-data-for-wp') ?></span>
+				    </div>
+                                </a>
+				
+			</li>
 		</ul>
 	</div>
 
