@@ -1303,10 +1303,12 @@ function saswp_schema_output() {
                                     
                                 $local_business = $business_name;    
                                 
-                                }else{
+                                }else if($business_type){
                                     
                                 $local_business = $business_type;        
                                 
+                                }else{
+                                    $local_business = 'LocalBusiness';
                                 } 
                                 
 				$input1 = array(
@@ -3461,9 +3463,13 @@ function saswp_post_specific_schema_output() {
                                     
                                 $local_business = $business_sub_name; 
                                 
-                                }else{
+                                }else if($business_type){
                                     
                                 $local_business = $business_type;        
+                                
+                                }else{
+                                    
+                                $local_business = 'LocalBusiness';  
                                 
                                 }   
                                 

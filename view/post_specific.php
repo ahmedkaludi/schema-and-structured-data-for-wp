@@ -1442,6 +1442,7 @@ class saswp_post_specific {
             switch ($business_type) {
                         case 'automotivebusiness':
                            $sub_business_options = array(
+                                     ''                  => 'Select Sub Business Type ( optional )',  
                                      'autobodyshop'      => 'Auto Body Shop',
                                      'autodealer'        => 'Auto Dealer',
                                      'autopartsstore'    => 'Auto Parts Store',
@@ -1455,6 +1456,7 @@ class saswp_post_specific {
                             break;
                         case 'emergencyservice':
                             $sub_business_options = array(
+                                     ''               => 'Select Sub Business Type ( optional )',     
                                      'firestation'    => 'Fire Station',
                                      'hospital'       => 'Hospital',
                                      'policestation'  => 'Police Station',                                    
@@ -1462,6 +1464,7 @@ class saswp_post_specific {
                             break;
                         case 'entertainmentbusiness':
                            $sub_business_options = array(
+                                      ''                   => 'Select Sub Business Type ( optional )',  
                                       'adultentertainment' => 'Adult Entertainment',
                                       'amusementpark'      => 'Amusement Park',
                                       'artgallery'         => 'Art Gallery',
@@ -1474,6 +1477,7 @@ class saswp_post_specific {
                             break;
                         case 'financialservice':
                             $sub_business_options = array(
+                                      ''                   => 'Select Sub Business Type ( optional )',   
                                       'accountingservice'  => 'Accounting Service',
                                       'automatedteller'    => 'Automated Teller',
                                       'bankorcredit_union' => 'Bank Or Credit Union',
@@ -1483,6 +1487,7 @@ class saswp_post_specific {
                             break;
                         case 'foodestablishment':
                              $sub_business_options = array(
+                                      ''                   => 'Select Sub Business Type ( optional )',    
                                       'bakery'             => 'Bakery',
                                       'barorpub'           => 'Bar Or Pub',
                                       'brewery'            => 'Brewery',
@@ -1496,6 +1501,7 @@ class saswp_post_specific {
                             break;
                         case 'healthandbeautybusiness':
                             $sub_business_options = array(
+                                      ''             => 'Select Sub Business Type ( optional )',    
                                       'beautysalon'  => 'Beauty Salon',
                                       'dayspa'       => 'DaySpa',
                                       'hairsalon'    => 'Hair Salon',
@@ -1506,7 +1512,8 @@ class saswp_post_specific {
                             break;
                         case 'homeandconstructionbusiness':
                             $sub_business_options = array(
-                                     'electrician'       => 'Electrician',
+                                      ''                  => 'Select Sub Business Type ( optional )',  
+                                      'electrician'       => 'Electrician',
                                       'generalcontractor' => 'General Contractor',
                                       'hvacbusiness'      => 'HVAC Business',
                                       'locksmith'         => 'Locksmith', 
@@ -1518,12 +1525,14 @@ class saswp_post_specific {
                             break;
                         case 'legalservice':
                             $sub_business_options = array(
+                                      ''         => 'Select Sub Business Type ( optional )',  
                                       'attorney' => 'Attorney',
                                       'notary'   => 'Notary',                                            
                                  );  
                             break;
                         case 'lodgingbusiness':
                              $sub_business_options = array(
+                                      ''                => 'Select Sub Business Type ( optional )',  
                                       'bedandbreakfast' => 'Bed And Breakfast',
                                       'campground'      => 'Campground',
                                       'hostel'          => 'Hostel',
@@ -1534,6 +1543,7 @@ class saswp_post_specific {
                             break;
                         case 'sportsactivitylocation':
                              $sub_business_options = array(
+                                      ''                    => 'Select Sub Business Type ( optional )',  
                                       'bowlingalley'        => 'Bowling Alley',
                                       'exercisegym'         => 'Exercise Gym',
                                       'golfcourse'          => 'Golf Course',
@@ -1547,6 +1557,7 @@ class saswp_post_specific {
                             break;
                         case 'store':
                              $sub_business_options = array(
+                                        ''                      => 'Select Sub Business Type ( optional )',  
                                         'autopartsstore'        => 'Auto Parts Store',
                                         'bikestore'             => 'Bike Store',
                                         'bookstore'             => 'Book Store',
@@ -1698,6 +1709,7 @@ class saswp_post_specific {
                             'type'    => 'select',
                             'default' => $business_type,
                             'options' => array(
+                                    ''                              => 'Select Business Type (Optional)',
                                     'animalshelter'                 => 'Animal Shelter',
                                     'automotivebusiness'            => 'Automotive Business',
                                     'childcare'                     => 'ChildCare',

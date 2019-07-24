@@ -766,6 +766,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                             )
                          );
                          $all_business_type = array(
+                            ''                              => 'Select Business Type (Optional)', 
                             'animalshelter'                 => 'Animal Shelter',
                             'automotivebusiness'            => 'Automotive Business',
                             'childcare'                     => 'ChildCare',
@@ -797,6 +798,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                          );
 
                           $all_automotive_array = array(
+                             ''                 => 'Select Sub Business Type ( optional )',  
                              'autobodyshop'     => 'Auto Body Shop',
                              'autodealer'       => 'Auto Dealer',
                              'autopartsstore'   => 'Auto Parts Store',
@@ -809,11 +811,13 @@ function saswp_schema_type_meta_box_callback( $post) {
                          );
 
                           $all_emergency_array = array(
+                             ''              => 'Select Sub Business Type ( optional )',  
                              'firestation'   => 'Fire Station',
                              'hospital'      => 'Hospital',
                              'policestation' => 'Police Station',                                    
                          );
                           $all_entertainment_array = array(
+                              ''                   => 'Select Sub Business Type ( optional )', 
                               'adultentertainment' => 'Adult Entertainment',
                               'amusementpark'      => 'Amusement Park',
                               'artgallery'         => 'Art Gallery',
@@ -824,6 +828,7 @@ function saswp_schema_type_meta_box_callback( $post) {
 
                          );
                           $all_financial_array = array(
+                              ''                   => 'Select Sub Business Type ( optional )', 
                               'accountingservice'  => 'Accounting Service',
                               'automatedteller'    => 'Automated Teller',
                               'bankorcredit_union' => 'Bank Or Credit Union',
@@ -832,6 +837,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                          );
 
                           $all_food_establishment_array = array(
+                              ''                   => 'Select Sub Business Type ( optional )', 
                               'bakery'             => 'Bakery',
                               'barorpub'           => 'Bar Or Pub',
                               'brewery'            => 'Brewery',
@@ -843,6 +849,7 @@ function saswp_schema_type_meta_box_callback( $post) {
 
                          );
                           $all_health_and_beauty_array = array(
+                              ''               => 'Select Sub Business Type ( optional )',   
                               'beautysalon'    => 'Beauty Salon',
                               'dayspa'         => 'DaySpa',
                               'hairsalon'      => 'Hair Salon',
@@ -852,6 +859,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                          );
 
                           $all_home_and_construction_array = array(
+                              ''                  => 'Select Sub Business Type ( optional )', 
                               'electrician'       => 'Electrician',
                               'generalcontractor' => 'General Contractor',
                               'hvacbusiness'      => 'HVAC Business',
@@ -863,11 +871,13 @@ function saswp_schema_type_meta_box_callback( $post) {
                          );
 
                           $all_legal_service_array = array(
+                              ''         => 'Select Sub Business Type ( optional )', 
                               'attorney' => 'Attorney',
                               'notary'   => 'Notary',                                            
                          );
 
                           $all_lodging_array = array(
+                              ''                => 'Select Sub Business Type ( optional )', 
                               'bedandbreakfast' => 'Bed And Breakfast',
                               'campground'      => 'Campground',
                               'hostel'          => 'Hostel',
@@ -877,6 +887,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                          );
 
                           $all_sports_activity_location = array(
+                              ''                    => 'Select Sub Business Type ( optional )', 
                               'bowlingalley'        => 'Bowling Alley',
                               'exercisegym'         => 'Exercise Gym',
                               'golfcourse'          => 'Golf Course',
@@ -888,6 +899,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                               'tenniscomplex'       => 'Tennis Complex'
                          );
                           $all_store = array(
+                                ''                      => 'Select Sub Business Type ( optional )', 
                                 'autopartsstore'        => 'Auto Parts Store',
                                 'bikestore'             => 'Bike Store',
                                 'bookstore'             => 'Book Store',
