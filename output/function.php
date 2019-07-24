@@ -112,13 +112,7 @@ function saswp_schema_markup_output() {
                             $output .= saswp_json_print_format($archive_output);   
                             $output .= ",";
                             $output .= "\n\n";
-                        }
-                        if(!empty($site_navigation)){
-                                                                            
-                            $output .= saswp_json_print_format($site_navigation);   
-                            $output .= ",";
-                            $output .= "\n\n";                        
-                        }
+                        }                        
                                     
             if(isset($sd_data['saswp-defragment']) && $sd_data['saswp-defragment'] == 1){
             
@@ -142,7 +136,6 @@ function saswp_schema_markup_output() {
                         unset($webpage['mainEntity']);
                         unset($kb_schema_output['@context']);
                         unset($kb_website_output['@context']);
-
                     
                      if($webpage){
                     
@@ -153,6 +146,12 @@ function saswp_schema_markup_output() {
                          $webpage['primaryImageOfPage'] = array(
                              '@id' => get_permalink().'#primaryimage'
                          );
+                         
+                         if($site_navigation){                             
+                             unset($site_navigation['@context']);
+                             $site_navigation = $site_navigation['@graph'];                             
+                             $webpage['mainContentOfPage'] = array($site_navigation);
+                         }                         
                          
                      }       
                                         
@@ -237,7 +236,14 @@ function saswp_schema_markup_output() {
             
                 
             }else{
-                                                             
+                          
+                        if(!empty($site_navigation)){
+                                                                            
+                            $output .= saswp_json_print_format($site_navigation);   
+                            $output .= ",";
+                            $output .= "\n\n";                        
+                        }
+                        
                         if(!empty($kb_website_output)){
                         
                             $output .= saswp_json_print_format($kb_website_output);  

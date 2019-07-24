@@ -586,7 +586,9 @@ function saswp_general_page_callback(){
                  
                  $options[$menu->term_id] = $menu->name;
              }
-                          
+             
+             $options = array('' => 'Select A Menu') + $options;
+             
              $meta_fields_default[] =   array(
 			'label'  => 'Site Navigation Menu',
 			'id'     => 'saswp_site_navigation_menu', 
