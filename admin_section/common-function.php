@@ -15,7 +15,8 @@ if ( ! defined('ABSPATH') ) exit;
      * List of hooks used in this context
      */
     add_action('admin_init', 'saswp_import_all_settings_and_schema',9);
-    add_action( 'wp_ajax_saswp_export_all_settings_and_schema', 'saswp_export_all_settings_and_schema');    
+    add_action( 'wp_ajax_saswp_export_all_settings_and_schema', 'saswp_export_all_settings_and_schema');  
+    add_action('plugins_loaded', 'saswp_defaultSettings' );
     add_action( 'wp_enqueue_scripts', 'saswp_frontend_enqueue' );
     add_action('amp_post_template_css','saswp_enqueue_amp_script');
     

@@ -215,11 +215,11 @@ function saswp_schema_output() {
 	$schema_type      = saswp_remove_warnings($schemaConditionals, 'schema_type', 'saswp_string');         
         $schema_post_id   = saswp_remove_warnings($schemaConditionals, 'post_id', 'saswp_string');        
            
-        
+        $input1         = array();
         $logo           = ''; 
         $height         = '';
-        $width          = '';
-        $site_name      = '';
+        $width          = '';        
+        $site_name      = get_bloginfo();    
         
         $service_object     = new saswp_output_service();
         $default_logo       = $service_object->saswp_get_publisher(true);
@@ -233,15 +233,9 @@ function saswp_schema_output() {
             
         }
         
-        if(isset($sd_data['sd_name']) && $sd_data['sd_name'] !=''){
-            
-            $site_name = $sd_data['sd_name'];  
-          
-        }else{
-            
-            $site_name = get_bloginfo();    
-            
-        }                                                                      
+        if(isset($sd_data['sd_name']) && $sd_data['sd_name'] !=''){            
+            $site_name = $sd_data['sd_name'];            
+        }                                                                   
 	
 			   		                                                                                           		
 			$image_id 	= get_post_thumbnail_id();
@@ -1516,8 +1510,7 @@ function saswp_schema_output() {
                 
                 if(!empty($input1)){
                     $all_schema_output[] = $input1;		                    
-                }                
-	//}
+                }                	
         }   
                 
         return apply_filters('saswp_modify_schema_output', $all_schema_output);
