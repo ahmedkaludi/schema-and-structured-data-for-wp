@@ -321,37 +321,7 @@ class saswp_fields_generator {
                                 
                                                 
 		}
-                if($field_type == 'general'){
-                                        
-                    $reg_menus  = get_registered_nav_menus();
-                    $locations  = get_nav_menu_locations();
-                    
-                    if($reg_menus){
-                        
-                        foreach ($reg_menus as $type => $title){
-                                                                                             
-                            if(array_key_exists($type, $locations) && $locations[$type]){
-                            
-                            $checked = '';
-                            
-                            if(isset($settings['saswp-'.$type])){
-                                $checked = 'checked';
-                            }
-                            
-                            $output .= '<li class="saswp-nav-menu-list"><div class="saswp-knowledge-label"><label>'.esc_attr($title).'</label></div>'
-                                    . '<div class="saswp-knowledge-field">'
-                                    . '<input type="checkbox" name="sd_data[saswp-'.$type.']" class="regular-text" value="1" '.$checked.'>'
-                                    . '</div>'
-                                    . '</li>';
                                 
-                            }
-                            
-                        }    
-            
-                    }
-                                       			 
-                }
-                
 		echo '<div><div class="saswp-settings-list"><ul>' . wp_kses($output, $allowed_html) . '</ul></div></div>';
 	}	        
 }

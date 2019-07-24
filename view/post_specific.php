@@ -127,7 +127,10 @@ class saswp_post_specific {
                       $post_title = '';
                     if($schema_count == 1 && $custom_option !='enable'){
                         $all_schemas = $this->all_schema;                        
-                        $post_title = '('.get_post_meta($all_schemas[0]->ID, 'schema_type', true).')';                                      
+                        $post_title = '('.get_post_meta($all_schemas[0]->ID, 'schema_type', true).')';    
+                        if($post_title == '(local_business)'){
+                            $post_title = '(LocalBusiness)';
+                        }
                      }
                                                                                     
 			add_meta_box(

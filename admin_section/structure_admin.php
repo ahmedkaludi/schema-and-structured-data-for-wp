@@ -1135,7 +1135,13 @@ function saswp_custom_column_set( $column, $post_id ) {
                 case 'saswp_schema_type' :
                     
                     $schema_type = get_post_meta( $post_id, $key='schema_type', true);
-                    echo esc_attr($schema_type);
+                    
+                    if($schema_type == 'local_business'){
+                        echo 'LocalBusiness';
+                    }else{
+                        echo esc_attr($schema_type);
+                    }
+                    
                     
                     break; 
                 case 'saswp_target_location' :

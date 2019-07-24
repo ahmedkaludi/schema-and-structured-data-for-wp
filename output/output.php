@@ -3971,79 +3971,39 @@ function saswp_contact_page_output(){
  */
 function saswp_site_navigation_output(){
             
-    global $sd_data;
-    $input = array();    
-                                
-    if(isset($sd_data['saswp_site_navigation_menu']) &&  $sd_data['saswp_site_navigation_menu'] == 1 ){
-                
-        $navObj = array();
-        
-        $menuLocations = get_nav_menu_locations();
-        
-        if(!empty($menuLocations)){
-         
-            foreach($menuLocations as $type => $id){
+            global $sd_data;
+            $input = array();    
+
+            $navObj = array();          
             
-            $menuItems = wp_get_nav_menu_items($id);
-                      
-            if(isset($sd_data['saswp-'.$type])){
+            if(isset($sd_data['saswp_site_navigation_menu'])){
                 
-               if($menuItems){
-                
-                if(!saswp_non_amp()){
-                                     
-                    if($type == 'amp-menu' || $type == 'amp-footer-menu'){
-                        
+                $menu_id   = $sd_data['saswp_site_navigation_menu'];                
+                $menuItems = wp_get_nav_menu_items($menu_id);
+                $menu_name = wp_get_nav_menu_object($menu_id);
+                                             
+                if($menuItems){
+                   
                         foreach($menuItems as $items){
                  
                               $navObj[] = array(
                                      "@context"  => "https://schema.org",
                                      "@type"     => "SiteNavigationElement",
-                                     "@id"       => trailingslashit(get_home_url()).$type,
+                                     "@id"       => trailingslashit(get_home_url()).'#'.$menu_name->name,
                                      "name"      => esc_attr($items->title),
                                      "url"       => esc_url($items->url)
                               );
 
-                        }
-                        
-                    }                    
-                    
-                }else{
-                    
-                    if($type != 'amp-menu'){
-                        
-                        foreach($menuItems as $items){
-                 
-                            $navObj[] = array(
-                                    "@context"  => "https://schema.org",
-                                    "@type"     => "SiteNavigationElement",
-                                    "@id"       => trailingslashit(get_home_url()).$type,
-                                    "name"      => esc_attr($items->title),
-                                    "url"       => esc_url($items->url)
-                            );
-                    
-                         }
-                                                
+                        }                                                                                                                                                                                   
                     }
-                    
-                }                                                                    
-                
-              }
-            
             }
-                                                
-            }
-            
-        }        
-              
+                                    
         if($navObj){
             
             $input['@context'] = 'https://schema.org'; 
             $input['@graph']   = $navObj; 
             
         }
-              
-    }
-        
+                          
     return apply_filters('saswp_modify_sitenavigation_output', $input);
 }      

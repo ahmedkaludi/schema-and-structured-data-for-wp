@@ -505,7 +505,7 @@ function saswp_general_page_callback(){
             
 	$settings = saswp_defaultSettings(); 
         $field_objs = new saswp_fields_generator(); 
-        $locations = get_nav_menu_locations();
+        $nav_menu   = wp_get_nav_menus();
         
         $meta_fields_default = array(	
                 array(
@@ -578,17 +578,22 @@ function saswp_general_page_callback(){
 		)
                                 
             );
-            if($locations){
+            if($nav_menu){
+                
+             $options = array();
+             
+             foreach($nav_menu as $menu){
+                 
+                 $options[$menu->term_id] = $menu->name;
+             }
+                          
              $meta_fields_default[] =   array(
 			'label'  => 'Site Navigation Menu',
-			'id'     => 'saswp_site_navigation_menu_checkbox', 
-                        'name'   => 'saswp_site_navigation_menu_checkbox',
-			'type'   => 'checkbox',
-                        'class'  => 'checkbox saswp-checkbox',                        
-                        'hidden' => array(
-                             'id'   => 'saswp_site_navigation_menu',
-                             'name' => 'sd_data[saswp_site_navigation_menu]',                             
-                        )
+			'id'     => 'saswp_site_navigation_menu', 
+                        'name'   => 'sd_data[saswp_site_navigation_menu]',
+			'type'   => 'select',                        
+                        'options'=> $options
+                        
 		); 
             }                    
         ?>
@@ -650,7 +655,7 @@ function saswp_general_page_callback(){
         <?php
         
         echo '<div class="saswp-archive-div">';
-        $field_objs->saswp_field_generator($meta_fields_default, $settings, 'general');
+        $field_objs->saswp_field_generator($meta_fields_default, $settings);
         echo '</div>';
         
         ?>
