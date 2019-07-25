@@ -964,6 +964,11 @@ function saswp_custom_breadcrumbs() {
 
                     $post_type_object    = get_post_type_object($post_type);
                     $post_type_archive   = get_post_type_archive_link($post_type);
+                    
+                    if(!$post_type_archive){
+                        $post_type_archive = get_permalink();
+                    }
+                    
                     $variables1_titles[] = $post_type_object->labels->name;
                     $variables2_links[]  = $post_type_archive;
 
@@ -981,7 +986,12 @@ function saswp_custom_breadcrumbs() {
             if($post_type != 'post') {
                   
                     $post_type_object   = get_post_type_object($post_type);
-                    $post_type_archive  = get_post_type_archive_link($post_type);              
+                    $post_type_archive  = get_post_type_archive_link($post_type);  
+                    
+                    if(!$post_type_archive){
+                        $post_type_archive = get_permalink();
+                    }
+                    
                     $variables1_titles[]= $post_type_object->labels->name;
                     $variables2_links[] = $post_type_archive;              
             }
