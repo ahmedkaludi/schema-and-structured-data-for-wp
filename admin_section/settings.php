@@ -326,18 +326,23 @@ function saswp_handle_file_upload($option){
 		return $option;
     }
 
-  $fileInfo = wp_check_filetype(basename($_FILES['saswp_import_backup']['name']));
+   if(isset($_FILES['saswp_import_backup'])){
+     
+       $fileInfo = wp_check_filetype(basename($_FILES['saswp_import_backup']['name']));
     
-  if (!empty($fileInfo['ext']) && $fileInfo['ext'] == 'json') {
-      
-      if(!empty($_FILES["saswp_import_backup"]["tmp_name"])){
-  
-        $urls = wp_handle_upload($_FILES["saswp_import_backup"], array('test_form' => FALSE));    
-        $url = $urls["url"];
-        update_option('saswp-file-upload_url',esc_url($url));
-    
-     }
-  }           
+        if (!empty($fileInfo['ext']) && $fileInfo['ext'] == 'json') {
+
+            if(!empty($_FILES["saswp_import_backup"]["tmp_name"])){
+
+              $urls = wp_handle_upload($_FILES["saswp_import_backup"], array('test_form' => FALSE));    
+              $url = $urls["url"];
+              update_option('saswp-file-upload_url',esc_url($url));
+
+           }
+        }
+       
+   }  
+   
   return $option;
   
 }
@@ -1302,15 +1307,17 @@ function saswp_get_license_section_html($on, $license_key, $license_status, $lic
     $limits_html = $response = '';
     
     if($limits){
-       $limits_html = '<span style="padding:10px;">Maximum Reviws Limits '. esc_attr($limits).'</span>'; 
+       $limits_html = '<span style="padding:10px;">Maximum Reviews Limits '. esc_attr($limits).'</span>'; 
     }
     
     $response.= '<div class="saswp-tools-field-title">';
                 
                if($label == true){
+                   
                 $response.= '<div class="" style="display:inline-block">';
                 $response.= '<strong>'.esc_html__(''.$on.' Compatibility For Schema','schema-and-structured-data-for-wp').'</strong>';
                 $response.= '</div>';
+                
                }
                 
                 
@@ -1355,6 +1362,7 @@ function saswp_review_page_callback(){
         
         $settings = saswp_defaultSettings();         
         $field_objs = new saswp_fields_generator();
+                                
         $meta_fields = array(				
                 array(
 			'label'  => 'Review Module',
@@ -1367,13 +1375,7 @@ function saswp_review_page_callback(){
                              'id'   => 'saswp-review-module',
                              'name' => 'sd_data[saswp-review-module]',                             
                         )
-		),
-                array(
-			'label'  => 'Reviews Pro API Key',
-			'id'     => 'saswp-reviews-pro-api',                        
-                        'name'   => 'saswp-reviews-pro-api',
-			'type'   => 'text',                                                                     
-		),
+		),               
                 array(
 			'label'  => 'Google Review',
 			'id'     => 'saswp-google-review-checkbox',                        
@@ -1385,18 +1387,7 @@ function saswp_review_page_callback(){
                              'id'   => 'saswp-google-review',
                              'name' => 'sd_data[saswp-google-review]',                             
                         )
-		),
-                array(
-			'label'  => 'Use Free Version',
-			'id'     => 'saswp-google-rv-free-checkbox',                        
-                        'name'   => 'saswp-google-rv-free-checkbox',
-			'type'   => 'checkbox',
-                        'class'  => 'checkbox saswp-checkbox',                        
-                        'hidden' => array(
-                             'id'   => 'saswp-google-review-free',
-                             'name' => 'sd_data[saswp-google-review-free]',                             
-                        )
-		),
+		),                                
                 array(
                             'label' => 'Google place API Key',
                             'id'    => 'saswp_google_place_api_key',
@@ -1411,10 +1402,20 @@ function saswp_review_page_callback(){
                             'name'  => 'sd_data[saswp-google-place-section]',
                             'type'  => 'text',
                             
+                  ),
+                 array(
+                            'label' => 'Review Modules',
+                            'id'    => 'saswp-reviews-module-section',
+                            'name'  => 'sd_data[saswp-reviews-module-section]',
+                            'type'  => 'text',
+                            
                   )  
                   
                 
-	);        
+	);    
+          
+        $meta_fields = apply_filters('saswp_modify_reviews_settings_page', $meta_fields);
+        
         $field_objs->saswp_field_generator($meta_fields, $settings);             
 }
 

@@ -233,27 +233,28 @@ add_action( 'init', 'saswp_create_platform_custom_taxonomy', 21 );
 function saswp_create_platform_custom_taxonomy() {
  
   $labels = array(
-    'name' => _x( 'Platforms', 'taxonomy general name' ),
+    'name'          => _x( 'Platforms', 'taxonomy general name' ),
     'singular_name' => _x( 'Platform', 'taxonomy singular name' ),
-    'search_items' =>  __( 'Search Types' ),
-    'all_items' => __( 'All Platform' ),        
-    'edit_item' => __( 'Edit Platform' ), 
-    'update_item' => __( 'Update Platform' ),
-    'add_new_item' => __( 'Add New Platform' ),
+    'search_items'  => __( 'Search Types' ),
+    'all_items'     => __( 'All Platform' ),        
+    'edit_item'     => __( 'Edit Platform' ), 
+    'update_item'   => __( 'Update Platform' ),
+    'add_new_item'  => __( 'Add New Platform' ),
     'new_item_name' => __( 'New Platform Name' ),
-    'menu_name' => __( 'Platforms' ),
+    'menu_name'     => __( 'Platforms' ),
   ); 	
  
   register_taxonomy(
+          
     'platform',array('saswp'), 
     array(
-    'hierarchical' => false,
-    'labels' => $labels,
-    'public' => false,   
-    'show_ui' => false,
+    'hierarchical'      => false,
+    'labels'            => $labels,
+    'public'            => false,   
+    'show_ui'           => false,
     'show_admin_column' => true,
-    'query_var' => true,
-    'rewrite' => array( 'slug' => 'platform' ),
+    'query_var'         => true,
+    'rewrite'           => array( 'slug' => 'platform' ),
   ));
   
   $term_array = array('Facebook',
@@ -284,7 +285,7 @@ function saswp_create_platform_custom_taxonomy() {
 function saswp_get_terms_as_array(){
     
     $terms_array = array();
-    $terms = get_terms( 'platform', array( 'hide_empty' => false ) );  
+    $terms       = get_terms( 'platform', array( 'hide_empty' => false ) );  
     
     if($terms){
         foreach ($terms as $val){

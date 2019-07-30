@@ -242,21 +242,36 @@ class saswp_fields_generator {
 
                                             break;
                                         
+                                        case 'saswp-reviews-module-section':
+
+                                            $input = '<div class="saswp_rv_module_pro_notice">
+                                                      <h3>Reviews Module</h3>  
+                                                      <table>
+                                                      <caption><strong>Auto fetch more than 5 reviews, go to pro</strong></caption>
+                                                      <tr><td>Google (available) </td><td>Facebook (comming soon)</td><td>TripAdvisor (comming soon)</td></tr>
+                                                      <tr><td>Trustpilot (comming soon)</td><td>Zomato (comming soon)</td><td>Yelp (comming soon)</td></tr>                                                      
+                                                      </table>    
+                                                      </div>';
+                                                                                                                                                        
+                                            break;
+                                        
                                         case 'saswp-google-place-section':
 
                                             $location = '';
                             
                             if(isset($settings['saswp_reviews_location_name']) && !empty($settings['saswp_reviews_location_name'])){
-                                $rv_loc = $settings['saswp_reviews_location_name'];
+                                
+                                $rv_loc    = $settings['saswp_reviews_location_name'];
                                 $rv_blocks = $settings['saswp_reviews_location_blocks'];
                                 $i=0;
+                                
                                 foreach($rv_loc as $rvl){
                                     if($rvl){
                                         $location .= '<tr>'
                                         . '<td style="width:12%;"><strong>Place Id</strong></td>'
                                         . '<td style="width:20%;"><input class="saswp-g-location-field" name="sd_data[saswp_reviews_location_name][]" type="text" value="'. esc_attr($rvl).'"></td>'
                                         . '<td style="width:10%;"><strong>Blocks</strong></td>'
-                                        . '<td style="width:10%;"><input class="saswp-g-blocks-field" name="sd_data[saswp_reviews_location_blocks][]" type="number" placeholder="10" value="'. esc_attr($rv_blocks[$i]).'"></td>'                                        
+                                        . '<td style="width:10%;"><input class="saswp-g-blocks-field" name="sd_data[saswp_reviews_location_blocks][]" type="number" min="10" step="10" placeholder="10" value="'. esc_attr($rv_blocks[$i]).'"></td>'                                        
                                         . '<td style="width:10%;"><a class="button button-default saswp-fetch-g-reviews">Fetch</a></td>'
                                         . '<td style="width:10%;"><a type="button" class="saswp-remove-review-item button">x</a></td>'
                                         . '<td style="width:10%;"><p class="saswp-rv-fetched-msg"></p></td>'        
@@ -264,6 +279,7 @@ class saswp_fields_generator {
                                     }
                                    $i++;
                                 }
+                                
                             }
                             
                             $reviews = '<div class="saswp-g-reviews-settings saswp-knowledge-label">'                                                                

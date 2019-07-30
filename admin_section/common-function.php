@@ -1223,6 +1223,7 @@ if ( ! defined('ABSPATH') ) exit;
     }    
     //Function to expand html tags form allowed html tags in wordpress    
     function saswp_expanded_allowed_tags() {
+        
                 $my_allowed = wp_kses_allowed_html( 'post' );
                 // form fields - input
                 $my_allowed['input']  = array(
@@ -1239,7 +1240,9 @@ if ( ! defined('ABSPATH') ) exit;
                         'disabled'     => array(),
                         'width'        => array(),  
                         'data-id'      => array(),
-                        'checked'      => array()
+                        'checked'      => array(),
+                        'step'         => array(),
+                        'min'          => array()
                 );
                 $my_allowed['hidden']  = array(                    
                         'id'           => array(),
@@ -1299,11 +1302,11 @@ if ( ! defined('ABSPATH') ) exit;
                         'target'         => array(),
                         'add-on'         => array(),
                         'license-status' => array(),
-                        'class' => array(),
+                        'class'          => array(),
                 );
                 $my_allowed['p'] = array(                        
                         'add-on' => array(),                        
-                        'class' => array(),
+                        'class'  => array(),
                 );
                 return $my_allowed;
             }    

@@ -1379,37 +1379,6 @@ add_action('wp_ajax_saswp_feeback_remindme', 'saswp_feeback_remindme');
  * Licensing code starts here
  */
 
-function saswp_reviews_limits_by_price_id($price_id){
-    
-    $limits = 0;
-    
-    switch ($price_id) {
-        
-        case 1:
-
-         $limits = 100;  
-            
-        break;
-    
-        case 2:
-
-         $limits = 200;  
-            
-        break;
-    
-        case 3:
-
-         $limits = 500;  
-            
-        break;
-
-        default:
-            break;
-    }
-    
-    return $limits;
-    
-}
 
 function saswp_create_reviews_user($license_key, $add_on){
     
@@ -1436,7 +1405,7 @@ function saswp_create_reviews_user($license_key, $add_on){
                     )                                      
                 );                    
         if(wp_remote_retrieve_response_code($result) == 200 && wp_remote_retrieve_body($result)){                   
-                return wp_remote_retrieve_body($result);              
+                return json_decode(wp_remote_retrieve_body($result),true);              
               }else{
                 return null;
               }
@@ -1530,18 +1499,11 @@ function saswp_license_status($add_on, $license_status, $license_key){
                                         
                         if(strtolower($add_on) == 'google'){
                             
-                            $user_create = saswp_create_reviews_user($license_key, strtolower($add_on));
-                            
-                            if($user_create){
-                                update_option(strtolower($add_on).'_addon_user_id', intval($user_create));
+                            $user_create = saswp_create_reviews_user($license_key, strtolower($add_on));                            
+                            if($user_create['status']){ 
                                 
-                                if(isset($license_data->price_id)){
-                            
-                                    $rv_limits = saswp_reviews_limits_by_price_id($license_data->price_id);  
-                                                  
-                                        update_option(strtolower($add_on).'_addon_reviews_limits', intval($rv_limits));        
-                                    
-                                    }
+                                update_option(strtolower($add_on).'_addon_user_id', intval($user_create['user_id']));
+                                update_option(strtolower($add_on).'_addon_reviews_limits', intval($user_create['remains_limit']));        
                                 
                             }
                                                                                     
