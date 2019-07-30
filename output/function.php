@@ -61,6 +61,7 @@ function saswp_schema_markup_output() {
         $output                   = '';
         $post_specific_enable     = '';
         $schema_output            = array();
+        $kb_schema_output         = array();  
                               
         $site_navigation          = saswp_site_navigation_output();     
         $contact_page_output      = saswp_contact_page_output();  	
@@ -69,7 +70,10 @@ function saswp_schema_markup_output() {
         $archive_output           = saswp_archive_output();
         $schema_breadcrumb_output = saswp_schema_breadcrumb_output();                      
         $kb_website_output        = saswp_kb_website_output();      
-        $kb_schema_output         = saswp_kb_schema_output();
+        
+        if((is_home() || is_front_page() || ( function_exists('ampforwp_is_home') && ampforwp_is_home())) || isset($sd_data['saswp-defragment']) && $sd_data['saswp-defragment'] == 1 ){
+               $kb_schema_output         = saswp_kb_schema_output();
+        }
                  
         if(is_singular()){
 
