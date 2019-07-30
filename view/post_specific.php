@@ -19,6 +19,30 @@ class saswp_post_specific {
         protected $options_response          = array();
         protected $modify_schema_post_enable = false;
         
+        private   $schema_type_element =  array(                        
+                        'FAQ' => array(
+                               'faq-question' => 'faq_question',                                                
+                        ),
+                        'HowTo' => array(
+                               'how-to-supply' => 'howto_supply', 
+                               'how-to-tool'   => 'howto_tool', 
+                               'how-to-step'   => 'howto_step', 
+                        ),  
+                        'MedicalCondition' => array(
+                               'mc-cause'       => 'mc_cause', 
+                               'mc-symptom'     => 'mc_symptom', 
+                               'mc-risk_factor' => 'mc_risk_factor', 
+
+                        ),
+                        'TVSeries' => array(
+                               'tvseries-actor'  => 'tvseries_actor',
+                               'tvseries-season' => 'tvseries_season', 
+                        ),
+                        'Trip' => array(
+                               'trip-itinerary'  => 'trip_itinerary'
+                        )                                                                          
+                    );
+
         /**
          * List of hooks used in this context
          */                       
@@ -497,33 +521,11 @@ class saswp_post_specific {
                     $howto_data        = array();                    
                     $tabs_fields       = '';
                     
-                    $schema_type_fields = array(
-                                        'FAQ' => array(
-                                               'faq-question' => 'faq_question',                                                
-                                        ),
-                                        'HowTo' => array(
-                                               'how-to-supply' => 'howto_supply', 
-                                               'how-to-tool'   => 'howto_tool', 
-                                               'how-to-step'   => 'howto_step', 
-                                        ),  
-                                        'MedicalCondition' => array(
-                                               'mc-cause'       => 'mc_cause', 
-                                               'mc-symptom'     => 'mc_symptom', 
-                                               'mc-risk_factor' => 'mc_risk_factor', 
-
-                                        ),
-                                        'TVSeries' => array(
-                                               'tvseries-actor'  => 'tvseries_actor',
-                                               'tvseries-season' => 'tvseries_season', 
-                                        ),
-                                        'Trip' => array(
-                                               'trip-itinerary'  => 'trip_itinerary'
-                                        )                                                                          
-                                       );
+                    $schema_type_fields = $this->schema_type_element;
                     
-                        $type_fields = array_key_exists($schema_type, $schema_type_fields) ? $schema_type_fields[$schema_type]:'';  
+                    $type_fields = array_key_exists($schema_type, $schema_type_fields) ? $schema_type_fields[$schema_type]:'';  
                         
-                        if($type_fields){
+                    if($type_fields){
                         
                         $tabs_fields .= '<div class="saswp-table-create-onajax">';
                         
@@ -1257,157 +1259,24 @@ class saswp_post_specific {
                 if($schema_count > 0){
                                                                       
                  foreach($this->all_schema as $schema){
-                     
-                     //How to schema starts here
-                     $howto_tool = array();
-                     $howto_step = array();
-                     $howto_supply = array();
-                
-                     if( isset($_POST['howto_step_'.$schema->ID]) && is_array($_POST['howto_step_'.$schema->ID])){
-                         
-                         $data = $_POST['howto_step_'.$schema->ID];   
-                                                 
-                         foreach ($data as $step){
-                             
-                             $howto_step[] = array_map( 'sanitize_text_field', $step );
-                         }                         
-                     }
-                     
-                     if(isset($_POST['howto_tool_'.$schema->ID]) && is_array($_POST['howto_tool_'.$schema->ID])){
-                         
-                         $data = $_POST['howto_tool_'.$schema->ID];  
-                         
-                         foreach ($data as $tool){
-                             
-                             $howto_tool[] = array_map( 'sanitize_text_field', $tool );
-                         }
-                         
-                     }
-                     if(isset($_POST['howto_supply_'.$schema->ID]) && is_array($_POST['howto_supply_'.$schema->ID])){
-                         
-                         $data = $_POST['howto_supply_'.$schema->ID]; 
-                         
-                         foreach ($data as $supply){
-                             
-                             $howto_supply[] = array_map( 'sanitize_text_field', $supply );
-                         }
-                     }
-                     
-                     update_post_meta( $post_id, 'howto_step_'.intval($schema->ID), $howto_step);
-                     update_post_meta( $post_id, 'howto_tool_'.intval($schema->ID), $howto_tool);
-                     update_post_meta( $post_id, 'howto_supply_'.intval($schema->ID), $howto_supply);
-                                                                               
-                    //How to schema ends here
                                           
-                     //MedicalCondition schema starts here
-                     $mc_cause          = array();
-                     $mc_symptom        = array();
-                     $mc_r_factor       = array();
-                
-                     if(isset($_POST['mc_cause_'.$schema->ID]) && is_array($_POST['mc_cause_'.$schema->ID])){
+                     foreach ($this->schema_type_element as $element){
                          
-                         $data = $_POST['mc_cause_'.$schema->ID];  
+                        foreach($element as $key => $val){
+                                                                                                                   
+                            $element_val          = array();    
+                            $data = (array) $_POST[$val.'_'.$schema->ID];  
+
+                            foreach ($data as $supply){
+
+                                $element_val[] = array_map( 'sanitize_text_field', $supply );
+                                
+                            }
+                            update_post_meta( $post_id, $val.'_'.intval($schema->ID), $element_val);
+                                                                                  
+                        }    
                          
-                         foreach ($data as $supply){
-                             
-                             $mc_cause[] = array_map( 'sanitize_text_field', $supply );
-                         }
-                     }                                            
-                     if(isset($_POST['mc_symptom_'.$schema->ID]) && is_array($_POST['mc_symptom_'.$schema->ID])){
-                         
-                         $data = $_POST['mc_symptom_'.$schema->ID]; 
-                         
-                         foreach ($data as $supply){
-                             
-                             $mc_symptom[] = array_map( 'sanitize_text_field', $supply );
-                         }
-                     }
-                     if(isset($_POST['mc_risk_factor_'.$schema->ID]) && is_array($_POST['mc_risk_factor_'.$schema->ID])){
-                         
-                         $data = $_POST['mc_risk_factor_'.$schema->ID]; 
-                         
-                         foreach ($data as $supply){
-                             
-                             $mc_r_factor[] = array_map( 'sanitize_text_field', $supply );
-                         }
-                     }
-                     
-                     update_post_meta( $post_id, 'mc_cause_'.intval($schema->ID), $mc_cause);
-                     update_post_meta( $post_id, 'mc_symptom_'.intval($schema->ID), $mc_symptom);
-                     update_post_meta( $post_id, 'mc_risk_factor_'.intval($schema->ID), $mc_r_factor);
-                                                                               
-                    //MedicalCondition schema ends here
-                     
-                     
-                     //TVSeries schema starts here
-                     $tv_actor          = array();
-                     $tv_season         = array();                     
-                
-                     if(isset($_POST['tvseries_actor_'.$schema->ID]) && is_array($_POST['tvseries_actor_'.$schema->ID])){
-                         
-                         $data = $_POST['tvseries_actor_'.$schema->ID];  
-                         
-                         foreach ($data as $supply){
-                             
-                             $tv_actor[] = array_map( 'sanitize_text_field', $supply );
-                         }
-                     }                                            
-                     if(isset($_POST['tvseries_season_'.$schema->ID]) && is_array($_POST['tvseries_season_'.$schema->ID])){
-                         
-                         $data = $_POST['tvseries_season_'.$schema->ID];  
-                         
-                         foreach ($data as $supply){
-                             
-                             $tv_season[] = array_map( 'sanitize_text_field', $supply );
-                         }
-                     }
-                     
-                     
-                     update_post_meta( $post_id, 'tvseries_actor_'.intval($schema->ID), $tv_actor);
-                     update_post_meta( $post_id, 'tvseries_season_'.intval($schema->ID), $tv_season);                     
-                                                                               
-                    //TVSeries schema ends here
-                     
-                     
-                     //Trip schema starts here
-                     
-                     $trip_itinerary          = array();
-                                                       
-                     if(isset($_POST['trip_itinerary_'.$schema->ID]) && is_array($_POST['trip_itinerary_'.$schema->ID])){
-                         
-                         $data = $_POST['trip_itinerary_'.$schema->ID];  
-                         
-                         foreach ($data as $supply){
-                             
-                             $trip_itinerary[] = array_map( 'sanitize_text_field', $supply );
-                         }
-                         
-                     }                                            
-                                                               
-                     update_post_meta( $post_id, 'trip_itinerary_'.$schema->ID, $trip_itinerary);                     
-                     
-                     //Trip schema ends here
-                     
-                     
-                     //FAQ schema starts here
-                     
-                     $faq_question          = array();
-                                                       
-                     if(isset($_POST['faq_question_'.$schema->ID]) && is_array($_POST['faq_question_'.$schema->ID])){
-                         
-                         $data = $_POST['faq_question_'.$schema->ID];  
-                         
-                         foreach ($data as $supply){
-                             
-                             $faq_question[] = array_map( 'sanitize_text_field', $supply );
-                         }
-                         
-                     }                                            
-                                                               
-                     update_post_meta( $post_id, 'faq_question_'.intval($schema->ID), $faq_question);                     
-                     
-                     //FAQ schema ends here
-                     
+                     }                                          
                                                                                     
                      $response          = $this->saswp_get_fields_by_schema_type($schema->ID); 
                      
