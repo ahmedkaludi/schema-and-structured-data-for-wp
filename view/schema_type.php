@@ -716,6 +716,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                                     'Blogposting'              => 'Blogposting',
                                     'Course'                   => 'Course',
                                     'DiscussionForumPosting'   => 'DiscussionForumPosting',
+                                    'FAQ'                      => 'FAQ',
                                     'HowTo'                    => 'HowTo',                                                                                           
                                     'NewsArticle'              => 'NewsArticle',                                            
                                     'qanda'                    => 'Q&A',   

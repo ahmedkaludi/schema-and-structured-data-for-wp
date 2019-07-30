@@ -363,6 +363,24 @@ class saswp_post_specific {
 
                     break;
                 
+                case 'faq_question':
+                    
+                    $meta_fields = array(
+                                       
+                    array(
+			'label'     => 'Question',
+			'name'      => 'saswp_faq_question_name',
+			'type'      => 'text'                        
+		    ),
+                     array(
+			'label'     => 'Accepted Answer',
+			'name'      => 'saswp_faq_question_answer',
+			'type'      => 'textarea'                        
+		    )                    
+                    );
+
+                    break;
+                
 
                 default:
                     break;
@@ -480,6 +498,9 @@ class saswp_post_specific {
                     $tabs_fields       = '';
                     
                     $schema_type_fields = array(
+                                        'FAQ' => array(
+                                               'faq-question' => 'faq_question',                                                
+                                        ),
                                         'HowTo' => array(
                                                'how-to-supply' => 'howto_supply', 
                                                'how-to-tool'   => 'howto_tool', 
@@ -1277,8 +1298,7 @@ class saswp_post_specific {
                      update_post_meta( $post_id, 'howto_supply_'.intval($schema->ID), $howto_supply);
                                                                                
                     //How to schema ends here
-                     
-                     
+                                          
                      //MedicalCondition schema starts here
                      $mc_cause          = array();
                      $mc_symptom        = array();
@@ -1367,6 +1387,27 @@ class saswp_post_specific {
                      update_post_meta( $post_id, 'trip_itinerary_'.$schema->ID, $trip_itinerary);                     
                      
                      //Trip schema ends here
+                     
+                     
+                     //FAQ schema starts here
+                     
+                     $faq_question          = array();
+                                                       
+                     if(isset($_POST['faq_question_'.$schema->ID]) && is_array($_POST['faq_question_'.$schema->ID])){
+                         
+                         $data = $_POST['faq_question_'.$schema->ID];  
+                         
+                         foreach ($data as $supply){
+                             
+                             $faq_question[] = array_map( 'sanitize_text_field', $supply );
+                         }
+                         
+                     }                                            
+                                                               
+                     update_post_meta( $post_id, 'faq_question_'.intval($schema->ID), $faq_question);                     
+                     
+                     //FAQ schema ends here
+                     
                                                                                     
                      $response          = $this->saswp_get_fields_by_schema_type($schema->ID); 
                      
@@ -4554,6 +4595,12 @@ class saswp_post_specific {
                         
                         
                    );
+                    break;
+                
+                case 'FAQ':
+                    
+                    $meta_field = array();                                                                  
+                   
                     break;
                 
                 case 'Person':

@@ -294,6 +294,7 @@ function saswp_schema_output() {
                             $schema_type == 'HowTo'                ||
                             $schema_type == 'TVSeries'             ||
                             $schema_type == 'MedicalCondition'     ||
+                            $schema_type == 'FAQ'                  ||        
                             $schema_type == 'Apartment'            ||   
                             $schema_type == 'House'                ||
                             $schema_type == 'TouristDestination'   ||
@@ -1689,6 +1690,33 @@ function saswp_post_specific_schema_output() {
                             }
                             
                             }   
+                            
+                         if( 'FAQ' === $schema_type){
+                                                                                                                                                                        
+                            $input1['@context']              = 'http://schema.org';
+                            $input1['@type']                 = 'FAQPage';
+                            $input1['@id']                   = trailingslashit(get_permalink()).'#FAQPage';                            
+                            
+                            $faq_question  = esc_sql ( get_post_meta($schema_post_id, 'faq_question_'.$schema_id, true)  );
+                            
+                            $faq_question_arr = array();
+                            
+                            if(!empty($faq_question)){
+                                
+                                foreach($faq_question as $val){
+                                   
+                                    $supply_data = array();
+                                    $supply_data['@type']                   = 'Question';
+                                    $supply_data['name']                    = $val['saswp_faq_question_name'];
+                                    $supply_data['acceptedAnswer']['@type'] = 'Answer';
+                                    $supply_data['acceptedAnswer']['text']  = $val['saswp_faq_question_answer'];
+                                                                        
+                                   $faq_question_arr[] =  $supply_data;
+                                }
+                               $input1['mainEntity'] = $faq_question_arr;
+                            }
+                            
+                          }      
                             
                          if( 'JobPosting' === $schema_type){
                              
