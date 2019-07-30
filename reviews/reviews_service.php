@@ -210,7 +210,8 @@ class saswp_reviews_service {
                        $sd_data['saswp_reviews_location_blocks'] = array($blocks);  
                        
                    }
-                                                         
+                        
+                  $sd_data['saswp-google-review'] = 1;
                   update_option('sd_data', $sd_data);    
                   
                   $result         = null;                                    

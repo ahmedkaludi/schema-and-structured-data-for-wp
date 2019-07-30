@@ -36,10 +36,10 @@ function saswp_add_menu_links() {
 add_action( 'admin_menu', 'saswp_add_menu_links' );
 
 function saswp_premium_interface_render(){
-    if ( wp_redirect( 'https://structured-data-for-wp.com/extensions/' ) ) {
-    exit;
-}
     
+    wp_redirect( 'https://structured-data-for-wp.com/pricing/' );
+    exit;    
+        
 }
 function saswp_admin_interface_render(){
 	// Authentication
@@ -113,6 +113,13 @@ function saswp_admin_interface_render(){
 			echo "</div>";
                                                                         
                         echo "<div class='saswp-review' ".( $tab != 'review' ? 'style="display:none;"' : '').">";
+                        
+                            echo '<div id="saswp-review-tabs" style="margin-top: 10px;">';
+
+                            echo '<a data-id="saswp-review-reviews-container">'.esc_html__('Reviews Module','schema-and-structured-data-for-wp').'</a> | <a data-id="saswp-review-rating-container">'.esc_html__('Rating Module','schema-and-structured-data-for-wp').'</a>';
+
+                            echo'</div> ';
+                        
 			     // Status                        
 			        do_settings_sections( 'saswp_review_section' );	// Page slug
 			echo "</div>";
@@ -1370,19 +1377,7 @@ function saswp_review_page_callback(){
         $settings = saswp_defaultSettings();         
         $field_objs = new saswp_fields_generator();
                                 
-        $meta_fields = array(				
-                array(
-			'label'  => 'Review Module',
-			'id'     => 'saswp-review-module-checkbox',                        
-                        'name'   => 'saswp-review-module-checkbox',
-			'type'   => 'checkbox',
-                        'class'  => 'checkbox saswp-checkbox',
-                        'note'   => 'This option enables the review metabox on every post/page. <a target="_blank" href="http://structured-data-for-wp.com/docs/article/how-to-use-review-in-schema-and-structure-data/">Learn More</a>',
-                        'hidden' => array(
-                             'id'   => 'saswp-review-module',
-                             'name' => 'sd_data[saswp-review-module]',                             
-                        )
-		),               
+        $meta_fields = array(				                               
                 array(
 			'label'  => 'Google Review',
 			'id'     => 'saswp-google-review-checkbox',                        
@@ -1411,7 +1406,7 @@ function saswp_review_page_callback(){
                             
                   ),
                  array(
-                            'label' => 'Review Modules',
+                            'label' => 'Review Module',
                             'id'    => 'saswp-reviews-module-section',
                             'name'  => 'sd_data[saswp-reviews-module-section]',
                             'type'  => 'text',
@@ -1420,10 +1415,44 @@ function saswp_review_page_callback(){
                   
                 
 	);    
-          
-        $meta_fields = apply_filters('saswp_modify_reviews_settings_page', $meta_fields);
+                          
+        ?>
         
-        $field_objs->saswp_field_generator($meta_fields, $settings);             
+    <div class="saswp-review-container" id="saswp-review-reviews-container">
+        <?php 
+
+            $meta_fields = apply_filters('saswp_modify_reviews_settings_page', $meta_fields);
+
+            $field_objs->saswp_field_generator($meta_fields, $settings);  
+       ?>
+    </div>
+
+    <div class="saswp-review-container" id="saswp-review-rating-container">
+                
+       <?php 
+       
+       $meta_fields = array(				
+                array(
+			'label'  => 'Rating Module',
+			'id'     => 'saswp-review-module-checkbox',                        
+                        'name'   => 'saswp-review-module-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
+                        'note'   => 'This option enables the review metabox on every post/page. <a target="_blank" href="http://structured-data-for-wp.com/docs/article/how-to-use-review-in-schema-and-structure-data/">Learn More</a>',
+                        'hidden' => array(
+                             'id'   => 'saswp-review-module',
+                             'name' => 'sd_data[saswp-review-module]',                             
+                        )
+		)
+           );  
+       
+       $field_objs->saswp_field_generator($meta_fields, $settings); 
+       ?> 
+    </div>
+    
+    <?php
+        
+        
 }
 
 function saswp_email_schema_callback(){

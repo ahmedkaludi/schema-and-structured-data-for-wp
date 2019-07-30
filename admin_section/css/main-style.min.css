@@ -647,6 +647,9 @@ Compatibility tab css ends
 #saswp-tools-tabs a{
     cursor: pointer;
 }
+#saswp-review-tabs a{
+    cursor: pointer;
+}
 #saswp-tools-tabs{
     padding-left: 5px;
 }

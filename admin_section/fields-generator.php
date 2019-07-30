@@ -268,11 +268,11 @@ class saswp_fields_generator {
                                 foreach($rv_loc as $rvl){
                                     if($rvl){
                                         $location .= '<tr>'
-                                        . '<td style="width:12%;"><strong>Place Id</strong></td>'
+                                        . '<td style="width:12%;"><strong>'.esc_html__( 'Place Id', 'schema-and-structured-data-for-wp' ).'</strong></td>'
                                         . '<td style="width:20%;"><input class="saswp-g-location-field" name="sd_data[saswp_reviews_location_name][]" type="text" value="'. esc_attr($rvl).'"></td>'
-                                        . '<td style="width:10%;"><strong>Blocks</strong></td>'
+                                        . '<td style="width:10%;"><strong>'.esc_html__( 'Reviews', 'schema-and-structured-data-for-wp' ).'</strong></td>'
                                         . '<td style="width:10%;"><input class="saswp-g-blocks-field" name="sd_data[saswp_reviews_location_blocks][]" type="number" min="10" step="10" placeholder="10" value="'. esc_attr($rv_blocks[$i]).'"></td>'                                        
-                                        . '<td style="width:10%;"><a class="button button-default saswp-fetch-g-reviews">Fetch</a></td>'
+                                        . '<td style="width:10%;"><a class="button button-default saswp-fetch-g-reviews">'.esc_html__( 'Fetch', 'schema-and-structured-data-for-wp' ).'</a></td>'
                                         . '<td style="width:10%;"><a type="button" class="saswp-remove-review-item button">x</a></td>'
                                         . '<td style="width:10%;"><p class="saswp-rv-fetched-msg"></p></td>'        
                                         . '</tr>'; 
@@ -286,7 +286,10 @@ class saswp_fields_generator {
                                 . '<table class="saswp-g-reviews-settings-table" style="width:100%">'
                                 . $location                                 
                                 . '</table>'                                
-                                . '<div><a class="button button-default saswp-add-g-location-btn">Add Location</a></div>'    
+                                . '<div>'
+                                . '<a class="button button-default saswp-add-g-location-btn">'.esc_html__( 'Add Location', 'schema-and-structured-data-for-wp' ).'</a>'
+                                .  '<p><a target="_blank" href="https://developers.google.com/maps/documentation/javascript/examples/places-placeid-finder">'.esc_html__( 'Place ID Finder', 'schema-and-structured-data-for-wp' ).'</a></p>'  
+                                . '</div>'    
                                 . '</div>';  
                                                           
                                            
