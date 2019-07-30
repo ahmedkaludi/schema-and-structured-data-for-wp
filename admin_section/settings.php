@@ -30,10 +30,17 @@ function saswp_plugin_action_links( $links ) {
 function saswp_add_menu_links() {				
 	// Settings page - Same as main menu page
 	add_submenu_page( 'edit.php?post_type=saswp', esc_html__( 'Schema & Structured Data For Wp', 'schema-and-structured-data-for-wp' ), esc_html__( 'Settings', 'schema-and-structured-data-for-wp' ), 'manage_options', 'structured_data_options', 'saswp_admin_interface_render' );	
+        add_submenu_page( 'edit.php?post_type=saswp', esc_html__( 'Schema & Structured Data For Wp', 'schema-and-structured-data-for-wp' ), '<span style="color:#fff176;">'.esc_html__( 'Upgrade To Premium', 'schema-and-structured-data-for-wp' ).'</span>', 'manage_options', 'structured_data_premium', 'saswp_premium_interface_render' );	
         
 }
 add_action( 'admin_menu', 'saswp_add_menu_links' );
 
+function saswp_premium_interface_render(){
+    if ( wp_redirect( 'https://structured-data-for-wp.com/extensions/' ) ) {
+    exit;
+}
+    
+}
 function saswp_admin_interface_render(){
 	// Authentication
 	if ( ! current_user_can( 'manage_options' ) ) {

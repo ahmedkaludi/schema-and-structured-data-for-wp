@@ -109,8 +109,10 @@ class saswp_reviews_service {
                     $starating = saswp_get_rating_html_by_value($review_rating);
 
                     $term     = get_term( $review['saswp_review_platform'], 'platform' );
-
-                    $output.= '<div class="saswp-g-review-panel">
+                    
+                    if(is_object($term)){
+                        
+                        $output.= '<div class="saswp-g-review-panel">
                               <div class="saswp-glg-review-body">
                                 <div class="saswp-rv-img">
                                     <img src="'.esc_url($review['saswp_reviewer_image']).'" alt="'.$review['saswp_reviewer_name'].'">
@@ -129,6 +131,9 @@ class saswp_reviews_service {
                                 </div>
                               </div>
                           </div>';
+                        
+                    }
+                    
 
                 }
 
