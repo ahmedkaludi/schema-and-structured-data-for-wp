@@ -108,9 +108,15 @@ class saswp_reviews_service {
 
                     $starating = saswp_get_rating_html_by_value($review_rating);
 
-                    $term     = get_term( $review['saswp_review_platform'], 'platform' );
+                        $term      = get_term( $review['saswp_review_platform'], 'platform' );
+                        $term_slug  = ''; 
                     
-                    if(is_object($term)){
+                        if(is_object($term)){
+                            $term_slug = $term->slug; 
+                        }
+                        if($term_slug == ''){
+                            $term_slug = 'google';
+                        }
                         
                         $output.= '<div class="saswp-g-review-panel">
                               <div class="saswp-glg-review-body">
@@ -124,17 +130,14 @@ class saswp_reviews_service {
                                             '.$starating.'                                  
                                         </div> 
                                         <span class="saswp-g-plus">
-                                            <a href="#"><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/'.$term->slug.'-img.png'.'"></a>
+                                            <a href="#"><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/'.esc_attr($term_slug).'-img.png'.'"></a>
                                         </span>
                                     </div>                                                
                                     <p>'.substr($review['saswp_review_text'],0,300).'</p>
                                 </div>
                               </div>
                           </div>';
-                        
-                    }
-                    
-
+                                                                
                 }
 
              wp_enqueue_style( 'saswp-style', SASWP_PLUGIN_URL . 'admin_section/css/saswp-style.min.css', false , SASWP_VERSION );       
@@ -374,7 +377,7 @@ class saswp_reviews_service {
             if($reviews){
                 
                $output = $this->saswp_reviews_html_markup($reviews);  
-                              
+                            
                if(saswp_global_option()){
                 
                  $schema_markup = $this->saswp_get_reviews_schema_markup($reviews);
