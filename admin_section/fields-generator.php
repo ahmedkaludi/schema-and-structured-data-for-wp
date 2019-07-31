@@ -222,7 +222,7 @@ class saswp_fields_generator {
 						);
 					}
 					$input .= '</select>';
-					break;                                
+					break;                               
 				default:
 					
                                     
@@ -243,12 +243,23 @@ class saswp_fields_generator {
                                         case 'saswp-reviews-module-section':
 
                                             $input = '<div class="saswp_rv_module_pro_notice">
-                                                      <h3>Reviews Module</h3>  
-                                                      <table>
-                                                      <caption><strong>Auto fetch more than 5 reviews, go to pro</strong></caption>
-                                                      <tr><td>Google (available) </td><td>Facebook (comming soon)</td><td>TripAdvisor (comming soon)</td></tr>
-                                                      <tr><td>Trustpilot (comming soon)</td><td>Zomato (comming soon)</td><td>Yelp (comming soon)</td></tr>                                                      
-                                                      </table>    
+                                                        <h4>Auto fetch more than 5 reviews, go to pro</strong>
+                                                        </h4>
+                                                        <ul>
+                                                            <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/google-img.png">
+                                                            <span>Google (available)</span> 
+                                                            </li>
+                                                            <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/facebook-img.png">
+                                                            <span>Facebook (coming soon)</span></li>
+                                                            <li>TripAdvisor (coming soon)</li>
+                                                            <li>Trustpilot (coming soon)</li>
+                                                            <li>Zomato (coming soon)</li>
+                                                            <li>Yelp (coming soon)</li>
+                                                        </ul>
+                                                        <div class="saswp-rev-btn">
+                                                            <span>Get Review Module with one click</span>
+                                                            <a href="#">Get this Module</a>
+                                                        </div>    
                                                       </div>';
                                                                                                                                                         
                                             break;
@@ -330,11 +341,21 @@ class saswp_fields_generator {
                         
                         $allowed_html = saswp_expanded_allowed_tags();
                         
-                        $output .= '<li>'                                                                
+                        if($meta_field['id'] == 'saswp-reviews-module-section'){
+                            $output .= '<li class="saswp-rev-mod">'                                                                
                                 .  '<div class="saswp-knowledge-label">'.$label.'</div>'
                                 .  '<div class="saswp-knowledge-field">'.$input.'<p class="">'.$note.'</p></div>'
                                                                
                                 .  '</li>';
+                        }else{
+                            $output .= '<li>'                                                                
+                                .  '<div class="saswp-knowledge-label">'.$label.'</div>'
+                                .  '<div class="saswp-knowledge-field">'.$input.'<p class="">'.$note.'</p></div>'
+                                                               
+                                .  '</li>';    
+                        }
+
+                        
                                 
                                                 
 		}

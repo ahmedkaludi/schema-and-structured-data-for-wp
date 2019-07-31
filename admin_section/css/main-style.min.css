@@ -1048,3 +1048,90 @@ Google review module ends here
     border: 1px solid #d8d8d8;
     background: #fff;
 }
+
+/*** Review Module section ***/
+*, *:before, *:after{
+    box-sizing:border-box;
+}
+.saswp-settings-list .saswp-rev-mod{
+    width: 100%;
+    display: inline-block;
+    margin-top: 20px;
+}
+.saswp-rev-mod .saswp-knowledge-label{
+    width: 100%;
+    display: inline-block;
+    padding: 10px 16px;
+    font-weight: 600;
+    font-size: 16px;
+    color: #333;
+    background: #f9f9f9;
+    border: 1px solid #d8d8d8;
+    border-bottom: none;
+}
+.saswp-rev-mod .saswp-knowledge-field{
+    width:100%;
+    display: inline-block;
+}
+.saswp-rev-mod .saswp_rv_module_pro_notice{
+    padding:20px;
+}
+.saswp_rv_module_pro_notice h4{
+    margin:0;
+    text-align: center;
+    font-size:15px;
+    color:#555;
+}
+.saswp_rv_module_pro_notice ul{
+    margin-top:30px;
+    width: 100%;
+    display: inline-grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 20px;
+}
+.saswp_rv_module_pro_notice ul li{
+    position: relative;
+    font-size: 15px;
+    line-height: 1.5;
+    color: #444;
+    margin: 0;
+    padding-left: 25px;
+}
+.saswp_rv_module_pro_notice ul li:before{
+    content: "";
+    background-image: url(../images/check.png);
+    background-repeat: no-repeat;
+    background-size: 16px;
+    width: 16px;
+    height: 16px;
+    position: absolute;
+    left: 2px;
+    top: 2px;
+}
+.saswp_rv_module_pro_notice ul li img{
+    width:16px;
+    height:16px;
+    position: relative;
+    top: 2px;
+}
+.saswp-rev-btn{
+    width:100%;
+    display: inline-block;
+    margin-top:40px;
+    text-align: center;
+}
+.saswp-rev-btn span{
+    display: block;
+    font-size: 13px;
+    margin-bottom: 15px;
+}
+.saswp-rev-btn a{
+    padding: 8px 16px;
+    display: inline-block;
+    text-decoration: none;
+    border-radius: 5px;
+    background: #0085ba;
+    color: #fff;
+    font-weight: 600;
+    font-size: 15px;
+}
