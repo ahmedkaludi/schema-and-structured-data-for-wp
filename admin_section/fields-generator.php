@@ -76,9 +76,7 @@ class saswp_fields_generator {
                             if($license_status =='active'){
                               $rv_limits =   get_option(strtolower($on).'_addon_reviews_limits');
                             }
-                        
-                        
-                        
+                                                                        
                         if(array_key_exists('class', $meta_field)){
                             
                             $class = $meta_field['class'];    

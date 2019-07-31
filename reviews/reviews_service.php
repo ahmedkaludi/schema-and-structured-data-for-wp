@@ -175,7 +175,9 @@ class saswp_reviews_service {
                 }
                 
                 if(isset($_POST['g_api'])){
+                    
                     $g_api = sanitize_text_field($_POST['g_api']);
+                                        
                 }
                 
                 if(isset($_POST['premium_status'])){
@@ -207,34 +209,59 @@ class saswp_reviews_service {
                        }
                                               
                    }else{
-                       $sd_data['saswp_reviews_location_blocks'] = array($blocks);  
+                       
+                           $sd_data['saswp_reviews_location_blocks'] = array($blocks);  
                        
                    }
                         
-                  $sd_data['saswp-google-review'] = 1;
+                  $sd_data['saswp-google-review']        = 1;
+                  $sd_data['saswp_google_place_api_key'] = $g_api;
                   update_option('sd_data', $sd_data);    
-                  
+                                    
                   $result         = null;                                    
                   $user_id        = get_option('google_addon_user_id');
                     
-                  if($reviews_api && $reviews_api_status == 'active' && $user_id){                       
+                  if($reviews_api){                       
                         
                       if($premium_status == 'premium'){
+                        
+                        if($reviews_api_status == 'active'){
                           
-                        if(function_exists('saswp_get_paid_reviews_data')){
+                            if($user_id){
+                             
+                                if(function_exists('saswp_get_paid_reviews_data')){
 
-                            $result = saswp_get_paid_reviews_data($location, $reviews_api, $user_id, $blocks); 
+                                $result = saswp_get_paid_reviews_data($location, $reviews_api, $user_id, $blocks); 
 
-                            if($result['status'] && $result['message']){
-                                   update_option('google_addon_reviews_limits', intval($result['message']));
-                            }
+                                if($result['status'] && is_numeric($result['message'])){
+                                    
+                                    $rv_limits = get_option('google_addon_reviews_limits');
+                                    
+                                    $result['message'] = 'Reviews fetched : '. $rv_limits - $result['message']. ', Remains Limit : '.$result['message'];                                    
+                                    
+                                    update_option('google_addon_reviews_limits', intval($result['message']));
+                                }
+
+                                }else{
+                                    $result['status']  = false;
+                                    $result['message'] = 'Reviews for schema plugin is not activated';
+                                }
+                                
+                            }else{
+                                $result['status']  = false;
+                                $result['message'] = 'User is not register';
+                            }                                                        
                             
-                        }
+                        }else{
+                                $result['status']  = false;
+                                $result['message'] = 'License key is not active';
+                        }  
+                                                  
                         
                       }else{
                           
                           if($g_api){
-                                                                             
+                                                                          
                              $result = $this->saswp_get_free_reviews_data($location, $g_api);                                                                                                                                  
                              
                          }
@@ -249,11 +276,7 @@ class saswp_reviews_service {
                       }                      
                       
                   }  
-                         
-                  if($result['status'] && is_numeric($result['message'])){
-                      $result['message'] = 'Remains Limit '. $result['message'];
-                  }
-                  
+                                                             
                   echo json_encode($result);
                     
                 }else{

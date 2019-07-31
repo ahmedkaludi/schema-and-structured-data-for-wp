@@ -1499,7 +1499,8 @@ function saswp_license_status($add_on, $license_status, $license_key){
                                         
                         if(strtolower($add_on) == 'google'){
                             
-                            $user_create = saswp_create_reviews_user($license_key, strtolower($add_on));                            
+                            $user_create = saswp_create_reviews_user($license_key, strtolower($add_on));   
+                            
                             if($user_create['status']){ 
                                 
                                 update_option(strtolower($add_on).'_addon_user_id', intval($user_create['user_id']));

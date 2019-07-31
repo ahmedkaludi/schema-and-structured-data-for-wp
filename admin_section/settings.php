@@ -1425,6 +1425,12 @@ function saswp_review_page_callback(){
 
             $field_objs->saswp_field_generator($meta_fields, $settings);  
        ?>
+        <div class="saswp-quick-links-div">
+            <h4><?php echo esc_html__('Quick Links','schema-and-structured-data-for-wp'); ?></h4>       
+            <p><a href="<?php echo admin_url('edit.php?post_type=saswp_reviews'); ?>"><?php echo esc_html__('View Current Reviews','schema-and-structured-data-for-wp'); ?></a></p>
+            <p><a target="_blank" href="<?php echo admin_url('edit.php?post_type=saswp_reviews'); ?>"><?php echo esc_html__('How to show reviews on the website','schema-and-structured-data-for-wp'); ?></a></p>
+        </div>
+         
     </div>
 
     <div class="saswp-review-container" id="saswp-review-rating-container">
