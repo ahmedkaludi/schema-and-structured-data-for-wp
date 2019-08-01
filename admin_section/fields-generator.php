@@ -337,7 +337,7 @@ class saswp_fields_generator {
                                                                 <span>Glassdoor (coming soon)</span>
                                                             </li>
                                                             <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/google-1-img.png">
-                                                                <span>Google (coming soon)</span>
+                                                                <span>Google (Avaliable)</span>
                                                             </li>
                                                             <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/healthgrades-img.png">
                                                                 <span>Healthgrades (coming soon)</span>

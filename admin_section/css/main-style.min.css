@@ -1095,7 +1095,10 @@ Google review module ends here
     line-height: 1.5;
     color: #444;
     margin: 0;
-    padding-left: 25px;
+    padding-left: 28px;
+}
+.saswp_rv_module_pro_notice ul li span{
+    padding-left:3px;
 }
 .saswp_rv_module_pro_notice ul li:before{
     content: "";
@@ -1106,13 +1109,13 @@ Google review module ends here
     height: 16px;
     position: absolute;
     left: 2px;
-    top: 2px;
+    top: 6px;
 }
 .saswp_rv_module_pro_notice ul li img{
-    width:16px;
-    height:16px;
+    width:20px;
+    height:20px;
     position: relative;
-    top: 2px;
+    top: 4px;
 }
 .saswp-rev-btn{
     width:100%;
