@@ -177,10 +177,8 @@ class saswp_reviews_service {
                     $location = sanitize_text_field($_POST['location']);
                 }
                 
-                if(isset($_POST['g_api'])){
-                    
-                    $g_api = sanitize_text_field($_POST['g_api']);
-                                        
+                if(isset($_POST['g_api'])){                    
+                    $g_api = sanitize_text_field($_POST['g_api']);                                        
                 }
                 
                 if(isset($_POST['premium_status'])){
@@ -203,8 +201,7 @@ class saswp_reviews_service {
                        $sd_data['saswp_reviews_location_name'] = array($location);  
                        
                    }
-                   
-                   
+                                      
                    if(isset($sd_data['saswp_reviews_location_blocks'])){
                           
                        if(!in_array($blocks, $sd_data['saswp_reviews_location_blocks'])){
@@ -222,7 +219,7 @@ class saswp_reviews_service {
                   update_option('sd_data', $sd_data);    
                                     
                   $result         = null;                                    
-                  $user_id        = get_option('google_addon_user_id');
+                  $user_id        = get_option('reviews_addon_user_id');
                     
                   if($reviews_api){                       
                         
@@ -238,26 +235,26 @@ class saswp_reviews_service {
 
                                 if($result['status'] && is_numeric($result['message'])){
                                     
-                                    $rv_limits = get_option('google_addon_reviews_limits');
+                                    $rv_limits = get_option('reviews_addon_reviews_limits');
                                     
                                     $result['message'] = 'Reviews fetched : '. $rv_limits - $result['message']. ', Remains Limit : '.$result['message'];                                    
                                     
-                                    update_option('google_addon_reviews_limits', intval($result['message']));
+                                    update_option('reviews_addon_reviews_limits', intval($result['message']));
                                 }
 
                                 }else{
                                     $result['status']  = false;
-                                    $result['message'] = 'Reviews for schema plugin is not activated';
+                                    $result['message'] = esc_html__( 'Reviews for schema plugin is not activated', 'schema-and-structured-data-for-wp' );
                                 }
                                 
                             }else{
                                 $result['status']  = false;
-                                $result['message'] = 'User is not register';
+                                $result['message'] = esc_html__( 'User is not register', 'schema-and-structured-data-for-wp' );
                             }                                                        
                             
                         }else{
                                 $result['status']  = false;
-                                $result['message'] = 'License key is not active';
+                                $result['message'] = esc_html__( 'License key is not active', 'schema-and-structured-data-for-wp' );
                         }  
                                                   
                         
@@ -284,7 +281,7 @@ class saswp_reviews_service {
                     
                 }else{
                     
-                  echo json_encode(array('status' => false, 'message' => 'Place id is empty')); 
+                  echo json_encode(array('status' => false, 'message' => esc_html__( 'Place id is empty', 'schema-and-structured-data-for-wp' ))); 
                   
                 }
                 
@@ -520,16 +517,16 @@ class saswp_reviews_service {
                $response = $this->saswp_save_free_reviews_data($result['result'], $place_id);
                
                if($response){
-                    return array('status' => true, 'message' => 'fetched successfully');
+                    return array('status' => true, 'message' => esc_html__( 'Fetched Successfully', 'schema-and-structured-data-for-wp' ));
                }else{                                             
-                    return array('status' => false, 'message' => 'Not fetched');
+                    return array('status' => false, 'message' => esc_html__( 'Not fetched', 'schema-and-structured-data-for-wp' ));
                }
                
            }else{
                if($result['error_message']){
                    return array('status' => false, 'message' => $result['error_message']);
                }else{
-                   return array('status' => false, 'message' => 'Something went wrong');
+                   return array('status' => false, 'message' => esc_html__( 'Something went wrong', 'schema-and-structured-data-for-wp' ));
                }                             
            }
                                                        

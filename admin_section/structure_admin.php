@@ -1413,7 +1413,7 @@ function saswp_create_reviews_user($license_key, $add_on){
         
         if ( is_wp_error( $result ) ) {
             $error_message = $result->get_error_message();
-            echo "Something went wrong: $error_message";
+            echo "User has not been register: $error_message";
         }                                     
     
 }
@@ -1421,9 +1421,9 @@ function saswp_create_reviews_user($license_key, $add_on){
 function saswp_license_status($add_on, $license_status, $license_key){
                                       
                 $item_name = array(
-                       'cooked'      => 'Cooked compatibility for Schema',
-                       'woocommerce' => 'Woocommerce compatibility for Schema',
-                       'google'      => 'Google'  
+                       'cooked'       => 'Cooked compatibility for Schema',
+                       'woocommerce'  => 'Woocommerce compatibility for Schema',
+                       'reviews'      => 'Reviews'  
                 );
                                                                                     
                 $edd_action = '';
@@ -1497,7 +1497,7 @@ function saswp_license_status($add_on, $license_status, $license_key){
 
                     if($license_status == 'active'){
                                         
-                        if(strtolower($add_on) == 'google'){
+                        if(strtolower($add_on) == 'reviews'){
                             
                             $user_create = saswp_create_reviews_user($license_key, strtolower($add_on));   
                             
