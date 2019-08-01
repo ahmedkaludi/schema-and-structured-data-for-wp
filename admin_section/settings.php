@@ -1394,7 +1394,7 @@ function saswp_review_page_callback(){
                             'label' => 'Google place API Key',
                             'id'    => 'saswp_google_place_api_key',
                             'name'  => 'sd_data[saswp_google_place_api_key]',
-                            'note'   => 'How to get place API Key ? <a target="_blank" href="https://structured-data-for-wp.com/docs/article/how-to-display-google-review/">Click Here</a>',
+                            'note'  => '<a target="_blank" href="https://structured-data-for-wp.com/docs/article/how-to-display-google-review/">Get place API Key</a> Note : Google allows only 5 reviews per location',
                             'class' => '',
                             'type'  => 'text',
                   ),
