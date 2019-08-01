@@ -246,15 +246,225 @@ class saswp_fields_generator {
                                                         <h4>Auto fetch more than 5 reviews, go to pro</strong>
                                                         </h4>
                                                         <ul>
-                                                            <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/google-img.png">
-                                                            <span>Google (available)</span> 
+                                                            <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/agoda-img.png">
+                                                                <span>Agoda (coming soon)</span>
                                                             </li>
-                                                            <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/facebook-img.png">
-                                                            <span>Facebook (coming soon)</span></li>
-                                                            <li>TripAdvisor (coming soon)</li>
-                                                            <li>Trustpilot (coming soon)</li>
-                                                            <li>Zomato (coming soon)</li>
-                                                            <li>Yelp (coming soon)</li>
+                                                            <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/airbnb-img.png">
+                                                                <span>Airbnb (coming soon)</span>
+                                                            </li>
+                                                            <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/alternativeto-img.png">
+                                                                <span>AlternativeTo (coming soon)</span>
+                                                            </li>
+                                                            <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/amazon-img.png">
+                                                                <span>Amazon (coming soon)</span>
+                                                            </li>
+                                                            <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/amazon-img.png">
+                                                                <span>Angies List (coming soon)</span>
+                                                            </li>
+                                                            <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/aliexpress-img.png">
+                                                                <span>Ali Express (coming soon)</span>
+                                                            </li>
+                                                            <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/appstore-img.png">
+                                                                <span>App Store (coming soon)</span>
+                                                            </li>
+                                                            <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/avvo-img.png">
+                                                                <span>Avvo (coming soon)</span>
+                                                            </li>
+                                                            <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/bbb-img.png">
+                                                                <span>BBB (coming soon)</span>
+                                                            </li>
+                                                            <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/bestbuy-img.png">
+                                                                <span>Bestbuy (coming soon)</span>
+                                                            </li>
+                                                            <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/booking-img.png">
+                                                                <span>Booking.com (coming soon)</span>
+                                                            </li>
+                                                            <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/capterra-img.png">
+                                                                <span>Capterra (coming soon)</span>
+                                                            </li>
+                                                            <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/cars-img.png">
+                                                                <span>Cars.com (coming soon)</span>
+                                                            </li>
+                                                            <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/cargurus-img.png">
+                                                                <span>Cargurus (coming soon)</span>
+                                                            </li>
+                                                            <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/clutch-img.png">
+                                                                <span>Clutch (coming soon)</span>
+                                                            </li>
+                                                            <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/citysearch-img.png">
+                                                                <span>Citysearch (coming soon)</span>
+                                                            </li>
+                                                            <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/consumeraffairs-img.png">
+                                                                <span>Consumer Affairs (coming soon)</span>
+                                                            </li>
+                                                            <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/creditkarma-img.png">
+                                                                <span>CreditKarma (coming soon)</span>
+                                                            </li>
+                                                            <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/customerlobby-img.png">
+                                                                <span>CustomerLobby (coming soon)</span>
+                                                            </li>
+                                                            <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/dealerrater-img.png">
+                                                                <span>DealerRater (coming soon)</span>
+                                                            </li>
+                                                            <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/ebay-img.png">
+                                                                <span>Ebay (coming soon)</span>
+                                                            </li>
+                                                            <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/edmunds-img.png">
+                                                                <span>Edmunds (coming soon)</span>
+                                                            </li>
+                                                            <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/etsy-img.png">
+                                                                <span>Etsy (coming soon)</span>
+                                                            </li>
+                                                            <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/expedia-img.png">
+                                                                <span>Expedia (coming soon)</span>
+                                                            </li>
+                                                            <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/facebook-1-img.png">
+                                                                <span>Facebook (coming soon)</span>
+                                                            </li>
+                                                            <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/flipkart-img.png">
+                                                                <span>Flipkart (coming soon)</span>
+                                                            </li>
+                                                            <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/foursquare-img.png">
+                                                                <span>Foursquare (coming soon)</span>
+                                                            </li>
+                                                            <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/g2crowd-img.png">
+                                                                <span>G2Crowd (coming soon)</span>
+                                                            </li>
+                                                            <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/gearbest-img.png">
+                                                                <span>Gearbest (coming soon)</span>
+                                                            </li>
+                                                            <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/glassdoor-img.png">
+                                                                <span>Glassdoor (coming soon)</span>
+                                                            </li>
+                                                            <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/google-1-img.png">
+                                                                <span>Google (coming soon)</span>
+                                                            </li>
+                                                            <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/healthgrades-img.png">
+                                                                <span>Healthgrades (coming soon)</span>
+                                                            </li>
+                                                            <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/homeadvisor-img.png">
+                                                                <span>HomeAdvisor (coming soon)</span>
+                                                            </li>
+                                                            <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/homestars-img.png">
+                                                                <span>Homestars (coming soon)</span>
+                                                            </li>
+                                                            <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/houzz-img.png">
+                                                                <span>Houzz (coming soon)</span>
+                                                            </li>
+                                                            <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/hotels-img.png">
+                                                                <span>Hotels.com (coming soon)</span>
+                                                            </li>
+                                                            <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/hungerstation-img.png">
+                                                                <span>Hungerstation (coming soon)</span>
+                                                            </li>
+                                                            <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/imdb-img.png">
+                                                                <span>Imdb (coming soon)</span>
+                                                            </li>
+                                                            <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/indeed-img.png">
+                                                                <span>Indeed (coming soon)</span>
+                                                            </li>
+                                                            <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/insiderpages-img.png">
+                                                                <span>Insider Pages (coming soon)</span>
+                                                            </li>
+                                                            <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/jet-img.png">
+                                                                <span>Jet (coming soon)</span>
+                                                            </li>
+                                                            <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/lawyers-img.png">
+                                                                <span>Lawyers.com (coming soon)</span>
+                                                            </li>
+                                                            <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/lendingtree-img.png">
+                                                                <span>Lending Tree (coming soon)</span>
+                                                            </li>
+                                                            <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/martindale-img.png">
+                                                                <span>Martindale (coming soon)</span>
+                                                            </li>
+                                                            <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/newegg-img.png">
+                                                                <span>Newegg (coming soon)</span>
+                                                            </li>
+                                                            <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/openrice-img.png">
+                                                                <span>OpenRice (coming soon)</span>
+                                                            </li>
+                                                            <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/opentable-img.png">
+                                                                <span>Opentable (coming soon)</span>
+                                                            </li>
+                                                            <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/playstore-img.png">
+                                                                <span>Playstore (coming soon)</span>
+                                                            </li>
+                                                            <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/producthunt-img.png">
+                                                                <span>ProductHunt (coming soon)</span>
+                                                            </li>
+                                                            <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/ratemds-img.png">
+                                                                <span>RateMDs (coming soon)</span>
+                                                            </li>
+                                                            <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/reserveout-img.png">
+                                                                <span>Reserveout (coming soon)</span>
+                                                            </li>
+                                                            <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/rottentomatoes-img.png">
+                                                                <span>Rottentomatoes (coming soon)</span>
+                                                            </li>
+                                                            <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/siftery-img.png">
+                                                                <span>Siftery (coming soon)</span>
+                                                            </li>
+                                                            <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/sitejabber-img.png">
+                                                                <span>Sitejabber (coming soon)</span>
+                                                            </li>
+                                                            <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/softwareadvice-img.png">
+                                                                <span>SoftwareAdvice (coming soon)</span>
+                                                            </li>
+                                                            <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/steam-img.png">
+                                                                <span>Steam (coming soon)</span>
+                                                            </li>
+                                                            <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/talabat-img.png">
+                                                                <span>Talabat (coming soon)</span>
+                                                            </li>
+                                                            <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/theknot-img.png">
+                                                                <span>The Knot (coming soon)</span>
+                                                            </li>
+                                                            <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/thumbtack-img.png">
+                                                                <span>Thumbtack (coming soon)</span>
+                                                            </li>
+                                                            <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/tripadvisor-img.png">
+                                                                <span>TripAdvisor (coming soon)</span>
+                                                            </li>
+                                                            <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/trulia-img.png">
+                                                                <span>Trulia (coming soon)</span>
+                                                            </li>
+                                                            <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/trustedshops-img.png">
+                                                                <span>TrustedShops (coming soon)</span>
+                                                            </li>
+                                                            <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/trustpilot-img.png">
+                                                                <span>Trustpilot (coming soon)</span>
+                                                            </li>
+                                                            <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/trustradius-img.png">
+                                                                <span>TrustRadius (coming soon)</span>
+                                                            </li>
+                                                            <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/vitals-img.png">
+                                                                <span>Vitals (coming soon)</span>
+                                                            </li>
+                                                            <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/walmart-img.png">
+                                                                <span>Walmart (coming soon)</span>
+                                                            </li>
+                                                            <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/weddingwire-img.png">
+                                                                <span>WeddingWire (coming soon)</span>
+                                                            </li>
+                                                            <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/wish-img.png">
+                                                                <span>Wish (coming soon)</span>
+                                                            </li>
+                                                            <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/yelp-img.png">
+                                                                <span>Yelp (coming soon)</span>
+                                                            </li>
+                                                            <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/yellowpages-img.png">
+                                                                <span>Yellow Pages (coming soon)</span>
+                                                            </li>
+                                                            <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/zillow-img.png">
+                                                                <span>Zillow (coming soon)</span>
+                                                            </li>
+                                                            <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/zocdoc-img.png">
+                                                                <span>ZocDoc (coming soon)</span>
+                                                            </li>
+                                                            <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/zomato-img.png">
+                                                                <span>Zomato (coming soon)</span>
+                                                            </li>
                                                         </ul>
                                                         <div class="saswp-rev-btn">
                                                             <span>Get Review Module with one click</span>
