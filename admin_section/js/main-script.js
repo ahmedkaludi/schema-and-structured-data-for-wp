@@ -12,10 +12,11 @@ function getParameterByName(name, url) {
 
     function saswp_schema_datepicker(){
         
-            $('.saswp-datepicker-picker').datepicker({
+            jQuery('.saswp-datepicker-picker').datepicker({
              dateFormat: "yy-mm-dd",
              minDate: 0
           });
+          
         }
 
       var saswp_meta_fields = [];
@@ -540,18 +541,7 @@ jQuery(document).ready(function($){
                               $("#saswp_breadcrumb_schema").val(0);           
                             }
                       break;
-                      
-                      case 'saswp_site_navigation_menu_checkbox':
-                          
-                            if ($(this).is(':checked')) {              
-                              $("#saswp_site_navigation_menu").val(1);
-                              $(".saswp-nav-menu-list").show();
-                            }else{
-                              $("#saswp_site_navigation_menu").val(0);           
-                              $(".saswp-nav-menu-list").hide();
-                            }
-                      break;
-                      
+                                                                  
                       case 'saswp_comments_schema_checkbox':
                           
                             if ($(this).is(':checked')) {              
@@ -721,23 +711,37 @@ jQuery(document).ready(function($){
                       
                       case 'saswp-google-review-checkbox':
                           
-                            if ($(this).is(':checked')) {              
+                            if ($(this).is(':checked')) {
+                                
                               $("#saswp-google-review").val(1); 
                               
+                              if($("#saswp-google-rv-free-checkbox").length){
+                               
                                $("#saswp-google-review-free").parent().parent().show();
+                               
                                if($("#saswp-google-rv-free-checkbox").is(":checked")){
                                   $("#saswp_google_place_api_key").parent().parent().show();
                                }else{
                                   $("#saswp_google_place_api_key").parent().parent().hide(); 
                                }
-                               
-                               $(".saswp-g-reviews-settings-table").parent().parent().parent().show(); 
-                                                                                                                           
+                               }else{
+                                  $("#saswp_google_place_api_key").parent().parent().show();                                  
+                               } 
+                                $(".saswp-g-reviews-settings-table").parent().parent().parent().show(); 
+                                                                                                      
                             }else{
-                               $("#saswp-google-review").val(0);           
-                               $("#saswp-google-review-free").parent().parent().hide();
-                                $("#saswp_google_place_api_key").parent().parent().hide(); 
-                                $(".saswp-g-reviews-settings-table").parent().parent().parent().hide(); 
+                                
+                               $("#saswp-google-review").val(0);
+                               $("#saswp_google_place_api_key").parent().parent().hide(); 
+                               $(".saswp-g-reviews-settings-table").parent().parent().parent().hide(); 
+                               
+                               if($("#saswp-google-rv-free-checkbox").length){
+                                   $("#saswp-google-review-free").parent().parent().hide();
+                                   
+                               }
+                               
+                               
+                               
                                
                                
                             }
@@ -868,8 +872,13 @@ jQuery(document).ready(function($){
                              $("#sd_default_image_width").val(attachment.width);
                              $("#sd_default_image_height").val(attachment.height);
                         
-                         }                         
-                         $(".saswp_image_div_"+id).html('<div class="saswp_image_thumbnail"><img class="saswp_image_prev" src="'+attachment.url+'"/><a data-id="'+id+'" href="#" class="saswp_prev_close">X</a></div>');
+                         }
+                         var smaller_img_notice = '';
+                         if("saswp_image_div_"+id == 'saswp_image_div_sd_default_image' && attachment.height < 1200){
+                              smaller_img_notice = '<p class="saswp_warning">Image size is smaller than recommended size</p>';
+                         }
+                         
+                         $(".saswp_image_div_"+id).html('<div class="saswp_image_thumbnail"><img class="saswp_image_prev" src="'+attachment.url+'"/><a data-id="'+id+'" href="#" class="saswp_prev_close">X</a></div>'+smaller_img_notice);
                         
 		})
 		.open();
@@ -1323,6 +1332,23 @@ jQuery(document).ready(function($){
         });
         
         
+        $('#saswp-review-tabs a:first').addClass('saswp-global-selected');
+        $('.saswp-review-container').hide();
+        $('.saswp-review-container:first').show();
+        
+        $('#saswp-review-tabs a').click(function(){
+            var t = $(this).attr('data-id');
+            
+          if(!$(this).hasClass('saswp-global-selected')){ 
+            $('#saswp-review-tabs a').removeClass('saswp-global-selected');           
+            $(this).addClass('saswp-global-selected');
+
+            $('.saswp-review-container').hide();
+            $('#'+t).show();
+         }
+        });
+        
+        
         //Importer from schema plugin ends here
         
         //custom fields modify schema starts here
@@ -1545,13 +1571,22 @@ jQuery(document).ready(function($){
             }
             $(document).on("click", ".saswp-add-g-location-btn", function(e){
                 
+                var blocks_field = '';
+                
+                if($("#saswp_google_place_api_key").length){
+                    
+                    blocks_field = '<input class="saswp-g-blocks-field" name="sd_data[saswp_reviews_location_blocks][]" type="number" min="5" step="5" placeholder="5" disabled="disabled">';
+                }else{
+                    blocks_field = '<input class="saswp-g-blocks-field" name="sd_data[saswp_reviews_location_blocks][]" type="number" min="10" step="10" placeholder="10">'; 
+                }
+                                
                 e.preventDefault();
                     var html = '';
                         html    += '<tr>'
                                 + '<td style="width:12%;"><strong>Place Id</strong></td>'
                                 + '<td style="width:20%;"><input class="saswp-g-location-field" name="sd_data[saswp_reviews_location_name][]" type="text" value=""></td>'                                
-                                + '<td style="width:10%;"><strong>Blocks</strong></td>'
-                                + '<td style="width:10%;"><input class="saswp-g-blocks-field" name="sd_data[saswp_reviews_location_blocks][]" type="number" placeholder="10"></td>'                                                            
+                                + '<td style="width:10%;"><strong>Reviews</strong></td>'
+                                + '<td style="width:10%;">'+blocks_field+'</td>'                                                            
                                 + '<td style="width:10%;"><a class="button button-default saswp-fetch-g-reviews">Fetch</a></td>'
                                 + '<td style="width:10%;"><a type="button" class="saswp-remove-review-item button">x</a></td>'
                                 + '<td style="width:10%;"><p class="saswp-rv-fetched-msg"></p></td>' 
@@ -1564,31 +1599,58 @@ jQuery(document).ready(function($){
         
             $(document).on("click", '.saswp-fetch-g-reviews', function(){          
                                                               
-              var current = $(this);  
-              var premium_status = 'premium';
+              var current        = $(this);  
+              var premium_status = 'free';
               current.addClass('updating-message');
-              
-              if($("#saswp-google-rv-free-checkbox").is(':checked')){
-                    var premium_status = 'free';
-               }
-              
-              var location = $(this).parent().parent().find('.saswp-g-location-field').val();
-              var blocks   = $(this).parent().parent().find('.saswp-g-blocks-field').val();
-              var g_api    = $("#saswp_google_place_api_key").val();
+                                          
+              var location           = $(this).parent().parent().find('.saswp-g-location-field').val();
+              var blocks             = $(this).parent().parent().find('.saswp-g-blocks-field').val();
+              var g_api              = $("#saswp_google_place_api_key").val();
+              var reviews_api        = $("#reviews_addon_license_key").val();
+              var reviews_api_status = $("#reviews_addon_license_key_status").val();
+                                              
+                if($("#saswp_google_place_api_key").length){
+                    premium_status = 'free';
+                }else{
+                    premium_status = 'premium'; 
+                }                 
+                   
+                if(premium_status == 'premium'){
+                    
+                    if(blocks > 0){
+                    
+                    var blocks_remainder = blocks % 10;
+                                        
+                        if(blocks_remainder != 0){
                             
-                if(location !=''){
+                            current.parent().parent().find('.saswp-rv-fetched-msg').text('Reviews count should be in step of 10');
+                            current.parent().parent().find('.saswp-rv-fetched-msg').css("color", "#988f1b");
+                            current.removeClass('updating-message');
+                            return false;
+                            
+                        }
+                        
+                    }else{
+                        alert('Blocks value is zero');
+                        current.removeClass('updating-message');
+                        return false;
+                    }
+                                        
+                }
+                
+                if(location !='' && (reviews_api || g_api)){
                     $.ajax({
                                   type: "POST",    
                                   url:ajaxurl,                    
                                   dataType: "json",
-                                  data:{action:"saswp_fetch_google_reviews",location:location,blocks:blocks,g_api:g_api,premium_status:premium_status, saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
+                                  data:{action:"saswp_fetch_google_reviews",reviews_api_status:reviews_api_status, reviews_api:reviews_api,location:location,blocks:blocks,g_api:g_api,premium_status:premium_status, saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
                                   success:function(response){    
                                       if(response['status'] =='t'){
                                          current.parent().parent().find('.saswp-rv-fetched-msg').text('Success');
                                          current.parent().parent().find('.saswp-rv-fetched-msg').css("color", "green");
                                       }else{
                                          current.parent().parent().find('.saswp-rv-fetched-msg').text(response['message']); 
-                                         current.parent().parent().find('.saswp-rv-fetched-msg').css("color", "red");
+                                         current.parent().parent().find('.saswp-rv-fetched-msg').css("color", "#988f1b");
                                       }  
                                       current.removeClass('updating-message');
                                   },
@@ -1596,10 +1658,36 @@ jQuery(document).ready(function($){
                                       console.log(response);
                                   }
                                   });
+                }else{
+                    if(location ==''){
+                        alert('Please enter place id'); 
+                    }
+                    if(g_api ==''){
+                        alert('Please enter api key'); 
+                    }
+                    if(reviews_api ==''){
+                        alert('Please enter reviews api key'); 
+                    }
+                   current.removeClass('updating-message');
                 }
             });
                                             
         //rating ends here
                
+            $("#sd-person-phone-number, #saswp_kb_telephone").focusout(function(){
+                var current = $(this);
+                
+                current.parent().find('.saswp-phone-validation').remove();   
+                
+                var pnumber = $(this).val();
+                var p_regex = /^\+([0-9]{1,3})\)?[-. ]?([0-9]{2,4})[-. ]?([0-9]{2,4})[-. ]?([0-9]{2,4})$/;
+                
+                if(!p_regex.test(pnumber)){
+                 current.after('<span style="color:red;" class="saswp-phone-validation">Invalid Phone Number</span>');   
+                }else{
+                 current.parent().find('.saswp-phone-validation').remove();   
+                }
+                                
+            });   
       
 });

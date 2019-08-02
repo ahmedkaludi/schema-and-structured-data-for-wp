@@ -1423,7 +1423,7 @@ function saswp_license_status($add_on, $license_status, $license_key){
                 $item_name = array(
                        'cooked'       => 'Cooked compatibility for Schema',
                        'woocommerce'  => 'Woocommerce compatibility for Schema',
-                       'reviews'      => 'Reviews'  
+                       'reviews'      => 'Reviews for schema'  
                 );
                                                                                     
                 $edd_action = '';

@@ -110,7 +110,7 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
 
-= 1.9 (01 Aug 2019) =
+= 1.9 (02 Aug 2019) =
 
 * Major Feature: Allow users to manually add reviews in our reviews module #325
 * Added: FAQ schema type #402
@@ -121,6 +121,7 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Bug Fixed: If Defragmentation is enabled "Site Navigation Element" should be included in main schema #386
 * Bug Fixed: Remove double slash // in the type id #379
 * Bug Fixed: Not compatible with Orbital theme #385
+* Bug Fixed: Any AMP extensions redux settings are not being displayed when saswp is installed #412
 * Enhancement: If the plguins which are in compatibility section are active than respective checkbox should be checked #353
 * Enhancement: Added Post Tags inside schema markup (Urgent) #389
 * Enhancement: Sub business type should have "LocalBusiness" type as well #380
