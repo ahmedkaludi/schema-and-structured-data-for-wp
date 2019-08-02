@@ -249,7 +249,7 @@ class saswp_fields_generator {
                                                                     <span class="saswp_cmpny">Google Reviews (Unlimited)</span>
                                                                 </li>
                                                             </ul>
-                                                            <span class="saswp_lst">Coming soon Integrations</span>
+                                                            <span class="saswp_lst">Integrations Coming soon</span>
                                                             <ul>
                                                                 <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/agoda-img.png">
                                                                     <span class="saswp_cmpny">Agoda</span>
