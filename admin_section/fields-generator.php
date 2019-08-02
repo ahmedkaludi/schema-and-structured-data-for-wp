@@ -55,7 +55,7 @@ class saswp_fields_generator {
                         $hidden     = array();
                         $attribute  = array();
                         
-                            $on                 = 'Google';
+                            $on                 = 'Reviews';
                             $license_key        = '';
                             $license_status     = 'inactive';
                             $license_status_msg = '';
@@ -199,8 +199,7 @@ class saswp_fields_generator {
                                                 $attribute_str
 						);                                          
                                          $input .=$hiddenfield;
-					break;
-                                    
+					break;                                    
 				case 'select':
 					$input = sprintf(
 						'<select class="%s" id="%s" name="%s">',
@@ -224,9 +223,7 @@ class saswp_fields_generator {
 					$input .= '</select>';
 					break;                               
 				default:
-					
-                                    
-                                    
+					                                                                        
                                     switch ($meta_field['id']) {
                                     
                                         case 'saswp-reviews-pro-api':
@@ -335,10 +332,7 @@ class saswp_fields_generator {
                                                             </li>
                                                             <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/glassdoor-img.png">
                                                                 <span>Glassdoor (coming soon)</span>
-                                                            </li>
-                                                            <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/google-1-img.png">
-                                                                <span>Google (Avaliable)</span>
-                                                            </li>
+                                                            </li>                                                            
                                                             <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/healthgrades-img.png">
                                                                 <span>Healthgrades (coming soon)</span>
                                                             </li>
@@ -481,16 +475,21 @@ class saswp_fields_generator {
                             if(isset($settings['saswp_reviews_location_name']) && !empty($settings['saswp_reviews_location_name'])){
                                 
                                 $rv_loc    = $settings['saswp_reviews_location_name'];
-                                $rv_blocks = $settings['saswp_reviews_location_blocks'];
+                                $rv_blocks = isset($settings['saswp_reviews_location_blocks'])? $settings['saswp_reviews_location_blocks']:array();
+                                
                                 $i=0;
                                 
                                 foreach($rv_loc as $rvl){
+                                    
                                     if($rvl){
+                                                                                
+                                        $blocks_fields = apply_filters('saswp_modify_blocks_field', '<input class="saswp-g-blocks-field" name="sd_data[saswp_reviews_location_blocks][]" type="number" min="5" step="5" placeholder="5" value="5" disabled="disabled">', isset($rv_blocks[$i])? $rv_blocks[$i]: 5);
+                                        
                                         $location .= '<tr>'
                                         . '<td style="width:12%;"><strong>'.esc_html__( 'Place Id', 'schema-and-structured-data-for-wp' ).'</strong></td>'
                                         . '<td style="width:20%;"><input class="saswp-g-location-field" name="sd_data[saswp_reviews_location_name][]" type="text" value="'. esc_attr($rvl).'"></td>'
                                         . '<td style="width:10%;"><strong>'.esc_html__( 'Reviews', 'schema-and-structured-data-for-wp' ).'</strong></td>'
-                                        . '<td style="width:10%;"><input class="saswp-g-blocks-field" name="sd_data[saswp_reviews_location_blocks][]" type="number" min="10" step="10" placeholder="10" value="'. esc_attr($rv_blocks[$i]).'"></td>'                                        
+                                        . '<td style="width:10%;">'.$blocks_fields.'</td>'                                        
                                         . '<td style="width:10%;"><a class="button button-default saswp-fetch-g-reviews">'.esc_html__( 'Fetch', 'schema-and-structured-data-for-wp' ).'</a></td>'
                                         . '<td style="width:10%;"><a type="button" class="saswp-remove-review-item button">x</a></td>'
                                         . '<td style="width:10%;"><p class="saswp-rv-fetched-msg"></p></td>'        
@@ -522,7 +521,7 @@ class saswp_fields_generator {
                                     
                                         if(isset($settings[$meta_field['id']])){
                                             
-                                         $stng_meta_field =  $settings[$meta_field['id']];  
+                                                $stng_meta_field =  $settings[$meta_field['id']];  
                                          
                                         }
                                     
