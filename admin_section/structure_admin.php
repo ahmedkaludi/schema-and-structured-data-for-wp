@@ -1379,45 +1379,6 @@ add_action('wp_ajax_saswp_feeback_remindme', 'saswp_feeback_remindme');
  * Licensing code starts here
  */
 
-
-function saswp_create_reviews_user($license_key, $add_on){
-    
-    if($license_key && $add_on){
-        
-        $current_user = wp_get_current_user();
-        $current_user = $current_user->data;        
-        $body = array(
-            'user_login'    => $current_user->user_login,
-            'user_email'    => $current_user->user_email,
-            'api_key'       => $license_key,
-            'add_on'        => $add_on,
-            'user_url'      => home_url(),
-        );
-        $server_url =  'https://api.structured-data-for-wp.com/wp-json/reviews-route/create_user';       
-        $result = @wp_remote_post($server_url,
-                    array(
-                        'method'      => 'POST',
-                        'timeout'     => 45,
-                        'redirection' => 5,
-                        'httpversion' => '1.1',
-                        'blocking'    => true,                        
-                        'body'        => $body,                        
-                    )                                      
-                );                    
-        if(wp_remote_retrieve_response_code($result) == 200 && wp_remote_retrieve_body($result)){                   
-                return json_decode(wp_remote_retrieve_body($result),true);              
-              }else{
-                return null;
-              }
-        }
-        
-        if ( is_wp_error( $result ) ) {
-            $error_message = $result->get_error_message();
-            echo "User has not been register: $error_message";
-        }                                     
-    
-}
-
 function saswp_license_status($add_on, $license_status, $license_key){
                                       
                 $item_name = array(
@@ -1499,15 +1460,19 @@ function saswp_license_status($add_on, $license_status, $license_key){
                                         
                         if(strtolower($add_on) == 'reviews'){
                             
-                            $user_create = saswp_create_reviews_user($license_key, strtolower($add_on));   
+                            if(function_exists('saswp_create_reviews_user')){
+                             
+                                $user_create = saswp_create_reviews_user($license_key, strtolower($add_on));   
                             
-                            if($user_create['status']){ 
-                                
-                                update_option(strtolower($add_on).'_addon_user_id', intval($user_create['user_id']));
-                                update_option(strtolower($add_on).'_addon_reviews_limits', intval($user_create['remains_limit']));        
+                                if($user_create['status']){ 
+
+                                    update_option(strtolower($add_on).'_addon_user_id', intval($user_create['user_id']));
+                                    update_option(strtolower($add_on).'_addon_reviews_limits', intval($user_create['remains_limit']));        
+
+                                }
                                 
                             }
-                                                                                    
+                            
                         } 
                         
                         $license[strtolower($add_on).'_addon_license_key_status']  = 'active';
