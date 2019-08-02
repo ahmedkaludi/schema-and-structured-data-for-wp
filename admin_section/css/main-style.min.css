@@ -1076,18 +1076,19 @@ Google review module ends here
 .saswp-rev-mod .saswp_rv_module_pro_notice{
     padding:20px;
 }
-.saswp_rv_module_pro_notice h4{
-    margin:0;
-    text-align: center;
-    font-size:15px;
-    color:#555;
+.saswp_cmpny_lst{
+    width:100%;
+    display: inline-block;
+    margin-top:30px;
 }
 .saswp_rv_module_pro_notice ul{
-    margin-top:30px;
+    margin: 15px 0px 20px 0px;
     width: 100%;
     display: inline-grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-gap: 20px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 20px;
 }
 .saswp_rv_module_pro_notice ul li{
     position: relative;
@@ -1095,12 +1096,11 @@ Google review module ends here
     line-height: 1.5;
     color: #444;
     margin: 0;
-    padding-left: 28px;
 }
 .saswp_rv_module_pro_notice ul li span{
     padding-left:3px;
 }
-.saswp_rv_module_pro_notice ul li:before{
+/*.saswp_rv_module_pro_notice ul li.check-img:before{
     content: "";
     background-image: url(../images/check.png);
     background-repeat: no-repeat;
@@ -1110,6 +1110,34 @@ Google review module ends here
     position: absolute;
     left: 2px;
     top: 6px;
+}*/
+.saswp_rv_module_pro_notice h2{
+    text-align: center;
+    font-size: 31px;
+}
+.saswp_rv_module_pro_notice .saswp_desc{
+    text-align: center;
+    font-size: 18px;
+    font-style: normal;
+    color: #000;
+}
+.saswp_rv_module_pro_notice .saswp_desc a{
+    font-style: italic;
+}
+.saswp_rv_module_pro_notice .saswp_lst{
+    color: #808080;
+    font-family: georgia;
+    font-style: italic;
+    font-style: italic;
+    font-size: 15px;
+    font-weight: 600;
+}
+.saswp_rv_module_pro_notice .saswp_avlbl{
+    color: #2a902e;
+    font-family: georgia;
+    font-style: italic;
+    font-size: 15px;
+    font-weight: 600;
 }
 .saswp_rv_module_pro_notice ul li img{
     width:20px;
@@ -1120,7 +1148,7 @@ Google review module ends here
 .saswp-rev-btn{
     width:100%;
     display: inline-block;
-    margin-top:40px;
+    margin-top:20px;
     text-align: center;
 }
 .saswp-rev-btn span{
@@ -1129,12 +1157,12 @@ Google review module ends here
     margin-bottom: 15px;
 }
 .saswp-rev-btn a{
-    padding: 8px 16px;
+    padding: 12px 18px;
     display: inline-block;
     text-decoration: none;
     border-radius: 5px;
     background: #0085ba;
     color: #fff;
     font-weight: 600;
-    font-size: 15px;
+    font-size: 18px;
 }
