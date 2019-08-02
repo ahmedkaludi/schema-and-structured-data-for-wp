@@ -263,7 +263,7 @@ class saswp_fields_generator {
                                                                 <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/amazon-img.png">
                                                                     <span>Amazon</span>
                                                                 </li>
-                                                                <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/amazon-img.png">
+                                                                <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/angies-list-img.png">
                                                                     <span>Angies List</span>
                                                                 </li>
                                                                 <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/aliexpress-img.png">
