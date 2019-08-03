@@ -1405,13 +1405,13 @@ function saswp_review_page_callback(){
                             'type'  => 'text',
                             
                   ),
-                 array(
-                            'label' => 'Review Module',
-                            'id'    => 'saswp-reviews-module-section',
-                            'name'  => 'sd_data[saswp-reviews-module-section]',
-                            'type'  => 'text',
-                            
-                  )  
+//                 array(
+//                            'label' => 'Review Module',
+//                            'id'    => 'saswp-reviews-module-section',
+//                            'name'  => 'sd_data[saswp-reviews-module-section]',
+//                            'type'  => 'text',
+//                            
+//                  )  
                   
                 
 	);    

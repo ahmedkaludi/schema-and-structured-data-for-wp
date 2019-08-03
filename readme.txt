@@ -110,11 +110,17 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
 
-= 1.9 (02 Aug 2019) =
+= 1.9 (03 Aug 2019) =
 
-* Major Feature: Allow users to manually add reviews in our reviews module #325
+* Major Feature: Reviews Module :- Allow users to manually add reviews from more than 80+ platforms and show it on the website with schema markup #325
 * Added: FAQ schema type #402
 * Added: Upgrade to premium as a menu item in the SD #343
+* Enhancement: If the plguins which are in compatibility section are active than respective checkbox should be checked #353
+* Enhancement: Added Post Tags inside schema markup (Urgent) #389
+* Enhancement: Sub business type should have "LocalBusiness" type as well #380
+* Enhancement: Added validation message in default data #369
+* Enhancement: Added validation message in phone number #369
+* Enhancement: Added some more fields in the product schema #360
 * Bug Fixed: Error in Breadcrumb when using custom post type #403
 * Bug Fixed: Automatically smaller titles which is created as a validation error of "Headline String Too Long" in NewsArticle #396
 * Bug Fixed: Do not need to add organization schema markup on every page #395
@@ -122,12 +128,6 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Bug Fixed: Remove double slash // in the type id #379
 * Bug Fixed: Not compatible with Orbital theme #385
 * Bug Fixed: Any AMP extensions redux settings are not being displayed when saswp is installed #412
-* Enhancement: If the plguins which are in compatibility section are active than respective checkbox should be checked #353
-* Enhancement: Added Post Tags inside schema markup (Urgent) #389
-* Enhancement: Sub business type should have "LocalBusiness" type as well #380
-* Enhancement: Added validation message in default data #369
-* Enhancement: Added validation message in phone number #369
-* Enhancement: Added some more fields in the product schema #360
 
 = 1.8.9 (08 July 2019) =
 
