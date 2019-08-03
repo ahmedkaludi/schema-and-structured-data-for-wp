@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.2
-Stable tag: 1.8.9.1
+Stable tag: 1.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -84,8 +84,9 @@ Bug reports for Schema & Structured Data for WP & AMP are [welcomed on GitHub](h
 
 ### Credits
 
-Merlin WP used https://github.com/richtabor/MerlinWP - License URI: https://github.com/richtabor/MerlinWP/blob/master/LICENSE,
-jquery-timepicker used https://github.com/jonthornton/jquery-timepicker
+* Merlin WP used https://github.com/richtabor/MerlinWP - License URI: https://github.com/richtabor/MerlinWP/blob/master/LICENSE,
+* jquery-timepicker used https://github.com/jonthornton/jquery-timepicker
+* Rate Yo! used https://github.com/prrashi/rateYo - License URI: https://github.com/prrashi/rateYo/commit/f3812fe96c38b08627d209795176053550fb1427
 
 
 
@@ -109,11 +110,24 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
 
-= 1.8.9.1 (09 July 2019) =
+= 1.9 (03 Aug 2019) =
 
-* Bug Fixed: Undefined variable: schema in /view/post_specific.php #376
-* Bug Fixed: URL Field is Recommended in How to supply schema. #375
-* Bug Fixed: The text inside tag 'script type=application/ld+json' contains 'html comments', which is disallowed. #374
+* Major Feature: Reviews Module :- Allow users to manually add reviews from more than 80+ platforms and show it on the website with schema markup #325
+* Added: FAQ schema type #402
+* Added: Upgrade to premium as a menu item in the SD #343
+* Enhancement: If the plguins which are in compatibility section are active than respective checkbox should be checked #353
+* Enhancement: Added Post Tags inside schema markup (Urgent) #389
+* Enhancement: Sub business type should have "LocalBusiness" type as well #380
+* Enhancement: Added validation message in default data #369
+* Enhancement: Added validation message in phone number #369
+* Enhancement: Added some more fields in the product schema #360
+* Bug Fixed: Error in Breadcrumb when using custom post type #403
+* Bug Fixed: Automatically smaller titles which is created as a validation error of "Headline String Too Long" in NewsArticle #396
+* Bug Fixed: Do not need to add organization schema markup on every page #395
+* Bug Fixed: If Defragmentation is enabled "Site Navigation Element" should be included in main schema #386
+* Bug Fixed: Remove double slash // in the type id #379
+* Bug Fixed: Not compatible with Orbital theme #385
+* Bug Fixed: Any AMP extensions redux settings are not being displayed when saswp is installed #412
 
 = 1.8.9 (08 July 2019) =
 

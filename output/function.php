@@ -29,7 +29,8 @@ function saswp_schema_markup_hook_on_init() {
             }   
             saswp_remove_yoast_product_schema();
             remove_action( 'amp_post_template_head', 'amp_post_template_add_schemaorg_metadata',99,1);
-            remove_action( 'amp_post_template_footer', 'amp_post_template_add_schemaorg_metadata',99,1);            
+            remove_action( 'amp_post_template_footer', 'amp_post_template_add_schemaorg_metadata',99,1);  
+            remove_action('wp_footer', 'orbital_markup_site');
             add_action('cooked_amp_head', 'saswp_schema_markup_output');
                         
             if(isset($sd_data['saswp-wppostratings-raring']) && $sd_data['saswp-wppostratings-raring'] == 1){
@@ -60,6 +61,7 @@ function saswp_schema_markup_output() {
         $output                   = '';
         $post_specific_enable     = '';
         $schema_output            = array();
+        $kb_schema_output         = array();  
                               
         $site_navigation          = saswp_site_navigation_output();     
         $contact_page_output      = saswp_contact_page_output();  	
@@ -68,7 +70,10 @@ function saswp_schema_markup_output() {
         $archive_output           = saswp_archive_output();
         $schema_breadcrumb_output = saswp_schema_breadcrumb_output();                      
         $kb_website_output        = saswp_kb_website_output();      
-        $kb_schema_output         = saswp_kb_schema_output();
+        
+        if((is_home() || is_front_page() || ( function_exists('ampforwp_is_home') && ampforwp_is_home())) || isset($sd_data['saswp-defragment']) && $sd_data['saswp-defragment'] == 1 ){
+               $kb_schema_output         = saswp_kb_schema_output();
+        }
                  
         if(is_singular()){
 
@@ -111,13 +116,7 @@ function saswp_schema_markup_output() {
                             $output .= saswp_json_print_format($archive_output);   
                             $output .= ",";
                             $output .= "\n\n";
-                        }
-                        if(!empty($site_navigation)){
-                                                                            
-                            $output .= saswp_json_print_format($site_navigation);   
-                            $output .= ",";
-                            $output .= "\n\n";                        
-                        }
+                        }                        
                                     
             if(isset($sd_data['saswp-defragment']) && $sd_data['saswp-defragment'] == 1){
             
@@ -141,7 +140,6 @@ function saswp_schema_markup_output() {
                         unset($webpage['mainEntity']);
                         unset($kb_schema_output['@context']);
                         unset($kb_website_output['@context']);
-
                     
                      if($webpage){
                     
@@ -152,6 +150,12 @@ function saswp_schema_markup_output() {
                          $webpage['primaryImageOfPage'] = array(
                              '@id' => get_permalink().'#primaryimage'
                          );
+                         
+                         if($site_navigation){                             
+                             unset($site_navigation['@context']);
+                             $site_navigation = $site_navigation['@graph'];                             
+                             $webpage['mainContentOfPage'] = array($site_navigation);
+                         }                         
                          
                      }       
                                         
@@ -236,7 +240,14 @@ function saswp_schema_markup_output() {
             
                 
             }else{
-                                                             
+                          
+                        if(!empty($site_navigation)){
+                                                                            
+                            $output .= saswp_json_print_format($site_navigation);   
+                            $output .= ",";
+                            $output .= "\n\n";                        
+                        }
+                        
                         if(!empty($kb_website_output)){
                         
                             $output .= saswp_json_print_format($kb_website_output);  
@@ -822,7 +833,12 @@ function saswp_remove_rank_math_schema($entry){
 
 add_action( 'rank_math/json_ld', 'saswp_remove_rank_math_schema',99 );
 
-
+/**
+ * Function to format json output
+ * @global type $sd_data
+ * @param type $output_array
+ * @return type json 
+ */
 function saswp_json_print_format($output_array){
     
     global $sd_data;
@@ -856,7 +872,12 @@ function saswp_remove_microdata($content){
     return $content;
 }
 
-
+/**
+ * This is a global option to hide and show all the features of this plugin.
+ * @global type $sd_data
+ * @return boolean
+ *
+ */
 function saswp_global_option(){
     
             global $sd_data;
@@ -873,4 +894,34 @@ function saswp_global_option(){
                 
             }  
             
+}
+/**
+ * Function to get post tags as a comma separated string.
+ * @global type $post
+ * @return string
+ * @since version 1.9
+ */
+function saswp_get_the_tags(){
+
+    global $post;
+    $tag_str = '';
+    
+    if(is_object($post)){
+        
+      $tags = get_the_tags($post->ID);
+      
+      if($tags){
+          
+          foreach($tags as $tag){
+              
+            $tag_str .= $tag->name.', '; 
+              
+          }
+          
+      }
+        
+        
+    }    
+    return $tag_str;
+    
 }

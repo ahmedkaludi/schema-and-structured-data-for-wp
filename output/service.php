@@ -955,7 +955,11 @@ Class saswp_output_service{
                  }
                  
              }
-                          
+                
+             if(!isset($product_details['product_mpn'])){
+                 $product_details['product_mpn'] = get_the_ID();
+             }
+             
              $product_image_id  = $product->get_image_id(); 
              
              $image_list = array();
@@ -999,7 +1003,7 @@ Class saswp_output_service{
              }
                           
              $product_details['product_price']        = $product->get_price();
-             $product_details['product_sku']          = $product->get_sku();             
+             $product_details['product_sku']          = $product->get_sku() ? $product->get_sku(): get_the_ID();             
              
              if(isset($date_on_sale)){
                  
@@ -1029,10 +1033,22 @@ Class saswp_output_service{
                  
              }   
              
-             }    
-             
              $product_details['product_review_count']   = $product->get_review_count();
              $product_details['product_average_rating'] = $product->get_average_rating();             
+             
+             }else{
+                 
+                 $reviews_arr[] = array(
+                     'author'        => saswp_get_the_author_name(),
+                     'datePublished' => get_the_date("Y-m-d\TH:i:s\Z"),
+                     'description'   => saswp_get_the_excerpt(),
+                     'reviewRating'  => 5,
+                 );
+                 
+                 $product_details['product_review_count']   = 1;
+                 $product_details['product_average_rating'] = 5;                 
+             }    
+                          
              $product_details['product_reviews']        = $reviews_arr;      
              
              }
@@ -1612,12 +1628,13 @@ Class saswp_output_service{
                     $input1 = array(
 					'@context'			=> 'http://schema.org',
 					'@type'				=> 'TechArticle',
-                                        '@id'				=> get_permalink().'/#techarticle',
+                                        '@id'				=> trailingslashit(get_permalink()).'#techarticle',
                                         'url'				=> get_permalink(),
 					'mainEntityOfPage'              => get_permalink(),					
 					'headline'			=> saswp_get_the_title(),
 					'description'                   => saswp_get_the_excerpt(),
                                         'articleBody'                   => saswp_get_the_content(),
+                                        'keywords'                      => saswp_get_the_tags(),
 					'datePublished'                 => esc_html($date),
 					'dateModified'                  => esc_html($modified_date),
 					'author'			=> saswp_get_author_details(),
@@ -1640,12 +1657,13 @@ Class saswp_output_service{
                     $input1 = array(
 					'@context'			=> 'http://schema.org',
 					'@type'				=> 'Article',
-                                        '@id'				=> get_permalink().'/#article',
+                                        '@id'				=> trailingslashit(get_permalink()).'#article',
                                         'url'				=> get_permalink(),
 					'mainEntityOfPage'              => get_permalink(),					
 					'headline'			=> saswp_get_the_title(),
 					'description'                   => saswp_get_the_excerpt(),
                                         'articleBody'                   => saswp_get_the_content(),
+                                        'keywords'                      => saswp_get_the_tags(),
 					'datePublished'                 => esc_html($date),
 					'dateModified'                  => esc_html($modified_date),
 					'author'			=> saswp_get_author_details(),
@@ -1673,7 +1691,7 @@ Class saswp_output_service{
                     $input1 = array(
 				'@context'			=> 'http://schema.org',
 				'@type'				=> 'WebPage' ,
-                                '@id'				=> get_permalink().'/#webpage',
+                                '@id'				=> trailingslashit(get_permalink()).'#webpage',
 				'name'				=> saswp_get_the_title(),
 				'url'				=> get_permalink(),
 				'description'                   => saswp_get_the_excerpt(),
@@ -1684,6 +1702,7 @@ Class saswp_output_service{
 						'headline'		=> saswp_get_the_title(),
 						'description'		=> saswp_get_the_excerpt(),
                                                 'articleBody'           => saswp_get_the_content(),
+                                                'keywords'              => saswp_get_the_tags(),
 						'datePublished' 	=> esc_html($date),
 						'dateModified'		=> esc_html($modified_date),
 						'author'			=> saswp_get_author_details(),

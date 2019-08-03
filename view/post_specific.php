@@ -19,6 +19,30 @@ class saswp_post_specific {
         protected $options_response          = array();
         protected $modify_schema_post_enable = false;
         
+        private   $schema_type_element =  array(                        
+                        'FAQ' => array(
+                               'faq-question' => 'faq_question',                                                
+                        ),
+                        'HowTo' => array(
+                               'how-to-supply' => 'howto_supply', 
+                               'how-to-tool'   => 'howto_tool', 
+                               'how-to-step'   => 'howto_step', 
+                        ),  
+                        'MedicalCondition' => array(
+                               'mc-cause'       => 'mc_cause', 
+                               'mc-symptom'     => 'mc_symptom', 
+                               'mc-risk_factor' => 'mc_risk_factor', 
+
+                        ),
+                        'TVSeries' => array(
+                               'tvseries-actor'  => 'tvseries_actor',
+                               'tvseries-season' => 'tvseries_season', 
+                        ),
+                        'Trip' => array(
+                               'trip-itinerary'  => 'trip_itinerary'
+                        )                                                                          
+                    );
+
         /**
          * List of hooks used in this context
          */                       
@@ -29,6 +53,8 @@ class saswp_post_specific {
 		add_action( 'add_meta_boxes', array( $this, 'saswp_post_specifc_add_meta_boxes' ) );		
 		add_action( 'save_post', array( $this, 'saswp_post_specific_save_fields' ) );
                 add_action( 'wp_ajax_saswp_get_sub_business_ajax', array($this,'saswp_get_sub_business_ajax'));
+                
+                add_action( 'wp_ajax_saswp_get_schema_dynamic_fields_ajax', array($this,'saswp_get_schema_dynamic_fields_ajax'));
                 
                 add_action( 'wp_ajax_saswp_modify_schema_post_enable', array($this,'saswp_modify_schema_post_enable'));
                                                 
@@ -125,7 +151,10 @@ class saswp_post_specific {
                       $post_title = '';
                     if($schema_count == 1 && $custom_option !='enable'){
                         $all_schemas = $this->all_schema;                        
-                        $post_title = '('.get_post_meta($all_schemas[0]->ID, 'schema_type', true).')';                                      
+                        $post_title = '('.get_post_meta($all_schemas[0]->ID, 'schema_type', true).')';    
+                        if($post_title == '(local_business)'){
+                            $post_title = '(LocalBusiness)';
+                        }
                      }
                                                                                     
 			add_meta_box(
@@ -143,9 +172,29 @@ class saswp_post_specific {
             }		
 	}
         
-        public function saswp_get_dynamic_html($schema_id, $meta_name, $index, $data){
-                
-                                             
+        public function saswp_get_schema_dynamic_fields_ajax(){
+        
+            if ( ! isset( $_GET['saswp_security_nonce'] ) ){
+                return; 
+            }
+            if ( !wp_verify_nonce( $_GET['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
+               return;  
+            }
+            $meta_name  = '';
+            $meta_array = array();
+            if(isset($_GET['meta_name'])){
+                $meta_name = sanitize_text_field($_GET['meta_name']);
+                $meta_array = $this->saswp_get_schema_dynamic_fields($meta_name);
+            }
+            if(!empty($meta_array)){
+             echo json_encode($meta_array);   
+            }            
+            wp_die();
+        }
+        
+        public function saswp_get_schema_dynamic_fields($meta_name){
+            
+            $meta_fields = array();
             switch ($meta_name) {
                 
                 case 'howto_supply':
@@ -338,11 +387,35 @@ class saswp_post_specific {
 
                     break;
                 
+                case 'faq_question':
+                    
+                    $meta_fields = array(
+                                       
+                    array(
+			'label'     => 'Question',
+			'name'      => 'saswp_faq_question_name',
+			'type'      => 'text'                        
+		    ),
+                     array(
+			'label'     => 'Accepted Answer',
+			'name'      => 'saswp_faq_question_answer',
+			'type'      => 'textarea'                        
+		    )                    
+                    );
+
+                    break;
+                
 
                 default:
                     break;
             }
-               
+            
+            return $meta_fields;
+        }
+        
+        public function saswp_get_dynamic_html($schema_id, $meta_name, $index, $data){
+                                                             
+                $meta_fields = $this->saswp_get_schema_dynamic_fields($meta_name);               
             
                 $output  = '';                                                                                                                                                         
 		foreach ( $meta_fields as $meta_field ) {
@@ -419,7 +492,7 @@ class saswp_post_specific {
 
                                     if (strpos($meta_field['name'].'_'.$index.'_'.$schema_id, 'published_date') !== false){                                                                                                           
 
-                                            $class = 'class="saswp-local-schema-datepicker-picker"';    
+                                            $class = 'class="saswp-datepicker-picker"';    
                                     }
                                                                                                             
                                      $input = sprintf(
@@ -443,17 +516,67 @@ class saswp_post_specific {
                  
         }
         
+        public function saswp_schema_fields_html_on_the_fly($schema_type, $schema_id, $post_id){
+            
+                    $howto_data        = array();                    
+                    $tabs_fields       = '';
+                    
+                    $schema_type_fields = $this->schema_type_element;
+                    
+                    $type_fields = array_key_exists($schema_type, $schema_type_fields) ? $schema_type_fields[$schema_type]:'';  
+                        
+                    if($type_fields){
+                        
+                        $tabs_fields .= '<div class="saswp-table-create-onajax">';
+                        
+                        foreach($type_fields as $key => $value){
+                            
+                            $howto_data[$value.'_'.$schema_id]  = esc_sql ( get_post_meta($post_id, $value.'_'.$schema_id, true)  );                                       
+                                                 
+                            $tabs_fields .= '<div class="saswp-'.$key.'-section-main">';                                                  
+                            $tabs_fields .= '<div class="saswp-'.$key.'-section" data-id="'.esc_attr($schema_id).'">';                         
+                            if(isset($howto_data[$value.'_'.$schema_id])){
+
+                                $howto_supply = $howto_data[$value.'_'.$schema_id];                                                     
+                                $supply_html  = '';
+
+                                if(!empty($howto_supply)){
+
+                                       $i = 0;
+                                       foreach ($howto_supply as $supply){
+
+                                           $supply_html .= '<div class="saswp-'.$key.'-table-div" data-id="'.$i.'">';
+                                           $supply_html .= '<a class="saswp-table-close">X</a>';
+                                           $supply_html .= $this->saswp_get_dynamic_html($schema_id, $value, $i, $supply);
+                                           $supply_html .= '</div>';
+
+                                        $i++;   
+                                       }
+
+                                }
+
+                                $tabs_fields .= $supply_html;
+
+                            }                         
+                            $tabs_fields .= '</div>';
+                            $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" div_type="'.$key.'" fields_type="'.$value.'" class="button saswp_add_schema_fields_on_fly saswp-'.$key.'">'.esc_html__( 'Add '.$value, 'schema-and-structured-data-for-wp' ).'</a>';                                                                                                    
+                            $tabs_fields .= '</div>';                                                                                                
+                         
+                        }
+                        
+                        $tabs_fields .= '</div>';
+                            
+                        }
+                                                                                                                                                                                                                                   
+                     return $tabs_fields;
+            
+        }
         public function saswp_post_meta_box_fields($post){    
             
             $tabs              = '';
             $tabs_fields       = '';
             $schema_ids        = array();
-            
-            $howto_data        = array();
-            $mc_data           = array();
-            $tvseries_data     = array();
-            $trip_data         = array();
-
+                        
             $schema_enable = get_post_meta($post->ID, 'saswp_enable_disable_schema', true);
                                 
              if(count($this->all_schema)>1){  
@@ -471,37 +594,8 @@ class saswp_post_specific {
                      $this->meta_fields = $response;
                      
                      $output       = $this->saswp_saswp_post_specific( $post, $schema->ID ); 
-                     $schema_type  = esc_sql ( get_post_meta($schema->ID, 'schema_type', true)  ); 
-                       
-                     if($schema_type == 'HowTo'){
-                      
-                     $howto_data['howto_tool_'.$schema->ID]  = esc_sql ( get_post_meta($post->ID, 'howto_tool_'.$schema->ID, true)  );              
-                     $howto_data['howto_step_'.$schema->ID]  = esc_sql ( get_post_meta($post->ID, 'howto_step_'.$schema->ID, true)  );              
-                     $howto_data['howto_supply_'.$schema->ID]  = esc_sql ( get_post_meta($post->ID, 'howto_supply_'.$schema->ID, true)  );              
-                         
-                     }
-
-                     if($schema_type == 'MedicalCondition'){
-                      
-                     $mc_data['mc_cause_'.$schema->ID]  = esc_sql ( get_post_meta($post->ID, 'mc_cause_'.$schema->ID, true)  );              
-                     $mc_data['mc_symptom_'.$schema->ID]  = esc_sql ( get_post_meta($post->ID, 'mc_symptom_'.$schema->ID, true)  );              
-                     $mc_data['mc_risk_factor_'.$schema->ID]  = esc_sql ( get_post_meta($post->ID, 'mc_risk_factor_'.$schema->ID, true)  );              
-                                              
-                     }
-                     
-                     if($schema_type == 'TVSeries'){
-                      
-                     $tvseries_data['tvseries_actor_'.$schema->ID]   = esc_sql ( get_post_meta($post->ID, 'tvseries_actor_'.$schema->ID, true)  );              
-                     $tvseries_data['tvseries_season_'.$schema->ID]  = esc_sql ( get_post_meta($post->ID, 'tvseries_season_'.$schema->ID, true)  );                                   
-                                              
-                     }
-                     
-                     if($schema_type == 'Trip'){
-                      
-                     $trip_data['trip_itinerary_'.$schema->ID]   = esc_sql ( get_post_meta($post->ID, 'trip_itinerary_'.$schema->ID, true)  );                                   
-                                              
-                     }
-                                                               
+                     $schema_type  = esc_sql ( get_post_meta($schema->ID, 'schema_type', true)  );                                           
+                                                                                                           
                      if($key==0){
                          
                      $tabs .='<li class="selected"><a saswp-schema-type="'.esc_attr($schema_type).'" data-id="saswp_specific_'.esc_attr($schema->ID).'" class="saswp-tab-links selected">'.esc_attr($schema->post_title).'</a>'
@@ -515,346 +609,9 @@ class saswp_post_specific {
                      //varible $output has been escapped while creating it
                      $tabs_fields .= '<table class="form-table"><tbody>' . $output . '</tbody></table>';
                      $tabs_fields .= '</div>';
-                     
-                     //How to schema starts here
-                     if($schema_type == 'HowTo'){
-                      
-                         $schema_id = $schema->ID;
-                         
-                         $tabs_fields .= '<div class="saswp-table-create-onajax">';
-                         
-                         
-                         //supply section starts here
-                         $tabs_fields .= '<div class="saswp-how-to-supply-section-main">';                                                  
-                         $tabs_fields .= '<div class="saswp-how-to-supply-section" data-id="'.esc_attr($schema_id).'">';                         
-                         if(isset($howto_data['howto_supply_'.$schema_id])){
-                             
-                             $howto_supply = $howto_data['howto_supply_'.$schema_id];                                                     
-                             $supply_html  = '';
-                             
-                             if(!empty($howto_supply)){
-                                 
-                                    $i = 0;
-                                    foreach ($howto_supply as $supply){
-                                                                                                                        
-                                        $supply_html .= '<div class="saswp-how-to-supply-table-div" data-id="'.$i.'">';
-                                        $supply_html .= '<a class="saswp-table-close">X</a>';
-                                        $supply_html .= $this->saswp_get_dynamic_html($schema_id, 'howto_supply', $i, $supply);
-                                        $supply_html .= '</div>';
-                                        
-                                     $i++;   
-                                    }
-                                 
-                             }
-                             
-                             $tabs_fields .= $supply_html;
-                             
-                         }                         
-                         $tabs_fields .= '</div>';
-                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-how-to-supply">'.esc_html__( 'Add HowTo Supply', 'schema-and-structured-data-for-wp' ).'</a>';                                                                                                    
-                         $tabs_fields .= '</div>';                                                                           
-                         //supply section ends here here
-                         
-                         //tool section starts here
-                          $tabs_fields .= '<div class="saswp-how-to-tool-section-main">';                                                  
-                         $tabs_fields .= '<div class="saswp-how-to-tool-section" data-id="'.esc_attr($schema_id).'">';                         
-                         if(isset($howto_data['howto_tool_'.$schema_id])){
-                             
-                             $howto_tool = $howto_data['howto_tool_'.$schema_id];                                                     
-                             $tool_html  = '';
-                             
-                             if(!empty($howto_tool)){
-                                 
-                                    $i = 0;
-                                    foreach ($howto_tool as $tool){
-                                                                                                                        
-                                        $tool_html .= '<div class="saswp-how-to-tool-table-div" data-id="'.$i.'">';
-                                        $tool_html .= '<a class="saswp-table-close">X</a>';
-                                        $tool_html .= $this->saswp_get_dynamic_html($schema_id, 'howto_tool', $i, $tool);
-                                        $tool_html .= '</div>';
-                                        
-                                     $i++;   
-                                    }
-                                 
-                             }
-                             
-                             $tabs_fields .= $tool_html;
-                             
-                         }                         
-                         $tabs_fields .= '</div>';
-                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-how-to-tool">'.esc_html__( 'Add HowTo Tool', 'schema-and-structured-data-for-wp' ).'</a>';                                                                                                    
-                         $tabs_fields .= '</div>';                                                                        
-                         //tool section ends here here
-                         
-                         //step section starts here here
-                         $tabs_fields .= '<div class="saswp-how-to-step-section-main">';                                                  
-                         $tabs_fields .= '<div class="saswp-how-to-step-section" data-id="'.esc_attr($schema_id).'">';                         
-                         if(isset($howto_data['howto_step_'.$schema_id])){
-                             
-                             $howto_step = $howto_data['howto_step_'.$schema_id];                                                     
-                             $step_html  = '';
-                             
-                             if(!empty($howto_step)){
-                                 
-                                    $i = 0;
-                                    foreach ($howto_step as $step){
-                                                                                                                        
-                                        $step_html .= '<div class="saswp-how-to-step-table-div" data-id="'.$i.'">';
-                                        $step_html .= '<a class="saswp-table-close">X</a>';
-                                        $step_html .= $this->saswp_get_dynamic_html($schema_id, 'howto_step', $i, $step);
-                                        $step_html .= '</div>';
-                                        
-                                     $i++;   
-                                    }
-                                 
-                             }
-                             
-                             $tabs_fields .= $step_html;
-                             
-                         }                         
-                         $tabs_fields .= '</div>';
-                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-how-to-step">'.esc_html__( 'Add HowTo Step', 'schema-and-structured-data-for-wp' ).'</a>';                                                                                                    
-                         $tabs_fields .= '</div>';  
-                         //step section ends here here
-                         
-                         
-                         $tabs_fields .= '</div>';
-                     }                      
-                      //How to schema ends here 
-                     
-                     //Medical condition schema starts here
-                     if($schema_type == 'MedicalCondition'){
-                      
-                         $schema_id = $schema->ID;
-                         
-                         $tabs_fields .= '<div class="saswp-table-create-onajax">';
-                         
-                         
-                         //cause section starts here
-                          
-                         $tabs_fields .= '<div class="saswp-mc-cause-section-main">';                                                  
-                         $tabs_fields .= '<div class="saswp-mc-cause-section" data-id="'.esc_attr($schema_id).'">';                         
-                         if(isset($mc_data['mc_cause_'.$schema_id])){
-                             
-                             $mc_cause = $mc_data['mc_cause_'.$schema_id];  
-                             
-                             $cause_html  = '';
-                             
-                             if(!empty($mc_cause)){
-                                 
-                                    $i = 0;
-                                    foreach ($mc_cause as $cause){
-                                                                                                                        
-                                        $cause_html .= '<div class="saswp-mc-cause-table-div" data-id="'.$i.'">';
-                                        $cause_html .= '<a class="saswp-table-close">X</a>';
-                                        $cause_html .= $this->saswp_get_dynamic_html($schema_id, 'mc_cause', $i, $cause);
-                                        $cause_html .= '</div>';
-                                        
-                                     $i++;   
-                                    }
-                                 
-                             }
-                             
-                             $tabs_fields .= $cause_html;
-                             
-                         }                         
-                         $tabs_fields .= '</div>';
-                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-mc-cause">'.esc_html__( 'Add MC Cause', 'schema-and-structured-data-for-wp' ).'</a>';                                                                                                    
-                         $tabs_fields .= '</div>'; 
-                         
-                         //cause section ends here here
-                         
-                         //symptom section starts here
-                         $tabs_fields .= '<div class="saswp-mc-symptom-section-main">';                                                  
-                         $tabs_fields .= '<div class="saswp-mc-symptom-section" data-id="'.esc_attr($schema_id).'">';                         
-                         if(isset($mc_data['mc_symptom_'.$schema_id])){
-                             
-                             $mc_symptom = $mc_data['mc_symptom_'.$schema_id];                                                     
-                             $symptom_html  = '';
-                             
-                             if(!empty($mc_symptom)){
-                                 
-                                    $i = 0;
-                                    foreach ($mc_symptom as $symptom){
-                                                                                                                        
-                                        $symptom_html .= '<div class="saswp-mc-symptom-table-div" data-id="'.$i.'">';
-                                        $symptom_html .= '<a class="saswp-table-close">X</a>';
-                                        $symptom_html .= $this->saswp_get_dynamic_html($schema_id, 'mc_symptom', $i, $symptom);
-                                        $symptom_html .= '</div>';
-                                        
-                                     $i++;   
-                                    }
-                                 
-                             }
-                             
-                             $tabs_fields .= $symptom_html;
-                             
-                         }                         
-                         $tabs_fields .= '</div>';
-                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-mc-symptom">'.esc_html__( 'Add MC Symptom', 'schema-and-structured-data-for-wp' ).'</a>';                                                                                                    
-                         $tabs_fields .= '</div>'; 
-                         //symptom section ends here
-                         
-                         //risk factor starts here
-                         $tabs_fields .= '<div class="saswp-mc-risk_factor-section-main">';                                                  
-                         $tabs_fields .= '<div class="saswp-mc-risk_factor-section" data-id="'.esc_attr($schema_id).'">';                         
-                         if(isset($mc_data['mc_risk_factor_'.$schema_id])){
-                             
-                             $mc_risk_factor = $mc_data['mc_risk_factor_'.$schema_id];                                                     
-                             $risk_factor_html  = '';
-                             
-                             if(!empty($mc_risk_factor)){
-                                 
-                                    $i = 0;
-                                    foreach ($mc_risk_factor as $risk_factor){
-                                                                                                                        
-                                        $risk_factor_html .= '<div class="saswp-mc-risk_factor-table-div" data-id="'.$i.'">';
-                                        $risk_factor_html .= '<a class="saswp-table-close">X</a>';
-                                        $risk_factor_html .= $this->saswp_get_dynamic_html($schema_id, 'mc_risk_factor', $i, $risk_factor);
-                                        $risk_factor_html .= '</div>';
-                                        
-                                     $i++;   
-                                    }
-                                 
-                             }
-                             
-                             $tabs_fields .= $risk_factor_html;
-                             
-                         }                         
-                         $tabs_fields .= '</div>';
-                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-mc-risk_factor">'.esc_html__( 'Add MC Risk Factor', 'schema-and-structured-data-for-wp' ).'</a>';                                                                                                    
-                         $tabs_fields .= '</div>'; 
-                         //risk factor ends here
-                                                                                                    
-                         $tabs_fields .= '</div>';
-                     }                      
-                     //Medical condition schema ends here
-                     
-                     //TVSeries schema starts herre
-                     if($schema_type == 'TVSeries'){
-                      
-                         $schema_id = $schema->ID;
-                         
-                         $tabs_fields .= '<div class="saswp-table-create-onajax">';
-                                                  
-                         //actor section starts here                          
-                         $tabs_fields .= '<div class="saswp-tvseries-actor-section-main">';                                                  
-                         $tabs_fields .= '<div class="saswp-tvseries-actor-section" data-id="'.esc_attr($schema_id).'">';                         
-                         if(isset($tvseries_data['tvseries_actor_'.$schema_id])){
-                             
-                             $tvseries_actor = $tvseries_data['tvseries_actor_'.$schema_id];  
-                             
-                             $actor_html  = '';
-                             
-                             if(!empty($tvseries_actor)){
-                                 
-                                    $i = 0;
-                                    foreach ($tvseries_actor as $actor){
-                                                                                                                        
-                                        $actor_html .= '<div class="saswp-tvseries-actor-table-div" data-id="'.$i.'">';
-                                        $actor_html .= '<a class="saswp-table-close">X</a>';
-                                        $actor_html .= $this->saswp_get_dynamic_html($schema_id, 'tvseries_actor', $i, $actor);
-                                        $actor_html .= '</div>';
-                                        
-                                     $i++;   
-                                    }
-                                 
-                             }
-                             
-                             $tabs_fields .= $actor_html;
-                             
-                         }                         
-                         $tabs_fields .= '</div>';
-                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-tvseries-actor">'.esc_html__( 'Add TVSeries Actor', 'schema-and-structured-data-for-wp' ).'</a>';                                                                                                    
-                         $tabs_fields .= '</div>';                          
-                         //actor section ends here here
-
-                         //season section starts here
-                         
-                         $tabs_fields .= '<div class="saswp-tvseries-season-section-main">';                                                  
-                         $tabs_fields .= '<div class="saswp-tvseries-season-section" data-id="'.esc_attr($schema_id).'">';                         
-                         if(isset($tvseries_data['tvseries_season_'.$schema_id])){
-                             
-                             $tvseries_season = $tvseries_data['tvseries_season_'.$schema_id];  
-                             
-                             $season_html  = '';
-                             
-                             if(!empty($tvseries_season)){
-                                 
-                                    $i = 0;
-                                    foreach ($tvseries_season as $season){
-                                                                                                                        
-                                        $season_html .= '<div class="saswp-tvseries-season-table-div" data-id="'.$i.'">';
-                                        $season_html .= '<a class="saswp-table-close">X</a>';
-                                        $season_html .= $this->saswp_get_dynamic_html($schema_id, 'tvseries_season', $i, $season);
-                                        $season_html .= '</div>';
-                                        
-                                     $i++;   
-                                    }
-                                 
-                             }
-                             
-                             $tabs_fields .= $season_html;
-                             
-                         }                         
-                         $tabs_fields .= '</div>';
-                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-tvseries-season">'.esc_html__( 'Add TVSeries Season', 'schema-and-structured-data-for-wp' ).'</a>';                                                                                                    
-                         $tabs_fields .= '</div>';
-                         
-                         //season section ends here
-                                                                           
-                                                                                                    
-                         $tabs_fields .= '</div>';
-                     }                     
-                     //TvSeries schema ends here
-                     
-                     
-                     //Trip schema starts herre
-                     if($schema_type == 'Trip'){
-                      
-                         $schema_id = $schema->ID;
-                         
-                         $tabs_fields .= '<div class="saswp-table-create-onajax">';
-                         
-                         //itinerary section starts here
-                         
-                         $tabs_fields .= '<div class="saswp-trip-itinerary-section-main">';                                                  
-                         $tabs_fields .= '<div class="saswp-trip-itinerary-section" data-id="'.esc_attr($schema_id).'">';                         
-                         if(isset($trip_data['trip_itinerary_'.$schema_id])){
-                             
-                             $trip_itinerary = $trip_data['trip_itinerary_'.$schema_id];  
-                             
-                             $itinerary_html  = '';
-                             
-                             if(!empty($trip_itinerary)){
-                                 
-                                    $i = 0;
-                                    foreach ($trip_itinerary as $itinerary){
-                                                                                                                        
-                                        $itinerary_html .= '<div class="saswp-trip-itinerary-table-div" data-id="'.$i.'">';
-                                        $itinerary_html .= '<a class="saswp-table-close">X</a>';
-                                        $itinerary_html .= $this->saswp_get_dynamic_html($schema_id, 'trip_itinerary', $i, $itinerary);
-                                        $itinerary_html .= '</div>';
-                                        
-                                     $i++;   
-                                    }
-                                 
-                             }
-                             
-                             $tabs_fields .= $itinerary_html;
-                             
-                         }                         
-                         $tabs_fields .= '</div>';
-                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-trip-itinerary">'.esc_html__( 'Add Trip Itinerary', 'schema-and-structured-data-for-wp' ).'</a>';                                                                                                    
-                         $tabs_fields .= '</div>';
-                         
-                         //itinerary section ends here
-                                                                           
-                                                                                                    
-                         $tabs_fields .= '</div>';
-                     }                   
-                     //Trip schema ends here
-                     
+                                                               
+                     $tabs_fields .=  $this->saswp_schema_fields_html_on_the_fly($schema_type, $schema->ID, $post->ID);
+                                                                                    
                      $tabs_fields .= '</div>';
                      
                      }else{
@@ -870,343 +627,7 @@ class saswp_post_specific {
                      $tabs_fields .= '<table class="form-table"><tbody>' . $output . '</tbody></table>';
                      $tabs_fields .= '</div>';
                      
-                     //How to schema starts here
-                     if($schema_type == 'HowTo'){
-                      
-                         $schema_id = $schema->ID;
-                         
-                         $tabs_fields .= '<div class="saswp-table-create-onajax">';
-                         
-                         
-                         //supply section starts here
-                         $tabs_fields .= '<div class="saswp-how-to-supply-section-main">';                                                  
-                         $tabs_fields .= '<div class="saswp-how-to-supply-section" data-id="'.esc_attr($schema_id).'">';                         
-                         if(isset($howto_data['howto_supply_'.$schema_id])){
-                             
-                             $howto_supply = $howto_data['howto_supply_'.$schema_id];                                                     
-                             $supply_html  = '';
-                             
-                             if(!empty($howto_supply)){
-                                 
-                                    $i = 0;
-                                    foreach ($howto_supply as $supply){
-                                                                                                                        
-                                        $supply_html .= '<div class="saswp-how-to-supply-table-div" data-id="'.$i.'">';
-                                        $supply_html .= '<a class="saswp-table-close">X</a>';
-                                        $supply_html .= $this->saswp_get_dynamic_html($schema_id, 'howto_supply', $i, $supply);
-                                        $supply_html .= '</div>';
-                                        
-                                     $i++;   
-                                    }
-                                 
-                             }
-                             
-                             $tabs_fields .= $supply_html;
-                             
-                         }                         
-                         $tabs_fields .= '</div>';
-                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-how-to-supply">'.esc_html__( 'Add HowTo Supply', 'schema-and-structured-data-for-wp' ).'</a>';                                                                                                    
-                         $tabs_fields .= '</div>';                                                                           
-                         //supply section ends here here
-                         
-                         //tool section starts here
-                          $tabs_fields .= '<div class="saswp-how-to-tool-section-main">';                                                  
-                         $tabs_fields .= '<div class="saswp-how-to-tool-section" data-id="'.esc_attr($schema_id).'">';                         
-                         if(isset($howto_data['howto_tool_'.$schema_id])){
-                             
-                             $howto_tool = $howto_data['howto_tool_'.$schema_id];                                                     
-                             $tool_html  = '';
-                             
-                             if(!empty($howto_tool)){
-                                 
-                                    $i = 0;
-                                    foreach ($howto_tool as $tool){
-                                                                                                                        
-                                        $tool_html .= '<div class="saswp-how-to-tool-table-div" data-id="'.$i.'">';
-                                        $tool_html .= '<a class="saswp-table-close">X</a>';
-                                        $tool_html .= $this->saswp_get_dynamic_html($schema_id, 'howto_tool', $i, $tool);
-                                        $tool_html .= '</div>';
-                                        
-                                     $i++;   
-                                    }
-                                 
-                             }
-                             
-                             $tabs_fields .= $tool_html;
-                             
-                         }                         
-                         $tabs_fields .= '</div>';
-                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-how-to-tool">'.esc_html__( 'Add HowTo Tool', 'schema-and-structured-data-for-wp' ).'</a>';                                                                                                    
-                         $tabs_fields .= '</div>';                                                                        
-                         //tool section ends here here
-                         
-                         //step section starts here here
-                         $tabs_fields .= '<div class="saswp-how-to-step-section-main">';                                                  
-                         $tabs_fields .= '<div class="saswp-how-to-step-section" data-id="'.esc_attr($schema_id).'">';                         
-                         if(isset($howto_data['howto_step_'.$schema_id])){
-                             
-                             $howto_step = $howto_data['howto_step_'.$schema_id];                                                     
-                             $step_html  = '';
-                             
-                             if(!empty($howto_step)){
-                                 
-                                    $i = 0;
-                                    foreach ($howto_step as $step){
-                                                                                                                        
-                                        $step_html .= '<div class="saswp-how-to-step-table-div" data-id="'.$i.'">';
-                                        $step_html .= '<a class="saswp-table-close">X</a>';
-                                        $step_html .= $this->saswp_get_dynamic_html($schema_id, 'howto_step', $i, $step);
-                                        $step_html .= '</div>';
-                                        
-                                     $i++;   
-                                    }
-                                 
-                             }
-                             
-                             $tabs_fields .= $step_html;
-                             
-                         }                         
-                         $tabs_fields .= '</div>';
-                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-how-to-step">'.esc_html__( 'Add HowTo Step', 'schema-and-structured-data-for-wp' ).'</a>';                                                                                                    
-                         $tabs_fields .= '</div>';  
-                         //step section ends here here
-                         
-                         
-                         $tabs_fields .= '</div>';
-                     }                      
-                      //How to schema ends here   
-                                          
-                     //Medical condition schema starts here
-                     if($schema_type == 'MedicalCondition'){
-                      
-                         $schema_id = $schema->ID;
-                         
-                         $tabs_fields .= '<div class="saswp-table-create-onajax">';
-                         
-                         
-                         //cause section starts here
-                          
-                         $tabs_fields .= '<div class="saswp-mc-cause-section-main">';                                                  
-                         $tabs_fields .= '<div class="saswp-mc-cause-section" data-id="'.esc_attr($schema_id).'">';                         
-                         if(isset($mc_data['mc_cause_'.$schema_id])){
-                             
-                             $mc_cause = $mc_data['mc_cause_'.$schema_id];  
-                             
-                             $cause_html  = '';
-                             
-                             if(!empty($mc_cause)){
-                                 
-                                    $i = 0;
-                                    foreach ($mc_cause as $cause){
-                                                                                                                        
-                                        $cause_html .= '<div class="saswp-mc-cause-table-div" data-id="'.$i.'">';
-                                        $cause_html .= '<a class="saswp-table-close">X</a>';
-                                        $cause_html .= $this->saswp_get_dynamic_html($schema_id, 'mc_cause', $i, $cause);
-                                        $cause_html .= '</div>';
-                                        
-                                     $i++;   
-                                    }
-                                 
-                             }
-                             
-                             $tabs_fields .= $cause_html;
-                             
-                         }                         
-                         $tabs_fields .= '</div>';
-                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-mc-cause">Add MC Cause</a>';                                                                                                    
-                         $tabs_fields .= '</div>'; 
-                         
-                         //cause section ends here here
-                         
-                         //symptom section starts here
-                         $tabs_fields .= '<div class="saswp-mc-symptom-section-main">';                                                  
-                         $tabs_fields .= '<div class="saswp-mc-symptom-section" data-id="'.esc_attr($schema_id).'">';                         
-                         if(isset($mc_data['mc_symptom_'.$schema_id])){
-                             
-                             $mc_symptom = $mc_data['mc_symptom_'.$schema_id];                                                     
-                             $symptom_html  = '';
-                             
-                             if(!empty($mc_symptom)){
-                                 
-                                    $i = 0;
-                                    foreach ($mc_symptom as $symptom){
-                                                                                                                        
-                                        $symptom_html .= '<div class="saswp-mc-symptom-table-div" data-id="'.$i.'">';
-                                        $symptom_html .= '<a class="saswp-table-close">X</a>';
-                                        $symptom_html .= $this->saswp_get_dynamic_html($schema_id, 'mc_symptom', $i, $symptom);
-                                        $symptom_html .= '</div>';
-                                        
-                                     $i++;   
-                                    }
-                                 
-                             }
-                             
-                             $tabs_fields .= $symptom_html;
-                             
-                         }                         
-                         $tabs_fields .= '</div>';
-                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-mc-symptom">'.esc_html__( 'Add MC Symptom', 'schema-and-structured-data-for-wp' ).'</a>';                                                                                                    
-                         $tabs_fields .= '</div>'; 
-                         //symptom section ends here
-                         
-                         //risk factor starts here
-                         $tabs_fields .= '<div class="saswp-mc-risk_factor-section-main">';                                                  
-                         $tabs_fields .= '<div class="saswp-mc-risk_factor-section" data-id="'.esc_attr($schema_id).'">';                         
-                         if(isset($mc_data['mc_risk_factor_'.$schema_id])){
-                             
-                             $mc_risk_factor = $mc_data['mc_risk_factor_'.$schema_id];                                                     
-                             $risk_factor_html  = '';
-                             
-                             if(!empty($mc_risk_factor)){
-                                 
-                                    $i = 0;
-                                    foreach ($mc_risk_factor as $risk_factor){
-                                                                                                                        
-                                        $risk_factor_html .= '<div class="saswp-mc-risk_factor-table-div" data-id="'.$i.'">';
-                                        $risk_factor_html .= '<a class="saswp-table-close">X</a>';
-                                        $risk_factor_html .= $this->saswp_get_dynamic_html($schema_id, 'mc_risk_factor', $i, $risk_factor);
-                                        $risk_factor_html .= '</div>';
-                                        
-                                     $i++;   
-                                    }
-                                 
-                             }
-                             
-                             $tabs_fields .= $risk_factor_html;
-                             
-                         }                         
-                         $tabs_fields .= '</div>';
-                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-mc-risk_factor">'.esc_html__( 'Add MC Risk Factor', 'schema-and-structured-data-for-wp' ).'</a>';                                                                                                    
-                         $tabs_fields .= '</div>'; 
-                         //risk factor ends here
-                                                                                                    
-                         $tabs_fields .= '</div>';
-                     }                      
-                     //Medical condition schema ends here
-                    
-                     //TVSeries schema starts herre
-                     if($schema_type == 'TVSeries'){
-                      
-                         $schema_id = $schema->ID;
-                         
-                         $tabs_fields .= '<div class="saswp-table-create-onajax">';
-                                                  
-                         //actor section starts here                          
-                         $tabs_fields .= '<div class="saswp-tvseries-actor-section-main">';                                                  
-                         $tabs_fields .= '<div class="saswp-tvseries-actor-section" data-id="'.esc_attr($schema_id).'">';                         
-                         if(isset($tvseries_data['tvseries_actor_'.$schema_id])){
-                             
-                             $tvseries_actor = $tvseries_data['tvseries_actor_'.$schema_id];  
-                             
-                             $actor_html  = '';
-                             
-                             if(!empty($tvseries_actor)){
-                                 
-                                    $i = 0;
-                                    foreach ($tvseries_actor as $actor){
-                                                                                                                        
-                                        $actor_html .= '<div class="saswp-tvseries-actor-table-div" data-id="'.$i.'">';
-                                        $actor_html .= '<a class="saswp-table-close">X</a>';
-                                        $actor_html .= $this->saswp_get_dynamic_html($schema_id, 'tvseries_actor', $i, $actor);
-                                        $actor_html .= '</div>';
-                                        
-                                     $i++;   
-                                    }
-                                 
-                             }
-                             
-                             $tabs_fields .= $actor_html;
-                             
-                         }                         
-                         $tabs_fields .= '</div>';
-                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-tvseries-actor">'.esc_html__( 'Add TVSeries Actor', 'schema-and-structured-data-for-wp' ).'</a>';                                                                                                    
-                         $tabs_fields .= '</div>';                          
-                         //actor section ends here here
-
-                         //season section starts here
-                         
-                         $tabs_fields .= '<div class="saswp-tvseries-season-section-main">';                                                  
-                         $tabs_fields .= '<div class="saswp-tvseries-season-section" data-id="'.esc_attr($schema_id).'">';                         
-                         if(isset($tvseries_data['tvseries_season_'.$schema_id])){
-                             
-                             $tvseries_season = $tvseries_data['tvseries_season_'.$schema_id];  
-                             
-                             $season_html  = '';
-                             
-                             if(!empty($tvseries_season)){
-                                 
-                                    $i = 0;
-                                    foreach ($tvseries_season as $season){
-                                                                                                                        
-                                        $season_html .= '<div class="saswp-tvseries-season-table-div" data-id="'.$i.'">';
-                                        $season_html .= '<a class="saswp-table-close">X</a>';
-                                        $season_html .= $this->saswp_get_dynamic_html($schema_id, 'tvseries_season', $i, $season);
-                                        $season_html .= '</div>';
-                                        
-                                     $i++;   
-                                    }
-                                 
-                             }
-                             
-                             $tabs_fields .= $season_html;
-                             
-                         }                         
-                         $tabs_fields .= '</div>';
-                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-tvseries-season">'.esc_html__( 'Add TVSeries Season', 'schema-and-structured-data-for-wp' ).'</a>';                                                                                                    
-                         $tabs_fields .= '</div>';
-                         
-                         //season section ends here
-                                                                           
-                                                                                                    
-                         $tabs_fields .= '</div>';
-                     }                     
-                     //TvSeries schema ends here
-                     
-                     //Trip schema starts herre
-                     if($schema_type == 'Trip'){
-                      
-                         $schema_id = $schema->ID;
-                         
-                         $tabs_fields .= '<div class="saswp-table-create-onajax">';
-                         
-                         //itinerary section starts here
-                         
-                         $tabs_fields .= '<div class="saswp-trip-itinerary-section-main">';                                                  
-                         $tabs_fields .= '<div class="saswp-trip-itinerary-section" data-id="'.esc_attr($schema_id).'">';                         
-                         if(isset($trip_data['trip_itinerary_'.$schema_id])){
-                             
-                             $trip_itinerary = $trip_data['trip_itinerary_'.$schema_id];  
-                             
-                             $itinerary_html  = '';
-                             
-                             if(!empty($trip_itinerary)){
-                                 
-                                    $i = 0;
-                                    foreach ($trip_itinerary as $itinerary){
-                                                                                                                        
-                                        $itinerary_html .= '<div class="saswp-trip-itinerary-table-div" data-id="'.$i.'">';
-                                        $itinerary_html .= '<a class="saswp-table-close">X</a>';
-                                        $itinerary_html .= $this->saswp_get_dynamic_html($schema_id, 'trip_itinerary', $i, $itinerary);
-                                        $itinerary_html .= '</div>';
-                                        
-                                     $i++;   
-                                    }
-                                 
-                             }
-                             
-                             $tabs_fields .= $itinerary_html;
-                             
-                         }                         
-                         $tabs_fields .= '</div>';
-                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-trip-itinerary">'.esc_html__( 'Add Trip Itinerary', 'schema-and-structured-data-for-wp' ).'</a>';                                                                                                    
-                         $tabs_fields .= '</div>';
-                         
-                         //itinerary section ends here
-                                                                           
-                                                                                                    
-                         $tabs_fields .= '</div>';
-                     }                   
-                     //Trip schema ends here
+                     $tabs_fields .=  $this->saswp_schema_fields_html_on_the_fly($schema_type, $schema->ID, $post->ID);
                      
                      $tabs_fields .= '</div>';
                      
@@ -1269,33 +690,7 @@ class saswp_post_specific {
                  if(isset($schema_enable[$all_schema[0]->ID]) && $schema_enable[$all_schema[0]->ID] == 1){
                  $checked = 'checked';    
                  }
-                 
-                 if($schema_type == 'HowTo'){
-                      
-                     $howto_data['howto_tool_'.$all_schema[0]->ID]  = esc_sql ( get_post_meta($post->ID, 'howto_tool_'.$all_schema[0]->ID, true)  );              
-                     $howto_data['howto_step_'.$all_schema[0]->ID]  = esc_sql ( get_post_meta($post->ID, 'howto_step_'.$all_schema[0]->ID, true)  );                                     
-                     $howto_data['howto_supply_'.$all_schema[0]->ID]  = esc_sql ( get_post_meta($post->ID, 'howto_supply_'.$all_schema[0]->ID, true)  );                                     
-                }
-                if($schema_type == 'MedicalCondition'){
-                      
-                     $mc_data['mc_cause_'.$all_schema[0]->ID]  = esc_sql ( get_post_meta($post->ID, 'mc_cause_'.$all_schema[0]->ID, true)  );              
-                     $mc_data['mc_symptom_'.$all_schema[0]->ID]  = esc_sql ( get_post_meta($post->ID, 'mc_symptom_'.$all_schema[0]->ID, true)  );              
-                     $mc_data['mc_risk_factor_'.$all_schema[0]->ID]  = esc_sql ( get_post_meta($post->ID, 'mc_risk_factor_'.$all_schema[0]->ID, true)  );              
-                         
-                }
-                if($schema_type == 'TVSeries'){
-                      
-                     $tvseries_data['tvseries_actor_'.$all_schema[0]->ID]   = esc_sql ( get_post_meta($post->ID, 'tvseries_actor_'.$all_schema[0]->ID, true)  );              
-                     $tvseries_data['tvseries_season_'.$all_schema[0]->ID]  = esc_sql ( get_post_meta($post->ID, 'tvseries_season_'.$all_schema[0]->ID, true)  );                                   
-                                              
-                }
-                
-                if($schema_type == 'Trip'){
-                      
-                     $trip_data['trip_itinerary_'.$all_schema[0]->ID]   = esc_sql ( get_post_meta($post->ID, 'trip_itinerary_'.$all_schema[0]->ID, true)  );                                   
-                                              
-                }
-                                 
+                                                                   
                  $this->meta_fields = $response;
                  $output = $this->saswp_saswp_post_specific( $post, $all_schema[0]->ID );  
                  $tabs_fields .= '<div>';
@@ -1308,344 +703,8 @@ class saswp_post_specific {
                  $tabs_fields .= '<div class="saswp-table-create-onload">';
                  $tabs_fields .= '<table class="form-table"><tbody>' . $output . '</tbody></table>';
                  $tabs_fields .= '</div>';
-                 
-                 
-                 //How to schema starts here
-                     if($schema_type == 'HowTo'){
-                      
-                         $schema_id = $all_schema[0]->ID;
-                         
-                         $tabs_fields .= '<div class="saswp-table-create-onajax">';
-                         
-                         
-                         //supply section starts here
-                         $tabs_fields .= '<div class="saswp-how-to-supply-section-main">';                                                  
-                         $tabs_fields .= '<div class="saswp-how-to-supply-section" data-id="'.esc_attr($schema_id).'">';                         
-                         if(isset($howto_data['howto_supply_'.$schema_id])){
-                             
-                             $howto_supply = $howto_data['howto_supply_'.$schema_id];                                                     
-                             $supply_html  = '';
-                             
-                             if(!empty($howto_supply)){
-                                 
-                                    $i = 0;
-                                    foreach ($howto_supply as $supply){
-                                                                                                                        
-                                        $supply_html .= '<div class="saswp-how-to-supply-table-div" data-id="'.$i.'">';
-                                        $supply_html .= '<a class="saswp-table-close">X</a>';
-                                        $supply_html .= $this->saswp_get_dynamic_html($schema_id, 'howto_supply', $i, $supply);
-                                        $supply_html .= '</div>';
-                                        
-                                     $i++;   
-                                    }
-                                 
-                             }
-                             
-                             $tabs_fields .= $supply_html;
-                             
-                         }                         
-                         $tabs_fields .= '</div>';
-                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-how-to-supply">Add HowTo Supply</a>';                                                                                                    
-                         $tabs_fields .= '</div>';                                                                           
-                         //supply section ends here here
-                         
-                         //tool section starts here
-                         $tabs_fields .= '<div class="saswp-how-to-tool-section-main">';                                                  
-                         $tabs_fields .= '<div class="saswp-how-to-tool-section" data-id="'.esc_attr($schema_id).'">';                         
-                         if(isset($howto_data['howto_tool_'.$schema_id])){
-                             
-                             $howto_tool = $howto_data['howto_tool_'.$schema_id];                                                     
-                             $tool_html  = '';
-                             
-                             if(!empty($howto_tool)){
-                                 
-                                    $i = 0;
-                                    foreach ($howto_tool as $tool){
-                                                                                                                        
-                                        $tool_html .= '<div class="saswp-how-to-tool-table-div" data-id="'.$i.'">';
-                                        $tool_html .= '<a class="saswp-table-close">X</a>';
-                                        $tool_html .= $this->saswp_get_dynamic_html($schema_id, 'howto_tool', $i, $tool);
-                                        $tool_html .= '</div>';
-                                        
-                                     $i++;   
-                                    }
-                                 
-                             }
-                             
-                             $tabs_fields .= $tool_html;
-                             
-                         }                         
-                         $tabs_fields .= '</div>';
-                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-how-to-tool">Add HowTo Tool</a>';                                                                                                    
-                         $tabs_fields .= '</div>';                                                                        
-                         //tool section ends here here
-                         
-                         //step section starts here here
-                         $tabs_fields .= '<div class="saswp-how-to-step-section-main">';                                                  
-                         $tabs_fields .= '<div class="saswp-how-to-step-section" data-id="'.esc_attr($schema_id).'">';                         
-                         if(isset($howto_data['howto_step_'.$schema_id])){
-                             
-                             $howto_step = $howto_data['howto_step_'.$schema_id];                                                     
-                             $step_html  = '';
-                             
-                             if(!empty($howto_step)){
-                                 
-                                    $i = 0;
-                                    foreach ($howto_step as $step){
-                                                                                                                        
-                                        $step_html .= '<div class="saswp-how-to-step-table-div" data-id="'.$i.'">';
-                                        $step_html .= '<a class="saswp-table-close">X</a>';
-                                        $step_html .= $this->saswp_get_dynamic_html($schema_id, 'howto_step', $i, $step);
-                                        $step_html .= '</div>';
-                                        
-                                     $i++;   
-                                    }
-                                 
-                             }
-                             
-                             $tabs_fields .= $step_html;
-                             
-                         }                         
-                         $tabs_fields .= '</div>';
-                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-how-to-step">Add HowTo Step</a>';                                                                                                    
-                         $tabs_fields .= '</div>';  
-                         //step section ends here here
-                         
-                         
-                         $tabs_fields .= '</div>';
-                     }                      
-                 //How to schema ends here
-                     
-                 //Medical condition schema starts here
-                     if($schema_type == 'MedicalCondition'){
-                      
-                         $schema_id = $all_schema[0]->ID;
-                         
-                         $tabs_fields .= '<div class="saswp-table-create-onajax">';
-                                                  
-                         //cause section starts here
-                          
-                         $tabs_fields .= '<div class="saswp-mc-cause-section-main">';                                                  
-                         $tabs_fields .= '<div class="saswp-mc-cause-section" data-id="'.esc_attr($schema_id).'">';                         
-                         if(isset($mc_data['mc_cause_'.$schema_id])){
-                             
-                             $mc_cause = $mc_data['mc_cause_'.$schema_id];  
-                             
-                             $cause_html  = '';
-                             
-                             if(!empty($mc_cause)){
-                                 
-                                    $i = 0;
-                                    foreach ($mc_cause as $cause){
-                                                                                                                        
-                                        $cause_html .= '<div class="saswp-mc-cause-table-div" data-id="'.$i.'">';
-                                        $cause_html .= '<a class="saswp-table-close">X</a>';
-                                        $cause_html .= $this->saswp_get_dynamic_html($schema_id, 'mc_cause', $i, $cause);
-                                        $cause_html .= '</div>';
-                                        
-                                     $i++;   
-                                    }
-                                 
-                             }
-                             
-                             $tabs_fields .= $cause_html;
-                             
-                         }                         
-                         $tabs_fields .= '</div>';
-                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-mc-cause">Add MC Cause</a>';                                                                                                    
-                         $tabs_fields .= '</div>'; 
-                         
-                         //cause section ends here here
-                         
-                         //symptom section starts here
-                         $tabs_fields .= '<div class="saswp-mc-symptom-section-main">';                                                  
-                         $tabs_fields .= '<div class="saswp-mc-symptom-section" data-id="'.esc_attr($schema_id).'">';                         
-                         if(isset($mc_data['mc_symptom_'.$schema_id])){
-                             
-                             $mc_symptom = $mc_data['mc_symptom_'.$schema_id];                                                     
-                             $symptom_html  = '';
-                             
-                             if(!empty($mc_symptom)){
-                                 
-                                    $i = 0;
-                                    foreach ($mc_symptom as $symptom){
-                                                                                                                        
-                                        $symptom_html .= '<div class="saswp-mc-symptom-table-div" data-id="'.$i.'">';
-                                        $symptom_html .= '<a class="saswp-table-close">X</a>';
-                                        $symptom_html .= $this->saswp_get_dynamic_html($schema_id, 'mc_symptom', $i, $symptom);
-                                        $symptom_html .= '</div>';
-                                        
-                                     $i++;   
-                                    }
-                                 
-                             }
-                             
-                             $tabs_fields .= $symptom_html;
-                             
-                         }                         
-                         $tabs_fields .= '</div>';
-                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-mc-symptom">'.esc_html__( 'Add MC Symptom', 'schema-and-structured-data-for-wp' ).'</a>';                                                                                                    
-                         $tabs_fields .= '</div>'; 
-                         //symptom section ends here
-                         
-                         //risk factor starts here
-                         $tabs_fields .= '<div class="saswp-mc-risk_factor-section-main">';                                                  
-                         $tabs_fields .= '<div class="saswp-mc-risk_factor-section" data-id="'.esc_attr($schema_id).'">';                         
-                         if(isset($mc_data['mc_risk_factor_'.$schema_id])){
-                             
-                             $mc_risk_factor = $mc_data['mc_risk_factor_'.$schema_id];                                                     
-                             $risk_factor_html  = '';
-                             
-                             if(!empty($mc_risk_factor)){
-                                 
-                                    $i = 0;
-                                    foreach ($mc_risk_factor as $risk_factor){
-                                                                                                                        
-                                        $risk_factor_html .= '<div class="saswp-mc-risk_factor-table-div" data-id="'.$i.'">';
-                                        $risk_factor_html .= '<a class="saswp-table-close">X</a>';
-                                        $risk_factor_html .= $this->saswp_get_dynamic_html($schema_id, 'mc_risk_factor', $i, $risk_factor);
-                                        $risk_factor_html .= '</div>';
-                                        
-                                     $i++;   
-                                    }
-                                 
-                             }
-                             
-                             $tabs_fields .= $risk_factor_html;
-                             
-                         }                         
-                         $tabs_fields .= '</div>';
-                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-mc-risk_factor">'.esc_html__( 'Add MC Risk Factor', 'schema-and-structured-data-for-wp' ).'</a>';                                                                                                    
-                         $tabs_fields .= '</div>'; 
-                         //risk factor ends here
-                                                                                                    
-                         $tabs_fields .= '</div>';
-                     }                      
-                 //Medical condition schema ends here
-                     
-                 //TVSeries schema starts herre
-                     if($schema_type == 'TVSeries'){
-                      
-                         $schema_id = $all_schema[0]->ID;
-                         
-                         $tabs_fields .= '<div class="saswp-table-create-onajax">';
-                                                  
-                         //actor section starts here                          
-                         $tabs_fields .= '<div class="saswp-tvseries-actor-section-main">';                                                  
-                         $tabs_fields .= '<div class="saswp-tvseries-actor-section" data-id="'.esc_attr($schema_id).'">';                         
-                         if(isset($tvseries_data['tvseries_actor_'.$schema_id])){
-                             
-                             $tvseries_actor = $tvseries_data['tvseries_actor_'.$schema_id];  
-                             
-                             $actor_html  = '';
-                             
-                             if(!empty($tvseries_actor)){
-                                 
-                                    $i = 0;
-                                    foreach ($tvseries_actor as $actor){
-                                                                                                                        
-                                        $actor_html .= '<div class="saswp-tvseries-actor-table-div" data-id="'.$i.'">';
-                                        $actor_html .= '<a class="saswp-table-close">X</a>';
-                                        $actor_html .= $this->saswp_get_dynamic_html($schema_id, 'tvseries_actor', $i, $actor);
-                                        $actor_html .= '</div>';
-                                        
-                                     $i++;   
-                                    }
-                                 
-                             }
-                             
-                             $tabs_fields .= $actor_html;
-                             
-                         }                         
-                         $tabs_fields .= '</div>';
-                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-tvseries-actor">'.esc_html__( 'Add TVSeries Actor', 'schema-and-structured-data-for-wp' ).'</a>';                                                                                                    
-                         $tabs_fields .= '</div>';                          
-                         //actor section ends here here
-
-                         //season section starts here
-                         
-                         $tabs_fields .= '<div class="saswp-tvseries-season-section-main">';                                                  
-                         $tabs_fields .= '<div class="saswp-tvseries-season-section" data-id="'.esc_attr($schema_id).'">';                         
-                         if(isset($tvseries_data['tvseries_season_'.$schema_id])){
-                             
-                             $tvseries_season = $tvseries_data['tvseries_season_'.$schema_id];  
-                             
-                             $season_html  = '';
-                             
-                             if(!empty($tvseries_season)){
-                                 
-                                    $i = 0;
-                                    foreach ($tvseries_season as $season){
-                                                                                                                        
-                                        $season_html .= '<div class="saswp-tvseries-season-table-div" data-id="'.$i.'">';
-                                        $season_html .= '<a class="saswp-table-close">X</a>';
-                                        $season_html .= $this->saswp_get_dynamic_html($schema_id, 'tvseries_season', $i, $season);
-                                        $season_html .= '</div>';
-                                        
-                                     $i++;   
-                                    }
-                                 
-                             }
-                             
-                             $tabs_fields .= $season_html;
-                             
-                         }                         
-                         $tabs_fields .= '</div>';
-                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-tvseries-season">'.esc_html__( 'Add TVSeries Season', 'schema-and-structured-data-for-wp' ).'</a>';                                                                                                    
-                         $tabs_fields .= '</div>';
-                         
-                         //season section ends here
-                                                                           
-                                                                                                    
-                         $tabs_fields .= '</div>';
-                     }                     
-                 //TvSeries schema ends here    
-                     
-                 //Trip schema starts herre
-                     if($schema_type == 'Trip'){
-                      
-                         $schema_id = $all_schema[0]->ID;
-                         
-                         $tabs_fields .= '<div class="saswp-table-create-onajax">';
-                         
-                         //itinerary section starts here
-                         
-                         $tabs_fields .= '<div class="saswp-trip-itinerary-section-main">';                                                  
-                         $tabs_fields .= '<div class="saswp-trip-itinerary-section" data-id="'.esc_attr($schema_id).'">';                         
-                         if(isset($trip_data['trip_itinerary_'.$schema_id])){
-                             
-                             $trip_itinerary = $trip_data['trip_itinerary_'.$schema_id];  
-                             
-                             $itinerary_html  = '';
-                             
-                             if(!empty($trip_itinerary)){
-                                 
-                                    $i = 0;
-                                    foreach ($trip_itinerary as $itinerary){
-                                                                                                                        
-                                        $itinerary_html .= '<div class="saswp-trip-itinerary-table-div" data-id="'.$i.'">';
-                                        $itinerary_html .= '<a class="saswp-table-close">X</a>';
-                                        $itinerary_html .= $this->saswp_get_dynamic_html($schema_id, 'trip_itinerary', $i, $itinerary);
-                                        $itinerary_html .= '</div>';
-                                        
-                                     $i++;   
-                                    }
-                                 
-                             }
-                             
-                             $tabs_fields .= $itinerary_html;
-                             
-                         }                         
-                         $tabs_fields .= '</div>';
-                         $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" class="button saswp-trip-itinerary">'.esc_html__( 'Add Trip Itinerary', 'schema-and-structured-data-for-wp' ).'</a>';                                                                                                    
-                         $tabs_fields .= '</div>';
-                         
-                         //itinerary section ends here
-                                                                           
-                                                                                                    
-                         $tabs_fields .= '</div>';
-                     }                   
-                     //Trip schema ends here    
+                                  
+                 $tabs_fields .=  $this->saswp_schema_fields_html_on_the_fly($schema_type, $all_schema[0]->ID, $post->ID);   
                                                                                                                   
                  $tabs_fields .= '</div>';
                  
@@ -1674,8 +733,7 @@ class saswp_post_specific {
                   $tabs_fields.= '</div>';
                 
                 //custom schema ends here
-                 
-                 
+                                  
                  $tabs_fields .= '<input class="saswp-post-specific-schema-ids" type="hidden" value="'. json_encode($schema_ids).'">';
                  $tabs_fields .= '</div>';
                  echo $tabs_fields;                                                  
@@ -2095,7 +1153,7 @@ class saswp_post_specific {
                                                      || strpos($meta_field['id'], 'validthrough') !== false
                                                      || strpos($meta_field['id'], 'date_of_birth') !== false
                                                      ) {
-                                             $class='saswp-local-schema-datepicker-picker';    
+                                             $class='saswp-datepicker-picker';    
                                              }
                                              
                                             $input = sprintf(
@@ -2201,137 +1259,24 @@ class saswp_post_specific {
                 if($schema_count > 0){
                                                                       
                  foreach($this->all_schema as $schema){
-                     
-                     //How to schema starts here
-                     $howto_tool = array();
-                     $howto_step = array();
-                     $howto_supply = array();
-                
-                     if( isset($_POST['howto_step_'.$schema->ID]) && is_array($_POST['howto_step_'.$schema->ID])){
+                                          
+                     foreach ($this->schema_type_element as $element){
                          
-                         $data = $_POST['howto_step_'.$schema->ID];   
-                                                 
-                         foreach ($data as $step){
-                             
-                             $howto_step[] = array_map( 'sanitize_text_field', $step );
-                         }                         
-                     }
-                     
-                     if(isset($_POST['howto_tool_'.$schema->ID]) && is_array($_POST['howto_tool_'.$schema->ID])){
+                        foreach($element as $key => $val){
+                                                                                                                   
+                            $element_val          = array();    
+                            $data = (array) $_POST[$val.'_'.$schema->ID];  
+
+                            foreach ($data as $supply){
+
+                                $element_val[] = array_map( 'sanitize_text_field', $supply );
+                                
+                            }
+                            update_post_meta( $post_id, $val.'_'.intval($schema->ID), $element_val);
+                                                                                  
+                        }    
                          
-                         $data = $_POST['howto_tool_'.$schema->ID];  
-                         
-                         foreach ($data as $tool){
-                             
-                             $howto_tool[] = array_map( 'sanitize_text_field', $tool );
-                         }
-                         
-                     }
-                     if(isset($_POST['howto_supply_'.$schema->ID]) && is_array($_POST['howto_supply_'.$schema->ID])){
-                         
-                         $data = $_POST['howto_supply_'.$schema->ID]; 
-                         
-                         foreach ($data as $supply){
-                             
-                             $howto_supply[] = array_map( 'sanitize_text_field', $supply );
-                         }
-                     }
-                     
-                     update_post_meta( $post_id, 'howto_step_'.intval($schema->ID), $howto_step);
-                     update_post_meta( $post_id, 'howto_tool_'.intval($schema->ID), $howto_tool);
-                     update_post_meta( $post_id, 'howto_supply_'.intval($schema->ID), $howto_supply);
-                                                                               
-                    //How to schema ends here
-                     
-                     
-                     //MedicalCondition schema starts here
-                     $mc_cause          = array();
-                     $mc_symptom        = array();
-                     $mc_r_factor       = array();
-                
-                     if(isset($_POST['mc_cause_'.$schema->ID]) && is_array($_POST['mc_cause_'.$schema->ID])){
-                         
-                         $data = $_POST['mc_cause_'.$schema->ID];  
-                         
-                         foreach ($data as $supply){
-                             
-                             $mc_cause[] = array_map( 'sanitize_text_field', $supply );
-                         }
-                     }                                            
-                     if(isset($_POST['mc_symptom_'.$schema->ID]) && is_array($_POST['mc_symptom_'.$schema->ID])){
-                         
-                         $data = $_POST['mc_symptom_'.$schema->ID]; 
-                         
-                         foreach ($data as $supply){
-                             
-                             $mc_symptom[] = array_map( 'sanitize_text_field', $supply );
-                         }
-                     }
-                     if(isset($_POST['mc_risk_factor_'.$schema->ID]) && is_array($_POST['mc_risk_factor_'.$schema->ID])){
-                         
-                         $data = $_POST['mc_risk_factor_'.$schema->ID]; 
-                         
-                         foreach ($data as $supply){
-                             
-                             $mc_r_factor[] = array_map( 'sanitize_text_field', $supply );
-                         }
-                     }
-                     
-                     update_post_meta( $post_id, 'mc_cause_'.intval($schema->ID), $mc_cause);
-                     update_post_meta( $post_id, 'mc_symptom_'.intval($schema->ID), $mc_symptom);
-                     update_post_meta( $post_id, 'mc_risk_factor_'.intval($schema->ID), $mc_r_factor);
-                                                                               
-                    //MedicalCondition schema ends here
-                     
-                     
-                     //TVSeries schema starts here
-                     $tv_actor          = array();
-                     $tv_season         = array();                     
-                
-                     if(isset($_POST['tvseries_actor_'.$schema->ID]) && is_array($_POST['tvseries_actor_'.$schema->ID])){
-                         
-                         $data = $_POST['tvseries_actor_'.$schema->ID];  
-                         
-                         foreach ($data as $supply){
-                             
-                             $tv_actor[] = array_map( 'sanitize_text_field', $supply );
-                         }
-                     }                                            
-                     if(isset($_POST['tvseries_season_'.$schema->ID]) && is_array($_POST['tvseries_season_'.$schema->ID])){
-                         
-                         $data = $_POST['tvseries_season_'.$schema->ID];  
-                         
-                         foreach ($data as $supply){
-                             
-                             $tv_season[] = array_map( 'sanitize_text_field', $supply );
-                         }
-                     }
-                     
-                     
-                     update_post_meta( $post_id, 'tvseries_actor_'.intval($schema->ID), $tv_actor);
-                     update_post_meta( $post_id, 'tvseries_season_'.intval($schema->ID), $tv_season);                     
-                                                                               
-                    //TVSeries schema ends here
-                     
-                     
-                     //Trip schema starts here
-                     
-                     $trip_itinerary          = array();
-                                                       
-                     if(isset($_POST['trip_itinerary_'.$schema->ID]) && is_array($_POST['trip_itinerary_'.$schema->ID])){
-                         
-                         $data = $_POST['trip_itinerary_'.$schema->ID];  
-                         
-                         foreach ($data as $supply){
-                             
-                             $trip_itinerary[] = array_map( 'sanitize_text_field', $supply );
-                         }
-                         
-                     }                                            
-                                                               
-                     update_post_meta( $post_id, 'trip_itinerary_'.$schema->ID, $trip_itinerary);                     
-                     
-                     //Trip schema ends here
+                     }                                          
                                                                                     
                      $response          = $this->saswp_get_fields_by_schema_type($schema->ID); 
                      
@@ -2410,6 +1355,7 @@ class saswp_post_specific {
             switch ($business_type) {
                         case 'automotivebusiness':
                            $sub_business_options = array(
+                                     ''                  => 'Select Sub Business Type ( optional )',  
                                      'autobodyshop'      => 'Auto Body Shop',
                                      'autodealer'        => 'Auto Dealer',
                                      'autopartsstore'    => 'Auto Parts Store',
@@ -2423,6 +1369,7 @@ class saswp_post_specific {
                             break;
                         case 'emergencyservice':
                             $sub_business_options = array(
+                                     ''               => 'Select Sub Business Type ( optional )',     
                                      'firestation'    => 'Fire Station',
                                      'hospital'       => 'Hospital',
                                      'policestation'  => 'Police Station',                                    
@@ -2430,6 +1377,7 @@ class saswp_post_specific {
                             break;
                         case 'entertainmentbusiness':
                            $sub_business_options = array(
+                                      ''                   => 'Select Sub Business Type ( optional )',  
                                       'adultentertainment' => 'Adult Entertainment',
                                       'amusementpark'      => 'Amusement Park',
                                       'artgallery'         => 'Art Gallery',
@@ -2442,6 +1390,7 @@ class saswp_post_specific {
                             break;
                         case 'financialservice':
                             $sub_business_options = array(
+                                      ''                   => 'Select Sub Business Type ( optional )',   
                                       'accountingservice'  => 'Accounting Service',
                                       'automatedteller'    => 'Automated Teller',
                                       'bankorcredit_union' => 'Bank Or Credit Union',
@@ -2451,6 +1400,7 @@ class saswp_post_specific {
                             break;
                         case 'foodestablishment':
                              $sub_business_options = array(
+                                      ''                   => 'Select Sub Business Type ( optional )',    
                                       'bakery'             => 'Bakery',
                                       'barorpub'           => 'Bar Or Pub',
                                       'brewery'            => 'Brewery',
@@ -2464,6 +1414,7 @@ class saswp_post_specific {
                             break;
                         case 'healthandbeautybusiness':
                             $sub_business_options = array(
+                                      ''             => 'Select Sub Business Type ( optional )',    
                                       'beautysalon'  => 'Beauty Salon',
                                       'dayspa'       => 'DaySpa',
                                       'hairsalon'    => 'Hair Salon',
@@ -2474,7 +1425,8 @@ class saswp_post_specific {
                             break;
                         case 'homeandconstructionbusiness':
                             $sub_business_options = array(
-                                     'electrician'       => 'Electrician',
+                                      ''                  => 'Select Sub Business Type ( optional )',  
+                                      'electrician'       => 'Electrician',
                                       'generalcontractor' => 'General Contractor',
                                       'hvacbusiness'      => 'HVAC Business',
                                       'locksmith'         => 'Locksmith', 
@@ -2486,12 +1438,14 @@ class saswp_post_specific {
                             break;
                         case 'legalservice':
                             $sub_business_options = array(
+                                      ''         => 'Select Sub Business Type ( optional )',  
                                       'attorney' => 'Attorney',
                                       'notary'   => 'Notary',                                            
                                  );  
                             break;
                         case 'lodgingbusiness':
                              $sub_business_options = array(
+                                      ''                => 'Select Sub Business Type ( optional )',  
                                       'bedandbreakfast' => 'Bed And Breakfast',
                                       'campground'      => 'Campground',
                                       'hostel'          => 'Hostel',
@@ -2502,6 +1456,7 @@ class saswp_post_specific {
                             break;
                         case 'sportsactivitylocation':
                              $sub_business_options = array(
+                                      ''                    => 'Select Sub Business Type ( optional )',  
                                       'bowlingalley'        => 'Bowling Alley',
                                       'exercisegym'         => 'Exercise Gym',
                                       'golfcourse'          => 'Golf Course',
@@ -2515,6 +1470,7 @@ class saswp_post_specific {
                             break;
                         case 'store':
                              $sub_business_options = array(
+                                        ''                      => 'Select Sub Business Type ( optional )',  
                                         'autopartsstore'        => 'Auto Parts Store',
                                         'bikestore'             => 'Bike Store',
                                         'bookstore'             => 'Book Store',
@@ -2666,6 +1622,7 @@ class saswp_post_specific {
                             'type'    => 'select',
                             'default' => $business_type,
                             'options' => array(
+                                    ''                              => 'Select Business Type (Optional)',
                                     'animalshelter'                 => 'Animal Shelter',
                                     'automotivebusiness'            => 'Automotive Business',
                                     'childcare'                     => 'ChildCare',
@@ -2891,6 +1848,12 @@ class saswp_post_specific {
                             'default' => get_the_excerpt()
                     ),
                     array(
+                            'label' => 'Keywords',
+                            'id' => 'saswp_blogposting_keywords_'.$schema_id,
+                            'type' => 'text',
+                            'default' => saswp_get_the_tags()
+                    ),    
+                    array(
                             'label' => 'Name',
                             'id' => 'saswp_blogposting_name_'.$schema_id,
                             'type' => 'text',
@@ -3016,6 +1979,12 @@ class saswp_post_specific {
                             'type' => 'textarea',
                             'default' => get_the_excerpt()
                     ),
+                    array(
+                            'label' => 'Keywords',
+                            'id' => 'saswp_newsarticle_keywords_'.$schema_id,
+                            'type' => 'text',
+                            'default' => saswp_get_the_tags()
+                    ),    
                      array(
                             'label' => 'Article Section',
                             'id' => 'saswp_newsarticle_section_'.$schema_id,
@@ -3132,6 +2101,12 @@ class saswp_post_specific {
                             'default' => get_the_excerpt()
                     ),
                     array(
+                            'label' => 'Keywords',
+                            'id' => 'saswp_webpage_keywords_'.$schema_id,
+                            'type' => 'text',
+                            'default' => saswp_get_the_tags()
+                    ),
+                    array(
                             'label' => 'Main Entity Of Page',
                             'id' => 'saswp_webpage_main_entity_of_page_'.$schema_id,
                             'type' => 'text',
@@ -3224,7 +2199,13 @@ class saswp_post_specific {
                             'id' => 'saswp_article_description_'.$schema_id,
                             'type' => 'textarea',
                             'default' => get_the_excerpt()
-                    ) , 
+                    ),
+                    array(
+                            'label' => 'Keywords',
+                            'id' => 'saswp_article_keywords_'.$schema_id,
+                            'type' => 'text',
+                            'default' => saswp_get_the_tags()
+                    ),    
                     array(
                             'label' => 'Date Published',
                             'id' => 'saswp_article_date_published_'.$schema_id,
@@ -3420,6 +2401,12 @@ class saswp_post_specific {
                             'type' => 'textarea',
                             'default' => get_the_excerpt()
                     ) , 
+                    array(
+                            'label' => 'Keywords',
+                            'id' => 'saswp_tech_article_keywords_'.$schema_id,
+                            'type' => 'text',
+                            'default' => saswp_get_the_tags()
+                    ),     
                     array(
                             'label' => 'Date Published',
                             'id' => 'saswp_tech_article_date_published_'.$schema_id,
@@ -5477,6 +4464,12 @@ class saswp_post_specific {
                         
                         
                    );
+                    break;
+                
+                case 'FAQ':
+                    
+                    $meta_field = array();                                                                  
+                   
                     break;
                 
                 case 'Person':

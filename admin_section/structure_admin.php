@@ -964,6 +964,11 @@ function saswp_custom_breadcrumbs() {
 
                     $post_type_object    = get_post_type_object($post_type);
                     $post_type_archive   = get_post_type_archive_link($post_type);
+                    
+                    if(!$post_type_archive){
+                        $post_type_archive = get_permalink();
+                    }
+                    
                     $variables1_titles[] = $post_type_object->labels->name;
                     $variables2_links[]  = $post_type_archive;
 
@@ -981,7 +986,12 @@ function saswp_custom_breadcrumbs() {
             if($post_type != 'post') {
                   
                     $post_type_object   = get_post_type_object($post_type);
-                    $post_type_archive  = get_post_type_archive_link($post_type);              
+                    $post_type_archive  = get_post_type_archive_link($post_type);  
+                    
+                    if(!$post_type_archive){
+                        $post_type_archive = get_permalink();
+                    }
+                    
                     $variables1_titles[]= $post_type_object->labels->name;
                     $variables2_links[] = $post_type_archive;              
             }
@@ -1135,7 +1145,13 @@ function saswp_custom_column_set( $column, $post_id ) {
                 case 'saswp_schema_type' :
                     
                     $schema_type = get_post_meta( $post_id, $key='schema_type', true);
-                    echo esc_attr($schema_type);
+                    
+                    if($schema_type == 'local_business'){
+                        echo 'LocalBusiness';
+                    }else{
+                        echo esc_attr($schema_type);
+                    }
+                    
                     
                     break; 
                 case 'saswp_target_location' :
@@ -1363,14 +1379,14 @@ add_action('wp_ajax_saswp_feeback_remindme', 'saswp_feeback_remindme');
  * Licensing code starts here
  */
 
-
 function saswp_license_status($add_on, $license_status, $license_key){
-                              
+                                      
                 $item_name = array(
-                       'cooked'      => 'Cooked compatibility for Schema',
-                       'woocommerce' => 'Woocommerce compatibility for Schema'   
+                       'cooked'       => 'Cooked compatibility for Schema',
+                       'woocommerce'  => 'Woocommerce compatibility for Schema',
+                       'reviews'      => 'Reviews for schema'  
                 );
-                                                                    
+                                                                                    
                 $edd_action = '';
                 if($license_status =='active'){
                    $edd_action = 'activate_license'; 
@@ -1388,9 +1404,10 @@ function saswp_license_status($add_on, $license_status, $license_key){
 			'url'        => home_url(),
                         'beta'       => false,
 		);
+                
                 $message        = '';
                 $current_status = '';
-                $response = wp_remote_post( SASWP_EDD_STORE_URL, array( 'timeout' => 15, 'sslverify' => false, 'body' => $api_params ) );
+                $response = @wp_remote_post( SASWP_EDD_STORE_URL, array( 'timeout' => 15, 'sslverify' => false, 'body' => $api_params ) );
                            
                 // make sure the response came back okay
 		if ( is_wp_error( $response ) || 200 !== wp_remote_retrieve_response_code( $response ) ) {
@@ -1438,12 +1455,30 @@ function saswp_license_status($add_on, $license_status, $license_key){
                         $license[strtolower($add_on).'_addon_license_key_message']= $message;
                     
                 }else{
-                    
+
                     if($license_status == 'active'){
+                                        
+                        if(strtolower($add_on) == 'reviews'){
+                            
+                            if(function_exists('saswp_create_reviews_user')){
+                             
+                                $user_create = saswp_create_reviews_user($license_key, strtolower($add_on));   
+                            
+                                if($user_create['status']){ 
+
+                                    update_option(strtolower($add_on).'_addon_user_id', intval($user_create['user_id']));
+                                    update_option(strtolower($add_on).'_addon_reviews_limits', intval($user_create['remains_limit']));        
+
+                                }
+                                
+                            }
+                            
+                        } 
                         
                         $license[strtolower($add_on).'_addon_license_key_status']  = 'active';
                         $license[strtolower($add_on).'_addon_license_key']         = $license_key;
                         $license[strtolower($add_on).'_addon_license_key_message'] = 'active';
+                                                                        
                         $current_status = 'active';
                         $message = 'Activated';
                     }
@@ -1473,10 +1508,10 @@ function saswp_license_status_check(){
              return;
         }
         if ( ! isset( $_POST['saswp_security_nonce'] ) ){
-           return; 
+             return; 
         }
         if ( !wp_verify_nonce( $_POST['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
-           return;  
+             return;  
         }    
         
         $add_on           = sanitize_text_field($_POST['add_on']);
@@ -1498,3 +1533,85 @@ add_action('wp_ajax_saswp_license_status_check', 'saswp_license_status_check');
 /**
  * Licensing code ends here
  */
+
+add_action( 'upgrader_process_complete', 'saswp_upgrade_function',10, 2);
+
+function saswp_upgrade_function( $upgrader_object, $options ) {
+    
+    $current_plugin_path_name = SASWP_PLUGIN_BASENAME;
+
+    if ($options['action'] == 'update' && $options['type'] == 'plugin' ){
+                
+       foreach($options['plugins'] as $each_plugin){
+           
+          if ($each_plugin==$current_plugin_path_name){
+            
+             saswp_review_module_upgradation();
+              
+          }
+       }
+    }
+}
+
+
+function saswp_review_module_upgradation(){
+                    
+            $upgrade_option = get_option('saswp_google_upgrade');
+
+            if(!$upgrade_option){
+               
+                global $sd_data;
+                
+                $g_review_status = $g_review_api = '';
+                
+                if(isset($sd_data['saswp-google-review']) && $sd_data['saswp-google-review'] == 1){
+                    $g_review_status = $sd_data['saswp-google-review'];
+                }
+                
+                if(isset($sd_data['saswp_google_place_api_key']) && $sd_data['saswp_google_place_api_key'] != ''){
+                    $g_review_api = $sd_data['saswp_google_place_api_key'];
+                }
+                
+                if($g_review_status && $g_review_api){
+                                     
+                    $posts_list = get_posts( 
+                        array(
+                            'post_type' 	 => 'saswp-google-review',                                                                                   
+                            'posts_per_page'     => -1,   
+                            'post_status'        => 'publish',
+                            'meta_query'  => array(
+                                array(
+                                'key'     => 'saswp_google_place_id',                                
+                                'compare' => 'EXISTS',
+                                 )
+                            )
+                           
+                    ) );
+                                                            
+                    if($posts_list){
+                        
+                        if(class_exists('saswp_reviews_service')){
+                        
+                            $service = new saswp_reviews_service(); 
+                        
+                                foreach($posts_list as $list){
+
+                                    $g_place_id = get_post_meta($list->ID, $key='saswp_google_place_id', true);
+                                    
+                                    if($g_place_id){
+                                        $service->saswp_get_free_reviews_data($g_place_id, $g_review_api); 
+                                    }
+
+                                }
+                                                        
+                        }
+                        
+                }
+                                                            
+                } 
+                
+                 update_option('saswp_google_upgrade', date("Y-m-d"));
+                 
+           }
+                                    
+}

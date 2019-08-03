@@ -85,6 +85,7 @@
 }
 .saswp-rv-img img{
     max-width:100px;
+    border-radius: 100%;    
 }
 .widget-area .saswp-rv-img img{max-width:50px;}
 .widget-area .saswp-glg-review-body {

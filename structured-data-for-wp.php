@@ -2,7 +2,7 @@
 /*
 Plugin Name: Schema & Structured Data for WP
 Description: Schema & Structured Data adds Google Rich Snippets markup according to Schema.org guidelines to structure your site for SEO. (AMP Compatible) 
-Version: 1.8.9.1
+Version: 1.9
 Text Domain: schema-and-structured-data-for-wp
 Domain Path: /languages
 Author: Magazine3
@@ -13,7 +13,7 @@ License: GPL2
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-define('SASWP_VERSION', '1.8.9.1');
+define('SASWP_VERSION', '1.9');
 define('SASWP_DIR_NAME_FILE', __FILE__ );
 define('SASWP_DIR_NAME', dirname( __FILE__ ));
 define('SASWP_DIR_URI', plugin_dir_url(__FILE__));
@@ -63,7 +63,7 @@ require_once SASWP_DIR_NAME.'/admin_section/common-function.php';
 require_once SASWP_DIR_NAME.'/admin_section/fields-generator.php';  
 require_once SASWP_DIR_NAME.'/admin_section/newsletter.php';  
 require_once SASWP_DIR_NAME.'/admin_section/plugin-installer/install.php';  
-//Loading Metaboxes
+//Loading View files
 require_once SASWP_DIR_NAME.'/view/help.php';  
 require_once SASWP_DIR_NAME.'/view/schema_type.php';  
 require_once SASWP_DIR_NAME.'/view/paywall.php';  
@@ -72,44 +72,15 @@ require_once SASWP_DIR_NAME.'/view/post_specific.php';
 require_once SASWP_DIR_NAME.'/view/review.php';  
 require_once SASWP_DIR_NAME.'/output/review-output.php'; 
 require_once SASWP_DIR_NAME.'/output/service.php'; 
-require_once SASWP_DIR_NAME.'/google_review/google_review_widget.php';  
-//Google Review Files
-
-function saswp_include_require_files(){
-
-global $sd_data;
-
-if(isset($sd_data['saswp-google-review']) && $sd_data['saswp-google-review'] == 1){
-
-require_once SASWP_DIR_NAME.'/google_review/google_review.php'; 
-require_once SASWP_DIR_NAME.'/google_review/google_review_page.php'; 
-require_once SASWP_DIR_NAME.'/google_review/google_review_setup.php'; 
-      
-}    
-    
-}
-
-add_action( 'init', 'saswp_include_require_files' );
+//Loading Reviews files
+require_once SASWP_DIR_NAME.'/reviews/reviews_admin.php'; 
+require_once SASWP_DIR_NAME.'/reviews/reviews_setup.php';
+require_once SASWP_DIR_NAME.'/reviews/reviews_service.php';
+require_once SASWP_DIR_NAME.'/reviews/reviews_widget.php';
 /**
  * set user defined message on plugin activate
  */
-register_activation_hook( __FILE__, 'saswp_admin_notice_activation_hook' );
-
-function saswp_admin_notice_activation_hook() {
-        
-    update_option( "saswp_activation_date", date("Y-m-d"));
-    
-    //Save first installation date
-    
-    $installation_date = get_option('saswp_installation_date');
-    
-    if(!$installation_date){
-        
-        update_option('saswp_installation_date', date("Y-m-d"));
-        
-    }
-            
-}
+register_activation_hook( __FILE__, 'saswp_on_activation' );
 
 add_action( 'admin_notices', 'saswp_admin_notice' );
 
@@ -119,7 +90,7 @@ function saswp_admin_notice(){
     $current_screen = get_current_screen();
     
     if(is_object($current_screen)){
-       $screen_id =  $current_screen->id;
+        $screen_id =  $current_screen->id;
     }
     
     $nonce = wp_create_nonce( 'saswp_install_wizard_nonce' );  
