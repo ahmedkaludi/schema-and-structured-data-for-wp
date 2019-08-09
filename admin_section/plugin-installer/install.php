@@ -508,6 +508,11 @@
 	}
 	
 	function saswp_install_header() {
+            
+                if( is_null ( get_current_screen() )) {
+				set_current_screen('Merlin');
+		}
+                
 		global $saswp_installer_config;
 		
 		// Get the current step.
