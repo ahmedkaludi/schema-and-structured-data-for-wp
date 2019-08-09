@@ -2085,6 +2085,9 @@ function saswp_check_plugin_active_status($pname){
             'free' => 'dw-question-answer/dw-question-answer.php',
             'pro'  => 'dw-question-answer-pro/dw-question-answer.php',
         ),
+        'smart_crawl' => array(
+            'free' => 'smartcrawl-seo/wpmu-dev-seo.php',            
+        ),
         
     );
     

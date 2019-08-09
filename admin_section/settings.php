@@ -1513,6 +1513,18 @@ function saswp_compatibility_page_callback(){
                                 'name' => 'sd_data[saswp-tagyeem]',                             
                         )
 		);
+        $smart_crawl = array(
+			'label'  => 'SmartCrawl Seo',
+			'id'     => 'saswp-smart-crawl-checkbox',                        
+                        'name'   => 'saswp-smart-crawl-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
+                        'note'   => saswp_get_field_note('smart_crawl'),
+                        'hidden' => array(
+                                'id'   => 'saswp-smart-crawl',
+                                'name' => 'sd_data[saswp-smart-crawl]',                             
+                        )
+		);
         
         $the_events_calendar = array(
 			'label'  => 'The Events Calendar',
@@ -1719,6 +1731,7 @@ function saswp_compatibility_page_callback(){
                 $dwquestiton,
                 //$wpjobmanager,
                 $yoast,
+                $smart_crawl,
                 $rankmath
                 
 	);     
@@ -1921,7 +1934,8 @@ function saswp_get_field_note($pname){
             'the_events_calendar' => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/the-events-calendar/">The Events Calendar</a>',
             'yoast_seo'           => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wordpress-seo/">Yoast SEO</a>',
             'rank_math'           => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/seo-by-rank-math/">WordPress SEO Plugin – Rank Math</a>',            
-            'dw_qna'              => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/dw-question-answer/">DW Question Answer</a>'
+            'dw_qna'              => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/dw-question-answer/">DW Question Answer</a>',
+            'smart_crawl'         => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/smartcrawl-seo/">SmartCrawl Seo</a>'
         );
             
     if(!saswp_check_plugin_active_status($pname)){

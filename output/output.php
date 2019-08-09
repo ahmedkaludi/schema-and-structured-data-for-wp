@@ -3709,11 +3709,13 @@ function saswp_kb_website_output(){
                 if($site_url && $site_name){
                  
                     $input = array(
-                            '@context'	  => 'http://schema.org',
+                            '@context'	          => 'http://schema.org',
                             '@type'		  => 'WebSite',
                             '@id'		  => $site_url.'#website',
+                            'headline'		  => $site_name,                            
+                            'name'		  => $site_name,
+                            'description'	  => get_bloginfo('description'),
                             'url'		  => $site_url,
-                            'name'		  => $site_name,			
 			);  
                     
                     if(isset($sd_data['saswp_search_box_schema']) && $sd_data['saswp_search_box_schema'] == 1 || !isset($sd_data['saswp_search_box_schema'])){
