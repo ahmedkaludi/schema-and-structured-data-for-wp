@@ -144,8 +144,8 @@ function saswp_admin_notice(){
         ?>
         <div class="updated notice is-dismissible message notice notice-alt saswp-feedback-notice">
             <p>
-                  <span><?php echo esc_html__('You have not setup default image in Schema & Structured Data For WP.', 'schema-and-structured-data-for-wp') ?> </span>                                               
-                  <a href="<?php echo esc_url( admin_url( 'admin.php?page=structured_data_options&tab=general' ) ); ?>"> <?php echo esc_html__('Please Setup', 'schema-and-structured-data-for-wp') ?></a>
+                  <span><?php echo esc_html__('You have not set up default image in Schema & Structured Data For WP.', 'schema-and-structured-data-for-wp') ?> </span>                                               
+                  <a href="<?php echo esc_url( admin_url( 'admin.php?page=structured_data_options&tab=general#saswp-default-container' ) ); ?>"> <?php echo esc_html__('Please Setup', 'schema-and-structured-data-for-wp') ?></a>
             </p>
         </div>
 
