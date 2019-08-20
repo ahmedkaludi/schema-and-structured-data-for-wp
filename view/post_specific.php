@@ -3309,7 +3309,7 @@ class saswp_post_specific {
                             'type'       => 'media',                            
                     ),                             
                     array(
-                            'label'      => 'associated Anatomy Name',
+                            'label'      => 'Associated Anatomy Name',
                             'id'         => 'saswp_mc_schema_anatomy_name_'.$schema_id,
                             'type'       => 'text',
                             'attributes' => array(

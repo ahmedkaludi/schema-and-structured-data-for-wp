@@ -908,14 +908,7 @@ function saswp_schema_type_meta_box_callback( $post) {
 
                           }                                                                    
                         ?>
-                    </select>
-
-                       <?php if($schema_type == 'qanda') { ?>
-                       <span class="saswp-schem-type-note"><?php echo esc_html__('Note: Currently supported with DW Question & Answer', 'schema-and-structured-data-for-wp' ); ?> <a target="_blank" href="https://wordpress.org/plugins/dw-question-answer/"><?php echo esc_html__('Link', 'schema-and-structured-data-for-wp' ); ?></a></span>
-                       <?php }else{ ?>
-                       <span class="saswp-schem-type-note saswp_hide"><?php echo esc_html__('Note: Currently supported with DW Question & Answer', 'schema-and-structured-data-for-wp' ); ?> <a target="_blank" href="https://wordpress.org/plugins/dw-question-answer/"><?php echo esc_html__('Link', 'schema-and-structured-data-for-wp' ); ?></a></span>
-                       <?php } ?>
-
+                    </select>                      
                    </td>
                 </tr>                                                                                                                                                                         
                 <tr class="saswp-business-type-tr" <?php echo $style_business_type; ?>>
