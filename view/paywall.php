@@ -136,9 +136,9 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                                 foreach ($list['meta-list'] as $key => $val){
                                     
                                     if( $fieldval == $key){
-                                        $list_html.= '<option value="'.$key.'" selected>'.$val.'</option>';    
+                                        $list_html.= '<option value="'.esc_attr($key).'" selected>'.esc_html($val).'</option>';    
                                     }else{
-                                        $list_html.= '<option value="'.$key.'">'.$val.'</option>';    
+                                        $list_html.= '<option value="'.esc_attr($key).'">'.esc_html($val).'</option>';    
                                     }
                                                                         
                                 }
@@ -154,7 +154,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                             
                             
                             if($fieldval == 'manual_text'){
-                                echo '<td><input type="text" name="saswp_fixed_text['.$fieldkey.']" value="'.$fixed_text[$fieldkey].'"></td>';    
+                                echo '<td><input type="text" name="saswp_fixed_text['.esc_attr($fieldkey).']" value="'.esc_html($fixed_text[$fieldkey]).'"></td>';    
                             }
                             
                             if($fieldval == 'custom_field'){

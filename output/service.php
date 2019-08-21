@@ -112,7 +112,9 @@ Class saswp_output_service{
                     break;
                 case 'manual_text':    
                     
-                    if (strpos($fixed_text[$key], 'http') !== false) {
+                    if(isset($fixed_text[$key])){
+                    
+                        if (strpos($fixed_text[$key], 'http') !== false) {
                         
                         $image_details = @getimagesize($fixed_text[$key]);
                         
@@ -123,10 +125,12 @@ Class saswp_output_service{
                             $response['height'] = $image_details[1];
                         }
                                                 
-                    }else{
-                        $response    = $fixed_text[$key];                    
+                        }else{
+                            $response    = $fixed_text[$key];                    
+                        }
+                        
                     }
-                                                            
+                    
                     break;
                 case 'custom_field':
                     $response    = esc_sql ( get_post_meta($schema_post_id, $cus_field[$key], true) ); 

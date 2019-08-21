@@ -118,7 +118,7 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Bug Fixed: Php json_encode function does not encode other languages characters, replace it with wp_json_encode #433
 * Bug Fixed: CSS border-box rule causing issues #420
 * Bug Fixed: Setup link of default image doesn't take it anywhere #429
-* Bug Fixed: Conflict with Gutenburg and Merlin. Fatal error: Uncaught Error: Call to a member function is_block_editor() on null #413
+* Bug Fixed: Conflict with Gutenberg and Merlin. Fatal error: Uncaught Error: Call to a member function is_block_editor() on null #413
 
 = 1.9 (03 Aug 2019) =
 

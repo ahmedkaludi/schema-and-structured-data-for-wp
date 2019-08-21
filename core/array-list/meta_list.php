@@ -2,7 +2,7 @@
 return array(
                     'text'  => array(                            
                             array(
-                                    'label'     => __( 'Single Elements', 'wp-schema-pro' ),
+                                    'label'     => __( 'Single Element', 'wp-schema-pro' ),
                                     'meta-list' => array(
                                             'blogname'         => __( 'Site Title', 'wp-schema-pro' ),
                                             'blogdescription'   => __( 'Tagline', 'wp-schema-pro' ),
@@ -19,22 +19,22 @@ return array(
                                     ),
                             ),
                             array(
-                                    'label'     => __( 'Manual Fields', 'wp-schema-pro' ),
+                                    'label'     => __( 'Manual Field', 'wp-schema-pro' ),
                                     'meta-list' => array(
                                             'manual_text'  => __( 'Manual Text', 'wp-schema-pro' ),                                            
                                     ),
                             ),
                             array(
-                                    'label'     => __( 'Custom Fields', 'wp-schema-pro' ),
+                                    'label'     => __( 'Custom Field', 'wp-schema-pro' ),
                                     'meta-list' => array(
-                                            'custom_field' => __( 'Custom Fields', 'wp-schema-pro' ),
+                                            'custom_field' => __( 'Custom Field', 'wp-schema-pro' ),
                                     ),
                             ),
                     ),
                     'image' => array(
                             
                             array(
-                                    'label'     => __( 'Single Elements', 'wp-schema-pro' ),
+                                    'label'     => __( 'Single Element', 'wp-schema-pro' ),
                                     'meta-list' => array(
                                             'featured_img' => __( 'Featured image', 'wp-schema-pro' ),
                                             'author_image' => __( 'Author image', 'wp-schema-pro' ),
@@ -42,15 +42,15 @@ return array(
                                     ),
                             ),
                             array(
-                                    'label'     => __( 'Manual fields', 'wp-schema-pro' ),
+                                    'label'     => __( 'Manual field', 'wp-schema-pro' ),
                                     'meta-list' => array(                                            
                                             'manual_text'   => __( 'Manual Image URL', 'wp-schema-pro' ),                                           
                                     ),
                             ),
                             array(
-                                    'label'     => __( 'Custom Fields', 'wp-schema-pro' ),
+                                    'label'     => __( 'Custom Field', 'wp-schema-pro' ),
                                     'meta-list' => array(
-                                            'custom_field' => __( 'Custom Fields', 'wp-schema-pro' ),
+                                            'custom_field' => __( 'Custom Field', 'wp-schema-pro' ),
                                     ),
                             ),
                     ),
