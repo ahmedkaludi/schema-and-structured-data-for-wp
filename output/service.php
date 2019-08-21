@@ -209,6 +209,18 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_article_image'])){
                      $input1['image'] =    $custom_fields['saswp_article_image'];
                     }
+                    if(isset($custom_fields['saswp_article_url'])){
+                     $input1['url'] =    $custom_fields['saswp_article_url'];
+                    }
+                    if(isset($custom_fields['saswp_article_body'])){
+                     $input1['articleBody'] =    $custom_fields['saswp_article_body'];
+                    }
+                    if(isset($custom_fields['saswp_article_keywords'])){
+                     $input1['keywords'] =    $custom_fields['saswp_article_keywords'];
+                    }
+                    if(isset($custom_fields['saswp_article_section'])){
+                     $input1['articleSection'] =    $custom_fields['saswp_article_section'];
+                    }
                     if(isset($custom_fields['saswp_article_headline'])){
                      $input1['headline'] =    $custom_fields['saswp_article_headline'];
                     }                    
@@ -245,6 +257,9 @@ Class saswp_output_service{
                     }                    
                     if(isset($custom_fields['local_business_name_url'])){
                      $input1['url'] =    $custom_fields['local_business_name_url'];
+                    }
+                    if(isset($custom_fields['local_business_logo'])){
+                     $input1['image'] =    $custom_fields['local_business_logo'];
                     }
                     if(isset($custom_fields['local_business_description'])){
                      $input1['description'] =    $custom_fields['local_business_description'];
@@ -543,6 +558,18 @@ Class saswp_output_service{
                     }
                     if(isset($custom_fields['saswp_tech_article_image'])){
                      $input1['image'] =    $custom_fields['saswp_tech_article_image'];
+                    }
+                    if(isset($custom_fields['saswp_tech_article_url'])){
+                     $input1['url'] =    $custom_fields['saswp_tech_article_url'];
+                    }
+                    if(isset($custom_fields['saswp_tech_article_body'])){
+                     $input1['articleBody'] =    $custom_fields['saswp_tech_article_body'];
+                    }
+                    if(isset($custom_fields['saswp_tech_article_keywords'])){
+                     $input1['keywords'] =    $custom_fields['saswp_tech_article_keywords'];
+                    }
+                    if(isset($custom_fields['saswp_tech_article_section'])){
+                     $input1['articleSection'] =    $custom_fields['saswp_tech_article_section'];
                     }
                     if(isset($custom_fields['saswp_tech_article_headline'])){
                      $input1['headline'] =    $custom_fields['saswp_tech_article_headline'];
@@ -944,7 +971,558 @@ Class saswp_output_service{
                     }
                                         
                     break;
-
+                    
+                case 'TVSeries':      
+                      
+                    if(isset($custom_fields['saswp_tvseries_schema_name'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_tvseries_schema_name'];
+                    }
+                    if(isset($custom_fields['saswp_tvseries_schema_description'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_tvseries_schema_description'];
+                    }
+                    if(isset($custom_fields['saswp_tvseries_schema_image'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_tvseries_schema_image'];
+                    }
+                    if(isset($custom_fields['saswp_tvseries_schema_author_name'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_tvseries_schema_author_name'];
+                    }
+                    
+                break;
+                
+                case 'TouristAttraction':      
+                      
+                    if(isset($custom_fields['saswp_ta_schema_name'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_ta_schema_name'];
+                    }
+                    if(isset($custom_fields['saswp_ta_schema_description'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_ta_schema_description'];
+                    }
+                    if(isset($custom_fields['saswp_ta_schema_image'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_ta_schema_image'];
+                    }
+                    if(isset($custom_fields['saswp_ta_schema_url'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_ta_schema_url'];
+                    }
+                    if(isset($custom_fields['saswp_ta_schema_is_acceesible_free'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_ta_schema_is_acceesible_free'];
+                    }
+                    if(isset($custom_fields['saswp_ta_schema_locality'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_ta_schema_locality'];
+                    }
+                    if(isset($custom_fields['saswp_ta_schema_region'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_ta_schema_region'];
+                    }
+                    if(isset($custom_fields['saswp_ta_schema_country'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_ta_schema_country'];
+                    }
+                    if(isset($custom_fields['saswp_ta_schema_postal_code'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_ta_schema_postal_code'];
+                    }
+                    
+                break;
+                
+                case 'FAQ':      
+                                                             
+                break;
+                
+                case 'TouristDestination':      
+                      
+                    if(isset($custom_fields['saswp_td_schema_name'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_td_schema_name'];
+                    }
+                    if(isset($custom_fields['saswp_td_schema_description'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_td_schema_description'];
+                    }
+                    if(isset($custom_fields['saswp_td_schema_image'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_td_schema_image'];
+                    }
+                    if(isset($custom_fields['saswp_td_schema_url'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_td_schema_url'];
+                    }
+                    if(isset($custom_fields['saswp_td_schema_locality'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_td_schema_locality'];
+                    }
+                    if(isset($custom_fields['saswp_td_schema_region'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_td_schema_region'];
+                    }
+                    if(isset($custom_fields['saswp_td_schema_country'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_td_schema_country'];
+                    }
+                    if(isset($custom_fields['saswp_td_schema_postal_code'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_td_schema_postal_code'];
+                    }
+                    
+                break;
+                
+                case 'LandmarksOrHistoricalBuildings':      
+                      
+                    if(isset($custom_fields['saswp_lorh_schema_name'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_lorh_schema_name'];
+                    }
+                    if(isset($custom_fields['saswp_lorh_schema_description'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_lorh_schema_description'];
+                    }
+                    if(isset($custom_fields['saswp_lorh_schema_image'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_lorh_schema_image'];
+                    }
+                    if(isset($custom_fields['saswp_lorh_schema_url'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_lorh_schema_url'];
+                    }
+                    if(isset($custom_fields['saswp_lorh_schema_hasmap'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_lorh_schema_hasmap'];
+                    }
+                    if(isset($custom_fields['saswp_lorh_schema_is_acceesible_free'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_lorh_schema_is_acceesible_free'];
+                    }
+                    if(isset($custom_fields['saswp_lorh_schema_maximum_a_capacity'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_lorh_schema_maximum_a_capacity'];
+                    }
+                    if(isset($custom_fields['saswp_lorh_schema_locality'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_lorh_schema_locality'];
+                    }
+                    if(isset($custom_fields['saswp_lorh_schema_region'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_lorh_schema_region'];
+                    }
+                    if(isset($custom_fields['saswp_lorh_schema_country'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_lorh_schema_country'];
+                    }
+                    if(isset($custom_fields['saswp_lorh_schema_postal_code'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_lorh_schema_postal_code'];
+                    }
+                    
+                break;
+                
+                case 'HinduTemple':      
+                      
+                    if(isset($custom_fields['saswp_hindutemple_schema_name'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_hindutemple_schema_name'];
+                    }
+                    if(isset($custom_fields['saswp_hindutemple_schema_description'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_hindutemple_schema_description'];
+                    }
+                    if(isset($custom_fields['saswp_hindutemple_schema_image'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_hindutemple_schema_image'];
+                    }
+                    if(isset($custom_fields['saswp_hindutemple_schema_url'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_hindutemple_schema_url'];
+                    }
+                    if(isset($custom_fields['saswp_hindutemple_schema_hasmap'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_hindutemple_schema_hasmap'];
+                    }
+                    if(isset($custom_fields['saswp_hindutemple_schema_is_accesible_free'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_hindutemple_schema_is_accesible_free'];
+                    }
+                    if(isset($custom_fields['saswp_hindutemple_schema_maximum_a_capacity'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_hindutemple_schema_maximum_a_capacity'];
+                    }
+                    if(isset($custom_fields['saswp_hindutemple_schema_locality'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_hindutemple_schema_locality'];
+                    }
+                    if(isset($custom_fields['saswp_hindutemple_schema_region'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_hindutemple_schema_region'];
+                    }
+                    if(isset($custom_fields['saswp_hindutemple_schema_country'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_hindutemple_schema_country'];
+                    }
+                    if(isset($custom_fields['saswp_hindutemple_schema_postal_code'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_hindutemple_schema_postal_code'];
+                    }
+                    
+                break;
+                
+                case 'Church':      
+                      
+                    if(isset($custom_fields['saswp_church_schema_name'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_church_schema_name'];
+                    }
+                    if(isset($custom_fields['saswp_church_schema_description'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_church_schema_description'];
+                    }
+                    if(isset($custom_fields['saswp_church_schema_image'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_church_schema_image'];
+                    }
+                    if(isset($custom_fields['saswp_church_schema_url'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_church_schema_url'];
+                    }
+                    if(isset($custom_fields['saswp_church_schema_hasmap'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_church_schema_hasmap'];
+                    }
+                    if(isset($custom_fields['saswp_church_schema_is_accesible_free'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_church_schema_is_accesible_free'];
+                    }
+                    if(isset($custom_fields['saswp_church_schema_maximum_a_capacity'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_church_schema_maximum_a_capacity'];
+                    }
+                    if(isset($custom_fields['saswp_church_schema_locality'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_church_schema_locality'];
+                    }
+                    if(isset($custom_fields['saswp_church_schema_region'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_church_schema_region'];
+                    }
+                    if(isset($custom_fields['saswp_church_schema_country'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_church_schema_country'];
+                    }
+                    if(isset($custom_fields['saswp_church_schema_postal_code'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_church_schema_postal_code'];
+                    }
+                    
+                break;
+                
+                case 'Mosque':      
+                      
+                    if(isset($custom_fields['saswp_mosque_schema_name'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_mosque_schema_name'];
+                    }
+                    if(isset($custom_fields['saswp_mosque_schema_description'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_mosque_schema_description'];
+                    }
+                    if(isset($custom_fields['saswp_mosque_schema_image'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_mosque_schema_image'];
+                    }
+                    if(isset($custom_fields['saswp_mosque_schema_url'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_mosque_schema_url'];
+                    }
+                    if(isset($custom_fields['saswp_mosque_schema_hasmap'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_mosque_schema_hasmap'];
+                    }
+                    if(isset($custom_fields['saswp_mosque_schema_is_accesible_free'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_mosque_schema_is_accesible_free'];
+                    }
+                    if(isset($custom_fields['saswp_mosque_schema_maximum_a_capacity'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_mosque_schema_maximum_a_capacity'];
+                    }
+                    if(isset($custom_fields['saswp_mosque_schema_locality'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_mosque_schema_locality'];
+                    }
+                    if(isset($custom_fields['saswp_mosque_schema_region'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_mosque_schema_region'];
+                    }
+                    if(isset($custom_fields['saswp_mosque_schema_country'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_mosque_schema_country'];
+                    }
+                    if(isset($custom_fields['saswp_mosque_schema_postal_code'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_mosque_schema_postal_code'];
+                    }
+                    
+                break;
+                
+                case 'Person':      
+                      
+                    if(isset($custom_fields['saswp_person_schema_name'])){
+                     $input1['name'] =    $custom_fields['saswp_person_schema_name'];
+                    }
+                    if(isset($custom_fields['saswp_person_schema_description'])){
+                     $input1['description'] =    $custom_fields['saswp_person_schema_description'];
+                    }
+                    if(isset($custom_fields['saswp_person_schema_url'])){
+                     $input1['url'] =    $custom_fields['saswp_person_schema_url'];
+                    }
+                    if(isset($custom_fields['saswp_person_schema_street_address'])){
+                     $input1['address']['streetAddress'] =    $custom_fields['saswp_person_schema_street_address'];
+                    }
+                    if(isset($custom_fields['saswp_person_schema_locality'])){
+                     $input1['address']['addressLocality'] =    $custom_fields['saswp_person_schema_locality'];
+                    }
+                    if(isset($custom_fields['saswp_person_schema_region'])){
+                     $input1['address']['addressRegion'] =    $custom_fields['saswp_person_schema_region'];
+                    }
+                    if(isset($custom_fields['saswp_person_schema_postal_code'])){
+                      $input1['address']['PostalCode']  =    $custom_fields['saswp_person_schema_postal_code'];
+                    }
+                    if(isset($custom_fields['saswp_person_schema_country'])){
+                     $input1['address']['addressCountry'] =    $custom_fields['saswp_person_schema_country'];
+                    }
+                    if(isset($custom_fields['saswp_person_schema_email'])){
+                     $input1['email'] =    $custom_fields['saswp_person_schema_email'];
+                    }
+                    if(isset($custom_fields['saswp_person_schema_telephone'])){
+                     $input1['telephone'] =    $custom_fields['saswp_person_schema_telephone'];
+                    }
+                    if(isset($custom_fields['saswp_person_schema_gender'])){
+                     $input1['gender'] =    $custom_fields['saswp_person_schema_gender'];
+                    }
+                    if(isset($custom_fields['saswp_person_schema_date_of_birth'])){
+                     $input1['birthDate'] =    $custom_fields['saswp_person_schema_date_of_birth'];
+                    }
+                    
+                    if(isset($custom_fields['saswp_person_schema_nationality'])){
+                     $input1['nationality'] =    $custom_fields['saswp_person_schema_nationality'];
+                    }
+                    if(isset($custom_fields['saswp_person_schema_image'])){
+                     $input1['image'] =    $custom_fields['saswp_person_schema_image'];
+                    }
+                    if(isset($custom_fields['saswp_person_schema_job_title'])){
+                     $input1['jobTitle'] =    $custom_fields['saswp_person_schema_job_title'];
+                    }
+                    
+                break;
+                
+                case 'Apartment':      
+                      
+                    if(isset($custom_fields['saswp_apartment_schema_name'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_apartment_schema_name'];
+                    }
+                    if(isset($custom_fields['saswp_apartment_schema_url'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_apartment_schema_url'];
+                    }
+                    if(isset($custom_fields['saswp_apartment_schema_image'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_apartment_schema_image'];
+                    }
+                    if(isset($custom_fields['saswp_apartment_schema_description'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_apartment_schema_description'];
+                    }
+                    if(isset($custom_fields['saswp_apartment_schema_numberofrooms'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_apartment_schema_numberofrooms'];
+                    }
+                    if(isset($custom_fields['saswp_apartment_schema_country'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_apartment_schema_country'];
+                    }
+                    if(isset($custom_fields['saswp_apartment_schema_locality'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_apartment_schema_locality'];
+                    }
+                    if(isset($custom_fields['saswp_apartment_schema_region'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_apartment_schema_region'];
+                    }
+                    if(isset($custom_fields['saswp_apartment_schema_postalcode'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_apartment_schema_postalcode'];
+                    }
+                    if(isset($custom_fields['saswp_apartment_schema_telephone'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_apartment_schema_telephone'];
+                    }
+                    
+                break;
+                
+                case 'House':      
+                      
+                    if(isset($custom_fields['saswp_house_schema_name'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_house_schema_name'];
+                    }
+                    if(isset($custom_fields['saswp_house_schema_url'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_house_schema_url'];
+                    }
+                    if(isset($custom_fields['saswp_house_schema_image'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_house_schema_image'];
+                    }
+                    if(isset($custom_fields['saswp_house_schema_description'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_house_schema_description'];
+                    }
+                    if(isset($custom_fields['saswp_house_schema_pets_allowed'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_house_schema_pets_allowed'];
+                    }
+                    if(isset($custom_fields['saswp_house_schema_country'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_house_schema_country'];
+                    }
+                    if(isset($custom_fields['saswp_house_schema_locality'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_house_schema_locality'];
+                    }
+                    if(isset($custom_fields['saswp_house_schema_region'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_house_schema_region'];
+                    }
+                    if(isset($custom_fields['saswp_house_schema_postalcode'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_house_schema_postalcode'];
+                    }
+                    if(isset($custom_fields['saswp_house_schema_telephone'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_house_schema_telephone'];
+                    }
+                    
+                break;
+                
+                case 'SingleFamilyResidence':      
+                      
+                    if(isset($custom_fields['saswp_sfr_schema_name'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_sfr_schema_name'];
+                    }
+                    if(isset($custom_fields['saswp_sfr_schema_url'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_sfr_schema_url'];
+                    }
+                    if(isset($custom_fields['saswp_sfr_schema_image'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_sfr_schema_image'];
+                    }
+                    if(isset($custom_fields['saswp_sfr_schema_description'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_sfr_schema_description'];
+                    }
+                    if(isset($custom_fields['saswp_sfr_schema_numberofrooms'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_sfr_schema_numberofrooms'];
+                    }
+                    if(isset($custom_fields['saswp_sfr_schema_pets_allowed'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_sfr_schema_pets_allowed'];
+                    }
+                    if(isset($custom_fields['saswp_sfr_schema_country'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_sfr_schema_country'];
+                    }
+                    if(isset($custom_fields['saswp_sfr_schema_locality'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_sfr_schema_locality'];
+                    }
+                    if(isset($custom_fields['saswp_sfr_schema_region'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_sfr_schema_region'];
+                    }
+                    if(isset($custom_fields['saswp_sfr_schema_postalcode'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_sfr_schema_postalcode'];
+                    }
+                    if(isset($custom_fields['saswp_sfr_schema_telephone'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_sfr_schema_telephone'];
+                    }
+                    
+                break;
+                
+                case 'VideoGame':      
+                      
+                    if(isset($custom_fields['saswp_vg_schema_name'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_vg_schema_name'];
+                    }
+                    if(isset($custom_fields['saswp_vg_schema_url'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_vg_schema_url'];
+                    }
+                    if(isset($custom_fields['saswp_vg_schema_image'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_vg_schema_image'];
+                    }
+                    if(isset($custom_fields['saswp_vg_schema_description'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_vg_schema_description'];
+                    }
+                    if(isset($custom_fields['saswp_vg_schema_operating_system'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_vg_schema_operating_system'];
+                    }
+                    if(isset($custom_fields['saswp_vg_schema_application_category'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_vg_schema_application_category'];
+                    }
+                    if(isset($custom_fields['saswp_vg_schema_author_name'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_vg_schema_author_name'];
+                    }
+                    if(isset($custom_fields['saswp_vg_schema_price'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_vg_schema_price'];
+                    }
+                    if(isset($custom_fields['saswp_vg_schema_price_currency'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_vg_schema_price_currency'];
+                    }
+                    if(isset($custom_fields['saswp_vg_schema_price_availability'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_vg_schema_price_availability'];
+                    }
+                    if(isset($custom_fields['saswp_vg_schema_publisher'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_vg_schema_publisher'];
+                    }
+                    if(isset($custom_fields['saswp_vg_schema_genre'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_vg_schema_genre'];
+                    }
+                    if(isset($custom_fields['saswp_vg_schema_processor_requirements'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_vg_schema_processor_requirements'];
+                    }
+                    if(isset($custom_fields['saswp_vg_schema_memory_requirements'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_vg_schema_memory_requirements'];
+                    }
+                    if(isset($custom_fields['saswp_vg_schema_storage_requirements'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_vg_schema_storage_requirements'];
+                    }
+                    if(isset($custom_fields['saswp_vg_schema_game_platform'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_vg_schema_game_platform'];
+                    }
+                    if(isset($custom_fields['saswp_vg_schema_cheat_code'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_vg_schema_cheat_code'];
+                    }
+                    
+                break;
+                
+                case 'JobPosting':      
+                      
+                    if(isset($custom_fields['saswp_jobposting_schema_title'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_jobposting_schema_title'];
+                    }
+                    if(isset($custom_fields['saswp_jobposting_schema_description'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_jobposting_schema_description'];
+                    }
+                    if(isset($custom_fields['saswp_jobposting_schema_url'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_jobposting_schema_url'];
+                    }
+                    if(isset($custom_fields['saswp_jobposting_schema_dateposted'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_jobposting_schema_dateposted'];
+                    }
+                    if(isset($custom_fields['saswp_jobposting_schema_validthrough'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_jobposting_schema_validthrough'];
+                    }
+                    if(isset($custom_fields['saswp_jobposting_schema_employment_type'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_jobposting_schema_employment_type'];
+                    }
+                    if(isset($custom_fields['saswp_jobposting_schema_ho_name'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_jobposting_schema_ho_name'];
+                    }
+                    if(isset($custom_fields['saswp_jobposting_schema_ho_url'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_jobposting_schema_ho_url'];
+                    }
+                    if(isset($custom_fields['saswp_jobposting_schema_ho_logo'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_jobposting_schema_ho_logo'];
+                    }
+                    if(isset($custom_fields['saswp_jobposting_schema_street_address'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_jobposting_schema_street_address'];
+                    }
+                    if(isset($custom_fields['saswp_jobposting_schema_locality'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_jobposting_schema_locality'];
+                    }
+                    if(isset($custom_fields['saswp_jobposting_schema_region'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_jobposting_schema_region'];
+                    }
+                    if(isset($custom_fields['saswp_jobposting_schema_postalcode'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_jobposting_schema_postalcode'];
+                    }
+                    if(isset($custom_fields['saswp_jobposting_schema_country'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_jobposting_schema_country'];
+                    }
+                    if(isset($custom_fields['saswp_jobposting_schema_bs_currency'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_jobposting_schema_bs_currency'];
+                    }
+                    if(isset($custom_fields['saswp_jobposting_schema_bs_value'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_jobposting_schema_bs_value'];
+                    }
+                    if(isset($custom_fields['saswp_jobposting_schema_bs_unittext'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_jobposting_schema_bs_unittext'];
+                    }
+                    
+                break;
+                
+                case 'Trip':      
+                      
+                    if(isset($custom_fields['saswp_trip_schema_name'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_trip_schema_name'];
+                    }
+                    if(isset($custom_fields['saswp_trip_schema_description'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_trip_schema_description'];
+                    }
+                    if(isset($custom_fields['saswp_trip_schema_url'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_trip_schema_url'];
+                    }
+                    if(isset($custom_fields['saswp_trip_schema_image'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_trip_schema_image'];
+                    }
+                    
+                break;
+                
+                case 'MedicalCondition':      
+                      
+                    if(isset($custom_fields['saswp_mc_schema_name'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_mc_schema_name'];
+                    }
+                    if(isset($custom_fields['saswp_mc_schema_alternate_name'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_mc_schema_alternate_name'];
+                    }
+                    if(isset($custom_fields['saswp_mc_schema_description'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_mc_schema_description'];
+                    }
+                    if(isset($custom_fields['saswp_mc_schema_image'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_mc_schema_image'];
+                    }
+                    if(isset($custom_fields['saswp_mc_schema_anatomy_name'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_mc_schema_anatomy_name'];
+                    }
+                    if(isset($custom_fields['saswp_mc_schema_medical_code'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_mc_schema_medical_code'];
+                    }
+                    if(isset($custom_fields['saswp_mc_schema_coding_system'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_mc_schema_coding_system'];
+                    }
+                    if(isset($custom_fields['saswp_mc_schema_diagnosis_name'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_mc_schema_diagnosis_name'];
+                    }
+                    
+                break;
+               
                      default:
                          break;
                  }                                  
@@ -1976,14 +2554,14 @@ Class saswp_output_service{
                 case 'MedicalCondition':
                     
                     $meta_field = array(                        
-                        'saswp_mc_schema_name_'             => 'Name',
-                        'saswp_mc_schema_alternate_name_'   => 'Alternate Name',
-                        'saswp_mc_schema_description_'      => 'Description',                        
-                        'saswp_mc_schema_image_'            => 'Image',
-                        'saswp_mc_schema_anatomy_name_'     => 'Associated Anatomy Name',
-                        'saswp_mc_schema_medical_code_'     => 'Medical Code',
-                        'saswp_mc_schema_coding_system_'    => 'Coding System',
-                        'saswp_mc_schema_diagnosis_name_'   => 'Diagnosis Name'                        
+                        'saswp_mc_schema_name'             => 'Name',
+                        'saswp_mc_schema_alternate_name'   => 'Alternate Name',
+                        'saswp_mc_schema_description'      => 'Description',                        
+                        'saswp_mc_schema_image'            => 'Image',
+                        'saswp_mc_schema_anatomy_name'     => 'Associated Anatomy Name',
+                        'saswp_mc_schema_medical_code'     => 'Medical Code',
+                        'saswp_mc_schema_coding_system'    => 'Coding System',
+                        'saswp_mc_schema_diagnosis_name'   => 'Diagnosis Name'                        
                     );                    
                     break;
 
