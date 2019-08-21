@@ -1542,7 +1542,7 @@ function saswp_upgrade_function( $upgrader_object, $options ) {
 
     if ($options['action'] == 'update' && $options['type'] == 'plugin' ){
        
-       if(isset($options['plugins'])){
+       if(is_array($options) && array_key_exists('plugins', $options)){
         
            foreach($options['plugins'] as $each_plugin){
            
