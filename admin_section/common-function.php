@@ -1986,7 +1986,7 @@ if ( ! defined('ABSPATH') ) exit;
         $author_details = array();            
 
         $author_id          = get_the_author_meta('ID');
-        $author_name 	= get_the_author();
+        $author_name 	    = get_the_author();
         $author_desc        = get_the_author_meta( 'user_description' );     
 
         if(!$author_name && is_object($post)){
@@ -2084,6 +2084,9 @@ function saswp_check_plugin_active_status($pname){
         'dw_qna' => array(
             'free' => 'dw-question-answer/dw-question-answer.php',
             'pro'  => 'dw-question-answer-pro/dw-question-answer.php',
+        ),
+        'smart_crawl' => array(
+            'free' => 'smartcrawl-seo/wpmu-dev-seo.php',            
         ),
         
     );

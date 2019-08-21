@@ -1541,18 +1541,22 @@ function saswp_upgrade_function( $upgrader_object, $options ) {
     $current_plugin_path_name = SASWP_PLUGIN_BASENAME;
 
     if ($options['action'] == 'update' && $options['type'] == 'plugin' ){
-                
-       foreach($options['plugins'] as $each_plugin){
+       
+       if(is_array($options) && array_key_exists('plugins', $options)){
+        
+           foreach($options['plugins'] as $each_plugin){
            
-          if ($each_plugin==$current_plugin_path_name){
-            
-             saswp_review_module_upgradation();
-              
-          }
-       }
-    }
-}
+            if ($each_plugin==$current_plugin_path_name){
 
+               saswp_review_module_upgradation();
+
+            }
+          }           
+       } 
+                     
+    }
+    
+}
 
 function saswp_review_module_upgradation(){
                     

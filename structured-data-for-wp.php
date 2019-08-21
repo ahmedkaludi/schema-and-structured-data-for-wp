@@ -2,7 +2,7 @@
 /*
 Plugin Name: Schema & Structured Data for WP
 Description: Schema & Structured Data adds Google Rich Snippets markup according to Schema.org guidelines to structure your site for SEO. (AMP Compatible) 
-Version: 1.9
+Version: 1.9.1
 Text Domain: schema-and-structured-data-for-wp
 Domain Path: /languages
 Author: Magazine3
@@ -13,7 +13,7 @@ License: GPL2
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-define('SASWP_VERSION', '1.9');
+define('SASWP_VERSION', '1.9.1');
 define('SASWP_DIR_NAME_FILE', __FILE__ );
 define('SASWP_DIR_NAME', dirname( __FILE__ ));
 define('SASWP_DIR_URI', plugin_dir_url(__FILE__));
@@ -72,6 +72,7 @@ require_once SASWP_DIR_NAME.'/view/post_specific.php';
 require_once SASWP_DIR_NAME.'/view/review.php';  
 require_once SASWP_DIR_NAME.'/output/review-output.php'; 
 require_once SASWP_DIR_NAME.'/output/service.php'; 
+require_once SASWP_DIR_NAME.'/output/compatibility.php'; 
 //Loading Reviews files
 require_once SASWP_DIR_NAME.'/reviews/reviews_admin.php'; 
 require_once SASWP_DIR_NAME.'/reviews/reviews_setup.php';
@@ -143,8 +144,8 @@ function saswp_admin_notice(){
         ?>
         <div class="updated notice is-dismissible message notice notice-alt saswp-feedback-notice">
             <p>
-                  <span><?php echo esc_html__('You have not setup default image in Schema & Structured Data For WP.', 'schema-and-structured-data-for-wp') ?> </span>                                               
-                  <a href="<?php echo esc_url( admin_url( 'admin.php?page=structured_data_options&tab=general' ) ); ?>"> <?php echo esc_html__('Please Setup', 'schema-and-structured-data-for-wp') ?></a>
+                  <span><?php echo esc_html__('You have not set up default image in Schema & Structured Data For WP.', 'schema-and-structured-data-for-wp') ?> </span>                                               
+                  <a href="<?php echo esc_url( admin_url( 'admin.php?page=structured_data_options&tab=general#saswp-default-container' ) ); ?>"> <?php echo esc_html__('Please Setup', 'schema-and-structured-data-for-wp') ?></a>
             </p>
         </div>
 

@@ -11,6 +11,22 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 Class saswp_output_service{           
+    
+    private $_meta_list = null;
+
+
+    public function __construct() {
+        
+            if($this->_meta_list == null){
+            
+                        $mappings_file = SASWP_DIR_NAME . '/core/array-list/meta_list.php';
+
+                        if ( file_exists( $mappings_file ) ) {
+                            $this->_meta_list = include $mappings_file;
+                        }                                
+            }        
+            
+        }
         /**
          * List of hooks used in current class
          */
@@ -19,36 +35,219 @@ Class saswp_output_service{
            add_action( 'wp_ajax_saswp_get_custom_meta_fields', array($this, 'saswp_get_custom_meta_fields')); 
            add_action( 'wp_ajax_saswp_get_schema_type_fields', array($this, 'saswp_get_schema_type_fields')); 
            
+           add_action( 'wp_ajax_saswp_get_meta_list', array($this, 'saswp_get_meta_list')); 
+           
         }    
-               
+             
+        
+        public function saswp_get_meta_list(){
+            
+            if ( ! isset( $_GET['saswp_security_nonce'] ) ){
+                return; 
+             }
+             if ( !wp_verify_nonce( $_GET['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
+                return;  
+             }
+            
+            $response = array();    
+            $mappings_file = SASWP_DIR_NAME . '/core/array-list/meta_list.php';
+
+            if ( file_exists( $mappings_file ) ) {
+                $response = include $mappings_file;
+            }  
+                         
+            wp_send_json( $response); 
+                        
+        }
         /**
          * This function replaces the value of schema's fields with the selected custom meta field
          * @param type $input1
          * @param type $schema_post_id
          * @return type array
          */
+        
+        public function saswp_get_meta_list_value($key, $field, $schema_post_id){
+            
+            $fixed_text        = esc_sql ( get_post_meta($schema_post_id, 'saswp_fixed_text', true)  ); 
+            $cus_field         = esc_sql ( get_post_meta($schema_post_id, 'saswp_custom_meta_field', true)  ); 
+            
+            $response = null;
+            
+            switch ($field) {
+                case 'blogname':
+                    $response    = get_bloginfo();                    
+                    break;
+                case 'blogdescription':
+                    $response = get_bloginfo('description');                    
+                    break;
+                case 'site_url':
+                    $response = get_site_url();                    
+                    break;
+                case 'post_title':
+                    $response = saswp_get_the_title();                    
+                    break;
+                case 'post_content':
+                    $response = saswp_get_the_content();                        
+                    break;
+                case 'post_excerpt':
+                    $response = saswp_get_the_excerpt(); 
+                    break;
+                case 'post_permalink':
+                    $response = get_permalink();
+                    break;
+                case 'author_name':
+                    $response =  get_the_author_meta('first_name').' '.get_the_author_meta('last_name');
+                    break;
+                case 'author_first_name':
+                    $response = get_the_author_meta('first_name'); 
+                    break;
+                case 'author_last_name':
+                    $response = get_the_author_meta('last_name');
+                    break;
+                case 'post_date':
+                    $response = get_the_date("Y-m-d\TH:i:s\Z");
+                    break;
+                case 'post_modified':
+                    $response = get_the_modified_date("Y-m-d\TH:i:s\Z");
+                    break;
+                case 'manual_text':    
+                    
+                    if(isset($fixed_text[$key])){
+                    
+                        if (strpos($fixed_text[$key], 'http') !== false) {
+                        
+                        $image_details = @getimagesize($fixed_text[$key]);
+                        
+                        if(is_array($image_details)){
+                            $response['@type']  = 'ImageObject';
+                            $response['url']    = $fixed_text[$key];
+                            $response['width']  = $image_details[0]; 
+                            $response['height'] = $image_details[1];
+                        }
+                                                
+                        }else{
+                            $response    = $fixed_text[$key];                    
+                        }
+                        
+                    }
+                    
+                    break;
+                case 'custom_field':
+                    $response    = esc_sql ( get_post_meta($schema_post_id, $cus_field[$key], true) ); 
+                    break;
+                case 'featured_img':                    
+                    $image_id 	     = get_post_thumbnail_id();
+                    $image_details   = wp_get_attachment_image_src($image_id, 'full');                    
+                    $response['@type']  = 'ImageObject';
+                    $response['url']    = $image_details[0];
+                    $response['width']  = $image_details[1]; 
+                    $response['height'] = $image_details[2];
+                    
+                    break;
+                case 'author_image':
+                    $author_id          = get_the_author_meta('ID');
+                    $author_image	= get_avatar_data($author_id);                    
+                    $response['@type']  = 'ImageObject';
+                    $response['url']    = $author_image['url'];
+                    $response['width']  = $author_image['height']; 
+                    $response['height'] = $author_image['width'];
+
+                    break;
+                case 'site_logo':
+                    
+                    $sizes = array(
+                            'width'  => 600,
+                            'height' => 60,
+                            'crop'   => false,
+                    ); 
+
+                    $custom_logo_id = get_theme_mod( 'custom_logo' );     
+
+                    if($custom_logo_id){
+
+                        $custom_logo    = wp_get_attachment_image_src( $custom_logo_id, $sizes);
+
+                    }
+
+                    if(isset($custom_logo) && is_array($custom_logo)){
+
+                         $response['@type']  = 'ImageObject';
+                         $response['url']    = array_key_exists(0, $custom_logo)? $custom_logo[0]:'';
+                         $response['width']  = array_key_exists(2, $custom_logo)? $custom_logo[2]:''; 
+                         $response['height'] = array_key_exists(1, $custom_logo)? $custom_logo[1]:'';
+                                              
+                    }
+                                    
+                default:
+                    break;
+            }
+            
+            return $response;
+            
+        }
         public function saswp_replace_with_custom_fields_value($input1, $schema_post_id){
            
             global $post;
             
-            $custom_fields    = esc_sql ( get_post_meta($schema_post_id, 'saswp_custom_fields', true)  );
-                        
+            $custom_fields    = esc_sql ( get_post_meta($schema_post_id, 'saswp_meta_list_val', true)  );
+                      
             if(!empty($custom_fields)){
                 
                  $schema_type = get_post_meta( $schema_post_id, 'schema_type', true); 
                  
                  foreach ($custom_fields as $key => $field){
                      
-                    if(is_object($post)){
-                        
-                        $custom_fields[$key] = get_post_meta($post->ID, $field, true);                   
-                        
+                    if(is_object($post)){                                                                                                
+                        $custom_fields[$key] = $this->saswp_get_meta_list_value($key, $field, $schema_post_id);                                           
                     } 
                                       
                 }  
                 
              switch ($schema_type) {
                  
+                case 'Article':      
+                      
+                    if(isset($custom_fields['saswp_article_main_entity_of_page'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_article_main_entity_of_page'];
+                    }
+                    if(isset($custom_fields['saswp_article_image'])){
+                     $input1['image'] =    $custom_fields['saswp_article_image'];
+                    }
+                    if(isset($custom_fields['saswp_article_url'])){
+                     $input1['url'] =    $custom_fields['saswp_article_url'];
+                    }
+                    if(isset($custom_fields['saswp_article_body'])){
+                     $input1['articleBody'] =    $custom_fields['saswp_article_body'];
+                    }
+                    if(isset($custom_fields['saswp_article_keywords'])){
+                     $input1['keywords'] =    $custom_fields['saswp_article_keywords'];
+                    }
+                    if(isset($custom_fields['saswp_article_section'])){
+                     $input1['articleSection'] =    $custom_fields['saswp_article_section'];
+                    }
+                    if(isset($custom_fields['saswp_article_headline'])){
+                     $input1['headline'] =    $custom_fields['saswp_article_headline'];
+                    }                    
+                    if(isset($custom_fields['saswp_article_description'])){
+                     $input1['description'] =    $custom_fields['saswp_article_description'];
+                    }
+                    if(isset($custom_fields['saswp_article_date_published'])){
+                     $input1['datePublished'] =    $custom_fields['saswp_article_date_published'];
+                    }
+                    if(isset($custom_fields['saswp_article_date_modified'])){
+                     $input1['dateModified'] =    $custom_fields['saswp_article_date_modified'];
+                    }                    
+                    if(isset($custom_fields['saswp_article_author_name'])){
+                     $input1['author']['name'] =    $custom_fields['saswp_article_author_name'];
+                    }
+                    if(isset($custom_fields['saswp_article_organization_name'])){
+                     $input1['Publisher']['name'] =    $custom_fields['saswp_article_organization_name'];
+                    }
+                    if(isset($custom_fields['saswp_article_organization_logo'])){
+                     $input1['Publisher']['logo']['url'] =    $custom_fields['saswp_article_organization_logo'];
+                    }
+                    break; 
+                                  
                 case 'local_business':
                    
                     if(isset($custom_fields['saswp_business_type'])){
@@ -59,10 +258,12 @@ Class saswp_output_service{
                     }
                     if(isset($custom_fields['local_business_name'])){
                      $input1['name'] =    $custom_fields['local_business_name'];
-                    }
-                    
+                    }                    
                     if(isset($custom_fields['local_business_name_url'])){
                      $input1['url'] =    $custom_fields['local_business_name_url'];
+                    }
+                    if(isset($custom_fields['local_business_logo'])){
+                     $input1['image'] =    $custom_fields['local_business_logo'];
                     }
                     if(isset($custom_fields['local_business_description'])){
                      $input1['description'] =    $custom_fields['local_business_description'];
@@ -297,40 +498,7 @@ Class saswp_output_service{
                     }
                     
                     break;
-                
-                case 'Article':      
-                      
-                    if(isset($custom_fields['saswp_article_main_entity_of_page'])){
-                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_article_main_entity_of_page'];
-                    }
-                    if(isset($custom_fields['saswp_article_image'])){
-                     $input1['image'] =    $custom_fields['saswp_article_image'];
-                    }
-                    if(isset($custom_fields['saswp_article_headline'])){
-                     $input1['headline'] =    $custom_fields['saswp_article_headline'];
-                    }
-                    
-                    if(isset($custom_fields['saswp_article_description'])){
-                     $input1['description'] =    $custom_fields['saswp_article_description'];
-                    }
-                    if(isset($custom_fields['saswp_article_date_published'])){
-                     $input1['datePublished'] =    $custom_fields['saswp_article_date_published'];
-                    }
-                    if(isset($custom_fields['saswp_article_date_modified'])){
-                     $input1['dateModified'] =    $custom_fields['saswp_article_date_modified'];
-                    }
-                    
-                    if(isset($custom_fields['saswp_article_author_name'])){
-                     $input1['author']['name'] =    $custom_fields['saswp_article_author_name'];
-                    }
-                    if(isset($custom_fields['saswp_article_organization_name'])){
-                     $input1['Publisher']['name'] =    $custom_fields['saswp_article_organization_name'];
-                    }
-                    if(isset($custom_fields['saswp_article_organization_logo'])){
-                     $input1['Publisher']['logo']['url'] =    $custom_fields['saswp_article_organization_logo'];
-                    }
-                    break;
-                    
+                                                    
                 case 'Event':      
                       
                     if(isset($custom_fields['saswp_event_schema_name'])){
@@ -394,6 +562,18 @@ Class saswp_output_service{
                     }
                     if(isset($custom_fields['saswp_tech_article_image'])){
                      $input1['image'] =    $custom_fields['saswp_tech_article_image'];
+                    }
+                    if(isset($custom_fields['saswp_tech_article_url'])){
+                     $input1['url'] =    $custom_fields['saswp_tech_article_url'];
+                    }
+                    if(isset($custom_fields['saswp_tech_article_body'])){
+                     $input1['articleBody'] =    $custom_fields['saswp_tech_article_body'];
+                    }
+                    if(isset($custom_fields['saswp_tech_article_keywords'])){
+                     $input1['keywords'] =    $custom_fields['saswp_tech_article_keywords'];
+                    }
+                    if(isset($custom_fields['saswp_tech_article_section'])){
+                     $input1['articleSection'] =    $custom_fields['saswp_tech_article_section'];
                     }
                     if(isset($custom_fields['saswp_tech_article_headline'])){
                      $input1['headline'] =    $custom_fields['saswp_tech_article_headline'];
@@ -795,7 +975,558 @@ Class saswp_output_service{
                     }
                                         
                     break;
-
+                    
+                case 'TVSeries':      
+                      
+                    if(isset($custom_fields['saswp_tvseries_schema_name'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_tvseries_schema_name'];
+                    }
+                    if(isset($custom_fields['saswp_tvseries_schema_description'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_tvseries_schema_description'];
+                    }
+                    if(isset($custom_fields['saswp_tvseries_schema_image'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_tvseries_schema_image'];
+                    }
+                    if(isset($custom_fields['saswp_tvseries_schema_author_name'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_tvseries_schema_author_name'];
+                    }
+                    
+                break;
+                
+                case 'TouristAttraction':      
+                      
+                    if(isset($custom_fields['saswp_ta_schema_name'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_ta_schema_name'];
+                    }
+                    if(isset($custom_fields['saswp_ta_schema_description'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_ta_schema_description'];
+                    }
+                    if(isset($custom_fields['saswp_ta_schema_image'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_ta_schema_image'];
+                    }
+                    if(isset($custom_fields['saswp_ta_schema_url'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_ta_schema_url'];
+                    }
+                    if(isset($custom_fields['saswp_ta_schema_is_acceesible_free'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_ta_schema_is_acceesible_free'];
+                    }
+                    if(isset($custom_fields['saswp_ta_schema_locality'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_ta_schema_locality'];
+                    }
+                    if(isset($custom_fields['saswp_ta_schema_region'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_ta_schema_region'];
+                    }
+                    if(isset($custom_fields['saswp_ta_schema_country'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_ta_schema_country'];
+                    }
+                    if(isset($custom_fields['saswp_ta_schema_postal_code'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_ta_schema_postal_code'];
+                    }
+                    
+                break;
+                
+                case 'FAQ':      
+                                                             
+                break;
+                
+                case 'TouristDestination':      
+                      
+                    if(isset($custom_fields['saswp_td_schema_name'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_td_schema_name'];
+                    }
+                    if(isset($custom_fields['saswp_td_schema_description'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_td_schema_description'];
+                    }
+                    if(isset($custom_fields['saswp_td_schema_image'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_td_schema_image'];
+                    }
+                    if(isset($custom_fields['saswp_td_schema_url'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_td_schema_url'];
+                    }
+                    if(isset($custom_fields['saswp_td_schema_locality'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_td_schema_locality'];
+                    }
+                    if(isset($custom_fields['saswp_td_schema_region'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_td_schema_region'];
+                    }
+                    if(isset($custom_fields['saswp_td_schema_country'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_td_schema_country'];
+                    }
+                    if(isset($custom_fields['saswp_td_schema_postal_code'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_td_schema_postal_code'];
+                    }
+                    
+                break;
+                
+                case 'LandmarksOrHistoricalBuildings':      
+                      
+                    if(isset($custom_fields['saswp_lorh_schema_name'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_lorh_schema_name'];
+                    }
+                    if(isset($custom_fields['saswp_lorh_schema_description'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_lorh_schema_description'];
+                    }
+                    if(isset($custom_fields['saswp_lorh_schema_image'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_lorh_schema_image'];
+                    }
+                    if(isset($custom_fields['saswp_lorh_schema_url'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_lorh_schema_url'];
+                    }
+                    if(isset($custom_fields['saswp_lorh_schema_hasmap'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_lorh_schema_hasmap'];
+                    }
+                    if(isset($custom_fields['saswp_lorh_schema_is_acceesible_free'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_lorh_schema_is_acceesible_free'];
+                    }
+                    if(isset($custom_fields['saswp_lorh_schema_maximum_a_capacity'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_lorh_schema_maximum_a_capacity'];
+                    }
+                    if(isset($custom_fields['saswp_lorh_schema_locality'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_lorh_schema_locality'];
+                    }
+                    if(isset($custom_fields['saswp_lorh_schema_region'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_lorh_schema_region'];
+                    }
+                    if(isset($custom_fields['saswp_lorh_schema_country'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_lorh_schema_country'];
+                    }
+                    if(isset($custom_fields['saswp_lorh_schema_postal_code'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_lorh_schema_postal_code'];
+                    }
+                    
+                break;
+                
+                case 'HinduTemple':      
+                      
+                    if(isset($custom_fields['saswp_hindutemple_schema_name'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_hindutemple_schema_name'];
+                    }
+                    if(isset($custom_fields['saswp_hindutemple_schema_description'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_hindutemple_schema_description'];
+                    }
+                    if(isset($custom_fields['saswp_hindutemple_schema_image'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_hindutemple_schema_image'];
+                    }
+                    if(isset($custom_fields['saswp_hindutemple_schema_url'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_hindutemple_schema_url'];
+                    }
+                    if(isset($custom_fields['saswp_hindutemple_schema_hasmap'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_hindutemple_schema_hasmap'];
+                    }
+                    if(isset($custom_fields['saswp_hindutemple_schema_is_accesible_free'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_hindutemple_schema_is_accesible_free'];
+                    }
+                    if(isset($custom_fields['saswp_hindutemple_schema_maximum_a_capacity'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_hindutemple_schema_maximum_a_capacity'];
+                    }
+                    if(isset($custom_fields['saswp_hindutemple_schema_locality'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_hindutemple_schema_locality'];
+                    }
+                    if(isset($custom_fields['saswp_hindutemple_schema_region'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_hindutemple_schema_region'];
+                    }
+                    if(isset($custom_fields['saswp_hindutemple_schema_country'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_hindutemple_schema_country'];
+                    }
+                    if(isset($custom_fields['saswp_hindutemple_schema_postal_code'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_hindutemple_schema_postal_code'];
+                    }
+                    
+                break;
+                
+                case 'Church':      
+                      
+                    if(isset($custom_fields['saswp_church_schema_name'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_church_schema_name'];
+                    }
+                    if(isset($custom_fields['saswp_church_schema_description'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_church_schema_description'];
+                    }
+                    if(isset($custom_fields['saswp_church_schema_image'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_church_schema_image'];
+                    }
+                    if(isset($custom_fields['saswp_church_schema_url'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_church_schema_url'];
+                    }
+                    if(isset($custom_fields['saswp_church_schema_hasmap'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_church_schema_hasmap'];
+                    }
+                    if(isset($custom_fields['saswp_church_schema_is_accesible_free'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_church_schema_is_accesible_free'];
+                    }
+                    if(isset($custom_fields['saswp_church_schema_maximum_a_capacity'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_church_schema_maximum_a_capacity'];
+                    }
+                    if(isset($custom_fields['saswp_church_schema_locality'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_church_schema_locality'];
+                    }
+                    if(isset($custom_fields['saswp_church_schema_region'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_church_schema_region'];
+                    }
+                    if(isset($custom_fields['saswp_church_schema_country'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_church_schema_country'];
+                    }
+                    if(isset($custom_fields['saswp_church_schema_postal_code'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_church_schema_postal_code'];
+                    }
+                    
+                break;
+                
+                case 'Mosque':      
+                      
+                    if(isset($custom_fields['saswp_mosque_schema_name'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_mosque_schema_name'];
+                    }
+                    if(isset($custom_fields['saswp_mosque_schema_description'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_mosque_schema_description'];
+                    }
+                    if(isset($custom_fields['saswp_mosque_schema_image'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_mosque_schema_image'];
+                    }
+                    if(isset($custom_fields['saswp_mosque_schema_url'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_mosque_schema_url'];
+                    }
+                    if(isset($custom_fields['saswp_mosque_schema_hasmap'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_mosque_schema_hasmap'];
+                    }
+                    if(isset($custom_fields['saswp_mosque_schema_is_accesible_free'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_mosque_schema_is_accesible_free'];
+                    }
+                    if(isset($custom_fields['saswp_mosque_schema_maximum_a_capacity'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_mosque_schema_maximum_a_capacity'];
+                    }
+                    if(isset($custom_fields['saswp_mosque_schema_locality'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_mosque_schema_locality'];
+                    }
+                    if(isset($custom_fields['saswp_mosque_schema_region'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_mosque_schema_region'];
+                    }
+                    if(isset($custom_fields['saswp_mosque_schema_country'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_mosque_schema_country'];
+                    }
+                    if(isset($custom_fields['saswp_mosque_schema_postal_code'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_mosque_schema_postal_code'];
+                    }
+                    
+                break;
+                
+                case 'Person':      
+                      
+                    if(isset($custom_fields['saswp_person_schema_name'])){
+                     $input1['name'] =    $custom_fields['saswp_person_schema_name'];
+                    }
+                    if(isset($custom_fields['saswp_person_schema_description'])){
+                     $input1['description'] =    $custom_fields['saswp_person_schema_description'];
+                    }
+                    if(isset($custom_fields['saswp_person_schema_url'])){
+                     $input1['url'] =    $custom_fields['saswp_person_schema_url'];
+                    }
+                    if(isset($custom_fields['saswp_person_schema_street_address'])){
+                     $input1['address']['streetAddress'] =    $custom_fields['saswp_person_schema_street_address'];
+                    }
+                    if(isset($custom_fields['saswp_person_schema_locality'])){
+                     $input1['address']['addressLocality'] =    $custom_fields['saswp_person_schema_locality'];
+                    }
+                    if(isset($custom_fields['saswp_person_schema_region'])){
+                     $input1['address']['addressRegion'] =    $custom_fields['saswp_person_schema_region'];
+                    }
+                    if(isset($custom_fields['saswp_person_schema_postal_code'])){
+                      $input1['address']['PostalCode']  =    $custom_fields['saswp_person_schema_postal_code'];
+                    }
+                    if(isset($custom_fields['saswp_person_schema_country'])){
+                     $input1['address']['addressCountry'] =    $custom_fields['saswp_person_schema_country'];
+                    }
+                    if(isset($custom_fields['saswp_person_schema_email'])){
+                     $input1['email'] =    $custom_fields['saswp_person_schema_email'];
+                    }
+                    if(isset($custom_fields['saswp_person_schema_telephone'])){
+                     $input1['telephone'] =    $custom_fields['saswp_person_schema_telephone'];
+                    }
+                    if(isset($custom_fields['saswp_person_schema_gender'])){
+                     $input1['gender'] =    $custom_fields['saswp_person_schema_gender'];
+                    }
+                    if(isset($custom_fields['saswp_person_schema_date_of_birth'])){
+                     $input1['birthDate'] =    $custom_fields['saswp_person_schema_date_of_birth'];
+                    }
+                    
+                    if(isset($custom_fields['saswp_person_schema_nationality'])){
+                     $input1['nationality'] =    $custom_fields['saswp_person_schema_nationality'];
+                    }
+                    if(isset($custom_fields['saswp_person_schema_image'])){
+                     $input1['image'] =    $custom_fields['saswp_person_schema_image'];
+                    }
+                    if(isset($custom_fields['saswp_person_schema_job_title'])){
+                     $input1['jobTitle'] =    $custom_fields['saswp_person_schema_job_title'];
+                    }
+                    
+                break;
+                
+                case 'Apartment':      
+                      
+                    if(isset($custom_fields['saswp_apartment_schema_name'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_apartment_schema_name'];
+                    }
+                    if(isset($custom_fields['saswp_apartment_schema_url'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_apartment_schema_url'];
+                    }
+                    if(isset($custom_fields['saswp_apartment_schema_image'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_apartment_schema_image'];
+                    }
+                    if(isset($custom_fields['saswp_apartment_schema_description'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_apartment_schema_description'];
+                    }
+                    if(isset($custom_fields['saswp_apartment_schema_numberofrooms'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_apartment_schema_numberofrooms'];
+                    }
+                    if(isset($custom_fields['saswp_apartment_schema_country'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_apartment_schema_country'];
+                    }
+                    if(isset($custom_fields['saswp_apartment_schema_locality'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_apartment_schema_locality'];
+                    }
+                    if(isset($custom_fields['saswp_apartment_schema_region'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_apartment_schema_region'];
+                    }
+                    if(isset($custom_fields['saswp_apartment_schema_postalcode'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_apartment_schema_postalcode'];
+                    }
+                    if(isset($custom_fields['saswp_apartment_schema_telephone'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_apartment_schema_telephone'];
+                    }
+                    
+                break;
+                
+                case 'House':      
+                      
+                    if(isset($custom_fields['saswp_house_schema_name'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_house_schema_name'];
+                    }
+                    if(isset($custom_fields['saswp_house_schema_url'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_house_schema_url'];
+                    }
+                    if(isset($custom_fields['saswp_house_schema_image'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_house_schema_image'];
+                    }
+                    if(isset($custom_fields['saswp_house_schema_description'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_house_schema_description'];
+                    }
+                    if(isset($custom_fields['saswp_house_schema_pets_allowed'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_house_schema_pets_allowed'];
+                    }
+                    if(isset($custom_fields['saswp_house_schema_country'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_house_schema_country'];
+                    }
+                    if(isset($custom_fields['saswp_house_schema_locality'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_house_schema_locality'];
+                    }
+                    if(isset($custom_fields['saswp_house_schema_region'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_house_schema_region'];
+                    }
+                    if(isset($custom_fields['saswp_house_schema_postalcode'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_house_schema_postalcode'];
+                    }
+                    if(isset($custom_fields['saswp_house_schema_telephone'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_house_schema_telephone'];
+                    }
+                    
+                break;
+                
+                case 'SingleFamilyResidence':      
+                      
+                    if(isset($custom_fields['saswp_sfr_schema_name'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_sfr_schema_name'];
+                    }
+                    if(isset($custom_fields['saswp_sfr_schema_url'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_sfr_schema_url'];
+                    }
+                    if(isset($custom_fields['saswp_sfr_schema_image'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_sfr_schema_image'];
+                    }
+                    if(isset($custom_fields['saswp_sfr_schema_description'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_sfr_schema_description'];
+                    }
+                    if(isset($custom_fields['saswp_sfr_schema_numberofrooms'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_sfr_schema_numberofrooms'];
+                    }
+                    if(isset($custom_fields['saswp_sfr_schema_pets_allowed'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_sfr_schema_pets_allowed'];
+                    }
+                    if(isset($custom_fields['saswp_sfr_schema_country'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_sfr_schema_country'];
+                    }
+                    if(isset($custom_fields['saswp_sfr_schema_locality'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_sfr_schema_locality'];
+                    }
+                    if(isset($custom_fields['saswp_sfr_schema_region'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_sfr_schema_region'];
+                    }
+                    if(isset($custom_fields['saswp_sfr_schema_postalcode'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_sfr_schema_postalcode'];
+                    }
+                    if(isset($custom_fields['saswp_sfr_schema_telephone'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_sfr_schema_telephone'];
+                    }
+                    
+                break;
+                
+                case 'VideoGame':      
+                      
+                    if(isset($custom_fields['saswp_vg_schema_name'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_vg_schema_name'];
+                    }
+                    if(isset($custom_fields['saswp_vg_schema_url'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_vg_schema_url'];
+                    }
+                    if(isset($custom_fields['saswp_vg_schema_image'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_vg_schema_image'];
+                    }
+                    if(isset($custom_fields['saswp_vg_schema_description'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_vg_schema_description'];
+                    }
+                    if(isset($custom_fields['saswp_vg_schema_operating_system'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_vg_schema_operating_system'];
+                    }
+                    if(isset($custom_fields['saswp_vg_schema_application_category'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_vg_schema_application_category'];
+                    }
+                    if(isset($custom_fields['saswp_vg_schema_author_name'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_vg_schema_author_name'];
+                    }
+                    if(isset($custom_fields['saswp_vg_schema_price'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_vg_schema_price'];
+                    }
+                    if(isset($custom_fields['saswp_vg_schema_price_currency'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_vg_schema_price_currency'];
+                    }
+                    if(isset($custom_fields['saswp_vg_schema_price_availability'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_vg_schema_price_availability'];
+                    }
+                    if(isset($custom_fields['saswp_vg_schema_publisher'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_vg_schema_publisher'];
+                    }
+                    if(isset($custom_fields['saswp_vg_schema_genre'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_vg_schema_genre'];
+                    }
+                    if(isset($custom_fields['saswp_vg_schema_processor_requirements'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_vg_schema_processor_requirements'];
+                    }
+                    if(isset($custom_fields['saswp_vg_schema_memory_requirements'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_vg_schema_memory_requirements'];
+                    }
+                    if(isset($custom_fields['saswp_vg_schema_storage_requirements'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_vg_schema_storage_requirements'];
+                    }
+                    if(isset($custom_fields['saswp_vg_schema_game_platform'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_vg_schema_game_platform'];
+                    }
+                    if(isset($custom_fields['saswp_vg_schema_cheat_code'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_vg_schema_cheat_code'];
+                    }
+                    
+                break;
+                
+                case 'JobPosting':      
+                      
+                    if(isset($custom_fields['saswp_jobposting_schema_title'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_jobposting_schema_title'];
+                    }
+                    if(isset($custom_fields['saswp_jobposting_schema_description'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_jobposting_schema_description'];
+                    }
+                    if(isset($custom_fields['saswp_jobposting_schema_url'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_jobposting_schema_url'];
+                    }
+                    if(isset($custom_fields['saswp_jobposting_schema_dateposted'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_jobposting_schema_dateposted'];
+                    }
+                    if(isset($custom_fields['saswp_jobposting_schema_validthrough'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_jobposting_schema_validthrough'];
+                    }
+                    if(isset($custom_fields['saswp_jobposting_schema_employment_type'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_jobposting_schema_employment_type'];
+                    }
+                    if(isset($custom_fields['saswp_jobposting_schema_ho_name'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_jobposting_schema_ho_name'];
+                    }
+                    if(isset($custom_fields['saswp_jobposting_schema_ho_url'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_jobposting_schema_ho_url'];
+                    }
+                    if(isset($custom_fields['saswp_jobposting_schema_ho_logo'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_jobposting_schema_ho_logo'];
+                    }
+                    if(isset($custom_fields['saswp_jobposting_schema_street_address'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_jobposting_schema_street_address'];
+                    }
+                    if(isset($custom_fields['saswp_jobposting_schema_locality'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_jobposting_schema_locality'];
+                    }
+                    if(isset($custom_fields['saswp_jobposting_schema_region'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_jobposting_schema_region'];
+                    }
+                    if(isset($custom_fields['saswp_jobposting_schema_postalcode'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_jobposting_schema_postalcode'];
+                    }
+                    if(isset($custom_fields['saswp_jobposting_schema_country'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_jobposting_schema_country'];
+                    }
+                    if(isset($custom_fields['saswp_jobposting_schema_bs_currency'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_jobposting_schema_bs_currency'];
+                    }
+                    if(isset($custom_fields['saswp_jobposting_schema_bs_value'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_jobposting_schema_bs_value'];
+                    }
+                    if(isset($custom_fields['saswp_jobposting_schema_bs_unittext'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_jobposting_schema_bs_unittext'];
+                    }
+                    
+                break;
+                
+                case 'Trip':      
+                      
+                    if(isset($custom_fields['saswp_trip_schema_name'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_trip_schema_name'];
+                    }
+                    if(isset($custom_fields['saswp_trip_schema_description'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_trip_schema_description'];
+                    }
+                    if(isset($custom_fields['saswp_trip_schema_url'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_trip_schema_url'];
+                    }
+                    if(isset($custom_fields['saswp_trip_schema_image'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_trip_schema_image'];
+                    }
+                    
+                break;
+                
+                case 'MedicalCondition':      
+                      
+                    if(isset($custom_fields['saswp_mc_schema_name'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_mc_schema_name'];
+                    }
+                    if(isset($custom_fields['saswp_mc_schema_alternate_name'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_mc_schema_alternate_name'];
+                    }
+                    if(isset($custom_fields['saswp_mc_schema_description'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_mc_schema_description'];
+                    }
+                    if(isset($custom_fields['saswp_mc_schema_image'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_mc_schema_image'];
+                    }
+                    if(isset($custom_fields['saswp_mc_schema_anatomy_name'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_mc_schema_anatomy_name'];
+                    }
+                    if(isset($custom_fields['saswp_mc_schema_medical_code'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_mc_schema_medical_code'];
+                    }
+                    if(isset($custom_fields['saswp_mc_schema_coding_system'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_mc_schema_coding_system'];
+                    }
+                    if(isset($custom_fields['saswp_mc_schema_diagnosis_name'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_mc_schema_diagnosis_name'];
+                    }
+                    
+                break;
+               
                      default:
                          break;
                  }                                  
@@ -820,9 +1551,7 @@ Class saswp_output_service{
             $schema_type = isset( $_POST['schema_type'] ) ? sanitize_text_field( $_POST['schema_type'] ) : '';                      
             $meta_fields = $this->saswp_get_all_schema_type_fields($schema_type);             	    
             
-            wp_send_json( $meta_fields );            
-            
-            wp_die();
+            wp_send_json( $meta_fields );                                   
         }
         
         /**
@@ -1211,23 +1940,16 @@ Class saswp_output_service{
                 }                           
                 return $qa_page;
         }
-        
+                                
         /**
          * This function returns all the schema field's key by schema type or id
          * @param type $schema_type
          * @param type $id
          * @return string
          */
-        public function saswp_get_all_schema_type_fields($schema_type, $id =null){
+        public function saswp_get_all_schema_type_fields($schema_type){
             
-            $meta_field = array();
-            
-            if($schema_type == ''){
-                
-             $schema_type = get_post_meta( $id, 'schema_type', true);    
-             
-            }
-            
+            $meta_field = array();                                                                     
             switch ($schema_type) {
                 
                 case 'local_business':
@@ -1250,7 +1972,15 @@ Class saswp_output_service{
                         'saswp_dayofweek'            => 'Operation Days',
                         'local_price_range'          => 'Price Range', 
                         'local_hasmap'               => 'HasMap',
-                        'local_menu'                 => 'Memu',
+                        'local_menu'                 => 'Memu',                        
+                        'local_facebook'             => 'Facebook',
+                        'local_twitter'              => 'Twitter',
+                        'local_instagram'            => 'Instagram',
+                        'local_pinterest'            => 'Pinterest',
+                        'local_linkedin'             => 'LinkedIn',
+                        'local_soundcloud'           => 'SoundCloud',
+                        'local_tumblr'               => 'Tumblr',
+                        'local_youtube'              => 'Youtube',
                         );                   
                     break;
                 
@@ -1260,6 +1990,10 @@ Class saswp_output_service{
                         
                         'saswp_blogposting_main_entity_of_page' => 'Main Entity Of Page',
                         'saswp_blogposting_headline'            => 'Headline',
+                        'saswp_blogposting_url'                 => 'URL', 
+                        'saswp_blogposting_keywords'            => 'Tags',
+                        'saswp_blogposting_section'             => 'Section',
+                        'saswp_blogposting_body'                => 'Body',    
                         'saswp_blogposting_description'         => 'Description',                         
                         'saswp_blogposting_name'                => 'Name',
                         'saswp_blogposting_url'                 => 'URL',
@@ -1305,7 +2039,7 @@ Class saswp_output_service{
                         'saswp_webpage_description'         => 'Description',                          
                         'saswp_webpage_main_entity_of_page' => 'Main Entity Of Page',
                         'saswp_webpage_image'               => 'Image',
-                        'saswp_webpage_headline'            => 'Headline',                          
+                        'saswp_webpage_headline'            => 'Headline',                             
                         'saswp_webpage_date_published'      => 'Date Published',
                         'saswp_webpage_date_modified'       => 'Date Modified',
                         'saswp_webpage_author_name'         => 'Author Name',                          
@@ -1319,8 +2053,12 @@ Class saswp_output_service{
                     
                     $meta_field = array(                        
                         'saswp_article_main_entity_of_page' => 'Main Entity Of Page',
+                        'saswp_article_url'                 => 'URL',
                         'saswp_article_image'               => 'Image',
-                        'saswp_article_headline'            => 'Headline',                          
+                        'saswp_article_headline'            => 'Headline',
+                        'saswp_article_body'                => 'Body',
+                        'saswp_article_keywords'            => 'Tags',
+                        'saswp_article_section'             => 'Section',
                         'saswp_article_description'         => 'Description',
                         'saswp_article_date_published'      => 'Date Published',
                         'saswp_article_date_modified'       => 'Date Modified',                          
@@ -1332,18 +2070,23 @@ Class saswp_output_service{
                     break;
                 
                 case 'TechArticle':      
-                    
-                    $meta_field = array(                        
+                                          
+                     $meta_field = array(                        
                         'saswp_tech_article_main_entity_of_page' => 'Main Entity Of Page',
+                        'saswp_tech_article_url'                 => 'URL',
                         'saswp_tech_article_image'               => 'Image',
-                        'saswp_tech_article_headline'            => 'Headline',                          
+                        'saswp_tech_article_headline'            => 'Headline',
+                        'saswp_tech_article_body'                => 'Body',
+                        'saswp_tech_article_keywords'            => 'Tags',
+                        'saswp_tech_article_section'             => 'Section',
                         'saswp_tech_article_description'         => 'Description',
                         'saswp_tech_article_date_published'      => 'Date Published',
                         'saswp_tech_article_date_modified'       => 'Date Modified',                          
                         'saswp_tech_article_author_name'         => 'Author Name',
                         'saswp_tech_article_organization_name'   => 'Organization Name',
-                        'saswp_tech_article_organization_logo'   => 'Organization Logo',                          
-                        );                                        
+                        'saswp_tech_article_organization_logo'   => 'Organization Logo',  
+                        
+                        );     
                     break;
                 
                 case 'Course':      
@@ -1355,7 +2098,11 @@ Class saswp_output_service{
                         'saswp_course_date_published' => 'Date Published',
                         'saswp_course_date_modified'  => 'Date Modified',
                         'saswp_course_provider_name'  => 'Provider Name',                          
-                        'saswp_course_sameas'         => 'Provider SameAs',                                                
+                        'saswp_course_facebook'       => 'Provider Facebook',
+                        'saswp_course_twitter'        => 'Provider Twitter',
+                        'saswp_course_instagram'      => 'Provider Instagram',
+                        'saswp_course_linkedIn'       => 'Provider LinkedIn',
+                        'saswp_course_youtube'        => 'Provider Youtube',
                         );                                        
                     break;
                 
@@ -1370,6 +2117,23 @@ Class saswp_output_service{
                         'saswp_dfp_author_name'        => 'Author Name',                                                                                                  
                         );     
                     
+                    break;
+                
+                case 'TVSeries':      
+                    
+                    $meta_field = array(                        
+                        'saswp_tvseries_schema_name'         => 'Name',
+                        'saswp_tvseries_schema_description'  => 'Description',                        
+                        'saswp_tvseries_schema_image'        => 'Image',
+                        'saswp_tvseries_schema_author_name'  => 'Author Name'                                                  
+                        );     
+                    
+                    break;
+                
+                case 'FAQ':      
+                    
+                    $meta_field = array();                                                                                                                                             
+                                                 
                     break;
                 
                 case 'Recipe':
@@ -1408,25 +2172,140 @@ Class saswp_output_service{
                 
                 case 'Product':
                     
-                    $meta_field = array(                        
-                        'saswp_product_url'         => 'URL',
-                        'saswp_product_name'        => 'Name',
-                        'saswp_product_description' => 'Description',                                             
-                    );       
+                        $meta_field = array(                        
+                            'saswp_product_schema_name'               => 'Name',
+                            'saswp_product_schema_description'        => 'Description',                                                                         
+                            'saswp_product_schema_image'              => 'Image',
+                            'saswp_product_schema_brand_name'         => 'Brand Name',
+                            'saswp_product_schema_price'              => 'Price',
+                            'saswp_product_schema_priceValidUntil'    => 'Price Valid Until',                         
+                            'saswp_product_schema_currency'           => 'Currency',  
+                            'saswp_product_schema_availability'       => 'Availability',  
+                            'saswp_product_schema_condition'          => 'Product Condition',  
+                            'saswp_product_schema_sku'                => 'SKU', 
+                            'saswp_product_schema_mpn'                => 'MPN',
+                            'saswp_product_schema_isbn'               => 'ISBN',
+                            'saswp_product_schema_gtin8'              => 'GTIN 8',
+                        );                                                                                                                                       
+                    break;
+                
+                case 'TouristAttraction':
                     
-                     if(is_plugin_active('woocommerce/woocommerce.php')){   
-                         
-                       $meta_field['saswp_product_image']            = 'Image';
-                       $meta_field['saswp_product_availability']     = 'Availability';
-                       $meta_field['saswp_product_price']            = 'Price';
-                       $meta_field['saswp_product_currency']         = 'Price Currency';                         
-                       $meta_field['saswp_product_brand']            = 'Brand';  
-                       $meta_field['saswp_product_priceValidUntil']  = 'Price Valid Until';  
-                       $meta_field['saswp_product_isbn']             = 'ISBN';  
-                       $meta_field['saswp_product_mpn']              = 'MPN';  
-                       $meta_field['saswp_product_gtin8']            = 'GTIN 8';  
-                    } 
+                        $meta_field = array(                        
+                            'saswp_ta_schema_name'               => 'Name',
+                            'saswp_ta_schema_description'        => 'Description',                                                                         
+                            'saswp_ta_schema_image'              => 'Image',
+                            'saswp_ta_schema_url'                => 'URL',
+                            'saswp_ta_schema_is_acceesible_free' => 'Is Accessible For Free',
+                            'saswp_ta_schema_locality'           => 'Address Locality',                         
+                            'saswp_ta_schema_region'             => 'Address Region',  
+                            'saswp_ta_schema_country'            => 'Address Country',  
+                            'saswp_ta_schema_postal_code'        => 'Address PostalCode'                            
+                        );                                                                                                                                       
+                    break;
+                
+                case 'TouristDestination':
                     
+                        $meta_field = array(                        
+                            'saswp_td_schema_name'               => 'Name',
+                            'saswp_td_schema_description'        => 'Description',                                                                         
+                            'saswp_td_schema_image'              => 'Image',
+                            'saswp_td_schema_url'                => 'URL',                            
+                            'saswp_td_schema_locality'           => 'Address Locality',                         
+                            'saswp_td_schema_region'             => 'Address Region',  
+                            'saswp_td_schema_country'            => 'Address Country',  
+                            'saswp_td_schema_postal_code'        => 'Address PostalCode'                            
+                        );                                                                                                                                       
+                    break;
+                
+                case 'LandmarksOrHistoricalBuildings':
+                    
+                        $meta_field = array(                        
+                            'saswp_lorh_schema_name'               => 'Name',
+                            'saswp_lorh_schema_description'        => 'Description',                                                                         
+                            'saswp_lorh_schema_image'              => 'Image',
+                            'saswp_lorh_schema_url'                => 'URL',                            
+                            'saswp_lorh_schema_hasmap'             => 'Has Map',                         
+                            'saswp_lorh_schema_is_acceesible_free' => 'Is Accessible For Free',  
+                            'saswp_lorh_schema_maximum_a_capacity' => 'Maximum Attendee Capacity',  
+                            'saswp_lorh_schema_locality'           => 'Address Locality',
+                            'saswp_lorh_schema_region'             => 'Address Region',
+                            'saswp_lorh_schema_country'            => 'Address Country',
+                            'saswp_lorh_schema_postal_code'        => 'Address PostalCode'                            
+                        );                                                                                                                                       
+                    break;
+                
+                case 'HinduTemple':
+                    
+                        $meta_field = array(                        
+                            'saswp_hindutemple_schema_name'               => 'Name',
+                            'saswp_hindutemple_schema_description'        => 'Description',                                                                         
+                            'saswp_hindutemple_schema_image'              => 'Image',
+                            'saswp_hindutemple_schema_url'                => 'URL',                            
+                            'saswp_hindutemple_schema_hasmap'             => 'Has Map',                         
+                            'saswp_hindutemple_schema_is_accesible_free'  => 'Is Accessible For Free',  
+                            'saswp_hindutemple_schema_maximum_a_capacity' => 'Maximum Attendee Capacity',  
+                            'saswp_hindutemple_schema_locality'           => 'Address Locality',
+                            'saswp_hindutemple_schema_region'             => 'Address Region',
+                            'saswp_hindutemple_schema_country'            => 'Address Country',
+                            'saswp_hindutemple_schema_postal_code'        => 'Address PostalCode'                            
+                        );                                                                                                                                       
+                    break;
+                
+                case 'Church':
+                    
+                        $meta_field = array(                        
+                            'saswp_church_schema_name'               => 'Name',
+                            'saswp_church_schema_description'        => 'Description',                                                                         
+                            'saswp_church_schema_image'              => 'Image',
+                            'saswp_church_schema_url'                => 'URL',                            
+                            'saswp_church_schema_hasmap'             => 'Has Map',                         
+                            'saswp_church_schema_is_accesible_free'  => 'Is Accessible For Free',  
+                            'saswp_church_schema_maximum_a_capacity' => 'Maximum Attendee Capacity',  
+                            'saswp_church_schema_locality'           => 'Address Locality',
+                            'saswp_church_schema_region'             => 'Address Region',
+                            'saswp_church_schema_country'            => 'Address Country',
+                            'saswp_church_schema_postal_code'        => 'Address PostalCode'                            
+                        );                                                                                                                                       
+                    break;
+                
+                case 'Mosque':
+                    
+                        $meta_field = array(                        
+                            'saswp_mosque_schema_name'               => 'Name',
+                            'saswp_mosque_schema_description'        => 'Description',                                                                         
+                            'saswp_mosque_schema_image'              => 'Image',
+                            'saswp_mosque_schema_url'                => 'URL',                            
+                            'saswp_mosque_schema_hasmap'             => 'Has Map',                         
+                            'saswp_mosque_schema_is_accesible_free'  => 'Is Accessible For Free',  
+                            'saswp_mosque_schema_maximum_a_capacity' => 'Maximum Attendee Capacity',  
+                            'saswp_mosque_schema_locality'           => 'Address Locality',
+                            'saswp_mosque_schema_region'             => 'Address Region',
+                            'saswp_mosque_schema_country'            => 'Address Country',
+                            'saswp_mosque_schema_postal_code'        => 'Address PostalCode'                            
+                        );                                                                                                                                       
+                    break;
+                
+                case 'Person':
+                    
+                        $meta_field = array(                        
+                            'saswp_person_schema_name'               => 'Name',
+                            'saswp_person_schema_description'        => 'Description',                                                                         
+                            'saswp_person_schema_url'                => 'URL',
+                            'saswp_person_schema_street_address'     => 'Street Address',                            
+                            'saswp_person_schema_locality'           => 'Locality',                         
+                            'saswp_person_schema_region'             => 'Region',  
+                            'saswp_person_schema_postal_code'        => 'Postal Code',  
+                            'saswp_person_schema_country'            => 'Country',
+                            'saswp_person_schema_email'              => 'Email',
+                            'saswp_person_schema_telephone'          => 'Telephone',
+                            'saswp_person_schema_gender'             => 'Gender',
+                            'saswp_person_schema_date_of_birth'      => 'Date Of Birth',
+                            'saswp_person_schema_member_of'          => 'Member Of',
+                            'saswp_person_schema_nationality'        => 'Nationality',
+                            'saswp_person_schema_image'              => 'Image',
+                            'saswp_person_schema_job_title'          => 'Job Title'
+                        );                                                                                                                                       
                     break;
                 
                 case 'Service':
@@ -1570,10 +2449,129 @@ Class saswp_output_service{
                                             
                     );                    
                     break;
+                
+                case 'Apartment':
+                    $meta_field = array(
+                        
+                        'saswp_apartment_schema_name'          => 'Name',
+                        'saswp_apartment_schema_url'           => 'URL',
+                        'saswp_apartment_schema_image'         => 'Image',                        
+                        'saswp_apartment_schema_description'   => 'Description',
+                        'saswp_apartment_schema_numberofrooms' => 'Number of Rooms',
+                        'saswp_apartment_schema_country'       => 'Country',
+                        'saswp_apartment_schema_locality'      => 'Locality',
+                        'saswp_apartment_schema_region'        => 'Region',
+                        'saswp_apartment_schema_postalcode'    => 'PostalCode',
+                        'saswp_apartment_schema_telephone'     => 'Telephone'                                                                    
+                    );                    
+                    break;
+                
+                case 'House':
+                    $meta_field = array(
+                        
+                        'saswp_house_schema_name'          => 'Name',
+                        'saswp_house_schema_url'           => 'URL',
+                        'saswp_house_schema_image'         => 'Image',                        
+                        'saswp_house_schema_description'   => 'Description',
+                        'saswp_house_schema_pets_allowed'  => 'Pets Allowed',
+                        'saswp_house_schema_country'       => 'Country',
+                        'saswp_house_schema_locality'      => 'Locality',
+                        'saswp_house_schema_region'        => 'Region',
+                        'saswp_house_schema_postalcode'    => 'PostalCode',
+                        'saswp_house_schema_telephone'     => 'Telephone'                                                                    
+                    );                    
+                    break;
+                
+                case 'SingleFamilyResidence':
+                    
+                    $meta_field = array(                        
+                        'saswp_sfr_schema_name'          => 'Name',
+                        'saswp_sfr_schema_url'           => 'URL',
+                        'saswp_sfr_schema_image'         => 'Image',                        
+                        'saswp_sfr_schema_description'   => 'Description',
+                        'saswp_sfr_schema_numberofrooms' => 'Number Of Rooms',
+                        'saswp_sfr_schema_pets_allowed'  => 'Pets Allowed',
+                        'saswp_sfr_schema_country'       => 'Country',
+                        'saswp_sfr_schema_locality'      => 'Locality',
+                        'saswp_sfr_schema_region'        => 'Region',
+                        'saswp_sfr_schema_postalcode'    => 'PostalCode',
+                        'saswp_sfr_schema_telephone'     => 'Telephone'
+                    );                    
+                    break;
+                
+                case 'VideoGame':
+                    
+                    $meta_field = array(                        
+                        'saswp_vg_schema_name'                   => 'Name',
+                        'saswp_vg_schema_url'                    => 'URL',
+                        'saswp_vg_schema_image'                  => 'Image',                        
+                        'saswp_vg_schema_description'            => 'Description',
+                        'saswp_vg_schema_operating_system'       => 'Operating System',
+                        'saswp_vg_schema_application_category'   => 'Application Category',
+                        'saswp_vg_schema_author_name'            => 'Author Name',
+                        'saswp_vg_schema_price'                  => 'Price',
+                        'saswp_vg_schema_price_currency'         => 'Price Currency',
+                        'saswp_vg_schema_price_availability'     => 'Availability',
+                        'saswp_vg_schema_publisher'              => 'Publisher',
+                        'saswp_vg_schema_genre'                  => 'Genre',
+                        'saswp_vg_schema_processor_requirements' => 'Processor Requirements',
+                        'saswp_vg_schema_memory_requirements'    => 'Memory Requirements',
+                        'saswp_vg_schema_storage_requirements'   => 'Storage Requirements',
+                        'saswp_vg_schema_game_platform'          => 'Game Platform',
+                        'saswp_vg_schema_cheat_code'             => 'Cheat Code'
+                    );                    
+                    break;
+                
+                case 'JobPosting':
+                    
+                    $meta_field = array(                        
+                        'saswp_jobposting_schema_title'             => 'Title',
+                        'saswp_jobposting_schema_description'       => 'Description',
+                        'saswp_jobposting_schema_url'               => 'URL',                        
+                        'saswp_jobposting_schema_dateposted'        => 'Date Posted',
+                        'saswp_jobposting_schema_validthrough'      => 'Valid Through',
+                        'saswp_jobposting_schema_employment_type'   => 'Employment Type',
+                        'saswp_jobposting_schema_ho_name'           => 'Hiring Organization Name',
+                        'saswp_jobposting_schema_ho_url'            => 'Hiring Organization URL',
+                        'saswp_jobposting_schema_ho_logo'           => 'Hiring Organization Logo',
+                        'saswp_jobposting_schema_street_address'    => 'Street Address',
+                        'saswp_jobposting_schema_locality'          => 'Address Locality',
+                        'saswp_jobposting_schema_region'            => 'Address Region',
+                        'saswp_jobposting_schema_postalcode'        => 'Address Postal Code',
+                        'saswp_jobposting_schema_country'           => 'Address Country',
+                        'saswp_jobposting_schema_bs_currency'       => 'Base Salary Currency',
+                        'saswp_jobposting_schema_bs_value'          => 'Base Salary Value',
+                        'saswp_jobposting_schema_bs_unittext'       => 'Base Salary Unit Text'
+                    );                    
+                    break;
+                
+                case 'Trip':
+                    
+                    $meta_field = array(                        
+                        'saswp_trip_schema_name'             => 'Name',
+                        'saswp_trip_schema_description'      => 'Description',
+                        'saswp_trip_schema_url'              => 'URL',                        
+                        'saswp_trip_schema_image'            => 'Image'                        
+                    );                    
+                    break;
+                
+                case 'MedicalCondition':
+                    
+                    $meta_field = array(                        
+                        'saswp_mc_schema_name'             => 'Name',
+                        'saswp_mc_schema_alternate_name'   => 'Alternate Name',
+                        'saswp_mc_schema_description'      => 'Description',                        
+                        'saswp_mc_schema_image'            => 'Image',
+                        'saswp_mc_schema_anatomy_name'     => 'Associated Anatomy Name',
+                        'saswp_mc_schema_medical_code'     => 'Medical Code',
+                        'saswp_mc_schema_coding_system'    => 'Coding System',
+                        'saswp_mc_schema_diagnosis_name'   => 'Diagnosis Name'                        
+                    );                    
+                    break;
 
                 default:
                     break;
-            }                      
+            }                                    
             return $meta_field;
         }
                         
@@ -1837,7 +2835,7 @@ Class saswp_output_service{
                                                        
                           //Get All the images available on post   
                              
-                          $content = get_the_content();   
+                          $content = @get_the_content();   
                           
                           if($content){
                               

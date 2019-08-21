@@ -704,68 +704,12 @@ function saswp_schema_type_meta_box_callback( $post) {
                              'WebSite'               => 'WebSite',                                                                                                                                                   
                         );                                                             
 
-                        $all_schema_array = array(
-
-                            'Accommodation' => array(
-                                    'Apartment'                => 'Apartment',
-                                    'House'                    => 'House',
-                                    'SingleFamilyResidence'    => 'SingleFamilyResidence',
-                            ),
-                             'CreativeWork' => array(
-                                    'Article'                  => 'Article', 
-                                    'Blogposting'              => 'Blogposting',
-                                    'Course'                   => 'Course',
-                                    'DiscussionForumPosting'   => 'DiscussionForumPosting',
-                                    'FAQ'                      => 'FAQ',
-                                    'HowTo'                    => 'HowTo',                                                                                           
-                                    'NewsArticle'              => 'NewsArticle',                                            
-                                    'qanda'                    => 'Q&A',   
-                                    'Review'                   => 'Review',
-                                    'Recipe'                   => 'Recipe', 
-                                    'TVSeries'                 => 'TVSeries',
-                                    'SoftwareApplication'      => 'SoftwareApplication',       
-                                    'TechArticle'              => 'TechArticle',                                                                                        
-                                    'WebPage'                  => 'WebPage'                                                                
-                            ),
-                            'Event' => array(
-                                'Event'                    => 'Event',
-                            ),
-                            'Game' =>  array(
-                                 'VideoGame'                => 'VideoGame'                                         
-                             ),
-                            'Intangible' => array(
-                                'JobPosting'                  => 'JobPosting', 
-                                'Service'                     => 'Service',
-                                'Trip'                        => 'Trip',    
-
-                            ),
-                            'Media' =>  array(
-                                 'AudioObject'              => 'AudioObject',
-                                 'VideoObject'              => 'VideoObject'
-                             ),
-                            'Medical' => array(
-                                'MedicalCondition'         => 'MedicalCondition',
-                            ),
-                            'Organization' => array(
-                                'local_business'           => 'Local Business',
-                            ),                                                                                                                                                                                    
-                            'Product' => array(
-                                'Product'                  => 'Product',
-                            ),
-                            'Place' => array(
-                                'TouristAttraction'               => 'TouristAttraction',
-                                'TouristDestination'              => 'TouristDestination',
-                                'LandmarksOrHistoricalBuildings'  => 'LandmarksOrHistoricalBuildings',
-                            ),
-                            'PlaceOfWorship' => array(
-                                'HinduTemple'         => 'HinduTemple',
-                                'Church'              => 'Church',
-                                'Mosque'              => 'Mosque',
-                            ),
-                            'Thing' => array(
-                                'Person'             => 'Person',                                                                                
-                            )
-                         );
+                        $mappings_file = SASWP_DIR_NAME . '/core/array-list/schemas.php';
+                
+                        if ( file_exists( $mappings_file ) ) {
+                            $all_schema_array = include $mappings_file;
+                        }
+                                                
                          $all_business_type = array(
                             ''                              => 'Select Business Type (Optional)', 
                             'animalshelter'                 => 'Animal Shelter',
@@ -964,14 +908,7 @@ function saswp_schema_type_meta_box_callback( $post) {
 
                           }                                                                    
                         ?>
-                    </select>
-
-                       <?php if($schema_type == 'qanda') { ?>
-                       <span class="saswp-schem-type-note"><?php echo esc_html__('Note: Currently supported with DW Question & Answer', 'schema-and-structured-data-for-wp' ); ?> <a target="_blank" href="https://wordpress.org/plugins/dw-question-answer/"><?php echo esc_html__('Link', 'schema-and-structured-data-for-wp' ); ?></a></span>
-                       <?php }else{ ?>
-                       <span class="saswp-schem-type-note saswp_hide"><?php echo esc_html__('Note: Currently supported with DW Question & Answer', 'schema-and-structured-data-for-wp' ); ?> <a target="_blank" href="https://wordpress.org/plugins/dw-question-answer/"><?php echo esc_html__('Link', 'schema-and-structured-data-for-wp' ); ?></a></span>
-                       <?php } ?>
-
+                    </select>                      
                    </td>
                 </tr>                                                                                                                                                                         
                 <tr class="saswp-business-type-tr" <?php echo $style_business_type; ?>>

@@ -18,7 +18,8 @@ class saswp_post_specific {
         protected $all_schema                = null;
         protected $options_response          = array();
         protected $modify_schema_post_enable = false;
-        
+        protected $_local_sub_business        = array();
+
         private   $schema_type_element =  array(                        
                         'FAQ' => array(
                                'faq-question' => 'faq_question',                                                
@@ -42,6 +43,17 @@ class saswp_post_specific {
                                'trip-itinerary'  => 'trip_itinerary'
                         )                                                                          
                     );
+
+        public function __construct() {
+            
+                $mappings_local_sub = SASWP_DIR_NAME . '/core/array-list/local-sub-business.php';
+                
+		if ( file_exists( $mappings_local_sub ) ) {
+                    $this->_local_sub_business = include $mappings_local_sub;
+		}
+            
+        }
+
 
         /**
          * List of hooks used in this context
@@ -1331,183 +1343,17 @@ class saswp_post_specific {
                return;  
             } 
             $business_type = sanitize_text_field($_GET['business_type']);
-           
-            $response = $this->saswp_get_sub_business_array($business_type); 
+                                       
+            $response = $this->_local_sub_business[$business_type]; 
             
-           if($response){               
-              $this->options_response = $response; 
+           if($response){                              
               echo json_encode(array('status'=>'t', 'result'=>$response)); 
            }else{
               echo json_encode(array('status'=>'f', 'result'=>'data not available')); 
            }
             wp_die();
         }
-        /**
-         * Function to get fields as an array of sub business(LocalBusiness Schema)
-         * @param type $business_type
-         * @return array
-         * @since version 1.0.4
-         */
-        public function saswp_get_sub_business_array($business_type){
-            
-            $sub_business_options = array();
-            
-            switch ($business_type) {
-                        case 'automotivebusiness':
-                           $sub_business_options = array(
-                                     ''                  => 'Select Sub Business Type ( optional )',  
-                                     'autobodyshop'      => 'Auto Body Shop',
-                                     'autodealer'        => 'Auto Dealer',
-                                     'autopartsstore'    => 'Auto Parts Store',
-                                     'autorental'        => 'Auto Rental',
-                                     'autorepair'        => 'Auto Repair',
-                                     'autowash'          => 'Auto Wash',
-                                     'gasstation'        => 'Gas Station',
-                                     'motorcycledealer'  => 'Motorcycle Dealer',
-                                     'motorcyclerepair'  => 'Motorcycle Repair'
-                                 ); 
-                            break;
-                        case 'emergencyservice':
-                            $sub_business_options = array(
-                                     ''               => 'Select Sub Business Type ( optional )',     
-                                     'firestation'    => 'Fire Station',
-                                     'hospital'       => 'Hospital',
-                                     'policestation'  => 'Police Station',                                    
-                                 ); 
-                            break;
-                        case 'entertainmentbusiness':
-                           $sub_business_options = array(
-                                      ''                   => 'Select Sub Business Type ( optional )',  
-                                      'adultentertainment' => 'Adult Entertainment',
-                                      'amusementpark'      => 'Amusement Park',
-                                      'artgallery'         => 'Art Gallery',
-                                      'casino'             => 'Casino',
-                                      'comedyclub'         => 'Comedy Club',
-                                      'movietheater'       => 'Movie Theater',
-                                      'nightclub'          => 'Night Club',
-                                      
-                                 );  
-                            break;
-                        case 'financialservice':
-                            $sub_business_options = array(
-                                      ''                   => 'Select Sub Business Type ( optional )',   
-                                      'accountingservice'  => 'Accounting Service',
-                                      'automatedteller'    => 'Automated Teller',
-                                      'bankorcredit_union' => 'Bank Or Credit Union',
-                                      'insuranceagency'    => 'Insurance Agency',                                      
-                                      
-                                 );   
-                            break;
-                        case 'foodestablishment':
-                             $sub_business_options = array(
-                                      ''                   => 'Select Sub Business Type ( optional )',    
-                                      'bakery'             => 'Bakery',
-                                      'barorpub'           => 'Bar Or Pub',
-                                      'brewery'            => 'Brewery',
-                                      'cafeorcoffee_shop'  => 'Cafe Or Coffee Shop', 
-                                      'fastfoodrestaurant' => 'Fast Food Restaurant',
-                                      'icecreamshop'       => 'Ice Cream Shop',
-                                      'restaurant'         => 'Restaurant',
-                                      'winery'             => 'Winery', 
-                                      
-                                 );
-                            break;
-                        case 'healthandbeautybusiness':
-                            $sub_business_options = array(
-                                      ''             => 'Select Sub Business Type ( optional )',    
-                                      'beautysalon'  => 'Beauty Salon',
-                                      'dayspa'       => 'DaySpa',
-                                      'hairsalon'    => 'Hair Salon',
-                                      'healthclub'   => 'Health Club', 
-                                      'nailsalon'    => 'Nail Salon',
-                                      'tattooparlor' => 'Tattoo Parlor',                                                                          
-                                 );   
-                            break;
-                        case 'homeandconstructionbusiness':
-                            $sub_business_options = array(
-                                      ''                  => 'Select Sub Business Type ( optional )',  
-                                      'electrician'       => 'Electrician',
-                                      'generalcontractor' => 'General Contractor',
-                                      'hvacbusiness'      => 'HVAC Business',
-                                      'locksmith'         => 'Locksmith', 
-                                      'movingcompany'     => 'Moving Company',
-                                      'plumber'           => 'Plumber',       
-                                      'roofingcontractor' => 'Roofing Contractor',
-                                      'housepainter'      => 'House Painter',   
-                                 );   
-                            break;
-                        case 'legalservice':
-                            $sub_business_options = array(
-                                      ''         => 'Select Sub Business Type ( optional )',  
-                                      'attorney' => 'Attorney',
-                                      'notary'   => 'Notary',                                            
-                                 );  
-                            break;
-                        case 'lodgingbusiness':
-                             $sub_business_options = array(
-                                      ''                => 'Select Sub Business Type ( optional )',  
-                                      'bedandbreakfast' => 'Bed And Breakfast',
-                                      'campground'      => 'Campground',
-                                      'hostel'          => 'Hostel',
-                                      'hotel'           => 'Hotel',
-                                      'motel'           => 'Motel',
-                                      'resort'          => 'Resort',
-                                 );   
-                            break;
-                        case 'sportsactivitylocation':
-                             $sub_business_options = array(
-                                      ''                    => 'Select Sub Business Type ( optional )',  
-                                      'bowlingalley'        => 'Bowling Alley',
-                                      'exercisegym'         => 'Exercise Gym',
-                                      'golfcourse'          => 'Golf Course',
-                                      'healthclub'          => 'Health Club',
-                                      'publicswimming_pool' => 'Public Swimming Pool',
-                                      'skiresort'           => 'Ski Resort',
-                                      'sportsclub'          => 'Sports Club',
-                                      'stadiumorarena'      => 'Stadium Or Arena',
-                                      'tenniscomplex'       => 'Tennis Complex'
-                                 );  
-                            break;
-                        case 'store':
-                             $sub_business_options = array(
-                                        ''                      => 'Select Sub Business Type ( optional )',  
-                                        'autopartsstore'        => 'Auto Parts Store',
-                                        'bikestore'             => 'Bike Store',
-                                        'bookstore'             => 'Book Store',
-                                        'clothingstore'         => 'Clothing Store',
-                                        'computerstore'         => 'Computer Store',
-                                        'conveniencestore'      => 'Convenience Store',
-                                        'departmentstore'       => 'Department Store',
-                                        'electronicsstore'      => 'Electronics Store',
-                                        'florist'               => 'Florist',
-                                        'furniturestore'        => 'Furniture Store',
-                                        'gardenstore'           => 'Garden Store',
-                                        'grocerystore'          => 'Grocery Store',
-                                        'hardwarestore'         => 'Hardware Store',
-                                        'hobbyshop'             => 'Hobby Shop',
-                                        'homegoodsstore'        => 'HomeGoods Store',
-                                        'jewelrystore'          => 'Jewelry Store',
-                                        'liquorstore'           => 'Liquor Store',
-                                        'mensclothingstore'     => 'Mens Clothing Store',
-                                        'mobilephonestore'      => 'Mobile Phone Store',
-                                        'movierentalstore'      => 'Movie Rental Store',
-                                        'musicstore'            => 'Music Store',
-                                        'officeequipmentstore'  => 'Office Equipment Store',
-                                        'outletstore'           => 'Outlet Store',
-                                        'pawnshop'              => 'Pawn Shop',
-                                        'petstore'              => 'Pet Store',
-                                        'shoestore'             => 'Shoe Store',
-                                        'sportinggoodsstore'    => 'Sporting Goods Store',
-                                        'tireshop'              => 'Tire Shop',
-                                        'toystore'              => 'Toy Store',
-                                        'wholesalestore'        => 'Wholesale Store'
-                                 );  
-                            break;
-                        default:
-                            break;
-                    }
-            return  $sub_business_options;       
-        }
+        
         /**
          * Function to get the fields of a particular schema type as an array
          * @global type $post
@@ -1563,53 +1409,16 @@ class saswp_post_specific {
             switch ($schema_type) {
                 
                 case 'local_business':
-                    $sub_business_options = array();                        
-                    switch ($business_type) {
-                        case 'automotivebusiness':
-                            $this->options_response = $this->saswp_get_sub_business_array($business_type);   
-                            break;
-                        case 'emergencyservice':
-                           
-                            $this->options_response = $this->saswp_get_sub_business_array($business_type);   
-                            break;
-                        case 'entertainmentbusiness':
-                            $this->options_response = $this->saswp_get_sub_business_array($business_type);   
-                            break;
-                        case 'financialservice':
-                            $this->options_response = $this->saswp_get_sub_business_array($business_type);   
-                            break;
-                        case 'foodestablishment':
-                            $this->options_response = $this->saswp_get_sub_business_array($business_type);   
-                            break;
-                        case 'healthandbeautybusiness':
-                            $this->options_response = $this->saswp_get_sub_business_array($business_type);   
-                            break;
-                        case 'homeandconstructionbusiness':
-                            $this->options_response = $this->saswp_get_sub_business_array($business_type);   
-                            break;
-                        case 'legalservice':
-                            $this->options_response = $this->saswp_get_sub_business_array($business_type);   
-                            break;
-                        case 'lodgingbusiness':
-                            $this->options_response = $this->saswp_get_sub_business_array($business_type);   
-                            break;
-                        case 'sportsactivitylocation':
-                            $this->options_response = $this->saswp_get_sub_business_array($business_type);   
-                            break;
-                        case 'store':
-                            $this->options_response = $this->saswp_get_sub_business_array($business_type);   
-                            break;
-                        default:                            
-                            break;
-                    }                                         
-                   
-                    if(!empty($this->options_response)){
+                    
+                    $sub_business_options = array();     
+                    
+                    if(!empty($this->_local_sub_business)){
                         
                        $sub_business_options = array(
                             'label'     => 'Sub Business Type',
                             'id'        => 'saswp_business_name_'.$schema_id,
                             'type'      => 'select',
-                            'options'   => $this->options_response,
+                            'options'   => $this->_local_sub_business[$business_type],
                             'default'   => $business_name  
                        ); 
                        
@@ -3500,7 +3309,7 @@ class saswp_post_specific {
                             'type'       => 'media',                            
                     ),                             
                     array(
-                            'label'      => 'associated Anatomy Name',
+                            'label'      => 'Associated Anatomy Name',
                             'id'         => 'saswp_mc_schema_anatomy_name_'.$schema_id,
                             'type'       => 'text',
                             'attributes' => array(

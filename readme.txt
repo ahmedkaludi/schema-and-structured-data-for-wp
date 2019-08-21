@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.2
-Stable tag: 1.9
+Stable tag: 1.9.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -109,6 +109,16 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.9.1 (21 Aug 2019) =
+
+* Major Feature: Option to add schema fields value from give dropdown meta list inside Modify Schema Output section #192
+* Bug Fixed: Error log cluttered with php warning regarding count() #434
+* Bug Fixed: Debug error #439
+* Bug Fixed: Php json_encode function does not encode other languages characters, replace it with wp_json_encode #433
+* Bug Fixed: CSS border-box rule causing issues #420
+* Bug Fixed: Setup link of default image doesn't take it anywhere #429
+* Bug Fixed: Conflict with Gutenberg and Merlin. Fatal error: Uncaught Error: Call to a member function is_block_editor() on null #413
 
 = 1.9 (03 Aug 2019) =
 
