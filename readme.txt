@@ -112,10 +112,13 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 = 1.9.1 (21 Aug 2019) =
 
-* Major Feature: Reviews Module :- Allow users to manually add reviews from more than 80+ platforms and show it on the website with schema markup #325
-* Added: FAQ schema type #402
-* Enhancement: Added some more fields in the product schema #360
-* Bug Fixed: Error in Breadcrumb when using custom post type #403
+* Major Feature: Option to add schema fields value from give dropdown meta list inside Modify Schema Output section #192
+* Bug Fixed: Error log cluttered with php warning regarding count() #434
+* Bug Fixed: Debug error #439
+* Bug Fixed: Php json_encode function does not encode other languages characters, replace it with wp_json_encode #433
+* Bug Fixed: CSS border-box rule causing issues #420
+* Bug Fixed: Setup link of default image doesn't take it anywhere #429
+* Bug Fixed: Conflict with Gutenburg and Merlin. Fatal error: Uncaught Error: Call to a member function is_block_editor() on null #413
 
 = 1.9 (03 Aug 2019) =
 
