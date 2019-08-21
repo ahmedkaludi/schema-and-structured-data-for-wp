@@ -21,13 +21,13 @@ return array(
                             array(
                                     'label'     => __( 'Manual Fields', 'wp-schema-pro' ),
                                     'meta-list' => array(
-                                            'custom-text'  => __( 'Fixed Text', 'wp-schema-pro' ),                                            
+                                            'manual_text'  => __( 'Manual Text', 'wp-schema-pro' ),                                            
                                     ),
                             ),
                             array(
                                     'label'     => __( 'Custom Fields', 'wp-schema-pro' ),
                                     'meta-list' => array(
-                                            'specific-field' => __( 'Select Other Custom Fields Here', 'wp-schema-pro' ),
+                                            'custom_field' => __( 'Custom Fields', 'wp-schema-pro' ),
                                     ),
                             ),
                     ),
@@ -43,15 +43,14 @@ return array(
                             ),
                             array(
                                     'label'     => __( 'Manual fields', 'wp-schema-pro' ),
-                                    'meta-list' => array(
-                                            'custom-text'  => __( 'Fixed Image', 'wp-schema-pro' ),
-                                            'fixed-text'   => __( 'Image URL', 'wp-schema-pro' ),                                           
+                                    'meta-list' => array(                                            
+                                            'manual_text'   => __( 'Manual Image URL', 'wp-schema-pro' ),                                           
                                     ),
                             ),
                             array(
                                     'label'     => __( 'Custom Fields', 'wp-schema-pro' ),
                                     'meta-list' => array(
-                                            'specific-field' => __( 'Select Other Custom Fields Here', 'wp-schema-pro' ),
+                                            'custom_field' => __( 'Custom Fields', 'wp-schema-pro' ),
                                     ),
                             ),
                     ),

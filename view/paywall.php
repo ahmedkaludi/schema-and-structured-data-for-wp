@@ -42,7 +42,10 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                 wp_nonce_field( 'saswp_schema_options_nonce', 'saswp_schema_options_nonce' ); 
                 
                 $schema_options    = esc_sql ( get_post_meta($post->ID, 'schema_options', true)  );
-                $custom_fields     = esc_sql ( get_post_meta($post->ID, 'saswp_custom_fields', true)  );               
+                                
+                $meta_list         = esc_sql ( get_post_meta($post->ID, 'saswp_meta_list_val', true)  ); 
+                $fixed_text        = esc_sql ( get_post_meta($post->ID, 'saswp_fixed_text', true)  ); 
+                $cus_field         = esc_sql ( get_post_meta($post->ID, 'saswp_custom_meta_field', true)  ); 
                 
                 ?>    
                 
@@ -85,17 +88,17 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                            
                         <?php 
                         
-                        if(!empty($custom_fields)){
+                        if(!empty($meta_list)){
                             
                             $schema_type    = esc_sql ( get_post_meta($post->ID, 'schema_type', true)  );
                             
                             $service     = new saswp_output_service();
                             $meta_fields = $service->saswp_get_all_schema_type_fields($schema_type);
                             
-                            foreach($custom_fields as $fieldkey => $fieldval){
+                            foreach($meta_list as $fieldkey => $fieldval){
                                                                                         
                             $option = '';
-                            echo '<tr>';
+                            echo '<tr>'; 
                             echo '<td><select class="saswp-custom-fields-name">';
                             
                             foreach ($meta_fields as $key =>$val){
@@ -112,13 +115,54 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                                 
                             }
                             
-                            echo $option;
-                            echo '</select></td>';
                             
-                            echo '<td><select class="saswp-custom-fields-select2" name="saswp_custom_fields['.esc_attr($fieldkey).']">';
-                            echo '<option value="'.esc_attr($fieldval).'">'.preg_replace( '/^_/', '', esc_html( str_replace( '_', ' ', $fieldval ) ) ).'</option>';
-                            echo '</select></td>';
+                            echo $option;                            
+                            echo '</select>';
+                            echo '</td>';
+                                                        
+                            $list_html = '';
+                            $meta_list_fields = include(SASWP_DIR_NAME . '/core/array-list/meta_list.php');                            
                             
+                            $meta_list_arr = $meta_list_fields['text'];
+                            
+                            if (strpos($fieldkey, 'image') !== false) {
+                                  $meta_list_arr = $meta_list_fields['image'];
+                            }
+                                                                                    
+                            foreach($meta_list_arr as $list){
+                            
+                                $list_html.= '<optgroup label="'.$list['label'].'">';
+                                
+                                foreach ($list['meta-list'] as $key => $val){
+                                    
+                                    if( $fieldval == $key){
+                                        $list_html.= '<option value="'.$key.'" selected>'.$val.'</option>';    
+                                    }else{
+                                        $list_html.= '<option value="'.$key.'">'.$val.'</option>';    
+                                    }
+                                                                        
+                                }
+                                
+                                $list_html.= '</optgroup>';
+                                
+                            } 
+                            echo '<td>';
+                            echo '<select class="saswp-custom-meta-list" name="saswp_meta_list_val['.$fieldkey.']">';
+                            echo $list_html;
+                            echo '</select>';
+                            echo '</td>';
+                            
+                            
+                            if($fieldval == 'manual_text'){
+                                echo '<td><input style="width:100%;" type="text" name="saswp_fixed_text['.$fieldkey.']" value="'.$fixed_text[$fieldkey].'"></td>';    
+                            }
+                            
+                            if($fieldval == 'custom_field'){
+                                 echo '<td><select class="saswp-custom-fields-select2" name="saswp_custom_meta_field['.esc_attr($fieldkey).']">';
+                                 echo '<option value="'.esc_attr($cus_field[$fieldkey]).'">'.preg_replace( '/^_/', '', esc_html( str_replace( '_', ' ', $cus_field[$fieldkey] ) ) ).'</option>';
+                                 echo '</select></td>';
+                            }
+                                                                                   
                             echo '</tr>';
                             
                             }
@@ -159,9 +203,13 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                 if ( isset( $_POST['paywall_class_name'] ) )
                         $paywall_class_name = sanitize_text_field($_POST['paywall_class_name']);
                 if ( isset( $_POST['saswp_enable_custom_field'] ) )
-                        $enable_custom_field = sanitize_text_field($_POST['saswp_enable_custom_field']);
-                if ( isset( $_POST['saswp_custom_fields'] ) )
-                        $custom_fields = array_map ('sanitize_text_field', $_POST['saswp_custom_fields']);
+                        $enable_custom_field = sanitize_text_field($_POST['saswp_enable_custom_field']);                
+                if ( isset( $_POST['saswp_meta_list_val'] ) )                    
+                    $meta_list = array_map ('sanitize_text_field', $_POST['saswp_meta_list_val']);                
+                if ( isset( $_POST['saswp_fixed_text'] ) )                    
+                    $fixed_text = array_map ('sanitize_text_field', $_POST['saswp_fixed_text']);
+                if ( isset( $_POST['saswp_custom_meta_field'] ) )                    
+                    $cus_meta_field = array_map ('sanitize_text_field', $_POST['saswp_custom_meta_field']);
                 
                  $saswp_schema_options  =    array(
                                                 'isAccessibleForFree'   => $isAccessibleForFree,
@@ -171,7 +219,10 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                                             );   
                  
                  update_post_meta( $post_id, 'schema_options', $saswp_schema_options);
-                 update_post_meta( $post_id, 'saswp_custom_fields', $custom_fields);
+                 
+                 update_post_meta( $post_id, 'saswp_meta_list_val', $meta_list);
+                 update_post_meta( $post_id, 'saswp_fixed_text', $fixed_text);
+                 update_post_meta( $post_id, 'saswp_custom_meta_field', $cus_meta_field);
                
                
         }    
