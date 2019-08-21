@@ -1555,8 +1555,8 @@ function saswp_upgrade_function( $upgrader_object, $options ) {
        } 
                      
     }
+    
 }
-
 
 function saswp_review_module_upgradation(){
                     

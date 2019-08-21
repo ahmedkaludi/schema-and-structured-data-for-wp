@@ -2831,7 +2831,7 @@ Class saswp_output_service{
                                                        
                           //Get All the images available on post   
                              
-                          $content = get_the_content();   
+                          $content = @get_the_content();   
                           
                           if($content){
                               
