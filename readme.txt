@@ -110,6 +110,13 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
 
+= 1.9.1 (21 Aug 2019) =
+
+* Major Feature: Reviews Module :- Allow users to manually add reviews from more than 80+ platforms and show it on the website with schema markup #325
+* Added: FAQ schema type #402
+* Enhancement: Added some more fields in the product schema #360
+* Bug Fixed: Error in Breadcrumb when using custom post type #403
+
 = 1.9 (03 Aug 2019) =
 
 * Major Feature: Reviews Module :- Allow users to manually add reviews from more than 80+ platforms and show it on the website with schema markup #325

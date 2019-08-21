@@ -84,7 +84,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                         <tr><td><label><?php echo esc_html__( 'Modify Schema Output', 'schema-and-structured-data-for-wp' ) ?></label></td><td><input type="checkbox" id="saswp_enable_custom_field" name="saswp_enable_custom_field" value="1" <?php if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field']==1){echo 'checked'; }?>></td></tr>   
                 </table>  
                    <div class="saswp-custom-fields-div" <?php if(!isset($schema_options['enable_custom_field']) || $schema_options['enable_custom_field'] ==0){echo 'style="display:none;"'; }?>>
-                       <table class="option-table-class saswp-custom-fields-table">
+                       <table class="saswp-custom-fields-table">
                            
                         <?php 
                         
@@ -154,7 +154,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                             
                             
                             if($fieldval == 'manual_text'){
-                                echo '<td><input style="width:100%;" type="text" name="saswp_fixed_text['.$fieldkey.']" value="'.$fixed_text[$fieldkey].'"></td>';    
+                                echo '<td><input type="text" name="saswp_fixed_text['.$fieldkey.']" value="'.$fixed_text[$fieldkey].'"></td>';    
                             }
                             
                             if($fieldval == 'custom_field'){
