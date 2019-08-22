@@ -1399,19 +1399,38 @@ function saswp_review_page_callback(){
                             'type'  => 'text',
                   ),
                 array(
-                            'label' => 'Place',
+                            'label' => '',
                             'id'    => 'saswp-google-place-section',
                             'name'  => 'sd_data[saswp-google-place-section]',
                             'type'  => 'text',
                             
                   ),
-//                 array(
-//                            'label' => 'Review Module',
-//                            'id'    => 'saswp-reviews-module-section',
-//                            'name'  => 'sd_data[saswp-reviews-module-section]',
-//                            'type'  => 'text',
-//                            
-//                  )  
+                array(
+			'label'  => 'Shopper Approved',
+			'id'     => 'saswp-shopper-approved-review-checkbox',                        
+                        'name'   => 'saswp-shopper-approved-review-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
+                        'note'   => 'This option enables the Shopper Approved review section. <a target="_blank" href="https://structured-data-for-wp.com/docs/article/how-to-display-google-review/">Learn More</a>',
+                        'hidden' => array(
+                             'id'   => 'saswp-shopper-approved-review',
+                             'name' => 'sd_data[saswp-shopper-approved-review]',                             
+                        )
+		), 
+                array(
+                            'label' => '',
+                            'id'    => 'saswp-shopper-approved-section',
+                            'name'  => 'sd_data[saswp-shopper-approved-section]',
+                            'type'  => 'text',
+                            
+                 ),
+                 array(
+                            'label' => 'Review Module',
+                            'id'    => 'saswp-reviews-module-section',
+                            'name'  => 'sd_data[saswp-reviews-module-section]',
+                            'type'  => 'text',
+                            
+                  )  
                   
                 
 	);    
