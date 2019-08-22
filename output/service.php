@@ -647,6 +647,16 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_dfp_author_name'])){
                      $input1['author']['name'] =    $custom_fields['saswp_dfp_author_name'];
                     }
+                    
+                    if(isset($custom_fields['saswp_dfp_main_entity_of_page'])){
+                     $input1['mainEntityOfPage'] =    $custom_fields['saswp_dfp_main_entity_of_page'];
+                    }
+                    if(isset($custom_fields['saswp_dfp_organization_name'])){
+                     $input1['publisher']['name'] =    $custom_fields['saswp_dfp_organization_name'];
+                    }
+                    if(isset($custom_fields['saswp_dfp_organization_logo'])){
+                     $input1['publisher']['logo'] =    $custom_fields['saswp_dfp_organization_logo'];
+                    }
                                         
                     break;        
                 
@@ -2106,12 +2116,15 @@ Class saswp_output_service{
                 case 'DiscussionForumPosting':      
                     
                     $meta_field = array(                        
-                        'saswp_dfp_headline'           => 'Headline',
-                        'saswp_dfp_description'        => 'Description',
-                        'saswp_dfp_url'                => 'URL',                          
-                        'saswp_dfp_date_published'     => 'Date Published',
-                        'saswp_dfp_date_modified'      => 'Date Modified',
-                        'saswp_dfp_author_name'        => 'Author Name',                                                                                                  
+                        'saswp_dfp_headline'              => 'Headline',
+                        'saswp_dfp_description'           => 'Description',
+                        'saswp_dfp_url'                   => 'URL',                          
+                        'saswp_dfp_date_published'        => 'Date Published',
+                        'saswp_dfp_date_modified'         => 'Date Modified',
+                        'saswp_dfp_author_name'           => 'Author Name',                        
+                        'saswp_dfp_main_entity_of_page'   => 'Main Entity of Page',
+                        'saswp_dfp_organization_name'     => 'Organization Name',
+                        'saswp_dfp_organization_logo'     => 'Organization Logo',
                         );     
                     
                     break;

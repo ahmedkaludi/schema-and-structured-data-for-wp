@@ -571,7 +571,8 @@ function saswp_schema_output() {
                                 $input1 = array(
                                 '@context'			=> 'http://schema.org',
                                 '@type'				=> 'DiscussionForumPosting' ,
-                                '@id'				=> bbp_get_topic_permalink().'#discussionforumposting',    			
+                                '@id'				=> bbp_get_topic_permalink().'#discussionforumposting',
+                                'mainEntityOfPage'              => bbp_get_topic_permalink(), 
                                 'headline'			=> bbp_get_topic_title(get_the_ID()),
                                 'description'                   => saswp_get_the_excerpt(),
                                 "articleSection"                => bbp_get_forum_title(),
@@ -593,9 +594,10 @@ function saswp_schema_output() {
                                 '@context'			=> 'http://schema.org',
                                 '@type'				=> 'DiscussionForumPosting' ,
                                 '@id'				=> trailingslashit(get_permalink()).'#blogposting',    			
-                                'headline'			=> saswp_get_the_title(),
-                                'description'                   => saswp_get_the_excerpt(),			
                                 'url'				=> trailingslashit(get_permalink()),
+                                'mainEntityOfPage'              => get_permalink(),       
+                                'headline'			=> saswp_get_the_title(),
+                                'description'                   => saswp_get_the_excerpt(),			                                
                                 'datePublished'                 => esc_html($date),
                                 'dateModified'                  => esc_html($modified_date),
                                 'author'			=> saswp_get_author_details()											
@@ -2684,20 +2686,39 @@ function saswp_post_specific_schema_output() {
                         
                          if( 'DiscussionForumPosting' === $schema_type){
                             
+                            $event_image = get_post_meta( get_the_ID(), 'saswp_dfp_image_'.$schema_id.'_detail',true);  
+                            $slogo = get_post_meta( get_the_ID(), 'saswp_dfp_organization_logo_'.$schema_id.'_detail',true); 
                             $input1 = array(
                                 '@context'			=> 'http://schema.org',
                                 '@type'				=> 'DiscussionForumPosting' ,
                                 '@id'				=> saswp_remove_warnings($all_post_meta, 'saswp_dfp_url_'.$schema_id, 'saswp_array').'#blogposting',    			
+                                'mainEntityOfPage'		=> saswp_remove_warnings($all_post_meta, 'saswp_dfp_main_entity_of_page_'.$schema_id, 'saswp_array'),    			
                                 'headline'			=> saswp_remove_warnings($all_post_meta, 'saswp_dfp_headline_'.$schema_id, 'saswp_array'),
                                 'description'                   => saswp_remove_warnings($all_post_meta, 'saswp_dfp_description_'.$schema_id, 'saswp_array'),			
                                 'url'				=> saswp_remove_warnings($all_post_meta, 'saswp_dfp_url_'.$schema_id, 'saswp_array'),
+                                'image'                         => array(
+                                                                    '@type'		=>'ImageObject',
+                                                                    'url'		=>  isset($event_image['thumbnail']) ? esc_url($event_image['thumbnail']):'' ,
+                                                                    'width'		=>  isset($event_image['width'])     ? esc_attr($event_image['width'])   :'' ,
+                                                                    'height'            =>  isset($event_image['height'])    ? esc_attr($event_image['height'])  :'' ,
+                                                                ), 
                                 'datePublished'                 => isset($all_post_meta['saswp_dfp_date_published_'.$schema_id])?date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_dfp_date_published_'.$schema_id][0])):'',
                                 'dateModified'                  => isset($all_post_meta['saswp_dfp_date_modified_'.$schema_id])?date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_dfp_date_modified_'.$schema_id][0])):'',
                                 'author'			=> array(
                                                                     '@type' 	        => 'Person',
                                                                     'name'		=> saswp_remove_warnings($all_post_meta, 'saswp_dfp_author_name_'.$schema_id, 'saswp_array'),
                                                                     'description'	=> saswp_remove_warnings($all_post_meta, 'saswp_dfp_author_description_'.$schema_id, 'saswp_array') 
-                                                                )											
+                                                                ),
+                                'publisher'			=> array(
+						'@type'			=> 'Organization',
+						'logo' 			=> array(
+							'@type'		=> 'ImageObject',
+							'url'		=> saswp_remove_warnings($all_post_meta, 'saswp_dfp_organization_logo_'.$schema_id, 'saswp_array'),
+							'width'		=> saswp_remove_warnings($slogo, 'width', 'saswp_string'),
+							'height'	=> saswp_remove_warnings($slogo, 'height', 'saswp_string'),
+							),
+						'name'			=> saswp_remove_warnings($all_post_meta, 'saswp_dfp_organization_name_'.$schema_id, 'saswp_array'),
+					),
                                     );
                         }
                         

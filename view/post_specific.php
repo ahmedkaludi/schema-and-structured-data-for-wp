@@ -2326,6 +2326,12 @@ class saswp_post_specific {
                 case 'DiscussionForumPosting':                                        
                     $meta_field = array(
                     array(
+                            'label'   => 'mainEntityOfPage',
+                            'id'      => 'saswp_dfp_main_entity_of_page_'.$schema_id,
+                            'type'    => 'text',
+                            'default' => get_permalink()
+                    ),    
+                    array(
                             'label' => 'Headline',
                             'id' => 'saswp_dfp_headline_'.$schema_id,
                             'type' => 'text',
@@ -2342,7 +2348,13 @@ class saswp_post_specific {
                             'id' => 'saswp_dfp_url_'.$schema_id,
                             'type' => 'text',
                             'default' => get_permalink()
-                    ),                     
+                    ),
+                    array(
+                            'label' => 'Image',
+                            'id' => 'saswp_dfp_image_'.$schema_id,
+                            'type' => 'media',
+                            'default' => $image_details[0]
+                    ),    
                     array(
                             'label' => 'Date Published',
                             'id' => 'saswp_dfp_date_published_'.$schema_id,
@@ -2366,7 +2378,19 @@ class saswp_post_specific {
                             'id'      => 'saswp_dfp_author_description_'.$schema_id,
                             'type'    => 'textarea',
                             'default' => $author_desc
-                    )    
+                    ),  
+                    array(
+                            'label'   => 'Organization Name',
+                            'id'      => 'saswp_dfp_organization_name_'.$schema_id,
+                            'type'    => 'text',
+                            'default' => saswp_remove_warnings($sd_data, 'sd_name', 'saswp_string')
+                    ),
+                    array(
+                            'label'   => 'Organization Logo',
+                            'id'      => 'saswp_dfp_organization_logo_'.$schema_id,
+                            'type'    => 'media',
+                            'default' => $sd_data['sd_logo']['url']
+                    ),    
                         
                     );
                     break;
