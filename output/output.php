@@ -2296,9 +2296,13 @@ function saswp_post_specific_schema_output() {
                                 
                             }                            
                             
-                            $input1['estimatedCost']['@type']   = 'MonetaryAmount';
-                            $input1['estimatedCost']['currency']= saswp_remove_warnings($all_post_meta, 'saswp_howto_ec_schema_currency_'.$schema_id, 'saswp_array');
-                            $input1['estimatedCost']['value']   = saswp_remove_warnings($all_post_meta, 'saswp_howto_ec_schema_value_'.$schema_id, 'saswp_array');
+                            if(saswp_remove_warnings($all_post_meta, 'saswp_howto_ec_schema_currency_'.$schema_id, 'saswp_array') !='' && saswp_remove_warnings($all_post_meta, 'saswp_howto_ec_schema_value_'.$schema_id, 'saswp_array') !='')
+                            {
+                                $input1['estimatedCost']['@type']   = 'MonetaryAmount';
+                                $input1['estimatedCost']['currency']= saswp_remove_warnings($all_post_meta, 'saswp_howto_ec_schema_currency_'.$schema_id, 'saswp_array');
+                                $input1['estimatedCost']['value']   = saswp_remove_warnings($all_post_meta, 'saswp_howto_ec_schema_value_'.$schema_id, 'saswp_array');
+                            }
+                            
                                                         
                             $supply_arr = array();
                             if(!empty($supply)){
@@ -2306,13 +2310,18 @@ function saswp_post_specific_schema_output() {
                                 foreach($supply as $val){
                                    
                                     $supply_data = array();
-                                    $supply_data['@type'] = 'HowToSupply';
-                                    $supply_data['name']  = $val['saswp_howto_supply_name'];
-                                    $supply_data['url']   = $val['saswp_howto_supply_url'];
                                     
-                                    if(isset($val['saswp_howto_supply_image_id'])){
+                                    if($val['saswp_howto_supply_name'] || $val['saswp_howto_supply_url']){
+                                        $supply_data['@type'] = 'HowToSupply';
+                                        $supply_data['name']  = $val['saswp_howto_supply_name'];
+                                        $supply_data['url']   = $val['saswp_howto_supply_url'];
+                                    }
+                                    
+                                    
+                                    
+                                    if(isset($val['saswp_howto_supply_image_id']) && $val['saswp_howto_supply_image_id'] !=''){
                                         
-                                        $image_details   = wp_get_attachment_image_src($val['saswp_howto_supply_image_id']); 
+                                                $image_details   = wp_get_attachment_image_src($val['saswp_howto_supply_image_id']); 
                                         
                                                 $supply_data['image']['@type']  = 'ImageObject';                                                
                                                 $supply_data['image']['url']    = esc_url($image_details[0]);
@@ -2333,11 +2342,14 @@ function saswp_post_specific_schema_output() {
                                 foreach($tool as $val){
                                    
                                     $supply_data = array();
-                                    $supply_data['@type'] = 'HowToTool';
-                                    $supply_data['name'] = $val['saswp_howto_tool_name'];
-                                    $supply_data['url']  = $val['saswp_howto_tool_url'];
                                     
-                                    if(isset($val['saswp_howto_tool_image_id'])){
+                                    if($val['saswp_howto_tool_name'] || $val['saswp_howto_tool_url']){
+                                        $supply_data['@type'] = 'HowToTool';
+                                        $supply_data['name'] = $val['saswp_howto_tool_name'];
+                                        $supply_data['url']  = $val['saswp_howto_tool_url'];
+                                    }
+                                                                                                            
+                                    if(isset($val['saswp_howto_tool_image_id']) && $val['saswp_howto_tool_image_id'] !=''){
                                         
                                         $image_details   = wp_get_attachment_image_src($val['saswp_howto_tool_image_id']); 
                                         
@@ -2365,29 +2377,34 @@ function saswp_post_specific_schema_output() {
                                     $direction   = array();
                                     $tip         = array();
                                     
-                                    $direction['@type']     = 'HowToDirection';
-                                    $direction['text']      = $val['saswp_howto_direction_text'];
+                                    if($val['saswp_howto_direction_text']){
+                                        $direction['@type']     = 'HowToDirection';
+                                        $direction['text']      = $val['saswp_howto_direction_text'];
+                                    }
                                     
-                                    $tip['@type']           = 'HowToTip';
-                                    $tip['text']            = $val['saswp_howto_tip_text'];
-                                    
+                                    if($val['saswp_howto_tip_text']){
+                                        
+                                        $tip['@type']           = 'HowToTip';
+                                        $tip['text']            = $val['saswp_howto_tip_text'];
+                                        
+                                    }
                                     
                                     $supply_data['@type']   = 'HowToStep';
                                     $supply_data['url']     = trailingslashit(get_permalink()).'#step'.++$key;
-                                    $supply_data['name']    = $val['saswp_howto_step_name'];                                                                                                            
-                                    $supply_data['itemListElement']  = array($direction, $tip);
+                                    $supply_data['name']    = $val['saswp_howto_step_name'];    
                                     
-                                    if(isset($val['saswp_howto_step_image_id'])){
+                                    if($direction['text'] ||  $tip['text']){
+                                        $supply_data['itemListElement']  = array($direction, $tip);
+                                    }
+                                                                                                            
+                                    if(isset($val['saswp_howto_step_image_id']) && $val['saswp_howto_step_image_id'] !=''){
                                         
-                                        $image_details   = wp_get_attachment_image_src($val['saswp_howto_step_image_id']); 
-                                        
+                                                $image_details   = wp_get_attachment_image_src($val['saswp_howto_step_image_id']);                                                 
                                                 $supply_data['image']['@type']  = 'ImageObject';                                                
                                                 $supply_data['image']['url']    = esc_url($image_details[0]);
                                                 $supply_data['image']['width']  = esc_attr($image_details[1]);
                                                 $supply_data['image']['height'] = esc_attr($image_details[2]);
-                                        
-                                        
-                                        
+                                                                                                                        
                                     }
                                     
                                    $step_arr[] =  $supply_data;
