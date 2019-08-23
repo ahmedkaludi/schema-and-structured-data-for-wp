@@ -518,23 +518,22 @@ class saswp_fields_generator {
                                 .  '<p><a target="_blank" href="https://developers.google.com/maps/documentation/javascript/examples/places-placeid-finder">'.esc_html__( 'Place ID Finder', 'schema-and-structured-data-for-wp' ).'</a></p>'  
                                 . '</div>'    
                                 . '</div>';  
-                                                          
-                                           
-                                            $input = $reviews;        
+                                                                                                     
+                                $input = $reviews;        
 
-                                            break;
+                                        break;
                                             
                                         case 'saswp-shopper-approved-section':
                                             
                                             $reviews = '<div class="saswp-s-approved-reviews-settings saswp-knowledge-label">'                                                                
-                                                . '<table class="saswp-g-reviews-settings-table" style="width:100%">'                                                                               
+                                                . '<table class="saswp-s-reviews-settings-table" style="width:100%">'                                                                               
                                                 . '<tr>'
                                                 . '<td style="width:12%;"><strong>'.esc_html__( 'Site Id', 'schema-and-structured-data-for-wp' ).'</strong></td>'
-                                                . '<td style="width:10%;"><input class="saswp-g-location-field" id="saswp_s_approved_site_id" name="sd_data[saswp_s_approved_site_id]" type="text" value=""></td>'
+                                                . '<td style="width:10%;"><input class="saswp-g-location-field" id="saswp_s_approved_site_id" name="sd_data[saswp_s_approved_site_id]" type="text" value="'.$settings['saswp_s_approved_site_id'].'"></td>'
                                                 . '<td style="width:10%;"><strong>'.esc_html__( 'Token', 'schema-and-structured-data-for-wp' ).'</strong></td>'
-                                                . '<td style="width:20%;"><input class="saswp-g-blocks-field" id="saswp_s_approved_token" name="sd_data[saswp_s_approved_token]" type="text"></td>'                                        
+                                                . '<td style="width:20%;"><input class="saswp-g-blocks-field" id="saswp_s_approved_token" name="sd_data[saswp_s_approved_token]" type="text" value="'.$settings['saswp_s_approved_token'].'"></td>'                                        
                                                 . '<td style="width:5%;"><strong>'.esc_html__( 'Reviews', 'schema-and-structured-data-for-wp' ).'</strong></td>'
-                                                . '<td style="width:15%;"><input class="saswp-g-blocks-field" id="saswp_s_approved_reviews" name="sd_data[saswp_s_approved_reviews]" type="number" step="10" min="10"></td>'                                        
+                                                . '<td style="width:15%;"><input class="saswp-g-blocks-field" id="saswp_s_approved_reviews" name="sd_data[saswp_s_approved_reviews]" type="number" min="1" value="'.$settings['saswp_s_approved_reviews'].'"></td>'                                        
                                                 . '<td style="width:10%;"><a class="button button-default saswp-fetch-s-approved-reviews">'.esc_html__( 'Fetch', 'schema-and-structured-data-for-wp' ).'</a></td>'                                                        
                                                 . '<td style="width:10%;"><p class="saswp-rv-fetched-msg"></p></td>'        
                                                 . '</tr>'   

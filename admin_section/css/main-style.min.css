@@ -1050,7 +1050,10 @@ Google review module ends here
 
 .saswp-g-reviews-settings-table input{
     width: 100%;
-}  
+}
+.saswp-s-reviews-settings-table input{
+    width: 100%;
+}
 .saswp_rv_module_pro_notice{
     border: 1px solid #d8d8d8;
     background: #fff;
