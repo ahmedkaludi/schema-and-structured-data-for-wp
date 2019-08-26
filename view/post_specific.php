@@ -18,7 +18,7 @@ class saswp_post_specific {
         protected $all_schema                = null;
         protected $options_response          = array();
         protected $modify_schema_post_enable = false;
-        protected $_local_sub_business        = array();
+        public    $_local_sub_business       = array();
 
         private   $schema_type_element =  array(                        
                         'FAQ' => array(
