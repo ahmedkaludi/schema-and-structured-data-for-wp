@@ -1242,7 +1242,8 @@ if ( ! defined('ABSPATH') ) exit;
                         'data-id'      => array(),
                         'checked'      => array(),
                         'step'         => array(),
-                        'min'          => array()
+                        'min'          => array(),
+                        'max'          => array()
                 );
                 $my_allowed['hidden']  = array(                    
                         'id'           => array(),

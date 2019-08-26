@@ -1318,23 +1318,24 @@ function saswp_import_callback(){
 
 function saswp_get_license_section_html($on, $license_key, $license_status, $license_status_msg, $label=null, $limits=null){
             
-    $limits_html = $response = '';
+            $limits_html = $response = '';
     
-    if($limits){
-       $limits_html = '<span style="padding:10px;">Maximum Reviews Limits '. esc_attr($limits).'</span>'; 
-    }
+            $limits = get_option('reviews_addon_reviews_limits');
     
-    $response.= '<div class="saswp-tools-field-title">';
+            if($limits){
+               $limits_html = '<span style="padding:10px;">Maximum Reviews Limits '. esc_attr($limits).'</span>'; 
+            }
+
+            $response.= '<div class="saswp-tools-field-title">';
                 
                if($label == true){
                    
-                $response.= '<div class="" style="display:inline-block">';
-                $response.= '<strong>'.esc_html__(''.$on.' Compatibility For Schema','schema-and-structured-data-for-wp').'</strong>';
-                $response.= '</div>';
+                    $response.= '<div class="" style="display:inline-block">';
+                    $response.= '<strong>'.esc_html__(''.$on.' Compatibility For Schema','schema-and-structured-data-for-wp').'</strong>';
+                    $response.= '</div>';
                 
                }
-                
-                
+                                
                 if($license_status == 'active'){
                 
                     $response.= '<span class="dashicons dashicons-yes saswp-'.strtolower($on).'-dashicons" style="color: #46b450;"></span>';    
