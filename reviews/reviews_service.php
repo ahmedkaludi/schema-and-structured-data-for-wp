@@ -118,10 +118,16 @@ class saswp_reviews_service {
                             $term_slug = 'google';
                         }
                         
+                        $img_src = SASWP_DIR_URI.'/admin_section/images/default_user.jpg';
+                                                
+                        if(isset($review['saswp_reviewer_image']) && $review['saswp_reviewer_image'] !=''){
+                            $img_src = $review['saswp_reviewer_image'];
+                        }
+                                                                        
                         $output.= '<div class="saswp-g-review-panel">
                               <div class="saswp-glg-review-body">
                                 <div class="saswp-rv-img">
-                                    <img src="'.esc_url($review['saswp_reviewer_image']).'" alt="'.$review['saswp_reviewer_name'].'">
+                                    <img src="'.esc_url($img_src).'" alt="'.$review['saswp_reviewer_name'].'">
                                 </div>
                                 <div class="saswp-rv-cnt">
                                     <div class="saswp-str-rtng">
