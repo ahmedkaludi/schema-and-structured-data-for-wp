@@ -67,8 +67,18 @@ class saswp_output_compatibility{
         $this->saswp_remove_yoast_product_schema();                
     }
     
+    public function saswp_the_seo_framework_override(){        
+        
+        add_filter('the_seo_framework_receive_json_data', '__return_false');
+    }
     public function saswp_smart_crawl_override(){        
         add_filter('wds-schema-data', '__return_false');                
+    }    
+    public function saswp_seo_press_override(){        
+     
+    }
+    public function saswp_aiosp_override(){        
+                    
     }
     public function saswp_woocommerce_override(){
         

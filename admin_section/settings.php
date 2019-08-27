@@ -1527,6 +1527,44 @@ function saswp_compatibility_page_callback(){
                         )
 		);
         
+        $the_seo_framework = array(
+			'label'  => 'The SEO Framework',
+			'id'     => 'saswp-the-seo-framework-checkbox',                        
+                        'name'   => 'saswp-the-seo-framework-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
+                        'note'   => saswp_get_field_note('the_seo_framework'),
+                        'hidden' => array(
+                                'id'   => 'saswp-the-seo-framework',
+                                'name' => 'sd_data[saswp-the-seo-framework]',                             
+                        )
+		);
+        
+        $seo_press = array(
+			'label'  => 'SEOPress',
+			'id'     => 'saswp-seo-press-checkbox',                        
+                        'name'   => 'saswp-seo-press-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
+                        'note'   => saswp_get_field_note('seo_press'),
+                        'hidden' => array(
+                                'id'   => 'saswp-seo-press',
+                                'name' => 'sd_data[saswp-seo-press]',                             
+                        )
+		);
+        $aiosp = array(
+			'label'  => 'All in One SEO Pack',
+			'id'     => 'saswp-aiosp-checkbox',                        
+                        'name'   => 'saswp-aiosp-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
+                        'note'   => saswp_get_field_note('aiosp'),
+                        'hidden' => array(
+                                'id'   => 'saswp-aiosp',
+                                'name' => 'sd_data[saswp-aiosp]',                             
+                        )
+		);
+        
         $the_events_calendar = array(
 			'label'  => 'The Events Calendar',
 			'id'     => 'saswp-the-events-calendar-checkbox',                        
@@ -1733,6 +1771,9 @@ function saswp_compatibility_page_callback(){
                 //$wpjobmanager,
                 $yoast,
                 $smart_crawl,
+                $seo_press,
+                $the_seo_framework,
+                $aiosp,
                 $rankmath
                 
 	);     
@@ -1936,7 +1977,10 @@ function saswp_get_field_note($pname){
             'yoast_seo'           => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wordpress-seo/">Yoast SEO</a>',
             'rank_math'           => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/seo-by-rank-math/">WordPress SEO Plugin – Rank Math</a>',            
             'dw_qna'              => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/dw-question-answer/">DW Question Answer</a>',
-            'smart_crawl'         => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/smartcrawl-seo/">SmartCrawl Seo</a>'
+            'smart_crawl'         => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/smartcrawl-seo/">SmartCrawl Seo</a>',
+            'the_seo_framework'   => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/smartcrawl-seo/">The Seo Framework</a>',
+            'seo_press'           => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/smartcrawl-seo/">SEOPress</a>',
+            'aiosp'               => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/smartcrawl-seo/">All in One SEO Pack</a>'
         );
             
     if(!saswp_check_plugin_active_status($pname)){

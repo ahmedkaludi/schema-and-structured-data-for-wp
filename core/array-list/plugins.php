@@ -65,5 +65,23 @@ return array(
             'path_free'  => 'smartcrawl-seo/wpmu-dev-seo.php',               
             'status_key' => 'saswp-smart-crawl',    
         ),
+        array(
+            'key'        => 'the_seo_framework',
+            'name'       => 'The SEO Framework',
+            'path_free'  => 'autodescription/autodescription.php',               
+            'status_key' => 'saswp-the-seo-framework',    
+        ),
+        array(
+            'key'        => 'seo_press',
+            'name'       => 'SEOPress',
+            'path_free'  => 'wp-seopress/seopress.php',               
+            'status_key' => 'saswp-seo-press',    
+        ),
+        array(
+            'key'        => 'aiosp',
+            'name'       => 'All in One SEO Pack',
+            'path_free'  => 'all-in-one-seo-pack/all_in_one_seo_pack.php',               
+            'status_key' => 'saswp-aiosp',    
+        ),
                 
     );

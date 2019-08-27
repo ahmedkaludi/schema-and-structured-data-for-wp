@@ -1926,6 +1926,23 @@ if ( ! defined('ABSPATH') ) exit;
                 }
                                       
         }
+        
+        //All in one Seo pack
+        if(saswp_remove_warnings($sd_data, 'saswp-aiosp', 'saswp_string') == 1){
+                             
+             global $aiosp, $post;            
+             $c_excerpt =  $aiosp->get_aioseop_description($post);             
+             if($c_excerpt){
+                 $excerpt = $c_excerpt;
+             }             
+                                      
+        }
+        
+        if(saswp_remove_warnings($sd_data, 'saswp-the-seo-framework', 'saswp_string') == 1){
+                            
+                
+                                      
+        }
                         
         return $excerpt;
     }
@@ -1949,7 +1966,16 @@ if ( ! defined('ABSPATH') ) exit;
         }         
         return '';
     }
-        
+     
+    
+    
+//        add_filter('the_seo_framework_ogtitle_output', 'yahoooo');
+//        
+//        function yahoooo($data){
+//            update_option('the_seo_framework_title', 'ddd');
+//            
+//            return $data;
+//        }
     /**
      * since @1.8.7
      * Here we are modifying the default title
@@ -1963,6 +1989,26 @@ if ( ! defined('ABSPATH') ) exit;
 
         $title = get_the_title();
         
+        //All in one Seo pack
+        if(saswp_remove_warnings($sd_data, 'saswp-aiosp', 'saswp_string') == 1){
+                             
+             global $aiosp;
+            
+             $c_title =  $aiosp->wp_title();
+             
+             if($c_title){
+                 $title = $c_title;
+             }             
+                                      
+        }
+        
+        //The seo framework
+        if(saswp_remove_warnings($sd_data, 'saswp-the-seo-framework', 'saswp_string') == 1){
+                          
+                
+                                      
+        }
+        
         //SmartCrawl title
                 
         if(saswp_remove_warnings($sd_data, 'saswp-smart-crawl', 'saswp_string') == 1){
@@ -1974,17 +2020,17 @@ if ( ! defined('ABSPATH') ) exit;
                     $value_helper = new Smartcrawl_OpenGraph_Value_Helper();
             
                     $c_title =  $value_helper->get_title();
+                    
+                    if($c_title){
+
+                       $title = $c_title;
+
+                    }
             
                 }
                 
             }
-
-            if($c_title){
-
-                $title = $c_title;
-
-            }
-
+            
         }
         
         
@@ -2127,6 +2173,15 @@ function saswp_check_plugin_active_status($pname){
         'smart_crawl' => array(
             'free' => 'smartcrawl-seo/wpmu-dev-seo.php',            
         ),
+        'the_seo_framework' => array(
+            'free' => 'autodescription/autodescription.php',            
+        ),
+        'seo_press' => array(
+            'free' => 'wp-seopress/seopress.php',            
+        ),
+        'aiosp' => array(
+            'free' => 'all-in-one-seo-pack/all_in_one_seo_pack.php',            
+        ),    
         
     );
     
