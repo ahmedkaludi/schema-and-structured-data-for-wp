@@ -1290,7 +1290,7 @@ class saswp_post_specific {
                          
                      }                                          
                                                                                     
-                     $response          = $this->saswp_get_fields_by_schema_type($schema->ID); 
+                     $response          = $this->saswp_get_fields_by_schema_type($schema->ID, 'save'); 
                      
                      $this->meta_fields = $response; 
                      
@@ -1362,7 +1362,7 @@ class saswp_post_specific {
          * @return array
          * @since version 1.0.4
          */
-        public function saswp_get_fields_by_schema_type( $schema_id ) {  
+        public function saswp_get_fields_by_schema_type( $schema_id, $condition = null ) {  
             
             global $post;
             global $sd_data;  
@@ -1412,7 +1412,25 @@ class saswp_post_specific {
                     
                     $sub_business_options = array();     
                     
-                    if(!empty($this->_local_sub_business)){
+                    if($condition !=null){
+                        
+                        
+                        if(!empty($this->_local_sub_business)){
+                        
+                        $sub_business_options = array(
+                             'label'     => 'Sub Business Type',
+                             'id'        => 'saswp_business_name_'.$schema_id,
+                             'type'      => 'select',
+                             'options'   => $this->_local_sub_business[$business_type],
+                             'default'   => $business_name  
+                        ); 
+
+                    }
+                        
+                        
+                    }else{
+                        
+                       if(!empty($this->_local_sub_business) && array_key_exists($business_type, $this->_local_sub_business)){
                         
                        $sub_business_options = array(
                             'label'     => 'Sub Business Type',
@@ -1422,6 +1440,8 @@ class saswp_post_specific {
                             'default'   => $business_name  
                        ); 
                        
+                    }
+                        
                     }
                     
                     $meta_field = array(                   
