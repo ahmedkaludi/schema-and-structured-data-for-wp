@@ -1938,6 +1938,17 @@ if ( ! defined('ABSPATH') ) exit;
                                       
         }
         
+        //SEOPress 
+        if(saswp_remove_warnings($sd_data, 'saswp-seo-press', 'saswp_string') == 1){
+             require_once ( WP_PLUGIN_DIR. '/wp-seopress/inc/functions/options-titles-metas.php'); //Social                                                                              
+             $c_excerpt =  seopress_titles_the_description_content($post);             
+             
+             if($c_excerpt){
+                 $excerpt = $c_excerpt;
+             }            
+                                      
+        }
+        
         if(saswp_remove_warnings($sd_data, 'saswp-the-seo-framework', 'saswp_string') == 1){
                             
                 
@@ -1988,6 +1999,17 @@ if ( ! defined('ABSPATH') ) exit;
         global $sd_data;
 
         $title = get_the_title();
+        
+        //SEOPress
+        if(saswp_remove_warnings($sd_data, 'saswp-seo-press', 'saswp_string') == 1){
+                   require_once ( WP_PLUGIN_DIR. '/wp-seopress/inc/functions/options-titles-metas.php'); //Social                                     
+             $c_title =  seopress_titles_the_title();
+             
+             if($c_title){
+                 $title = $c_title;
+             }             
+                                      
+        }
         
         //All in one Seo pack
         if(saswp_remove_warnings($sd_data, 'saswp-aiosp', 'saswp_string') == 1){

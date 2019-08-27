@@ -737,6 +737,8 @@ function saswp_json_print_format($output_array){
  */
 function saswp_remove_microdata($content){
     
+    global $sd_data;
+    
     if(saswp_global_option()){
         //Clean MicroData
         $content = preg_replace("/itemscope itemtype=(\"?)http(s?):\/\/schema.org\/(Person|Mosque|SearchAction|Church|HinduTemple|LandmarksOrHistoricalBuildings|TouristDestination|TouristAttraction|Place|LocalBusiness|MedicalCondition|VideoObject|AudioObject|Trip|Service|JobPosting|VideoGame|Game|TechArticle|SoftwareApplication|TVSeries|Recipe|Review|HowTo|DiscussionForumPosting|Course|SingleFamilyResidence|House|Apartment|Event|Article|BlogPosting|Blog|BreadcrumbList|AggregateRating|WebPage|Person|Organization|NewsArticle|Product|CreativeWork|ImageObject|UserComments|WPHeader|WPSideBar|WPFooter|WPAdBlock|SiteNavigationElement)(\"?)/", "", $content);
@@ -747,9 +749,10 @@ function saswp_remove_microdata($content){
         $content = preg_replace("/hentry/", "", $content);        
         
         //Clean json markup
-        
-        $content = preg_replace('/<script type=\"application\/ld\+json" class=\"aioseop-schema"\>(.*?)<\/script>/', "", $content);
-        
+        if(isset($sd_data['saswp-aiosp']) && $sd_data['saswp-aiosp'] == 1 ){
+            $content = preg_replace('/<script type=\"application\/ld\+json" class=\"aioseop-schema"\>(.*?)<\/script>/', "", $content);
+        }
+                
     }             
     
     return $content;
