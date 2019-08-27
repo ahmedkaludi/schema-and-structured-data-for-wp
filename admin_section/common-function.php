@@ -1899,7 +1899,7 @@ if ( ! defined('ABSPATH') ) exit;
 
         }
 
-        if(saswp_global_option()  && saswp_remove_warnings($sd_data, 'saswp-yoast', 'saswp_string') == 1){
+        if(saswp_remove_warnings($sd_data, 'saswp-yoast', 'saswp_string') == 1){
 
             $yoast_meta_des = saswp_convert_yoast_metafields($post->ID, 'metadesc');
 
@@ -1910,7 +1910,23 @@ if ( ! defined('ABSPATH') ) exit;
             }
 
         }
-
+        
+        if(saswp_remove_warnings($sd_data, 'saswp-smart-crawl', 'saswp_string') == 1){
+                            
+                if(class_exists('Smartcrawl_OpenGraph_Value_Helper')){
+                        
+                    $value_helper = new Smartcrawl_OpenGraph_Value_Helper();
+            
+                    $smart_meta_des =  $value_helper->get_description();
+                    
+                    if($smart_meta_des){
+                        $excerpt = $smart_meta_des;
+                    }
+                                                    
+                }
+                                      
+        }
+                        
         return $excerpt;
     }
     /**
@@ -1933,6 +1949,7 @@ if ( ! defined('ABSPATH') ) exit;
         }         
         return '';
     }
+        
     /**
      * since @1.8.7
      * Here we are modifying the default title
@@ -1944,29 +1961,50 @@ if ( ! defined('ABSPATH') ) exit;
         global $post;
         global $sd_data;
 
-        if(saswp_global_option()  && saswp_remove_warnings($sd_data, 'saswp-yoast', 'saswp_string') == 1){
+        $title = get_the_title();
+        
+        //SmartCrawl title
+                
+        if(saswp_remove_warnings($sd_data, 'saswp-smart-crawl', 'saswp_string') == 1){
+
+            if(is_object($post)){
+                
+                if(class_exists('Smartcrawl_OpenGraph_Value_Helper')){
+                        
+                    $value_helper = new Smartcrawl_OpenGraph_Value_Helper();
+            
+                    $c_title =  $value_helper->get_title();
+            
+                }
+                
+            }
+
+            if($c_title){
+
+                $title = $c_title;
+
+            }
+
+        }
+        
+        
+        //Yoast title 
+        if(saswp_remove_warnings($sd_data, 'saswp-yoast', 'saswp_string') == 1){
 
             if(is_object($post)){
 
-                $yoast_title = saswp_convert_yoast_metafields($post->ID, 'title');
+                $c_title = saswp_convert_yoast_metafields($post->ID, 'title');
 
             }
 
-            if($yoast_title){
+            if($c_title){
 
-                $title = $yoast_title;
-
-            }else{
-
-                $title = get_the_title();
+                $title = $c_title;
 
             }
 
-        }else{
-
-           $title = get_the_title();
         }
-                
+        
         if (strlen($title) > 110){
             $title = substr($title, 0, 106) . ' ...';
         }
