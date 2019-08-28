@@ -1951,7 +1951,7 @@ if ( ! defined('ABSPATH') ) exit;
         }
         
         //SEOPress
-        if(saswp_remove_warnings($sd_data, 'saswp-squirrly-seo', 'saswp_string') == 1){
+        if(saswp_remove_warnings($sd_data, 'saswp-squirrly-seo', 'saswp_string') == 1 && class_exists('SQ_Models_Abstract_Seo')){
                         
                  global $wpdb;
                 
@@ -2014,7 +2014,7 @@ if ( ! defined('ABSPATH') ) exit;
         $title = get_the_title();
         
         //SEOPress
-        if(saswp_remove_warnings($sd_data, 'saswp-squirrly-seo', 'saswp_string') == 1){
+        if(saswp_remove_warnings($sd_data, 'saswp-squirrly-seo', 'saswp_string') == 1 && class_exists('SQ_Models_Abstract_Seo')){
                         
                 global $wpdb;
                 

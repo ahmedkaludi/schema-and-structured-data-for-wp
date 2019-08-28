@@ -46,9 +46,8 @@ class saswp_output_compatibility{
             
         }
             
-        }
-                
-                   
+       }
+                                   
     }
     
     public function saswp_wp_post_ratings_override(){
