@@ -71,6 +71,9 @@ class saswp_output_compatibility{
         
         add_filter('the_seo_framework_receive_json_data', '__return_false');
     }
+    public function saswp_squirrly_seo_override(){        
+        add_filter('sq_json_ld', '__return_false',99);                
+    }
     public function saswp_smart_crawl_override(){        
         add_filter('wds-schema-data', '__return_false');                
     }

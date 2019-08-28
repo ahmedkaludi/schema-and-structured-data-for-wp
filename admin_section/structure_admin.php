@@ -1461,8 +1461,8 @@ function saswp_license_status($add_on, $license_status, $license_key){
                         if(strtolower($add_on) == 'reviews'){
                             
                             if(function_exists('saswp_create_reviews_user')){
-                             
-                                $user_create = saswp_create_reviews_user($license_key, strtolower($add_on));   
+                                                             
+                                $user_create = saswp_create_reviews_user($license_key, $item_name[strtolower($add_on)]);   
                             
                                 if($user_create['status']){ 
 

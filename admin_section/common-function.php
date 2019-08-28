@@ -1950,6 +1950,23 @@ if ( ! defined('ABSPATH') ) exit;
                                       
         }
         
+        //SEOPress
+        if(saswp_remove_warnings($sd_data, 'saswp-squirrly-seo', 'saswp_string') == 1){
+                        
+                 global $wpdb;
+                
+                 $query = "SELECT * FROM " . $wpdb->prefix . "qss where post_id=".$post->ID;
+                 
+                 if ($rows = $wpdb->get_results($query, OBJECT)) {
+                     
+                    $seo_data = unserialize($rows[0]->seo) ;
+                                        
+                    if(isset($seo_data['description']) && $seo_data['description'] <>''){
+                      $excerpt = $seo_data['description'];
+                    }                     
+                 }                                                 
+        }
+        
         if(saswp_remove_warnings($sd_data, 'saswp-the-seo-framework', 'saswp_string') == 1){
                             
                 $c_excerpt = get_post_meta($post->ID, '_genesis_description', true);
@@ -1982,7 +1999,7 @@ if ( ! defined('ABSPATH') ) exit;
         }         
         return '';
     }
-         
+      
     /**
      * since @1.8.7
      * Here we are modifying the default title
@@ -1995,6 +2012,25 @@ if ( ! defined('ABSPATH') ) exit;
         global $sd_data;
 
         $title = get_the_title();
+        
+        //SEOPress
+        if(saswp_remove_warnings($sd_data, 'saswp-squirrly-seo', 'saswp_string') == 1){
+                        
+                global $wpdb;
+                
+                 $query = "SELECT * FROM " . $wpdb->prefix . "qss where post_id=".$post->ID;
+                 
+                 if ($rows = $wpdb->get_results($query, OBJECT)) {
+                     
+                    $seo_data = unserialize($rows[0]->seo) ;
+                                        
+                    if(isset($seo_data['title']) && $seo_data['title'] <>''){
+                      $title = $seo_data['title'];
+                    } 
+                    
+                 }             
+                                    
+        }
         
         //SEOPress
         if(saswp_remove_warnings($sd_data, 'saswp-seo-press', 'saswp_string') == 1){
@@ -2203,7 +2239,10 @@ function saswp_check_plugin_active_status($pname){
         ),
         'aiosp' => array(
             'free' => 'all-in-one-seo-pack/all_in_one_seo_pack.php',            
-        ),    
+        ),
+        'squirrly_seo' => array(
+            'free' => 'squirrly-seo/squirrly.php',            
+        ),
         
     );
     

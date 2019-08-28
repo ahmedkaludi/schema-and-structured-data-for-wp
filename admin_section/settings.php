@@ -1552,6 +1552,18 @@ function saswp_compatibility_page_callback(){
                                 'name' => 'sd_data[saswp-seo-press]',                             
                         )
 		);
+        $squirrly_seo = array(
+			'label'  => 'Squirrly Seo',
+			'id'     => 'saswp-squirrly-seo-checkbox',                        
+                        'name'   => 'saswp-squirrly-seo-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
+                        'note'   => saswp_get_field_note('squirrly_seo'),
+                        'hidden' => array(
+                                'id'   => 'saswp-squirrly-seo',
+                                'name' => 'sd_data[saswp-squirrly-seo]',                             
+                        )
+		);
         $aiosp = array(
 			'label'  => 'All in One SEO Pack',
 			'id'     => 'saswp-aiosp-checkbox',                        
@@ -1774,6 +1786,7 @@ function saswp_compatibility_page_callback(){
                 $seo_press,
                 $the_seo_framework,
                 $aiosp,
+                $squirrly_seo,
                 $rankmath
                 
 	);     
@@ -1980,7 +1993,8 @@ function saswp_get_field_note($pname){
             'smart_crawl'         => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/smartcrawl-seo/">SmartCrawl Seo</a>',
             'the_seo_framework'   => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/autodescription/">The Seo Framework</a>',
             'seo_press'           => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wp-seopress/">SEOPress</a>',
-            'aiosp'               => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/all-in-one-seo-pack/">All in One SEO Pack</a>'
+            'aiosp'               => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/all-in-one-seo-pack/">All in One SEO Pack</a>',
+            'squirrly_seo'        => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/squirrly-seo/">Squirrly SEO</a>'
         );
             
     if(!saswp_check_plugin_active_status($pname)){
