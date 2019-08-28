@@ -1951,7 +1951,11 @@ if ( ! defined('ABSPATH') ) exit;
         
         if(saswp_remove_warnings($sd_data, 'saswp-the-seo-framework', 'saswp_string') == 1){
                             
+                $c_excerpt = get_post_meta($post->ID, '_genesis_description', true);
                 
+                if($c_excerpt){
+                    $excerpt = $c_excerpt;
+                }       
                                       
         }
                         
@@ -1977,16 +1981,7 @@ if ( ! defined('ABSPATH') ) exit;
         }         
         return '';
     }
-     
-    
-    
-//        add_filter('the_seo_framework_ogtitle_output', 'yahoooo');
-//        
-//        function yahoooo($data){
-//            update_option('the_seo_framework_title', 'ddd');
-//            
-//            return $data;
-//        }
+         
     /**
      * since @1.8.7
      * Here we are modifying the default title
@@ -2027,7 +2022,11 @@ if ( ! defined('ABSPATH') ) exit;
         //The seo framework
         if(saswp_remove_warnings($sd_data, 'saswp-the-seo-framework', 'saswp_string') == 1){
                           
+                $c_title = get_post_meta($post->ID, '_genesis_title', true);
                 
+                if($c_title){
+                    $title = $c_title;
+                }                                
                                       
         }
         

@@ -84,10 +84,7 @@ class saswp_output_compatibility{
                           
         add_action('wp_head', array($this, 'saswp_seo_press_hooks'),0);
                         
-    }
-    public function saswp_aiosp_override(){        
-                    
-    }
+    }    
     public function saswp_woocommerce_override(){
         
         if(class_exists('WooCommerce')){
