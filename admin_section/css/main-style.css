@@ -585,15 +585,22 @@ On/Off Buttons ends here
 .option-table-class tr > td{width: 30%;}
 .option-table-class tr td:last-child{width: 60%;}
 
+.saswp-custom-fields-table{
+    width: 100%;
+}
+.saswp-custom-fields-table input{
+    width: 100%;
+}
+.saswp-custom-fields-table tr td {padding: 10px 10px 10px 10px ;}
+.saswp-custom-fields-table td{
+    width: 30%;
+}
+
 .saswp-option-table-class input[type="text"], .saswp-option-table-class select{
     width:100%;
 }
 .saswp-paywall-table-class input[type="text"], .saswp-paywall-table-class select{
     width:100%;
-}
-
-.saswp-custom-fields-table select{
-    width: 100%;
 }
 
 /*
@@ -904,7 +911,7 @@ Google review module ends here
     height: 20px;
 }
 .saswp-g-plus img{
-    width:100%;
+    max-width:100%;
 }
 .saswp-rtng{
     padding-left: 5px;
@@ -943,7 +950,7 @@ Google review module ends here
     border: 1px solid #d8d8d8;
     display: inline-block;
     margin-top: 10px;
-    width: 100%;
+    width: 81%;
 }
 .saswp-upgrade-pro h2{
     font-size: 20px;
@@ -1043,7 +1050,10 @@ Google review module ends here
 
 .saswp-g-reviews-settings-table input{
     width: 100%;
-}  
+}
+.saswp-s-reviews-settings-table input{
+    width: 100%;
+}
 .saswp_rv_module_pro_notice{
     border: 1px solid #d8d8d8;
     background: #fff;
@@ -1051,9 +1061,6 @@ Google review module ends here
 
 /*** Review Module section ***/
 
-*, *:before, *:after{
-    box-sizing:border-box;
-}
 .saswp-settings-list .saswp-rev-mod{
     width: 100%;
     display: inline-block;
@@ -1166,4 +1173,7 @@ Google review module ends here
     color: #fff;
     font-weight: 600;
     font-size: 18px;
+}
+.select2-container{
+    width:100% !important;
 }
