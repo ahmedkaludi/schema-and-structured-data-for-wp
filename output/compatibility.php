@@ -67,9 +67,24 @@ class saswp_output_compatibility{
         $this->saswp_remove_yoast_product_schema();                
     }
     
+    public function saswp_the_seo_framework_override(){        
+        
+        add_filter('the_seo_framework_receive_json_data', '__return_false');
+    }
     public function saswp_smart_crawl_override(){        
         add_filter('wds-schema-data', '__return_false');                
     }
+    public function saswp_seo_press_hooks(){
+                
+            remove_action('wp_head', 'seopress_social_accounts_jsonld_hook',1);
+            remove_action('wp_head', 'seopress_social_website_option',1);
+                                    
+    }
+    public function saswp_seo_press_override(){   
+                          
+        add_action('wp_head', array($this, 'saswp_seo_press_hooks'),0);
+                        
+    }    
     public function saswp_woocommerce_override(){
         
         if(class_exists('WooCommerce')){

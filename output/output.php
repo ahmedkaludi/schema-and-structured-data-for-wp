@@ -289,27 +289,240 @@ function saswp_schema_output() {
                         $extra_theme_review = array();                        
                         $extra_theme_review = $service_object->saswp_extra_theme_review_details(get_the_ID());
                         
+                        if( 'FAQ' === $schema_type){
+                                                                                    
+                            $input1 = array();
+                                                                                                                                                                                                                               
+                         }
                        
-                        if( $schema_type == 'VideoGame'            || 
-                            $schema_type == 'HowTo'                ||
-                            $schema_type == 'TVSeries'             ||
-                            $schema_type == 'MedicalCondition'     ||
-                            $schema_type == 'FAQ'                  ||        
-                            $schema_type == 'Apartment'            ||   
-                            $schema_type == 'House'                ||
-                            $schema_type == 'TouristDestination'   ||
-                            $schema_type == 'TouristAttraction'    ||                                
-                            $schema_type == 'LandmarksOrHistoricalBuildings' ||
-                            $schema_type == 'HinduTemple'          ||
-                            $schema_type == 'Church'               ||
-                            $schema_type == 'Mosque'               ||
-                            $schema_type == 'JobPosting'           ||
-                            $schema_type == 'Trip'                 ||
-                            $schema_type == 'Person'               ||    
-                            $schema_type == 'SingleFamilyResidence' ) {
-                               
-                                    $input1 = array();
-                        }
+                        if( 'VideoGame' === $schema_type){
+                                                                                    
+                            $input1['@context']                     = 'http://schema.org';
+                            $input1['@type']                        = 'VideoGame';
+                            $input1['@id']                          = trailingslashit(get_permalink()).'#VideoGame';                             
+                            $input1['author']['@type']              = 'Organization';                                                        
+                            $input1['offers']['@type']              = 'Offer';   
+                            
+                            if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){                                   
+                                    $service = new saswp_output_service();
+                                    $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
+                            }
+                                                                                                                                                                                                                               
+                            }
+                        
+                        if( 'MedicalCondition' === $schema_type){
+                            
+                            $input1['@context']                     = 'http://schema.org';
+                            $input1['@type']                        = 'MedicalCondition';
+                            $input1['@id']                          = trailingslashit(get_permalink()).'#MedicalCondition';                                                                                                             
+                            $input1['associatedAnatomy']['@type']   = 'AnatomicalStructure';                                                                                    
+                            $input1['code']['@type']                = 'MedicalCode';
+                            
+                            if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){                                   
+                                    $service = new saswp_output_service();
+                                    $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
+                            }
+                                                                                                                                                                                                                               
+                            }
+                        
+                        if( 'TVSeries' === $schema_type){
+                                                        
+                            $input1['@context']              = 'http://schema.org';
+                            $input1['@type']                 = 'TVSeries';
+                            $input1['@id']                   = trailingslashit(get_permalink()).'#TVSeries';                                                                                                                                
+                            $input1['author']['@type']       = 'Person';                            
+                                                                           
+                            if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){                                   
+                                    $service = new saswp_output_service();
+                                    $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
+                            }
+                                
+                            }
+                        
+                        if( 'HowTo' === $schema_type){
+                                                         
+                            $input1['@context']              = 'http://schema.org';
+                            $input1['@type']                 = 'HowTo';
+                            $input1['@id']                   = trailingslashit(get_permalink()).'#HowTo';                                                                                                                  
+                            $input1['estimatedCost']['@type']   = 'MonetaryAmount';    
+                            
+                            if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){                                   
+                                    $service = new saswp_output_service();
+                                    $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
+                            }
+                            
+                            }
+                        
+                        if( 'Trip' === $schema_type){
+                                                                                   
+                            $input1['@context']              = 'http://schema.org';
+                            $input1['@type']                 = 'Trip';
+                            $input1['@id']                   = trailingslashit(get_permalink()).'#Trip';    
+                            
+                            if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){                                   
+                                    $service = new saswp_output_service();
+                                    $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
+                            }
+                            
+                           }
+                        
+                        if( 'SingleFamilyResidence' === $schema_type){
+                                                                                                                                            
+                            $input1['@context']              = 'http://schema.org';
+                            $input1['@type']                 = 'SingleFamilyResidence';
+                            $input1['@id']                   = trailingslashit(get_permalink()).'#SingleFamilyResidence';                            
+                            $input1['address']['@type']      = 'PostalAddress';
+                            
+                            if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){                                   
+                                    $service = new saswp_output_service();
+                                    $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
+                            }
+                            
+                            }
+                        
+                        if( 'House' === $schema_type){
+                                                                            
+                            $input1['@context']              = 'http://schema.org';
+                            $input1['@type']                 = 'House';
+                            $input1['@id']                   = trailingslashit(get_permalink()).'#House';
+                            $input1['address']['@type']      = 'PostalAddress';
+                            
+                            if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){                                   
+                                    $service = new saswp_output_service();
+                                    $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
+                            }
+                             
+                            }
+                            
+                        if( 'Apartment' === $schema_type){
+                                                                                   
+                            $input1['@context']              = 'http://schema.org';
+                            $input1['@type']                 = 'Apartment';
+                            $input1['@id']                   = trailingslashit(get_permalink()).'#Apartment';                                                                                                                                                                            
+                            $input1['address']['@type']      = 'PostalAddress';    
+                            
+                            if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){                                   
+                                    $service = new saswp_output_service();
+                                    $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
+                            }
+                            
+                            }
+                        
+                        if( 'TouristDestination' === $schema_type){
+                                                                                                                
+                            $input1['@context']              = 'http://schema.org';
+                            $input1['@type']                 = 'TouristDestination';
+                            $input1['@id']                   = trailingslashit(get_permalink()).'#TouristDestination';                                                                                   
+                            $input1['address']['@type']             = 'PostalAddress';
+                            
+                            if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){                                   
+                                    $service = new saswp_output_service();
+                                    $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
+                            }
+                                                        
+                            }
+                        
+                        if( 'TouristAttraction' === $schema_type){
+                                                   
+                            $input1['@context']              = 'http://schema.org';
+                            $input1['@type']                 = 'TouristAttraction';
+                            $input1['@id']                   = trailingslashit(get_permalink()).'#TouristAttraction';                              
+                            $input1['address']['@type']      = 'PostalAddress';   
+                            
+                            if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){                                   
+                                    $service = new saswp_output_service();
+                                    $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
+                            }
+                                                                                   
+                            }
+                        
+                        if( 'LandmarksOrHistoricalBuildings' === $schema_type){
+                                                   
+                            $input1['@context']              = 'http://schema.org';
+                            $input1['@type']                 = 'LandmarksOrHistoricalBuildings';
+                            $input1['@id']                   = trailingslashit(get_permalink()).'#LandmarksOrHistoricalBuildings';                                                        
+                            $input1['address']['@type']      = 'PostalAddress';   
+                            
+                            if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){                                   
+                                    $service = new saswp_output_service();
+                                    $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
+                            }
+                                                        
+                            }
+                        
+                        if( 'HinduTemple' === $schema_type){
+                                                                                   
+                            $input1['@context']              = 'http://schema.org';
+                            $input1['@type']                 = 'HinduTemple';
+                            $input1['@id']                   = trailingslashit(get_permalink()).'#HinduTemple';
+                            $input1['address']['@type']             = 'PostalAddress';  
+                            
+                            if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){                                   
+                                    $service = new saswp_output_service();
+                                    $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
+                            }
+                                                                                   
+                           }
+                        
+                        if( 'Church' === $schema_type){
+                                                                                  
+                            $input1['@context']              = 'http://schema.org';
+                            $input1['@type']                 = 'Church';
+                            $input1['@id']                   = trailingslashit(get_permalink()).'#Church';                            
+                            $input1['address']['@type']      = 'PostalAddress';
+                            
+                            if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){                                   
+                                    $service = new saswp_output_service();
+                                    $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
+                            }
+                                                    
+                            }
+                        
+                        if( 'Mosque' === $schema_type){
+                                                                                                                
+                            $input1['@context']              = 'http://schema.org';
+                            $input1['@type']                 = 'Mosque';
+                            $input1['@id']                   = trailingslashit(get_permalink()).'#Mosque';                            
+                            $input1['address']['@type']      = 'PostalAddress';  
+                            
+                            if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){                                   
+                                    $service = new saswp_output_service();
+                                    $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
+                            }
+                                                                                   
+                            }
+                        
+                        if( 'JobPosting' === $schema_type){
+                                                                                   
+                            $input1['@context']                        = 'http://schema.org';
+                            $input1['@type']                           = 'JobPosting';
+                            $input1['@id']                             = trailingslashit(get_permalink()).'#JobPosting';                                                          
+                            $input1['hiringOrganization']['@type']     = 'Organization';                                                                                                                
+                            $input1['jobLocation']['@type']            = 'Place';
+                            $input1['jobLocation']['address']['@type'] = 'PostalAddress';                                                                                   
+                            $input1['baseSalary']['@type']             = 'MonetaryAmount';                            
+                            $input1['baseSalary']['value']['@type']    = 'QuantitativeValue';     
+                            
+                            if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){                                   
+                                    $service = new saswp_output_service();
+                                    $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
+                            }
+                                                        
+                            }
+                        
+                        if( 'Person' === $schema_type){
+                                                                                                                                                                     
+                            $input1['@context']              = 'http://schema.org';
+                            $input1['@type']                 = 'Person';
+                            $input1['@id']                   = trailingslashit(get_permalink()).'#Person';                                                        
+                            $input1['address']['@type']      = 'PostalAddress';             
+                            
+                            if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){                                   
+                                    $service = new saswp_output_service();
+                                    $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
+                            }
+                            
+                         }
                         
                         if( 'Course' === $schema_type){
                             
@@ -358,7 +571,8 @@ function saswp_schema_output() {
                                 $input1 = array(
                                 '@context'			=> 'http://schema.org',
                                 '@type'				=> 'DiscussionForumPosting' ,
-                                '@id'				=> bbp_get_topic_permalink().'#discussionforumposting',    			
+                                '@id'				=> bbp_get_topic_permalink().'#discussionforumposting',
+                                'mainEntityOfPage'              => bbp_get_topic_permalink(), 
                                 'headline'			=> bbp_get_topic_title(get_the_ID()),
                                 'description'                   => saswp_get_the_excerpt(),
                                 "articleSection"                => bbp_get_forum_title(),
@@ -380,9 +594,10 @@ function saswp_schema_output() {
                                 '@context'			=> 'http://schema.org',
                                 '@type'				=> 'DiscussionForumPosting' ,
                                 '@id'				=> trailingslashit(get_permalink()).'#blogposting',    			
-                                'headline'			=> saswp_get_the_title(),
-                                'description'                   => saswp_get_the_excerpt(),			
                                 'url'				=> trailingslashit(get_permalink()),
+                                'mainEntityOfPage'              => get_permalink(),       
+                                'headline'			=> saswp_get_the_title(),
+                                'description'                   => saswp_get_the_excerpt(),			                                
                                 'datePublished'                 => esc_html($date),
                                 'dateModified'                  => esc_html($modified_date),
                                 'author'			=> saswp_get_author_details()											
@@ -1917,9 +2132,6 @@ function saswp_post_specific_schema_output() {
                             }  
                             
                             $input1['isAccessibleForFree']    = saswp_remove_warnings($all_post_meta, 'saswp_ta_schema_is_acceesible_free_'.$schema_id, 'saswp_array');
-//                            $input1['openingHours']           = saswp_remove_warnings($all_post_meta, 'saswp_ta_schema_opening_hours_'.$schema_id, 'saswp_array');
-//                            $input1['currenciesAccepted']     = saswp_remove_warnings($all_post_meta, 'saswp_ta_schema_currencies_accepted_'.$schema_id, 'saswp_array');
-//                            $input1['paymentAccepted']        = saswp_remove_warnings($all_post_meta, 'saswp_ta_schema_payment_accepted_'.$schema_id, 'saswp_array');
                             
                             $input1['address']['@type']             = 'PostalAddress';
                             $input1['address']['addressCountry']    = saswp_remove_warnings($all_post_meta, 'saswp_ta_schema_address_country_'.$schema_id, 'saswp_array');
@@ -2084,9 +2296,13 @@ function saswp_post_specific_schema_output() {
                                 
                             }                            
                             
-                            $input1['estimatedCost']['@type']   = 'MonetaryAmount';
-                            $input1['estimatedCost']['currency']= saswp_remove_warnings($all_post_meta, 'saswp_howto_ec_schema_currency_'.$schema_id, 'saswp_array');
-                            $input1['estimatedCost']['value']   = saswp_remove_warnings($all_post_meta, 'saswp_howto_ec_schema_value_'.$schema_id, 'saswp_array');
+                            if(saswp_remove_warnings($all_post_meta, 'saswp_howto_ec_schema_currency_'.$schema_id, 'saswp_array') !='' && saswp_remove_warnings($all_post_meta, 'saswp_howto_ec_schema_value_'.$schema_id, 'saswp_array') !='')
+                            {
+                                $input1['estimatedCost']['@type']   = 'MonetaryAmount';
+                                $input1['estimatedCost']['currency']= saswp_remove_warnings($all_post_meta, 'saswp_howto_ec_schema_currency_'.$schema_id, 'saswp_array');
+                                $input1['estimatedCost']['value']   = saswp_remove_warnings($all_post_meta, 'saswp_howto_ec_schema_value_'.$schema_id, 'saswp_array');
+                            }
+                            
                                                         
                             $supply_arr = array();
                             if(!empty($supply)){
@@ -2094,13 +2310,18 @@ function saswp_post_specific_schema_output() {
                                 foreach($supply as $val){
                                    
                                     $supply_data = array();
-                                    $supply_data['@type'] = 'HowToSupply';
-                                    $supply_data['name']  = $val['saswp_howto_supply_name'];
-                                    $supply_data['url']   = $val['saswp_howto_supply_url'];
                                     
-                                    if(isset($val['saswp_howto_supply_image_id'])){
+                                    if($val['saswp_howto_supply_name'] || $val['saswp_howto_supply_url']){
+                                        $supply_data['@type'] = 'HowToSupply';
+                                        $supply_data['name']  = $val['saswp_howto_supply_name'];
+                                        $supply_data['url']   = $val['saswp_howto_supply_url'];
+                                    }
+                                    
+                                    
+                                    
+                                    if(isset($val['saswp_howto_supply_image_id']) && $val['saswp_howto_supply_image_id'] !=''){
                                         
-                                        $image_details   = wp_get_attachment_image_src($val['saswp_howto_supply_image_id']); 
+                                                $image_details   = wp_get_attachment_image_src($val['saswp_howto_supply_image_id']); 
                                         
                                                 $supply_data['image']['@type']  = 'ImageObject';                                                
                                                 $supply_data['image']['url']    = esc_url($image_details[0]);
@@ -2121,11 +2342,14 @@ function saswp_post_specific_schema_output() {
                                 foreach($tool as $val){
                                    
                                     $supply_data = array();
-                                    $supply_data['@type'] = 'HowToTool';
-                                    $supply_data['name'] = $val['saswp_howto_tool_name'];
-                                    $supply_data['url']  = $val['saswp_howto_tool_url'];
                                     
-                                    if(isset($val['saswp_howto_tool_image_id'])){
+                                    if($val['saswp_howto_tool_name'] || $val['saswp_howto_tool_url']){
+                                        $supply_data['@type'] = 'HowToTool';
+                                        $supply_data['name'] = $val['saswp_howto_tool_name'];
+                                        $supply_data['url']  = $val['saswp_howto_tool_url'];
+                                    }
+                                                                                                            
+                                    if(isset($val['saswp_howto_tool_image_id']) && $val['saswp_howto_tool_image_id'] !=''){
                                         
                                         $image_details   = wp_get_attachment_image_src($val['saswp_howto_tool_image_id']); 
                                         
@@ -2153,29 +2377,34 @@ function saswp_post_specific_schema_output() {
                                     $direction   = array();
                                     $tip         = array();
                                     
-                                    $direction['@type']     = 'HowToDirection';
-                                    $direction['text']      = $val['saswp_howto_direction_text'];
+                                    if($val['saswp_howto_direction_text']){
+                                        $direction['@type']     = 'HowToDirection';
+                                        $direction['text']      = $val['saswp_howto_direction_text'];
+                                    }
                                     
-                                    $tip['@type']           = 'HowToTip';
-                                    $tip['text']            = $val['saswp_howto_tip_text'];
-                                    
+                                    if($val['saswp_howto_tip_text']){
+                                        
+                                        $tip['@type']           = 'HowToTip';
+                                        $tip['text']            = $val['saswp_howto_tip_text'];
+                                        
+                                    }
                                     
                                     $supply_data['@type']   = 'HowToStep';
                                     $supply_data['url']     = trailingslashit(get_permalink()).'#step'.++$key;
-                                    $supply_data['name']    = $val['saswp_howto_step_name'];                                                                                                            
-                                    $supply_data['itemListElement']  = array($direction, $tip);
+                                    $supply_data['name']    = $val['saswp_howto_step_name'];    
                                     
-                                    if(isset($val['saswp_howto_step_image_id'])){
+                                    if($direction['text'] ||  $tip['text']){
+                                        $supply_data['itemListElement']  = array($direction, $tip);
+                                    }
+                                                                                                            
+                                    if(isset($val['saswp_howto_step_image_id']) && $val['saswp_howto_step_image_id'] !=''){
                                         
-                                        $image_details   = wp_get_attachment_image_src($val['saswp_howto_step_image_id']); 
-                                        
+                                                $image_details   = wp_get_attachment_image_src($val['saswp_howto_step_image_id']);                                                 
                                                 $supply_data['image']['@type']  = 'ImageObject';                                                
                                                 $supply_data['image']['url']    = esc_url($image_details[0]);
                                                 $supply_data['image']['width']  = esc_attr($image_details[1]);
                                                 $supply_data['image']['height'] = esc_attr($image_details[2]);
-                                        
-                                        
-                                        
+                                                                                                                        
                                     }
                                     
                                    $step_arr[] =  $supply_data;
@@ -2474,20 +2703,39 @@ function saswp_post_specific_schema_output() {
                         
                          if( 'DiscussionForumPosting' === $schema_type){
                             
+                            $event_image = get_post_meta( get_the_ID(), 'saswp_dfp_image_'.$schema_id.'_detail',true);  
+                            $slogo = get_post_meta( get_the_ID(), 'saswp_dfp_organization_logo_'.$schema_id.'_detail',true); 
                             $input1 = array(
                                 '@context'			=> 'http://schema.org',
                                 '@type'				=> 'DiscussionForumPosting' ,
                                 '@id'				=> saswp_remove_warnings($all_post_meta, 'saswp_dfp_url_'.$schema_id, 'saswp_array').'#blogposting',    			
+                                'mainEntityOfPage'		=> saswp_remove_warnings($all_post_meta, 'saswp_dfp_main_entity_of_page_'.$schema_id, 'saswp_array'),    			
                                 'headline'			=> saswp_remove_warnings($all_post_meta, 'saswp_dfp_headline_'.$schema_id, 'saswp_array'),
                                 'description'                   => saswp_remove_warnings($all_post_meta, 'saswp_dfp_description_'.$schema_id, 'saswp_array'),			
                                 'url'				=> saswp_remove_warnings($all_post_meta, 'saswp_dfp_url_'.$schema_id, 'saswp_array'),
+                                'image'                         => array(
+                                                                    '@type'		=>'ImageObject',
+                                                                    'url'		=>  isset($event_image['thumbnail']) ? esc_url($event_image['thumbnail']):'' ,
+                                                                    'width'		=>  isset($event_image['width'])     ? esc_attr($event_image['width'])   :'' ,
+                                                                    'height'            =>  isset($event_image['height'])    ? esc_attr($event_image['height'])  :'' ,
+                                                                ), 
                                 'datePublished'                 => isset($all_post_meta['saswp_dfp_date_published_'.$schema_id])?date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_dfp_date_published_'.$schema_id][0])):'',
                                 'dateModified'                  => isset($all_post_meta['saswp_dfp_date_modified_'.$schema_id])?date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_dfp_date_modified_'.$schema_id][0])):'',
                                 'author'			=> array(
                                                                     '@type' 	        => 'Person',
                                                                     'name'		=> saswp_remove_warnings($all_post_meta, 'saswp_dfp_author_name_'.$schema_id, 'saswp_array'),
                                                                     'description'	=> saswp_remove_warnings($all_post_meta, 'saswp_dfp_author_description_'.$schema_id, 'saswp_array') 
-                                                                )											
+                                                                ),
+                                'publisher'			=> array(
+						'@type'			=> 'Organization',
+						'logo' 			=> array(
+							'@type'		=> 'ImageObject',
+							'url'		=> saswp_remove_warnings($all_post_meta, 'saswp_dfp_organization_logo_'.$schema_id, 'saswp_array'),
+							'width'		=> saswp_remove_warnings($slogo, 'width', 'saswp_string'),
+							'height'	=> saswp_remove_warnings($slogo, 'height', 'saswp_string'),
+							),
+						'name'			=> saswp_remove_warnings($all_post_meta, 'saswp_dfp_organization_name_'.$schema_id, 'saswp_array'),
+					),
                                     );
                         }
                         
@@ -2880,13 +3128,13 @@ function saswp_post_specific_schema_output() {
 				'@type'				=> $schema_type ,
                                 '@id'                           => trailingslashit(get_permalink()).'#recipe',    
 				'url'				=> saswp_remove_warnings($all_post_meta, 'saswp_recipe_url_'.$schema_id, 'saswp_array'),
-                'name'			        => saswp_remove_warnings($all_post_meta, 'saswp_recipe_name_'.$schema_id, 'saswp_array'),
-                'image'                         =>array(
-                    '@type'		=> 'ImageObject',
-                    'url'		=> saswp_remove_warnings( $recipe_image, 'thumbnail', 'saswp_string'),
-                    'width'		=> saswp_remove_warnings( $recipe_image, 'width', 'saswp_string'),
-                    'height'    => saswp_remove_warnings( $recipe_image , 'height', 'saswp_string'),
-                    ),
+                                'name'			        => saswp_remove_warnings($all_post_meta, 'saswp_recipe_name_'.$schema_id, 'saswp_array'),
+                                'image'                         =>array(
+                                 '@type'		=> 'ImageObject',
+                                    'url'		=> saswp_remove_warnings( $recipe_image, 'thumbnail', 'saswp_string'),
+                                'width'		=> saswp_remove_warnings( $recipe_image, 'width', 'saswp_string'),
+                                 'height'    => saswp_remove_warnings( $recipe_image , 'height', 'saswp_string'),
+                             ),
                                 'author'			=> array(
 								'@type' 	=> 'Person',
 								'name'		=> saswp_remove_warnings($all_post_meta, 'saswp_recipe_author_name_'.$schema_id, 'saswp_array'),
@@ -2912,18 +3160,7 @@ function saswp_post_specific_schema_output() {
                                                                     'calories'  => saswp_remove_warnings($all_post_meta, 'saswp_recipe_nutrition_'.$schema_id, 'saswp_array'),                                                                 
                                                                  ), 
                                 'recipeIngredient'               => $ingredient, 
-                                'recipeInstructions'             => $instruction,  
-                                'video'                          => array(
-                                                                        '@type'        => 'VideoObject',
-                                                                        'name'         => saswp_remove_warnings($all_post_meta, 'saswp_recipe_video_name_'.$schema_id, 'saswp_array'),
-                                                                        'description'  => saswp_remove_warnings($all_post_meta, 'saswp_recipe_video_description_'.$schema_id, 'saswp_array'),
-                                                                        'thumbnailUrl' => saswp_remove_warnings($all_post_meta, 'saswp_recipe_video_thumbnailurl_'.$schema_id, 'saswp_array'),  
-                                                                        'contentUrl'   => saswp_remove_warnings($all_post_meta, 'saswp_recipe_video_contenturl_'.$schema_id, 'saswp_array'),  
-                                                                        'embedUrl'     => saswp_remove_warnings($all_post_meta, 'saswp_recipe_video_embedurl_'.$schema_id, 'saswp_array'),  
-                                                                        'uploadDate'   => isset($all_post_meta['saswp_recipe_video_upload_date_'.$schema_id])?date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_recipe_video_upload_date_'.$schema_id][0])):'',
-                                                                        'duration'     => saswp_remove_warnings($all_post_meta, 'saswp_recipe_video_duration_'.$schema_id, 'saswp_array'),                                                                 
-                                                                 ),                                                                                                             
-                                    
+                                'recipeInstructions'             => $instruction,                                                                                                                                                                                 
 				'datePublished'                 => isset($all_post_meta['saswp_recipe_date_published_'.$schema_id])?date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_recipe_date_published_'.$schema_id][0])):'',
 				'dateModified'                  => isset($all_post_meta['saswp_recipe_date_modified_'.$schema_id])?date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_recipe_date_modified_'.$schema_id][0])):'',
 				'description'                   => saswp_remove_warnings($all_post_meta, 'saswp_recipe_description_'.$schema_id, 'saswp_array'),
@@ -2943,7 +3180,20 @@ function saswp_post_specific_schema_output() {
 					),
 					
 				
-                );
+                                );
+                                
+                                if(saswp_remove_warnings($all_post_meta, 'saswp_recipe_video_name_'.$schema_id, 'saswp_array') !='' && saswp_remove_warnings($all_post_meta, 'saswp_recipe_video_thumbnailurl_'.$schema_id, 'saswp_array') !='' && saswp_remove_warnings($all_post_meta, 'saswp_recipe_video_description_'.$schema_id, 'saswp_array') !=''){
+                                    
+                                    $input1['video']['@type']        = 'VideoObject';
+                                    $input1['video']['name']         = saswp_remove_warnings($all_post_meta, 'saswp_recipe_video_name_'.$schema_id, 'saswp_array');
+                                    $input1['video']['description']  = saswp_remove_warnings($all_post_meta, 'saswp_recipe_video_description_'.$schema_id, 'saswp_array');
+                                    $input1['video']['thumbnailUrl'] = saswp_remove_warnings($all_post_meta, 'saswp_recipe_video_thumbnailurl_'.$schema_id, 'saswp_array');
+                                    $input1['video']['contentUrl']   = saswp_remove_warnings($all_post_meta, 'saswp_recipe_video_contenturl_'.$schema_id, 'saswp_array');
+                                    $input1['video']['embedUrl']     = saswp_remove_warnings($all_post_meta, 'saswp_recipe_video_embedurl_'.$schema_id, 'saswp_array');
+                                    $input1['video']['uploadDate']   = isset($all_post_meta['saswp_recipe_video_upload_date_'.$schema_id])?date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_recipe_video_upload_date_'.$schema_id][0])):'';
+                                    $input1['video']['duration']     = saswp_remove_warnings($all_post_meta, 'saswp_recipe_video_duration_'.$schema_id, 'saswp_array');
+                                }
+                                                                
                                 if(saswp_remove_warnings($all_post_meta, 'saswp_recipe_schema_enable_rating_'.$schema_id, 'saswp_array') == 1 && saswp_remove_warnings($all_post_meta, 'saswp_recipe_schema_rating_'.$schema_id, 'saswp_array') && saswp_remove_warnings($all_post_meta, 'saswp_recipe_schema_review_count_'.$schema_id, 'saswp_array')){   
                                                 
                                     $input1['aggregateRating'] = array(

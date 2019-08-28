@@ -1242,7 +1242,8 @@ if ( ! defined('ABSPATH') ) exit;
                         'data-id'      => array(),
                         'checked'      => array(),
                         'step'         => array(),
-                        'min'          => array()
+                        'min'          => array(),
+                        'max'          => array()
                 );
                 $my_allowed['hidden']  = array(                    
                         'id'           => array(),
@@ -1656,9 +1657,10 @@ if ( ! defined('ABSPATH') ) exit;
         
     <?php
      }
-     
-                   
-        if((has_shortcode( get_the_content(), 'saswp_google_review') || is_active_widget( false, false, 'saswp_google_review_widget',true )) && isset($sd_data['saswp-google-review']) && $sd_data['saswp-google-review'] == 1 ){
+                        
+        if((has_shortcode( get_the_content(), 'saswp_google_review') || is_active_widget( false, false, 'saswp_google_review_widget',true )) && 
+                ((isset($sd_data['saswp-google-review']) && $sd_data['saswp-google-review'] == 1) || (isset($sd_data['saswp-shopper-approved-review']) && $sd_data['saswp-shopper-approved-review'] == 1)) 
+                ){
             ?>
         
         /*** Review Design CSS ****/
@@ -1898,7 +1900,7 @@ if ( ! defined('ABSPATH') ) exit;
 
         }
 
-        if(saswp_global_option()  && saswp_remove_warnings($sd_data, 'saswp-yoast', 'saswp_string') == 1){
+        if(saswp_remove_warnings($sd_data, 'saswp-yoast', 'saswp_string') == 1){
 
             $yoast_meta_des = saswp_convert_yoast_metafields($post->ID, 'metadesc');
 
@@ -1909,7 +1911,55 @@ if ( ! defined('ABSPATH') ) exit;
             }
 
         }
-
+        
+        if(saswp_remove_warnings($sd_data, 'saswp-smart-crawl', 'saswp_string') == 1){
+                            
+                if(class_exists('Smartcrawl_OpenGraph_Value_Helper')){
+                        
+                    $value_helper = new Smartcrawl_OpenGraph_Value_Helper();
+            
+                    $smart_meta_des =  $value_helper->get_description();
+                    
+                    if($smart_meta_des){
+                        $excerpt = $smart_meta_des;
+                    }
+                                                    
+                }
+                                      
+        }
+        
+        //All in one Seo pack
+        if(saswp_remove_warnings($sd_data, 'saswp-aiosp', 'saswp_string') == 1){
+                             
+             global $aiosp, $post;            
+             $c_excerpt =  $aiosp->get_aioseop_description($post);             
+             if($c_excerpt){
+                 $excerpt = $c_excerpt;
+             }             
+                                      
+        }
+        
+        //SEOPress 
+        if(saswp_remove_warnings($sd_data, 'saswp-seo-press', 'saswp_string') == 1){
+             require_once ( WP_PLUGIN_DIR. '/wp-seopress/inc/functions/options-titles-metas.php'); //Social                                                                              
+             $c_excerpt =  seopress_titles_the_description_content($post);             
+             
+             if($c_excerpt){
+                 $excerpt = $c_excerpt;
+             }            
+                                      
+        }
+        
+        if(saswp_remove_warnings($sd_data, 'saswp-the-seo-framework', 'saswp_string') == 1){
+                            
+                $c_excerpt = get_post_meta($post->ID, '_genesis_description', true);
+                
+                if($c_excerpt){
+                    $excerpt = $c_excerpt;
+                }       
+                                      
+        }
+                        
         return $excerpt;
     }
     /**
@@ -1932,6 +1982,7 @@ if ( ! defined('ABSPATH') ) exit;
         }         
         return '';
     }
+         
     /**
      * since @1.8.7
      * Here we are modifying the default title
@@ -1943,29 +1994,85 @@ if ( ! defined('ABSPATH') ) exit;
         global $post;
         global $sd_data;
 
-        if(saswp_global_option()  && saswp_remove_warnings($sd_data, 'saswp-yoast', 'saswp_string') == 1){
+        $title = get_the_title();
+        
+        //SEOPress
+        if(saswp_remove_warnings($sd_data, 'saswp-seo-press', 'saswp_string') == 1){
+             require_once ( WP_PLUGIN_DIR. '/wp-seopress/inc/functions/options-titles-metas.php'); //Social                                     
+             $c_title =  seopress_titles_the_title();
+             
+             if($c_title){
+                 $title = $c_title;
+             }             
+                                      
+        }
+        
+        //All in one Seo pack
+        if(saswp_remove_warnings($sd_data, 'saswp-aiosp', 'saswp_string') == 1){
+                             
+             global $aiosp;
+            
+             $c_title =  $aiosp->wp_title();
+             
+             if($c_title){
+                 $title = $c_title;
+             }             
+                                      
+        }
+        
+        //The seo framework
+        if(saswp_remove_warnings($sd_data, 'saswp-the-seo-framework', 'saswp_string') == 1){
+                          
+                $c_title = get_post_meta($post->ID, '_genesis_title', true);
+                
+                if($c_title){
+                    $title = $c_title;
+                }                                
+                                      
+        }
+        
+        //SmartCrawl title
+                
+        if(saswp_remove_warnings($sd_data, 'saswp-smart-crawl', 'saswp_string') == 1){
+
+            if(is_object($post)){
+                
+                if(class_exists('Smartcrawl_OpenGraph_Value_Helper')){
+                        
+                    $value_helper = new Smartcrawl_OpenGraph_Value_Helper();
+            
+                    $c_title =  $value_helper->get_title();
+                    
+                    if($c_title){
+
+                       $title = $c_title;
+
+                    }
+            
+                }
+                
+            }
+            
+        }
+        
+        
+        //Yoast title 
+        if(saswp_remove_warnings($sd_data, 'saswp-yoast', 'saswp_string') == 1){
 
             if(is_object($post)){
 
-                $yoast_title = saswp_convert_yoast_metafields($post->ID, 'title');
+                $c_title = saswp_convert_yoast_metafields($post->ID, 'title');
 
             }
 
-            if($yoast_title){
+            if($c_title){
 
-                $title = $yoast_title;
-
-            }else{
-
-                $title = get_the_title();
+                $title = $c_title;
 
             }
 
-        }else{
-
-           $title = get_the_title();
         }
-                
+        
         if (strlen($title) > 110){
             $title = substr($title, 0, 106) . ' ...';
         }
@@ -2088,6 +2195,15 @@ function saswp_check_plugin_active_status($pname){
         'smart_crawl' => array(
             'free' => 'smartcrawl-seo/wpmu-dev-seo.php',            
         ),
+        'the_seo_framework' => array(
+            'free' => 'autodescription/autodescription.php',            
+        ),
+        'seo_press' => array(
+            'free' => 'wp-seopress/seopress.php',            
+        ),
+        'aiosp' => array(
+            'free' => 'all-in-one-seo-pack/all_in_one_seo_pack.php',            
+        ),    
         
     );
     

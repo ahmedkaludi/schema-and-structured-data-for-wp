@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.2
-Stable tag: 1.9.1
+Stable tag: 1.9.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -109,6 +109,19 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.9.2 (28 Aug 2019) =
+
+* Added: Compatibility with SEO Framework ( https://wordpress.org/plugins/autodescription/ ) #426
+* Added: Compatibility with SEOPress ( https://wordpress.org/plugins/wp-seopress/ ) #421
+* Added: Compatibility with Smartcrawl SEO ( https://wordpress.org/plugins/smartcrawl-seo/ ) #319
+* Added: Compatibility with All in One SEO Pack ( https://wordpress.org/plugins/all-in-one-seo-pack/ ) #383
+* Bug Fixed: @type ImageObject and VideoObject are getting created eventhough values are not present on the site #437
+* Bug Fixed: Post specific schema fields are not showing on first button click inside custom post types #424
+* Bug Fixed: Fatal Error ( Cannot access protected property saswp_post_specific::$_local_sub_business ) #443
+* Bug Fixed: HowTo Schema (If steps images are not there its type should not come in json markup). #442
+* Bug Fixed: Missing datePublished and mainEntityOfPage fields in DiscussionForumPosting schema #438
+
 
 = 1.9.1 (21 Aug 2019) =
 

@@ -1318,23 +1318,24 @@ function saswp_import_callback(){
 
 function saswp_get_license_section_html($on, $license_key, $license_status, $license_status_msg, $label=null, $limits=null){
             
-    $limits_html = $response = '';
+            $limits_html = $response = '';
     
-    if($limits){
-       $limits_html = '<span style="padding:10px;">Maximum Reviews Limits '. esc_attr($limits).'</span>'; 
-    }
+            $limits = get_option('reviews_addon_reviews_limits');
     
-    $response.= '<div class="saswp-tools-field-title">';
+            if($limits){
+               $limits_html = '<span style="padding:10px;">Maximum Reviews Limits '. esc_attr($limits).'</span>'; 
+            }
+
+            $response.= '<div class="saswp-tools-field-title">';
                 
                if($label == true){
                    
-                $response.= '<div class="" style="display:inline-block">';
-                $response.= '<strong>'.esc_html__(''.$on.' Compatibility For Schema','schema-and-structured-data-for-wp').'</strong>';
-                $response.= '</div>';
+                    $response.= '<div class="" style="display:inline-block">';
+                    $response.= '<strong>'.esc_html__(''.$on.' Compatibility For Schema','schema-and-structured-data-for-wp').'</strong>';
+                    $response.= '</div>';
                 
                }
-                
-                
+                                
                 if($license_status == 'active'){
                 
                     $response.= '<span class="dashicons dashicons-yes saswp-'.strtolower($on).'-dashicons" style="color: #46b450;"></span>';    
@@ -1399,19 +1400,19 @@ function saswp_review_page_callback(){
                             'type'  => 'text',
                   ),
                 array(
-                            'label' => 'Place',
+                            'label' => '',
                             'id'    => 'saswp-google-place-section',
                             'name'  => 'sd_data[saswp-google-place-section]',
                             'type'  => 'text',
                             
-                  ),
-//                 array(
-//                            'label' => 'Review Module',
-//                            'id'    => 'saswp-reviews-module-section',
-//                            'name'  => 'sd_data[saswp-reviews-module-section]',
-//                            'type'  => 'text',
-//                            
-//                  )  
+                  ),                
+                 array(
+                            'label' => 'Review Module',
+                            'id'    => 'saswp-reviews-module-section',
+                            'name'  => 'sd_data[saswp-reviews-module-section]',
+                            'type'  => 'text',
+                            
+                  )  
                   
                 
 	);    
@@ -1523,6 +1524,44 @@ function saswp_compatibility_page_callback(){
                         'hidden' => array(
                                 'id'   => 'saswp-smart-crawl',
                                 'name' => 'sd_data[saswp-smart-crawl]',                             
+                        )
+		);
+        
+        $the_seo_framework = array(
+			'label'  => 'The SEO Framework',
+			'id'     => 'saswp-the-seo-framework-checkbox',                        
+                        'name'   => 'saswp-the-seo-framework-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
+                        'note'   => saswp_get_field_note('the_seo_framework'),
+                        'hidden' => array(
+                                'id'   => 'saswp-the-seo-framework',
+                                'name' => 'sd_data[saswp-the-seo-framework]',                             
+                        )
+		);
+        
+        $seo_press = array(
+			'label'  => 'SEOPress',
+			'id'     => 'saswp-seo-press-checkbox',                        
+                        'name'   => 'saswp-seo-press-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
+                        'note'   => saswp_get_field_note('seo_press'),
+                        'hidden' => array(
+                                'id'   => 'saswp-seo-press',
+                                'name' => 'sd_data[saswp-seo-press]',                             
+                        )
+		);
+        $aiosp = array(
+			'label'  => 'All in One SEO Pack',
+			'id'     => 'saswp-aiosp-checkbox',                        
+                        'name'   => 'saswp-aiosp-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
+                        'note'   => saswp_get_field_note('aiosp'),
+                        'hidden' => array(
+                                'id'   => 'saswp-aiosp',
+                                'name' => 'sd_data[saswp-aiosp]',                             
                         )
 		);
         
@@ -1732,6 +1771,9 @@ function saswp_compatibility_page_callback(){
                 //$wpjobmanager,
                 $yoast,
                 $smart_crawl,
+                $seo_press,
+                $the_seo_framework,
+                $aiosp,
                 $rankmath
                 
 	);     
@@ -1935,7 +1977,10 @@ function saswp_get_field_note($pname){
             'yoast_seo'           => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wordpress-seo/">Yoast SEO</a>',
             'rank_math'           => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/seo-by-rank-math/">WordPress SEO Plugin – Rank Math</a>',            
             'dw_qna'              => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/dw-question-answer/">DW Question Answer</a>',
-            'smart_crawl'         => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/smartcrawl-seo/">SmartCrawl Seo</a>'
+            'smart_crawl'         => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/smartcrawl-seo/">SmartCrawl Seo</a>',
+            'the_seo_framework'   => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/autodescription/">The Seo Framework</a>',
+            'seo_press'           => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wp-seopress/">SEOPress</a>',
+            'aiosp'               => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/all-in-one-seo-pack/">All in One SEO Pack</a>'
         );
             
     if(!saswp_check_plugin_active_status($pname)){
