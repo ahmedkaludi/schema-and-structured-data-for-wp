@@ -27,11 +27,22 @@ function saswp_schema_markup_hook_on_init() {
                add_action('wp_head', 'saswp_schema_markup_output');  
                add_action( 'amp_post_template_head' , 'saswp_schema_markup_output' );
             }               
+            
+            add_action('cooked_amp_head', 'saswp_schema_markup_output');
+                                    
             remove_action( 'amp_post_template_head', 'amp_post_template_add_schemaorg_metadata',99,1);
             remove_action( 'amp_post_template_footer', 'amp_post_template_add_schemaorg_metadata',99,1);  
-            remove_action('wp_footer', 'orbital_markup_site');
-            add_action('cooked_amp_head', 'saswp_schema_markup_output');
-            
+            remove_action('wp_footer', 'orbital_markup_site');            
+            add_filter('hunch_schema_markup', '__return_false');
+                        
+            if(class_exists('BSF_AIOSRS_Pro_Markup')){
+                
+                remove_action( 'wp_head', array( BSF_AIOSRS_Pro_Markup::get_instance(), 'schema_markup' ),10);
+                remove_action( 'wp_head', array( BSF_AIOSRS_Pro_Markup::get_instance(), 'global_schemas_markup' ),10);
+                remove_action( 'wp_footer', array( BSF_AIOSRS_Pro_Markup::get_instance(), 'schema_markup' ),10);
+                remove_action( 'wp_footer', array( BSF_AIOSRS_Pro_Markup::get_instance(), 'global_schemas_markup' ),10);
+            }
+                                    
             if(isset($sd_data['saswp-microdata-cleanup']) && $sd_data['saswp-microdata-cleanup'] == 1){                
                 ob_start("saswp_remove_microdata");                
             }
@@ -752,7 +763,7 @@ function saswp_remove_microdata($content){
         if(isset($sd_data['saswp-aiosp']) && $sd_data['saswp-aiosp'] == 1 ){
             $content = preg_replace('/<script type=\"application\/ld\+json" class=\"aioseop-schema"\>(.*?)<\/script>/', "", $content);
         }
-                
+        
     }             
     
     return $content;
