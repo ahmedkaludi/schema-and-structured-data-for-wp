@@ -1589,6 +1589,19 @@ function saswp_compatibility_page_callback(){
                         )
 		);
         
+        $recipe_maker = array(
+			'label'  => 'WP Recipe Maker',
+			'id'     => 'saswp-wp-recipe-maker-checkbox',                        
+                        'name'   => 'saswp-wp-recipe-maker-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
+                        'note'   => saswp_get_field_note('wp_recipe_maker'),
+                        'hidden' => array(
+                                'id'   => 'saswp-wp-recipe-maker',
+                                'name' => 'sd_data[saswp-wp-recipe-maker]',                             
+                        )
+		);
+        
         $the_events_calendar = array(
 			'label'  => 'The Events Calendar',
 			'id'     => 'saswp-the-events-calendar-checkbox',                        
@@ -1800,6 +1813,7 @@ function saswp_compatibility_page_callback(){
                 $aiosp,
                 $squirrly_seo,
                 $wpsso_core,
+                $recipe_maker,
                 $rankmath
                 
 	);     
@@ -2008,7 +2022,8 @@ function saswp_get_field_note($pname){
             'seo_press'           => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wp-seopress/">SEOPress</a>',
             'aiosp'               => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/all-in-one-seo-pack/">All in One SEO Pack</a>',
             'squirrly_seo'        => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/squirrly-seo/">Squirrly SEO</a>',
-            'wpsso_core'          => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wpsso/">WPSSO Core</a>'
+            'wpsso_core'          => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wpsso/">WPSSO Core</a>',
+            'wp_recipe_maker'     => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wp-recipe-maker/">WP Recipe Maker</a>'
         );
             
     if(!saswp_check_plugin_active_status($pname)){

@@ -95,5 +95,11 @@ return array(
             'path_free'  => 'wpsso/wpsso.php',               
             'status_key' => 'saswp-wpsso-core',    
         ),
+        array(
+            'key'        => 'wp_recipe_maker',
+            'name'       => 'WP Recipe Maker',
+            'path_free'  => 'wp-recipe-maker/wp-recipe-maker.php',               
+            'status_key' => 'saswp-wp-recipe-maker',    
+        ),
                 
     );

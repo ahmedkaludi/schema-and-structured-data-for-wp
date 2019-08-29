@@ -203,6 +203,7 @@ function saswp_schema_output() {
 	}
         
         $all_schema_output = array();
+        $recipe_json       = array();
         
         foreach($Conditionals as $schemaConditionals){
         
@@ -903,8 +904,28 @@ function saswp_schema_output() {
 			}
 		      
 			if( 'Recipe' === $schema_type){
-                            
-				if(empty($image_details[0]) || $image_details[0] === NULL ){
+                        
+                            if(isset($sd_data['saswp-wp-recipe-maker']) && $sd_data['saswp-wp-recipe-maker'] == 1){
+                                                              
+                                $recipe_ids = saswp_get_ids_from_content_by_type('wp_recipe_maker');
+                                                                
+                                if($recipe_ids){
+
+                                    foreach($recipe_ids as $recipe){
+
+                                        if(class_exists('WPRM_Recipe_Manager')){
+                                            $recipe_arr    = WPRM_Recipe_Manager::get_recipe( $recipe );
+                                            $recipe_json[] = saswp_wp_recipe_schema_json($recipe_arr);                                            
+                                        }
+
+                                    }  
+                                    
+                                 }
+                                
+                                 
+                            }else{
+                                
+                               if(empty($image_details[0]) || $image_details[0] === NULL ){
 					$image_details[0] = $sd_data['sd_logo']['url'];
 				}
                                 
@@ -944,7 +965,10 @@ function saswp_schema_output() {
                                    $input1 = array_merge($input1, $extra_theme_review);
                                 }
                                 
-                                $input1 = apply_filters('saswp_modify_recipe_schema_output', $input1 );
+                                
+                            }
+                            				                                
+                               $input1 = apply_filters('saswp_modify_recipe_schema_output', $input1 );
 			}
                        
                         if( 'qanda' === $schema_type){
@@ -1728,9 +1752,16 @@ function saswp_schema_output() {
                 
                 if(!empty($input1)){
                     $all_schema_output[] = $input1;		                    
-                }                	
+                }                
+               
         }   
                 
+        if($recipe_json){
+            foreach($recipe_json as $json){
+                array_push($all_schema_output, $json);
+            }
+        }
+        
         return apply_filters('saswp_modify_schema_output', $all_schema_output);
 }
 

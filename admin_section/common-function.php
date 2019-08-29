@@ -2269,6 +2269,9 @@ function saswp_check_plugin_active_status($pname){
         'wpsso_core' => array(
             'free' => 'wpsso/wpsso.php',            
         ),
+        'wp_recipe_maker' => array(
+            'free' => 'wp-recipe-maker/wp-recipe-maker.php',            
+        ),
         
     );
     
