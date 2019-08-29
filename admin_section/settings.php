@@ -1576,6 +1576,18 @@ function saswp_compatibility_page_callback(){
                                 'name' => 'sd_data[saswp-aiosp]',                             
                         )
 		);
+        $wpsso_core = array(
+			'label'  => 'WPSSO Core',
+			'id'     => 'saswp-wpsso-core-checkbox',                        
+                        'name'   => 'saswp-wpsso-core-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
+                        'note'   => saswp_get_field_note('wpsso_core'),
+                        'hidden' => array(
+                                'id'   => 'saswp-wpsso-core',
+                                'name' => 'sd_data[saswp-wpsso-core]',                             
+                        )
+		);
         
         $the_events_calendar = array(
 			'label'  => 'The Events Calendar',
@@ -1787,6 +1799,7 @@ function saswp_compatibility_page_callback(){
                 $the_seo_framework,
                 $aiosp,
                 $squirrly_seo,
+                $wpsso_core,
                 $rankmath
                 
 	);     
@@ -1994,7 +2007,8 @@ function saswp_get_field_note($pname){
             'the_seo_framework'   => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/autodescription/">The Seo Framework</a>',
             'seo_press'           => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wp-seopress/">SEOPress</a>',
             'aiosp'               => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/all-in-one-seo-pack/">All in One SEO Pack</a>',
-            'squirrly_seo'        => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/squirrly-seo/">Squirrly SEO</a>'
+            'squirrly_seo'        => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/squirrly-seo/">Squirrly SEO</a>',
+            'wpsso_core'          => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wpsso/">WPSSO Core</a>'
         );
             
     if(!saswp_check_plugin_active_status($pname)){

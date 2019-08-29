@@ -7,11 +7,11 @@ class saswp_output_compatibility{
 
     public function __construct() {
     
-                $mappings_file = SASWP_DIR_NAME . '/core/array-list/plugins.php';
-                
-		if ( file_exists( $mappings_file ) ) {
-                    $this->_plugins_list = include $mappings_file;
-		}
+            $mappings_file = SASWP_DIR_NAME . '/core/array-list/plugins.php';
+
+            if ( file_exists( $mappings_file ) ) {
+                $this->_plugins_list = include $mappings_file;
+            }
             
     }
     
@@ -78,8 +78,13 @@ class saswp_output_compatibility{
     }
     public function saswp_seo_press_hooks(){
                 
-            remove_action('wp_head', 'seopress_social_accounts_jsonld_hook',1);
-            remove_action('wp_head', 'seopress_social_website_option',1);
+        remove_action('wp_head', 'seopress_social_accounts_jsonld_hook',1);
+        remove_action('wp_head', 'seopress_social_website_option',1);
+                                    
+    }
+    public function saswp_wpsso_core_hooks(){
+                
+        add_filter('wpsso_json_prop_https_schema_org_graph', '__return_false');
                                     
     }
     public function saswp_seo_press_override(){   
