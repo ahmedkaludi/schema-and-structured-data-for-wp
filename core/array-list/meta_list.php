@@ -1,5 +1,6 @@
 <?php 
-return array(
+return apply_filters('saswp_modify_post_meta_list',
+        array(
                     'text'  => array(                            
                             array(
                                     'label'     => __( 'Single Element', 'schema-and-structured-data-for-wp' ),
@@ -54,4 +55,5 @@ return array(
                                     ),
                             ),
                     ),
-            );
+            )
+ );

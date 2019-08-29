@@ -37,8 +37,71 @@ Class saswp_output_service{
            
            add_action( 'wp_ajax_saswp_get_meta_list', array($this, 'saswp_get_meta_list')); 
            
+           add_filter( 'saswp_modify_post_meta_list', array( $this, 'saswp_get_acf_meta_keys' ) );
+           
         }    
              
+        public function saswp_get_acf_meta_keys($fields){
+            
+            if ( function_exists( 'acf' ) && class_exists( 'acf' ) ) {
+
+				$post_type = 'acf';
+				if ( ( defined( 'ACF_PRO' ) && ACF_PRO ) || ( defined( 'ACF' ) && ACF ) ) {
+					$post_type = 'acf-field-group';
+				}
+				$text_acf_field  = array();
+				$image_acf_field = array();
+				$args            = array(
+					'post_type'      => $post_type,
+					'posts_per_page' => -1,
+					'post_status'    => 'publish',
+				);
+
+				$the_query = new WP_Query( $args );
+				if ( $the_query->have_posts() ) :
+					while ( $the_query->have_posts() ) :
+						$the_query->the_post();
+
+						$post_id = get_the_id();
+						
+						$acf_fields = apply_filters( 'acf/field_group/get_fields', array(), $post_id ); // WPCS: XSS OK.						
+
+						if ( 'acf-field-group' == $post_type ) {
+							$acf_fields = acf_get_fields( $post_id );
+						}
+
+						if ( is_array( $acf_fields ) && ! empty( $acf_fields ) ) {
+							foreach ( $acf_fields as $key => $value ) {
+
+								if ( 'image' == $value['type'] ) {
+									$image_acf_field[ $value['name'] ] = $value['label'];
+								} else {
+									$text_acf_field[ $value['name'] ] = $value['label'];
+								}
+							}
+						}
+					endwhile;
+				endif;
+				wp_reset_postdata();
+
+				if ( ! empty( $text_acf_field ) ) {
+					$fields['text'][] = array(
+						'label'     => __( 'Advanced Custom Fields', 'schema-and-structured-data-for-wp' ),
+						'meta-list' => $text_acf_field,
+					);
+				}
+
+				if ( ! empty( $image_acf_field ) ) {
+					$fields['image'][] = array(
+						'label'     => __( 'Advanced Custom Fields', 'schema-and-structured-data-for-wp' ),
+						'meta-list' => $image_acf_field,
+					);
+				}
+			}
+
+			return $fields;
+            
+        }
         
         public function saswp_get_meta_list(){
             
@@ -179,6 +242,8 @@ Class saswp_output_service{
                     }
                                     
                 default:
+                    $response = get_post_meta($schema_post_id, $field, true );
+                    
                     break;
             }
             
