@@ -1149,7 +1149,7 @@ function saswp_import_callback(){
         
         if($wpsso_core->post_count !=0){
             
-          $$wpsso_core_message = $message;
+          $wpsso_core_message = $message;
          
         }
         

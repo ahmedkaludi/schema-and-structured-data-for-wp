@@ -1316,7 +1316,12 @@ function saswp_import_plugin_data(){
                 if ( is_plugin_active('seo-pressor/seo-pressor.php')) {
                     $result = saswp_import_seo_pressor_plugin_data();      
                 }                
-                break;    
+                break;
+           case 'wpsso_core':                
+                if ( is_plugin_active('wpsso/wpsso.php') && is_plugin_active('wpsso-schema-json-ld/wpsso-schema-json-ld.php')) {
+                    $result = saswp_import_wpsso_core_plugin_data();      
+                }                
+                break;     
 
             default:
                 break;
