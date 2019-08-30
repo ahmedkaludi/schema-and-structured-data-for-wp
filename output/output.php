@@ -3771,14 +3771,19 @@ function saswp_post_specific_schema_output() {
                                 $business_sub_name   = '';
                                 $business_type       = saswp_remove_warnings($all_post_meta, 'saswp_business_type_'.$schema_id, 'saswp_array'); 
                                 $post_specific_obj   = new saswp_post_specific();
-                                $check_business_type = $post_specific_obj->_local_sub_business[$business_type];
                                 
-                                if(!empty($check_business_type)){
+                                if(array_key_exists($business_type, $post_specific_obj->_local_sub_business)){
+                                
+                                    $check_business_type = $post_specific_obj->_local_sub_business[$business_type];
+                                
+                                    if(!empty($check_business_type)){
+
+                                     $business_sub_name = saswp_remove_warnings($all_post_meta, 'saswp_business_name_'.$schema_id, 'saswp_array');   
+
+                                    }
                                     
-                                 $business_sub_name = saswp_remove_warnings($all_post_meta, 'saswp_business_name_'.$schema_id, 'saswp_array');   
-                                 
                                 }
-                                
+                                                                                                
                                 if($business_sub_name){
                                     
                                 $local_business = $business_sub_name; 
