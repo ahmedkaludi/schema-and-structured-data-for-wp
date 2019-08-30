@@ -1099,7 +1099,7 @@ function saswp_custom_breadcrumbs() {
                     
                     $parents .= '<li class="item-parent item-parent-' . esc_attr($ancestor) . '"><a class="bread-parent bread-parent-' . esc_attr($ancestor) . '" href="' . esc_url(get_permalink($ancestor)) . '" title="' . esc_attr(get_the_title($ancestor)) . '">' . esc_html__(get_the_title($ancestor), 'schema-and-structured-data-for-wp' ) . '</a></li>';
                     $parents .= '<li class="separator separator-' . esc_attr($ancestor) . '"> ' . esc_html__($separator, 'schema-and-structured-data-for-wp' ) . ' </li>';
-                    $variables1_titles[]    = get_the_title($ancestor);
+                    $variables1_titles[]    = @get_the_title($ancestor);
                     $variables2_links[]     = get_permalink($ancestor);
                     
                 }

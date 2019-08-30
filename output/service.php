@@ -2004,7 +2004,7 @@ Class saswp_output_service{
                 if ( $my_posts->have_posts() ) {
                     
                   while ( $my_posts->have_posts() ) : $my_posts->the_post();                   
-                   $dw_qa['text'] = get_the_content();
+                   $dw_qa['text'] = @get_the_content();
                   endwhile;
                   
                 } 

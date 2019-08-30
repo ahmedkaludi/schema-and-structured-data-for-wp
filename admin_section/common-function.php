@@ -1753,7 +1753,7 @@ if ( ! defined('ABSPATH') ) exit;
     <?php
      }
                         
-        if((has_shortcode( get_the_content(), 'saswp_google_review') || is_active_widget( false, false, 'saswp_google_review_widget',true )) && 
+        if((has_shortcode( @get_the_content(), 'saswp_google_review') || is_active_widget( false, false, 'saswp_google_review_widget',true )) && 
                 ((isset($sd_data['saswp-google-review']) && $sd_data['saswp-google-review'] == 1) || (isset($sd_data['saswp-shopper-approved-review']) && $sd_data['saswp-shopper-approved-review'] == 1)) 
                 ){
             ?>
@@ -2107,7 +2107,7 @@ if ( ! defined('ABSPATH') ) exit;
         global $post;
         global $sd_data;
 
-        $title = get_the_title();
+        $title = @get_the_title();
                                 
         //SEOPress
         if(saswp_remove_warnings($sd_data, 'saswp-squirrly-seo', 'saswp_string') == 1 && class_exists('SQ_Models_Abstract_Seo')){
