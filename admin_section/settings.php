@@ -1061,7 +1061,7 @@ function saswp_general_page_callback(){
 
 function saswp_check_data_imported_from($plugin_post_type_name){
     
-       $cc_args = array(
+       $cc_args    = array(
                         'posts_per_page'   => -1,
                         'post_type'        => 'saswp',
                         'meta_key'         => 'imported_from',
@@ -1140,10 +1140,18 @@ function saswp_import_callback(){
         $schema_pro_message    = '';
         $wp_seo_schema_message = '';
         $seo_pressor_message   = '';
+        $wpsso_core_message    = '';
         $schema_plugin         = saswp_check_data_imported_from('schema'); 
         $schema_pro_plugin     = saswp_check_data_imported_from('schema_pro');
         $wp_seo_schema_plugin  = saswp_check_data_imported_from('wp_seo_schema');
         $seo_pressor           = saswp_check_data_imported_from('seo_pressor');
+        $wpsso_core            = saswp_check_data_imported_from('wpsso_core');
+        
+        if($wpsso_core->post_count !=0){
+            
+          $$wpsso_core_message = $message;
+         
+        }
         
         if($seo_pressor->post_count !=0){
             
@@ -1193,6 +1201,12 @@ function saswp_import_callback(){
                 <li><div class="saswp-tools-field-title"><div class="saswp-tooltip"><span class="saswp-tooltiptext"><?php echo esc_html__('All the settings and data you can import from this plugin when you click start importing','schema-and-structured-data-for-wp') ?></span><strong><?php echo esc_html__('SEO Pressor','schema-and-structured-data-for-wp'); ?></strong></div><button data-id="seo_pressor" class="button saswp-import-plugins"><?php echo esc_html__('Import','schema-and-structured-data-for-wp'); ?></button>
                         <p class="saswp-imported-message"></p>
                         <?php echo '<p>'.esc_html__($seo_pressor_message, 'schema-and-structured-data-for-wp').'</p>'; ?>                          
+                    </div>
+                </li>
+                
+                <li><div class="saswp-tools-field-title"><div class="saswp-tooltip"><span class="saswp-tooltiptext"><?php echo esc_html__('All the settings and data you can import from this plugin when you click start importing','schema-and-structured-data-for-wp') ?></span><strong><?php echo esc_html__('WPSSO Core','schema-and-structured-data-for-wp'); ?></strong></div><button data-id="wpsso_core" class="button saswp-import-plugins"><?php echo esc_html__('Import','schema-and-structured-data-for-wp'); ?></button>
+                        <p class="saswp-imported-message"></p>
+                        <?php echo '<p>'.esc_html__($wpsso_core_message, 'schema-and-structured-data-for-wp').'</p>'; ?>                          
                     </div>
                 </li>
                 
@@ -1575,19 +1589,7 @@ function saswp_compatibility_page_callback(){
                                 'id'   => 'saswp-aiosp',
                                 'name' => 'sd_data[saswp-aiosp]',                             
                         )
-		);
-        $wpsso_core = array(
-			'label'  => 'WPSSO Core',
-			'id'     => 'saswp-wpsso-core-checkbox',                        
-                        'name'   => 'saswp-wpsso-core-checkbox',
-			'type'   => 'checkbox',
-                        'class'  => 'checkbox saswp-checkbox',
-                        'note'   => saswp_get_field_note('wpsso_core'),
-                        'hidden' => array(
-                                'id'   => 'saswp-wpsso-core',
-                                'name' => 'sd_data[saswp-wpsso-core]',                             
-                        )
-		);
+		);        
         
         $recipe_maker = array(
 			'label'  => 'WP Recipe Maker',
@@ -1811,8 +1813,7 @@ function saswp_compatibility_page_callback(){
                 $seo_press,
                 $the_seo_framework,
                 $aiosp,
-                $squirrly_seo,
-                $wpsso_core,
+                $squirrly_seo,                
                 $recipe_maker,
                 $rankmath
                 
@@ -2021,8 +2022,7 @@ function saswp_get_field_note($pname){
             'the_seo_framework'   => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/autodescription/">The Seo Framework</a>',
             'seo_press'           => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wp-seopress/">SEOPress</a>',
             'aiosp'               => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/all-in-one-seo-pack/">All in One SEO Pack</a>',
-            'squirrly_seo'        => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/squirrly-seo/">Squirrly SEO</a>',
-            'wpsso_core'          => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wpsso/">WPSSO Core</a>',
+            'squirrly_seo'        => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/squirrly-seo/">Squirrly SEO</a>',          
             'wp_recipe_maker'     => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wp-recipe-maker/">WP Recipe Maker</a>'
         );
             

@@ -88,13 +88,7 @@ return array(
             'name'       => 'Squirrly SEO',
             'path_free'  => 'squirrly-seo/squirrly.php',               
             'status_key' => 'saswp-squirrly-seo',    
-        ),
-        array(
-            'key'        => 'wpsso_core',
-            'name'       => 'WPSSO Core',
-            'path_free'  => 'wpsso/wpsso.php',               
-            'status_key' => 'saswp-wpsso-core',    
-        ),
+        ),        
         array(
             'key'        => 'wp_recipe_maker',
             'name'       => 'WP Recipe Maker',

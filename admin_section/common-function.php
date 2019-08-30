@@ -1967,17 +1967,7 @@ if ( ! defined('ABSPATH') ) exit;
                  }                                                 
         }
         
-        //WPSSO Core
-        if(saswp_remove_warnings($sd_data, 'saswp-wpsso-core', 'saswp_string') == 1){
-                        
-                $c_excerpt = get_post_meta($post->ID, '_wpsso_head_info_og_desc',true);
                 
-                if($c_excerpt){
-                    $excerpt = $c_excerpt;
-                }
-                                                   
-        }
-        
         if(saswp_remove_warnings($sd_data, 'saswp-the-seo-framework', 'saswp_string') == 1){
                             
                 $c_excerpt = get_post_meta($post->ID, '_genesis_description', true);
@@ -2023,19 +2013,7 @@ if ( ! defined('ABSPATH') ) exit;
         global $sd_data;
 
         $title = get_the_title();
-        
-        //WPSSO Core
-        if(saswp_remove_warnings($sd_data, 'saswp-wpsso-core', 'saswp_string') == 1){
-                        
-                $c_title = get_post_meta($post->ID, '_wpsso_head_info_og_title',true);
-                
-                if($c_title){
-                    $title = $c_title;
-                }
-                                                   
-        }
-        
-        
+                                
         //SEOPress
         if(saswp_remove_warnings($sd_data, 'saswp-squirrly-seo', 'saswp_string') == 1 && class_exists('SQ_Models_Abstract_Seo')){
                         

@@ -34,6 +34,7 @@ function saswp_schema_markup_hook_on_init() {
             remove_action( 'amp_post_template_footer', 'amp_post_template_add_schemaorg_metadata',99,1);  
             remove_action('wp_footer', 'orbital_markup_site');            
             add_filter('hunch_schema_markup', '__return_false');
+            add_filter('wpsso_json_prop_https_schema_org_graph', '__return_false');   
                         
             if(class_exists('BSF_AIOSRS_Pro_Markup')){
                 

@@ -76,21 +76,12 @@ class saswp_output_compatibility{
     public function saswp_smart_crawl_override(){        
         add_filter('wds-schema-data', '__return_false');                
     }
-    public function saswp_seo_press_hooks(){
-                
+    public function saswp_seo_press_hooks(){                
         remove_action('wp_head', 'seopress_social_accounts_jsonld_hook',1);
-        remove_action('wp_head', 'seopress_social_website_option',1);
-                                    
-    }
-    public function saswp_wpsso_core_override(){
-                            
-        add_filter('wpsso_json_prop_https_schema_org_graph', '__return_false');        
-                                    
-    }
-    public function saswp_seo_press_override(){   
-                          
-        add_action('wp_head', array($this, 'saswp_seo_press_hooks'),0);
-                        
+        remove_action('wp_head', 'seopress_social_website_option',1);                                    
+    }    
+    public function saswp_seo_press_override(){                             
+        add_action('wp_head', array($this, 'saswp_seo_press_hooks'),0);                        
     }    
     public function saswp_woocommerce_override(){
         
