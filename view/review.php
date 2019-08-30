@@ -140,7 +140,7 @@ class saswp_metaboxes_review {
                 
                     <div class="saswp-review-description">
                         <div><label><?php echo esc_html__('Summary Title', 'schema-and-structured-data-for-wp'); ?></label> <input type="text" id="saswp-review-item-description-title" name="saswp-review-item-description-title" value="<?php if ( isset( $saswp_review_details['saswp-review-item-description-title'] ) && ( ! empty( $saswp_review_details['saswp-review-item-description-title'] ) ) ) echo esc_attr( $saswp_review_details['saswp-review-item-description-title'] ); ?>"></div>  
-                        <div class="saswp-wp-ediot-desc"><label>Description</label></div>
+                        <div class="saswp-wp-ediot-desc"><label><?php echo esc_html__('Description', 'schema-and-structured-data-for-wp'); ?></label></div>
                         <?php                        
                         $content       = get_post_meta( $post->ID, 'saswp-review-item-description', true );                        
                         wp_editor( $content, 'saswp-review-item-description', array('textarea_rows'=> '5', 'media_buttons' => FALSE,) );                   

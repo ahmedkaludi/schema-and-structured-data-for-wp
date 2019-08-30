@@ -56,7 +56,7 @@ function saswp_schema_markup_hook_on_init() {
 }
 
 /**
- * Function to show all the schema markup in the page head
+ * This function collects all the schema markups and show them at one place either header or footer
  * @global type $sd_data
  * @global type json array
  */
@@ -828,6 +828,13 @@ function saswp_get_the_tags(){
     
 }
 
+/**
+ * Function to get shorcode ids from content by shortcode typ
+ * @global type $post
+ * @param type $type
+ * @return type
+ * @since version 1.9.3
+ */
 function saswp_get_ids_from_content_by_type($type){
         
     global $post;
@@ -866,7 +873,12 @@ function saswp_get_ids_from_content_by_type($type){
     } 
         
 }
-
+/**
+ * Function to get recipe schema markup from wp_recipe_maker
+ * @param type $recipe
+ * @return array
+ * @since version 1.9.3
+ */
 function saswp_wp_recipe_schema_json($recipe){
             
             if ( 'food' === $recipe->type() ) {

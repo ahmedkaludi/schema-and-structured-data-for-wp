@@ -3072,8 +3072,7 @@ Class saswp_output_service{
                             
                         
                         if($site_name){
-                        
-                            
+                                                    
                             $publisher['publisher']['@type']         = 'Organization';
                             $publisher['publisher']['name']          = esc_attr($site_name);
                             
