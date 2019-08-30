@@ -110,6 +110,18 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
 
+
+= 1.9.3 (30 Aug 2019) =
+
+* New Feature: ACF meta fields inside Modify Schema Output #216
+* Added: Compatibility with Squirrly Seo ( https://wordpress.org/plugins/squirrly-seo/ ) #426
+* Added: Compatibility with Squirrly Seo ( https://wordpress.org/plugins/squirrly-seo/ ) #426
+* Added: Compatibility with WP Recipe maker ( https://wordpress.org/plugins/wp-recipe-maker/ ) #323
+* Added: bbPress support with "Q&A Schema" #391
+* Added: WPSSO Core importer #85
+* Bug Fixed: Upgrade to pro message should not be there, if any pro extension is activated #450
+* Bug Fixed: Notice: Undefined index: professionalservice in /home/lockstock.com.au/htdocs/wp-content/plugins/schema-and-structured-data-for-wp/output/output.php on line 3731 #448
+
 = 1.9.2 (28 Aug 2019) =
 
 * Added: Compatibility with SEO Framework ( https://wordpress.org/plugins/autodescription/ ) #426
