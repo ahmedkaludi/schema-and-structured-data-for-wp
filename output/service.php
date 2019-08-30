@@ -1910,7 +1910,60 @@ Class saswp_output_service{
            return $review_data;
             
         }
-                      
+                
+        public function saswp_bb_press_topic_details($post_id){
+                            
+                $dw_qa          = array();
+                $qa_page        = array();
+                                                                                                                                              
+                $dw_qa['@type']       = 'Question';
+                $dw_qa['name']        = bbp_get_topic_title($post_id); 
+                $dw_qa['upvoteCount'] = bbp_get_topic_reply_count();    
+                $dw_qa['text']        = wp_strip_all_tags(bbp_get_topic_content());                                
+                $dw_qa['dateCreated'] = date_format(date_create(get_post_time( get_option( 'date_format' ), false, $post_id, true )), "Y-m-d\TH:i:s\Z");
+                                                                          
+                $dw_qa['author']      = array(
+                                                 '@type' => 'Person',
+                                                 'name'  =>bbp_get_topic_author($post_id),
+                                            ); 
+                
+                $dw_qa['answerCount'] = bbp_get_topic_reply_count();   
+                
+                $args = array(
+			'post_type'     => 'reply',
+			'post_parent'   => $post_id,
+			'post_per_page' => '-1',
+			'post_status'   => array('publish')
+		);
+                
+                $answer_array = get_posts($args);                
+                               
+                $suggested_answer = array();
+                
+                foreach($answer_array as $answer){
+                                       
+                        $authorinfo = get_userdata($answer->post_author);  
+                        
+                        $suggested_answer[] =  array(
+                            '@type'       => 'Answer',
+                            'upvoteCount' => 1,
+                            'url'         => get_permalink($answer->ID),
+                            'text'        => wp_strip_all_tags($answer->post_content),
+                            'dateCreated' => get_the_date("Y-m-d\TH:i:s\Z", $answer),
+                            'author'      => array('@type' => 'Person', 'name' => $authorinfo->data->user_nicename),
+                        );
+                        
+                    
+                }
+                                
+                $dw_qa['suggestedAnswer'] = $suggested_answer;
+                    
+                $qa_page['@context']   = 'http://schema.org';
+                $qa_page['@type']      = 'QAPage';
+                $qa_page['mainEntity'] = $dw_qa;                                                    
+                return $qa_page;
+        }
+        
         /**
          * This function gets all the question and answers in schema markup from the current question type post create by 
          * DW Question & Answer ( https://wordpress.org/plugins/dw-question-answer/ )

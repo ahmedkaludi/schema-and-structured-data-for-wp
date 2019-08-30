@@ -973,9 +973,21 @@ function saswp_schema_output() {
                        
                         if( 'qanda' === $schema_type){
                             
-                            $service_object = new saswp_output_service();
-                            $input1  = $service_object->saswp_dw_question_answers_details(get_the_ID()); 
                             
+                            if(isset($sd_data['saswp-dw-question-answer']) && $sd_data['saswp-dw-question-answer'] ==1){
+                            
+                                $service_object = new saswp_output_service();
+                                $input1  = $service_object->saswp_dw_question_answers_details(get_the_ID()); 
+                                
+                            }
+
+                            if(isset($sd_data['saswp-bbpress']) && $sd_data['saswp-bbpress'] ==1){
+                            
+                                $service_object = new saswp_output_service();
+                                $input1  = $service_object->saswp_bb_press_topic_details(get_the_ID()); 
+                                
+                            }
+                                                                                                                                            
                             if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){
                                     $service = new saswp_output_service();
                                     $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
