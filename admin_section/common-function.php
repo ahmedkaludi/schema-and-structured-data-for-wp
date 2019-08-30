@@ -273,7 +273,7 @@ if ( ! defined('ABSPATH') ) exit;
     function saswp_import_schema_plugin_data(){           
                                                     
         $schema_post = array();
-        $errorDesc = array();
+        $errorDesc   = array();
         global $wpdb;
         $user_id     = get_current_user_id();
         
@@ -476,7 +476,106 @@ if ( ! defined('ABSPATH') ) exit;
         }
                              
     }
-    
+    function saswp_import_wpsso_core_plugin_data(){
+        
+         global $wpdb;
+                          
+         $wpsso_option = get_option('wpsso_options');
+         
+         $saswp_option = array();
+        
+         if(isset($wpsso_option['schema_home_person_id'])){
+             $user_info = get_userdata($wpsso_option['schema_home_person_id']);
+             $saswp_option['sd-person-name']       = $user_info->user_login;
+         }
+         $saswp_option['sd_name']              =  $wpsso_option['site_name'];
+         $saswp_option['sd_logo']['url']       = $wpsso_option['schema_logo_url'];
+         $saswp_option['saswp_website_schema'] = $wpsso_option['schema_add_home_website'];                  
+         
+         if(isset($wpsso_option['fb_publisher_url'])){
+             $saswp_option['saswp-facebook-enable'] = 1;
+             $saswp_option['sd_facebook']   = $wpsso_option['fb_publisher_url'];
+         }
+         if(isset($wpsso_option['instgram_publisher_url'])){
+             $saswp_option['saswp-instagram-enable'] = 1;
+             $saswp_option['sd_instagram']  = $wpsso_option['instgram_publisher_url'];
+         }
+         if(isset($wpsso_option['linkedin_publisher_url'])){
+             $saswp_option['saswp-linkedin-enable'] = 1;
+             $saswp_option['sd_linkedin']   = $wpsso_option['linkedin_publisher_url'];
+         }         
+         if(isset($wpsso_option['p_publisher_url'])){
+             $saswp_option['saswp-pinterest-enable'] = 1;
+             $saswp_option['sd_pinterest']  = $wpsso_option['p_publisher_url'];
+         }
+         if(isset($wpsso_option['sc_publisher_url'])){
+             $saswp_option['saswp-soundcloud-enable'] = 1;
+             $saswp_option['sd_soundcloud'] = $wpsso_option['sc_publisher_url'];
+         }
+         if(isset($wpsso_option['tumblr_publisher_url'])){
+             $saswp_option['saswp-tumblr-enable'] = 1;
+             $saswp_option['sd_tumblr']     = $wpsso_option['tumblr_publisher_url'];
+         }
+         if(isset($wpsso_option['tc_site'])){
+             $saswp_option['saswp-twitter-enable'] = 1;
+             $saswp_option['sd_twitter']    = $wpsso_option['tc_site'];
+         }
+         if(isset($wpsso_option['yt_publisher_url'])){
+             $saswp_option['saswp-youtube-enable'] = 1;
+             $saswp_option['sd_youtube']    = $wpsso_option['yt_publisher_url']; 
+         }
+                   
+        $schema_post = array(
+                'post_title' => $wpsso_option['schema_type_for_home_index'],                                                            
+                'post_status' => 'publish',                    
+                'post_type'   => 'saswp',                    
+        ); 
+
+        $data_group_array = array();   
+
+        $data_group_array['group-0'] =array(
+                                'data_array' => array(
+                                            array(
+                                            'key_1' => 'post_type',
+                                            'key_2' => 'equal',
+                                            'key_3' => 'post',
+                                  )
+                                )               
+                               );                                        
+
+        $saswp_meta_key = array(
+            'schema_type'                  => $wpsso_option['schema_type_for_home_index'],
+            'data_group_array'             => $data_group_array,
+            'imported_from'                => 'wpsso_core',                                                    
+         );
+         
+         if(isset($saswp_option)){ 
+                       
+                $wpdb->query('START TRANSACTION');
+                $errorDesc = array();
+                                                                                                                                                           
+                $get_options   = get_option('sd_data');
+                $merge_options = array_merge($get_options, $saswp_option);
+                update_option('sd_data', $merge_options);
+                
+                    $post_id = wp_insert_post($schema_post);                    
+                    $guid    = get_option('siteurl') .'/?post_type=saswp&p='.$post_id;                
+                    $wpdb->query("UPDATE ".$wpdb->prefix."posts SET guid ='".esc_sql($guid)."' WHERE ID ='".esc_sql($post_id)."'");
+                                                         
+                    foreach ($saswp_meta_key as $key => $val){                     
+                        update_post_meta($post_id, $key, $val);  
+                    }
+          
+           if ( count($errorDesc) ){
+              echo implode("\n<br/>", $errorDesc);           
+              $wpdb->query('ROLLBACK');             
+            }else{
+              $wpdb->query('COMMIT'); 
+              return true;
+            }               
+         }
+        
+    }
     function saswp_import_seo_pressor_plugin_data(){
          
         global $wpdb;
@@ -501,11 +600,7 @@ if ( ! defined('ABSPATH') ) exit;
                         $social_fields['saswp-twitter-enable'] = 1;
                         $social_fields['sd_twitter'] = $social['social'];
                         
-                        break;
-                    case 'Google+':
-                        $social_fields['saswp-google-plus-enable'] = 1;
-                        $social_fields['sd_google_plus'] = $social['social'];
-                        break;
+                        break;                    
                     case 'Instagram':
                         $social_fields['saswp-instagram-enable'] = 1;
                         $social_fields['sd_instagram'] = $social['social'];
@@ -1658,7 +1753,7 @@ if ( ! defined('ABSPATH') ) exit;
     <?php
      }
                         
-        if((has_shortcode( get_the_content(), 'saswp_google_review') || is_active_widget( false, false, 'saswp_google_review_widget',true )) && 
+        if((has_shortcode( @get_the_content(), 'saswp_google_review') || is_active_widget( false, false, 'saswp_google_review_widget',true )) && 
                 ((isset($sd_data['saswp-google-review']) && $sd_data['saswp-google-review'] == 1) || (isset($sd_data['saswp-shopper-approved-review']) && $sd_data['saswp-shopper-approved-review'] == 1)) 
                 ){
             ?>
@@ -1950,6 +2045,24 @@ if ( ! defined('ABSPATH') ) exit;
                                       
         }
         
+        //SEOPress
+        if(saswp_remove_warnings($sd_data, 'saswp-squirrly-seo', 'saswp_string') == 1 && class_exists('SQ_Models_Abstract_Seo')){
+                        
+                 global $wpdb;
+                
+                 $query = "SELECT * FROM " . $wpdb->prefix . "qss where post_id=".$post->ID;
+                 
+                 if ($rows = $wpdb->get_results($query, OBJECT)) {
+                     
+                    $seo_data = unserialize($rows[0]->seo) ;
+                                        
+                    if(isset($seo_data['description']) && $seo_data['description'] <>''){
+                      $excerpt = $seo_data['description'];
+                    }                     
+                 }                                                 
+        }
+        
+                
         if(saswp_remove_warnings($sd_data, 'saswp-the-seo-framework', 'saswp_string') == 1){
                             
                 $c_excerpt = get_post_meta($post->ID, '_genesis_description', true);
@@ -1982,7 +2095,7 @@ if ( ! defined('ABSPATH') ) exit;
         }         
         return '';
     }
-         
+      
     /**
      * since @1.8.7
      * Here we are modifying the default title
@@ -1994,7 +2107,26 @@ if ( ! defined('ABSPATH') ) exit;
         global $post;
         global $sd_data;
 
-        $title = get_the_title();
+        $title = @get_the_title();
+                                
+        //SEOPress
+        if(saswp_remove_warnings($sd_data, 'saswp-squirrly-seo', 'saswp_string') == 1 && class_exists('SQ_Models_Abstract_Seo')){
+                        
+                global $wpdb;
+                
+                 $query = "SELECT * FROM " . $wpdb->prefix . "qss where post_id=".$post->ID;
+                 
+                 if ($rows = $wpdb->get_results($query, OBJECT)) {
+                     
+                    $seo_data = unserialize($rows[0]->seo) ;
+                                        
+                    if(isset($seo_data['title']) && $seo_data['title'] <>''){
+                      $title = $seo_data['title'];
+                    } 
+                    
+                 }             
+                                    
+        }
         
         //SEOPress
         if(saswp_remove_warnings($sd_data, 'saswp-seo-press', 'saswp_string') == 1){
@@ -2203,7 +2335,16 @@ function saswp_check_plugin_active_status($pname){
         ),
         'aiosp' => array(
             'free' => 'all-in-one-seo-pack/all_in_one_seo_pack.php',            
-        ),    
+        ),
+        'squirrly_seo' => array(
+            'free' => 'squirrly-seo/squirrly.php',            
+        ),
+        'wpsso_core' => array(
+            'free' => 'wpsso/wpsso.php',            
+        ),
+        'wp_recipe_maker' => array(
+            'free' => 'wp-recipe-maker/wp-recipe-maker.php',            
+        ),
         
     );
     

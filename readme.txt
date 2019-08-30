@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.2
-Stable tag: 1.9.2
+Stable tag: 1.9.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -22,6 +22,7 @@ Schema & Structured Data for WP & AMP adds Google Rich Snippets markup according
 * <strong>Migration</strong>: Import the data from other schema plugins such as (SEO Pressor, WP SEO Schema, Schema Plugin etc )
 * <strong>Compatibility</strong>: Generate the schema markup for the plugins. We have provided schema support for them. Few of them are - kk Star Ratings, WP-PostRatings, bbPress
 * <strong>Google Review</strong>: Display your business google reviews and its schema markup on your website.
+* **[Premium]** Reviews ( [Fetch](https://structured-data-for-wp.com/reviews-for-schema) reviews from 75+ platforms ).
 * <strong>Review Module</strong>: Create your own review rating box with pros and cons and its schema markup 
 * <strong>Unlimited Custom Post Types</strong>: You can control to represent the Rich Snippets data in the google search console using unlimited custom post types.
 * <strong>Easy to use</strong> with Minimal Settings
@@ -109,6 +110,17 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+
+= 1.9.3 (30 Aug 2019) =
+
+* New Feature: ACF meta fields inside Modify Schema Output #216
+* Added: Compatibility with Squirrly Seo ( https://wordpress.org/plugins/squirrly-seo/ ) #426
+* Added: Compatibility with WP Recipe maker ( https://wordpress.org/plugins/wp-recipe-maker/ ) #323
+* Added: bbPress support with "Q&A Schema" #391
+* Added: WPSSO Core importer #85
+* Bug Fixed: Upgrade to pro message should not be there, if any pro extension is activated #450
+* Bug Fixed: Notice: Undefined index: professionalservice in /home/lockstock.com.au/htdocs/wp-content/plugins/schema-and-structured-data-for-wp/output/output.php on line 3731 #448
 
 = 1.9.2 (28 Aug 2019) =
 

@@ -1099,7 +1099,7 @@ function saswp_custom_breadcrumbs() {
                     
                     $parents .= '<li class="item-parent item-parent-' . esc_attr($ancestor) . '"><a class="bread-parent bread-parent-' . esc_attr($ancestor) . '" href="' . esc_url(get_permalink($ancestor)) . '" title="' . esc_attr(get_the_title($ancestor)) . '">' . esc_html__(get_the_title($ancestor), 'schema-and-structured-data-for-wp' ) . '</a></li>';
                     $parents .= '<li class="separator separator-' . esc_attr($ancestor) . '"> ' . esc_html__($separator, 'schema-and-structured-data-for-wp' ) . ' </li>';
-                    $variables1_titles[]    = get_the_title($ancestor);
+                    $variables1_titles[]    = @get_the_title($ancestor);
                     $variables2_links[]     = get_permalink($ancestor);
                     
                 }
@@ -1316,7 +1316,12 @@ function saswp_import_plugin_data(){
                 if ( is_plugin_active('seo-pressor/seo-pressor.php')) {
                     $result = saswp_import_seo_pressor_plugin_data();      
                 }                
-                break;    
+                break;
+           case 'wpsso_core':                
+                if ( is_plugin_active('wpsso/wpsso.php') && is_plugin_active('wpsso-schema-json-ld/wpsso-schema-json-ld.php')) {
+                    $result = saswp_import_wpsso_core_plugin_data();      
+                }                
+                break;     
 
             default:
                 break;
@@ -1461,8 +1466,8 @@ function saswp_license_status($add_on, $license_status, $license_key){
                         if(strtolower($add_on) == 'reviews'){
                             
                             if(function_exists('saswp_create_reviews_user')){
-                             
-                                $user_create = saswp_create_reviews_user($license_key, strtolower($add_on));   
+                                                             
+                                $user_create = saswp_create_reviews_user($license_key, $item_name[strtolower($add_on)]);   
                             
                                 if($user_create['status']){ 
 

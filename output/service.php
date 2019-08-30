@@ -37,8 +37,71 @@ Class saswp_output_service{
            
            add_action( 'wp_ajax_saswp_get_meta_list', array($this, 'saswp_get_meta_list')); 
            
+           add_filter( 'saswp_modify_post_meta_list', array( $this, 'saswp_get_acf_meta_keys' ) );
+           
         }    
              
+        public function saswp_get_acf_meta_keys($fields){
+            
+            if ( function_exists( 'acf' ) && class_exists( 'acf' ) ) {
+
+				$post_type = 'acf';
+				if ( ( defined( 'ACF_PRO' ) && ACF_PRO ) || ( defined( 'ACF' ) && ACF ) ) {
+					$post_type = 'acf-field-group';
+				}
+				$text_acf_field  = array();
+				$image_acf_field = array();
+				$args            = array(
+					'post_type'      => $post_type,
+					'posts_per_page' => -1,
+					'post_status'    => 'publish',
+				);
+
+				$the_query = new WP_Query( $args );
+				if ( $the_query->have_posts() ) :
+					while ( $the_query->have_posts() ) :
+						$the_query->the_post();
+
+						$post_id = get_the_id();
+						
+						$acf_fields = apply_filters( 'acf/field_group/get_fields', array(), $post_id ); // WPCS: XSS OK.						
+
+						if ( 'acf-field-group' == $post_type ) {
+							$acf_fields = acf_get_fields( $post_id );
+						}
+
+						if ( is_array( $acf_fields ) && ! empty( $acf_fields ) ) {
+							foreach ( $acf_fields as $key => $value ) {
+
+								if ( 'image' == $value['type'] ) {
+									$image_acf_field[ $value['name'] ] = $value['label'];
+								} else {
+									$text_acf_field[ $value['name'] ] = $value['label'];
+								}
+							}
+						}
+					endwhile;
+				endif;
+				wp_reset_postdata();
+
+				if ( ! empty( $text_acf_field ) ) {
+					$fields['text'][] = array(
+						'label'     => __( 'Advanced Custom Fields', 'schema-and-structured-data-for-wp' ),
+						'meta-list' => $text_acf_field,
+					);
+				}
+
+				if ( ! empty( $image_acf_field ) ) {
+					$fields['image'][] = array(
+						'label'     => __( 'Advanced Custom Fields', 'schema-and-structured-data-for-wp' ),
+						'meta-list' => $image_acf_field,
+					);
+				}
+			}
+
+			return $fields;
+            
+        }
         
         public function saswp_get_meta_list(){
             
@@ -179,6 +242,8 @@ Class saswp_output_service{
                     }
                                     
                 default:
+                    $response = get_post_meta($schema_post_id, $field, true );
+                    
                     break;
             }
             
@@ -1845,7 +1910,60 @@ Class saswp_output_service{
            return $review_data;
             
         }
-                      
+                
+        public function saswp_bb_press_topic_details($post_id){
+                            
+                $dw_qa          = array();
+                $qa_page        = array();
+                                                                                                                                              
+                $dw_qa['@type']       = 'Question';
+                $dw_qa['name']        = bbp_get_topic_title($post_id); 
+                $dw_qa['upvoteCount'] = bbp_get_topic_reply_count();    
+                $dw_qa['text']        = wp_strip_all_tags(bbp_get_topic_content());                                
+                $dw_qa['dateCreated'] = date_format(date_create(get_post_time( get_option( 'date_format' ), false, $post_id, true )), "Y-m-d\TH:i:s\Z");
+                                                                          
+                $dw_qa['author']      = array(
+                                                 '@type' => 'Person',
+                                                 'name'  =>bbp_get_topic_author($post_id),
+                                            ); 
+                
+                $dw_qa['answerCount'] = bbp_get_topic_reply_count();   
+                
+                $args = array(
+			'post_type'     => 'reply',
+			'post_parent'   => $post_id,
+			'post_per_page' => '-1',
+			'post_status'   => array('publish')
+		);
+                
+                $answer_array = get_posts($args);                
+                               
+                $suggested_answer = array();
+                
+                foreach($answer_array as $answer){
+                                       
+                        $authorinfo = get_userdata($answer->post_author);  
+                        
+                        $suggested_answer[] =  array(
+                            '@type'       => 'Answer',
+                            'upvoteCount' => 1,
+                            'url'         => get_permalink($answer->ID),
+                            'text'        => wp_strip_all_tags($answer->post_content),
+                            'dateCreated' => get_the_date("Y-m-d\TH:i:s\Z", $answer),
+                            'author'      => array('@type' => 'Person', 'name' => $authorinfo->data->user_nicename),
+                        );
+                        
+                    
+                }
+                                
+                $dw_qa['suggestedAnswer'] = $suggested_answer;
+                    
+                $qa_page['@context']   = 'http://schema.org';
+                $qa_page['@type']      = 'QAPage';
+                $qa_page['mainEntity'] = $dw_qa;                                                    
+                return $qa_page;
+        }
+        
         /**
          * This function gets all the question and answers in schema markup from the current question type post create by 
          * DW Question & Answer ( https://wordpress.org/plugins/dw-question-answer/ )
@@ -1886,7 +2004,7 @@ Class saswp_output_service{
                 if ( $my_posts->have_posts() ) {
                     
                   while ( $my_posts->have_posts() ) : $my_posts->the_post();                   
-                   $dw_qa['text'] = get_the_content();
+                   $dw_qa['text'] = @get_the_content();
                   endwhile;
                   
                 } 
@@ -2954,8 +3072,7 @@ Class saswp_output_service{
                             
                         
                         if($site_name){
-                        
-                            
+                                                    
                             $publisher['publisher']['@type']         = 'Organization';
                             $publisher['publisher']['name']          = esc_attr($site_name);
                             

@@ -7,11 +7,11 @@ class saswp_output_compatibility{
 
     public function __construct() {
     
-                $mappings_file = SASWP_DIR_NAME . '/core/array-list/plugins.php';
-                
-		if ( file_exists( $mappings_file ) ) {
-                    $this->_plugins_list = include $mappings_file;
-		}
+            $mappings_file = SASWP_DIR_NAME . '/core/array-list/plugins.php';
+
+            if ( file_exists( $mappings_file ) ) {
+                $this->_plugins_list = include $mappings_file;
+            }
             
     }
     
@@ -46,9 +46,8 @@ class saswp_output_compatibility{
             
         }
             
-        }
-                
-                   
+       }
+                                   
     }
     
     public function saswp_wp_post_ratings_override(){
@@ -71,19 +70,18 @@ class saswp_output_compatibility{
         
         add_filter('the_seo_framework_receive_json_data', '__return_false');
     }
+    public function saswp_squirrly_seo_override(){        
+        add_filter('sq_json_ld', '__return_false',99);                
+    }
     public function saswp_smart_crawl_override(){        
         add_filter('wds-schema-data', '__return_false');                
     }
-    public function saswp_seo_press_hooks(){
-                
-            remove_action('wp_head', 'seopress_social_accounts_jsonld_hook',1);
-            remove_action('wp_head', 'seopress_social_website_option',1);
-                                    
-    }
-    public function saswp_seo_press_override(){   
-                          
-        add_action('wp_head', array($this, 'saswp_seo_press_hooks'),0);
-                        
+    public function saswp_seo_press_hooks(){                
+        remove_action('wp_head', 'seopress_social_accounts_jsonld_hook',1);
+        remove_action('wp_head', 'seopress_social_website_option',1);                                    
+    }    
+    public function saswp_seo_press_override(){                             
+        add_action('wp_head', array($this, 'saswp_seo_press_hooks'),0);                        
     }    
     public function saswp_woocommerce_override(){
         

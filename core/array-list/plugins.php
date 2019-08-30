@@ -83,5 +83,17 @@ return array(
             'path_free'  => 'all-in-one-seo-pack/all_in_one_seo_pack.php',               
             'status_key' => 'saswp-aiosp',    
         ),
+        array(
+            'key'        => 'squirrly_seo',
+            'name'       => 'Squirrly SEO',
+            'path_free'  => 'squirrly-seo/squirrly.php',               
+            'status_key' => 'saswp-squirrly-seo',    
+        ),        
+        array(
+            'key'        => 'wp_recipe_maker',
+            'name'       => 'WP Recipe Maker',
+            'path_free'  => 'wp-recipe-maker/wp-recipe-maker.php',               
+            'status_key' => 'saswp-wp-recipe-maker',    
+        ),
                 
     );

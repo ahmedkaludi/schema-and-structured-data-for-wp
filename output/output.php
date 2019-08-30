@@ -203,6 +203,7 @@ function saswp_schema_output() {
 	}
         
         $all_schema_output = array();
+        $recipe_json       = array();
         
         foreach($Conditionals as $schemaConditionals){
         
@@ -903,8 +904,28 @@ function saswp_schema_output() {
 			}
 		      
 			if( 'Recipe' === $schema_type){
-                            
-				if(empty($image_details[0]) || $image_details[0] === NULL ){
+                        
+                            if(isset($sd_data['saswp-wp-recipe-maker']) && $sd_data['saswp-wp-recipe-maker'] == 1){
+                                                              
+                                $recipe_ids = saswp_get_ids_from_content_by_type('wp_recipe_maker');
+                                                                
+                                if($recipe_ids){
+
+                                    foreach($recipe_ids as $recipe){
+
+                                        if(class_exists('WPRM_Recipe_Manager')){
+                                            $recipe_arr    = WPRM_Recipe_Manager::get_recipe( $recipe );
+                                            $recipe_json[] = saswp_wp_recipe_schema_json($recipe_arr);                                            
+                                        }
+
+                                    }  
+                                    
+                                 }
+                                
+                                 
+                            }else{
+                                
+                               if(empty($image_details[0]) || $image_details[0] === NULL ){
 					$image_details[0] = $sd_data['sd_logo']['url'];
 				}
                                 
@@ -944,14 +965,29 @@ function saswp_schema_output() {
                                    $input1 = array_merge($input1, $extra_theme_review);
                                 }
                                 
-                                $input1 = apply_filters('saswp_modify_recipe_schema_output', $input1 );
+                                
+                            }
+                            				                                
+                               $input1 = apply_filters('saswp_modify_recipe_schema_output', $input1 );
 			}
                        
                         if( 'qanda' === $schema_type){
                             
-                            $service_object = new saswp_output_service();
-                            $input1  = $service_object->saswp_dw_question_answers_details(get_the_ID()); 
                             
+                            if(isset($sd_data['saswp-dw-question-answer']) && $sd_data['saswp-dw-question-answer'] ==1){
+                            
+                                $service_object = new saswp_output_service();
+                                $input1  = $service_object->saswp_dw_question_answers_details(get_the_ID()); 
+                                
+                            }
+
+                            if(isset($sd_data['saswp-bbpress']) && $sd_data['saswp-bbpress'] ==1){
+                            
+                                $service_object = new saswp_output_service();
+                                $input1  = $service_object->saswp_bb_press_topic_details(get_the_ID()); 
+                                
+                            }
+                                                                                                                                            
                             if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){
                                     $service = new saswp_output_service();
                                     $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
@@ -1728,9 +1764,16 @@ function saswp_schema_output() {
                 
                 if(!empty($input1)){
                     $all_schema_output[] = $input1;		                    
-                }                	
+                }                
+               
         }   
                 
+        if($recipe_json){
+            foreach($recipe_json as $json){
+                array_push($all_schema_output, $json);
+            }
+        }
+        
         return apply_filters('saswp_modify_schema_output', $all_schema_output);
 }
 
@@ -3728,14 +3771,19 @@ function saswp_post_specific_schema_output() {
                                 $business_sub_name   = '';
                                 $business_type       = saswp_remove_warnings($all_post_meta, 'saswp_business_type_'.$schema_id, 'saswp_array'); 
                                 $post_specific_obj   = new saswp_post_specific();
-                                $check_business_type = $post_specific_obj->_local_sub_business[$business_type];
                                 
-                                if(!empty($check_business_type)){
+                                if(array_key_exists($business_type, $post_specific_obj->_local_sub_business)){
+                                
+                                    $check_business_type = $post_specific_obj->_local_sub_business[$business_type];
+                                
+                                    if(!empty($check_business_type)){
+
+                                     $business_sub_name = saswp_remove_warnings($all_post_meta, 'saswp_business_name_'.$schema_id, 'saswp_array');   
+
+                                    }
                                     
-                                 $business_sub_name = saswp_remove_warnings($all_post_meta, 'saswp_business_name_'.$schema_id, 'saswp_array');   
-                                 
                                 }
-                                
+                                                                                                
                                 if($business_sub_name){
                                     
                                 $local_business = $business_sub_name; 

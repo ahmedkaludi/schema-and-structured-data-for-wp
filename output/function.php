@@ -27,11 +27,27 @@ function saswp_schema_markup_hook_on_init() {
                add_action('wp_head', 'saswp_schema_markup_output');  
                add_action( 'amp_post_template_head' , 'saswp_schema_markup_output' );
             }               
+            
+            add_action('cooked_amp_head', 'saswp_schema_markup_output');
+                                    
             remove_action( 'amp_post_template_head', 'amp_post_template_add_schemaorg_metadata',99,1);
             remove_action( 'amp_post_template_footer', 'amp_post_template_add_schemaorg_metadata',99,1);  
-            remove_action('wp_footer', 'orbital_markup_site');
-            add_action('cooked_amp_head', 'saswp_schema_markup_output');
+            remove_action('wp_footer', 'orbital_markup_site');            
+            add_filter('hunch_schema_markup', '__return_false');
+            add_filter('wpsso_json_prop_https_schema_org_graph', '__return_false');   
+                        
+            if(class_exists('BSF_AIOSRS_Pro_Markup')){
+                
+                remove_action( 'wp_head', array( BSF_AIOSRS_Pro_Markup::get_instance(), 'schema_markup' ),10);
+                remove_action( 'wp_head', array( BSF_AIOSRS_Pro_Markup::get_instance(), 'global_schemas_markup' ),10);
+                remove_action( 'wp_footer', array( BSF_AIOSRS_Pro_Markup::get_instance(), 'schema_markup' ),10);
+                remove_action( 'wp_footer', array( BSF_AIOSRS_Pro_Markup::get_instance(), 'global_schemas_markup' ),10);
+            }
             
+            if(isset($sd_data['saswp-wp-recipe-maker']) && $sd_data['saswp-wp-recipe-maker'] == 1){
+                add_filter( 'wprm_recipe_metadata', '__return_false' );            
+            }
+                                    
             if(isset($sd_data['saswp-microdata-cleanup']) && $sd_data['saswp-microdata-cleanup'] == 1){                
                 ob_start("saswp_remove_microdata");                
             }
@@ -40,7 +56,7 @@ function saswp_schema_markup_hook_on_init() {
 }
 
 /**
- * Function to show all the schema markup in the page head
+ * This function collects all the schema markups and show them at one place either header or footer
  * @global type $sd_data
  * @global type json array
  */
@@ -80,7 +96,7 @@ function saswp_schema_markup_output() {
 
         }else{
                        
-            $schema_output            = saswp_schema_output();    
+            $schema_output            = saswp_schema_output();              
                        
         }                   
 	if(saswp_global_option()) {
@@ -752,7 +768,7 @@ function saswp_remove_microdata($content){
         if(isset($sd_data['saswp-aiosp']) && $sd_data['saswp-aiosp'] == 1 ){
             $content = preg_replace('/<script type=\"application\/ld\+json" class=\"aioseop-schema"\>(.*?)<\/script>/', "", $content);
         }
-                
+        
     }             
     
     return $content;
@@ -810,4 +826,67 @@ function saswp_get_the_tags(){
     }    
     return $tag_str;
     
+}
+
+/**
+ * Function to get shorcode ids from content by shortcode typ
+ * @global type $post
+ * @param type $type
+ * @return type
+ * @since version 1.9.3
+ */
+function saswp_get_ids_from_content_by_type($type){
+        
+    global $post;
+    $content = $post->post_content;    
+    
+    switch ($type) {
+        
+        case 'wp_recipe_maker':
+            
+              // Gutenberg.
+		$gutenberg_matches = array();
+		$gutenberg_patern = '/<!--\s+wp:(wp\-recipe\-maker\/recipe)(\s+(\{.*?\}))?\s+(\/)?-->/';
+		preg_match_all( $gutenberg_patern, $content, $matches );
+
+		if ( isset( $matches[3] ) ) {
+			foreach ( $matches[3] as $block_attributes_json ) {
+				if ( ! empty( $block_attributes_json ) ) {
+					$attributes = json_decode( $block_attributes_json, true );
+					if ( ! is_null( $attributes ) ) {
+						if ( isset( $attributes['id'] ) ) {
+							$gutenberg_matches[] = intval( $attributes['id'] );
+						}
+					}
+				}
+			}
+		}
+
+		// Classic Editor.
+		preg_match_all( '/<!--WPRM Recipe (\d+)-->.+?<!--End WPRM Recipe-->/ms', $content, $matches );
+		$classic_matches = isset( $matches[1] ) ? array_map( 'intval', $matches[1] ) : array();
+
+		return $gutenberg_matches + $classic_matches;           
+
+        default:
+            break;
+    } 
+        
+}
+/**
+ * Function to get recipe schema markup from wp_recipe_maker
+ * @param type $recipe
+ * @return array
+ * @since version 1.9.3
+ */
+function saswp_wp_recipe_schema_json($recipe){
+            
+            if ( 'food' === $recipe->type() ) {
+                    $metadata = WPRM_Metadata::get_food_metadata( $recipe );
+            } elseif ( 'howto' === $recipe->type() ) {
+                    $metadata = WPRM_Metadata::get_howto_metadata( $recipe );
+            } else {
+                    $metadata = array();
+            }                 
+            return $metadata;
 }
