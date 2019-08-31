@@ -1169,8 +1169,9 @@ Google review module ends here
     width:100% !important;
 }
 .saswp-schema-modify-section{
-    margin-top: 20px;
-    border: 1px solid darkgray;
+    margin-top: 15px;    
+    border-top: 1px solid #eee;
+    padding-top: 15px;
 }
 .saswp-custom-meta-list{
     border: 1px solid #aaa;

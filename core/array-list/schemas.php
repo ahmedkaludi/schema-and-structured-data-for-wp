@@ -11,6 +11,7 @@ return array(
                 'Blogposting'              => 'Blogposting',
                 'Course'                   => 'Course',
                 'DiscussionForumPosting'   => 'DiscussionForumPosting',
+                'DataFeed'                 => 'DataFeed',
                 'FAQ'                      => 'FAQ',
                 'HowTo'                    => 'HowTo',                                                                                           
                 'NewsArticle'              => 'NewsArticle',                                            

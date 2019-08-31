@@ -923,7 +923,47 @@ function saswp_post_specific_schema_output() {
                                 );
                             }                                
 			}   
-                                                
+                         
+                        if( 'DataFeed' === $schema_type){
+                                               
+                                                    
+                        $input1 = array(
+                            '@context'			=> saswp_context_url(),
+                            '@type'		        => 'DataFeed' ,
+                            '@id'                       => trailingslashit(get_permalink()).'#DataFeed',    
+                            'name'			=> saswp_remove_warnings($all_post_meta, 'saswp_data_feed_schema_name_'.$schema_id, 'saswp_array'),
+                            'description'               => saswp_remove_warnings($all_post_meta, 'saswp_data_feed_schema_description_'.$schema_id, 'saswp_array'),									                                             
+                            'dateModified'              => isset($all_post_meta['saswp_data_feed_schema_date_modified_'.$schema_id])?date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_data_feed_schema_date_modified_'.$schema_id][0])):'',                               
+                            'license'                   => saswp_remove_warnings($all_post_meta, 'saswp_data_feed_schema_license_'.$schema_id, 'saswp_array'),									                                             
+                        );
+                                        
+                        
+                                $performer  = esc_sql ( get_post_meta($schema_post_id, 'feed_element_'.$schema_id, true)  );
+                            
+                                $performer_arr = array();
+                            
+                                if(!empty($performer)){
+
+                                    foreach($performer as $val){
+
+                                        $supply_data = array();
+                                        $supply_data['@type']        = 'DataFeedItem';
+                                        $supply_data['dateCreated']  = isset($val['saswp_feed_element_date_created'])?date('Y-m-d\TH:i:s\Z',strtotime($val['saswp_feed_element_date_created'])):'';  
+                                        $supply_data['item']  = array(
+                                           '@type'    => 'Person',
+                                           'name'     => $val['saswp_feed_element_name'],
+                                           'email'    => $val['saswp_feed_element_email'],
+                                        );
+                                                                                                                   
+                                        $performer_arr[] =  $supply_data;
+                                    }
+                                    
+                                   $input1['dataFeedElement'] = $performer_arr;
+                                   
+                                }                                                       
+                                                            
+                        }
+                        
                          if( 'Event' === $schema_type){
                        
                         $event_image = get_post_meta( get_the_ID(), 'saswp_event_schema_image_'.$schema_id.'_detail',true); 
@@ -973,13 +1013,15 @@ function saswp_post_specific_schema_output() {
                                     foreach($performer as $val){
 
                                         $supply_data = array();
-                                        $supply_data['@type']        = $val['saswp_event_schema_performer_type'];
-                                        $supply_data['name']         = $val['saswp_event_schema_performer_name'];                                    
-                                        $supply_data['url']          = $val['saswp_event_schema_performer_url'];
+                                        $supply_data['@type']        = $val['saswp_event_performer_type'];
+                                        $supply_data['name']         = $val['saswp_event_performer_name'];                                    
+                                        $supply_data['url']          = $val['saswp_event_performer_url'];
 
-                                       $performer_arr[] =  $supply_data;
+                                        $performer_arr[] =  $supply_data;
                                     }
+                                    
                                    $input1['performer'] = $performer_arr;
+                                   
                                 }
                         
                                                                                                                         

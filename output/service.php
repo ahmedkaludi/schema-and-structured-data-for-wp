@@ -2696,6 +2696,15 @@ Class saswp_output_service{
                         'saswp_mc_schema_diagnosis_name'   => 'Diagnosis Name'                        
                     );                    
                     break;
+                case 'DataFeed':
+                    
+                    $meta_field = array(                        
+                        'saswp_data_feed_schema_name'                      => 'Name',
+                        'saswp_data_feed_schema_description'               => 'Description',
+                        'saswp_data_feed_schema_date_modified'             => 'DateModified',
+                        'saswp_data_feed_schema_date_license'              => 'License',
+                    );                    
+                    break;
 
                 default:
                     break;
