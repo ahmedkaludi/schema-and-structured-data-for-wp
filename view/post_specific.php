@@ -24,6 +24,9 @@ class saswp_post_specific {
                         'FAQ' => array(
                                'faq-question' => 'faq_question',                                                
                         ),
+                        'Event' => array(
+                               'performer'     => 'performer',                                                
+                        ),
                         'HowTo' => array(
                                'how-to-supply' => 'howto_supply', 
                                'how-to-tool'   => 'howto_tool', 
@@ -208,6 +211,33 @@ class saswp_post_specific {
             
             $meta_fields = array();
             switch ($meta_name) {
+                
+                case 'performer':
+                    
+                    $meta_fields = array(
+                    
+                    array(
+			'label'     => 'Performer Type',
+			'name'      => 'saswp_event_schema_performer_type',
+			'type'      => 'select',
+                        'options'   => array(
+                                'MusicGroup'    => 'MusicGroup',                                                              
+                                'Person'        => 'Person'
+                        )
+		    ),
+                    array(
+			'label'     => 'Performer Name',
+			'name'      => 'saswp_event_schema_performer_name',
+			'type'      => 'text',                        
+		    ),
+                    array(
+			'label'     => 'Performer URL',
+			'name'      => 'saswp_event_schema_performer_url',
+			'type'      => 'text',                        
+		    )                                                            
+                    );
+
+                    break;
                 
                 case 'howto_supply':
                     
@@ -557,7 +587,7 @@ class saswp_post_specific {
                                        $i = 0;
                                        foreach ($howto_supply as $supply){
 
-                                           $supply_html .= '<div class="saswp-'.$key.'-table-div" data-id="'.$i.'">';
+                                           $supply_html .= '<div class="saswp-'.$key.'-table-div saswp-dynamic-properties" data-id="'.$i.'">';
                                            $supply_html .= '<a class="saswp-table-close">X</a>';
                                            $supply_html .= $this->saswp_get_dynamic_html($schema_id, $value, $i, $supply);
                                            $supply_html .= '</div>';
@@ -2170,13 +2200,7 @@ class saswp_post_specific {
                                 'id' => 'saswp_event_schema_image_'.$schema_id,
                                 'type' => 'media',
                                 'default' => $event_schema_details['saswp_event_schema_image']['url']
-                        ),
-                        array(
-                                'label' => 'Performer Name',
-                                'id' => 'saswp_event_schema_performer_name_'.$schema_id,
-                                'type' => 'text',
-                                'default' => $event_schema_details['saswp_event_schema_performer_name']
-                        ),
+                        ),                        
                         array(
                                 'label' => 'Price',
                                 'id' => 'saswp_event_schema_price_'.$schema_id,

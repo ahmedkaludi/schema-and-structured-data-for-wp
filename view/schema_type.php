@@ -590,6 +590,11 @@ function saswp_schema_type_meta_box_callback( $post) {
         $product_details     = array();
         $event_details       = array();
 
+        $schema_options    = esc_sql ( get_post_meta($post->ID, 'schema_options', true)  );
+        $meta_list         = esc_sql ( get_post_meta($post->ID, 'saswp_meta_list_val', true)  ); 
+        $fixed_text        = esc_sql ( get_post_meta($post->ID, 'saswp_fixed_text', true)  ); 
+        $cus_field         = esc_sql ( get_post_meta($post->ID, 'saswp_custom_meta_field', true)  ); 
+        
         if($post){
 
             $schema_type      = esc_sql ( get_post_meta($post->ID, 'schema_type', true)  );     
@@ -879,7 +884,10 @@ function saswp_schema_type_meta_box_callback( $post) {
         ?>                   
         <!-- Below variable $style_business_type is static -->
         <div class="misc-pub-section">
-            <table class="option-table-class saswp-option-table-class">
+            
+            <div class="saswp-schema-type-section">
+               
+                <table class="option-table-class saswp-option-table-class">
                 <tr>
                    <td><label for="schema_type"><?php echo esc_html__( 'Schema Type' ,'schema-and-structured-data-for-wp');?></label></td>
                    <td><select class="saswp-schame-type-select" id="schema_type" name="schema_type">
@@ -1579,7 +1587,117 @@ function saswp_schema_type_meta_box_callback( $post) {
                    </td>
                 </tr>
             </table>  
-
+                
+            </div>
+            
+            <div class="saswp-schema-modify-section">
+                
+                <!-- custom fields for schema output starts here -->
+                              
+                <table class="option-table-class">
+                        <tr><td><label><?php echo esc_html__( 'Modify Schema Output', 'schema-and-structured-data-for-wp' ) ?></label></td><td><input type="checkbox" id="saswp_enable_custom_field" name="saswp_enable_custom_field" value="1" <?php if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field']==1){echo 'checked'; }?>></td></tr>   
+                </table>  
+                   <div class="saswp-custom-fields-div" <?php if(!isset($schema_options['enable_custom_field']) || $schema_options['enable_custom_field'] ==0){echo 'style="display:none;"'; }?>>
+                       <table class="saswp-custom-fields-table">
+                           
+                        <?php 
+                        
+                        if(!empty($meta_list)){
+                            
+                            $schema_type    = esc_sql ( get_post_meta($post->ID, 'schema_type', true)  );
+                            
+                            $service     = new saswp_output_service();
+                            $meta_fields = $service->saswp_get_all_schema_type_fields($schema_type);
+                            
+                            foreach($meta_list as $fieldkey => $fieldval){
+                                                                                        
+                            $option = '';
+                            echo '<tr>'; 
+                            echo '<td><select class="saswp-custom-fields-name">';
+                            
+                            foreach ($meta_fields as $key =>$val){
+                                
+                                if( $fieldkey == $key){
+                                    
+                                 $option .='<option value="'.esc_attr($key).'" selected>'.esc_attr($val).'</option>';   
+                                 
+                                }else{
+                                    
+                                 $option .='<option value="'.esc_attr($key).'">'.esc_attr($val).'</option>';   
+                                 
+                                }
+                                
+                            }
+                            
+                            
+                            echo $option;                            
+                            echo '</select>';
+                            echo '</td>';
+                                                        
+                            $list_html = '';
+                            $meta_list_fields = include(SASWP_DIR_NAME . '/core/array-list/meta_list.php');                            
+                            
+                            $meta_list_arr = $meta_list_fields['text'];
+                            
+                            if (strpos($fieldkey, 'image') !== false) {
+                                  $meta_list_arr = $meta_list_fields['image'];
+                            }
+                                                                                    
+                            foreach($meta_list_arr as $list){
+                            
+                                $list_html.= '<optgroup label="'.$list['label'].'">';
+                                
+                                foreach ($list['meta-list'] as $key => $val){
+                                    
+                                    if( $fieldval == $key){
+                                        $list_html.= '<option value="'.esc_attr($key).'" selected>'.esc_html($val).'</option>';    
+                                    }else{
+                                        $list_html.= '<option value="'.esc_attr($key).'">'.esc_html($val).'</option>';    
+                                    }
+                                                                        
+                                }
+                                
+                                $list_html.= '</optgroup>';
+                                
+                            } 
+                            echo '<td>';
+                            echo '<select class="saswp-custom-meta-list" name="saswp_meta_list_val['.$fieldkey.']">';
+                            echo $list_html;
+                            echo '</select>';
+                            echo '</td>';
+                            
+                            
+                            if($fieldval == 'manual_text'){
+                                echo '<td><input type="text" name="saswp_fixed_text['.esc_attr($fieldkey).']" value="'.esc_html($fixed_text[$fieldkey]).'"></td>';    
+                            }
+                            
+                            if($fieldval == 'custom_field'){
+                                 echo '<td><select class="saswp-custom-fields-select2" name="saswp_custom_meta_field['.esc_attr($fieldkey).']">';
+                                 echo '<option value="'.esc_attr($cus_field[$fieldkey]).'">'.preg_replace( '/^_/', '', esc_html( str_replace( '_', ' ', $cus_field[$fieldkey] ) ) ).'</option>';
+                                 echo '</select></td>';
+                            }
+                                                                                   
+                            echo '</tr>';
+                            
+                            }
+                            
+                        }
+                        
+                        ?>
+                           
+                           
+                        </table>                    
+                   <table class="option-table-class">
+                       <tr><td></td><td><a style="float:right;" class="button button-primary saswp-add-custom-fields"><?php echo esc_html__( 'Add Field', 'schema-and-structured-data-for-wp' ); ?></a></td></tr>   
+                   </table>
+                       
+                   </div>                   
+                  
+                
+               <!-- custom fields for schema output ends here -->
+                
+            </div>
+                        
         </div>
             <?php
 } 
