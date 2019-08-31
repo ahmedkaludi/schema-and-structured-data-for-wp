@@ -277,7 +277,7 @@ class saswp_flexmls_list extends flexmlsConnectPageCore{
           
             $input = array();
             $input = array(
-				"@context" 	    => "http://schema.org",
+				"@context" 	    => saswp_context_url(),
 				"@type"		    => ["Product", "Apartment"],
 				"name"              => esc_attr($result['StandardFields']['UnparsedFirstLineAddress']),
                                 "description"       => isset($result['StandardFields']['PublicRemarks'])? $result['StandardFields']['PublicRemarks']:strip_tags(get_the_excerpt()),

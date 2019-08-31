@@ -77,7 +77,7 @@ Class saswp_review_output{
                             $total_score = esc_attr(number_format((float)$overall_rating, 2, '.', ''));
                             
                             $input1 = array(
-                                    '@context'       => 'http://schema.org',
+                                    '@context'       => saswp_context_url(),
                                     '@type'          => 'Review',
                                     'dateCreated'    => esc_html($date),
                                     'datePublished'  => esc_html($date),

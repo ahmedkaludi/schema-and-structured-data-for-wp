@@ -120,7 +120,7 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Added: bbPress support with "Q&A Schema" #391
 * Added: WPSSO Core importer #85
 * Bug Fixed: Upgrade to pro message should not be there, if any pro extension is activated #450
-* Bug Fixed: Notice: Undefined index: professionalservice in /home/lockstock.com.au/htdocs/wp-content/plugins/schema-and-structured-data-for-wp/output/output.php on line 3731 #448
+* Bug Fixed: Notice: Undefined index: professionalservice in /schema-and-structured-data-for-wp/output/output.php on line 3731 #448
 
 = 1.9.2 (28 Aug 2019) =
 

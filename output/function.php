@@ -198,7 +198,7 @@ function saswp_schema_markup_output() {
                         
                     }
                                         
-                    $final_output['@context']   = 'https://schema.org';
+                    $final_output['@context']   = saswp_context_url();
 
                     $final_output['@graph'][]   = $kb_schema_output;
                     $final_output['@graph'][]   = $kb_website_output;

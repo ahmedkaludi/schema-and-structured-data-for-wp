@@ -1958,7 +1958,7 @@ Class saswp_output_service{
                                 
                 $dw_qa['suggestedAnswer'] = $suggested_answer;
                     
-                $qa_page['@context']   = 'http://schema.org';
+                $qa_page['@context']   = saswp_context_url();
                 $qa_page['@type']      = 'QAPage';
                 $qa_page['mainEntity'] = $dw_qa;                                                    
                 return $qa_page;
@@ -2059,7 +2059,7 @@ Class saswp_output_service{
                 $dw_qa['acceptedAnswer']  = $accepted_answer;
                 $dw_qa['suggestedAnswer'] = $suggested_answer;
                     
-                $qa_page['@context']   = 'http://schema.org';
+                $qa_page['@context']   = saswp_context_url();
                 $qa_page['@type']      = 'QAPage';
                 $qa_page['mainEntity'] = $dw_qa;                
                 }                           
@@ -2752,7 +2752,7 @@ Class saswp_output_service{
                 case 'TechArticle':
                     
                     $input1 = array(
-					'@context'			=> 'http://schema.org',
+					'@context'			=> saswp_context_url(),
 					'@type'				=> 'TechArticle',
                                         '@id'				=> trailingslashit(get_permalink()).'#techarticle',
                                         'url'				=> get_permalink(),
@@ -2781,7 +2781,7 @@ Class saswp_output_service{
                 
                 case 'Article':                   
                     $input1 = array(
-					'@context'			=> 'http://schema.org',
+					'@context'			=> saswp_context_url(),
 					'@type'				=> 'Article',
                                         '@id'				=> trailingslashit(get_permalink()).'#article',
                                         'url'				=> get_permalink(),
@@ -2815,7 +2815,7 @@ Class saswp_output_service{
                     }
                     
                     $input1 = array(
-				'@context'			=> 'http://schema.org',
+				'@context'			=> saswp_context_url(),
 				'@type'				=> 'WebPage' ,
                                 '@id'				=> trailingslashit(get_permalink()).'#webpage',
 				'name'				=> saswp_get_the_title(),
