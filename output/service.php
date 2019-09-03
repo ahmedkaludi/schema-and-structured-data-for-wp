@@ -14,7 +14,6 @@ Class saswp_output_service{
     
     private $_meta_list = null;
 
-
     public function __construct() {
         
             if($this->_meta_list == null){
@@ -878,11 +877,17 @@ Class saswp_output_service{
                     }
                     if(isset($custom_fields['saswp_product_availability'])){
                      $input1['offers']['availability'] =    $custom_fields['saswp_product_availability'];
-                     $input1['offers']['url'] =    $custom_fields['saswp_product_url'];
+                     if(isset($custom_fields['saswp_product_url'])){
+                         $input1['offers']['url']   =    $custom_fields['saswp_product_url'];
+                     }
                     }
                     if(isset($custom_fields['saswp_product_price'])){
                      $input1['offers']['price'] =    $custom_fields['saswp_product_price'];
-                     $input1['offers']['url'] =    $custom_fields['saswp_product_url'];
+                     
+                     if(isset($custom_fields['saswp_product_url'])){
+                         $input1['offers']['url']   =    $custom_fields['saswp_product_url'];
+                     }
+                                          
                     }
                     if(isset($custom_fields['saswp_product_currency'])){
                      $input1['offers']['priceCurrency'] =    $custom_fields['saswp_product_currency'];
@@ -3134,8 +3139,7 @@ Class saswp_output_service{
                             
                             }
                                                         
-                        }
-                            
+                        }                            
                         
                         if($site_name){
                                                     
