@@ -1668,14 +1668,16 @@ function saswp_schema_type_meta_box_callback( $post) {
                             
                             
                             if($fieldval == 'manual_text'){
-                                echo '<td><input type="text" name="saswp_fixed_text['.esc_attr($fieldkey).']" value="'.esc_html($fixed_text[$fieldkey]).'"></td>';    
-                            }
-                            
-                            if($fieldval == 'custom_field'){
+                                 echo '<td><input type="text" name="saswp_fixed_text['.esc_attr($fieldkey).']" value="'.esc_html($fixed_text[$fieldkey]).'"></td>';    
+                            }else if($fieldval == 'custom_field'){
                                  echo '<td><select class="saswp-custom-fields-select2" name="saswp_custom_meta_field['.esc_attr($fieldkey).']">';
                                  echo '<option value="'.esc_attr($cus_field[$fieldkey]).'">'.preg_replace( '/^_/', '', esc_html( str_replace( '_', ' ', $cus_field[$fieldkey] ) ) ).'</option>';
                                  echo '</select></td>';
+                            }else{
+                                echo '<td></td>';
                             }
+                                                        
+                            echo '<td><a class="button button-default saswp-rmv-modify_row">X</a></td>';
                                                                                    
                             echo '</tr>';
                             
