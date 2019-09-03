@@ -131,8 +131,10 @@ Class saswp_output_service{
         
         public function saswp_get_meta_list_value($key, $field, $schema_post_id){
             
-            $fixed_text        = esc_sql ( get_post_meta($schema_post_id, 'saswp_fixed_text', true)  ); 
-            $cus_field         = esc_sql ( get_post_meta($schema_post_id, 'saswp_custom_meta_field', true)  ); 
+            global $post;
+            
+            $fixed_text        = get_post_meta($schema_post_id, 'saswp_fixed_text', true) ; 
+            $cus_field         = get_post_meta($schema_post_id, 'saswp_custom_meta_field', true); 
             
             $response = null;
             
@@ -196,7 +198,7 @@ Class saswp_output_service{
                     
                     break;
                 case 'custom_field':
-                    $response    = esc_sql ( get_post_meta($schema_post_id, $cus_field[$key], true) ); 
+                    $response    = get_post_meta($post->ID, $cus_field[$key], true); 
                     break;
                 case 'featured_img':                    
                     $image_id 	     = get_post_thumbnail_id();
@@ -242,7 +244,8 @@ Class saswp_output_service{
                     }
                                     
                 default:
-                    $response = get_post_meta($schema_post_id, $field, true );
+                    
+                    $response = get_post_meta($post->ID, $field, true );
                     
                     break;
             }
