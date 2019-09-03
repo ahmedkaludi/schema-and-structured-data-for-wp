@@ -315,6 +315,35 @@ Class saswp_output_service{
                      $input1['Publisher']['logo']['url'] =    $custom_fields['saswp_article_organization_logo'];
                     }
                     break; 
+                    
+                case 'HowTo':      
+                      
+                    if(isset($custom_fields['saswp_howto_schema_name'])){
+                     $input1['name'] =    $custom_fields['saswp_howto_schema_name'];
+                    }
+                    if(isset($custom_fields['saswp_howto_schema_description'])){
+                     $input1['description'] =    $custom_fields['saswp_howto_schema_description'];
+                    }
+                    if(isset($custom_fields['saswp_howto_ec_schema_currency'])){
+                     $input1['estimatedCost']['currency'] =    $custom_fields['saswp_howto_ec_schema_currency'];
+                    }
+                    if(isset($custom_fields['saswp_howto_ec_schema_value'])){
+                     $input1['estimatedCost']['value'] =    $custom_fields['saswp_howto_ec_schema_value'];
+                    }
+                    if(isset($custom_fields['saswp_howto_schema_totaltime'])){
+                     $input1['totalTime']     =    $custom_fields['saswp_howto_schema_totaltime'];
+                    }
+                    if(isset($custom_fields['saswp_howto_ec_schema_date_published'])){
+                     $input1['datePublished'] =    $custom_fields['saswp_howto_ec_schema_date_published'];
+                    }
+                    if(isset($custom_fields['saswp_howto_ec_schema_date_modified'])){
+                     $input1['dateModified'] =    $custom_fields['saswp_howto_ec_schema_date_modified'];
+                    }
+                    if(isset($custom_fields['saswp_howto_schema_image'])){
+                     $input1['image'] =    $custom_fields['saswp_howto_schema_image'];
+                    }
+                                                            
+                    break;     
                                   
                 case 'local_business':
                    
@@ -2709,6 +2738,7 @@ Class saswp_output_service{
                         'saswp_mc_schema_diagnosis_name'   => 'Diagnosis Name'                        
                     );                    
                     break;
+                
                 case 'DataFeed':
                     
                     $meta_field = array(                        
@@ -2716,6 +2746,20 @@ Class saswp_output_service{
                         'saswp_data_feed_schema_description'               => 'Description',
                         'saswp_data_feed_schema_date_modified'             => 'DateModified',
                         'saswp_data_feed_schema_date_license'              => 'License',
+                    );                    
+                    break;
+                
+                case 'HowTo':
+                    
+                    $meta_field = array(                        
+                        'saswp_howto_schema_name'                      => 'Name',
+                        'saswp_howto_schema_description'               => 'Description',
+                        'saswp_howto_schema_image'                     => 'Image',
+                        'saswp_howto_ec_schema_currency'               => 'Estimated Cost Currency',
+                        'saswp_howto_ec_schema_value'                  => 'Estimated Cost Value',
+                        'saswp_howto_schema_totaltime'                 => 'Total Time',
+                        'saswp_howto_ec_schema_date_published'         => 'Date Published',
+                        'saswp_howto_ec_schema_date_modified'          => 'Date Modified',
                     );                    
                     break;
 
