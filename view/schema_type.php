@@ -590,12 +590,14 @@ function saswp_schema_type_meta_box_callback( $post) {
         $product_details     = array();
         $event_details       = array();
 
-        $schema_options    = esc_sql ( get_post_meta($post->ID, 'schema_options', true)  );
-        $meta_list         = esc_sql ( get_post_meta($post->ID, 'saswp_meta_list_val', true)  ); 
-        $fixed_text        = esc_sql ( get_post_meta($post->ID, 'saswp_fixed_text', true)  ); 
-        $cus_field         = esc_sql ( get_post_meta($post->ID, 'saswp_custom_meta_field', true)  ); 
+        
         
         if($post){
+            
+            $schema_options    = esc_sql ( get_post_meta($post->ID, 'schema_options', true)  );
+            $meta_list         = esc_sql ( get_post_meta($post->ID, 'saswp_meta_list_val', true)  ); 
+            $fixed_text        = esc_sql ( get_post_meta($post->ID, 'saswp_fixed_text', true)  ); 
+            $cus_field         = esc_sql ( get_post_meta($post->ID, 'saswp_custom_meta_field', true)  ); 
 
             $schema_type      = esc_sql ( get_post_meta($post->ID, 'schema_type', true)  );     
 
@@ -1594,7 +1596,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                 
                 <!-- custom fields for schema output starts here -->
                               
-                <table class="option-table-class">
+                <table class="option-table-class saswp_modify_schema_checkbox">
                         <tr><td><label><?php echo esc_html__( 'Modify Schema Output', 'schema-and-structured-data-for-wp' ) ?></label></td><td><input type="checkbox" id="saswp_enable_custom_field" name="saswp_enable_custom_field" value="1" <?php if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field']==1){echo 'checked'; }?>></td></tr>   
                 </table>  
                    <div class="saswp-custom-fields-div" <?php if(!isset($schema_options['enable_custom_field']) || $schema_options['enable_custom_field'] ==0){echo 'style="display:none;"'; }?>>

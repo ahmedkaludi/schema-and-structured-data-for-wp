@@ -1019,16 +1019,7 @@ Google review module ends here
 }    
 /*** How to schema css starts here ***/    
 
-.saswp-how-to-supply-table-div, 
-.saswp-how-to-tool-table-div, 
-.saswp-how-to-step-table-div,
-.saswp-tvseries-actor-table-div,
-.saswp-tvseries-season-table-div,
-.saswp-mc-symptom-table-div,
-.saswp-mc-risk_factor-table-div,
-.saswp-trip-itinerary-table-div,
-.saswp-faq-question-table-div,
-.saswp-mc-cause-table-div
+.saswp-dynamic-properties
 {
     border: 1px solid #aaa;
     margin-top: 5px;
@@ -1176,4 +1167,17 @@ Google review module ends here
 }
 .select2-container{
     width:100% !important;
+}
+.saswp-schema-modify-section{
+    margin-top: 15px;    
+    border-top: 1px solid #eee;
+    padding-top: 15px;
+}
+.saswp-custom-meta-list{
+    border: 1px solid #aaa;
+    border-radius: 4px;
+}
+.saswp-custom-fields-table tr td:nth-child(3n+3) input{
+    border: 1px solid #aaa;
+    border-radius: 4px;
 }
