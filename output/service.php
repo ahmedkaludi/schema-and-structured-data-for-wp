@@ -846,16 +846,25 @@ Class saswp_output_service{
                     }
                     if(isset($custom_fields['saswp_product_availability'])){
                      $input1['offers']['availability'] =    $custom_fields['saswp_product_availability'];
+                     $input1['offers']['url'] =    $custom_fields['saswp_product_url'];
                     }
                     if(isset($custom_fields['saswp_product_price'])){
                      $input1['offers']['price'] =    $custom_fields['saswp_product_price'];
+                     $input1['offers']['url'] =    $custom_fields['saswp_product_url'];
                     }
                     if(isset($custom_fields['saswp_product_currency'])){
                      $input1['offers']['priceCurrency'] =    $custom_fields['saswp_product_currency'];
+                     $input1['offers']['url'] =    $custom_fields['saswp_product_url'];
                     }
                     if(isset($custom_fields['saswp_product_priceValidUntil'])){
                      $input1['offers']['priceValidUntil'] =    $custom_fields['saswp_product_priceValidUntil'];
-                     $input1['offers']['url']             =    $custom_fields['saswp_product_priceValidUntil'];
+                     
+                    }                   
+                    if(isset($custom_fields['saswp_product_condition'])){
+                     $input1['offers']['itemCondition'] =    $custom_fields['saswp_product_condition'];
+                    }
+                    if(isset($custom_fields['saswp_product_sku'])){
+                     $input1['sku']                    =    $custom_fields['saswp_product_sku'];
                     }
                     break;
                 
@@ -2301,19 +2310,20 @@ Class saswp_output_service{
                 case 'Product':
                     
                         $meta_field = array(                        
-                            'saswp_product_schema_name'               => 'Name',
-                            'saswp_product_schema_description'        => 'Description',                                                                         
-                            'saswp_product_schema_image'              => 'Image',
-                            'saswp_product_schema_brand_name'         => 'Brand Name',
-                            'saswp_product_schema_price'              => 'Price',
-                            'saswp_product_schema_priceValidUntil'    => 'Price Valid Until',                         
-                            'saswp_product_schema_currency'           => 'Currency',  
-                            'saswp_product_schema_availability'       => 'Availability',  
-                            'saswp_product_schema_condition'          => 'Product Condition',  
-                            'saswp_product_schema_sku'                => 'SKU', 
-                            'saswp_product_schema_mpn'                => 'MPN',
-                            'saswp_product_schema_isbn'               => 'ISBN',
-                            'saswp_product_schema_gtin8'              => 'GTIN 8',
+                            'saswp_product_url'                => 'URL',    
+                            'saswp_product_name'               => 'Name',
+                            'saswp_product_description'        => 'Description',                                                                         
+                            'saswp_product_image'              => 'Image',
+                            'saswp_product_brand'              => 'Brand Name',
+                            'saswp_product_price'              => 'Price',
+                            'saswp_product_priceValidUntil'    => 'Price Valid Until',                         
+                            'saswp_product_currency'           => 'Currency',  
+                            'saswp_product_availability'       => 'Availability',  
+                            'saswp_product_condition'          => 'Product Condition',  
+                            'saswp_product_sku'                => 'SKU', 
+                            'saswp_product_mpn'                => 'MPN',
+                            'saswp_product_isbn'               => 'ISBN',
+                            'saswp_product_gtin8'              => 'GTIN 8',
                         );                                                                                                                                       
                     break;
                 

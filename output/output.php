@@ -1076,7 +1076,14 @@ function saswp_schema_output() {
                                 }                                  
                                 }else{
                                     
-                                $input1 = array();
+                                    $input1['@context']              = saswp_context_url();
+                                    $input1['@type']                 = 'Product';
+                                    $input1['@id']                   = trailingslashit(get_permalink()).'#Product';                                                                                                                                                                                                                 
+
+                                    if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){                                   
+                                            $service = new saswp_output_service();
+                                            $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
+                                    }
                                     
                                 }                                                                
                                 
