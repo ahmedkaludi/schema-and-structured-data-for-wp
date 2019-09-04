@@ -716,6 +716,14 @@ function saswp_schema_type_meta_box_callback( $post) {
                         if ( file_exists( $mappings_file ) ) {
                             $all_schema_array = include $mappings_file;
                         }
+                        
+                        $mappings_sub_business = SASWP_DIR_NAME . '/core/array-list/local-sub-business.php';
+                
+                        if ( file_exists( $mappings_sub_business ) ) {
+                            $sub_business_arr = include $mappings_sub_business;
+                        }
+                        
+                        
                                                 
                          $all_business_type = array(
                             ''                              => 'Select Business Type (Optional)', 
@@ -736,6 +744,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                             'legalservice'                  => 'Legal Service',
                             'library'                       => 'Library',
                             'lodgingbusiness'               => 'Lodging Business',
+                            'medicalbusiness'               => 'Medical Business',
                             'professionalservice'           => 'Professional Service',
                             'radiostation'                  => 'Radio Station',
                             'realestateagent'               => 'Real Estate Agent',
@@ -749,140 +758,18 @@ function saswp_schema_type_meta_box_callback( $post) {
                             'travelagency'                  => 'Travel Agency',
                          );
 
-                          $all_automotive_array = array(
-                             ''                 => 'Select Sub Business Type ( optional )',  
-                             'autobodyshop'     => 'Auto Body Shop',
-                             'autodealer'       => 'Auto Dealer',
-                             'autopartsstore'   => 'Auto Parts Store',
-                             'autorental'       => 'Auto Rental',
-                             'autorepair'       => 'Auto Repair',
-                             'autowash'         => 'Auto Wash',
-                             'gasstation'       => 'Gas Station',
-                             'motorcycledealer' => 'Motorcycle Dealer',
-                             'motorcyclerepair' => 'Motorcycle Repair'
-                         );
-
-                          $all_emergency_array = array(
-                             ''              => 'Select Sub Business Type ( optional )',  
-                             'firestation'   => 'Fire Station',
-                             'hospital'      => 'Hospital',
-                             'policestation' => 'Police Station',                                    
-                         );
-                          $all_entertainment_array = array(
-                              ''                   => 'Select Sub Business Type ( optional )', 
-                              'adultentertainment' => 'Adult Entertainment',
-                              'amusementpark'      => 'Amusement Park',
-                              'artgallery'         => 'Art Gallery',
-                              'casino'             => 'Casino',
-                              'comedyclub'         => 'Comedy Club',
-                              'movietheater'       => 'Movie Theater',
-                              'nightclub'          => 'Night Club',
-
-                         );
-                          $all_financial_array = array(
-                              ''                   => 'Select Sub Business Type ( optional )', 
-                              'accountingservice'  => 'Accounting Service',
-                              'automatedteller'    => 'Automated Teller',
-                              'bankorcredit_union' => 'Bank Or Credit Union',
-                              'insuranceagency'    => 'Insurance Agency',                                      
-
-                         );
-
-                          $all_food_establishment_array = array(
-                              ''                   => 'Select Sub Business Type ( optional )', 
-                              'bakery'             => 'Bakery',
-                              'barorpub'           => 'Bar Or Pub',
-                              'brewery'            => 'Brewery',
-                              'cafeorcoffee_shop'  => 'Cafe Or Coffee Shop', 
-                              'fastfoodrestaurant' => 'Fast Food Restaurant',
-                              'icecreamshop'       => 'Ice Cream Shop',
-                              'restaurant'         => 'Restaurant',
-                              'winery'             => 'Winery', 
-
-                         );
-                          $all_health_and_beauty_array = array(
-                              ''               => 'Select Sub Business Type ( optional )',   
-                              'beautysalon'    => 'Beauty Salon',
-                              'dayspa'         => 'DaySpa',
-                              'hairsalon'      => 'Hair Salon',
-                              'healthclub'     => 'Health Club', 
-                              'nailsalon'      => 'Nail Salon',
-                              'tattooparlor'   => 'Tattoo Parlor',                                                                          
-                         );
-
-                          $all_home_and_construction_array = array(
-                              ''                  => 'Select Sub Business Type ( optional )', 
-                              'electrician'       => 'Electrician',
-                              'generalcontractor' => 'General Contractor',
-                              'hvacbusiness'      => 'HVAC Business',
-                              'locksmith'         => 'Locksmith', 
-                              'movingcompany'     => 'Moving Company',
-                              'plumber'           => 'Plumber',       
-                              'roofingcontractor' => 'Roofing Contractor', 
-                              'housepainter'      => 'House Painter',    
-                         );
-
-                          $all_legal_service_array = array(
-                              ''         => 'Select Sub Business Type ( optional )', 
-                              'attorney' => 'Attorney',
-                              'notary'   => 'Notary',                                            
-                         );
-
-                          $all_lodging_array = array(
-                              ''                => 'Select Sub Business Type ( optional )', 
-                              'bedandbreakfast' => 'Bed And Breakfast',
-                              'campground'      => 'Campground',
-                              'hostel'          => 'Hostel',
-                              'hotel'           => 'Hotel',
-                              'motel'           => 'Motel',
-                              'resort'          => 'Resort',
-                         );
-
-                          $all_sports_activity_location = array(
-                              ''                    => 'Select Sub Business Type ( optional )', 
-                              'bowlingalley'        => 'Bowling Alley',
-                              'exercisegym'         => 'Exercise Gym',
-                              'golfcourse'          => 'Golf Course',
-                              'healthclub'          => 'Health Club',
-                              'publicswimming_pool' => 'Public Swimming Pool',
-                              'skiresort'           => 'Ski Resort',
-                              'sportsclub'          => 'Sports Club',
-                              'stadiumorarena'      => 'Stadium Or Arena',
-                              'tenniscomplex'       => 'Tennis Complex'
-                         );
-                          $all_store = array(
-                                ''                      => 'Select Sub Business Type ( optional )', 
-                                'autopartsstore'        => 'Auto Parts Store',
-                                'bikestore'             => 'Bike Store',
-                                'bookstore'             => 'Book Store',
-                                'clothingstore'         => 'Clothing Store',
-                                'computerstore'         => 'Computer Store',
-                                'conveniencestore'      => 'Convenience Store',
-                                'departmentstore'       => 'Department Store',
-                                'electronicsstore'      => 'Electronics Store',
-                                'florist'               => 'Florist',
-                                'furniturestore'        => 'Furniture Store',
-                                'gardenstore'           => 'Garden Store',
-                                'grocerystore'          => 'Grocery Store',
-                                'hardwarestore'         => 'Hardware Store',
-                                'hobbyshop'             => 'Hobby Shop',
-                                'homegoodsstore'        => 'HomeGoods Store',
-                                'jewelrystore'          => 'Jewelry Store',
-                                'liquorstore'           => 'Liquor Store',
-                                'mensclothingstore'     => 'Mens Clothing Store',
-                                'mobilephonestore'      => 'Mobile Phone Store',
-                                'movierentalstore'      => 'Movie Rental Store',
-                                'musicstore'            => 'Music Store',
-                                'officeequipmentstore'  => 'Office Equipment Store',
-                                'outletstore'           => 'Outlet Store',
-                                'pawnshop'              => 'Pawn Shop',
-                                'petstore'              => 'Pet Store',
-                                'shoestore'             => 'Shoe Store',
-                                'sportinggoodsstore'    => 'Sporting Goods Store',
-                                'tireshop'              => 'Tire Shop',
-                                'toystore'              => 'Toy Store',
-                                'wholesalestore'        => 'Wholesale Store'
-                         );
+                          $all_medical_business_array      = $sub_business_arr['medicalbusiness'];                         
+                          $all_automotive_array            = $sub_business_arr['automotivebusiness'];
+                          $all_emergency_array             = $sub_business_arr['emergencyservice'];
+                          $all_entertainment_array         = $sub_business_arr['entertainmentbusiness'];
+                          $all_financial_array             = $sub_business_arr['financialservice'];
+                          $all_food_establishment_array    = $sub_business_arr['foodestablishment']; 
+                          $all_health_and_beauty_array     = $sub_business_arr['healthandbeautybusiness'];
+                          $all_home_and_construction_array = $sub_business_arr['homeandconstructionbusiness'];
+                          $all_legal_service_array         = $sub_business_arr['legalservice'];
+                          $all_lodging_array               = $sub_business_arr['lodgingbusiness']; 
+                          $all_sports_activity_location    = $sub_business_arr['sportsactivitylocation']; 
+                          $all_store                       = $sub_business_arr['store'];
         ?>                   
         <!-- Below variable $style_business_type is static -->
         <div class="misc-pub-section">
@@ -993,6 +880,25 @@ function saswp_schema_type_meta_box_callback( $post) {
                     </select>
                 </td>    
                 </tr>
+                
+                <tr class="saswp-medicalbusiness-tr" <?php if(!array_key_exists($business_name, $all_medical_business_array)){ echo 'style="display:none;"';}else{ echo $style_business_name;} ?>>
+                <td><?php echo esc_html__('Sub Business Type', 'schema-and-structured-data-for-wp' ); ?></td>    
+                <td>
+                    <select id="saswp_medicalbusiness" name="saswp_business_name">
+                        <?php
+
+                          foreach ($all_medical_business_array as $key => $value) {
+                            $sel = '';
+                            if($business_name == $key){
+                              $sel = 'selected';
+                            }
+                            echo "<option value='".esc_attr($key)."' ".esc_attr($sel).">".esc_html__($value, 'schema-and-structured-data-for-wp' )."</option>";
+                          }
+                        ?>
+                    </select>
+                </td>    
+                </tr>
+                
                 <tr class="saswp-financialservice-tr" <?php if(!array_key_exists($business_name, $all_financial_array)){ echo 'style="display:none;"';}else{ echo $style_business_name;} ?>>
                 <td><?php echo esc_html__('Sub Business Type', 'schema-and-structured-data-for-wp' ); ?></td>    
                 <td>

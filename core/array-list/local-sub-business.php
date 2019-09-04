@@ -127,6 +127,33 @@ return array(
              'tireshop'              => 'Tire Shop',
              'toystore'              => 'Toy Store',
              'wholesalestore'        => 'Wholesale Store'
-      )
+      ),
+        'medicalbusiness' => array(
+                             ''                 => 'Select Sub Business Type ( optional )',  
+                             'Communityhealth'     => 'Community Health',
+                             'dentist'       => 'Dentist',
+                             'dermatology'   => 'Dermatology',
+                             'dietnutrition'       => 'Diet Nutrition',
+                             'emergency'       => 'Emergency',
+                             'geriatric'         => 'Geriatric',
+                             'gynecologic'       => 'Gynecologic',
+                             'medicalclinic' => 'Medical Clinic',
+                             'midwifery' => 'Midwifery',                              
+                              'nursing' => 'Nursing',
+                              'obstetric' => 'Obstetric',
+                              'oncologic' => 'Oncologic',
+                              'optician' => 'Optician',
+                              'optometric' => 'Optometric',
+                              'otolaryngologic' => 'Otolaryngologic',
+                              'pediatric' => 'Pediatric',
+                              'pharmacy' => 'Pharmacy',
+                              'physician' => 'Physician',
+                              'physiotherapy' => 'Physiotherapy',
+                              'plasticsurgery' => 'Plastic Surgery',
+                              'podiatric' => 'Podiatric',
+                              'primarycare' => 'Primary Care',
+                              'psychiatric' => 'Psychiatric',
+                              'publichealth' => 'Public Health',
+                )
  ); 
                             
