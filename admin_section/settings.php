@@ -727,6 +727,28 @@ function saswp_general_page_callback(){
 				'Person'       => 'Person',
 			)
                     ),
+                    array(
+			'label' => 'Organization Type',
+			'id'    => 'saswp_organization_type',
+                        'name'  => 'sd_data[saswp_organization_type]',
+                        'class' => 'saswp_org_fields',
+			'type'  => 'select',
+			'options' => array(                                
+				''                          => 'Select (Optional)',
+				'Airline'                   => 'Airline',
+                                'Consortium'                => 'Consortium',
+                                'Corporation'               => 'Corporation',
+                                'EducationalOrganization'   => 'EducationalOrganization',
+                                'GovernmentOrganization'    => 'GovernmentOrganization',
+                                'LibrarySystem'             => 'LibrarySystem',                                
+                                'MedicalOrganization'       => 'MedicalOrganization',
+                                'NewsMediaOrganization'     => 'NewsMediaOrganization',
+                                'NGO'                       => 'NGO',
+                                'PerformingGroup'           => 'PerformingGroup',
+                                'SportsOrganization'        => 'SportsOrganization',
+                                'WorkersUnion'              => 'WorkersUnion',
+			)
+                   ),
                 array(
 			'label' => 'Organization Name',
 			'id'    => 'sd_name',

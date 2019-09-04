@@ -96,8 +96,7 @@ function saswp_kb_schema_output() {
                 }
                                 		
                 $contact_info = array();
-                
-                
+                                
 		$contact_1   = saswp_remove_warnings($sd_data, 'saswp_contact_type', 'saswp_string');
 		$telephone_1 = saswp_remove_warnings($sd_data, 'saswp_kb_telephone', 'saswp_string');
                 $contact_url = saswp_remove_warnings($sd_data, 'saswp_kb_contact_url', 'saswp_string');
@@ -118,10 +117,9 @@ function saswp_kb_schema_output() {
                     
                 }
 	 	
-
 		$input = array(
-                        '@context'		=>saswp_context_url(),
-                        '@type'			=> 'Organization',
+                        '@context'		=> saswp_context_url(),
+                        '@type'			=> (isset($sd_data['saswp_organization_type']) && $sd_data['saswp_organization_type'] !='')? $sd_data['saswp_organization_type']:'Organization',
                         '@id'                   => $site_url.'#Organization',
                         'name'			=> saswp_remove_warnings($sd_data, 'sd_name', 'saswp_string'),
                         'url'			=> saswp_remove_warnings($sd_data, 'sd_url', 'saswp_string'),
