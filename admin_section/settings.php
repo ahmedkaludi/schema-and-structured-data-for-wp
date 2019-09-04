@@ -27,9 +27,7 @@ function saswp_plugin_action_links( $links ) {
         
 }
 
-function saswp_add_menu_links() {				
-	// Settings page - Same as main menu page
-	    add_submenu_page( 'edit.php?post_type=saswp', esc_html__( 'Schema & Structured Data For Wp', 'schema-and-structured-data-for-wp' ), esc_html__( 'Settings', 'schema-and-structured-data-for-wp' ), 'manage_options', 'structured_data_options', 'saswp_admin_interface_render' );	
+function saswp_ext_installed_status(){
         
             $mappings_file = SASWP_DIR_NAME . '/core/array-list/pro_extensions.php';
             
@@ -40,6 +38,7 @@ function saswp_add_menu_links() {
             }
             
             $check_active_ext = false;
+            
             if(!empty($pro_ext)){
                 
                 foreach($pro_ext as $ext){
@@ -54,7 +53,15 @@ function saswp_add_menu_links() {
                 
             }
             
-            if(!$check_active_ext){
+            return $check_active_ext;
+    
+}
+
+function saswp_add_menu_links() {				
+	// Settings page - Same as main menu page
+	    add_submenu_page( 'edit.php?post_type=saswp', esc_html__( 'Schema & Structured Data For Wp', 'schema-and-structured-data-for-wp' ), esc_html__( 'Settings', 'schema-and-structured-data-for-wp' ), 'manage_options', 'structured_data_options', 'saswp_admin_interface_render' );	
+                                
+            if(!saswp_ext_installed_status()){
                 add_submenu_page( 'edit.php?post_type=saswp', esc_html__( 'Schema & Structured Data For Wp', 'schema-and-structured-data-for-wp' ), '<span style="color:#fff176;">'.esc_html__( 'Upgrade To Premium', 'schema-and-structured-data-for-wp' ).'</span>', 'manage_options', 'structured_data_premium', 'saswp_premium_interface_render' );	
             }
             
@@ -232,6 +239,9 @@ function saswp_admin_interface_render(){
             <p style="float: left;"><?php echo esc_html__('Need Help?','schema-and-structured-data-for-wp') ?></p>  <a style="float: right;" class="button button-default" target="_blank" href="http://structured-data-for-wp.com/docs/"><?php echo esc_html__('View Documentation','schema-and-structured-data-for-wp') ?></a>
             
         </div>
+        
+        <?php if(!saswp_ext_installed_status()) { ?>
+        
         <div class="saswp-upgrade-pro">
         	<h2><?php echo esc_html__('Upgrade to Pro!','schema-and-structured-data-for-wp') ?></h2>
         	<ul>
@@ -240,7 +250,9 @@ function saswp_admin_interface_render(){
         		<li><?php echo esc_html__('Active Development','schema-and-structured-data-for-wp') ?></li>
         	</ul>
         	<a target="_blank" href="http://structured-data-for-wp.com/pricing/"><?php echo esc_html__('UPGRADE','schema-and-structured-data-for-wp') ?></a>
-        </div> 
+        </div>
+        
+        <?php  } ?>                 
     </div>
 </div>
 
