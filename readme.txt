@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.2
-Stable tag: 1.9.3
+Stable tag: 1.9.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -111,6 +111,16 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
 
+= 1.9.4 (03 Sept 2019) =
+
+* Added: DataFeed Schema type #411
+* Enhancement: Remove button to modified Schema Output item #456.
+* Bug Fixed: Compatibility code for The SEO Framework results in invalid output. #452
+* Bug Fixed: Custom fields for products has the wrong identifier. #453
+* Bug Fixed: Custom fields does not fetch post values #454
+* Bug Fixed: Add field in Modify Schema Output defaults to null #455
+* Bug Fixed: @context property value should be changed based on site ssl certificate #447
+
 
 = 1.9.3 (30 Aug 2019) =
 
@@ -120,7 +130,7 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Added: bbPress support with "Q&A Schema" #391
 * Added: WPSSO Core importer #85
 * Bug Fixed: Upgrade to pro message should not be there, if any pro extension is activated #450
-* Bug Fixed: Notice: Undefined index: professionalservice in /home/lockstock.com.au/htdocs/wp-content/plugins/schema-and-structured-data-for-wp/output/output.php on line 3731 #448
+* Bug Fixed: Notice: Undefined index: professionalservice in /schema-and-structured-data-for-wp/output/output.php on line 3731 #448
 
 = 1.9.2 (28 Aug 2019) =
 

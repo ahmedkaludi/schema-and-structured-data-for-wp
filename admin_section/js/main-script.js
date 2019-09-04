@@ -1,6 +1,6 @@
 var saswp_meta_list        = [];
 var saswp_meta_fields      = [];
-var saswp_meta_list_fields = null;
+var saswp_meta_list_fields = [];
 
 function getParameterByName(name, url) {
     if (!url){
@@ -14,18 +14,21 @@ function getParameterByName(name, url) {
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
 
-    function saswp_schema_datepicker(){
+        function saswp_schema_datepicker(){
         
             jQuery('.saswp-datepicker-picker').datepicker({
-             dateFormat: "yy-mm-dd",
-             minDate: 0
+             dateFormat: "yy-mm-dd",             
           });
           
         }
 
 
-       function saswp_meta_list_html(response, fields, field_name, id){
+       function saswp_meta_list_html(response, fields, f_name, id, tr){
                       
+                        var field_name = f_name;
+                        if(field_name == null){                            
+                            field_name = Object.keys(fields)[0];                            
+                        }                        
                         var re_html = '';   
                             re_html += '<select class="saswp-custom-meta-list" name="saswp_meta_list_val['+field_name+']">';
                           $.each(response, function(key,value){ 
@@ -51,12 +54,13 @@ function getParameterByName(name, url) {
                                     html += '</td>';                                                                                                                                                                                                       
                                     html += '<td>';                                                                       
                                     html += re_html;
-                                    html += '</td>';                                                                          
+                                    html += '</td>';  
+                                    html += '<td></td><td><a class="button button-default saswp-rmv-modify_row">X</a></td>';
                                     html += '</tr>';
                                     $(".saswp-custom-fields-table").append(html);               
                                                                                                                      
                       }else{
-                          $(id).html(re_html);
+                          $(id).html(re_html);                                                                                  
                       }                                                          
            
        } 
@@ -64,19 +68,19 @@ function getParameterByName(name, url) {
 
        
        
-       function saswp_get_meta_list(type, fields, id, fields_name){                           
+       function saswp_get_meta_list(type, fields, id, fields_name, tr){                           
                             if (!saswp_meta_list[type]) {
                                 
                                 $.get(ajaxurl, 
                                     { action:"saswp_get_meta_list", saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
                                      function(response){                                  
                                                saswp_meta_list[type] = response[type];                                                                                                                             
-                                               saswp_meta_list_html(saswp_meta_list[type], fields, fields_name, id);
+                                               saswp_meta_list_html(saswp_meta_list[type], fields, fields_name, id, tr);
                                           
                                     },'json');
                                 
                             }else{
-                                saswp_meta_list_html(saswp_meta_list[type], fields, fields_name, id);
+                                saswp_meta_list_html(saswp_meta_list[type], fields, fields_name, id, tr);
                             }
                                                                                      
        }
@@ -117,14 +121,14 @@ function saswp_fields_html_generator(index, schema_id, fields_type, div_type, sc
             
             var html = '';
             
-            html += '<div class="saswp-'+div_type+'-table-div" data-id="'+index+'">'
+            html += '<div class="saswp-'+div_type+'-table-div saswp-dynamic-properties" data-id="'+index+'">'
                         +  '<a class="saswp-table-close">X</a>'
                         + '<table class="form-table saswp-'+div_type+'-table">' 
                 
             $.each(schema_fields, function(eachindex, element){
                                 
                 var meta_class = "";
-                if(element.name == 'saswp_tvseries_season_published_date'){
+                if(element.name == 'saswp_tvseries_season_published_date' || element.name == 'saswp_feed_element_date_created'){
                     meta_class = "saswp-datepicker-picker";    
                 }
                 
@@ -472,6 +476,33 @@ jQuery(document).ready(function($){
                               $("#saswp-smart-crawl").val(1);                                
                             }else{
                               $("#saswp-smart-crawl").val(0);                                          
+                            }
+                      break;
+                      
+                      case 'saswp-squirrly-seo-checkbox':
+                          saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-squirrly-seo").val(1);                                
+                            }else{
+                              $("#saswp-squirrly-seo").val(0);                                          
+                            }
+                      break;
+                      
+                      case 'saswp-wp-recipe-maker-checkbox':
+                          saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-wp-recipe-maker").val(1);                                
+                            }else{
+                              $("#saswp-wp-recipe-maker").val(0);                                          
+                            }
+                      break;
+                      
+                      case 'saswp-wpsso-core-checkbox':
+                          saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-wpsso-core").val(1);                                
+                            }else{
+                              $("#saswp-wpsso-core").val(0);                                          
                             }
                       break;
                       
@@ -1486,16 +1517,16 @@ jQuery(document).ready(function($){
         
        $(document).on('change','.saswp-custom-fields-name',function(){
                                                    
-            var type = 'text';               
+            var type = 'text';   
+            var tr   = $(this).parent().parent('tr'); 
             var fields_name = $(this).val();            
             var str2 = "image";
             if(fields_name.indexOf(str2) != -1){
                 type = 'image';
-            }
-                         
-             var id = $(this).parent().parent('tr').find("td:eq(1)");             
-             saswp_get_meta_list(type, null, id, fields_name);                    
-             $(this).parent().parent('tr').find("td:gt(1)").remove();
+            }                                     
+             var id = $(this).parent().parent('tr').find("td:eq(1)");                                    
+             saswp_get_meta_list(type, null, id, fields_name, tr);                    
+             
        }); 
                 
        $(document).on("click", '.saswp-skip-button', function(e){
@@ -1535,6 +1566,10 @@ jQuery(document).ready(function($){
         
        //How to schema js ends here
        
+       $(document).on("click", ".saswp-rmv-modify_row", function(e){
+           e.preventDefault();
+           $(this).parent().parent().remove();
+       });
        
        $(document).on("change",".saswp-custom-meta-list", function(){
            
@@ -1542,14 +1577,18 @@ jQuery(document).ready(function($){
           var field_name =  $(this).parent().parent('tr').find(".saswp-custom-fields-name").val();
           var html = '';
           if(meta_val == 'manual_text'){
-              html = '<td><input type="text" name="saswp_fixed_text['+field_name+']"></td>';
+              html += '<td><input type="text" name="saswp_fixed_text['+field_name+']"></td>';              
+              html += '<td><a class="button button-default saswp-rmv-modify_row">X</a></td>';
+              
+          }else if(meta_val == 'custom_field'){
+              html += '<td><select class="saswp-custom-fields-select2" name="saswp_custom_meta_field['+field_name+']">';
+              html += '</select></td>';              
+              html += '<td><a class="button button-default saswp-rmv-modify_row">X</a></td>';
+          }else{
+              html += '<td></td>';
+              html += '<td><a class="button button-default saswp-rmv-modify_row">X</a></td>';
           }
           
-          if(meta_val == 'custom_field'){
-              html += '<td><select class="saswp-custom-fields-select2" name="saswp_custom_meta_field['+field_name+']">';
-              html += '</select></td>'; 
-             
-          }
           $(this).parent().parent('tr').find("td:gt(1)").remove();
           $(this).parent().parent('tr').append(html);
            saswpCustomSelect2();
@@ -1561,16 +1600,17 @@ jQuery(document).ready(function($){
           var post_id = $('#post_ID').val();
           if(schema_type !=''){
                             
-              if(!saswp_meta_list_fields){
+              if(!saswp_meta_list_fields[schema_type]){
                   
                       $.ajax({
                             type: "POST",    
                             url:ajaxurl,                    
                             dataType: "json",
                             data:{action:"saswp_get_schema_type_fields",post_id:post_id, schema_type:schema_type, saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
-                            success:function(response){                                                                         
-                                     saswp_meta_list_fields = response;
-                                     saswp_get_meta_list('text', saswp_meta_list_fields, null, null);
+                            success:function(response){   
+                                                                                                        
+                                        saswp_meta_list_fields[schema_type] = response;                                       
+                                        saswp_get_meta_list('text', saswp_meta_list_fields[schema_type], null, null, null);                                                                     
                              
                             },
                             error: function(response){                    
@@ -1580,7 +1620,9 @@ jQuery(document).ready(function($){
                   
                   
               }else{
-                  saswp_get_meta_list('text', saswp_meta_list_fields, null, null);
+                                        
+                saswp_get_meta_list('text', saswp_meta_list_fields[schema_type], null, null, null);
+                                    
               }
                      
           }

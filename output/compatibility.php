@@ -68,7 +68,7 @@ class saswp_output_compatibility{
     
     public function saswp_the_seo_framework_override(){        
         
-        add_filter('the_seo_framework_receive_json_data', '__return_false');
+        add_filter('the_seo_framework_receive_json_data', '__return_null');
     }
     public function saswp_squirrly_seo_override(){        
         add_filter('sq_json_ld', '__return_false',99);                

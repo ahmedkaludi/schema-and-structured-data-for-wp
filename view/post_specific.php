@@ -21,8 +21,14 @@ class saswp_post_specific {
         public    $_local_sub_business       = array();
 
         private   $schema_type_element =  array(                        
+                       'DataFeed' => array(
+                               'feed_element' => 'feed_element',                                                
+                        ),
                         'FAQ' => array(
                                'faq-question' => 'faq_question',                                                
+                        ),
+                        'Event' => array(
+                               'performer'     => 'performer',                                                
                         ),
                         'HowTo' => array(
                                'how-to-supply' => 'howto_supply', 
@@ -208,6 +214,56 @@ class saswp_post_specific {
             
             $meta_fields = array();
             switch ($meta_name) {
+                
+                case 'feed_element':
+                    
+                    $meta_fields = array(
+                    
+                    array(
+			'label'     => 'Date Created',
+			'name'      => 'saswp_feed_element_date_created',
+			'type'      => 'text',                        
+		    ),
+                    array(
+			'label'     => 'Feed Element Name',
+			'name'      => 'saswp_feed_element_name',
+			'type'      => 'text',                        
+		    ),
+                    array(
+			'label'     => 'Feed Element email',
+			'name'      => 'saswp_feed_element_email',
+			'type'      => 'text',                        
+		    )    
+                    );
+
+                    break;
+                
+                case 'performer':
+                    
+                    $meta_fields = array(
+                    
+                    array(
+			'label'     => 'Performer Type',
+			'name'      => 'saswp_event_performer_type',
+			'type'      => 'select',
+                        'options'   => array(
+                                'MusicGroup'    => 'MusicGroup',                                                              
+                                'Person'        => 'Person'
+                        )
+		    ),
+                    array(
+			'label'     => 'Performer Name',
+			'name'      => 'saswp_event_performer_name',
+			'type'      => 'text',                        
+		    ),
+                    array(
+			'label'     => 'Performer URL',
+			'name'      => 'saswp_event_performer_url',
+			'type'      => 'text',                        
+		    )                                                            
+                    );
+
+                    break;
                 
                 case 'howto_supply':
                     
@@ -436,9 +492,7 @@ class saswp_post_specific {
 			$label = '<label for="' . $meta_field['name'] . '">' . esc_html__( $meta_field['label'], 'schema-and-structured-data-for-wp' ) . '</label>';			
 			                                                                        
 			switch ( $meta_field['type'] ) {
-                            
-                                
-								                                
+                                                            								                                
                                 case 'media':
                                                 $name = $meta_field['name'].'_'.$index.'_'.$schema_id;
                                     
@@ -502,7 +556,7 @@ class saswp_post_specific {
                                                     
                                     $class = '';
 
-                                    if (strpos($meta_field['name'].'_'.$index.'_'.$schema_id, 'published_date') !== false){                                                                                                           
+                                    if ((strpos($meta_field['name'].'_'.$index.'_'.$schema_id, 'published_date') !== false) || (strpos($meta_field['name'].'_'.$index.'_'.$schema_id, 'date_created') !== false)){                                                                                                           
 
                                             $class = 'class="saswp-datepicker-picker"';    
                                     }
@@ -557,7 +611,7 @@ class saswp_post_specific {
                                        $i = 0;
                                        foreach ($howto_supply as $supply){
 
-                                           $supply_html .= '<div class="saswp-'.$key.'-table-div" data-id="'.$i.'">';
+                                           $supply_html .= '<div class="saswp-'.$key.'-table-div saswp-dynamic-properties" data-id="'.$i.'">';
                                            $supply_html .= '<a class="saswp-table-close">X</a>';
                                            $supply_html .= $this->saswp_get_dynamic_html($schema_id, $value, $i, $supply);
                                            $supply_html .= '</div>';
@@ -2170,13 +2224,7 @@ class saswp_post_specific {
                                 'id' => 'saswp_event_schema_image_'.$schema_id,
                                 'type' => 'media',
                                 'default' => $event_schema_details['saswp_event_schema_image']['url']
-                        ),
-                        array(
-                                'label' => 'Performer Name',
-                                'id' => 'saswp_event_schema_performer_name_'.$schema_id,
-                                'type' => 'text',
-                                'default' => $event_schema_details['saswp_event_schema_performer_name']
-                        ),
+                        ),                        
                         array(
                                 'label' => 'Price',
                                 'id' => 'saswp_event_schema_price_'.$schema_id,
@@ -4428,6 +4476,32 @@ class saswp_post_specific {
                             'type'       => 'text',                            
                     ),    
                                                                     
+                   );
+                    break;
+                
+                case 'DataFeed':
+                    
+                    $meta_field = array(
+                    array(
+                            'label'      => 'Name',
+                            'id'         => 'saswp_data_feed_schema_name_'.$schema_id,
+                            'type'       => 'text',                           
+                    ),
+                    array(
+                            'label'      => 'Description',
+                            'id'         => 'saswp_data_feed_schema_description_'.$schema_id,
+                            'type'       => 'text',                           
+                    ),
+                    array(
+                            'label'      => 'DateModified',
+                            'id'         => 'saswp_data_feed_schema_date_modified_'.$schema_id,
+                            'type'       => 'text',                           
+                    ),
+                    array(
+                            'label'      => 'License',
+                            'id'         => 'saswp_data_feed_schema_license_'.$schema_id,
+                            'type'       => 'text',                           
+                    )    
                    );
                     break;
                 

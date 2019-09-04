@@ -14,7 +14,6 @@ Class saswp_output_service{
     
     private $_meta_list = null;
 
-
     public function __construct() {
         
             if($this->_meta_list == null){
@@ -131,8 +130,10 @@ Class saswp_output_service{
         
         public function saswp_get_meta_list_value($key, $field, $schema_post_id){
             
-            $fixed_text        = esc_sql ( get_post_meta($schema_post_id, 'saswp_fixed_text', true)  ); 
-            $cus_field         = esc_sql ( get_post_meta($schema_post_id, 'saswp_custom_meta_field', true)  ); 
+            global $post;
+            
+            $fixed_text        = get_post_meta($schema_post_id, 'saswp_fixed_text', true) ; 
+            $cus_field         = get_post_meta($schema_post_id, 'saswp_custom_meta_field', true); 
             
             $response = null;
             
@@ -196,7 +197,7 @@ Class saswp_output_service{
                     
                     break;
                 case 'custom_field':
-                    $response    = esc_sql ( get_post_meta($schema_post_id, $cus_field[$key], true) ); 
+                    $response    = get_post_meta($post->ID, $cus_field[$key], true); 
                     break;
                 case 'featured_img':                    
                     $image_id 	     = get_post_thumbnail_id();
@@ -242,7 +243,8 @@ Class saswp_output_service{
                     }
                                     
                 default:
-                    $response = get_post_meta($schema_post_id, $field, true );
+                    
+                    $response = get_post_meta($post->ID, $field, true );
                     
                     break;
             }
@@ -312,6 +314,35 @@ Class saswp_output_service{
                      $input1['Publisher']['logo']['url'] =    $custom_fields['saswp_article_organization_logo'];
                     }
                     break; 
+                    
+                case 'HowTo':      
+                      
+                    if(isset($custom_fields['saswp_howto_schema_name'])){
+                     $input1['name'] =    $custom_fields['saswp_howto_schema_name'];
+                    }
+                    if(isset($custom_fields['saswp_howto_schema_description'])){
+                     $input1['description'] =    $custom_fields['saswp_howto_schema_description'];
+                    }
+                    if(isset($custom_fields['saswp_howto_ec_schema_currency'])){
+                     $input1['estimatedCost']['currency'] =    $custom_fields['saswp_howto_ec_schema_currency'];
+                    }
+                    if(isset($custom_fields['saswp_howto_ec_schema_value'])){
+                     $input1['estimatedCost']['value'] =    $custom_fields['saswp_howto_ec_schema_value'];
+                    }
+                    if(isset($custom_fields['saswp_howto_schema_totaltime'])){
+                     $input1['totalTime']     =    $custom_fields['saswp_howto_schema_totaltime'];
+                    }
+                    if(isset($custom_fields['saswp_howto_ec_schema_date_published'])){
+                     $input1['datePublished'] =    $custom_fields['saswp_howto_ec_schema_date_published'];
+                    }
+                    if(isset($custom_fields['saswp_howto_ec_schema_date_modified'])){
+                     $input1['dateModified'] =    $custom_fields['saswp_howto_ec_schema_date_modified'];
+                    }
+                    if(isset($custom_fields['saswp_howto_schema_image'])){
+                     $input1['image'] =    $custom_fields['saswp_howto_schema_image'];
+                    }
+                                                            
+                    break;     
                                   
                 case 'local_business':
                    
@@ -846,16 +877,31 @@ Class saswp_output_service{
                     }
                     if(isset($custom_fields['saswp_product_availability'])){
                      $input1['offers']['availability'] =    $custom_fields['saswp_product_availability'];
+                     if(isset($custom_fields['saswp_product_url'])){
+                         $input1['offers']['url']   =    $custom_fields['saswp_product_url'];
+                     }
                     }
                     if(isset($custom_fields['saswp_product_price'])){
                      $input1['offers']['price'] =    $custom_fields['saswp_product_price'];
+                     
+                     if(isset($custom_fields['saswp_product_url'])){
+                         $input1['offers']['url']   =    $custom_fields['saswp_product_url'];
+                     }
+                                          
                     }
                     if(isset($custom_fields['saswp_product_currency'])){
                      $input1['offers']['priceCurrency'] =    $custom_fields['saswp_product_currency'];
+                     $input1['offers']['url'] =    $custom_fields['saswp_product_url'];
                     }
                     if(isset($custom_fields['saswp_product_priceValidUntil'])){
                      $input1['offers']['priceValidUntil'] =    $custom_fields['saswp_product_priceValidUntil'];
-                     $input1['offers']['url']             =    $custom_fields['saswp_product_priceValidUntil'];
+                     
+                    }                   
+                    if(isset($custom_fields['saswp_product_condition'])){
+                     $input1['offers']['itemCondition'] =    $custom_fields['saswp_product_condition'];
+                    }
+                    if(isset($custom_fields['saswp_product_sku'])){
+                     $input1['sku']                    =    $custom_fields['saswp_product_sku'];
                     }
                     break;
                 
@@ -1958,7 +2004,7 @@ Class saswp_output_service{
                                 
                 $dw_qa['suggestedAnswer'] = $suggested_answer;
                     
-                $qa_page['@context']   = 'http://schema.org';
+                $qa_page['@context']   = saswp_context_url();
                 $qa_page['@type']      = 'QAPage';
                 $qa_page['mainEntity'] = $dw_qa;                                                    
                 return $qa_page;
@@ -2059,7 +2105,7 @@ Class saswp_output_service{
                 $dw_qa['acceptedAnswer']  = $accepted_answer;
                 $dw_qa['suggestedAnswer'] = $suggested_answer;
                     
-                $qa_page['@context']   = 'http://schema.org';
+                $qa_page['@context']   = saswp_context_url();
                 $qa_page['@type']      = 'QAPage';
                 $qa_page['mainEntity'] = $dw_qa;                
                 }                           
@@ -2301,19 +2347,20 @@ Class saswp_output_service{
                 case 'Product':
                     
                         $meta_field = array(                        
-                            'saswp_product_schema_name'               => 'Name',
-                            'saswp_product_schema_description'        => 'Description',                                                                         
-                            'saswp_product_schema_image'              => 'Image',
-                            'saswp_product_schema_brand_name'         => 'Brand Name',
-                            'saswp_product_schema_price'              => 'Price',
-                            'saswp_product_schema_priceValidUntil'    => 'Price Valid Until',                         
-                            'saswp_product_schema_currency'           => 'Currency',  
-                            'saswp_product_schema_availability'       => 'Availability',  
-                            'saswp_product_schema_condition'          => 'Product Condition',  
-                            'saswp_product_schema_sku'                => 'SKU', 
-                            'saswp_product_schema_mpn'                => 'MPN',
-                            'saswp_product_schema_isbn'               => 'ISBN',
-                            'saswp_product_schema_gtin8'              => 'GTIN 8',
+                            'saswp_product_url'                => 'URL',    
+                            'saswp_product_name'               => 'Name',
+                            'saswp_product_description'        => 'Description',                                                                         
+                            'saswp_product_image'              => 'Image',
+                            'saswp_product_brand'              => 'Brand Name',
+                            'saswp_product_price'              => 'Price',
+                            'saswp_product_priceValidUntil'    => 'Price Valid Until',                         
+                            'saswp_product_currency'           => 'Currency',  
+                            'saswp_product_availability'       => 'Availability',  
+                            'saswp_product_condition'          => 'Product Condition',  
+                            'saswp_product_sku'                => 'SKU', 
+                            'saswp_product_mpn'                => 'MPN',
+                            'saswp_product_isbn'               => 'ISBN',
+                            'saswp_product_gtin8'              => 'GTIN 8',
                         );                                                                                                                                       
                     break;
                 
@@ -2696,6 +2743,30 @@ Class saswp_output_service{
                         'saswp_mc_schema_diagnosis_name'   => 'Diagnosis Name'                        
                     );                    
                     break;
+                
+                case 'DataFeed':
+                    
+                    $meta_field = array(                        
+                        'saswp_data_feed_schema_name'                      => 'Name',
+                        'saswp_data_feed_schema_description'               => 'Description',
+                        'saswp_data_feed_schema_date_modified'             => 'DateModified',
+                        'saswp_data_feed_schema_date_license'              => 'License',
+                    );                    
+                    break;
+                
+                case 'HowTo':
+                    
+                    $meta_field = array(                        
+                        'saswp_howto_schema_name'                      => 'Name',
+                        'saswp_howto_schema_description'               => 'Description',
+                        'saswp_howto_schema_image'                     => 'Image',
+                        'saswp_howto_ec_schema_currency'               => 'Estimated Cost Currency',
+                        'saswp_howto_ec_schema_value'                  => 'Estimated Cost Value',
+                        'saswp_howto_schema_totaltime'                 => 'Total Time',
+                        'saswp_howto_ec_schema_date_published'         => 'Date Published',
+                        'saswp_howto_ec_schema_date_modified'          => 'Date Modified',
+                    );                    
+                    break;
 
                 default:
                     break;
@@ -2752,7 +2823,7 @@ Class saswp_output_service{
                 case 'TechArticle':
                     
                     $input1 = array(
-					'@context'			=> 'http://schema.org',
+					'@context'			=> saswp_context_url(),
 					'@type'				=> 'TechArticle',
                                         '@id'				=> trailingslashit(get_permalink()).'#techarticle',
                                         'url'				=> get_permalink(),
@@ -2781,7 +2852,7 @@ Class saswp_output_service{
                 
                 case 'Article':                   
                     $input1 = array(
-					'@context'			=> 'http://schema.org',
+					'@context'			=> saswp_context_url(),
 					'@type'				=> 'Article',
                                         '@id'				=> trailingslashit(get_permalink()).'#article',
                                         'url'				=> get_permalink(),
@@ -2815,7 +2886,7 @@ Class saswp_output_service{
                     }
                     
                     $input1 = array(
-				'@context'			=> 'http://schema.org',
+				'@context'			=> saswp_context_url(),
 				'@type'				=> 'WebPage' ,
                                 '@id'				=> trailingslashit(get_permalink()).'#webpage',
 				'name'				=> saswp_get_the_title(),
@@ -3068,8 +3139,7 @@ Class saswp_output_service{
                             
                             }
                                                         
-                        }
-                            
+                        }                            
                         
                         if($site_name){
                                                     

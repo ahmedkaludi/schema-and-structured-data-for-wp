@@ -50,7 +50,7 @@ class saswp_reviews_service {
                             $modified_date 	= get_the_modified_date("Y-m-d\TH:i:s\Z");
 			                                                                                                                                                                                                         
                             $input1 = array(
-                                    '@context'       => 'http://schema.org',
+                                    '@context'       => saswp_context_url(),
                                     '@type'          => 'Review',
                                     'dateCreated'    => esc_html($date),
                                     'datePublished'  => esc_html($date),
