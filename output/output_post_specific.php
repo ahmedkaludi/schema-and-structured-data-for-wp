@@ -1593,7 +1593,39 @@ function saswp_post_specific_schema_output() {
                                                             "reviewCount" => saswp_remove_warnings($all_post_meta, 'saswp_product_schema_review_count_'.$schema_id, 'saswp_array')
                                                          );                                       
                                          }
-                                                                                
+                                             
+                                         
+                                        $itinerary  = esc_sql ( get_post_meta($schema_post_id, 'product_reviews_'.$schema_id, true)  );
+                            
+                                        $itinerary_arr = array();
+
+                                        if(!empty($itinerary)){
+
+                                         foreach($itinerary as $review){
+
+                                                
+                                          $review_fields = array();
+                                          
+                                          $review_fields['@type']         = 'Review';
+                                          $review_fields['author']        = esc_attr($review['saswp_product_reviews_reviewer_name']);
+                                          $review_fields['datePublished'] = esc_html($review['saswp_product_reviews_created_date']);
+                                          $review_fields['description']   = esc_textarea($review['saswp_product_reviews_text']);
+                                                                                    
+                                          if(is_int($review['saswp_product_reviews_reviewer_rating'])){
+                                              
+                                                $review_fields['reviewRating']['@type']   = 'Rating';
+                                                $review_fields['reviewRating']['bestRating']   = '5';
+                                                $review_fields['reviewRating']['ratingValue']   = esc_attr($review['saswp_product_reviews_reviewer_rating']);
+                                                $review_fields['reviewRating']['worstRating']   = '1';
+                                          
+                                          }
+                                                                                                                                                                        
+                                          $itinerary_arr[] = $review_fields;
+                                            }
+                                           $input1['review'] = $itinerary_arr;
+                                        }
+                                         
+                                                                                  
                                         if(!empty($aggregateRating)){
                                             $input1['aggregateRating'] = $aggregateRating;
                                         }                                        
@@ -1610,8 +1642,7 @@ function saswp_post_specific_schema_output() {
                                         $reviews = array();
                                       
                                          foreach ($product_details['product_reviews'] as $review){
-                                             
-                                             
+                                                                                          
                                           $review_fields = array();
                                           
                                           $review_fields['@type']         = 'Review';
@@ -1627,16 +1658,12 @@ function saswp_post_specific_schema_output() {
                                                 $review_fields['reviewRating']['worstRating']   = '1';
                                           
                                           }
-                                          
-                                          
-                                                                                    
+                                                                                                                                                                        
                                           $reviews[] = $review_fields;
                                           
                                       }
-                                      $input1['review'] =  $reviews;
-                                  }
-                                        
-                                        
+                                         $input1['review'] =  $reviews;
+                                }                                                                                
 			}
                         
                          if( 'NewsArticle' === $schema_type ){  

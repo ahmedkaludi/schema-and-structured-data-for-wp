@@ -21,6 +21,9 @@ class saswp_post_specific {
         public    $_local_sub_business       = array();
 
         private   $schema_type_element =  array(                        
+                        'Product' => array(
+                               'product_reviews' => 'product_reviews',                                                
+                        ),
                        'DataFeed' => array(
                                'feed_element' => 'feed_element',                                                
                         ),
@@ -214,6 +217,34 @@ class saswp_post_specific {
             
             $meta_fields = array();
             switch ($meta_name) {
+                
+                case 'product_reviews':
+                    
+                    $meta_fields = array(
+                    
+                    array(
+			'label'     => 'Reviewer Name',
+			'name'      => 'saswp_product_reviews_reviewer_name',
+			'type'      => 'text',                        
+		    ),
+                    array(
+			'label'     => 'Rating',
+			'name'      => 'saswp_product_reviews_reviewer_rating',
+			'type'      => 'number',                        
+		    ),
+                    array(
+			'label'     => 'Text',
+			'name'      => 'saswp_product_reviews_text',
+			'type'      => 'textarea',                        
+		    ),
+                    array(
+			'label'     => 'Created Date',
+			'name'      => 'saswp_product_reviews_created_date',
+			'type'      => 'text',                        
+		    )    
+                    );
+
+                    break;
                 
                 case 'feed_element':
                     

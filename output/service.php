@@ -903,6 +903,13 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_product_sku'])){
                      $input1['sku']                    =    $custom_fields['saswp_product_sku'];
                     }
+                    
+                    if(isset($custom_fields['saswp_product_rating']) && isset($custom_fields['saswp_product_rating_count'])){
+                     $input1['aggregateRating']['@type']       = 'aggregateRating';
+                     $input1['aggregateRating']['ratingValue'] = $custom_fields['saswp_product_rating'];
+                     $input1['aggregateRating']['reviewCount'] = $custom_fields['saswp_product_rating_count'];
+                    }
+                                                            
                     break;
                 
                 case 'Service':
@@ -2360,7 +2367,9 @@ Class saswp_output_service{
                             'saswp_product_sku'                => 'SKU', 
                             'saswp_product_mpn'                => 'MPN',
                             'saswp_product_isbn'               => 'ISBN',
-                            'saswp_product_gtin8'              => 'GTIN 8',
+                            'saswp_product_gtin8'              => 'GTIN 8',                            
+                            'saswp_product_rating'              => 'Rating',
+                            'saswp_product_rating_count'        => 'Rating Count',
                         );                                                                                                                                       
                     break;
                 
