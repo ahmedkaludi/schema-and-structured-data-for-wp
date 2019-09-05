@@ -1575,6 +1575,10 @@ function saswp_post_specific_schema_output() {
                                                                                 )    
                                         ); 
                                         
+                                        if(isset($all_post_meta['saswp_product_schema_seller_'.$schema_id])){
+                                            $input1['seller']['@type']   = 'Organization';
+                                            $input1['seller']['name']    = esc_attr($all_post_meta['saswp_product_schema_seller_'.$schema_id][0]);  
+                                        }                                        
                                         if(isset($all_post_meta['saswp_product_schema_gtin8_'.$schema_id])){
                                             $input1['gtin8'] = esc_attr($all_post_meta['saswp_product_schema_gtin8_'.$schema_id][0]);  
                                         }

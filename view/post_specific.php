@@ -2818,6 +2818,11 @@ class saswp_post_specific {
                             'type' => 'text',                             
                        ),
                         array(
+                            'label' => 'Seller Organization',
+                            'id' => 'saswp_product_schema_seller_'.$schema_id,
+                            'type' => 'text',                             
+                       ),
+                        array(
                             'label' => 'Aggregate Rating',
                             'id' => 'saswp_product_schema_enable_rating_'.$schema_id,
                             'type' => 'checkbox',                            
