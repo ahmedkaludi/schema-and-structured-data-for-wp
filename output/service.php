@@ -2953,16 +2953,15 @@ Class saswp_output_service{
 	    $image_details   = wp_get_attachment_image_src($image_id, 'full'); 
                         
             if( is_array($image_details) ){                                
-                                    
-                                                                                
-                                        if(isset($image_details[1]) && ($image_details[1] < 1200) && function_exists('ampforwp_aq_resize')){
+                                                                                                                    
+                                        if(isset($image_details[1]) && ($image_details[1] < 1200) && function_exists('aq_resize')){
                                             
                                             $width  = array(1280, 640, 300);
                                             $height = array(720, 480, 300);
                                             
                                             for($i = 0; $i<3; $i++){
                                                 
-                                                $resize_image = ampforwp_aq_resize( $image_details[0], $width[$i], $height[$i], true, false, true );
+                                                $resize_image = aq_resize( $image_details[0], $width[$i], $height[$i], true, false, true );
                                                 
                                                 if(isset($resize_image[0]) && isset($resize_image[1]) && isset($resize_image[2]) ){
                                                 
