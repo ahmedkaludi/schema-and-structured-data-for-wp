@@ -1417,15 +1417,18 @@ class saswp_post_specific {
 					case 'text':
 						$post_meta[ $meta_field['id'] ] = sanitize_text_field( $post_meta[ $meta_field['id'] ] );
 						break;
+                                        case 'textarea':
+						$post_meta[ $meta_field['id'] ] = sanitize_textarea_field( $post_meta[ $meta_field['id'] ] );
+						break;    
                                         default:
-						$post_meta[ $meta_field['id'] ] = sanitize_text_field( $post_meta[ $meta_field['id'] ] );						
+						$post_meta[ $meta_field['id'] ] = wp_unslash( $post_meta[ $meta_field['id'] ] );						
                                             
 				}
 				update_post_meta( $post_id, $meta_field['id'], $post_meta[ $meta_field['id'] ] );
 			} else if ( $meta_field['type'] === 'checkbox' ) {
 				update_post_meta( $post_id, $meta_field['id'], '0' );
 			}
-		   }
+		    }
                    
                 }                                                                                      
             }                                                                		                                                                               

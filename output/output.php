@@ -1879,11 +1879,12 @@ function saswp_archive_output(){
             
         $service_object     = new saswp_output_service();
         $logo               = $service_object->saswp_get_publisher(true);    
-            
-					
+            					
 	if ( is_category() ) {
             
 		$category_posts = array();
+                $item_list      = array();
+                $i = 1;
 		$category_loop = new WP_Query( $query_string );
 		if ( $category_loop->have_posts() ):
 			while( $category_loop->have_posts() ): $category_loop->the_post();
@@ -1938,7 +1939,15 @@ function saswp_archive_output(){
                                                     'publisher'         => $publisher_info,
                                                     'image' 	        => $archive_image,
                                 );
-				
+                                
+                                $item_list[] = array(
+                                         '@type' 		=> 'ListItem',
+                                         'position' 		=> $i,
+                                         'url' 		        => get_the_permalink(),
+                                         
+                                );
+                                
+				$i++;
 	        endwhile;
 
 		wp_reset_postdata();
@@ -1958,7 +1967,14 @@ function saswp_archive_output(){
 				'sameAs' 		=> '',
 				'hasPart' 		=> $category_posts
        		);
-				return apply_filters('saswp_modify_archive_output', $input);	                                 
+                $item_list_schema['@context']        = saswp_context_url();
+                $item_list_schema['@type']           = 'ItemList';
+                $item_list_schema['itemListElement'] = $item_list;
+                
+                $output = array($item_list_schema, $input);
+                                
+		return apply_filters('saswp_modify_archive_output', $output);
+                
 	endif;				
 	}
 	} 

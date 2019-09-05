@@ -313,6 +313,13 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_article_organization_logo'])){
                      $input1['Publisher']['logo']['url'] =    $custom_fields['saswp_article_organization_logo'];
                     }
+                    if(isset($custom_fields['saswp_article_rating_value']) && isset($custom_fields['saswp_article_rating_count'])){
+                       $input1['aggregateRating']['@type']       =   'AggregateRating';
+                       $input1['aggregateRating']['worstRating'] =   0;
+                       $input1['aggregateRating']['bestRating']  =   5;
+                       $input1['aggregateRating']['ratingValue'] =    $custom_fields['saswp_article_rating_value'];
+                       $input1['aggregateRating']['ratingCount'] =    $custom_fields['saswp_article_rating_count'];
+                    }
                     break; 
                     
                 case 'HowTo':      
@@ -498,6 +505,14 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_software_schema_date_modified'])){
                      $input1['dateModified'] =    $custom_fields['saswp_software_schema_date_modified'];
                     }
+                    if(isset($custom_fields['saswp_software_rating_value']) && isset($custom_fields['saswp_software_rating_count'])){
+                       $input1['aggregateRating']['@type']       =   'AggregateRating';
+                       $input1['aggregateRating']['worstRating'] =   0;
+                       $input1['aggregateRating']['bestRating']  =   5;
+                       $input1['aggregateRating']['ratingValue'] =    $custom_fields['saswp_software_rating_value'];
+                       $input1['aggregateRating']['ratingCount'] =    $custom_fields['saswp_software_rating_count'];
+                    }
+                    
                                                             
                     break;       
                 
@@ -550,7 +565,17 @@ Class saswp_output_service{
                     }
                     if(isset($custom_fields['saswp_newsarticle_organization_logo'])){
                        $input1['Publisher']['logo']['url'] =    $custom_fields['saswp_newsarticle_organization_logo'];  
-                    }                 
+                    }
+                    
+                    if(isset($custom_fields['saswp_newsarticle_rating_value']) && isset($custom_fields['saswp_newsarticle_rating_count'])){
+                       $input1['aggregateRating']['@type']       =   'AggregateRating';
+                       $input1['aggregateRating']['worstRating'] =   0;
+                       $input1['aggregateRating']['bestRating']  =   5;
+                       $input1['aggregateRating']['ratingValue'] =    $custom_fields['saswp_newsarticle_rating_value'];
+                       $input1['aggregateRating']['ratingCount'] =    $custom_fields['saswp_newsarticle_rating_count'];
+                    }
+                    
+                    
                                         
                     break;
                 
@@ -693,6 +718,13 @@ Class saswp_output_service{
                     }
                     if(isset($custom_fields['saswp_tech_article_organization_logo'])){
                      $input1['Publisher']['logo']['url'] =    $custom_fields['saswp_tech_article_organization_logo'];
+                    }
+                    if(isset($custom_fields['saswp_tech_article_rating_value']) && isset($custom_fields['saswp_tech_article_rating_count'])){
+                       $input1['aggregateRating']['@type']       =   'AggregateRating';
+                       $input1['aggregateRating']['worstRating'] =   0;
+                       $input1['aggregateRating']['bestRating']  =   5;
+                       $input1['aggregateRating']['ratingValue'] =    $custom_fields['saswp_tech_article_rating_value'];
+                       $input1['aggregateRating']['ratingCount'] =    $custom_fields['saswp_tech_article_rating_count'];
                     }
                     break;   
                     
@@ -2208,7 +2240,9 @@ Class saswp_output_service{
                         'saswp_newsarticle_author_name'         => 'Author Name',
                         'saswp_newsarticle_author_image'        => 'Author Image',                       
                         'saswp_newsarticle_organization_name'   => 'Organization Name',
-                        'saswp_newsarticle_organization_logo'   => 'Organization Logo',                                                                       
+                        'saswp_newsarticle_organization_logo'   => 'Organization Logo',
+                        'saswp_newsarticle_rating_value'        => 'Rating Value',
+                        'saswp_newsarticle_rating_count'        => 'Rating Count',
                         ); 
                                         
                     break;
@@ -2246,7 +2280,9 @@ Class saswp_output_service{
                         'saswp_article_date_modified'       => 'Date Modified',                          
                         'saswp_article_author_name'         => 'Author Name',
                         'saswp_article_organization_name'   => 'Organization Name',
-                        'saswp_article_organization_logo'   => 'Organization Logo',  
+                        'saswp_article_organization_logo'   => 'Organization Logo',
+                        'saswp_article_rating_value'        => 'Rating Value',
+                        'saswp_article_rating_count'        => 'Rating Count',
                         
                         );                                        
                     break;
@@ -2267,6 +2303,8 @@ Class saswp_output_service{
                         'saswp_tech_article_author_name'         => 'Author Name',
                         'saswp_tech_article_organization_name'   => 'Organization Name',
                         'saswp_tech_article_organization_logo'   => 'Organization Logo',  
+                        'saswp_tech_article_rating_value'        => 'Rating Value',
+                        'saswp_tech_article_rating_count'        => 'Rating Count',
                         
                         );     
                     break;
@@ -2589,6 +2627,8 @@ Class saswp_output_service{
                         'saswp_software_schema_price_currency'          => 'Price Currency',                        
                         'saswp_software_schema_date_published'          => 'Date Published',
                         'saswp_software_schema_date_modified'           => 'Date Modified',                        
+                        'saswp_software_rating_value'                   => 'Rating Value',
+                        'saswp_software_rating_count'                   => 'Rating Count',
                     );
                     
                     break;
