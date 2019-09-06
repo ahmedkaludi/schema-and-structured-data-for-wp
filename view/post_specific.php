@@ -558,7 +558,7 @@ class saswp_post_specific {
 						'<textarea style="width: 100%%" id="%s" name="%s" rows="5">%s</textarea>',                                                
 						esc_attr($meta_field['name']).'_'.esc_attr($index).'_'.esc_attr($schema_id),
 						esc_attr($meta_name).'_'.esc_attr($schema_id).'['.esc_attr($index).']['.esc_attr($meta_field['name']).']',
-						esc_html($data[$meta_field['name']])
+						esc_textarea($data[$meta_field['name']])
 					);
                                         
 					break;                

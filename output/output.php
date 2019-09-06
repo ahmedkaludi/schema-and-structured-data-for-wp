@@ -1883,7 +1883,8 @@ function saswp_archive_output(){
 	if ( is_category() ) {
             
 		$category_posts = array();
-                $item_list      = array();
+                $item_list      = array();                
+                
                 $i = 1;
 		$category_loop = new WP_Query( $query_string );
 		if ( $category_loop->have_posts() ):
@@ -1911,35 +1912,29 @@ function saswp_archive_output(){
                                     }
                                                                         
                                 }
-                                
-				$publisher_info = array(
-                                    "type" => "Organization",
-                                    "name" => esc_attr($site_name),
-                                    "logo" => array(
-                                        "@type"     => "ImageObject",
-                                        "name"      => esc_attr($site_name),
-                                        "width"     => isset($logo['width'])  ? esc_attr($logo['width']):'',
-                                        "height"    => isset($logo['height']) ? esc_attr($logo['height']):'',
-                                        "url"       => isset($logo['url'])    ? esc_attr($logo['url']):''
-                                     )                                        			        
-				);
-                                
-				$publisher_info['name'] = get_bloginfo('name');
-				$publisher_info['id']	= get_the_permalink();
-                                
-                                $category_posts[] =  array(
-                                
-                                                    '@type' 		=> esc_attr($schema_type),
-                                                    'headline' 		=> saswp_get_the_title(),
-                                                    'url' 		=> get_the_permalink(),
-                                                    'datePublished'     => get_the_date('c'),
-                                                    'dateModified'      => get_the_modified_date('c'),
-                                                    'mainEntityOfPage'  => get_the_permalink(),
-                                                    'author' 		=> get_the_author(),
-                                                    'publisher'         => $publisher_info,
-                                                    'image' 	        => $archive_image,
-                                );
-                                
+                                                                
+                                $publisher_info['type']  = 'Organization';                                
+                                $publisher_info['name']  = esc_attr($site_name);
+                                $publisher_info['logo']['@type']  = 'ImageObject';
+                                $publisher_info['logo']['url']    = isset($logo['url'])    ? esc_attr($logo['url']):'';
+                                $publisher_info['logo']['width']  = isset($logo['width'])  ? esc_attr($logo['width']):'';
+                                $publisher_info['logo']['height'] = isset($logo['height']) ? esc_attr($logo['height']):'';
+                                                                                                                                								                               
+                                $schema_properties['@type']            = esc_attr($schema_type);
+                                $schema_properties['headline']         = saswp_get_the_title();
+                                $schema_properties['url']              = get_the_permalink();                                                                                                
+                                $schema_properties['datePublished']    = get_the_date('c');
+                                $schema_properties['dateModified']     = get_the_modified_date('c');
+                                $schema_properties['mainEntityOfPage'] = get_the_permalink();
+                                $schema_properties['author']           = get_the_author();
+                                $schema_properties['publisher']        = $publisher_info;                                
+                                                                                                
+                                if(!empty($archive_image['url'])){                                
+                                    $schema_properties['image']            = $archive_image;                                    
+                                }
+                                                                                                
+                                $category_posts[] =  $schema_properties;
+                                                                                                                                                                                                
                                 $item_list[] = array(
                                          '@type' 		=> 'ListItem',
                                          'position' 		=> $i,
@@ -1956,23 +1951,40 @@ function saswp_archive_output(){
 		$category_id 		= intval($category[0]->term_id); 
                 $category_link 		= get_category_link( $category_id );
 		$category_link          = get_term_link( $category[0]->term_id , 'category' );
-                $category_headline 	= single_cat_title( '', false ) . __(' Category', 'schema-wp');		
-		$input = array
+                $category_headline 	= single_cat_title( '', false ) . __(' Category', 'schema-wp');	
+                
+		$collection_page = array
        		(
 				'@context' 		=> saswp_context_url(),
 				'@type' 		=> "CollectionPage",
+                                '@id' 		        => trailingslashit(esc_url($category_link)).'#CollectionPage',
 				'headline' 		=> esc_attr($category_headline),
 				'description' 	        => strip_tags(category_description()),
-				'url'		 	=> esc_url($category_link),
-				'sameAs' 		=> '',
+				'url'		 	=> esc_url($category_link),				
 				'hasPart' 		=> $category_posts
        		);
+                
+                $blog_page = array
+       		(
+				'@context' 		=> saswp_context_url(),
+				'@type' 		=> "Blog",
+                                '@id' 		        => trailingslashit(esc_url($category_link)).'#Blog',
+				'headline' 		=> esc_attr($category_headline),
+				'description' 	        => strip_tags(category_description()),
+				'url'		 	=> esc_url($category_link),				
+				'blogPost' 		=> $category_posts
+       		);
+                                
                 $item_list_schema['@context']        = saswp_context_url();
                 $item_list_schema['@type']           = 'ItemList';
                 $item_list_schema['itemListElement'] = $item_list;
-                
-                $output = array($item_list_schema, $input);
                                 
+                if($schema_type == 'BlogPosting'){
+                    $output = array($item_list_schema, $collection_page, $blog_page);
+                }else{
+                    $output = array($item_list_schema, $collection_page, array());
+                }
+                                                                
 		return apply_filters('saswp_modify_archive_output', $output);
                 
 	endif;				

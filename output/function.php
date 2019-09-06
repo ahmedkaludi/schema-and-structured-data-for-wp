@@ -71,7 +71,8 @@ function saswp_schema_markup_output() {
         $schema_output            = array();
         $kb_schema_output         = array(); 
         $item_list                = array();
-        $collection_page          = array();   
+        $collection_page          = array(); 
+        $blog_page                = array();
         
         $site_navigation          = saswp_site_navigation_output();     
         $contact_page_output      = saswp_contact_page_output();  	
@@ -81,9 +82,10 @@ function saswp_schema_markup_output() {
         
         if($archive_output){
             $item_list                = $archive_output[0];
-            $collection_page          = $archive_output[1];            
+            $collection_page          = $archive_output[1]; 
+            $blog_page                = $archive_output[2]; 
         }
-                        
+                     
         $schema_breadcrumb_output = saswp_schema_breadcrumb_output();                      
         $kb_website_output        = saswp_kb_website_output();      
         
@@ -136,6 +138,12 @@ function saswp_schema_markup_output() {
                         if(!empty($item_list)){
                         
                             $output .= saswp_json_print_format($item_list);   
+                            $output .= ",";
+                            $output .= "\n\n";
+                        }
+                        if(!empty($blog_page)){
+                        
+                            $output .= saswp_json_print_format($blog_page);   
                             $output .= ",";
                             $output .= "\n\n";
                         }

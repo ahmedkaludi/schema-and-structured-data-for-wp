@@ -608,7 +608,7 @@ function saswp_general_page_callback(){
 			'type'    => 'select',
 			'options' => array(                                
 				     'Article'          => 'Article',                                     
-                                     'Blogposting'      => 'Blogposting',                                     
+                                     'BlogPosting'      => 'BlogPosting',                                     
                                      'NewsArticle'      => 'NewsArticle',                                                                                                                                                                                                                                                                   
                                      'WebPage'          => 'WebPage' 
 			)
