@@ -131,12 +131,12 @@ function saswp_admin_notice(){
     $next_days        =  date('Y-m-d', $next_days);   
     $current_date     =  date("Y-m-d");
     
-   // if(($next_days < $current_date) && $activation_never !='never' ){
+    if(($next_days < $current_date) && $activation_never !='never' ){
       ?>
          <div class="updated notice is-dismissible message notice notice-alt saswp-feedback-notice">
             <p><span class="dashicons dashicons-thumbs-up"></span> 
             <?php echo esc_html__('You have been using the Schema & structured data for wp plugin for some time now, do you like it?, If so,', 'schema-and-structured-data-for-wp') ?>
-            <a class="saswp-revws-lnk" target="_blank" href="https://wordpress.org/plugins/schema-and-structured-data-for-wp/#reviews"> <?php echo esc_html__('please write us a review', 'schema-and-structured-data-for-wp') ?></a>
+            <a class="saswp-revws-lnk" target="_blank" href="https://wordpress.org/plugins/schema-and-structured-data-for-wp/#reviews"> <?php echo esc_html__('Rate Plugin', 'schema-and-structured-data-for-wp') ?></a>
           </p>
             <div class="saswp-update-notice-btns">
                 <a  class="saswp-feedback-remindme"><?php echo esc_html__('Remind Me Later', 'schema-and-structured-data-for-wp') ?></a>
@@ -144,7 +144,7 @@ function saswp_admin_notice(){
             </div>
         </div>
         <?php
-   // }  
+    }  
         
     if(isset($sd_data['sd_default_image']['url']) && $sd_data['sd_default_image']['url'] == '' && ($screen_id =='saswp_page_structured_data_options' ||$screen_id == 'plugins' || $screen_id =='edit-saswp' || $screen_id == 'saswp')){
 
