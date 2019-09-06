@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.2
-Stable tag: 1.9.4
+Stable tag: 1.9.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -111,9 +111,24 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
 
+= 1.9.5 (06 Sept 2019) =
+
+* Added: More Organization schema type support #423
+* Added: MedicalBusiness Schema type #334
+* Added: Carousels (itemList) Schema type on archive post/page #306
+* Added: Blog Schema type on archive post/page #460
+* Added: Manual Reviews fields in the product schema #137 
+* Added: Aqua Resizer to fix image size is smaller than recommended in google console #435
+* Enhancement: Toggle (on/off) button should be on by default on schema post specific modification #457
+* Bug Fixed: Error log cluttered with php warning regarding count() / PART II #444
+* Bug Fixed: Debug error logs: flexmlsConnectPageCore->__construct(NULL) #446
+* Bug Fixed: In the FAQ schema fields, accepted textarea strip html tags and convert special character to encoded string. #458
+
+
 = 1.9.4 (03 Sept 2019) =
 
 * Added: DataFeed Schema type #411
+* Added: Option to add multiple performer in event Schema type #411
 * Enhancement: Remove button to modified Schema Output item #456.
 * Bug Fixed: Compatibility code for The SEO Framework results in invalid output. #452
 * Bug Fixed: Custom fields for products has the wrong identifier. #453
