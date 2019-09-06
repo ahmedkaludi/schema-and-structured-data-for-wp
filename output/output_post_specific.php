@@ -65,7 +65,7 @@ function saswp_post_specific_schema_output() {
         $schema_post_id = $post->ID;  
 	$all_post_meta  = get_post_meta($schema_post_id, $key='', true);     
 	
-	if(is_singular() && isset($schema_enable[$schema_id]) && $schema_enable[$schema_id] == 1 ){
+	if(is_singular() && (!isset($schema_enable[$schema_id]) || $schema_enable[$schema_id] == 1 )){
 		
                         $saswp_review_details = get_post_meta(get_the_ID(), 'saswp_review_details', true); 
                         
