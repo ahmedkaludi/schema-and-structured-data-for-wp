@@ -69,13 +69,23 @@ function saswp_schema_markup_output() {
         $output                   = '';
         $post_specific_enable     = '';
         $schema_output            = array();
-        $kb_schema_output         = array();  
-                              
+        $kb_schema_output         = array(); 
+        $item_list                = array();
+        $collection_page          = array(); 
+        $blog_page                = array();
+        
         $site_navigation          = saswp_site_navigation_output();     
         $contact_page_output      = saswp_contact_page_output();  	
         $about_page_output        = saswp_about_page_output();      
         $author_output            = saswp_author_output();
         $archive_output           = saswp_archive_output();
+        
+        if($archive_output){
+            $item_list                = $archive_output[0];
+            $collection_page          = $archive_output[1]; 
+            $blog_page                = $archive_output[2]; 
+        }
+                     
         $schema_breadcrumb_output = saswp_schema_breadcrumb_output();                      
         $kb_website_output        = saswp_kb_website_output();      
         
@@ -119,12 +129,24 @@ function saswp_schema_markup_output() {
                             $output .= ",";
                             $output .= "\n\n";
                         }                                              
-                        if(!empty($archive_output)){
+                        if(!empty($collection_page)){
                         
-                            $output .= saswp_json_print_format($archive_output);   
+                            $output .= saswp_json_print_format($collection_page);   
                             $output .= ",";
                             $output .= "\n\n";
-                        }                        
+                        }
+                        if(!empty($item_list)){
+                        
+                            $output .= saswp_json_print_format($item_list);   
+                            $output .= ",";
+                            $output .= "\n\n";
+                        }
+                        if(!empty($blog_page)){
+                        
+                            $output .= saswp_json_print_format($blog_page);   
+                            $output .= ",";
+                            $output .= "\n\n";
+                        }
                                     
             if(isset($sd_data['saswp-defragment']) && $sd_data['saswp-defragment'] == 1){
             

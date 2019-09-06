@@ -2,7 +2,7 @@
 /*
 Plugin Name: Schema & Structured Data for WP
 Description: Schema & Structured Data adds Google Rich Snippets markup according to Schema.org guidelines to structure your site for SEO. (AMP Compatible) 
-Version: 1.9.4
+Version: 1.9.5
 Text Domain: schema-and-structured-data-for-wp
 Domain Path: /languages
 Author: Magazine3
@@ -13,7 +13,7 @@ License: GPL2
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-define('SASWP_VERSION', '1.9.4');
+define('SASWP_VERSION', '1.9.5');
 define('SASWP_DIR_NAME_FILE', __FILE__ );
 define('SASWP_DIR_NAME', dirname( __FILE__ ));
 define('SASWP_DIR_URI', plugin_dir_url(__FILE__));
@@ -79,6 +79,9 @@ require_once SASWP_DIR_NAME.'/reviews/reviews_admin.php';
 require_once SASWP_DIR_NAME.'/reviews/reviews_setup.php';
 require_once SASWP_DIR_NAME.'/reviews/reviews_service.php';
 require_once SASWP_DIR_NAME.'/reviews/reviews_widget.php';
+
+//Loading Third party files
+require_once SASWP_DIR_NAME.'/core/3rd-party/aqua_resizer.php';
 /**
  * set user defined message on plugin activate
  */
@@ -131,11 +134,14 @@ function saswp_admin_notice(){
     if(($next_days < $current_date) && $activation_never !='never' ){
       ?>
          <div class="updated notice is-dismissible message notice notice-alt saswp-feedback-notice">
-            <p><span class="dashicons dashicons-thumbs-up"></span> <?php echo esc_html__('You have been using the Schema & structured data for wp plugin for some time now, do you like it?, If so,', 'schema-and-structured-data-for-wp') ?>
-                <a target="_blank" href="https://wordpress.org/plugins/schema-and-structured-data-for-wp/#reviews"> <?php echo esc_html__('please write us a review', 'schema-and-structured-data-for-wp') ?></a>&nbsp;&nbsp;&nbsp;&nbsp;
-                <a  class="saswp-feedback-remindme button button-primary"><?php echo esc_html__('Remind Me Later', 'schema-and-structured-data-for-wp') ?></a>
-                <a  class="saswp-feedback-no-thanks button button-primary"><?php echo esc_html__('No Thanks', 'schema-and-structured-data-for-wp') ?></a>
-            </p>
+            <p><span class="dashicons dashicons-thumbs-up"></span> 
+            <?php echo esc_html__('You have been using the Schema & Structured Data for WP & AMP plugin for some time. Now, Do you like it? If Yes.', 'schema-and-structured-data-for-wp') ?>
+            <a class="saswp-revws-lnk" target="_blank" href="https://wordpress.org/plugins/schema-and-structured-data-for-wp/#reviews"> <?php echo esc_html__('Rate Plugin', 'schema-and-structured-data-for-wp') ?></a>
+          </p>
+            <div class="saswp-update-notice-btns">
+                <a  class="saswp-feedback-remindme"><?php echo esc_html__('Remind Me Later', 'schema-and-structured-data-for-wp') ?></a>
+                <a  class="saswp-feedback-no-thanks"><?php echo esc_html__('No Thanks', 'schema-and-structured-data-for-wp') ?></a>
+            </div>
         </div>
         <?php
     }  

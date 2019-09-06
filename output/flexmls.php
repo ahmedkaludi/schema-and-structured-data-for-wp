@@ -17,9 +17,15 @@ class saswp_flexmls_list extends flexmlsConnectPageCore{
         protected $search_criteria;
         
 	function __construct() {  
-            global $fmc_api;             
-            parent::__construct($fmc_api);
-                        
+            
+            global $fmc_api;      
+            
+            if(!empty($fmc_api)){
+                
+                parent::__construct($fmc_api);
+                
+            }
+                                                
             add_filter('the_content', array($this,'saswp_content'),9);            
 	    add_action('wp_footer', array($this, 'saswp_get_flexidx_listing'));            
             add_action('amp_post_template_footer',array($this, 'saswp_get_flexidx_listing'));                
@@ -27,7 +33,9 @@ class saswp_flexmls_list extends flexmlsConnectPageCore{
         public function saswp_get_flexidx_listing(){
             
             global $fmc_api;
-                                     
+                           
+            if(!empty($fmc_api)){
+                
             $settings = array();          
             
             foreach ($this->shorcode[1] as $shortcodeAttr){
@@ -217,7 +225,9 @@ class saswp_flexmls_list extends flexmlsConnectPageCore{
                     echo "\n";
                     echo '</script>';                                     
                   }
-                                                                                                                           
+                
+            }
+                                                                                                                                                   
         }
         public function saswp_content($content){
             

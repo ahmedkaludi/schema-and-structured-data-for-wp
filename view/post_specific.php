@@ -21,6 +21,9 @@ class saswp_post_specific {
         public    $_local_sub_business       = array();
 
         private   $schema_type_element =  array(                        
+                        'Product' => array(
+                               'product_reviews' => 'product_reviews',                                                
+                        ),
                        'DataFeed' => array(
                                'feed_element' => 'feed_element',                                                
                         ),
@@ -214,6 +217,34 @@ class saswp_post_specific {
             
             $meta_fields = array();
             switch ($meta_name) {
+                
+                case 'product_reviews':
+                    
+                    $meta_fields = array(
+                    
+                    array(
+			'label'     => 'Reviewer Name',
+			'name'      => 'saswp_product_reviews_reviewer_name',
+			'type'      => 'text',                        
+		    ),
+                    array(
+			'label'     => 'Rating',
+			'name'      => 'saswp_product_reviews_reviewer_rating',
+			'type'      => 'number',                        
+		    ),
+                    array(
+			'label'     => 'Text',
+			'name'      => 'saswp_product_reviews_text',
+			'type'      => 'textarea',                        
+		    ),
+                    array(
+			'label'     => 'Created Date',
+			'name'      => 'saswp_product_reviews_created_date',
+			'type'      => 'text',                        
+		    )    
+                    );
+
+                    break;
                 
                 case 'feed_element':
                     
@@ -527,7 +558,7 @@ class saswp_post_specific {
 						'<textarea style="width: 100%%" id="%s" name="%s" rows="5">%s</textarea>',                                                
 						esc_attr($meta_field['name']).'_'.esc_attr($index).'_'.esc_attr($schema_id),
 						esc_attr($meta_name).'_'.esc_attr($schema_id).'['.esc_attr($index).']['.esc_attr($meta_field['name']).']',
-						esc_html($data[$meta_field['name']])
+						esc_textarea($data[$meta_field['name']])
 					);
                                         
 					break;                
@@ -597,7 +628,7 @@ class saswp_post_specific {
                         
                         foreach($type_fields as $key => $value){
                             
-                            $howto_data[$value.'_'.$schema_id]  = esc_sql ( get_post_meta($post_id, $value.'_'.$schema_id, true)  );                                       
+                            $howto_data[$value.'_'.$schema_id]  = get_post_meta($post_id, $value.'_'.$schema_id, true);                                       
                                                  
                             $tabs_fields .= '<div class="saswp-'.$key.'-section-main">';                                                  
                             $tabs_fields .= '<div class="saswp-'.$key.'-section" data-id="'.esc_attr($schema_id).'">';                         
@@ -651,17 +682,18 @@ class saswp_post_specific {
                  foreach($this->all_schema as $key => $schema){
                      
                      $checked = '';
-                     
-                     if(isset($schema_enable[$schema->ID]) && $schema_enable[$schema->ID] == 1){
+                                                                                    
+                     if(!isset($schema_enable[$schema->ID]) || $schema_enable[$schema->ID] == 1){
                          
-                     $checked = 'checked';    
+                        $checked = 'checked';    
                      
-                     }                     
+                     }  
+                     
                      $response = $this->saswp_get_fields_by_schema_type($schema->ID);                     
                      $this->meta_fields = $response;
                      
                      $output       = $this->saswp_saswp_post_specific( $post, $schema->ID ); 
-                     $schema_type  = esc_sql ( get_post_meta($schema->ID, 'schema_type', true)  );                                           
+                     $schema_type  = get_post_meta($schema->ID, 'schema_type', true);                                           
                                                                                                            
                      if($key==0){
                          
@@ -752,7 +784,7 @@ class saswp_post_specific {
                  $response   = $this->saswp_get_fields_by_schema_type($all_schema[0]->ID); 
                 
                  $schema_ids[] = $all_schema[0]->ID;
-                 $schema_type  = esc_sql ( get_post_meta($all_schema[0]->ID, 'schema_type', true)  ); 
+                 $schema_type  = get_post_meta($all_schema[0]->ID, 'schema_type', true); 
                  $checked = '';
                  if(isset($schema_enable[$all_schema[0]->ID]) && $schema_enable[$all_schema[0]->ID] == 1){
                  $checked = 'checked';    
@@ -962,7 +994,7 @@ class saswp_post_specific {
                 
                 $current_user   = wp_get_current_user();
                 $author_details	= get_avatar_data($current_user->ID);                
-                $schema_type    = esc_sql ( get_post_meta($schema_id, 'schema_type', true)  );  
+                $schema_type    = get_post_meta($schema_id, 'schema_type', true);  
 		$output = '';
                 
                 $this->meta_fields = array_filter($this->meta_fields);
@@ -1017,7 +1049,7 @@ class saswp_post_specific {
                                         }
                                         if (strpos($meta_field['id'], 'business_logo') !== false && empty($media_value_meta)) {
                                             
-                                                $business_details = esc_sql ( get_post_meta($schema_id, 'saswp_local_business_details', true)  );                                                                                            
+                                                $business_details = get_post_meta($schema_id, 'saswp_local_business_details', true);                                                                                            
                                                 if(array_key_exists('local_business_logo', $business_details) && is_array($business_details['local_business_logo'])){
                                                  
                                                     $media_value['height'] = $business_details['local_business_logo']['height'];                                                                                         
@@ -1030,7 +1062,7 @@ class saswp_post_specific {
                                                                                 
                                         if (strpos($meta_field['id'], 'service_schema_image') !== false && empty($media_value_meta)) {
                                             
-                                                $business_details = esc_sql ( get_post_meta($schema_id, 'saswp_service_schema_details', true)  );   
+                                                $business_details = get_post_meta($schema_id, 'saswp_service_schema_details', true);   
                                                 
                                                 if(array_key_exists('saswp_service_schema_image', $business_details) && is_array($business_details['saswp_service_schema_image'])){
                                                     $media_value['height'] = $business_details['saswp_service_schema_image']['height'];                                                                                         
@@ -1042,7 +1074,7 @@ class saswp_post_specific {
                                         
                                         if (strpos($meta_field['id'], 'review_schema_image') !== false && empty($media_value_meta)) {
                                                 
-                                               $business_details = esc_sql ( get_post_meta($schema_id, 'saswp_review_schema_details', true)  ); 
+                                               $business_details = get_post_meta($schema_id, 'saswp_review_schema_details', true); 
                                                 if(array_key_exists('saswp_review_schema_image', $business_details)  && is_array($business_details['saswp_review_schema_image'])){
                                                  $media_value['height']    = $business_details['saswp_review_schema_image']['height'];                                                                                         
                                                  $media_value['width']     = $business_details['saswp_review_schema_image']['width'];                                                                                         
@@ -1051,7 +1083,7 @@ class saswp_post_specific {
                                         }
                                         if (strpos($meta_field['id'], 'event_schema_image') !== false && empty($media_value_meta)) {
                                             
-                                                $business_details = esc_sql ( get_post_meta($schema_id, 'saswp_event_schema_details', true)  ); 
+                                                $business_details = get_post_meta($schema_id, 'saswp_event_schema_details', true); 
                                                 if(array_key_exists('saswp_event_schema_image', $business_details) && is_array($business_details['saswp_event_schema_image'])){
                                                  $media_value['height']    = $business_details['saswp_event_schema_image']['height'];                                                                                         
                                                  $media_value['width']     = $business_details['saswp_event_schema_image']['width'];                                                                                         
@@ -1316,8 +1348,7 @@ class saswp_post_specific {
                                                                                     
                 $custom_schema = sanitize_textarea_field($_POST['saswp_custom_schema_field']);
                 update_post_meta( $post_id, 'saswp_custom_schema_field', $custom_schema );
-                
-                                                    
+                                                                    
                 if($option != 'enable'){
                     return;
                 }  
@@ -1346,10 +1377,17 @@ class saswp_post_specific {
                             $data = (array) $_POST[$val.'_'.$schema->ID];  
 
                             foreach ($data as $supply){
-
-                                $element_val[] = array_map( 'sanitize_text_field', $supply );
+                                
+                                $sanitize_data = array();
+                                
+                                foreach($supply as $k => $el){  
+                                    $sanitize_data[$k] = wp_kses_post(wp_unslash($el));                                   
+                                }
+                                
+                                $element_val[] = $sanitize_data;     
                                 
                             }
+                            
                             update_post_meta( $post_id, $val.'_'.intval($schema->ID), $element_val);
                                                                                   
                         }    
@@ -1386,15 +1424,18 @@ class saswp_post_specific {
 					case 'text':
 						$post_meta[ $meta_field['id'] ] = sanitize_text_field( $post_meta[ $meta_field['id'] ] );
 						break;
+                                        case 'textarea':
+						$post_meta[ $meta_field['id'] ] = sanitize_textarea_field( $post_meta[ $meta_field['id'] ] );
+						break;    
                                         default:
-						$post_meta[ $meta_field['id'] ] = sanitize_text_field( $post_meta[ $meta_field['id'] ] );						
+						$post_meta[ $meta_field['id'] ] = wp_unslash( $post_meta[ $meta_field['id'] ] );						
                                             
 				}
 				update_post_meta( $post_id, $meta_field['id'], $post_meta[ $meta_field['id'] ] );
 			} else if ( $meta_field['type'] === 'checkbox' ) {
 				update_post_meta( $post_id, $meta_field['id'], '0' );
 			}
-		   }
+		    }
                    
                 }                                                                                      
             }                                                                		                                                                               
@@ -1453,11 +1494,11 @@ class saswp_post_specific {
             $current_user       = wp_get_current_user();
             $author_desc        = get_the_author_meta( 'user_description' ); 
             $author_details	= get_avatar_data($current_user->ID);           
-            $schema_type        = esc_sql ( get_post_meta($schema_id, 'schema_type', true)  );  
+            $schema_type        = get_post_meta($schema_id, 'schema_type', true);  
             
-            $business_type      = esc_sql ( get_post_meta($schema_id, 'saswp_business_type', true)  ); 
-            $business_name      = esc_sql ( get_post_meta($schema_id, 'saswp_business_name', true)  ); 
-            $business_details   = esc_sql ( get_post_meta($schema_id, 'saswp_local_business_details', true)  );
+            $business_type      = get_post_meta($schema_id, 'saswp_business_type', true); 
+            $business_name      = get_post_meta($schema_id, 'saswp_business_name', true); 
+            $business_details   = get_post_meta($schema_id, 'saswp_local_business_details', true);
             $dayoftheweek       = get_post_meta ($schema_id, 'saswp_dayofweek', true); 
             
             $saswp_business_type_key   = 'saswp_business_type_'.$schema_id;
@@ -2163,7 +2204,7 @@ class saswp_post_specific {
                 
                 case 'Event':
                     
-                    $event_schema_details = esc_sql ( get_post_meta($schema_id, 'saswp_event_schema_details', true)  );
+                    $event_schema_details = get_post_meta($schema_id, 'saswp_event_schema_details', true);
                     $meta_field = array(
                         array(
                                 'label' => 'Name',
@@ -2787,6 +2828,11 @@ class saswp_post_specific {
                             'type' => 'text',                             
                        ),
                         array(
+                            'label' => 'Seller Organization',
+                            'id' => 'saswp_product_schema_seller_'.$schema_id,
+                            'type' => 'text',                             
+                       ),
+                        array(
                             'label' => 'Aggregate Rating',
                             'id' => 'saswp_product_schema_enable_rating_'.$schema_id,
                             'type' => 'checkbox',                            
@@ -2809,7 +2855,7 @@ class saswp_post_specific {
                     break;
                 
                 case 'Service':
-                    $service_schema_details = esc_sql ( get_post_meta($schema_id, 'saswp_service_schema_details', true)  );
+                    $service_schema_details = get_post_meta($schema_id, 'saswp_service_schema_details', true);
                     $meta_field = array(
                     array(
                             'label' => 'Name',
@@ -2936,7 +2982,7 @@ class saswp_post_specific {
                         
                     }else{
                     
-                    $item_type_by_post =  esc_sql ( get_post_meta($post->ID, 'saswp_review_schema_item_type_'.$schema_id, true)  );
+                    $item_type_by_post =  get_post_meta($post->ID, 'saswp_review_schema_item_type_'.$schema_id, true);
                     
                     if($item_type_by_post){
                      
@@ -2944,7 +2990,7 @@ class saswp_post_specific {
                         
                     }else{
                      
-                    $service_schema_details = esc_sql ( get_post_meta($schema_id, 'saswp_review_schema_details', true)  );
+                    $service_schema_details = get_post_meta($schema_id, 'saswp_review_schema_details', true);
                     $reviewed_field = saswp_item_reviewed_fields($service_schema_details['saswp_review_schema_item_type'], $post_specific=1, $schema_id);    
                         
                     }
@@ -3006,7 +3052,7 @@ class saswp_post_specific {
                 
                 case 'AudioObject':
                     
-                    $service_schema_details = esc_sql ( get_post_meta($schema_id, 'saswp_audio_schema_details', true)  );
+                    $service_schema_details = get_post_meta($schema_id, 'saswp_audio_schema_details', true);
                     $meta_field = array(
                     
                     array(
@@ -3069,7 +3115,7 @@ class saswp_post_specific {
                 
                 case 'SoftwareApplication':
                     
-                    $software_schema_details = esc_sql ( get_post_meta($schema_id, 'saswp_software_schema_details', true)  );
+                    $software_schema_details = get_post_meta($schema_id, 'saswp_software_schema_details', true);
                     $meta_field = array(
                     
                     array(
