@@ -594,63 +594,63 @@ function saswp_schema_type_meta_box_callback( $post) {
         
         if($post){
             
-            $schema_options    = esc_sql ( get_post_meta($post->ID, 'schema_options', true)  );
-            $meta_list         = esc_sql ( get_post_meta($post->ID, 'saswp_meta_list_val', true)  ); 
-            $fixed_text        = esc_sql ( get_post_meta($post->ID, 'saswp_fixed_text', true)  ); 
-            $cus_field         = esc_sql ( get_post_meta($post->ID, 'saswp_custom_meta_field', true)  ); 
+            $schema_options    = get_post_meta($post->ID, 'schema_options', true);
+            $meta_list         = get_post_meta($post->ID, 'saswp_meta_list_val', true); 
+            $fixed_text        = get_post_meta($post->ID, 'saswp_fixed_text', true); 
+            $cus_field         = get_post_meta($post->ID, 'saswp_custom_meta_field', true); 
 
-            $schema_type      = esc_sql ( get_post_meta($post->ID, 'schema_type', true)  );     
+            $schema_type      = get_post_meta($post->ID, 'schema_type', true);     
 
             switch ($schema_type) {
 
                 case 'AudioObject':
 
-                    $audio_details    = esc_sql ( get_post_meta($post->ID, 'saswp_audio_schema_details', true)  );    
+                    $audio_details    = get_post_meta($post->ID, 'saswp_audio_schema_details', true);    
 
                     break;
 
                 case 'SoftwareApplication':
 
-                    $software_details    = esc_sql ( get_post_meta($post->ID, 'saswp_software_schema_details', true)  );    
+                    $software_details    = get_post_meta($post->ID, 'saswp_software_schema_details', true);    
 
                     break;
 
                 case 'local_business':
 
-                    $business_type    = esc_sql ( get_post_meta($post->ID, 'saswp_business_type', true)  ); 
-                    $business_name    = esc_sql ( get_post_meta($post->ID, 'saswp_business_name', true)  ); 
-                    $business_details = esc_sql ( get_post_meta($post->ID, 'saswp_local_business_details', true)  );                                                 
+                    $business_type    = get_post_meta($post->ID, 'saswp_business_type', true); 
+                    $business_name    = get_post_meta($post->ID, 'saswp_business_name', true); 
+                    $business_details = get_post_meta($post->ID, 'saswp_local_business_details', true);                                                 
                     $dayoftheweek     = get_post_meta($post->ID, 'saswp_dayofweek', true);
 
                     break;
 
                 case 'Product':
 
-                    $product_details  = esc_sql ( get_post_meta($post->ID, 'saswp_product_schema_details', true)  );
+                    $product_details  = get_post_meta($post->ID, 'saswp_product_schema_details', true);
 
                     break;
 
                 case 'Service':
 
-                    $service_details  = esc_sql ( get_post_meta($post->ID, 'saswp_service_schema_details', true)  );
+                    $service_details  = get_post_meta($post->ID, 'saswp_service_schema_details', true);
 
                     break;
 
                 case 'Review':
 
-                    $review_details   = esc_sql ( get_post_meta($post->ID, 'saswp_review_schema_details', true)  );
+                    $review_details   = get_post_meta($post->ID, 'saswp_review_schema_details', true);
 
                     break;
 
                 case 'Event':
 
-                    $event_details   = esc_sql ( get_post_meta($post->ID, 'saswp_event_schema_details', true)  );
+                    $event_details   = get_post_meta($post->ID, 'saswp_event_schema_details', true);
 
                     break;
 
                 default:
 
-                    $speakable       = esc_sql ( get_post_meta($post->ID, 'saswp_enable_speakable_schema', true)  );
+                    $speakable       = get_post_meta($post->ID, 'saswp_enable_speakable_schema', true);
 
                     break;
             }    
@@ -1512,7 +1512,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                         
                         if(!empty($meta_list)){
                             
-                            $schema_type    = esc_sql ( get_post_meta($post->ID, 'schema_type', true)  );
+                            $schema_type    = get_post_meta($post->ID, 'schema_type', true);
                             
                             $service     = new saswp_output_service();
                             $meta_fields = $service->saswp_get_all_schema_type_fields($schema_type);

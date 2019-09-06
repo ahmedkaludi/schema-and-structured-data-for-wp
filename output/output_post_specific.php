@@ -61,13 +61,13 @@ function saswp_post_specific_schema_output() {
         $input1 = array(); 
         
         $schema_id      = $schema;   	
-	$schema_type    = esc_sql ( get_post_meta($schema_id, 'schema_type', true)  );        
+	$schema_type    = get_post_meta($schema_id, 'schema_type', true);        
         $schema_post_id = $post->ID;  
-	$all_post_meta  = esc_sql ( get_post_meta($schema_post_id, $key='', true)  );     
+	$all_post_meta  = get_post_meta($schema_post_id, $key='', true);     
 	
 	if(is_singular() && isset($schema_enable[$schema_id]) && $schema_enable[$schema_id] == 1 ){
 		
-                        $saswp_review_details = esc_sql ( get_post_meta(get_the_ID(), 'saswp_review_details', true)); 
+                        $saswp_review_details = get_post_meta(get_the_ID(), 'saswp_review_details', true); 
                         
                         $aggregateRating        = array();                        
                         $saswp_over_all_rating  ='';
@@ -159,7 +159,7 @@ function saswp_post_specific_schema_output() {
                             }
                            
                             
-                            $itinerary  = esc_sql ( get_post_meta($schema_post_id, 'trip_itinerary_'.$schema_id, true)  );
+                            $itinerary  = get_post_meta($schema_post_id, 'trip_itinerary_'.$schema_id, true);
                             
                             $itinerary_arr = array();
                             
@@ -187,7 +187,7 @@ function saswp_post_specific_schema_output() {
                             $input1['@type']                 = 'FAQPage';
                             $input1['@id']                   = trailingslashit(get_permalink()).'#FAQPage';                            
                             
-                            $faq_question  = esc_sql ( get_post_meta($schema_post_id, 'faq_question_'.$schema_id, true)  );
+                            $faq_question  = get_post_meta($schema_post_id, 'faq_question_'.$schema_id, true);
                             
                             $faq_question_arr = array();
                             
@@ -549,9 +549,9 @@ function saswp_post_specific_schema_output() {
                             $howto_image = get_post_meta( get_the_ID(), 'saswp_howto_schema_image_'.$schema_id.'_detail',true); 
                             
                              
-                            $tool    = esc_sql ( get_post_meta($schema_post_id, 'howto_tool_'.$schema_id, true)  );              
-                            $step    = esc_sql ( get_post_meta($schema_post_id, 'howto_step_'.$schema_id, true)  );              
-                            $supply  = esc_sql ( get_post_meta($schema_post_id, 'howto_supply_'.$schema_id, true)  );              
+                            $tool    = get_post_meta($schema_post_id, 'howto_tool_'.$schema_id, true);              
+                            $step    = get_post_meta($schema_post_id, 'howto_step_'.$schema_id, true);              
+                            $supply  = get_post_meta($schema_post_id, 'howto_supply_'.$schema_id, true);              
                             
                             
                             $input1['@context']              = saswp_context_url();
@@ -699,8 +699,8 @@ function saswp_post_specific_schema_output() {
                             $howto_image = get_post_meta( get_the_ID(), 'saswp_tvseries_schema_image_'.$schema_id.'_detail',true); 
                             
                              
-                            $actor     = esc_sql ( get_post_meta($schema_post_id, 'tvseries_actor_'.$schema_id, true)  );              
-                            $season    = esc_sql ( get_post_meta($schema_post_id, 'tvseries_season_'.$schema_id, true)  );                                          
+                            $actor     = get_post_meta($schema_post_id, 'tvseries_actor_'.$schema_id, true);              
+                            $season    = get_post_meta($schema_post_id, 'tvseries_season_'.$schema_id, true);                                          
                                                         
                             $input1['@context']              = saswp_context_url();
                             $input1['@type']                 = 'TVSeries';
@@ -756,9 +756,9 @@ function saswp_post_specific_schema_output() {
                                                          
                             $howto_image = get_post_meta( get_the_ID(), 'saswp_mc_schema_image_'.$schema_id.'_detail',true);  
                              
-                            $cause       = esc_sql ( get_post_meta($schema_post_id, 'mc_cause_'.$schema_id, true));              
-                            $symptom     = esc_sql ( get_post_meta($schema_post_id, 'mc_symptom_'.$schema_id, true));              
-                            $riskfactro  = esc_sql ( get_post_meta($schema_post_id, 'mc_risk_factor_'.$schema_id, true));              
+                            $cause       = get_post_meta($schema_post_id, 'mc_cause_'.$schema_id, true);              
+                            $symptom     = get_post_meta($schema_post_id, 'mc_symptom_'.$schema_id, true);              
+                            $riskfactro  = get_post_meta($schema_post_id, 'mc_risk_factor_'.$schema_id, true);              
                             
                             
                             $input1['@context']                     = saswp_context_url();
@@ -938,7 +938,7 @@ function saswp_post_specific_schema_output() {
                         );
                                         
                         
-                                $performer  = esc_sql ( get_post_meta($schema_post_id, 'feed_element_'.$schema_id, true)  );
+                                $performer  = get_post_meta($schema_post_id, 'feed_element_'.$schema_id, true);
                             
                                 $performer_arr = array();
                             
@@ -1004,7 +1004,7 @@ function saswp_post_specific_schema_output() {
                             );
                                         
                         
-                                $performer  = esc_sql ( get_post_meta($schema_post_id, 'performer_'.$schema_id, true)  );
+                                $performer  = get_post_meta($schema_post_id, 'performer_'.$schema_id, true);
                             
                                 $performer_arr = array();
                             
@@ -1599,7 +1599,7 @@ function saswp_post_specific_schema_output() {
                                          }
                                              
                                          
-                                        $itinerary  = esc_sql ( get_post_meta($schema_post_id, 'product_reviews_'.$schema_id, true)  );
+                                        $itinerary  = get_post_meta($schema_post_id, 'product_reviews_'.$schema_id, true);
                             
                                         $itinerary_arr = array();
 
