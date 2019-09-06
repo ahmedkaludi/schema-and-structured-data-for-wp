@@ -157,8 +157,7 @@ function saswp_post_specific_schema_output() {
                             $input1['image']['width']        = isset($howto_image['height'])    ? esc_attr($howto_image['height'])  :'';
                                 
                             }
-                           
-                            
+                                                       
                             $itinerary  = get_post_meta($schema_post_id, 'trip_itinerary_'.$schema_id, true);
                             
                             $itinerary_arr = array();
