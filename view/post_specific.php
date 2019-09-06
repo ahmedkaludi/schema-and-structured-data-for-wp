@@ -682,12 +682,13 @@ class saswp_post_specific {
                  foreach($this->all_schema as $key => $schema){
                      
                      $checked = '';
-                     
-                     if(isset($schema_enable[$schema->ID]) && $schema_enable[$schema->ID] == 1){
+                                                                                    
+                     if(!isset($schema_enable[$schema->ID]) || $schema_enable[$schema->ID] == 1){
                          
-                     $checked = 'checked';    
+                        $checked = 'checked';    
                      
-                     }                     
+                     }  
+                     
                      $response = $this->saswp_get_fields_by_schema_type($schema->ID);                     
                      $this->meta_fields = $response;
                      
