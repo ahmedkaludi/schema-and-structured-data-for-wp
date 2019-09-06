@@ -88,6 +88,7 @@ Bug reports for Schema & Structured Data for WP & AMP are [welcomed on GitHub](h
 * Merlin WP used https://github.com/richtabor/MerlinWP - License URI: https://github.com/richtabor/MerlinWP/blob/master/LICENSE,
 * jquery-timepicker used https://github.com/jonthornton/jquery-timepicker
 * Rate Yo! used https://github.com/prrashi/rateYo - License URI: https://github.com/prrashi/rateYo/commit/f3812fe96c38b08627d209795176053550fb1427
+* Aqua Resizer used http://aquagraphite.com - License URI: WTFPL - http://sam.zoy.org/wtfpl/
 
 
 
