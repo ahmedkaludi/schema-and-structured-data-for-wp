@@ -63,7 +63,6 @@ class saswp_post_specific {
             
         }
 
-
         /**
          * List of hooks used in this context
          */                       

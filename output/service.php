@@ -879,7 +879,16 @@ Class saswp_output_service{
                     }
                     if(isset($custom_fields['saswp_recipe_video_duration'])){
                      $input1['video']['duration'] =    $custom_fields['saswp_recipe_video_duration'];
-                    }                                        
+                    } 
+                    
+                    if(isset($custom_fields['saswp_recipe_rating_value']) && isset($custom_fields['saswp_recipe_rating_count'])){
+                       $input1['aggregateRating']['@type']       =   'AggregateRating';
+                       $input1['aggregateRating']['worstRating'] =   0;
+                       $input1['aggregateRating']['bestRating']  =   5;
+                       $input1['aggregateRating']['ratingValue'] =    $custom_fields['saswp_recipe_rating_value'];
+                       $input1['aggregateRating']['ratingCount'] =    $custom_fields['saswp_recipe_rating_count'];
+                    }
+                    
                     break;
                 
                 case 'Product':                                                                                                  
@@ -2406,7 +2415,9 @@ Class saswp_output_service{
                         'saswp_recipe_video_contenturl'     => 'Video ContentUrl',                        
                         'saswp_recipe_video_embedurl'       => 'Video EmbedUrl',
                         'saswp_recipe_video_upload_date'    => 'Video Upload Date',
-                        'saswp_recipe_video_duration'       => 'Video Duration',
+                        'saswp_recipe_video_duration'       => 'Video Duration',                        
+                        'saswp_recipe_rating_value'         => 'Rating Value',
+                        'saswp_recipe_rating_count'         => 'Rating Count',
                     );
                     
                     break;
