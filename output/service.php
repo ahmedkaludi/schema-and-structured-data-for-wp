@@ -527,6 +527,9 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_newsarticle_headline'])){
                        $input1['headline'] =    $custom_fields['saswp_newsarticle_headline']; 
                     }
+                    if(isset($custom_fields['saswp_newsarticle_keywords'])){
+                       $input1['keywords'] =    $custom_fields['saswp_newsarticle_keywords']; 
+                    }
                     if(isset($custom_fields['saswp_newsarticle_date_published'])){
                        $input1['datePublished'] =    $custom_fields['saswp_newsarticle_date_published']; 
                     }
@@ -2245,6 +2248,7 @@ Class saswp_output_service{
                         'saswp_newsarticle_date_modified'       => 'Date Modified',
                         'saswp_newsarticle_headline'            => 'Headline',                         
                         'saswp_newsarticle_description'         => 'Description',
+                        'saswp_newsarticle_keywords'            => 'Tags',
                         'saswp_newsarticle_section'             => 'Article Section',
                         'saswp_newsarticle_body'                => 'Article Body',                         
                         'saswp_newsarticle_name'                => 'Name',
