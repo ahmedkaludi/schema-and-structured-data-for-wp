@@ -17,7 +17,7 @@ function saswp_kb_schema_output() {
     
 	global $sd_data;   
         $input     = array();    
-        $site_url  = get_site_url();
+        $site_url  = get_home_url();
 	// Social profile
 	$sd_social_profile = array();
 
@@ -1460,7 +1460,7 @@ function saswp_kb_website_output(){
                 
                 if(isset($sd_data['saswp_website_schema']) && $sd_data['saswp_website_schema'] == 1 || !isset($sd_data['saswp_website_schema'])){
                  
-                $site_url  = get_site_url();
+                $site_url  = get_home_url();
 		$site_name = get_bloginfo();
                 
                 if($site_url && $site_name){
