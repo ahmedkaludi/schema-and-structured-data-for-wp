@@ -2400,3 +2400,20 @@ function saswp_context_url(){
     
     return $url;
 }
+
+function saswp_get_permalink(){
+    
+    $url = get_permalink();
+        
+    if ((function_exists( 'ampforwp_is_amp_endpoint' ) && ampforwp_is_amp_endpoint()) || function_exists( 'is_amp_endpoint' ) && is_amp_endpoint()) {  
+    
+        if(function_exists('ampforwp_url_controller')){
+            
+            $url = ampforwp_url_controller( $url );
+            
+        }
+        
+    }
+    
+    return $url;
+}

@@ -157,7 +157,7 @@ Class saswp_output_service{
                     $response = saswp_get_the_excerpt(); 
                     break;
                 case 'post_permalink':
-                    $response = get_permalink();
+                    $response = saswp_get_permalink();
                     break;
                 case 'author_name':
                     $response =  get_the_author_meta('first_name').' '.get_the_author_meta('last_name');
@@ -2897,9 +2897,9 @@ Class saswp_output_service{
                     $input1 = array(
 					'@context'			=> saswp_context_url(),
 					'@type'				=> 'TechArticle',
-                                        '@id'				=> trailingslashit(get_permalink()).'#techarticle',
-                                        'url'				=> get_permalink(),
-					'mainEntityOfPage'              => get_permalink(),					
+                                        '@id'				=> trailingslashit(saswp_get_permalink()).'#techarticle',
+                                        'url'				=> saswp_get_permalink(),
+					'mainEntityOfPage'              => saswp_get_permalink(),					
 					'headline'			=> saswp_get_the_title(),
 					'description'                   => saswp_get_the_excerpt(),
                                         'articleBody'                   => saswp_get_the_content(),
@@ -2926,9 +2926,9 @@ Class saswp_output_service{
                     $input1 = array(
 					'@context'			=> saswp_context_url(),
 					'@type'				=> 'Article',
-                                        '@id'				=> trailingslashit(get_permalink()).'#article',
-                                        'url'				=> get_permalink(),
-					'mainEntityOfPage'              => get_permalink(),					
+                                        '@id'				=> trailingslashit(saswp_get_permalink()).'#article',
+                                        'url'				=> saswp_get_permalink(),
+					'mainEntityOfPage'              => saswp_get_permalink(),					
 					'headline'			=> saswp_get_the_title(),
 					'description'                   => saswp_get_the_excerpt(),
                                         'articleBody'                   => saswp_get_the_content(),
@@ -2960,13 +2960,13 @@ Class saswp_output_service{
                     $input1 = array(
 				'@context'			=> saswp_context_url(),
 				'@type'				=> 'WebPage' ,
-                                '@id'				=> trailingslashit(get_permalink()).'#webpage',
+                                '@id'				=> trailingslashit(saswp_get_permalink()).'#webpage',
 				'name'				=> saswp_get_the_title(),
-				'url'				=> get_permalink(),
+				'url'				=> saswp_get_permalink(),
 				'description'                   => saswp_get_the_excerpt(),
 				'mainEntity'                    => array(
 						'@type'			=> 'Article',
-						'mainEntityOfPage'	=> get_permalink(),
+						'mainEntityOfPage'	=> saswp_get_permalink(),
 						'image'			=> esc_url($image_details[0]),
 						'headline'		=> saswp_get_the_title(),
 						'description'		=> saswp_get_the_excerpt(),
@@ -3042,7 +3042,7 @@ Class saswp_output_service{
                                                     
                                                     if($i == 0){
                                                         
-                                                    $input2['image'][$i]['@id']    = get_permalink().'#primaryimage';    
+                                                    $input2['image'][$i]['@id']    = saswp_get_permalink().'#primaryimage';    
                                                     
                                                     }
                                                     
@@ -3075,7 +3075,7 @@ Class saswp_output_service{
                                                                 
                                                                 if($i == 0){
                                                         
-                                                                $input2['image'][$i]['@id']    = get_permalink().'#primaryimage'; 
+                                                                $input2['image'][$i]['@id']    = saswp_get_permalink().'#primaryimage'; 
                                                                 
                                                                 }
                                                                 
@@ -3093,7 +3093,7 @@ Class saswp_output_service{
                                         if(empty($input2)){
                                             
                                                 $input2['image']['@type']  = 'ImageObject';
-                                                $input2['image']['@id']    = get_permalink().'#primaryimage';
+                                                $input2['image']['@id']    = saswp_get_permalink().'#primaryimage';
                                                 $input2['image']['url']    = esc_url($image_details[0]);
                                                 $input2['image']['width']  = esc_attr($image_details[1]);
                                                 $input2['image']['height'] = esc_attr($image_details[2]);
@@ -3155,7 +3155,7 @@ Class saswp_output_service{
                             if(isset($sd_data['sd_default_image']['url']) && $sd_data['sd_default_image']['url'] !=''){
                                         
                                     $input2['image']['@type']  = 'ImageObject';
-                                    $input2['image']['@id']    = get_permalink().'#primaryimage';
+                                    $input2['image']['@id']    = saswp_get_permalink().'#primaryimage';
                                     $input2['image']['url']    = esc_url($sd_data['sd_default_image']['url']);
                                     $input2['image']['width']  = esc_attr($sd_data['sd_default_image_width']);
                                     $input2['image']['height'] = esc_attr($sd_data['sd_default_image_height']);                                                                 

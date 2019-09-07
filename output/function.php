@@ -178,7 +178,7 @@ function saswp_schema_markup_output() {
                         );
                          
                          $webpage['primaryImageOfPage'] = array(
-                             '@id' => get_permalink().'#primaryimage'
+                             '@id' => saswp_get_permalink().'#primaryimage'
                          );
                          
                          if($site_navigation){                             
