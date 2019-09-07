@@ -49,7 +49,7 @@ Class saswp_review_output{
             
                         if(saswp_global_option() && isset($sd_data['saswp-review-module']) && $sd_data['saswp-review-module'] == 1){
                           
-                            $saswp_review_details           = esc_sql ( get_post_meta(get_the_ID(), 'saswp_review_details', true));    
+                            $saswp_review_details           = get_post_meta(get_the_ID(), 'saswp_review_details', true);    
                                                                         
                         if(isset($saswp_review_details['saswp-review-item-enable'])){
                           
@@ -142,7 +142,7 @@ Class saswp_review_output{
         public function saswp_get_review_box_content(){
             
             $saswp_review_details           = array();
-            $saswp_review_details           = esc_sql ( get_post_meta(get_the_ID(), 'saswp_review_details', true));           
+            $saswp_review_details           =  get_post_meta(get_the_ID(), 'saswp_review_details', true);           
             $saswp_review_item_feature      = array();
             $saswp_review_item_star_rating  = array();
             $saswp_review_title             = '';
@@ -302,7 +302,7 @@ Class saswp_review_output{
         public function saswp_display_review_box($content){
             
             global $sd_data;  
-            $saswp_review_details     = esc_sql ( get_post_meta(get_the_ID(), 'saswp_review_details', true)); 
+            $saswp_review_details     =  get_post_meta(get_the_ID(), 'saswp_review_details', true); 
             $saswp_review_item_enable = 0;
             
             if(isset($saswp_review_details['saswp-review-item-enable'])){

@@ -41,7 +41,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             
                 wp_nonce_field( 'saswp_schema_options_nonce', 'saswp_schema_options_nonce' ); 
                 
-                $schema_options    = esc_sql ( get_post_meta($post->ID, 'schema_options', true)  );
+                $schema_options    = get_post_meta($post->ID, 'schema_options', true);
                                                                 
                 ?>    
                 

@@ -256,7 +256,7 @@ Class saswp_output_service{
            
             global $post;
             
-            $custom_fields    = esc_sql ( get_post_meta($schema_post_id, 'saswp_meta_list_val', true)  );
+            $custom_fields    = get_post_meta($schema_post_id, 'saswp_meta_list_val', true);
                       
             if(!empty($custom_fields)){
                 
@@ -1989,7 +1989,7 @@ Class saswp_output_service{
             $post_review_title  = '';
             $post_review_desc   = '';
             
-            $post_meta   = esc_sql ( get_post_meta($post_id, $key='', true)  );                                       
+            $post_meta   = get_post_meta($post_id, $key='', true);                                       
             
             if(isset($post_meta['_post_review_box_breakdowns_score'])){
               $rating_value = bcdiv($post_meta['_post_review_box_breakdowns_score'][0], 20, 2);        

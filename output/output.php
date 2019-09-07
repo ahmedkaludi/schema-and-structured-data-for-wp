@@ -249,7 +249,7 @@ function saswp_schema_output() {
                         
 			}
                                                 
-                        $saswp_review_details   = esc_sql ( get_post_meta(get_the_ID(), 'saswp_review_details', true)); 
+                        $saswp_review_details   = get_post_meta(get_the_ID(), 'saswp_review_details', true); 
                         
                         $aggregateRating        = array();                                                
                         $saswp_over_all_rating  = '';
@@ -1285,8 +1285,8 @@ function saswp_schema_output() {
                         
                         if( 'local_business' === $schema_type){
                             
-                                $business_type    = esc_sql ( get_post_meta($schema_post_id, 'saswp_business_type', true)  );                                 
-                                $business_name    = esc_sql ( get_post_meta($schema_post_id, 'saswp_business_name', true)  );                                                                
+                                $business_type    = get_post_meta($schema_post_id, 'saswp_business_type', true);                                 
+                                $business_name    = get_post_meta($schema_post_id, 'saswp_business_name', true);                                                                
                                                                                                 
                                 if($business_name){
                                     

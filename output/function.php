@@ -640,7 +640,7 @@ function saswp_get_schema_data($schema_id, $schema_key){
     
     if($schema_id && $schema_key){
         
-            $details = esc_sql ( get_post_meta($schema_id, $schema_key, true));    
+            $details =  get_post_meta($schema_id, $schema_key, true);    
      
     }  
     
