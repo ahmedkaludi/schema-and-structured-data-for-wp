@@ -909,6 +909,39 @@ function saswp_wp_recipe_schema_json($recipe){
                     $metadata = WPRM_Metadata::get_howto_metadata( $recipe );
             } else {
                     $metadata = array();
-            }                 
-            return $metadata;
+            } 
+            
+            if(isset($metadata['image']) && is_array($metadata['image'])){
+                
+                $image_list = array();
+                
+                foreach($metadata['image'] as $image_url){
+                    
+                    $image_size    = @getimagesize($image_url);
+                    
+                    if($image_size[0] < 1280 && $image_size[1] < 720){
+                                            
+                        $image_details = @aq_resize( $image_url, 1280, 720, true, false, true );
+                    
+                            if($image_details){
+
+                                $image['@type']  = 'ImageObject';
+                                $image['url']    = esc_url($image_details[0]);
+                                $image['width']  = esc_attr($image_details[1]);
+                                $image['height'] = esc_attr($image_details[2]); 
+
+                                $image_list[] = $image;
+                            }
+                                                
+                    }                                        
+                    
+                }
+                
+                if($image_list){
+                    $metadata['image'] =  $image_list;
+                }
+               
+            }
+                        
+        return $metadata;
 }

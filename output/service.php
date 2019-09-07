@@ -3119,6 +3119,7 @@ Class saswp_output_service{
                               $attach_details   = saswp_get_attachment_details($attachments[2], $post->ID);
                               
                               $k = 0;
+                              
                               foreach ($attachments[2] as $attachment) {
                                                                                                                                        
                                   if(!empty($attach_details)){
