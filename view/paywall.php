@@ -111,8 +111,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                                                 'enable_custom_field'   => $enable_custom_field
                                             );   
                  
-                 update_post_meta( $post_id, 'schema_options', $saswp_schema_options);
-                 
+                 update_post_meta( $post_id, 'schema_options', $saswp_schema_options);                 
                  update_post_meta( $post_id, 'saswp_meta_list_val', $meta_list);
                  update_post_meta( $post_id, 'saswp_fixed_text', $fixed_text);
                  update_post_meta( $post_id, 'saswp_custom_meta_field', $cus_meta_field);

@@ -950,16 +950,16 @@ Class saswp_output_service{
                 
                 case 'Service':
                     if(isset($custom_fields['saswp_service_schema_name'])){
-                     $input1['name'] =    $custom_fields['saswp_service_schema_name'];
+                      $input1['name'] =    $custom_fields['saswp_service_schema_name'];
                     }
                     if(isset($custom_fields['saswp_service_schema_type'])){
-                     $input1['serviceType'] =    $custom_fields['saswp_service_schema_type'];
+                      $input1['serviceType'] =    $custom_fields['saswp_service_schema_type'];
                     }
                     if(isset($custom_fields['saswp_service_schema_provider_name'])){
-                     $input1['provider']['name'] =    $custom_fields['saswp_service_schema_provider_name'];
+                      $input1['provider']['name'] =    $custom_fields['saswp_service_schema_provider_name'];
                     }
                     if(isset($custom_fields['saswp_service_schema_image'])){
-                     $input1['provider']['image'] =    $custom_fields['saswp_service_schema_image'];
+                      $input1['provider']['image'] =    $custom_fields['saswp_service_schema_image'];
                     }
                     if(isset($custom_fields['saswp_service_schema_locality'])){
                      $input1['provider']['address']['addressLocality'] =    $custom_fields['saswp_service_schema_locality'];
@@ -971,16 +971,24 @@ Class saswp_output_service{
                       $input1['provider']['address']['telephone'] =    $custom_fields['saswp_service_schema_telephone'];
                     }
                     if(isset($custom_fields['saswp_service_schema_price_range'])){
-                    $input1['provider']['priceRange'] =    $custom_fields['saswp_service_schema_price_range'];
+                      $input1['provider']['priceRange'] =    $custom_fields['saswp_service_schema_price_range'];
                     }
                     if(isset($custom_fields['saswp_service_schema_description'])){
-                     $input1['description'] =    $custom_fields['saswp_service_schema_description'];
+                      $input1['description'] =    $custom_fields['saswp_service_schema_description'];
                     }
                     if(isset($custom_fields['saswp_service_schema_area_served'])){
-                     $input1['areaServed'] =    $custom_fields['saswp_service_schema_area_served'];
+                      $input1['areaServed'] =    $custom_fields['saswp_service_schema_area_served'];
                     }
                     if(isset($custom_fields['saswp_service_schema_service_offer'])){
-                     $input1['hasOfferCatalog'] =    $custom_fields['saswp_service_schema_service_offer'];
+                      $input1['hasOfferCatalog'] =    $custom_fields['saswp_service_schema_service_offer'];
+                    }
+                    
+                    if(isset($custom_fields['saswp_service_schema_rating_value']) && isset($custom_fields['saswp_service_schema_rating_count'])){
+                       $input1['aggregateRating']['@type']       =   'AggregateRating';
+                       $input1['aggregateRating']['worstRating'] =   0;
+                       $input1['aggregateRating']['bestRating']  =   5;
+                       $input1['aggregateRating']['ratingValue'] =    $custom_fields['saswp_service_schema_rating_value'];
+                       $input1['aggregateRating']['ratingCount'] =    $custom_fields['saswp_service_schema_rating_count'];
                     }
                                                           
                     break;
@@ -1030,6 +1038,12 @@ Class saswp_output_service{
                     }
                     if(isset($custom_fields['saswp_review_author_name'])){
                      $input1['author']['name'] =    $custom_fields['saswp_review_author_name'];
+                    }
+                    
+                    if(isset($custom_fields['saswp_review_schema_rating_value']) && isset($custom_fields['saswp_review_schema_review_count'])){
+                       $input1['aggregateRating']['@type']       =   'Rating';                                              
+                       $input1['aggregateRating']['ratingValue'] =    $custom_fields['saswp_review_schema_rating_value'];
+                       $input1['aggregateRating']['bestRating'] =    $custom_fields['saswp_review_schema_review_count'];
                     }
                     
                     break;
@@ -2169,8 +2183,8 @@ Class saswp_output_service{
                 case 'local_business':
                    
                     $meta_field = array(                        
-                        'saswp_business_type'        => 'Business Type',
-                        'saswp_business_name'        => 'Sub Business Type',                           
+                       // 'saswp_business_type'        => 'Business Type',
+                       // 'saswp_business_name'        => 'Sub Business Type',                           
                         'local_business_name'        => 'Business Name',                           
                         'local_business_name_url'    => 'URL',
                         'local_business_description' => 'Description',
@@ -2550,8 +2564,10 @@ Class saswp_output_service{
                         'saswp_service_schema_description'      => 'Description',
                         'saswp_service_schema_area_served'      => 'Area Served (City)',
                         'saswp_service_schema_service_offer'    => 'Service Offer',
-                        'saswp_review_schema_country'           => 'Address Country',
-                        'saswp_review_schema_telephone'         => 'Telephone',                        
+                        'saswp_service_schema_country'           => 'Address Country',
+                        'saswp_service_schema_telephone'         => 'Telephone',  
+                        'saswp_service_schema_rating_value'      => 'Rating Value',
+                        'saswp_service_schema_rating_count'      => 'Rating Count',
                     );
                    
                     break;
@@ -2559,7 +2575,7 @@ Class saswp_output_service{
                 case 'Review':                    
                     $meta_field = array(
                         
-                        'saswp_review_schema_item_type'         => 'Item Reviewed Type',
+                       // 'saswp_review_schema_item_type'         => 'Item Reviewed Type',
                         'saswp_review_schema_name'              => 'Name',
                         'saswp_review_schema_description'       => 'Description',
                         'saswp_review_schema_date_published'    => 'Date Published',
@@ -2572,7 +2588,9 @@ Class saswp_output_service{
                         'saswp_review_schema_postal_code'       => 'Postal Code',
                         'saswp_review_schema_country'           => 'Address Country',
                         'saswp_review_schema_telephone'         => 'Telephone',
-                        'saswp_review_author_name'             => 'Author Name',
+                        'saswp_review_author_name'              => 'Author Name',                        
+                        'saswp_review_schema_rating_value'      => 'Rating Value',
+                        'saswp_review_schema_review_count'      => 'Review Count',
                     );
                     break;
                 
