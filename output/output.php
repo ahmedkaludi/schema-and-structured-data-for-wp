@@ -234,8 +234,7 @@ function saswp_schema_output() {
         if(isset($sd_data['sd_name']) && $sd_data['sd_name'] !=''){            
             $site_name = $sd_data['sd_name'];            
         }                                                                   
-	
-			   		                                                                                           		
+				   		                                                                                           		
 			$image_id 	= get_post_thumbnail_id();
 			$image_details 	= wp_get_attachment_image_src($image_id, 'full');						
 			$date 		= get_the_date("Y-m-d\TH:i:s\Z");
@@ -1431,24 +1430,22 @@ function saswp_schema_breadcrumb_output(){
 				       				
         if(is_single() || is_page() ||is_archive()){
             
-        $bread_crumb_list =   saswp_list_items_generator();  
+            $bread_crumb_list =   saswp_list_items_generator();  
         
-        if(!empty($bread_crumb_list)){   
+            if(!empty($bread_crumb_list)){   
             
-                $input = array(
-					'@context'			=> saswp_context_url(),
-					'@type'				=> 'BreadcrumbList' ,
-                                        '@id'				=>  trailingslashit(get_permalink()).'#breadcrumb' ,
-					'itemListElement'	        => $bread_crumb_list,
-			); 
-           
+                $input['@context']        =  saswp_context_url();
+                $input['@type']           =  'BreadcrumbList';
+                $input['@id']             =  trailingslashit(get_permalink()).'#breadcrumb';
+                $input['itemListElement'] =  $bread_crumb_list;
+                                       
                 return apply_filters('saswp_modify_breadcrumb_output', $input);  
          
              }
                
            }         
 	
-	}
+      }
 }
 
 /**
@@ -1468,16 +1465,14 @@ function saswp_kb_website_output(){
                 
                 if($site_url && $site_name){
                  
-                    $input = array(
-                            '@context'	          => saswp_context_url(),
-                            '@type'		  => 'WebSite',
-                            '@id'		  => $site_url.'#website',
-                            'headline'		  => $site_name,                            
-                            'name'		  => $site_name,
-                            'description'	  => get_bloginfo('description'),
-                            'url'		  => $site_url,
-			);  
-                    
+                    $input['@context']    = saswp_context_url();
+                    $input['@type']       = 'WebSite';
+                    $input['@id']         = $site_url.'#website';
+                    $input['headline']    = $site_name;
+                    $input['name']        = $site_name;
+                    $input['description'] = get_bloginfo('description');
+                    $input['url']         = $site_url;
+                                                             
                     if(isset($sd_data['saswp_search_box_schema']) && $sd_data['saswp_search_box_schema'] == 1 || !isset($sd_data['saswp_search_box_schema'])){
                         
                         $input['potentialAction']['@type']       = 'SearchAction';

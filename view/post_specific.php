@@ -100,8 +100,7 @@ class saswp_post_specific {
                 $post_id       = intval($_POST['post_id']);
                 $schema_id     = intval($_POST['schema_id']);
                 $status        = sanitize_text_field($_POST['status']);
-              
-                
+                              
                 $schema_enable_status = get_post_meta($post_id, 'saswp_enable_disable_schema', true);     
                                
                 if(is_array($schema_enable_status)){
@@ -160,7 +159,7 @@ class saswp_post_specific {
             }
             
             $custom_option = get_option('custom_schema_post_enable_'.esc_attr($post->ID));
-            if($schema_count > 0 && get_post_status($post_specific_id)=='publish'){
+            if($schema_count > 0 && (get_post_status($post_specific_id)=='publish' || get_post_status($post_specific_id)=='draft' )){
                 
             $show_post_types = get_post_types();
             unset($show_post_types['adsforwp'],$show_post_types['saswp'],$show_post_types['attachment'], $show_post_types['revision'], $show_post_types['nav_menu_item'], $show_post_types['user_request'], $show_post_types['custom_css']);            
