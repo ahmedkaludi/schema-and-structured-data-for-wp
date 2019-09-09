@@ -1203,11 +1203,19 @@ function saswp_import_callback(){
         $wp_seo_schema_message = '';
         $seo_pressor_message   = '';
         $wpsso_core_message    = '';
+        $aiors_message         = '';
         $schema_plugin         = saswp_check_data_imported_from('schema'); 
         $schema_pro_plugin     = saswp_check_data_imported_from('schema_pro');
         $wp_seo_schema_plugin  = saswp_check_data_imported_from('wp_seo_schema');
         $seo_pressor           = saswp_check_data_imported_from('seo_pressor');
         $wpsso_core            = saswp_check_data_imported_from('wpsso_core');
+        $aiors                 = saswp_check_data_imported_from('aiors');
+        
+        if($aiors->post_count !=0 ){
+            
+          $aiors_message = $message;
+         
+        }
         
         if($wpsso_core->post_count !=0){
             
@@ -1269,6 +1277,11 @@ function saswp_import_callback(){
                 <li><div class="saswp-tools-field-title"><div class="saswp-tooltip"><span class="saswp-tooltiptext"><?php echo esc_html__('All the settings and data you can import from this plugin when you click start importing','schema-and-structured-data-for-wp') ?></span><strong><?php echo esc_html__('WPSSO Core','schema-and-structured-data-for-wp'); ?></strong></div><button data-id="wpsso_core" class="button saswp-import-plugins"><?php echo esc_html__('Import','schema-and-structured-data-for-wp'); ?></button>
                         <p class="saswp-imported-message"></p>
                         <?php echo '<p>'.esc_html__($wpsso_core_message, 'schema-and-structured-data-for-wp').'</p>'; ?>                          
+                    </div>
+                </li>
+                <li><div class="saswp-tools-field-title"><div class="saswp-tooltip"><span class="saswp-tooltiptext"><?php echo esc_html__('All the settings and data you can import from this plugin when you click start importing','schema-and-structured-data-for-wp') ?></span><strong><?php echo esc_html__('Schema – All In One Schema Rich Snippets','schema-and-structured-data-for-wp'); ?></strong></div><button data-id="aiors" class="button saswp-import-plugins"><?php echo esc_html__('Import','schema-and-structured-data-for-wp'); ?></button>
+                        <p class="saswp-imported-message"></p>
+                        <?php echo '<p>'.esc_html__($aiors_message, 'schema-and-structured-data-for-wp').'</p>'; ?>                          
                     </div>
                 </li>
                 

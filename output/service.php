@@ -2194,9 +2194,7 @@ Class saswp_output_service{
                 
                 case 'local_business':
                    
-                    $meta_field = array(                        
-                       // 'saswp_business_type'        => 'Business Type',
-                       // 'saswp_business_name'        => 'Sub Business Type',                           
+                    $meta_field = array(                                                                        
                         'local_business_name'        => 'Business Name',                           
                         'local_business_name_url'    => 'URL',
                         'local_business_description' => 'Description',
@@ -2560,13 +2558,16 @@ Class saswp_output_service{
                             'saswp_person_schema_member_of'          => 'Member Of',
                             'saswp_person_schema_nationality'        => 'Nationality',
                             'saswp_person_schema_image'              => 'Image',
-                            'saswp_person_schema_job_title'          => 'Job Title'
+                            'saswp_person_schema_job_title'          => 'Job Title',
+                            'saswp_person_schema_company'            => 'Company',
+                            'saswp_person_schema_website'            => 'Website'
                         );                                                                                                                                       
                     break;
                 
                 case 'Service':
                     
                     $meta_field = array(                        
+                        'saswp_service_schema_url'              => 'URL',
                         'saswp_service_schema_name'             => 'Name',
                         'saswp_service_schema_type'             => 'Service Type',
                         'saswp_service_schema_provider_name'    => 'Provider Name',
@@ -2620,6 +2621,7 @@ Class saswp_output_service{
                         'saswp_video_object_description'        => 'Description',
                         'saswp_video_object_name'               => 'Name',
                         'saswp_video_object_upload_date'        => 'Upload Date',
+                        'saswp_video_object_duration'           => 'Duration',
                         'saswp_video_object_thumbnail_url'      => 'Thumbnail Url',
                         'saswp_video_object_content_url'        => 'Content URL',
                         'saswp_video_object_embed_url'          => 'Embed Url',

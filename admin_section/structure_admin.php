@@ -1321,7 +1321,13 @@ function saswp_import_plugin_data(){
                 if ( is_plugin_active('wpsso/wpsso.php') && is_plugin_active('wpsso-schema-json-ld/wpsso-schema-json-ld.php')) {
                     $result = saswp_import_wpsso_core_plugin_data();      
                 }                
-                break;     
+                break;
+            case 'aiors':                
+                if ( is_plugin_active('all-in-one-schemaorg-rich-snippets/index.php')) {
+                    $result = saswp_import_aiors_plugin_data();      
+                }                
+                break;    
+                
 
             default:
                 break;
