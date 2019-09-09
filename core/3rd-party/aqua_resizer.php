@@ -152,7 +152,7 @@ if(!class_exists('Aq_Resize')) {
                             $resized_rel_path = str_replace( $upload_dir, '', $resized_file['path'] );
                             $img_url = $upload_url . $resized_rel_path;
                         } else {
-                            throw new Aq_Exception('Unable to save resized image file: ' . $editor->get_error_message());
+                            throw new Aq_Exception('Unable to save resized image file: ' . $resized_file->get_error_message());
                         }
 
                     }
