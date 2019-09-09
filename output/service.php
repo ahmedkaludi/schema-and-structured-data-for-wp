@@ -3125,7 +3125,7 @@ Class saswp_output_service{
                           if($content){
                               
                           $regex   = '/<img(.*?)src="(.*?)"(.*?)>/';                          
-                          preg_match_all( $regex, $content, $attachments ); 
+                          @preg_match_all( $regex, $content, $attachments ); 
                                                                                                                                                                                       
                           $attach_images = array();
                           
@@ -3159,6 +3159,26 @@ Class saswp_output_service{
                                   $input2['image'] = $merged_arr;
                                   
                               }else{
+                                  
+                                  if($attach_images){
+                                      
+                                      foreach($attach_images['image'] as $key => $image){
+                                               
+                                          if($key == 0){
+                                              
+                                            if($image['width'] < 1280 && $image['height'] < 720){
+                                                
+                                                $resized_image = aq_resize( $image['url'], 1280, 720, true, false, true );                                                                                                
+                                                $attach_images['image'][$key]['url']    =   $resized_image[0];
+                                                $attach_images['image'][$key]['width']  =   $resized_image[1];
+                                                $attach_images['image'][$key]['height'] =   $resized_image[2];                                                
+                                            }                                             
+                                            $attach_images['image'][$key]['@id']    =   saswp_get_permalink().'#primaryimage';                                            
+                                          }                                                                                         
+                                      }
+                                      
+                                  }  
+                                  
                                   $input2 = $attach_images;
                               }
                                                             
