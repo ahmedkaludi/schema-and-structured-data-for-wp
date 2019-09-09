@@ -19,8 +19,7 @@ class saswp_post_specific {
         protected $options_response          = array();
         protected $modify_schema_post_enable = false;
         public    $_local_sub_business       = array();
-
-        private   $schema_type_element =  array(                        
+        public    $schema_type_element       =  array(                        
                         'Product' => array(
                                'product_reviews' => 'product_reviews',                                                
                         ),
@@ -52,6 +51,210 @@ class saswp_post_specific {
                                'trip-itinerary'  => 'trip_itinerary'
                         )                                                                          
                     );
+                                
+        public $_meta_name =  array(    
+                    'product_reviews' => array(                    
+                    array(
+			'label'     => 'Reviewer Name',
+			'name'      => 'saswp_product_reviews_reviewer_name',
+			'type'      => 'text',                        
+		    ),
+                    array(
+			'label'     => 'Rating',
+			'name'      => 'saswp_product_reviews_reviewer_rating',
+			'type'      => 'number',                        
+		    ),
+                    array(
+			'label'     => 'Text',
+			'name'      => 'saswp_product_reviews_text',
+			'type'      => 'textarea',                        
+		    ),
+                    array(
+			'label'     => 'Created Date',
+			'name'      => 'saswp_product_reviews_created_date',
+			'type'      => 'text',                        
+		    )    
+                    ),                   
+                    'feed_element' => array(                    
+                    array(
+			'label'     => 'Date Created',
+			'name'      => 'saswp_feed_element_date_created',
+			'type'      => 'text',                        
+		    ),
+                    array(
+			'label'     => 'Feed Element Name',
+			'name'      => 'saswp_feed_element_name',
+			'type'      => 'text',                        
+		    ),
+                    array(
+			'label'     => 'Feed Element email',
+			'name'      => 'saswp_feed_element_email',
+			'type'      => 'text',                        
+		    )    
+                    ),
+                    'performer' => array(                    
+                    array(
+			'label'     => 'Performer Type',
+			'name'      => 'saswp_event_performer_type',
+			'type'      => 'select',
+                        'options'   => array(
+                                'MusicGroup'    => 'MusicGroup',                                                              
+                                'Person'        => 'Person'
+                        )
+		    ),
+                    array(
+			'label'     => 'Performer Name',
+			'name'      => 'saswp_event_performer_name',
+			'type'      => 'text',                        
+		    ),
+                    array(
+			'label'     => 'Performer URL',
+			'name'      => 'saswp_event_performer_url',
+			'type'      => 'text',                        
+		    )                                                            
+                    ),
+                    'howto_supply' => array(                    
+                    array(
+			'label'     => 'Supply Name',
+			'name'      => 'saswp_howto_supply_name',
+			'type'      => 'text',                        
+		    ),
+                    array(
+			'label'     => 'Supply URL',
+			'name'      => 'saswp_howto_supply_url',
+			'type'      => 'text',                        
+		    ),    
+                    array(
+			'label'     => 'Supply Image',
+			'name'      => 'saswp_howto_supply_image',
+			'type'      => 'media',                        
+		    )                                        
+                    ),   
+                    'howto_tool' => array(                    
+                    array(
+			'label'     => 'Tool Name',
+			'name'      => 'saswp_howto_tool_name',
+			'type'      => 'text',                        
+		    ),
+                    array(
+			'label'     => 'Tool URL',
+			'name'      => 'saswp_howto_tool_url',
+			'type'      => 'text',                        
+		    ),    
+                    array(
+			'label'     => 'Tool Image',
+			'name'      => 'saswp_howto_tool_image',
+			'type'      => 'media',                        
+		    )                                        
+                    ),
+                    'howto_step' => array(                    
+                    array(
+			'label'     => 'Step Name',
+			'name'      => 'saswp_howto_step_name',
+			'type'      => 'text',                        
+		    ),
+                    array(
+			'label'     => 'HowToDirection Text',
+			'name'      => 'saswp_howto_direction_text',
+			'type'      => 'text',                        
+		    ),
+                    array(
+			'label'     => 'HowToTip Text',
+			'name'      => 'saswp_howto_tip_text',
+			'type'      => 'text',                        
+		    ),    
+                    array(
+			'label'     => 'Step Image',
+			'name'      => 'saswp_howto_step_image',
+			'type'      => 'media',                        
+		    )                                        
+                    ),
+                    'mc_symptom' => array(                    
+                    array(
+			'label'     => 'Sign Or Symptom',
+			'name'      => 'saswp_mc_symptom_name',
+			'type'      => 'text',                        
+		    )                                                         
+                    ),
+                    'mc_risk_factor' => array(                    
+                    array(
+			'label'     => 'Risk Factor',
+			'name'      => 'saswp_mc_risk_factor_name',
+			'type'      => 'text',                        
+		    )                                                           
+                    ),
+                    'mc_cause' => array(                    
+                    array(
+			'label'     => 'Cause',
+			'name'      => 'saswp_mc_cause_name',
+			'type'      => 'text',                        
+		    )                                                           
+                    ),                                    
+                    'tvseries_actor' => array(                    
+                    array(
+			'label'     => 'Actor Name',
+			'name'      => 'saswp_tvseries_actor_name',
+			'type'      => 'text',                        
+		    )                                                           
+                    ),
+                    'tvseries_season' => array(                    
+                    array(
+			'label'     => 'Season Name',
+			'name'      => 'saswp_tvseries_season_name',
+			'type'      => 'text',                        
+		    ),
+                    array(
+			'label'     => 'Season Published Date',
+			'name'      => 'saswp_tvseries_season_published_date',
+			'type'      => 'text',                        
+		    ),
+                    array(
+			'label'     => 'Number Of Episodes',
+			'name'      => 'saswp_tvseries_season_episodes',
+			'type'      => 'text',                        
+		    )                                                            
+                    ),
+                   'trip_itinerary' => array(                    
+                    array(
+			'label'     => 'Itinerary Type',
+			'name'      => 'saswp_trip_itinerary_type',
+			'type'      => 'select',
+                        'options'   => array(
+                                'City'                            => 'City',
+                                'LandmarksOrHistoricalBuildings'  => 'LandmarksOrHistoricalBuildings',
+                                'AdministrativeArea'              => 'AdministrativeArea',
+                                'LakeBodyOfWater'                 => 'LakeBodyOfWater'
+                        )
+		    ),
+                    array(
+			'label'     => 'Itinerary Name',
+			'name'      => 'saswp_trip_itinerary_name',
+			'type'      => 'text'                        
+		    ),
+                     array(
+			'label'     => 'Itinerary Description',
+			'name'      => 'saswp_trip_itinerary_description',
+			'type'      => 'textarea'                        
+		    ),
+                     array(
+			'label'     => 'Itinerary URL',
+			'name'      => 'saswp_trip_itinerary_url',
+			'type'      => 'text'                        
+		    )   
+                    ),                                                                       
+                    'faq_question' => array(                                       
+                    array(
+			'label'     => 'Question',
+			'name'      => 'saswp_faq_question_name',
+			'type'      => 'text'                        
+		    ),
+                     array(
+			'label'     => 'Accepted Answer',
+			'name'      => 'saswp_faq_question_answer',
+			'type'      => 'textarea'                        
+		    )                    
+                    )
+                  );
 
         public function __construct() {
             
@@ -204,7 +407,7 @@ class saswp_post_specific {
             $meta_array = array();
             if(isset($_GET['meta_name'])){
                 $meta_name = sanitize_text_field($_GET['meta_name']);
-                $meta_array = $this->saswp_get_schema_dynamic_fields($meta_name);
+                $meta_array = $this->_meta_name[$meta_name];
             }
             if(!empty($meta_array)){
              echo json_encode($meta_array);   
@@ -212,308 +415,9 @@ class saswp_post_specific {
             wp_die();
         }
         
-        public function saswp_get_schema_dynamic_fields($meta_name){
-            
-            $meta_fields = array();
-            switch ($meta_name) {
-                
-                case 'product_reviews':
-                    
-                    $meta_fields = array(
-                    
-                    array(
-			'label'     => 'Reviewer Name',
-			'name'      => 'saswp_product_reviews_reviewer_name',
-			'type'      => 'text',                        
-		    ),
-                    array(
-			'label'     => 'Rating',
-			'name'      => 'saswp_product_reviews_reviewer_rating',
-			'type'      => 'number',                        
-		    ),
-                    array(
-			'label'     => 'Text',
-			'name'      => 'saswp_product_reviews_text',
-			'type'      => 'textarea',                        
-		    ),
-                    array(
-			'label'     => 'Created Date',
-			'name'      => 'saswp_product_reviews_created_date',
-			'type'      => 'text',                        
-		    )    
-                    );
-
-                    break;
-                
-                case 'feed_element':
-                    
-                    $meta_fields = array(
-                    
-                    array(
-			'label'     => 'Date Created',
-			'name'      => 'saswp_feed_element_date_created',
-			'type'      => 'text',                        
-		    ),
-                    array(
-			'label'     => 'Feed Element Name',
-			'name'      => 'saswp_feed_element_name',
-			'type'      => 'text',                        
-		    ),
-                    array(
-			'label'     => 'Feed Element email',
-			'name'      => 'saswp_feed_element_email',
-			'type'      => 'text',                        
-		    )    
-                    );
-
-                    break;
-                
-                case 'performer':
-                    
-                    $meta_fields = array(
-                    
-                    array(
-			'label'     => 'Performer Type',
-			'name'      => 'saswp_event_performer_type',
-			'type'      => 'select',
-                        'options'   => array(
-                                'MusicGroup'    => 'MusicGroup',                                                              
-                                'Person'        => 'Person'
-                        )
-		    ),
-                    array(
-			'label'     => 'Performer Name',
-			'name'      => 'saswp_event_performer_name',
-			'type'      => 'text',                        
-		    ),
-                    array(
-			'label'     => 'Performer URL',
-			'name'      => 'saswp_event_performer_url',
-			'type'      => 'text',                        
-		    )                                                            
-                    );
-
-                    break;
-                
-                case 'howto_supply':
-                    
-                    $meta_fields = array(
-                    
-                    array(
-			'label'     => 'Supply Name',
-			'name'      => 'saswp_howto_supply_name',
-			'type'      => 'text',                        
-		    ),
-                    array(
-			'label'     => 'Supply URL',
-			'name'      => 'saswp_howto_supply_url',
-			'type'      => 'text',                        
-		    ),    
-                    array(
-			'label'     => 'Supply Image',
-			'name'      => 'saswp_howto_supply_image',
-			'type'      => 'media',                        
-		    ),
-                                        
-                    );
-
-                    break;
-                
-                case 'howto_tool':
-                    
-                    $meta_fields = array(
-                    
-                    array(
-			'label'     => 'Tool Name',
-			'name'      => 'saswp_howto_tool_name',
-			'type'      => 'text',                        
-		    ),
-                    array(
-			'label'     => 'Tool URL',
-			'name'      => 'saswp_howto_tool_url',
-			'type'      => 'text',                        
-		    ),    
-                    array(
-			'label'     => 'Tool Image',
-			'name'      => 'saswp_howto_tool_image',
-			'type'      => 'media',                        
-		    ),
-                                        
-                    );
-
-                    break;
-                
-                case 'howto_step':
-                    
-                    $meta_fields = array(
-                    
-                    array(
-			'label'     => 'Step Name',
-			'name'      => 'saswp_howto_step_name',
-			'type'      => 'text',                        
-		    ),
-                    array(
-			'label'     => 'HowToDirection Text',
-			'name'      => 'saswp_howto_direction_text',
-			'type'      => 'text',                        
-		    ),
-                    array(
-			'label'     => 'HowToTip Text',
-			'name'      => 'saswp_howto_tip_text',
-			'type'      => 'text',                        
-		    ),    
-                    array(
-			'label'     => 'Step Image',
-			'name'      => 'saswp_howto_step_image',
-			'type'      => 'media',                        
-		    ),
-                                        
-                    );
-
-                    break;
-                
-                case 'mc_symptom':
-                    
-                    $meta_fields = array(
-                    
-                    array(
-			'label'     => 'Sign Or Symptom',
-			'name'      => 'saswp_mc_symptom_name',
-			'type'      => 'text',                        
-		    )                 
-                                        
-                    );
-
-                    break;
-                
-                case 'mc_risk_factor':
-                    
-                    $meta_fields = array(
-                    
-                    array(
-			'label'     => 'Risk Factor',
-			'name'      => 'saswp_mc_risk_factor_name',
-			'type'      => 'text',                        
-		    )                   
-                                        
-                    );
-
-                    break;
-                
-                case 'mc_cause':
-                    
-                    $meta_fields = array(
-                    
-                    array(
-			'label'     => 'Cause',
-			'name'      => 'saswp_mc_cause_name',
-			'type'      => 'text',                        
-		    )                   
-                                        
-                    );                                    
-
-                    break;
-                                
-                case 'tvseries_actor':
-                    
-                    $meta_fields = array(
-                    
-                    array(
-			'label'     => 'Actor Name',
-			'name'      => 'saswp_tvseries_actor_name',
-			'type'      => 'text',                        
-		    )                   
-                                        
-                    );    
-
-                    break;
-                
-                case 'tvseries_season':
-                    
-                    $meta_fields = array(
-                    
-                    array(
-			'label'     => 'Season Name',
-			'name'      => 'saswp_tvseries_season_name',
-			'type'      => 'text',                        
-		    ),
-                    array(
-			'label'     => 'Season Published Date',
-			'name'      => 'saswp_tvseries_season_published_date',
-			'type'      => 'text',                        
-		    ),
-                    array(
-			'label'     => 'Number Of Episodes',
-			'name'      => 'saswp_tvseries_season_episodes',
-			'type'      => 'text',                        
-		    )                                                            
-                    );
-
-                    break;
-                
-                case 'trip_itinerary':
-                    
-                    $meta_fields = array(
-                    
-                    array(
-			'label'     => 'Itinerary Type',
-			'name'      => 'saswp_trip_itinerary_type',
-			'type'      => 'select',
-                        'options'   => array(
-                                'City'                            => 'City',
-                                'LandmarksOrHistoricalBuildings'  => 'LandmarksOrHistoricalBuildings',
-                                'AdministrativeArea'              => 'AdministrativeArea',
-                                'LakeBodyOfWater'                 => 'LakeBodyOfWater'
-                        )
-		    ),
-                    array(
-			'label'     => 'Itinerary Name',
-			'name'      => 'saswp_trip_itinerary_name',
-			'type'      => 'text'                        
-		    ),
-                     array(
-			'label'     => 'Itinerary Description',
-			'name'      => 'saswp_trip_itinerary_description',
-			'type'      => 'textarea'                        
-		    ),
-                     array(
-			'label'     => 'Itinerary URL',
-			'name'      => 'saswp_trip_itinerary_url',
-			'type'      => 'text'                        
-		    ),   
-                    );
-
-                    break;
-                
-                case 'faq_question':
-                    
-                    $meta_fields = array(
-                                       
-                    array(
-			'label'     => 'Question',
-			'name'      => 'saswp_faq_question_name',
-			'type'      => 'text'                        
-		    ),
-                     array(
-			'label'     => 'Accepted Answer',
-			'name'      => 'saswp_faq_question_answer',
-			'type'      => 'textarea'                        
-		    )                    
-                    );
-
-                    break;
-                
-
-                default:
-                    break;
-            }
-            
-            return $meta_fields;
-        }
-        
         public function saswp_get_dynamic_html($schema_id, $meta_name, $index, $data){
                                                              
-                $meta_fields = $this->saswp_get_schema_dynamic_fields($meta_name);               
+                $meta_fields = $this->_meta_name[$meta_name];               
             
                 $output  = '';                                                                                                                                                         
 		foreach ( $meta_fields as $meta_field ) {
@@ -2707,7 +2611,8 @@ class saswp_post_specific {
                 case 'Product':                
                     
                     $service = new saswp_output_service();
-                    $product_details = $service->saswp_woocommerce_product_details($post_id);                      
+                    $product_details = $service->saswp_woocommerce_product_details($post_id);     
+                    
                     $meta_field = array(
                         
                     array(
@@ -2725,13 +2630,13 @@ class saswp_post_specific {
                         array(
                             'label'    => 'Image',
                             'id'       => 'saswp_product_schema_image_'.$schema_id,
-                            'type'     => 'media',                            
+                            'type'     => 'media',                           
                      ),
                          array(
                             'label'    => 'Brand Name',
                             'id'       => 'saswp_product_schema_brand_name_'.$schema_id,
                             'type'     => 'text',
-                             'default' => $product_details['product_brand']
+                             'default' => saswp_remove_warnings($product_details, 'product_brand', 'saswp_string')
                      ),
                         array(
                             'label'   => 'Price',
@@ -2824,9 +2729,7 @@ class saswp_post_specific {
                         ),
                         
                     );
-                                                                                                        
-                       
-                                     
+                    
                     break;
                 
                 case 'Service':
