@@ -3153,13 +3153,13 @@ Class saswp_output_service{
                               
                           }
                           
-                          if(!empty($attach_images)){
+                          if(!empty($attach_images) && is_array($attach_images)){
                               
                               if(isset($input2['image'])){
                               
-                                  $merged_arr = array_merge($input2['image'],$attach_images['image']);
-                                  $input2['image'] = $merged_arr;
-                                  
+                                  $attach_images['image'][] = $input2['image'];                                                                     
+                                  $input2['image'] = $attach_images['image'];                                  
+                                 
                               }else{
                                   
                                   if($attach_images){
