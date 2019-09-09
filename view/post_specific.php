@@ -586,7 +586,7 @@ class saswp_post_specific {
                                                     
                                     $class = '';
 
-                                    if ((strpos($meta_field['name'].'_'.$index.'_'.$schema_id, 'published_date') !== false) || (strpos($meta_field['name'].'_'.$index.'_'.$schema_id, 'date_created') !== false)){                                                                                                           
+                                    if ((strpos($meta_field['name'].'_'.$index.'_'.$schema_id, 'published_date') !== false) || (strpos($meta_field['name'].'_'.$index.'_'.$schema_id, 'date_created') !== false) || (strpos($meta_field['name'].'_'.$index.'_'.$schema_id, 'created_date') !== false)){                                                                                                           
 
                                             $class = 'class="saswp-datepicker-picker"';    
                                     }
@@ -1475,6 +1475,8 @@ class saswp_post_specific {
             
             global $post;
             global $sd_data;  
+            
+            $post_id = $post->ID; 
             
             $image_details = array();
             
@@ -2702,44 +2704,52 @@ class saswp_post_specific {
                     );
                     break;
                 
-                case 'Product':                                                           
+                case 'Product':                
                     
+                    $service = new saswp_output_service();
+                    $product_details = $service->saswp_woocommerce_product_details($post_id);                      
                     $meta_field = array(
                         
                     array(
-                            'label' => 'Name',
-                            'id' => 'saswp_product_schema_name_'.$schema_id,
-                            'type' => 'text',                            
+                            'label'   => 'Name',
+                            'id'      => 'saswp_product_schema_name_'.$schema_id,
+                            'type'    => 'text',     
+                            'default' => saswp_remove_warnings($product_details, 'product_name', 'saswp_string')
                     ),
                     array(
-                            'label' => 'Description',
-                            'id' => 'saswp_product_schema_description_'.$schema_id,
-                            'type' => 'textarea',                            
+                            'label'   => 'Description',
+                            'id'      => 'saswp_product_schema_description_'.$schema_id,
+                            'type'    => 'textarea', 
+                            'default' => saswp_remove_warnings($product_details, 'product_description', 'saswp_string')
                     ), 
                         array(
-                            'label' => 'Image',
-                            'id' => 'saswp_product_schema_image_'.$schema_id,
-                            'type' => 'media',                            
+                            'label'    => 'Image',
+                            'id'       => 'saswp_product_schema_image_'.$schema_id,
+                            'type'     => 'media',                            
                      ),
                          array(
-                            'label' => 'Brand Name',
-                            'id' => 'saswp_product_schema_brand_name_'.$schema_id,
-                            'type' => 'text',                            
+                            'label'    => 'Brand Name',
+                            'id'       => 'saswp_product_schema_brand_name_'.$schema_id,
+                            'type'     => 'text',
+                             'default' => $product_details['product_brand']
                      ),
                         array(
-                            'label' => 'Price',
-                            'id' => 'saswp_product_schema_price_'.$schema_id,
-                            'type' => 'text',                            
+                            'label'   => 'Price',
+                            'id'      => 'saswp_product_schema_price_'.$schema_id,
+                            'type'    => 'text',
+                            'default' => saswp_remove_warnings($product_details, 'product_price', 'saswp_string')
                      ),
                         array(
-                            'label' => 'Price Valid Until',
-                            'id' => 'saswp_product_schema_priceValidUntil_'.$schema_id,
-                            'type' => 'text',                             
+                            'label'   => 'Price Valid Until',
+                            'id'      => 'saswp_product_schema_priceValidUntil_'.$schema_id,
+                            'type'    => 'text',
+                            'default' => saswp_remove_warnings($product_details, 'product_priceValidUntil', 'saswp_string')    
                        ),
                         array(
-                            'label' => 'Currency',
-                            'id' => 'saswp_product_schema_currency_'.$schema_id,
-                            'type' => 'text',                            
+                            'label'   => 'Currency',
+                            'id'      => 'saswp_product_schema_currency_'.$schema_id,
+                            'type'    => 'text', 
+                            'default' => saswp_remove_warnings($product_details, 'product_currency', 'saswp_string')    
                       ),
                         array(
                             'label'   => 'Availability',
@@ -2750,7 +2760,8 @@ class saswp_post_specific {
                                      'OutOfStock'        => 'Out Of Stock',
                                      'Discontinued'      => 'Discontinued',
                                      'PreOrder'          => 'Pre Order', 
-                            ) 
+                            ),
+                            'default' => saswp_remove_warnings($product_details, 'product_availability', 'saswp_string')
                      ),
                         array(
                             'label'   => 'Condition',
@@ -2764,46 +2775,52 @@ class saswp_post_specific {
                             ),
                      ),
                         array(
-                            'label' => 'SKU',
-                            'id' => 'saswp_product_schema_sku_'.$schema_id,
-                            'type' => 'text',                            
+                            'label'   => 'SKU',
+                            'id'      => 'saswp_product_schema_sku_'.$schema_id,
+                            'type'    => 'text', 
+                            'default' => saswp_remove_warnings($product_details, 'product_sku', 'saswp_string')    
                      ),
                         array(
-                            'label' => 'MPN',
-                            'id' => 'saswp_product_schema_mpn_'.$schema_id,
-                            'type' => 'text',
-                            'note'   => 'OR',                            
+                            'label'   => 'MPN',
+                            'id'      => 'saswp_product_schema_mpn_'.$schema_id,
+                            'type'    => 'text',
+                            'note'    => 'OR',                            
+                            'default' => saswp_remove_warnings($product_details, 'product_mpn', 'saswp_string')
                        ),
                         array(
-                            'label' => 'ISBN',
-                            'id' => 'saswp_product_schema_isbn_'.$schema_id,
-                            'type' => 'text',
-                            'note'   => 'OR',                           
+                            'label'   => 'ISBN',
+                            'id'      => 'saswp_product_schema_isbn_'.$schema_id,
+                            'type'    => 'text',
+                            'note'    => 'OR',                           
+                            'default' => saswp_remove_warnings($product_details, 'product_isbn', 'saswp_string')
                      ),
                         array(
-                            'label' => 'GTIN8',
-                            'id' => 'saswp_product_schema_gtin8_'.$schema_id,
-                            'type' => 'text',                             
+                            'label'   => 'GTIN8',
+                            'id'      => 'saswp_product_schema_gtin8_'.$schema_id,
+                            'type'    => 'text',  
+                            'default' => saswp_remove_warnings($product_details, 'product_gtin8', 'saswp_string')    
                        ),
                         array(
                             'label' => 'Seller Organization',
-                            'id' => 'saswp_product_schema_seller_'.$schema_id,
-                            'type' => 'text',                             
+                            'id'    => 'saswp_product_schema_seller_'.$schema_id,
+                            'type'  => 'text',                             
                        ),
                         array(
                             'label' => 'Aggregate Rating',
-                            'id' => 'saswp_product_schema_enable_rating_'.$schema_id,
-                            'type' => 'checkbox',                            
+                            'id'    => 'saswp_product_schema_enable_rating_'.$schema_id,
+                            'type'  => 'checkbox',                            
                         ),
                         array(
-                            'label' => 'Rating',
-                            'id' => 'saswp_product_schema_rating_'.$schema_id,
-                            'type' => 'text',                            
+                            'label'   => 'Rating',
+                            'id'      => 'saswp_product_schema_rating_'.$schema_id,
+                            'type'    => 'text',
+                            'default' => saswp_remove_warnings($product_details, 'product_average_rating', 'saswp_string')
                         ),
                         array(
-                            'label' => 'Number of Reviews',
-                            'id' => 'saswp_product_schema_review_count_'.$schema_id,
-                            'type' => 'text',                            
+                            'label'   => 'Number of Reviews',
+                            'id'      => 'saswp_product_schema_review_count_'.$schema_id,
+                            'type'    => 'text',
+                            'default' => saswp_remove_warnings($product_details, 'product_review_count', 'saswp_string')
                         ),
                         
                     );
