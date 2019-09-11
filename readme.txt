@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.2
-Stable tag: 1.9.5
+Stable tag: 1.9.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -111,6 +111,19 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.9.6 (11 Sept 2019) =
+
+* Enhancement: Remove all the global static fields and migrate its data to modify schema output #465
+* Enhancement: Other images should also get resized as like the featured image #371
+* Bug Fixed: Website layout is break when microdata clean up option enable #461
+* Bug Fixed: Post specific modify schema option should also show when a post is drafted #335
+* Bug Fixed: NOTICE: PHP message: PHP Fatal error ( Call to undefined method WP_Image_Editor_Imagick::get_error_message() ) #467
+* Bug Fixed: Default product data is not loading in fields of product at Modify current schema #432
+* Bug Fixed: When WordPress installed in sub folder, Schema takes the path of subfolder instead of root #406
+* Bug Fixed: AMP should be added if it is amp url in mainEntityOfPage #392
+* Bug Fixed: WP Recipe Maker (Compatibility), the image is smaller than the recommended size error should not get appeared. #382
+* Added: Importer for Schema- AIORS ( https://wordpress.org/plugins/all-in-one-schemaorg-rich-snippets) #160
 
 = 1.9.5 (06 Sept 2019) =
 
