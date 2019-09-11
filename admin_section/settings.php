@@ -1312,6 +1312,17 @@ function saswp_import_callback(){
                 </li> 
                 
             </ul>
+            
+            <ul>
+                <li>
+                    <div class="">
+                        <div class="saswp-tooltip"><strong><?php echo esc_html__('Remove Data On Uninstall','schema-and-structured-data-for-wp'); ?></strong></div><input type="checkbox" id="saswp_rmv_data_on_uninstall" name="sd_data[saswp_rmv_data_on_uninstall]" <?php echo (isset($sd_data['saswp_rmv_data_on_uninstall'])? 'checked': ''); ?>>                        
+                        <p><?php echo esc_html__('This will remove all of its data when the plugin is deleted','schema-and-structured-data-for-wp'); ?></p>
+                    </div>
+                </li> 
+                
+            </ul>
+            
         <?php    
                                 
         $add_on = array();

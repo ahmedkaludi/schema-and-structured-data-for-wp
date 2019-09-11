@@ -2530,6 +2530,18 @@ function saswp_check_plugin_active_status($pname){
     
 }
 
+function saswp_on_uninstall(){
+    
+    $options = get_option('sd_data');
+    
+    if($options['saswp_rmv_data_on_uninstall']){
+                
+        delete_option('sd_data');  
+        
+    }
+                          
+}
+
 function saswp_on_activation(){
     
     $installation_date = get_option('saswp_installation_date');

@@ -86,6 +86,7 @@ require_once SASWP_DIR_NAME.'/core/3rd-party/aqua_resizer.php';
  * set user defined message on plugin activate
  */
 register_activation_hook( __FILE__, 'saswp_on_activation' );
+register_uninstall_hook( __FILE__, 'saswp_on_uninstall' );
 
 add_action( 'admin_notices', 'saswp_admin_notice' );
 
