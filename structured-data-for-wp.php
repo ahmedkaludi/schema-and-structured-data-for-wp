@@ -91,7 +91,7 @@ register_uninstall_hook( __FILE__, 'saswp_on_uninstall' );
 add_action( 'admin_notices', 'saswp_admin_notice' );
 
 function saswp_admin_notice(){
-        
+    
     $screen_id = ''; 
     $current_screen = get_current_screen();
     

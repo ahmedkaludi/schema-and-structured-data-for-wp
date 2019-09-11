@@ -2532,6 +2532,8 @@ function saswp_check_plugin_active_status($pname){
 
 function saswp_uninstall_single($blog_id = null){
         
+        try{
+         
         global $wpdb;
 	
         //SASWP post types
@@ -2549,16 +2551,21 @@ function saswp_uninstall_single($blog_id = null){
         
         if($post_ids){
             
-            $all_post_id = $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM {$wpdb->posts}"));
+            $query = "SELECT ID FROM " . $wpdb->posts;
+            $all_post_id  = $wpdb->get_results($query, ARRAY_A );
+            $all_post_id  = wp_list_pluck( $all_post_id, 'ID' );              
             $post_specific = new saswp_post_specific();
             
             foreach($post_ids as $post_id){
                 
                $meta_fields = $post_specific->saswp_get_fields_by_schema_type($post_id); 
                $meta_fields = wp_list_pluck( $meta_fields, 'id' );
-                
-               $wpdb->query( "DELETE FROM {$wpdb->postmeta} WHERE post_id IN( " . implode( ',', $all_post_id ) . " ) AND meta_key IN(" . implode( ',', $meta_fields ) . ")" ); 
-                
+               
+               foreach ($meta_fields as $meta_key){                   
+                   $wpdb->query( "DELETE FROM {$wpdb->postmeta} WHERE post_id IN( " . implode( ',', $all_post_id ) . " ) AND meta_key = '".$meta_key."'" );
+                   
+               }
+                                              
             }
         }
         
@@ -2581,6 +2588,10 @@ function saswp_uninstall_single($blog_id = null){
         delete_option('sd_data');  
         
         wp_cache_flush();
+            
+        }catch(Exception $ex){
+            echo $ex->getMessage();
+        }            
                 
 }
 
@@ -2590,7 +2601,7 @@ function saswp_on_uninstall(){
     
    $options = get_option('sd_data');
     
-   if($options['saswp_rmv_data_on_uninstall']){
+   if(isset($options['saswp_rmv_data_on_uninstall'])){
     
        if ( ! is_multisite() ) {
             saswp_uninstall_single();
