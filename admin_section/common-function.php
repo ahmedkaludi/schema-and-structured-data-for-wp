@@ -2557,7 +2557,7 @@ function saswp_uninstall_single($blog_id = null){
                $meta_fields = $post_specific->saswp_get_fields_by_schema_type($post_id); 
                $meta_fields = wp_list_pluck( $meta_fields, 'id' );
                 
-               $wpdb->query( "DELETE meta_key, meta_value FROM {$wpdb->postmeta} WHERE post_id IN( " . implode( ',', $all_post_id ) . " ) AND meta_key IN(" . implode( ',', $meta_fields ) . ")" ); 
+               $wpdb->query( "DELETE FROM {$wpdb->postmeta} WHERE post_id IN( " . implode( ',', $all_post_id ) . " ) AND meta_key IN(" . implode( ',', $meta_fields ) . ")" ); 
                 
             }
         }
@@ -2576,8 +2576,7 @@ function saswp_uninstall_single($blog_id = null){
 
                 $wpdb->query( "DELETE FROM {$wpdb->postmeta} WHERE post_id IN( " . implode( ',', $post_ids ) . " )" );
         }
-        
-        //Delete
+                
         //All options                    
         delete_option('sd_data');  
         
