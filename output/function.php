@@ -178,7 +178,7 @@ function saswp_schema_markup_output() {
                         );
                          
                          $webpage['primaryImageOfPage'] = array(
-                             '@id' => get_permalink().'#primaryimage'
+                             '@id' => saswp_get_permalink().'#primaryimage'
                          );
                          
                          if($site_navigation){                             
@@ -640,7 +640,7 @@ function saswp_get_schema_data($schema_id, $schema_key){
     
     if($schema_id && $schema_key){
         
-            $details = esc_sql ( get_post_meta($schema_id, $schema_key, true));    
+            $details =  get_post_meta($schema_id, $schema_key, true);    
      
     }  
     
@@ -783,8 +783,8 @@ function saswp_remove_microdata($content){
         $content = preg_replace("/itemscope=(\"?)itemscope(\"?) itemtype=(\"?)http(s?):\/\/schema.org\/(Person|Mosque|SearchAction|Church|HinduTemple|LandmarksOrHistoricalBuildings|TouristDestination|TouristAttraction|Place|LocalBusiness|MedicalCondition|VideoObject|AudioObject|Trip|Service|JobPosting|VideoGame|Game|TechArticle|SoftwareApplication|TVSeries|Recipe|Review|HowTo|DiscussionForumPosting|Course|SingleFamilyResidence|House|Apartment|Event|Article|BlogPosting|Blog|BreadcrumbList|AggregateRating|WebPage|Person|Organization|NewsArticle|Product|CreativeWork|ImageObject|UserComments|WPHeader|WPSideBar|WPFooter|WPAdBlock|SiteNavigationElement)(\"?)/", "", $content);    
         $content = preg_replace("/itemscope=(\"?)itemprop(\"?) itemType=(\"?)http(s?):\/\/schema.org\/(Person|Mosque|SearchAction|Church|HinduTemple|LandmarksOrHistoricalBuildings|TouristDestination|TouristAttraction|Place|LocalBusiness|MedicalCondition|VideoObject|AudioObject|Trip|Service|JobPosting|VideoGame|Game|TechArticle|SoftwareApplication|TVSeries|Recipe|Review|HowTo|DiscussionForumPosting|Course|SingleFamilyResidence|House|Apartment|Event|Article|BlogPosting|Blog|BreadcrumbList|AggregateRating|WebPage|Person|Organization|NewsArticle|Product|CreativeWork|ImageObject|UserComments|WPHeader|WPSideBar|WPFooter|WPAdBlock|SiteNavigationElement)(\"?)/", "", $content);    
         $content = preg_replace("/itemscope itemprop=\"(.*?)\" itemType=(\"?)http(s?):\/\/schema.org\/(Person|Mosque|SearchAction|Church|HinduTemple|LandmarksOrHistoricalBuildings|TouristDestination|TouristAttraction|Place|LocalBusiness|MedicalCondition|VideoObject|AudioObject|Trip|Service|JobPosting|VideoGame|Game|TechArticle|SoftwareApplication|TVSeries|Recipe|Review|HowTo|DiscussionForumPosting|Course|SingleFamilyResidence|House|Apartment|Event|Article|BlogPosting|Blog|BreadcrumbList|AggregateRating|WebPage|Person|Organization|NewsArticle|Product|CreativeWork|ImageObject|UserComments|WPHeader|WPSideBar|WPFooter|WPAdBlock|SiteNavigationElement)(\"?)/", "", $content);    
-        $content = preg_replace("/vcard/", "", $content);
-        $content = preg_replace("/hentry/", "", $content);        
+       // $content = preg_replace("/vcard/", "", $content);
+       // $content = preg_replace("/hentry/", "", $content);        
         
         //Clean json markup
         if(isset($sd_data['saswp-aiosp']) && $sd_data['saswp-aiosp'] == 1 ){
@@ -909,6 +909,39 @@ function saswp_wp_recipe_schema_json($recipe){
                     $metadata = WPRM_Metadata::get_howto_metadata( $recipe );
             } else {
                     $metadata = array();
-            }                 
-            return $metadata;
+            } 
+            
+            if(isset($metadata['image']) && is_array($metadata['image'])){
+                
+                $image_list = array();
+                
+                foreach($metadata['image'] as $image_url){
+                    
+                    $image_size    = @getimagesize($image_url);
+                    
+                    if($image_size[0] < 1280 && $image_size[1] < 720){
+                                            
+                        $image_details = @aq_resize( $image_url, 1280, 720, true, false, true );
+                    
+                            if($image_details){
+
+                                $image['@type']  = 'ImageObject';
+                                $image['url']    = esc_url($image_details[0]);
+                                $image['width']  = esc_attr($image_details[1]);
+                                $image['height'] = esc_attr($image_details[2]); 
+
+                                $image_list[] = $image;
+                            }
+                                                
+                    }                                        
+                    
+                }
+                
+                if($image_list){
+                    $metadata['image'] =  $image_list;
+                }
+               
+            }
+                        
+        return $metadata;
 }

@@ -476,6 +476,159 @@ if ( ! defined('ABSPATH') ) exit;
         }
                              
     }
+    
+    function saswp_import_aiors_plugin_data(){
+        
+                    global $wpdb;
+        
+                    $schema_types = array('Event', 'Person', 'Product', 'Recipe', 'Article', 'Service', 'VideoObject', 'SoftwareApplication');
+                                       
+                    $args_event   = get_option('bsf_event');
+                    $args_person  = get_option('bsf_person');
+                    $args_product = get_option('bsf_product');
+                    $args_recipe  = get_option('bsf_recipe');
+                    $args_soft    = get_option('bsf_software');	
+                    $args_video   = get_option('bsf_video');	
+                    $args_article = get_option('bsf_article');
+                    $args_service = get_option('bsf_service');
+                                        
+                    $wpdb->query('START TRANSACTION');
+                    $errorDesc = array();            
+                                                            
+                    foreach($schema_types as $schema){
+                        
+                        $schema_post = array(
+                                'post_title'  => $schema,                                                            
+                                'post_status' => 'publish',                    
+                                'post_type'   => 'saswp',                    
+                        ); 
+
+                        $data_group_array = array();   
+
+                        $data_group_array['group-0'] = array(                            
+                                                'data_array' => array(
+                                                            array(
+                                                            'key_1' => 'post_type',
+                                                            'key_2' => 'equal',
+                                                            'key_3' => 'post',
+                                                  )
+                                                )               
+                                               );                                        
+
+                        $saswp_meta_key = array(
+                            'schema_type'                  => $schema,
+                            'data_group_array'             => $data_group_array,
+                            'imported_from'                => 'aiors',                                                    
+                         );    
+                        
+                        $post_id = wp_insert_post($schema_post);                    
+                        $guid    = get_option('siteurl') .'/?post_type=saswp&p='.$post_id;                
+                        $wpdb->query("UPDATE ".$wpdb->prefix."posts SET guid ='".esc_sql($guid)."' WHERE ID ='".esc_sql($post_id)."'");
+
+                        foreach ($saswp_meta_key as $key => $val){                     
+                            update_post_meta($post_id, $key, $val);  
+                        }  
+                        
+                         $schema_options = array();
+                         $meta_list = saswp_migrate_global_static_data($schema);                          
+                         $schema_options['enable_custom_field'] = 1;                         
+                         $fixed_text = array();
+                         
+                         switch ($schema) {
+                             
+                             case 'Event':
+                                 
+                                 $fixed_text['saswp_event_schema_name']          = $args_event["event_title"];                                 
+                                 $fixed_text['saswp_event_schema_location_name'] = $args_event["event_location"];                                                                  
+                                 $fixed_text['saswp_event_schema_start_date']    = $args_event["start_time"];
+                                 $fixed_text['saswp_event_schema_end_date']      = $args_event["end_time"];                                                                  
+                                 $fixed_text['saswp_event_schema_price']         = $args_event["events_price"];
+                                 $fixed_text['saswp_event_schema_description']   = $args_event["event_desc"];
+                                                                                                                                    
+                                 break;                             
+                             case 'Person':
+                                 
+                                 $fixed_text['saswp_person_schema_name']           = $args_person["person_name"];                                                                  
+                                 $fixed_text['saswp_person_schema_street_address'] = $args_person["person_address"];                                 
+                                 $fixed_text['saswp_person_schema_job_title']      = $args_person["person_job_title"];
+                                 $fixed_text['saswp_person_schema_company']        = $args_person["person_company"];
+                                 $fixed_text['saswp_person_schema_website']        = $args_person["person_website"];
+                                 
+                                 break;
+                             case 'Product':
+                                                                  
+                                 $fixed_text['saswp_product_name'] = $args_product["product_name"];                                                                  
+                                 $fixed_text['saswp_product_brand'] = $args_product["product_brand"];
+                                 $fixed_text['saswp_product_price'] = $args_product["product_price"];                                                                  
+                                 $fixed_text['saswp_product_availability'] = $args_product["product_avail"];
+                                                                                                   
+                                 break;
+                             case 'Recipe':
+                                 
+                                 $fixed_text['saswp_recipe_name']           = $args_recipe["recipe_name"];
+                                 $fixed_text['saswp_recipe_author_name']    = $args_recipe["author_name"];
+                                 $fixed_text['saswp_recipe_date_published'] = $args_recipe["recipe_pub"];
+                                 $fixed_text['saswp_recipe_preptime']       = $args_recipe["recipe_prep"];
+                                 $fixed_text['saswp_recipe_cooktime']       = $args_recipe["recipe_cook"];
+                                 $fixed_text['saswp_recipe_totaltime']      = $args_recipe["recipe_time"];
+                                 $fixed_text['saswp_recipe_description']    = $args_recipe["recipe_desc"];
+                                                                                                   
+                                 break;
+                             case 'Article':
+                                                                  
+                                 $fixed_text['saswp_article_image']                = $args_article["article_name"];
+                                 $fixed_text['saswp_article_headline']             = $args_article["snippet_title"];                                                                  
+                                 $fixed_text['saswp_article_description']          = $args_article["article_desc"];
+                                 $fixed_text['saswp_article_author_name']          = $args_article["article_author"];
+                                 $fixed_text['saswp_article_organization_name']    = $args_article["article_publisher"];
+                                 $fixed_text['saswp_article_organization_logo']    = $args_article["article_publisher_logo"];
+                                 
+                                 break;
+                             case 'Service':
+                                 
+                                 $fixed_text['saswp_service_schema_name']          = $args_service["snippet_title"];
+                                 $fixed_text['saswp_service_schema_type']          = $args_service["service_type"];                                                                  
+                                 $fixed_text['saswp_service_schema_provider_name'] = $args_service["service_provider_name"];                                 
+                                 $fixed_text['saswp_service_schema_area_served']   = $args_service["service_area"];
+                                 $fixed_text['saswp_service_schema_description']   = $args_service["service_desc"];                                
+                                 $fixed_text['saswp_service_schema_url']           = $args_service["service_url_link"];
+                                 
+                                 break;
+                             case 'VideoObject':
+                                 
+                                 $fixed_text['saswp_video_object_headline']          = $args_video["video_title"];
+                                 $fixed_text['saswp_video_object_description']       = $args_video["video_desc"];                                                                  
+                                 $fixed_text['saswp_video_object_upload_date']       = $args_video["video_date"];
+                                 $fixed_text['saswp_video_object_description']       = $args_video["video_desc"];
+                                 $fixed_text['saswp_video_object_duration']          = $args_video["video_time"];                                 
+                                 
+                                 break;
+                             case 'SoftwareApplication':
+                                 
+                                 $fixed_text['saswp_software_schema_name']             = $args_soft["software_name"];                                                                          
+                                 $fixed_text['saswp_software_schema_operating_system'] = $args_soft["software_os"];                                 
+                                 $fixed_text['saswp_software_schema_price']            = $args_soft["software_price"];                                                                      
+                                 break;                             
+                             default:
+                                 break;
+                         }
+                         
+                         update_post_meta( $post_id, 'schema_options', $schema_options);                 
+                         update_post_meta( $post_id, 'saswp_meta_list_val', $meta_list);
+                         update_post_meta( $post_id, 'saswp_fixed_text', $fixed_text);   
+                        
+                    }                                    
+          
+           if ( count($errorDesc) ){
+              echo implode("\n<br/>", $errorDesc);           
+              $wpdb->query('ROLLBACK');             
+            }else{
+              $wpdb->query('COMMIT'); 
+              return true;
+            }                        
+        
+    }
+    
     function saswp_import_wpsso_core_plugin_data(){
         
          global $wpdb;
@@ -2396,6 +2549,23 @@ function saswp_context_url(){
     
     if(is_ssl()){
         $url = 'https://schema.org';
+    }
+    
+    return $url;
+}
+
+function saswp_get_permalink(){
+    
+    $url = get_permalink();
+        
+    if ((function_exists( 'ampforwp_is_amp_endpoint' ) && ampforwp_is_amp_endpoint()) || function_exists( 'is_amp_endpoint' ) && is_amp_endpoint()) {  
+    
+        if(function_exists('ampforwp_url_controller')){
+            
+            $url = ampforwp_url_controller( $url );
+            
+        }
+        
     }
     
     return $url;

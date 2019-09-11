@@ -128,16 +128,17 @@ function saswp_fields_html_generator(index, schema_id, fields_type, div_type, sc
             $.each(schema_fields, function(eachindex, element){
                                 
                 var meta_class = "";
-                if(element.name == 'saswp_tvseries_season_published_date' || element.name == 'saswp_feed_element_date_created'){
+                if(element.name == 'saswp_tvseries_season_published_date' || element.name == 'saswp_feed_element_date_created' || element.name == 'saswp_product_reviews_created_date'){
                     meta_class = "saswp-datepicker-picker";    
                 }
                 
                 switch(element.type) {
                     
+                    case "number":
                     case "text":
                       
                         html += '<tr>'
-                        + '<th>'+element.label+'</th><td><input class="'+meta_class+'" style="width:100%" type="text" id="'+element.name+'_'+index+'_'+schema_id+'" name="'+fields_type+schema_id+'['+index+']['+element.name+']"></td>'
+                        + '<th>'+element.label+'</th><td><input class="'+meta_class+'" style="width:100%" type="'+element.type+'" id="'+element.name+'_'+index+'_'+schema_id+'" name="'+fields_type+schema_id+'['+index+']['+element.name+']"></td>'
                         + '</tr>';                        
                       
                       break;

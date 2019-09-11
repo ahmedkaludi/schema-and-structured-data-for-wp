@@ -41,7 +41,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             
                 wp_nonce_field( 'saswp_schema_options_nonce', 'saswp_schema_options_nonce' ); 
                 
-                $schema_options    = esc_sql ( get_post_meta($post->ID, 'schema_options', true)  );
+                $schema_options    = get_post_meta($post->ID, 'schema_options', true);
                                                                 
                 ?>    
                 
@@ -111,8 +111,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                                                 'enable_custom_field'   => $enable_custom_field
                                             );   
                  
-                 update_post_meta( $post_id, 'schema_options', $saswp_schema_options);
-                 
+                 update_post_meta( $post_id, 'schema_options', $saswp_schema_options);                 
                  update_post_meta( $post_id, 'saswp_meta_list_val', $meta_list);
                  update_post_meta( $post_id, 'saswp_fixed_text', $fixed_text);
                  update_post_meta( $post_id, 'saswp_custom_meta_field', $cus_meta_field);

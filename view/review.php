@@ -76,7 +76,7 @@ class saswp_metaboxes_review {
                 $saswp_review_item_feature     = array();
                 $saswp_review_item_star_rating = array();
                 
-                $saswp_review_details          = esc_sql ( get_post_meta($post->ID, 'saswp_review_details', true));
+                $saswp_review_details          = get_post_meta($post->ID, 'saswp_review_details', true);
                                                 
                 if(isset($saswp_review_details['saswp-review-item-feature'])){
                     $saswp_review_item_feature = $saswp_review_details['saswp-review-item-feature'];    

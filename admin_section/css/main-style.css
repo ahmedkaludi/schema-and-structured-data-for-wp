@@ -1181,3 +1181,38 @@ Google review module ends here
     border: 1px solid #aaa;
     border-radius: 4px;
 }
+/** Notification CSS **/
+.updated.notice p{
+    display: flex;
+    width: 100%;
+    align-items: center;
+}
+.updated.notice .dashicons-thumbs-up{
+    margin-right:10px;
+}
+a.saswp-feedback-remindme, a.saswp-feedback-no-thanks{
+    display: inline-block;
+    cursor: pointer;
+}
+.saswp-feedback-remindme:after{
+    content:",";
+    display: inline-block;
+    margin-right:5px;
+    padding-left: 5px
+}
+a.saswp-revws-lnk{
+    display: inline-block;
+    background: #0085ba;
+    padding: 12px 20px;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 3px;
+    margin-left: 20px;
+    font-size: 14px;
+    line-height: 0.6;
+}
+.saswp-update-notice-btns{
+    display: inline-block;
+    width: 100%;
+    margin-bottom: 5px;
+}
