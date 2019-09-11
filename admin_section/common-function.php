@@ -2533,9 +2533,10 @@ function saswp_check_plugin_active_status($pname){
 function saswp_uninstall_single($blog_id = null){
         
         global $wpdb;
-		
+	
+        //SASWP post types
         $post_ids = $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM {$wpdb->posts} WHERE post_type = %s", 'saswp' ) );
-
+        
         if ( $post_ids ) {
                 $wpdb->delete(
                         $wpdb->posts,
@@ -2545,8 +2546,42 @@ function saswp_uninstall_single($blog_id = null){
 
                 $wpdb->query( "DELETE FROM {$wpdb->postmeta} WHERE post_id IN( " . implode( ',', $post_ids ) . " )" );
         }
-                            
+        
+        if($post_ids){
+            
+            $all_post_id = $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM {$wpdb->posts}"));
+            $post_specific = new saswp_post_specific();
+            
+            foreach($post_ids as $post_id){
+                
+               $meta_fields = $post_specific->saswp_get_fields_by_schema_type($post_id); 
+               $meta_fields = wp_list_pluck( $meta_fields, 'id' );
+                
+               $wpdb->query( "DELETE meta_key, meta_value FROM {$wpdb->postmeta} WHERE post_id IN( " . implode( ',', $all_post_id ) . " ) AND meta_key IN(" . implode( ',', $meta_fields ) . ")" ); 
+                
+            }
+        }
+        
+        //Post specific post meta
+                                
+        //Review Post Types        
+        $post_ids = $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM {$wpdb->posts} WHERE post_type = %s", 'saswp_reviews' ) );
+        
+        if ( $post_ids ) {
+                $wpdb->delete(
+                        $wpdb->posts,
+                        array( 'post_type' => 'saswp_reviews' ),
+                        array( '%s' )
+                );
+
+                $wpdb->query( "DELETE FROM {$wpdb->postmeta} WHERE post_id IN( " . implode( ',', $post_ids ) . " )" );
+        }
+        
+        //Delete
+        //All options                    
         delete_option('sd_data');  
+        
+        wp_cache_flush();
                 
 }
 
