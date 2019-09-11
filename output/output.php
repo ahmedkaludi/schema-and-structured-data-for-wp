@@ -1301,9 +1301,9 @@ function saswp_schema_output() {
                                 } 
                                 
 				$input1 = array(
-                                    '@context'			=> saswp_context_url(),
+                                    '@context'                          => saswp_context_url(),
                                     '@type'				=> esc_attr($local_business),
-                                    '@id'                           => trailingslashit(saswp_get_permalink()).'#'. strtolower(esc_attr($local_business)),                                            
+                                    '@id'                               => trailingslashit(saswp_get_permalink()).'#'. strtolower(esc_attr($local_business)),                                            
                                     'url'				=> trailingslashit(saswp_get_permalink()),								
 				);  
                                     if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] == 1){                                        

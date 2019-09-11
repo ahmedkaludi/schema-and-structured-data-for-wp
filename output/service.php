@@ -253,9 +253,7 @@ Class saswp_output_service{
             
         }
         public function saswp_replace_with_custom_fields_value($input1, $schema_post_id){
-           
-            global $post;
-            
+                                   
             $custom_fields    = get_post_meta($schema_post_id, 'saswp_meta_list_val', true);
                       
             if(!empty($custom_fields)){
@@ -263,11 +261,9 @@ Class saswp_output_service{
                  $schema_type = get_post_meta( $schema_post_id, 'schema_type', true); 
                  
                  foreach ($custom_fields as $key => $field){
-                     
-                    if(is_object($post)){                                                                                                
-                        $custom_fields[$key] = $this->saswp_get_meta_list_value($key, $field, $schema_post_id);                                           
-                    } 
-                                      
+                                                                                                                                         
+                    $custom_fields[$key] = $this->saswp_get_meta_list_value($key, $field, $schema_post_id);                                           
+                                                           
                 }  
                 
              switch ($schema_type) {

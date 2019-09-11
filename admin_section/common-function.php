@@ -2530,16 +2530,48 @@ function saswp_check_plugin_active_status($pname){
     
 }
 
-function saswp_on_uninstall(){
-    
-    $options = get_option('sd_data');
-    
-    if($options['saswp_rmv_data_on_uninstall']){
-                
-        delete_option('sd_data');  
+function saswp_uninstall_single($blog_id = null){
         
-    }
-                          
+        global $wpdb;
+		
+        $post_ids = $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM {$wpdb->posts} WHERE post_type = %s", 'saswp' ) );
+
+        if ( $post_ids ) {
+                $wpdb->delete(
+                        $wpdb->posts,
+                        array( 'post_type' => 'saswp' ),
+                        array( '%s' )
+                );
+
+                $wpdb->query( "DELETE FROM {$wpdb->postmeta} WHERE post_id IN( " . implode( ',', $post_ids ) . " )" );
+        }
+                            
+        delete_option('sd_data');  
+                
+}
+
+function saswp_on_uninstall(){
+        
+    global $wpdb;
+    
+   $options = get_option('sd_data');
+    
+   if($options['saswp_rmv_data_on_uninstall']){
+    
+       if ( ! is_multisite() ) {
+            saswp_uninstall_single();
+        } else {
+                $blog_ids = $wpdb->get_col( "SELECT blog_id FROM {$wpdb->blogs}" );
+
+                foreach ( $blog_ids as $blog_id ) {
+
+                        saswp_uninstall_single($blog_id);
+                }
+
+        }
+              
+   }            
+                                      
 }
 
 function saswp_on_activation(){
