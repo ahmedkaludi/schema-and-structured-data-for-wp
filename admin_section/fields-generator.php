@@ -598,10 +598,7 @@ class saswp_fields_generator {
                                                                
                                 .  '</li>';    
                         }
-
-                        
-                                
-                                                
+                                                                                                        
 		}
                                 
 		echo '<div><div class="saswp-settings-list"><ul>' . wp_kses($output, $allowed_html) . '</ul></div></div>';
