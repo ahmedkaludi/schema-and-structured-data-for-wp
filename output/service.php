@@ -3017,6 +3017,85 @@ Class saswp_output_service{
 				);
                     
                     break;
+                    
+                case 'Product':
+                                                                        
+                        $product_details = $this->saswp_woocommerce_product_details(get_the_ID());  
+
+                        if((isset($sd_data['saswp-woocommerce']) && $sd_data['saswp-woocommerce'] == 1) && !empty($product_details)){
+
+                            $input1 = array(
+                            '@context'			        => saswp_context_url(),
+                            '@type'				=> 'Product',
+                            '@id'				=> trailingslashit(saswp_get_permalink()).'#product',     
+                            'url'				=> trailingslashit(saswp_get_permalink()),
+                            'name'                              => saswp_remove_warnings($product_details, 'product_name', 'saswp_string'),
+                            'sku'                               => saswp_remove_warnings($product_details, 'product_sku', 'saswp_string'),    
+                            'description'                       => saswp_remove_warnings($product_details, 'product_description', 'saswp_string'),                                    
+                            'offers'                            => array(
+                                                                        '@type'	=> 'Offer',
+                                                                        'availability'      => saswp_remove_warnings($product_details, 'product_availability', 'saswp_string'),
+                                                                        'price'             => saswp_remove_warnings($product_details, 'product_price', 'saswp_string'),
+                                                                        'priceCurrency'     => saswp_remove_warnings($product_details, 'product_currency', 'saswp_string'),
+                                                                        'url'               => trailingslashit(saswp_get_permalink()),
+                                                                        'priceValidUntil'   => saswp_remove_warnings($product_details, 'product_priceValidUntil', 'saswp_string'),
+                                                                     ),
+
+                          );
+
+                          if(isset($product_details['product_image'])){
+                            $input1 = array_merge($input1, $product_details['product_image']);
+                          }  
+
+                          if(isset($product_details['product_gtin8']) && $product_details['product_gtin8'] !=''){
+                            $input1['gtin8'] = esc_attr($product_details['product_gtin8']);  
+                          }
+                          if(isset($product_details['product_mpn']) && $product_details['product_mpn'] !=''){
+                            $input1['mpn'] = esc_attr($product_details['product_mpn']);  
+                          }
+                          if(isset($product_details['product_isbn']) && $product_details['product_isbn'] !=''){
+                            $input1['isbn'] = esc_attr($product_details['product_isbn']);  
+                          }
+                          if(isset($product_details['product_brand']) && $product_details['product_brand'] !=''){
+                            $input1['brand'] =  array('@type'=>'Thing','name'=> esc_attr($product_details['product_brand']));  
+                          }                                     
+                          if(isset($product_details['product_review_count']) && $product_details['product_review_count'] >0 && isset($product_details['product_average_rating']) && $product_details['product_average_rating'] >0){
+                               $input1['aggregateRating'] =  array(
+                                                                '@type'         => 'AggregateRating',
+                                                                'ratingValue'	=> esc_attr($product_details['product_average_rating']),
+                                                                'reviewCount'   => (int)esc_attr($product_details['product_review_count']),       
+                               );
+                          }                                      
+                          if(!empty($product_details['product_reviews'])){
+
+                              $reviews = array();
+
+                              foreach ($product_details['product_reviews'] as $review){
+
+                                  $reviews[] = array(
+                                                                '@type'	=> 'Review',
+                                                                'author'	=> esc_attr($review['author']),
+                                                                'datePublished'	=> esc_html($review['datePublished']),
+                                                                'description'	=> $review['description'],  
+                                                                'reviewRating'  => array(
+                                                                        '@type'	=> 'Rating',
+                                                                        'bestRating'	=> '5',
+                                                                        'ratingValue'	=> esc_attr($review['reviewRating']),
+                                                                        'worstRating'	=> '1',
+                                                                )  
+                                  );
+
+                              }
+                              $input1['review'] =  $reviews;
+                          }                                                                                                    
+                        }else{
+
+                            $input1['@context']              = saswp_context_url();
+                            $input1['@type']                 = 'Product';
+                            $input1['@id']                   = trailingslashit(saswp_get_permalink()).'#Product';                                                                                                                                                                                                                                                                                        
+                        }                                                                
+                    
+                    break;
 
                 default:
                     break;

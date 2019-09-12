@@ -73,7 +73,9 @@ function saswp_schema_markup_output() {
         $item_list                = array();
         $collection_page          = array(); 
         $blog_page                = array();
+        $woo_cat_schema           = array();  
         
+        $woo_cat_schema           = saswp_woocommerce_category_schema();  
         $site_navigation          = saswp_site_navigation_output();     
         $contact_page_output      = saswp_contact_page_output();  	
         $about_page_output        = saswp_about_page_output();      
@@ -138,6 +140,12 @@ function saswp_schema_markup_output() {
                         if(!empty($item_list)){
                         
                             $output .= saswp_json_print_format($item_list);   
+                            $output .= ",";
+                            $output .= "\n\n";
+                        }
+                        if(!empty($woo_cat_schema)){
+                        
+                            $output .= saswp_json_print_format($woo_cat_schema);   
                             $output .= ",";
                             $output .= "\n\n";
                         }
