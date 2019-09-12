@@ -1,6 +1,6 @@
 <?php 
 return array(
-        'automotivebusiness' => array(
+          'automotivebusiness' => array(
           ''                  => 'Select Sub Business Type ( optional )',  
           'autobodyshop'      => 'Auto Body Shop',
           'autodealer'        => 'Auto Dealer',

@@ -79,6 +79,8 @@ require_once SASWP_DIR_NAME.'/reviews/reviews_admin.php';
 require_once SASWP_DIR_NAME.'/reviews/reviews_setup.php';
 require_once SASWP_DIR_NAME.'/reviews/reviews_service.php';
 require_once SASWP_DIR_NAME.'/reviews/reviews_widget.php';
+//Module files load
+require_once SASWP_DIR_NAME.'/modules/gutenberg/includes/class-gutenberg.php';
 
 //Loading Third party files
 require_once SASWP_DIR_NAME.'/core/3rd-party/aqua_resizer.php';
