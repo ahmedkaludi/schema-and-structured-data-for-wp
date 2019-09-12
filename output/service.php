@@ -369,8 +369,7 @@ Class saswp_output_service{
                     }
                     if(isset($custom_fields['local_street_address'])){
                      $input1['address']['streetAddress'] =    $custom_fields['local_street_address'];
-                    }
-                    
+                    }                    
                     if(isset($custom_fields['local_city'])){
                      $input1['address']['addressLocality'] =    $custom_fields['local_city'];
                     }
@@ -380,12 +379,14 @@ Class saswp_output_service{
                     if(isset($custom_fields['local_postal_code'])){
                      $input1['address']['postalCode'] =    $custom_fields['local_postal_code'];
                     }                    
-                    if(isset($custom_fields['local_latitude'])){
-                     $input1['geo']['latitude'] =    $custom_fields['local_latitude'];
-                    }                    
-                    if(isset($custom_fields['local_longitude'])){
+                    if(isset($custom_fields['local_latitude']) && isset($custom_fields['local_longitude'])){
+                        
+                     $input1['geo']['@type']     =    'GeoCoordinates';   
+                     $input1['geo']['latitude']  =    $custom_fields['local_latitude'];
                      $input1['geo']['longitude'] =    $custom_fields['local_longitude'];
-                    }                                           
+                     
+                    }                    
+                                                               
                     if(isset($custom_fields['local_phone'])){
                      $input1['telephone'] =    $custom_fields['local_phone'];
                     }
@@ -406,6 +407,14 @@ Class saswp_output_service{
                     }
                     if(isset($custom_fields['local_menu'])){
                      $input1['hasMenu'] =    $custom_fields['local_menu'];
+                    }
+                    
+                    if(isset($custom_fields['local_rating_value']) && isset($custom_fields['local_rating_count'])){
+                       $input1['aggregateRating']['@type']       =   'AggregateRating';
+                       $input1['aggregateRating']['worstRating'] =   0;
+                       $input1['aggregateRating']['bestRating']  =   5;
+                       $input1['aggregateRating']['ratingValue'] =    $custom_fields['local_rating_value'];
+                       $input1['aggregateRating']['ratingCount'] =    $custom_fields['local_rating_count'];
                     }
                                      
                     break;
@@ -2206,7 +2215,7 @@ Class saswp_output_service{
                         'saswp_dayofweek'            => 'Operation Days',
                         'local_price_range'          => 'Price Range', 
                         'local_hasmap'               => 'HasMap',
-                        'local_menu'                 => 'Memu',                        
+                        'local_menu'                 => 'Menu',                        
                         'local_facebook'             => 'Facebook',
                         'local_twitter'              => 'Twitter',
                         'local_instagram'            => 'Instagram',
@@ -2214,7 +2223,10 @@ Class saswp_output_service{
                         'local_linkedin'             => 'LinkedIn',
                         'local_soundcloud'           => 'SoundCloud',
                         'local_tumblr'               => 'Tumblr',
-                        'local_youtube'              => 'Youtube',
+                        'local_youtube'              => 'Youtube',                        
+                        'local_rating_value'         => 'Rating Value',
+                        'local_rating_count'         => 'Rating Count',
+                        
                         );                   
                     break;
                 

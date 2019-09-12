@@ -2552,8 +2552,8 @@ function saswp_uninstall_single($blog_id = null){
         if($post_ids){
             
             $query = "SELECT ID FROM " . $wpdb->posts;
-            $all_post_id  = $wpdb->get_results($query, ARRAY_A );
-            $all_post_id  = wp_list_pluck( $all_post_id, 'ID' );              
+            $all_post_id   = $wpdb->get_results($query, ARRAY_A );
+            $all_post_id   = wp_list_pluck( $all_post_id, 'ID' );              
             $post_specific = new saswp_post_specific();
             
             foreach($post_ids as $post_id){
@@ -2597,7 +2597,7 @@ function saswp_uninstall_single($blog_id = null){
 
 function saswp_on_uninstall(){
         
-    global $wpdb;
+   global $wpdb;
     
    $options = get_option('sd_data');
     
