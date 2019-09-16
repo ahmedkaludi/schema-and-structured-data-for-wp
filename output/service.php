@@ -3255,7 +3255,7 @@ Class saswp_output_service{
                                                
                                           if($key == 0){
                                               
-                                            if($image['width'] < 1280 && $image['height'] < 720){
+                                            if($image['width'] < 1200){
                                                 
                                                 $resized_image = aq_resize( $image['url'], 1280, 720, true, false, true );                                                                                                
                                                 $attach_images['image'][$key]['url']    =   $resized_image[0];
