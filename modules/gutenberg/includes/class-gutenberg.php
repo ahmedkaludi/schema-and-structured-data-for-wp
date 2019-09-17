@@ -114,7 +114,7 @@ class SASWP_Gutenberg {
         
         $categories[] = array(
                 'slug'  => 'saswp-blocks',
-                'title' => 'SASWP Blocks'
+                'title' => 'Schema & Structured Data Blocks'
         );
         
         return $categories;
