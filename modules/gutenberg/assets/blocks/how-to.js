@@ -11,7 +11,7 @@
     var ToggleControl     = components.ToggleControl;
     var PanelBody         = components.PanelBody;
             
-    blocks.registerBlockType( 'saswp-gutenberg-blocks-namsp/how-to-block', {
+    blocks.registerBlockType( 'saswp/how-to-block', {
         title: 'How To',
         icon: 'editor-ol',
         category: 'saswp-blocks',
@@ -36,37 +36,41 @@
                 default: false
             },
             description: {
-                  type: 'string',
-                  source: 'text',
-                  selector: '.main-description'
+                  type: 'string',                  
+                  selector: '.saswp-how-to-main-description'
             },
             days: {
-                  type: 'string'                  
+                  type: 'string',                  
+                  selector: '.saswp-how-to-days'
             },
             hours: {
-                  type: 'string'                 
+                  type: 'string',                 
+                  selector: '.saswp-how-to-hours'
             },
-            months: {
-                  type: 'string'                                  
+            minutes: {
+                  type: 'string',
+                  selector: '.saswp-how-to-minutes'
             },
-            items: {        
-              source: 'query',
+            items: {                     
               default: [],
               selector: '.saswp-how-to-block-data',
               query: {
                 title: {
-                  type: 'string',
-                  source: 'text',
+                  type: 'string',                  
                   selector: '.title'
                 },
                 description: {
-                  type: 'string',
-                  source: 'text',
+                  type: 'string',                  
                   selector: '.description'
                 },
+                imageId: {
+                  type: 'integer'                
+                },
+                imageUrl: {
+                  type: 'string'                 
+                },
                 index: {            
-                  type: 'number',
-                  source: 'attribute',
+                  type: 'number',                  
                   attribute: 'data-index'            
                 },
                 isSelected: {            
@@ -82,6 +86,26 @@
             var alignment  = props.attributes.alignment;
                             
             //List of function for the current blocks starts here
+            
+            function saswpGetImageSrc( item ) {
+                
+                var contents = item.description;
+                
+                if ( ! contents ) {
+                    
+			return false;
+		}
+                
+		const image = contents.match(/<img/);
+                
+		if ( image ) {
+			return true;
+		}else {
+                        
+                        return false;
+                }
+                		
+            }
             
             function saswpGetDuration(){
                 
@@ -112,10 +136,10 @@
                             {
                                className:'saswp-how-to-duration-input',
                                placeholder: 'MM',
-                               value: attributes.months,                               
+                               value: attributes.minutes,                               
                                autoFocus: true,
                                onChange: function( newContent ) {                                
-                                  props.setAttributes( { months: newContent } );
+                                  props.setAttributes( { minutes: newContent } );
                                }
                             },),
                             el( IconButton, {
@@ -217,8 +241,8 @@
                     return null;
                 }
                               					
-                return el('div', {className:'saswp-how-to-step-button-container'},
-                
+                return el('div', {className:'saswp-how-to-step-button-container'},                        
+                        !saswpGetImageSrc(item) ? 
                         el(MediaUpload, {
                             onSelect: function(media){  
                                     
@@ -229,17 +253,11 @@
                                     oldItems.forEach(function(value, index){ 
                                        
                                        if(index == item.index){
-                                            oldItems[index]['title']       = value['title'];
-                                            oldItems[index]['description'] = value['description']+image;
-                                            oldItems[index]['index']       = index;
-                                            oldItems[index]['isSelected']       = false;
-                                            
-                                           
-                                       }else{
-                                            oldItems[index]['title']       = value['title'];
-                                            oldItems[index]['description'] = value['description'];
-                                            oldItems[index]['index']       = index;
-                                            oldItems[index]['isSelected']       = false;
+                                                                                       
+                                            oldItems[index]['description'] = value['description']+image;                                            
+                                            oldItems[index]['imageUrl']    = media.url;
+                                            oldItems[index]['imageId']     = media.id;
+                                                                                       
                                        }
                                                                                
                                     });
@@ -261,7 +279,7 @@
                                 'Add Image'
                             )
                            }
-                        }),
+                        }): null,
                         el( IconButton, {
                             icon: "trash",
                             className: 'saswp-how-to-step-button',            
@@ -363,7 +381,12 @@
               var itemli = attributes.items.sort(function(a , b) {
                   
                     return a.index - b.index;
-                    }).map(function(item){    
+                    }).map(function(item){  
+                        
+                        if(!saswpGetImageSrc(item)){
+                            item.imageUrl = '';
+                            item.imageId = null;
+                        }
                         
                       return el('li', 
                             { 
@@ -515,50 +538,7 @@
             
         },
         save: function( props ) {
-            console.log(props);
-            var attributes = props.attributes;                        
-            if (attributes.items.length > 0) {
-
-              var itemList = attributes.items.map(function(item) {          
-
-                return el('li', { className: 'saswp-how-to-block-data', 'data-index': item.index },        
-                  el( 'p', {              
-                    className: 'title'                                 
-                  }, item.title),
-                  el( 'p', {              
-                    className: 'description'                                  
-                  }, item.description) 
-                );
-
-              });
-
-              return el(
-                'div',
-                { className: props.className },
-                el('p',
-                
-                    attributes.days
-                ),
-                el('p',
-                
-                    attributes.hours
-                ),
-                el('p',
-                
-                    attributes.months
-                ),
-                el('p',
-                {className: 'main-description'},
-                    attributes.description
-                ),
-                el('ul', { className: 'item-list' },        
-                  itemList
-                )              
-              ); 
-
-            } else {
-              return null;
-            }
+            return null                        
           }
     } );
 }(

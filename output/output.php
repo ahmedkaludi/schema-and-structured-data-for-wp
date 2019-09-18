@@ -1878,3 +1878,91 @@ function saswp_site_navigation_fallback(){
         
     return  $input;
 } 
+
+function saswp_gutenberg_how_to_schema(){
+                        
+            global $post;
+
+            $blocks = parse_blocks($post->post_content);
+            $input1 = array();
+
+            if($blocks){
+
+                foreach ($blocks as $parse_blocks){
+
+            if(isset($parse_blocks['blockName']) && $parse_blocks['blockName'] === 'saswp/how-to-block'){
+
+            $input1['@context']              = saswp_context_url();
+            $input1['@type']                 = 'HowTo';
+            $input1['@id']                   = trailingslashit(get_permalink()).'#HowTo';
+            $input1['name']                  = saswp_get_the_title();
+            $input1['datePublished']         = get_the_date("Y-m-d\TH:i:s\Z");
+            $input1['dateModified']          = get_the_modified_date("Y-m-d\TH:i:s\Z");
+            $input1['description']           = $parse_blocks['attrs']['description'];
+
+            $step = $parse_blocks['attrs']['items'];
+
+            $step_arr = array();                            
+            if(!empty($step)){
+
+                foreach($step as $key => $val){
+
+                    $supply_data = array();
+                    $direction   = array();
+                    $tip         = array();
+
+                   if($val['title'] || $val['description']){
+
+                        if($val['title']){
+                        $direction['@type']     = 'HowToDirection';
+                        $direction['text']      = $val['title'];
+                    }
+
+                    if($val['description']){
+
+                        $tip['@type']           = 'HowToTip';
+                        $tip['text']            = $val['description'];
+
+                    }
+
+                    $supply_data['@type']   = 'HowToStep';
+                    $supply_data['url']     = trailingslashit(get_permalink()).'#step'.++$key;
+                    $supply_data['name']    = $val['title'];    
+
+                    if(isset($direction['text']) || isset($tip['text'])){
+                        $supply_data['itemListElement']  = array($direction, $tip);
+                    }
+
+                    if(isset($val['imageId']) && $val['imageId'] !=''){
+
+                                $image_details   = wp_get_attachment_image_src($val['imageId']);                                                 
+                                $supply_data['image']['@type']  = 'ImageObject';                                                
+                                $supply_data['image']['url']    = esc_url($image_details[0]);
+                                $supply_data['image']['width']  = esc_attr($image_details[1]);
+                                $supply_data['image']['height'] = esc_attr($image_details[2]);
+
+                    }
+
+                    $step_arr[] =  $supply_data;
+
+                   }
+
+                }
+
+               $input1['step'] = $step_arr;
+
+            }  
+
+             if(isset($parse_blocks['attrs']['days']) && $parse_blocks['attrs']['hours'] && $parse_blocks['attrs']['minutes']){
+                 $input1['totalTime'] = 'P' . $parse_blocks['attrs']['days'] . 'DT' . $parse_blocks['attrs']['hours'] . 'H' . $parse_blocks['attrs']['minutes'] . 'M';
+             }   
+
+            }
+
+           }
+
+            }
+
+            return $input1;
+    
+}

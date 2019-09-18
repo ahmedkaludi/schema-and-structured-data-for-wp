@@ -5,17 +5,18 @@
     var MediaUpload       = editor.MediaUpload;       
     var IconButton        = components.IconButton;
     var AlignmentToolbar  = editor.AlignmentToolbar;
-    var BlockControls     = editor.BlockControls; 
+    var BlockControls     = editor.BlockControls;
+    var TextControl       = components.TextControl;
     var InspectorControls = editor.InspectorControls;
     var ToggleControl     = components.ToggleControl;
     var PanelBody         = components.PanelBody;
             
-    blocks.registerBlockType( 'saswp-gutenberg-blocks-namsp/faq-block', {
+    blocks.registerBlockType( 'saswp/faq-block', {
         title: 'FAQ',
-        icon: 'editor-ul',
+        icon: 'editor-ol',
         category: 'saswp-blocks',
         keywords: ['schema', 'structured data', 'FAQ', 'faq'],
-                       
+                        
         attributes: {            
             alignment: {
                 type: 'string',
@@ -24,25 +25,27 @@
             toggleList: {
                 type: 'boolean',
                 default: false
-            },
-            items: {        
-              source: 'query',
+            },                        
+            items: {                     
               default: [],
               selector: '.saswp-faq-block-data',
               query: {
                 title: {
-                  type: 'string',
-                  source: 'text',
+                  type: 'string',                  
                   selector: '.title'
                 },
                 description: {
-                  type: 'string',
-                  source: 'text',
+                  type: 'string',                  
                   selector: '.description'
                 },
+                imageId: {
+                  type: 'integer'                
+                },
+                imageUrl: {
+                  type: 'string'                 
+                },
                 index: {            
-                  type: 'number',
-                  source: 'attribute',
+                  type: 'number',                  
                   attribute: 'data-index'            
                 },
                 isSelected: {            
@@ -59,6 +62,27 @@
                             
             //List of function for the current blocks starts here
             
+            function saswpGetImageSrc( item ) {
+                
+                var contents = item.description;
+                
+                if ( ! contents ) {
+                    
+			return false;
+		}
+                
+		const image = contents.match(/<img/);
+                
+		if ( image ) {
+			return true;
+		}else {
+                        
+                        return false;
+                }
+                		
+            }
+            
+                        
             function moveElementsByDirection(direction, item){
                 
                                 var newIndex            = null;
@@ -129,8 +153,8 @@
                     return null;
                 }
                               					
-                return el('div', {className:'saswp-faq-step-button-container'},
-                
+                return el('div', {className:'saswp-faq-step-button-container'},                        
+                        !saswpGetImageSrc(item) ? 
                         el(MediaUpload, {
                             onSelect: function(media){  
                                     
@@ -141,17 +165,11 @@
                                     oldItems.forEach(function(value, index){ 
                                        
                                        if(index == item.index){
-                                            oldItems[index]['title']       = value['title'];
-                                            oldItems[index]['description'] = value['description']+image;
-                                            oldItems[index]['index']       = index;
-                                            oldItems[index]['isSelected']       = false;
-                                            
-                                           
-                                       }else{
-                                            oldItems[index]['title']       = value['title'];
-                                            oldItems[index]['description'] = value['description'];
-                                            oldItems[index]['index']       = index;
-                                            oldItems[index]['isSelected']       = false;
+                                                                                       
+                                            oldItems[index]['description'] = value['description']+image;                                            
+                                            oldItems[index]['imageUrl']    = media.url;
+                                            oldItems[index]['imageId']     = media.id;
+                                                                                       
                                        }
                                                                                
                                     });
@@ -173,7 +191,7 @@
                                 'Add Image'
                             )
                            }
-                        }),
+                        }): null,
                         el( IconButton, {
                             icon: "trash",
                             className: 'saswp-faq-step-button',            
@@ -272,10 +290,15 @@
             }
             //List of function for the current blocks ends here
               
-            var itemli = attributes.items.sort(function(a , b) {
+              var itemli = attributes.items.sort(function(a , b) {
                   
                     return a.index - b.index;
-                    }).map(function(item){    
+                    }).map(function(item){  
+                        
+                        if(!saswpGetImageSrc(item)){
+                            item.imageUrl = '';
+                            item.imageId = null;
+                        }
                         
                       return el('li', 
                             { 
@@ -327,7 +350,7 @@
                       ),
                       el( RichText, {                
                           tagName: 'p',
-                          placeholder: 'Enter the answer to the question', 
+                          placeholder: 'Enter answer to the question', 
                           className:'saswp-faq-step-description',
                           style: { textAlign: alignment },
                           value: item.description,
@@ -371,7 +394,7 @@
                         props.setAttributes( { toggleList: newContent } );
                     },
                     help: function(value){
-                      return (value == true ? 'Showing question as an unordered list': 'Showing question as an ordered list');
+                      return (value == true ? 'Showing step item as an unordered list': 'Showing step item as an ordered list');
                     }
                 },
                 )
@@ -392,7 +415,7 @@
                 ),
                 ,el(
                 'div',
-                { className: props.className },                                               
+                { className: props.className },                                                
                 el('div', { className: 'saswp-faq-setp-list' },        
                   itemlist,
                 ),
@@ -414,34 +437,7 @@
             
         },
         save: function( props ) {
-
-            var attributes = props.attributes;                        
-            if (attributes.items.length > 0) {
-
-              var itemList = attributes.items.map(function(item) {          
-
-                return el('li', { className: 'saswp-faq-block-data', 'data-index': item.index },        
-                  el( 'p', {              
-                    className: 'title'                                 
-                  }, item.title),
-                  el( 'p', {              
-                    className: 'description'                               
-                  }, item.description) 
-                );
-
-              });
-
-              return el(
-                'div',
-                { className: props.className },                                
-                el('ul', { className: 'item-list' },        
-                  itemList
-                )              
-              ); 
-
-            } else {
-              return null;
-            }
+            return null                        
           }
     } );
 }(

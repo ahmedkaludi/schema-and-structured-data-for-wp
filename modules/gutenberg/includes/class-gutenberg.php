@@ -46,11 +46,11 @@ class SASWP_Gutenberg {
                         SASWP_PLUGIN_URL . '/modules/gutenberg/assets/blocks/faq.js',
                         array( 'wp-i18n', 'wp-element', 'wp-blocks', 'wp-components', 'wp-editor' )
                     );                                                                                 
-                    register_block_type( 'saswp-gutenberg-blocks-namsp/faq-block', array(
+                    register_block_type( 'saswp/faq-block', array(
                         'style'         => 'saswp-gutenberg-css-reg',
                         'editor_style'  => 'saswp-gutenberg-css-reg-editor',
                         'editor_script' => 'saswp-faq-js-reg',
-                       // 'render_callback' => array( $this, 'render_faq_data' ),
+                        'render_callback' => array( $this, 'render_faq_data' ),
                     ) );
                     
                     $inline_script = array( 
@@ -63,19 +63,98 @@ class SASWP_Gutenberg {
                     
 	}
         
+        public static function render_faq_data( $attributes ) {
+                                        
+		ob_start();
+		
+		if ( !isset( $attributes ) ) {
+			ob_end_clean();
+                                                                       
+			return '';
+		}
+                
+                echo '<div class="saswp-faq-block-section">';                                
+                if($attributes['items']){
+                    
+                    if(!isset($attributes['toggleList'])){
+                     echo '<ol>';   
+                    }else{
+                     echo '<ul>';      
+                    }
+                    
+                    foreach($attributes['items'] as $item){
+                        
+                      if($item['title'] || $item['description']){
+                        echo '<li>'; 
+                        echo '<strong class="saswp-faq-question-title">'. html_entity_decode(esc_attr($item['title'])).'</strong>';
+                        echo '<p class="saswp-faq-answer-text">'.html_entity_decode(esc_textarea($item['description'])).'</p>';
+                        echo '</li>';
+                      }  
+                       
+                    }                    
+                    if(!isset($attributes['toggleList'])){
+                     echo '</ol>';   
+                    }else{
+                     echo '</ul>';    
+                    }                    
+                }
+                                
+                echo '</div>';
+                						
+		return ob_get_clean();
+	}
         
 	public static function render_how_to_data( $attributes ) {
-            
-//                print_r($attributes);die;
-//            
-//		ob_start();
-//		
-//		if ( !isset( $attr['itemID'] ) ) {
-//			ob_end_clean();
-//			return '';
-//		}
-//						
-//		return ob_get_clean();
+                                        
+		ob_start();
+		
+		if ( !isset( $attributes ) ) {
+			ob_end_clean();
+                                                                       
+			return '';
+		}
+                
+                echo '<div class="saswp-how-to-block-section">';
+                                
+                if(isset($attributes['hasDuration'])){
+                    echo '<p class="saswp-how-to-total-time">';
+                    echo '<span class="saswp-how-to-duration-time-text">Time Needed : </span>'; 
+                                                            
+                    echo esc_attr($attributes['days']).' days '.esc_attr($attributes['hours']).' hours '.esc_attr($attributes['minutes']).' minutes';
+                    echo '</p>';
+                }                
+                if(isset($attributes['description'])){
+                    echo '<p>'.esc_attr($attributes['description']).'</p>';
+                }
+                                
+                if($attributes['items']){
+                    
+                    if(!isset($attributes['toggleList'])){
+                     echo '<ol>';   
+                    }else{
+                     echo '<ul>';      
+                    }
+                    
+                    foreach($attributes['items'] as $item){
+                        
+                      if($item['title'] || $item['description']){
+                        echo '<li>'; 
+                        echo '<strong class="saswp-how-to-step-name">'. html_entity_decode(esc_attr($item['title'])).'</strong>';
+                        echo '<p class="saswp-how-to-step-text">'.html_entity_decode(esc_textarea($item['description'])).'</p>';
+                        echo '</li>';
+                      }  
+                       
+                    }                    
+                    if(!isset($attributes['toggleList'])){
+                     echo '</ol>';   
+                    }else{
+                     echo '</ul>';    
+                    }                    
+                }
+                                
+                echo '</div>';
+                						
+		return ob_get_clean();
 	}
         
 	/**
@@ -93,11 +172,11 @@ class SASWP_Gutenberg {
                         array( 'wp-i18n', 'wp-element', 'wp-blocks', 'wp-components', 'wp-editor' )
                     );
                      
-                    register_block_type( 'saswp-gutenberg-blocks-namsp/how-to-block', array(
+                    register_block_type( 'saswp/how-to-block', array(
                         'style'         => 'saswp-gutenberg-css-reg',
                         'editor_style'  => 'saswp-gutenberg-css-reg-editor',
                         'editor_script' => 'saswp-how-to-js-reg',
-                       // 'render_callback' => array( $this, 'render_how_to_data' ),
+                        'render_callback' => array( $this, 'render_how_to_data' ),
                     ) );
                     
                     $inline_script = array( 
