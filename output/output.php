@@ -1882,87 +1882,91 @@ function saswp_site_navigation_fallback(){
 function saswp_gutenberg_how_to_schema(){
                         
             global $post;
-
-            $blocks = parse_blocks($post->post_content);
             $input1 = array();
+            
+            if(function_exists('parse_blocks')){
+                
+            $blocks = parse_blocks($post->post_content);
+            
+                if($blocks){
 
-            if($blocks){
+                    foreach ($blocks as $parse_blocks){
 
-                foreach ($blocks as $parse_blocks){
+                if(isset($parse_blocks['blockName']) && $parse_blocks['blockName'] === 'saswp/how-to-block'){
 
-            if(isset($parse_blocks['blockName']) && $parse_blocks['blockName'] === 'saswp/how-to-block'){
+                $input1['@context']              = saswp_context_url();
+                $input1['@type']                 = 'HowTo';
+                $input1['@id']                   = trailingslashit(get_permalink()).'#HowTo';
+                $input1['name']                  = saswp_get_the_title();
+                $input1['datePublished']         = get_the_date("Y-m-d\TH:i:s\Z");
+                $input1['dateModified']          = get_the_modified_date("Y-m-d\TH:i:s\Z");
+                $input1['description']           = $parse_blocks['attrs']['description'];
 
-            $input1['@context']              = saswp_context_url();
-            $input1['@type']                 = 'HowTo';
-            $input1['@id']                   = trailingslashit(get_permalink()).'#HowTo';
-            $input1['name']                  = saswp_get_the_title();
-            $input1['datePublished']         = get_the_date("Y-m-d\TH:i:s\Z");
-            $input1['dateModified']          = get_the_modified_date("Y-m-d\TH:i:s\Z");
-            $input1['description']           = $parse_blocks['attrs']['description'];
+                $step = $parse_blocks['attrs']['items'];
 
-            $step = $parse_blocks['attrs']['items'];
+                $step_arr = array();                            
+                if(!empty($step)){
 
-            $step_arr = array();                            
-            if(!empty($step)){
+                    foreach($step as $key => $val){
 
-                foreach($step as $key => $val){
+                        $supply_data = array();
+                        $direction   = array();
+                        $tip         = array();
 
-                    $supply_data = array();
-                    $direction   = array();
-                    $tip         = array();
+                       if($val['title'] || $val['description']){
 
-                   if($val['title'] || $val['description']){
+                            if($val['title']){
+                            $direction['@type']     = 'HowToDirection';
+                            $direction['text']      = $val['title'];
+                        }
 
-                        if($val['title']){
-                        $direction['@type']     = 'HowToDirection';
-                        $direction['text']      = $val['title'];
+                        if($val['description']){
+
+                            $tip['@type']           = 'HowToTip';
+                            $tip['text']            = $val['description'];
+
+                        }
+
+                        $supply_data['@type']   = 'HowToStep';
+                        $supply_data['url']     = trailingslashit(get_permalink()).'#step'.++$key;
+                        $supply_data['name']    = $val['title'];    
+
+                        if(isset($direction['text']) || isset($tip['text'])){
+                            $supply_data['itemListElement']  = array($direction, $tip);
+                        }
+
+                        if(isset($val['imageId']) && $val['imageId'] !=''){
+
+                                    $image_details   = wp_get_attachment_image_src($val['imageId']);                                                 
+                                    $supply_data['image']['@type']  = 'ImageObject';                                                
+                                    $supply_data['image']['url']    = esc_url($image_details[0]);
+                                    $supply_data['image']['width']  = esc_attr($image_details[1]);
+                                    $supply_data['image']['height'] = esc_attr($image_details[2]);
+
+                        }
+
+                        $step_arr[] =  $supply_data;
+
+                       }
+
                     }
 
-                    if($val['description']){
+                   $input1['step'] = $step_arr;
 
-                        $tip['@type']           = 'HowToTip';
-                        $tip['text']            = $val['description'];
+                }  
 
-                    }
-
-                    $supply_data['@type']   = 'HowToStep';
-                    $supply_data['url']     = trailingslashit(get_permalink()).'#step'.++$key;
-                    $supply_data['name']    = $val['title'];    
-
-                    if(isset($direction['text']) || isset($tip['text'])){
-                        $supply_data['itemListElement']  = array($direction, $tip);
-                    }
-
-                    if(isset($val['imageId']) && $val['imageId'] !=''){
-
-                                $image_details   = wp_get_attachment_image_src($val['imageId']);                                                 
-                                $supply_data['image']['@type']  = 'ImageObject';                                                
-                                $supply_data['image']['url']    = esc_url($image_details[0]);
-                                $supply_data['image']['width']  = esc_attr($image_details[1]);
-                                $supply_data['image']['height'] = esc_attr($image_details[2]);
-
-                    }
-
-                    $step_arr[] =  $supply_data;
-
-                   }
+                 if(isset($parse_blocks['attrs']['days']) && $parse_blocks['attrs']['hours'] && $parse_blocks['attrs']['minutes']){
+                     $input1['totalTime'] = 'P' . $parse_blocks['attrs']['days'] . 'DT' . $parse_blocks['attrs']['hours'] . 'H' . $parse_blocks['attrs']['minutes'] . 'M';
+                 }   
 
                 }
 
-               $input1['step'] = $step_arr;
+               }
 
-            }  
-
-             if(isset($parse_blocks['attrs']['days']) && $parse_blocks['attrs']['hours'] && $parse_blocks['attrs']['minutes']){
-                 $input1['totalTime'] = 'P' . $parse_blocks['attrs']['days'] . 'DT' . $parse_blocks['attrs']['hours'] . 'H' . $parse_blocks['attrs']['minutes'] . 'M';
-             }   
-
+                }
+                
             }
-
-           }
-
-            }
-
+                        
             return $input1;
     
 }
@@ -1971,51 +1975,55 @@ function saswp_gutenberg_how_to_schema(){
 function saswp_gutenberg_faq_schema(){
                         
             global $post;
-
-            $blocks = parse_blocks($post->post_content);
             $input1 = array();
-             
-            if($blocks){
+                        
+            if(function_exists('parse_blocks')){
+                
+                $blocks = parse_blocks($post->post_content);
 
-            foreach ($blocks as $parse_blocks){
+                if($blocks){
 
-            if(isset($parse_blocks['blockName']) && $parse_blocks['blockName'] === 'saswp/faq-block'){
+                foreach ($blocks as $parse_blocks){
 
-                            $input1['@context']              = saswp_context_url();
-                            $input1['@type']                 = 'FAQPage';
-                            $input1['@id']                   = trailingslashit(get_permalink()).'#FAQPage';                            
-                                                                                    
-                            $faq_question_arr = array();
-                            
-                            if(!empty($parse_blocks['attrs']['items'])){
-                                
-                                foreach($parse_blocks['attrs']['items'] as $val){
-                                   
-                                    $supply_data = array();
-                                    $supply_data['@type']                   = 'Question';
-                                    $supply_data['name']                    = $val['title'];
-                                    $supply_data['acceptedAnswer']['@type'] = 'Answer';
-                                    $supply_data['acceptedAnswer']['text']  = $val['description'];
-                                                                        
-                                     if(isset($val['imageId']) && $val['imageId'] !=''){
+                if(isset($parse_blocks['blockName']) && $parse_blocks['blockName'] === 'saswp/faq-block'){
 
-                                        $image_details   = wp_get_attachment_image_src($val['imageId']);                                                 
-                                        $supply_data['image']['@type']  = 'ImageObject';                                                
-                                        $supply_data['image']['url']    = esc_url($image_details[0]);
-                                        $supply_data['image']['width']  = esc_attr($image_details[1]);
-                                        $supply_data['image']['height'] = esc_attr($image_details[2]);
+                                $input1['@context']              = saswp_context_url();
+                                $input1['@type']                 = 'FAQPage';
+                                $input1['@id']                   = trailingslashit(get_permalink()).'#FAQPage';                            
 
-                                      }
-                                                                                                           
-                                   $faq_question_arr[] =  $supply_data;
+                                $faq_question_arr = array();
+
+                                if(!empty($parse_blocks['attrs']['items'])){
+
+                                    foreach($parse_blocks['attrs']['items'] as $val){
+
+                                        $supply_data = array();
+                                        $supply_data['@type']                   = 'Question';
+                                        $supply_data['name']                    = $val['title'];
+                                        $supply_data['acceptedAnswer']['@type'] = 'Answer';
+                                        $supply_data['acceptedAnswer']['text']  = $val['description'];
+
+                                         if(isset($val['imageId']) && $val['imageId'] !=''){
+
+                                            $image_details   = wp_get_attachment_image_src($val['imageId']);                                                 
+                                            $supply_data['image']['@type']  = 'ImageObject';                                                
+                                            $supply_data['image']['url']    = esc_url($image_details[0]);
+                                            $supply_data['image']['width']  = esc_attr($image_details[1]);
+                                            $supply_data['image']['height'] = esc_attr($image_details[2]);
+
+                                          }
+
+                                       $faq_question_arr[] =  $supply_data;
+                                    }
+                                   $input1['mainEntity'] = $faq_question_arr;
                                 }
-                               $input1['mainEntity'] = $faq_question_arr;
-                            }
-               
-                      }
-                                
-                 }
 
+                          }
+
+                     }
+
+                }
+                
             }
 
             return $input1;

@@ -2001,7 +2001,11 @@ Class saswp_output_service{
             $post_meta   = get_post_meta($post_id, $key='', true);                                       
             
             if(isset($post_meta['_post_review_box_breakdowns_score'])){
-              $rating_value = bcdiv($post_meta['_post_review_box_breakdowns_score'][0], 20, 2);        
+                
+              if(function_exists('bcdiv')){
+                  $rating_value = bcdiv($post_meta['_post_review_box_breakdowns_score'][0], 20, 2);        
+              }  
+                                          
             }
             if(isset($post_meta['_post_review_box_title'])){
               $post_review_title = $post_meta['_post_review_box_title'][0];     
