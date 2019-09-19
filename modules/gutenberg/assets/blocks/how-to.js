@@ -12,8 +12,8 @@
     var PanelBody         = components.PanelBody;
             
     blocks.registerBlockType( 'saswp/how-to-block', {
-        title: 'How To',
-        icon: 'editor-ol',
+        title: 'How To (SASWP)',
+        icon: 'list-view',
         category: 'saswp-blocks',
         keywords: ['schema', 'structured data', 'how to', 'how-to'],
         
@@ -161,7 +161,7 @@
                                       props.setAttributes( { hasDuration: true } );  
                                     }
                                   },
-                                'Add Duration'
+                                'Add Total Time'
                             );     
                 
                 if(attributes.hasDuration){
@@ -534,7 +534,7 @@
                       });                            
                     }
                   },
-                  'Add Step'
+                  'Add A Step'
                 )        
               )];
             

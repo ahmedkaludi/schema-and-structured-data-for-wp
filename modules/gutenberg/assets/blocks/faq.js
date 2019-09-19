@@ -11,8 +11,8 @@
     var PanelBody         = components.PanelBody;
             
     blocks.registerBlockType( 'saswp/faq-block', {
-        title: 'FAQ',
-        icon: 'editor-ol',
+        title: 'FAQ (SASWP)',
+        icon: 'text',
         category: 'saswp-blocks',
         keywords: ['schema', 'structured data', 'FAQ', 'faq'],
         
@@ -436,7 +436,7 @@
                       });                            
                     }
                   },
-                  'Add Question'
+                  'Add A Question'
                 )        
               )];
             
