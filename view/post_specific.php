@@ -325,7 +325,7 @@ class saswp_post_specific {
         }
 
         public function saswp_get_all_schema_list(){
-                                                
+            
                     $schema_ids = array();
                     $schema_id_array = json_decode(get_transient('saswp_transient_schema_ids'), true); 
 
@@ -338,7 +338,7 @@ class saswp_post_specific {
 
                         foreach($schema_id_array as $schema_id){
 
-                            $schema_ids['ID'] = $schema_id;
+                            $schema_ids['ID']   = $schema_id;
                             $this->all_schema[] = (object)$schema_ids;
                         }                                                                                                                                                   
                     }
@@ -583,6 +583,12 @@ class saswp_post_specific {
                  
                  foreach($this->all_schema as $key => $schema){
                      
+                      $advnace_status = saswp_check_advance_display_status($schema->ID);
+                    
+                      if($advnace_status !== 1){
+                          continue;
+                      }
+                                           
                      $checked = '';
                                                                                     
                      if(isset($schema_enable[$schema->ID]) && $schema_enable[$schema->ID] == 1){
@@ -681,8 +687,15 @@ class saswp_post_specific {
                 $response_html .= '</div>'; 
                                   
                 }else{
-                                                            
+                                                                                                                      
                  $all_schema = $this->all_schema;                  
+                 
+                 $advnace_status = saswp_check_advance_display_status($all_schema[0]->ID);
+
+                 if(!$advnace_status){
+                    return '';
+                 }
+                 
                  $response   = $this->saswp_get_fields_by_schema_type($all_schema[0]->ID); 
                 
                  $schema_ids[] = $all_schema[0]->ID;

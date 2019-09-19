@@ -279,8 +279,7 @@ function saswp_generate_field_data( $post_id ){
 
 function saswp_comparison_logic_checker($input){
     
-        global $post;
-                        
+        global $post;              
         $type       = $input['key_1'];
         $comparison = $input['key_2'];
         $data       = $input['key_3'];
@@ -291,20 +290,20 @@ function saswp_comparison_logic_checker($input){
 
         switch ($type) {
             
-          case 'show_globally':  
+        case 'show_globally':  
               
                $result = true;      
               
           break;            
         // Basic Controls ------------ 
           // Posts Type
-          case 'post_type':   
+        case 'post_type':   
               
                   $current_post_type = '';
               
-                  if(is_singular()){
+                  if(is_singular() || is_admin()){
                       
-                     $current_post_type  = $post->post_type;   
+                     $current_post_type  = get_post_type($post->ID);   
                      
                   }   
                   
@@ -326,7 +325,7 @@ function saswp_comparison_logic_checker($input){
           
           
           // Posts
-      case 'homepage':    
+        case 'homepage':    
           
             $homepage ='false';  
           
@@ -348,7 +347,7 @@ function saswp_comparison_logic_checker($input){
         break;
 
       // Logged in User Type
-         case 'user_type':            
+        case 'user_type':            
             if ( $comparison == 'equal') {
                 if ( in_array( $data, (array) $user->roles ) ) {
                     $result = true;
@@ -379,11 +378,11 @@ function saswp_comparison_logic_checker($input){
 
     // Post Controls  ------------ 
       // Posts
-      case 'post':    
+        case 'post':    
           
             $current_post ='';  
           
-             if(is_singular()){
+             if(is_singular() || is_admin()){
                 $current_post = $post->ID;  
              }
                       
@@ -401,7 +400,7 @@ function saswp_comparison_logic_checker($input){
         break;
 
       // Post Category
-      case 'post_category':
+        case 'post_category':
          
           $current_category = '';
           
@@ -428,7 +427,7 @@ function saswp_comparison_logic_checker($input){
           }
         break;
       // Post Format
-      case 'post_format':
+        case 'post_format':
           
           $current_post_format = '';
           
@@ -455,7 +454,7 @@ function saswp_comparison_logic_checker($input){
 
     // Page Controls ---------------- 
       // Page
-      case 'page': 
+        case 'page': 
           
         global $redux_builder_amp;
           
@@ -486,7 +485,7 @@ function saswp_comparison_logic_checker($input){
         break;
 
       // Page Template 
-      case 'page_template':
+        case 'page_template':
           
             $current_page_template = '';
                       
@@ -514,7 +513,7 @@ function saswp_comparison_logic_checker($input){
 
     // Other Controls ---------------
       // Taxonomy Term
-      case 'ef_taxonomy':
+        case 'ef_taxonomy':
         // Get all the post registered taxonomies        
         // Get the list of all the taxonomies associated with current post
         $taxonomy_names = get_post_taxonomies( $post->ID );
