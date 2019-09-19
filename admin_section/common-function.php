@@ -2388,8 +2388,12 @@ if ( ! defined('ABSPATH') ) exit;
 
         }
 
-        $author_image	= get_avatar_data($author_id);
-
+        $author_image = array();
+        
+        if(function_exists('get_avatar_data')){
+            $author_image	= get_avatar_data($author_id);
+        }
+                
         $author_details['@type']           = 'Person';
         $author_details['name']            = esc_attr($author_name);
         $author_details['description']     = esc_attr($author_desc);

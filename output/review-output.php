@@ -54,8 +54,13 @@ Class saswp_review_output{
                         if(isset($saswp_review_details['saswp-review-item-enable'])){
                           
                         $author_id      = get_the_author_meta('ID');
-											
-			$author_details	= get_avatar_data($author_id);
+			$author_details = array();
+                        
+                        if(function_exists('get_avatar_data')){
+                            $author_details	= get_avatar_data($author_id);
+                        }
+			
+                        
 			$date 		= get_the_date("Y-m-d\TH:i:s\Z");
 			$modified_date 	= get_the_modified_date("Y-m-d\TH:i:s\Z");
 			$aurthor_name 	= get_the_author();

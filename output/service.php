@@ -209,8 +209,12 @@ Class saswp_output_service{
                     
                     break;
                 case 'author_image':
+                    $author_image       = array();
                     $author_id          = get_the_author_meta('ID');
-                    $author_image	= get_avatar_data($author_id);                    
+                    
+                    if(function_exists('get_avatar_data')){
+                        $author_image	= get_avatar_data($author_id);      
+                    }                                                          
                     $response['@type']  = 'ImageObject';
                     $response['url']    = $author_image['url'];
                     $response['width']  = $author_image['height']; 

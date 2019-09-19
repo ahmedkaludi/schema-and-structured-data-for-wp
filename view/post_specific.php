@@ -897,7 +897,11 @@ class saswp_post_specific {
                 }
                 
                 $current_user   = wp_get_current_user();
-                $author_details	= get_avatar_data($current_user->ID);                
+                $author_details = array();
+                
+                if(function_exists('get_avatar_data')){
+                    $author_details	= get_avatar_data($current_user->ID);                
+                }                                
                 $schema_type    = get_post_meta($schema_id, 'schema_type', true);  
 		$output = '';
                 
@@ -1400,7 +1404,12 @@ class saswp_post_specific {
             
             $current_user       = wp_get_current_user();
             $author_desc        = get_the_author_meta( 'user_description' ); 
-            $author_details	= get_avatar_data($current_user->ID);           
+            $author_details     = array();
+            
+            if(function_exists('get_avatar_data')){
+                $author_details	= get_avatar_data($current_user->ID);           
+            }
+            
             $schema_type        = get_post_meta($schema_id, 'schema_type', true);  
             
             $business_type      = get_post_meta($schema_id, 'saswp_business_type', true); 
