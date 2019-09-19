@@ -462,6 +462,28 @@ function saswp_premium_features_callback(){ ?>
                                                                            										
 				</div>
 			</li>
+                        <li>
+                            
+                                        <?php
+                                        
+                                        ?> 
+                            
+                            
+				<div class="saswp-features-ele">
+					<div class="saswp-ele-ic saswp-ele-2" style="background: #69e781;">
+                                            <img src="<?php echo SASWP_PLUGIN_URL; ?>/admin_section/images/support-1.png">
+					</div>
+					<div class="saswp-ele-tlt">
+						<h3><?php echo esc_html__('Priority Support','schema-and-structured-data-for-wp') ?></h3>
+						<p><?php echo esc_html__('We get more than 100 technical queries a day but the Priority support plan will help you skip that and get the help from a dedicated team.','schema-and-structured-data-for-wp') ?></p>
+					</div>
+				</div>
+				<div class="saswp-sts-btn">
+                                    
+                                    <?php echo $cooked_active_text; ?>
+                                                                           										
+				</div>
+			</li>
 		</ul>
 	</div>
 

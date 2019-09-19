@@ -2189,9 +2189,7 @@ if ( ! defined('ABSPATH') ) exit;
                     }
                  
              }
-             
-                          
-                                      
+                                                                             
         }
         
         //SEOPress 
