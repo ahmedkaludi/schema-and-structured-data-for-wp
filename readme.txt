@@ -120,7 +120,6 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Major Feature: Schema type blocks (How To & FAQ) have been added in Gutenberg editor
 * Added: Schema markup to category of WooCommerce #405
 * Added: Option to remove data on uninstall in Advanced tab #468
-* Bug Fixed: Website layout is break when microdata clean up option enable #461
 * Bug Fixed: "[POST, PAGE] Specific Schema" options don't show up in /wp-admin/post-new.php #409
 * Bug Fixed: Call to undefined function get_avatar_data #480
 * Bug Fixed: Need to show the modify schema list based on target location of schema type #483
