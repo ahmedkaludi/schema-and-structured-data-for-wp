@@ -2179,16 +2179,22 @@ if ( ! defined('ABSPATH') ) exit;
         //All in one Seo pack
         if(saswp_remove_warnings($sd_data, 'saswp-aiosp', 'saswp_string') == 1){
                              
-             global $aiosp, $post;            
-             $c_excerpt =  $aiosp->get_aioseop_description($post);             
-             if($c_excerpt){
-                 $excerpt = $c_excerpt;
-             }             
-                                      
+             global $aiosp, $post;  
+             
+             if(is_object($aiosp)){
+             
+                    $c_excerpt =  $aiosp->get_aioseop_description($post);             
+                    if($c_excerpt){
+                        $excerpt = $c_excerpt;
+                    }
+                 
+             }
+                                                                             
         }
         
         //SEOPress 
         if(saswp_remove_warnings($sd_data, 'saswp-seo-press', 'saswp_string') == 1){
+            
              require_once ( WP_PLUGIN_DIR. '/wp-seopress/inc/functions/options-titles-metas.php'); //Social                                                                              
              $c_excerpt =  seopress_titles_the_description_content($post);             
              
@@ -2294,15 +2300,20 @@ if ( ! defined('ABSPATH') ) exit;
         
         //All in one Seo pack
         if(saswp_remove_warnings($sd_data, 'saswp-aiosp', 'saswp_string') == 1){
-                             
-             global $aiosp;
+                 
             
-             $c_title =  $aiosp->wp_title();
+             global $aiosp;
              
-             if($c_title){
+             if(is_object($aiosp)){
+             
+                $c_title =  $aiosp->wp_title();
+             
+                if($c_title){
                  $title = $c_title;
-             }             
-                                      
+                }
+                 
+             }
+                                                                            
         }
         
         //The seo framework
@@ -2388,8 +2399,12 @@ if ( ! defined('ABSPATH') ) exit;
 
         }
 
-        $author_image	= get_avatar_data($author_id);
-
+        $author_image = array();
+        
+        if(function_exists('get_avatar_data')){
+            $author_image	= get_avatar_data($author_id);
+        }
+                
         $author_details['@type']           = 'Person';
         $author_details['name']            = esc_attr($author_name);
         $author_details['description']     = esc_attr($author_desc);
@@ -2528,6 +2543,95 @@ function saswp_check_plugin_active_status($pname){
                     
     return $status;
     
+}
+
+function saswp_uninstall_single($blog_id = null){
+        
+        try{
+         
+        global $wpdb;
+	
+        //SASWP post types
+        $post_ids = $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM {$wpdb->posts} WHERE post_type = %s", 'saswp' ) );
+        
+        if ( $post_ids ) {
+                $wpdb->delete(
+                        $wpdb->posts,
+                        array( 'post_type' => 'saswp' ),
+                        array( '%s' )
+                );
+
+                $wpdb->query( "DELETE FROM {$wpdb->postmeta} WHERE post_id IN( " . implode( ',', $post_ids ) . " )" );
+        }
+        
+        if($post_ids){
+            
+            $query = "SELECT ID FROM " . $wpdb->posts;
+            $all_post_id   = $wpdb->get_results($query, ARRAY_A );
+            $all_post_id   = wp_list_pluck( $all_post_id, 'ID' );              
+            $post_specific = new saswp_post_specific();
+            
+            foreach($post_ids as $post_id){
+                
+               $meta_fields = $post_specific->saswp_get_fields_by_schema_type($post_id); 
+               $meta_fields = wp_list_pluck( $meta_fields, 'id' );
+               
+               foreach ($meta_fields as $meta_key){                   
+                   $wpdb->query( "DELETE FROM {$wpdb->postmeta} WHERE post_id IN( " . implode( ',', $all_post_id ) . " ) AND meta_key = '".$meta_key."'" );
+                   
+               }
+                                              
+            }
+        }
+        
+        //Post specific post meta
+                                
+        //Review Post Types        
+        $post_ids = $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM {$wpdb->posts} WHERE post_type = %s", 'saswp_reviews' ) );
+        
+        if ( $post_ids ) {
+                $wpdb->delete(
+                        $wpdb->posts,
+                        array( 'post_type' => 'saswp_reviews' ),
+                        array( '%s' )
+                );
+
+                $wpdb->query( "DELETE FROM {$wpdb->postmeta} WHERE post_id IN( " . implode( ',', $post_ids ) . " )" );
+        }
+                
+        //All options                    
+        delete_option('sd_data');  
+        
+        wp_cache_flush();
+            
+        }catch(Exception $ex){
+            echo $ex->getMessage();
+        }            
+                
+}
+
+function saswp_on_uninstall(){
+        
+   global $wpdb;
+    
+   $options = get_option('sd_data');
+    
+   if(isset($options['saswp_rmv_data_on_uninstall'])){
+    
+       if ( ! is_multisite() ) {
+            saswp_uninstall_single();
+        } else {
+                $blog_ids = $wpdb->get_col( "SELECT blog_id FROM {$wpdb->blogs}" );
+
+                foreach ( $blog_ids as $blog_id ) {
+
+                        saswp_uninstall_single($blog_id);
+                }
+
+        }
+              
+   }            
+                                      
 }
 
 function saswp_on_activation(){

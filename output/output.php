@@ -932,93 +932,14 @@ function saswp_schema_output() {
 			if( 'Product' === $schema_type){
                             		                                                                
                                 $service = new saswp_output_service();
-                                $product_details = $service->saswp_woocommerce_product_details(get_the_ID());  
-                               
-                                if((isset($sd_data['saswp-woocommerce']) && $sd_data['saswp-woocommerce'] == 1) && !empty($product_details)){
-                                    
-                                    $input1 = array(
-                                    '@context'			        => saswp_context_url(),
-                                    '@type'				=> 'Product',
-                                    '@id'				=> trailingslashit(saswp_get_permalink()).'#product',     
-                                    'url'				=> trailingslashit(saswp_get_permalink()),
-                                    'name'                              => saswp_remove_warnings($product_details, 'product_name', 'saswp_string'),
-                                    'sku'                               => saswp_remove_warnings($product_details, 'product_sku', 'saswp_string'),    
-                                    'description'                       => saswp_remove_warnings($product_details, 'product_description', 'saswp_string'),                                    
-                                    'offers'                            => array(
-                                                                                '@type'	=> 'Offer',
-                                                                                'availability'      => saswp_remove_warnings($product_details, 'product_availability', 'saswp_string'),
-                                                                                'price'             => saswp_remove_warnings($product_details, 'product_price', 'saswp_string'),
-                                                                                'priceCurrency'     => saswp_remove_warnings($product_details, 'product_currency', 'saswp_string'),
-                                                                                'url'               => trailingslashit(saswp_get_permalink()),
-                                                                                'priceValidUntil'   => saswp_remove_warnings($product_details, 'product_priceValidUntil', 'saswp_string'),
-                                                                             ),
-                                        
-				  );
-                                    
-                                  if(isset($product_details['product_image'])){
-                                    $input1 = array_merge($input1, $product_details['product_image']);
-                                  }  
-                                    
-                                  if(isset($product_details['product_gtin8']) && $product_details['product_gtin8'] !=''){
-                                    $input1['gtin8'] = esc_attr($product_details['product_gtin8']);  
-                                  }
-                                  if(isset($product_details['product_mpn']) && $product_details['product_mpn'] !=''){
-                                    $input1['mpn'] = esc_attr($product_details['product_mpn']);  
-                                  }
-                                  if(isset($product_details['product_isbn']) && $product_details['product_isbn'] !=''){
-                                    $input1['isbn'] = esc_attr($product_details['product_isbn']);  
-                                  }
-                                  if(isset($product_details['product_brand']) && $product_details['product_brand'] !=''){
-                                    $input1['brand'] =  array('@type'=>'Thing','name'=> esc_attr($product_details['product_brand']));  
-                                  }                                     
-                                  if(isset($product_details['product_review_count']) && $product_details['product_review_count'] >0 && isset($product_details['product_average_rating']) && $product_details['product_average_rating'] >0){
-                                       $input1['aggregateRating'] =  array(
-                                                                        '@type'         => 'AggregateRating',
-                                                                        'ratingValue'	=> esc_attr($product_details['product_average_rating']),
-                                                                        'reviewCount'   => (int)esc_attr($product_details['product_review_count']),       
-                                       );
-                                  }                                      
-                                  if(!empty($product_details['product_reviews'])){
-                                      
-                                      $reviews = array();
-                                      
-                                      foreach ($product_details['product_reviews'] as $review){
-                                          
-                                          $reviews[] = array(
-                                                                        '@type'	=> 'Review',
-                                                                        'author'	=> esc_attr($review['author']),
-                                                                        'datePublished'	=> esc_html($review['datePublished']),
-                                                                        'description'	=> $review['description'],  
-                                                                        'reviewRating'  => array(
-                                                                                '@type'	=> 'Rating',
-                                                                                'bestRating'	=> '5',
-                                                                                'ratingValue'	=> esc_attr($review['reviewRating']),
-                                                                                'worstRating'	=> '1',
-                                                                        )  
-                                          );
-                                          
-                                      }
-                                      $input1['review'] =  $reviews;
-                                  }
-                                  
+                                $input1 = $service->saswp_schema_markup_generator($schema_type);
+                                                                
                                 if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){
                                     
                                     $service = new saswp_output_service();
                                     $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
                                     
-                                }                                  
-                                }else{
-                                    
-                                    $input1['@context']              = saswp_context_url();
-                                    $input1['@type']                 = 'Product';
-                                    $input1['@id']                   = trailingslashit(saswp_get_permalink()).'#Product';                                                                                                                                                                                                                 
-
-                                    if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){                                   
-                                            $service = new saswp_output_service();
-                                            $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
-                                    }
-                                    
-                                }                                                                
+                                }
                                 
                                 $input1 = apply_filters('saswp_modify_product_schema_output', $input1 );
 			}
@@ -1301,9 +1222,9 @@ function saswp_schema_output() {
                                 } 
                                 
 				$input1 = array(
-                                    '@context'			=> saswp_context_url(),
+                                    '@context'                          => saswp_context_url(),
                                     '@type'				=> esc_attr($local_business),
-                                    '@id'                           => trailingslashit(saswp_get_permalink()).'#'. strtolower(esc_attr($local_business)),                                            
+                                    '@id'                               => trailingslashit(saswp_get_permalink()).'#'. strtolower(esc_attr($local_business)),                                            
                                     'url'				=> trailingslashit(saswp_get_permalink()),								
 				);  
                                     if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] == 1){                                        
@@ -1485,6 +1406,59 @@ function saswp_kb_website_output(){
 	
 	return apply_filters('saswp_modify_website_output', $input);       
 }	
+
+/**
+ * Function to get woocommerce archive schema list
+ * @global type $query_string
+ * @global type $sd_data
+ * @return type
+ * since version: 1.9.7
+ */
+function saswp_woocommerce_category_schema(){
+    
+    global $query_string, $sd_data; 
+    
+    if ( function_exists('is_product_category') && is_product_category()) {
+            		
+                $list_item     = array();
+                $term          = get_queried_object();
+                $service       = new saswp_output_service();                
+		$category_loop = new WP_Query( $query_string );
+                
+                $i = 1;
+                
+		if ( $category_loop->have_posts() ):
+			while( $category_loop->have_posts() ): $category_loop->the_post();
+                
+                        $category_posts = array();
+                        $category_posts['@type']       = 'ListItem';
+                        $category_posts['position']    = $i;
+			$category_posts['item']        = $service->saswp_schema_markup_generator('Product');	
+                        $category_posts['item']['url'] =  get_category_link($term->term_id).'#product_'.$i;
+                        unset($category_posts['item']['@id']);
+                        $list_item[] = $category_posts;
+                        
+                        $i++;
+	        endwhile;
+
+		wp_reset_postdata();
+                 
+                $item_list_schema = array();
+                
+                if($list_item){                    
+                    $item_list_schema['@context']        = saswp_context_url();
+                    $item_list_schema['@type']           = 'ItemList';                                      
+                    $item_list_schema['url']             = get_category_link($term->term_id);
+                    $item_list_schema['itemListElement'] = $list_item;
+                }
+                                                                                
+		return $item_list_schema;
+                
+	endif;
+        
+	}
+            
+}
 
 /**
  * Function generates archive page schema markup in the form of CollectionPage schema type
@@ -1904,3 +1878,160 @@ function saswp_site_navigation_fallback(){
         
     return  $input;
 } 
+
+function saswp_gutenberg_how_to_schema(){
+                        
+            global $post;
+            $input1 = array();
+            
+            if(function_exists('parse_blocks')){
+                
+            $blocks = parse_blocks($post->post_content);
+            
+                if($blocks){
+
+                    foreach ($blocks as $parse_blocks){
+
+                if(isset($parse_blocks['blockName']) && $parse_blocks['blockName'] === 'saswp/how-to-block'){
+
+                $input1['@context']              = saswp_context_url();
+                $input1['@type']                 = 'HowTo';
+                $input1['@id']                   = trailingslashit(get_permalink()).'#HowTo';
+                $input1['name']                  = saswp_get_the_title();
+                $input1['datePublished']         = get_the_date("Y-m-d\TH:i:s\Z");
+                $input1['dateModified']          = get_the_modified_date("Y-m-d\TH:i:s\Z");
+                
+                if(array_key_exists('description', $parse_blocks['attrs'])){
+                    $input1['description']           = $parse_blocks['attrs']['description'];
+                }
+                $step = array();
+                
+                if(array_key_exists('items', $parse_blocks['attrs'])){
+                    $step = $parse_blocks['attrs']['items'];
+                }
+                
+                $step_arr = array();                            
+                if(!empty($step)){
+
+                    foreach($step as $key => $val){
+
+                        $supply_data = array();
+                        $direction   = array();
+                        $tip         = array();
+
+                       if($val['title'] || $val['description']){
+
+                            if($val['title']){
+                            $direction['@type']     = 'HowToDirection';
+                            $direction['text']      = $val['title'];
+                        }
+
+                        if($val['description']){
+
+                            $tip['@type']           = 'HowToTip';
+                            $tip['text']            = $val['description'];
+
+                        }
+
+                        $supply_data['@type']   = 'HowToStep';
+                        $supply_data['url']     = trailingslashit(get_permalink()).'#step'.++$key;
+                        $supply_data['name']    = $val['title'];    
+
+                        if(isset($direction['text']) || isset($tip['text'])){
+                            $supply_data['itemListElement']  = array($direction, $tip);
+                        }
+
+                        if(isset($val['imageId']) && $val['imageId'] !=''){
+
+                                    $image_details   = wp_get_attachment_image_src($val['imageId']);                                                 
+                                    $supply_data['image']['@type']  = 'ImageObject';                                                
+                                    $supply_data['image']['url']    = esc_url($image_details[0]);
+                                    $supply_data['image']['width']  = esc_attr($image_details[1]);
+                                    $supply_data['image']['height'] = esc_attr($image_details[2]);
+
+                        }
+
+                        $step_arr[] =  $supply_data;
+
+                       }
+
+                    }
+
+                   $input1['step'] = $step_arr;
+
+                }  
+
+                 if(isset($parse_blocks['attrs']['days']) && $parse_blocks['attrs']['hours'] && $parse_blocks['attrs']['minutes']){
+                     $input1['totalTime'] = 'P' . $parse_blocks['attrs']['days'] . 'DT' . $parse_blocks['attrs']['hours'] . 'H' . $parse_blocks['attrs']['minutes'] . 'M';
+                 }   
+
+                }
+
+               }
+
+                }
+                
+            }
+                        
+            return $input1;
+    
+}
+
+
+function saswp_gutenberg_faq_schema(){
+                        
+            global $post;
+            $input1 = array();
+                        
+            if(function_exists('parse_blocks')){
+                
+                $blocks = parse_blocks($post->post_content);
+
+                if($blocks){
+
+                foreach ($blocks as $parse_blocks){
+
+                if(isset($parse_blocks['blockName']) && $parse_blocks['blockName'] === 'saswp/faq-block'){
+
+                                $input1['@context']              = saswp_context_url();
+                                $input1['@type']                 = 'FAQPage';
+                                $input1['@id']                   = trailingslashit(get_permalink()).'#FAQPage';                            
+
+                                $faq_question_arr = array();
+
+                                if(!empty($parse_blocks['attrs']['items'])){
+
+                                    foreach($parse_blocks['attrs']['items'] as $val){
+
+                                        $supply_data = array();
+                                        $supply_data['@type']                   = 'Question';
+                                        $supply_data['name']                    = $val['title'];
+                                        $supply_data['acceptedAnswer']['@type'] = 'Answer';
+                                        $supply_data['acceptedAnswer']['text']  = $val['description'];
+
+                                         if(isset($val['imageId']) && $val['imageId'] !=''){
+
+                                            $image_details   = wp_get_attachment_image_src($val['imageId']);                                                 
+                                            $supply_data['image']['@type']  = 'ImageObject';                                                
+                                            $supply_data['image']['url']    = esc_url($image_details[0]);
+                                            $supply_data['image']['width']  = esc_attr($image_details[1]);
+                                            $supply_data['image']['height'] = esc_attr($image_details[2]);
+
+                                          }
+
+                                       $faq_question_arr[] =  $supply_data;
+                                    }
+                                   $input1['mainEntity'] = $faq_question_arr;
+                                }
+
+                          }
+
+                     }
+
+                }
+                
+            }
+
+            return $input1;
+    
+}

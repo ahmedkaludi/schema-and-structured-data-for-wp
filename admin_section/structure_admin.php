@@ -141,29 +141,10 @@ function saswp_load_plugin_textdomain() {
 add_action( 'plugins_loaded', 'saswp_load_plugin_textdomain' );
 
 
-function saswp_get_all_schema_posts(){
-    
-    $schema_id_array = array();
 
-    $schema_id_array = json_decode(get_transient('saswp_transient_schema_ids'), true); 
-    
-    
-    if(!$schema_id_array){
-        
-       $schema_id_array = saswp_get_saved_schema_ids();
-        
-    }         
-       
-    if($schema_id_array){
-     
-     if(count($schema_id_array)>0){    
-        
-      $returnData = array();
-      
-      foreach ($schema_id_array as $post_id){ 
-        
+function saswp_check_advance_display_status($post_id){
+              
           $unique_checker = '';
-          
           $resultset = saswp_generate_field_data( $post_id );
           
           if($resultset){
@@ -193,7 +174,7 @@ function saswp_get_all_schema_posts(){
           $condition_array[] = $checker;
           
           }          
-             $array_is_true = in_array(true,$condition_array);
+            $array_is_true = in_array(true,$condition_array);
           
           if($array_is_true){
               
@@ -202,11 +183,36 @@ function saswp_get_all_schema_posts(){
           }
           
           }else{
-              
-          $unique_checker = 'notset';    
-          
+              $unique_checker = 'notset';
           }
-                    
+    
+          return $unique_checker;
+    
+}
+
+function saswp_get_all_schema_posts(){
+    
+    $schema_id_array = array();
+
+    $schema_id_array = json_decode(get_transient('saswp_transient_schema_ids'), true); 
+    
+    
+    if(!$schema_id_array){
+        
+       $schema_id_array = saswp_get_saved_schema_ids();
+        
+    }         
+       
+    if($schema_id_array){
+     
+     if(count($schema_id_array)>0){    
+        
+      $returnData = array();
+      
+      foreach ($schema_id_array as $post_id){ 
+        
+          $unique_checker = saswp_check_advance_display_status($post_id);
+                                        
           if ( $unique_checker === 1 || $unique_checker === true || $unique_checker == 'notset') {
               
               $conditions = array();
@@ -273,8 +279,7 @@ function saswp_generate_field_data( $post_id ){
 
 function saswp_comparison_logic_checker($input){
     
-        global $post;
-                        
+        global $post;              
         $type       = $input['key_1'];
         $comparison = $input['key_2'];
         $data       = $input['key_3'];
@@ -285,20 +290,20 @@ function saswp_comparison_logic_checker($input){
 
         switch ($type) {
             
-          case 'show_globally':  
+        case 'show_globally':  
               
                $result = true;      
               
           break;            
         // Basic Controls ------------ 
           // Posts Type
-          case 'post_type':   
+        case 'post_type':   
               
                   $current_post_type = '';
               
-                  if(is_singular()){
+                  if(is_singular() || is_admin()){
                       
-                     $current_post_type  = $post->post_type;   
+                     $current_post_type  = get_post_type($post->ID);   
                      
                   }   
                   
@@ -320,7 +325,7 @@ function saswp_comparison_logic_checker($input){
           
           
           // Posts
-      case 'homepage':    
+        case 'homepage':    
           
             $homepage ='false';  
           
@@ -342,7 +347,7 @@ function saswp_comparison_logic_checker($input){
         break;
 
       // Logged in User Type
-         case 'user_type':            
+        case 'user_type':            
             if ( $comparison == 'equal') {
                 if ( in_array( $data, (array) $user->roles ) ) {
                     $result = true;
@@ -373,11 +378,11 @@ function saswp_comparison_logic_checker($input){
 
     // Post Controls  ------------ 
       // Posts
-      case 'post':    
+        case 'post':    
           
             $current_post ='';  
           
-             if(is_singular()){
+             if(is_singular() || is_admin()){
                 $current_post = $post->ID;  
              }
                       
@@ -395,7 +400,7 @@ function saswp_comparison_logic_checker($input){
         break;
 
       // Post Category
-      case 'post_category':
+        case 'post_category':
          
           $current_category = '';
           
@@ -422,7 +427,7 @@ function saswp_comparison_logic_checker($input){
           }
         break;
       // Post Format
-      case 'post_format':
+        case 'post_format':
           
           $current_post_format = '';
           
@@ -449,7 +454,7 @@ function saswp_comparison_logic_checker($input){
 
     // Page Controls ---------------- 
       // Page
-      case 'page': 
+        case 'page': 
           
         global $redux_builder_amp;
           
@@ -480,7 +485,7 @@ function saswp_comparison_logic_checker($input){
         break;
 
       // Page Template 
-      case 'page_template':
+        case 'page_template':
           
             $current_page_template = '';
                       
@@ -508,7 +513,7 @@ function saswp_comparison_logic_checker($input){
 
     // Other Controls ---------------
       // Taxonomy Term
-      case 'ef_taxonomy':
+        case 'ef_taxonomy':
         // Get all the post registered taxonomies        
         // Get the list of all the taxonomies associated with current post
         $taxonomy_names = get_post_taxonomies( $post->ID );

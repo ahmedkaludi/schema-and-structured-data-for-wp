@@ -2,7 +2,7 @@
 /*
 Plugin Name: Schema & Structured Data for WP
 Description: Schema & Structured Data adds Google Rich Snippets markup according to Schema.org guidelines to structure your site for SEO. (AMP Compatible) 
-Version: 1.9.6
+Version: 1.9.7
 Text Domain: schema-and-structured-data-for-wp
 Domain Path: /languages
 Author: Magazine3
@@ -13,7 +13,7 @@ License: GPL2
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-define('SASWP_VERSION', '1.9.6');
+define('SASWP_VERSION', '1.9.7');
 define('SASWP_DIR_NAME_FILE', __FILE__ );
 define('SASWP_DIR_NAME', dirname( __FILE__ ));
 define('SASWP_DIR_URI', plugin_dir_url(__FILE__));
@@ -79,6 +79,8 @@ require_once SASWP_DIR_NAME.'/reviews/reviews_admin.php';
 require_once SASWP_DIR_NAME.'/reviews/reviews_setup.php';
 require_once SASWP_DIR_NAME.'/reviews/reviews_service.php';
 require_once SASWP_DIR_NAME.'/reviews/reviews_widget.php';
+//Module files load
+require_once SASWP_DIR_NAME.'/modules/gutenberg/includes/class-gutenberg.php';
 
 //Loading Third party files
 require_once SASWP_DIR_NAME.'/core/3rd-party/aqua_resizer.php';
@@ -86,11 +88,12 @@ require_once SASWP_DIR_NAME.'/core/3rd-party/aqua_resizer.php';
  * set user defined message on plugin activate
  */
 register_activation_hook( __FILE__, 'saswp_on_activation' );
+register_uninstall_hook( __FILE__, 'saswp_on_uninstall' );
 
 add_action( 'admin_notices', 'saswp_admin_notice' );
 
 function saswp_admin_notice(){
-        
+    
     $screen_id = ''; 
     $current_screen = get_current_screen();
     

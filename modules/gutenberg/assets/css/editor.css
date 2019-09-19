@@ -1,0 +1,102 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Sep 15, 2019, 1:52:02 PM
+    Author     : acer
+*/
+
+.saswp-how-to-step-button:hover{
+     color: #0085ba !important;
+     box-shadow: none !important;
+}
+.saswp-how-to-setp-list li{
+    position: relative;
+    padding: 8px 4px 8px 32px;
+    margin: 4px 0;
+    border: 1px solid rgba(145,151,162,.25);
+    list-style-type: none;
+    list-style: none;
+}
+.saswp-how-to-step-number {
+    position: absolute;
+    left: 4px;
+    width: 24px;
+    text-align: right;
+}
+.saswp-how-to-step-title{
+    font-weight: 600;    
+}
+.saswp-how-to-step-button-container{
+    display: flex;
+}
+.saswp-how-to-step-mover{
+    display: flex;
+}
+.saswp-how-to-step-controls-container{
+    display: flex;
+    justify-content: flex-end;
+}
+.saswp-how-to-duration-input{
+    width: 50px;
+    margin: 0 2px;
+    padding: 6px 4px;
+    text-align: center;
+    border-radius: 5px;    
+}
+.saswp-how-to-duration-time-input{
+    display: inline-flex;        
+}
+.saswp-how-to-duration-time-input button{
+    position: relative;
+    top: -12px;
+}
+
+
+.saswp-faq-step-button:hover{
+     color: #0085ba !important;
+     box-shadow: none !important;
+}
+.saswp-faq-setp-list li{
+    position: relative;
+    padding: 8px 4px 8px 32px;
+    margin: 4px 0;
+    border: 1px solid rgba(145,151,162,.25);
+    list-style-type: none;
+    list-style: none;
+}
+.saswp-faq-step-number {
+    position: absolute;
+    left: 4px;
+    width: 24px;
+    text-align: right;
+}
+.saswp-faq-step-title{
+    font-weight: 600;    
+}
+.saswp-faq-button-container{
+    display: flex;
+}
+.saswp-faq-step-mover{
+    display: flex;
+}
+.saswp-faq-step-controls-container{
+    display: flex;
+    justify-content: flex-end;
+}
+.saswp-faq-duration-input{
+    width: 50px;
+    margin: 0 2px;
+    padding: 6px 4px;
+    text-align: center;
+    border-radius: 5px;    
+}
+.saswp-faq-duration-time-input{
+    display: inline-flex;        
+}
+.saswp-faq-duration-time-input button{
+    position: relative;
+    top: -12px;
+}

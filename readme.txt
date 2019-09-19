@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.2
-Stable tag: 1.9.6
+Stable tag: 1.9.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -23,7 +23,9 @@ Schema & Structured Data for WP & AMP adds Google Rich Snippets markup according
 * <strong>Compatibility</strong>: Generate the schema markup for the plugins. We have provided schema support for them. Few of them are - kk Star Ratings, WP-PostRatings, bbPress
 * <strong>Google Review</strong>: Display your business google reviews and its schema markup on your website.
 * **[Premium]** Reviews ( [Fetch](https://structured-data-for-wp.com/reviews-for-schema) reviews from 75+ platforms ).
-* <strong>Review Module</strong>: Create your own review rating box with pros and cons and its schema markup 
+* **[Premium]** Priority Support. [Get it](https://structured-data-for-wp.com/priority-support/) We get more than 100 technical queries a day but the Priority support plan will help you skip that and get the help from a dedicated team.
+* <strong>Review Module</strong>: Create your own review rating box with pros and cons and its schema markup
+* <strong>Schema Type Blocks in Gutenberg</strong>: Create your own content with the blocks and json schema markup will be added automatically
 * <strong>Unlimited Custom Post Types</strong>: You can control to represent the Rich Snippets data in the google search console using unlimited custom post types.
 * <strong>Easy to use</strong> with Minimal Settings
 * <strong>Archive Page Listing</strong> Support 
@@ -111,6 +113,19 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+
+= 1.9.7 (19 Sept 2019) =
+
+* Major Feature: Schema type blocks (How To & FAQ) have been added in Gutenberg editor
+* Added: Schema markup to category of WooCommerce #405
+* Added: Option to remove data on uninstall in Advanced tab #468
+* Added: Priority support in the Services section in the first place #346
+* Bug Fixed: "[POST, PAGE] Specific Schema" options don't show up in /wp-admin/post-new.php #409
+* Bug Fixed: Call to undefined function get_avatar_data #480
+* Bug Fixed: Need to show the modify schema list based on target location of schema type #483
+* Bug Fixed: Fatal error function bcdiv () #489
+
 
 = 1.9.6 (11 Sept 2019) =
 

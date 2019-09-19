@@ -326,24 +326,23 @@ class saswp_post_specific {
 
         public function saswp_get_all_schema_list(){
             
-                global $pagenow;
-                
-                if($pagenow == 'post.php'  || $pagenow == 'admin-ajax.php'){
-                
-                    if($this->all_schema == null){
-                    
-                        $all_schema = get_posts(
-                           array(
-                                   'post_type' 	 => 'saswp',
-                                   'posts_per_page'     => -1,   
-                                   'post_status'        => 'publish',
-                           )
-                        ); 
+                    $schema_ids = array();
+                    $schema_id_array = json_decode(get_transient('saswp_transient_schema_ids'), true); 
 
-                        $this->all_schema = $all_schema;    
-                       }
-                    
-                }                                                                           
+                    if(!$schema_id_array){
+
+                       $schema_id_array = saswp_get_saved_schema_ids();
+
+                    }                                                
+                    if($schema_id_array && is_array($schema_id_array)){
+
+                        foreach($schema_id_array as $schema_id){
+
+                            $schema_ids['ID']   = $schema_id;
+                            $this->all_schema[] = (object)$schema_ids;
+                        }                                                                                                                                                   
+                    }
+                                                                                                                      
         }
 
         public function saswp_post_specifc_add_meta_boxes() {
@@ -358,10 +357,9 @@ class saswp_post_specific {
             }     
             if(!empty($this->all_schema)){
               $schema_count = count($this->all_schema);  
-            }
-            
+            }            
             $custom_option = get_option('custom_schema_post_enable_'.esc_attr($post->ID));
-            if($schema_count > 0 && (get_post_status($post_specific_id)=='publish' || get_post_status($post_specific_id)=='draft' )){
+            if($schema_count > 0){
                 
             $show_post_types = get_post_types();
             unset($show_post_types['adsforwp'],$show_post_types['saswp'],$show_post_types['attachment'], $show_post_types['revision'], $show_post_types['nav_menu_item'], $show_post_types['user_request'], $show_post_types['custom_css']);            
@@ -585,9 +583,15 @@ class saswp_post_specific {
                  
                  foreach($this->all_schema as $key => $schema){
                      
+                      $advnace_status = saswp_check_advance_display_status($schema->ID);
+                    
+                      if($advnace_status !== 1){
+                          continue;
+                      }
+                                           
                      $checked = '';
                                                                                     
-                     if(!isset($schema_enable[$schema->ID]) || $schema_enable[$schema->ID] == 1){
+                     if(isset($schema_enable[$schema->ID]) && $schema_enable[$schema->ID] == 1){
                          
                         $checked = 'checked';    
                      
@@ -601,7 +605,7 @@ class saswp_post_specific {
                                                                                                            
                      if($key==0){
                          
-                     $tabs .='<li class="selected"><a saswp-schema-type="'.esc_attr($schema_type).'" data-id="saswp_specific_'.esc_attr($schema->ID).'" class="saswp-tab-links selected">'.esc_attr($schema->post_title).'</a>'
+                     $tabs .='<li class="selected"><a saswp-schema-type="'.esc_attr($schema_type).'" data-id="saswp_specific_'.esc_attr($schema->ID).'" class="saswp-tab-links selected">'.esc_attr($schema_type == 'local_business'? 'LocalBusiness': $schema_type).'</a>'
                              . '<label class="saswp-switch">'
                              . '<input type="checkbox" class="saswp-schema-type-toggle" value="1" data-schema-id="'.esc_attr($schema->ID).'" data-post-id="'.esc_attr($post->ID).'" '.$checked.'>'
                              . '<span class="saswp-slider"></span>'
@@ -620,7 +624,7 @@ class saswp_post_specific {
                      }else{
                          
                      $tabs .='<li>'
-                             . '<a saswp-schema-type="'.esc_attr($schema_type).'" data-id="saswp_specific_'.esc_attr($schema->ID).'" class="saswp-tab-links">'.esc_attr($schema->post_title).'</a>'
+                             . '<a saswp-schema-type="'.esc_attr($schema_type).'" data-id="saswp_specific_'.esc_attr($schema->ID).'" class="saswp-tab-links">'.esc_attr($schema_type == 'local_business'? 'LocalBusiness': $schema_type).'</a>'
                              . '<label class="saswp-switch">'
                              . '<input type="checkbox" class="saswp-schema-type-toggle" value="1" data-schema-id="'.esc_attr($schema->ID).'" data-post-id="'.esc_attr($post->ID).'" '.$checked.'>'
                              . '<span class="saswp-slider"></span>'
@@ -683,8 +687,15 @@ class saswp_post_specific {
                 $response_html .= '</div>'; 
                                   
                 }else{
-                                                            
+                                                                                                                      
                  $all_schema = $this->all_schema;                  
+                 
+                 $advnace_status = saswp_check_advance_display_status($all_schema[0]->ID);
+
+                 if(!$advnace_status){
+                    return '';
+                 }
+                 
                  $response   = $this->saswp_get_fields_by_schema_type($all_schema[0]->ID); 
                 
                  $schema_ids[] = $all_schema[0]->ID;
@@ -692,7 +703,7 @@ class saswp_post_specific {
                  
                  $checked      = '';                                                   
                  
-                 if(!isset($schema_enable[$all_schema[0]->ID]) || $schema_enable[$all_schema[0]->ID] == 1){
+                 if(isset($schema_enable[$all_schema[0]->ID]) && $schema_enable[$all_schema[0]->ID] == 1){
                     $checked = 'checked';    
                  }
                                                                    
@@ -899,7 +910,11 @@ class saswp_post_specific {
                 }
                 
                 $current_user   = wp_get_current_user();
-                $author_details	= get_avatar_data($current_user->ID);                
+                $author_details = array();
+                
+                if(function_exists('get_avatar_data')){
+                    $author_details	= get_avatar_data($current_user->ID);                
+                }                                
                 $schema_type    = get_post_meta($schema_id, 'schema_type', true);  
 		$output = '';
                 
@@ -1402,7 +1417,12 @@ class saswp_post_specific {
             
             $current_user       = wp_get_current_user();
             $author_desc        = get_the_author_meta( 'user_description' ); 
-            $author_details	= get_avatar_data($current_user->ID);           
+            $author_details     = array();
+            
+            if(function_exists('get_avatar_data')){
+                $author_details	= get_avatar_data($current_user->ID);           
+            }
+            
             $schema_type        = get_post_meta($schema_id, 'schema_type', true);  
             
             $business_type      = get_post_meta($schema_id, 'saswp_business_type', true); 

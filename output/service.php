@@ -209,8 +209,12 @@ Class saswp_output_service{
                     
                     break;
                 case 'author_image':
+                    $author_image       = array();
                     $author_id          = get_the_author_meta('ID');
-                    $author_image	= get_avatar_data($author_id);                    
+                    
+                    if(function_exists('get_avatar_data')){
+                        $author_image	= get_avatar_data($author_id);      
+                    }                                                          
                     $response['@type']  = 'ImageObject';
                     $response['url']    = $author_image['url'];
                     $response['width']  = $author_image['height']; 
@@ -253,9 +257,7 @@ Class saswp_output_service{
             
         }
         public function saswp_replace_with_custom_fields_value($input1, $schema_post_id){
-           
-            global $post;
-            
+                                   
             $custom_fields    = get_post_meta($schema_post_id, 'saswp_meta_list_val', true);
                       
             if(!empty($custom_fields)){
@@ -263,11 +265,9 @@ Class saswp_output_service{
                  $schema_type = get_post_meta( $schema_post_id, 'schema_type', true); 
                  
                  foreach ($custom_fields as $key => $field){
-                     
-                    if(is_object($post)){                                                                                                
-                        $custom_fields[$key] = $this->saswp_get_meta_list_value($key, $field, $schema_post_id);                                           
-                    } 
-                                      
+                                                                                                                                         
+                    $custom_fields[$key] = $this->saswp_get_meta_list_value($key, $field, $schema_post_id);                                           
+                                                           
                 }  
                 
              switch ($schema_type) {
@@ -373,8 +373,7 @@ Class saswp_output_service{
                     }
                     if(isset($custom_fields['local_street_address'])){
                      $input1['address']['streetAddress'] =    $custom_fields['local_street_address'];
-                    }
-                    
+                    }                    
                     if(isset($custom_fields['local_city'])){
                      $input1['address']['addressLocality'] =    $custom_fields['local_city'];
                     }
@@ -384,12 +383,14 @@ Class saswp_output_service{
                     if(isset($custom_fields['local_postal_code'])){
                      $input1['address']['postalCode'] =    $custom_fields['local_postal_code'];
                     }                    
-                    if(isset($custom_fields['local_latitude'])){
-                     $input1['geo']['latitude'] =    $custom_fields['local_latitude'];
-                    }                    
-                    if(isset($custom_fields['local_longitude'])){
+                    if(isset($custom_fields['local_latitude']) && isset($custom_fields['local_longitude'])){
+                        
+                     $input1['geo']['@type']     =    'GeoCoordinates';   
+                     $input1['geo']['latitude']  =    $custom_fields['local_latitude'];
                      $input1['geo']['longitude'] =    $custom_fields['local_longitude'];
-                    }                                           
+                     
+                    }                    
+                                                               
                     if(isset($custom_fields['local_phone'])){
                      $input1['telephone'] =    $custom_fields['local_phone'];
                     }
@@ -410,6 +411,14 @@ Class saswp_output_service{
                     }
                     if(isset($custom_fields['local_menu'])){
                      $input1['hasMenu'] =    $custom_fields['local_menu'];
+                    }
+                    
+                    if(isset($custom_fields['local_rating_value']) && isset($custom_fields['local_rating_count'])){
+                       $input1['aggregateRating']['@type']       =   'AggregateRating';
+                       $input1['aggregateRating']['worstRating'] =   0;
+                       $input1['aggregateRating']['bestRating']  =   5;
+                       $input1['aggregateRating']['ratingValue'] =    $custom_fields['local_rating_value'];
+                       $input1['aggregateRating']['ratingCount'] =    $custom_fields['local_rating_count'];
                     }
                                      
                     break;
@@ -1992,7 +2001,11 @@ Class saswp_output_service{
             $post_meta   = get_post_meta($post_id, $key='', true);                                       
             
             if(isset($post_meta['_post_review_box_breakdowns_score'])){
-              $rating_value = bcdiv($post_meta['_post_review_box_breakdowns_score'][0], 20, 2);        
+                
+              if(function_exists('bcdiv')){
+                  $rating_value = bcdiv($post_meta['_post_review_box_breakdowns_score'][0], 20, 2);        
+              }  
+                                          
             }
             if(isset($post_meta['_post_review_box_title'])){
               $post_review_title = $post_meta['_post_review_box_title'][0];     
@@ -2210,7 +2223,7 @@ Class saswp_output_service{
                         'saswp_dayofweek'            => 'Operation Days',
                         'local_price_range'          => 'Price Range', 
                         'local_hasmap'               => 'HasMap',
-                        'local_menu'                 => 'Memu',                        
+                        'local_menu'                 => 'Menu',                        
                         'local_facebook'             => 'Facebook',
                         'local_twitter'              => 'Twitter',
                         'local_instagram'            => 'Instagram',
@@ -2218,7 +2231,10 @@ Class saswp_output_service{
                         'local_linkedin'             => 'LinkedIn',
                         'local_soundcloud'           => 'SoundCloud',
                         'local_tumblr'               => 'Tumblr',
-                        'local_youtube'              => 'Youtube',
+                        'local_youtube'              => 'Youtube',                        
+                        'local_rating_value'         => 'Rating Value',
+                        'local_rating_count'         => 'Rating Count',
+                        
                         );                   
                     break;
                 
@@ -3009,6 +3025,85 @@ Class saswp_output_service{
 				);
                     
                     break;
+                    
+                case 'Product':
+                                                                        
+                        $product_details = $this->saswp_woocommerce_product_details(get_the_ID());  
+
+                        if((isset($sd_data['saswp-woocommerce']) && $sd_data['saswp-woocommerce'] == 1) && !empty($product_details)){
+
+                            $input1 = array(
+                            '@context'			        => saswp_context_url(),
+                            '@type'				=> 'Product',
+                            '@id'				=> trailingslashit(saswp_get_permalink()).'#product',     
+                            'url'				=> trailingslashit(saswp_get_permalink()),
+                            'name'                              => saswp_remove_warnings($product_details, 'product_name', 'saswp_string'),
+                            'sku'                               => saswp_remove_warnings($product_details, 'product_sku', 'saswp_string'),    
+                            'description'                       => saswp_remove_warnings($product_details, 'product_description', 'saswp_string'),                                    
+                            'offers'                            => array(
+                                                                        '@type'	=> 'Offer',
+                                                                        'availability'      => saswp_remove_warnings($product_details, 'product_availability', 'saswp_string'),
+                                                                        'price'             => saswp_remove_warnings($product_details, 'product_price', 'saswp_string'),
+                                                                        'priceCurrency'     => saswp_remove_warnings($product_details, 'product_currency', 'saswp_string'),
+                                                                        'url'               => trailingslashit(saswp_get_permalink()),
+                                                                        'priceValidUntil'   => saswp_remove_warnings($product_details, 'product_priceValidUntil', 'saswp_string'),
+                                                                     ),
+
+                          );
+
+                          if(isset($product_details['product_image'])){
+                            $input1 = array_merge($input1, $product_details['product_image']);
+                          }  
+
+                          if(isset($product_details['product_gtin8']) && $product_details['product_gtin8'] !=''){
+                            $input1['gtin8'] = esc_attr($product_details['product_gtin8']);  
+                          }
+                          if(isset($product_details['product_mpn']) && $product_details['product_mpn'] !=''){
+                            $input1['mpn'] = esc_attr($product_details['product_mpn']);  
+                          }
+                          if(isset($product_details['product_isbn']) && $product_details['product_isbn'] !=''){
+                            $input1['isbn'] = esc_attr($product_details['product_isbn']);  
+                          }
+                          if(isset($product_details['product_brand']) && $product_details['product_brand'] !=''){
+                            $input1['brand'] =  array('@type'=>'Thing','name'=> esc_attr($product_details['product_brand']));  
+                          }                                     
+                          if(isset($product_details['product_review_count']) && $product_details['product_review_count'] >0 && isset($product_details['product_average_rating']) && $product_details['product_average_rating'] >0){
+                               $input1['aggregateRating'] =  array(
+                                                                '@type'         => 'AggregateRating',
+                                                                'ratingValue'	=> esc_attr($product_details['product_average_rating']),
+                                                                'reviewCount'   => (int)esc_attr($product_details['product_review_count']),       
+                               );
+                          }                                      
+                          if(!empty($product_details['product_reviews'])){
+
+                              $reviews = array();
+
+                              foreach ($product_details['product_reviews'] as $review){
+
+                                  $reviews[] = array(
+                                                                '@type'	=> 'Review',
+                                                                'author'	=> esc_attr($review['author']),
+                                                                'datePublished'	=> esc_html($review['datePublished']),
+                                                                'description'	=> $review['description'],  
+                                                                'reviewRating'  => array(
+                                                                        '@type'	=> 'Rating',
+                                                                        'bestRating'	=> '5',
+                                                                        'ratingValue'	=> esc_attr($review['reviewRating']),
+                                                                        'worstRating'	=> '1',
+                                                                )  
+                                  );
+
+                              }
+                              $input1['review'] =  $reviews;
+                          }                                                                                                    
+                        }else{
+
+                            $input1['@context']              = saswp_context_url();
+                            $input1['@type']                 = 'Product';
+                            $input1['@id']                   = trailingslashit(saswp_get_permalink()).'#Product';                                                                                                                                                                                                                                                                                        
+                        }                                                                
+                    
+                    break;
 
                 default:
                     break;
@@ -3168,7 +3263,7 @@ Class saswp_output_service{
                                                
                                           if($key == 0){
                                               
-                                            if($image['width'] < 1280 && $image['height'] < 720){
+                                            if($image['width'] < 1200){
                                                 
                                                 $resized_image = aq_resize( $image['url'], 1280, 720, true, false, true );                                                                                                
                                                 $attach_images['image'][$key]['url']    =   $resized_image[0];

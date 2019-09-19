@@ -64,7 +64,7 @@ function saswp_schema_markup_output() {
        
         global $sd_data;
         global $post;
-   
+       
         $custom_markup            = '';
         $output                   = '';
         $post_specific_enable     = '';
@@ -72,8 +72,11 @@ function saswp_schema_markup_output() {
         $kb_schema_output         = array(); 
         $item_list                = array();
         $collection_page          = array(); 
-        $blog_page                = array();
-        
+        $blog_page                = array();          
+                
+        $gutenberg_how_to         = saswp_gutenberg_how_to_schema(); 
+        $gutenberg_faq            = saswp_gutenberg_faq_schema();        
+        $woo_cat_schema           = saswp_woocommerce_category_schema();  
         $site_navigation          = saswp_site_navigation_output();     
         $contact_page_output      = saswp_contact_page_output();  	
         $about_page_output        = saswp_about_page_output();      
@@ -138,6 +141,24 @@ function saswp_schema_markup_output() {
                         if(!empty($item_list)){
                         
                             $output .= saswp_json_print_format($item_list);   
+                            $output .= ",";
+                            $output .= "\n\n";
+                        }
+                        if(!empty($woo_cat_schema)){
+                        
+                            $output .= saswp_json_print_format($woo_cat_schema);   
+                            $output .= ",";
+                            $output .= "\n\n";
+                        }
+                        if(!empty($gutenberg_how_to)){
+                        
+                            $output .= saswp_json_print_format($gutenberg_how_to);   
+                            $output .= ",";
+                            $output .= "\n\n";
+                        }
+                        if(!empty($gutenberg_faq)){
+                        
+                            $output .= saswp_json_print_format($gutenberg_faq);   
                             $output .= ",";
                             $output .= "\n\n";
                         }

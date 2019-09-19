@@ -461,7 +461,7 @@ function saswp_premium_features_callback(){ ?>
                                     <?php echo $cooked_active_text; ?>
                                                                            										
 				</div>
-			</li>
+			</li>                        
 		</ul>
 	</div>
 
@@ -471,6 +471,23 @@ function saswp_premium_features_callback(){ ?>
 function saswp_services_callback(){ ?>
    <div class="saswp-pre-ftrs-wrap">
 		<ul class="saswp-features-blocks">
+                        <li>
+				<div class="saswp-features-ele">
+					<div class="saswp-ele-ic saswp-ele-4" style="background: #69e781;">
+                                            <img src="<?php echo SASWP_PLUGIN_URL; ?>/admin_section/images/support-1.png">
+					</div>
+					<div class="saswp-ele-tlt">
+						<h3><?php echo esc_html__('Priority Support','schema-and-structured-data-for-wp') ?></h3>
+						<p><?php echo esc_html__('We get more than 100 technical queries a day but the Priority support plan will help you skip that and get the help from a dedicated team.','schema-and-structured-data-for-wp') ?></p>
+					</div>
+				</div>
+                                <a target="_blank" href="https://structured-data-for-wp.com/priority-support//">
+                                    <div class="saswp-sts-btn">					
+					<span class="saswp-d-btn"><?php echo esc_html__('Try it','schema-and-structured-data-for-wp') ?></span>
+				    </div>
+                                </a>
+				
+			</li>
 			<li>
 				<div class="saswp-features-ele">
 					<div class="saswp-ele-ic saswp-ele-3">
@@ -504,7 +521,7 @@ function saswp_services_callback(){ ?>
 				    </div>
                                 </a>
 				
-			</li>
+			</li>                        
 		</ul>
 	</div>
 
@@ -1312,6 +1329,17 @@ function saswp_import_callback(){
                 </li> 
                 
             </ul>
+            
+            <ul>
+                <li>
+                    <div class="">
+                        <div class="saswp-tooltip"><strong><?php echo esc_html__('Remove Data On Uninstall','schema-and-structured-data-for-wp'); ?></strong></div><input type="checkbox" id="saswp_rmv_data_on_uninstall" name="sd_data[saswp_rmv_data_on_uninstall]" <?php echo (isset($sd_data['saswp_rmv_data_on_uninstall'])? 'checked': ''); ?>>                        
+                        <p><?php echo esc_html__('This will remove all of its data when the plugin is deleted','schema-and-structured-data-for-wp'); ?></p>
+                    </div>
+                </li> 
+                
+            </ul>
+            
         <?php    
                                 
         $add_on = array();
