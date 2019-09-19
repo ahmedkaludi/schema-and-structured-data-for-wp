@@ -124,6 +124,7 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Bug Fixed: "[POST, PAGE] Specific Schema" options don't show up in /wp-admin/post-new.php #409
 * Bug Fixed: Call to undefined function get_avatar_data #480
 * Bug Fixed: Need to show the modify schema list based on target location of schema type #483
+* Bug Fixed: Fatal error function bcdiv () #489
 
 
 = 1.9.6 (11 Sept 2019) =
