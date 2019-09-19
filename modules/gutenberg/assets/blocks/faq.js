@@ -5,8 +5,7 @@
     var MediaUpload       = editor.MediaUpload;       
     var IconButton        = components.IconButton;
     var AlignmentToolbar  = editor.AlignmentToolbar;
-    var BlockControls     = editor.BlockControls;
-    var TextControl       = components.TextControl;
+    var BlockControls     = editor.BlockControls;    
     var InspectorControls = editor.InspectorControls;
     var ToggleControl     = components.ToggleControl;
     var PanelBody         = components.PanelBody;
@@ -16,6 +15,11 @@
         icon: 'editor-ol',
         category: 'saswp-blocks',
         keywords: ['schema', 'structured data', 'FAQ', 'faq'],
+        
+        // Allow only one How To block per post.
+        supports: {
+                multiple: false
+        },
                         
         attributes: {            
             alignment: {
@@ -27,7 +31,7 @@
                 default: false
             },                        
             items: {                     
-              default: [],
+              default: [{index: 0, title: "", description: "", imageUrl: "", imageId: null}],
               selector: '.saswp-faq-block-data',
               query: {
                 title: {
@@ -153,7 +157,7 @@
                     return null;
                 }
                               					
-                return el('div', {className:'saswp-faq-step-button-container'},                        
+                return el('div', {className:'saswp-faq-button-container'},                        
                         !saswpGetImageSrc(item) ? 
                         el(MediaUpload, {
                             onSelect: function(media){  
@@ -426,7 +430,8 @@
                       return props.setAttributes({
                         items: [].concat(_cloneArray(props.attributes.items), [{
                           index: props.attributes.items.length,                  
-                          title: ""                  
+                          title: "",
+                          description:""
                         }])
                       });                            
                     }

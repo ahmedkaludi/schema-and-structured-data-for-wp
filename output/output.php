@@ -1966,3 +1966,58 @@ function saswp_gutenberg_how_to_schema(){
             return $input1;
     
 }
+
+
+function saswp_gutenberg_faq_schema(){
+                        
+            global $post;
+
+            $blocks = parse_blocks($post->post_content);
+            $input1 = array();
+             
+            if($blocks){
+
+            foreach ($blocks as $parse_blocks){
+
+            if(isset($parse_blocks['blockName']) && $parse_blocks['blockName'] === 'saswp/faq-block'){
+
+                            $input1['@context']              = saswp_context_url();
+                            $input1['@type']                 = 'FAQPage';
+                            $input1['@id']                   = trailingslashit(get_permalink()).'#FAQPage';                            
+                                                                                    
+                            $faq_question_arr = array();
+                            
+                            if(!empty($parse_blocks['attrs']['items'])){
+                                
+                                foreach($parse_blocks['attrs']['items'] as $val){
+                                   
+                                    $supply_data = array();
+                                    $supply_data['@type']                   = 'Question';
+                                    $supply_data['name']                    = $val['title'];
+                                    $supply_data['acceptedAnswer']['@type'] = 'Answer';
+                                    $supply_data['acceptedAnswer']['text']  = $val['description'];
+                                                                        
+                                     if(isset($val['imageId']) && $val['imageId'] !=''){
+
+                                        $image_details   = wp_get_attachment_image_src($val['imageId']);                                                 
+                                        $supply_data['image']['@type']  = 'ImageObject';                                                
+                                        $supply_data['image']['url']    = esc_url($image_details[0]);
+                                        $supply_data['image']['width']  = esc_attr($image_details[1]);
+                                        $supply_data['image']['height'] = esc_attr($image_details[2]);
+
+                                      }
+                                                                                                           
+                                   $faq_question_arr[] =  $supply_data;
+                                }
+                               $input1['mainEntity'] = $faq_question_arr;
+                            }
+               
+                      }
+                                
+                 }
+
+            }
+
+            return $input1;
+    
+}

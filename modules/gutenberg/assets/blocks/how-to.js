@@ -52,7 +52,7 @@
                   selector: '.saswp-how-to-minutes'
             },
             items: {                     
-              default: [],
+              default: [{index: 0, title: "", description: "", imageUrl: "", imageId: null}],
               selector: '.saswp-how-to-block-data',
               query: {
                 title: {
@@ -71,7 +71,7 @@
                 },
                 index: {            
                   type: 'number',                  
-                  attribute: 'data-index'            
+                  attribute: 'data-index',                  
                 },
                 isSelected: {            
                   type: 'boolean',
@@ -83,6 +83,7 @@
         edit: function(props) {
             
             var attributes = props.attributes;
+            console.log(attributes);
             var alignment  = props.attributes.alignment;
                             
             //List of function for the current blocks starts here
@@ -527,7 +528,8 @@
                       return props.setAttributes({
                         items: [].concat(_cloneArray(props.attributes.items), [{
                           index: props.attributes.items.length,                  
-                          title: ""                  
+                          title: "",
+                          description: "",
                         }])
                       });                            
                     }
