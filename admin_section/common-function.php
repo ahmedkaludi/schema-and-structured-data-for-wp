@@ -2179,16 +2179,24 @@ if ( ! defined('ABSPATH') ) exit;
         //All in one Seo pack
         if(saswp_remove_warnings($sd_data, 'saswp-aiosp', 'saswp_string') == 1){
                              
-             global $aiosp, $post;            
-             $c_excerpt =  $aiosp->get_aioseop_description($post);             
-             if($c_excerpt){
-                 $excerpt = $c_excerpt;
-             }             
+             global $aiosp, $post;  
+             
+             if(is_object($aiosp)){
+             
+                    $c_excerpt =  $aiosp->get_aioseop_description($post);             
+                    if($c_excerpt){
+                        $excerpt = $c_excerpt;
+                    }
+                 
+             }
+             
+                          
                                       
         }
         
         //SEOPress 
         if(saswp_remove_warnings($sd_data, 'saswp-seo-press', 'saswp_string') == 1){
+            
              require_once ( WP_PLUGIN_DIR. '/wp-seopress/inc/functions/options-titles-metas.php'); //Social                                                                              
              $c_excerpt =  seopress_titles_the_description_content($post);             
              
@@ -2294,15 +2302,20 @@ if ( ! defined('ABSPATH') ) exit;
         
         //All in one Seo pack
         if(saswp_remove_warnings($sd_data, 'saswp-aiosp', 'saswp_string') == 1){
-                             
-             global $aiosp;
+                 
             
-             $c_title =  $aiosp->wp_title();
+             global $aiosp;
              
-             if($c_title){
+             if(is_object($aiosp)){
+             
+                $c_title =  $aiosp->wp_title();
+             
+                if($c_title){
                  $title = $c_title;
-             }             
-                                      
+                }
+                 
+             }
+                                                                            
         }
         
         //The seo framework
