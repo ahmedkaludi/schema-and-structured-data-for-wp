@@ -585,7 +585,7 @@ class saswp_post_specific {
                      
                      $checked = '';
                                                                                     
-                     if(!isset($schema_enable[$schema->ID]) || $schema_enable[$schema->ID] == 1){
+                     if(isset($schema_enable[$schema->ID]) && $schema_enable[$schema->ID] == 1){
                          
                         $checked = 'checked';    
                      
@@ -690,7 +690,7 @@ class saswp_post_specific {
                  
                  $checked      = '';                                                   
                  
-                 if(!isset($schema_enable[$all_schema[0]->ID]) || $schema_enable[$all_schema[0]->ID] == 1){
+                 if(isset($schema_enable[$all_schema[0]->ID]) && $schema_enable[$all_schema[0]->ID] == 1){
                     $checked = 'checked';    
                  }
                                                                    
