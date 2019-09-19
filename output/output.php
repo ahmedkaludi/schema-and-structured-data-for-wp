@@ -1900,10 +1900,16 @@ function saswp_gutenberg_how_to_schema(){
                 $input1['name']                  = saswp_get_the_title();
                 $input1['datePublished']         = get_the_date("Y-m-d\TH:i:s\Z");
                 $input1['dateModified']          = get_the_modified_date("Y-m-d\TH:i:s\Z");
-                $input1['description']           = $parse_blocks['attrs']['description'];
-
-                $step = $parse_blocks['attrs']['items'];
-
+                
+                if(array_key_exists('description', $parse_blocks['attrs'])){
+                    $input1['description']           = $parse_blocks['attrs']['description'];
+                }
+                $step = array();
+                
+                if(array_key_exists('items', $parse_blocks['attrs'])){
+                    $step = $parse_blocks['attrs']['items'];
+                }
+                
                 $step_arr = array();                            
                 if(!empty($step)){
 
