@@ -141,29 +141,10 @@ function saswp_load_plugin_textdomain() {
 add_action( 'plugins_loaded', 'saswp_load_plugin_textdomain' );
 
 
-function saswp_get_all_schema_posts(){
-    
-    $schema_id_array = array();
 
-    $schema_id_array = json_decode(get_transient('saswp_transient_schema_ids'), true); 
-    
-    
-    if(!$schema_id_array){
-        
-       $schema_id_array = saswp_get_saved_schema_ids();
-        
-    }         
-       
-    if($schema_id_array){
-     
-     if(count($schema_id_array)>0){    
-        
-      $returnData = array();
-      
-      foreach ($schema_id_array as $post_id){ 
-        
+function saswp_check_advance_display_status($post_id){
+              
           $unique_checker = '';
-          
           $resultset = saswp_generate_field_data( $post_id );
           
           if($resultset){
@@ -193,7 +174,7 @@ function saswp_get_all_schema_posts(){
           $condition_array[] = $checker;
           
           }          
-             $array_is_true = in_array(true,$condition_array);
+            $array_is_true = in_array(true,$condition_array);
           
           if($array_is_true){
               
@@ -202,11 +183,36 @@ function saswp_get_all_schema_posts(){
           }
           
           }else{
-              
-          $unique_checker = 'notset';    
-          
+              $unique_checker = 'notset';
           }
-                    
+    
+          return $unique_checker;
+    
+}
+
+function saswp_get_all_schema_posts(){
+    
+    $schema_id_array = array();
+
+    $schema_id_array = json_decode(get_transient('saswp_transient_schema_ids'), true); 
+    
+    
+    if(!$schema_id_array){
+        
+       $schema_id_array = saswp_get_saved_schema_ids();
+        
+    }         
+       
+    if($schema_id_array){
+     
+     if(count($schema_id_array)>0){    
+        
+      $returnData = array();
+      
+      foreach ($schema_id_array as $post_id){ 
+        
+          $unique_checker = saswp_check_advance_display_status($post_id);
+                                        
           if ( $unique_checker === 1 || $unique_checker === true || $unique_checker == 'notset') {
               
               $conditions = array();

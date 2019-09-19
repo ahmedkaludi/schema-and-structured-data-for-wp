@@ -82,8 +82,7 @@
           },               
         edit: function(props) {
             
-            var attributes = props.attributes;
-            console.log(attributes);
+            var attributes = props.attributes;            
             var alignment  = props.attributes.alignment;
                             
             //List of function for the current blocks starts here
