@@ -1884,7 +1884,7 @@ function saswp_gutenberg_how_to_schema(){
             global $post;
             $input1 = array();
             
-            if(function_exists('parse_blocks')){
+            if(function_exists('parse_blocks') && is_object($post)){
                 
             $blocks = parse_blocks($post->post_content);
             
@@ -1983,7 +1983,7 @@ function saswp_gutenberg_faq_schema(){
             global $post;
             $input1 = array();
                         
-            if(function_exists('parse_blocks')){
+            if(function_exists('parse_blocks') && is_object($post)){
                 
                 $blocks = parse_blocks($post->post_content);
 
