@@ -734,28 +734,22 @@ function saswp_schema_type_meta_box_callback( $post) {
                             $style_business_type = 'style="display:none"';
                             $style_business_name = 'style="display:none"';
 
-                        }                            
-                    }   
-                                               
-                        $item_reviewed = array(
-                             'Article'               => 'Article',
-                             'Adultentertainment'    => 'Adult Entertainment',
-                             'Blog'                  => 'Blog',
-                             'Book'                  => 'Book',
-                             'Casino'                => 'Casino',   
-                             'Diet'                  => 'Diet',
-                             'Episode'               => 'Episode',
-                             'ExercisePlan'          => 'Exercise Plan',  
-                             'Game'                  => 'Game', 
+                         }                            
+                        }                                                  
+                        $item_reviewed = array(                                                                                    
+                             'Book'                  => 'Book',                             
+                             'Course'                => 'Course',                             
+                             'Event'                 => 'Event',                              
+                             'LocalBusiness'         => 'LocalBusiness',    
                              'Movie'                 => 'Movie', 
                              'MusicPlaylist'         => 'Music Playlist',                                      
                              'MusicRecording'        => 'MusicRecording',
-                             'Photograph'            => 'Photograph',                                     
-                             'Restaurant'            => 'Restaurant', 
-                             'Series'                => 'Series',                                     
-                             'VisualArtwork'         => 'Visual Artwork',  
-                             'WebPage'               => 'WebPage', 
-                             'WebSite'               => 'WebSite',                                                                                                                                                   
+                             'MediaObject'           => 'MediaObject',  
+                             'Photograph'            => 'Photograph',                                                                  
+                             'Product'               => 'Product',
+                             'Recipe'                => 'Recipe',                             
+                             'SoftwareApplication'   => 'SoftwareApplication',
+                             'VideoGame'             => 'VideoGame', 
                         );                                                             
 
                         $mappings_file = SASWP_DIR_NAME . '/core/array-list/schemas.php';
@@ -1087,7 +1081,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                     <td><?php echo esc_html__('Item Reviewed Type', 'schema-and-structured-data-for-wp' ); ?></td>
                     <td>
 
-                        <select data-id="<?php if(is_object($post)){ echo esc_attr($post->ID); }  ?>" name="saswp_review_schema_item_type" class="">
+                        <select data-id="<?php if(is_object($post)){ echo esc_attr($post->ID); }  ?>" name="saswp_review_schema_item_type" class="saswp-item-reivewed-list">
                         <?php                                
                           foreach ($item_reviewed as $key => $value) {
                             $sel = '';

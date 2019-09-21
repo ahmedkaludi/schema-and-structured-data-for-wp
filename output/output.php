@@ -1922,7 +1922,7 @@ function saswp_gutenberg_how_to_schema(){
             
                 if($blocks){
 
-                    foreach ($blocks as $parse_blocks){
+                foreach ($blocks as $parse_blocks){
 
                 if(isset($parse_blocks['blockName']) && $parse_blocks['blockName'] === 'saswp/how-to-block'){
 

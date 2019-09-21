@@ -2606,8 +2606,7 @@ Class saswp_output_service{
                 
                 case 'Review':                    
                     $meta_field = array(
-                        
-                       // 'saswp_review_schema_item_type'         => 'Item Reviewed Type',
+                                               
                         'saswp_review_schema_name'              => 'Name',
                         'saswp_review_schema_description'       => 'Description',
                         'saswp_review_schema_date_published'    => 'Date Published',
