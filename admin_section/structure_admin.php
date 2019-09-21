@@ -1400,9 +1400,10 @@ function saswp_license_status($add_on, $license_status, $license_key){
                 $item_name = array(
                        'cooked'       => 'Cooked compatibility for Schema',
                        'woocommerce'  => 'Woocommerce compatibility for Schema',
-                       'reviews'      => 'Reviews for schema'  
+                       'reviews'      => 'Reviews for schema',
+                       'res'          => 'Real Estate Schema'
                 );
-                                                                                    
+                                                                            
                 $edd_action = '';
                 if($license_status =='active'){
                    $edd_action = 'activate_license'; 

@@ -1355,6 +1355,11 @@ function saswp_import_callback(){
            $add_on[] = 'Woocommerce';           
                                       
         }
+        if(is_plugin_active('real-estate-schema/real-estate-schema.php')){
+                      
+           $add_on[] = 'Res';           
+                                      
+        }
                 
         if(!empty($add_on)){
             
@@ -1445,14 +1450,22 @@ function saswp_get_license_section_html($on, $license_key, $license_status, $lic
 
             $response.= '<div class="saswp-tools-field-title">';
                 
-               if($label == true){
+               if($label == true && $on != 'Res'){
                    
                     $response.= '<div class="" style="display:inline-block">';
                     $response.= '<strong>'.esc_html__(''.$on.' Compatibility For Schema','schema-and-structured-data-for-wp').'</strong>';
                     $response.= '</div>';
                 
                }
-                                
+               
+               if($label == true && $on == 'Res'){
+                   
+                    $response.= '<div class="" style="display:inline-block">';
+                    $response.= '<strong>'.esc_html__('Real Estate Schema','schema-and-structured-data-for-wp').'</strong>';
+                    $response.= '</div>';
+                
+               }
+                                               
                 if($license_status == 'active'){
                 
                     $response.= '<span class="dashicons dashicons-yes saswp-'.strtolower($on).'-dashicons" style="color: #46b450;"></span>';    
