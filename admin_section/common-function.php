@@ -1905,10 +1905,8 @@ if ( ! defined('ABSPATH') ) exit;
         
     <?php
      }
-                        
-        if((has_shortcode( @get_the_content(), 'saswp_google_review') || is_active_widget( false, false, 'saswp_google_review_widget',true )) && 
-                ((isset($sd_data['saswp-google-review']) && $sd_data['saswp-google-review'] == 1) || (isset($sd_data['saswp-shopper-approved-review']) && $sd_data['saswp-shopper-approved-review'] == 1)) 
-                ){
+                       
+        if((has_shortcode( @get_the_content(), 'saswp-reviews')) || is_active_widget( false, false, 'saswp_google_review_widget',true ) || (isset($sd_data['saswp-review-module']) && $sd_data['saswp-review-module'] == 1) ){            
             ?>
         
         /*** Review Design CSS ****/
