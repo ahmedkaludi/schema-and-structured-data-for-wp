@@ -456,6 +456,7 @@ function saswp_post_specific_schema_output() {
                             $input1['url']                   = saswp_remove_warnings($all_post_meta, 'saswp_apartment_schema_url_'.$schema_id, 'saswp_array');                            
                             $input1['name']                  = saswp_remove_warnings($all_post_meta, 'saswp_apartment_schema_name_'.$schema_id, 'saswp_array');                            
                             $input1['description']           = saswp_remove_warnings($all_post_meta, 'saswp_apartment_schema_description_'.$schema_id, 'saswp_array');
+                            $input1['floorSize']             = saswp_remove_warnings($all_post_meta, 'saswp_apartment_schema_floor_size_'.$schema_id, 'saswp_array');
                               
                             if(!(empty($howto_image))){
                              
@@ -472,17 +473,60 @@ function saswp_post_specific_schema_output() {
                             $input1['address']['addressCountry']    = saswp_remove_warnings($all_post_meta, 'saswp_apartment_schema_country_'.$schema_id, 'saswp_array');
                             $input1['address']['addressLocality']   = saswp_remove_warnings($all_post_meta, 'saswp_apartment_schema_locality_'.$schema_id, 'saswp_array');
                             $input1['address']['addressRegion']     = saswp_remove_warnings($all_post_meta, 'saswp_apartment_schema_region_'.$schema_id, 'saswp_array');
-                            $input1['address']['PostalCode'] = saswp_remove_warnings($all_post_meta, 'saswp_apartment_schema_postalcode_'.$schema_id, 'saswp_array');
+                            $input1['address']['PostalCode']        = saswp_remove_warnings($all_post_meta, 'saswp_apartment_schema_postalcode_'.$schema_id, 'saswp_array');
                             
-                            $input1['telephone']           = saswp_remove_warnings($all_post_meta, 'saswp_apartment_schema_telephone_'.$schema_id, 'saswp_array');
+                            $input1['telephone']                    = saswp_remove_warnings($all_post_meta, 'saswp_apartment_schema_telephone_'.$schema_id, 'saswp_array');
                             
+                            if(isset($all_post_meta['saswp_apartment_schema_latitude_'.$schema_id][0]) && isset($all_post_meta['saswp_apartment_schema_longitude_'.$schema_id][0]))
+                            
+                                    $input1['geo']['@type']     = 'GeoCoordinates';
+                                    $input1['geo']['latitude']  = $all_post_meta['saswp_apartment_schema_latitude_'.$schema_id][0];
+                                    $input1['geo']['longitude'] = $all_post_meta['saswp_apartment_schema_longitude_'.$schema_id][0];
+                                    
                             }
                             
+                            $itinerary  = get_post_meta($schema_post_id, 'apartment_amenities_'.$schema_id, true);
+                            
+                            $itinerary_arr = array();
+                            
+                            if(!empty($itinerary)){
+                                
+                                foreach($itinerary as $val){
+                                   
+                                    $supply_data = array();
+                                    $supply_data['@type']        = 'LocationFeatureSpecification';
+                                    $supply_data['name']         = $val['saswp_apartment_amenities_name'];                                                                        
+                                                                        
+                                   $itinerary_arr[] =  $supply_data;
+                                }
+                                
+                                $input1['amenityFeature'] = $itinerary_arr;
+                            }
+                            
+                            $add_property     = get_post_meta($schema_post_id, 'additional_property_'.$schema_id, true);
+                            
+                            $add_property_arr = array();
+                            
+                            if(!empty($add_property)){
+                                
+                                foreach($add_property as $val){
+                                   
+                                    $supply_data = array();
+                                    $supply_data['@type']                                                  = 'PropertyValue';
+                                    $supply_data['name']                                                   = $val['saswp_apartment_additional_property_name'];
+                                    $supply_data[$val['saswp_apartment_additional_property_code_type']]    = $val['saswp_apartment_additional_property_code_value'];
+                                    $supply_data['value']                                                  = $val['saswp_apartment_additional_property_value'];
+                                                                        
+                                   $add_property_arr[] =  $supply_data;
+                                }
+                                
+                                $input1['additionalProperty'] = $add_property_arr;
+                            }
+                                                                                                                                            
                          if( 'House' === $schema_type){
                              
                             $howto_image = get_post_meta( get_the_ID(), 'saswp_house_schema_image_'.$schema_id.'_detail',true); 
-                            
-                                                                                   
+                                                                                                               
                             $input1['@context']              = saswp_context_url();
                             $input1['@type']                 = 'House';
                             $input1['@id']                   = trailingslashit(get_permalink()).'#House';
@@ -505,7 +549,7 @@ function saswp_post_specific_schema_output() {
                             $input1['address']['addressCountry']    = saswp_remove_warnings($all_post_meta, 'saswp_house_schema_country_'.$schema_id, 'saswp_array');
                             $input1['address']['addressLocality']   = saswp_remove_warnings($all_post_meta, 'saswp_house_schema_locality_'.$schema_id, 'saswp_array');
                             $input1['address']['addressRegion']     = saswp_remove_warnings($all_post_meta, 'saswp_house_schema_region_'.$schema_id, 'saswp_array');
-                            $input1['address']['PostalCode'] = saswp_remove_warnings($all_post_meta, 'saswp_house_schema_postalcode_'.$schema_id, 'saswp_array');
+                            $input1['address']['PostalCode']        = saswp_remove_warnings($all_post_meta, 'saswp_house_schema_postalcode_'.$schema_id, 'saswp_array');
                             
                             $input1['telephone']                    = saswp_remove_warnings($all_post_meta, 'saswp_house_schema_telephone_'.$schema_id, 'saswp_array');
                             

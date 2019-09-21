@@ -23,7 +23,7 @@ class saswp_post_specific {
                         'Product' => array(
                                'product_reviews' => 'product_reviews',                                                
                         ),
-                       'DataFeed' => array(
+                        'DataFeed' => array(
                                'feed_element' => 'feed_element',                                                
                         ),
                         'FAQ' => array(
@@ -36,7 +36,12 @@ class saswp_post_specific {
                                'how-to-supply' => 'howto_supply', 
                                'how-to-tool'   => 'howto_tool', 
                                'how-to-step'   => 'howto_step', 
-                        ),  
+                        ),
+                        'Apartment' => array(
+                               'apartment-amenities' => 'apartment_amenities',
+                               'additional-property' => 'additional_property',
+                                                              
+                        ),
                         'MedicalCondition' => array(
                                'mc-cause'       => 'mc_cause', 
                                'mc-symptom'     => 'mc_symptom', 
@@ -253,7 +258,41 @@ class saswp_post_specific {
 			'name'      => 'saswp_faq_question_answer',
 			'type'      => 'textarea'                        
 		    )                    
-                    )
+                    ),
+                    'apartment_amenities' => array(                    
+                    array(
+			'label'     => 'amenity Name',
+			'name'      => 'saswp_apartment_amenities_name',
+			'type'      => 'text',                        
+		    )                                                                                    
+                    ),
+                    'additional_property' => array(                    
+                    array(
+			'label'     => 'Name',
+			'name'      => 'saswp_apartment_additional_property_name',
+			'type'      => 'text',                        
+		    ),
+                    array(
+			'label'     => 'Value',
+			'name'      => 'saswp_apartment_additional_property_value',
+			'type'      => 'text',                        
+		    ),
+                    array(
+			'label'     => 'Code Type',
+			'name'      => 'saswp_apartment_additional_property_code_type',
+			'type'      => 'select',
+                        'options'   => array(
+                                'unitCode'   => 'Unit Code',
+                                'unitText'   => 'Unit Text',                                                                                                
+                        )
+		    ),
+                    array(
+			'label'     => 'Code Value',
+			'name'      => 'saswp_apartment_additional_property_code_value',
+			'type'      => 'text',                        
+		    ),    
+                    ),
+                    
                   );
 
         public function __construct() {
@@ -3556,6 +3595,14 @@ class saswp_post_specific {
                             ), 
                     ),
                     array(
+                            'label'      => 'Floor Size',
+                            'id'         => 'saswp_apartment_schema_floor_size_'.$schema_id,
+                            'type'       => 'text',
+                            'attributes' => array(
+                                'placeholder' => '140 Sq.Ft'
+                            ), 
+                    ),    
+                    array(
                             'label'      => 'Country',
                             'id'         => 'saswp_apartment_schema_country_'.$schema_id,
                             'type'       => 'text',                           
@@ -3579,6 +3626,22 @@ class saswp_post_specific {
                             'label'      => 'Telephone',
                             'id'         => 'saswp_apartment_schema_telephone_'.$schema_id,
                             'type'       => 'text',                            
+                    ),
+                    array(
+                            'label'      => 'GeoCoordinates Latitude',
+                            'id'         => 'saswp_apartment_schema_latitude_'.$schema_id,
+                            'type'       => 'text',
+                            'attributes' => array(
+                                'placeholder' => '17.412'
+                            ), 
+                    ),
+                    array(
+                            'label'      => 'GeoCoordinates Longitude',
+                            'id'         => 'saswp_apartment_schema_longitude_'.$schema_id,
+                            'type'       => 'text',
+                            'attributes' => array(
+                                'placeholder' => '78.433'
+                            ),
                     ),    
                                               
                    );

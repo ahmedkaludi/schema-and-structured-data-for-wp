@@ -403,6 +403,8 @@ function saswp_schema_output() {
                                     $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
                             }
                             
+                            $input1 = apply_filters('saswp_modify_apartment_schema_output', $input1 );
+                            
                             }
                         
                         if( 'TouristDestination' === $schema_type){
@@ -1884,7 +1886,7 @@ function saswp_gutenberg_how_to_schema(){
             global $post;
             $input1 = array();
             
-            if(function_exists('parse_blocks')){
+            if(function_exists('parse_blocks') && is_object($post)){
                 
             $blocks = parse_blocks($post->post_content);
             
@@ -1983,7 +1985,7 @@ function saswp_gutenberg_faq_schema(){
             global $post;
             $input1 = array();
                         
-            if(function_exists('parse_blocks')){
+            if(function_exists('parse_blocks') && is_object($post)){
                 
                 $blocks = parse_blocks($post->post_content);
 

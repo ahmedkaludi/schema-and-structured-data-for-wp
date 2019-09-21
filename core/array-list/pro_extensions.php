@@ -15,6 +15,11 @@ return array(
             'key'        => 'reviews_for_schema',
             'name'       => 'Reviews for Schema',
             'path'       => 'reviews-for-schema/reviews-for-schema.php',                        
+        ),
+        array(
+            'key'        => 'real_estate_schema',
+            'name'       => 'Real Estate Schema',
+            'path'       => 'real-estate-schema/real-estate-schema.php',                        
         )
                         
     );
