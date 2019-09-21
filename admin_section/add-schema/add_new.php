@@ -98,15 +98,15 @@ $saswp_add_data_type_config = array(
                 wp_enqueue_media ();
                                 
                 // Enqueue styles.
-		wp_enqueue_style( 'saswp-timepicker-js', SASWP_PLUGIN_URL. $saswp_add_data_type_config['installer_dir']. '/css/jquery.timepicker.css' , array( 'wp-admin' ), '0.1');
+		wp_enqueue_style( 'saswp-timepicker-js', SASWP_PLUGIN_URL. $saswp_add_data_type_config['installer_dir']. '/css/jquery.timepicker.css' , array( 'wp-admin' ), SASWP_VERSION);
 		// Enqueue javascript.
-		wp_enqueue_script( 'saswp-timepicker-css', SASWP_PLUGIN_URL. $saswp_add_data_type_config['installer_dir']. '/js/jquery.timepicker.js' , array( 'jquery-core' ), '0.1' );
+		wp_enqueue_script( 'saswp-timepicker-css', SASWP_PLUGIN_URL. $saswp_add_data_type_config['installer_dir']. '/js/jquery.timepicker.js' , array( 'jquery', 'jquery-core', 'jquery-ui-core' ), SASWP_VERSION );
                 
                 
 		// Enqueue styles.
-		wp_enqueue_style( 'saswp_add_new', SASWP_PLUGIN_URL. $saswp_add_data_type_config['installer_dir']. '/css/saswp-add-new.min.css' , array( 'wp-admin' ), '0.1');
+		wp_enqueue_style( 'saswp_add_new', SASWP_PLUGIN_URL. $saswp_add_data_type_config['installer_dir']. '/css/saswp-add-new.min.css' , array( 'wp-admin' ), SASWP_VERSION);
 		// Enqueue javascript.
-		wp_enqueue_script( 'saswp_add_new', SASWP_PLUGIN_URL. $saswp_add_data_type_config['installer_dir']. '/js/saswp-add-new.min.js' , array( 'jquery-core' ), '0.1' );		
+		wp_enqueue_script( 'saswp_add_new', SASWP_PLUGIN_URL. $saswp_add_data_type_config['installer_dir']. '/js/saswp-add-new.min.js' , array( 'jquery', 'jquery-core', 'jquery-ui-core' ), SASWP_VERSION );		
                 
                 //Enque datepicker
                 wp_enqueue_script( 'jquery-ui-datepicker' );
@@ -114,7 +114,7 @@ $saswp_add_data_type_config = array(
                 wp_enqueue_style( 'jquery-ui' );
                 
                 
-                wp_enqueue_script( 'structure_admin', SASWP_PLUGIN_URL. $saswp_add_data_type_config['installer_dir']. '/js/structure_admin.min.js' , array( 'jquery' ), '0.1' );
+                wp_enqueue_script( 'structure_admin', SASWP_PLUGIN_URL. $saswp_add_data_type_config['installer_dir']. '/js/structure_admin.min.js' , array( 'jquery', 'jquery-ui-core' ), SASWP_VERSION );
 		
                 wp_localize_script( 'structure_admin', 'saswp_app_object', array(
 			'ajax_url'      		=> admin_url( 'admin-ajax.php' ),						

@@ -214,7 +214,7 @@ function saswp_enqueue_rateyo_script( $hook ) {
 
             $data = apply_filters('saswp_reviews_filter',$data,'saswp_reviews_data');
 
-            wp_register_script( 'saswp-rateyo-js', SASWP_PLUGIN_URL . 'admin_section/js/jquery.rateyo.min.js', array('jquery'), SASWP_VERSION , true );                                        
+            wp_register_script( 'saswp-rateyo-js', SASWP_PLUGIN_URL . 'admin_section/js/jquery.rateyo.min.js', array('jquery', 'jquery-ui-core'), SASWP_VERSION , true );                                        
             wp_localize_script( 'saswp-rateyo-js', 'saswp_reviews_data', $data );
             wp_enqueue_script( 'saswp-rateyo-js' );
 
