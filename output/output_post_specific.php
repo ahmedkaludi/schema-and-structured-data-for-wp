@@ -2269,30 +2269,7 @@ function saswp_post_specific_schema_output() {
                                     
                                                                                                             
 			}
-                        
-                        
-                         if($schema_type != 'Review'){
-                            
-                            //kk star rating 
-                        
-                            $kkstar_aggregateRating = saswp_extract_kk_star_ratings();
-
-                            if(!empty($kkstar_aggregateRating)){
-                                $input1['aggregateRating'] = $kkstar_aggregateRating; 
-                            }
-
-                            //wp post-rating star rating 
-
-                            $wp_post_rating_ar = saswp_extract_wp_post_ratings();
-
-                            if(!empty($wp_post_rating_ar)){
-                                $input1['aggregateRating'] = $wp_post_rating_ar; 
-                            }
-                            
-                            
-                        }
-                        
-                                		                        			                        
+                                                                                                        		                        			                        
                          if( !empty($input1) && !isset($input1['image'])){
                              
                              $service_object     = new saswp_output_service();

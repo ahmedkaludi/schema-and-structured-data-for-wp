@@ -8,6 +8,38 @@
  * @version 1.0
  */
 if (! defined('ABSPATH') ) exit;
+
+
+/**
+ * List of schema type who do not support aggregateRating directly
+ */
+$without_aggregate = array(
+        'Apartment',
+        'House',
+        'SingleFamilyResidence',
+        'Article',
+        'Blogposting',
+        'DiscussionForumPosting',
+        'DataFeed',
+        'FAQ',
+        'NewsArticle',
+        'qanda',
+        'Review',
+        'TechArticle',
+        'WebPage',
+        'JobPosting',
+        'Service',
+        'Trip',
+        'MedicalCondition',
+        'TouristAttraction',
+        'TouristDestination',
+        'LandmarksOrHistoricalBuildings',
+        'HinduTemple',
+        'Church',
+        'Mosque',
+        'Person'
+);
+
 /**
  * Function generates knowledge graph schema
  * @global type $sd_data
@@ -811,11 +843,7 @@ function saswp_schema_output() {
                                 }
                                 if(isset($sd_data['saswp_comments_schema']) && $sd_data['saswp_comments_schema'] ==1){
                                     $input1['comment'] = saswp_get_comments(get_the_ID());
-                                }
-                                if(!empty($extra_theme_review)){
-                                   $input1 = array_merge($input1, $extra_theme_review);
-                                }
-                                
+                                }                                                                
                                 $input1 = apply_filters('saswp_modify_article_schema_output', $input1 );  
 			}
                         
@@ -1262,24 +1290,26 @@ function saswp_schema_output() {
                            
                         }
                         
-                        if($schema_type !='Review' || (isset($sd_data['saswp-the-events-calendar']) && $sd_data['saswp-the-events-calendar'] == 0) || (isset($sd_data['saswp-woocommerce']) && $sd_data['saswp-woocommerce'] == 0)){
-                            
-                            //kk star rating 
+                        global $without_aggregate;
                         
-                                $kkstar_aggregateRating = saswp_extract_kk_star_ratings();
-                                
-                                if(!empty($kkstar_aggregateRating)){
-                                    $input1['aggregateRating'] = $kkstar_aggregateRating; 
-                                }
-
-                                //wp post-rating star rating 
-
-                                $wp_post_rating_ar = saswp_extract_wp_post_ratings();
-
-                                if(!empty($wp_post_rating_ar)){
-                                    $input1['aggregateRating'] = $wp_post_rating_ar; 
-                                }                            
+                        if(!in_array($schema_type, $without_aggregate)){ 
+                                                                                            
+                                    //kk star rating 
                             
+                                    $kkstar_aggregateRating = saswp_extract_kk_star_ratings();
+                                
+                                    if(!empty($kkstar_aggregateRating)){
+                                        $input1['aggregateRating'] = $kkstar_aggregateRating; 
+                                    }
+
+                                    //wp post-rating star rating 
+
+                                    $wp_post_rating_ar = saswp_extract_wp_post_ratings();
+
+                                    if(!empty($wp_post_rating_ar)){
+                                        $input1['aggregateRating'] = $wp_post_rating_ar; 
+                                    }                                                                    
+                        
                         }                                                
                                 
                         //Check for Featured Image
