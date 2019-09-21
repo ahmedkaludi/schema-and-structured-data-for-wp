@@ -2514,6 +2514,7 @@ function saswp_check_plugin_active_status($pname){
             'free' => 'wp-recipe-maker/wp-recipe-maker.php',            
         ),
         
+        
     );
     
     if(array_key_exists('free', $pnamelist[$pname])){

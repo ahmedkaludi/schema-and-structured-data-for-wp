@@ -1656,6 +1656,17 @@ function saswp_compatibility_page_callback(){
                                 'name' => 'sd_data[saswp-the-seo-framework]',                             
                         )
 		);
+        $homeland_theme = array(
+			'label'  => 'HomeLand Theme',
+			'id'     => 'saswp-homeland-checkbox',                        
+                        'name'   => 'saswp-homeland-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',                        
+                        'hidden' => array(
+                                'id'   => 'saswp-homeland',
+                                'name' => 'sd_data[saswp-homeland]',                             
+                        )
+		);
         
         $seo_press = array(
 			'label'  => 'SEOPress',
@@ -1857,6 +1868,12 @@ function saswp_compatibility_page_callback(){
 		);      
         
         
+        if(get_template() != 'homeland'  ){
+            
+             $homeland_theme['note'] = esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://themeforest.net/item/homeland-responsive-real-estate-theme-for-wordpress/6518965">Homeland</a>';
+                          
+        }
+        
         if(!is_plugin_active('taqyeem/taqyeem.php')  || get_template() != 'jannah'  ){
             
              $tagyeem['note'] = esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://codecanyon.net/item/taqyeem-wordpress-review-plugin/4558799">Taqyeem</a>';
@@ -1887,8 +1904,13 @@ function saswp_compatibility_page_callback(){
              $cooked['note'] = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="http://structured-data-for-wp.com/cooked-compatibility-for-schema/">Cooked Addon</a>';
              
          }
-       
-                                                                         
+         
+         if(!is_plugin_active('real-estate-schema/real-estate-schema.php')){
+                          
+             $homeland_theme['note'] = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/extensions/">Real Estate Schema Addon</a>';
+             
+         }
+                                                                                
         if(get_template() != 'Extra'){
              
              $extratheme['note']      = esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://www.elegantthemes.com/gallery/extra/">Extra Theme</a>';
@@ -1918,7 +1940,8 @@ function saswp_compatibility_page_callback(){
                 $aiosp,
                 $squirrly_seo,                
                 $recipe_maker,
-                $rankmath
+                $rankmath,
+                $homeland_theme
                 
 	);     
         
@@ -2099,7 +2122,7 @@ function saswp_enqueue_style_js( $hook ) {
         wp_register_style( 'jquery-ui', SASWP_PLUGIN_URL. 'admin_section/css/jquery-ui.css' );
         wp_enqueue_style( 'jquery-ui' ); 
         
-        wp_register_script( 'saswp-main-js', SASWP_PLUGIN_URL . 'admin_section/js/main-script.min.js', array('jquery'), SASWP_VERSION , true );
+        wp_register_script( 'saswp-main-js', SASWP_PLUGIN_URL . 'admin_section/js/main-script.min.js', array('jquery','jquery-ui-core'), SASWP_VERSION , true );
                         
         wp_localize_script( 'saswp-main-js', 'saswp_localize_data', $data );
         

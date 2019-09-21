@@ -403,6 +403,8 @@ function saswp_schema_output() {
                                     $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
                             }
                             
+                            $input1 = apply_filters('saswp_modify_apartment_schema_output', $input1 );
+                            
                             }
                         
                         if( 'TouristDestination' === $schema_type){
