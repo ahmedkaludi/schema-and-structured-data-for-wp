@@ -37,6 +37,12 @@ class saswp_post_specific {
                                'how-to-tool'   => 'howto_tool', 
                                'how-to-step'   => 'howto_step', 
                         ),
+                        'MusicPlaylist' => array(
+                               'music-playlist-track' => 'music_playlist_track',                                                               
+                        ),
+                        'MusicAlbum' => array(
+                               'music-album-track' => 'music_album_track',                                                               
+                        ),
                         'Apartment' => array(
                                'apartment-amenities' => 'apartment_amenities',
                                'additional-property' => 'additional_property',
@@ -292,7 +298,52 @@ class saswp_post_specific {
 			'type'      => 'text',                        
 		    ),    
                     ),
-                    
+                    'music_playlist_track' => array(                    
+                    array(
+			'label'     => 'Track Artist',
+			'name'      => 'saswp_music_playlist_track_artist',
+			'type'      => 'text',                        
+		    ),
+                    array(
+			'label'     => 'Track Duration',
+			'name'      => 'saswp_music_playlist_track_duration',
+			'type'      => 'text',                        
+		    ),
+                    array(
+			'label'     => 'Track In Album',
+			'name'      => 'saswp_music_playlist_track_inalbum',
+			'type'      => 'text',                        
+		    ),
+                    array(
+			'label'     => 'Track Name',
+			'name'      => 'saswp_music_playlist_track_name',
+			'type'      => 'text',                        
+		    ),
+                    array(
+			'label'     => 'Track URL',
+			'name'      => 'saswp_music_playlist_track_url',
+			'type'      => 'text',                        
+		    ),    
+                       
+                    ),
+                    'music_album_track' => array(                                        
+                    array(
+			'label'     => 'Track Duration',
+			'name'      => 'saswp_music_album_track_duration',
+			'type'      => 'text',                        
+		    ),                    
+                    array(
+			'label'     => 'Track Name',
+			'name'      => 'saswp_music_album_track_name',
+			'type'      => 'text',                        
+		    ),
+                    array(
+			'label'     => 'Track URL',
+			'name'      => 'saswp_music_album_track_url',
+			'type'      => 'text',                        
+		    ),    
+                       
+                    )                    
                   );
 
         public function __construct() {
@@ -4472,6 +4523,66 @@ class saswp_post_specific {
                     )    
                    );
                     break;
+                
+                case 'MusicPlaylist':
+                    
+                    $meta_field = array(
+                    array(
+                            'label'      => 'Name',
+                            'id'         => 'saswp_music_playlist_name_'.$schema_id,
+                            'type'       => 'text',                           
+                    ),
+                    array(
+                            'label'      => 'Description',
+                            'id'         => 'saswp_music_playlist_description_'.$schema_id,
+                            'type'       => 'textarea',                           
+                    ), 
+                    array(
+                            'label'      => 'URL',
+                            'id'         => 'saswp_music_playlist_url_'.$schema_id,
+                            'type'       => 'text',                           
+                    )    
+                        
+                   );
+                    break;
+                
+                case 'MusicAlbum':
+                    
+                    $meta_field = array(
+                    array(
+                            'label'      => 'Name',
+                            'id'         => 'saswp_music_album_name_'.$schema_id,
+                            'type'       => 'text',                           
+                    ),
+                    array(
+                            'label'      => 'Description',
+                            'id'         => 'saswp_music_album_description_'.$schema_id,
+                            'type'       => 'textarea',                           
+                    ),
+                    array(
+                            'label'      => 'Genre',
+                            'id'         => 'saswp_music_album_genre_'.$schema_id,
+                            'type'       => 'text',                           
+                    ),
+                    array(
+                            'label'      => 'Image',
+                            'id'         => 'saswp_music_album_image_'.$schema_id,
+                            'type'       => 'media',                           
+                    ),
+                    array(
+                            'label'      => 'Artist',
+                            'id'         => 'saswp_music_album_artist_'.$schema_id,
+                            'type'       => 'text',                           
+                    ),
+                    array(
+                            'label'      => 'URL',
+                            'id'         => 'saswp_music_album_url_'.$schema_id,
+                            'type'       => 'text',                           
+                    )    
+                        
+                   );
+                    break;
+                
                 
                 default:
                     break;

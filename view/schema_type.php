@@ -30,7 +30,7 @@ function saswp_item_reviewed_fields($item, $post_specific = null, $schema_id = n
 
     if($post_specific == 1 && isset($schema_id)){
 
-      $post_fix = '_'.esc_attr($schema_id);  
+        $post_fix = '_'.esc_attr($schema_id);  
 
     }
 
@@ -161,7 +161,7 @@ function saswp_item_reviewed_fields($item, $post_specific = null, $schema_id = n
                                 'type'    => 'text',
                                 'default' => get_site_url()
                         )
-                 );  
+                   );  
 
                     break;
                 case 'Book':

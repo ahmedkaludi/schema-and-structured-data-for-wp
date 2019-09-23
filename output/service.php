@@ -2744,6 +2744,25 @@ Class saswp_output_service{
                         'saswp_apartment_schema_telephone'     => 'Telephone'                                                                    
                     );                    
                     break;
+                case 'MusicPlaylist':
+                    $meta_field = array(                        
+                        'saswp_music_playlist_name'             => 'Name',
+                        'saswp_music_playlist_description'      => 'Description',
+                        'saswp_music_playlist_url'              => 'URL',
+                    );                    
+                    break;
+                
+                case 'MusicAlbum':
+                    $meta_field = array(                        
+                        'saswp_music_album_name'             => 'Name',
+                        'saswp_music_album_description'      => 'Description',
+                        'saswp_music_album_genre'            => 'Genre',
+                        'saswp_music_album_image'            => 'Image',
+                        'saswp_music_album_artist'           => 'Artist',
+                        'saswp_music_album_url'              => 'URL',    
+                    );                    
+                    break;
+                
                 
                 case 'House':
                     $meta_field = array(
