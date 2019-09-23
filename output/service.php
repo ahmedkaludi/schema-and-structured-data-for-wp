@@ -257,13 +257,20 @@ Class saswp_output_service{
             
         }
         public function saswp_replace_with_custom_fields_value($input1, $schema_post_id){
-                                   
-            $custom_fields    = get_post_meta($schema_post_id, 'saswp_meta_list_val', true);
-                      
-            if(!empty($custom_fields)){
+                         
+            $schema_type      = get_post_meta( $schema_post_id, 'schema_type', true);                                     
+            
+            if($schema_type == 'Review'){
                 
-                 $schema_type = get_post_meta( $schema_post_id, 'schema_type', true); 
-                 
+                $review_post_meta = get_post_meta($schema_post_id, 'saswp_review_schema_details', true);                                                                
+                $schema_type = $review_post_meta['saswp_review_schema_item_type'];
+                
+            }
+            
+            $custom_fields    = get_post_meta($schema_post_id, 'saswp_meta_list_val', true);
+                                                          
+            if(!empty($custom_fields)){
+                                                  
                  foreach ($custom_fields as $key => $field){
                                                                                                                                          
                     $custom_fields[$key] = $this->saswp_get_meta_list_value($key, $field, $schema_post_id);                                           
@@ -1827,8 +1834,26 @@ Class saswp_output_service{
                 return;  
              }
             
-            $schema_type = isset( $_POST['schema_type'] ) ? sanitize_text_field( $_POST['schema_type'] ) : '';                      
-            $meta_fields = $this->saswp_get_all_schema_type_fields($schema_type);             	    
+            $schema_subtype = isset( $_POST['schema_subtype'] ) ? sanitize_text_field( $_POST['schema_subtype'] ) : ''; 
+            $schema_type    = isset( $_POST['schema_type'] ) ? sanitize_text_field( $_POST['schema_type'] ) : '';                      
+                      
+            if($schema_type == 'Review'){
+                
+                $meta_fields = $this->saswp_get_all_schema_type_fields($schema_subtype);
+
+                $review_fields['saswp_review_name']         = 'Review Name';
+                $review_fields['saswp_review_description']  = 'Review Description';
+                $review_fields['saswp_review_image']        = 'Review Image';
+                $review_fields['saswp_review_author']       = 'Review Author';
+                $review_fields['saswp_review_publisher']    = 'Review Publisher';
+                $review_fields['saswp_review_rating_value'] = 'Review Rating Value';
+                $review_fields['saswp_review_review_count'] = 'Review Count';
+
+                $meta_fields = $review_fields + $meta_fields;
+                
+            }else{
+                $meta_fields = $this->saswp_get_all_schema_type_fields($schema_type);  
+            }
             
             wp_send_json( $meta_fields );                                   
         }
@@ -2685,27 +2710,6 @@ Class saswp_output_service{
                         'saswp_service_schema_rating_count'      => 'Rating Count',
                     );
                    
-                    break;
-                
-                case 'Review':                    
-                    $meta_field = array(
-                                               
-                        'saswp_review_schema_name'              => 'Name',
-                        'saswp_review_schema_description'       => 'Description',
-                        'saswp_review_schema_date_published'    => 'Date Published',
-                        'saswp_review_schema_date_modified'     => 'Date Modified',
-                        'saswp_review_schema_image'             => 'Image',
-                        'saswp_review_schema_price_range'       => 'Price Range',
-                        'saswp_review_schema_street_address'    => 'Street Address',
-                        'saswp_review_schema_locality'          => 'Address Locality',
-                        'saswp_review_schema_region'            => 'Address Region',
-                        'saswp_review_schema_postal_code'       => 'Postal Code',
-                        'saswp_review_schema_country'           => 'Address Country',
-                        'saswp_review_schema_telephone'         => 'Telephone',
-                        'saswp_review_author_name'              => 'Author Name',                        
-                        'saswp_review_schema_rating_value'      => 'Rating Value',
-                        'saswp_review_schema_review_count'      => 'Review Count',
-                    );
                     break;
                 
                 case 'VideoObject':

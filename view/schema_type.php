@@ -659,7 +659,7 @@ function saswp_schema_type_meta_box_callback( $post) {
 
                             case 'Review':
 
-                                $review_details   = get_post_meta($post->ID, 'saswp_review_schema_details', true);
+                                $review_details   = get_post_meta($post->ID, 'saswp_review_schema_details', true);                              
 
                                 if(count($review_details) > 1){
 
@@ -740,12 +740,10 @@ function saswp_schema_type_meta_box_callback( $post) {
                              'Book'                  => 'Book',                             
                              'Course'                => 'Course',                             
                              'Event'                 => 'Event',                              
-                             'LocalBusiness'         => 'LocalBusiness',    
-                             'Movie'                 => 'Movie', 
-                             'MusicPlaylist'         => 'Music Playlist',                                      
-                             'MusicRecording'        => 'MusicRecording',                               
-                             'Photograph'            => 'Photograph',                                                                  
-                             'Product'               => 'Product',
+                             'HowTo'                 => 'HowTo',   
+                             'LocalBusiness'         => 'LocalBusiness',                                 
+                             'MusicPlaylist'         => 'Music Playlist',                                                                                                                                                                                               
+                             'Product'               => 'Product',                                
                              'Recipe'                => 'Recipe',                             
                              'SoftwareApplication'   => 'SoftwareApplication',
                              'VideoGame'             => 'VideoGame', 
@@ -1120,11 +1118,35 @@ function saswp_schema_type_meta_box_callback( $post) {
                            
                         <?php 
                         
-                        if(!empty($meta_list)){                                                                                    
-                            $schema_type    = get_post_meta($post->ID, 'schema_type', true);
+                        if(!empty($meta_list)){  
                             
                             $service     = new saswp_output_service();
-                            $meta_fields = $service->saswp_get_all_schema_type_fields($schema_type);
+                            
+                            $schema_type    = get_post_meta($post->ID, 'schema_type', true);
+                            
+                            if($schema_type == 'Review'){
+                                
+                                $review_post_meta = get_post_meta($post->ID, 'saswp_review_schema_details', true);                                                                
+                                $schema_type = $review_post_meta['saswp_review_schema_item_type'];
+                                
+                                $review_fields['saswp_review_name']         = 'Review Name';
+                                $review_fields['saswp_review_description']  = 'Review Description';
+                                $review_fields['saswp_review_image']        = 'Review Image';
+                                $review_fields['saswp_review_author']       = 'Review Author';
+                                $review_fields['saswp_review_publisher']    = 'Review Publisher';
+                                $review_fields['saswp_review_rating_value'] = 'Review Rating Value';
+                                $review_fields['saswp_review_review_count'] = 'Review Count';
+                                
+                                $item_rv_meta_fields = $service->saswp_get_all_schema_type_fields($schema_type);
+                                
+                                $meta_fields = $review_fields + $item_rv_meta_fields;
+                                
+                             
+                            }else{
+                                
+                                $meta_fields = $service->saswp_get_all_schema_type_fields($schema_type);
+                                
+                            }
                             
                             foreach($meta_list as $fieldkey => $fieldval){
                                                                                         
