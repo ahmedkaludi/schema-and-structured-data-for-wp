@@ -4583,7 +4583,94 @@ class saswp_post_specific {
                    );
                     break;
                 
-                
+                case 'Book':
+                    
+                    $meta_field = array(
+                    array(
+                            'label'      => 'Name',
+                            'id'         => 'saswp_book_name_'.$schema_id,
+                            'type'       => 'text',                           
+                    ),
+                    array(
+                            'label'      => 'Description',
+                            'id'         => 'saswp_book_description_'.$schema_id,
+                            'type'       => 'textarea',                           
+                    ),
+                    array(
+                            'label'      => 'URL',
+                            'id'         => 'saswp_book_url_'.$schema_id,
+                            'type'       => 'text',                           
+                    ),
+                    array(
+                            'label'      => 'Image',
+                            'id'         => 'saswp_book_image_'.$schema_id,
+                            'type'       => 'media',                           
+                    ),
+                    array(
+                            'label'      => 'Author',
+                            'id'         => 'saswp_book_author_'.$schema_id,
+                            'type'       => 'text',                           
+                    ),
+                    array(
+                            'label'      => 'ISBN',
+                            'id'         => 'saswp_book_isbn_'.$schema_id,
+                            'type'       => 'text',                           
+                    ),
+                    array(
+                            'label'      => 'Number Of Page',
+                            'id'         => 'saswp_book_no_of_page_'.$schema_id,
+                            'type'       => 'text',                           
+                    ),    
+                    array(
+                            'label'      => 'Publisher',
+                            'id'         => 'saswp_book_publisher_'.$schema_id,
+                            'type'       => 'text',                           
+                    ),
+                    array(
+                            'label'      => 'Published Date',
+                            'id'         => 'saswp_book_date_published_'.$schema_id,
+                            'type'       => 'text',                           
+                    ),
+                    array(
+                            'label'   => 'Availability',
+                            'id'      => 'saswp_book_availability_'.$schema_id,
+                            'type'    => 'select',                           
+                            'options' => array(
+                                     'InStock'           => 'In Stock',
+                                     'OutOfStock'        => 'Out Of Stock',
+                                     'Discontinued'      => 'Discontinued',
+                                     'PreOrder'          => 'Pre Order', 
+                            ) 
+                       ), 
+                    array(
+                            'label'      => 'Price',
+                            'id'         => 'saswp_book_price_'.$schema_id,
+                            'type'       => 'text',                           
+                    ),
+                    array(
+                            'label'      => 'Price Currency',
+                            'id'         => 'saswp_book_price_currency_'.$schema_id,
+                            'type'       => 'text',                           
+                    ),
+                    array(
+                            'label' => 'Aggregate Rating',
+                            'id'    => 'saswp_book_enable_rating_'.$schema_id,
+                            'type'  => 'checkbox',                            
+                    ),
+                    array(
+                            'label'   => 'Rating',
+                            'id'      => 'saswp_book_rating_value_'.$schema_id,
+                            'type'    => 'text',
+                            
+                    ),
+                    array(
+                            'label'   => 'Rating Count',
+                            'id'      => 'saswp_book_rating_count_'.$schema_id,
+                            'type'    => 'text',                            
+                    ),                                                                            
+                   );
+                    break;
+                                
                 default:
                     break;
             }                           

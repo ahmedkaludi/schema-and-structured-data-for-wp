@@ -467,7 +467,48 @@ function saswp_post_specific_schema_output() {
                             $input1['address']['addressRegion']     = saswp_remove_warnings($all_post_meta, 'saswp_lorh_schema_address_region_'.$schema_id, 'saswp_array');
                             $input1['address']['PostalCode']        = saswp_remove_warnings($all_post_meta, 'saswp_lorh_schema_address_postal_code_'.$schema_id, 'saswp_array');
                                                                                    
-                            }   
+                            } 
+                         
+                         if( 'Book' === $schema_type){
+                             
+                            $howto_image = get_post_meta( get_the_ID(), 'saswp_book_image_'.$schema_id.'_detail',true); 
+                                                                                                               
+                            $input1['@context']              = saswp_context_url();
+                            $input1['@type']                 = 'Book';
+                            $input1['@id']                   = trailingslashit(get_permalink()).'#Book';
+                            $input1['url']                   = saswp_remove_warnings($all_post_meta, 'saswp_book_url_'.$schema_id, 'saswp_array');                            
+                            $input1['name']                  = saswp_remove_warnings($all_post_meta, 'saswp_book_name_'.$schema_id, 'saswp_array');                            
+                            $input1['description']           = saswp_remove_warnings($all_post_meta, 'saswp_book_description_'.$schema_id, 'saswp_array');
+                              
+                            if(!(empty($howto_image))){
+                             
+                            $input1['image']['@type']        = 'ImageObject';
+                            $input1['image']['url']          = isset($howto_image['thumbnail']) ? esc_url($howto_image['thumbnail']):'';
+                            $input1['image']['height']       = isset($howto_image['width'])     ? esc_attr($howto_image['width'])   :'';
+                            $input1['image']['width']        = isset($howto_image['height'])    ? esc_attr($howto_image['height'])  :'';
+                                
+                            }  
+                            
+                            $input1['author']               = saswp_remove_warnings($all_post_meta, 'saswp_book_author_'.$schema_id, 'saswp_array');                        
+                            $input1['datePublished']        = isset($all_post_meta['saswp_book_date_published_'.$schema_id])?date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_book_date_published_'.$schema_id][0])):'';
+                            $input1['isbn']                 = saswp_remove_warnings($all_post_meta, 'saswp_book_isbn_'.$schema_id, 'saswp_array');                          
+                            $input1['numberOfPages']        = saswp_remove_warnings($all_post_meta, 'saswp_book_no_of_page_'.$schema_id, 'saswp_array');                          
+                            $input1['publisher']            = saswp_remove_warnings($all_post_meta, 'saswp_book_publisher_'.$schema_id, 'saswp_array');                          
+                                                                                     
+                            if(isset($all_post_meta['saswp_book_price_'.$schema_id]) && isset($all_post_meta['saswp_book_price_currency_'.$schema_id])){
+                                $input1['offers']['@type']         = 'Offer';
+                                $input1['offers']['availability']  = saswp_remove_warnings($all_post_meta, 'saswp_book_availability_'.$schema_id, 'saswp_array');
+                                $input1['offers']['price']         = $all_post_meta['saswp_book_price_'.$schema_id];
+                                $input1['offers']['priceCurrency'] = $all_post_meta['saswp_book_price_currency_'.$schema_id];
+                            }
+                            
+                            if(isset($all_post_meta['saswp_book_enable_rating_'.$schema_id]) && isset($all_post_meta['saswp_book_rating_value_'.$schema_id]) && isset($all_post_meta['saswp_book_rating_count_'.$schema_id])){
+                                $input1['aggregateRating']['@type']         = 'aggregateRating';
+                                $input1['aggregateRating']['ratingValue']   = $all_post_meta['saswp_book_rating_value_'.$schema_id];
+                                $input1['aggregateRating']['ratingCount']   = $all_post_meta['saswp_book_rating_count_'.$schema_id];                                
+                            }
+                                                        
+                            }    
                         
                          if( 'TouristAttraction' === $schema_type){
                              
@@ -533,8 +574,7 @@ function saswp_post_specific_schema_output() {
                          if( 'Apartment' === $schema_type){
                              
                             $howto_image = get_post_meta( get_the_ID(), 'saswp_apartment_schema_image_'.$schema_id.'_detail',true); 
-                            
-                                                                                   
+                                                                                                               
                             $input1['@context']              = saswp_context_url();
                             $input1['@type']                 = 'Apartment';
                             $input1['@id']                   = trailingslashit(get_permalink()).'#Apartment';
@@ -562,7 +602,7 @@ function saswp_post_specific_schema_output() {
                             
                             $input1['telephone']                    = saswp_remove_warnings($all_post_meta, 'saswp_apartment_schema_telephone_'.$schema_id, 'saswp_array');
                             
-                            if(isset($all_post_meta['saswp_apartment_schema_latitude_'.$schema_id][0]) && isset($all_post_meta['saswp_apartment_schema_longitude_'.$schema_id][0]))
+                            if(isset($all_post_meta['saswp_apartment_schema_latitude_'.$schema_id][0]) && isset($all_post_meta['saswp_apartment_schema_longitude_'.$schema_id][0])){
                             
                                     $input1['geo']['@type']     = 'GeoCoordinates';
                                     $input1['geo']['latitude']  = $all_post_meta['saswp_apartment_schema_latitude_'.$schema_id][0];
@@ -607,6 +647,8 @@ function saswp_post_specific_schema_output() {
                                 
                                 $input1['additionalProperty'] = $add_property_arr;
                             }
+                            
+                         }
                                                                                                                                             
                          if( 'House' === $schema_type){
                              

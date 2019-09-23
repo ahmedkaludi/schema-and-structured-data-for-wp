@@ -272,6 +272,89 @@ Class saswp_output_service{
                 
              switch ($schema_type) {
                  
+               case 'Book':      
+                      
+                    if(isset($custom_fields['saswp_book_name'])){
+                     $input1['name'] =    $custom_fields['saswp_book_name'];
+                    }
+                    if(isset($custom_fields['saswp_book_description'])){
+                     $input1['description'] =    $custom_fields['saswp_book_description'];
+                    }
+                    if(isset($custom_fields['saswp_book_url'])){
+                     $input1['url'] =    $custom_fields['saswp_book_url'];
+                    }
+                    if(isset($custom_fields['saswp_book_author'])){
+                     $input1['author'] =    $custom_fields['saswp_book_author'];
+                    }
+                    if(isset($custom_fields['saswp_book_isbn'])){
+                     $input1['isbn'] =    $custom_fields['saswp_book_isbn'];
+                    }
+                    if(isset($custom_fields['saswp_book_publisher'])){
+                     $input1['publisher'] =    $custom_fields['saswp_book_publisher'];
+                    }
+                    if(isset($custom_fields['saswp_book_no_of_page'])){
+                     $input1['numberOfPages'] =    $custom_fields['saswp_book_no_of_page'];
+                    }
+                    if(isset($custom_fields['saswp_book_image'])){
+                     $input1['image']         =    $custom_fields['saswp_book_image'];
+                    }
+                    if(isset($custom_fields['saswp_book_date_published'])){
+                     $input1['datePublished'] =    date('Y-m-d\TH:i:s\Z',strtotime($custom_fields['saswp_book_date_published']));
+                    }                    
+                    if(isset($custom_fields['saswp_book_price_currency']) && isset($custom_fields['saswp_book_price'])){
+                        $input1['offers']['@type']         = 'Offer';
+                        $input1['offers']['availability']  = $custom_fields['saswp_book_availability'];
+                        $input1['offers']['price']         = $custom_fields['saswp_book_price'];
+                        $input1['offers']['priceCurrency'] = $custom_fields['saswp_book_price_currency'];
+                    }                            
+                    if(isset($custom_fields['saswp_book_rating_value']) && isset($custom_fields['saswp_book_rating_count'])){
+                        $input1['aggregateRating']['@type']         = 'aggregateRating';
+                        $input1['aggregateRating']['worstRating']   =   0;
+                       $input1['aggregateRating']['bestRating']     =   5;
+                        $input1['aggregateRating']['ratingValue']   = $custom_fields['saswp_book_rating_value'];
+                        $input1['aggregateRating']['ratingCount']   = $custom_fields['saswp_book_rating_count'];                                
+                    }
+                                        
+                    break; 
+                    
+                case 'MusicPlaylist':      
+                    
+                    if(isset($custom_fields['saswp_music_playlist_name'])){
+                     $input1['name'] =    $custom_fields['saswp_music_playlist_name'];
+                    }
+                    if(isset($custom_fields['saswp_music_playlist_description'])){
+                     $input1['description'] =    $custom_fields['saswp_music_playlist_description'];
+                    }
+                    if(isset($custom_fields['saswp_music_playlist_url'])){
+                     $input1['url'] =    $custom_fields['saswp_music_playlist_url'];
+                    }
+                                          
+                    break; 
+                    
+                case 'MusicAlbum':      
+                    
+                    if(isset($custom_fields['saswp_music_album_name'])){
+                     $input1['name'] =    $custom_fields['saswp_music_album_name'];
+                    }
+                    if(isset($custom_fields['saswp_music_album_url'])){
+                     $input1['url'] =    $custom_fields['saswp_music_album_url'];
+                    }
+                    if(isset($custom_fields['saswp_music_album_description'])){
+                     $input1['description'] =    $custom_fields['saswp_music_album_description'];
+                    }
+                    if(isset($custom_fields['saswp_music_album_genre'])){
+                     $input1['genre'] =    $custom_fields['saswp_music_album_genre'];
+                    }
+                    if(isset($custom_fields['saswp_music_album_image'])){
+                     $input1['image'] =    $custom_fields['saswp_music_album_image'];
+                    }
+                    if(isset($custom_fields['saswp_music_album_artist'])){
+                     $input1['byArtist']['@type']     = 'MusicGroup';
+                     $input1['byArtist']['name']      = $custom_fields['saswp_music_album_artist'];
+                    }       
+                    
+                    break;     
+                 
                 case 'Article':      
                       
                     if(isset($custom_fields['saswp_article_main_entity_of_page'])){
@@ -2763,7 +2846,25 @@ Class saswp_output_service{
                     );                    
                     break;
                 
-                
+                case 'Book':
+                    $meta_field = array(                        
+                        'saswp_book_name'              => 'Name',
+                        'saswp_book_description'       => 'Description',
+                        'saswp_book_url'               => 'URL',
+                        'saswp_book_image'             => 'Image',
+                        'saswp_book_author'            => 'Author',  
+                        'saswp_book_isbn'              => 'Isbn',
+                        'saswp_book_no_of_page'        => 'Number Of Page', 
+                        'saswp_book_publisher'         => 'Publisher',
+                        'saswp_book_published_date'    => 'Published Date',
+                        'saswp_book_availability'      => 'Availability',
+                        'saswp_book_price'             => 'Price',
+                        'saswp_book_price_currency'    => 'Price Currency',
+                        'saswp_book_rating_value'      => 'Rating Value',
+                        'saswp_book_rating_count'      => 'Rating Count',                        
+                    );                    
+                    break;
+                                
                 case 'House':
                     $meta_field = array(
                         

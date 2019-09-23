@@ -452,7 +452,23 @@ function saswp_schema_output() {
                             
                             $input1 = apply_filters('saswp_modify_music_playlist_schema_output', $input1 );
                             
-                          }     
+                          }
+                          
+                          if( 'Book' === $schema_type){
+                                                                                                                                                                        
+                            $input1['@context']              = saswp_context_url();
+                            $input1['@type']                 = 'Book';
+                            $input1['@id']                   = trailingslashit(get_permalink()).'#Book'; 
+                            
+                            if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){                                   
+                                    $service = new saswp_output_service();
+                                    $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
+                            }
+                            
+                            $input1 = apply_filters('saswp_modify_music_playlist_schema_output', $input1 );
+                            
+                          }
+                          
                           
                           if( 'MusicAlbum' === $schema_type){
                                                                                                                                                                         

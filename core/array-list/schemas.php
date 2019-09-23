@@ -9,6 +9,7 @@ return array(
          'CreativeWork' => array(
                 'Article'                  => 'Article', 
                 'Blogposting'              => 'Blogposting',
+                'Book'                     => 'Book',
                 'Course'                   => 'Course',
                 'DiscussionForumPosting'   => 'DiscussionForumPosting',
                 'DataFeed'                 => 'DataFeed',
