@@ -575,11 +575,6 @@ input:checked + .saswp-slider:before {
 /*
 On/Off Buttons ends here
 */
-.saswp-wdi-rate-stars{display:inline-block;color:#ffb900;position:relative;top:3px;}
-.saswp-wdi-rate-stars svg{fill:#ffb900;}
-.saswp-wdi-rate-stars svg:hover{fill:#ffb900}
-.saswp-wdi-rate-stars svg:hover ~ svg{fill:none;}
-
 .option-table-class {width:100%;}
 .option-table-class tr td {padding: 10px 10px 10px 10px ;}
 .option-table-class tr > td{width: 30%;}
