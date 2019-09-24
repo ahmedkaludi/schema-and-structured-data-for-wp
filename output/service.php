@@ -3355,12 +3355,16 @@ Class saswp_output_service{
                           }
                           
                           if(!empty($attach_images) && is_array($attach_images)){
-                              
+                                                            
                               if(isset($input2['image'])){
-                              
-                                  $attach_images['image'][] = $input2['image'];                                                                     
-                                  $input2['image'] = $attach_images['image'];                                  
-                                 
+                                                                
+                                   $featured_image = $input2['image'];
+                                   $content_images = $attach_images['image'];
+                                  
+                                   if($featured_image && $content_images){
+                                       $input2['image'] = array_merge($featured_image, $content_images);
+                                   }
+                                                                                                                                   
                               }else{
                                   
                                   if($attach_images){
