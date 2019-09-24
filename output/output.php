@@ -1874,14 +1874,8 @@ function saswp_site_navigation_output(){
             $input = array();    
 
             $navObj = array();          
-            
-            if(isset($sd_data['saswp_site_navigation_menu']) &&  $sd_data['saswp_site_navigation_menu'] == 1 ){
-              
-                $input = saswp_site_navigation_fallback();
-                
-            }else{
-            
-                if(isset($sd_data['saswp_site_navigation_menu'])){
+                                       
+            if(isset($sd_data['saswp_site_navigation_menu'])){
                 
                 $menu_id   = $sd_data['saswp_site_navigation_menu'];                
                 $menuItems = wp_get_nav_menu_items($menu_id);
@@ -1901,96 +1895,18 @@ function saswp_site_navigation_output(){
 
                         }                                                                                                                                                                                   
                     }
-            }
-                                    
-            if($navObj){
+             
+                    if($navObj){
 
-                $input['@context'] = saswp_context_url(); 
-                $input['@graph']   = $navObj; 
+                        $input['@context'] = saswp_context_url(); 
+                        $input['@graph']   = $navObj; 
 
-            }
-                
-            }
-            
-    return apply_filters('saswp_modify_sitenavigation_output', $input);
-}      
-
-function saswp_site_navigation_fallback(){
-            
-    global $sd_data;
-    $input = array();    
-                                                    
-        $navObj = array();
-        
-        $menuLocations = get_nav_menu_locations();
-        
-        if(!empty($menuLocations)){
-         
-            foreach($menuLocations as $type => $id){
-            
-            $menuItems = wp_get_nav_menu_items($id);
-                      
-            if(isset($sd_data['saswp-'.$type])){
-                
-               if($menuItems){
-                
-                if(!saswp_non_amp()){
-                                     
-                    if($type == 'amp-menu' || $type == 'amp-footer-menu'){
-                        
-                        foreach($menuItems as $items){
-                 
-                              $navObj[] = array(
-                                     "@context"  => saswp_context_url(),
-                                     "@type"     => "SiteNavigationElement",
-                                     "@id"       => trailingslashit(get_home_url()).$type,
-                                     "name"      => esc_attr($items->title),
-                                     "url"       => esc_url($items->url)
-                              );
-
-                        }
-                        
-                    }                    
-                    
-                }else{
-                    
-                    if($type != 'amp-menu'){
-                        
-                        foreach($menuItems as $items){
-                 
-                            $navObj[] = array(
-                                    "@context"  => saswp_context_url(),
-                                    "@type"     => "SiteNavigationElement",
-                                    "@id"       => trailingslashit(get_home_url()).$type,
-                                    "name"      => esc_attr($items->title),
-                                    "url"       => esc_url($items->url)
-                            );
-                    
-                         }
-                                                
                     }
                     
-                }                                                                    
-                
-              }
-            
-            }
-                                                
-            }
-            
-        }        
-              
-        if($navObj){
-            
-            $input['@context'] = saswp_context_url(); 
-            $input['@graph']   = $navObj; 
-            
-        }
-              
-    
-        
-    return  $input;
-} 
+            }                                                
+                                        
+    return apply_filters('saswp_modify_sitenavigation_output', $input);
+}      
 
 function saswp_gutenberg_how_to_schema(){
                         
