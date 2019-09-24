@@ -921,9 +921,9 @@ class saswp_post_specific {
                 }
 
         public function saswp_saswp_post_specific( $post, $schema_id ) { 
-            
-                global $post;
+                                
                 global $sd_data;                        
+                
                 $image_id      = get_post_thumbnail_id();
                 $image_details = wp_get_attachment_image_src($image_id, 'full');
                 
@@ -942,8 +942,7 @@ class saswp_post_specific {
                     $author_details	= get_avatar_data($current_user->ID);                
                 }                                
                 $schema_type    = get_post_meta($schema_id, 'schema_type', true);  
-		$output = '';
-                
+		$output = '';                
                 $this->meta_fields = array_filter($this->meta_fields);
                 
 		foreach ( $this->meta_fields as $meta_field ) {
