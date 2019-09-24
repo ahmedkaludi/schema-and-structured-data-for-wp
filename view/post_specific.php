@@ -1773,22 +1773,7 @@ class saswp_post_specific {
                         'id' => 'saswp_blogposting_speakable_'.$schema_id,
                         'type' => 'checkbox',
 
-                    ),
-                    array(
-                        'label' => 'Aggregate Rating',
-                        'id' => 'saswp_blogposting_enable_rating_'.$schema_id,
-                        'type' => 'checkbox',                            
-                    ),
-                    array(
-                        'label' => 'Rating Value',
-                        'id' => 'saswp_blogposting_rating_'.$schema_id,
-                        'type' => 'text',                            
-                    ),
-                    array(
-                        'label' => 'Review Count',
-                        'id' => 'saswp_blogposting_review_count_'.$schema_id,
-                        'type' => 'text',                            
-                    )    
+                    )                        
                     );
                     break;
                 
@@ -1928,22 +1913,7 @@ class saswp_post_specific {
                         'id' => 'saswp_newsarticle_speakable_'.$schema_id,
                         'type' => 'checkbox',
 
-                    ),
-                     array(
-                        'label' => 'Aggregate Rating',
-                        'id' => 'saswp_newsarticle_enable_rating_'.$schema_id,
-                        'type' => 'checkbox',                            
-                    ),
-                    array(
-                        'label' => 'Rating Value',
-                        'id' => 'saswp_newsarticle_rating_'.$schema_id,
-                        'type' => 'text',                            
-                    ),
-                    array(
-                        'label' => 'Review Count',
-                        'id' => 'saswp_newsarticle_review_count_'.$schema_id,
-                        'type' => 'text',                            
-                    )   
+                    )                        
                     );
                     break;
                 
@@ -2114,22 +2084,7 @@ class saswp_post_specific {
                         'id' => 'saswp_article_speakable_'.$schema_id,
                         'type' => 'checkbox',
 
-                    ),
-                    array(
-                        'label' => 'Aggregate Rating',
-                        'id' => 'saswp_article_enable_rating_'.$schema_id,
-                        'type' => 'checkbox',                            
-                    ),
-                    array(
-                        'label' => 'Rating Value',
-                        'id' => 'saswp_article_rating_'.$schema_id,
-                        'type' => 'text',                            
-                    ),
-                    array(
-                        'label' => 'Review Count',
-                        'id' => 'saswp_article_review_count_'.$schema_id,
-                        'type' => 'text',                            
-                    )    
+                    )                        
                     );
                     break;
                 
@@ -2293,22 +2248,7 @@ class saswp_post_specific {
                         'id' => 'saswp_tech_article_speakable_'.$schema_id,
                         'type' => 'checkbox',
 
-                    ),
-                    array(
-                        'label' => 'Aggregate Rating',
-                        'id' => 'saswp_tech_article_enable_rating_'.$schema_id,
-                        'type' => 'checkbox',                            
-                    ),
-                    array(
-                        'label' => 'Rating Value',
-                        'id' => 'saswp_tech_article_rating_'.$schema_id,
-                        'type' => 'text',                            
-                    ),
-                    array(
-                        'label' => 'Review Count',
-                        'id' => 'saswp_tech_article_review_count_'.$schema_id,
-                        'type' => 'text',                            
-                    )    
+                    )                        
                     );
                     break;
                 
