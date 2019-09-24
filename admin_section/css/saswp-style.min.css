@@ -96,3 +96,24 @@
     width:60px;
     float:left;
 }
+
+@media(max-width:767px){
+    .saswp-glg-review-body {        
+        grid-template-columns: 50px 1fr;
+    }
+    .saswp-rv-img img{
+        max-width:50px;
+    }
+}
+
+/** Widgest Reviews CSS **/
+.widget .saswp-glg-review-body{
+    display: inline-block;
+    width: 100%;
+}
+.widget .saswp-rv-img{
+    margin-bottom:12px;
+}
+.widget .saswp-rv-img img {
+    max-width: 50px;
+}

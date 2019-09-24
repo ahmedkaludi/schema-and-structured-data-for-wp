@@ -2025,8 +2025,25 @@ if ( ! defined('ABSPATH') ) exit;
                 background-repeat: no-repeat;
                 background-image: url(<?php echo esc_url(SASWP_DIR_URI.'/admin_section/images/blank_star.png'); ?>);
             }
-        
-        
+            
+            @media(max-width:767px){
+                .saswp-glg-review-body {        
+                    grid-template-columns: 50px 1fr;
+                }
+                .saswp-rv-img img{
+                    max-width:50px;
+                }
+            }
+            .widget .saswp-glg-review-body{
+                display: inline-block;
+                width: 100%;
+            }
+            .widget .saswp-rv-img{
+                margin-bottom:12px;
+            }
+            .widget .saswp-rv-img img {
+                max-width: 50px;
+            }                
         <?php
         }
      
@@ -2118,7 +2135,9 @@ if ( ! defined('ABSPATH') ) exit;
 
         global $post;
         global $sd_data;
+        
         $excerpt = '';
+        
         if(is_object($post)){
 
         $excerpt = $post->post_excerpt;
@@ -2143,9 +2162,7 @@ if ( ! defined('ABSPATH') ) exit;
         }
 
          $excerpt = wp_strip_all_tags(strip_shortcodes($excerpt)); 
-
-        }
-
+        
         if(saswp_remove_warnings($sd_data, 'saswp-yoast', 'saswp_string') == 1){
 
             $yoast_meta_des = saswp_convert_yoast_metafields($post->ID, 'metadesc');
@@ -2177,7 +2194,7 @@ if ( ! defined('ABSPATH') ) exit;
         //All in one Seo pack
         if(saswp_remove_warnings($sd_data, 'saswp-aiosp', 'saswp_string') == 1){
                              
-             global $aiosp, $post;  
+             global $aiosp;  
              
              if(is_object($aiosp)){
              
@@ -2229,7 +2246,8 @@ if ( ! defined('ABSPATH') ) exit;
                 }       
                                       
         }
-                        
+            
+        }
         return $excerpt;
     }
     /**
@@ -2264,7 +2282,8 @@ if ( ! defined('ABSPATH') ) exit;
         global $post;
         global $sd_data;
 
-        $title = @get_the_title();
+        $title   = @get_the_title();
+        $c_title = '';
                                 
         //SEOPress
         if(saswp_remove_warnings($sd_data, 'saswp-squirrly-seo', 'saswp_string') == 1 && class_exists('SQ_Models_Abstract_Seo')){
