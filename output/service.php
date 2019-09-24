@@ -257,25 +257,55 @@ Class saswp_output_service{
             
         }
         public function saswp_replace_with_custom_fields_value($input1, $schema_post_id){
-                         
-            $schema_type      = get_post_meta( $schema_post_id, 'schema_type', true);                                     
-            
-            if($schema_type == 'Review'){
-                
-                $review_post_meta = get_post_meta($schema_post_id, 'saswp_review_schema_details', true);                                                                
-                $schema_type = $review_post_meta['saswp_review_schema_item_type'];
-                
-            }
-            
+                                                 
             $custom_fields    = get_post_meta($schema_post_id, 'saswp_meta_list_val', true);
+            $review_markup    = array();
+            $review_response  = array();
+            $main_schema_type = '';
                                                           
             if(!empty($custom_fields)){
-                                                  
-                 foreach ($custom_fields as $key => $field){
+                
+                foreach ($custom_fields as $key => $field){
                                                                                                                                          
                     $custom_fields[$key] = $this->saswp_get_meta_list_value($key, $field, $schema_post_id);                                           
                                                            
-                }  
+                }   
+                
+                $schema_type      = get_post_meta( $schema_post_id, 'schema_type', true);                                     
+            
+                if($schema_type == 'Review'){
+
+                    $main_schema_type = $schema_type;
+                    $review_post_meta = get_post_meta($schema_post_id, 'saswp_review_schema_details', true);                                                                
+                    $schema_type = $review_post_meta['saswp_review_schema_item_type'];
+                    
+                    
+                    if(isset($custom_fields['saswp_review_name'])){
+                        $review_markup['name']                       =    $custom_fields['saswp_review_name'];
+                    }
+                    if(isset($custom_fields['saswp_review_description'])){
+                        $review_markup['description']                =    $custom_fields['saswp_review_description'];
+                    }
+                    if(isset($custom_fields['saswp_review_rating_value'])){
+                       $review_markup['reviewRating']['@type']       =   'Rating';                                              
+                       $review_markup['reviewRating']['ratingValue'] =    $custom_fields['saswp_review_rating_value'];
+                       $review_markup['reviewRating']['bestRating']  =   5;
+                       $review_markup['reviewRating']['worstRating'] =   1;
+                    }
+                    if(isset($custom_fields['saswp_review_publisher'])){
+                       $review_markup['publisher']['@type']          =   'Organization';                                              
+                       $review_markup['publisher']['name']           =    $custom_fields['saswp_review_publisher'];                                              
+                    }
+                    if(isset($custom_fields['saswp_review_body'])){
+                        $review_markup['reviewBody']                 =    $custom_fields['saswp_review_body'];
+                    }
+                    if(isset($custom_fields['saswp_review_author'])){
+                       $review_markup['author']['@type']             =   'Person';                                              
+                       $review_markup['author']['name']              =    $custom_fields['saswp_review_author'];                                              
+                    }
+
+                }
+                   
                 
              switch ($schema_type) {
                  
@@ -1104,61 +1134,6 @@ Class saswp_output_service{
                                                           
                     break;
                 
-                case 'Review':  
-                    if(isset($custom_fields['saswp_review_schema_item_type'])){
-                     $input1['itemReviewed']['@type'] =    $custom_fields['saswp_review_schema_item_type'];
-                    }
-                    if(isset($custom_fields['saswp_review_schema_name'])){
-                     $input1['itemReviewed']['name'] =    $custom_fields['saswp_review_schema_name'];
-                    }
-                    if(isset($custom_fields['saswp_review_schema_description'])){
-                     $input1['description'] =    $custom_fields['saswp_review_schema_description'];
-                    }
-                    
-                    if(isset($custom_fields['saswp_review_schema_date_published'])){
-                     $input1['datePublished'] =    $custom_fields['saswp_review_schema_date_published'];
-                    }
-                    if(isset($custom_fields['saswp_review_schema_date_modified'])){
-                     $input1['dateModified'] =    $custom_fields['saswp_review_schema_date_modified'];
-                    }
-                    if(isset($custom_fields['saswp_review_schema_image'])){
-                     $input1['itemReviewed']['image'] =    $custom_fields['saswp_review_schema_image'];
-                    }
-                    
-                    if(isset($custom_fields['saswp_review_schema_price_range'])){
-                     $input1['itemReviewed']['priceRange'] =    $custom_fields['saswp_review_schema_price_range'];
-                    }
-                    if(isset($custom_fields['saswp_review_schema_street_address'])){
-                     $input1['itemReviewed']['address']['streetAddress'] =    $custom_fields['saswp_review_schema_street_address'];
-                    }
-                    if(isset($custom_fields['saswp_review_schema_locality'])){
-                     $input1['itemReviewed']['address']['addressLocality'] =    $custom_fields['saswp_review_schema_locality'];
-                    }
-                    
-                    if(isset($custom_fields['saswp_review_schema_region'])){
-                     $input1['itemReviewed']['address']['addressRegion'] =    $custom_fields['saswp_review_schema_region'];
-                    }
-                    if(isset($custom_fields['saswp_review_schema_postal_code'])){
-                     $input1['itemReviewed']['address']['postalCode'] =    $custom_fields['saswp_review_schema_postal_code'];
-                    }
-                    if(isset($custom_fields['saswp_review_schema_country'])){
-                     $input1['itemReviewed']['address']['addressCountry'] =    $custom_fields['saswp_review_schema_country'];
-                    }
-                    if(isset($custom_fields['saswp_review_schema_telephone'])){
-                     $input1['itemReviewed']['telephone'] =    $custom_fields['saswp_review_schema_telephone'];
-                    }
-                    if(isset($custom_fields['saswp_review_author_name'])){
-                     $input1['author']['name'] =    $custom_fields['saswp_review_author_name'];
-                    }
-                    
-                    if(isset($custom_fields['saswp_review_schema_rating_value']) && isset($custom_fields['saswp_review_schema_review_count'])){
-                       $input1['aggregateRating']['@type']       =   'Rating';                                              
-                       $input1['aggregateRating']['ratingValue'] =    $custom_fields['saswp_review_schema_rating_value'];
-                       $input1['aggregateRating']['bestRating'] =    $custom_fields['saswp_review_schema_review_count'];
-                    }
-                    
-                    break;
-                
                 case 'VideoObject':
                     
                     if(isset($custom_fields['saswp_video_object_url'])){
@@ -1815,7 +1790,16 @@ Class saswp_output_service{
                
                      default:
                          break;
-                 }                                  
+                 }    
+                 
+             if($main_schema_type == 'Review'){
+                 
+                 $review_response['item_reviewed'] = $input1;
+                 $review_response['review']        = $review_markup;
+                 
+                 return $review_response;
+             }    
+                 
             }     
             
             return $input1;   
@@ -1843,11 +1827,10 @@ Class saswp_output_service{
 
                 $review_fields['saswp_review_name']         = 'Review Name';
                 $review_fields['saswp_review_description']  = 'Review Description';
-                $review_fields['saswp_review_image']        = 'Review Image';
+                $review_fields['saswp_review_body']         = 'Review Body';                
                 $review_fields['saswp_review_author']       = 'Review Author';
                 $review_fields['saswp_review_publisher']    = 'Review Publisher';
-                $review_fields['saswp_review_rating_value'] = 'Review Rating Value';
-                $review_fields['saswp_review_review_count'] = 'Review Count';
+                $review_fields['saswp_review_rating_value'] = 'Review Rating Value';                
 
                 $meta_fields = $review_fields + $meta_fields;
                 

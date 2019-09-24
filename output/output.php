@@ -1103,22 +1103,32 @@ function saswp_schema_output() {
                         if('Review' === $schema_type){
                             
                                 $schema_data = saswp_get_schema_data($schema_post_id, 'saswp_review_schema_details');  
-                            
-                                $input1['@context'] =  saswp_context_url();
-                                $input1['@type']    =  'Review';
-                                $input1['@id']      =  trailingslashit(saswp_get_permalink()).'#Review';
-                                                                
+                                                            
                                 if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] == 1){
                                     
-                                    $service = new saswp_output_service();
-                                    $item_reviewd = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
-                                    
-                                    if($item_reviewd){
-                                        $item_reviewd['@type'] = $schema_data['saswp_review_schema_item_type'];                                        
-                                        unset($item_reviewd['@context'], $item_reviewd['@id']);                                        
-                                        $input1['itemReviewed'] = $item_reviewd;
-                                    }
-                                                                                                                                                                                    
+                                     $service = new saswp_output_service();
+                                     $review_markup = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
+                                     
+                                    if($review_markup){
+                                     
+                                        $input1['@context'] =  saswp_context_url();
+                                        $input1['@type']    =  'Review';
+                                        $input1['@id']      =  trailingslashit(saswp_get_permalink()).'#Review';
+                                        
+                                        if(isset($review_markup['review'])){
+                                            
+                                            $input1             =  $input1 + $review_markup['review'];
+                                            
+                                        }
+                                        
+                                        if(isset($review_markup['item_reviewed'])){
+                                            
+                                            $item_reviewed          = array( '@type' => $schema_data['saswp_review_schema_item_type']) + $review_markup['item_reviewed'];                                        
+                                            $input1['itemReviewed'] = $item_reviewed;
+                                            
+                                        }
+                                        
+                                    }                                                                                                                                                                                  
                                 } 
                                 
                                 $input1 = apply_filters('saswp_modify_service_schema_output', $input1 );

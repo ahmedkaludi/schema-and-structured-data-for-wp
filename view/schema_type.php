@@ -1131,11 +1131,10 @@ function saswp_schema_type_meta_box_callback( $post) {
                                 
                                 $review_fields['saswp_review_name']         = 'Review Name';
                                 $review_fields['saswp_review_description']  = 'Review Description';
-                                $review_fields['saswp_review_image']        = 'Review Image';
+                                $review_fields['saswp_review_body']         = 'Review Body';
                                 $review_fields['saswp_review_author']       = 'Review Author';
                                 $review_fields['saswp_review_publisher']    = 'Review Publisher';
-                                $review_fields['saswp_review_rating_value'] = 'Review Rating Value';
-                                $review_fields['saswp_review_review_count'] = 'Review Count';
+                                $review_fields['saswp_review_rating_value'] = 'Review Rating Value';                                
                                 
                                 $item_rv_meta_fields = $service->saswp_get_all_schema_type_fields($schema_type);
                                 
