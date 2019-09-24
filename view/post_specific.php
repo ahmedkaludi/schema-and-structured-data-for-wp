@@ -908,14 +908,10 @@ class saswp_post_specific {
                 }  
                 
                  $post_id = intval($_GET['post_id']);
-                 
+                                                   
                  update_option('modify_schema_post_enable_'.$post_id, 'enable');    
-                                
-                 $post = array(
-                     'ID' => $post_id,
-                 );
-               
-                 $post = (object)$post;
+                                                 
+                 $post = get_post($post_id);
                  
                  $response = $this->saswp_post_meta_box_html($post);
                  
