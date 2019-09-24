@@ -1032,9 +1032,6 @@ Class saswp_output_service{
                      $input1['brand']['name'] =    $custom_fields['saswp_product_brand'];
                     }
                     
-                    if(isset($custom_fields['saswp_product_isbn'])){
-                     $input1['isbn'] =    $custom_fields['saswp_product_isbn'];
-                    }
                     if(isset($custom_fields['saswp_product_mpn'])){
                      $input1['mpn'] =    $custom_fields['saswp_product_mpn'];
                     }
@@ -2541,8 +2538,7 @@ Class saswp_output_service{
                             'saswp_product_availability'       => 'Availability',  
                             'saswp_product_condition'          => 'Product Condition',  
                             'saswp_product_sku'                => 'SKU', 
-                            'saswp_product_mpn'                => 'MPN',
-                            'saswp_product_isbn'               => 'ISBN',
+                            'saswp_product_mpn'                => 'MPN',                            
                             'saswp_product_gtin8'              => 'GTIN 8', 
                             'saswp_product_seller'             => 'Seller Organization',
                             'saswp_product_rating'             => 'Rating',

@@ -658,7 +658,7 @@ class saswp_post_specific {
              $tabs              = '';
              $tabs_fields       = '';
              $schema_ids        = array();
-                        
+                                     
              $schema_enable = get_post_meta($post->ID, 'saswp_enable_disable_schema', true);
                                 
              if(!empty($this->all_schema)){  
@@ -666,7 +666,7 @@ class saswp_post_specific {
                  foreach($this->all_schema as $key => $schema){
                      
                       $advnace_status = saswp_check_advance_display_status($schema->ID);
-                    
+                                          
                       if($advnace_status !== 1){
                           continue;
                       }
@@ -782,8 +782,7 @@ class saswp_post_specific {
                 }
                                                
                 $response_html = '';                                
-                $schema_avail  = false;
-                
+                $schema_avail  = false;                
                 if($this->all_schema){
                     
                     foreach ($this->all_schema as $schema){
@@ -2671,21 +2670,14 @@ class saswp_post_specific {
                             'id'      => 'saswp_product_schema_sku_'.$schema_id,
                             'type'    => 'text', 
                             'default' => saswp_remove_warnings($product_details, 'product_sku', 'saswp_string')    
-                     ),
+                      ),
                         array(
                             'label'   => 'MPN',
                             'id'      => 'saswp_product_schema_mpn_'.$schema_id,
                             'type'    => 'text',
                             'note'    => 'OR',                            
                             'default' => saswp_remove_warnings($product_details, 'product_mpn', 'saswp_string')
-                       ),
-                        array(
-                            'label'   => 'ISBN',
-                            'id'      => 'saswp_product_schema_isbn_'.$schema_id,
-                            'type'    => 'text',
-                            'note'    => 'OR',                           
-                            'default' => saswp_remove_warnings($product_details, 'product_isbn', 'saswp_string')
-                     ),
+                       ),                       
                         array(
                             'label'   => 'GTIN8',
                             'id'      => 'saswp_product_schema_gtin8_'.$schema_id,

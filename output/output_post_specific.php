@@ -1746,8 +1746,8 @@ function saswp_post_specific_schema_output() {
                                         ); 
                                         
                                         if(isset($all_post_meta['saswp_product_schema_seller_'.$schema_id])){
-                                            $input1['seller']['@type']   = 'Organization';
-                                            $input1['seller']['name']    = esc_attr($all_post_meta['saswp_product_schema_seller_'.$schema_id][0]);  
+                                            $input1['offers']['seller']['@type']   = 'Organization';
+                                            $input1['offers']['seller']['name']    = esc_attr($all_post_meta['saswp_product_schema_seller_'.$schema_id][0]);  
                                         }                                        
                                         if(isset($all_post_meta['saswp_product_schema_gtin8_'.$schema_id])){
                                             $input1['gtin8'] = esc_attr($all_post_meta['saswp_product_schema_gtin8_'.$schema_id][0]);  
@@ -1755,10 +1755,7 @@ function saswp_post_specific_schema_output() {
                                         if(isset($all_post_meta['saswp_product_schema_mpn_'.$schema_id])){
                                           $input1['mpn'] = esc_attr($all_post_meta['saswp_product_schema_mpn_'.$schema_id][0]);  
                                         }
-                                        if(isset($all_post_meta['saswp_product_schema_isbn_'.$schema_id])){
-                                          $input1['isbn'] = esc_attr($all_post_meta['saswp_product_schema_isbn_'.$schema_id][0]);  
-                                        }   
-                                        
+                                                                                   
                                         if(saswp_remove_warnings($all_post_meta, 'saswp_product_schema_enable_rating_'.$schema_id, 'saswp_array') == 1 && saswp_remove_warnings($all_post_meta, 'saswp_product_schema_rating_'.$schema_id, 'saswp_array') && saswp_remove_warnings($all_post_meta, 'saswp_product_schema_review_count_'.$schema_id, 'saswp_array')){   
                                  
                                           $input1['aggregateRating'] = array(
