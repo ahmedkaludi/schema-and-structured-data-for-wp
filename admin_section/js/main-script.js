@@ -23,7 +23,7 @@ function getParameterByName(name, url) {
         }
 
 
-       function saswp_meta_list_html(response, fields, f_name, id, tr){
+       function saswp_meta_list_html(current_fly, response, fields, f_name, id, tr){
                       
                         var field_name = f_name;
                         if(field_name == null){                            
@@ -57,10 +57,17 @@ function getParameterByName(name, url) {
                                     html += '</td>';  
                                     html += '<td></td><td><a class="button button-default saswp-rmv-modify_row">X</a></td>';
                                     html += '</tr>';
-                                    jQuery(".saswp-custom-fields-table").append(html);               
+                                    jQuery(".saswp-custom-fields-table").append(html); 
+                                    if(current_fly != null){
+                                        current_fly.removeClass('updating-message');
+                                    }
+                                    
                                                                                                                      
                       }else{
-                          jQuery(id).html(re_html);                                                                                  
+                          jQuery(id).html(re_html);     
+                          if(current_fly != null){
+                                        current_fly.removeClass('updating-message');
+                          }
                       }                                                          
            
        } 
@@ -68,19 +75,19 @@ function getParameterByName(name, url) {
 
        
        
-       function saswp_get_meta_list(type, fields, id, fields_name, tr){                           
+       function saswp_get_meta_list(current_fly, type, fields, id, fields_name, tr){                           
                             if (!saswp_meta_list[type]) {
                                 
                                 jQuery.get(ajaxurl, 
                                     { action:"saswp_get_meta_list", saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
                                      function(response){                                  
                                                saswp_meta_list[type] = response[type];                                                                                                                             
-                                               saswp_meta_list_html(saswp_meta_list[type], fields, fields_name, id, tr);
+                                               saswp_meta_list_html(current_fly, saswp_meta_list[type], fields, fields_name, id, tr);
                                           
                                     },'json');
                                 
                             }else{
-                                saswp_meta_list_html(saswp_meta_list[type], fields, fields_name, id, tr);
+                                saswp_meta_list_html(current_fly, saswp_meta_list[type], fields, fields_name, id, tr);
                             }
                                                                                      
        }
@@ -1537,7 +1544,7 @@ jQuery(document).ready(function($){
                 type = 'image';
             }                                     
              var id = $(this).parent().parent('tr').find("td:eq(1)");                                    
-             saswp_get_meta_list(type, null, id, fields_name, tr);                    
+             saswp_get_meta_list(null,type, null, id, fields_name, tr);                    
              
        }); 
                 
@@ -1620,6 +1627,8 @@ jQuery(document).ready(function($){
         
        $(document).on("click", '.saswp-add-custom-fields', function(){
            
+          var current_fly = $(this);
+          current_fly.addClass('updating-message');
           var schema_type    = $('select#schema_type option:selected').val();
           var schema_subtype = '';
           
@@ -1639,7 +1648,7 @@ jQuery(document).ready(function($){
                             success:function(response){   
                                                                                                         
                                         saswp_meta_list_fields[schema_type] = response;                                       
-                                        saswp_get_meta_list('text', saswp_meta_list_fields[schema_type], null, null, null);                                                                     
+                                        saswp_get_meta_list(current_fly, 'text', saswp_meta_list_fields[schema_type], null, null, null);                                                                     
                              
                             },
                             error: function(response){                    
@@ -1650,7 +1659,7 @@ jQuery(document).ready(function($){
                   
               }else{
                                         
-                saswp_get_meta_list('text', saswp_meta_list_fields[schema_type], null, null, null);
+                saswp_get_meta_list(current_fly, 'text', saswp_meta_list_fields[schema_type], null, null, null);
                                     
               }
                      
