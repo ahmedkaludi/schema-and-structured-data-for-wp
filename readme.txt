@@ -115,6 +115,25 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 == Changelog ==
 
 
+= 1.9.8 (25 Sept 2019) =
+
+* Added: The Supply and Tool for the How To Schema of Gutenberg #500
+* Added: MusicPlaylist Schema Type #488
+* Added: MusicAlbum Schema Type #488
+* Added: Book Schema Type #488
+* Added: RTL support (To fit the design with other language which start with right to left) #491
+* Enhancement: In product schema add the description to the Short+Long description #477
+* Bug Fixed: Added core jquery dependencies whereever js is being enqued #494
+* Bug Fixed: Image size smaller than recommended size #485
+* Bug Fixed: Modify Schema issue #498
+* Bug Fixed: Previously set schema markups "stick" on the website by default. #475
+* Bug Fixed: Review CSS are not loading based on condition #492
+* Bug Fixed: Update the Reviews markup as per the new Google Update #484
+* Bug Fixed: Google reviews not appearing properly on website (Design improvements) #387
+* Bug Fixed: Review schema and webpage given an error "Thing is not a known valid target type for the itemReviewed property." #488
+* Bug Fixed: Featured image should be placed first in schema markup before the other images present in the content #496
+
+
 = 1.9.7 (19 Sept 2019) =
 
 * Major Feature: Schema type blocks (How To & FAQ) have been added in Gutenberg editor
