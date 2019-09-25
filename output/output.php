@@ -1922,24 +1922,80 @@ function saswp_gutenberg_how_to_schema(){
                 foreach ($blocks as $parse_blocks){
 
                 if(isset($parse_blocks['blockName']) && $parse_blocks['blockName'] === 'saswp/how-to-block'){
-
+                    
+                $service_object     = new saswp_output_service();   
+                $feature_image      = $service_object->saswp_get_fetaure_image();                  
+                                       
                 $input1['@context']              = saswp_context_url();
                 $input1['@type']                 = 'HowTo';
                 $input1['@id']                   = trailingslashit(get_permalink()).'#HowTo';
-                $input1['name']                  = saswp_get_the_title();
+                $input1['name']                  = saswp_get_the_title();                
                 $input1['datePublished']         = get_the_date("Y-m-d\TH:i:s\Z");
                 $input1['dateModified']          = get_the_modified_date("Y-m-d\TH:i:s\Z");
+                
+                if(!empty($feature_image)){
+                            
+                    $input1 = array_merge($input1, $feature_image);   
+                         
+                }                
                 
                 if(array_key_exists('description', $parse_blocks['attrs'])){
                     $input1['description']           = $parse_blocks['attrs']['description'];
                 }
-                $step = array();
+                
+                $supply     = array();
+                $supply_arr = array();
+                
+                if(array_key_exists('materials', $parse_blocks['attrs'])){
+                    $supply = $parse_blocks['attrs']['materials'];
+                }
+                
+                if(!empty($supply)){
+
+                    foreach($supply as $val){
+
+                        $supply_data = array();
+
+                        if($val['name']){
+                            $supply_data['@type'] = 'HowToSupply';
+                            $supply_data['name']  = $val['name'];                            
+                        }
+
+                       $supply_arr[] =  $supply_data;
+                    }
+                   $input1['supply'] = $supply_arr;
+                }
+                
+                
+                $tool     = array();
+                $tool_arr = array();
+                
+                if(array_key_exists('tools', $parse_blocks['attrs'])){
+                    $tool = $parse_blocks['attrs']['tools'];
+                }
+                
+                if(!empty($tool)){
+
+                    foreach($tool as $val){
+
+                        $supply_data = array();
+
+                        if($val['name']){
+                            $supply_data['@type'] = 'HowToTool';
+                            $supply_data['name']  = $val['name'];                            
+                        }
+
+                       $tool_arr[] =  $supply_data;
+                    }
+                   $input1['tool'] = $tool_arr;
+                }
+                                
+                $step     = array();
+                $step_arr = array(); 
                 
                 if(array_key_exists('items', $parse_blocks['attrs'])){
                     $step = $parse_blocks['attrs']['items'];
-                }
-                
-                $step_arr = array();                            
+                }                                                           
                 if(!empty($step)){
 
                     foreach($step as $key => $val){
@@ -1989,7 +2045,7 @@ function saswp_gutenberg_how_to_schema(){
                    $input1['step'] = $step_arr;
 
                 }  
-
+                
                  if(isset($parse_blocks['attrs']['days']) && $parse_blocks['attrs']['hours'] && $parse_blocks['attrs']['minutes']){
                      $input1['totalTime'] = 'P' . $parse_blocks['attrs']['days'] . 'DT' . $parse_blocks['attrs']['hours'] . 'H' . $parse_blocks['attrs']['minutes'] . 'M';
                  }   
@@ -2000,8 +2056,7 @@ function saswp_gutenberg_how_to_schema(){
 
                 }
                 
-            }
-                        
+            }                       
             return $input1;
     
 }

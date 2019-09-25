@@ -20,6 +20,26 @@ and open the template in the editor.
     list-style-type: none;
     list-style: none;
 }
+
+.saswp-how-to-tool-list li{
+    position: relative;
+    padding: 8px 8px 8px 32px;
+    margin: 4px;
+    border: 1px solid rgba(145,151,162,.25);
+    list-style-type: none;
+    list-style: none;
+    display: flow-root;
+}
+.saswp-how-to-material-list li{
+    position: relative;
+    padding: 8px 8px 8px 32px;
+    margin: 4px;
+    border: 1px solid rgba(145,151,162,.25);
+    list-style-type: none;
+    list-style: none;
+    display: flow-root;
+}
+
 .saswp-how-to-step-number {
     position: absolute;
     left: 4px;
@@ -99,4 +119,17 @@ and open the template in the editor.
 .saswp-faq-duration-time-input button{
     position: relative;
     top: -12px;
+}
+.saswp-how-to-setp-block{
+    margin-bottom: 40px;
+}
+.saswp-how-to-tool-block, .saswp-how-to-material-block{
+    border: 1px solid rgba(145,151,162,.25);
+    margin-bottom: 5px;
+}
+.saswp-how-to-material-controls-container, .saswp-how-to-tool-controls-container{
+    float: right;
+}
+.saswp-how-to-material-button, .saswp-how-to-tool-button{
+    margin: 5px;
 }
