@@ -668,6 +668,7 @@ Compatibility tab css ends
 .saswp-view-docs a{      
     margin-right: 5px !important;
     margin-top: 10px !important;
+    float: right;
 }
 .saswp-tabs .nav-tab{
     margin-left: 4px;
@@ -1210,4 +1211,15 @@ a.saswp-revws-lnk{
     display: inline-block;
     width: 100%;
     margin-bottom: 5px;
+}
+.saswp-about-contact-page{
+    width:75%; 
+    float:right;
+}
+.saswp-about-contact-page-tooltip{
+    float:left;
+    clear: both;
+}
+.saswp-quick-setup{
+    float: left;
 }

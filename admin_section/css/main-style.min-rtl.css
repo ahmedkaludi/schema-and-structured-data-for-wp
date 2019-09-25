@@ -1,3 +1,12 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Jul 27, 2018, 5:36:26 PM
+    Author     : Magazine3
+*/
 .saswp_warning{
     color: #ef6c00 !important;   
 }
@@ -659,11 +668,13 @@ Compatibility tab css ends
 .saswp-view-docs a{      
     margin-left: 5px !important;
     margin-top: 10px !important;
+    float: left;
 }
 .saswp-tabs .nav-tab{
     margin-right: 4px;
     font-size: 13px;
 }
+
 /*
 Google review module starts here
 */
@@ -1201,4 +1212,15 @@ a.saswp-revws-lnk{
     display: inline-block;
     width: 100%;
     margin-bottom: 5px;
+}
+.saswp-about-contact-page{
+    width:75%; 
+    float:left;
+}
+.saswp-about-contact-page-tooltip{
+    float:right;
+    clear: both;
+}
+.saswp-quick-setup{
+    float: right;
 }
