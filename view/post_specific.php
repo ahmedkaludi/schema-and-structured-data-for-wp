@@ -639,7 +639,22 @@ class saswp_post_specific {
 
                             }                         
                             $tabs_fields .= '</div>';
-                            $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" div_type="'.$key.'" fields_type="'.$value.'" class="button saswp_add_schema_fields_on_fly saswp-'.$key.'">'.esc_html__( 'Add '.$value, 'schema-and-structured-data-for-wp' ).'</a>';                                                                                                    
+                            
+                            $btn_text = '';
+                            
+                            if($value){
+                                
+                                $btn_array = explode('_',$value);
+                            
+                                if($btn_array){
+                                    foreach ($btn_array as $btn){
+                                        $btn_text .= ucfirst($btn).' ';
+                                    }
+                                }
+                                
+                            }
+                                                        
+                            $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" div_type="'.$key.'" fields_type="'.$value.'" class="button saswp_add_schema_fields_on_fly saswp-'.$key.'">'.esc_html__( 'Add '.$btn_text, 'schema-and-structured-data-for-wp' ).'</a>';                                                                                                    
                             $tabs_fields .= '</div>';                                                                                                
                          
                         }

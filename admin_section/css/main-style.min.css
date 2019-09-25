@@ -1223,3 +1223,6 @@ a.saswp-revws-lnk{
 .saswp-quick-setup{
     float: left;
 }
+.saswp_add_schema_fields_on_fly{
+    margin-bottom: 5px !important;
+}
