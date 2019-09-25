@@ -2142,6 +2142,9 @@ function saswp_enqueue_style_js( $hook ) {
         wp_enqueue_script( 'saswp-main-js' );
         
         wp_enqueue_style( 'saswp-main-css', SASWP_PLUGIN_URL . 'admin_section/css/main-style.min.css', false , SASWP_VERSION );
+                        
+        wp_style_add_data( 'saswp-main-css', 'rtl', 'replace' );
+        
 }
 add_action( 'admin_enqueue_scripts', 'saswp_enqueue_style_js' );
 
