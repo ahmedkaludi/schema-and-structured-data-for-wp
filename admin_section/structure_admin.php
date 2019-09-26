@@ -778,6 +778,7 @@ function saswp_dequeue_script() {
         
     }   
 }
+
   add_action( 'wp_print_scripts', 'saswp_dequeue_script', 100 );
   
   add_action( 'admin_enqueue_scripts', 'saswp_style_script_include' );

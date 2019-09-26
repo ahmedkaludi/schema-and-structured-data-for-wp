@@ -556,7 +556,8 @@ function saswp_schema_type_meta_box_callback( $post) {
             
                         $schema_options    = get_post_meta($post->ID, 'schema_options', true);            
                         $meta_list         = get_post_meta($post->ID, 'saswp_meta_list_val', true);                         
-                        $fixed_text        = get_post_meta($post->ID, 'saswp_fixed_text', true);                         
+                        $fixed_text        = get_post_meta($post->ID, 'saswp_fixed_text', true);  
+                        $fixed_image       = get_post_meta($post->ID, 'saswp_fixed_image', true);  
                         $cus_field         = get_post_meta($post->ID, 'saswp_custom_meta_field', true); 
                         $schema_type       = get_post_meta($post->ID, 'schema_type', true);     
 
@@ -1119,7 +1120,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                         <?php 
                         
                         if(!empty($meta_list)){  
-                            
+                                                        
                             $service     = new saswp_output_service();
                             
                             $schema_type    = get_post_meta($post->ID, 'schema_type', true);
@@ -1176,7 +1177,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                             
                             $meta_list_arr = $meta_list_fields['text'];
                             
-                            if (strpos($fieldkey, 'image') !== false) {
+                            if ((strpos($fieldkey, 'image') !== false) || strpos($fieldkey, 'logo') !== false) {
                                   $meta_list_arr = $meta_list_fields['image'];
                             }
                                                                                     
@@ -1209,6 +1210,37 @@ function saswp_schema_type_meta_box_callback( $post) {
                                  echo '<td><select class="saswp-custom-fields-select2" name="saswp_custom_meta_field['.esc_attr($fieldkey).']">';
                                  echo '<option value="'.esc_attr($cus_field[$fieldkey]).'">'.preg_replace( '/^_/', '', esc_html( str_replace( '_', ' ', $cus_field[$fieldkey] ) ) ).'</option>';
                                  echo '</select></td>';
+                                 
+                            }else if($fieldval == 'fixed_image'){
+                                            
+                                            $image_pre    = '';
+                                            $el_id        = strtolower($schema_type). '_'.$fieldkey;                                            
+                                            $media_name   = 'saswp_fixed_image['.esc_attr($fieldkey).']';
+                                            $media_url    = $fixed_image[$fieldkey]['thumbnail'];
+                                            $media_width  = $fixed_image[$fieldkey]['width'];
+                                            $media_height = $fixed_image[$fieldkey]['height'];
+                                            
+                                            if($media_url){
+                                            
+                                                    $image_pre = '<div class="saswp_image_thumbnail">
+                                                                 <img class="saswp_image_prev" src="'.esc_attr($media_url).'" />
+                                                                 <a data-id="'.esc_attr($el_id).'" href="#" class="saswp_prev_close">X</a>
+                                                                 </div>'; 
+                                            
+                                                }
+                                
+                                            echo '<td>'
+                                                .'<fieldset>'
+                                                . '<input data-id="media" style="width: 30%;" class="button" id="'. esc_attr($el_id).'_button" name="'. esc_attr($el_id).'_button" type="button" value="Upload" />'
+                                                . '<input type="hidden" data-id="'.esc_attr($el_id).'_height" class="upload-height" name="'.esc_attr($media_name).'[height]" id="'.esc_attr($el_id).'_height" value="'.esc_attr($media_height).'">'
+                                                . '<input type="hidden" data-id="'.esc_attr($el_id).'_width" class="upload-width" name="'.esc_attr($media_name).'[width]" id="'.esc_attr($el_id).'_width" value="'.esc_attr($media_width).'">'
+                                                . '<input type="hidden" data-id="'.esc_attr($el_id).'_thumbnail" class="upload-thumbnail" name="'.esc_attr($media_name).'[thumbnail]" id="'.esc_attr($el_id).'_thumbnail" value="'.esc_attr($media_url).'">'                                                
+                                                . '<div class="saswp_image_div_'.esc_attr($el_id).'">'                                               
+                                                . $image_pre                                                 
+                                                . '</div>'
+                                                . '</fieldset>'
+                                                . '</td>';
+                                
                             }else{
                                 echo '<td></td>';
                             }

@@ -88,6 +88,8 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                 $paywall_class_name   = '';
                 $enable_custom_field  = '';
                 $custom_fields        = '';
+                $fixed_text           = '';
+                $fixed_image          = '';
                 
                 if ( isset( $_POST['notAccessibleForFree'] ) )
                         $notAccessibleForFree = sanitize_text_field($_POST['notAccessibleForFree']);
@@ -103,6 +105,8 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                     $fixed_text = array_map ('sanitize_text_field', $_POST['saswp_fixed_text']);
                 if ( isset( $_POST['saswp_custom_meta_field'] ) )                    
                     $cus_meta_field = array_map ('sanitize_text_field', $_POST['saswp_custom_meta_field']);
+                if ( isset( $_POST['saswp_fixed_image'] ) )                    
+                    $fixed_image = wp_unslash($_POST['saswp_fixed_image']);
                 
                  $saswp_schema_options  =    array(
                                                 'isAccessibleForFree'   => $isAccessibleForFree,
@@ -110,10 +114,11 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                                                 'paywall_class_name'    => $paywall_class_name, 
                                                 'enable_custom_field'   => $enable_custom_field
                                             );   
-                 
+                                            
                  update_post_meta( $post_id, 'schema_options', $saswp_schema_options);                 
                  update_post_meta( $post_id, 'saswp_meta_list_val', $meta_list);
                  update_post_meta( $post_id, 'saswp_fixed_text', $fixed_text);
+                 update_post_meta( $post_id, 'saswp_fixed_image', $fixed_image);
                  update_post_meta( $post_id, 'saswp_custom_meta_field', $cus_meta_field);
                
                

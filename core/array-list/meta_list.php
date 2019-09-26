@@ -39,7 +39,7 @@ return apply_filters('saswp_modify_post_meta_list',
                                     'meta-list' => array(
                                             'featured_img' => __( 'Featured image', 'schema-and-structured-data-for-wp' ),
                                             'author_image' => __( 'Author image', 'schema-and-structured-data-for-wp' ),
-                                            'site_logo' => __( 'Logo', 'schema-and-structured-data-for-wp' ),
+                                            'site_logo'    => __( 'Logo', 'schema-and-structured-data-for-wp' ),
                                     ),
                             ),
                             array(
@@ -51,6 +51,7 @@ return apply_filters('saswp_modify_post_meta_list',
                             array(
                                     'label'     => __( 'Custom Field', 'schema-and-structured-data-for-wp' ),
                                     'meta-list' => array(
+                                            'fixed_image'  => __( 'Fixed Image', 'schema-and-structured-data-for-wp' ),
                                             'custom_field' => __( 'Custom Field', 'schema-and-structured-data-for-wp' ),
                                     ),
                             ),
