@@ -12,6 +12,10 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 Class saswp_output_service{           
     
+    /**
+     * private variable to hold mata list
+     * @var type 
+     */
     private $_meta_list = null;
 
     public function __construct() {
@@ -39,7 +43,12 @@ Class saswp_output_service{
            add_filter( 'saswp_modify_post_meta_list', array( $this, 'saswp_get_acf_meta_keys' ) );
            
         }    
-             
+        /**
+         * Function to get acf meta keys
+         * @param type $fields
+         * @return type array
+         * @since version 1.9.3
+         */     
         public function saswp_get_acf_meta_keys($fields){
             
             if ( function_exists( 'acf' ) && class_exists( 'acf' ) ) {
@@ -101,7 +110,10 @@ Class saswp_output_service{
 			return $fields;
             
         }
-        
+        /**
+         * Ajax function to get meta list 
+         * @return type json
+         */
         public function saswp_get_meta_list(){
             
             if ( ! isset( $_GET['saswp_security_nonce'] ) ){
@@ -121,13 +133,14 @@ Class saswp_output_service{
             wp_send_json( $response); 
                         
         }
+        
         /**
+         * @since version 1.9.1
          * This function replaces the value of schema's fields with the selected custom meta field
          * @param type $input1
          * @param type $schema_post_id
-         * @return type array
-         */
-        
+         * @return type array or string
+         */        
         public function saswp_get_meta_list_value($key, $field, $schema_post_id){
             
             global $post;
@@ -256,6 +269,12 @@ Class saswp_output_service{
             return $response;
             
         }
+        /**
+         * Function to replace schema markup fields value with custom value enter or selected by users while modifying globally
+         * @param type $input1
+         * @param type $schema_post_id
+         * @return type array
+         */
         public function saswp_replace_with_custom_fields_value($input1, $schema_post_id){
                                                  
             $custom_fields    = get_post_meta($schema_post_id, 'saswp_meta_list_val', true);
@@ -2102,7 +2121,13 @@ Class saswp_output_service{
            return $review_data;
             
         }
-                
+         /**
+         * This function gets topic details as an array from bbpress posts
+         * DW Question & Answer ( https://wordpress.org/plugins/bbpress/ )
+         * @global type $sd_data
+         * @param type $post_id
+         * @return type array
+         */       
         public function saswp_bb_press_topic_details($post_id){
                             
                 $dw_qa          = array();

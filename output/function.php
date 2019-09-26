@@ -477,7 +477,6 @@ function saswp_remove_warnings($data, $index, $type){
 	        }    
 }
 
-
 /**
  * Gets the total word count and expected time to read the article
  * @return type array
@@ -537,7 +536,6 @@ function saswp_extract_kk_star_ratings(){
                 
             }                        
        }
-
        
 /**
  * Extracting the value of wp-post-rating ratings plugins on current post
