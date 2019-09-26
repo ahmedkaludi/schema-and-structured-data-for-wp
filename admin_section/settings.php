@@ -209,9 +209,11 @@ function saswp_admin_interface_render(){
 		</form>
 	</div>
     <div class="saswp-settings-second-div">
-        <p style="float:left;"><?php 
+        <p class="saswp-quick-setup"><?php 
         $nonce = wp_create_nonce( 'saswp_install_wizard_nonce' );          
-        echo esc_html('Need Quick Setup?', 'schema-and-structured-data-for-wp'); ?></p><a href="<?php echo esc_url(admin_url( 'plugins.php?page=saswp-setup-wizard' ).'&_saswp_nonce='.$nonce); ?>" class="page-title-action saswp-start-quck-setup button button-primary"><?php echo esc_html('Try Installation Wizard', 'schema-and-structured-data-for-wp'); ?></a>
+        echo esc_html('Need Quick Setup?', 'schema-and-structured-data-for-wp'); ?>
+        </p>
+        <a href="<?php echo esc_url(admin_url( 'plugins.php?page=saswp-setup-wizard' ).'&_saswp_nonce='.$nonce); ?>" class="page-title-action saswp-start-quck-setup button button-primary"><?php echo esc_html('Try Installation Wizard', 'schema-and-structured-data-for-wp'); ?></a>
     <div class="saswp-feedback-panel">
         
         <h2><?php echo esc_html__( 'Leave A Feedback', 'schema-and-structured-data-for-wp' ); ?></h2>
@@ -236,7 +238,8 @@ function saswp_admin_interface_render(){
     </div>
         <div class="saswp-view-docs">
             
-            <p style="float: left;"><?php echo esc_html__('Need Help?','schema-and-structured-data-for-wp') ?></p>  <a style="float: right;" class="button button-default" target="_blank" href="http://structured-data-for-wp.com/docs/"><?php echo esc_html__('View Documentation','schema-and-structured-data-for-wp') ?></a>
+            <p class="saswp-quick-setup"><?php echo esc_html__('Need Help?','schema-and-structured-data-for-wp') ?></p>  
+            <a class="button button-default" target="_blank" href="http://structured-data-for-wp.com/docs/"><?php echo esc_html__('View Documentation','schema-and-structured-data-for-wp') ?></a>
             
         </div>
         
@@ -684,13 +687,13 @@ function saswp_general_page_callback(){
               <h2><?php echo esc_html__('General Settings','schema-and-structured-data-for-wp'); ?></h2>              
             </div>
             <p><?php echo esc_html__('This is a global schema settings, to display about, contact, website, archive, breadcrumbs, comments and site navigation schema type.','schema-and-structured-data-for-wp') ?> <a target="_blank" href="http://structured-data-for-wp.com/docs/article/what-is-general-settings-in-schema/"><?php echo esc_html__('Learn More','schema-and-structured-data-for-wp') ?></a></p>   
-        <ul><li><div style="float:left;clear: both;"><label class="saswp-tooltip">
+        <ul><li><div class="saswp-about-contact-page-tooltip"><label class="saswp-tooltip">
         <?php echo esc_html__('About','schema-and-structured-data-for-wp') ?>
                 <span class="saswp-tooltiptext"><?php echo esc_html__('Set the about page of of your website','schema-and-structured-data-for-wp') ?></span>
                 </label>
         </div>
-        <div style="">
-        <div style="width:75%; float:right;">
+        <div>
+        <div class="saswp-about-contact-page">
               
                     <label for="sd_about_page-select">
 	<?php        
@@ -706,14 +709,14 @@ function saswp_general_page_callback(){
         </div>
        </div>
     </li>
-    <li><div style="float:left;clear: both;">
+    <li><div class="saswp-about-contact-page-tooltip">
             <label class="saswp-tooltip">
     <?php echo esc_html__('Contact','schema-and-structured-data-for-wp') ?>
                 <span class="saswp-tooltiptext"><?php echo esc_html__('Set the contact us page of your website','schema-and-structured-data-for-wp') ?></span>
             </label>
         </div>
-        <div style="">
-        <div style="width:75%; float:right;">          
+        <div>
+            <div class="saswp-about-contact-page">          
            <label for="sd_contact_page-select">
 	  <?php echo wp_dropdown_pages( array( 
 			'name'              => 'sd_data[sd_contact_page]', 
@@ -2142,6 +2145,9 @@ function saswp_enqueue_style_js( $hook ) {
         wp_enqueue_script( 'saswp-main-js' );
         
         wp_enqueue_style( 'saswp-main-css', SASWP_PLUGIN_URL . 'admin_section/css/main-style.min.css', false , SASWP_VERSION );
+                        
+        wp_style_add_data( 'saswp-main-css', 'rtl', 'replace' );
+        
 }
 add_action( 'admin_enqueue_scripts', 'saswp_enqueue_style_js' );
 

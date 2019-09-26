@@ -30,7 +30,7 @@ function saswp_item_reviewed_fields($item, $post_specific = null, $schema_id = n
 
     if($post_specific == 1 && isset($schema_id)){
 
-      $post_fix = '_'.esc_attr($schema_id);  
+        $post_fix = '_'.esc_attr($schema_id);  
 
     }
 
@@ -161,7 +161,7 @@ function saswp_item_reviewed_fields($item, $post_specific = null, $schema_id = n
                                 'type'    => 'text',
                                 'default' => get_site_url()
                         )
-                 );  
+                   );  
 
                     break;
                 case 'Book':
@@ -659,7 +659,7 @@ function saswp_schema_type_meta_box_callback( $post) {
 
                             case 'Review':
 
-                                $review_details   = get_post_meta($post->ID, 'saswp_review_schema_details', true);
+                                $review_details   = get_post_meta($post->ID, 'saswp_review_schema_details', true);                              
 
                                 if(count($review_details) > 1){
 
@@ -734,28 +734,19 @@ function saswp_schema_type_meta_box_callback( $post) {
                             $style_business_type = 'style="display:none"';
                             $style_business_name = 'style="display:none"';
 
-                        }                            
-                    }   
-                                               
-                        $item_reviewed = array(
-                             'Article'               => 'Article',
-                             'Adultentertainment'    => 'Adult Entertainment',
-                             'Blog'                  => 'Blog',
-                             'Book'                  => 'Book',
-                             'Casino'                => 'Casino',   
-                             'Diet'                  => 'Diet',
-                             'Episode'               => 'Episode',
-                             'ExercisePlan'          => 'Exercise Plan',  
-                             'Game'                  => 'Game', 
-                             'Movie'                 => 'Movie', 
-                             'MusicPlaylist'         => 'Music Playlist',                                      
-                             'MusicRecording'        => 'MusicRecording',
-                             'Photograph'            => 'Photograph',                                     
-                             'Restaurant'            => 'Restaurant', 
-                             'Series'                => 'Series',                                     
-                             'VisualArtwork'         => 'Visual Artwork',  
-                             'WebPage'               => 'WebPage', 
-                             'WebSite'               => 'WebSite',                                                                                                                                                   
+                         }                            
+                        }                                                  
+                        $item_reviewed = array(                                                                                    
+                             'Book'                  => 'Book',                             
+                             'Course'                => 'Course',                             
+                             'Event'                 => 'Event',                              
+                             'HowTo'                 => 'HowTo',   
+                             'LocalBusiness'         => 'LocalBusiness',                                 
+                             'MusicPlaylist'         => 'Music Playlist',                                                                                                                                                                                               
+                             'Product'               => 'Product',                                
+                             'Recipe'                => 'Recipe',                             
+                             'SoftwareApplication'   => 'SoftwareApplication',
+                             'VideoGame'             => 'VideoGame', 
                         );                                                             
 
                         $mappings_file = SASWP_DIR_NAME . '/core/array-list/schemas.php';
@@ -1087,7 +1078,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                     <td><?php echo esc_html__('Item Reviewed Type', 'schema-and-structured-data-for-wp' ); ?></td>
                     <td>
 
-                        <select data-id="<?php if(is_object($post)){ echo esc_attr($post->ID); }  ?>" name="saswp_review_schema_item_type" class="">
+                        <select data-id="<?php if(is_object($post)){ echo esc_attr($post->ID); }  ?>" name="saswp_review_schema_item_type" class="saswp-item-reivewed-list">
                         <?php                                
                           foreach ($item_reviewed as $key => $value) {
                             $sel = '';
@@ -1127,11 +1118,34 @@ function saswp_schema_type_meta_box_callback( $post) {
                            
                         <?php 
                         
-                        if(!empty($meta_list)){                                                                                    
-                            $schema_type    = get_post_meta($post->ID, 'schema_type', true);
+                        if(!empty($meta_list)){  
                             
                             $service     = new saswp_output_service();
-                            $meta_fields = $service->saswp_get_all_schema_type_fields($schema_type);
+                            
+                            $schema_type    = get_post_meta($post->ID, 'schema_type', true);
+                            
+                            if($schema_type == 'Review'){
+                                
+                                $review_post_meta = get_post_meta($post->ID, 'saswp_review_schema_details', true);                                                                
+                                $schema_type = $review_post_meta['saswp_review_schema_item_type'];
+                                
+                                $review_fields['saswp_review_name']         = 'Review Name';
+                                $review_fields['saswp_review_description']  = 'Review Description';
+                                $review_fields['saswp_review_body']         = 'Review Body';
+                                $review_fields['saswp_review_author']       = 'Review Author';
+                                $review_fields['saswp_review_publisher']    = 'Review Publisher';
+                                $review_fields['saswp_review_rating_value'] = 'Review Rating Value';                                
+                                
+                                $item_rv_meta_fields = $service->saswp_get_all_schema_type_fields($schema_type);
+                                
+                                $meta_fields = $review_fields + $item_rv_meta_fields;
+                                
+                             
+                            }else{
+                                
+                                $meta_fields = $service->saswp_get_all_schema_type_fields($schema_type);
+                                
+                            }
                             
                             foreach($meta_list as $fieldkey => $fieldval){
                                                                                         

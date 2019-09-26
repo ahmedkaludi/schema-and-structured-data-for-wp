@@ -7,12 +7,25 @@ class SASWP_Gutenberg {
         private function __construct() {
                     add_action( 'init', array( $this, 'register_how_to' ) );
                     add_action( 'init', array( $this, 'register_faq' ) );
-                    add_action( 'enqueue_block_editor_assets', array( $this, 'register_assets' ) );                    
+                    add_action( 'enqueue_block_editor_assets', array( $this, 'register_admin_assets' ) ); 
+                    //add_action( 'enqueue_block_assets', array( $this, 'register_frontend_assets' ) ); 
                     add_filter( 'block_categories', array( $this, 'saswp_add_blocks_categories' ) );     
         }
-
         
-        public function register_assets() {
+        public function register_frontend_assets() {
+                            
+                    if(!is_admin){
+                        
+                        wp_enqueue_style(
+                            'saswp-gutenberg-css-reg',
+                            SASWP_PLUGIN_URL . '/modules/gutenberg/assets/css/style.css',
+                            array()                        
+                        );
+                        
+                    }                               
+	}
+        
+        public function register_admin_assets() {
             
                     if ( !function_exists( 'register_block_type' ) ) {
                             // no Gutenberg, Abort
@@ -20,16 +33,10 @@ class SASWP_Gutenberg {
                     }		                  		                                           
                      wp_register_style(
                         'saswp-gutenberg-css-reg-editor',
-                        SASWP_PLUGIN_URL . '/modules/gutenberg/assets/css/editor.css',
+                        SASWP_PLUGIN_URL . 'modules/gutenberg/assets/css/editor.css',
                         array( 'wp-edit-blocks' )
                     );
- 
-                    wp_register_style(
-                        'saswp-gutenberg-css-reg',
-                        SASWP_PLUGIN_URL . '/modules/gutenberg/assets/css/style.css',
-                        array( )                        
-                    );
-                    
+                                         
                     wp_register_script(
                         'saswp-faq-js-reg',
                         SASWP_PLUGIN_URL . '/modules/gutenberg/assets/blocks/faq.js',
@@ -58,7 +65,25 @@ class SASWP_Gutenberg {
         
                     wp_enqueue_script( 'saswp-how-to-js-reg' );                    
 	}
-        
+        /**
+	 * Register blocks
+	 */
+	public function register_how_to() {
+            
+                    if ( !function_exists( 'register_block_type' ) ) {
+                            // no Gutenberg, Abort
+                            return;
+                    }		                  		    
+                     
+                    register_block_type( 'saswp/how-to-block', array(
+                        'style'         => 'saswp-gutenberg-css-reg',
+                        'editor_style'  => 'saswp-gutenberg-css-reg-editor',
+                        'editor_script' => 'saswp-how-to-js-reg',
+                        'render_callback' => array( $this, 'render_how_to_data' ),
+                    ) );
+                                        
+                    
+	}
         /**
 	 * Register blocks
 	 */
@@ -120,7 +145,7 @@ class SASWP_Gutenberg {
 	}
         
 	public static function render_how_to_data( $attributes ) {
-                                        
+                                                                    
 		ob_start();
 		
 		if ( !isset( $attributes ) ) {
@@ -130,10 +155,12 @@ class SASWP_Gutenberg {
 		}
                 
                 echo '<div class="saswp-how-to-block-section">';
+                
+                echo '<div class="saswp-how-to-block-steps">';
                                 
                 if(isset($attributes['hasDuration'])){
                     echo '<p class="saswp-how-to-total-time">';
-                    echo '<span class="saswp-how-to-duration-time-text">Time Needed : </span>'; 
+                    echo '<span class="saswp-how-to-duration-time-text"><strong>Time Needed :</strong> </span>'; 
                                                             
                     echo esc_attr($attributes['days']).' days '.esc_attr($attributes['hours']).' hours '.esc_attr($attributes['minutes']).' minutes';
                     echo '</p>';
@@ -165,34 +192,53 @@ class SASWP_Gutenberg {
                     }else{
                      echo '</ul>';    
                     }                    
+                }                                
+                echo '</div>';
+                
+                echo '<div class="saswp-how-to-block-tools">';
+                
+                if(!empty($attributes['tools'])){
+                    
+                    echo '<h5>'.saswp_label_text('translation-tools').'</h5>';
+                    
+                    echo '<ul>';
+                    foreach($attributes['tools'] as $val){
+                        if($val['name']){
+                            echo '<li>'. esc_attr($val['name']).'</li>';
+                        }
+                        
+                    }
+                    echo '</ul>';
+                    
                 }
                                 
+                echo '</div>';
+                
+                echo '<div class="saswp-how-to-block-material">';
+                
+                if(!empty($attributes['materials'])){
+                    
+                    echo '<h5>'.saswp_label_text('translation-materials').'</h5>';  
+                    
+                    echo '<ul>';
+                    foreach($attributes['materials'] as $val){
+                        if($val['name']){
+                            echo '<li>'. esc_attr($val['name']).'</li>';
+                        }
+                        
+                    }
+                    echo '</ul>';
+                                        
+                }
+                                                
+                echo '</div>';
+                
                 echo '</div>';
                 						
 		return ob_get_clean();
 	}
-        
-	/**
-	 * Register blocks
-	 */
-	public function register_how_to() {
-            
-                    if ( !function_exists( 'register_block_type' ) ) {
-                            // no Gutenberg, Abort
-                            return;
-                    }		                  		    
-                     
-                    register_block_type( 'saswp/how-to-block', array(
-                        'style'         => 'saswp-gutenberg-css-reg',
-                        'editor_style'  => 'saswp-gutenberg-css-reg-editor',
-                        'editor_script' => 'saswp-how-to-js-reg',
-                        'render_callback' => array( $this, 'render_how_to_data' ),
-                    ) );
-                                        
-                    
-	}
-        
-    public function saswp_add_blocks_categories($categories){
+        	        
+        public function saswp_add_blocks_categories($categories){
         
         $categories[] = array(
                 'slug'  => 'saswp-blocks',
@@ -206,7 +252,7 @@ class SASWP_Gutenberg {
         /**
      * Return the unique instance 
      */
-    public static function get_instance() {
+        public static function get_instance() {
 		if ( null == self::$instance ) {
 			self::$instance = new self;
 		}

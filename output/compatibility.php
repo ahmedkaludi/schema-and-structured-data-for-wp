@@ -98,7 +98,7 @@ class saswp_output_compatibility{
          
        global $wp_filter;
                
-       if(isset($wp_filter['wp_footer'])){
+       if(isset($wp_filter['wp_footer']) && is_object($wp_filter['wp_footer'])){
          
         $callbacks =  $wp_filter['wp_footer']->callbacks;
         

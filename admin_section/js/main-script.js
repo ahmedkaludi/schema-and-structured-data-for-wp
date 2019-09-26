@@ -23,7 +23,7 @@ function getParameterByName(name, url) {
         }
 
 
-       function saswp_meta_list_html(response, fields, f_name, id, tr){
+       function saswp_meta_list_html(current_fly, response, fields, f_name, id, tr){
                       
                         var field_name = f_name;
                         if(field_name == null){                            
@@ -31,11 +31,11 @@ function getParameterByName(name, url) {
                         }                        
                         var re_html = '';   
                             re_html += '<select class="saswp-custom-meta-list" name="saswp_meta_list_val['+field_name+']">';
-                          $.each(response, function(key,value){ 
+                          jQuery.each(response, function(key,value){ 
 
                                re_html += '<optgroup label="'+value['label']+'">';   
 
-                               $.each(value['meta-list'], function(key, value){
+                               jQuery.each(value['meta-list'], function(key, value){
                                    re_html += '<option value="'+key+'">'+value+'</option>';
                                });                                                                                  
                                re_html += '</optgroup>';
@@ -47,7 +47,7 @@ function getParameterByName(name, url) {
                                  var html = '<tr>';                                                                                                                            
                                      html += '<td>';                                     
                                      html += '<select class="saswp-custom-fields-name">';
-                                     $.each(fields, function(key,value){                                         
+                                     jQuery.each(fields, function(key,value){                                         
                                        html += '<option value="'+key+'">'+value+'</option>';                                       
                                      });                                     
                                     html += '</select>';                                     
@@ -57,10 +57,17 @@ function getParameterByName(name, url) {
                                     html += '</td>';  
                                     html += '<td></td><td><a class="button button-default saswp-rmv-modify_row">X</a></td>';
                                     html += '</tr>';
-                                    $(".saswp-custom-fields-table").append(html);               
+                                    jQuery(".saswp-custom-fields-table").append(html); 
+                                    if(current_fly != null){
+                                        current_fly.removeClass('updating-message');
+                                    }
+                                    
                                                                                                                      
                       }else{
-                          $(id).html(re_html);                                                                                  
+                          jQuery(id).html(re_html);     
+                          if(current_fly != null){
+                                        current_fly.removeClass('updating-message');
+                          }
                       }                                                          
            
        } 
@@ -68,28 +75,28 @@ function getParameterByName(name, url) {
 
        
        
-       function saswp_get_meta_list(type, fields, id, fields_name, tr){                           
+       function saswp_get_meta_list(current_fly, type, fields, id, fields_name, tr){                           
                             if (!saswp_meta_list[type]) {
                                 
-                                $.get(ajaxurl, 
+                                jQuery.get(ajaxurl, 
                                     { action:"saswp_get_meta_list", saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
                                      function(response){                                  
                                                saswp_meta_list[type] = response[type];                                                                                                                             
-                                               saswp_meta_list_html(saswp_meta_list[type], fields, fields_name, id, tr);
+                                               saswp_meta_list_html(current_fly, saswp_meta_list[type], fields, fields_name, id, tr);
                                           
                                     },'json');
                                 
                             }else{
-                                saswp_meta_list_html(saswp_meta_list[type], fields, fields_name, id, tr);
+                                saswp_meta_list_html(current_fly, saswp_meta_list[type], fields, fields_name, id, tr);
                             }
                                                                                      
        }
              
-       function saswp_get_post_specific_schema_fields(index, meta_name, div_type, schema_id, fields_type){
+       function saswp_get_post_specific_schema_fields(current_fly, index, meta_name, div_type, schema_id, fields_type){
                             
                             if (!saswp_meta_fields[fields_type]) {
                                 
-                                $.get(ajaxurl, 
+                                jQuery.get(ajaxurl, 
                                     { action:"saswp_get_schema_dynamic_fields_ajax",meta_name:meta_name, saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
                                      function(response){                                  
                                          saswp_meta_fields[fields_type] = response;
@@ -97,8 +104,9 @@ function getParameterByName(name, url) {
                                          var html = saswp_fields_html_generator(index, schema_id, fields_type, div_type, response);
 
                                            if(html){
-                                               $('.saswp-'+div_type+'-section[data-id="'+schema_id+'"]').append(html);
+                                               jQuery('.saswp-'+div_type+'-section[data-id="'+schema_id+'"]').append(html);
                                                saswp_schema_datepicker();
+                                               current_fly.removeClass('updating-message');
                                            }
 
                                     },'json');
@@ -108,8 +116,9 @@ function getParameterByName(name, url) {
                               var html = saswp_fields_html_generator(index, schema_id, fields_type, div_type, saswp_meta_fields[fields_type]);
 
                                if(html){
-                                   $('.saswp-'+div_type+'-section[data-id="'+schema_id+'"]').append(html);
+                                   jQuery('.saswp-'+div_type+'-section[data-id="'+schema_id+'"]').append(html);
                                    saswp_schema_datepicker();
+                                   current_fly.removeClass('updating-message');
                                }
                                                                 
                             }
@@ -125,7 +134,7 @@ function saswp_fields_html_generator(index, schema_id, fields_type, div_type, sc
                         +  '<a class="saswp-table-close">X</a>'
                         + '<table class="form-table saswp-'+div_type+'-table">' 
                 
-            $.each(schema_fields, function(eachindex, element){
+            jQuery.each(schema_fields, function(eachindex, element){
                                 
                 var meta_class = "";
                 if(element.name == 'saswp_tvseries_season_published_date' || element.name == 'saswp_feed_element_date_created' || element.name == 'saswp_product_reviews_created_date'){
@@ -153,7 +162,7 @@ function saswp_fields_html_generator(index, schema_id, fields_type, div_type, sc
                      case "select":
                         
                         var options_html = "";                        
-                        $.each(element.options, function(opt_index, opt_element){                            
+                        jQuery.each(element.options, function(opt_index, opt_element){                            
                             options_html += '<option value="'+opt_index+'">'+opt_element+'</option>';
                         });
                         
@@ -303,7 +312,7 @@ jQuery(document).ready(function($){
         
         $(".saswp-schame-type-select").change(function(){
             $(".saswp-custom-fields-table").html('');
-            var schematype = $  (this).val(); 
+            var schematype = $(this).val(); 
             
            $(".saswp-option-table-class tr").each(function(index,value){                
                if(index>0){
@@ -778,6 +787,15 @@ jQuery(document).ready(function($){
                               $("#saswp-the-events-calendar").val(1);             
                             }else{
                               $("#saswp-the-events-calendar").val(0);           
+                            }
+                      break;
+                      
+                      case 'saswp-homeland-checkbox':
+                          saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-homeland").val(1);             
+                            }else{
+                              $("#saswp-homeland").val(0);           
                             }
                       break;
                       
@@ -1526,7 +1544,7 @@ jQuery(document).ready(function($){
                 type = 'image';
             }                                     
              var id = $(this).parent().parent('tr').find("td:eq(1)");                                    
-             saswp_get_meta_list(type, null, id, fields_name, tr);                    
+             saswp_get_meta_list(null,type, null, id, fields_name, tr);                    
              
        }); 
                 
@@ -1544,6 +1562,10 @@ jQuery(document).ready(function($){
                                                                                     
        $(document).on("click", ".saswp_add_schema_fields_on_fly", function(e){
            e.preventDefault();
+           
+          var current_fly = $(this); 
+          
+          current_fly.addClass('updating-message');
                       
           var schema_id   = $(this).attr('data-id');
           var fields_type = $(this).attr('fields_type'); 
@@ -1557,7 +1579,7 @@ jQuery(document).ready(function($){
                index = 0;
            }
                        
-            saswp_get_post_specific_schema_fields(index, fields_type, div_type, schema_id, fields_type+'_');               
+            saswp_get_post_specific_schema_fields(current_fly, index, fields_type, div_type, schema_id, fields_type+'_');               
             
        });
        
@@ -1596,8 +1618,23 @@ jQuery(document).ready(function($){
            
        });
         
-       $(document).on("click", '.saswp-add-custom-fields', function(){          
-          var schema_type = $('select#schema_type option:selected').val();
+       $(document).on("change", ".saswp-item-reivewed-list", function(){
+           
+           $(".saswp-custom-fields-table").html('');
+            saswp_meta_list_fields = [];
+           
+       }); 
+        
+       $(document).on("click", '.saswp-add-custom-fields', function(){
+           
+          var current_fly = $(this);
+          current_fly.addClass('updating-message');
+          var schema_type    = $('select#schema_type option:selected').val();
+          var schema_subtype = '';
+          
+          if(schema_type == 'Review'){
+              schema_subtype = $('select.saswp-item-reivewed-list option:selected').val();
+          }          
           var post_id = $('#post_ID').val();
           if(schema_type !=''){
                             
@@ -1607,11 +1644,11 @@ jQuery(document).ready(function($){
                             type: "POST",    
                             url:ajaxurl,                    
                             dataType: "json",
-                            data:{action:"saswp_get_schema_type_fields",post_id:post_id, schema_type:schema_type, saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
+                            data:{action:"saswp_get_schema_type_fields",post_id:post_id, schema_type:schema_type,schema_subtype:schema_subtype, saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
                             success:function(response){   
                                                                                                         
                                         saswp_meta_list_fields[schema_type] = response;                                       
-                                        saswp_get_meta_list('text', saswp_meta_list_fields[schema_type], null, null, null);                                                                     
+                                        saswp_get_meta_list(current_fly, 'text', saswp_meta_list_fields[schema_type], null, null, null);                                                                     
                              
                             },
                             error: function(response){                    
@@ -1622,7 +1659,7 @@ jQuery(document).ready(function($){
                   
               }else{
                                         
-                saswp_get_meta_list('text', saswp_meta_list_fields[schema_type], null, null, null);
+                saswp_get_meta_list(current_fly, 'text', saswp_meta_list_fields[schema_type], null, null, null);
                                     
               }
                      

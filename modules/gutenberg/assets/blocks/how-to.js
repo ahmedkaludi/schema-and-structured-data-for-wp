@@ -78,7 +78,43 @@
                   default:false      
                 }
               }
-            }       
+            },
+            tools: {                     
+              default: [],
+              selector: '.saswp-how-to-block-tools',
+              query: {
+                name: {
+                  type: 'string',                  
+                  selector: '.tool-name'
+                },                
+                index: {            
+                  type: 'number',                  
+                  attribute: 'data-index',                  
+                },
+                isSelected: {            
+                  type: 'boolean',
+                  default:false      
+                }
+              }
+            },
+            materials: {                     
+              default: [],
+              selector: '.saswp-how-to-block-material',
+              query: {
+                name: {
+                  type: 'string',                  
+                  selector: '.material-name'
+                },                
+                index: {            
+                  type: 'number',                  
+                  attribute: 'data-index'                  
+                },
+                isSelected: {            
+                  type: 'boolean',
+                  default:false      
+                }
+              }
+            }
           },               
         edit: function(props) {
             
@@ -376,7 +412,7 @@
                         )
                         );
             }
-            //List of function for the current blocks ends here
+            //Step list starts here
               
               var itemli = attributes.items.sort(function(a , b) {
                   
@@ -461,8 +497,186 @@
                       )
                       )
               });
+            
+            //Step list ends here
+            
+            //Tool list starts here
               
-            var itemlist = el('ul',{}, itemli);
+              var toolli = attributes.tools.sort(function(a , b) {
+                  
+                    return a.index - b.index;
+                    }).map(function(tool){  
+                                                                        
+                      return el('li', 
+                            { 
+                                className: 'tool',
+                                onClick: function(){
+                                                                                                              
+                                    const oldAttributes      =  attributes; 
+                                    const oldItems           =  attributes.tools;                                                                                                        
+                                    oldItems.forEach(function(value, index){ 
+                                       
+                                       if(index == tool.index){                                            
+                                            oldItems[index]['isSelected']  = true;                                                                                       
+                                       }else{                                            
+                                            oldItems[index]['isSelected']  = false;                                                                                       
+                                       }
+                                                                               
+                                    });
+                                    
+                                    oldAttributes['tools'] = oldItems;
+                                    props.setAttributes({
+                                      attributes: oldAttributes
+                                    });                                    
+                                }
+                            },                            
+                          el( RichText, {                
+                          tagName: 'p',
+                          className:'saswp-how-to-tool-name',
+                          placeholder: 'Enter a tool name', 
+                          style: { textAlign: alignment },
+                          value: tool.name,
+                          autoFocus: true,
+                          onChange: function( value ) {                                
+                            var newObject = Object.assign({}, tool, {
+                              name: value
+                            });
+                            return props.setAttributes({
+                              tools: [].concat(_cloneArray(props.attributes.tools.filter(function (itemFilter) {
+                                return itemFilter.index != tool.index;
+                              })), [newObject])
+                            });
+                          }
+                        }            
+                      ),                                            
+                      el('div', {className:'saswp-how-to-tool-controls-container'},                                                
+                      
+                      el( IconButton, {
+                            icon: "trash",
+                            className: 'saswp-how-to-tool-button',            
+                            onClick: function() { 
+                                
+                                 const oldAttributes      =  attributes; 
+                                 const oldItems           =  attributes.tools;  
+                                 const newTestimonials    =  oldItems
+                                 
+                                    .filter(function(itemFilter){
+                                       return itemFilter.index != tool.index
+                                    }).map(function(t){                                          
+                                         if (t.index > oldItems.index) {
+                                             t.index -= 1;
+                                         }
+                                         return t;
+                                    });
+                                    
+                                    newTestimonials.forEach(function(value, index){                                                                                                                      
+                                       newTestimonials[index]['index']       = index;                                       
+                                    });
+                                    
+                                    oldAttributes['tools'] = newTestimonials;
+                                    props.setAttributes({
+                                      attributes: oldAttributes
+                                    });                                
+                                
+                            }
+                          }                          
+                        )
+                    
+                      )
+                      )
+              });
+            
+            //Tool list ends here
+            
+            //Material list starts here
+              
+              var materialli = attributes.materials.sort(function(a , b) {
+                  
+                    return a.index - b.index;
+                    }).map(function(material){  
+                                                                        
+                      return el('li', 
+                            { 
+                                className: 'material',
+                                onClick: function(){
+                                                                                                              
+                                    const oldAttributes      =  attributes; 
+                                    const oldItems           =  attributes.materials;                                                                                                        
+                                    oldItems.forEach(function(value, index){ 
+                                       
+                                       if(index == material.index){                                            
+                                            oldItems[index]['isSelected']  = true;                                                                                       
+                                       }else{                                            
+                                            oldItems[index]['isSelected']  = false;                                                                                       
+                                       }
+                                                                               
+                                    });
+                                    
+                                    oldAttributes['materials'] = oldItems;
+                                    props.setAttributes({
+                                      attributes: oldAttributes
+                                    });                                    
+                                }
+                            },                            
+                          el( RichText, {                
+                          tagName: 'p',
+                          className:'saswp-how-to-material-name',
+                          placeholder: 'Enter a material name', 
+                          style: { textAlign: alignment },
+                          value: material.name,
+                          autoFocus: true,
+                          onChange: function( value ) {                                
+                            var newObject = Object.assign({}, material, {
+                              name: value
+                            });
+                            return props.setAttributes({
+                              materials: [].concat(_cloneArray(props.attributes.materials.filter(function (itemFilter) {
+                                return itemFilter.index != material.index;
+                              })), [newObject])
+                            });
+                          }
+                        }            
+                      ),                                            
+                      el('div', {className:'saswp-how-to-material-controls-container'},                                                
+                        el( IconButton, {
+                            icon: "trash",
+                            className: 'saswp-how-to-material-button',            
+                            onClick: function() { 
+                                
+                                 const oldAttributes      =  attributes; 
+                                 const oldItems           =  attributes.materials;  
+                                 const newTestimonials    =  oldItems
+                                 
+                                    .filter(function(itemFilter){
+                                       return itemFilter.index != material.index
+                                    }).map(function(t){                                          
+                                         if (t.index > oldItems.index) {
+                                             t.index -= 1;
+                                         }
+                                         return t;
+                                    });
+                                    
+                                    newTestimonials.forEach(function(value, index){                                                                                                                      
+                                       newTestimonials[index]['index']       = index;                                       
+                                    });
+                                    
+                                    oldAttributes['materials'] = newTestimonials;
+                                    props.setAttributes({
+                                      attributes: oldAttributes
+                                    });                                
+                                
+                            }
+                          }                          
+                        )       
+                      )
+                      )
+              });
+            
+            //material list ends here
+            
+            var itemlist     = el('ul',{}, itemli);
+            var toollist     = el('ul',{}, toolli);
+            var materiallist = el('ul',{}, materialli);
             
             return [
                 el(InspectorControls,
@@ -517,7 +731,8 @@
                           }
                         }            
                       ),
-                el('div', { className: 'saswp-how-to-setp-list' },        
+                el('div',{className:'saswp-how-to-setp-block'},                
+                el('div', { className: 'saswp-how-to-setp-list'},        
                   itemlist,
                 ),
                 el( IconButton, {
@@ -534,7 +749,46 @@
                     }
                   },
                   'Add A Step'
-                )        
+                )                
+                ),      
+                el('div',{className:'saswp-how-to-material-block'},
+                el('div', { className: 'saswp-how-to-material-list'},        
+                  materiallist,
+                ),
+                el( IconButton, {
+                    icon: "insert",
+                    className: 'saswp-how-to-material-button',            
+                    onClick: function() {              
+                      return props.setAttributes({
+                        materials: [].concat(_cloneArray(props.attributes.materials), [{
+                          index: props.attributes.materials.length,                  
+                          name: ""                          
+                        }])
+                      });                            
+                    }
+                  },
+                  'Add A Material'
+                )
+                ),      
+                el('div',{className:'saswp-how-to-tool-block'},
+                el('div', { className: 'saswp-how-to-tool-list'},        
+                  toollist,
+                ),
+                el( IconButton, {
+                    icon: "insert",
+                    className: 'saswp-how-to-tool-button',            
+                    onClick: function() {              
+                      return props.setAttributes({
+                        tools: [].concat(_cloneArray(props.attributes.tools), [{
+                          index: props.attributes.tools.length,                  
+                          name: ""                          
+                        }])
+                      });                            
+                    }
+                  },
+                  'Add A Tool'
+                )
+                )                                
               )];
             
         },
