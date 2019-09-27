@@ -5,11 +5,12 @@ return apply_filters('saswp_modify_post_meta_list',
                             array(
                                     'label'     => __( 'Single Element', 'schema-and-structured-data-for-wp' ),
                                     'meta-list' => array(
-                                            'blogname'         => __( 'Site Title', 'schema-and-structured-data-for-wp' ),
+                                            'blogname'          => __( 'Site Title', 'schema-and-structured-data-for-wp' ),
                                             'blogdescription'   => __( 'Tagline', 'schema-and-structured-data-for-wp' ),
                                             'site_url'          => __( 'Site URL', 'schema-and-structured-data-for-wp' ),
                                             'post_title'        => __( 'Title', 'schema-and-structured-data-for-wp' ),
                                             'post_content'      => __( 'Content', 'schema-and-structured-data-for-wp' ),
+                                            'post_category'     => __( 'Category', 'schema-and-structured-data-for-wp' ),
                                             'post_excerpt'      => __( 'Excerpt', 'schema-and-structured-data-for-wp' ),
                                             'post_permalink'    => __( 'Permalink', 'schema-and-structured-data-for-wp' ),
                                             'author_name'       => __( 'Author name', 'schema-and-structured-data-for-wp' ),

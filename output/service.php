@@ -167,6 +167,17 @@ Class saswp_output_service{
                 case 'post_content':
                     $response = saswp_get_the_content();                        
                     break;
+                case 'post_category':
+                    $categories = get_the_category();
+                    if($categories){
+                        foreach ($categories as $category){
+                            if(isset($category->name)){
+                              $response[] = $category->name;  
+                            }
+                        }
+                        
+                    }                                           
+                    break;
                 case 'post_excerpt':
                     $response = saswp_get_the_excerpt(); 
                     break;
