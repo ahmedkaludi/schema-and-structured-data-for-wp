@@ -2935,6 +2935,11 @@ class saswp_post_specific {
                             'type' => 'textarea',                            
                     ),
                     array(
+                            'label' => 'Image',
+                            'id'    => 'saswp_software_schema_image_'.$schema_id,
+                            'type'  => 'media',                            
+                    ),    
+                    array(
                             'label' => 'Operating System',
                             'id' => 'saswp_software_schema_operating_system_'.$schema_id,
                             'type' => 'text',                            

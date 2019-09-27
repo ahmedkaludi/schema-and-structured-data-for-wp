@@ -649,6 +649,9 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_software_schema_description'])){
                      $input1['description'] =    $custom_fields['saswp_software_schema_description'];
                     }
+                    if(isset($custom_fields['saswp_software_schema_image'])){
+                     $input1['image'] =    $custom_fields['saswp_software_schema_image'];
+                    }
                     if(isset($custom_fields['saswp_software_schema_operating_system'])){
                      $input1['operatingSystem'] =    $custom_fields['saswp_software_schema_operating_system'];
                     }
@@ -2748,6 +2751,7 @@ Class saswp_output_service{
                         
                         'saswp_software_schema_name'                    => 'Name',
                         'saswp_software_schema_description'             => 'Description',
+                        'saswp_software_schema_image'                   => 'Image',
                         'saswp_software_schema_operating_system'        => 'Operating System',
                         'saswp_software_schema_application_category'    => 'Application Category',
                         'saswp_software_schema_price'                   => 'Price',
