@@ -799,6 +799,15 @@ jQuery(document).ready(function($){
                             }
                       break;
                       
+                      case 'saswp-realhomes-checkbox':
+                          saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-realhomes").val(1);             
+                            }else{
+                              $("#saswp-realhomes").val(0);           
+                            }
+                      break;
+                      
                                            
                       case 'saswp-woocommerce-booking-checkbox':
                           saswp_compatibliy_notes(current, id); 
@@ -1540,7 +1549,8 @@ jQuery(document).ready(function($){
             var tr   = $(this).parent().parent('tr'); 
             var fields_name = $(this).val();            
             var str2 = "image";
-            if(fields_name.indexOf(str2) != -1){
+            var str3 = "logo";
+            if((fields_name.indexOf(str2) != -1)|| (fields_name.indexOf(str3) != -1)){
                 type = 'image';
             }                                     
              var id = $(this).parent().parent('tr').find("td:eq(1)");                                    
@@ -1596,9 +1606,12 @@ jQuery(document).ready(function($){
        
        $(document).on("change",".saswp-custom-meta-list", function(){
            
-          var meta_val = $(this).val();
-          var field_name =  $(this).parent().parent('tr').find(".saswp-custom-fields-name").val();
-          var html = '';
+          var schema_type    = $('select#schema_type option:selected').val();
+          var meta_val   = $(this).val();
+          var field_name = $(this).parent().parent('tr').find(".saswp-custom-fields-name").val();
+          var html       = '';
+          var el_id      = schema_type.toLowerCase()+'_'+field_name;
+          var media_name = 'saswp_fixed_image['+field_name+']';
           if(meta_val == 'manual_text'){
               html += '<td><input type="text" name="saswp_fixed_text['+field_name+']"></td>';              
               html += '<td><a class="button button-default saswp-rmv-modify_row">X</a></td>';
@@ -1607,7 +1620,20 @@ jQuery(document).ready(function($){
               html += '<td><select class="saswp-custom-fields-select2" name="saswp_custom_meta_field['+field_name+']">';
               html += '</select></td>';              
               html += '<td><a class="button button-default saswp-rmv-modify_row">X</a></td>';
-          }else{
+          }else if(meta_val == 'fixed_image'){           
+              html += '<td>';              
+              html += '<fieldset>';
+              html += '<input data-id="media" style="width: 30%;" class="button" id="'+el_id+'_button" name="'+el_id+'_button" type="button" value="Upload" />';
+              html += '<input type="hidden" data-id="'+el_id+'_height" class="upload-height" name="'+media_name+'[height]" id="'+el_id+'_height" value="">';
+              html += '<input type="hidden" data-id="'+el_id+'_width" class="upload-width" name="'+media_name+'[width]" id="'+el_id+'_width" value="">';
+              html += '<input type="hidden" data-id="'+el_id+'_thumbnail" class="upload-thumbnail" name="'+media_name+'[thumbnail]" id="'+el_id+'_thumbnail" value="">';
+              html += '<div class="saswp_image_div_'+el_id+'">';
+              html += '</div>';
+              html += '</fieldset>';                                          
+              html += '</td>';              
+              html += '<td><a class="button button-default saswp-rmv-modify_row">X</a></td>';
+          }
+          else{
               html += '<td></td>';
               html += '<td><a class="button button-default saswp-rmv-modify_row">X</a></td>';
           }

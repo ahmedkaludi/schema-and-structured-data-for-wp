@@ -589,6 +589,7 @@ On/Off Buttons ends here
 .saswp-custom-fields-table tr td {padding: 10px 10px 10px 10px ;}
 .saswp-custom-fields-table td{
     width: 30%;
+    vertical-align: top;
 }
 
 .saswp-option-table-class input[type="text"], .saswp-option-table-class select{
@@ -1225,4 +1226,10 @@ a.saswp-revws-lnk{
 }
 .saswp_add_schema_fields_on_fly{
     margin-bottom: 5px !important;
+}
+.saswp-custom-fields-table .saswp_image_prev{
+    max-width:62px !important;
+}
+.saswp-custom-fields-table .saswp_prev_close{
+    font-size: 15px;
 }

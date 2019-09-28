@@ -6,10 +6,10 @@ var Merlin = (function($){
 
     // callbacks from form button clicks.
     var callbacks = {
-		save_logo: function(btn){
-			var logosave = new saveLogo(btn);
-			logosave.init(btn);
-		},
+        save_logo: function(btn){
+                var logosave = new saveLogo(btn);
+                logosave.init(btn);
+        },
         install_child: function(btn) {
             var installer = new ChildTheme();
             installer.init(btn);
@@ -82,8 +82,7 @@ var Merlin = (function($){
             var data_callback = $(this).data("callback");
             if( data_callback && typeof callbacks[data_callback] !== "undefined"){
                 // We have to process a callback before continue with form submission.
-                callbacks[data_callback](this);
-                $(".saswp_branding").hide();
+                callbacks[data_callback](this);               
                 return false;
             } else {
                 return true;
@@ -92,7 +91,7 @@ var Merlin = (function($){
     }
 
     function saveLogo() {
-    	var body 				= $('.merlin__body');
+    	var body 		= $('.merlin__body');
         var complete, notice 	= $("#child-theme-text");
 
         function ajax_callback(r) {
@@ -147,20 +146,21 @@ var Merlin = (function($){
         return {
             init: function(btn) {
                 complete = function() {
-
+                    
                 	setTimeout(function(){
-							$(".merlin__body").addClass('js--finished');
-						},1500);
+                                                $(".saswp_branding").hide();
+                                                $(".merlin__body").addClass('js--finished');
+						},0);
 
                 	body.removeClass( drawer_opened );
 
                 	setTimeout(function(){
 							$('.merlin__body').addClass('exiting');
-						},3500);   
+						},1200);   
 
                     	setTimeout(function(){
 							window.location.href=btn.href;
-						},4000);
+						},1200);
 		    
                 };
                 do_ajax();
@@ -168,14 +168,6 @@ var Merlin = (function($){
         }
     }
 	
-	
-	
-
-
-
-
-
-    
 
     function merlin_loading_button( btn ){
 
@@ -235,7 +227,6 @@ jQuery(document).ready(function($) {
         }
    }
 
-
     $(".post-type-fields input[type=checkbox]").change(function(){
         var self = $(this);
         if(self.prop('checked')){
@@ -270,42 +261,15 @@ jQuery(document).ready(function($) {
             if(schematype == 'local_business'){
              $(".saswp-option-table-class tr").eq(1).show();   
              $(".saswp-business-text-field-tr").show(); 
-             $(".saswp-option-table-class tr").find('select').attr('disabled', false);
-            // $("#saswp_dayofweek").attr('disabled', false);
+             $(".saswp-option-table-class tr").find('select').attr('disabled', false);            
              $('.select-post-type').val('show_globally').trigger('change'); 
             }
-             if(schematype == 'Service'){            
-             $(".saswp-service-text-field-tr").show();  
-             $(".saswp-option-table-class tr").find('select').attr('disabled', false);
-             }
-             if(schematype == 'Event'){            
-             $(".saswp-event-text-field-tr").show();  
-             $(".saswp-option-table-class tr").find('select').attr('disabled', false);
-             }
-             if(schematype == 'Product'){            
-             $(".saswp-product-text-field-tr").show();               
-             $(".saswp-option-table-class tr").find('select').attr('disabled', false);
-             }
-             if(schematype == 'AudioObject'){            
-             $(".saswp-audio-text-field-tr").show();               
-             }
-             if(schematype == 'SoftwareApplication'){            
-             $(".saswp-softwareapplication-text-field-tr").show();               
-             }
+             
              if(schematype == 'Review'){            
              $(".saswp-review-text-field-tr").show(); 
              $(".saswp-option-table-class tr").find('select').attr('disabled', false);
              }  
             $(".saswp-schem-type-note").addClass('saswp_hide');
-             if(schematype == 'qanda'){
-              $(".saswp-schem-type-note").removeClass('saswp_hide');   
-             }
-             
-             $(".saswp-job-posting-note").addClass('saswp_hide');
-             
-//             if(schematype == 'JobPosting'){
-//              $(".saswp-job-posting-note").removeClass('saswp_hide');   
-//             }
              
            saswp_enable_rating_review(); 
         }).change(); 
@@ -329,69 +293,15 @@ jQuery(document).ready(function($) {
             if(schematype == 'local_business'){
             $(".saswp-"+businesstype+'-tr').show();
             $(".saswp-business-text-field-tr").show(); 
-            $(".saswp-"+businesstype+'-tr').find('select').attr('disabled', false); 
-           // $("#saswp_dayofweek").attr('disabled', false);
+            $(".saswp-"+businesstype+'-tr').find('select').attr('disabled', false);            
             }
-            if(schematype == 'Service'){            
-             $(".saswp-service-text-field-tr").show();  
-             $(".saswp-service-text-field-tr").find('select').attr('disabled', false);
-            }
-            if(schematype == 'Event'){            
-             $(".saswp-event-text-field-tr").show();  
-             $(".saswp-service-text-field-tr").find('select').attr('disabled', false);
-            }
-            if(schematype == 'Product'){            
-             $(".saswp-product-text-field-tr").show();  
-             $(".saswp-product-text-field-tr").find('select').attr('disabled', false);
-             }
-             if(schematype == 'AudioObject'){            
-             $(".saswp-audio-text-field-tr").show();               
-             }
-             if(schematype == 'SoftwareApplication'){            
-             $(".saswp-softwareapplication-text-field-tr").show();               
-             }
+            
             if(schematype == 'Review'){            
              $(".saswp-review-text-field-tr").show(); 
              $(".saswp-review-text-field-tr").find('select').attr('disabled', false);
             }  
             saswp_enable_rating_review();
         }).change(); 
-        
-        saswp_schema_datepicker();
-        function saswp_schema_datepicker(){
-        
-            $('.saswp-datepicker-picker').datepicker({
-             dateFormat: "yy-mm-dd",
-             minDate: 0
-          });
-        }
-        
-        
-        $("input[data-id=media]").click(function(e) {	// Application Icon upload
-		e.preventDefault();
-                var button = $(this);
-                var id = button.attr('id').replace('_button', '');                
-		var saswpMediaUploader = wp.media({
-			title: "Application Icon",
-			button: {
-				text: "Select Icon"
-			},
-			multiple: false  // Set this to true to allow multiple files to be selected
-		})
-		.on("select", function() {
-			var attachment = saswpMediaUploader.state().get('selection').first().toJSON();                            
-			
-                         $("#"+id).val(attachment.url);
-                         $("input[data-id='"+id+"_id']").val(attachment.id);
-                         $("input[data-id='"+id+"_height']").val(attachment.height);
-                         $("input[data-id='"+id+"_width']").val(attachment.width);
-                         $("input[data-id='"+id+"_thumbnail']").val(attachment.url);
-		})
-		.open();
-	});
-    
-        $('#saswp-dayofweek-opens-time').timepicker({ 'timeFormat': 'H:i:s'});
-        $('#saswp-dayofweek-closes-time').timepicker({ 'timeFormat': 'H:i:s'});
         
         function saswp_enable_rating_review(){
            var schema_type ="";                      

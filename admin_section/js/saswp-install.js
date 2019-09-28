@@ -81,8 +81,7 @@ var Merlin = (function($){
             var data_callback = $(this).data("callback");
             if( data_callback && typeof callbacks[data_callback] !== "undefined"){
                 // We have to process a callback before continue with form submission.
-                callbacks[data_callback](this);
-                $(".saswp_branding").hide();
+                callbacks[data_callback](this);                
                 return false;
             } else {                
                 return true;
@@ -145,33 +144,25 @@ var Merlin = (function($){
                 complete = function() {
 
                 	setTimeout(function(){
+                                                        $(".saswp_branding").hide();
 							$(".merlin__body").addClass('js--finished');
-						},1500);
+						},0);
 
                 	body.removeClass( drawer_opened );
 
                 	setTimeout(function(){
 							$('.merlin__body').addClass('exiting');
-						},3500);   
+						},1200);   
 
                     	setTimeout(function(){
 							window.location.href=btn.href;
-						},4000);
+						},1200);
 		    
                 };
                 do_ajax();
             }
         }
     }
-	
-	
-	
-
-
-
-
-
-    
 
     function merlin_loading_button( btn ){
 
