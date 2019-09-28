@@ -114,9 +114,9 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
 
-= 1.9.9 (27 Sept 2019) =
+= 1.9.9 (28 Sept 2019) =
 
-* Added: Post category should be there in modify meta list. #509
+* Added: Post category in modify meta list. #509
 * Fixed: Setup Wizard is very slow. Need to improve the timing. #518
 * Fixed: Image is not being pre filled or populated on post specific modify schema #508
 * Fixed: KK Star is not working anymore #506
