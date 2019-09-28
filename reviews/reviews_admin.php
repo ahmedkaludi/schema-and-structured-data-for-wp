@@ -141,7 +141,7 @@ class saswp_reviews_admin {
 				case 'select':                                                                        
                                                                                                
 					$input = sprintf(
-						'<select class="afw_select" id="%s" name="%s" %s>',
+						'<select class="saswp_select" id="%s" name="%s" %s>',
 						esc_attr($meta_field['id']),
 						esc_attr($meta_field['id']),
                                                 $attributes    
@@ -160,7 +160,7 @@ class saswp_reviews_admin {
 					break;
 				case 'textarea':
 					$input = sprintf(
-						'<textarea class="afw_textarea" id="%s" name="%s" rows="5">%s</textarea>',
+						'<textarea class="saswp_textarea" id="%s" name="%s" rows="5">%s</textarea>',
 						esc_attr($meta_field['id']),
 						esc_attr($meta_field['id']),
 						$meta_value
@@ -263,7 +263,7 @@ class saswp_reviews_admin {
 		}
                                 
                 $allowed_html = saswp_expanded_allowed_tags();                                                		                                
-		echo '<table class="form-table saswp-ad-type-table"><tbody>' . wp_kses($output, $allowed_html) . '</tbody></table>';
+		echo '<table class="form-table saswp-review-content-table"><tbody>' . wp_kses($output, $allowed_html) . '</tbody></table>';
 	}
 	
         /**

@@ -1,5 +1,8 @@
 
-( function( blocks, element, editor, components ) {
+( function( blocks, element, editor, components, i18n ) {
+    
+    const { __ }          = i18n;
+    
     var el                = element.createElement;
     var RichText          = editor.RichText;
     var MediaUpload       = editor.MediaUpload;       
@@ -12,7 +15,7 @@
     var PanelBody         = components.PanelBody;
             
     blocks.registerBlockType( 'saswp/how-to-block', {
-        title: 'How To (SASWP)',
+        title: __('How To (SASWP)', 'schema-and-structured-data-for-wp'),
         icon: 'list-view',
         category: 'saswp-blocks',
         keywords: ['schema', 'structured data', 'how to', 'how-to'],
@@ -196,7 +199,7 @@
                                       props.setAttributes( { hasDuration: true } );  
                                     }
                                   },
-                                'Add Total Time'
+                                __('Add Total Time', 'schema-and-structured-data-for-wp')
                             );     
                 
                 if(attributes.hasDuration){
@@ -312,7 +315,7 @@
                                     className: 'saswp-how-to-step-button saswp-to-step-add-media',            
                                     onClick: obj.open
                                   },
-                                'Add Image'
+                                __('Add Image', 'schema-and-structured-data-for-wp')
                             )
                            }
                         }): null,
@@ -456,7 +459,7 @@
                           el( RichText, {                
                           tagName: 'p',
                           className:'saswp-how-to-step-title',
-                          placeholder: 'Enter a step title', 
+                          placeholder: __('Enter a step title', 'schema-and-structured-data-for-wp'), 
                           style: { textAlign: alignment },
                           value: item.title,
                           autoFocus: true,
@@ -474,7 +477,7 @@
                       ),
                       el( RichText, {                
                           tagName: 'p',
-                          placeholder: 'Enter a step description', 
+                          placeholder: __('Enter a step description', 'schema-and-structured-data-for-wp'), 
                           className:'saswp-how-to-step-description',
                           style: { textAlign: alignment },
                           value: item.description,
@@ -533,7 +536,7 @@
                           el( RichText, {                
                           tagName: 'p',
                           className:'saswp-how-to-tool-name',
-                          placeholder: 'Enter a tool name', 
+                          placeholder: __('Enter a tool name', 'schema-and-structured-data-for-wp'), 
                           style: { textAlign: alignment },
                           value: tool.name,
                           autoFocus: true,
@@ -621,7 +624,7 @@
                           el( RichText, {                
                           tagName: 'p',
                           className:'saswp-how-to-material-name',
-                          placeholder: 'Enter a material name', 
+                          placeholder: __('Enter a material name', 'schema-and-structured-data-for-wp'), 
                           style: { textAlign: alignment },
                           value: material.name,
                           autoFocus: true,
@@ -686,7 +689,7 @@
                 },
                 el(PanelBody,
                 {className:'saswp-how-to-panel-body',
-                 title:'Settings'   
+                 title:__('Settings', 'schema-and-structured-data-for-wp')   
                 },
                 el(ToggleControl,
                 {
@@ -696,7 +699,7 @@
                         props.setAttributes( { toggleList: newContent } );
                     },
                     help: function(value){
-                      return (value == true ? 'Showing step item as an unordered list': 'Showing step item as an ordered list');
+                      return (value == true ? __('Showing step item as an unordered list', 'schema-and-structured-data-for-wp'): __('Showing step item as an ordered list', 'schema-and-structured-data-for-wp'));
                     }
                 },
                 )
@@ -722,7 +725,7 @@
                 el( RichText, {                
                           tagName: 'p',
                           className:'saswp-how-to-description',
-                          placeholder: 'Enter how to description', 
+                          placeholder: __('Enter how to description', 'schema-and-structured-data-for-wp'), 
                           style: { textAlign: alignment },
                           value: attributes.description,
                           autoFocus: true, 
@@ -748,7 +751,7 @@
                       });                            
                     }
                   },
-                  'Add A Step'
+                  __('Add A Step', 'schema-and-structured-data-for-wp')
                 )                
                 ),      
                 el('div',{className:'saswp-how-to-material-block'},
@@ -767,7 +770,7 @@
                       });                            
                     }
                   },
-                  'Add A Material'
+                  __('Add A Material', 'schema-and-structured-data-for-wp')
                 )
                 ),      
                 el('div',{className:'saswp-how-to-tool-block'},
@@ -786,7 +789,7 @@
                       });                            
                     }
                   },
-                  'Add A Tool'
+                  __('Add A Tool', 'schema-and-structured-data-for-wp')
                 )
                 )                                
               )];
@@ -801,5 +804,6 @@
     window.wp.element,
     window.wp.editor,
     window.wp.components,
+    window.wp.i18n,
 ) );
 
