@@ -1,9 +1,27 @@
 <?php
+/**
+ * Class SASWP_Gutenberg
+ *
+ * @author   Magazine3
+ * @category Backend
+ * @path  modules/gutenberg/includes/class-gutenberg
+ * @Since Version 1.9.7
+ */
+
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) exit;
 
 class SASWP_Gutenberg {
 
+        /**
+         * Static private variable to hold instance this class
+         * @var type 
+         */
         private static $instance;
 	    	
+        /**
+         * This is class constructer to use all the hooks and filters used in this class
+         */
         private function __construct() {
                     add_action( 'init', array( $this, 'register_how_to' ) );
                     add_action( 'init', array( $this, 'register_faq' ) );
@@ -11,7 +29,10 @@ class SASWP_Gutenberg {
                     //add_action( 'enqueue_block_assets', array( $this, 'register_frontend_assets' ) ); 
                     add_filter( 'block_categories', array( $this, 'saswp_add_blocks_categories' ) );     
         }
-        
+        /**
+         * Function to enqueue frontend assets for gutenberg blocks
+         * @Since Version 1.9.7
+         */
         public function register_frontend_assets() {
                             
                     if(!is_admin){
@@ -24,7 +45,10 @@ class SASWP_Gutenberg {
                         
                     }                               
 	}
-        
+        /**
+         * Function to enqueue admin assets for gutenberg blocks
+         * @Since Version 1.9.7
+         */
         public function register_admin_assets() {
             
                     if ( !function_exists( 'register_block_type' ) ) {
@@ -66,8 +90,10 @@ class SASWP_Gutenberg {
                     wp_enqueue_script( 'saswp-how-to-js-reg' );                    
 	}
         /**
-	 * Register blocks
-	 */
+         * Register a how to block
+         * @return type
+         * @since version 1.9.7
+         */
 	public function register_how_to() {
             
                     if ( !function_exists( 'register_block_type' ) ) {
@@ -85,8 +111,10 @@ class SASWP_Gutenberg {
                     
 	}
         /**
-	 * Register blocks
-	 */
+         * Register a FAQ block
+         * @return type
+         * @since version 1.9.7
+         */
 	public function register_faq() {
             
                     if ( !function_exists( 'register_block_type' ) ) {
@@ -102,7 +130,12 @@ class SASWP_Gutenberg {
                     ) );
                                                             
 	}
-        
+        /**
+         * Function to render faq block data in frontend post content
+         * @param type $attributes
+         * @return string
+         * @since version 1.9.7
+         */
         public static function render_faq_data( $attributes ) {
                                         
 		ob_start();
@@ -143,7 +176,12 @@ class SASWP_Gutenberg {
                 						
 		return ob_get_clean();
 	}
-        
+        /**
+         * Function to render 'howto' block data in frontend post content
+         * @param type $attributes
+         * @return string
+         * @since version 1.9.7
+         */
 	public static function render_how_to_data( $attributes ) {
                                                                     
 		ob_start();
@@ -237,7 +275,12 @@ class SASWP_Gutenberg {
                 						
 		return ob_get_clean();
 	}
-        	        
+        /**
+         * Function to register schema blocks category in Gutenberg block's categories list
+         * @param array $categories
+         * @return array
+         * @since version 1.9.7
+         */	        
         public function saswp_add_blocks_categories($categories){
         
         $categories[] = array(
@@ -250,8 +293,10 @@ class SASWP_Gutenberg {
     }    
 	        
         /**
-     * Return the unique instance 
-     */
+         * Return the unique instance 
+         * @return type instance
+         * @since version 1.9.7
+         */
         public static function get_instance() {
 		if ( null == self::$instance ) {
 			self::$instance = new self;

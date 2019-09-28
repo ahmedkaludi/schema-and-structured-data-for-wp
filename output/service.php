@@ -12,6 +12,10 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 Class saswp_output_service{           
     
+    /**
+     * private variable to hold mata list
+     * @var type 
+     */
     private $_meta_list = null;
 
     public function __construct() {
@@ -39,7 +43,12 @@ Class saswp_output_service{
            add_filter( 'saswp_modify_post_meta_list', array( $this, 'saswp_get_acf_meta_keys' ) );
            
         }    
-             
+        /**
+         * Function to get acf meta keys
+         * @param type $fields
+         * @return type array
+         * @since version 1.9.3
+         */     
         public function saswp_get_acf_meta_keys($fields){
             
             if ( function_exists( 'acf' ) && class_exists( 'acf' ) ) {
@@ -101,7 +110,10 @@ Class saswp_output_service{
 			return $fields;
             
         }
-        
+        /**
+         * Ajax function to get meta list 
+         * @return type json
+         */
         public function saswp_get_meta_list(){
             
             if ( ! isset( $_GET['saswp_security_nonce'] ) ){
@@ -121,17 +133,19 @@ Class saswp_output_service{
             wp_send_json( $response); 
                         
         }
+        
         /**
+         * @since version 1.9.1
          * This function replaces the value of schema's fields with the selected custom meta field
          * @param type $input1
          * @param type $schema_post_id
-         * @return type array
-         */
-        
+         * @return type array or string
+         */        
         public function saswp_get_meta_list_value($key, $field, $schema_post_id){
             
             global $post;
             
+            $fixed_image       = get_post_meta($schema_post_id, 'saswp_fixed_image', true) ;
             $fixed_text        = get_post_meta($schema_post_id, 'saswp_fixed_text', true) ; 
             $cus_field         = get_post_meta($schema_post_id, 'saswp_custom_meta_field', true); 
             
@@ -152,6 +166,17 @@ Class saswp_output_service{
                     break;
                 case 'post_content':
                     $response = saswp_get_the_content();                        
+                    break;
+                case 'post_category':
+                    $categories = get_the_category();
+                    if($categories){
+                        foreach ($categories as $category){
+                            if(isset($category->name)){
+                              $response[] = $category->name;  
+                            }
+                        }
+                        
+                    }                                           
                     break;
                 case 'post_excerpt':
                     $response = saswp_get_the_excerpt(); 
@@ -199,13 +224,22 @@ Class saswp_output_service{
                 case 'custom_field':
                     $response    = get_post_meta($post->ID, $cus_field[$key], true); 
                     break;
+                case 'fixed_image':                    
+                    
+                    $response['@type']  = 'ImageObject';
+                    $response['url']    = $fixed_image[$key]['thumbnail'];
+                    $response['width']  = $fixed_image[$key]['width']; 
+                    $response['height'] = $fixed_image[$key]['height'];
+                    
+                    break;
+                    
                 case 'featured_img':                    
-                    $image_id 	     = get_post_thumbnail_id();
-                    $image_details   = wp_get_attachment_image_src($image_id, 'full');                    
+                    $image_id 	        = get_post_thumbnail_id();
+                    $image_details      = wp_get_attachment_image_src($image_id, 'full');                    
                     $response['@type']  = 'ImageObject';
                     $response['url']    = $image_details[0];
                     $response['width']  = $image_details[1]; 
-                    $response['height'] = $image_details[2];
+                    $response['height'] = $image_details[2];    
                     
                     break;
                 case 'author_image':
@@ -256,9 +290,15 @@ Class saswp_output_service{
             return $response;
             
         }
+        /**
+         * Function to replace schema markup fields value with custom value enter or selected by users while modifying globally
+         * @param type $input1
+         * @param type $schema_post_id
+         * @return type array
+         */
         public function saswp_replace_with_custom_fields_value($input1, $schema_post_id){
                                                  
-            $custom_fields    = get_post_meta($schema_post_id, 'saswp_meta_list_val', true);
+            $custom_fields    = get_post_meta($schema_post_id, 'saswp_meta_list_val', true);            
             $review_markup    = array();
             $review_response  = array();
             $main_schema_type = '';
@@ -393,7 +433,7 @@ Class saswp_output_service{
                     break;     
                  
                 case 'Article':      
-                      
+                     
                     if(isset($custom_fields['saswp_article_main_entity_of_page'])){
                      $input1['mainEntityOfPage'] =    $custom_fields['saswp_article_main_entity_of_page'];
                     }
@@ -426,12 +466,11 @@ Class saswp_output_service{
                     }                    
                     if(isset($custom_fields['saswp_article_author_name'])){
                      $input1['author']['name'] =    $custom_fields['saswp_article_author_name'];
-                    }
-                    if(isset($custom_fields['saswp_article_organization_name'])){
-                     $input1['Publisher']['name'] =    $custom_fields['saswp_article_organization_name'];
-                    }
-                    if(isset($custom_fields['saswp_article_organization_logo'])){
-                     $input1['Publisher']['logo']['url'] =    $custom_fields['saswp_article_organization_logo'];
+                    }                    
+                    if(isset($custom_fields['saswp_article_organization_logo']) && isset($custom_fields['saswp_article_organization_name'])){
+                     $input1['Publisher']['@type']       =    'Organization';
+                     $input1['Publisher']['name']        =    $custom_fields['saswp_article_organization_name'];
+                     $input1['Publisher']['logo']        =    $custom_fields['saswp_article_organization_logo'];
                     }                    
                     break; 
                     
@@ -562,12 +601,13 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_blogposting_author_name'])){
                      $input1['author']['name'] =    $custom_fields['saswp_blogposting_author_name'];
                     }
-                    if(isset($custom_fields['saswp_blogposting_organization_name'])){
-                     $input1['Publisher']['name'] =    $custom_fields['saswp_blogposting_organization_name'];
+                                        
+                    if(isset($custom_fields['saswp_blogposting_organization_logo']) && isset($custom_fields['saswp_blogposting_organization_name'])){
+                     $input1['Publisher']['@type']       =    'Organization';
+                     $input1['Publisher']['name']        =    $custom_fields['saswp_blogposting_organization_name'];
+                     $input1['Publisher']['logo']        =    $custom_fields['saswp_blogposting_organization_logo'];
                     }
-                    if(isset($custom_fields['saswp_blogposting_organization_logo'])){
-                     $input1['Publisher']['logo']['url'] =    $custom_fields['saswp_blogposting_organization_logo'];
-                    }
+                    
                     
                     break;
                     
@@ -608,6 +648,9 @@ Class saswp_output_service{
                     }
                     if(isset($custom_fields['saswp_software_schema_description'])){
                      $input1['description'] =    $custom_fields['saswp_software_schema_description'];
+                    }
+                    if(isset($custom_fields['saswp_software_schema_image'])){
+                     $input1['image'] =    $custom_fields['saswp_software_schema_image'];
                     }
                     if(isset($custom_fields['saswp_software_schema_operating_system'])){
                      $input1['operatingSystem'] =    $custom_fields['saswp_software_schema_operating_system'];
@@ -684,12 +727,11 @@ Class saswp_output_service{
                     }
                     if(isset($custom_fields['saswp_newsarticle_author_image'])){
                        $input1['author']['Image']['url'] =    $custom_fields['saswp_newsarticle_author_image'];  
-                    }
-                    if(isset($custom_fields['saswp_newsarticle_organization_name'])){
-                       $input1['Publisher']['name'] =    $custom_fields['saswp_newsarticle_organization_name'];  
-                    }
-                    if(isset($custom_fields['saswp_newsarticle_organization_logo'])){
-                       $input1['Publisher']['logo']['url'] =    $custom_fields['saswp_newsarticle_organization_logo'];  
+                    }                    
+                    if(isset($custom_fields['saswp_newsarticle_organization_logo']) && isset($custom_fields['saswp_newsarticle_organization_name'])){
+                     $input1['Publisher']['@type']       =    'Organization';
+                     $input1['Publisher']['name']        =    $custom_fields['saswp_newsarticle_organization_name'];
+                     $input1['Publisher']['logo']        =    $custom_fields['saswp_newsarticle_organization_logo'];
                     }
                                         
                     break;
@@ -828,12 +870,12 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_tech_article_author_name'])){
                      $input1['author']['name'] =    $custom_fields['saswp_tech_article_author_name'];
                     }
-                    if(isset($custom_fields['saswp_tech_article_organization_name'])){
-                     $input1['Publisher']['name'] =    $custom_fields['saswp_tech_article_organization_name'];
+                     
+                    if(isset($custom_fields['saswp_tech_article_organization_logo']) && isset($custom_fields['saswp_tech_article_organization_name'])){
+                     $input1['Publisher']['@type']       =    'Organization';
+                     $input1['Publisher']['name']        =    $custom_fields['saswp_tech_article_organization_name'];
+                     $input1['Publisher']['logo']        =    $custom_fields['saswp_tech_article_organization_logo'];
                     }
-                    if(isset($custom_fields['saswp_tech_article_organization_logo'])){
-                     $input1['Publisher']['logo']['url'] =    $custom_fields['saswp_tech_article_organization_logo'];
-                    }                    
                     break;   
                     
                 case 'Course':      
@@ -887,13 +929,12 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_dfp_main_entity_of_page'])){
                      $input1['mainEntityOfPage'] =    $custom_fields['saswp_dfp_main_entity_of_page'];
                     }
-                    if(isset($custom_fields['saswp_dfp_organization_name'])){
-                     $input1['publisher']['name'] =    $custom_fields['saswp_dfp_organization_name'];
-                    }
-                    if(isset($custom_fields['saswp_dfp_organization_logo'])){
-                     $input1['publisher']['logo'] =    $custom_fields['saswp_dfp_organization_logo'];
-                    }
-                                        
+                    
+                    if(isset($custom_fields['saswp_dfp_organization_logo']) && isset($custom_fields['saswp_dfp_organization_name'])){
+                     $input1['Publisher']['@type']       =    'Organization';
+                     $input1['Publisher']['name']        =    $custom_fields['saswp_dfp_organization_name'];
+                     $input1['Publisher']['logo']        =    $custom_fields['saswp_dfp_organization_logo'];
+                    }                                                            
                     break;        
                 
                 case 'Recipe':
@@ -1150,13 +1191,12 @@ Class saswp_output_service{
                     }
                     if(isset($custom_fields['saswp_video_object_author_image'])){
                      $input1['author']['Image']['url'] =    $custom_fields['saswp_video_object_author_image'];
+                    }                      
+                    if(isset($custom_fields['saswp_video_object_organization_logo']) && isset($custom_fields['saswp_video_object_organization_name'])){
+                     $input1['Publisher']['@type']       =    'Organization';
+                     $input1['Publisher']['name']        =    $custom_fields['saswp_video_object_organization_name'];
+                     $input1['Publisher']['logo']        =    $custom_fields['saswp_video_object_organization_logo'];
                     }
-                    if(isset($custom_fields['saswp_video_object_organization_name'])){
-                     $input1['Publisher']['name'] =    $custom_fields['saswp_video_object_organization_name'];
-                    }
-                    if(isset($custom_fields['saswp_video_object_organization_logo'])){
-                     $input1['Publisher']['logo']['url'] =    $custom_fields['saswp_video_object_organization_logo'];
-                    }                                        
                     break;
                 
                 case 'qanda':
@@ -2102,7 +2142,13 @@ Class saswp_output_service{
            return $review_data;
             
         }
-                
+         /**
+         * This function gets topic details as an array from bbpress posts
+         * DW Question & Answer ( https://wordpress.org/plugins/bbpress/ )
+         * @global type $sd_data
+         * @param type $post_id
+         * @return type array
+         */       
         public function saswp_bb_press_topic_details($post_id){
                             
                 $dw_qa          = array();
@@ -2705,6 +2751,7 @@ Class saswp_output_service{
                         
                         'saswp_software_schema_name'                    => 'Name',
                         'saswp_software_schema_description'             => 'Description',
+                        'saswp_software_schema_image'                   => 'Image',
                         'saswp_software_schema_operating_system'        => 'Operating System',
                         'saswp_software_schema_application_category'    => 'Application Category',
                         'saswp_software_schema_price'                   => 'Price',

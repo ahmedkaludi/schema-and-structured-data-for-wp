@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.2
-Stable tag: 1.9.8
+Stable tag: 1.9.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -113,6 +113,14 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.9.9 (28 Sept 2019) =
+
+* Added: Post category in modify meta list. #509
+* Fixed: Setup Wizard is very slow. Need to improve the timing. #518
+* Fixed: Image is not being pre filled or populated on post specific modify schema #508
+* Fixed: KK Star is not working anymore #506
+* Fixed: The property publisher is not recognized by Google for an object of type LocalBusiness. #512
 
 
 = 1.9.8 (25 Sept 2019) =

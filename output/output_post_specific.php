@@ -1362,6 +1362,8 @@ function saswp_post_specific_schema_output() {
                         } 
                         
                          if( 'SoftwareApplication' === $schema_type){
+                             
+                             
                     		                                                    
 			$input1 = array(
 			'@context'			=> saswp_context_url(),
@@ -1380,6 +1382,17 @@ function saswp_post_specific_schema_output() {
 			'dateModified'                  => isset($all_post_meta['saswp_software_schema_date_modified_'.$schema_id])?date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_software_schema_date_modified_'.$schema_id][0])):'',
 			
 			   );
+                        
+                           $soft_image = get_post_meta( get_the_ID(), 'saswp_software_schema_image_'.$schema_id.'_detail',true); 
+
+                           if(!(empty($soft_image))){
+                             
+                                $input1['image']['@type']        = 'ImageObject';
+                                $input1['image']['url']          = isset($soft_image['thumbnail']) ? esc_url($soft_image['thumbnail']):'';
+                                $input1['image']['height']       = isset($soft_image['width'])     ? esc_attr($soft_image['width'])   :'';
+                                $input1['image']['width']        = isset($soft_image['height'])    ? esc_attr($soft_image['height'])  :'';
+                                
+                            }
                         
                                 if(saswp_remove_warnings($all_post_meta, 'saswp_software_schema_enable_rating_'.$schema_id, 'saswp_array') == 1){   
                                  
@@ -2393,6 +2406,28 @@ function saswp_post_specific_schema_output() {
                                     
                                                                                                             
 			}
+                        
+                        global $without_aggregate;
+                        
+                        if(!in_array($schema_type, $without_aggregate)){
+                            
+                            //kk star rating 
+                        
+                            $kkstar_aggregateRating = saswp_extract_kk_star_ratings();
+
+                            if(!empty($kkstar_aggregateRating)){
+                                $input1['aggregateRating'] = $kkstar_aggregateRating; 
+                            }
+
+                            //wp post-rating star rating 
+
+                            $wp_post_rating_ar = saswp_extract_wp_post_ratings();
+
+                            if(!empty($wp_post_rating_ar)){
+                                $input1['aggregateRating'] = $wp_post_rating_ar; 
+                            }
+                                                        
+                        }
                                                                                                         		                        			                        
                          if( !empty($input1) && !isset($input1['image'])){
                              
