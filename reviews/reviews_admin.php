@@ -177,10 +177,9 @@ class saswp_reviews_admin {
 					break;
                                 case 'media':
                                         $media_value = array();
-                                        $media_key = $meta_field['id'].'_detail';
+                                        $media_key   = $meta_field['id'].'_detail';
                                         
-                                        $media_value_meta = get_post_meta( $post->ID, $media_key, true ); 
-                                        
+                                        $media_value_meta = get_post_meta( $post->ID, $media_key, true );                                         
                                         if(!empty($media_value_meta)){
                                             $media_value = $media_value_meta;  
                                         }  

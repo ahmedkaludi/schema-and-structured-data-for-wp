@@ -379,9 +379,6 @@ function saswp_get_item_reviewed_fields(){
 
          }
 
-
-
-
          if ( empty( $meta_value ) ) {
 
             $meta_value = $meta_field['default'];

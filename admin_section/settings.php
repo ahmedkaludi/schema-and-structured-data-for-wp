@@ -531,7 +531,8 @@ function saswp_services_callback(){ ?>
 <?php }
 function saswp_amp_page_callback(){
     
-        $settings = saswp_defaultSettings();         
+        $settings = saswp_defaultSettings();  
+        
         $field_objs = new saswp_fields_generator();
         
         $non_amp_enable_field = array(
