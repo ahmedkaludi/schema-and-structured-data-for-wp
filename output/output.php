@@ -100,6 +100,12 @@ function saswp_kb_schema_output() {
 		$sd_tumblr[] = $sd_data['sd_tumblr'];
 		$sd_social_profile[] = $sd_tumblr;
 	}
+        
+        $sd_yelp = array();
+	if(isset($sd_data['sd_yelp']) && !empty($sd_data['sd_yelp']) && isset($sd_data['saswp-yelp-enable']) &&  $sd_data['saswp-yelp-enable'] ==1){
+		$sd_yelp[] = $sd_data['sd_yelp'];
+		$sd_social_profile[] = $sd_yelp;
+	}
 
 	$platform = array();
         
