@@ -1064,6 +1064,7 @@ Google review module ends here
     background: #f9f9f9;
     border: 1px solid #d8d8d8;
     border-bottom: none;
+    box-sizing: border-box;
 }
 .saswp-rev-mod .saswp-knowledge-field{
     width:100%;
