@@ -879,40 +879,45 @@ function saswp_get_the_tags(){
 function saswp_get_ids_from_content_by_type($type){
         
     global $post;
-    $content = $post->post_content;    
     
-    switch ($type) {
+    if(is_object($post)){
+     
+        $content = $post->post_content;    
+
+        switch ($type) {
+
+            case 'wp_recipe_maker':
+
+                  // Gutenberg.
+                    $gutenberg_matches = array();
+                    $gutenberg_patern = '/<!--\s+wp:(wp\-recipe\-maker\/recipe)(\s+(\{.*?\}))?\s+(\/)?-->/';
+                    preg_match_all( $gutenberg_patern, $content, $matches );
+
+                    if ( isset( $matches[3] ) ) {
+                            foreach ( $matches[3] as $block_attributes_json ) {
+                                    if ( ! empty( $block_attributes_json ) ) {
+                                            $attributes = json_decode( $block_attributes_json, true );
+                                            if ( ! is_null( $attributes ) ) {
+                                                    if ( isset( $attributes['id'] ) ) {
+                                                            $gutenberg_matches[] = intval( $attributes['id'] );
+                                                    }
+                                            }
+                                    }
+                            }
+                    }
+
+                    // Classic Editor.
+                    preg_match_all( '/<!--WPRM Recipe (\d+)-->.+?<!--End WPRM Recipe-->/ms', $content, $matches );
+                    $classic_matches = isset( $matches[1] ) ? array_map( 'intval', $matches[1] ) : array();
+
+                    return $gutenberg_matches + $classic_matches;           
+
+            default:
+                break;
+        }
         
-        case 'wp_recipe_maker':
-            
-              // Gutenberg.
-		$gutenberg_matches = array();
-		$gutenberg_patern = '/<!--\s+wp:(wp\-recipe\-maker\/recipe)(\s+(\{.*?\}))?\s+(\/)?-->/';
-		preg_match_all( $gutenberg_patern, $content, $matches );
-
-		if ( isset( $matches[3] ) ) {
-			foreach ( $matches[3] as $block_attributes_json ) {
-				if ( ! empty( $block_attributes_json ) ) {
-					$attributes = json_decode( $block_attributes_json, true );
-					if ( ! is_null( $attributes ) ) {
-						if ( isset( $attributes['id'] ) ) {
-							$gutenberg_matches[] = intval( $attributes['id'] );
-						}
-					}
-				}
-			}
-		}
-
-		// Classic Editor.
-		preg_match_all( '/<!--WPRM Recipe (\d+)-->.+?<!--End WPRM Recipe-->/ms', $content, $matches );
-		$classic_matches = isset( $matches[1] ) ? array_map( 'intval', $matches[1] ) : array();
-
-		return $gutenberg_matches + $classic_matches;           
-
-        default:
-            break;
-    } 
-        
+    }
+             
 }
 /**
  * Function to get recipe schema markup from wp_recipe_maker

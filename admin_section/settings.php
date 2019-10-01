@@ -531,7 +531,8 @@ function saswp_services_callback(){ ?>
 <?php }
 function saswp_amp_page_callback(){
     
-        $settings = saswp_defaultSettings();         
+        $settings = saswp_defaultSettings();  
+        
         $field_objs = new saswp_fields_generator();
         
         $non_amp_enable_field = array(
@@ -1531,7 +1532,7 @@ function saswp_review_page_callback(){
                             'note'  => '<a target="_blank" href="https://console.developers.google.com/apis/library">Get place API Key</a> Note : Google allows only 5 reviews per location',
                             'class' => '',
                             'type'  => 'text',
-                  ),
+                  ),                 
                 array(
                             'label' => '',
                             'id'    => 'saswp-google-place-section',
@@ -1546,8 +1547,7 @@ function saswp_review_page_callback(){
                             'type'  => 'text',
                             
                   )  
-                  
-                
+                                  
 	);    
                           
         ?>
@@ -1558,6 +1558,15 @@ function saswp_review_page_callback(){
             $meta_fields = apply_filters('saswp_modify_reviews_settings_page', $meta_fields);
 
             $field_objs->saswp_field_generator($meta_fields, $settings);  
+            
+            if(class_exists('saswp_reviews_platform_markup')){
+                
+                $platform_obj = new saswp_reviews_platform_markup();
+                                            
+                echo $platform_obj->reviews_markup();
+                
+            }
+            
        ?>
         <div class="saswp-quick-links-div">
             <h4><?php echo esc_html__('Quick Links','schema-and-structured-data-for-wp'); ?></h4>       

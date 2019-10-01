@@ -141,7 +141,7 @@ class saswp_reviews_admin {
 				case 'select':                                                                        
                                                                                                
 					$input = sprintf(
-						'<select class="afw_select" id="%s" name="%s" %s>',
+						'<select class="saswp_select" id="%s" name="%s" %s>',
 						esc_attr($meta_field['id']),
 						esc_attr($meta_field['id']),
                                                 $attributes    
@@ -160,7 +160,7 @@ class saswp_reviews_admin {
 					break;
 				case 'textarea':
 					$input = sprintf(
-						'<textarea class="afw_textarea" id="%s" name="%s" rows="5">%s</textarea>',
+						'<textarea class="saswp_textarea" id="%s" name="%s" rows="5">%s</textarea>',
 						esc_attr($meta_field['id']),
 						esc_attr($meta_field['id']),
 						$meta_value
@@ -177,9 +177,9 @@ class saswp_reviews_admin {
 					break;
                                 case 'media':
                                         $media_value = array();
-                                        $media_key = $meta_field['id'].'_detail';
+                                        $media_key   = $meta_field['id'].'_detail';
                                         
-                                        $media_value_meta = get_post_meta( $post->ID, $media_key, true ); 
+                                        $media_value_meta = get_post_meta( $post->ID, $media_key, true );   
                                         
                                         if(!empty($media_value_meta)){
                                             $media_value = $media_value_meta;  
@@ -208,22 +208,17 @@ class saswp_reviews_admin {
                                                         </div>'; 
                                             
                                         }
-					$input = sprintf(
-						'<fieldset><input style="width: 80%%" id="%s" name="%s" type="text" value="%s">'
-                                                . '<input data-id="media" style="width: 19%%" class="button" id="%s_button" name="%s_button" type="button" value="Upload" />'
+					
+					$input = '<fieldset><input style="width: 80%" id="'. esc_attr($meta_field['id']).'" name="'. esc_attr($meta_field['id']).'" type="text" value="'.esc_url($media_thumbnail).'">'
+                                                . '<input data-id="media" style="width: 19%" class="button" id="'. esc_attr($meta_field['id']).'_button" name="'. esc_attr($meta_field['id']).'_button" type="button" value="Upload" />'
                                                 . '<input type="hidden" data-id="'.esc_attr($meta_field['id']).'_height" class="upload-height" name="'.esc_attr($meta_field['id']).'_height" id="'.esc_attr($meta_field['id']).'_height" value="'.esc_attr($media_height).'">'
                                                 . '<input type="hidden" data-id="'.esc_attr($meta_field['id']).'_width" class="upload-width" name="'.esc_attr($meta_field['id']).'_width" id="'.esc_attr($meta_field['id']).'_width" value="'.esc_attr($media_width).'">'
-                                                . '<input type="hidden" data-id="'.esc_attr($meta_field['id']).'_thumbnail" class="upload-thumbnail" name="'.esc_attr($meta_field['id']).'_thumbnail" id="'.esc_attr($meta_field['id']).'_thumbnail" value="'.esc_attr($media_thumbnail).'">'                                                
+                                                . '<input type="hidden" data-id="'.esc_attr($meta_field['id']).'_thumbnail" class="upload-thumbnail" name="'.esc_attr($meta_field['id']).'_thumbnail" id="'.esc_attr($meta_field['id']).'_thumbnail" value="'.esc_url($media_thumbnail).'">'                                                
                                                 . '<div class="saswp_image_div_'.esc_attr($meta_field['id']).'">'                                               
                                                 . $image_pre                                                 
                                                 . '</div>'
-                                                .'</fieldset>',
-						$meta_field['id'],
-						$meta_field['id'],
-						$media_thumbnail,
-						$meta_field['id'],
-						$meta_field['id']
-					);
+                                                .'</fieldset>';
+					
 					break;   
                                 case 'star':
                                                                               
@@ -263,7 +258,7 @@ class saswp_reviews_admin {
 		}
                                 
                 $allowed_html = saswp_expanded_allowed_tags();                                                		                                
-		echo '<table class="form-table saswp-ad-type-table"><tbody>' . wp_kses($output, $allowed_html) . '</tbody></table>';
+		echo '<table class="form-table saswp-review-content-table"><tbody>' . wp_kses($output, $allowed_html) . '</tbody></table>';
 	}
 	
         /**

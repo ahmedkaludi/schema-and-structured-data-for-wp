@@ -85,8 +85,7 @@ class saswp_fields_generator {
                         if(array_key_exists('proversion', $meta_field)){
                             
                             $proversion = $meta_field['proversion'];  
-                            
-                        
+                                                    
                         }
                         if(array_key_exists('note', $meta_field)){
                             

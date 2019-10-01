@@ -379,9 +379,6 @@ function saswp_get_item_reviewed_fields(){
 
          }
 
-
-
-
          if ( empty( $meta_value ) ) {
 
             $meta_value = $meta_field['default'];
@@ -1254,11 +1251,10 @@ function saswp_schema_type_meta_box_callback( $post) {
                         }
                         
                         ?>
-                           
-                           
+                                                      
                         </table>                    
                    <table class="option-table-class">
-                       <tr><td></td><td><a style="float:right;" class="button button-primary saswp-add-custom-fields"><?php echo esc_html__( 'Add Field', 'schema-and-structured-data-for-wp' ); ?></a></td></tr>   
+                       <tr><td><a class="button button-primary saswp-add-custom-fields"><?php echo esc_html__( 'Modify', 'schema-and-structured-data-for-wp' ); ?></a></td><td></td></tr>   
                    </table>
                        
                    </div>                   

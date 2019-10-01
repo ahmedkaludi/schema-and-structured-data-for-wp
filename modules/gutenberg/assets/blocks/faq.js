@@ -1,5 +1,8 @@
 
-( function( blocks, element, editor, components ) {
+( function( blocks, element, editor, components, i18n ) {
+    
+    const { __ }          = i18n;
+    
     var el                = element.createElement;
     var RichText          = editor.RichText;
     var MediaUpload       = editor.MediaUpload;       
@@ -11,7 +14,7 @@
     var PanelBody         = components.PanelBody;
             
     blocks.registerBlockType( 'saswp/faq-block', {
-        title: 'FAQ (SASWP)',
+        title: __('FAQ (SASWP)', 'schema-and-structured-data-for-wp'),
         icon: 'text',
         category: 'saswp-blocks',
         keywords: ['schema', 'structured data', 'FAQ', 'faq'],
@@ -192,7 +195,7 @@
                                     className: 'saswp-faq-step-button saswp-to-step-add-media',            
                                     onClick: obj.open
                                   },
-                                'Add Image'
+                                __('Add Image', 'schema-and-structured-data-for-wp')
                             )
                            }
                         }): null,
@@ -336,7 +339,7 @@
                           el( RichText, {                
                           tagName: 'p',
                           className:'saswp-faq-step-title',
-                          placeholder: 'Enter a question', 
+                          placeholder: __('Enter a question', 'schema-and-structured-data-for-wp'), 
                           style: { textAlign: alignment },
                           value: item.title,
                           autoFocus: true,
@@ -354,7 +357,7 @@
                       ),
                       el( RichText, {                
                           tagName: 'p',
-                          placeholder: 'Enter answer to the question', 
+                          placeholder: __('Enter answer to the question', 'schema-and-structured-data-for-wp'), 
                           className:'saswp-faq-step-description',
                           style: { textAlign: alignment },
                           value: item.description,
@@ -436,7 +439,7 @@
                       });                            
                     }
                   },
-                  'Add A Question'
+                  __('Add A Question', 'schema-and-structured-data-for-wp')
                 )        
               )];
             
@@ -450,5 +453,6 @@
     window.wp.element,
     window.wp.editor,
     window.wp.components,
+    window.wp.i18n,
 ) );
 

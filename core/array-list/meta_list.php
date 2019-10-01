@@ -1,4 +1,7 @@
 <?php 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 return apply_filters('saswp_modify_post_meta_list',
         array(
                     'text'  => array(                            

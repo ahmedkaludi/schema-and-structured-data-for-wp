@@ -1,4 +1,7 @@
 <?php 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 return array(
           'automotivebusiness' => array(
           ''                  => 'Select Sub Business Type ( optional )',  

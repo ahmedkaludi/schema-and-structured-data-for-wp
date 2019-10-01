@@ -293,7 +293,7 @@ function saswp_post_specific_schema_output() {
                             
                           }
                             
-                         if( 'JobPosting' === $schema_type){
+                          if( 'JobPosting' === $schema_type){
                              
                             $howto_image = get_post_meta( get_the_ID(), 'saswp_jobposting_schema_ho_logo_'.$schema_id.'_detail',true); 
                                                                                                                
@@ -337,7 +337,7 @@ function saswp_post_specific_schema_output() {
                                                         
                             }      
                         
-                         if( 'Mosque' === $schema_type){
+                          if( 'Mosque' === $schema_type){
                              
                             $howto_image = get_post_meta( get_the_ID(), 'saswp_mosque_schema_image_'.$schema_id.'_detail',true); 
                             
@@ -544,8 +544,7 @@ function saswp_post_specific_schema_output() {
                          if( 'TouristDestination' === $schema_type){
                              
                             $howto_image = get_post_meta( get_the_ID(), 'saswp_td_schema_image_'.$schema_id.'_detail',true); 
-                            
-                                                                                   
+                                                                                                               
                             $input1['@context']              = saswp_context_url();
                             $input1['@type']                 = 'TouristDestination';
                             $input1['@id']                   = trailingslashit(get_permalink()).'#TouristDestination';
@@ -722,8 +721,7 @@ function saswp_post_specific_schema_output() {
                             $tool    = get_post_meta($schema_post_id, 'howto_tool_'.$schema_id, true);              
                             $step    = get_post_meta($schema_post_id, 'howto_step_'.$schema_id, true);              
                             $supply  = get_post_meta($schema_post_id, 'howto_supply_'.$schema_id, true);              
-                            
-                            
+                                                        
                             $input1['@context']              = saswp_context_url();
                             $input1['@type']                 = 'HowTo';
                             $input1['@id']                   = trailingslashit(get_permalink()).'#HowTo';
@@ -929,8 +927,7 @@ function saswp_post_specific_schema_output() {
                             $cause       = get_post_meta($schema_post_id, 'mc_cause_'.$schema_id, true);              
                             $symptom     = get_post_meta($schema_post_id, 'mc_symptom_'.$schema_id, true);              
                             $riskfactro  = get_post_meta($schema_post_id, 'mc_risk_factor_'.$schema_id, true);              
-                            
-                            
+                                                        
                             $input1['@context']                     = saswp_context_url();
                             $input1['@type']                        = 'MedicalCondition';
                             $input1['@id']                          = trailingslashit(get_permalink()).'#MedicalCondition';

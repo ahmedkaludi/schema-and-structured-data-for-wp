@@ -448,7 +448,7 @@ class saswp_post_specific {
             if(!empty($this->all_schema)){
               $schema_count = count($this->all_schema);  
             }            
-            $custom_option = get_option('custom_schema_post_enable_'.esc_attr($post->ID));
+            
             if($schema_count > 0){
                 
             $show_post_types = get_post_types();
@@ -1223,20 +1223,7 @@ class saswp_post_specific {
                            $meta_field['id'] == 'saswp_product_schema_rating_'.$schema_id       ||
                            $meta_field['id'] == 'saswp_review_schema_rating_'.$schema_id        ||
                            $meta_field['id'] == 'local_rating_'.$schema_id                      ||
-                           $meta_field['id'] == 'saswp_software_schema_rating_'.$schema_id      ||  
-                                
-                           $meta_field['id'] == 'saswp_article_rating_'.$schema_id              ||
-                           $meta_field['id'] == 'saswp_article_review_count_'.$schema_id        ||     
-                           
-                           $meta_field['id'] == 'saswp_newsarticle_rating_'.$schema_id          ||
-                           $meta_field['id'] == 'saswp_newsarticle_review_count_'.$schema_id    ||          
-                                
-                           $meta_field['id'] == 'saswp_blogposting_rating_'.$schema_id          ||
-                           $meta_field['id'] == 'saswp_blogposting_review_count_'.$schema_id    ||               
-                                
-                           $meta_field['id'] == 'saswp_tech_article_rating_'.$schema_id         ||
-                           $meta_field['id'] == 'saswp_tech_article_review_count_'.$schema_id   ||                    
-                           
+                           $meta_field['id'] == 'saswp_software_schema_rating_'.$schema_id      ||                             
                            $meta_field['id'] == 'saswp_service_schema_review_count_'.$schema_id || 
                            $meta_field['id'] == 'saswp_product_schema_review_count_'.$schema_id ||
                            $meta_field['id'] == 'saswp_review_schema_review_count_'.$schema_id  ||
