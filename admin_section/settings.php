@@ -1088,7 +1088,27 @@ function saswp_general_page_callback(){
                             'placeholder' => 'https://tumblr.com'
                         )
 		    ),
-                			
+                    array(
+			'label'  => 'Yelp',
+			'id'     => 'saswp-yelp-enable-checkbox', 
+                        'name'   => 'saswp-yelp-enable-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox', 
+                        'hidden' => array(
+                             'id' => 'saswp-yelp-enable',
+                             'name' => 'sd_data[saswp-yelp-enable]',                             
+                        )
+		    ),
+                    array(
+			'label'      => '',
+			'id'         => 'sd_yelp',
+                        'name'       => 'sd_data[sd_yelp]',
+                        'class'      => 'regular-text',                        
+			'type'       => 'text',
+                        'attributes' => array(
+                            'placeholder' => 'https://yelp.com'
+                        )
+		    )                			
 	);
          echo '<div class="saswp-social-fileds">';
          $field_objs->saswp_field_generator($social_meta_fields, $settings);
@@ -1529,7 +1549,7 @@ function saswp_review_page_callback(){
                             'label' => 'Google place API Key',
                             'id'    => 'saswp_google_place_api_key',
                             'name'  => 'sd_data[saswp_google_place_api_key]',
-                            'note'  => '<a target="_blank" href="https://console.developers.google.com/apis/library">Get place API Key</a> Note : Google allows only 5 reviews per location',
+                            'note'  => '<a target="_blank" href="https://console.developers.google.com/apis/library">Get place API Key</a> Note : Google allows only 5 latest reviews per location',
                             'class' => '',
                             'type'  => 'text',
                   ),                 

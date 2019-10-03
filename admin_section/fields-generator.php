@@ -241,18 +241,15 @@ class saswp_fields_generator {
                                             $input = '<div class="saswp_rv_module_pro_notice">
                                                         <h2>Get Your 5 Stars Reviews on Google SERPs</h2>
                                                         <p class="saswp_desc">Automatically Fetch your customer reviews from 80+ Platforms and show them on your website with proper schema support. <a target="_blank" href="https://structured-data-for-wp.com/reviews-for-schema">Learn More...</a></p>
-                                                        <div class="saswp_cmpny_lst">
-                                                            <span class="saswp_avlbl">Integrations Avaliable</span>
+                                                        <div class="saswp_cmpny_lst">                                                            
+                                                            <span class="saswp_lst saswp_avlbl">Integrations Avaliable</span>
                                                             <ul>
                                                                 <li class="check-img"><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/google-1-img.png">
-                                                                    <span class="saswp_cmpny">Google Reviews (Unlimited)</span>
+                                                                    <span class="saswp_cmpny">Google Reviews</span>
                                                                 </li>
                                                                 <li class="check-img"><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/shopper-approved-img.png">
                                                                     <span class="saswp_cmpny">Shopper Approved</span>
                                                                 </li>
-                                                            </ul>
-                                                            <span class="saswp_lst">Integrations Coming soon</span>
-                                                            <ul>
                                                                 <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/agoda-img.png">
                                                                     <span class="saswp_cmpny">Agoda</span>
                                                                 </li>
@@ -283,13 +280,13 @@ class saswp_fields_generator {
                                                                 <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/bestbuy-img.png">
                                                                     <span>Bestbuy</span>
                                                                 </li>
-                                                                <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/booking-img.png">
+                                                                <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/booking-com-img.png">
                                                                     <span>Booking.com</span>
                                                                 </li>
                                                                 <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/capterra-img.png">
                                                                     <span>Capterra</span>
                                                                 </li>
-                                                                <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/cars-img.png">
+                                                                <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/cars-com-img.png">
                                                                     <span>Cars.com</span>
                                                                 </li>
                                                                 <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/cargurus-img.png">
@@ -355,7 +352,7 @@ class saswp_fields_generator {
                                                                 <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/houzz-img.png">
                                                                     <span>Houzz</span>
                                                                 </li>
-                                                                <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/hotels-img.png">
+                                                                <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/hotels-com-img.png">
                                                                     <span>Hotels.com</span>
                                                                 </li>
                                                                 <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/hungerstation-img.png">
@@ -373,7 +370,7 @@ class saswp_fields_generator {
                                                                 <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/jet-img.png">
                                                                     <span>Jet</span>
                                                                 </li>
-                                                                <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/lawyers-img.png">
+                                                                <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/lawyers-com-img.png">
                                                                     <span>Lawyers.com</span>
                                                                 </li>
                                                                 <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/lendingtree-img.png">

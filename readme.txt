@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.2
-Stable tag: 1.9.9
+Stable tag: 1.9.10
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -113,6 +113,12 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.9.10 (3 Oct 2019) =
+
+* Added: Field to enter Yelp link to Knowledge Graph Social Fields section #517
+* Fixed: Breadcrumb list error on custom taxonomy #523
+* Fixed: ItemList and CollectionPage schema are not being added on custom texonomy page #521
 
 = 1.9.9 (28 Sept 2019) =
 

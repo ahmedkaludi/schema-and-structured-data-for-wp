@@ -261,7 +261,7 @@ jQuery(document).ready(function($){
                         },
                         close: function () {
                                 $.post (saswp_localize_data.ajax_url, {
-                                        pointer: 'saswp_subscribe_pointer222',
+                                        pointer: 'saswp_subscribe_pointer',
                                         action: 'dismiss-wp-pointer'
                                 });
                         },
@@ -278,7 +278,7 @@ jQuery(document).ready(function($){
                                 });
                                 jQuery ('#pointer-close').click (function () {
                                         $.post (saswp_localize_data.ajax_url, {
-                                                pointer: 'saswp_subscribe_pointer222',
+                                                pointer: 'saswp_subscribe_pointer',
                                                 action: 'dismiss-wp-pointer'
                                         });
                                 });

@@ -100,6 +100,12 @@ function saswp_kb_schema_output() {
 		$sd_tumblr[] = $sd_data['sd_tumblr'];
 		$sd_social_profile[] = $sd_tumblr;
 	}
+        
+        $sd_yelp = array();
+	if(isset($sd_data['sd_yelp']) && !empty($sd_data['sd_yelp']) && isset($sd_data['saswp-yelp-enable']) &&  $sd_data['saswp-yelp-enable'] ==1){
+		$sd_yelp[] = $sd_data['sd_yelp'];
+		$sd_social_profile[] = $sd_yelp;
+	}
 
 	$platform = array();
         
@@ -1517,7 +1523,7 @@ function saswp_archive_output(){
         $service_object     = new saswp_output_service();
         $logo               = $service_object->saswp_get_publisher(true);    
             					
-	if ( is_category() ) {
+	if ( is_category() || is_tax() ) {
             
 		$category_posts = array();
                 $item_list      = array();                
@@ -1583,31 +1589,34 @@ function saswp_archive_output(){
 	        endwhile;
 
 		wp_reset_postdata();
-			
-		$category 		= get_the_category(); 		
-		$category_id 		= intval($category[0]->term_id); 
+                
+		$output = array();
+                
+		$category 		= get_queried_object(); 		
+		
+                if(is_object($category)){
+                    
+                $category_id 		= intval($category->term_id); 
                 $category_link 		= get_category_link( $category_id );
-		$category_link          = get_term_link( $category[0]->term_id , 'category' );
+		$category_link          = get_term_link( $category_id);
                 $category_headline 	= single_cat_title( '', false ) . __(' Category', 'schema-wp');	
                 
-		$collection_page = array
-       		(
+		$collection_page = array(       		
 				'@context' 		=> saswp_context_url(),
 				'@type' 		=> "CollectionPage",
                                 '@id' 		        => trailingslashit(esc_url($category_link)).'#CollectionPage',
 				'headline' 		=> esc_attr($category_headline),
-				'description' 	        => strip_tags(category_description()),
+				'description' 	        => strip_tags(term_description($category_id)),
 				'url'		 	=> esc_url($category_link),				
 				'hasPart' 		=> $category_posts
        		);
                 
-                $blog_page = array
-       		(
+                $blog_page = array(       		
 				'@context' 		=> saswp_context_url(),
 				'@type' 		=> "Blog",
                                 '@id' 		        => trailingslashit(esc_url($category_link)).'#Blog',
 				'headline' 		=> esc_attr($category_headline),
-				'description' 	        => strip_tags(category_description()),
+				'description' 	        => strip_tags(term_description($category_id)),
 				'url'		 	=> esc_url($category_link),				
 				'blogPost' 		=> $category_posts
        		);
@@ -1621,7 +1630,9 @@ function saswp_archive_output(){
                 }else{
                     $output = array($item_list_schema, $collection_page, array());
                 }
-                                                                
+                    
+                }
+                                                               
 		return apply_filters('saswp_modify_archive_output', $output);
                 
 	endif;				
