@@ -267,7 +267,7 @@ class saswp_post_specific {
                     ),
                     'apartment_amenities' => array(                    
                     array(
-			'label'     => 'amenity Name',
+			'label'     => 'Amenity Name',
 			'name'      => 'saswp_apartment_amenities_name',
 			'type'      => 'text',                        
 		    )                                                                                    
@@ -1482,37 +1482,7 @@ class saswp_post_specific {
                             'id'      => 'saswp_business_type_'.$schema_id,
                             'type'    => 'select',
                             'default' => $business_type,
-                            'options' => array(
-                                    ''                              => 'Select Business Type (Optional)',
-                                    'animalshelter'                 => 'Animal Shelter',
-                                    'automotivebusiness'            => 'Automotive Business',
-                                    'childcare'                     => 'ChildCare',
-                                    'dentist'                       => 'Dentist',
-                                    'drycleaningorlaundry'          => 'Dry Cleaning Or Laundry',
-                                    'emergencyservice'              => 'Emergency Service',
-                                    'employmentagency'              => 'Employment Agency',
-                                    'entertainmentbusiness'         => 'Entertainment Business',
-                                    'financialservice'              => 'Financial Service',
-                                    'foodestablishment'             => 'Food Establishment',
-                                    'governmentoffice'              => 'Government Office',
-                                    'healthandbeautybusiness'       => 'Health And Beauty Business',
-                                    'homeandconstructionbusiness'   => 'Home And Construction Business',
-                                    'internetcafe'                  => 'Internet Cafe',
-                                    'legalservice'                  => 'Legal Service',
-                                    'library'                       => 'Library',
-                                    'lodgingbusiness'               => 'Lodging Business',
-                                    'professionalservice'           => 'Professional Service',
-                                    'radiostation'                  => 'Radio Station',
-                                    'realestateagent'               => 'Real Estate Agent',
-                                    'recyclingcenter'               => 'Recycling Center',
-                                    'selfstorage'                   => 'Self Storage',
-                                    'shoppingcenter'                => 'Shopping Center',
-                                    'sportsactivitylocation'        => 'Sports Activity Location',
-                                    'store'                         => 'Store',
-                                    'televisionstation'             => 'Television Station',
-                                    'touristinformationcenter'      => 'Tourist Information Center',
-                                    'travelagency'                  => 'Travel Agency',
-                            )
+                            'options' => $this->_local_sub_business['all_business_type']
                         ),
                          $sub_business_options,
                         array(

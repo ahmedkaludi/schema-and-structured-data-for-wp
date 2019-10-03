@@ -759,38 +759,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                             $sub_business_arr = include $mappings_sub_business;
                         }
                                                                                                 
-                         $all_business_type = array(
-                            ''                              => 'Select Business Type (Optional)', 
-                            'animalshelter'                 => 'Animal Shelter',
-                            'automotivebusiness'            => 'Automotive Business',
-                            'childcare'                     => 'ChildCare',
-                            'dentist'                       => 'Dentist',
-                            'drycleaningorlaundry'          => 'Dry Cleaning Or Laundry',
-                            'emergencyservice'              => 'Emergency Service',
-                            'employmentagency'              => 'Employment Agency',
-                            'entertainmentbusiness'         => 'Entertainment Business',
-                            'financialservice'              => 'Financial Service',
-                            'foodestablishment'             => 'Food Establishment',
-                            'governmentoffice'              => 'Government Office',
-                            'healthandbeautybusiness'       => 'Health And Beauty Business',
-                            'homeandconstructionbusiness'   => 'Home And Construction Business',
-                            'internetcafe'                  => 'Internet Cafe',
-                            'legalservice'                  => 'Legal Service',
-                            'library'                       => 'Library',
-                            'lodgingbusiness'               => 'Lodging Business',
-                            'medicalbusiness'               => 'Medical Business',
-                            'professionalservice'           => 'Professional Service',
-                            'radiostation'                  => 'Radio Station',
-                            'realestateagent'               => 'Real Estate Agent',
-                            'recyclingcenter'               => 'Recycling Center',
-                            'selfstorage'                   => 'Self Storage',
-                            'shoppingcenter'                => 'Shopping Center',
-                            'sportsactivitylocation'        => 'Sports Activity Location',
-                            'store'                         => 'Store',
-                            'televisionstation'             => 'Television Station',
-                            'touristinformationcenter'      => 'Tourist Information Center',
-                            'travelagency'                  => 'Travel Agency',
-                         );
+                          $all_business_type               = $sub_business_arr['all_business_type'];
 
                           $all_medical_business_array      = $sub_business_arr['medicalbusiness'];                         
                           $all_automotive_array            = $sub_business_arr['automotivebusiness'];
