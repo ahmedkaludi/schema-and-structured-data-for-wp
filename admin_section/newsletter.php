@@ -21,7 +21,7 @@ class saswp_ads_newsletter {
         function saswp_add_localize_footer_data($object, $object_name){
             
         $dismissed = explode (',', get_user_meta (wp_get_current_user ()->ID, 'dismissed_wp_pointers', true));                                
-        $do_tour   = !in_array ('saswp_subscribe_pointer222', $dismissed);
+        $do_tour   = !in_array ('saswp_subscribe_pointer0', $dismissed);
         
         if ($do_tour) {
                 wp_enqueue_style ('wp-pointer');
