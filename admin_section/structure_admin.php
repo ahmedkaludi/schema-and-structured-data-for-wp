@@ -963,7 +963,7 @@ function saswp_custom_breadcrumbs() {
         } else if ( is_archive() && is_tax() && !is_category() && !is_tag() ) {
               
             // If post is a custom post type
-                    $post_type = get_post_type();
+                $post_type = get_post_type();
               
             // If it is a custom post type display name and link
                 if($post_type != 'post') {
@@ -975,8 +975,19 @@ function saswp_custom_breadcrumbs() {
                         $post_type_archive = get_permalink();
                     }
                     
-                    $variables1_titles[] = $post_type_object->labels->name;
-                    $variables2_links[]  = $post_type_archive;
+                     if(!$post_type_archive){
+                         
+                        $queried_obj = get_queried_object();
+                        
+                        if(is_object($queried_obj)){
+                            $variables1_titles[] = $queried_obj->name;
+                            $variables2_links[]  = get_term_link($queried_obj->term_id);    
+                        }
+                        
+                    }else{
+                        $variables1_titles[] = $post_type_object->labels->name;
+                        $variables2_links[]  = $post_type_archive;
+                    }
 
                 }
               
