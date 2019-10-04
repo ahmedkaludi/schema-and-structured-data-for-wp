@@ -1137,7 +1137,7 @@ function saswp_post_specific_schema_output() {
                                                     
                         $input1 = array(
 			'@context'			=> saswp_context_url(),
-			'@type'				=> 'Event' ,
+			'@type'				=> (isset($all_post_meta['saswp_event_schema_type_'.$schema_id][0]) && $all_post_meta['saswp_event_schema_type_'.$schema_id][0] !='') ? $all_post_meta['saswp_event_schema_type_'.$schema_id][0] : 'Event' ,
                         '@id'                           => trailingslashit(get_permalink()).'#event',    
 			'name'			        => saswp_remove_warnings($all_post_meta, 'saswp_event_schema_name_'.$schema_id, 'saswp_array'),
 			'description'                   => saswp_remove_warnings($all_post_meta, 'saswp_event_schema_description_'.$schema_id, 'saswp_array'),			

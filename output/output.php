@@ -801,9 +801,12 @@ function saswp_schema_output() {
                         }else{
                            
                         if ( isset($sd_data['saswp-the-events-calendar']) && $sd_data['saswp-the-events-calendar'] == 0 ) {
-                                                        
+                                          
+                            
+                                $event_type         = get_post_meta($schema_post_id, 'saswp_event_type', true);  
+                            
                                 $input1['@context'] =  saswp_context_url();
-                                $input1['@type']    =  $schema_type;
+                                $input1['@type']    =  $event_type ? $event_type : $schema_type;
                                 $input1['@id']      =  trailingslashit(saswp_get_permalink()).'#event';
                                                        
                                 if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){                                   

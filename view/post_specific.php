@@ -2030,6 +2030,34 @@ class saswp_post_specific {
                                         
                     $meta_field = array(
                         array(
+                            'label'   => 'Type',
+                            'id'      => 'saswp_event_schema_type_'.$schema_id,
+                            'type'    => 'select',                           
+                            'options' => array(
+                                ''                 => 'Select Type (Optional)',
+                                'BusinessEvent'    => 'BusinessEvent',
+                                'ChildrensEvent'   => 'ChildrensEvent',
+                                'ComedyEvent'      => 'ComedyEvent',
+                                'CourseInstance'   => 'CourseInstance',
+                                'DanceEvent'       => 'DanceEvent',
+                                'DeliveryEvent'    => 'DeliveryEvent',
+                                'EducationEvent'   => 'EducationEvent',
+                                'EventSeries'      => 'EventSeries',
+                                'ExhibitionEvent'  => 'ExhibitionEvent',
+                                'Festival'         => 'Festival',
+                                'FoodEvent'        => 'FoodEvent',
+                                'LiteraryEvent'    => 'LiteraryEvent',
+                                'MusicEvent'       => 'MusicEvent',
+                                'PublicationEvent' => 'PublicationEvent',
+                                'SaleEvent'        => 'SaleEvent',
+                                'ScreeningEvent'   => 'ScreeningEvent',
+                                'SocialEvent'      => 'SocialEvent',
+                                'SportsEvent'      => 'SportsEvent',
+                                'TheaterEvent'     => 'TheaterEvent',
+                                'VisualArtsEvent'  => 'VisualArtsEvent'
+                            ) 
+                        ),    
+                        array(
                                 'label' => 'Name',
                                 'id' => 'saswp_event_schema_name_'.$schema_id,
                                 'type' => 'text',                                
