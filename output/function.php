@@ -202,10 +202,9 @@ function saswp_schema_markup_output() {
                              '@id' => saswp_get_permalink().'#primaryimage'
                          );
                          
-                         if($site_navigation){                             
-                             unset($site_navigation['@context']);
-                             $site_navigation = $site_navigation['@graph'];                             
-                             $webpage['mainContentOfPage'] = array($site_navigation);
+                         if(array_key_exists('@graph', $site_navigation)){                             
+                             unset($site_navigation['@context']);                                                       
+                             $webpage['mainContentOfPage'] = array($site_navigation['@graph']);
                          }                         
                          
                      }       
