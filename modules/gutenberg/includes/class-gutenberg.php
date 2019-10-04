@@ -203,9 +203,26 @@ class SASWP_Gutenberg {
                                 
                 if(isset($attributes['hasDuration'])){
                     echo '<p class="saswp-how-to-total-time">';
-                    echo '<span class="saswp-how-to-duration-time-text"><strong>Time Needed :</strong> </span>'; 
-                                                            
-                    echo esc_attr($attributes['days']).' days '.esc_attr($attributes['hours']).' hours '.esc_attr($attributes['minutes']).' minutes';
+                    
+                    $time_html = '';
+                       
+                    if(isset($attributes['days']) && $attributes['days'] != ''){
+                        $time_html .=   esc_attr($attributes['days']).' days ';
+                    }
+                    
+                    if(isset($attributes['hours']) && $attributes['hours'] != ''){
+                        $time_html .=     esc_attr($attributes['hours']).' hours ';
+                    }
+                    
+                    if(isset($attributes['minutes']) && $attributes['minutes'] != ''){
+                        $time_html .=     esc_attr($attributes['minutes']).' minutes';
+                    }
+                    
+                    if($time_html !=''){
+                     echo '<span class="saswp-how-to-duration-time-text"><strong>Time Needed :</strong> </span>';    
+                     echo $time_html;
+                    }
+                                        
                     echo '</p>';
                 }                
                 if(isset($attributes['description'])){
