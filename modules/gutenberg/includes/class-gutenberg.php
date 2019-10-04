@@ -149,10 +149,15 @@ class SASWP_Gutenberg {
                 echo '<div class="saswp-faq-block-section">';                                
                 if($attributes['items']){
                     
+                    $className = '';
+                    if(isset($attributes['className'])){
+                        $className = 'class="'.esc_attr($attributes['className']).'"';
+                    }
+                    
                     if(!isset($attributes['toggleList'])){
-                     echo '<ol>';   
+                     echo '<ol '.$className.'>';   
                     }else{
-                     echo '<ul>';      
+                     echo '<ul '.$className.'>';      
                     }
                     
                     foreach($attributes['items'] as $item){
@@ -209,10 +214,15 @@ class SASWP_Gutenberg {
                                 
                 if(isset($attributes['items'])){
                     
+                    $className = '';
+                    if(isset($attributes['className'])){
+                        $className = 'class="'.esc_attr($attributes['className']).'"';
+                    }
+                        
                     if(!isset($attributes['toggleList'])){
-                     echo '<ol>';   
+                     echo '<ol '.$className.'>';   
                     }else{
-                     echo '<ul>';      
+                     echo '<ul '.$className.'>';      
                     }
                     
                     foreach($attributes['items'] as $item){
