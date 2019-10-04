@@ -189,8 +189,10 @@ function saswp_schema_markup_output() {
                         unset($soutput['@context']);                   
                         unset($schema_breadcrumb_output['@context']);
                         unset($webpage['mainEntity']);
-                        unset($kb_schema_output['@context']);
+                        unset($kb_schema_output['@context']);                        
                         unset($kb_website_output['@context']);
+                        
+                        $kb_schema_output['@type'] = 'Organization';    
                     
                      if($webpage){
                     
