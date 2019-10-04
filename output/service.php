@@ -11,25 +11,7 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 Class saswp_output_service{           
-    
-    /**
-     * private variable to hold mata list
-     * @var type 
-     */
-    private $_meta_list = null;
-
-    public function __construct() {
         
-            if($this->_meta_list == null){
-            
-                        $mappings_file = SASWP_DIR_NAME . '/core/array-list/meta_list.php';
-
-                        if ( file_exists( $mappings_file ) ) {
-                            $this->_meta_list = include $mappings_file;
-                        }                                
-            }        
-            
-        }
         /**
          * List of hooks used in current class
          */
