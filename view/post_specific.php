@@ -1189,12 +1189,14 @@ class saswp_post_specific {
                                                      || strpos($meta_field['id'], 'priceValidUntil') !== false
                                                      || strpos($meta_field['id'], 'priceValidUntil') !== false
                                                      || strpos($meta_field['id'], 'priceValidUntil') !== false
-                                                     || strpos($meta_field['id'], 'saswp_event_schema_start_date') !== false
-                                                     || strpos($meta_field['id'], 'saswp_event_schema_end_date') !== false
-                                                     || strpos($meta_field['id'], 'saswp_event_schema_validfrom') !== false
+                                                     || strpos($meta_field['id'], 'start_date') !== false
+                                                     || strpos($meta_field['id'], 'end_date') !== false
+                                                     || strpos($meta_field['id'], 'validfrom') !== false
                                                      || strpos($meta_field['id'], 'dateposted') !== false
                                                      || strpos($meta_field['id'], 'validthrough') !== false
                                                      || strpos($meta_field['id'], 'date_of_birth') !== false
+                                                     || strpos($meta_field['id'], 'date_created') !== false
+                                                     || strpos($meta_field['id'], 'created_date') !== false
                                                      ) {
                                              $class='saswp-datepicker-picker';    
                                              }
@@ -4239,7 +4241,38 @@ class saswp_post_specific {
                 
                 case 'FAQ':
                     
-                    $meta_field = array();                                                                  
+                    $meta_field = array(
+                    array(
+                            'label'      => 'Headline',
+                            'id'         => 'saswp_faq_headline_'.$schema_id,
+                            'type'       => 'text'                             
+                    ),
+                    array(
+                            'label'      => 'Tags',
+                            'id'         => 'saswp_faq_keywords_'.$schema_id,
+                            'type'       => 'text'                            
+                    ),
+                    array(
+                            'label'      => 'Author',
+                            'id'         => 'saswp_faq_author_'.$schema_id,
+                            'type'       => 'text'                            
+                    ),    
+                    array(
+                            'label'      => 'DateCreated',
+                            'id'         => 'saswp_faq_date_created_'.$schema_id,
+                            'type'       => 'text'                            
+                    ),
+                    array(
+                            'label'      => 'DatePublished',
+                            'id'         => 'saswp_faq_date_published_'.$schema_id,
+                            'type'       => 'text'                            
+                    ),
+                    array(
+                            'label'      => 'DateModified',
+                            'id'         => 'saswp_faq_date_modified_'.$schema_id,
+                            'type'       => 'text'                            
+                    )                                                    
+                   );                                                                 
                    
                     break;
                 

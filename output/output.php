@@ -326,7 +326,20 @@ function saswp_schema_output() {
                         
                         if( 'FAQ' === $schema_type){
                                                                                     
-                            $input1 = array();
+                            $input1['@context']                     = saswp_context_url();
+                            $input1['@type']                        = 'FAQPage';
+                            $input1['@id']                          = trailingslashit(saswp_get_permalink()).'#FAQPage';                             
+                            $input1['headline']                     = saswp_get_the_title();
+                            $input1['keywords']                     = saswp_get_the_tags();
+                            $input1['datePublished']                = esc_html($date);
+                            $input1['dateModified']                 = esc_html($modified_date);
+                            $input1['dateCreated']                  = esc_html($date);
+                            $input1['author']                       = saswp_get_author_details();											                            
+                                                                                    
+                            if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){                                   
+                                    $service = new saswp_output_service();
+                                    $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
+                            }
                                                                                                                                                                                                                                
                          }
                        
