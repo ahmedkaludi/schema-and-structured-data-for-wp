@@ -1903,8 +1903,7 @@ function saswp_gutenberg_how_to_schema(){
                     }
                    $input1['supply'] = $supply_arr;
                 }
-                
-                
+                                
                 $tool     = array();
                 $tool_arr = array();
                 
