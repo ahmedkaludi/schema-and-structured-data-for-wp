@@ -201,7 +201,7 @@ class saswp_metaboxes_review {
                 $saswp_review_details = array();
                 
                 if(isset($_POST['saswp-review-item-title'])){
-                   $saswp_review_details['saswp-review-item-title'] = sanitize_text_field($_POST['saswp-review-item-title']);
+                    $saswp_review_details['saswp-review-item-title'] = sanitize_text_field($_POST['saswp-review-item-title']);
                 }
                 if(isset($_POST['saswp-review-location'])){
                     $saswp_review_details['saswp-review-location'] = sanitize_text_field($_POST['saswp-review-location']);
@@ -231,7 +231,7 @@ class saswp_metaboxes_review {
                     update_post_meta( $post_id, 'saswp-review-item-cons', wp_kses_post( wp_unslash( $_POST['saswp-review-item-cons'] )) );                    
                 }                          
                 if(!empty($saswp_review_details)){
-                  update_post_meta( $post_id, 'saswp_review_details', $saswp_review_details );   
+                    update_post_meta( $post_id, 'saswp_review_details', $saswp_review_details );   
                 }               
         }    
 }

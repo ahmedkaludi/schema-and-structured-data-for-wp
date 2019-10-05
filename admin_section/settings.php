@@ -464,7 +464,39 @@ function saswp_premium_features_callback(){ ?>
                                     <?php echo $cooked_active_text; ?>
                                                                            										
 				</div>
-			</li>                        
+			</li>   
+                        
+                        <li>
+                            
+                                        <?php
+                                        
+                                        $cooked_active_text = '';
+                                        
+                                        if(is_plugin_active('real-estate-schema/real-estate-schema.php')){                                        
+                                            $cooked_active_text = '<label class="saswp-sts-txt">Status :<span style="color:green;">Active</span></label>';                                            
+                                        }else{
+                                            $cooked_active_text .='<label class="saswp-sts-txt">Status :<span>Inactive</span></label>';
+                                            $cooked_active_text .='<a target="_blank" href="http://structured-data-for-wp.com/extensions/real-estate-schema/"><span class="saswp-d-btn">Download</span></a>';
+                                        }
+                                        
+                                        ?> 
+                            
+                            
+				<div class="saswp-features-ele">
+                                    <div class="saswp-ele-ic" style="background: #ace;">
+                                            <img src="<?php echo SASWP_PLUGIN_URL; ?>/admin_section/images/real-estate-schema-wp.png">
+					</div>
+					<div class="saswp-ele-tlt">
+						<h3><?php echo esc_html__('Real Estate Schema','schema-and-structured-data-for-wp') ?></h3>
+						<p><?php echo esc_html__('Real Estate Schema extension is the number one solution to enhance your real estate website with the right structured data.','schema-and-structured-data-for-wp') ?></p>
+					</div>
+				</div>
+				<div class="saswp-sts-btn">
+                                    
+                                    <?php echo $cooked_active_text; ?>
+                                                                           										
+				</div>
+			</li>
 		</ul>
 	</div>
 
@@ -1379,11 +1411,11 @@ function saswp_import_callback(){
            $add_on[] = 'Woocommerce';           
                                       
         }
-        if(is_plugin_active('real-estate-schema/real-estate-schema.php')){
+        if(is_plugin_active('reviews-for-schema/reviews-for-schema.php')){
                       
            $add_on[] = 'Res';           
                                       
-        }
+        }        
                 
         if(!empty($add_on)){
             
