@@ -1064,6 +1064,7 @@ Google review module ends here
     background: #f9f9f9;
     border: 1px solid #d8d8d8;
     border-bottom: none;
+    box-sizing: border-box;
 }
 .saswp-rev-mod .saswp-knowledge-field{
     width:100%;
@@ -1232,4 +1233,17 @@ a.saswp-revws-lnk{
 }
 .saswp-custom-fields-table .saswp_prev_close{
     font-size: 15px;
+}
+.saswp-review-content-table td:nth-child(2){
+    width: 50%;
+    float: left;
+}
+.saswp-review-content-table input{
+    width: 100%;    
+}
+.saswp-review-content-table select{
+    width: 100%;    
+}
+.saswp-review-content-table textarea{
+    width: 100%;    
 }

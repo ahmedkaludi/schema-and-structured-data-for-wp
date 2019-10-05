@@ -1,27 +1,142 @@
-var saswp_meta_list        = [];
-var saswp_meta_fields      = [];
-var saswp_meta_list_fields = [];
+       var saswp_meta_list        = [];
+       var saswp_meta_fields      = [];
+       var saswp_meta_list_fields = [];       
+       
+       function saswp_enable_rating_review(){
+           var schema_type = "";                      
+           if(jQuery('select#schema_type option:selected').val()){
+              schema_type = jQuery('select#schema_type option:selected').val();    
+           }       
+           if(jQuery(".saswp-tab-links.selected").attr('saswp-schema-type')){
+              schema_type = jQuery(".saswp-tab-links.selected").attr('saswp-schema-type');    
+           }
+          
+         if(schema_type){
+             jQuery(".saswp-enable-rating-review-"+schema_type.toLowerCase()).change(function(){
+                               
+            if(jQuery(this).is(':checked')){
+            jQuery(this).parent().parent().siblings('.saswp-rating-review-'+schema_type.toLowerCase()).show();            
+             }else{
+            jQuery(this).parent().parent().siblings('.saswp-rating-review-'+schema_type.toLowerCase()).hide(); 
+             }
+         
+            }).change();   
+         }
+               
+     }
+     
+       function getParameterByName(name, url) {
+            if (!url){
+            url = window.location.href;    
+            } 
+            name = name.replace(/[\[\]]/g, "\\$&");
+            var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return "";
+            return decodeURIComponent(results[2].replace(/\+/g, " "));
+       }
+       
+       function saswpCustomSelect2(){          
+       if((saswp_localize_data.post_type == 'saswp' || saswp_localize_data.page_now =='saswp') && saswp_localize_data.page_now !='saswp_page_structured_data_options'){
+           
+           jQuery('.saswp-custom-fields-select2').select2({
+  		ajax: {
+                        type: "POST",    
+    			url: ajaxurl, // AJAX URL is predefined in WordPress admin
+    			dataType: 'json',
+    			delay: 250, // delay in ms while typing when to perform a AJAX search
+    			data: function (params) {
+      				return {
+                                        saswp_security_nonce: saswp_localize_data.saswp_security_nonce,
+        				q: params.term, // search query
+        				action: 'saswp_get_custom_meta_fields' // AJAX action for admin-ajax.php
+      				};
+    			},
+    			processResults: function( data ) {
+				return {
+					results: data
+				};
+			},
+			cache: true
+		},
+		minimumInputLength: 2 // the minimum of symbols to input before perform a search
+	});   
+           
+       }    
+           
+       }   
 
-function getParameterByName(name, url) {
-    if (!url){
-    url = window.location.href;    
-    } 
-    name = name.replace(/[\[\]]/g, "\\$&");
-    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-        results = regex.exec(url);
-    if (!results) return null;
-    if (!results[2]) return "";
-    return decodeURIComponent(results[2].replace(/\+/g, " "));
-}
-
-        function saswp_schema_datepicker(){
+       function saswp_reviews_datepicker(){
+        
+            jQuery('.saswp-reviews-datepicker-picker').datepicker({
+             dateFormat: "yy-mm-dd"            
+          });
+        }
+        
+       function saswp_schema_datepicker(){
         
             jQuery('.saswp-datepicker-picker').datepicker({
              dateFormat: "yy-mm-dd",             
           });
           
         }
+        
+       function saswpAddTimepicker(){
+         jQuery('.saswp-local-schema-time-picker').timepicker({ 'timeFormat': 'H:i:s'});
+        }
+        
+       function saswp_item_reviewed_call(){
 
+        jQuery(".saswp-item-reviewed").change(function(e){
+        e.preventDefault();
+        var schema_type =""; 
+
+        if(jQuery('select#schema_type option:selected').val()){
+           schema_type = jQuery('select#schema_type option:selected').val();    
+        }       
+        if(jQuery(".saswp-tab-links.selected").attr('saswp-schema-type')){
+           schema_type = jQuery(".saswp-tab-links.selected").attr('saswp-schema-type');    
+        }
+
+        if(schema_type === 'Review'){
+
+                    var current = jQuery(this);    
+                    var item    = jQuery(this).val();
+                    var post_id = saswp_localize_data.post_id;
+                    var schema_id = jQuery(current).attr('data-id');  
+                    var post_specific = jQuery(current).attr('post-specific');  
+                     jQuery.get(ajaxurl, 
+                         { action:"saswp_get_item_reviewed_fields",schema_id:schema_id,  post_specific:post_specific ,item:item, post_id:post_id, saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
+                          function(response){    
+
+                            jQuery(current).parent().parent().nextAll().remove(".saswp-review-tr");                                    
+                            jQuery(current).parent().parent().after(response);    
+
+                         });
+
+        }
+
+
+    }).change();
+
+    }
+    
+       function saswp_compatibliy_notes(current, id){
+        
+                var plugin_name =  id.replace('-checkbox','');
+                var text = jQuery("#"+plugin_name).next('p').text(); 
+
+                if (current.is(':checked') && text !=='') {              
+                      jQuery("#"+plugin_name).next('p').removeClass('saswp_hide');                   
+                }else{
+                    if(jQuery("#"+plugin_name).next('p').attr('data-id') == 1){
+                        jQuery("#"+plugin_name).next('p').text('This feature is only available in pro version');
+                    }else{
+                        jQuery("#"+plugin_name).next('p').addClass('saswp_hide');
+                    }                                                        
+                }        
+        }
 
        function saswp_meta_list_html(current_fly, response, fields, f_name, id, tr){
                       
@@ -72,9 +187,6 @@ function getParameterByName(name, url) {
            
        } 
 
-
-       
-       
        function saswp_get_meta_list(current_fly, type, fields, id, fields_name, tr){                           
                             if (!saswp_meta_list[type]) {
                                 
@@ -126,7 +238,7 @@ function getParameterByName(name, url) {
                              
        }
        
-function saswp_fields_html_generator(index, schema_id, fields_type, div_type, schema_fields){
+       function saswp_fields_html_generator(index, schema_id, fields_type, div_type, schema_fields){
             
             var html = '';
             
@@ -206,12 +318,119 @@ function saswp_fields_html_generator(index, schema_id, fields_type, div_type, sc
             return html;
             
         }
-        
+                       
 jQuery(document).ready(function($){   
+    
+    /* Google Reviews js starts here */
+    
+    $(document).on("click", ".saswp-add-g-location-btn", function(e){
+                
+                var blocks_field = '';
+                
+                if($("#saswp_google_place_api_key").length){
+                    
+                    blocks_field = '<input class="saswp-g-blocks-field" name="sd_data[saswp_reviews_location_blocks][]" type="number" min="5" step="5" placeholder="5" disabled="disabled">';
+                }else{
+                    blocks_field = '<input class="saswp-g-blocks-field" name="sd_data[saswp_reviews_location_blocks][]" type="number" min="10" step="10" placeholder="10">'; 
+                }
+                                
+                e.preventDefault();
+                    var html = '';
+                        html    += '<tr>'
+                                + '<td style="width:12%;"><strong>Place Id</strong></td>'
+                                + '<td style="width:20%;"><input class="saswp-g-location-field" name="sd_data[saswp_reviews_location_name][]" type="text" value=""></td>'                                
+                                + '<td style="width:10%;"><strong>Reviews</strong></td>'
+                                + '<td style="width:10%;">'+blocks_field+'</td>'                                                            
+                                + '<td style="width:10%;"><a class="button button-default saswp-fetch-g-reviews">Fetch</a></td>'
+                                + '<td style="width:10%;"><a type="button" class="saswp-remove-review-item button">x</a></td>'
+                                + '<td style="width:10%;"><p class="saswp-rv-fetched-msg"></p></td>' 
+                                + '</tr>';                
+                if(html){
+                    $(".saswp-g-reviews-settings-table").append(html);
+                }
+                
+            });
+			
+    $(document).on("click", '.saswp-fetch-g-reviews', function(){          
+                                                              
+              var current        = $(this);  
+              var premium_status = 'free';
+              current.addClass('updating-message');
+                                          
+              var location           = $(this).parent().parent().find('.saswp-g-location-field').val();
+              var blocks             = $(this).parent().parent().find('.saswp-g-blocks-field').val();
+              var g_api              = $("#saswp_google_place_api_key").val();
+              var reviews_api        = $("#reviews_addon_license_key").val();
+              var reviews_api_status = $("#reviews_addon_license_key_status").val();
+                                              
+                if($("#saswp_google_place_api_key").length){
+                    premium_status = 'free';
+                }else{
+                    premium_status = 'premium'; 
+                }                 
+                   
+                if(premium_status == 'premium'){
+                    
+                    if(blocks > 0){
+                    
+                    var blocks_remainder = blocks % 10;
+                                        
+                        if(blocks_remainder != 0){
+                            
+                            current.parent().parent().find('.saswp-rv-fetched-msg').text('Reviews count should be in step of 10');
+                            current.parent().parent().find('.saswp-rv-fetched-msg').css("color", "#988f1b");
+                            current.removeClass('updating-message');
+                            return false;
+                            
+                        }
+                        
+                    }else{
+                        alert('Blocks value is zero');
+                        current.removeClass('updating-message');
+                        return false;
+                    }
+                                        
+                }
+                
+                if(location !='' && (reviews_api || g_api)){
+                    $.ajax({
+                                  type: "POST",    
+                                  url:ajaxurl,                    
+                                  dataType: "json",
+                                  data:{action:"saswp_fetch_google_reviews",reviews_api_status:reviews_api_status, reviews_api:reviews_api,location:location,blocks:blocks,g_api:g_api,premium_status:premium_status, saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
+                                  success:function(response){    
+                                      if(response['status'] =='t'){
+                                         current.parent().parent().find('.saswp-rv-fetched-msg').text('Success');
+                                         current.parent().parent().find('.saswp-rv-fetched-msg').css("color", "green");
+                                      }else{
+                                         current.parent().parent().find('.saswp-rv-fetched-msg').text(response['message']); 
+                                         current.parent().parent().find('.saswp-rv-fetched-msg').css("color", "#988f1b");
+                                      }  
+                                      current.removeClass('updating-message');
+                                  },
+                                  error: function(response){                    
+                                      console.log(response);
+                                  }
+                                  });
+                }else{
+                    if(location ==''){
+                        alert('Please enter place id'); 
+                    }
+                    if(g_api ==''){
+                        alert('Please enter api key'); 
+                    }
+                    if(reviews_api ==''){
+                        alert('Please enter reviews api key'); 
+                    }
+                   current.removeClass('updating-message');
+                }
+            });
+    
+    /* Google Reviews js ends here */
     
     /* Newletters js starts here */      
         
-            if(saswp_localize_data.do_tour){
+        if(saswp_localize_data.do_tour){
                 
                 var content = '<h3>Thanks for using Structured Data!</h3>';
 			content += '<p>Do you want the latest on <b>Structured Data update</b> before others and some best resources on monetization in a single email? - Free just for users of Structured Data!</p>';
@@ -220,7 +439,7 @@ jQuery(document).ready(function($){
                         content += '.wp-pointer-content .button-secondary{  left: -25px;background: transparent;top: 5px; border: 0;position: relative; padding: 0; box-shadow: none;margin: 0;color: #0085ba;} .wp-pointer-content .button-primary{ display:none}	#afw_mc_embed_signup{background:#fff; clear:left; font:14px Helvetica,Arial,sans-serif; }';
                         content += '</style>';                        
                         content += '<div id="afw_mc_embed_signup">';
-                        content += '<form action="//app.mailerlite.com/webforms/submit/o1s7u3" data-id="258182" data-code="o1s7u3" method="POST" target="_blank">';
+                        content += '<form action="//app.mailerlite.com/webforms/submit/z7t4b8" data-id="258182" data-code="z7t4b8" method="POST" target="_blank">';
                         content += '<div id="afw_mc_embed_signup_scroll">';
                         content += '<div class="afw-mc-field-group" style="    margin-left: 15px;    width: 195px;    float: left;">';
                         content += '<input type="text" name="fields[name]" class="form-control" placeholder="Name" hidden value="'+saswp_localize_data.current_user_name+'" style="display:none">';
@@ -330,45 +549,22 @@ jQuery(document).ready(function($){
             if(schematype == 'local_business'){
              $(".saswp-option-table-class tr").eq(1).show();   
              $(".saswp-business-text-field-tr").show();
-             $(".saswp-option-table-class tr").find('select').attr('disabled', false);
-            // $("#saswp_dayofweek").attr('disabled', false);
+             $(".saswp-option-table-class tr").find('select').attr('disabled', false);            
              $('.select-post-type').val('show_globally').trigger('change');             
              }
              if(schematype == 'Service'){            
              $(".saswp-service-text-field-tr").show();
              $(".saswp-option-table-class tr").find('select').attr('disabled', false);
              }
+             if(schematype == 'Event'){            
+             $(".saswp-event-text-field-tr").show();
+             $(".saswp-option-table-class tr").find('select').attr('disabled', false);
+             }
              if(schematype == 'Review'){            
              $(".saswp-review-text-field-tr").show();  
              $(".saswp-option-table-class tr").find('select').attr('disabled', false);
              saswp_item_reviewed_call();
-             }
-             if(schematype == 'Product'){            
-             $(".saswp-product-text-field-tr").show();  
-             $(".saswp-option-table-class tr").find('select').attr('disabled', false);
-             }
-             if(schematype == 'Event'){            
-             $(".saswp-event-text-field-tr").show();  
-             $(".saswp-option-table-class tr").find('select').attr('disabled', false);
-             }
-             if(schematype == 'AudioObject'){            
-             $(".saswp-audio-text-field-tr").show();               
-             }
-             if(schematype == 'SoftwareApplication'){            
-             $(".saswp-softwareapplication-text-field-tr").show();               
-             }
-             
-             $(".saswp-schem-type-note").addClass('saswp_hide');
-             if(schematype == 'qanda'){
-              $(".saswp-schem-type-note").removeClass('saswp_hide');   
-             }
-             
-             $(".saswp-job-posting-note").addClass('saswp_hide');
-                          
-//             if(schematype == 'JobPosting'){
-//              $(".saswp-job-posting-note").removeClass('saswp_hide');   
-//             }
-             
+             }                                                 
              saswp_enable_rating_review();
         }); 
         
@@ -393,58 +589,23 @@ jQuery(document).ready(function($){
             if(schematype == 'local_business'){
             $(".saswp-"+businesstype+'-tr').show(); 
             $(".saswp-business-text-field-tr").show(); 
-            $(".saswp-"+businesstype+'-tr').find('select').attr('disabled', false); 
-           // $("#saswp_dayofweek").attr('disabled', false);
+            $(".saswp-"+businesstype+'-tr').find('select').attr('disabled', false);            
             } 
-             if(schematype == 'Service'){            
-             $(".saswp-service-text-field-tr").show();  
-             $(".saswp-service-text-field-tr").find('select').attr('disabled', false); 
-             }
-             if(schematype == 'Product'){            
-             $(".saswp-product-text-field-tr").show(); 
-             $(".saswp-product-text-field-tr").find('select').attr('disabled', false); 
-             }
-             if(schematype == 'AudioObject'){            
-             $(".saswp-audio-text-field-tr").show();               
-             }
-             if(schematype == 'SoftwareApplication'){            
-             $(".saswp-softwareapplication-text-field-tr").show();               
-             }
-             
+                          
              if(schematype == 'Review'){            
              $(".saswp-review-text-field-tr").show(); 
              $(".saswp-review-text-field-tr").find('select').attr('disabled', false);
              }
              if(schematype == 'Event'){            
-             $(".saswp-event-text-field-tr").show(); 
-             $(".saswp-event-text-field-tr").find('select').attr('disabled', false);
+             $(".saswp-event-text-field-tr").show();
+             $(".saswp-option-table-class tr").find('select').attr('disabled', false);
              }
+             
             saswp_enable_rating_review();
         }).change(); 
         
         
-    //Settings page jquery starts here    
- 
-    
-    function saswp_compatibliy_notes(current, id){
-        
-                var plugin_name =  id.replace('-checkbox','');
-                var text = $("#"+plugin_name).next('p').text(); 
-
-                if (current.is(':checked') && text !=='') {              
-                      $("#"+plugin_name).next('p').removeClass('saswp_hide');                   
-                }else{
-
-                    if($("#"+plugin_name).next('p').attr('data-id') == 1){
-                        $("#"+plugin_name).next('p').text('This feature is only available in pro version');
-                    }else{
-                        $("#"+plugin_name).next('p').addClass('saswp_hide');
-                    }                                                        
-                }
-        
-    }
-    
-     
+    //Settings page jquery starts here      
     $(".saswp-checkbox").change(function(){
         
                         var id = $(this).attr("id");
@@ -614,6 +775,17 @@ jQuery(document).ready(function($){
                             $("#sd_tumblr").hide();
                           }                          
                           break; 
+                     case 'saswp-yelp-enable-checkbox':  
+                          
+                          if ($(this).is(':checked')) {              
+                            $("#saswp-yelp-enable").val(1);  
+                            $("#sd_yelp").show();
+                          }else{
+                            $("#saswp-yelp-enable").val(0);  
+                            $("#sd_yelp").hide();
+                          }                          
+                          break; 
+                      
                       case 'saswp-for-amp-checkbox':
                           
                           if ($(this).is(':checked')) {              
@@ -1077,7 +1249,6 @@ jQuery(document).ready(function($){
         
         //Settings page jquery ends here
 
-
     $(document).on("change",".saswp-schema-type-toggle", function(e){
                var schema_id = $(this).attr("data-schema-id"); 
                var post_id =   $(this).attr("data-post-id");     
@@ -1285,48 +1456,9 @@ jQuery(document).ready(function($){
                               }       		   		
                              },'json');
         });
-        
-        
-    function saswp_item_reviewed_call(){
-
-        $(".saswp-item-reviewed").change(function(e){
-        e.preventDefault();
-        var schema_type =""; 
-
-        if($('select#schema_type option:selected').val()){
-           schema_type = $('select#schema_type option:selected').val();    
-        }       
-        if($(".saswp-tab-links.selected").attr('saswp-schema-type')){
-           schema_type = $(".saswp-tab-links.selected").attr('saswp-schema-type');    
-        }
-
-        if(schema_type === 'Review'){
-
-                    var current = $(this);    
-                    var item    = $(this).val();
-                    var post_id = saswp_localize_data.post_id;
-                    var schema_id = $(current).attr('data-id');  
-                    var post_specific = $(current).attr('post-specific');  
-                     $.get(ajaxurl, 
-                         { action:"saswp_get_item_reviewed_fields",schema_id:schema_id,  post_specific:post_specific ,item:item, post_id:post_id, saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
-                          function(response){    
-
-                            $(current).parent().parent().nextAll().remove(".saswp-review-tr");                                    
-                            $(current).parent().parent().after(response);    
-
-                         });
-
-        }
-
-
-    }).change();
-
-    }
+                    
     saswp_item_reviewed_call();
-                                        
-        function saswpAddTimepicker(){
-         $('.saswp-local-schema-time-picker').timepicker({ 'timeFormat': 'H:i:s'});
-        }
+                                                
         $('.saswp-local-schema-time-picker').timepicker({ 'timeFormat': 'H:i:s'});
         
         $(document).on("click",".saswp-add-custom-schema", function(e){
@@ -1368,13 +1500,7 @@ jQuery(document).ready(function($){
         });
         saswp_schema_datepicker();        
         
-        saswp_reviews_datepicker();
-        function saswp_reviews_datepicker(){
-        
-            $('.saswp-reviews-datepicker-picker').datepicker({
-             dateFormat: "yy-mm-dd"            
-          });
-        }
+        saswp_reviews_datepicker();        
         
         //Review js starts here
         
@@ -1691,60 +1817,8 @@ jQuery(document).ready(function($){
                      
           }
        });
-       saswpCustomSelect2();
-       function saswpCustomSelect2(){          
-       if((saswp_localize_data.post_type == 'saswp' || saswp_localize_data.page_now =='saswp') && saswp_localize_data.page_now !='saswp_page_structured_data_options'){
-           
-           $('.saswp-custom-fields-select2').select2({
-  		ajax: {
-                        type: "POST",    
-    			url: ajaxurl, // AJAX URL is predefined in WordPress admin
-    			dataType: 'json',
-    			delay: 250, // delay in ms while typing when to perform a AJAX search
-    			data: function (params) {
-      				return {
-                                        saswp_security_nonce: saswp_localize_data.saswp_security_nonce,
-        				q: params.term, // search query
-        				action: 'saswp_get_custom_meta_fields' // AJAX action for admin-ajax.php
-      				};
-    			},
-    			processResults: function( data ) {
-				return {
-					results: data
-				};
-			},
-			cache: true
-		},
-		minimumInputLength: 2 // the minimum of symbols to input before perform a search
-	});   
-           
-       }    
-           
-       }           
-      
-     function saswp_enable_rating_review(){
-           var schema_type ="";                      
-           if($('select#schema_type option:selected').val()){
-              schema_type = $('select#schema_type option:selected').val();    
-           }       
-           if($(".saswp-tab-links.selected").attr('saswp-schema-type')){
-              schema_type = $(".saswp-tab-links.selected").attr('saswp-schema-type');    
-           }
-          
-         if(schema_type){
-             $(".saswp-enable-rating-review-"+schema_type.toLowerCase()).change(function(){
-                               
-            if($(this).is(':checked')){
-            $(this).parent().parent().siblings('.saswp-rating-review-'+schema_type.toLowerCase()).show();            
-             }else{
-            $(this).parent().parent().siblings('.saswp-rating-review-'+schema_type.toLowerCase()).hide(); 
-             }
-         
-            }).change();   
-         }
-               
-     }      
-     saswp_enable_rating_review();                       
+       saswpCustomSelect2();                                
+       saswp_enable_rating_review();                       
      
         //custom fields modify schema ends here
         
@@ -1803,189 +1877,7 @@ jQuery(document).ready(function($){
                               
             });
                 
-            }
-            $(document).on("click", ".saswp-add-g-location-btn", function(e){
-                
-                var blocks_field = '';
-                
-                if($("#saswp_google_place_api_key").length){
-                    
-                    blocks_field = '<input class="saswp-g-blocks-field" name="sd_data[saswp_reviews_location_blocks][]" type="number" min="5" step="5" placeholder="5" disabled="disabled">';
-                }else{
-                    blocks_field = '<input class="saswp-g-blocks-field" name="sd_data[saswp_reviews_location_blocks][]" type="number" min="10" step="10" placeholder="10">'; 
-                }
-                                
-                e.preventDefault();
-                    var html = '';
-                        html    += '<tr>'
-                                + '<td style="width:12%;"><strong>Place Id</strong></td>'
-                                + '<td style="width:20%;"><input class="saswp-g-location-field" name="sd_data[saswp_reviews_location_name][]" type="text" value=""></td>'                                
-                                + '<td style="width:10%;"><strong>Reviews</strong></td>'
-                                + '<td style="width:10%;">'+blocks_field+'</td>'                                                            
-                                + '<td style="width:10%;"><a class="button button-default saswp-fetch-g-reviews">Fetch</a></td>'
-                                + '<td style="width:10%;"><a type="button" class="saswp-remove-review-item button">x</a></td>'
-                                + '<td style="width:10%;"><p class="saswp-rv-fetched-msg"></p></td>' 
-                                + '</tr>';                
-                if(html){
-                    $(".saswp-g-reviews-settings-table").append(html);
-                }
-                
-            });
-        
-            function saswp_fetch_s_approved_reviews(current){
-                
-                current.addClass('updating-message');
-                $.get(ajaxurl, 
-                    { action:"saswp_fetch_s_approved_reviews", saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
-                     function(response){ 
-                         current.removeClass('updating-message');
-                         console.log(response);
-                                      if(response['status']){
-                                         current.parent().parent().find('.saswp-rv-fetched-msg').text(response['message']);
-                                         current.parent().parent().find('.saswp-rv-fetched-msg').css("color", "green");
-                                      }else{
-                                         current.parent().parent().find('.saswp-rv-fetched-msg').text(response['message']); 
-                                         current.parent().parent().find('.saswp-rv-fetched-msg').css("color", "#988f1b");
-                                      }  
-                                                                                                                                                                                             
-                    },'json');
-                                
-            }
-        
-            function saswp_add_s_approved_reviews(current, site_id, token, limit, api_key, page, loop_run){
-                current.addClass('updating-message');
-                $.get(ajaxurl, 
-                    { action:"saswp_add_s_approved_reviews",site_id:site_id,token:token,limit:limit,api_key:api_key,page:page, saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
-                     function(response){ 
-                         current.removeClass('updating-message');
-                         console.log(response);
-                                      if(response['status']){
-                                         current.parent().parent().find('.saswp-rv-fetched-msg').text(response['message']);
-                                         current.parent().parent().find('.saswp-rv-fetched-msg').css("color", "green");
-                                      }else{
-                                         current.parent().parent().find('.saswp-rv-fetched-msg').text(response['message']); 
-                                         current.parent().parent().find('.saswp-rv-fetched-msg').css("color", "#988f1b");
-                                      }                                        
-                                      page++;
-                                      if(page <loop_run){
-                                          saswp_add_s_approved_reviews(current, site_id, token, limit, api_key, page);
-                                      }else{
-                                         saswp_fetch_s_approved_reviews(current);
-                                      }                                                                                                                  
-                    },'json');
-                
-            }
-                
-            $(document).on("click",".saswp-fetch-s-approved-reviews", function(e){
-                
-                e.preventDefault();
-                var current = $(this);
-                current.addClass('updating-message');
-                var site_id  = $("#saswp_s_approved_site_id").val();
-                var token    = $("#saswp_s_approved_token").val();
-                var limit    = $("#saswp_s_approved_reviews").val();
-                var api_key  = $("#reviews_addon_license_key").val();
-                var loop_run = 1;
-                var page     = 0;
-                
-                if(limit > 100){
-                    var div_limit = limit/100;
-                    var div_remainder = limit%100;
-                    loop_run = div_limit;
-                    
-                    if(div_remainder){
-                        loop_run++;
-                    }
-                                        
-                }
-                                
-                if(site_id && token && api_key){
-                      
-                        saswp_add_s_approved_reviews(current, site_id, token, limit, api_key, page, loop_run);
-                                        
-                }else{
-                        current.removeClass('updating-message');
-                        alert('Fill the site id and token with valid api key');
-                }
-                                
-            });
-        
-        
-            $(document).on("click", '.saswp-fetch-g-reviews', function(){          
-                                                              
-              var current        = $(this);  
-              var premium_status = 'free';
-              current.addClass('updating-message');
-                                          
-              var location           = $(this).parent().parent().find('.saswp-g-location-field').val();
-              var blocks             = $(this).parent().parent().find('.saswp-g-blocks-field').val();
-              var g_api              = $("#saswp_google_place_api_key").val();
-              var reviews_api        = $("#reviews_addon_license_key").val();
-              var reviews_api_status = $("#reviews_addon_license_key_status").val();
-                                              
-                if($("#saswp_google_place_api_key").length){
-                    premium_status = 'free';
-                }else{
-                    premium_status = 'premium'; 
-                }                 
-                   
-                if(premium_status == 'premium'){
-                    
-                    if(blocks > 0){
-                    
-                    var blocks_remainder = blocks % 10;
-                                        
-                        if(blocks_remainder != 0){
-                            
-                            current.parent().parent().find('.saswp-rv-fetched-msg').text('Reviews count should be in step of 10');
-                            current.parent().parent().find('.saswp-rv-fetched-msg').css("color", "#988f1b");
-                            current.removeClass('updating-message');
-                            return false;
-                            
-                        }
-                        
-                    }else{
-                        alert('Blocks value is zero');
-                        current.removeClass('updating-message');
-                        return false;
-                    }
-                                        
-                }
-                
-                if(location !='' && (reviews_api || g_api)){
-                    $.ajax({
-                                  type: "POST",    
-                                  url:ajaxurl,                    
-                                  dataType: "json",
-                                  data:{action:"saswp_fetch_google_reviews",reviews_api_status:reviews_api_status, reviews_api:reviews_api,location:location,blocks:blocks,g_api:g_api,premium_status:premium_status, saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
-                                  success:function(response){    
-                                      if(response['status'] =='t'){
-                                         current.parent().parent().find('.saswp-rv-fetched-msg').text('Success');
-                                         current.parent().parent().find('.saswp-rv-fetched-msg').css("color", "green");
-                                      }else{
-                                         current.parent().parent().find('.saswp-rv-fetched-msg').text(response['message']); 
-                                         current.parent().parent().find('.saswp-rv-fetched-msg').css("color", "#988f1b");
-                                      }  
-                                      current.removeClass('updating-message');
-                                  },
-                                  error: function(response){                    
-                                      console.log(response);
-                                  }
-                                  });
-                }else{
-                    if(location ==''){
-                        alert('Please enter place id'); 
-                    }
-                    if(g_api ==''){
-                        alert('Please enter api key'); 
-                    }
-                    if(reviews_api ==''){
-                        alert('Please enter reviews api key'); 
-                    }
-                   current.removeClass('updating-message');
-                }
-            });
-                                            
+            }                                                        
         //rating ends here
                
             $("#sd-person-phone-number, #saswp_kb_telephone").focusout(function(){
