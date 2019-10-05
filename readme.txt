@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.2
-Stable tag: 1.9.10
+Stable tag: 1.9.11
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -43,8 +43,10 @@ Schema & Structured Data for WP & AMP adds Google Rich Snippets markup according
 * SingleFamilyResidence
 * Article
 * Blogposting
+* Book
 * Course
-* DiscussionForumPosting
+* DiscussionForumPosting,
+* DataFeed
 * HowTo
 * NewsArticle
 * QAPage
@@ -62,6 +64,8 @@ Schema & Structured Data for WP & AMP adds Google Rich Snippets markup according
 * AudioObject
 * VideoObject
 * MedicalCondition
+* MusicPlaylist
+* MusicAlbum
 * LocalBusiness with all the sub categories
 * Product
 * TouristAttraction
@@ -113,6 +117,16 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.9.11 (5 Oct 2019) =
+
+* Added: Add support for Event Subcategory schema #418
+* Fixed: Additional CSS not working on FAQ blocks #529
+* Fixed: HowTo Block time is not being added in json markup when days and hours are empty #531
+* Fixed: Improved the db query #493
+* Fixed: Error and performance issues #497
+* Fixed: Review Link is not working properly #510
+* Fixed: Bug in defragmented schema ( Corporation being invalid for Publisher ) #505
 
 = 1.9.10 (3 Oct 2019) =
 

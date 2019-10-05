@@ -686,6 +686,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                             case 'Event':
 
                                 $event_details   = get_post_meta($post->ID, 'saswp_event_schema_details', true);
+                                $event_type      = get_post_meta($post->ID, 'saswp_event_type', true); 
 
                                 if($event_details){
 
@@ -758,39 +759,32 @@ function saswp_schema_type_meta_box_callback( $post) {
                         if ( file_exists( $mappings_sub_business ) ) {
                             $sub_business_arr = include $mappings_sub_business;
                         }
-                                                                                                
-                         $all_business_type = array(
-                            ''                              => 'Select Business Type (Optional)', 
-                            'animalshelter'                 => 'Animal Shelter',
-                            'automotivebusiness'            => 'Automotive Business',
-                            'childcare'                     => 'ChildCare',
-                            'dentist'                       => 'Dentist',
-                            'drycleaningorlaundry'          => 'Dry Cleaning Or Laundry',
-                            'emergencyservice'              => 'Emergency Service',
-                            'employmentagency'              => 'Employment Agency',
-                            'entertainmentbusiness'         => 'Entertainment Business',
-                            'financialservice'              => 'Financial Service',
-                            'foodestablishment'             => 'Food Establishment',
-                            'governmentoffice'              => 'Government Office',
-                            'healthandbeautybusiness'       => 'Health And Beauty Business',
-                            'homeandconstructionbusiness'   => 'Home And Construction Business',
-                            'internetcafe'                  => 'Internet Cafe',
-                            'legalservice'                  => 'Legal Service',
-                            'library'                       => 'Library',
-                            'lodgingbusiness'               => 'Lodging Business',
-                            'medicalbusiness'               => 'Medical Business',
-                            'professionalservice'           => 'Professional Service',
-                            'radiostation'                  => 'Radio Station',
-                            'realestateagent'               => 'Real Estate Agent',
-                            'recyclingcenter'               => 'Recycling Center',
-                            'selfstorage'                   => 'Self Storage',
-                            'shoppingcenter'                => 'Shopping Center',
-                            'sportsactivitylocation'        => 'Sports Activity Location',
-                            'store'                         => 'Store',
-                            'televisionstation'             => 'Television Station',
-                            'touristinformationcenter'      => 'Tourist Information Center',
-                            'travelagency'                  => 'Travel Agency',
-                         );
+                            
+                          $event_type_list = array(                              
+                                ''                 => 'Select Type (Optional)',
+                                'BusinessEvent'    => 'BusinessEvent',
+                                'ChildrensEvent'   => 'ChildrensEvent',
+                                'ComedyEvent'      => 'ComedyEvent',
+                                'CourseInstance'   => 'CourseInstance',
+                                'DanceEvent'       => 'DanceEvent',
+                                'DeliveryEvent'    => 'DeliveryEvent',
+                                'EducationEvent'   => 'EducationEvent',
+                                'EventSeries'      => 'EventSeries',
+                                'ExhibitionEvent'  => 'ExhibitionEvent',
+                                'Festival'         => 'Festival',
+                                'FoodEvent'        => 'FoodEvent',
+                                'LiteraryEvent'    => 'LiteraryEvent',
+                                'MusicEvent'       => 'MusicEvent',
+                                'PublicationEvent' => 'PublicationEvent',
+                                'SaleEvent'        => 'SaleEvent',
+                                'ScreeningEvent'   => 'ScreeningEvent',
+                                'SocialEvent'      => 'SocialEvent',
+                                'SportsEvent'      => 'SportsEvent',
+                                'TheaterEvent'     => 'TheaterEvent',
+                                'VisualArtsEvent'  => 'VisualArtsEvent'                           
+                          );  
+                        
+                          $all_business_type               = $sub_business_arr['all_business_type'];
 
                           $all_medical_business_array      = $sub_business_arr['medicalbusiness'];                         
                           $all_automotive_array            = $sub_business_arr['automotivebusiness'];
@@ -850,7 +844,6 @@ function saswp_schema_type_meta_box_callback( $post) {
                       <select id="saswp_business_type" name="saswp_business_type">
                         <?php
 
-
                           foreach ($all_business_type as $key => $value) {
                             $sel = '';
                             if($business_type==$key){
@@ -862,6 +855,27 @@ function saswp_schema_type_meta_box_callback( $post) {
                     </select>  
                     </td>
                 </tr>
+                
+                <tr class="saswp-event-text-field-tr" <?php echo $style_business_type; ?>>
+                    <td>
+                    <?php echo esc_html__('Event Type', 'schema-and-structured-data-for-wp' ); ?>    
+                    </td>
+                    <td>
+                      <select id="saswp_event_type" name="saswp_event_type">
+                        <?php
+                        
+                          foreach ($event_type_list as $key => $value) {
+                            $sel = '';
+                            if($event_type==$key){
+                              $sel = 'selected';
+                            }
+                            echo "<option value='".esc_attr($key)."' ".esc_attr($sel).">".esc_html__($value, 'schema-and-structured-data-for-wp' )."</option>";
+                          }
+                        ?>
+                    </select>  
+                    </td>
+                </tr>
+                
                 <tr class="saswp-automotivebusiness-tr" <?php if(!array_key_exists($business_name, $all_automotive_array)){ echo 'style="display:none;"';}else{ echo $style_business_name;} ?>>
                     <td><?php echo esc_html__('Sub Business Type', 'schema-and-structured-data-for-wp' ); ?></td>
                     <td>
@@ -1279,22 +1293,11 @@ function saswp_schema_type_add_meta_box_save( $post_id ) {
                 
                 if ( ! isset( $_POST['saswp_schema_type_nonce'] ) || ! wp_verify_nonce( $_POST['saswp_schema_type_nonce'], 'saswp_schema_type_nonce' ) ) return;
                 if ( ! current_user_can( 'edit_post', $post_id ) ) return;
-                                
-                if ( isset( $_POST['schema_type'] ) ){
-                        update_post_meta( $post_id, 'schema_type', esc_attr( $_POST['schema_type'] ) );
-                }
-                                
-                if ( isset( $_POST['saswp_business_type'] ) ){
-                        update_post_meta( $post_id, 'saswp_business_type', esc_attr( $_POST['saswp_business_type'] ) );
-                }else{
-                        update_post_meta( $post_id, 'saswp_business_type', '' );
-                }
-                
-                if ( isset( $_POST['saswp_business_name'] ) ){
-                        update_post_meta( $post_id, 'saswp_business_name', esc_attr( $_POST['saswp_business_name'] ) );
-                }else{
-                       update_post_meta( $post_id, 'saswp_business_name', '' );
-                }
+                                                
+                update_post_meta( $post_id, 'schema_type', sanitize_text_field( $_POST['schema_type'] ) );                
+                update_post_meta( $post_id, 'saswp_business_type', sanitize_text_field( $_POST['saswp_business_type'] ) );
+                update_post_meta( $post_id, 'saswp_event_type', sanitize_text_field( $_POST['saswp_event_type'] ) );
+                update_post_meta( $post_id, 'saswp_business_name', sanitize_text_field( $_POST['saswp_business_name'] ) );
                                                
                 $review_schema_details     = array();                                                                
                 $schema_type               = sanitize_text_field($_POST['schema_type']);   

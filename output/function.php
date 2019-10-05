@@ -189,8 +189,10 @@ function saswp_schema_markup_output() {
                         unset($soutput['@context']);                   
                         unset($schema_breadcrumb_output['@context']);
                         unset($webpage['mainEntity']);
-                        unset($kb_schema_output['@context']);
+                        unset($kb_schema_output['@context']);                        
                         unset($kb_website_output['@context']);
+                        
+                        $kb_schema_output['@type'] = 'Organization';    
                     
                      if($webpage){
                     
@@ -202,10 +204,9 @@ function saswp_schema_markup_output() {
                              '@id' => saswp_get_permalink().'#primaryimage'
                          );
                          
-                         if($site_navigation){                             
-                             unset($site_navigation['@context']);
-                             $site_navigation = $site_navigation['@graph'];                             
-                             $webpage['mainContentOfPage'] = array($site_navigation);
+                         if(array_key_exists('@graph', $site_navigation)){                             
+                             unset($site_navigation['@context']);                                                       
+                             $webpage['mainContentOfPage'] = array($site_navigation['@graph']);
                          }                         
                          
                      }       

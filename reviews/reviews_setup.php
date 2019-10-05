@@ -227,7 +227,7 @@ add_action( 'admin_enqueue_scripts', 'saswp_enqueue_rateyo_script' );
 
 
 
-add_action( 'init', 'saswp_create_platform_custom_taxonomy', 21 );
+add_action( 'admin_init', 'saswp_create_platform_custom_taxonomy', 21 );
  
 
 function saswp_create_platform_custom_taxonomy() {
@@ -262,14 +262,14 @@ function saswp_create_platform_custom_taxonomy() {
   $term_array = array(                    
                     'Agoda', 
                     'Avvo', 
+                    'Angies List',
                     'Expedia', 
                     'Facebook', 
                     'Google', 
                     'TripAdvisor', 
                     'Yelp', 
                     'Zillow', 
-                    'Zomato', 
-                    'Tier', 
+                    'Zomato',                     
                     'Airbnb', 
                     'AliExpress', 
                     'AlternativeTo', 
@@ -306,7 +306,8 @@ function saswp_create_platform_custom_taxonomy() {
                     'Newegg', 
                     'OpenRice', 
                     'Opentable', 
-                    'ProductHunt', 
+                    'ProductHunt',
+                    'Playstore',
                     'RateMDs', 
                     'ReserveOut', 
                     'Sitejabber', 

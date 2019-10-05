@@ -326,7 +326,20 @@ function saswp_schema_output() {
                         
                         if( 'FAQ' === $schema_type){
                                                                                     
-                            $input1 = array();
+                            $input1['@context']                     = saswp_context_url();
+                            $input1['@type']                        = 'FAQPage';
+                            $input1['@id']                          = trailingslashit(saswp_get_permalink()).'#FAQPage';                             
+                            $input1['headline']                     = saswp_get_the_title();
+                            $input1['keywords']                     = saswp_get_the_tags();
+                            $input1['datePublished']                = esc_html($date);
+                            $input1['dateModified']                 = esc_html($modified_date);
+                            $input1['dateCreated']                  = esc_html($date);
+                            $input1['author']                       = saswp_get_author_details();											                            
+                                                                                    
+                            if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){                                   
+                                    $service = new saswp_output_service();
+                                    $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
+                            }
                                                                                                                                                                                                                                
                          }
                        
@@ -801,9 +814,12 @@ function saswp_schema_output() {
                         }else{
                            
                         if ( isset($sd_data['saswp-the-events-calendar']) && $sd_data['saswp-the-events-calendar'] == 0 ) {
-                                                        
+                                          
+                            
+                                $event_type         = get_post_meta($schema_post_id, 'saswp_event_type', true);  
+                            
                                 $input1['@context'] =  saswp_context_url();
-                                $input1['@type']    =  $schema_type;
+                                $input1['@type']    =  $event_type ? $event_type : $schema_type;
                                 $input1['@id']      =  trailingslashit(saswp_get_permalink()).'#event';
                                                        
                                 if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){                                   
@@ -1808,7 +1824,12 @@ function saswp_site_navigation_output(){
             if(isset($sd_data['saswp_site_navigation_menu'])){
                 
                 $menu_id   = $sd_data['saswp_site_navigation_menu'];                
-                $menuItems = wp_get_nav_menu_items($menu_id);
+                $menuItems = get_transient('saswp_nav_menu');
+                
+                if(!$menuItems){
+                    $menuItems = wp_get_nav_menu_items($menu_id);
+                }
+                
                 $menu_name = wp_get_nav_menu_object($menu_id);
                                              
                 if($menuItems){
@@ -1819,7 +1840,7 @@ function saswp_site_navigation_output(){
                                      "@context"  => saswp_context_url(),
                                      "@type"     => "SiteNavigationElement",
                                      "@id"       => trailingslashit(get_home_url()).'#'.$menu_name->name,
-                                     "name"      => esc_attr($items->title),
+                                     "name"      => wp_strip_all_tags($items->title),
                                      "url"       => esc_url($items->url)
                               );
 
@@ -1895,8 +1916,7 @@ function saswp_gutenberg_how_to_schema(){
                     }
                    $input1['supply'] = $supply_arr;
                 }
-                
-                
+                                
                 $tool     = array();
                 $tool_arr = array();
                 
@@ -1976,8 +1996,13 @@ function saswp_gutenberg_how_to_schema(){
 
                 }  
                 
-                 if(isset($parse_blocks['attrs']['days']) && $parse_blocks['attrs']['hours'] && $parse_blocks['attrs']['minutes']){
-                     $input1['totalTime'] = 'P' . $parse_blocks['attrs']['days'] . 'DT' . $parse_blocks['attrs']['hours'] . 'H' . $parse_blocks['attrs']['minutes'] . 'M';
+                 if(isset($parse_blocks['attrs']['days']) || $parse_blocks['attrs']['hours'] || $parse_blocks['attrs']['minutes']){
+                     
+                             $input1['totalTime'] = 'P'. 
+                             ((isset($parse_blocks['attrs']['days']) && $parse_blocks['attrs']['days'] !='') ? esc_attr($parse_blocks['attrs']['days']).'DT':''). 
+                             ((isset($parse_blocks['attrs']['hours']) && $parse_blocks['attrs']['hours'] !='') ? esc_attr($parse_blocks['attrs']['hours']).'H':''). 
+                             ((isset($parse_blocks['attrs']['minutes']) && $parse_blocks['attrs']['minutes'] !='') ? esc_attr($parse_blocks['attrs']['minutes']).'M':''); 
+                             
                  }   
 
                 }

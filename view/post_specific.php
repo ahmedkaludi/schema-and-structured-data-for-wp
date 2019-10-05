@@ -267,7 +267,7 @@ class saswp_post_specific {
                     ),
                     'apartment_amenities' => array(                    
                     array(
-			'label'     => 'amenity Name',
+			'label'     => 'Amenity Name',
 			'name'      => 'saswp_apartment_amenities_name',
 			'type'      => 'text',                        
 		    )                                                                                    
@@ -1189,12 +1189,14 @@ class saswp_post_specific {
                                                      || strpos($meta_field['id'], 'priceValidUntil') !== false
                                                      || strpos($meta_field['id'], 'priceValidUntil') !== false
                                                      || strpos($meta_field['id'], 'priceValidUntil') !== false
-                                                     || strpos($meta_field['id'], 'saswp_event_schema_start_date') !== false
-                                                     || strpos($meta_field['id'], 'saswp_event_schema_end_date') !== false
-                                                     || strpos($meta_field['id'], 'saswp_event_schema_validfrom') !== false
+                                                     || strpos($meta_field['id'], 'start_date') !== false
+                                                     || strpos($meta_field['id'], 'end_date') !== false
+                                                     || strpos($meta_field['id'], 'validfrom') !== false
                                                      || strpos($meta_field['id'], 'dateposted') !== false
                                                      || strpos($meta_field['id'], 'validthrough') !== false
                                                      || strpos($meta_field['id'], 'date_of_birth') !== false
+                                                     || strpos($meta_field['id'], 'date_created') !== false
+                                                     || strpos($meta_field['id'], 'created_date') !== false
                                                      ) {
                                              $class='saswp-datepicker-picker';    
                                              }
@@ -1482,37 +1484,7 @@ class saswp_post_specific {
                             'id'      => 'saswp_business_type_'.$schema_id,
                             'type'    => 'select',
                             'default' => $business_type,
-                            'options' => array(
-                                    ''                              => 'Select Business Type (Optional)',
-                                    'animalshelter'                 => 'Animal Shelter',
-                                    'automotivebusiness'            => 'Automotive Business',
-                                    'childcare'                     => 'ChildCare',
-                                    'dentist'                       => 'Dentist',
-                                    'drycleaningorlaundry'          => 'Dry Cleaning Or Laundry',
-                                    'emergencyservice'              => 'Emergency Service',
-                                    'employmentagency'              => 'Employment Agency',
-                                    'entertainmentbusiness'         => 'Entertainment Business',
-                                    'financialservice'              => 'Financial Service',
-                                    'foodestablishment'             => 'Food Establishment',
-                                    'governmentoffice'              => 'Government Office',
-                                    'healthandbeautybusiness'       => 'Health And Beauty Business',
-                                    'homeandconstructionbusiness'   => 'Home And Construction Business',
-                                    'internetcafe'                  => 'Internet Cafe',
-                                    'legalservice'                  => 'Legal Service',
-                                    'library'                       => 'Library',
-                                    'lodgingbusiness'               => 'Lodging Business',
-                                    'professionalservice'           => 'Professional Service',
-                                    'radiostation'                  => 'Radio Station',
-                                    'realestateagent'               => 'Real Estate Agent',
-                                    'recyclingcenter'               => 'Recycling Center',
-                                    'selfstorage'                   => 'Self Storage',
-                                    'shoppingcenter'                => 'Shopping Center',
-                                    'sportsactivitylocation'        => 'Sports Activity Location',
-                                    'store'                         => 'Store',
-                                    'televisionstation'             => 'Television Station',
-                                    'touristinformationcenter'      => 'Tourist Information Center',
-                                    'travelagency'                  => 'Travel Agency',
-                            )
+                            'options' => $this->_local_sub_business['all_business_type']
                         ),
                          $sub_business_options,
                         array(
@@ -2059,6 +2031,34 @@ class saswp_post_specific {
                 case 'Event':
                                         
                     $meta_field = array(
+                        array(
+                            'label'   => 'Type',
+                            'id'      => 'saswp_event_schema_type_'.$schema_id,
+                            'type'    => 'select',                           
+                            'options' => array(
+                                ''                 => 'Select Type (Optional)',
+                                'BusinessEvent'    => 'BusinessEvent',
+                                'ChildrensEvent'   => 'ChildrensEvent',
+                                'ComedyEvent'      => 'ComedyEvent',
+                                'CourseInstance'   => 'CourseInstance',
+                                'DanceEvent'       => 'DanceEvent',
+                                'DeliveryEvent'    => 'DeliveryEvent',
+                                'EducationEvent'   => 'EducationEvent',
+                                'EventSeries'      => 'EventSeries',
+                                'ExhibitionEvent'  => 'ExhibitionEvent',
+                                'Festival'         => 'Festival',
+                                'FoodEvent'        => 'FoodEvent',
+                                'LiteraryEvent'    => 'LiteraryEvent',
+                                'MusicEvent'       => 'MusicEvent',
+                                'PublicationEvent' => 'PublicationEvent',
+                                'SaleEvent'        => 'SaleEvent',
+                                'ScreeningEvent'   => 'ScreeningEvent',
+                                'SocialEvent'      => 'SocialEvent',
+                                'SportsEvent'      => 'SportsEvent',
+                                'TheaterEvent'     => 'TheaterEvent',
+                                'VisualArtsEvent'  => 'VisualArtsEvent'
+                            ) 
+                        ),    
                         array(
                                 'label' => 'Name',
                                 'id' => 'saswp_event_schema_name_'.$schema_id,
@@ -4241,7 +4241,38 @@ class saswp_post_specific {
                 
                 case 'FAQ':
                     
-                    $meta_field = array();                                                                  
+                    $meta_field = array(
+                    array(
+                            'label'      => 'Headline',
+                            'id'         => 'saswp_faq_headline_'.$schema_id,
+                            'type'       => 'text'                             
+                    ),
+                    array(
+                            'label'      => 'Tags',
+                            'id'         => 'saswp_faq_keywords_'.$schema_id,
+                            'type'       => 'text'                            
+                    ),
+                    array(
+                            'label'      => 'Author',
+                            'id'         => 'saswp_faq_author_'.$schema_id,
+                            'type'       => 'text'                            
+                    ),    
+                    array(
+                            'label'      => 'DateCreated',
+                            'id'         => 'saswp_faq_date_created_'.$schema_id,
+                            'type'       => 'text'                            
+                    ),
+                    array(
+                            'label'      => 'DatePublished',
+                            'id'         => 'saswp_faq_date_published_'.$schema_id,
+                            'type'       => 'text'                            
+                    ),
+                    array(
+                            'label'      => 'DateModified',
+                            'id'         => 'saswp_faq_date_modified_'.$schema_id,
+                            'type'       => 'text'                            
+                    )                                                    
+                   );                                                                 
                    
                     break;
                 

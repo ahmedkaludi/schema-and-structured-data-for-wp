@@ -184,7 +184,18 @@ function saswp_post_specific_schema_output() {
                                                                                                                                                                         
                             $input1['@context']              = saswp_context_url();
                             $input1['@type']                 = 'FAQPage';
-                            $input1['@id']                   = trailingslashit(get_permalink()).'#FAQPage';                            
+                            $input1['@id']                   = trailingslashit(get_permalink()).'#FAQPage';  
+                            
+                            $input1['headline']              = saswp_remove_warnings($all_post_meta, 'saswp_faq_headline_'.$schema_id, 'saswp_array');                                                        
+                            $input1['keywords']              = saswp_remove_warnings($all_post_meta, 'saswp_faq_keywords_'.$schema_id, 'saswp_array');                                                        
+                            $input1['datePublished']         = isset($all_post_meta['saswp_faq_date_published_'.$schema_id][0])&& $all_post_meta['saswp_faq_date_published_'.$schema_id][0] !='' ? date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_faq_date_published_'.$schema_id][0])):'';
+                            $input1['dateModified']          = isset($all_post_meta['saswp_faq_date_modified_'.$schema_id][0])&& $all_post_meta['saswp_faq_date_modified_'.$schema_id][0] !='' ? date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_faq_date_modified_'.$schema_id][0])):'';
+                            $input1['dateCreated']           = isset($all_post_meta['saswp_faq_date_created_'.$schema_id][0])&& $all_post_meta['saswp_faq_date_created_'.$schema_id][0] !='' ? date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_faq_date_created_'.$schema_id][0])):'';
+                            
+                            if(isset($all_post_meta['saswp_faq_author_'.$schema_id][0])){
+                                $input1['author']['@type']       = 'Person';
+                                $input1['author']['name']        = $all_post_meta['saswp_faq_author_'.$schema_id][0];
+                            }
                             
                             $faq_question  = get_post_meta($schema_post_id, 'faq_question_'.$schema_id, true);
                             
@@ -1137,7 +1148,7 @@ function saswp_post_specific_schema_output() {
                                                     
                         $input1 = array(
 			'@context'			=> saswp_context_url(),
-			'@type'				=> 'Event' ,
+			'@type'				=> (isset($all_post_meta['saswp_event_schema_type_'.$schema_id][0]) && $all_post_meta['saswp_event_schema_type_'.$schema_id][0] !='') ? $all_post_meta['saswp_event_schema_type_'.$schema_id][0] : 'Event' ,
                         '@id'                           => trailingslashit(get_permalink()).'#event',    
 			'name'			        => saswp_remove_warnings($all_post_meta, 'saswp_event_schema_name_'.$schema_id, 'saswp_array'),
 			'description'                   => saswp_remove_warnings($all_post_meta, 'saswp_event_schema_description_'.$schema_id, 'saswp_array'),			

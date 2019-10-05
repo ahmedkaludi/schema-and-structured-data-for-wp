@@ -1648,3 +1648,39 @@ function saswp_review_module_upgradation(){
            }
                                     
 }
+
+add_action('wp_update_nav_menu', 'saswp_save_nav_menu_on_menu_update');
+
+function saswp_save_nav_menu_on_menu_update(){
+    
+    global $sd_data; 
+    $menu_id = null;
+    
+    if(isset($sd_data['saswp_site_navigation_menu'])){
+        $menu_id = $sd_data['saswp_site_navigation_menu'];
+    }
+    
+    saswp_save_nav_menu_in_transient($menu_id);
+    
+}
+
+add_action('update_option_sd_data', 'saswp_save_nav_menu_on_option_update',10, 3);
+
+function saswp_save_nav_menu_on_option_update($old, $new, $opt_name){
+    
+    $menu_id = null;
+    
+    if(isset($new['saswp_site_navigation_menu'])){
+        $menu_id = $new['saswp_site_navigation_menu'];
+    }
+    
+    saswp_save_nav_menu_in_transient($menu_id);
+    
+}
+
+function saswp_save_nav_menu_in_transient($menu_id){
+                        
+    $menuItems = wp_get_nav_menu_items($menu_id);                
+    set_transient('saswp_nav_menu', $menuItems);                
+                     
+}

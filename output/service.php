@@ -11,25 +11,7 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 Class saswp_output_service{           
-    
-    /**
-     * private variable to hold mata list
-     * @var type 
-     */
-    private $_meta_list = null;
-
-    public function __construct() {
         
-            if($this->_meta_list == null){
-            
-                        $mappings_file = SASWP_DIR_NAME . '/core/array-list/meta_list.php';
-
-                        if ( file_exists( $mappings_file ) ) {
-                            $this->_meta_list = include $mappings_file;
-                        }                                
-            }        
-            
-        }
         /**
          * List of hooks used in current class
          */
@@ -1302,7 +1284,27 @@ Class saswp_output_service{
                     
                 break;
                 
-                case 'FAQ':      
+                case 'FAQ':   
+                    
+                    if(isset($custom_fields['saswp_faq_headline'])){
+                     $input1['headline'] =    $custom_fields['saswp_faq_headline'];
+                    }
+                    if(isset($custom_fields['saswp_faq_keywords'])){
+                     $input1['keywords'] =    $custom_fields['saswp_faq_keywords'];
+                    }
+                    if(isset($custom_fields['saswp_faq_date_created'])){
+                     $input1['datePublished'] =    $custom_fields['saswp_faq_date_created'];
+                    }
+                    if(isset($custom_fields['saswp_faq_date_published'])){
+                     $input1['dateModified'] =    $custom_fields['saswp_faq_date_published'];
+                    }
+                    if(isset($custom_fields['saswp_faq_date_modified'])){
+                     $input1['dateCreated'] =    $custom_fields['saswp_faq_date_modified'];
+                    }                    
+                    if(isset($custom_fields['saswp_faq_author'])){
+                       $input1['author']['@type']             =   'Person';                                              
+                       $input1['author']['name']              =    $custom_fields['saswp_faq_author'];                                              
+                    }
                                                              
                 break;
                 
@@ -2498,7 +2500,14 @@ Class saswp_output_service{
                 
                 case 'FAQ':      
                     
-                    $meta_field = array();                                                                                                                                             
+                    $meta_field = array(                        
+                        'saswp_faq_headline'                 => 'Headline',
+                        'saswp_faq_keywords'                 => 'Tags',
+                        'saswp_faq_author'                   => 'Author',
+                        'saswp_faq_date_created'             => 'DateCreated',
+                        'saswp_faq_date_published'           => 'DatePublished',
+                        'saswp_faq_date_modified'            => 'DateModified',                        
+                        );                                                                                                                                              
                                                  
                     break;
                 

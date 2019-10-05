@@ -149,10 +149,15 @@ class SASWP_Gutenberg {
                 echo '<div class="saswp-faq-block-section">';                                
                 if($attributes['items']){
                     
+                    $className = '';
+                    if(isset($attributes['className'])){
+                        $className = 'class="'.esc_attr($attributes['className']).'"';
+                    }
+                    
                     if(!isset($attributes['toggleList'])){
-                     echo '<ol>';   
+                     echo '<ol '.$className.'>';   
                     }else{
-                     echo '<ul>';      
+                     echo '<ul '.$className.'>';      
                     }
                     
                     foreach($attributes['items'] as $item){
@@ -198,9 +203,26 @@ class SASWP_Gutenberg {
                                 
                 if(isset($attributes['hasDuration'])){
                     echo '<p class="saswp-how-to-total-time">';
-                    echo '<span class="saswp-how-to-duration-time-text"><strong>Time Needed :</strong> </span>'; 
-                                                            
-                    echo esc_attr($attributes['days']).' days '.esc_attr($attributes['hours']).' hours '.esc_attr($attributes['minutes']).' minutes';
+                    
+                    $time_html = '';
+                       
+                    if(isset($attributes['days']) && $attributes['days'] != ''){
+                        $time_html .=   esc_attr($attributes['days']).' days ';
+                    }
+                    
+                    if(isset($attributes['hours']) && $attributes['hours'] != ''){
+                        $time_html .=     esc_attr($attributes['hours']).' hours ';
+                    }
+                    
+                    if(isset($attributes['minutes']) && $attributes['minutes'] != ''){
+                        $time_html .=     esc_attr($attributes['minutes']).' minutes';
+                    }
+                    
+                    if($time_html !=''){
+                     echo '<span class="saswp-how-to-duration-time-text"><strong>Time Needed :</strong> </span>';    
+                     echo $time_html;
+                    }
+                                        
                     echo '</p>';
                 }                
                 if(isset($attributes['description'])){
@@ -209,10 +231,15 @@ class SASWP_Gutenberg {
                                 
                 if(isset($attributes['items'])){
                     
+                    $className = '';
+                    if(isset($attributes['className'])){
+                        $className = 'class="'.esc_attr($attributes['className']).'"';
+                    }
+                        
                     if(!isset($attributes['toggleList'])){
-                     echo '<ol>';   
+                     echo '<ol '.$className.'>';   
                     }else{
-                     echo '<ul>';      
+                     echo '<ul '.$className.'>';      
                     }
                     
                     foreach($attributes['items'] as $item){
