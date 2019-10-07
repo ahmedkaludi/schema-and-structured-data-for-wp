@@ -1165,6 +1165,8 @@ function saswp_custom_column_set( $column, $post_id ) {
                     
                     if($schema_type == 'local_business'){
                         echo 'LocalBusiness';
+                    }else if($schema_type == 'qanda'){
+                        echo 'Q&A';
                     }else{
                         echo esc_attr($schema_type);
                     }

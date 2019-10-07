@@ -642,12 +642,6 @@ function saswp_structure_data_access_scripts($data){
         
 }
 
-function sd_is_blog() {
-    
-    return ( is_author() || is_category() || is_tag() || is_date() || is_home() || is_single() ) && 'post' == get_post_type();
-    
-}
-
 /**
  * Function to fetch schema's post meta by its id from database using get_post_meta function
  * @param type $schema_id

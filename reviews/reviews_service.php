@@ -32,49 +32,58 @@ class saswp_reviews_service {
                             
                             $sumofrating = 0;
                             $avg_rating  = 1;
+                            $reviews_arr = array();
                             
                             if($reviews){
                                 
                                 foreach($reviews as $rv){
+                                                                        
                                     $sumofrating += $rv['saswp_review_rating'];
+                                    
+                                    if($rv['saswp_review_rating'] && $rv['saswp_reviewer_name']){
+                                        
+                                        $reviews_arr[] = array(
+                                            '@type'         => 'Review',
+                                            'author'        => $rv['saswp_reviewer_name'],
+                                            'datePublished' => $rv['saswp_review_date'],
+                                            'description'   => $rv['saswp_review_text'],
+                                            'reviewRating'  => array(
+                                                        '@type'       => 'Rating',
+                                                        'bestRating'  => 5,
+                                                        'ratingValue' => $rv['saswp_review_rating'],
+                                                        'worstRating' => 1
+                                            ),
+                                       );
+                                        
+                                    }
+                                    
                                 }
                                 
                                 if($sumofrating> 0){
                                   $avg_rating = $sumofrating /  count($reviews); 
                                 }
                                 
-                            }
-                                                                                        
-                            $html = '';                                                                                                                                      														
-                            $date 		= get_the_date("Y-m-d\TH:i:s\Z");
-                            $modified_date 	= get_the_modified_date("Y-m-d\TH:i:s\Z");
-			                                                                                                                                                                                                         
-                            $input1 = array(
-                                    '@context'       => saswp_context_url(),
-                                    '@type'          => 'Review',
-                                    'dateCreated'    => esc_html($date),
-                                    'datePublished'  => esc_html($date),
-                                    'dateModified'   => esc_html($modified_date),
-                                    'headline'       => saswp_get_the_title(),
-                                    'name'           => saswp_get_the_title(),                                    
-                                    'url'            => get_permalink(),
-                                    'description'    => saswp_get_the_excerpt(),
-                                    'copyrightYear'  => get_the_time( 'Y' ),                                                                                                           
-                                    'author'	     => saswp_get_author_details()                                                                                        
+                                    $input1 = array(
+                                        '@context'       => saswp_context_url(),
+                                        '@type'          => (isset($sd_data['saswp_organization_type']) && $sd_data['saswp_organization_type'] !='' )? $sd_data['saswp_organization_type'] : 'Organization',
+                                        'name'           => (isset($sd_data['sd_name']) && $sd_data['sd_name'] !='' )? $sd_data['sd_name'] : get_bloginfo(),
                                     );
                                     
-                                    $input1['itemReviewed'] = array(
-                                            '@type' => 'Organization',
-                                            'name'  => saswp_get_the_title(),
-                                    );
+                                    if(!empty($reviews_arr)){
+                                       
+                                        $input1['review'] = $reviews_arr;
+                                        
+                                    }
 
-                                    $input1['reviewRating'] = array(
-                                        '@type'       => 'Rating',
-                                        'worstRating' => 1,
-                                        'bestRating'  => 5,
+                                    $input1['aggregateRating'] = array(
+                                        '@type'       => 'AggregateRating',
+                                        'reviewCount' => count($reviews),
                                         'ratingValue' => esc_attr($avg_rating),                                        
-                                     ); 
-                                                                                                
+                                     );
+                                
+                            }
+                                                                   
+                            $html = '';          
                             if(!empty($input1)){
                                 
                                 $html .= "\n";

@@ -151,8 +151,7 @@ if ( ! defined('ABSPATH') ) exit;
              update_option('saswp-file-upload_url','');
             
         }
-                        
-             
+                                     
         if ( count($errorDesc) ){
           echo implode("\n<br/>", $errorDesc);              
           $wpdb->query('ROLLBACK');             
