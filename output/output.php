@@ -351,6 +351,8 @@ function saswp_schema_output() {
                             $input1['author']['@type']              = 'Organization';                                                        
                             $input1['offers']['@type']              = 'Offer';   
                             
+                            $input1 = saswp_append_fetched_reviews($input1);
+                            
                             if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){                                   
                                     $service = new saswp_output_service();
                                     $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
@@ -379,7 +381,9 @@ function saswp_schema_output() {
                             $input1['@type']                 = 'TVSeries';
                             $input1['@id']                   = trailingslashit(saswp_get_permalink()).'#TVSeries';                                                                                                                                
                             $input1['author']['@type']       = 'Person';                            
-                                                                           
+                             
+                            $input1 = saswp_append_fetched_reviews($input1);
+                            
                             if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){                                   
                                     $service = new saswp_output_service();
                                     $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
@@ -392,7 +396,9 @@ function saswp_schema_output() {
                             $input1['@context']              = saswp_context_url();
                             $input1['@type']                 = 'HowTo';
                             $input1['@id']                   = trailingslashit(saswp_get_permalink()).'#HowTo';                                                                                                                  
-                            $input1['estimatedCost']['@type']   = 'MonetaryAmount';    
+                            $input1['estimatedCost']['@type']   = 'MonetaryAmount';  
+                            
+                            $input1 = saswp_append_fetched_reviews($input1);
                             
                             if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){                                   
                                     $service = new saswp_output_service();
@@ -464,6 +470,8 @@ function saswp_schema_output() {
                             $input1['@type']                 = 'MusicPlaylist';
                             $input1['@id']                   = trailingslashit(get_permalink()).'#MusicPlaylist'; 
                             
+                            $input1 = saswp_append_fetched_reviews($input1);
+                            
                             if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){                                   
                                     $service = new saswp_output_service();
                                     $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
@@ -478,6 +486,8 @@ function saswp_schema_output() {
                             $input1['@context']              = saswp_context_url();
                             $input1['@type']                 = 'Book';
                             $input1['@id']                   = trailingslashit(get_permalink()).'#Book'; 
+                            
+                            $input1 = saswp_append_fetched_reviews($input1);
                             
                             if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){                                   
                                     $service = new saswp_output_service();
@@ -494,6 +504,8 @@ function saswp_schema_output() {
                             $input1['@context']              = saswp_context_url();
                             $input1['@type']                 = 'MusicAlbum';
                             $input1['@id']                   = trailingslashit(get_permalink()).'#MusicAlbum';  
+                            
+                            $input1 = saswp_append_fetched_reviews($input1);
                             
                             if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){                                   
                                     $service = new saswp_output_service();
@@ -779,11 +791,7 @@ function saswp_schema_output() {
                                      $input1 = array_merge($input1, $publisher);   
                          
                                 }
-                                 
-                                if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){                                   
-                                    $service = new saswp_output_service();
-                                    $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
-                                }
+                                                                 
                                 if(!empty($aggregateRating)){
                                     $input1['aggregateRating'] = $aggregateRating;
                                 }                                
@@ -792,7 +800,14 @@ function saswp_schema_output() {
                                 }                               
                                 if(isset($sd_data['saswp_comments_schema']) && $sd_data['saswp_comments_schema'] ==1){
                                     $input1['comment'] = saswp_get_comments(get_the_ID());
-                                }   
+                                }  
+                                
+                                $input1 = saswp_append_fetched_reviews($input1);
+                                
+                                if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){                                   
+                                    $service = new saswp_output_service();
+                                    $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
+                                }
                                 
                                 $input1 = apply_filters('saswp_modify_audio_object_schema_output', $input1 );
                         }
@@ -821,11 +836,7 @@ function saswp_schema_output() {
                                 $input1['@context'] =  saswp_context_url();
                                 $input1['@type']    =  $event_type ? $event_type : $schema_type;
                                 $input1['@id']      =  trailingslashit(saswp_get_permalink()).'#event';
-                                                       
-                                if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){                                   
-                                    $service = new saswp_output_service();
-                                    $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
-                                }
+                                                                                       
                                 if(!empty($aggregateRating)){
                                     $input1['aggregateRating'] = $aggregateRating;
                                 }                                
@@ -834,7 +845,14 @@ function saswp_schema_output() {
                                 }                               
                                 if(isset($sd_data['saswp_comments_schema']) && $sd_data['saswp_comments_schema'] ==1){
                                    $input1['comment'] = saswp_get_comments(get_the_ID());
-                                }                            
+                                } 
+                                
+                                $input1 = saswp_append_fetched_reviews($input1);
+                                
+                                if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){                                   
+                                    $service = new saswp_output_service();
+                                    $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
+                                }
                                 
                             } 
                             
@@ -856,15 +874,9 @@ function saswp_schema_output() {
                                 );
                         
                                                                   
-                                if(!empty($publisher)){
-                            
-                                     $input1 = array_merge($input1, $publisher);   
-                         
-                                 }
-                                if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){                                   
-                                    $service = new saswp_output_service();
-                                    $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
-                                }
+                                if(!empty($publisher)){                            
+                                     $input1 = array_merge($input1, $publisher);                            
+                                }                                
                                 if(!empty($aggregateRating)){
                                     $input1['aggregateRating'] = $aggregateRating;
                                 }                                
@@ -872,8 +884,15 @@ function saswp_schema_output() {
                                    $input1 = array_merge($input1, $extra_theme_review);
                                 }                               
                                 if(isset($sd_data['saswp_comments_schema']) && $sd_data['saswp_comments_schema'] ==1){
-                                            $input1['comment'] = saswp_get_comments(get_the_ID());
+                                   $input1['comment'] = saswp_get_comments(get_the_ID());
                                 }    
+                                
+                                $input1 = saswp_append_fetched_reviews($input1);
+                                
+                                if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){                                   
+                                    $service = new saswp_output_service();
+                                    $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
+                                }
                                 
                                 $input1 = apply_filters('saswp_modify_software_application_schema_output', $input1 );
                         }
@@ -977,15 +996,9 @@ function saswp_schema_output() {
 				
 				);
                                 
-                                if(!empty($publisher)){
-                            
-                                     $input1['mainEntity'] = array_merge($input1['mainEntity'], $publisher);   
-                         
-                                 }
-                                if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){
-                                    $service = new saswp_output_service();
-                                    $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
-                                }
+                                if(!empty($publisher)){                            
+                                     $input1['mainEntity'] = array_merge($input1['mainEntity'], $publisher);                            
+                                }                                
                                 if(isset($sd_data['saswp_comments_schema']) && $sd_data['saswp_comments_schema'] ==1){
                                     $input1['comment'] = saswp_get_comments(get_the_ID());
                                 }                                 
@@ -996,6 +1009,12 @@ function saswp_schema_output() {
                                    $input1 = array_merge($input1, $extra_theme_review);
                                 }
                                 
+                                $input1 = saswp_append_fetched_reviews($input1);
+                                
+                                if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){
+                                    $service = new saswp_output_service();
+                                    $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
+                                }
                                 
                             }
                             				                                
@@ -1031,7 +1050,9 @@ function saswp_schema_output() {
                             		                                                                
                                 $service = new saswp_output_service();
                                 $input1 = $service->saswp_schema_markup_generator($schema_type);
-                                                                
+                                  
+                                $input1 = saswp_append_fetched_reviews($input1);
+                                
                                 if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){
                                     
                                     $service = new saswp_output_service();
@@ -1104,19 +1125,21 @@ function saswp_schema_output() {
 				$input1['@context'] =  saswp_context_url();
                                 $input1['@type']    =  $schema_type;
                                 $input1['@id']      =  trailingslashit(saswp_get_permalink()).'#service';
-                                                                
-                                if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] == 1){
-                                    
-                                    $service = new saswp_output_service();
-                                    $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
-                                    
-                                } 
                                                                                                 
                                 if(!empty($aggregateRating)){
                                     $input1['aggregateRating'] = $aggregateRating;
                                 }                                
                                 if(!empty($extra_theme_review)){
                                    $input1 = array_merge($input1, $extra_theme_review);
+                                }
+                                
+                                $input1 = saswp_append_fetched_reviews($input1);
+                                
+                                if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] == 1){
+                                    
+                                    $service = new saswp_output_service();
+                                    $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
+                                    
                                 }
                                 
                                 $input1 = apply_filters('saswp_modify_service_schema_output', $input1 );
@@ -1238,11 +1261,7 @@ function saswp_schema_output() {
                             
                                                     $input1 = array_merge($input1, $publisher);   
                          
-                                                 }
-                                                if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){
-                                                    $service = new saswp_output_service();
-                                                    $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
-                                                }
+                                                 }                                                
                                                 if(isset($sd_data['saswp_comments_schema']) && $sd_data['saswp_comments_schema'] ==1){
                                                  $input1['comment'] = saswp_get_comments(get_the_ID());
                                                 }                                                
@@ -1251,6 +1270,13 @@ function saswp_schema_output() {
                                                  }                                               
                                                 if(!empty($extra_theme_review)){
                                                   $input1 = array_merge($input1, $extra_theme_review);
+                                                 }
+                                                 
+                                                 $input1 = saswp_append_fetched_reviews($input1);
+                                                 
+                                                 if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){
+                                                    $service = new saswp_output_service();
+                                                    $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
                                                  }
 					
                                         $input1 = apply_filters('saswp_modify_video_object_schema_output', $input1 );
@@ -1279,17 +1305,21 @@ function saswp_schema_output() {
                                     '@id'                               => trailingslashit(saswp_get_permalink()).'#'. strtolower(esc_attr($local_business)),                                            
                                     'url'				=> trailingslashit(saswp_get_permalink()),								
 				);  
-                                    if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] == 1){                                        
-                                        $service = new saswp_output_service();
-                                        $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);                                    
-                                    }                                         
+                                                                             
                                     if(!empty($aggregateRating)){
                                     $input1['aggregateRating'] = $aggregateRating;
                                     }                                    
                                     if(!empty($extra_theme_review)){
                                     $input1 = array_merge($input1, $extra_theme_review);
                                     }
-                                                                                                            
+                                    
+                                    $input1 = saswp_append_fetched_reviews($input1);
+                                    
+                                    if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] == 1){                                        
+                                        $service = new saswp_output_service();
+                                        $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);                                    
+                                    }
+                                    
                                     $input1 = apply_filters('saswp_modify_local_business_schema_output', $input1 );
 			}
                                                 
