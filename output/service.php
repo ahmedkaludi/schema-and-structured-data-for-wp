@@ -127,10 +127,8 @@ Class saswp_output_service{
             
             global $post;
             
-            $fixed_image       = get_post_meta($schema_post_id, 'saswp_fixed_image', true) ;
-            $fixed_text        = get_post_meta($schema_post_id, 'saswp_fixed_text', true) ; 
-            $cus_field         = get_post_meta($schema_post_id, 'saswp_custom_meta_field', true); 
-            
+            $fixed_image       = get_post_meta($schema_post_id, 'saswp_fixed_image', true) ;            
+                        
             $response = null;
             
             switch ($field) {
@@ -183,6 +181,8 @@ Class saswp_output_service{
                     break;
                 case 'manual_text':    
                     
+                    $fixed_text        = get_post_meta($schema_post_id, 'saswp_fixed_text', true) ; 
+                    
                     if(isset($fixed_text[$key])){
                     
                         if (strpos($fixed_text[$key], 'http') !== false) {
@@ -203,8 +203,56 @@ Class saswp_output_service{
                     }
                     
                     break;
+                
+                case 'taxonomy_term':    
+                    
+                    $response = '';
+                    
+                    $taxonomy_term       = get_post_meta( $schema_post_id, 'saswp_taxonomy_term', true) ; 
+                                        
+                    if($taxonomy_term[$key] == 'all'){
+                        
+                        $post_taxonomies      = get_post_taxonomies( $post->ID );
+                                                
+                        if($post_taxonomies){
+                            
+                            foreach ($post_taxonomies as $taxonomie ){
+                                
+                                $terms               = get_the_terms( $post->ID, $taxonomie);
+                                
+                                if($terms){
+                                    foreach ($terms as $term){
+                                        $response .= $term->name.', ';
+                                    }    
+                                }
+                                
+                            }
+                            
+                        }                        
+                        
+                    }else{
+                    
+                        $terms               = get_the_terms( $post->ID, $taxonomy_term[$key]);
+                        
+                        if($terms){
+                            foreach ($terms as $term){
+                                $response .= $term->name.', ';
+                            }    
+                        }
+                        
+                    }
+                                                                                                    
+                    if($response){
+                        $response = substr(trim($response), 0, -1); 
+                    }
+                                                            
+                    break;
+                    
                 case 'custom_field':
+                    
+                    $cus_field   = get_post_meta($schema_post_id, 'saswp_custom_meta_field', true); 
                     $response    = get_post_meta($post->ID, $cus_field[$key], true); 
+                    
                     break;
                 case 'fixed_image':                    
                     
@@ -1281,6 +1329,11 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_ta_schema_postal_code'])){
                      $input1['address']['PostalCode'] =    $custom_fields['saswp_ta_schema_postal_code'];
                     }
+                    if(isset($custom_fields['saswp_ta_schema_latitude']) && isset($custom_fields['saswp_ta_schema_longitude'])){                        
+                     $input1['geo']['@type']     =    'GeoCoordinates';   
+                     $input1['geo']['latitude']  =    $custom_fields['saswp_ta_schema_latitude'];
+                     $input1['geo']['longitude'] =    $custom_fields['saswp_ta_schema_longitude'];                     
+                    }
                     
                 break;
                 
@@ -1334,6 +1387,11 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_td_schema_postal_code'])){
                      $input1['address']['PostalCode'] =    $custom_fields['saswp_td_schema_postal_code'];
                     }
+                    if(isset($custom_fields['saswp_td_schema_latitude']) && isset($custom_fields['saswp_td_schema_longitude'])){                        
+                     $input1['geo']['@type']     =    'GeoCoordinates';   
+                     $input1['geo']['latitude']  =    $custom_fields['saswp_td_schema_latitude'];
+                     $input1['geo']['longitude'] =    $custom_fields['saswp_td_schema_longitude'];                     
+                    }
                     
                 break;
                 
@@ -1371,6 +1429,11 @@ Class saswp_output_service{
                     }
                     if(isset($custom_fields['saswp_lorh_schema_postal_code'])){
                      $input1['address']['PostalCode'] =    $custom_fields['saswp_lorh_schema_postal_code'];
+                    }
+                    if(isset($custom_fields['saswp_lorh_schema_latitude']) && isset($custom_fields['saswp_lorh_schema_longitude'])){                        
+                     $input1['geo']['@type']     =    'GeoCoordinates';   
+                     $input1['geo']['latitude']  =    $custom_fields['saswp_lorh_schema_latitude'];
+                     $input1['geo']['longitude'] =    $custom_fields['saswp_lorh_schema_longitude'];                     
                     }
                     
                 break;
@@ -1410,6 +1473,11 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_hindutemple_schema_postal_code'])){
                      $input1['address']['PostalCode'] =    $custom_fields['saswp_hindutemple_schema_postal_code'];
                     }
+                    if(isset($custom_fields['saswp_hindutemple_schema_latitude']) && isset($custom_fields['saswp_hindutemple_schema_longitude'])){                        
+                     $input1['geo']['@type']     =    'GeoCoordinates';   
+                     $input1['geo']['latitude']  =    $custom_fields['saswp_hindutemple_schema_latitude'];
+                     $input1['geo']['longitude'] =    $custom_fields['saswp_hindutemple_schema_longitude'];                     
+                    }
                     
                 break;
                 
@@ -1448,6 +1516,11 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_church_schema_postal_code'])){
                      $input1['address']['PostalCode'] =    $custom_fields['saswp_church_schema_postal_code'];
                     }
+                    if(isset($custom_fields['saswp_church_schema_latitude']) && isset($custom_fields['saswp_church_schema_longitude'])){                        
+                     $input1['geo']['@type']     =    'GeoCoordinates';   
+                     $input1['geo']['latitude']  =    $custom_fields['saswp_church_schema_latitude'];
+                     $input1['geo']['longitude'] =    $custom_fields['saswp_church_schema_longitude'];                     
+                    }
                     
                 break;
                 
@@ -1485,6 +1558,11 @@ Class saswp_output_service{
                     }
                     if(isset($custom_fields['saswp_mosque_schema_postal_code'])){
                      $input1['address']['PostalCode'] =    $custom_fields['saswp_mosque_schema_postal_code'];
+                    }
+                    if(isset($custom_fields['saswp_mosque_schema_latitude']) && isset($custom_fields['saswp_mosque_schema_longitude'])){                        
+                     $input1['geo']['@type']     =    'GeoCoordinates';   
+                     $input1['geo']['latitude']  =    $custom_fields['saswp_mosque_schema_latitude'];
+                     $input1['geo']['longitude'] =    $custom_fields['saswp_mosque_schema_longitude'];                     
                     }
                     
                 break;
@@ -1572,6 +1650,11 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_apartment_schema_telephone'])){
                      $input1['telephone'] =    $custom_fields['saswp_apartment_schema_telephone'];
                     }
+                    if(isset($custom_fields['saswp_apartment_schema_latitude']) && isset($custom_fields['saswp_apartment_schema_longitude'])){                        
+                     $input1['geo']['@type']     =    'GeoCoordinates';   
+                     $input1['geo']['latitude']  =    $custom_fields['saswp_apartment_schema_latitude'];
+                     $input1['geo']['longitude'] =    $custom_fields['saswp_apartment_schema_longitude'];                     
+                    }
                     
                 break;
                 
@@ -1606,6 +1689,11 @@ Class saswp_output_service{
                     }
                     if(isset($custom_fields['saswp_house_schema_telephone'])){
                      $input1['telephone'] =    $custom_fields['saswp_house_schema_telephone'];
+                    }
+                    if(isset($custom_fields['saswp_house_schema_latitude']) && isset($custom_fields['saswp_house_schema_longitude'])){                        
+                     $input1['geo']['@type']     =    'GeoCoordinates';   
+                     $input1['geo']['latitude']  =    $custom_fields['saswp_house_schema_latitude'];
+                     $input1['geo']['longitude'] =    $custom_fields['saswp_house_schema_longitude'];                     
                     }
                     
                 break;
@@ -1644,6 +1732,11 @@ Class saswp_output_service{
                     }
                     if(isset($custom_fields['saswp_sfr_schema_telephone'])){
                      $input1['telephone'] =    $custom_fields['saswp_sfr_schema_telephone'];
+                    }
+                    if(isset($custom_fields['saswp_sfr_schema_latitude']) && isset($custom_fields['saswp_sfr_schema_longitude'])){                        
+                     $input1['geo']['@type']     =    'GeoCoordinates';   
+                     $input1['geo']['latitude']  =    $custom_fields['saswp_sfr_schema_latitude'];
+                     $input1['geo']['longitude'] =    $custom_fields['saswp_sfr_schema_longitude'];                     
                     }
                     
                 break;
@@ -2580,7 +2673,9 @@ Class saswp_output_service{
                             'saswp_ta_schema_locality'           => 'Address Locality',                         
                             'saswp_ta_schema_region'             => 'Address Region',  
                             'saswp_ta_schema_country'            => 'Address Country',  
-                            'saswp_ta_schema_postal_code'        => 'Address PostalCode'                            
+                            'saswp_ta_schema_postal_code'        => 'Address PostalCode',
+                            'saswp_ta_schema_latitude'           => 'Latitude',
+                            'saswp_ta_schema_longitude'          => 'Longitude',     
                         );                                                                                                                                       
                     break;
                 
@@ -2594,7 +2689,9 @@ Class saswp_output_service{
                             'saswp_td_schema_locality'           => 'Address Locality',                         
                             'saswp_td_schema_region'             => 'Address Region',  
                             'saswp_td_schema_country'            => 'Address Country',  
-                            'saswp_td_schema_postal_code'        => 'Address PostalCode'                            
+                            'saswp_td_schema_postal_code'        => 'Address PostalCode',
+                            'saswp_td_schema_latitude'           => 'Latitude',
+                            'saswp_td_schema_longitude'          => 'Longitude',     
                         );                                                                                                                                       
                     break;
                 
@@ -2611,7 +2708,9 @@ Class saswp_output_service{
                             'saswp_lorh_schema_locality'           => 'Address Locality',
                             'saswp_lorh_schema_region'             => 'Address Region',
                             'saswp_lorh_schema_country'            => 'Address Country',
-                            'saswp_lorh_schema_postal_code'        => 'Address PostalCode'                            
+                            'saswp_lorh_schema_postal_code'        => 'Address PostalCode',
+                            'saswp_lorh_schema_latitude'           => 'Latitude',
+                            'saswp_lorh_schema_longitude'          => 'Longitude',     
                         );                                                                                                                                       
                     break;
                 
@@ -2628,7 +2727,9 @@ Class saswp_output_service{
                             'saswp_hindutemple_schema_locality'           => 'Address Locality',
                             'saswp_hindutemple_schema_region'             => 'Address Region',
                             'saswp_hindutemple_schema_country'            => 'Address Country',
-                            'saswp_hindutemple_schema_postal_code'        => 'Address PostalCode'                            
+                            'saswp_hindutemple_schema_postal_code'        => 'Address PostalCode',
+                            'saswp_hindutemple_schema_latitude'           => 'Latitude',
+                            'saswp_hindutemple_schema_longitude'          => 'Longitude',     
                         );                                                                                                                                       
                     break;
                 
@@ -2645,7 +2746,9 @@ Class saswp_output_service{
                             'saswp_church_schema_locality'           => 'Address Locality',
                             'saswp_church_schema_region'             => 'Address Region',
                             'saswp_church_schema_country'            => 'Address Country',
-                            'saswp_church_schema_postal_code'        => 'Address PostalCode'                            
+                            'saswp_church_schema_postal_code'        => 'Address PostalCode',
+                            'saswp_church_schema_latitude'           => 'Latitude',
+                            'saswp_church_schema_longitude'          => 'Longitude',     
                         );                                                                                                                                       
                     break;
                 
@@ -2662,7 +2765,9 @@ Class saswp_output_service{
                             'saswp_mosque_schema_locality'           => 'Address Locality',
                             'saswp_mosque_schema_region'             => 'Address Region',
                             'saswp_mosque_schema_country'            => 'Address Country',
-                            'saswp_mosque_schema_postal_code'        => 'Address PostalCode'                            
+                            'saswp_mosque_schema_postal_code'        => 'Address PostalCode',
+                            'saswp_mosque_schema_latitude'           => 'Latitude',
+                            'saswp_mosque_schema_longitude'          => 'Longitude',     
                         );                                                                                                                                       
                     break;
                 
@@ -2831,6 +2936,8 @@ Class saswp_output_service{
                         'saswp_apartment_schema_locality'      => 'Locality',
                         'saswp_apartment_schema_region'        => 'Region',
                         'saswp_apartment_schema_postalcode'    => 'PostalCode',
+                        'saswp_apartment_schema_latitude'      => 'Latitude',
+                        'saswp_apartment_schema_longitude'     => 'Longitude',                        
                         'saswp_apartment_schema_telephone'     => 'Telephone'                                                                    
                     );                    
                     break;
@@ -2884,6 +2991,8 @@ Class saswp_output_service{
                         'saswp_house_schema_locality'      => 'Locality',
                         'saswp_house_schema_region'        => 'Region',
                         'saswp_house_schema_postalcode'    => 'PostalCode',
+                        'saswp_house_schema_latitude'      => 'Latitude',
+                        'saswp_house_schema_longitude'     => 'Longitude',     
                         'saswp_house_schema_telephone'     => 'Telephone'                                                                    
                     );                    
                     break;
@@ -2901,6 +3010,8 @@ Class saswp_output_service{
                         'saswp_sfr_schema_locality'      => 'Locality',
                         'saswp_sfr_schema_region'        => 'Region',
                         'saswp_sfr_schema_postalcode'    => 'PostalCode',
+                        'saswp_sfr_schema_latitude'      => 'Latitude',
+                        'saswp_sfr_schema_longitude'     => 'Longitude', 
                         'saswp_sfr_schema_telephone'     => 'Telephone'
                     );                    
                     break;

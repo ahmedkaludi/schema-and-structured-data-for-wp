@@ -89,6 +89,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                 $enable_custom_field  = '';
                 $custom_fields        = '';
                 $fixed_text           = '';
+                $taxonomy_term        = '';
                 $fixed_image          = '';
                 
                 if ( isset( $_POST['notAccessibleForFree'] ) )
@@ -103,6 +104,8 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                     $meta_list = array_map ('sanitize_text_field', $_POST['saswp_meta_list_val']);                
                 if ( isset( $_POST['saswp_fixed_text'] ) )                    
                     $fixed_text = array_map ('sanitize_text_field', $_POST['saswp_fixed_text']);
+                if ( isset( $_POST['saswp_taxonomy_term'] ) )                    
+                    $taxonomy_term = array_map ('sanitize_text_field', $_POST['saswp_taxonomy_term']);
                 if ( isset( $_POST['saswp_custom_meta_field'] ) )                    
                     $cus_meta_field = array_map ('sanitize_text_field', $_POST['saswp_custom_meta_field']);
                 if ( isset( $_POST['saswp_fixed_image'] ) )                    
@@ -118,6 +121,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                  update_post_meta( $post_id, 'schema_options', $saswp_schema_options);                 
                  update_post_meta( $post_id, 'saswp_meta_list_val', $meta_list);
                  update_post_meta( $post_id, 'saswp_fixed_text', $fixed_text);
+                 update_post_meta( $post_id, 'saswp_taxonomy_term', $taxonomy_term);
                  update_post_meta( $post_id, 'saswp_fixed_image', $fixed_image);
                  update_post_meta( $post_id, 'saswp_custom_meta_field', $cus_meta_field);
                

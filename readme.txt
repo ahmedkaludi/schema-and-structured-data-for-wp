@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.2
-Stable tag: 1.9.11
+Stable tag: 1.9.12
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -117,6 +117,13 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.9.12 (9 Oct 2019) =
+
+* Added: Custom Taxonomy in modify schema output #533
+* Added: Coordinates fields(latitude, longitude) for real estate schema #525
+* Added: Real Estate Schema Box in Premium Features tab #472
+* Enhancement: Review for Schema improvements #534
 
 = 1.9.11 (5 Oct 2019) =
 

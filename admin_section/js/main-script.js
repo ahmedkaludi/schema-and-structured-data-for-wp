@@ -1,6 +1,23 @@
        var saswp_meta_list        = [];
        var saswp_meta_fields      = [];
-       var saswp_meta_list_fields = [];       
+       var saswp_meta_list_fields = []; 
+       var saswp_taxonomy_term    = []; 
+       
+       function saswp_taxonomy_term_html(taxonomy, field_name){
+           
+            var html ='';
+                html += '<td>';
+                html += '<select name="saswp_taxonomy_term['+field_name+']">';
+                jQuery.each(taxonomy, function(key, value){
+                         html += '<option value="'+key+'">'+value+'</option>';
+                }); 
+                html += '</select>';   
+                html += '</td>';              
+                html += '<td><a class="button button-default saswp-rmv-modify_row">X</a></td>';
+                          
+                return html;
+           
+       }
        
        function saswp_enable_rating_review(){
            var schema_type = "";                      
@@ -545,6 +562,31 @@ jQuery(document).ready(function($){
             }else{
                 $(".saswp-enable-speakable").parent().parent().hide();
             }
+                        
+            if(schematype == 'Book' 
+               || schematype == 'Course' 
+               || schematype == 'HowTo' 
+               || schematype == 'MusicPlaylist' 
+               || schematype == 'MusicAlbum'               
+               || schematype == 'Recipe'
+               || schematype == 'TVSeries'
+               || schematype == 'SoftwareApplication'
+               || schematype == 'Event'
+               || schematype == 'VideoGame'
+               || schematype == 'Service'
+               
+               || schematype == 'AudioObject'
+               || schematype == 'VideoObject'
+               || schematype == 'local_business'
+               || schematype == 'Product'
+               
+               ){
+               
+                $(".saswp-enable-append-reviews").parent().parent().show();
+            }else{
+                $(".saswp-enable-append-reviews").parent().parent().hide();
+            }
+            
             
             if(schematype == 'local_business'){
              $(".saswp-option-table-class tr").eq(1).show();   
@@ -584,6 +626,30 @@ jQuery(document).ready(function($){
                 $(".saswp-enable-speakable").parent().parent().show();
             }else{
                 $(".saswp-enable-speakable").parent().parent().hide();
+            }
+            
+            if(schematype == 'Book' 
+               || schematype == 'Course' 
+               || schematype == 'HowTo' 
+               || schematype == 'MusicPlaylist' 
+               || schematype == 'MusicAlbum'               
+               || schematype == 'Recipe'
+               || schematype == 'TVSeries'
+               || schematype == 'SoftwareApplication'
+               || schematype == 'Event'
+               || schematype == 'VideoGame'
+               || schematype == 'Service'
+               
+               || schematype == 'AudioObject'
+               || schematype == 'VideoObject'
+               || schematype == 'local_business'
+               || schematype == 'Product'
+               
+               ){
+               
+                $(".saswp-enable-append-reviews").parent().parent().show();
+            }else{
+                $(".saswp-enable-append-reviews").parent().parent().hide();
             }
             
             if(schematype == 'local_business'){
@@ -1413,7 +1479,7 @@ jQuery(document).ready(function($){
     $(".saswp-feedback-no-thanks").on("click", function(e){
             e.preventDefault();               
                          $.get(ajaxurl, 
-                             { action:"saswp_feeback_no_thanks"},
+                             { action:"saswp_feeback_no_thanks", saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
                               function(response){                                  
                               if(response['status'] =='t'){                                  
                                  $(".saswp-feedback-notice").hide();                                 
@@ -1424,7 +1490,7 @@ jQuery(document).ready(function($){
     $(".saswp-feedback-remindme").on("click", function(e){
             e.preventDefault();               
                          $.get(ajaxurl, 
-                             { action:"saswp_feeback_remindme"},
+                             { action:"saswp_feeback_remindme", saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
                               function(response){                                  
                               if(response['status'] =='t'){                                  
                                  $(".saswp-feedback-notice").hide();                                 
@@ -1732,20 +1798,61 @@ jQuery(document).ready(function($){
        
        $(document).on("change",".saswp-custom-meta-list", function(){
            
+          var current = $(this);  
           var schema_type    = $('select#schema_type option:selected').val();
           var meta_val   = $(this).val();
           var field_name = $(this).parent().parent('tr').find(".saswp-custom-fields-name").val();
           var html       = '';
           var el_id      = schema_type.toLowerCase()+'_'+field_name;
           var media_name = 'saswp_fixed_image['+field_name+']';
+          
           if(meta_val == 'manual_text'){
               html += '<td><input type="text" name="saswp_fixed_text['+field_name+']"></td>';              
               html += '<td><a class="button button-default saswp-rmv-modify_row">X</a></td>';
               
+              $(this).parent().parent('tr').find("td:gt(1)").remove();
+              $(this).parent().parent('tr').append(html);
+              saswpCustomSelect2();
+              
+          }else if(meta_val == 'taxonomy_term'){
+                       
+                 if(!saswp_taxonomy_term['taxonomy']) {
+                     
+                     $.get(ajaxurl, 
+                     { action:"saswp_get_taxonomy_term_list", saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
+                      function(response){    
+
+                      if(response){
+                          
+                            saswp_taxonomy_term['taxonomy'] = response;                          
+                            html += saswp_taxonomy_term_html(response, field_name);
+
+                            current.parent().parent('tr').find("td:gt(1)").remove();
+                            current.parent().parent('tr').append(html);
+                            saswpCustomSelect2();
+                      }
+
+                     },'json');
+                     
+                 }else{
+                                          
+                            html += saswp_taxonomy_term_html(saswp_taxonomy_term['taxonomy'], field_name);
+
+                            current.parent().parent('tr').find("td:gt(1)").remove();
+                            current.parent().parent('tr').append(html);
+                            saswpCustomSelect2();
+                     
+                 }     
+               
           }else if(meta_val == 'custom_field'){
               html += '<td><select class="saswp-custom-fields-select2" name="saswp_custom_meta_field['+field_name+']">';
               html += '</select></td>';              
               html += '<td><a class="button button-default saswp-rmv-modify_row">X</a></td>';
+              
+              $(this).parent().parent('tr').find("td:gt(1)").remove();
+              $(this).parent().parent('tr').append(html);
+              saswpCustomSelect2();
+              
           }else if(meta_val == 'fixed_image'){           
               html += '<td>';              
               html += '<fieldset>';
@@ -1758,15 +1865,20 @@ jQuery(document).ready(function($){
               html += '</fieldset>';                                          
               html += '</td>';              
               html += '<td><a class="button button-default saswp-rmv-modify_row">X</a></td>';
+              
+              $(this).parent().parent('tr').find("td:gt(1)").remove();
+              $(this).parent().parent('tr').append(html);
+              saswpCustomSelect2();
           }
           else{
               html += '<td></td>';
               html += '<td><a class="button button-default saswp-rmv-modify_row">X</a></td>';
+              
+              $(this).parent().parent('tr').find("td:gt(1)").remove();
+              $(this).parent().parent('tr').append(html);
+              saswpCustomSelect2();
           }
           
-          $(this).parent().parent('tr').find("td:gt(1)").remove();
-          $(this).parent().parent('tr').append(html);
-           saswpCustomSelect2();
            
        });
         

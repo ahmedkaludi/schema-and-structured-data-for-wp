@@ -542,6 +542,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                     $business_type       = '';                
                     $custom_logo_id      = '';
                     $speakable           = '';
+                    $append_reviews      = '';    
 
                     $business_details    = array();
                     $logo                = array();
@@ -554,9 +555,11 @@ function saswp_schema_type_meta_box_callback( $post) {
                         $schema_options    = get_post_meta($post->ID, 'schema_options', true);            
                         $meta_list         = get_post_meta($post->ID, 'saswp_meta_list_val', true);                         
                         $fixed_text        = get_post_meta($post->ID, 'saswp_fixed_text', true);  
+                        $taxonomy_term     = get_post_meta($post->ID, 'saswp_taxonomy_term', true);  
                         $fixed_image       = get_post_meta($post->ID, 'saswp_fixed_image', true);  
                         $cus_field         = get_post_meta($post->ID, 'saswp_custom_meta_field', true); 
                         $schema_type       = get_post_meta($post->ID, 'schema_type', true);     
+                        $append_reviews    = get_post_meta($post->ID, 'saswp_enable_append_reviews', true);
 
                         switch ($schema_type) {
 
@@ -715,7 +718,7 @@ function saswp_schema_type_meta_box_callback( $post) {
 
                             default:
 
-                                $speakable       = get_post_meta($post->ID, 'saswp_enable_speakable_schema', true);
+                                $speakable            = get_post_meta($post->ID, 'saswp_enable_speakable_schema', true);                                
 
                                 break;
                         }    
@@ -1114,6 +1117,17 @@ function saswp_schema_type_meta_box_callback( $post) {
                       <input class="saswp-enable-speakable" type="checkbox" name="saswp_enable_speakable_schema" value="1" <?php if(isset($speakable) && $speakable == 1){echo 'checked'; }else{ echo ''; } ?>>                                                                                                           
                    </td>
                 </tr>
+                                
+                <tr>
+                   <td>
+                       <label for="saswp-append-reviews"><?php echo esc_html__('Add Reviews' ,'schema-and-structured-data-for-wp');?></label>
+                   </td>
+                   <td>
+                      <input class="saswp-enable-append-reviews" type="checkbox" name="saswp_enable_append_reviews" value="1" <?php if(isset($append_reviews) && $append_reviews == 1){echo 'checked'; }else{ echo ''; } ?>>                                                                                                           
+                   </td>
+                </tr>
+                
+                
             </table>  
                 
             </div>
@@ -1217,6 +1231,28 @@ function saswp_schema_type_meta_box_callback( $post) {
                                                         
                             if($fieldval == 'manual_text'){
                                  echo '<td><input type="text" name="saswp_fixed_text['.esc_attr($fieldkey).']" value="'.(isset($fixed_text[$fieldkey]) ? esc_html($fixed_text[$fieldkey]) :'').'"></td>';    
+                            }else if($fieldval == 'taxonomy_term'){
+                                
+                                $choices    = array('all' => esc_html__('All','schema-and-structured-data-for-wp'));
+                                $taxonomies = saswp_post_taxonomy_generator();        
+                                $choices    = array_merge($choices, $taxonomies); 
+                                
+                                echo '<td>';
+                                
+                                if($choices){
+                                    
+                                    echo '<select name="saswp_taxonomy_term['.esc_attr($fieldkey).']">';
+                                    
+                                    foreach ($choices as $key => $val){
+                                        
+                                        echo '<option value="'.esc_attr($key).'" '.((isset($taxonomy_term[$fieldkey]) && $taxonomy_term[$fieldkey] == $key) ? 'selected' :'').'>'.esc_attr($val).'</option>';
+                                        
+                                    }
+                                    echo '</select>';
+                                    
+                                }
+                                echo '</td>';
+                                                                
                             }else if($fieldval == 'custom_field'){
                                  echo '<td><select class="saswp-custom-fields-select2" name="saswp_custom_meta_field['.esc_attr($fieldkey).']">';
                                  echo '<option value="'.esc_attr($cus_field[$fieldkey]).'">'.preg_replace( '/^_/', '', esc_html( str_replace( '_', ' ', $cus_field[$fieldkey] ) ) ).'</option>';
@@ -1323,6 +1359,16 @@ function saswp_schema_type_add_meta_box_save( $post_id ) {
                 }else{
                     
                    update_post_meta( $post_id, 'saswp_enable_speakable_schema', '0' );                                                                        
+                   
+                }
+                
+                if ( isset( $_POST['saswp_enable_append_reviews'] ) ){
+                    
+                    update_post_meta( $post_id, 'saswp_enable_append_reviews', sanitize_text_field($_POST['saswp_enable_append_reviews']) );                                                                       
+                    
+                }else{
+                    
+                   update_post_meta( $post_id, 'saswp_enable_append_reviews', '0' );                                                                        
                    
                 }
                                               

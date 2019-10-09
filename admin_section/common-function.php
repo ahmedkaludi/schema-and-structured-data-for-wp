@@ -151,8 +151,7 @@ if ( ! defined('ABSPATH') ) exit;
              update_option('saswp-file-upload_url','');
             
         }
-                        
-             
+                                     
         if ( count($errorDesc) ){
           echo implode("\n<br/>", $errorDesc);              
           $wpdb->query('ROLLBACK');             
@@ -2694,3 +2693,23 @@ function saswp_get_permalink(){
     
     return $url;
 }
+function saswp_get_taxonomy_term_list(){
+    
+        if ( ! current_user_can( 'manage_options' ) ) {
+             return;
+        }
+        if ( ! isset( $_GET['saswp_security_nonce'] ) ){
+           return; 
+        }
+        if ( !wp_verify_nonce( $_GET['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
+           return;  
+        }
+        
+        $choices    = array('all' => esc_html__('All','schema-and-structured-data-for-wp'));
+        $taxonomies = saswp_post_taxonomy_generator();        
+        $choices    = array_merge($choices, $taxonomies);                                          
+        echo wp_json_encode($choices);
+        
+        wp_die();
+}
+add_action( 'wp_ajax_saswp_get_taxonomy_term_list', 'saswp_get_taxonomy_term_list'); 

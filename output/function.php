@@ -642,12 +642,6 @@ function saswp_structure_data_access_scripts($data){
         
 }
 
-function sd_is_blog() {
-    
-    return ( is_author() || is_category() || is_tag() || is_date() || is_home() || is_single() ) && 'post' == get_post_type();
-    
-}
-
 /**
  * Function to fetch schema's post meta by its id from database using get_post_meta function
  * @param type $schema_id
@@ -969,4 +963,51 @@ function saswp_wp_recipe_schema_json($recipe){
             }
                         
         return $metadata;
+}
+
+function saswp_append_fetched_reviews($input1){
+    
+    global $post;
+    
+    if(is_object($post)){
+    
+        $pattern = get_shortcode_regex();
+
+        if (   preg_match_all( '/'. $pattern .'/s', $post->post_content, $matches )
+            && array_key_exists( 2, $matches )
+            && in_array( 'saswp-reviews', $matches[2] ) )
+        {
+       
+        $service = new saswp_reviews_service();    
+            
+        foreach ($matches[0] as $matche){
+            
+            $mached = rtrim($matche, ']'); 
+            $mached = ltrim($mached, '[');
+            $mached = trim($mached);
+            $attr = shortcode_parse_atts('['.$mached.' ]');  
+            
+            $reviews = $service->saswp_get_reviews_by_attr($attr);   
+            
+            if($reviews){
+             
+                $rv_markup = $service->saswp_get_reviews_schema_markup($reviews);
+            
+                if(isset($input1['review'])){
+
+                    $input1['review'] = array_merge($input1['review'], $rv_markup['review']);
+
+                }else{
+                   $input1 = array_merge($input1, $rv_markup);
+                }
+                
+            }            
+            
+        }   
+        
+    }
+    
+    
+   }   
+    return $input1;
 }

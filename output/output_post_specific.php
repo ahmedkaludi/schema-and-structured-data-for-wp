@@ -251,6 +251,8 @@ function saswp_post_specific_schema_output() {
                                $input1['track'] = $faq_question_arr;
                             }
                             
+                            $input1 = saswp_append_fetched_reviews($input1);
+                            
                           }     
                           
                           if( 'MusicAlbum' === $schema_type){
@@ -301,6 +303,8 @@ function saswp_post_specific_schema_output() {
                                 }
                                $input1['track'] = $faq_question_arr;
                             }
+                            
+                            $input1 = saswp_append_fetched_reviews($input1);
                             
                           }
                             
@@ -518,7 +522,9 @@ function saswp_post_specific_schema_output() {
                                 $input1['aggregateRating']['ratingValue']   = $all_post_meta['saswp_book_rating_value_'.$schema_id];
                                 $input1['aggregateRating']['ratingCount']   = $all_post_meta['saswp_book_rating_count_'.$schema_id];                                
                             }
-                                                        
+                            
+                                $input1 = saswp_append_fetched_reviews($input1);
+                            
                             }    
                         
                          if( 'TouristAttraction' === $schema_type){
@@ -870,6 +876,7 @@ function saswp_post_specific_schema_output() {
                             }
                             
                              $input1['totalTime'] = saswp_remove_warnings($all_post_meta, 'saswp_howto_schema_totaltime_'.$schema_id, 'saswp_array');
+                             $input1 = saswp_append_fetched_reviews($input1);
                                                        
                             }
                             
@@ -928,7 +935,9 @@ function saswp_post_specific_schema_output() {
                                 }
                                $input1['containsSeason'] = $tool_arr;
                             }
-                                                                                                              
+                                                                 
+                            $input1 = saswp_append_fetched_reviews($input1);
+                            
                             }   
                             
                          if( 'MedicalCondition' === $schema_type){
@@ -1056,7 +1065,7 @@ function saswp_post_specific_schema_output() {
                                 
                             }
                                                         
-                            
+                            $input1 = saswp_append_fetched_reviews($input1);
                                                                                                                                                                                                                                
                             }   
                         
@@ -1209,7 +1218,9 @@ function saswp_post_specific_schema_output() {
                                 if(!empty($extra_theme_review)){
                                    $input1 = array_merge($input1, $extra_theme_review);
                                 }                               
-                                                            
+                                
+                                $input1 = saswp_append_fetched_reviews($input1);
+                                
                         }
                         
                          if( 'DiscussionForumPosting' === $schema_type){
@@ -1367,12 +1378,11 @@ function saswp_post_specific_schema_output() {
                                 if(!empty($extra_theme_review)){
                                    $input1 = array_merge($input1, $extra_theme_review);
                                 }
+                                $input1 = saswp_append_fetched_reviews($input1);
                         } 
                         
                          if( 'SoftwareApplication' === $schema_type){
-                             
-                             
-                    		                                                    
+                                                                            
 			$input1 = array(
 			'@context'			=> saswp_context_url(),
 			'@type'				=> 'SoftwareApplication',
@@ -1417,6 +1427,7 @@ function saswp_post_specific_schema_output() {
                                 if(!empty($extra_theme_review)){
                                    $input1 = array_merge($input1, $extra_theme_review);
                                 }
+                                $input1 = saswp_append_fetched_reviews($input1);
                         }
 			
 			 if( 'WebPage' === $schema_type){
@@ -1733,6 +1744,7 @@ function saswp_post_specific_schema_output() {
                                 if(!empty($extra_theme_review)){
                                    $input1 = array_merge($input1, $extra_theme_review);
                                 }
+                                $input1 = saswp_append_fetched_reviews($input1);
 			}
 						
 			 if( 'Product' === $schema_type){				
@@ -1855,7 +1867,8 @@ function saswp_post_specific_schema_output() {
                                           
                                       }
                                          $input1['review'] =  $reviews;
-                                }                                                                                
+                                } 
+                                $input1 = saswp_append_fetched_reviews($input1);
 			}
                         
                          if( 'NewsArticle' === $schema_type ){  
@@ -1982,7 +1995,7 @@ function saswp_post_specific_schema_output() {
                                                 if(!empty($extra_theme_review)){
                                                     $input1 = array_merge($input1, $extra_theme_review);
                                                 }
-					
+                                                $input1 = saswp_append_fetched_reviews($input1);
 				}
                         
                          if( 'Service' === $schema_type ){  
@@ -2048,6 +2061,7 @@ function saswp_post_specific_schema_output() {
                                 if(!empty($extra_theme_review)){
                                    $input1 = array_merge($input1, $extra_theme_review);
                                 }
+                                $input1 = saswp_append_fetched_reviews($input1);
                          }     
                          
                          if( 'Review' === $schema_type ){   
@@ -2412,7 +2426,7 @@ function saswp_post_specific_schema_output() {
                                         
                                     }
                                     
-                                                                                                            
+                                    $input1 = saswp_append_fetched_reviews($input1);                                                              
 			}
                         
                         global $without_aggregate;
