@@ -480,8 +480,7 @@ function saswp_premium_features_callback(){ ?>
                                         }
                                         
                                         ?> 
-                            
-                            
+                                                        
 				<div class="saswp-features-ele">
                                     <div class="saswp-ele-ic" style="background: #ace;">
                                             <img src="<?php echo SASWP_PLUGIN_URL; ?>/admin_section/images/real-estate-schema-wp.png">
