@@ -1368,6 +1368,16 @@ add_action('wp_ajax_saswp_import_plugin_data', 'saswp_import_plugin_data');
 
 function saswp_feeback_no_thanks(){     
     
+        if ( ! current_user_can( 'manage_options' ) ) {
+             return;
+        }
+        if ( ! isset( $_GET['saswp_security_nonce'] ) ){
+           return; 
+        }
+        if ( !wp_verify_nonce( $_GET['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
+           return;  
+        }
+        
         $result = update_option( "saswp_activation_never", 'never'); 
         
         if($result){
@@ -1387,6 +1397,16 @@ add_action('wp_ajax_saswp_feeback_no_thanks', 'saswp_feeback_no_thanks');
 
 
 function saswp_feeback_remindme(){  
+    
+        if ( ! current_user_can( 'manage_options' ) ) {
+             return;
+        }
+        if ( ! isset( $_GET['saswp_security_nonce'] ) ){
+           return; 
+        }
+        if ( !wp_verify_nonce( $_GET['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
+           return;  
+        }
     
         $result = update_option( "saswp_activation_date", date("Y-m-d"));   
         

@@ -127,10 +127,8 @@ Class saswp_output_service{
             
             global $post;
             
-            $fixed_image       = get_post_meta($schema_post_id, 'saswp_fixed_image', true) ;
-            $fixed_text        = get_post_meta($schema_post_id, 'saswp_fixed_text', true) ; 
-            $cus_field         = get_post_meta($schema_post_id, 'saswp_custom_meta_field', true); 
-            
+            $fixed_image       = get_post_meta($schema_post_id, 'saswp_fixed_image', true) ;            
+                        
             $response = null;
             
             switch ($field) {
@@ -183,6 +181,8 @@ Class saswp_output_service{
                     break;
                 case 'manual_text':    
                     
+                    $fixed_text        = get_post_meta($schema_post_id, 'saswp_fixed_text', true) ; 
+                    
                     if(isset($fixed_text[$key])){
                     
                         if (strpos($fixed_text[$key], 'http') !== false) {
@@ -203,8 +203,56 @@ Class saswp_output_service{
                     }
                     
                     break;
+                
+                case 'taxonomy_term':    
+                    
+                    $response = '';
+                    
+                    $taxonomy_term       = get_post_meta( $schema_post_id, 'saswp_taxonomy_term', true) ; 
+                                        
+                    if($taxonomy_term[$key] == 'all'){
+                        
+                        $post_taxonomies      = get_post_taxonomies( $post->ID );
+                                                
+                        if($post_taxonomies){
+                            
+                            foreach ($post_taxonomies as $taxonomie ){
+                                
+                                $terms               = get_the_terms( $post->ID, $taxonomie);
+                                
+                                if($terms){
+                                    foreach ($terms as $term){
+                                        $response .= $term->name.', ';
+                                    }    
+                                }
+                                
+                            }
+                            
+                        }                        
+                        
+                    }else{
+                    
+                        $terms               = get_the_terms( $post->ID, $taxonomy_term[$key]);
+                        
+                        if($terms){
+                            foreach ($terms as $term){
+                                $response .= $term->name.', ';
+                            }    
+                        }
+                        
+                    }
+                                                                                                    
+                    if($response){
+                        $response = substr(trim($response), 0, -1); 
+                    }
+                                                            
+                    break;
+                    
                 case 'custom_field':
+                    
+                    $cus_field   = get_post_meta($schema_post_id, 'saswp_custom_meta_field', true); 
                     $response    = get_post_meta($post->ID, $cus_field[$key], true); 
+                    
                     break;
                 case 'fixed_image':                    
                     

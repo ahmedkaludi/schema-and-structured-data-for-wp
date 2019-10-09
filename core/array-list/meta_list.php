@@ -24,6 +24,12 @@ return apply_filters('saswp_modify_post_meta_list',
                                     ),
                             ),
                             array(
+                                    'label'     => __( 'Taxonomy Term', 'schema-and-structured-data-for-wp' ),
+                                    'meta-list' => array(
+                                            'taxonomy_term'  => __( 'Taxonomy Term', 'schema-and-structured-data-for-wp' ),                                            
+                                    ),
+                            ),
+                            array(
                                     'label'     => __( 'Manual Field', 'schema-and-structured-data-for-wp' ),
                                     'meta-list' => array(
                                             'manual_text'  => __( 'Manual Text', 'schema-and-structured-data-for-wp' ),                                            

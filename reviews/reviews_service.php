@@ -101,9 +101,6 @@ class saswp_reviews_service {
                         if(is_object($term)){
                             $term_slug = $term->slug; 
                         }
-                        if($term_slug == ''){
-                            $term_slug = 'google';
-                        }
                         
                         $img_src = SASWP_DIR_URI.'/admin_section/images/default_user.jpg';
                                                 
