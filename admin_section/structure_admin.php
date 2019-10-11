@@ -1435,7 +1435,8 @@ function saswp_license_status($add_on, $license_status, $license_key){
                        'cooked'       => 'Cooked compatibility for Schema',
                        'woocommerce'  => 'Woocommerce compatibility for Schema',
                        'reviews'      => 'Reviews for schema',
-                       'res'          => 'Real Estate Schema'
+                       'res'          => 'Real Estate Schema',
+                       'cs'           => 'Course Schema'
                 );
                                                                             
                 $edd_action = '';

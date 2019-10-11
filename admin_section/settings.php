@@ -1410,9 +1410,14 @@ function saswp_import_callback(){
            $add_on[] = 'Woocommerce';           
                                       
         }
-        if(is_plugin_active('reviews-for-schema/reviews-for-schema.php')){
+        if(is_plugin_active('real-estate-schema/real-estate-schema.php')){
                       
            $add_on[] = 'Res';           
+                                      
+        }
+        if(is_plugin_active('course-schema/course-schema.php')){
+                      
+           $add_on[] = 'Cs';           
                                       
         }        
                 
@@ -1441,7 +1446,7 @@ function saswp_import_callback(){
                 }
                 
                 echo '<li>';
-                echo saswp_get_license_section_html($on, $license_key, $license_status, $license_status_msg, $label=true, $limits=false);
+                echo saswp_get_license_section_html($on, $license_key, $license_status, $license_status_msg, true, false);
                 echo '</li>';
                 
             }
@@ -1493,19 +1498,26 @@ function saswp_import_callback(){
          
 }
 
-function saswp_get_license_section_html($on, $license_key, $license_status, $license_status_msg, $label=null, $limits=null){
+function saswp_get_license_section_html($on, $license_key, $license_status, $license_status_msg, $label=null, $limit_status=null){
             
             $limits_html = $response = '';
     
             $limits = get_option('reviews_addon_reviews_limits');
     
-            if($limits){
+            if($limit_status){
                $limits_html = '<span style="padding:10px;">Maximum Reviews Limits '. esc_attr($limits).'</span>'; 
             }
 
             $response.= '<div class="saswp-tools-field-title">';
                 
-               if($label == true && $on != 'Res'){
+               if($label == true && $on == 'Cooked'){
+                   
+                    $response.= '<div class="" style="display:inline-block">';
+                    $response.= '<strong>'.esc_html__(''.$on.' Compatibility For Schema','schema-and-structured-data-for-wp').'</strong>';
+                    $response.= '</div>';
+                
+               }
+               if($label == true && $on == 'Woocommerce'){
                    
                     $response.= '<div class="" style="display:inline-block">';
                     $response.= '<strong>'.esc_html__(''.$on.' Compatibility For Schema','schema-and-structured-data-for-wp').'</strong>';
@@ -1517,6 +1529,14 @@ function saswp_get_license_section_html($on, $license_key, $license_status, $lic
                    
                     $response.= '<div class="" style="display:inline-block">';
                     $response.= '<strong>'.esc_html__('Real Estate Schema','schema-and-structured-data-for-wp').'</strong>';
+                    $response.= '</div>';
+                
+               }
+               
+               if($label == true && $on == 'Cs'){
+                   
+                    $response.= '<div class="" style="display:inline-block">';
+                    $response.= '<strong>'.esc_html__('Course Schema','schema-and-structured-data-for-wp').'</strong>';
                     $response.= '</div>';
                 
                }
@@ -1755,6 +1775,45 @@ function saswp_compatibility_page_callback(){
                         )
 		);
         
+        $learn_press = array(
+			'label'  => 'LearnPress',
+			'id'     => 'saswp-learn-press-checkbox',                        
+                        'name'   => 'saswp-learn-press-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
+                        'note'   => saswp_get_field_note('learn_press'),
+                        'hidden' => array(
+                                'id'   => 'saswp-learn-press',
+                                'name' => 'sd_data[saswp-learn-press]',                             
+                )
+	);
+        
+        $learn_dash = array(
+			'label'  => 'LearnDash',
+			'id'     => 'saswp-learn-dash-checkbox',                        
+                        'name'   => 'saswp-learn-dash-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',  
+                        'note'   => saswp_get_field_note('learn_dash'),
+                        'hidden' => array(
+                                'id'   => 'saswp-learn-dash',
+                                'name' => 'sd_data[saswp-learn-dash]',                             
+                )
+	);
+        
+        $lifter_lms = array(
+			'label'  => 'LifterLMS',
+			'id'     => 'saswp-lifter-lms-checkbox',                        
+                        'name'   => 'saswp-lifter-lms-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
+                        'note'   => saswp_get_field_note('lifter_lms'),
+                        'hidden' => array(
+                                'id'   => 'saswp-lifter-lms',
+                                'name' => 'sd_data[saswp-lifter-lms]',                             
+                )
+	);
+                
         $seo_press = array(
 			'label'  => 'SEOPress',
 			'id'     => 'saswp-seo-press-checkbox',                        
@@ -2003,6 +2062,14 @@ function saswp_compatibility_page_callback(){
              $real_homes['note'] = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/extensions/">Real Estate Schema Addon</a>';
              
          }
+         
+         if(!is_plugin_active('course-schema/course-schema.php')){
+                          
+             $learn_press['note'] = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/extensions/">Course Schema Addon</a>';
+             $learn_dash['note']  = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/extensions/">Course Schema Addon</a>';
+             $lifter_lms['note']  = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/extensions/">Course Schema Addon</a>';
+             
+         }
                                                                                 
         if(get_template() != 'Extra'){
              
@@ -2035,7 +2102,10 @@ function saswp_compatibility_page_callback(){
                 $recipe_maker,
                 $rankmath,
                 $homeland_theme,
-                $real_homes
+                $real_homes,
+                $learn_press,
+                $learn_dash,
+                $lifter_lms
                 
 	);     
         
@@ -2246,7 +2316,11 @@ function saswp_get_field_note($pname){
             'seo_press'           => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wp-seopress/">SEOPress</a>',
             'aiosp'               => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/all-in-one-seo-pack/">All in One SEO Pack</a>',
             'squirrly_seo'        => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/squirrly-seo/">Squirrly SEO</a>',          
-            'wp_recipe_maker'     => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wp-recipe-maker/">WP Recipe Maker</a>'
+            'wp_recipe_maker'     => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wp-recipe-maker/">WP Recipe Maker</a>',
+        
+            'learn_press'         => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/learnpress/">Learn Press</a>',
+            'learn_dash'          => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://www.learndash.com/pricing-and-purchase/">Learn Dash</a>',
+            'lifter_lms'          => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/lifterlms/">LifterLMS</a>'
         );
             
     if(!saswp_check_plugin_active_status($pname)){
