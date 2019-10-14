@@ -496,6 +496,37 @@ function saswp_premium_features_callback(){ ?>
                                                                            										
 				</div>
 			</li>
+                        
+                        <li>
+                            
+                                        <?php
+                                        
+                                        $cooked_active_text = '';
+                                        
+                                        if(is_plugin_active('course-schema/course-schema.php')){                                        
+                                            $cooked_active_text = '<label class="saswp-sts-txt">Status :<span style="color:green;">Active</span></label>';                                            
+                                        }else{
+                                            $cooked_active_text .='<label class="saswp-sts-txt">Status :<span>Inactive</span></label>';
+                                            $cooked_active_text .='<a target="_blank" href="http://structured-data-for-wp.com/extensions/"><span class="saswp-d-btn">Download</span></a>';
+                                        }
+                                        
+                                        ?> 
+                                                        
+				<div class="saswp-features-ele">
+                                    <div class="saswp-ele-ic" style="background: #ace;">
+                                            <img src="<?php echo SASWP_PLUGIN_URL; ?>/admin_section/images/real-estate-schema-wp.png">
+					</div>
+					<div class="saswp-ele-tlt">
+						<h3><?php echo esc_html__('Course Schema','schema-and-structured-data-for-wp') ?></h3>
+						<p><?php echo esc_html__('Course Schema extension is the number one solution to enhance your course website with the right structured data.','schema-and-structured-data-for-wp') ?></p>
+					</div>
+				</div>
+				<div class="saswp-sts-btn">
+                                    
+                                    <?php echo $cooked_active_text; ?>
+                                                                           										
+				</div>
+			</li>
 		</ul>
 	</div>
 
@@ -2286,13 +2317,13 @@ function saswp_enqueue_style_js( $hook ) {
         wp_register_style( 'jquery-ui', SASWP_PLUGIN_URL. 'admin_section/css/jquery-ui.css' );
         wp_enqueue_style( 'jquery-ui' ); 
         
-        wp_register_script( 'saswp-main-js', SASWP_PLUGIN_URL . 'admin_section/js/main-script.min.js', array('jquery','jquery-ui-core'), SASWP_VERSION , true );
+        wp_register_script( 'saswp-main-js', SASWP_PLUGIN_URL . 'admin_section/js/'.(SASWP_ENVIRONMENT == 'production' ? 'main-script.min.js' : 'main-script.js'), array('jquery','jquery-ui-core'), SASWP_VERSION , true );
                         
         wp_localize_script( 'saswp-main-js', 'saswp_localize_data', $data );
         
         wp_enqueue_script( 'saswp-main-js' );
         
-        wp_enqueue_style( 'saswp-main-css', SASWP_PLUGIN_URL . 'admin_section/css/main-style.min.css', false , SASWP_VERSION );
+        wp_enqueue_style( 'saswp-main-css', SASWP_PLUGIN_URL . 'admin_section/css/'.(SASWP_ENVIRONMENT == 'production' ? 'main-style.min.css' : 'main-style.css'), false , SASWP_VERSION );
                         
         wp_style_add_data( 'saswp-main-css', 'rtl', 'replace' );
         

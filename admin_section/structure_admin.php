@@ -458,6 +458,8 @@ function saswp_comparison_logic_checker($input){
           
         global $redux_builder_amp;
           
+        $current_post = '';
+        
         if(function_exists('ampforwp_is_front_page')){
             
           if(ampforwp_is_front_page()){
@@ -466,12 +468,17 @@ function saswp_comparison_logic_checker($input){
           
           } else{
               
-                $current_post = $post->ID;   
-          
+                if(is_object($post)){
+                    $current_post = $post->ID;   
+                }
+                          
           }           
         }else{
-          $current_post = $post->ID;
+                if(is_object($post)){
+                    $current_post = $post->ID;   
+                }
         }
+        
             if ( $comparison == 'equal' ) {
                 if ( $current_post == $data ) {
                   $result = true;
