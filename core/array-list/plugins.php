@@ -40,7 +40,13 @@ return array(
             'name'       => 'The Events Calendar',
             'path_free'  => 'the-events-calendar/the-events-calendar.php',            
             'status_key' => 'saswp-the-events-calendar',    
-        ),                
+        ),
+        array(
+            'key'        => 'wp_event_manager',
+            'name'       => 'WP Event Manager',
+            'path_free'  => 'wp-event-manager/wp-event-manager.php',            
+            'status_key' => 'saswp-wp-event-manager',    
+        ),
         array(
             'key'        => 'dw_qna',
             'name'       => 'DW Question Answer',

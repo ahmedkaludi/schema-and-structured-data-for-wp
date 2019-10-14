@@ -1443,7 +1443,8 @@ function saswp_license_status($add_on, $license_status, $license_key){
                        'woocommerce'  => 'Woocommerce compatibility for Schema',
                        'reviews'      => 'Reviews for schema',
                        'res'          => 'Real Estate Schema',
-                       'cs'           => 'Course Schema'
+                       'cs'           => 'Course Schema',
+                       'es'           => 'Event Schema'
                 );
                                                                             
                 $edd_action = '';

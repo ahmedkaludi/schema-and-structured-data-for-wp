@@ -57,6 +57,14 @@ class saswp_output_compatibility{
                                    
     }
     
+    public function saswp_wp_event_manager_override(){
+                        
+        if(class_exists('WP_Event_Manager_Post_Types')){
+            remove_action( 'wp_footer', array( WP_Event_Manager_Post_Types::instance(), 'output_structured_data' ), 10 ); 
+        }
+                        
+    }
+    
     public function saswp_wp_post_ratings_override(){
         
         add_filter('wp_postratings_schema_itemtype', '__return_false');

@@ -513,12 +513,43 @@ function saswp_premium_features_callback(){ ?>
                                         ?> 
                                                         
 				<div class="saswp-features-ele">
-                                    <div class="saswp-ele-ic" style="background: #ace;">
+                                    <div class="saswp-ele-ic" style="background: #dcb71d;">
                                             <img src="<?php echo SASWP_PLUGIN_URL; ?>/admin_section/images/course.png">
 					</div>
 					<div class="saswp-ele-tlt">
 						<h3><?php echo esc_html__('Course Schema','schema-and-structured-data-for-wp') ?></h3>
 						<p><?php echo esc_html__('Course Schema extension is the number one solution to enhance your course offering website with the right structured data.','schema-and-structured-data-for-wp') ?></p>
+					</div>
+				</div>
+				<div class="saswp-sts-btn">
+                                    
+                                    <?php echo $cooked_active_text; ?>
+                                                                           										
+				</div>
+			</li>
+                        
+                        <li>
+                            
+                                        <?php
+                                        
+                                        $cooked_active_text = '';
+                                        
+                                        if(is_plugin_active('course-schema/course-schema.php')){                                        
+                                            $cooked_active_text = '<label class="saswp-sts-txt">Status :<span style="color:green;">Active</span></label>';                                            
+                                        }else{
+                                            $cooked_active_text .='<label class="saswp-sts-txt">Status :<span>Inactive</span></label>';
+                                            $cooked_active_text .='<a target="_blank" href="http://structured-data-for-wp.com/extensions/"><span class="saswp-d-btn">Download</span></a>';
+                                        }
+                                        
+                                        ?> 
+                                                        
+				<div class="saswp-features-ele">
+                                    <div class="saswp-ele-ic" style="background: #eae4ca;">
+                                            <img src="<?php echo SASWP_PLUGIN_URL; ?>/admin_section/images/event.png">
+					</div>
+					<div class="saswp-ele-tlt">
+						<h3><?php echo esc_html__('Event Schema','schema-and-structured-data-for-wp') ?></h3>
+						<p><?php echo esc_html__('Event Schema extension is the number one solution to enhance your event website with the right structured data.','schema-and-structured-data-for-wp') ?></p>
 					</div>
 				</div>
 				<div class="saswp-sts-btn">
@@ -1450,6 +1481,11 @@ function saswp_import_callback(){
                       
            $add_on[] = 'Cs';           
                                       
+        }
+        if(is_plugin_active('event-schema/event-schema.php')){
+                      
+           $add_on[] = 'Es';           
+                                      
         }        
                 
         if(!empty($add_on)){
@@ -1568,6 +1604,13 @@ function saswp_get_license_section_html($on, $license_key, $license_status, $lic
                    
                     $response.= '<div class="" style="display:inline-block">';
                     $response.= '<strong>'.esc_html__('Course Schema','schema-and-structured-data-for-wp').'</strong>';
+                    $response.= '</div>';
+                
+               }
+               if($label == true && $on == 'Es'){
+                   
+                    $response.= '<div class="" style="display:inline-block">';
+                    $response.= '<strong>'.esc_html__('Event Schema','schema-and-structured-data-for-wp').'</strong>';
                     $response.= '</div>';
                 
                }
@@ -1842,6 +1885,18 @@ function saswp_compatibility_page_callback(){
                         'hidden' => array(
                                 'id'   => 'saswp-lifter-lms',
                                 'name' => 'sd_data[saswp-lifter-lms]',                             
+                )
+	);
+        $wp_event_manager = array(
+			'label'  => 'WP Event Manager',
+			'id'     => 'saswp-wp-event-manager-checkbox',                        
+                        'name'   => 'saswp-wp-event-manager-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
+                        'note'   => saswp_get_field_note('wp_event_manager'),
+                        'hidden' => array(
+                                'id'   => 'saswp-wp-event-manager',
+                                'name' => 'sd_data[saswp-wp-event-manager]',                             
                 )
 	);
                 
@@ -2136,7 +2191,8 @@ function saswp_compatibility_page_callback(){
                 $real_homes,
                 $learn_press,
                 $learn_dash,
-                $lifter_lms
+                $lifter_lms,
+                $wp_event_manager
                 
 	);     
         
@@ -2351,7 +2407,8 @@ function saswp_get_field_note($pname){
         
             'learn_press'         => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/learnpress/">Learn Press</a>',
             'learn_dash'          => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://www.learndash.com/pricing-and-purchase/">Learn Dash</a>',
-            'lifter_lms'          => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/lifterlms/">LifterLMS</a>'
+            'lifter_lms'          => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/lifterlms/">LifterLMS</a>',
+            'wp_event_manager'    => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wp-event-manager//">WP Event Manager</a>'
         );
             
     if(!saswp_check_plugin_active_status($pname)){
