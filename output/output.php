@@ -649,6 +649,7 @@ function saswp_schema_output() {
 			'url'				=> trailingslashit(saswp_get_permalink()),
 			'datePublished'                 => esc_html($date),
 			'dateModified'                  => esc_html($modified_date),
+                        'author'			=> saswp_get_author_details(),    
 			'provider'			=> array(
                                                             '@type' 	        => 'Organization',
                                                             'name'		=> get_bloginfo(),
@@ -670,7 +671,7 @@ function saswp_schema_output() {
                                    $input1['comment'] = saswp_get_comments(get_the_ID());
                                 }
                             
-                            $input1 = apply_filters('saswp_modify_course_schema_output', $input1 );    
+                                $input1 = apply_filters('saswp_modify_course_schema_output', $input1 );    
                         }
                                                 
                         if( 'DiscussionForumPosting' === $schema_type){
@@ -1555,6 +1556,7 @@ function saswp_archive_output(){
 	global $query_string, $sd_data;   
         
         $site_name ='';
+        $output = array();
         
         if(isset($sd_data['sd_name']) && $sd_data['sd_name'] !=''){
           $site_name = $sd_data['sd_name'];  
@@ -1636,8 +1638,6 @@ function saswp_archive_output(){
 
 		wp_reset_postdata();
                 
-		$output = array();
-                
 		$category 		= get_queried_object(); 		
 		
                 if(is_object($category)){
@@ -1678,12 +1678,11 @@ function saswp_archive_output(){
                 }
                     
                 }
-                                                               
-		return apply_filters('saswp_modify_archive_output', $output);
                 
 	endif;				
 	}
-	} 
+	}         
+        return apply_filters('saswp_modify_archive_output', $output);
 }
 
 /**

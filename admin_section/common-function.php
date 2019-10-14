@@ -2530,9 +2530,16 @@ function saswp_check_plugin_active_status($pname){
         ),
         'wp_recipe_maker' => array(
             'free' => 'wp-recipe-maker/wp-recipe-maker.php',            
-        ),
-        
-        
+        ),        
+        'learn_press' => array(
+            'free' => 'learnpress/learnpress.php',            
+        ),        
+        'lifter_lms' => array(
+            'free' => 'lifterlms/lifterlms.php',            
+        ),        
+        'learn_dash' => array(
+            'free' => 'learndash/learndash.php',            
+        ),                
     );
     
     if(array_key_exists('free', $pnamelist[$pname])){

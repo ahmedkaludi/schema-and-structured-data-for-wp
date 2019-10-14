@@ -11,7 +11,13 @@
  * @copyright Copyright (c) 2017, Merlin WP of Inventionn LLC
  * @license   Licensed GPLv3 for open source use
  */	
-	$saswp_installer_config = array(
+	$saswp_installer_config = array();
+        
+        add_action('plugins_loaded', 'saswp_add_installer_config');
+        
+        function saswp_add_installer_config(){
+            global $saswp_installer_config;
+            $saswp_installer_config = array(
 					'installer_dir' => 'plugin-installer',
 					'plugin_title'  => esc_html__( ucfirst( 'Schema & Structured Data for WP' ), 'schema-and-structured-data-for-wp'),
 					'start_steps'   => 1,
@@ -50,6 +56,10 @@
 								'step_id'=>1
 								)
 				);
+            
+            
+        }
+        
 	add_action( 'admin_menu', 'saswp_add_admin_menu' );
 	add_action( 'admin_init', 'saswp_installer_init');
 	add_action( 'admin_footer', 'saswp_svg_sprite');

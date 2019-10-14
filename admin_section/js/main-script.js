@@ -1046,7 +1046,33 @@ jQuery(document).ready(function($){
                             }
                       break;
                       
-                                           
+                      case 'saswp-learn-press-checkbox':
+                          saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-learn-press").val(1);             
+                            }else{
+                              $("#saswp-learn-press").val(0);           
+                            }
+                      break;
+                      
+                      case 'saswp-learn-dash-checkbox':
+                          saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-learn-dash").val(1);             
+                            }else{
+                              $("#saswp-learn-dash").val(0);           
+                            }
+                      break;
+                      
+                      case 'saswp-lifter-lms-checkbox':
+                          saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-lifter-lms").val(1);             
+                            }else{
+                              $("#saswp-lifter-lms").val(0);           
+                            }
+                      break;
+                                                                 
                       case 'saswp-woocommerce-booking-checkbox':
                           saswp_compatibliy_notes(current, id); 
                             if ($(this).is(':checked')) {              

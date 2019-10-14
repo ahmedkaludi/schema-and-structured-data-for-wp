@@ -2006,27 +2006,27 @@ function saswp_post_specific_schema_output() {
                                 $service_offer_str = saswp_remove_warnings($all_post_meta, 'saswp_service_schema_service_offer_'.$schema_id, 'saswp_array');
                                 $service_offer_arr = explode(',', $service_offer_str);
                                 
-				$input1 = array(
-					'@context'			=> saswp_context_url(),
-					'@type'				=> $schema_type ,
-                                        '@id'                           => trailingslashit(get_permalink()).'#service',    
-                                        'name'				=> saswp_remove_warnings($all_post_meta, 'saswp_service_schema_name_'.$schema_id, 'saswp_array'), 
-					'serviceType'                   => saswp_remove_warnings($all_post_meta, 'saswp_service_schema_type_'.$schema_id, 'saswp_array'),
-					'provider'                      => array(
-                                                                        '@type' => saswp_remove_warnings($all_post_meta, 'saswp_service_schema_provider_type_'.$schema_id, 'saswp_array'),
-                                                                        'name'  => saswp_remove_warnings($all_post_meta, 'saswp_service_schema_provider_name_'.$schema_id, 'saswp_array'),
-                                                                        'image' => saswp_remove_warnings($all_post_meta, 'saswp_service_schema_image_'.$schema_id, 'saswp_array'),
-                                                                        '@id'   => trailingslashit(get_permalink()),
-                                                                        'address' => array(
-                                                                            '@type'           => 'PostalAddress',
-                                                                            'addressLocality' => saswp_remove_warnings($all_post_meta, 'saswp_service_schema_locality_'.$schema_id, 'saswp_array'),
-                                                                            'postalCode'      => saswp_remove_warnings($all_post_meta, 'saswp_service_schema_postal_code_'.$schema_id, 'saswp_array'),  
-                                                                            'telephone'       => saswp_remove_warnings($all_post_meta, 'saswp_service_schema_telephone_'.$schema_id, 'saswp_array')
-                                                                        ),
-                                                                        'priceRange'         => saswp_remove_warnings($all_post_meta, 'saswp_service_schema_price_range_'.$schema_id, 'saswp_array'),                                                                        
-                                                                        ),                                        										                                                                     
-					'description'                   => saswp_remove_warnings($all_post_meta, 'saswp_service_schema_description_'.$schema_id, 'saswp_array'),
-                                        ); 
+                                $input1['@context']    = saswp_context_url();
+                                $input1['@type']       = $schema_type;
+                                $input1['@id']         = trailingslashit(get_permalink()).'#service';
+                                $input1['name']        = saswp_remove_warnings($all_post_meta, 'saswp_service_schema_name_'.$schema_id, 'saswp_array');
+                                $input1['serviceType'] = saswp_remove_warnings($all_post_meta, 'saswp_service_schema_type_'.$schema_id, 'saswp_array');
+                                
+                                if(isset($all_post_meta['saswp_service_schema_provider_type_'.$schema_id][0])){
+                                
+                                     $input1['provider']['@type']                      = $all_post_meta['saswp_service_schema_provider_type_'.$schema_id][0];
+                                     $input1['provider']['name']                       = $all_post_meta['saswp_service_schema_provider_name_'.$schema_id][0];                                    
+                                     $input1['provider']['image']                      = saswp_remove_warnings($all_post_meta, 'saswp_service_schema_image_'.$schema_id, 'saswp_array');
+                                     $input1['provider']['priceRange']                 = saswp_remove_warnings($all_post_meta, 'saswp_service_schema_price_range_'.$schema_id, 'saswp_array');
+                                     $input1['provider']['address']['@type']           = 'PostalAddress';
+                                     $input1['provider']['address']['addressLocality'] = saswp_remove_warnings($all_post_meta, 'saswp_service_schema_locality_'.$schema_id, 'saswp_array');
+                                     $input1['provider']['address']['postalCode']      = saswp_remove_warnings($all_post_meta, 'saswp_service_schema_postal_code_'.$schema_id, 'saswp_array');
+                                     $input1['provider']['address']['telephone']       = saswp_remove_warnings($all_post_meta, 'saswp_service_schema_telephone_'.$schema_id, 'saswp_array');
+                                     
+                                }
+                                
+                                $input1['description'] = saswp_remove_warnings($all_post_meta, 'saswp_service_schema_description_'.$schema_id, 'saswp_array');
+                                				
                                         $areaServed = array();
                                         foreach($area_served_arr as $area){
                                             $areaServed[] = array(
