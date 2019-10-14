@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.2
-Stable tag: 1.9.12
+Stable tag: 1.9.13
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -117,6 +117,12 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.9.13 (14 Oct 2019) =
+
+* Fixed: Trying to get property ‘ID’ of non-object #543
+* Fixed: Fix Service Schema "Provider Type" Output #536
+* Added: Course Schema Box in Premium Features tab #540
 
 = 1.9.12 (9 Oct 2019) =
 

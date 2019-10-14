@@ -514,11 +514,11 @@ function saswp_premium_features_callback(){ ?>
                                                         
 				<div class="saswp-features-ele">
                                     <div class="saswp-ele-ic" style="background: #ace;">
-                                            <img src="<?php echo SASWP_PLUGIN_URL; ?>/admin_section/images/real-estate-schema-wp.png">
+                                            <img src="<?php echo SASWP_PLUGIN_URL; ?>/admin_section/images/course.png">
 					</div>
 					<div class="saswp-ele-tlt">
 						<h3><?php echo esc_html__('Course Schema','schema-and-structured-data-for-wp') ?></h3>
-						<p><?php echo esc_html__('Course Schema extension is the number one solution to enhance your course website with the right structured data.','schema-and-structured-data-for-wp') ?></p>
+						<p><?php echo esc_html__('Course Schema extension is the number one solution to enhance your course offering website with the right structured data.','schema-and-structured-data-for-wp') ?></p>
 					</div>
 				</div>
 				<div class="saswp-sts-btn">

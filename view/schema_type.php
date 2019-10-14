@@ -542,7 +542,8 @@ function saswp_schema_type_meta_box_callback( $post) {
                     $business_type       = '';                
                     $custom_logo_id      = '';
                     $speakable           = '';
-                    $append_reviews      = '';    
+                    $append_reviews      = '';  
+                    $event_type          = '';
 
                     $business_details    = array();
                     $logo                = array();
