@@ -2177,9 +2177,18 @@ function saswp_compatibility_page_callback(){
          
          if(!is_plugin_active('course-schema/course-schema.php')){
                           
-             $learn_press['note'] = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/extensions/">Course Schema Addon</a>';
-             $learn_dash['note']  = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/extensions/">Course Schema Addon</a>';
-             $lifter_lms['note']  = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/extensions/">Course Schema Addon</a>';
+             $learn_press['note'] = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/course-schema/">Course Schema Addon</a>';
+             $learn_dash['note']  = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/course-schema/">Course Schema Addon</a>';
+             $lifter_lms['note']  = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/course-schema/">Course Schema Addon</a>';
+             
+         }
+         
+         if(!is_plugin_active('event-schema/event-schema.php')){
+                          
+             $the_events_calendar['note'] = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/evennt-schema/">Event Schema Addon</a>';
+             $events_calendar_wd['note']  = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/evennt-schema/">Event Schema Addon</a>';
+             $wp_event_manager['note']    = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/evennt-schema/">Event Schema Addon</a>';
+             $events_manager['note']      = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/evennt-schema/">Event Schema Addon</a>';
              
          }
                                                                                 
@@ -2199,12 +2208,10 @@ function saswp_compatibility_page_callback(){
                 $woocommerce,
                 $woocommerce_bok,
                 $woocommerce_mem,
-                $cooked,
-                $the_events_calendar,
+                $cooked,                
                 $tagyeem,
                 $extratheme,
-                $dwquestiton,
-                //$wpjobmanager,
+                $dwquestiton,                
                 $yoast,
                 $smart_crawl,
                 $seo_press,
@@ -2218,6 +2225,7 @@ function saswp_compatibility_page_callback(){
                 $learn_press,
                 $learn_dash,
                 $lifter_lms,
+                $the_events_calendar,
                 $wp_event_manager,
                 $events_manager,
                 $events_calendar_wd
@@ -2431,8 +2439,7 @@ function saswp_get_field_note($pname){
             'seo_press'           => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wp-seopress/">SEOPress</a>',
             'aiosp'               => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/all-in-one-seo-pack/">All in One SEO Pack</a>',
             'squirrly_seo'        => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/squirrly-seo/">Squirrly SEO</a>',          
-            'wp_recipe_maker'     => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wp-recipe-maker/">WP Recipe Maker</a>',
-        
+            'wp_recipe_maker'     => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wp-recipe-maker/">WP Recipe Maker</a>',        
             'learn_press'         => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/learnpress/">Learn Press</a>',
             'learn_dash'          => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://www.learndash.com/pricing-and-purchase/">Learn Dash</a>',
             'lifter_lms'          => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/lifterlms/">LifterLMS</a>',

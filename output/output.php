@@ -814,23 +814,6 @@ function saswp_schema_output() {
                         }
                         
                         if( 'Event' === $schema_type){
-                                                   
-                        if(!saswp_non_amp() && is_plugin_active('the-events-calendar/the-events-calendar.php') && isset($sd_data['saswp-the-events-calendar']) && $sd_data['saswp-the-events-calendar'] == 1  ){
-                            
-                            $input1            = Tribe__Events__JSON_LD__Event::instance()->get_data();  
-                            
-                            if(!empty($input1)){
-                                
-                                $input1            = array_values( $input1 );
-                                $input1            = json_encode($input1);
-                                $input1            = json_decode($input1, true); 
-                                $input1            = $input1[0];
-                            }                                                                                    
-                                                       
-                        }else{
-                           
-                        if ( isset($sd_data['saswp-the-events-calendar']) && $sd_data['saswp-the-events-calendar'] == 0 ) {
-                                          
                             
                                 $event_type         = get_post_meta($schema_post_id, 'saswp_event_type', true);  
                             
@@ -854,12 +837,8 @@ function saswp_schema_output() {
                                     $service = new saswp_output_service();
                                     $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
                                 }
-                                
-                            } 
                             
-                        }    
-                            
-                        $input1 = apply_filters('saswp_modify_event_schema_output', $input1 );
+                                $input1 = apply_filters('saswp_modify_event_schema_output', $input1 );
                         
                         }
                         
