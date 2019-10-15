@@ -48,6 +48,18 @@ return array(
             'status_key' => 'saswp-wp-event-manager',    
         ),
         array(
+            'key'        => 'events_manager',
+            'name'       => 'Events Manager',
+            'path_free'  => 'events-manager/events-manager.php',            
+            'status_key' => 'saswp-events-manager',    
+        ),
+        array(
+            'key'        => 'event_calendar_wd',
+            'name'       => 'Event Calendar WD',
+            'path_free'  => 'event-calendar-wd/ecwd.php',            
+            'status_key' => 'saswp-event-calendar-wd',    
+        ),
+        array(
             'key'        => 'dw_qna',
             'name'       => 'DW Question Answer',
             'path_free'  => 'dw-question-answer/dw-question-answer.php',

@@ -1899,6 +1899,32 @@ function saswp_compatibility_page_callback(){
                                 'name' => 'sd_data[saswp-wp-event-manager]',                             
                 )
 	);
+        
+        $events_manager = array(
+			'label'  => 'Events Manager',
+			'id'     => 'saswp-events-manager-checkbox',                        
+                        'name'   => 'saswp-events-manager-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
+                        'note'   => saswp_get_field_note('events_manager'),
+                        'hidden' => array(
+                                'id'   => 'saswp-events-manager',
+                                'name' => 'sd_data[saswp-events-manager]',                             
+                )
+	);
+        
+        $events_calendar_wd = array(
+			'label'  => 'Event Calendar WD',
+			'id'     => 'saswp-event-calendar-wd-checkbox',                        
+                        'name'   => 'saswp-event-calendar-wd-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
+                        'note'   => saswp_get_field_note('event_calendar_wd'),
+                        'hidden' => array(
+                                'id'   => 'saswp-event-calendar-wd',
+                                'name' => 'sd_data[saswp-event-calendar-wd]',                             
+                )
+	);
                 
         $seo_press = array(
 			'label'  => 'SEOPress',
@@ -2192,7 +2218,9 @@ function saswp_compatibility_page_callback(){
                 $learn_press,
                 $learn_dash,
                 $lifter_lms,
-                $wp_event_manager
+                $wp_event_manager,
+                $events_manager,
+                $events_calendar_wd
                 
 	);     
         
@@ -2408,7 +2436,9 @@ function saswp_get_field_note($pname){
             'learn_press'         => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/learnpress/">Learn Press</a>',
             'learn_dash'          => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://www.learndash.com/pricing-and-purchase/">Learn Dash</a>',
             'lifter_lms'          => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/lifterlms/">LifterLMS</a>',
-            'wp_event_manager'    => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wp-event-manager//">WP Event Manager</a>'
+            'wp_event_manager'    => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wp-event-manager/">WP Event Manager</a>',
+            'events_manager'      => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/events-manager/">Events Manager</a>',
+            'event_calendar_wd'   => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/event-calendar-wd/">Event Calendar WD</a>',
         );
             
     if(!saswp_check_plugin_active_status($pname)){

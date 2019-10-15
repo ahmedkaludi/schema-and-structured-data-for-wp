@@ -1081,6 +1081,24 @@ jQuery(document).ready(function($){
                               $("#saswp-wp-event-manager").val(0);           
                             }
                       break;
+                      
+                      case 'saswp-events-manager-checkbox':
+                          saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-events-manager").val(1);             
+                            }else{
+                              $("#saswp-events-manager").val(0);           
+                            }
+                      break;
+                      
+                      case 'saswp-event-calendar-wd-checkbox':
+                          saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-event-calendar-wd").val(1);             
+                            }else{
+                              $("#saswp-event-calendar-wd").val(0);           
+                            }
+                      break;
                                                                  
                       case 'saswp-woocommerce-booking-checkbox':
                           saswp_compatibliy_notes(current, id); 
