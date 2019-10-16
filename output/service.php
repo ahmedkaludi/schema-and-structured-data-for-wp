@@ -593,6 +593,9 @@ Class saswp_output_service{
                     if(isset($custom_fields['local_hasmap'])){
                      $input1['hasMap'] =    $custom_fields['local_hasmap'];
                     }
+                    if(isset($custom_fields['local_serves_cuisine'])){
+                     $input1['servesCuisine'] =    $custom_fields['local_serves_cuisine'];
+                    }                    
                     if(isset($custom_fields['local_menu'])){
                      $input1['hasMenu'] =    $custom_fields['local_menu'];
                     }
@@ -2455,7 +2458,8 @@ Class saswp_output_service{
                         'saswp_dayofweek'            => 'Operation Days',
                         'local_price_range'          => 'Price Range', 
                         'local_hasmap'               => 'HasMap',
-                        'local_menu'                 => 'Menu',                        
+                        'local_menu'                 => 'Menu',
+                        'local_serves_cuisine'       => 'Serves Cuisine',
                         'local_facebook'             => 'Facebook',
                         'local_twitter'              => 'Twitter',
                         'local_instagram'            => 'Instagram',
