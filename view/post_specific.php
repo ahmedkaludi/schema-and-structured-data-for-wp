@@ -3600,8 +3600,22 @@ class saswp_post_specific {
                             'label'      => 'Telephone',
                             'id'         => 'saswp_house_schema_telephone_'.$schema_id,
                             'type'       => 'text',                            
+                    ),                      
+                    array(
+                            'label'      => 'Has Map',
+                            'id'         => 'saswp_house_schema_hasmap_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),
+                    array(
+                            'label'      => 'Floor Size',
+                            'id'         => 'saswp_house_schema_floor_size_'.$schema_id,
+                            'type'       => 'text',                            
                     ),    
-                                              
+                    array(
+                            'label'      => 'Number of Rooms',
+                            'id'         => 'saswp_house_schema_no_of_rooms_'.$schema_id,
+                            'type'       => 'text',                            
+                    )                                                 
                    );
                     break;   
                 
@@ -3677,6 +3691,21 @@ class saswp_post_specific {
                             'id'         => 'saswp_sfr_schema_telephone_'.$schema_id,
                             'type'       => 'text',                            
                     ),
+                    array(
+                            'label'      => 'Has Map',
+                            'id'         => 'saswp_sfr_schema_hasmap_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),
+                    array(
+                            'label'      => 'Floor Size',
+                            'id'         => 'saswp_sfr_schema_floor_size_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),    
+                    array(
+                            'label'      => 'Number of Rooms',
+                            'id'         => 'saswp_sfr_schema_no_of_rooms_'.$schema_id,
+                            'type'       => 'text',                            
+                    )    
                                               
                    );
                     break;

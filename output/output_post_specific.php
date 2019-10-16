@@ -696,6 +696,10 @@ function saswp_post_specific_schema_output() {
                             
                             $input1['telephone']                    = saswp_remove_warnings($all_post_meta, 'saswp_house_schema_telephone_'.$schema_id, 'saswp_array');
                             
+                            $input1['hasMap']                       = saswp_remove_warnings($all_post_meta, 'saswp_house_schema_hasmap_'.$schema_id, 'saswp_array');
+                            $input1['floorSize']                    = saswp_remove_warnings($all_post_meta, 'saswp_house_schema_floor_size_'.$schema_id, 'saswp_array');
+                            $input1['numberOfRooms']                = saswp_remove_warnings($all_post_meta, 'saswp_house_schema_no_of_rooms_'.$schema_id, 'saswp_array');
+                            
                             }  
                             
                          if( 'SingleFamilyResidence' === $schema_type){
@@ -727,14 +731,16 @@ function saswp_post_specific_schema_output() {
                             $input1['address']['PostalCode']        = saswp_remove_warnings($all_post_meta, 'saswp_sfr_schema_postalcode_'.$schema_id, 'saswp_array');
                             
                             $input1['telephone']                    = saswp_remove_warnings($all_post_meta, 'saswp_sfr_schema_telephone_'.$schema_id, 'saswp_array');
+                            $input1['hasMap']                       = saswp_remove_warnings($all_post_meta, 'saswp_sfr_schema_hasmap_'.$schema_id, 'saswp_array');
+                            $input1['floorSize']                    = saswp_remove_warnings($all_post_meta, 'saswp_sfr_schema_floor_size_'.$schema_id, 'saswp_array');
+                            $input1['numberOfRooms']                = saswp_remove_warnings($all_post_meta, 'saswp_sfr_schema_no_of_rooms_'.$schema_id, 'saswp_array');
                             
                             }     
                                                 
                          if( 'HowTo' === $schema_type){
                              
                             $howto_image = get_post_meta( get_the_ID(), 'saswp_howto_schema_image_'.$schema_id.'_detail',true); 
-                            
-                             
+                                                         
                             $tool    = get_post_meta($schema_post_id, 'howto_tool_'.$schema_id, true);              
                             $step    = get_post_meta($schema_post_id, 'howto_step_'.$schema_id, true);              
                             $supply  = get_post_meta($schema_post_id, 'howto_supply_'.$schema_id, true);              
