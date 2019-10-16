@@ -1467,7 +1467,7 @@ function saswp_license_status($add_on, $license_status, $license_key){
                 
                 $message        = '';
                 $current_status = '';
-                $response = @wp_remote_post( SASWP_EDD_STORE_URL, array( 'timeout' => 15, 'sslverify' => false, 'body' => $api_params ) );
+                $response       = @wp_remote_post( SASWP_EDD_STORE_URL, array( 'timeout' => 15, 'sslverify' => false, 'body' => $api_params ) );
                            
                 // make sure the response came back okay
 		if ( is_wp_error( $response ) || 200 !== wp_remote_retrieve_response_code( $response ) ) {

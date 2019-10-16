@@ -182,7 +182,7 @@ Class saswp_output_service{
                 case 'manual_text':    
                     
                     $fixed_text        = get_post_meta($schema_post_id, 'saswp_fixed_text', true) ; 
-                    
+
                     if(isset($fixed_text[$key])){
                     
                         if (strpos($fixed_text[$key], 'http') !== false) {
@@ -194,6 +194,8 @@ Class saswp_output_service{
                             $response['url']    = $fixed_text[$key];
                             $response['width']  = $image_details[0]; 
                             $response['height'] = $image_details[1];
+                        }else{
+                            $response    = $fixed_text[$key];                  
                         }
                                                 
                         }else{
@@ -1697,6 +1699,15 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_house_schema_telephone'])){
                      $input1['telephone'] =    $custom_fields['saswp_house_schema_telephone'];
                     }
+                    if(isset($custom_fields['saswp_house_schema_hasmap'])){
+                     $input1['hasMap'] =    $custom_fields['saswp_house_schema_hasmap'];
+                    }
+                    if(isset($custom_fields['saswp_house_schema_floor_size'])){
+                     $input1['floorSize'] =    $custom_fields['saswp_house_schema_floor_size'];
+                    }
+                    if(isset($custom_fields['saswp_house_schema_no_of_rooms'])){
+                     $input1['numberOfRooms'] =    $custom_fields['saswp_house_schema_no_of_rooms'];
+                    }
                     if(isset($custom_fields['saswp_house_schema_latitude']) && isset($custom_fields['saswp_house_schema_longitude'])){                        
                      $input1['geo']['@type']     =    'GeoCoordinates';   
                      $input1['geo']['latitude']  =    $custom_fields['saswp_house_schema_latitude'];
@@ -1739,6 +1750,15 @@ Class saswp_output_service{
                     }
                     if(isset($custom_fields['saswp_sfr_schema_telephone'])){
                      $input1['telephone'] =    $custom_fields['saswp_sfr_schema_telephone'];
+                    }
+                    if(isset($custom_fields['saswp_sfr_schema_hasmap'])){
+                     $input1['hasMap'] =    $custom_fields['saswp_sfr_schema_hasmap'];
+                    }
+                    if(isset($custom_fields['saswp_sfr_schema_floor_size'])){
+                     $input1['floorSize'] =    $custom_fields['saswp_sfr_schema_floor_size'];
+                    }
+                    if(isset($custom_fields['saswp_sfr_schema_no_of_rooms'])){
+                     $input1['numberOfRooms'] =    $custom_fields['saswp_sfr_schema_no_of_rooms'];
                     }
                     if(isset($custom_fields['saswp_sfr_schema_latitude']) && isset($custom_fields['saswp_sfr_schema_longitude'])){                        
                      $input1['geo']['@type']     =    'GeoCoordinates';   
@@ -3001,7 +3021,10 @@ Class saswp_output_service{
                         'saswp_house_schema_postalcode'    => 'PostalCode',
                         'saswp_house_schema_latitude'      => 'Latitude',
                         'saswp_house_schema_longitude'     => 'Longitude',     
-                        'saswp_house_schema_telephone'     => 'Telephone'                                                                    
+                        'saswp_house_schema_telephone'     => 'Telephone',
+                        'saswp_house_schema_hasmap'        => 'HasMap',
+                        'saswp_house_schema_floor_size'    => 'FloorSize',
+                        'saswp_house_schema_no_of_rooms'   => 'No. Of Rooms'
                     );                    
                     break;
                 
@@ -3020,7 +3043,10 @@ Class saswp_output_service{
                         'saswp_sfr_schema_postalcode'    => 'PostalCode',
                         'saswp_sfr_schema_latitude'      => 'Latitude',
                         'saswp_sfr_schema_longitude'     => 'Longitude', 
-                        'saswp_sfr_schema_telephone'     => 'Telephone'
+                        'saswp_sfr_schema_telephone'     => 'Telephone',
+                        'saswp_sfr_schema_hasmap'        => 'HasMap',
+                        'saswp_sfr_schema_floor_size'    => 'FloorSize',
+                        'saswp_sfr_schema_no_of_rooms'   => 'No. Of Rooms'
                     );                    
                     break;
                 
