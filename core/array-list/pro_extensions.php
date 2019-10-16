@@ -23,6 +23,16 @@ return array(
             'key'        => 'real_estate_schema',
             'name'       => 'Real Estate Schema',
             'path'       => 'real-estate-schema/real-estate-schema.php',                        
+        ),
+        array(
+            'key'        => 'course_schema',
+            'name'       => 'Course Schema',
+            'path'       => 'course-schema/course-schema.php',                        
+        ),
+        array(
+            'key'        => 'event_schema',
+            'name'       => 'Event Schema',
+            'path'       => 'event-schema/event-schema.php',                        
         )
                         
     );

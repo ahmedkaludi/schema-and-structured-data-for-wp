@@ -1099,6 +1099,24 @@ jQuery(document).ready(function($){
                               $("#saswp-event-calendar-wd").val(0);           
                             }
                       break;
+                      
+                      case 'saswp-event-organiser-checkbox':
+                          saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-event-organiser").val(1);             
+                            }else{
+                              $("#saswp-event-organiser").val(0);           
+                            }
+                      break;
+                      
+                      case 'saswp-modern-events-calendar-checkbox':
+                          saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-modern-events-calendar").val(1);             
+                            }else{
+                              $("#saswp-modern-events-calendar").val(0);           
+                            }
+                      break;
                                                                  
                       case 'saswp-woocommerce-booking-checkbox':
                           saswp_compatibliy_notes(current, id); 

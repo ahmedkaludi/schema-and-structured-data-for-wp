@@ -2482,6 +2482,12 @@ function saswp_check_plugin_active_status($pname){
         'kk_star_rating'      => array(
             'free' => 'kk-star-ratings/index.php',            
         ),
+        'event_organiser'      => array(
+            'free' => 'event-organiser/event-organiser.php',            
+        ),
+        'modern_events_calendar'      => array(
+            'free' => 'modern-events-calendar-lite/modern-events-calendar-lite.php',            
+        ),
         'events_manager'      => array(
             'free' => 'events-manager/events-manager.php',            
         ),
