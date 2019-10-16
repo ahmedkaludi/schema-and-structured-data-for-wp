@@ -534,7 +534,7 @@ function saswp_premium_features_callback(){ ?>
                                         
                                         $cooked_active_text = '';
                                         
-                                        if(is_plugin_active('course-schema/course-schema.php')){                                        
+                                        if(is_plugin_active('event-schema/event-schema.php')){                                        
                                             $cooked_active_text = '<label class="saswp-sts-txt">Status :<span style="color:green;">Active</span></label>';                                            
                                         }else{
                                             $cooked_active_text .='<label class="saswp-sts-txt">Status :<span>Inactive</span></label>';

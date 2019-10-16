@@ -815,25 +815,29 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_event_schema_description'])){
                      $input1['description'] =    $custom_fields['saswp_event_schema_description'];
                     }
-                    if(isset($custom_fields['saswp_event_schema_location_name'])){
-                     $input1['location']['name'] =    $custom_fields['saswp_event_schema_location_name'];
-                    }
+                                       
+                    if(isset($custom_fields['saswp_event_schema_location_name']) || isset($custom_fields['saswp_event_schema_location_streetaddress'])){
+                        
+                            $input1['location']['@type'] = 'Place';   
+                            $input1['location']['name']  =    $custom_fields['saswp_event_schema_location_name'];
+
+                            if(isset($custom_fields['saswp_event_schema_location_streetaddress'])){
+                              $input1['location']['address']['streetAddress'] =    $custom_fields['saswp_event_schema_location_streetaddress'];
+                            }                                          
+                            if(isset($custom_fields['saswp_event_schema_location_locality'])){
+                             $input1['location']['address']['addressLocality'] =    $custom_fields['saswp_event_schema_location_locality'];
+                            }
+                            if(isset($custom_fields['saswp_event_schema_location_region'])){
+                             $input1['location']['address']['addressRegion'] =    $custom_fields['saswp_event_schema_location_region'];
+                            }                    
+                            if(isset($custom_fields['saswp_event_schema_location_postalcode'])){
+                             $input1['location']['address']['postalCode'] =    $custom_fields['saswp_event_schema_location_postalcode'];
+                            }
+                            if(isset($custom_fields['saswp_event_schema_location_hasmap'])){
+                             $input1['location']['hasMap']  =  $custom_fields['saswp_event_schema_location_hasmap'];
+                            }
+                    }                                        
                     
-                    if(isset($custom_fields['saswp_event_schema_location_streetaddress'])){
-                     $input1['location']['address']['streetAddress'] =    $custom_fields['saswp_event_schema_location_streetaddress'];
-                    }
-                    if(isset($custom_fields['saswp_event_schema_location_locality'])){
-                     $input1['location']['address']['addressLocality'] =    $custom_fields['saswp_event_schema_location_locality'];
-                    }
-                    if(isset($custom_fields['saswp_event_schema_location_region'])){
-                     $input1['location']['address']['addressRegion'] =    $custom_fields['saswp_event_schema_location_region'];
-                    }                    
-                    if(isset($custom_fields['saswp_event_schema_location_postalcode'])){
-                     $input1['location']['address']['postalCode'] =    $custom_fields['saswp_event_schema_location_postalcode'];
-                    }
-                    if(isset($custom_fields['saswp_event_schema_location_hasmap'])){
-                     $input1['location']['hasMap']  =  $custom_fields['saswp_event_schema_location_hasmap'];
-                    }
                     if(isset($custom_fields['saswp_event_schema_start_date'])){
                      $input1['startDate'] =    $custom_fields['saswp_event_schema_start_date'];
                     }
