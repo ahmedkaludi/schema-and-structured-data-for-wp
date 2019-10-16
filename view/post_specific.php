@@ -772,6 +772,7 @@ class saswp_post_specific {
                   $response_html .= '<textarea style="margin-left:5px;" placeholder="{ Json Markup }" id="saswp_custom_schema_field" name="saswp_custom_schema_field" rows="5" cols="100">'
                   . $custom_markup
                   . '</textarea>';
+                  
                   if(json_decode($custom_markup) == false){
                       $response_html .= '<p style="text-align:center;color:red;margin-top:0px;">'.esc_html__( 'Not a valid json', 'schema-and-structured-data-for-wp' ).'</p>';
                   }                  
@@ -843,6 +844,9 @@ class saswp_post_specific {
                   $response_html .= '<textarea style="margin-left:5px;" placeholder="{ Json Markup }" id="saswp_custom_schema_field" name="saswp_custom_schema_field" rows="5" cols="100">'
                   . $custom_markup
                   . '</textarea>';
+                  if(json_decode($custom_markup) == false){
+                      $response_html .= '<p style="text-align:center;color:red;margin-top:0px;">'.esc_html__( 'Not a valid json', 'schema-and-structured-data-for-wp' ).'</p>';
+                  }
                   $response_html .= '</div>';                                    
                   $response_html .= '</div>';
                   
@@ -1268,7 +1272,7 @@ class saswp_post_specific {
                 
                 $option         = get_option('modify_schema_post_enable_'.$post_id);
                                                                                     
-                $custom_schema = sanitize_textarea_field($_POST['saswp_custom_schema_field']);
+                $custom_schema = wp_unslash($_POST['saswp_custom_schema_field']);
                 update_post_meta( $post_id, 'saswp_custom_schema_field', $custom_schema );
                                                                     
                 if($option != 'enable'){
