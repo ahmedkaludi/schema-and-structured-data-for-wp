@@ -105,6 +105,7 @@ function saswp_reviews_custom_columns_set( $column, $post_id ) {
                     
                     $platform = get_post_meta( $post_id, $key='saswp_review_platform', true);  
                     $term     = get_term( $platform, 'platform' );
+                    
                     if(isset($term->slug)){
                         echo '<span class="saswp-g-plus"><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/'.esc_attr($term->slug).'-img.png'.'" alt="Icon" /></span>';
                     }
@@ -227,7 +228,7 @@ add_action( 'admin_enqueue_scripts', 'saswp_enqueue_rateyo_script' );
 
 
 
-add_action( 'admin_init', 'saswp_create_platform_custom_taxonomy', 21 );
+add_action( 'init', 'saswp_create_platform_custom_taxonomy', 21 );
  
 
 function saswp_create_platform_custom_taxonomy() {
@@ -258,8 +259,14 @@ function saswp_create_platform_custom_taxonomy() {
         'rewrite'           => array( 'slug' => 'platform' ),
   )
   );
+    
+  add_action('admin_init', 'saswp_insert_platform_terms');
   
-  $term_array = array(                    
+}
+
+function saswp_insert_platform_terms(){
+    
+    $term_array = array(                    
                     'Agoda', 
                     'Avvo', 
                     'Angies List',
@@ -299,7 +306,8 @@ function saswp_create_platform_custom_taxonomy() {
                     'HungerStation',
                     'Indeed', 
                     'Insider Pages', 
-                    'Jet', 
+                    'Jet',
+                    'Judge.me',
                     'Lawyers.com', 
                     'Lending Tree', 
                     'Mardindale', 
@@ -343,8 +351,7 @@ function saswp_create_platform_custom_taxonomy() {
         
    }
       
-  }  
-     
+  }
 }
 
 function saswp_get_terms_as_array(){
