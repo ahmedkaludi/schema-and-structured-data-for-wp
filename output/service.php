@@ -3420,7 +3420,7 @@ Class saswp_output_service{
                                             
                                             for($i = 0; $i<3; $i++){
                                                 
-                                                $resize_image = aq_resize( $image_details[0], $width[$i], $height[$i], true, false, true );
+                                                $resize_image = saswp_aq_resize( $image_details[0], $width[$i], $height[$i], true, false, true );
                                                 
                                                 if(isset($resize_image[0]) && isset($resize_image[1]) && isset($resize_image[2]) ){
                                                 
@@ -3544,7 +3544,7 @@ Class saswp_output_service{
                                               
                                             if($image['width'] < 1200){
                                                 
-                                                $resized_image = aq_resize( $image['url'], 1280, 720, true, false, true );                                                                                                
+                                                $resized_image = saswp_aq_resize( $image['url'], 1280, 720, true, false, true );                                                                                                
                                                 $attach_images['image'][$key]['url']    =   $resized_image[0];
                                                 $attach_images['image'][$key]['width']  =   $resized_image[1];
                                                 $attach_images['image'][$key]['height'] =   $resized_image[2];                                                

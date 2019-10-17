@@ -83,7 +83,11 @@ function saswp_schema_markup_output() {
         $archive_output           = saswp_archive_output();
         
         if($archive_output){
-            $item_list                = $archive_output[0];
+            
+            if(empty($woo_cat_schema)){
+                $item_list                = $archive_output[0];
+            }
+            
             $collection_page          = $archive_output[1]; 
             $blog_page                = $archive_output[2]; 
         }
@@ -939,7 +943,7 @@ function saswp_wp_recipe_schema_json($recipe){
                     
                     if($image_size[0] < 1280 && $image_size[1] < 720){
                                             
-                        $image_details = @aq_resize( $image_url, 1280, 720, true, false, true );
+                        $image_details = @saswp_aq_resize( $image_url, 1280, 720, true, false, true );
                     
                             if($image_details){
 
