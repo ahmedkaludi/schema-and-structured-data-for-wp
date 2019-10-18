@@ -2033,13 +2033,37 @@ Class saswp_output_service{
          */
         public function saswp_woocommerce_product_details($post_id){     
                              
-             $product_details = array();                
+             $product_details = array(); 
+             $varible_prices = array();
              
              if (class_exists('WC_Product')) {
                  
+             global $woocommerce;
+                 
 	     $product = wc_get_product($post_id); 
              
-             if(is_object($product)){                                 
+             if(is_object($product)){   
+                                               
+               if(is_object($woocommerce)){
+				 			
+                        if($product->get_type() == 'variable'){
+
+                           $product_id_some = $woocommerce->product_factory->get_product();
+
+                            $variations  = $product_id_some->get_available_variations();
+
+                                if($variations){
+
+                                        foreach($variations as $value){
+
+                                                $varible_prices[] = $value['display_price']; 
+
+                                        }
+                                }
+
+                        }
+				 				 
+                }  
                  
              $gtin = get_post_meta($post_id, $key='hwp_product_gtin', true);
              
@@ -2156,8 +2180,9 @@ Class saswp_output_service{
                  $product_details['product_availability'] = $product->get_stock_status();
              }
                           
-             $product_details['product_price']        = $product->get_price();
-             $product_details['product_sku']          = $product->get_sku() ? $product->get_sku(): get_the_ID();             
+             $product_details['product_price']           = $product->get_price();
+             $product_details['product_varible_price']   = $varible_prices;
+             $product_details['product_sku']             = $product->get_sku() ? $product->get_sku(): get_the_ID();             
              
              if(isset($date_on_sale)){
                  
@@ -3314,17 +3339,35 @@ Class saswp_output_service{
                             'url'				=> trailingslashit(saswp_get_permalink()),
                             'name'                              => saswp_remove_warnings($product_details, 'product_name', 'saswp_string'),
                             'sku'                               => saswp_remove_warnings($product_details, 'product_sku', 'saswp_string'),    
-                            'description'                       => saswp_remove_warnings($product_details, 'product_description', 'saswp_string'),                                    
-                            'offers'                            => array(
-                                                                        '@type'	=> 'Offer',
-                                                                        'availability'      => saswp_remove_warnings($product_details, 'product_availability', 'saswp_string'),
-                                                                        'price'             => saswp_remove_warnings($product_details, 'product_price', 'saswp_string'),
-                                                                        'priceCurrency'     => saswp_remove_warnings($product_details, 'product_currency', 'saswp_string'),
-                                                                        'url'               => trailingslashit(saswp_get_permalink()),
-                                                                        'priceValidUntil'   => saswp_remove_warnings($product_details, 'product_priceValidUntil', 'saswp_string'),
-                                                                     ),
-
+                            'description'                       => saswp_remove_warnings($product_details, 'product_description', 'saswp_string')                                                               
                           );
+                            
+                          if(isset($product_details['product_price']) && $product_details['product_price'] ){
+							
+                                    $input1['offers'] = array(
+                                                    '@type'	        => 'Offer',
+                                                    'availability'      => saswp_remove_warnings($product_details, 'product_availability', 'saswp_string'),
+                                                    'price'             => saswp_remove_warnings($product_details, 'product_price', 'saswp_string'),
+                                                    'priceCurrency'     => saswp_remove_warnings($product_details, 'product_currency', 'saswp_string'),
+                                                    'url'               => trailingslashit(saswp_get_permalink()),
+                                                    'priceValidUntil'   => saswp_remove_warnings($product_details, 'product_priceValidUntil', 'saswp_string')
+                                                 );
+
+							
+                            }else{
+
+                            if(isset($product_details['product_varible_price']) && is_array($product_details['product_varible_price'])){
+
+                            $input1['offers']['@type']         = 'AggregateOffer';
+                            $input1['offers']['lowPrice']      = min($product_details['product_varible_price']);
+                            $input1['offers']['highPrice']     = max($product_details['product_varible_price']);
+                            $input1['offers']['priceCurrency'] = saswp_remove_warnings($product_details, 'product_currency', 'saswp_string');
+                            $input1['offers']['availability']  = saswp_remove_warnings($product_details, 'product_availability', 'saswp_string');
+                            $input1['offers']['offerCount']    = count($product_details['product_varible_price']);
+
+                            }
+
+                           }                              
 
                           if(isset($product_details['product_image'])){
                             $input1 = array_merge($input1, $product_details['product_image']);
