@@ -19,7 +19,7 @@ function saswp_skip_wizard(){
         if ( !wp_verify_nonce( $_POST['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
            return;  
         }    
-        
+         
         $sd_data = get_option('sd_data');
         $sd_data['sd_initial_wizard_status'] = 0;
         update_option('sd_data', $sd_data);
@@ -706,9 +706,11 @@ if(is_admin()){
      <table class="widefat saswp-placement-table" style="border:0px;">
         <tbody id="sdwp-repeater-tbody" class="fields-wrapper-1">
         <?php  for ($i=0; $i < $total_fields; $i++) {  
-          $selected_val_key_1 = $data_array[$i]['key_1']; 
-          $selected_val_key_2 = $data_array[$i]['key_2']; 
-          $selected_val_key_3 = $data_array[$i]['key_3'];
+            
+            
+          $selected_val_key_1 = isset($data_array[$i]['key_1']) ? $data_array[$i]['key_1'] : '';           
+          $selected_val_key_2 = isset($data_array[$i]['key_2']) ? $data_array[$i]['key_2'] : '';           
+          $selected_val_key_3 = isset($data_array[$i]['key_3']) ? $data_array[$i]['key_3'] : '';          
           $selected_val_key_4 = '';
           if(isset($data_array[$i]['key_4'])){
             $selected_val_key_4 = $data_array[$i]['key_4'];

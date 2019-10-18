@@ -537,8 +537,11 @@ Class saswp_output_service{
                                   
                 case 'local_business':
                    
-                    if(isset($custom_fields['saswp_business_type'])){
-                     $input1['@type'] =    $custom_fields['saswp_business_type'];
+                    if(isset($custom_fields['local_business_id'])){
+                        $input1['@id'] =    trailingslashit(saswp_get_permalink()).'#'. strtolower($custom_fields['local_business_id']);
+                    }                   
+                    if(isset($custom_fields['saswp_business_type'])){                     
+                     $input1['@type'] =    $custom_fields['saswp_business_type'];                     
                     }
                     if(isset($custom_fields['saswp_business_name'])){
                      $input1['@type'] =    $custom_fields['saswp_business_name'];
@@ -2468,6 +2471,7 @@ Class saswp_output_service{
                 case 'local_business':
                    
                     $meta_field = array(                                                                        
+                        'local_business_id'          => 'ID',    
                         'local_business_name'        => 'Business Name',                           
                         'local_business_name_url'    => 'URL',
                         'local_business_description' => 'Description',
