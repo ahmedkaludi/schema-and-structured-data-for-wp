@@ -408,126 +408,7 @@ function saswp_handle_file_upload($option){
 function saswp_premium_features_callback(){ ?>
 	<div class="saswp-pre-ftrs-wrap">
 		<ul class="saswp-features-blocks">
-			<li>
-                             <?php
-                                        $woocommerce_active_text = '';
-                                        if(is_plugin_active('woocommerce-compatibility-for-schema/woocommerce-compatibility-for-schema.php')){                                           
-                                          $woocommerce_active_text = '<label class="saswp-sts-txt">Status :<span style="color:green">Active</span></label>';                                          ;
-                                        }else{                                            
-                                           $woocommerce_active_text .= '<label class="saswp-sts-txt">Status :<span>Inactive</span></label>'; 
-                                           $woocommerce_active_text .= '<a target="_blank" href="http://structured-data-for-wp.com/extensions/woocommerce-compatibility-for-schema/"><span class="saswp-d-btn">Download</span></a>';
-                                        }
-                                        
-                                        ?>                                                        
-				<div class="saswp-features-ele">
-					<div class="saswp-ele-ic saswp-ele-1">
-                                            <img src="<?php echo SASWP_PLUGIN_URL; ?>/admin_section/images/woocommerce-icon.png">
-					</div>
-					<div class="saswp-ele-tlt">
-						<h3><?php echo esc_html__('WooCommerce Compatibility for Schema','schema-and-structured-data-for-wp') ?></h3>
-						<p><?php echo esc_html__('WooCommerce Compatibility extension is the number one solution to enhance your store with the right structured data.','schema-and-structured-data-for-wp') ?></p>
-					</div>
-				</div>
-				<div class="saswp-sts-btn">
-                                    
-                                    <?php echo $woocommerce_active_text; ?>
-                                                                           										
-				</div>
-			</li>
-			<li>
-                            
-                                        <?php
-                                        
-                                        $cooked_active_text = '';
-                                        
-                                        if(is_plugin_active('cooked-compatibility-for-schema/cooked-compatibility-for-schema.php')){                                        
-                                            $cooked_active_text = '<label class="saswp-sts-txt">Status :<span style="color:green;">Active</span></label>';                                            
-                                        }else{
-                                            $cooked_active_text .='<label class="saswp-sts-txt">Status :<span>Inactive</span></label>';
-                                            $cooked_active_text .='<a target="_blank" href="http://structured-data-for-wp.com/extensions/cooked-compatibility-for-schema/"><span class="saswp-d-btn">Download</span></a>';
-                                        }
-                                        
-                                        ?> 
-                            
-                            
-				<div class="saswp-features-ele">
-					<div class="saswp-ele-ic saswp-ele-2">
-                                            <img src="<?php echo SASWP_PLUGIN_URL; ?>/admin_section/images/cooked-schema-wp.png">
-					</div>
-					<div class="saswp-ele-tlt">
-						<h3><?php echo esc_html__('Cooked Compatibility for Schema','schema-and-structured-data-for-wp') ?></h3>
-						<p><?php echo esc_html__('This extension will be able to take all the proper recipe data and integrate it with the schema & structured data in AMP & non-AMP.','schema-and-structured-data-for-wp') ?></p>
-					</div>
-				</div>
-				<div class="saswp-sts-btn">
-                                    
-                                    <?php echo $cooked_active_text; ?>
-                                                                           										
-				</div>
-			</li>   
-                        
-                        <li>
-                            
-                                        <?php
-                                        
-                                        $cooked_active_text = '';
-                                        
-                                        if(is_plugin_active('real-estate-schema/real-estate-schema.php')){                                        
-                                            $cooked_active_text = '<label class="saswp-sts-txt">Status :<span style="color:green;">Active</span></label>';                                            
-                                        }else{
-                                            $cooked_active_text .='<label class="saswp-sts-txt">Status :<span>Inactive</span></label>';
-                                            $cooked_active_text .='<a target="_blank" href="http://structured-data-for-wp.com/extensions/real-estate-schema/"><span class="saswp-d-btn">Download</span></a>';
-                                        }
-                                        
-                                        ?> 
-                                                        
-				<div class="saswp-features-ele">
-                                    <div class="saswp-ele-ic" style="background: #ace;">
-                                            <img src="<?php echo SASWP_PLUGIN_URL; ?>/admin_section/images/real-estate-schema-wp.png">
-					</div>
-					<div class="saswp-ele-tlt">
-						<h3><?php echo esc_html__('Real Estate Schema','schema-and-structured-data-for-wp') ?></h3>
-						<p><?php echo esc_html__('Real Estate Schema extension is the number one solution to enhance your real estate website with the right structured data.','schema-and-structured-data-for-wp') ?></p>
-					</div>
-				</div>
-				<div class="saswp-sts-btn">
-                                    
-                                    <?php echo $cooked_active_text; ?>
-                                                                           										
-				</div>
-			</li>
-                        
-                        <li>
-                            
-                                        <?php
-                                        
-                                        $cooked_active_text = '';
-                                        
-                                        if(is_plugin_active('course-schema/course-schema.php')){                                        
-                                            $cooked_active_text = '<label class="saswp-sts-txt">Status :<span style="color:green;">Active</span></label>';                                            
-                                        }else{
-                                            $cooked_active_text .='<label class="saswp-sts-txt">Status :<span>Inactive</span></label>';
-                                            $cooked_active_text .='<a target="_blank" href="http://structured-data-for-wp.com/extensions/"><span class="saswp-d-btn">Download</span></a>';
-                                        }
-                                        
-                                        ?> 
-                                                        
-				<div class="saswp-features-ele">
-                                    <div class="saswp-ele-ic" style="background: #dcb71d;">
-                                            <img src="<?php echo SASWP_PLUGIN_URL; ?>/admin_section/images/course.png">
-					</div>
-					<div class="saswp-ele-tlt">
-						<h3><?php echo esc_html__('Course Schema','schema-and-structured-data-for-wp') ?></h3>
-						<p><?php echo esc_html__('Course Schema extension is the number one solution to enhance your course offering website with the right structured data.','schema-and-structured-data-for-wp') ?></p>
-					</div>
-				</div>
-				<div class="saswp-sts-btn">
-                                    
-                                    <?php echo $cooked_active_text; ?>
-                                                                           										
-				</div>
-			</li>
-                        
+                    
                         <li>
                             
                                         <?php
@@ -558,6 +439,124 @@ function saswp_premium_features_callback(){ ?>
                                                                            										
 				</div>
 			</li>
+                        <li>
+                            
+                                        <?php
+                                        
+                                        $cooked_active_text = '';
+                                        
+                                        if(is_plugin_active('course-schema/course-schema.php')){                                        
+                                            $cooked_active_text = '<label class="saswp-sts-txt">Status :<span style="color:green;">Active</span></label>';                                            
+                                        }else{
+                                            $cooked_active_text .='<label class="saswp-sts-txt">Status :<span>Inactive</span></label>';
+                                            $cooked_active_text .='<a target="_blank" href="http://structured-data-for-wp.com/extensions/"><span class="saswp-d-btn">Download</span></a>';
+                                        }
+                                        
+                                        ?> 
+                                                        
+				<div class="saswp-features-ele">
+                                    <div class="saswp-ele-ic" style="background: #dcb71d;">
+                                            <img src="<?php echo SASWP_PLUGIN_URL; ?>/admin_section/images/course.png">
+					</div>
+					<div class="saswp-ele-tlt">
+						<h3><?php echo esc_html__('Course Schema','schema-and-structured-data-for-wp') ?></h3>
+						<p><?php echo esc_html__('Course Schema extension is the number one solution to enhance your course offering website with the right structured data.','schema-and-structured-data-for-wp') ?></p>
+					</div>
+				</div>
+				<div class="saswp-sts-btn">
+                                    
+                                    <?php echo $cooked_active_text; ?>
+                                                                           										
+				</div>
+			</li>
+			<li>
+                             <?php
+                                        $woocommerce_active_text = '';
+                                        if(is_plugin_active('woocommerce-compatibility-for-schema/woocommerce-compatibility-for-schema.php')){                                           
+                                          $woocommerce_active_text = '<label class="saswp-sts-txt">Status :<span style="color:green">Active</span></label>';                                          ;
+                                        }else{                                            
+                                           $woocommerce_active_text .= '<label class="saswp-sts-txt">Status :<span>Inactive</span></label>'; 
+                                           $woocommerce_active_text .= '<a target="_blank" href="http://structured-data-for-wp.com/extensions/woocommerce-compatibility-for-schema/"><span class="saswp-d-btn">Download</span></a>';
+                                        }
+                                        
+                                        ?>                                                        
+				<div class="saswp-features-ele">
+					<div class="saswp-ele-ic saswp-ele-1">
+                                            <img src="<?php echo SASWP_PLUGIN_URL; ?>/admin_section/images/woocommerce-icon.png">
+					</div>
+					<div class="saswp-ele-tlt">
+						<h3><?php echo esc_html__('WooCommerce Compatibility for Schema','schema-and-structured-data-for-wp') ?></h3>
+						<p><?php echo esc_html__('WooCommerce Compatibility extension is the number one solution to enhance your store with the right structured data.','schema-and-structured-data-for-wp') ?></p>
+					</div>
+				</div>
+				<div class="saswp-sts-btn">
+                                    
+                                    <?php echo $woocommerce_active_text; ?>
+                                                                           										
+				</div>
+			</li>			                          
+                        <li>
+                            
+                                        <?php
+                                        
+                                        $cooked_active_text = '';
+                                        
+                                        if(is_plugin_active('real-estate-schema/real-estate-schema.php')){                                        
+                                            $cooked_active_text = '<label class="saswp-sts-txt">Status :<span style="color:green;">Active</span></label>';                                            
+                                        }else{
+                                            $cooked_active_text .='<label class="saswp-sts-txt">Status :<span>Inactive</span></label>';
+                                            $cooked_active_text .='<a target="_blank" href="http://structured-data-for-wp.com/extensions/real-estate-schema/"><span class="saswp-d-btn">Download</span></a>';
+                                        }
+                                        
+                                        ?> 
+                                                        
+				<div class="saswp-features-ele">
+                                    <div class="saswp-ele-ic" style="background: #ace;">
+                                            <img src="<?php echo SASWP_PLUGIN_URL; ?>/admin_section/images/real-estate-schema-wp.png">
+					</div>
+					<div class="saswp-ele-tlt">
+						<h3><?php echo esc_html__('Real Estate Schema','schema-and-structured-data-for-wp') ?></h3>
+						<p><?php echo esc_html__('Real Estate Schema extension is the number one solution to enhance your real estate website with the right structured data.','schema-and-structured-data-for-wp') ?></p>
+					</div>
+				</div>
+				<div class="saswp-sts-btn">
+                                    
+                                    <?php echo $cooked_active_text; ?>
+                                                                           										
+				</div>
+			</li>
+                        <li>
+                            
+                                        <?php
+                                        
+                                        $cooked_active_text = '';
+                                        
+                                        if(is_plugin_active('cooked-compatibility-for-schema/cooked-compatibility-for-schema.php')){                                        
+                                            $cooked_active_text = '<label class="saswp-sts-txt">Status :<span style="color:green;">Active</span></label>';                                            
+                                        }else{
+                                            $cooked_active_text .='<label class="saswp-sts-txt">Status :<span>Inactive</span></label>';
+                                            $cooked_active_text .='<a target="_blank" href="http://structured-data-for-wp.com/extensions/cooked-compatibility-for-schema/"><span class="saswp-d-btn">Download</span></a>';
+                                        }
+                                        
+                                        ?> 
+                            
+                            
+				<div class="saswp-features-ele">
+					<div class="saswp-ele-ic saswp-ele-2">
+                                            <img src="<?php echo SASWP_PLUGIN_URL; ?>/admin_section/images/cooked-schema-wp.png">
+					</div>
+					<div class="saswp-ele-tlt">
+						<h3><?php echo esc_html__('Cooked Compatibility for Schema','schema-and-structured-data-for-wp') ?></h3>
+						<p><?php echo esc_html__('This extension will be able to take all the proper recipe data and integrate it with the schema & structured data in AMP & non-AMP.','schema-and-structured-data-for-wp') ?></p>
+					</div>
+				</div>
+				<div class="saswp-sts-btn">
+                                    
+                                    <?php echo $cooked_active_text; ?>
+                                                                           										
+				</div>
+			</li> 
+                        
 		</ul>
 	</div>
 
