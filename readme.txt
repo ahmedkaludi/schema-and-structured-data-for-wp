@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.2
-Stable tag: 1.9.13
+Stable tag: 1.9.14
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -117,6 +117,17 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.9.14 (18 Oct 2019) =
+
+* Fixed: Google icon is not visible in schema review #554
+* Fixed: Cannot redeclare aq_resize() #555
+* Fixed: Fatal Error: Can't use method return value in right context #550
+* Fixed: HTML tags are not being saved in "Add Custom Schema" #544
+* Fixed: servesCuisine field is missing in the Local Business schema type. #545
+* Fixed: Type property is missing for Location object #552
+* Added: numberOfRooms property in House Schema type #547
+* Added: Event Schema Box in Premium Features tab #540
 
 = 1.9.13 (14 Oct 2019) =
 
