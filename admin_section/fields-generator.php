@@ -466,6 +466,9 @@ class saswp_fields_generator {
                                                                 <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/zomato-img.png">
                                                                     <span>Zomato</span>
                                                                 </li>
+                                                                <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/judge-me-img.png">
+                                                                    <span>Judge.me</span>
+                                                                </li>
                                                             </ul>
                                                         </div>
                                                         <div class="saswp-rev-btn">
