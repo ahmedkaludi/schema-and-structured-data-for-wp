@@ -1443,7 +1443,8 @@ function saswp_license_status($add_on, $license_status, $license_key){
                        'woocommerce'  => 'Woocommerce compatibility for Schema',
                        'reviews'      => 'Reviews for schema',
                        'res'          => 'Real Estate Schema',
-                       'cs'           => 'Course Schema'
+                       'cs'           => 'Course Schema',
+                       'es'           => 'Event Schema'
                 );
                                                                             
                 $edd_action = '';
@@ -1466,11 +1467,12 @@ function saswp_license_status($add_on, $license_status, $license_key){
                 
                 $message        = '';
                 $current_status = '';
-                $response = @wp_remote_post( SASWP_EDD_STORE_URL, array( 'timeout' => 15, 'sslverify' => false, 'body' => $api_params ) );
+                $response       = @wp_remote_post( SASWP_EDD_STORE_URL, array( 'timeout' => 15, 'sslverify' => false, 'body' => $api_params ) );
                            
                 // make sure the response came back okay
 		if ( is_wp_error( $response ) || 200 !== wp_remote_retrieve_response_code( $response ) ) {
-			$message =  ( is_wp_error( $response ) && ! empty( $response->get_error_message() ) ) ? $response->get_error_message() : __( 'An error occurred, please try again.' );
+                        
+			$message =  ( is_wp_error( $response ) && $response->get_error_message() ) ? $response->get_error_message() : __( 'An error occurred, please try again.' );
 		} else {
 			$license_data = json_decode( wp_remote_retrieve_body( $response ) );
                         

@@ -40,7 +40,37 @@ return array(
             'name'       => 'The Events Calendar',
             'path_free'  => 'the-events-calendar/the-events-calendar.php',            
             'status_key' => 'saswp-the-events-calendar',    
-        ),                
+        ),
+        array(
+            'key'        => 'event_organiser',
+            'name'       => 'Event Organiser',
+            'path_free'  => 'event-organiser/event-organiser.php',            
+            'status_key' => 'saswp-event-organiser',    
+        ),
+        array(
+            'key'        => 'modern_events_calendar',
+            'name'       => 'Modern Events Calendar Lite',
+            'path_free'  => 'modern-events-calendar-lite/modern-events-calendar-lite.php',            
+            'status_key' => 'saswp-modern-events-calendar',    
+        ),
+        array(
+            'key'        => 'wp_event_manager',
+            'name'       => 'WP Event Manager',
+            'path_free'  => 'wp-event-manager/wp-event-manager.php',            
+            'status_key' => 'saswp-wp-event-manager',    
+        ),
+        array(
+            'key'        => 'events_manager',
+            'name'       => 'Events Manager',
+            'path_free'  => 'events-manager/events-manager.php',            
+            'status_key' => 'saswp-events-manager',    
+        ),
+        array(
+            'key'        => 'event_calendar_wd',
+            'name'       => 'Event Calendar WD',
+            'path_free'  => 'event-calendar-wd/ecwd.php',            
+            'status_key' => 'saswp-event-calendar-wd',    
+        ),
         array(
             'key'        => 'dw_qna',
             'name'       => 'DW Question Answer',

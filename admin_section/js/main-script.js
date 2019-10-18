@@ -1072,6 +1072,51 @@ jQuery(document).ready(function($){
                               $("#saswp-lifter-lms").val(0);           
                             }
                       break;
+                      
+                      case 'saswp-wp-event-manager-checkbox':
+                          saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-wp-event-manager").val(1);             
+                            }else{
+                              $("#saswp-wp-event-manager").val(0);           
+                            }
+                      break;
+                      
+                      case 'saswp-events-manager-checkbox':
+                          saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-events-manager").val(1);             
+                            }else{
+                              $("#saswp-events-manager").val(0);           
+                            }
+                      break;
+                      
+                      case 'saswp-event-calendar-wd-checkbox':
+                          saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-event-calendar-wd").val(1);             
+                            }else{
+                              $("#saswp-event-calendar-wd").val(0);           
+                            }
+                      break;
+                      
+                      case 'saswp-event-organiser-checkbox':
+                          saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-event-organiser").val(1);             
+                            }else{
+                              $("#saswp-event-organiser").val(0);           
+                            }
+                      break;
+                      
+                      case 'saswp-modern-events-calendar-checkbox':
+                          saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-modern-events-calendar").val(1);             
+                            }else{
+                              $("#saswp-modern-events-calendar").val(0);           
+                            }
+                      break;
                                                                  
                       case 'saswp-woocommerce-booking-checkbox':
                           saswp_compatibliy_notes(current, id); 

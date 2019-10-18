@@ -408,6 +408,67 @@ function saswp_handle_file_upload($option){
 function saswp_premium_features_callback(){ ?>
 	<div class="saswp-pre-ftrs-wrap">
 		<ul class="saswp-features-blocks">
+                    
+                        <li>
+                            
+                                        <?php
+                                        
+                                        $cooked_active_text = '';
+                                        
+                                        if(is_plugin_active('event-schema/event-schema.php')){                                        
+                                            $cooked_active_text = '<label class="saswp-sts-txt">Status :<span style="color:green;">Active</span></label>';                                            
+                                        }else{
+                                            $cooked_active_text .='<label class="saswp-sts-txt">Status :<span>Inactive</span></label>';
+                                            $cooked_active_text .='<a target="_blank" href="http://structured-data-for-wp.com/extensions/"><span class="saswp-d-btn">Download</span></a>';
+                                        }
+                                        
+                                        ?> 
+                                                        
+				<div class="saswp-features-ele">
+                                    <div class="saswp-ele-ic" style="background: #eae4ca;">
+                                            <img src="<?php echo SASWP_PLUGIN_URL; ?>/admin_section/images/event.png">
+					</div>
+					<div class="saswp-ele-tlt">
+						<h3><?php echo esc_html__('Event Schema','schema-and-structured-data-for-wp') ?></h3>
+						<p><?php echo esc_html__('Event Schema extension is the number one solution to enhance your event website with the right structured data.','schema-and-structured-data-for-wp') ?></p>
+					</div>
+				</div>
+				<div class="saswp-sts-btn">
+                                    
+                                    <?php echo $cooked_active_text; ?>
+                                                                           										
+				</div>
+			</li>
+                        <li>
+                            
+                                        <?php
+                                        
+                                        $cooked_active_text = '';
+                                        
+                                        if(is_plugin_active('course-schema/course-schema.php')){                                        
+                                            $cooked_active_text = '<label class="saswp-sts-txt">Status :<span style="color:green;">Active</span></label>';                                            
+                                        }else{
+                                            $cooked_active_text .='<label class="saswp-sts-txt">Status :<span>Inactive</span></label>';
+                                            $cooked_active_text .='<a target="_blank" href="http://structured-data-for-wp.com/extensions/"><span class="saswp-d-btn">Download</span></a>';
+                                        }
+                                        
+                                        ?> 
+                                                        
+				<div class="saswp-features-ele">
+                                    <div class="saswp-ele-ic" style="background: #dcb71d;">
+                                            <img src="<?php echo SASWP_PLUGIN_URL; ?>/admin_section/images/course.png">
+					</div>
+					<div class="saswp-ele-tlt">
+						<h3><?php echo esc_html__('Course Schema','schema-and-structured-data-for-wp') ?></h3>
+						<p><?php echo esc_html__('Course Schema extension is the number one solution to enhance your course offering website with the right structured data.','schema-and-structured-data-for-wp') ?></p>
+					</div>
+				</div>
+				<div class="saswp-sts-btn">
+                                    
+                                    <?php echo $cooked_active_text; ?>
+                                                                           										
+				</div>
+			</li>
 			<li>
                              <?php
                                         $woocommerce_active_text = '';
@@ -433,39 +494,7 @@ function saswp_premium_features_callback(){ ?>
                                     <?php echo $woocommerce_active_text; ?>
                                                                            										
 				</div>
-			</li>
-			<li>
-                            
-                                        <?php
-                                        
-                                        $cooked_active_text = '';
-                                        
-                                        if(is_plugin_active('cooked-compatibility-for-schema/cooked-compatibility-for-schema.php')){                                        
-                                            $cooked_active_text = '<label class="saswp-sts-txt">Status :<span style="color:green;">Active</span></label>';                                            
-                                        }else{
-                                            $cooked_active_text .='<label class="saswp-sts-txt">Status :<span>Inactive</span></label>';
-                                            $cooked_active_text .='<a target="_blank" href="http://structured-data-for-wp.com/extensions/cooked-compatibility-for-schema/"><span class="saswp-d-btn">Download</span></a>';
-                                        }
-                                        
-                                        ?> 
-                            
-                            
-				<div class="saswp-features-ele">
-					<div class="saswp-ele-ic saswp-ele-2">
-                                            <img src="<?php echo SASWP_PLUGIN_URL; ?>/admin_section/images/cooked-schema-wp.png">
-					</div>
-					<div class="saswp-ele-tlt">
-						<h3><?php echo esc_html__('Cooked Compatibility for Schema','schema-and-structured-data-for-wp') ?></h3>
-						<p><?php echo esc_html__('This extension will be able to take all the proper recipe data and integrate it with the schema & structured data in AMP & non-AMP.','schema-and-structured-data-for-wp') ?></p>
-					</div>
-				</div>
-				<div class="saswp-sts-btn">
-                                    
-                                    <?php echo $cooked_active_text; ?>
-                                                                           										
-				</div>
-			</li>   
-                        
+			</li>			                          
                         <li>
                             
                                         <?php
@@ -496,29 +525,29 @@ function saswp_premium_features_callback(){ ?>
                                                                            										
 				</div>
 			</li>
-                        
                         <li>
                             
                                         <?php
                                         
                                         $cooked_active_text = '';
                                         
-                                        if(is_plugin_active('course-schema/course-schema.php')){                                        
+                                        if(is_plugin_active('cooked-compatibility-for-schema/cooked-compatibility-for-schema.php')){                                        
                                             $cooked_active_text = '<label class="saswp-sts-txt">Status :<span style="color:green;">Active</span></label>';                                            
                                         }else{
                                             $cooked_active_text .='<label class="saswp-sts-txt">Status :<span>Inactive</span></label>';
-                                            $cooked_active_text .='<a target="_blank" href="http://structured-data-for-wp.com/extensions/"><span class="saswp-d-btn">Download</span></a>';
+                                            $cooked_active_text .='<a target="_blank" href="http://structured-data-for-wp.com/extensions/cooked-compatibility-for-schema/"><span class="saswp-d-btn">Download</span></a>';
                                         }
                                         
                                         ?> 
-                                                        
+                            
+                            
 				<div class="saswp-features-ele">
-                                    <div class="saswp-ele-ic" style="background: #ace;">
-                                            <img src="<?php echo SASWP_PLUGIN_URL; ?>/admin_section/images/course.png">
+					<div class="saswp-ele-ic saswp-ele-2">
+                                            <img src="<?php echo SASWP_PLUGIN_URL; ?>/admin_section/images/cooked-schema-wp.png">
 					</div>
 					<div class="saswp-ele-tlt">
-						<h3><?php echo esc_html__('Course Schema','schema-and-structured-data-for-wp') ?></h3>
-						<p><?php echo esc_html__('Course Schema extension is the number one solution to enhance your course offering website with the right structured data.','schema-and-structured-data-for-wp') ?></p>
+						<h3><?php echo esc_html__('Cooked Compatibility for Schema','schema-and-structured-data-for-wp') ?></h3>
+						<p><?php echo esc_html__('This extension will be able to take all the proper recipe data and integrate it with the schema & structured data in AMP & non-AMP.','schema-and-structured-data-for-wp') ?></p>
 					</div>
 				</div>
 				<div class="saswp-sts-btn">
@@ -526,7 +555,8 @@ function saswp_premium_features_callback(){ ?>
                                     <?php echo $cooked_active_text; ?>
                                                                            										
 				</div>
-			</li>
+			</li> 
+                        
 		</ul>
 	</div>
 
@@ -1450,6 +1480,11 @@ function saswp_import_callback(){
                       
            $add_on[] = 'Cs';           
                                       
+        }
+        if(is_plugin_active('event-schema/event-schema.php')){
+                      
+           $add_on[] = 'Es';           
+                                      
         }        
                 
         if(!empty($add_on)){
@@ -1568,6 +1603,13 @@ function saswp_get_license_section_html($on, $license_key, $license_status, $lic
                    
                     $response.= '<div class="" style="display:inline-block">';
                     $response.= '<strong>'.esc_html__('Course Schema','schema-and-structured-data-for-wp').'</strong>';
+                    $response.= '</div>';
+                
+               }
+               if($label == true && $on == 'Es'){
+                   
+                    $response.= '<div class="" style="display:inline-block">';
+                    $response.= '<strong>'.esc_html__('Event Schema','schema-and-structured-data-for-wp').'</strong>';
                     $response.= '</div>';
                 
                }
@@ -1844,6 +1886,70 @@ function saswp_compatibility_page_callback(){
                                 'name' => 'sd_data[saswp-lifter-lms]',                             
                 )
 	);
+        $wp_event_manager = array(
+			'label'  => 'WP Event Manager',
+			'id'     => 'saswp-wp-event-manager-checkbox',                        
+                        'name'   => 'saswp-wp-event-manager-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
+                        'note'   => saswp_get_field_note('wp_event_manager'),
+                        'hidden' => array(
+                                'id'   => 'saswp-wp-event-manager',
+                                'name' => 'sd_data[saswp-wp-event-manager]',                             
+                )
+	);
+        
+        $events_manager = array(
+			'label'  => 'Events Manager',
+			'id'     => 'saswp-events-manager-checkbox',                        
+                        'name'   => 'saswp-events-manager-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
+                        'note'   => saswp_get_field_note('events_manager'),
+                        'hidden' => array(
+                                'id'   => 'saswp-events-manager',
+                                'name' => 'sd_data[saswp-events-manager]',                             
+                )
+	);
+        
+        $events_calendar_wd = array(
+			'label'  => 'Event Calendar WD',
+			'id'     => 'saswp-event-calendar-wd-checkbox',                        
+                        'name'   => 'saswp-event-calendar-wd-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
+                        'note'   => saswp_get_field_note('event_calendar_wd'),
+                        'hidden' => array(
+                                'id'   => 'saswp-event-calendar-wd',
+                                'name' => 'sd_data[saswp-event-calendar-wd]',                             
+                )
+	);
+        
+        $event_organiser = array(
+			'label'  => 'Event Organiser',
+			'id'     => 'saswp-event-organiser-checkbox',                        
+                        'name'   => 'saswp-event-organiser-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
+                        'note'   => saswp_get_field_note('event_organiser'),
+                        'hidden' => array(
+                                'id'   => 'saswp-event-organiser',
+                                'name' => 'sd_data[saswp-event-organiser]',                             
+                )
+	);
+        
+        $modern_events_calendar = array(
+			'label'  => 'Modern Events Calendar Lite',
+			'id'     => 'saswp-modern-events-calendar-checkbox',                        
+                        'name'   => 'saswp-modern-events-calendar-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
+                        'note'   => saswp_get_field_note('modern_events_calendar'),
+                        'hidden' => array(
+                                'id'   => 'saswp-modern-events-calendar',
+                                'name' => 'sd_data[saswp-modern-events-calendar]',                             
+                )
+	);
                 
         $seo_press = array(
 			'label'  => 'SEOPress',
@@ -2096,9 +2202,20 @@ function saswp_compatibility_page_callback(){
          
          if(!is_plugin_active('course-schema/course-schema.php')){
                           
-             $learn_press['note'] = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/extensions/">Course Schema Addon</a>';
-             $learn_dash['note']  = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/extensions/">Course Schema Addon</a>';
-             $lifter_lms['note']  = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/extensions/">Course Schema Addon</a>';
+             $learn_press['note'] = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/course-schema/">Course Schema Addon</a>';
+             $learn_dash['note']  = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/course-schema/">Course Schema Addon</a>';
+             $lifter_lms['note']  = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/course-schema/">Course Schema Addon</a>';
+             
+         }
+         
+         if(!is_plugin_active('event-schema/event-schema.php')){
+                          
+             $the_events_calendar['note']         = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/evennt-schema/">Event Schema Addon</a>';
+             $events_calendar_wd['note']          = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/evennt-schema/">Event Schema Addon</a>';
+             $wp_event_manager['note']            = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/evennt-schema/">Event Schema Addon</a>';
+             $events_manager['note']              = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/evennt-schema/">Event Schema Addon</a>';
+             $event_organiser['note']             = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/evennt-schema/">Event Schema Addon</a>';
+             $modern_events_calendar['note']      = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/evennt-schema/">Event Schema Addon</a>';
              
          }
                                                                                 
@@ -2118,12 +2235,10 @@ function saswp_compatibility_page_callback(){
                 $woocommerce,
                 $woocommerce_bok,
                 $woocommerce_mem,
-                $cooked,
-                $the_events_calendar,
+                $cooked,                
                 $tagyeem,
                 $extratheme,
-                $dwquestiton,
-                //$wpjobmanager,
+                $dwquestiton,                
                 $yoast,
                 $smart_crawl,
                 $seo_press,
@@ -2136,7 +2251,13 @@ function saswp_compatibility_page_callback(){
                 $real_homes,
                 $learn_press,
                 $learn_dash,
-                $lifter_lms
+                $lifter_lms,
+                $the_events_calendar,
+                $wp_event_manager,
+                $events_manager,
+                $events_calendar_wd,
+                $event_organiser,
+                $modern_events_calendar
                 
 	);     
         
@@ -2333,25 +2454,29 @@ add_action( 'admin_enqueue_scripts', 'saswp_enqueue_style_js' );
 function saswp_get_field_note($pname){
     
     $notes = array(            
-            'kk_star_rating'      => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/kk-star-ratings/">kk Star Rating</a>',
-            'wp_post_rating'      => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wp-postratings/">WP-PostRatings</a>',
-            'bb_press'            => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/bbpress/">bbPress</a>',
-            'woocommerce'         => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/woocommerce/">Woocommerce</a>',
-            'cooked'              => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/cooked/">Cooked</a>',
-            'the_events_calendar' => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/the-events-calendar/">The Events Calendar</a>',
-            'yoast_seo'           => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wordpress-seo/">Yoast SEO</a>',
-            'rank_math'           => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/seo-by-rank-math/">WordPress SEO Plugin – Rank Math</a>',            
-            'dw_qna'              => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/dw-question-answer/">DW Question Answer</a>',
-            'smart_crawl'         => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/smartcrawl-seo/">SmartCrawl Seo</a>',
-            'the_seo_framework'   => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/autodescription/">The Seo Framework</a>',
-            'seo_press'           => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wp-seopress/">SEOPress</a>',
-            'aiosp'               => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/all-in-one-seo-pack/">All in One SEO Pack</a>',
-            'squirrly_seo'        => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/squirrly-seo/">Squirrly SEO</a>',          
-            'wp_recipe_maker'     => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wp-recipe-maker/">WP Recipe Maker</a>',
-        
-            'learn_press'         => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/learnpress/">Learn Press</a>',
-            'learn_dash'          => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://www.learndash.com/pricing-and-purchase/">Learn Dash</a>',
-            'lifter_lms'          => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/lifterlms/">LifterLMS</a>'
+            'kk_star_rating'           => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/kk-star-ratings/">kk Star Rating</a>',
+            'wp_post_rating'           => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wp-postratings/">WP-PostRatings</a>',
+            'bb_press'                 => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/bbpress/">bbPress</a>',
+            'woocommerce'              => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/woocommerce/">Woocommerce</a>',
+            'cooked'                   => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/cooked/">Cooked</a>',
+            'the_events_calendar'      => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/the-events-calendar/">The Events Calendar</a>',
+            'yoast_seo'                => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wordpress-seo/">Yoast SEO</a>',
+            'rank_math'                => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/seo-by-rank-math/">WordPress SEO Plugin – Rank Math</a>',            
+            'dw_qna'                   => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/dw-question-answer/">DW Question Answer</a>',
+            'smart_crawl'              => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/smartcrawl-seo/">SmartCrawl Seo</a>',
+            'the_seo_framework'        => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/autodescription/">The Seo Framework</a>',
+            'seo_press'                => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wp-seopress/">SEOPress</a>',
+            'aiosp'                    => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/all-in-one-seo-pack/">All in One SEO Pack</a>',
+            'squirrly_seo'             => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/squirrly-seo/">Squirrly SEO</a>',          
+            'wp_recipe_maker'          => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wp-recipe-maker/">WP Recipe Maker</a>',        
+            'learn_press'              => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/learnpress/">Learn Press</a>',
+            'learn_dash'               => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://www.learndash.com/pricing-and-purchase/">Learn Dash</a>',
+            'lifter_lms'               => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/lifterlms/">LifterLMS</a>',
+            'wp_event_manager'         => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wp-event-manager/">WP Event Manager</a>',
+            'events_manager'           => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/events-manager/">Events Manager</a>',
+            'event_calendar_wd'        => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/event-calendar-wd/">Event Calendar WD</a>',
+            'event_organiser'          => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/event-organiser/">Event Organiser</a>',
+            'modern_events_calendar'   => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/modern-events-calendar-lite/">Modern Events Calendar Lite</a>',
         );
             
     if(!saswp_check_plugin_active_status($pname)){

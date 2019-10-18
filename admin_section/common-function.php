@@ -2482,6 +2482,21 @@ function saswp_check_plugin_active_status($pname){
         'kk_star_rating'      => array(
             'free' => 'kk-star-ratings/index.php',            
         ),
+        'event_organiser'      => array(
+            'free' => 'event-organiser/event-organiser.php',            
+        ),
+        'modern_events_calendar'      => array(
+            'free' => 'modern-events-calendar-lite/modern-events-calendar-lite.php',            
+        ),
+        'events_manager'      => array(
+            'free' => 'events-manager/events-manager.php',            
+        ),
+        'event_calendar_wd'      => array(
+            'free' => 'event-calendar-wd/ecwd.php',            
+        ),
+        'wp_event_manager'      => array(
+            'free' => 'wp-event-manager/wp-event-manager.php',            
+        ),
         'wp_post_rating'      => array(        
             'free' => 'wp-postratings/wp-postratings.php',
         ),

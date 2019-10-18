@@ -57,6 +57,25 @@ class saswp_output_compatibility{
                                    
     }
     
+    public function saswp_wp_event_manager_override(){
+                        
+        if(class_exists('WP_Event_Manager_Post_Types')){
+            remove_action( 'wp_footer', array( WP_Event_Manager_Post_Types::instance(), 'output_structured_data' ), 10 ); 
+        }
+                        
+    }
+    
+    public function saswp_the_events_calendar_override(){
+                                
+        add_filter('tribe_json_ld_event_data', array($this, 'saswp_remove_the_events_calendar_markup'),10,2);
+                                
+    }
+    public function saswp_remove_the_events_calendar_markup( $data, $args ){
+        
+        return __return_empty_array;
+    }
+
+
     public function saswp_wp_post_ratings_override(){
         
         add_filter('wp_postratings_schema_itemtype', '__return_false');
@@ -136,8 +155,7 @@ class saswp_output_compatibility{
           }
             
         }   
-        
-        
+                
       }                       
 
     }
