@@ -162,6 +162,12 @@ function saswp_admin_interface_render(){
                         echo "<div class='saswp-compatibility' ".( $tab != 'compatibility' ? 'style="display:none;"' : '').">";
 			     // Status
                         
+                                echo '<div id="saswp-compatibility-tabs" style="margin-top: 10px;">';
+
+                                echo '<a data-id="saswp-active-compatibility-container">'.esc_html__('Active','schema-and-structured-data-for-wp').'</a> | <a data-id="saswp-inactive-compatibility-container">'.esc_html__('InActive','schema-and-structured-data-for-wp').'</a>';
+
+                                echo'</div> ';
+                        
 			        do_settings_sections( 'saswp_compatibility_section' );	// Page slug
 			echo "</div>";
                         
@@ -2013,8 +2019,7 @@ function saswp_compatibility_page_callback(){
                                 'name' => 'sd_data[saswp-the-events-calendar]',                             
                         )
 		);
-        
-        
+                
         $kk_star = array(
 			'label'  => 'kk Star Ratings',
 			'id'     => 'saswp-kk-star-raring-checkbox',                        
@@ -2148,7 +2153,19 @@ function saswp_compatibility_page_callback(){
                                 'id'   => 'saswp-rankmath',
                                 'name' => 'sd_data[saswp-rankmath]',                             
                         )
-		);      
+		); 
+        
+        $flex_lmx = array(
+			'label'  => 'FlexMLS IDX Plugin',
+			'id'     => 'saswp-flexmlx-compativility-checkbox', 
+                        'name'   => 'saswp-flexmlx-compativility-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',                       
+                        'hidden' => array(
+                             'id'   => 'saswp-flexmlx-compativility',
+                             'name' => 'sd_data[saswp-flexmlx-compativility]',                             
+                        )
+		);
         
         
         if(get_template() != 'homeland'  ){
@@ -2225,6 +2242,9 @@ function saswp_compatibility_page_callback(){
              
              
         }
+        if(!is_plugin_active('flexmls-idx/flexmls_connect.php')){
+            $flex_lmx['note']      = esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/flexmls-idx/">FlexMLS IDX</a>';
+        }
                                                  
         $field_objs = new saswp_fields_generator();
         
@@ -2257,105 +2277,125 @@ function saswp_compatibility_page_callback(){
                 $events_manager,
                 $events_calendar_wd,
                 $event_organiser,
-                $modern_events_calendar
+                $modern_events_calendar,
+                $flex_lmx
                 
-	);     
-        
-        echo '<div class="saswp-heading">';
-        echo '<h2>'.esc_html__('Compatibility','schema-and-structured-data-for-wp').'</h2>';                
-        echo '</div>';
-        echo '<p>'.esc_html__('These are the list of plugin\'s name which are compatible with Schema & Structured Data For WP.','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/docs/article-categories/compatibility/">Learn More</a></p>';
-        
-        $field_objs->saswp_field_generator($meta_fields, $settings);
+	);  
         
         
-        if ( is_plugin_active('flexmls-idx/flexmls_connect.php')) {
-         $meta_fields_default = array(	
-		array(
-			'label'  => 'FlexMLS IDX Plugin',
-			'id'     => 'saswp-flexmlx-compativility-checkbox', 
-                        'name'   => 'saswp-flexmlx-compativility-checkbox',
-			'type'   => 'checkbox',
-                        'class'  => 'checkbox saswp-checkbox',                       
-                        'hidden' => array(
-                             'id'   => 'saswp-flexmlx-compativility',
-                             'name' => 'sd_data[saswp-flexmlx-compativility]',                             
-                        )
-		),
-		);   
-        }else{
-        
-        $meta_fields_default = array(	
-		array(
-			'label'      => 'FlexMLS IDX',
-			'id'         => 'saswp-flexmlx-compativility-checkbox', 
-                        'name'       => 'saswp-flexmlx-compativility-checkbox',
-			'type'       => 'checkbox',
-                        'class'      => 'checkbox saswp-checkbox',
-                        'note'       => 'Requires <a target="_blank" href="https://wordpress.org/plugins/flexmls-idx/">FlexMLS IDX</a>',                        
-                        'hidden' => array(
-                             'id'   => 'saswp-flexmlx-compativility',
-                             'name' => 'sd_data[saswp-flexmlx-compativility]',                             
-                        )
-		),
-		);          
-        }
-         $meta_fields_text = array();
-         $meta_fields_text[] = array(
+         $flex_mlx_extra_fields = array();
+         $flex_mlx_extra_fields[] = array(
                         'label' => 'Name',
 			'id'    => 'sd-seller-name',
                         'name'  => 'sd_data[sd-seller-name]',
                         'class' => 'regular-text',                        
 			'type'  => 'text',
         );
-         $meta_fields_text[] = array(
+         $flex_mlx_extra_fields[] = array(
                         'label' => 'Addres',
 			'id'    => 'sd-seller-address',
                         'name'  => 'sd_data[sd-seller-address]',
                         'class' => 'regular-text',                        
 			'type'  => 'text',
         );
-         $meta_fields_text[] = array(
+         $flex_mlx_extra_fields[] = array(
                         'label' => 'Telephone',
 			'id'    => 'sd-seller-telephone',
                         'name'  => 'sd_data[sd-seller-telephone]',
                         'class' => 'regular-text',                        
 			'type'  => 'text',
         );
-         $meta_fields_text[] = array(
+         $flex_mlx_extra_fields[] = array(
                         'label' => 'Price Range',
 			'id'    => 'sd-seller-price-range',
                         'name'  => 'sd_data[sd-seller-price-range]',
                         'class' => 'regular-text',                        
 			'type'  => 'text',
         );
-        $meta_fields_text[] = array(
+        $flex_mlx_extra_fields[] = array(
 			'label' => 'URL',
 			'id'    => 'sd-seller-url',
                         'name'  => 'sd_data[sd-seller-url]',
                         'class' => 'regular-text',
 			'type'  => 'text',
 		);                                
-        $meta_fields_text[] = array(
+        $flex_mlx_extra_fields[] = array(
 			'label' => 'Image',
 			'id'    => 'sd_seller_image',
                         'name'  => 'sd_data[sd_seller_image][url]',
                         'class' => 'saswp-sd_seller_image',
 			'type'  => 'media',
-	);                
-              
-        $field_objs = new saswp_fields_generator();         
-        $field_objs->saswp_field_generator($meta_fields_default, $settings);  
-        
-        if ( is_plugin_active('flexmls-idx/flexmls_connect.php')) {
+	);
+                
+        ?> 
+
+        <div class="saswp-compatibility-container" id="saswp-active-compatibility-container">
             
-            echo '<div class="saswp-seller-div">';
-            echo '<strong>'.esc_html__('Real estate agent info :','schema-and-structured-data-for-wp').'</strong>';
+            <?php
+            $act_meta_field = $meta_fields;
+            
+            foreach($act_meta_field as $key => $field){
+                
+                if(!isset($settings[$field['hidden']['id']]) ||(isset($settings[$field['hidden']['id']]) && $settings[$field['hidden']['id']] == 0)){
+                    
+                    unset($act_meta_field[$key]);
+                    
+                }
+                
+            }
+            
+            if($act_meta_field){
+                $field_objs->saswp_field_generator($act_meta_field, $settings);
+            }
+                                       
+            if ( is_plugin_active('flexmls-idx/flexmls_connect.php') && isset($settings['saswp-flexmlx-compativility']) && $settings['saswp-flexmlx-compativility'] == 1) {
+            
+                echo '<div class="saswp-seller-div">';
+                echo '<strong>'.esc_html__('Real estate agent info :','schema-and-structured-data-for-wp').'</strong>';
 
-            $field_objs->saswp_field_generator($meta_fields_text, $settings);
+                $field_objs->saswp_field_generator($flex_mlx_extra_fields, $settings);
 
-            echo '</div>';    
-        }                        
+                echo '</div>';    
+            }
+            
+            ?>
+            
+        </div>    
+
+        <div class="saswp-compatibility-container" id="saswp-inactive-compatibility-container">
+            
+            <?php
+            $ina_meta_field = $meta_fields;
+            
+            foreach($ina_meta_field as $key => $field){
+                
+                if(isset($settings[$field['hidden']['id']]) && $settings[$field['hidden']['id']] == 1){
+                    
+                    unset($ina_meta_field[$key]);
+                    
+                }
+                
+            }
+            if($ina_meta_field){
+                
+                $field_objs->saswp_field_generator($ina_meta_field, $settings);
+                
+            }
+            
+            if ( is_plugin_active('flexmls-idx/flexmls_connect.php') && (!isset($settings['saswp-flexmlx-compativility']) || (isset($settings['saswp-flexmlx-compativility'])  && $settings['saswp-flexmlx-compativility'] == 0 )) ) {
+            
+                echo '<div class="saswp-seller-div">';
+                echo '<strong>'.esc_html__('Real estate agent info :','schema-and-structured-data-for-wp').'</strong>';
+
+                $field_objs->saswp_field_generator($flex_mlx_extra_fields, $settings);
+
+                echo '</div>';    
+            }
+            
+            ?>
+            
+        </div>    
+        <?php
                         
 }
 
