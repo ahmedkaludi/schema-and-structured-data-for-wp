@@ -734,6 +734,15 @@ jQuery(document).ready(function($){
                             }
                       break;
                       
+                      case 'saswp-wp-ultimate-recipe-checkbox':
+                          saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-wp-ultimate-recipe").val(1);                                
+                            }else{
+                              $("#saswp-wp-ultimate-recipe").val(0);                                          
+                            }
+                      break;
+                      
                       case 'saswp-wpsso-core-checkbox':
                           saswp_compatibliy_notes(current, id); 
                             if ($(this).is(':checked')) {              

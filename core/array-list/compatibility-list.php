@@ -165,7 +165,14 @@ return array(
                     'free'       => 'wp-recipe-maker/wp-recipe-maker.php',               
                     'opt_name'   => 'saswp-wp-recipe-maker',
                     'part_in'    => 'free',
-        )
+        ),
+        'wp_ultimate_recipe' => array(            
+                    'name'       => 'WP Ultimate Recipe',
+                    'free'       => 'wp-ultimate-recipe/wp-ultimate-recipe.php', 
+                    'pro'        => 'wp-ultimate-recipe-premium/wp-ultimate-recipe-premium.php', 
+                    'opt_name'   => 'saswp-wp-ultimate-recipe',
+                    'part_in'    => 'pro',
+        )    
                 
     ),
     'themes' => array(
