@@ -1801,6 +1801,7 @@ function saswp_compatibility_page_callback(){
                         'name'   => 'saswp-tagyeem-checkbox',
 			'type'   => 'checkbox',
                         'class'  => 'checkbox saswp-checkbox',
+                        'note'   => saswp_get_field_note('jannah'),
                         'hidden' => array(
                                 'id'   => 'saswp-tagyeem',
                                 'name' => 'sd_data[saswp-tagyeem]',                             
@@ -1836,7 +1837,8 @@ function saswp_compatibility_page_callback(){
 			'id'     => 'saswp-homeland-checkbox',                        
                         'name'   => 'saswp-homeland-checkbox',
 			'type'   => 'checkbox',
-                        'class'  => 'checkbox saswp-checkbox',                        
+                        'class'  => 'checkbox saswp-checkbox', 
+                        'note'   => saswp_get_field_note('homeland'),
                         'hidden' => array(
                                 'id'   => 'saswp-homeland',
                                 'name' => 'sd_data[saswp-homeland]',                             
@@ -1847,7 +1849,8 @@ function saswp_compatibility_page_callback(){
 			'id'     => 'saswp-realhomes-checkbox',                        
                         'name'   => 'saswp-realhomes-checkbox',
 			'type'   => 'checkbox',
-                        'class'  => 'checkbox saswp-checkbox',                        
+                        'class'  => 'checkbox saswp-checkbox',
+                        'note'   => saswp_get_field_note('realhomes'),
                         'hidden' => array(
                                 'id'   => 'saswp-realhomes',
                                 'name' => 'sd_data[saswp-realhomes]',                             
@@ -2026,7 +2029,7 @@ function saswp_compatibility_page_callback(){
                         'name'   => 'saswp-kk-star-raring-checkbox',
 			'type'   => 'checkbox',
                         'class'  => 'checkbox saswp-checkbox',
-                        'note'   => saswp_get_field_note('kk_star_rating'),
+                        'note'   => saswp_get_field_note('kk_star_ratings'),
                         'hidden' => array(
                                 'id'   => 'saswp-kk-star-raring',
                                 'name' => 'sd_data[saswp-kk-star-raring]',                             
@@ -2038,7 +2041,7 @@ function saswp_compatibility_page_callback(){
                         'name'   => 'saswp-wppostratings-raring-checkbox',
 			'type'   => 'checkbox',
                         'class'  => 'checkbox saswp-checkbox',
-                        'note'   => saswp_get_field_note('wp_post_rating'),
+                        'note'   => saswp_get_field_note('wp_post_ratings'),
                         'hidden' => array(
                                 'id'   => 'saswp-wppostratings-raring',
                                 'name' => 'sd_data[saswp-wppostratings-raring]',                             
@@ -2062,6 +2065,7 @@ function saswp_compatibility_page_callback(){
                         'name'   => 'saswp-woocommerce-booking-checkbox',
 			'type'   => 'checkbox',
                         'class'  => 'checkbox saswp-checkbox',
+                        'note'   => saswp_get_field_note('woocommerce_bookings'),
                         'hidden' => array(
                                 'id'   => 'saswp-woocommerce-booking',
                                 'name' => 'sd_data[saswp-woocommerce-booking]',                             
@@ -2087,6 +2091,7 @@ function saswp_compatibility_page_callback(){
                         'name'   => 'saswp-woocommerce-membership-checkbox',
 			'type'   => 'checkbox',
                         'class'  => 'checkbox saswp-checkbox',
+                        'note'   => saswp_get_field_note('woocommerce_membership'),
                         'hidden' => array(
                                 'id'   => 'saswp-woocommerce-membership',
                                 'name' => 'sd_data[saswp-woocommerce-membership]',                             
@@ -2099,6 +2104,7 @@ function saswp_compatibility_page_callback(){
                         'name'   => 'saswp-extra-checkbox',
 			'type'   => 'checkbox',
                         'class'  => 'checkbox saswp-checkbox',
+                        'note'   => saswp_get_field_note('extra'),
                         'hidden' => array(
                                 'id'   => 'saswp-extra',
                                 'name' => 'sd_data[saswp-extra]',                             
@@ -2160,44 +2166,14 @@ function saswp_compatibility_page_callback(){
 			'id'     => 'saswp-flexmlx-compativility-checkbox', 
                         'name'   => 'saswp-flexmlx-compativility-checkbox',
 			'type'   => 'checkbox',
-                        'class'  => 'checkbox saswp-checkbox',                       
+                        'class'  => 'checkbox saswp-checkbox',
+                        'note'   => saswp_get_field_note('flex_mls_idx'),
                         'hidden' => array(
                              'id'   => 'saswp-flexmlx-compativility',
                              'name' => 'sd_data[saswp-flexmlx-compativility]',                             
                         )
 		);
-        
-        
-        if(get_template() != 'homeland'  ){
-            
-             $homeland_theme['note'] = esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://themeforest.net/item/homeland-responsive-real-estate-theme-for-wordpress/6518965">Homeland</a>';
-                          
-        }
-        if(get_template() != 'realhomes'  ){
-            
-             $real_homes['note'] = esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://themeforest.net/item/real-homes-wordpress-real-estate-theme/5373914">RealHomes</a>';
-                          
-        }
-        
-        if(!is_plugin_active('taqyeem/taqyeem.php')  || get_template() != 'jannah'  ){
-            
-             $tagyeem['note'] = esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://codecanyon.net/item/taqyeem-wordpress-review-plugin/4558799">Taqyeem</a>';
-                          
-        }
-        
-        if(!is_plugin_active('woocommerce/woocommerce.php') || !is_plugin_active('woocommerce-bookings/woocommerce-bookings.php')){
-                      
-            $woocommerce_bok['note'] = esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/woocommerce/">Woocommerce</a>';
-                                      
-        }
-                                
-        if(!is_plugin_active('woocommerce/woocommerce.php') || !is_plugin_active('woocommerce-memberships/woocommerce-memberships.php')){
-                      
-           $woocommerce_mem['note'] = esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/woocommerce/">Woocommerce</a>';
-                                      
-        }
-        
-        
+                
         if(!is_plugin_active('woocommerce-compatibility-for-schema/woocommerce-compatibility-for-schema.php')){
                       
              $woocommerce_bok['note'] = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="http://structured-data-for-wp.com/woocommerce-compatibility-for-schema/">Woocommerce Addon</a>';
@@ -2235,16 +2211,6 @@ function saswp_compatibility_page_callback(){
              $modern_events_calendar['note']      = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/evennt-schema/">Event Schema Addon</a>';
              
          }
-                                                                                
-        if(get_template() != 'Extra'){
-             
-             $extratheme['note']      = esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://www.elegantthemes.com/gallery/extra/">Extra Theme</a>';
-             
-             
-        }
-        if(!is_plugin_active('flexmls-idx/flexmls_connect.php')){
-            $flex_lmx['note']      = esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/flexmls-idx/">FlexMLS IDX</a>';
-        }
                                                  
         $field_objs = new saswp_fields_generator();
         
@@ -2281,8 +2247,7 @@ function saswp_compatibility_page_callback(){
                 $flex_lmx
                 
 	);  
-        
-        
+                
          $flex_mlx_extra_fields = array();
          $flex_mlx_extra_fields[] = array(
                         'label' => 'Name',
@@ -2331,23 +2296,37 @@ function saswp_compatibility_page_callback(){
 
         <div class="saswp-compatibility-container" id="saswp-active-compatibility-container">
             
-            <?php
-            $act_meta_field = $meta_fields;
-            
-            foreach($act_meta_field as $key => $field){
-                
-                if(!isset($settings[$field['hidden']['id']]) ||(isset($settings[$field['hidden']['id']]) && $settings[$field['hidden']['id']] == 0)){
-                    
-                    unset($act_meta_field[$key]);
-                    
-                }
-                
+           <?php
+            $act_meta_fields = $meta_fields;
+             
+            $active_plugins = saswp_compatible_active_list();
+             
+            foreach ($act_meta_fields as $key => $field){
+                                  
+                 if($field['hidden']['id'] == 'saswp-woocommerce-booking' || $field['hidden']['id'] == 'saswp-woocommerce-membership'){
+                     
+                     if(!array_search('saswp-woocommerce', $active_plugins)){
+                                         
+                         unset($act_meta_fields[$key]);
+                     
+                     }
+                                          
+                 }else{
+                 
+                     if(!array_search($field['hidden']['id'], $active_plugins)){
+                                         
+                         unset($act_meta_fields[$key]);
+                     
+                     }
+                     
+                 }
+                 
+                 
+             }
+            if($act_meta_fields){
+                $field_objs->saswp_field_generator($act_meta_fields, $settings);
             }
-            
-            if($act_meta_field){
-                $field_objs->saswp_field_generator($act_meta_field, $settings);
-            }
-                                       
+                                                              
             if ( is_plugin_active('flexmls-idx/flexmls_connect.php') && isset($settings['saswp-flexmlx-compativility']) && $settings['saswp-flexmlx-compativility'] == 1) {
             
                 echo '<div class="saswp-seller-div">';
@@ -2365,31 +2344,34 @@ function saswp_compatibility_page_callback(){
         <div class="saswp-compatibility-container" id="saswp-inactive-compatibility-container">
             
             <?php
-            $ina_meta_field = $meta_fields;
             
-            foreach($ina_meta_field as $key => $field){
-                
-                if(isset($settings[$field['hidden']['id']]) && $settings[$field['hidden']['id']] == 1){
-                    
-                    unset($ina_meta_field[$key]);
-                    
-                }
-                
-            }
-            if($ina_meta_field){
-                
-                $field_objs->saswp_field_generator($ina_meta_field, $settings);
-                
-            }
-            
-            if ( is_plugin_active('flexmls-idx/flexmls_connect.php') && (!isset($settings['saswp-flexmlx-compativility']) || (isset($settings['saswp-flexmlx-compativility'])  && $settings['saswp-flexmlx-compativility'] == 0 )) ) {
-            
-                echo '<div class="saswp-seller-div">';
-                echo '<strong>'.esc_html__('Real estate agent info :','schema-and-structured-data-for-wp').'</strong>';
-
-                $field_objs->saswp_field_generator($flex_mlx_extra_fields, $settings);
-
-                echo '</div>';    
+            $ina_meta_fields = $meta_fields;
+             
+            $active_plugins = saswp_compatible_active_list();
+             
+            foreach ($ina_meta_fields as $key => $field){
+                                  
+                 if($field['hidden']['id'] == 'saswp-woocommerce-booking' || $field['hidden']['id'] == 'saswp-woocommerce-membership'){
+                     
+                     if(array_search('saswp-woocommerce', $active_plugins)){
+                                         
+                         unset($ina_meta_fields[$key]);
+                     
+                     }
+                                          
+                 }else{
+                 
+                     if(array_search($field['hidden']['id'], $active_plugins)){
+                                         
+                         unset($ina_meta_fields[$key]);
+                     
+                     }
+                     
+                 }
+                                  
+             }
+            if($ina_meta_fields){
+                $field_objs->saswp_field_generator($ina_meta_fields, $settings);
             }
             
             ?>
@@ -2398,7 +2380,6 @@ function saswp_compatibility_page_callback(){
         <?php
                         
 }
-
 
 function saswp_support_page_callback(){
             
@@ -2494,8 +2475,8 @@ add_action( 'admin_enqueue_scripts', 'saswp_enqueue_style_js' );
 function saswp_get_field_note($pname){
     
     $notes = array(            
-            'kk_star_rating'           => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/kk-star-ratings/">kk Star Rating</a>',
-            'wp_post_rating'           => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wp-postratings/">WP-PostRatings</a>',
+            'kk_star_ratings'          => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/kk-star-ratings/">kk Star Rating</a>',
+            'wp_post_ratings'          => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wp-postratings/">WP-PostRatings</a>',
             'bb_press'                 => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/bbpress/">bbPress</a>',
             'woocommerce'              => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/woocommerce/">Woocommerce</a>',
             'cooked'                   => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/cooked/">Cooked</a>',
@@ -2517,9 +2498,19 @@ function saswp_get_field_note($pname){
             'event_calendar_wd'        => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/event-calendar-wd/">Event Calendar WD</a>',
             'event_organiser'          => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/event-organiser/">Event Organiser</a>',
             'modern_events_calendar'   => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/modern-events-calendar-lite/">Modern Events Calendar Lite</a>',
-        );
+            'flex_mls_idx'             => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/flexmls-idx/">FlexMLS IDX</a>',        
+            'woocommerce_membership'   => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/woocommerce/">Woocommerce Membership</a>',
+            'woocommerce_bookings'     => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/woocommerce/">Woocommerce Bookings</a>',        
+            'extra'                    => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://www.elegantthemes.com/gallery/extra/">Extra Theme</a>',
+            'homeland'                 => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://themeforest.net/item/homeland-responsive-real-estate-theme-for-wordpress/6518965">Homeland</a>',            
+            'realhomes'                => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://themeforest.net/item/real-homes-wordpress-real-estate-theme/5373914">RealHomes</a>',
+            'jannah'                   => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://codecanyon.net/item/taqyeem-wordpress-review-plugin/4558799">Taqyeem</a>'
             
-    if(!saswp_check_plugin_active_status($pname)){
+        );
+          
+    $active = saswp_compatible_active_list();
+    
+    if(!isset($active[$pname])){
         
         return $notes[$pname];
         

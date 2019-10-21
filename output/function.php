@@ -809,6 +809,18 @@ function saswp_remove_microdata($content){
             $content = preg_replace('/<script type=\"application\/ld\+json" class=\"aioseop-schema"\>(.*?)<\/script>/', "", $content);
         }
         
+        if(true){
+         
+            $regex = '/<script type=\"application\/ld\+json\">(.*?)<\/script>[\s\n]*<div id=\"wpurp\-container\-recipe\-([0-9]+)\"/';
+        
+            preg_match( $regex, $content, $match );
+
+            $recipe_id = $match[2];
+
+            $content = preg_replace($regex, '<div id="wpurp-container-recipe-'.$recipe_id.'"', $content);        
+                        
+        }                
+        
     }             
     
     return $content;

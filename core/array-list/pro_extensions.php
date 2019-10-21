@@ -33,6 +33,11 @@ return array(
             'key'        => 'event_schema',
             'name'       => 'Event Schema',
             'path'       => 'event-schema/event-schema.php',                        
-        )
+        ),
+        array(
+            'key'        => 'recipe_schema',
+            'name'       => 'Recipe Schema',
+            'path'       => 'recipe-schema/recipe-schema.php',                        
+        )        
                         
     );

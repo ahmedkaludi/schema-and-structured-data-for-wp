@@ -7,10 +7,11 @@ class saswp_output_compatibility{
 
     public function __construct() {
     
-            $mappings_file = SASWP_DIR_NAME . '/core/array-list/plugins.php';
+            $mappings_file = SASWP_DIR_NAME . '/core/array-list/compatibility-list.php';
 
             if ( file_exists( $mappings_file ) ) {
-                $this->_plugins_list = include $mappings_file;
+                $plugins_arr = include $mappings_file;
+                $this->_plugins_list = $plugins_arr['plugins'];
             }
             
     }
@@ -35,13 +36,13 @@ class saswp_output_compatibility{
         
         if(!empty($this->_plugins_list)){
         
-            foreach ($this->_plugins_list as $plugins){
+            foreach ($this->_plugins_list as $key =>  $plugins){
             
-            if(isset($sd_data[$plugins['status_key']]) && $sd_data[$plugins['status_key']] == 1){
+            if(isset($sd_data[$plugins['opt_name']]) && $sd_data[$plugins['opt_name']] == 1){
                 
-                if(is_plugin_active($plugins['path_free']) || (isset($plugins['path_pro']) && is_plugin_active($plugins['path_pro']))){
+                if(is_plugin_active($plugins['free']) || (isset($plugins['pro']) && is_plugin_active($plugins['pro']))){
                     
-                    $func_name = 'saswp_'.$plugins['key'].'_override';
+                    $func_name = 'saswp_'.$key.'_override';
                     
                     if(method_exists($this, $func_name) && saswp_global_option()){                        
                         call_user_func(array($this, $func_name));                        
