@@ -178,7 +178,14 @@ return array(
                     'free'       => 'zip-recipes/zip-recipes.php',                     
                     'opt_name'   => 'saswp-zip-recipes',
                     'part_in'    => 'pro',
-        )
+        ),
+        'mediavine_create' => array(            
+                    'name'       => 'Create by Mediavine',
+                    'free'       => 'mediavine-create/mediavine-create.php',                     
+                    'opt_name'   => 'saswp-mediavine-create',
+                    'part_in'    => 'pro',
+        )    
+        
                 
     ),
     'themes' => array(

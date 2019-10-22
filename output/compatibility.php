@@ -20,9 +20,15 @@ class saswp_output_compatibility{
             
            add_action( 'init', array($this, 'saswp_override_schema_markup'));
            add_filter( 'amp_init', array($this, 'saswp_override_schema_markup'));  
-           add_filter( 'wpsso_json_prop_https_schema_org_graph', 'saswp_exclude_wpsso_schema_graph', 10, 5 ); 
-           
+           add_filter( 'wpsso_json_prop_https_schema_org_graph', 'saswp_exclude_wpsso_schema_graph', 10, 5 );            
+           add_action("mv_create_modify_card_style_hooks", array($this, 'saswp_remove_create_mediavine'),100,2);          
     }
+    
+    public function saswp_remove_create_mediavine($attr, $type){
+        
+           remove_action( 'mv_create_card_before', array( 'Mediavine\Create\Creations_Views_Hooks', 'mv_create_schema' ), 10 );               
+        
+    } 
     
     public function saswp_exclude_wpsso_schema_graph( $prop_data, $mod, $mt_og, $page_type_id, $is_main ) {
          

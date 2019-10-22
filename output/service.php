@@ -583,10 +583,7 @@ Class saswp_output_service{
                     }
                     if(isset($custom_fields['local_website'])){
                      $input1['website'] =    $custom_fields['local_website'];
-                    }
-                    if(isset($custom_fields['local_business_logo'])){
-                     $input1['Publisher']['logo']['url'] =    $custom_fields['local_business_logo'];
-                    }
+                    }                    
                     if(isset($custom_fields['saswp_dayofweek'])){
                      $input1['openingHours'] =    $custom_fields['saswp_dayofweek'];
                     }
