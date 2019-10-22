@@ -823,7 +823,24 @@ function saswp_remove_microdata($content){
             
             }
                                     
-        }                
+        }
+        
+        if(isset($sd_data['saswp-zip-recipes']) && $sd_data['saswp-zip-recipes'] == 1 ){
+            
+            $regex = '/class=\"zlrecipe\-container\-border\"(.*?)>[\s\n]*<script type=\"application\/ld\+json\">(.*?)<\/script\>/sm';
+            preg_match_all( $regex, $content, $matches , PREG_SET_ORDER );
+            
+            if($matches){
+                
+                foreach($matches as $match){
+                    
+                    $content = preg_replace($regex, 'class="zlrecipe-container-border" '.$match[1].'>', $content);   
+                    
+                }
+                
+            }
+            
+        }
         
     }             
     

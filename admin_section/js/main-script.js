@@ -743,6 +743,15 @@ jQuery(document).ready(function($){
                             }
                       break;
                       
+                      case 'saswp-zip-recipes-checkbox':
+                          saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-zip-recipes").val(1);                                
+                            }else{
+                              $("#saswp-zip-recipes").val(0);                                          
+                            }
+                      break;
+                      
                       case 'saswp-wpsso-core-checkbox':
                           saswp_compatibliy_notes(current, id); 
                             if ($(this).is(':checked')) {              

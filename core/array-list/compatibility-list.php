@@ -172,7 +172,13 @@ return array(
                     'pro'        => 'wp-ultimate-recipe-premium/wp-ultimate-recipe-premium.php', 
                     'opt_name'   => 'saswp-wp-ultimate-recipe',
                     'part_in'    => 'pro',
-        )    
+        ),
+        'zip_recipes' => array(            
+                    'name'       => 'Zip Recipes',
+                    'free'       => 'zip-recipes/zip-recipes.php',                     
+                    'opt_name'   => 'saswp-zip-recipes',
+                    'part_in'    => 'pro',
+        )
                 
     ),
     'themes' => array(

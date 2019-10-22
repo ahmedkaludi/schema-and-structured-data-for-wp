@@ -960,25 +960,18 @@ function saswp_schema_output() {
 				}
                                 
 				$input1 = array(
-				'@context'			=> saswp_context_url(),
-				'@type'				=> $schema_type ,
-                                '@id'				=> trailingslashit(saswp_get_permalink()).'#recipe',    
-				'url'				=> trailingslashit(saswp_get_permalink()),
-				'name'			        => saswp_get_the_title(),
-				'datePublished'                 => esc_html($date),
-				'dateModified'                  => esc_html($modified_date),
-				'description'                   => saswp_get_the_excerpt(),
-				'mainEntity'                    => array(
-						'@type'				=> 'WebPage',
-						'@id'				=> trailingslashit(saswp_get_permalink()),
-						'author'			=> saswp_get_author_details()						                                                                                    
-					),                                        					
-				
+                                    '@context'			=> saswp_context_url(),
+                                    '@type'				=> $schema_type ,
+                                    '@id'				=> trailingslashit(saswp_get_permalink()).'#recipe',    
+                                    'url'				=> trailingslashit(saswp_get_permalink()),
+                                    'name'			        => saswp_get_the_title(),
+                                    'datePublished'                 => esc_html($date),
+                                    'dateModified'                  => esc_html($modified_date),
+                                    'description'                   => saswp_get_the_excerpt(),
+                                    'keywords'                      => saswp_get_the_tags(), 
+                                    'author'			=> saswp_get_author_details(),        								
 				);
-                                
-                                if(!empty($publisher)){                            
-                                     $input1['mainEntity'] = array_merge($input1['mainEntity'], $publisher);                            
-                                }                                
+                                                                                               
                                 if(isset($sd_data['saswp_comments_schema']) && $sd_data['saswp_comments_schema'] ==1){
                                     $input1['comment'] = saswp_get_comments(get_the_ID());
                                 }                                 

@@ -2021,6 +2021,18 @@ function saswp_compatibility_page_callback(){
                                 'name' => 'sd_data[saswp-wp-ultimate-recipe]',                             
                         )
 		);
+        $zip_recipes = array(
+			'label'  => 'Zip Recipes',
+			'id'     => 'saswp-zip-recipes-checkbox',                        
+                        'name'   => 'saswp-zip-recipes-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
+                        'note'   => saswp_get_field_note('zip_recipes'),
+                        'hidden' => array(
+                                'id'   => 'saswp-zip-recipes',
+                                'name' => 'sd_data[saswp-zip-recipes]',                             
+                        )
+		);
         
         $the_events_calendar = array(
 			'label'  => 'The Events Calendar',
@@ -2223,6 +2235,13 @@ function saswp_compatibility_page_callback(){
              $modern_events_calendar['note']      = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/evennt-schema/">Event Schema Addon</a>';
              
          }
+         
+         if(!is_plugin_active('recipe-schema/recipe-schema.php')){
+                          
+             $zip_recipes['note']                = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/evennt-schema/">Recipe Schema Addon</a>';             
+             $wp_ultimate_recipe['note']         = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/evennt-schema/">Recipe Schema Addon</a>';             
+             
+         }
                                                  
         $field_objs = new saswp_fields_generator();
         
@@ -2245,6 +2264,7 @@ function saswp_compatibility_page_callback(){
                 $squirrly_seo,                
                 $recipe_maker,
                 $wp_ultimate_recipe,
+                $zip_recipes,
                 $rankmath,
                 $homeland_theme,
                 $real_homes,
@@ -2518,8 +2538,8 @@ function saswp_get_field_note($pname){
             'extra'                    => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://www.elegantthemes.com/gallery/extra/">Extra Theme</a>',
             'homeland'                 => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://themeforest.net/item/homeland-responsive-real-estate-theme-for-wordpress/6518965">Homeland</a>',            
             'realhomes'                => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://themeforest.net/item/real-homes-wordpress-real-estate-theme/5373914">RealHomes</a>',
-            'jannah'                   => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://codecanyon.net/item/taqyeem-wordpress-review-plugin/4558799">Taqyeem</a>'
-            
+            'jannah'                   => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://codecanyon.net/item/taqyeem-wordpress-review-plugin/4558799">Taqyeem</a>',
+            'zip_recipes'              => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/zip-recipes/">Zip Recipes</a>'                    
         );
           
     $active = saswp_compatible_active_list();
