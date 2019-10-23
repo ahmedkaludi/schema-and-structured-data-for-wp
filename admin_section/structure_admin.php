@@ -1446,7 +1446,8 @@ function saswp_license_status($add_on, $license_status, $license_key){
                        'reviews'      => 'Reviews for schema',
                        'res'          => 'Real Estate Schema',
                        'cs'           => 'Course Schema',
-                       'es'           => 'Event Schema'
+                       'es'           => 'Event Schema',
+                       'rs'           => 'Recipe Schema'
                 );
                                                                             
                 $edd_action = '';

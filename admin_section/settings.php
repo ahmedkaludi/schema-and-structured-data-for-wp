@@ -1491,7 +1491,12 @@ function saswp_import_callback(){
                       
            $add_on[] = 'Es';           
                                       
-        }        
+        }
+        if(is_plugin_active('recipe-schema/recipe-schema.php')){
+                      
+           $add_on[] = 'Rs';           
+                                      
+        }
                 
         if(!empty($add_on)){
             
@@ -1616,6 +1621,14 @@ function saswp_get_license_section_html($on, $license_key, $license_status, $lic
                    
                     $response.= '<div class="" style="display:inline-block">';
                     $response.= '<strong>'.esc_html__('Event Schema','schema-and-structured-data-for-wp').'</strong>';
+                    $response.= '</div>';
+                
+               }
+               
+               if($label == true && $on == 'Rs'){
+                   
+                    $response.= '<div class="" style="display:inline-block">';
+                    $response.= '<strong>'.esc_html__('Recipe Schema','schema-and-structured-data-for-wp').'</strong>';
                     $response.= '</div>';
                 
                }
