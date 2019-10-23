@@ -162,6 +162,12 @@ function saswp_admin_interface_render(){
                         echo "<div class='saswp-compatibility' ".( $tab != 'compatibility' ? 'style="display:none;"' : '').">";
 			     // Status
                         
+                                echo '<div id="saswp-compatibility-tabs" style="margin-top: 10px;">';
+
+                                echo '<a data-id="saswp-active-compatibility-container">'.esc_html__('Active','schema-and-structured-data-for-wp').'</a> | <a data-id="saswp-inactive-compatibility-container">'.esc_html__('InActive','schema-and-structured-data-for-wp').'</a>';
+
+                                echo'</div> ';
+                        
 			        do_settings_sections( 'saswp_compatibility_section' );	// Page slug
 			echo "</div>";
                         
@@ -415,7 +421,38 @@ function saswp_premium_features_callback(){ ?>
                                         
                                         $cooked_active_text = '';
                                         
-                                        if(is_plugin_active('event-schema/event-schema.php')){                                        
+                                        if(is_plugin_active('recipe-schema-for-saswp/recipe-schema-for-saswp.php')){                                        
+                                            $cooked_active_text = '<label class="saswp-sts-txt">Status :<span style="color:green;">Active</span></label>';                                            
+                                        }else{
+                                            $cooked_active_text .='<label class="saswp-sts-txt">Status :<span>Inactive</span></label>';
+                                            $cooked_active_text .='<a target="_blank" href="http://structured-data-for-wp.com/extensions/"><span class="saswp-d-btn">Download</span></a>';
+                                        }
+                                        
+                                        ?> 
+                                                        
+				<div class="saswp-features-ele">
+                                    <div class="saswp-ele-ic" style="background: #509207;">
+                                            <img src="<?php echo SASWP_PLUGIN_URL; ?>/admin_section/images/recipe.png">
+					</div>
+					<div class="saswp-ele-tlt">
+						<h3><?php echo esc_html__('Recipe Schema','schema-and-structured-data-for-wp') ?></h3>
+						<p><?php echo esc_html__('Recipe Schema extension is the number one solution to enhance your recipe website with the right structured data.','schema-and-structured-data-for-wp') ?></p>
+					</div>
+				</div>
+				<div class="saswp-sts-btn">
+                                    
+                                    <?php echo $cooked_active_text; ?>
+                                                                           										
+				</div>
+			</li>
+                    
+                        <li>
+                            
+                                        <?php
+                                        
+                                        $cooked_active_text = '';
+                                        
+                                        if(is_plugin_active('event-schema-for-saswp/event-schema-for-saswp.php')){                                        
                                             $cooked_active_text = '<label class="saswp-sts-txt">Status :<span style="color:green;">Active</span></label>';                                            
                                         }else{
                                             $cooked_active_text .='<label class="saswp-sts-txt">Status :<span>Inactive</span></label>';
@@ -1481,11 +1518,16 @@ function saswp_import_callback(){
            $add_on[] = 'Cs';           
                                       
         }
-        if(is_plugin_active('event-schema/event-schema.php')){
+        if(is_plugin_active('event-schema-for-saswp/event-schema-for-saswp.php')){
                       
            $add_on[] = 'Es';           
                                       
-        }        
+        }
+        if(is_plugin_active('recipe-schema-for-saswp/recipe-schema-for-saswp.php')){
+                      
+           $add_on[] = 'Rs';           
+                                      
+        }
                 
         if(!empty($add_on)){
             
@@ -1610,6 +1652,14 @@ function saswp_get_license_section_html($on, $license_key, $license_status, $lic
                    
                     $response.= '<div class="" style="display:inline-block">';
                     $response.= '<strong>'.esc_html__('Event Schema','schema-and-structured-data-for-wp').'</strong>';
+                    $response.= '</div>';
+                
+               }
+               
+               if($label == true && $on == 'Rs'){
+                   
+                    $response.= '<div class="" style="display:inline-block">';
+                    $response.= '<strong>'.esc_html__('Recipe Schema','schema-and-structured-data-for-wp').'</strong>';
                     $response.= '</div>';
                 
                }
@@ -1795,6 +1845,7 @@ function saswp_compatibility_page_callback(){
                         'name'   => 'saswp-tagyeem-checkbox',
 			'type'   => 'checkbox',
                         'class'  => 'checkbox saswp-checkbox',
+                        'note'   => saswp_get_field_note('jannah'),
                         'hidden' => array(
                                 'id'   => 'saswp-tagyeem',
                                 'name' => 'sd_data[saswp-tagyeem]',                             
@@ -1830,7 +1881,8 @@ function saswp_compatibility_page_callback(){
 			'id'     => 'saswp-homeland-checkbox',                        
                         'name'   => 'saswp-homeland-checkbox',
 			'type'   => 'checkbox',
-                        'class'  => 'checkbox saswp-checkbox',                        
+                        'class'  => 'checkbox saswp-checkbox', 
+                        'note'   => saswp_get_field_note('homeland'),
                         'hidden' => array(
                                 'id'   => 'saswp-homeland',
                                 'name' => 'sd_data[saswp-homeland]',                             
@@ -1841,7 +1893,8 @@ function saswp_compatibility_page_callback(){
 			'id'     => 'saswp-realhomes-checkbox',                        
                         'name'   => 'saswp-realhomes-checkbox',
 			'type'   => 'checkbox',
-                        'class'  => 'checkbox saswp-checkbox',                        
+                        'class'  => 'checkbox saswp-checkbox',
+                        'note'   => saswp_get_field_note('realhomes'),
                         'hidden' => array(
                                 'id'   => 'saswp-realhomes',
                                 'name' => 'sd_data[saswp-realhomes]',                             
@@ -2000,6 +2053,54 @@ function saswp_compatibility_page_callback(){
                                 'name' => 'sd_data[saswp-wp-recipe-maker]',                             
                         )
 		);
+        $wp_ultimate_recipe = array(
+			'label'  => 'WP Ultimate Recipe',
+			'id'     => 'saswp-wp-ultimate-recipe-checkbox',                        
+                        'name'   => 'saswp-wp-ultimate-recipe-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
+                        'note'   => saswp_get_field_note('wp_ultimate_recipe'),
+                        'hidden' => array(
+                                'id'   => 'saswp-wp-ultimate-recipe',
+                                'name' => 'sd_data[saswp-wp-ultimate-recipe]',                             
+                        )
+		);
+        $zip_recipes = array(
+			'label'  => 'Zip Recipes',
+			'id'     => 'saswp-zip-recipes-checkbox',                        
+                        'name'   => 'saswp-zip-recipes-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
+                        'note'   => saswp_get_field_note('zip_recipes'),
+                        'hidden' => array(
+                                'id'   => 'saswp-zip-recipes',
+                                'name' => 'sd_data[saswp-zip-recipes]',                             
+                        )
+		);
+        $mediavine_create = array(
+			'label'  => 'Create by Mediavine',
+			'id'     => 'saswp-mediavine-create-checkbox',                        
+                        'name'   => 'saswp-mediavine-create-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
+                        'note'   => saswp_get_field_note('mediavine_create'),
+                        'hidden' => array(
+                                'id'   => 'saswp-mediavine-create',
+                                'name' => 'sd_data[saswp-mediavine-create]',                             
+                        )
+		);
+        $ht_recipes = array(
+			'label'  => 'HT Recipes',
+			'id'     => 'saswp-ht-recipes-checkbox',                        
+                        'name'   => 'saswp-ht-recipes-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
+                        'note'   => saswp_get_field_note('ht_recipes'),
+                        'hidden' => array(
+                                'id'   => 'saswp-ht-recipes',
+                                'name' => 'sd_data[saswp-ht-recipes]',                             
+                        )
+		);
         
         $the_events_calendar = array(
 			'label'  => 'The Events Calendar',
@@ -2013,15 +2114,14 @@ function saswp_compatibility_page_callback(){
                                 'name' => 'sd_data[saswp-the-events-calendar]',                             
                         )
 		);
-        
-        
+                
         $kk_star = array(
 			'label'  => 'kk Star Ratings',
 			'id'     => 'saswp-kk-star-raring-checkbox',                        
                         'name'   => 'saswp-kk-star-raring-checkbox',
 			'type'   => 'checkbox',
                         'class'  => 'checkbox saswp-checkbox',
-                        'note'   => saswp_get_field_note('kk_star_rating'),
+                        'note'   => saswp_get_field_note('kk_star_ratings'),
                         'hidden' => array(
                                 'id'   => 'saswp-kk-star-raring',
                                 'name' => 'sd_data[saswp-kk-star-raring]',                             
@@ -2033,7 +2133,7 @@ function saswp_compatibility_page_callback(){
                         'name'   => 'saswp-wppostratings-raring-checkbox',
 			'type'   => 'checkbox',
                         'class'  => 'checkbox saswp-checkbox',
-                        'note'   => saswp_get_field_note('wp_post_rating'),
+                        'note'   => saswp_get_field_note('wp_post_ratings'),
                         'hidden' => array(
                                 'id'   => 'saswp-wppostratings-raring',
                                 'name' => 'sd_data[saswp-wppostratings-raring]',                             
@@ -2057,6 +2157,7 @@ function saswp_compatibility_page_callback(){
                         'name'   => 'saswp-woocommerce-booking-checkbox',
 			'type'   => 'checkbox',
                         'class'  => 'checkbox saswp-checkbox',
+                        'note'   => saswp_get_field_note('woocommerce_bookings'),
                         'hidden' => array(
                                 'id'   => 'saswp-woocommerce-booking',
                                 'name' => 'sd_data[saswp-woocommerce-booking]',                             
@@ -2082,6 +2183,7 @@ function saswp_compatibility_page_callback(){
                         'name'   => 'saswp-woocommerce-membership-checkbox',
 			'type'   => 'checkbox',
                         'class'  => 'checkbox saswp-checkbox',
+                        'note'   => saswp_get_field_note('woocommerce_membership'),
                         'hidden' => array(
                                 'id'   => 'saswp-woocommerce-membership',
                                 'name' => 'sd_data[saswp-woocommerce-membership]',                             
@@ -2094,6 +2196,7 @@ function saswp_compatibility_page_callback(){
                         'name'   => 'saswp-extra-checkbox',
 			'type'   => 'checkbox',
                         'class'  => 'checkbox saswp-checkbox',
+                        'note'   => saswp_get_field_note('extra'),
                         'hidden' => array(
                                 'id'   => 'saswp-extra',
                                 'name' => 'sd_data[saswp-extra]',                             
@@ -2148,39 +2251,21 @@ function saswp_compatibility_page_callback(){
                                 'id'   => 'saswp-rankmath',
                                 'name' => 'sd_data[saswp-rankmath]',                             
                         )
-		);      
+		); 
         
-        
-        if(get_template() != 'homeland'  ){
-            
-             $homeland_theme['note'] = esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://themeforest.net/item/homeland-responsive-real-estate-theme-for-wordpress/6518965">Homeland</a>';
-                          
-        }
-        if(get_template() != 'realhomes'  ){
-            
-             $real_homes['note'] = esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://themeforest.net/item/real-homes-wordpress-real-estate-theme/5373914">RealHomes</a>';
-                          
-        }
-        
-        if(!is_plugin_active('taqyeem/taqyeem.php')  || get_template() != 'jannah'  ){
-            
-             $tagyeem['note'] = esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://codecanyon.net/item/taqyeem-wordpress-review-plugin/4558799">Taqyeem</a>';
-                          
-        }
-        
-        if(!is_plugin_active('woocommerce/woocommerce.php') || !is_plugin_active('woocommerce-bookings/woocommerce-bookings.php')){
-                      
-            $woocommerce_bok['note'] = esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/woocommerce/">Woocommerce</a>';
-                                      
-        }
-                                
-        if(!is_plugin_active('woocommerce/woocommerce.php') || !is_plugin_active('woocommerce-memberships/woocommerce-memberships.php')){
-                      
-           $woocommerce_mem['note'] = esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/woocommerce/">Woocommerce</a>';
-                                      
-        }
-        
-        
+        $flex_lmx = array(
+			'label'  => 'FlexMLS IDX Plugin',
+			'id'     => 'saswp-flexmlx-compativility-checkbox', 
+                        'name'   => 'saswp-flexmlx-compativility-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
+                        'note'   => saswp_get_field_note('flex_mls_idx'),
+                        'hidden' => array(
+                             'id'   => 'saswp-flexmlx-compativility',
+                             'name' => 'sd_data[saswp-flexmlx-compativility]',                             
+                        )
+		);
+                
         if(!is_plugin_active('woocommerce-compatibility-for-schema/woocommerce-compatibility-for-schema.php')){
                       
              $woocommerce_bok['note'] = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="http://structured-data-for-wp.com/woocommerce-compatibility-for-schema/">Woocommerce Addon</a>';
@@ -2208,23 +2293,25 @@ function saswp_compatibility_page_callback(){
              
          }
          
-         if(!is_plugin_active('event-schema/event-schema.php')){
+         if(!is_plugin_active('event-schema-for-saswp/event-schema-for-saswp.php')){
                           
-             $the_events_calendar['note']         = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/evennt-schema/">Event Schema Addon</a>';
-             $events_calendar_wd['note']          = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/evennt-schema/">Event Schema Addon</a>';
-             $wp_event_manager['note']            = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/evennt-schema/">Event Schema Addon</a>';
-             $events_manager['note']              = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/evennt-schema/">Event Schema Addon</a>';
-             $event_organiser['note']             = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/evennt-schema/">Event Schema Addon</a>';
-             $modern_events_calendar['note']      = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/evennt-schema/">Event Schema Addon</a>';
+             $the_events_calendar['note']         = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';
+             $events_calendar_wd['note']          = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';
+             $wp_event_manager['note']            = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';
+             $events_manager['note']              = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';
+             $event_organiser['note']             = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';
+             $modern_events_calendar['note']      = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';
              
          }
-                                                                                
-        if(get_template() != 'Extra'){
+         
+         if(!is_plugin_active('recipe-schema-for-saswp/recipe-schema-for-saswp.php')){
+                          
+             $zip_recipes['note']                = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/recipe-schema/">Recipe Schema Addon</a>';             
+             $wp_ultimate_recipe['note']         = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/recipe-schema/">Recipe Schema Addon</a>';             
+             $mediavine_create['note']           = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/recipe-schema/">Recipe Schema Addon</a>';             
+             $ht_recipes['note']                 = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/recipe-schema/">Recipe Schema Addon</a>';             
              
-             $extratheme['note']      = esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://www.elegantthemes.com/gallery/extra/">Extra Theme</a>';
-             
-             
-        }
+         }
                                                  
         $field_objs = new saswp_fields_generator();
         
@@ -2246,6 +2333,10 @@ function saswp_compatibility_page_callback(){
                 $aiosp,
                 $squirrly_seo,                
                 $recipe_maker,
+                $wp_ultimate_recipe,
+                $zip_recipes,
+                $mediavine_create,
+                $ht_recipes,
                 $rankmath,
                 $homeland_theme,
                 $real_homes,
@@ -2257,108 +2348,143 @@ function saswp_compatibility_page_callback(){
                 $events_manager,
                 $events_calendar_wd,
                 $event_organiser,
-                $modern_events_calendar
+                $modern_events_calendar,
+                $flex_lmx
                 
-	);     
-        
-        echo '<div class="saswp-heading">';
-        echo '<h2>'.esc_html__('Compatibility','schema-and-structured-data-for-wp').'</h2>';                
-        echo '</div>';
-        echo '<p>'.esc_html__('These are the list of plugin\'s name which are compatible with Schema & Structured Data For WP.','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/docs/article-categories/compatibility/">Learn More</a></p>';
-        
-        $field_objs->saswp_field_generator($meta_fields, $settings);
-        
-        
-        if ( is_plugin_active('flexmls-idx/flexmls_connect.php')) {
-         $meta_fields_default = array(	
-		array(
-			'label'  => 'FlexMLS IDX Plugin',
-			'id'     => 'saswp-flexmlx-compativility-checkbox', 
-                        'name'   => 'saswp-flexmlx-compativility-checkbox',
-			'type'   => 'checkbox',
-                        'class'  => 'checkbox saswp-checkbox',                       
-                        'hidden' => array(
-                             'id'   => 'saswp-flexmlx-compativility',
-                             'name' => 'sd_data[saswp-flexmlx-compativility]',                             
-                        )
-		),
-		);   
-        }else{
-        
-        $meta_fields_default = array(	
-		array(
-			'label'      => 'FlexMLS IDX',
-			'id'         => 'saswp-flexmlx-compativility-checkbox', 
-                        'name'       => 'saswp-flexmlx-compativility-checkbox',
-			'type'       => 'checkbox',
-                        'class'      => 'checkbox saswp-checkbox',
-                        'note'       => 'Requires <a target="_blank" href="https://wordpress.org/plugins/flexmls-idx/">FlexMLS IDX</a>',                        
-                        'hidden' => array(
-                             'id'   => 'saswp-flexmlx-compativility',
-                             'name' => 'sd_data[saswp-flexmlx-compativility]',                             
-                        )
-		),
-		);          
-        }
-         $meta_fields_text = array();
-         $meta_fields_text[] = array(
+	);  
+                
+         $flex_mlx_extra_fields = array();
+         $flex_mlx_extra_fields[] = array(
                         'label' => 'Name',
 			'id'    => 'sd-seller-name',
                         'name'  => 'sd_data[sd-seller-name]',
                         'class' => 'regular-text',                        
 			'type'  => 'text',
         );
-         $meta_fields_text[] = array(
+         $flex_mlx_extra_fields[] = array(
                         'label' => 'Addres',
 			'id'    => 'sd-seller-address',
                         'name'  => 'sd_data[sd-seller-address]',
                         'class' => 'regular-text',                        
 			'type'  => 'text',
         );
-         $meta_fields_text[] = array(
+         $flex_mlx_extra_fields[] = array(
                         'label' => 'Telephone',
 			'id'    => 'sd-seller-telephone',
                         'name'  => 'sd_data[sd-seller-telephone]',
                         'class' => 'regular-text',                        
 			'type'  => 'text',
         );
-         $meta_fields_text[] = array(
+         $flex_mlx_extra_fields[] = array(
                         'label' => 'Price Range',
 			'id'    => 'sd-seller-price-range',
                         'name'  => 'sd_data[sd-seller-price-range]',
                         'class' => 'regular-text',                        
 			'type'  => 'text',
         );
-        $meta_fields_text[] = array(
+        $flex_mlx_extra_fields[] = array(
 			'label' => 'URL',
 			'id'    => 'sd-seller-url',
                         'name'  => 'sd_data[sd-seller-url]',
                         'class' => 'regular-text',
 			'type'  => 'text',
 		);                                
-        $meta_fields_text[] = array(
+        $flex_mlx_extra_fields[] = array(
 			'label' => 'Image',
 			'id'    => 'sd_seller_image',
                         'name'  => 'sd_data[sd_seller_image][url]',
                         'class' => 'saswp-sd_seller_image',
 			'type'  => 'media',
-	);                
-              
-        $field_objs = new saswp_fields_generator();         
-        $field_objs->saswp_field_generator($meta_fields_default, $settings);  
-        
-        if ( is_plugin_active('flexmls-idx/flexmls_connect.php')) {
+	);
+                
+        ?> 
+
+        <div class="saswp-compatibility-container" id="saswp-active-compatibility-container">
             
-            echo '<div class="saswp-seller-div">';
-            echo '<strong>'.esc_html__('Real estate agent info :','schema-and-structured-data-for-wp').'</strong>';
+           <?php
+            $act_meta_fields = $meta_fields;
+             
+            $active_plugins = saswp_compatible_active_list();
+             
+            foreach ($act_meta_fields as $key => $field){
+                                  
+                 if($field['hidden']['id'] == 'saswp-woocommerce-booking' || $field['hidden']['id'] == 'saswp-woocommerce-membership'){
+                     
+                     if(!array_search('saswp-woocommerce', $active_plugins)){
+                                         
+                         unset($act_meta_fields[$key]);
+                     
+                     }
+                                          
+                 }else{
+                 
+                     if(!array_search($field['hidden']['id'], $active_plugins)){
+                                         
+                         unset($act_meta_fields[$key]);
+                     
+                     }
+                     
+                 }
+                 
+                 
+             }
+            if($act_meta_fields){
+                $field_objs->saswp_field_generator($act_meta_fields, $settings);
+            }
+                                                              
+            if ( is_plugin_active('flexmls-idx/flexmls_connect.php') && isset($settings['saswp-flexmlx-compativility']) && $settings['saswp-flexmlx-compativility'] == 1) {
+            
+                echo '<div class="saswp-seller-div">';
+                echo '<strong>'.esc_html__('Real estate agent info :','schema-and-structured-data-for-wp').'</strong>';
 
-            $field_objs->saswp_field_generator($meta_fields_text, $settings);
+                $field_objs->saswp_field_generator($flex_mlx_extra_fields, $settings);
 
-            echo '</div>';    
-        }                        
+                echo '</div>';    
+            }
+            
+            ?>
+            
+        </div>    
+
+        <div class="saswp-compatibility-container" id="saswp-inactive-compatibility-container">
+            
+            <?php
+            
+            $ina_meta_fields = $meta_fields;
+             
+            $active_plugins = saswp_compatible_active_list();
+             
+            foreach ($ina_meta_fields as $key => $field){
+                                  
+                 if($field['hidden']['id'] == 'saswp-woocommerce-booking' || $field['hidden']['id'] == 'saswp-woocommerce-membership'){
+                     
+                     if(array_search('saswp-woocommerce', $active_plugins)){
+                                         
+                         unset($ina_meta_fields[$key]);
+                     
+                     }
+                                          
+                 }else{
+                 
+                     if(array_search($field['hidden']['id'], $active_plugins)){
+                                         
+                         unset($ina_meta_fields[$key]);
+                     
+                     }
+                     
+                 }
+                                  
+             }
+            if($ina_meta_fields){
+                $field_objs->saswp_field_generator($ina_meta_fields, $settings);
+            }
+            
+            ?>
+            
+        </div>    
+        <?php
                         
 }
-
 
 function saswp_support_page_callback(){
             
@@ -2454,8 +2580,8 @@ add_action( 'admin_enqueue_scripts', 'saswp_enqueue_style_js' );
 function saswp_get_field_note($pname){
     
     $notes = array(            
-            'kk_star_rating'           => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/kk-star-ratings/">kk Star Rating</a>',
-            'wp_post_rating'           => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wp-postratings/">WP-PostRatings</a>',
+            'kk_star_ratings'          => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/kk-star-ratings/">kk Star Rating</a>',
+            'wp_post_ratings'          => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wp-postratings/">WP-PostRatings</a>',
             'bb_press'                 => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/bbpress/">bbPress</a>',
             'woocommerce'              => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/woocommerce/">Woocommerce</a>',
             'cooked'                   => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/cooked/">Cooked</a>',
@@ -2469,6 +2595,7 @@ function saswp_get_field_note($pname){
             'aiosp'                    => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/all-in-one-seo-pack/">All in One SEO Pack</a>',
             'squirrly_seo'             => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/squirrly-seo/">Squirrly SEO</a>',          
             'wp_recipe_maker'          => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wp-recipe-maker/">WP Recipe Maker</a>',        
+            'wp_ultimate_recipe'       => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wp-ultimate-recipe/">WP Ultimate Recipe</a>',        
             'learn_press'              => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/learnpress/">Learn Press</a>',
             'learn_dash'               => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://www.learndash.com/pricing-and-purchase/">Learn Dash</a>',
             'lifter_lms'               => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/lifterlms/">LifterLMS</a>',
@@ -2477,9 +2604,21 @@ function saswp_get_field_note($pname){
             'event_calendar_wd'        => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/event-calendar-wd/">Event Calendar WD</a>',
             'event_organiser'          => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/event-organiser/">Event Organiser</a>',
             'modern_events_calendar'   => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/modern-events-calendar-lite/">Modern Events Calendar Lite</a>',
+            'flex_mls_idx'             => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/flexmls-idx/">FlexMLS IDX</a>',        
+            'woocommerce_membership'   => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/woocommerce/">Woocommerce Membership</a>',
+            'woocommerce_bookings'     => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/woocommerce/">Woocommerce Bookings</a>',        
+            'extra'                    => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://www.elegantthemes.com/gallery/extra/">Extra Theme</a>',
+            'homeland'                 => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://themeforest.net/item/homeland-responsive-real-estate-theme-for-wordpress/6518965">Homeland</a>',            
+            'realhomes'                => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://themeforest.net/item/real-homes-wordpress-real-estate-theme/5373914">RealHomes</a>',
+            'jannah'                   => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://codecanyon.net/item/taqyeem-wordpress-review-plugin/4558799">Taqyeem</a>',
+            'zip_recipes'              => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/zip-recipes/">Zip Recipes</a>',
+            'mediavine_create'         => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/mediavine-create/">Create by Mediavine</a>',
+            'ht_recipes'               => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://themeforest.net/item/culinier-food-recipe-wordpress-theme/11088564/">HT-Recipes</a>'                    
         );
-            
-    if(!saswp_check_plugin_active_status($pname)){
+          
+    $active = saswp_compatible_active_list();
+    
+    if(!isset($active[$pname])){
         
         return $notes[$pname];
         

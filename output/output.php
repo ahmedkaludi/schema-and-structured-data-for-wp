@@ -275,8 +275,8 @@ function saswp_schema_output() {
 				   		                                                                                           		
 			$image_id 	= get_post_thumbnail_id();
 			$image_details 	= wp_get_attachment_image_src($image_id, 'full');						
-			$date 		= get_the_date("Y-m-d\TH:i:s\Z");
-			$modified_date 	= get_the_modified_date("Y-m-d\TH:i:s\Z");
+			$date 		= get_the_date("c");
+			$modified_date 	= get_the_modified_date("c");
 			$author_name 	= get_the_author();
                         $author_id      = get_the_author_meta('ID');   
                         
@@ -431,6 +431,7 @@ function saswp_schema_output() {
                                     $service = new saswp_output_service();
                                     $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
                             }
+                            $input1 = apply_filters('saswp_modify_apartment_schema_sfr', $input1 );
                             
                             }
                         
@@ -445,6 +446,8 @@ function saswp_schema_output() {
                                     $service = new saswp_output_service();
                                     $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
                             }
+                            
+                             $input1 = apply_filters('saswp_modify_apartment_schema_house', $input1 );
                              
                             }
                             
@@ -960,25 +963,18 @@ function saswp_schema_output() {
 				}
                                 
 				$input1 = array(
-				'@context'			=> saswp_context_url(),
-				'@type'				=> $schema_type ,
-                                '@id'				=> trailingslashit(saswp_get_permalink()).'#recipe',    
-				'url'				=> trailingslashit(saswp_get_permalink()),
-				'name'			        => saswp_get_the_title(),
-				'datePublished'                 => esc_html($date),
-				'dateModified'                  => esc_html($modified_date),
-				'description'                   => saswp_get_the_excerpt(),
-				'mainEntity'                    => array(
-						'@type'				=> 'WebPage',
-						'@id'				=> trailingslashit(saswp_get_permalink()),
-						'author'			=> saswp_get_author_details()						                                                                                    
-					),                                        					
-				
+                                    '@context'			=> saswp_context_url(),
+                                    '@type'				=> $schema_type ,
+                                    '@id'				=> trailingslashit(saswp_get_permalink()).'#recipe',    
+                                    'url'				=> trailingslashit(saswp_get_permalink()),
+                                    'name'			        => saswp_get_the_title(),
+                                    'datePublished'                 => esc_html($date),
+                                    'dateModified'                  => esc_html($modified_date),
+                                    'description'                   => saswp_get_the_excerpt(),
+                                    'keywords'                      => saswp_get_the_tags(), 
+                                    'author'			=> saswp_get_author_details(),        								
 				);
-                                
-                                if(!empty($publisher)){                            
-                                     $input1['mainEntity'] = array_merge($input1['mainEntity'], $publisher);                            
-                                }                                
+                                                                                               
                                 if(isset($sd_data['saswp_comments_schema']) && $sd_data['saswp_comments_schema'] ==1){
                                     $input1['comment'] = saswp_get_comments(get_the_ID());
                                 }                                 
@@ -990,20 +986,19 @@ function saswp_schema_output() {
                                 }
                                 
                                 $input1 = saswp_append_fetched_reviews($input1);
-                                
-                                if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){
-                                    $service = new saswp_output_service();
-                                    $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
-                                }
-                                
+                                                                                                
                             }
                             				                                
                                $input1 = apply_filters('saswp_modify_recipe_schema_output', $input1 );
+                               
+                               if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){
+                                    $service = new saswp_output_service();
+                                    $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
+                               }
 			}
                        
                         if( 'qanda' === $schema_type){
-                            
-                            
+                                                        
                             if(isset($sd_data['saswp-dw-question-answer']) && $sd_data['saswp-dw-question-answer'] ==1){
                             
                                 $service_object = new saswp_output_service();
@@ -1889,8 +1884,8 @@ function saswp_gutenberg_how_to_schema(){
                 $input1['@type']                 = 'HowTo';
                 $input1['@id']                   = trailingslashit(get_permalink()).'#HowTo';
                 $input1['name']                  = saswp_get_the_title();                
-                $input1['datePublished']         = get_the_date("Y-m-d\TH:i:s\Z");
-                $input1['dateModified']          = get_the_modified_date("Y-m-d\TH:i:s\Z");
+                $input1['datePublished']         = get_the_date("c");
+                $input1['dateModified']          = get_the_modified_date("c");
                 
                 if(!empty($feature_image)){
                             

@@ -734,6 +734,42 @@ jQuery(document).ready(function($){
                             }
                       break;
                       
+                      case 'saswp-wp-ultimate-recipe-checkbox':
+                          saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-wp-ultimate-recipe").val(1);                                
+                            }else{
+                              $("#saswp-wp-ultimate-recipe").val(0);                                          
+                            }
+                      break;
+                      
+                      case 'saswp-zip-recipes-checkbox':
+                          saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-zip-recipes").val(1);                                
+                            }else{
+                              $("#saswp-zip-recipes").val(0);                                          
+                            }
+                      break;
+                      
+                      case 'saswp-mediavine-create-checkbox':
+                          saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-mediavine-create").val(1);                                
+                            }else{
+                              $("#saswp-mediavine-create").val(0);                                          
+                            }
+                      break;
+                      
+                      case 'saswp-ht-recipes-checkbox':
+                          saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-ht-recipes").val(1);                                
+                            }else{
+                              $("#saswp-ht-recipes").val(0);                                          
+                            }
+                      break;
+                      
                       case 'saswp-wpsso-core-checkbox':
                           saswp_compatibliy_notes(current, id); 
                             if ($(this).is(':checked')) {              
@@ -1785,6 +1821,23 @@ jQuery(document).ready(function($){
             $(this).addClass('saswp-global-selected');
 
             $('.saswp-review-container').hide();
+            $('#'+t).show();
+         }
+        });
+        
+        
+        $('#saswp-compatibility-tabs a:first').addClass('saswp-global-selected');
+        $('.saswp-compatibility-container').hide();
+        $('.saswp-compatibility-container:first').show();
+        
+        $('#saswp-compatibility-tabs a').click(function(){
+            var t = $(this).attr('data-id');
+            
+          if(!$(this).hasClass('saswp-global-selected')){ 
+            $('#saswp-compatibility-tabs a').removeClass('saswp-global-selected');           
+            $(this).addClass('saswp-global-selected');
+
+            $('.saswp-compatibility-container').hide();
             $('#'+t).show();
          }
         });

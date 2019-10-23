@@ -1483,7 +1483,13 @@ class saswp_post_specific {
                     }
                     
                     $meta_field = array(                   
-                    array(
+                       array(
+                            'label'   => 'ID',
+                            'id'      => 'saswp_business_id_'.$schema_id,
+                            'type'    => 'text',
+                            'default' => 'LocalBusiness'                            
+                        ),     
+                       array(
                             'label'   => 'Business Type',
                             'id'      => 'saswp_business_type_'.$schema_id,
                             'type'    => 'select',

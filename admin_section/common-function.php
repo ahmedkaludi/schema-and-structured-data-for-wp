@@ -1623,7 +1623,7 @@ if ( ! defined('ABSPATH') ) exit;
                 $user_id        = get_current_user_id();
                 $username       = '';
 
-                if($user_id>0){
+                if($user_id > 0){
 
                     $user_info = get_userdata($user_id);
                     $username = $user_info->data->display_name;
@@ -1631,40 +1631,19 @@ if ( ! defined('ABSPATH') ) exit;
                 }
                 $defaults = array(
                                                                                                 
-                        'saswp_kb_type'      => 'Organization',    
-                        'sd_name'            => $sd_name,   
-                        'sd_alt_name'        => $sd_name,
-                        'sd_url'             => $current_url,                    
-                        'sd-person-name'     => $username,                                            
-                        'sd-person-url'      => $current_url,                                                                                                
-                        'saswp_kb_contact_1' => 0,
-                                                                                            
+                        'saswp_kb_type'            => 'Organization',    
+                        'sd_name'                  => $sd_name,   
+                        'sd_alt_name'              => $sd_name,
+                        'sd_url'                   => $current_url,                    
+                        'sd-person-name'           => $username,                                            
+                        'sd-person-url'            => $current_url,                                                                                                
+                        'saswp_kb_contact_1'       => 0,                                                                                            
                         'saswp-for-wordpress'      => 1,                                                                        
                         'sd_initial_wizard_status' => 1,
                         'saswp-microdata-cleanup'  => 1
 
                 );	  
-                                
-                $plugin_name = array(            
-                    'kk_star_rating'      => 'saswp-kk-star-raring',      
-                    'wp_post_rating'      => 'saswp-wppostratings-raring',      
-                    'bb_press'            => 'saswp-bbpress',   
-                    'woocommerce'         => 'saswp-woocommerce',  
-                    'cooked'              => 'saswp-cooked', 
-                    'the_events_calendar' => 'saswp-the-events-calendar',
-                    'yoast_seo'           => 'saswp-yoast',           
-                    'rank_math'           => 'saswp-rankmath',                               
-                    'dw_qna'              => 'saswp-dw-question-answer'             
-                 );
                 
-                foreach($plugin_name as $name => $s_key){
-                    
-                    if(saswp_check_plugin_active_status($name)){
-                        $defaults[$s_key] = 1;
-                    }
-                    
-                }
-                                                
                 if(is_array($logo)){
 
                     $defaults['sd_logo']  = array(
@@ -1676,43 +1655,25 @@ if ( ! defined('ABSPATH') ) exit;
                                 );                   
                     
                 }
-                                
-               if(is_plugin_active('taqyeem/taqyeem.php')  && get_template() == 'jannah'  ){
-            
-                    $defaults['saswp-tagyeem'] = 1;
-
-               }
-
-               if(is_plugin_active('woocommerce/woocommerce.php') && is_plugin_active('woocommerce-bookings/woocommerce-bookings.php')){
-                   
-                   $defaults['saswp-woocommerce-booking'] = 1;
-                   
-               }
-
-               if(is_plugin_active('woocommerce/woocommerce.php') && is_plugin_active('woocommerce-memberships/woocommerce-memberships.php')){
-                   
-                   $defaults['saswp-woocommerce-membership'] = 1;
-
-               }
-
-               if(get_template() == 'Extra'){
-                   
-                   $defaults['saswp-extra'] = 1; 
-
-               }
-               if(is_plugin_active('flexmls-idx/flexmls_connect.php')){
-                   
-                   $defaults['saswp-flexmlx-compativility'] = 1; 
-                   
-               }
+                
+                $active_plugin = saswp_compatible_active_list();
+                
+                if($active_plugin){
+                    
+                    foreach ($active_plugin as $plugin){
+                        $defaults[$plugin] = 1;
+                    }
+                    
+                }
                 
                 return $defaults;
         
     }        
             
     function saswp_defaultSettings(){
+                           
+                global $sd_data; 
                 
-                global $sd_data;                    
                 $sd_data = get_option( 'sd_data', saswp_default_settings_array());     
 
                 return $sd_data;
@@ -2472,117 +2433,37 @@ if ( ! defined('ABSPATH') ) exit;
     return $array;
 }
 
-function saswp_check_plugin_active_status($pname){
-    
-    $status      = false;
-    $free_status = false;
-    $pro_status  = false;
-    
-    $pnamelist = array(
-        'kk_star_rating'      => array(
-            'free' => 'kk-star-ratings/index.php',            
-        ),
-        'event_organiser'      => array(
-            'free' => 'event-organiser/event-organiser.php',            
-        ),
-        'modern_events_calendar'      => array(
-            'free' => 'modern-events-calendar-lite/modern-events-calendar-lite.php',            
-        ),
-        'events_manager'      => array(
-            'free' => 'events-manager/events-manager.php',            
-        ),
-        'event_calendar_wd'      => array(
-            'free' => 'event-calendar-wd/ecwd.php',            
-        ),
-        'wp_event_manager'      => array(
-            'free' => 'wp-event-manager/wp-event-manager.php',            
-        ),
-        'wp_post_rating'      => array(        
-            'free' => 'wp-postratings/wp-postratings.php',
-        ),
-        'bb_press'            => array(
-            'free' => 'bbpress/bbpress.php'
-        ),
-        'woocommerce'         => array(
-            'free' => 'woocommerce/woocommerce.php'
-        ),        
-        'the_events_calendar' => array(
-            'free' => 'the-events-calendar/the-events-calendar.php',
-        ),        
-        'yoast_seo' => array(
-            'free' => 'wordpress-seo/wp-seo.php',
-            'pro'  => 'wordpress-seo-premium/wp-seo-premium.php',
-        ),
-        'rank_math' => array(
-            'free' => 'seo-by-rank-math/rank-math.php',
-            'pro'  => 'seo-by-rank-math-premium/rank-math-premium.php',
-        ),
-        'cooked' => array(
-            'free' => 'cooked/cooked.php',
-            'pro'  => 'cooked-pro/cooked-pro.php',
-        ),
-        'dw_qna' => array(
-            'free' => 'dw-question-answer/dw-question-answer.php',
-            'pro'  => 'dw-question-answer-pro/dw-question-answer.php',
-        ),
-        'smart_crawl' => array(
-            'free' => 'smartcrawl-seo/wpmu-dev-seo.php',            
-        ),
-        'the_seo_framework' => array(
-            'free' => 'autodescription/autodescription.php',            
-        ),
-        'seo_press' => array(
-            'free' => 'wp-seopress/seopress.php',            
-        ),
-        'aiosp' => array(
-            'free' => 'all-in-one-seo-pack/all_in_one_seo_pack.php',            
-        ),
-        'squirrly_seo' => array(
-            'free' => 'squirrly-seo/squirrly.php',            
-        ),
-        'wpsso_core' => array(
-            'free' => 'wpsso/wpsso.php',            
-        ),
-        'wp_recipe_maker' => array(
-            'free' => 'wp-recipe-maker/wp-recipe-maker.php',            
-        ),        
-        'learn_press' => array(
-            'free' => 'learnpress/learnpress.php',            
-        ),        
-        'lifter_lms' => array(
-            'free' => 'lifterlms/lifterlms.php',            
-        ),        
-        'learn_dash' => array(
-            'free' => 'learndash/learndash.php',            
-        ),                
-    );
-    
-    if(array_key_exists('free', $pnamelist[$pname])){
+function saswp_compatible_active_list(){
         
-        if(is_plugin_active($pnamelist[$pname]['free'])){
-
-        $free_status = true;
-
-       }
+    $pnamelist   = array();
+    $active      = array();
         
+    $mappings_file = SASWP_DIR_NAME . '/core/array-list/compatibility-list.php';
+                
+    if ( file_exists( $mappings_file ) ) {
+        $pnamelist = include $mappings_file;        
     }
     
-    if(array_key_exists('pro', $pnamelist[$pname])){
+    foreach ($pnamelist['plugins'] as $key => $plugin){
         
-        if(is_plugin_active($pnamelist[$pname]['pro'])){
+        if(is_plugin_active($plugin['free']) || (array_key_exists('pro', $plugin) && is_plugin_active($plugin['pro']))){
 
-        $pro_status = true;
+            $active[$key] = $plugin['opt_name'];
 
-       }
+        }
+        
+    }    
+    foreach ($pnamelist['themes'] as $key => $plugin){
+        
+        if(get_template() == $plugin['free']){
+
+            $active[$key] = $plugin['opt_name'];
+
+        }
         
     }
-        
-    if($free_status || $pro_status){
-       $status = true; 
-    }
-    
-                    
-    return $status;
+                                    
+    return $active;
     
 }
 

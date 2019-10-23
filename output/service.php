@@ -174,10 +174,10 @@ Class saswp_output_service{
                     $response = get_the_author_meta('last_name');
                     break;
                 case 'post_date':
-                    $response = get_the_date("Y-m-d\TH:i:s\Z");
+                    $response = get_the_date("c");
                     break;
                 case 'post_modified':
-                    $response = get_the_modified_date("Y-m-d\TH:i:s\Z");
+                    $response = get_the_modified_date("c");
                     break;
                 case 'manual_text':    
                     
@@ -537,8 +537,11 @@ Class saswp_output_service{
                                   
                 case 'local_business':
                    
-                    if(isset($custom_fields['saswp_business_type'])){
-                     $input1['@type'] =    $custom_fields['saswp_business_type'];
+                    if(isset($custom_fields['local_business_id'])){
+                        $input1['@id'] =    $custom_fields['local_business_id'];
+                    }                   
+                    if(isset($custom_fields['saswp_business_type'])){                     
+                     $input1['@type'] =    $custom_fields['saswp_business_type'];                     
                     }
                     if(isset($custom_fields['saswp_business_name'])){
                      $input1['@type'] =    $custom_fields['saswp_business_name'];
@@ -580,10 +583,7 @@ Class saswp_output_service{
                     }
                     if(isset($custom_fields['local_website'])){
                      $input1['website'] =    $custom_fields['local_website'];
-                    }
-                    if(isset($custom_fields['local_business_logo'])){
-                     $input1['Publisher']['logo']['url'] =    $custom_fields['local_business_logo'];
-                    }
+                    }                    
                     if(isset($custom_fields['saswp_dayofweek'])){
                      $input1['openingHours'] =    $custom_fields['saswp_dayofweek'];
                     }
@@ -2033,13 +2033,37 @@ Class saswp_output_service{
          */
         public function saswp_woocommerce_product_details($post_id){     
                              
-             $product_details = array();                
+             $product_details = array(); 
+             $varible_prices = array();
              
              if (class_exists('WC_Product')) {
                  
+             global $woocommerce;
+                 
 	     $product = wc_get_product($post_id); 
              
-             if(is_object($product)){                                 
+             if(is_object($product)){   
+                                               
+               if(is_object($woocommerce)){
+				 			
+                        if($product->get_type() == 'variable'){
+
+                           $product_id_some = $woocommerce->product_factory->get_product();
+
+                            $variations  = $product_id_some->get_available_variations();
+
+                                if($variations){
+
+                                        foreach($variations as $value){
+
+                                                $varible_prices[] = $value['display_price']; 
+
+                                        }
+                                }
+
+                        }
+				 				 
+                }  
                  
              $gtin = get_post_meta($post_id, $key='hwp_product_gtin', true);
              
@@ -2156,8 +2180,9 @@ Class saswp_output_service{
                  $product_details['product_availability'] = $product->get_stock_status();
              }
                           
-             $product_details['product_price']        = $product->get_price();
-             $product_details['product_sku']          = $product->get_sku() ? $product->get_sku(): get_the_ID();             
+             $product_details['product_price']           = $product->get_price();
+             $product_details['product_varible_price']   = $varible_prices;
+             $product_details['product_sku']             = $product->get_sku() ? $product->get_sku(): get_the_ID();             
              
              if(isset($date_on_sale)){
                  
@@ -2165,7 +2190,7 @@ Class saswp_output_service{
              
              }else{
                  
-             $product_details['product_priceValidUntil'] = get_the_modified_date("Y-m-d\TH:i:s\Z"); 
+             $product_details['product_priceValidUntil'] = get_the_modified_date("c"); 
              
              }       
              
@@ -2179,10 +2204,10 @@ Class saswp_output_service{
              foreach($reviews as $review){                 
                  
                  $reviews_arr[] = array(
-                     'author'        => $review->comment_author,
+                     'author'        => $review->comment_author ? $review->comment_author : 'Anonymous' ,
                      'datePublished' => $review->comment_date,
                      'description'   => $review->comment_content,
-                     'reviewRating'  => get_comment_meta( $review->comment_ID, 'rating', true ),
+                     'reviewRating'  => get_comment_meta( $review->comment_ID, 'rating', true ) ? get_comment_meta( $review->comment_ID, 'rating', true ) : '5',
                  );
                  
              }   
@@ -2194,7 +2219,7 @@ Class saswp_output_service{
                  
                  $reviews_arr[] = array(
                      'author'        => saswp_get_the_author_name(),
-                     'datePublished' => get_the_date("Y-m-d\TH:i:s\Z"),
+                     'datePublished' => get_the_date("c"),
                      'description'   => saswp_get_the_excerpt(),
                      'reviewRating'  => 5,
                  );
@@ -2253,7 +2278,7 @@ Class saswp_output_service{
             $review_data['review'] = array(
                 '@type'         => 'Review',
                 'author'        => get_the_author(),
-                'datePublished' => get_the_date("Y-m-d\TH:i:s\Z"),
+                'datePublished' => get_the_date("c"),
                 'name'          => $post_review_title,
                 'reviewBody'    => $post_review_desc,
                 'reviewRating' => array(
@@ -2372,7 +2397,7 @@ Class saswp_output_service{
                   
                 } 
                 
-                $dw_qa['dateCreated'] = get_the_date("Y-m-d\TH:i:s\Z");                                                   
+                $dw_qa['dateCreated'] = get_the_date("c");                                                   
                 $dw_qa['author']      = array(
                                                  '@type' => 'Person',
                                                  'name'  =>saswp_get_the_author_name(),
@@ -2443,6 +2468,7 @@ Class saswp_output_service{
                 case 'local_business':
                    
                     $meta_field = array(                                                                        
+                        'local_business_id'          => 'ID',    
                         'local_business_name'        => 'Business Name',                           
                         'local_business_name_url'    => 'URL',
                         'local_business_description' => 'Description',
@@ -3194,10 +3220,9 @@ Class saswp_output_service{
                                                             
                         $image_id 	= get_post_thumbnail_id();
 			$image_details 	= wp_get_attachment_image_src($image_id, 'full');                       			
-			$date 		= get_the_date("Y-m-d\TH:i:s\Z");
-			$modified_date 	= get_the_modified_date("Y-m-d\TH:i:s\Z");
-			
-                                                
+			$date 		= get_the_date("c");
+			$modified_date 	= get_the_modified_date("c");                        
+			                                                
             switch ($schema_type) {
                 
                 case 'TechArticle':
@@ -3314,17 +3339,35 @@ Class saswp_output_service{
                             'url'				=> trailingslashit(saswp_get_permalink()),
                             'name'                              => saswp_remove_warnings($product_details, 'product_name', 'saswp_string'),
                             'sku'                               => saswp_remove_warnings($product_details, 'product_sku', 'saswp_string'),    
-                            'description'                       => saswp_remove_warnings($product_details, 'product_description', 'saswp_string'),                                    
-                            'offers'                            => array(
-                                                                        '@type'	=> 'Offer',
-                                                                        'availability'      => saswp_remove_warnings($product_details, 'product_availability', 'saswp_string'),
-                                                                        'price'             => saswp_remove_warnings($product_details, 'product_price', 'saswp_string'),
-                                                                        'priceCurrency'     => saswp_remove_warnings($product_details, 'product_currency', 'saswp_string'),
-                                                                        'url'               => trailingslashit(saswp_get_permalink()),
-                                                                        'priceValidUntil'   => saswp_remove_warnings($product_details, 'product_priceValidUntil', 'saswp_string'),
-                                                                     ),
-
+                            'description'                       => saswp_remove_warnings($product_details, 'product_description', 'saswp_string')                                                               
                           );
+                            
+                          if(isset($product_details['product_price']) && $product_details['product_price'] ){
+							
+                                    $input1['offers'] = array(
+                                                    '@type'	        => 'Offer',
+                                                    'availability'      => saswp_remove_warnings($product_details, 'product_availability', 'saswp_string'),
+                                                    'price'             => saswp_remove_warnings($product_details, 'product_price', 'saswp_string'),
+                                                    'priceCurrency'     => saswp_remove_warnings($product_details, 'product_currency', 'saswp_string'),
+                                                    'url'               => trailingslashit(saswp_get_permalink()),
+                                                    'priceValidUntil'   => saswp_remove_warnings($product_details, 'product_priceValidUntil', 'saswp_string')
+                                                 );
+
+							
+                            }else{
+
+                            if(isset($product_details['product_varible_price']) && is_array($product_details['product_varible_price'])){
+
+                            $input1['offers']['@type']         = 'AggregateOffer';
+                            $input1['offers']['lowPrice']      = min($product_details['product_varible_price']);
+                            $input1['offers']['highPrice']     = max($product_details['product_varible_price']);
+                            $input1['offers']['priceCurrency'] = saswp_remove_warnings($product_details, 'product_currency', 'saswp_string');
+                            $input1['offers']['availability']  = saswp_remove_warnings($product_details, 'product_availability', 'saswp_string');
+                            $input1['offers']['offerCount']    = count($product_details['product_varible_price']);
+
+                            }
+
+                           }                              
 
                           if(isset($product_details['product_image'])){
                             $input1 = array_merge($input1, $product_details['product_image']);
@@ -3357,13 +3400,13 @@ Class saswp_output_service{
 
                                   $reviews[] = array(
                                                                 '@type'	=> 'Review',
-                                                                'author'	=> esc_attr($review['author']),
+                                                                'author'	=> $review['author'] ? esc_attr($review['author']) : 'Anonymous',
                                                                 'datePublished'	=> esc_html($review['datePublished']),
                                                                 'description'	=> $review['description'],  
                                                                 'reviewRating'  => array(
                                                                         '@type'	=> 'Rating',
                                                                         'bestRating'	=> '5',
-                                                                        'ratingValue'	=> esc_attr($review['reviewRating']),
+                                                                        'ratingValue'	=> $review['reviewRating'] ? esc_attr($review['reviewRating']) : '5',
                                                                         'worstRating'	=> '1',
                                                                 )  
                                   );
