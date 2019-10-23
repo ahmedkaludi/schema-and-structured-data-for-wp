@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.2
-Stable tag: 1.9.14
+Stable tag: 1.9.15
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -117,6 +117,16 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.9.15 (23 Oct 2019) =
+
+* Fixed: Multiple Instances of Schema Type (i.e. LocalBusiness) Merging Improperly on Same Page #537
+* Fixed: Price not showing in product schema for variable product #530
+* Fixed: Published and modified date needs to correct with proper timezone #562
+* Fixed: ImageObject Error when using the enfold theme. #558
+* Enhancement: Added default author value in review array for anonymous user #557
+* Enhancement: Added two section in compatiblity tab (Active & InActive) #560
+* Added: Recipe Schema Box in Premium Features tab #561
 
 = 1.9.14 (18 Oct 2019) =
 
