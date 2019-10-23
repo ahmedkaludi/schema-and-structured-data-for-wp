@@ -174,10 +174,10 @@ Class saswp_output_service{
                     $response = get_the_author_meta('last_name');
                     break;
                 case 'post_date':
-                    $response = get_the_date("Y-m-d\TH:i:s\Z");
+                    $response = get_the_date("c");
                     break;
                 case 'post_modified':
-                    $response = get_the_modified_date("Y-m-d\TH:i:s\Z");
+                    $response = get_the_modified_date("c");
                     break;
                 case 'manual_text':    
                     
@@ -2190,7 +2190,7 @@ Class saswp_output_service{
              
              }else{
                  
-             $product_details['product_priceValidUntil'] = get_the_modified_date("Y-m-d\TH:i:s\Z"); 
+             $product_details['product_priceValidUntil'] = get_the_modified_date("c"); 
              
              }       
              
@@ -2219,7 +2219,7 @@ Class saswp_output_service{
                  
                  $reviews_arr[] = array(
                      'author'        => saswp_get_the_author_name(),
-                     'datePublished' => get_the_date("Y-m-d\TH:i:s\Z"),
+                     'datePublished' => get_the_date("c"),
                      'description'   => saswp_get_the_excerpt(),
                      'reviewRating'  => 5,
                  );
@@ -2278,7 +2278,7 @@ Class saswp_output_service{
             $review_data['review'] = array(
                 '@type'         => 'Review',
                 'author'        => get_the_author(),
-                'datePublished' => get_the_date("Y-m-d\TH:i:s\Z"),
+                'datePublished' => get_the_date("c"),
                 'name'          => $post_review_title,
                 'reviewBody'    => $post_review_desc,
                 'reviewRating' => array(
@@ -2397,7 +2397,7 @@ Class saswp_output_service{
                   
                 } 
                 
-                $dw_qa['dateCreated'] = get_the_date("Y-m-d\TH:i:s\Z");                                                   
+                $dw_qa['dateCreated'] = get_the_date("c");                                                   
                 $dw_qa['author']      = array(
                                                  '@type' => 'Person',
                                                  'name'  =>saswp_get_the_author_name(),
@@ -3220,10 +3220,9 @@ Class saswp_output_service{
                                                             
                         $image_id 	= get_post_thumbnail_id();
 			$image_details 	= wp_get_attachment_image_src($image_id, 'full');                       			
-			$date 		= get_the_date("Y-m-d\TH:i:s\Z");
-			$modified_date 	= get_the_modified_date("Y-m-d\TH:i:s\Z");
-			
-                                                
+			$date 		= get_the_date("c");
+			$modified_date 	= get_the_modified_date("c");
+			                                                
             switch ($schema_type) {
                 
                 case 'TechArticle':

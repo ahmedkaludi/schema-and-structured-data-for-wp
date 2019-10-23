@@ -61,8 +61,8 @@ Class saswp_review_output{
                         }
 			
                         
-			$date 		= get_the_date("Y-m-d\TH:i:s\Z");
-			$modified_date 	= get_the_modified_date("Y-m-d\TH:i:s\Z");
+			$date 		= get_the_date("c");
+			$modified_date 	= get_the_modified_date("c");
 			$aurthor_name 	= get_the_author();
                         
                         if(!$aurthor_name){

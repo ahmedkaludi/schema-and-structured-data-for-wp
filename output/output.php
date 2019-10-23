@@ -275,8 +275,8 @@ function saswp_schema_output() {
 				   		                                                                                           		
 			$image_id 	= get_post_thumbnail_id();
 			$image_details 	= wp_get_attachment_image_src($image_id, 'full');						
-			$date 		= get_the_date("Y-m-d\TH:i:s\Z");
-			$modified_date 	= get_the_modified_date("Y-m-d\TH:i:s\Z");
+			$date 		= get_the_date("c");
+			$modified_date 	= get_the_modified_date("c");
 			$author_name 	= get_the_author();
                         $author_id      = get_the_author_meta('ID');   
                         
@@ -1882,8 +1882,8 @@ function saswp_gutenberg_how_to_schema(){
                 $input1['@type']                 = 'HowTo';
                 $input1['@id']                   = trailingslashit(get_permalink()).'#HowTo';
                 $input1['name']                  = saswp_get_the_title();                
-                $input1['datePublished']         = get_the_date("Y-m-d\TH:i:s\Z");
-                $input1['dateModified']          = get_the_modified_date("Y-m-d\TH:i:s\Z");
+                $input1['datePublished']         = get_the_date("c");
+                $input1['dateModified']          = get_the_modified_date("c");
                 
                 if(!empty($feature_image)){
                             

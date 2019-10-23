@@ -752,6 +752,15 @@ jQuery(document).ready(function($){
                             }
                       break;
                       
+                      case 'saswp-mediavine-create-checkbox':
+                          saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-mediavine-create").val(1);                                
+                            }else{
+                              $("#saswp-mediavine-create").val(0);                                          
+                            }
+                      break;
+                      
                       case 'saswp-wpsso-core-checkbox':
                           saswp_compatibliy_notes(current, id); 
                             if ($(this).is(':checked')) {              

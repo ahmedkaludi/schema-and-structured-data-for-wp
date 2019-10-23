@@ -2092,8 +2092,8 @@ function saswp_post_specific_schema_output() {
                                 $input1['@type']                        = 'Review';
                                 $input1['@id']                          = trailingslashit(get_permalink()).'#review';                                                           
                                 $input1['url']                          = trailingslashit(get_permalink());                                
-                                $input1['datePublished']                = get_the_date("Y-m-d\TH:i:s\Z");
-                                $input1['dateModified']                 = get_the_modified_date("Y-m-d\TH:i:s\Z");
+                                $input1['datePublished']                = get_the_date("c");
+                                $input1['dateModified']                 = get_the_modified_date("c");
                                 
                                 if($review_author){
                                     

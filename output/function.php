@@ -942,7 +942,8 @@ function saswp_get_ids_from_content_by_type($type){
                     preg_match_all( '/<!--WPRM Recipe (\d+)-->.+?<!--End WPRM Recipe-->/ms', $content, $matches );
                     $classic_matches = isset( $matches[1] ) ? array_map( 'intval', $matches[1] ) : array();
 
-                    return $gutenberg_matches + $classic_matches;           
+                    return $gutenberg_matches + $classic_matches;  
+                    
 
             default:
                 break;

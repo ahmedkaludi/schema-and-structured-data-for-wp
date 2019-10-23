@@ -2033,6 +2033,18 @@ function saswp_compatibility_page_callback(){
                                 'name' => 'sd_data[saswp-zip-recipes]',                             
                         )
 		);
+        $mediavine_create = array(
+			'label'  => 'Create by Mediavine',
+			'id'     => 'saswp-mediavine-create-checkbox',                        
+                        'name'   => 'saswp-mediavine-create-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
+                        'note'   => saswp_get_field_note('mediavine_create'),
+                        'hidden' => array(
+                                'id'   => 'saswp-mediavine-create',
+                                'name' => 'sd_data[saswp-mediavine-create]',                             
+                        )
+		);
         
         $the_events_calendar = array(
 			'label'  => 'The Events Calendar',
@@ -2227,19 +2239,20 @@ function saswp_compatibility_page_callback(){
          
          if(!is_plugin_active('event-schema/event-schema.php')){
                           
-             $the_events_calendar['note']         = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/evennt-schema/">Event Schema Addon</a>';
-             $events_calendar_wd['note']          = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/evennt-schema/">Event Schema Addon</a>';
-             $wp_event_manager['note']            = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/evennt-schema/">Event Schema Addon</a>';
-             $events_manager['note']              = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/evennt-schema/">Event Schema Addon</a>';
-             $event_organiser['note']             = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/evennt-schema/">Event Schema Addon</a>';
-             $modern_events_calendar['note']      = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/evennt-schema/">Event Schema Addon</a>';
+             $the_events_calendar['note']         = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';
+             $events_calendar_wd['note']          = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';
+             $wp_event_manager['note']            = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';
+             $events_manager['note']              = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';
+             $event_organiser['note']             = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';
+             $modern_events_calendar['note']      = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';
              
          }
          
          if(!is_plugin_active('recipe-schema/recipe-schema.php')){
                           
-             $zip_recipes['note']                = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/evennt-schema/">Recipe Schema Addon</a>';             
-             $wp_ultimate_recipe['note']         = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/evennt-schema/">Recipe Schema Addon</a>';             
+             $zip_recipes['note']                = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/recipe-schema/">Recipe Schema Addon</a>';             
+             $wp_ultimate_recipe['note']         = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/recipe-schema/">Recipe Schema Addon</a>';             
+             $mediavine_create['note']           = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/recipe-schema/">Recipe Schema Addon</a>';             
              
          }
                                                  
@@ -2265,6 +2278,7 @@ function saswp_compatibility_page_callback(){
                 $recipe_maker,
                 $wp_ultimate_recipe,
                 $zip_recipes,
+                $mediavine_create,
                 $rankmath,
                 $homeland_theme,
                 $real_homes,
@@ -2539,7 +2553,8 @@ function saswp_get_field_note($pname){
             'homeland'                 => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://themeforest.net/item/homeland-responsive-real-estate-theme-for-wordpress/6518965">Homeland</a>',            
             'realhomes'                => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://themeforest.net/item/real-homes-wordpress-real-estate-theme/5373914">RealHomes</a>',
             'jannah'                   => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://codecanyon.net/item/taqyeem-wordpress-review-plugin/4558799">Taqyeem</a>',
-            'zip_recipes'              => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/zip-recipes/">Zip Recipes</a>'                    
+            'zip_recipes'              => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/zip-recipes/">Zip Recipes</a>',
+            'mediavine_create'         => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/mediavine-create/">Create by Mediavine</a>'                    
         );
           
     $active = saswp_compatible_active_list();
