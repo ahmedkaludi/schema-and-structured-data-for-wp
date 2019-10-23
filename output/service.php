@@ -538,7 +538,7 @@ Class saswp_output_service{
                 case 'local_business':
                    
                     if(isset($custom_fields['local_business_id'])){
-                        $input1['@id'] =    trailingslashit(saswp_get_permalink()).'#'. strtolower($custom_fields['local_business_id']);
+                        $input1['@id'] =    $custom_fields['local_business_id'];
                     }                   
                     if(isset($custom_fields['saswp_business_type'])){                     
                      $input1['@type'] =    $custom_fields['saswp_business_type'];                     
@@ -3221,7 +3221,7 @@ Class saswp_output_service{
                         $image_id 	= get_post_thumbnail_id();
 			$image_details 	= wp_get_attachment_image_src($image_id, 'full');                       			
 			$date 		= get_the_date("c");
-			$modified_date 	= get_the_modified_date("c");
+			$modified_date 	= get_the_modified_date("c");                        
 			                                                
             switch ($schema_type) {
                 

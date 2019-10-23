@@ -2332,7 +2332,7 @@ function saswp_post_specific_schema_output() {
 				$input1 = array(
 				'@context'			=> saswp_context_url(),
 				'@type'				=> $local_business ,
-                                '@id'                           => trailingslashit(get_permalink()).'#'. ((isset($all_post_meta['saswp_business_id_'.$schema_id][0]) && $all_post_meta['saswp_business_id_'.$schema_id][0] !='') ? $all_post_meta['saswp_business_id_'.$schema_id][0] :   strtolower($local_business)),        
+                                '@id'                           => ((isset($all_post_meta['saswp_business_id_'.$schema_id][0]) && $all_post_meta['saswp_business_id_'.$schema_id][0] !='') ? $all_post_meta['saswp_business_id_'.$schema_id][0] : trailingslashit(get_permalink()).'#'.strtolower($local_business)),        
                                 'name'                          => saswp_remove_warnings($all_post_meta, 'local_business_name_'.$schema_id, 'saswp_array'),                                   
 				'url'				=> saswp_remove_warnings($all_post_meta, 'local_business_name_url_'.$schema_id, 'saswp_array'),				
 				'description'                   => saswp_remove_warnings($all_post_meta, 'local_business_description_'.$schema_id, 'saswp_array'),				
