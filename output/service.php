@@ -2204,10 +2204,10 @@ Class saswp_output_service{
              foreach($reviews as $review){                 
                  
                  $reviews_arr[] = array(
-                     'author'        => $review->comment_author,
+                     'author'        => $review->comment_author ? $review->comment_author : 'Anonymous' ,
                      'datePublished' => $review->comment_date,
                      'description'   => $review->comment_content,
-                     'reviewRating'  => get_comment_meta( $review->comment_ID, 'rating', true ),
+                     'reviewRating'  => get_comment_meta( $review->comment_ID, 'rating', true ) ? get_comment_meta( $review->comment_ID, 'rating', true ) : '5',
                  );
                  
              }   
@@ -3400,13 +3400,13 @@ Class saswp_output_service{
 
                                   $reviews[] = array(
                                                                 '@type'	=> 'Review',
-                                                                'author'	=> esc_attr($review['author']),
+                                                                'author'	=> $review['author'] ? esc_attr($review['author']) : 'Anonymous',
                                                                 'datePublished'	=> esc_html($review['datePublished']),
                                                                 'description'	=> $review['description'],  
                                                                 'reviewRating'  => array(
                                                                         '@type'	=> 'Rating',
                                                                         'bestRating'	=> '5',
-                                                                        'ratingValue'	=> esc_attr($review['reviewRating']),
+                                                                        'ratingValue'	=> $review['reviewRating'] ? esc_attr($review['reviewRating']) : '5',
                                                                         'worstRating'	=> '1',
                                                                 )  
                                   );

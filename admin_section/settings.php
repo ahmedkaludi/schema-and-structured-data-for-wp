@@ -421,6 +421,37 @@ function saswp_premium_features_callback(){ ?>
                                         
                                         $cooked_active_text = '';
                                         
+                                        if(is_plugin_active('recipe-schema/recipe-schema.php')){                                        
+                                            $cooked_active_text = '<label class="saswp-sts-txt">Status :<span style="color:green;">Active</span></label>';                                            
+                                        }else{
+                                            $cooked_active_text .='<label class="saswp-sts-txt">Status :<span>Inactive</span></label>';
+                                            $cooked_active_text .='<a target="_blank" href="http://structured-data-for-wp.com/extensions/"><span class="saswp-d-btn">Download</span></a>';
+                                        }
+                                        
+                                        ?> 
+                                                        
+				<div class="saswp-features-ele">
+                                    <div class="saswp-ele-ic" style="background: #eae4ca;">
+                                            <img src="<?php echo SASWP_PLUGIN_URL; ?>/admin_section/images/recipe.png">
+					</div>
+					<div class="saswp-ele-tlt">
+						<h3><?php echo esc_html__('Recipe Schema','schema-and-structured-data-for-wp') ?></h3>
+						<p><?php echo esc_html__('Recipe Schema extension is the number one solution to enhance your recipe website with the right structured data.','schema-and-structured-data-for-wp') ?></p>
+					</div>
+				</div>
+				<div class="saswp-sts-btn">
+                                    
+                                    <?php echo $cooked_active_text; ?>
+                                                                           										
+				</div>
+			</li>
+                    
+                        <li>
+                            
+                                        <?php
+                                        
+                                        $cooked_active_text = '';
+                                        
                                         if(is_plugin_active('event-schema/event-schema.php')){                                        
                                             $cooked_active_text = '<label class="saswp-sts-txt">Status :<span style="color:green;">Active</span></label>';                                            
                                         }else{
