@@ -2058,6 +2058,18 @@ function saswp_compatibility_page_callback(){
                                 'name' => 'sd_data[saswp-mediavine-create]',                             
                         )
 		);
+        $ht_recipes = array(
+			'label'  => 'HT Recipes',
+			'id'     => 'saswp-ht-recipes-checkbox',                        
+                        'name'   => 'saswp-ht-recipes-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
+                        'note'   => saswp_get_field_note('ht_recipes'),
+                        'hidden' => array(
+                                'id'   => 'saswp-ht-recipes',
+                                'name' => 'sd_data[saswp-ht-recipes]',                             
+                        )
+		);
         
         $the_events_calendar = array(
 			'label'  => 'The Events Calendar',
@@ -2266,6 +2278,7 @@ function saswp_compatibility_page_callback(){
              $zip_recipes['note']                = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/recipe-schema/">Recipe Schema Addon</a>';             
              $wp_ultimate_recipe['note']         = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/recipe-schema/">Recipe Schema Addon</a>';             
              $mediavine_create['note']           = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/recipe-schema/">Recipe Schema Addon</a>';             
+             $ht_recipes['note']                 = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/recipe-schema/">Recipe Schema Addon</a>';             
              
          }
                                                  
@@ -2292,6 +2305,7 @@ function saswp_compatibility_page_callback(){
                 $wp_ultimate_recipe,
                 $zip_recipes,
                 $mediavine_create,
+                $ht_recipes,
                 $rankmath,
                 $homeland_theme,
                 $real_homes,
@@ -2567,7 +2581,8 @@ function saswp_get_field_note($pname){
             'realhomes'                => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://themeforest.net/item/real-homes-wordpress-real-estate-theme/5373914">RealHomes</a>',
             'jannah'                   => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://codecanyon.net/item/taqyeem-wordpress-review-plugin/4558799">Taqyeem</a>',
             'zip_recipes'              => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/zip-recipes/">Zip Recipes</a>',
-            'mediavine_create'         => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/mediavine-create/">Create by Mediavine</a>'                    
+            'mediavine_create'         => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/mediavine-create/">Create by Mediavine</a>',
+            'ht_recipes'               => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://themeforest.net/item/culinier-food-recipe-wordpress-theme/11088564/">HT-Recipes</a>'                    
         );
           
     $active = saswp_compatible_active_list();

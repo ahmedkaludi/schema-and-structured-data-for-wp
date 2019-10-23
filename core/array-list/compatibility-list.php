@@ -184,8 +184,13 @@ return array(
                     'free'       => 'mediavine-create/mediavine-create.php',                     
                     'opt_name'   => 'saswp-mediavine-create',
                     'part_in'    => 'pro',
+        ),
+        'ht_recipes' => array(            
+                    'name'       => 'HT Recipes',
+                    'free'       => 'ht-recipes/ht-recipes.php',                     
+                    'opt_name'   => 'saswp-ht-recipes',
+                    'part_in'    => 'pro',
         )    
-        
                 
     ),
     'themes' => array(

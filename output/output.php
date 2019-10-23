@@ -983,20 +983,19 @@ function saswp_schema_output() {
                                 }
                                 
                                 $input1 = saswp_append_fetched_reviews($input1);
-                                
-                                if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){
-                                    $service = new saswp_output_service();
-                                    $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
-                                }
-                                
+                                                                                                
                             }
                             				                                
                                $input1 = apply_filters('saswp_modify_recipe_schema_output', $input1 );
+                               
+                               if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){
+                                    $service = new saswp_output_service();
+                                    $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
+                               }
 			}
                        
                         if( 'qanda' === $schema_type){
-                            
-                            
+                                                        
                             if(isset($sd_data['saswp-dw-question-answer']) && $sd_data['saswp-dw-question-answer'] ==1){
                             
                                 $service_object = new saswp_output_service();
