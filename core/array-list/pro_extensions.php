@@ -32,12 +32,12 @@ return array(
         array(
             'key'        => 'event_schema',
             'name'       => 'Event Schema',
-            'path'       => 'event-schema/event-schema.php',                        
+            'path'       => 'event-schema-for-saswp/event-schema-for-saswp.php',                        
         ),
         array(
             'key'        => 'recipe_schema',
             'name'       => 'Recipe Schema',
-            'path'       => 'recipe-schema/recipe-schema.php',                        
+            'path'       => 'recipe-schema-for-saswp/recipe-schema-for-saswp.php',                        
         )        
                         
     );

@@ -421,7 +421,7 @@ function saswp_premium_features_callback(){ ?>
                                         
                                         $cooked_active_text = '';
                                         
-                                        if(is_plugin_active('recipe-schema/recipe-schema.php')){                                        
+                                        if(is_plugin_active('recipe-schema-for-saswp/recipe-schema-for-saswp.php')){                                        
                                             $cooked_active_text = '<label class="saswp-sts-txt">Status :<span style="color:green;">Active</span></label>';                                            
                                         }else{
                                             $cooked_active_text .='<label class="saswp-sts-txt">Status :<span>Inactive</span></label>';
@@ -452,7 +452,7 @@ function saswp_premium_features_callback(){ ?>
                                         
                                         $cooked_active_text = '';
                                         
-                                        if(is_plugin_active('event-schema/event-schema.php')){                                        
+                                        if(is_plugin_active('event-schema-for-saswp/event-schema-for-saswp.php')){                                        
                                             $cooked_active_text = '<label class="saswp-sts-txt">Status :<span style="color:green;">Active</span></label>';                                            
                                         }else{
                                             $cooked_active_text .='<label class="saswp-sts-txt">Status :<span>Inactive</span></label>';
@@ -1518,12 +1518,12 @@ function saswp_import_callback(){
            $add_on[] = 'Cs';           
                                       
         }
-        if(is_plugin_active('event-schema/event-schema.php')){
+        if(is_plugin_active('event-schema-for-saswp/event-schema-for-saswp.php')){
                       
            $add_on[] = 'Es';           
                                       
         }
-        if(is_plugin_active('recipe-schema/recipe-schema.php')){
+        if(is_plugin_active('recipe-schema-for-saswp/recipe-schema-for-saswp.php')){
                       
            $add_on[] = 'Rs';           
                                       
@@ -2293,7 +2293,7 @@ function saswp_compatibility_page_callback(){
              
          }
          
-         if(!is_plugin_active('event-schema/event-schema.php')){
+         if(!is_plugin_active('event-schema-for-saswp/event-schema-for-saswp.php')){
                           
              $the_events_calendar['note']         = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';
              $events_calendar_wd['note']          = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';
@@ -2304,7 +2304,7 @@ function saswp_compatibility_page_callback(){
              
          }
          
-         if(!is_plugin_active('recipe-schema/recipe-schema.php')){
+         if(!is_plugin_active('recipe-schema-for-saswp/recipe-schema-for-saswp.php')){
                           
              $zip_recipes['note']                = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/recipe-schema/">Recipe Schema Addon</a>';             
              $wp_ultimate_recipe['note']         = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/recipe-schema/">Recipe Schema Addon</a>';             
