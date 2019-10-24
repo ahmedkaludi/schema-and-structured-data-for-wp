@@ -482,7 +482,7 @@ function saswp_premium_features_callback(){ ?>
                                         
                                         $cooked_active_text = '';
                                         
-                                        if(is_plugin_active('course-schema/course-schema.php')){                                        
+                                        if(is_plugin_active('course-schema-for-saswp/course-schema-for-saswp.php')){                                        
                                             $cooked_active_text = '<label class="saswp-sts-txt">Status :<span style="color:green;">Active</span></label>';                                            
                                         }else{
                                             $cooked_active_text .='<label class="saswp-sts-txt">Status :<span>Inactive</span></label>';
@@ -1513,7 +1513,7 @@ function saswp_import_callback(){
            $add_on[] = 'Res';           
                                       
         }
-        if(is_plugin_active('course-schema/course-schema.php')){
+        if(is_plugin_active('course-schema-for-saswp/course-schema-for-saswp.php')){
                       
            $add_on[] = 'Cs';           
                                       
@@ -1781,7 +1781,7 @@ function saswp_review_page_callback(){
                         'name'   => 'saswp-review-module-checkbox',
 			'type'   => 'checkbox',
                         'class'  => 'checkbox saswp-checkbox',
-                        'note'   => 'This option enables the review metabox on every post/page. <a target="_blank" href="http://structured-data-for-wp.com/docs/article/how-to-use-review-in-schema-and-structure-data/">Learn More</a>',
+                        'note'   => 'This option enables the review metabox on every post/page. <a target="_blank" href="https://structured-data-for-wp.com/docs/article/how-to-use-rating-module-in-schema-and-structured-data/">Learn More</a>',
                         'hidden' => array(
                              'id'   => 'saswp-review-module',
                              'name' => 'sd_data[saswp-review-module]',                             
@@ -2285,7 +2285,7 @@ function saswp_compatibility_page_callback(){
              
          }
          
-         if(!is_plugin_active('course-schema/course-schema.php')){
+         if(!is_plugin_active('course-schema-for-saswp/course-schema-for-saswp.php')){
                           
              $learn_press['note'] = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/course-schema/">Course Schema Addon</a>';
              $learn_dash['note']  = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/course-schema/">Course Schema Addon</a>';

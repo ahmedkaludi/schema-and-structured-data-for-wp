@@ -2199,7 +2199,81 @@ Class saswp_output_service{
              $reviews_arr = array();
              $reviews     = get_approved_comments( $post_id );
              
-             if($reviews){
+             if(class_exists('saswp_reviews_platform_markup') && class_exists('JGM_ProductService')){
+                 
+              $judge_me_post = get_posts( 
+                        array(
+                            'post_type' 	 => 'saswp_reviews',                                                                                   
+                            'posts_per_page'     => -1,   
+                            'post_status'        => 'publish',
+                            'meta_query'  => array(
+                                array(
+                                'key'     => 'saswp_review_product_id',
+                                'value'   => 487,
+                                'compare' => '==',
+                                 )
+                            )
+                           
+                ) );   
+                 
+               $post_meta = array(                              
+                'saswp_reviewer_name' => 'author',
+                'saswp_review_rating' => 'reviewRating',
+                'saswp_review_date'   => 'datePublished',
+                'saswp_review_text'   => 'description',                           		
+              );
+               
+              if($judge_me_post){
+                  
+                   $sumofrating = 0;
+                   
+                    foreach($judge_me_post as $me_post){
+                        
+                        $rv = array();
+                        
+                        foreach($post_meta as $key => $val){
+                  
+                               $rv[$val] = get_post_meta($me_post->ID, $key, true );  
+                               
+                               if($val == 'reviewRating'){
+                                   $sumofrating += get_post_meta($me_post->ID, $key, true ); 
+                               }
+                               
+                                   
+                        }
+                        
+                        $reviews_arr[] = $rv;  
+                        
+                    }
+                    
+                    $product_details['product_review_count']   = count($judge_me_post);
+                    if($sumofrating > 0){                        
+                        $product_details['product_average_rating'] = $sumofrating /  count($judge_me_post);
+                    }
+                                      
+              }else{
+                  
+                  if($reviews){
+                                            
+                      foreach($reviews as $review){                 
+                 
+                            $reviews_arr[] = array(
+                                'author'        => $review->comment_author ? $review->comment_author : 'Anonymous' ,
+                                'datePublished' => $review->comment_date,
+                                'description'   => $review->comment_content,
+                                'reviewRating'  => get_comment_meta( $review->comment_ID, 'rating', true ) ? get_comment_meta( $review->comment_ID, 'rating', true ) : '5',
+                            );
+
+                        }   
+
+                        $product_details['product_review_count']   = $product->get_review_count();
+                        $product_details['product_average_rating'] = $product->get_average_rating();
+                      
+                  }
+                  
+              }
+                 
+             }else if($reviews){
                  
              foreach($reviews as $review){                 
                  
@@ -3356,7 +3430,7 @@ Class saswp_output_service{
 							
                             }else{
 
-                            if(isset($product_details['product_varible_price']) && is_array($product_details['product_varible_price'])){
+                            if(!empty($product_details['product_varible_price']) && is_array($product_details['product_varible_price'])){
 
                             $input1['offers']['@type']         = 'AggregateOffer';
                             $input1['offers']['lowPrice']      = min($product_details['product_varible_price']);
