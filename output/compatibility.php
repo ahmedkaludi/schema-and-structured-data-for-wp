@@ -32,7 +32,7 @@ class saswp_output_compatibility{
     
     public function saswp_exclude_wpsso_schema_graph( $prop_data, $mod, $mt_og, $page_type_id, $is_main ) {
          
-        return __return_empty_array;
+        return array();
         
     }
 
@@ -79,7 +79,7 @@ class saswp_output_compatibility{
     }
     public function saswp_remove_the_events_calendar_markup( $data, $args ){
         
-        return __return_empty_array;
+        return array();
     }
 
 
