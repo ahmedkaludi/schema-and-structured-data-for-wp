@@ -1142,18 +1142,16 @@ function saswp_custom_breadcrumbs() {
         } else if ( is_tag() ) {               
             // Tag page               
             // Get tag information
-            $term_id        = get_query_var('tag_id');
-            $taxonomy       = 'post_tag';
-            $args           = 'include=' . $term_id;
-            $terms          = get_terms( $taxonomy, $args );
-            $get_term_id    = $terms[0]->term_id;            
-            $get_term_name  = $terms[0]->name;
-            $term_link      = get_term_link($get_term_id );
-               
-            // Tag name and link
-
-            $variables1_titles[] = $get_term_name;
-            $variables2_links[]  = $term_link;           
+            $term_id        = get_query_var('tag_id');                   
+            $get_term       = get_term($term_id);
+            
+            if(is_object($get_term)){
+                
+                $variables1_titles[] = $get_term->name;
+                $variables2_links[]  = get_term_link($term_id);    
+                              
+            }
+            // Tag name and link                  
           }    
           
           $sd_data['titles']     = $variables1_titles;                        
