@@ -50,68 +50,6 @@ function saswp_kb_schema_output() {
 	global $sd_data;   
         $input     = array();    
         $site_url  = get_home_url();
-	// Social profile
-	$sd_social_profile = array();
-
-	$sd_facebook = array();
-        
-	if(isset($sd_data['sd_facebook']) && !empty($sd_data['sd_facebook']) && isset($sd_data['saswp-facebook-enable']) &&  $sd_data['saswp-facebook-enable'] ==1){
-		$sd_facebook[] = $sd_data['sd_facebook'];
-		$sd_social_profile[] = $sd_facebook;
-	}
-	$sd_twitter = array();
-	if(isset($sd_data['sd_twitter']) && !empty($sd_data['sd_twitter']) && isset($sd_data['saswp-twitter-enable']) &&  $sd_data['saswp-twitter-enable'] ==1 ){
-		$sd_twitter[] = $sd_data['sd_twitter'];
-		$sd_social_profile[] = $sd_twitter;
-	}
-	
-	$sd_instagram = array();
-	if(isset($sd_data['sd_instagram']) && !empty($sd_data['sd_instagram']) && isset($sd_data['saswp-instagram-enable']) &&  $sd_data['saswp-instagram-enable'] ==1 ){
-		$sd_instagram[] = $sd_data['sd_instagram'];
-		$sd_social_profile[] = $sd_instagram;
-        }
-
-	$sd_youtube = array();
-	if(isset($sd_data['sd_youtube']) && !empty($sd_data['sd_youtube']) && isset($sd_data['saswp-youtube-enable']) &&  $sd_data['saswp-youtube-enable'] ==1){
-		$sd_youtube[] = $sd_data['sd_youtube'];
-		$sd_social_profile[] = $sd_youtube;
-	}
-
-	$sd_linkedin = array();
-	if(isset($sd_data['sd_linkedin']) && !empty($sd_data['sd_linkedin']) && isset($sd_data['saswp-linkedin-enable']) &&  $sd_data['saswp-linkedin-enable'] ==1 ){
-		$sd_linkedin[] = $sd_data['sd_linkedin'];
-		$sd_social_profile[] = $sd_linkedin;
-	}
-
-	$sd_pinterest = array();
-	if(isset($sd_data['sd_pinterest']) && !empty($sd_data['sd_pinterest']) && isset($sd_data['saswp-pinterest-enable']) &&  $sd_data['saswp-pinterest-enable'] ==1){
-		$sd_pinterest[] = $sd_data['sd_pinterest'];
-		$sd_social_profile[] = $sd_pinterest;
-	}
-
-	$sd_soundcloud = array();
-	if(isset($sd_data['sd_soundcloud']) && !empty($sd_data['sd_soundcloud']) && isset($sd_data['saswp-soundcloud-enable']) &&  $sd_data['saswp-soundcloud-enable'] ==1){
-		$sd_soundcloud[] = $sd_data['sd_soundcloud'];
-		$sd_social_profile[] = $sd_soundcloud;
-	}
-
-	$sd_tumblr = array();
-	if(isset($sd_data['sd_tumblr']) && !empty($sd_data['sd_tumblr']) && isset($sd_data['saswp-tumblr-enable']) &&  $sd_data['saswp-tumblr-enable'] ==1){
-		$sd_tumblr[] = $sd_data['sd_tumblr'];
-		$sd_social_profile[] = $sd_tumblr;
-	}
-        
-        $sd_yelp = array();
-	if(isset($sd_data['sd_yelp']) && !empty($sd_data['sd_yelp']) && isset($sd_data['saswp-yelp-enable']) &&  $sd_data['saswp-yelp-enable'] ==1){
-		$sd_yelp[] = $sd_data['sd_yelp'];
-		$sd_social_profile[] = $sd_yelp;
-	}
-
-	$platform = array();
-        
-	foreach ($sd_social_profile as $key => $value) {
-		$platform[] = $value; 
-	}
 	
 	// Organization Schema 
 
@@ -161,7 +99,7 @@ function saswp_kb_schema_output() {
                         '@id'                   => $site_url.'#Organization',
                         'name'			=> saswp_remove_warnings($sd_data, 'sd_name', 'saswp_string'),
                         'url'			=> saswp_remove_warnings($sd_data, 'sd_url', 'saswp_string'),
-                        'sameAs'		=> $platform,                                        		
+                        'sameAs'		=> isset($sd_data['saswp_social_links']) ? $sd_data['saswp_social_links'] : array(),                                        		
 		);
                 
                 if($logo !='' && $width !='' && $height !=''){

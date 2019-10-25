@@ -1608,9 +1608,10 @@ function saswp_upgrade_function( $upgrader_object, $options ) {
         
            foreach($options['plugins'] as $each_plugin){
            
-            if ($each_plugin==$current_plugin_path_name){
+            if ($each_plugin == $current_plugin_path_name){
 
                saswp_review_module_upgradation();
+               saswp_migrate_old_social_profile();
 
             }
           }           

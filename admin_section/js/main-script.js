@@ -1713,7 +1713,7 @@ jQuery(document).ready(function($){
             $("#saswp-review-item-over-all").val(over_all_rating);
        });
        
-       $("#saswp-review-location").change(function(){
+        $("#saswp-review-location").change(function(){
           var location = $(this).val();
           $(".saswp-review-shortcode").addClass('saswp_hide');
           if(location == 3){  
@@ -2086,6 +2086,14 @@ jQuery(document).ready(function($){
                             });
           }
        });
+       
+        $(document).on("click", ".saswp-add-social-links", function(){
+           
+           var html = '<tr><td><input type="text" placeholder="https://www.facebook.com/profile" name="sd_data[saswp_social_links][]" value=""></td><td><a class="button button-default saswp-rmv-modify_row">X</a></td></tr>';
+           
+           $(".saswp-social-links-table").append(html);           
+            
+        });
                 
         //google review js ends here
                                         
