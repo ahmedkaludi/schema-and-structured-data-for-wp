@@ -1020,17 +1020,15 @@ function saswp_general_page_callback(){
         echo '<div class="saswp-social-fileds">';
         echo '<p>'.esc_html__('Add your social profile, Google will automatically crawl it in Knowledge Graph','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/docs/">'.esc_html__('Learn More','schema-and-structured-data-for-wp').'</a></p>';
         echo '<div class="saswp-social-links">';
-        
+        echo '<table class="saswp-social-links-table">';  
         if(isset($settings['saswp_social_links']) && !empty($settings['saswp_social_links'])){
            
-            echo '<table class="saswp-social-links-table">';    
-            
                 foreach($settings['saswp_social_links'] as $link){
                     echo '<tr><td><input type="text" placeholder="https://www.facebook.com/profile" name="sd_data[saswp_social_links][]" value="'.esc_url($link).'"></td><td><a class="button button-default saswp-rmv-modify_row">X</a></td></tr>';
                 }
             
-            echo '</table>';        
-        }                        
+        } 
+        echo '</table>';  
         echo '</div>';
         echo '<a class="button button-default saswp-add-social-links">Add New Social Profile</a>'; 
         echo '</div>';
