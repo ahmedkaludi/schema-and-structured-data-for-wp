@@ -195,7 +195,9 @@
                                        html += '<option value="saswp_review_body">Review Body</option>';    
                                        html += '<option value="saswp_review_author">Review Author</option>';    
                                        html += '<option value="saswp_review_publisher">Review Publisher</option>';    
-                                       html += '<option value="saswp_review_rating_value">Review Rating Value</option>';    
+                                       html += '<option value="saswp_review_rating_value">Review Rating Value</option>';
+                                       html += '<option value="saswp_review_date_published">Review Published Date</option>';
+                                       html += '<option value="saswp_review_url">Review URL</option>';
                                        html += '</optgroup>'; 
                                       
                                      }

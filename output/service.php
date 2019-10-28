@@ -355,6 +355,9 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_review_name'])){
                         $review_markup['name']                       =    $custom_fields['saswp_review_name'];
                     }
+                    if(isset($custom_fields['saswp_review_url'])){
+                        $review_markup['url']                       =    $custom_fields['saswp_review_url'];
+                    }
                     if(isset($custom_fields['saswp_review_description'])){
                         $review_markup['description']                =    $custom_fields['saswp_review_description'];
                     }
@@ -375,6 +378,9 @@ Class saswp_output_service{
                        $review_markup['author']['@type']             =   'Person';                                              
                        $review_markup['author']['name']              =    $custom_fields['saswp_review_author'];                                              
                     }
+                     if(isset($custom_fields['saswp_review_date_published'])){
+                       $review_markup['datePublished'] =    date('c',strtotime($custom_fields['saswp_review_date_published']));
+                    }  
 
                 }
                    

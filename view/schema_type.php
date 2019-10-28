@@ -1157,12 +1157,14 @@ function saswp_schema_type_meta_box_callback( $post) {
                                 $review_post_meta = get_post_meta($post->ID, 'saswp_review_schema_details', true);                                                                
                                 $schema_type = $review_post_meta['saswp_review_schema_item_type'];
                                 
-                                $review_fields['saswp_review_name']         = 'Review Name';
-                                $review_fields['saswp_review_description']  = 'Review Description';
-                                $review_fields['saswp_review_body']         = 'Review Body';
-                                $review_fields['saswp_review_author']       = 'Review Author';
-                                $review_fields['saswp_review_publisher']    = 'Review Publisher';
-                                $review_fields['saswp_review_rating_value'] = 'Review Rating Value';                                
+                                $review_fields['saswp_review_name']           = 'Review Name';
+                                $review_fields['saswp_review_description']    = 'Review Description';
+                                $review_fields['saswp_review_body']           = 'Review Body';
+                                $review_fields['saswp_review_author']         = 'Review Author';
+                                $review_fields['saswp_review_publisher']      = 'Review Publisher';
+                                $review_fields['saswp_review_rating_value']   = 'Review Rating Value';
+                                $review_fields['saswp_review_date_published'] = 'Review Rating Value'; 
+                                $review_fields['saswp_review_url']            = 'Review URL'; 
                                
                             }
                             
