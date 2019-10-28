@@ -175,13 +175,43 @@
                            });                                     
                            re_html += '</select>';
                                             
-                      if(fields){                                                                                                                    
+                      if(fields){ 
+                                                    
+                                var schema_type    = $('select#schema_type option:selected').val();
+                                var schema_subtype = '';
+
+                                if(schema_type == 'Review'){
+                                    schema_subtype = $('select.saswp-item-reivewed-list option:selected').val();
+                                }
+          
                                  var html = '<tr>';                                                                                                                            
                                      html += '<td>';                                     
                                      html += '<select class="saswp-custom-fields-name">';
+                                     
+                                     if(schema_type == 'Review'){
+                                       html += '<optgroup label="Review">';
+                                       html += '<option value="saswp_review_name">Review Name</option>';    
+                                       html += '<option value="saswp_review_description">Review Description</option>';    
+                                       html += '<option value="saswp_review_body">Review Body</option>';    
+                                       html += '<option value="saswp_review_author">Review Author</option>';    
+                                       html += '<option value="saswp_review_publisher">Review Publisher</option>';    
+                                       html += '<option value="saswp_review_rating_value">Review Rating Value</option>';    
+                                       html += '</optgroup>'; 
+                                      
+                                     }
+                                     
+                                     if(schema_type == 'Review'){
+                                       html += '<optgroup label="'+schema_subtype+'">';   
+                                     }
+                                     
                                      jQuery.each(fields, function(key,value){                                         
                                        html += '<option value="'+key+'">'+value+'</option>';                                       
-                                     });                                     
+                                     });
+                                     
+                                     if(schema_type == 'Review'){
+                                         html += '</optgroup>'; 
+                                     }
+                                     
                                     html += '</select>';                                     
                                     html += '</td>';                                                                                                                                                                                                       
                                     html += '<td>';                                                                       

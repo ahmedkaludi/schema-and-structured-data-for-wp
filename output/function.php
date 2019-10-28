@@ -41,6 +41,7 @@ function saswp_schema_markup_hook_on_init() {
                 remove_action( 'wp_head', array( BSF_AIOSRS_Pro_Markup::get_instance(), 'global_schemas_markup' ),10);
                 remove_action( 'wp_footer', array( BSF_AIOSRS_Pro_Markup::get_instance(), 'schema_markup' ),10);
                 remove_action( 'wp_footer', array( BSF_AIOSRS_Pro_Markup::get_instance(), 'global_schemas_markup' ),10);
+                
             }
             
             if(isset($sd_data['saswp-wp-recipe-maker']) && $sd_data['saswp-wp-recipe-maker'] == 1){
@@ -85,7 +86,7 @@ function saswp_schema_markup_output() {
         if($archive_output){
             
             if(empty($woo_cat_schema)){
-                $item_list                = $archive_output[0];
+                $item_list            = $archive_output[0];
             }
             
             $collection_page          = $archive_output[1]; 

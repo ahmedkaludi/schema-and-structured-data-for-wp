@@ -965,6 +965,8 @@ function saswp_schema_output() {
                                 $input1 = $service->saswp_schema_markup_generator($schema_type);
                                   
                                 $input1 = saswp_append_fetched_reviews($input1);
+                                                                                                
+                                $input1 = apply_filters('saswp_modify_product_schema_output', $input1 );
                                 
                                 if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){
                                     
@@ -972,8 +974,6 @@ function saswp_schema_output() {
                                     $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
                                     
                                 }
-                                
-                                $input1 = apply_filters('saswp_modify_product_schema_output', $input1 );
 			}
                         
                         if( 'NewsArticle' === $schema_type ){                              
@@ -1060,27 +1060,26 @@ function saswp_schema_output() {
                         
                         if('Review' === $schema_type){
                             
-                                $schema_data = saswp_get_schema_data($schema_post_id, 'saswp_review_schema_details');  
+                                $schema_data = saswp_get_schema_data($schema_post_id, 'saswp_review_schema_details'); 
+                                $service = new saswp_output_service();
+                                $review_markup = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
+                                
+                                $input1['@context']               =  saswp_context_url();
+                                $input1['@type']                  =  'Review';
+                                $input1['@id']                    =  trailingslashit(saswp_get_permalink()).'#Review';
+                                $input1['itemReviewed']['@type']  =  $schema_data['saswp_review_schema_item_type'];
                                                             
                                 if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] == 1){
-                                    
-                                     $service = new saswp_output_service();
-                                     $review_markup = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
-                                     
+                                                                         
                                     if($review_markup){
                                      
-                                        $input1['@context'] =  saswp_context_url();
-                                        $input1['@type']    =  'Review';
-                                        $input1['@id']      =  trailingslashit(saswp_get_permalink()).'#Review';
-                                        
                                         if(isset($review_markup['review'])){
                                             
                                             $input1             =  $input1 + $review_markup['review'];
                                             
                                         }
                                         
-                                        if(isset($review_markup['item_reviewed'])){
-                                            
+                                        if(isset($review_markup['item_reviewed'])){                                            
                                             $item_reviewed          = array( '@type' => $schema_data['saswp_review_schema_item_type']) + $review_markup['item_reviewed'];                                        
                                             $input1['itemReviewed'] = $item_reviewed;
                                             
@@ -1088,7 +1087,7 @@ function saswp_schema_output() {
                                         
                                     }                                                                                                                                                                                  
                                 } 
-                                                                
+                                                                                         
                                 if(isset($sd_data['saswp-tagyeem']) && $sd_data['saswp-tagyeem'] == 1 && (is_plugin_active('taqyeem/taqyeem.php') || get_template() != 'jannah') ){                                                                                                      
                            
                                    remove_action( 'TieLabs/after_post_entry',  'tie_article_schemas' );

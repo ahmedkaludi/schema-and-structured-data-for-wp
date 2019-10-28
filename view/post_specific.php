@@ -2832,7 +2832,7 @@ class saswp_post_specific {
                                         'Course'                => 'Course',                             
                                         'Event'                 => 'Event',                              
                                         'HowTo'                 => 'HowTo',   
-                                        'LocalBusiness'         => 'LocalBusiness',                                 
+                                        'local_business'        => 'LocalBusiness',                                 
                                         'MusicPlaylist'         => 'Music Playlist',                                                                                                                                                                                               
                                         'Product'               => 'Product',                                
                                         'Recipe'                => 'Recipe',                             

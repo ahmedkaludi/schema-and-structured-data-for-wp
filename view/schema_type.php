@@ -744,7 +744,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                              'Course'                => 'Course',                             
                              'Event'                 => 'Event',                              
                              'HowTo'                 => 'HowTo',   
-                             'LocalBusiness'         => 'LocalBusiness',                                 
+                             'local_business'        => 'LocalBusiness',                                 
                              'MusicPlaylist'         => 'Music Playlist',                                                                                                                                                                                               
                              'Product'               => 'Product',                                
                              'Recipe'                => 'Recipe',                             
@@ -1146,9 +1146,10 @@ function saswp_schema_type_meta_box_callback( $post) {
                         <?php 
                         
                         if(!empty($meta_list)){  
-                                                        
-                            $service     = new saswp_output_service();
                             
+                            $review_fields = array();                            
+                            $service       = new saswp_output_service();
+                                                        
                             $schema_type    = get_post_meta($post->ID, 'schema_type', true);
                             
                             if($schema_type == 'Review'){
@@ -1162,23 +1163,40 @@ function saswp_schema_type_meta_box_callback( $post) {
                                 $review_fields['saswp_review_author']       = 'Review Author';
                                 $review_fields['saswp_review_publisher']    = 'Review Publisher';
                                 $review_fields['saswp_review_rating_value'] = 'Review Rating Value';                                
-                                
-                                $item_rv_meta_fields = $service->saswp_get_all_schema_type_fields($schema_type);
-                                
-                                $meta_fields = $review_fields + $item_rv_meta_fields;
-                                
-                             
-                            }else{
-                                
-                                $meta_fields = $service->saswp_get_all_schema_type_fields($schema_type);
-                                
+                               
                             }
+                            
+                            $meta_fields = $service->saswp_get_all_schema_type_fields($schema_type);
                             
                             foreach($meta_list as $fieldkey => $fieldval){
                                                                                         
                             $option = '';
                             echo '<tr>'; 
                             echo '<td><select class="saswp-custom-fields-name">';
+                            
+                            if($review_fields){
+                            
+                                $option .= '<optgroup label="Reviews">';
+                                
+                                foreach ($review_fields as $key =>$val){
+                                
+                                if( $fieldkey == $key){
+                                    
+                                    $option .='<option value="'.esc_attr($key).'" selected>'.esc_attr($val).'</option>';   
+                                 
+                                }else{
+                                    
+                                    $option .='<option value="'.esc_attr($key).'">'.esc_attr($val).'</option>';   
+                                 
+                                }
+                                
+                              }
+                                $option .= '</optgroup>';
+                            }
+                                                        
+                            if($review_fields){
+                                $option .= '<optgroup label="'.esc_attr($schema_type).'">'; 
+                            }
                             
                             foreach ($meta_fields as $key =>$val){
                                 
@@ -1192,6 +1210,10 @@ function saswp_schema_type_meta_box_callback( $post) {
                                  
                                 }
                                 
+                            }
+                            
+                            if($review_fields){
+                                 $option .= '</optgroup>';
                             }
                                                         
                             echo $option;                            

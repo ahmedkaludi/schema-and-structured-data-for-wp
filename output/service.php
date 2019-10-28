@@ -393,7 +393,8 @@ Class saswp_output_service{
                      $input1['url'] =    $custom_fields['saswp_book_url'];
                     }
                     if(isset($custom_fields['saswp_book_author'])){
-                     $input1['author'] =    $custom_fields['saswp_book_author'];
+                     $input1['author']['@type'] =    'Person';   
+                     $input1['author']['name']  =    $custom_fields['saswp_book_author'];
                     }
                     if(isset($custom_fields['saswp_book_isbn'])){
                      $input1['isbn'] =    $custom_fields['saswp_book_isbn'];
@@ -407,8 +408,8 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_book_image'])){
                      $input1['image']         =    $custom_fields['saswp_book_image'];
                     }
-                    if(isset($custom_fields['saswp_book_date_published'])){
-                     $input1['datePublished'] =    date('Y-m-d\TH:i:s\Z',strtotime($custom_fields['saswp_book_date_published']));
+                    if(isset($custom_fields['saswp_book_published_date'])){
+                     $input1['datePublished'] =    date('c',strtotime($custom_fields['saswp_book_published_date']));
                     }                    
                     if(isset($custom_fields['saswp_book_price_currency']) && isset($custom_fields['saswp_book_price'])){
                         $input1['offers']['@type']         = 'Offer';
@@ -419,7 +420,7 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_book_rating_value']) && isset($custom_fields['saswp_book_rating_count'])){
                         $input1['aggregateRating']['@type']         = 'aggregateRating';
                         $input1['aggregateRating']['worstRating']   =   0;
-                       $input1['aggregateRating']['bestRating']     =   5;
+                        $input1['aggregateRating']['bestRating']     =   5;
                         $input1['aggregateRating']['ratingValue']   = $custom_fields['saswp_book_rating_value'];
                         $input1['aggregateRating']['ratingCount']   = $custom_fields['saswp_book_rating_count'];                                
                     }
@@ -1929,7 +1930,7 @@ Class saswp_output_service{
                      default:
                          break;
                  }    
-                 
+             
              if($main_schema_type == 'Review'){
                  
                  $review_response['item_reviewed'] = $input1;
@@ -1961,16 +1962,7 @@ Class saswp_output_service{
                       
             if($schema_type == 'Review'){
                 
-                $meta_fields = $this->saswp_get_all_schema_type_fields($schema_subtype);
-
-                $review_fields['saswp_review_name']         = 'Review Name';
-                $review_fields['saswp_review_description']  = 'Review Description';
-                $review_fields['saswp_review_body']         = 'Review Body';                
-                $review_fields['saswp_review_author']       = 'Review Author';
-                $review_fields['saswp_review_publisher']    = 'Review Publisher';
-                $review_fields['saswp_review_rating_value'] = 'Review Rating Value';                
-
-                $meta_fields = $review_fields + $meta_fields;
+                $meta_fields = $this->saswp_get_all_schema_type_fields($schema_subtype);                                            
                 
             }else{
                 $meta_fields = $this->saswp_get_all_schema_type_fields($schema_type);  
@@ -2048,10 +2040,10 @@ Class saswp_output_service{
 				 			
                         if($product->get_type() == 'variable'){
 
-                           $product_id_some = $woocommerce->product_factory->get_product();
+                            $product_id_some = $woocommerce->product_factory->get_product();
 
-                            $variations  = $product_id_some->get_available_variations();
-
+                            $variations  = $product_id_some->get_available_variations(); 
+                            
                                 if($variations){
 
                                         foreach($variations as $value){
@@ -2104,7 +2096,7 @@ Class saswp_output_service{
                  $product_details['product_description'] = strip_tags(get_the_excerpt());
                  
              }
-                                       
+                          
              if($product->get_attributes()){
                  
                  foreach ($product->get_attributes() as $attribute) {
@@ -2179,9 +2171,13 @@ Class saswp_output_service{
              }else{
                  $product_details['product_availability'] = $product->get_stock_status();
              }
-                          
-             $product_details['product_price']           = $product->get_price();
-             $product_details['product_varible_price']   = $varible_prices;
+             
+             if($product->get_type() == 'variable'){
+                 $product_details['product_varible_price']   = $varible_prices;
+             }else{
+                 $product_details['product_price']           = $product->get_price();
+             }
+             
              $product_details['product_sku']             = $product->get_sku() ? $product->get_sku(): get_the_ID();             
              
              if(isset($date_on_sale)){
@@ -2199,81 +2195,16 @@ Class saswp_output_service{
              $reviews_arr = array();
              $reviews     = get_approved_comments( $post_id );
              
-             if(class_exists('saswp_reviews_platform_markup') && class_exists('JGM_ProductService')){
-                 
-              $judge_me_post = get_posts( 
-                        array(
-                            'post_type' 	 => 'saswp_reviews',                                                                                   
-                            'posts_per_page'     => -1,   
-                            'post_status'        => 'publish',
-                            'meta_query'  => array(
-                                array(
-                                'key'     => 'saswp_review_product_id',
-                                'value'   => 487,
-                                'compare' => '==',
-                                 )
-                            )
-                           
-                ) );   
-                 
-               $post_meta = array(                              
-                'saswp_reviewer_name' => 'author',
-                'saswp_review_rating' => 'reviewRating',
-                'saswp_review_date'   => 'datePublished',
-                'saswp_review_text'   => 'description',                           		
-              );
-               
-              if($judge_me_post){
-                  
-                   $sumofrating = 0;
-                   
-                    foreach($judge_me_post as $me_post){
-                        
-                        $rv = array();
-                        
-                        foreach($post_meta as $key => $val){
-                  
-                               $rv[$val] = get_post_meta($me_post->ID, $key, true );  
-                               
-                               if($val == 'reviewRating'){
-                                   $sumofrating += get_post_meta($me_post->ID, $key, true ); 
-                               }
-                               
-                                   
-                        }
-                        
-                        $reviews_arr[] = $rv;  
-                        
-                    }
-                    
-                    $product_details['product_review_count']   = count($judge_me_post);
-                    if($sumofrating > 0){                        
-                        $product_details['product_average_rating'] = $sumofrating /  count($judge_me_post);
-                    }
-                                      
-              }else{
-                  
-                  if($reviews){
-                                            
-                      foreach($reviews as $review){                 
-                 
-                            $reviews_arr[] = array(
-                                'author'        => $review->comment_author ? $review->comment_author : 'Anonymous' ,
-                                'datePublished' => $review->comment_date,
-                                'description'   => $review->comment_content,
-                                'reviewRating'  => get_comment_meta( $review->comment_ID, 'rating', true ) ? get_comment_meta( $review->comment_ID, 'rating', true ) : '5',
-                            );
-
-                        }   
-
-                        $product_details['product_review_count']   = $product->get_review_count();
-                        $product_details['product_average_rating'] = $product->get_average_rating();
-                      
-                  }
-                  
-              }
+             $judge_me_reviews = saswp_get_judge_me_reviews_by_product_id($post_id);
+                          
+             if($judge_me_reviews){
+                
+                 $reviews_arr = $judge_me_reviews['reviews'];                 
+                 $product_details['product_review_count']   = $judge_me_reviews['count'];
+                 $product_details['product_average_rating'] = $judge_me_reviews['average_rating'];             
                  
              }else if($reviews){
+                 
                  
              foreach($reviews as $review){                 
                  
@@ -3430,7 +3361,7 @@ Class saswp_output_service{
 							
                             }else{
 
-                            if(!empty($product_details['product_varible_price']) && is_array($product_details['product_varible_price'])){
+                            if(isset($product_details['product_varible_price']) && $product_details['product_varible_price']){
 
                             $input1['offers']['@type']         = 'AggregateOffer';
                             $input1['offers']['lowPrice']      = min($product_details['product_varible_price']);
@@ -3774,3 +3705,18 @@ if (class_exists('saswp_output_service')) {
 	$object = new saswp_output_service();
         $object->saswp_service_hooks();
 };
+
+
+function saswp_get_judge_me_reviews_by_product_id($product_id){
+    
+    $response = array();
+    
+    if(class_exists('JGM_ProductService')){
+    
+        $result = @wp_remote_get('https://maps.googleapis.com/maps/api/place/details/json?placeid='.trim($place_id).'&key='.trim($g_api));                
+        
+        
+    }   
+    
+    return $response;
+}
