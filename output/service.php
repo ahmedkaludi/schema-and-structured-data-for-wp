@@ -1146,8 +1146,8 @@ Class saswp_output_service{
                      $input1['sku']                    =    $custom_fields['saswp_product_sku'];
                     }
                     if(isset($custom_fields['saswp_product_seller'])){
-                     $input1['seller']['@type']         =    'Organization';
-                     $input1['seller']['name']          =    $custom_fields['saswp_product_seller'];
+                     $input1['offers']['seller']['@type']         =    'Organization';
+                     $input1['offers']['seller']['name']          =    $custom_fields['saswp_product_seller'];
                     }
                     
                     if(isset($custom_fields['saswp_product_rating']) && isset($custom_fields['saswp_product_rating_count'])){
