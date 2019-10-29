@@ -2824,6 +2824,46 @@ class saswp_post_specific {
                                         
                     $meta_field = array(
                     array(
+                            'label' => 'Review Name',
+                            'id'    => 'saswp_review_name_'.$schema_id,
+                            'type'  => 'text',                           
+                        ),
+                    array(
+                            'label' => 'Review Description',
+                            'id' => 'saswp_review_description_'.$schema_id,
+                            'type' => 'textarea',                           
+                        ),
+                        array(
+                            'label' => 'Review Body',
+                            'id' => 'saswp_review_body_'.$schema_id,
+                            'type' => 'textarea',                           
+                        ),
+                        array(
+                            'label' => 'Review Author',
+                            'id' => 'saswp_review_author_'.$schema_id,
+                            'type' => 'text',                           
+                        ),
+                        array(
+                            'label' => 'Review Author Profile URL',
+                            'id' => 'saswp_review_author_url_'.$schema_id,
+                            'type' => 'text',                           
+                        ),
+                        array(
+                            'label' => 'Review Publisher',
+                            'id' => 'saswp_review_publisher_'.$schema_id,
+                            'type' => 'text',                           
+                        ),
+                        array(
+                            'label' => 'Review Published Date',
+                            'id' => 'saswp_review_date_published_'.$schema_id,
+                            'type' => 'text',                           
+                        ),
+                        array(
+                            'label' => 'Review URL',
+                            'id' => 'saswp_review_schema_enable_rating_'.$schema_id,
+                            'type' => 'text',                           
+                        ),                       
+                    array(
                             'label'   => 'Item Reviewed Type',
                             'id'      => 'saswp_review_schema_item_type_'.$schema_id,
                             'type'    => 'select',

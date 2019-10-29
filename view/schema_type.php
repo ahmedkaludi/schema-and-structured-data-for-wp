@@ -1164,7 +1164,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                                 $review_fields['saswp_review_author_url']     = 'Review Author Profile URL';
                                 $review_fields['saswp_review_publisher']      = 'Review Publisher';
                                 $review_fields['saswp_review_rating_value']   = 'Review Rating Value';
-                                $review_fields['saswp_review_date_published'] = 'Review Rating Value'; 
+                                $review_fields['saswp_review_date_published'] = 'Review Published Date'; 
                                 $review_fields['saswp_review_url']            = 'Review URL'; 
                                
                             }
