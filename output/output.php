@@ -1162,11 +1162,7 @@ function saswp_schema_output() {
 						'description'                   => $description,
 						'name'				=> saswp_get_the_title(),
 						'uploadDate'                    => esc_html($date),
-						'thumbnailUrl'                  => isset($image_details[0]) ? esc_url($image_details[0]):'',
-						'mainEntity'                    => array(
-								'@type'				=> 'WebPage',
-								'@id'				=> trailingslashit(saswp_get_permalink()),
-								), 
+						'thumbnailUrl'                  => isset($image_details[0]) ? esc_url($image_details[0]):'',						
 						'author'			=> saswp_get_author_details()						                                                                                                      
 						);
                                                  if(!empty($publisher)){

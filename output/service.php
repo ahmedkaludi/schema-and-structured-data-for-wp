@@ -350,8 +350,7 @@ Class saswp_output_service{
                     $main_schema_type = $schema_type;
                     $review_post_meta = get_post_meta($schema_post_id, 'saswp_review_schema_details', true);                                                                
                     $schema_type = $review_post_meta['saswp_review_schema_item_type'];
-                    
-                    
+                                        
                     if(isset($custom_fields['saswp_review_name'])){
                         $review_markup['name']                       =    $custom_fields['saswp_review_name'];
                     }
@@ -377,14 +376,17 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_review_author'])){
                        $review_markup['author']['@type']             =   'Person';                                              
                        $review_markup['author']['name']              =    $custom_fields['saswp_review_author'];                                              
+                       
+                        if(isset($custom_fields['saswp_review_author_url'])){
+                            $review_markup['author']['sameAs'] =    array($custom_fields['saswp_review_author_url']);
+                        }
                     }
                      if(isset($custom_fields['saswp_review_date_published'])){
                        $review_markup['datePublished'] =    date('c',strtotime($custom_fields['saswp_review_date_published']));
                     }  
 
                 }
-                   
-                
+                                   
              switch ($schema_type) {
                  
                case 'Book':      
@@ -401,6 +403,11 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_book_author'])){
                      $input1['author']['@type'] =    'Person';   
                      $input1['author']['name']  =    $custom_fields['saswp_book_author'];
+                    
+                        if(isset($custom_fields['saswp_book_author_url'])){
+                            $input1['author']['sameAs'] =    array($custom_fields['saswp_book_author_url']);
+                        }
+                     
                     }
                     if(isset($custom_fields['saswp_book_isbn'])){
                      $input1['isbn'] =    $custom_fields['saswp_book_isbn'];
@@ -1207,8 +1214,7 @@ Class saswp_output_service{
                     }
                     if(isset($custom_fields['saswp_video_object_date_published'])){
                      $input1['datePublished'] =    $custom_fields['saswp_video_object_date_published'];
-                    }
-                    
+                    }                    
                     if(isset($custom_fields['saswp_video_object_date_modified'])){
                      $input1['dateModified'] =    $custom_fields['saswp_video_object_date_modified'];
                     }
@@ -1217,8 +1223,7 @@ Class saswp_output_service{
                     }
                     if(isset($custom_fields['saswp_video_object_name'])){
                      $input1['name'] =    $custom_fields['saswp_video_object_name'];
-                    }
-                    
+                    }                    
                     if(isset($custom_fields['saswp_video_object_upload_date'])){
                      $input1['uploadDate'] =    $custom_fields['saswp_video_object_upload_date'];
                     }
@@ -1226,26 +1231,23 @@ Class saswp_output_service{
                      $input1['thumbnailUrl'] =    $custom_fields['saswp_video_object_thumbnail_url'];
                     }                                        
                     if(isset($custom_fields['saswp_video_object_content_url'])){
-                     $input1['thumbnailUrl'] =    $custom_fields['saswp_video_object_content_url'];
+                     $input1['contentUrl'] =    $custom_fields['saswp_video_object_content_url'];
                     }
                     if(isset($custom_fields['saswp_video_object_embed_url'])){
-                     $input1['thumbnailUrl'] =    $custom_fields['saswp_video_object_embed_url'];
-                    }                                                            
-                    if(isset($custom_fields['saswp_video_object_main_entity_id'])){
-                     $input1['mainEntity']['@id'] =    $custom_fields['saswp_video_object_main_entity_id'];
-                    }
-                    
+                     $input1['embedUrl'] =    $custom_fields['saswp_video_object_embed_url'];
+                    }                                                                                                  
                     if(isset($custom_fields['saswp_video_object_author_name'])){
                      $input1['author']['name'] =    $custom_fields['saswp_video_object_author_name'];
                     }
                     if(isset($custom_fields['saswp_video_object_author_image'])){
-                     $input1['author']['Image']['url'] =    $custom_fields['saswp_video_object_author_image'];
+                     $input1['author']['image'] =    $custom_fields['saswp_video_object_author_image'];
                     }                      
                     if(isset($custom_fields['saswp_video_object_organization_logo']) && isset($custom_fields['saswp_video_object_organization_name'])){
-                     $input1['Publisher']['@type']       =    'Organization';
-                     $input1['Publisher']['name']        =    $custom_fields['saswp_video_object_organization_name'];
-                     $input1['Publisher']['logo']        =    $custom_fields['saswp_video_object_organization_logo'];
+                     $input1['publisher']['@type']       =    'Organization';
+                     $input1['publisher']['name']        =    $custom_fields['saswp_video_object_organization_name'];
+                     $input1['publisher']['logo']        =    $custom_fields['saswp_video_object_organization_logo'];
                     }
+                    
                     break;
                 
                 case 'qanda':
@@ -2901,8 +2903,7 @@ Class saswp_output_service{
                         'saswp_video_object_duration'           => 'Duration',
                         'saswp_video_object_thumbnail_url'      => 'Thumbnail Url',
                         'saswp_video_object_content_url'        => 'Content URL',
-                        'saswp_video_object_embed_url'          => 'Embed Url',
-                        'saswp_video_object_main_entity_id'     => 'Main Entity Id',
+                        'saswp_video_object_embed_url'          => 'Embed Url',                        
                         'saswp_video_object_author_name'        => 'Author Name',
                         'saswp_video_object_author_image'       => 'Author Image',
                         'saswp_video_object_organization_name'  => 'Organization Name',
@@ -3035,7 +3036,8 @@ Class saswp_output_service{
                         'saswp_book_description'       => 'Description',
                         'saswp_book_url'               => 'URL',
                         'saswp_book_image'             => 'Image',
-                        'saswp_book_author'            => 'Author',  
+                        'saswp_book_author'            => 'Author', 
+                        'saswp_book_author_url'        => 'Author Profile URL', 
                         'saswp_book_isbn'              => 'Isbn',
                         'saswp_book_no_of_page'        => 'Number Of Page', 
                         'saswp_book_publisher'         => 'Publisher',
@@ -3467,7 +3469,7 @@ Class saswp_output_service{
                         
             if( is_array($image_details) ){                                
                                                                                                                     
-                                        if(isset($image_details[1]) && ($image_details[1] < 1200) && function_exists('aq_resize')){
+                                        if(isset($image_details[1]) && ($image_details[1] < 1200) && function_exists('saswp_aq_resize')){
                                             
                                             $width  = array(1280, 640, 300);
                                             $height = array(720, 480, 300);
