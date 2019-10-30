@@ -1050,3 +1050,17 @@ function saswp_append_fetched_reviews($input1){
    }   
     return $input1;
 }
+
+function saswp_clean_meta_fields($meta_fields){
+            
+    foreach ($meta_fields as $key => $field){
+        
+        if((strpos($field['id'], 'enable_rating_') !== false) || (strpos($field['id'], 'rating_value_') !== false) || (strpos($field['id'], 'rating_count_') !== false) || (strpos($field['id'], 'local_rating_') !== false) || (strpos($field['id'], 'local_review_count_') !== false) || (strpos($field['id'], 'recipe_schema_rating_') !== false) || (strpos($field['id'], 'recipe_schema_review_count_') !== false) || (strpos($field['id'], 'schema_rating_') !== false) || (strpos($field['id'], 'review_count_') !== false) ){
+            unset($meta_fields[$key]);
+        }else{
+            $meta_fields[$key] = $field;
+        }
+                                
+    }    
+    return $meta_fields;
+}

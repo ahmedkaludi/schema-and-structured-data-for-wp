@@ -397,9 +397,10 @@ class saswp_post_specific {
             $item_reviewed          = sanitize_text_field($_GET['item']);  
             $schema_id     = sanitize_text_field($_GET['schema_id']);
             $post_id       = intval($_GET['post_id']);    
-
+            
             $response          = $this->saswp_get_fields_by_schema_type($schema_id, null, $item_reviewed);                                                              
-            $saswp_meta_fields = array_filter($response);                     
+            $saswp_meta_fields = array_filter($response);    
+            $saswp_meta_fields = saswp_clean_meta_fields($saswp_meta_fields);
             $output            = $this->saswp_saswp_post_specific($saswp_meta_fields, $post_id, $schema_id, $item_reviewed); 
                                  
             echo $output;
@@ -732,7 +733,8 @@ class saswp_post_specific {
                         
                          $item_reviewed     = get_post_meta($post->ID, 'saswp_review_schema_item_type_'.$schema->ID, true);                         
                          $response          = $this->saswp_get_fields_by_schema_type($schema->ID, null, $item_reviewed);                                                              
-                         $saswp_meta_fields = array_filter($response);                     
+                         $saswp_meta_fields = array_filter($response);  
+                         $saswp_meta_fields = saswp_clean_meta_fields($saswp_meta_fields);
                          $output           .= $this->saswp_saswp_post_specific($saswp_meta_fields, $post->ID, $schema->ID ,$item_reviewed);
                          
                      }

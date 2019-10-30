@@ -136,7 +136,8 @@
                                 }
                                 
                             });
-                            jQuery("#saswp_specific_"+schema_id).append(response);                                 
+                            jQuery("#saswp_specific_"+schema_id).append(response);
+                            saswp_schema_datepicker();
 
                          });
 
