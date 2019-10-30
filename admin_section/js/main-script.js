@@ -126,9 +126,17 @@
                      jQuery.get(ajaxurl, 
                          { action:"saswp_get_item_reviewed_fields",schema_id:schema_id,  post_specific:post_specific ,item:item, post_id:post_id, saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
                           function(response){    
-
-                            jQuery(current).parent().parent().nextAll().remove(".saswp-review-tr");                                    
-                            jQuery(current).parent().parent().after(response);    
+                            
+                            jQuery("#saswp_specific_"+schema_id).find(".saswp-table-create-onajax").remove();   
+                            var onload_class = jQuery("#saswp_specific_"+schema_id).find(".saswp-table-create-onload");
+                            
+                            jQuery.each(onload_class, function(key, val){
+                                if(key != 0){
+                                    jQuery(this).remove();
+                                }
+                                
+                            });
+                            jQuery("#saswp_specific_"+schema_id).append(response);                                 
 
                          });
 
