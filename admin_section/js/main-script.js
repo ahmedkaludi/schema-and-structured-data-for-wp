@@ -200,8 +200,7 @@
                                      if(schema_type == 'Review'){
                                        html += '<optgroup label="Review">';
                                        html += '<option value="saswp_review_name">Review Name</option>';    
-                                       html += '<option value="saswp_review_description">Review Description</option>';    
-                                       html += '<option value="saswp_review_body">Review Body</option>';    
+                                       html += '<option value="saswp_review_description">Review Description</option>';                                              
                                        html += '<option value="saswp_review_author">Review Author</option>';
                                        html += '<option value="saswp_review_author_url">Review Author Profile URL</option>';
                                        html += '<option value="saswp_review_publisher">Review Publisher</option>';    
@@ -270,8 +269,7 @@
                                 jQuery.get(ajaxurl, 
                                     { action:"saswp_get_schema_dynamic_fields_ajax",meta_name:meta_name, saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
                                      function(response){                                  
-                                         saswp_meta_fields[fields_type] = response;
-                                         console.log(saswp_meta_fields);
+                                         saswp_meta_fields[fields_type] = response;                                         
                                          var html = saswp_fields_html_generator(index, schema_id, fields_type, div_type, response);
 
                                            if(html){

@@ -399,8 +399,7 @@ class saswp_post_specific {
             $post_id       = intval($_GET['post_id']);    
             
             $response          = $this->saswp_get_fields_by_schema_type($schema_id, null, $item_reviewed);                                                              
-            $saswp_meta_fields = array_filter($response);    
-            $saswp_meta_fields = saswp_clean_meta_fields($saswp_meta_fields);
+            $saswp_meta_fields = array_filter($response);                
             $output            = $this->saswp_saswp_post_specific($saswp_meta_fields, $post_id, $schema_id, $item_reviewed); 
                                  
             echo $output;
@@ -731,10 +730,12 @@ class saswp_post_specific {
                      
                      if($schema_type == 'Review'){
                         
-                         $item_reviewed     = get_post_meta($post->ID, 'saswp_review_schema_item_type_'.$schema->ID, true);                         
+                         $item_reviewed     = get_post_meta($post->ID, 'saswp_review_item_reviewed_'.$schema->ID, true);                         
+                         if(!$item_reviewed){
+                             $item_reviewed = 'Book';
+                         }
                          $response          = $this->saswp_get_fields_by_schema_type($schema->ID, null, $item_reviewed);                                                              
-                         $saswp_meta_fields = array_filter($response);  
-                         $saswp_meta_fields = saswp_clean_meta_fields($saswp_meta_fields);
+                         $saswp_meta_fields = array_filter($response);                           
                          $output           .= $this->saswp_saswp_post_specific($saswp_meta_fields, $post->ID, $schema->ID ,$item_reviewed);
                          
                      }
@@ -1123,7 +1124,7 @@ class saswp_post_specific {
                                              if (strpos($meta_field['id'], 'business_name') !== false){
                                              $class='saswp-local-business-name-select';    
                                              }
-                                             if (strpos($meta_field['id'], 'saswp_review_schema_item_type') !== false){
+                                             if (strpos($meta_field['id'], 'saswp_review_item_reviewed') !== false){
                                              $class='saswp-item-reviewed';    
                                              }
                                         
@@ -1260,10 +1261,11 @@ class saswp_post_specific {
                            $meta_field['id'] == 'saswp_software_schema_rating_'.$schema_id      ||                             
                            $meta_field['id'] == 'saswp_service_schema_review_count_'.$schema_id || 
                            $meta_field['id'] == 'saswp_product_schema_review_count_'.$schema_id ||
-                           $meta_field['id'] == 'saswp_review_schema_review_count_'.$schema_id  ||
+                           $meta_field['id'] == 'saswp_review_review_count_'.$schema_id         ||
+                           $meta_field['id'] == 'saswp_review_rating_'.$schema_id               ||
                            $meta_field['id'] == 'local_review_count_'.$schema_id                ||
                            $meta_field['id'] == 'saswp_recipe_schema_rating_'.$schema_id        ||
-                           $meta_field['id'] == 'saswp_recipe_schema_review_count_'.$schema_id ||
+                           $meta_field['id'] == 'saswp_recipe_schema_review_count_'.$schema_id  ||
                            $meta_field['id'] == 'saswp_software_schema_rating_count_'.$schema_id     
                                 
                           )
@@ -1368,8 +1370,8 @@ class saswp_post_specific {
                         
                         $this->saswp_save_meta_fields_value($post_meta, $response, $post_id);
                         
-                        if(isset($_POST['saswp_review_schema_item_type_'.$schema->ID]) && $_POST['saswp_review_schema_item_type_'.$schema->ID] !=''){
-                             $item_reviewed = sanitize_text_field($_POST['saswp_review_schema_item_type_'.$schema->ID]);
+                        if(isset($_POST['saswp_review_item_reviewed_'.$schema->ID]) && $_POST['saswp_review_item_reviewed_'.$schema->ID] !=''){
+                             $item_reviewed = sanitize_text_field($_POST['saswp_review_item_reviewed_'.$schema->ID]);
                             
                              $response          = $this->saswp_get_fields_by_schema_type($schema->ID, 'save', $item_reviewed); 
                              $this->saswp_save_meta_fields_value($post_meta, $response, $post_id);
@@ -2858,21 +2860,16 @@ class saswp_post_specific {
                 case 'Review':
                                         
                     $meta_field = array(
-                    array(
+                        array(
                             'label' => 'Review Name',
                             'id'    => 'saswp_review_name_'.$schema_id,
                             'type'  => 'text',                           
                         ),
-                    array(
+                        array(
                             'label' => 'Review Description',
                             'id' => 'saswp_review_description_'.$schema_id,
                             'type' => 'textarea',                           
-                        ),
-                        array(
-                            'label' => 'Review Body',
-                            'id' => 'saswp_review_body_'.$schema_id,
-                            'type' => 'textarea',                           
-                        ),
+                        ),                        
                         array(
                             'label' => 'Review Author',
                             'id' => 'saswp_review_author_'.$schema_id,
@@ -2895,27 +2892,27 @@ class saswp_post_specific {
                         ),
                         array(
                             'label' => 'Review URL',
-                            'id' => 'saswp_review_schema_enable_rating_'.$schema_id,
+                            'id' => 'saswp_review_url_'.$schema_id,
                             'type' => 'text',                           
                         ), 
                         array(
                             'label' => 'Review Rating',
-                            'id' => 'saswp_review_schema_enable_rating_'.$schema_id,
-                            'type' => 'checkbox',                           
+                            'id'    => 'saswp_review_enable_rating_'.$schema_id,
+                            'type'  => 'checkbox',                           
                         ),
                         array(
                             'label' => 'Rating Value',
-                            'id' => 'saswp_review_schema_rating_'.$schema_id,
-                            'type' => 'text',                            
+                            'id'    => 'saswp_review_rating_'.$schema_id,
+                            'type'  => 'text',                            
                         ),
                         array(
                             'label' => 'Best Rating',
-                            'id' => 'saswp_review_schema_review_count_'.$schema_id,
-                            'type' => 'text',                            
+                            'id'    => 'saswp_review_review_count_'.$schema_id,
+                            'type'  => 'text',                            
                         ),
                     array(
                             'label'   => 'Item Reviewed Type',
-                            'id'      => 'saswp_review_schema_item_type_'.$schema_id,
+                            'id'      => 'saswp_review_item_reviewed_'.$schema_id,
                             'type'    => 'select',
                             'options' => array(
                                         'Book'                  => 'Book',                             
@@ -4595,6 +4592,11 @@ class saswp_post_specific {
                             'id'         => 'saswp_book_author_'.$schema_id,
                             'type'       => 'text',                           
                     ),
+                    array(
+                            'label'      => 'Author Profile URL',
+                            'id'         => 'saswp_book_author_url_'.$schema_id,
+                            'type'       => 'text',                           
+                    ),    
                     array(
                             'label'      => 'ISBN',
                             'id'         => 'saswp_book_isbn_'.$schema_id,

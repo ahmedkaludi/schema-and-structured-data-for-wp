@@ -369,10 +369,7 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_review_publisher'])){
                        $review_markup['publisher']['@type']          =   'Organization';                                              
                        $review_markup['publisher']['name']           =    $custom_fields['saswp_review_publisher'];                                              
-                    }
-                    if(isset($custom_fields['saswp_review_body'])){
-                        $review_markup['reviewBody']                 =    $custom_fields['saswp_review_body'];
-                    }
+                    }                    
                     if(isset($custom_fields['saswp_review_author'])){
                        $review_markup['author']['@type']             =   'Person';                                              
                        $review_markup['author']['name']              =    $custom_fields['saswp_review_author'];                                              
