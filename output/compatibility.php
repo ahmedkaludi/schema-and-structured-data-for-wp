@@ -64,6 +64,12 @@ class saswp_output_compatibility{
                                    
     }
     
+    public function saswp_kk_star_ratings_override(){
+                        
+        remove_action('wp_head', 'Bhittani\StarRating\structured_data');
+                        
+    }
+    
     public function saswp_wp_event_manager_override(){
                         
         if(class_exists('WP_Event_Manager_Post_Types')){

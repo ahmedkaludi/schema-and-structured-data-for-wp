@@ -23,8 +23,7 @@ $without_aggregate = array(
         'DataFeed',
         'FAQ',
         'NewsArticle',
-        'qanda',
-        'Review',
+        'qanda',        
         'TechArticle',
         'WebPage',
         'JobPosting',
@@ -1064,10 +1063,16 @@ function saswp_schema_output() {
                                 $service = new saswp_output_service();
                                 $review_markup = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
                                 
+                                $item_reviewed = $schema_data['saswp_review_schema_item_type'];
+                                
+                                if($item_reviewed == 'local_business'){
+                                    $item_reviewed = 'LocalBusiness';
+                                }
+                                
                                 $input1['@context']               =  saswp_context_url();
                                 $input1['@type']                  =  'Review';
                                 $input1['@id']                    =  trailingslashit(saswp_get_permalink()).'#Review';
-                                $input1['itemReviewed']['@type']  =  $schema_data['saswp_review_schema_item_type'];
+                                $input1['itemReviewed']['@type']  =  $item_reviewed;
                                                             
                                 if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] == 1){
                                                                          
@@ -1080,7 +1085,7 @@ function saswp_schema_output() {
                                         }
                                         
                                         if(isset($review_markup['item_reviewed'])){                                            
-                                            $item_reviewed          = array( '@type' => $schema_data['saswp_review_schema_item_type']) + $review_markup['item_reviewed'];                                        
+                                            $item_reviewed          = array( '@type' => $item_reviewed) + $review_markup['item_reviewed'];                                        
                                             $input1['itemReviewed'] = $item_reviewed;
                                             
                                         }
@@ -1253,13 +1258,16 @@ function saswp_schema_output() {
                         global $without_aggregate;
                         
                         if(!in_array($schema_type, $without_aggregate)){ 
-                                                                                            
-                                    //kk star rating 
+                                                     
+                            
+                                    if($schema_type == 'Review'){
+                                        
+                                        //kk star rating 
                             
                                     $kkstar_aggregateRating = saswp_extract_kk_star_ratings();
                                 
                                     if(!empty($kkstar_aggregateRating)){
-                                        $input1['aggregateRating'] = $kkstar_aggregateRating; 
+                                        $input1['itemReviewed']['aggregateRating'] = $kkstar_aggregateRating; 
                                     }
 
                                     //wp post-rating star rating 
@@ -1267,8 +1275,30 @@ function saswp_schema_output() {
                                     $wp_post_rating_ar = saswp_extract_wp_post_ratings();
 
                                     if(!empty($wp_post_rating_ar)){
-                                        $input1['aggregateRating'] = $wp_post_rating_ar; 
-                                    }                                                                    
+                                        $input1['itemReviewed']['aggregateRating'] = $wp_post_rating_ar; 
+                                    }
+                                        
+                                    }else{
+                                    
+                                        //kk star rating 
+                            
+                                        $kkstar_aggregateRating = saswp_extract_kk_star_ratings();
+
+                                        if(!empty($kkstar_aggregateRating)){
+                                            $input1['aggregateRating'] = $kkstar_aggregateRating; 
+                                        }
+
+                                        //wp post-rating star rating 
+
+                                        $wp_post_rating_ar = saswp_extract_wp_post_ratings();
+
+                                        if(!empty($wp_post_rating_ar)){
+                                            $input1['aggregateRating'] = $wp_post_rating_ar; 
+                                        }
+                                        
+                                    }
+                            
+                                                                                                        
                         
                         }                                                
                                 
