@@ -2835,25 +2835,8 @@ class saswp_post_specific {
                             'note'   => 'Note: Enter all the service offer in comma separated',
                             'attributes' => array(
                                 'placeholder' => 'Apartment light cleaning, carpet cleaning'
-                            ),                                                        
-                    ),
-                        
-                        array(
-                            'label' => 'Aggregate Rating',
-                            'id' => 'saswp_service_schema_enable_rating_'.$schema_id,
-                            'type' => 'checkbox',                           
-                        ),
-                        array(
-                            'label' => 'Rating',
-                            'id' => 'saswp_service_schema_rating_'.$schema_id,
-                            'type' => 'text',                            
-                        ),
-                        array(
-                            'label' => 'Number of Reviews',
-                            'id' => 'saswp_service_schema_review_count_'.$schema_id,
-                            'type' => 'text',                           
-                        ),                                                
-                        
+                            )                                                        
+                       )                        
                     );
                     break;
                 

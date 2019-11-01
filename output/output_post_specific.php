@@ -1463,21 +1463,7 @@ function saswp_post_specific_schema_output() {
                                             'name'            => saswp_remove_warnings($all_post_meta, 'saswp_service_schema_name_'.$schema_id, 'saswp_array'),
                                             'itemListElement' => $serviceOffer
                                        );
-                                
-                                if(saswp_remove_warnings($all_post_meta, 'saswp_service_schema_enable_rating_'.$schema_id, 'saswp_array') == 1){                                                                        
-                                          $input1['aggregateRating'] = array(
-                                                            "@type"       => "AggregateRating",
-                                                            "ratingValue" => saswp_remove_warnings($all_post_meta, 'saswp_service_schema_rating_'.$schema_id, 'saswp_array'),
-                                                            "reviewCount" => saswp_remove_warnings($all_post_meta, 'saswp_service_schema_review_count_'.$schema_id, 'saswp_array')
-                                                         );                                       
-                                         }       
-                                if(!empty($aggregateRating)){
-                                    $input1['aggregateRating'] = $aggregateRating;
-                                }                                
-                                if(!empty($extra_theme_review)){
-                                   $input1 = array_merge($input1, $extra_theme_review);
-                                }
-                                $input1 = saswp_append_fetched_reviews($input1);
+                                                                              
                          }     
                          
                          if( 'Review' === $schema_type ){   

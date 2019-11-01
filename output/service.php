@@ -1190,15 +1190,7 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_service_schema_service_offer'])){
                       $input1['hasOfferCatalog'] =    $custom_fields['saswp_service_schema_service_offer'];
                     }
-                    
-                    if(isset($custom_fields['saswp_service_schema_rating_value']) && isset($custom_fields['saswp_service_schema_rating_count'])){
-                       $input1['aggregateRating']['@type']       =   'AggregateRating';
-                       $input1['aggregateRating']['worstRating'] =   0;
-                       $input1['aggregateRating']['bestRating']  =   5;
-                       $input1['aggregateRating']['ratingValue'] =    $custom_fields['saswp_service_schema_rating_value'];
-                       $input1['aggregateRating']['ratingCount'] =    $custom_fields['saswp_service_schema_rating_count'];
-                    }
-                                                          
+                                                                             
                     break;
                 
                 case 'VideoObject':
@@ -2878,10 +2870,8 @@ Class saswp_output_service{
                         'saswp_service_schema_description'      => 'Description',
                         'saswp_service_schema_area_served'      => 'Area Served (City)',
                         'saswp_service_schema_service_offer'    => 'Service Offer',
-                        'saswp_service_schema_country'           => 'Address Country',
-                        'saswp_service_schema_telephone'         => 'Telephone',  
-                        'saswp_service_schema_rating_value'      => 'Rating Value',
-                        'saswp_service_schema_rating_count'      => 'Rating Count',
+                        'saswp_service_schema_country'          => 'Address Country',
+                        'saswp_service_schema_telephone'        => 'Telephone'                                                  
                     );
                    
                     break;
