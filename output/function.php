@@ -1265,9 +1265,7 @@ function saswp_event_schema_markup($schema_id, $schema_post_id, $all_post_meta){
             '@type'				=> (isset($all_post_meta['saswp_event_schema_type_'.$schema_id][0]) && $all_post_meta['saswp_event_schema_type_'.$schema_id][0] !='') ? $all_post_meta['saswp_event_schema_type_'.$schema_id][0] : 'Event' ,
             '@id'                           => trailingslashit(get_permalink()).'#event',    
             'name'			        => saswp_remove_warnings($all_post_meta, 'saswp_event_schema_name_'.$schema_id, 'saswp_array'),
-            'description'                   => saswp_remove_warnings($all_post_meta, 'saswp_event_schema_description_'.$schema_id, 'saswp_array'),			
-            'startDate'		        => isset($all_post_meta['saswp_event_schema_start_date_'.$schema_id])?date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_event_schema_start_date_'.$schema_id][0])):'',
-            'endDate'                       => isset($all_post_meta['saswp_event_schema_end_date_'.$schema_id])?date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_event_schema_end_date_'.$schema_id][0])):'',
+            'description'                   => saswp_remove_warnings($all_post_meta, 'saswp_event_schema_description_'.$schema_id, 'saswp_array'),			                
             'image'                         => array(
                                                         '@type'		=>'ImageObject',
                                                         'url'		=>  isset($event_image['thumbnail']) ? esc_url($event_image['thumbnail']):'' ,
@@ -1294,6 +1292,35 @@ function saswp_event_schema_markup($schema_id, $schema_post_id, $all_post_meta){
                                                 'validFrom'       => isset($all_post_meta['saswp_event_schema_validfrom_'.$schema_id])?date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_event_schema_validfrom_'.$schema_id][0])):'',
                             )                         
                 );
+            
+                
+                if(isset($all_post_meta['saswp_event_schema_start_date_'.$schema_id][0])){
+                    
+                    $date = $time = '';
+                    
+                    $date = $all_post_meta['saswp_event_schema_start_date_'.$schema_id][0];
+                    
+                    if(isset($all_post_meta['saswp_event_schema_start_time_'.$schema_id][0])){
+                        $time  = $all_post_meta['saswp_event_schema_start_time_'.$schema_id][0];    
+                    }
+                    
+                    $input1['startDate']        = saswp_format_date_time($date, $time);
+                    
+                }
+                
+                if(isset($all_post_meta['saswp_event_schema_end_date_'.$schema_id][0])){
+                    
+                    $date = $time = '';
+                    
+                    $date = $all_post_meta['saswp_event_schema_end_date_'.$schema_id][0];
+                    
+                    if(isset($all_post_meta['saswp_event_schema_end_time_'.$schema_id][0])){
+                        $time  = $all_post_meta['saswp_event_schema_end_time_'.$schema_id][0];    
+                    }
+                    
+                    $input1['endDate']        = saswp_format_date_time($date, $time);
+                    
+                }
 
 
                     $performer  = get_post_meta($schema_post_id, 'performer_'.$schema_id, true);

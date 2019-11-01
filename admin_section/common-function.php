@@ -2668,3 +2668,16 @@ function saswp_migrate_old_social_profile(){
         }
     
 }
+
+function saswp_format_date_time($date, $time=null){
+    
+    $formated = ''; 
+    
+    if($time){
+        $formated =  date('c',strtotime($date.' '.$time));       
+    }else{
+        $formated =  date('c',strtotime($date));  
+    }               
+    
+    return $formated;
+}

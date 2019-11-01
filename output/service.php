@@ -855,10 +855,31 @@ Class saswp_output_service{
                     }                                        
                     
                     if(isset($custom_fields['saswp_event_schema_start_date'])){
-                     $input1['startDate'] =    $custom_fields['saswp_event_schema_start_date'];
+                     
+                     $time = '';
+                     
+                     if(isset($custom_fields['saswp_event_schema_start_time'])){
+                         
+                        $time =  $custom_fields['saswp_event_schema_start_time'];
+                        
+                     }
+                     
+                     $input1['startDate'] =    saswp_format_date_time($custom_fields['saswp_event_schema_start_date'], $time);
+                     
                     }
+                    
                     if(isset($custom_fields['saswp_event_schema_end_date'])){
-                     $input1['endDate'] =    $custom_fields['saswp_event_schema_end_date'];
+                     
+                     $time = '';
+                     
+                     if(isset($custom_fields['saswp_event_schema_end_time'])){
+                         
+                        $time =  $custom_fields['saswp_event_schema_end_time'];
+                        
+                     }
+                     
+                     $input1['endDate'] =    saswp_format_date_time($custom_fields['saswp_event_schema_end_date'], $time);
+                     
                     }
                     
                     if(isset($custom_fields['saswp_event_schema_image'])){
@@ -2946,8 +2967,10 @@ Class saswp_output_service{
                         'saswp_event_schema_location_region'         => 'Location Region',                        
                         'saswp_event_schema_location_postalcode'     => 'PostalCode',
                         'saswp_event_schema_location_hasmap'         => 'HasMape',
-                        'saswp_event_schema_start_date'              => 'Start Date',                        
+                        'saswp_event_schema_start_date'              => 'Start Date',
+                        'saswp_event_schema_start_time'              => 'Start Time',                        
                         'saswp_event_schema_end_date'                => 'End Date',
+                        'saswp_event_schema_end_time'                => 'End Time',
                         'saswp_event_schema_image'                   => 'Image',
                         'saswp_event_schema_performer_name'          => 'Performer Name',
                         'saswp_event_schema_price'                   => 'Price',

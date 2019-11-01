@@ -1210,8 +1210,8 @@ class saswp_post_specific {
                                 case 'text':
                                 case 'number':    
                                     $class = '';
-                                             if (strpos($meta_field['id'], 'closes_time') !== false || strpos($meta_field['id'], 'opens_time') !== false){
-                                             $class='saswp-local-schema-time-picker';    
+                                             if (strpos($meta_field['id'], 'closes_time') !== false || strpos($meta_field['id'], 'opens_time') !== false || strpos($meta_field['id'], 'start_time') !== false || strpos($meta_field['id'], 'end_time') !== false){
+                                                $class='saswp-timepicker';    
                                              }
                                              if (strpos($meta_field['id'], 'date_modified') !== false 
                                                      || strpos($meta_field['id'], 'date_published') !== false  
@@ -2171,8 +2171,18 @@ class saswp_post_specific {
                                 'type' => 'text',                                
                         ),
                         array(
+                                'label' => 'Start Time',
+                                'id'    => 'saswp_event_schema_start_time_'.$schema_id,
+                                'type'  => 'text',                                
+                        ),
+                        array(
                                 'label' => 'End Date',
                                 'id' => 'saswp_event_schema_end_date_'.$schema_id,
+                                'type' => 'text',                                
+                        ),
+                        array(
+                                'label' => 'End Time',
+                                'id' => 'saswp_event_schema_end_time_'.$schema_id,
                                 'type' => 'text',                                
                         ),
                         array(

@@ -99,8 +99,8 @@
           
         }
         
-       function saswpAddTimepicker(){
-         jQuery('.saswp-local-schema-time-picker').timepicker({ 'timeFormat': 'H:i:s'});
+        function saswp_schema_timepicker(){
+         jQuery('.saswp-timepicker').timepicker({ 'timeFormat': 'H:i:s'});
         }
         
        function saswp_item_reviewed_call(){
@@ -138,6 +138,7 @@
                             });
                             jQuery("#saswp_specific_"+schema_id).append(response);
                             saswp_schema_datepicker();
+                            saswp_schema_timepicker();
 
                          });
 
@@ -275,6 +276,7 @@
                                            if(html){
                                                jQuery('.saswp-'+div_type+'-section[data-id="'+schema_id+'"]').append(html);
                                                saswp_schema_datepicker();
+                                               saswp_schema_timepicker();
                                                current_fly.removeClass('updating-message');
                                            }
 
@@ -287,6 +289,7 @@
                                if(html){
                                    jQuery('.saswp-'+div_type+'-section[data-id="'+schema_id+'"]').append(html);
                                    saswp_schema_datepicker();
+                                   saswp_schema_timepicker();
                                    current_fly.removeClass('updating-message');
                                }
                                                                 
@@ -1703,15 +1706,16 @@ jQuery(document).ready(function($){
                                current.remove();   
                                $(".saswp-add-custom-schema-div").remove();
                                $("#post_specific .inside").append(response); 
-                               current.removeClass('updating-message');
-                               saswpAddTimepicker();  
+                               current.removeClass('updating-message');                               
                                saswp_schema_datepicker();
+                               saswp_schema_timepicker();
                                saswp_enable_rating_review();
                                saswp_item_reviewed_call();
                              });
                              
         });
-        saswp_schema_datepicker();        
+        saswp_schema_datepicker();  
+        saswp_schema_timepicker();
         
         saswp_reviews_datepicker();        
         

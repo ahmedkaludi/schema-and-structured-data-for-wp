@@ -1503,7 +1503,7 @@ function saswp_review_page_callback(){
                         'name'   => 'saswp-google-review-checkbox',
 			'type'   => 'checkbox',
                         'class'  => 'checkbox saswp-checkbox',
-                        'note'   => 'This option enables the google review section. <a target="_blank" href="https://structured-data-for-wp.com/docs/">Learn More</a>',
+                        'note'   => 'This option enables the google review section. <a target="_blank" href="https://structured-data-for-wp.com/docs/article/how-to-fetch-google-reviewfree-version/">Learn More</a>',
                         'hidden' => array(
                              'id'   => 'saswp-google-review',
                              'name' => 'sd_data[saswp-google-review]',                             
