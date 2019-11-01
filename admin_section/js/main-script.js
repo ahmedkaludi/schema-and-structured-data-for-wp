@@ -1369,6 +1369,16 @@ jQuery(document).ready(function($){
                             }
                       break;
                       
+                      case 'saswp-other-images-checkbox':
+                          
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-other-images").val(1);                                
+                            }else{
+                              $("#saswp-other-images").val(0);                                          
+                            }
+                            
+                      break;
+                      
                       
                       default:
                           break;

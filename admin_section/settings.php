@@ -1149,6 +1149,18 @@ function saswp_import_callback(){
                              'name' => 'sd_data[saswp-microdata-cleanup]',                             
                         )
 		),
+                array(
+			'label'  => 'Add All Available Images On Post',
+			'id'     => 'saswp-other-images-checkbox',                        
+                        'name'   => 'saswp-other-images-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',   
+                        'note'   => 'It add all the available images in schema markup on a particular post',   
+                        'hidden' => array(
+                             'id'   => 'saswp-other-images',
+                             'name' => 'sd_data[saswp-other-images]',                             
+                        )
+		),
                 
 	);        
         

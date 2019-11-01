@@ -1640,7 +1640,8 @@ if ( ! defined('ABSPATH') ) exit;
                         'saswp_kb_contact_1'       => 0,                                                                                            
                         'saswp-for-wordpress'      => 1,                                                                        
                         'sd_initial_wizard_status' => 1,
-                        'saswp-microdata-cleanup'  => 1
+                        'saswp-microdata-cleanup'  => 1,
+                        'saswp-other-images'       => 1
 
                 );	  
                 

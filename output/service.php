@@ -3560,7 +3560,9 @@ Class saswp_output_service{
                              }
                                                        
                           //Get All the images available on post   
-                             
+                           
+                          if( (isset($sd_data['saswp-other-images']) && $sd_data['saswp-other-images'] == 1) || !isset($sd_data['saswp-other-images']) ){
+                          
                           $content = @get_the_content();   
                           
                           if($content){
@@ -3630,6 +3632,8 @@ Class saswp_output_service{
                           }
                           
                           }
+                              
+                          }   
                           
                           if(empty($input2)){
                               
