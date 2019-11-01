@@ -597,7 +597,10 @@ Class saswp_output_service{
                     }                    
                     if(isset($custom_fields['saswp_dayofweek'])){
                      $input1['openingHours'] =    $custom_fields['saswp_dayofweek'];
-                    }
+                    }                    
+                    if(isset($custom_fields['local_area_served'])){                         
+                     $input1['areaServed'] =    $custom_fields['local_area_served'];                     
+                    }                    
                     if(isset($custom_fields['local_price_range'])){
                      $input1['priceRange'] =    $custom_fields['local_price_range'];
                     }
@@ -609,8 +612,7 @@ Class saswp_output_service{
                     }                    
                     if(isset($custom_fields['local_menu'])){
                      $input1['hasMenu'] =    $custom_fields['local_menu'];
-                    }
-                    
+                    }                    
                     if(isset($custom_fields['local_rating_value']) && isset($custom_fields['local_rating_count'])){
                        $input1['aggregateRating']['@type']       =   'AggregateRating';
                        $input1['aggregateRating']['worstRating'] =   0;
@@ -2505,6 +2507,7 @@ Class saswp_output_service{
                         'local_website'              => 'Website',
                         'local_business_logo'        => 'Image', 
                         'saswp_dayofweek'            => 'Operation Days',
+                        'local_area_served'          => 'Area Served',
                         'local_price_range'          => 'Price Range', 
                         'local_hasmap'               => 'HasMap',
                         'local_menu'                 => 'Menu',

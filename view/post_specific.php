@@ -1624,7 +1624,20 @@ class saswp_post_specific {
                         array(
                             'label' => 'Operation Days',
                             'id' => 'saswp_dayofweek_'.$schema_id,
-                            'type' => 'textarea',                                                                                       
+                            'type' => 'textarea',
+                            'attributes' => array(
+                                'placeholder' => 'Mo-Sa 11:00-14:30&#10;Mo-Th 17:00-21:30&#10;Fr-Sa 17:00-22:00'
+                            ),
+                            'note' => 'Note: Enter one operation days per line without comma.'
+                       ),
+                        array(
+                            'label' => 'Area Served',
+                            'id'    => 'local_area_served_'.$schema_id,
+                            'type'  => 'textarea',
+                            'attributes' => array(
+                                'placeholder' => 'Example, Example2'
+                            ),
+                            'note' => 'Note: Separate area served list by comma ( , )'  
                        ),                        
                         array(
                             'label' => 'Price Range',
