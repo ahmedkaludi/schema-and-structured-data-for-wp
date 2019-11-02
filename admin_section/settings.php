@@ -1155,12 +1155,12 @@ function saswp_import_callback(){
                         'name'   => 'saswp-other-images-checkbox',
 			'type'   => 'checkbox',
                         'class'  => 'checkbox saswp-checkbox',   
-                        'note'   => 'It add all the available images in schema markup on a particular post',   
+                        'note'   => 'It adds all the available images on a post to schema markup',   
                         'hidden' => array(
                              'id'   => 'saswp-other-images',
                              'name' => 'sd_data[saswp-other-images]',                             
                         )
-		),
+		    ),
                 
 	);        
         
