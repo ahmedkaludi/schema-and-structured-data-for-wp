@@ -2055,6 +2055,19 @@ function saswp_compatibility_page_callback(){
                         )
 		); 
         
+         $easy_testimonials = array(
+			'label'  => 'Easy Testimonials',
+			'id'     => 'saswp-easy-testimonials-checkbox',                        
+                        'name'   => 'saswp-easy-testimonials-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
+                        'note'   => saswp_get_field_note('easy_testimonials'),
+                        'hidden' => array(
+                                'id'   => 'saswp-easy-testimonials',
+                                'name' => 'sd_data[saswp-easy-testimonials]',                             
+                        )
+		);
+        
         $flex_lmx = array(
 			'label'  => 'FlexMLS IDX Plugin',
 			'id'     => 'saswp-flexmlx-compativility-checkbox', 
@@ -2151,6 +2164,7 @@ function saswp_compatibility_page_callback(){
                 $events_calendar_wd,
                 $event_organiser,
                 $modern_events_calendar,
+                $easy_testimonials,
                 $flex_lmx
                 
 	);  
@@ -2415,7 +2429,8 @@ function saswp_get_field_note($pname){
             'jannah'                   => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://codecanyon.net/item/taqyeem-wordpress-review-plugin/4558799">Taqyeem</a>',
             'zip_recipes'              => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/zip-recipes/">Zip Recipes</a>',
             'mediavine_create'         => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/mediavine-create/">Create by Mediavine</a>',
-            'ht_recipes'               => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://themeforest.net/item/culinier-food-recipe-wordpress-theme/11088564/">HT-Recipes</a>'                    
+            'ht_recipes'               => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://themeforest.net/item/culinier-food-recipe-wordpress-theme/11088564/">HT-Recipes</a>',
+            'easy_testimonials'        => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/easy-testimonials">Easy Testimonials</a>'                   
         );
           
     $active = saswp_compatible_active_list();

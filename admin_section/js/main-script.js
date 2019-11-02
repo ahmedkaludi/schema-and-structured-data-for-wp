@@ -1379,6 +1379,16 @@ jQuery(document).ready(function($){
                             
                       break;
                       
+                      case 'saswp-easy-testimonials-checkbox':
+                          
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-easy-testimonials").val(1);                                
+                            }else{
+                              $("#saswp-easy-testimonials").val(0);                                          
+                            }
+                            
+                      break;
+                      
                       
                       default:
                           break;

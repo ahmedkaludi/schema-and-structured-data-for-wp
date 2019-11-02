@@ -16,6 +16,12 @@ return array(
                     'opt_name'   => 'saswp-kk-star-raring',
                     'part_in'    => 'free',
         ),
+        'easy_testimonials'  =>  array(            
+                    'name'       => 'Easy Testimonials',
+                    'free'       => 'easy-testimonials/easy-testimonials.php',            
+                    'opt_name'   => 'saswp-easy-testimonials',
+                    'part_in'    => 'free',
+        ),
         'learn_press'  =>  array(            
                     'name'       => 'Learn Press',
                     'free'       => 'learnpress/learnpress.php',    

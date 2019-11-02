@@ -2215,13 +2215,60 @@ Class saswp_output_service{
              $reviews_arr = array();
              $reviews     = get_approved_comments( $post_id );
              
-             $judge_me_reviews = saswp_get_judge_me_reviews_by_product_id($post_id);
+             $judge_me_post = null;
+             
+             if(class_exists('saswp_reviews_platform_markup') && class_exists('JGM_ProductService')){
+                 
+                 $judge_me_post = get_posts( 
+                        array(
+                            'post_type' 	 => 'saswp_reviews',                                                                                   
+                            'posts_per_page'     => -1,   
+                            'post_status'        => 'publish',
+                            'meta_query'  => array(
+                                array(
+                                'key'     => 'saswp_review_product_id',
+                                'value'   => $post_id,
+                                'compare' => '==',
+                                 )
+                            )
+                           
+                ) );   
+                 
+             }
                           
-             if($judge_me_reviews){
-                
-                 $reviews_arr = $judge_me_reviews['reviews'];                 
-                 $product_details['product_review_count']   = $judge_me_reviews['count'];
-                 $product_details['product_average_rating'] = $judge_me_reviews['average_rating'];             
+             if($judge_me_post){
+                                    
+               $post_meta = array(                              
+                'saswp_reviewer_name' => 'author',
+                'saswp_review_rating' => 'reviewRating',
+                'saswp_review_date'   => 'datePublished',
+                'saswp_review_text'   => 'description',                           		
+              );
+               
+                    $sumofrating = 0;
+                   
+                    foreach($judge_me_post as $me_post){
+                        
+                        $rv = array();
+                        
+                        foreach($post_meta as $key => $val){
+                  
+                               $rv[$val] = get_post_meta($me_post->ID, $key, true );  
+                               
+                               if($val == 'reviewRating'){
+                                   $sumofrating += get_post_meta($me_post->ID, $key, true ); 
+                               }
+                               
+                                   
+                        }
+                        
+                        $reviews_arr[] = $rv;  
+                        
+                    }                    
+                    $product_details['product_review_count']   = count($judge_me_post);
+                    if($sumofrating > 0){                        
+                        $product_details['product_average_rating'] = $sumofrating /  count($judge_me_post);
+                    }
                  
              }else if($reviews){
                  
@@ -3730,18 +3777,3 @@ if (class_exists('saswp_output_service')) {
 	$object = new saswp_output_service();
         $object->saswp_service_hooks();
 };
-
-
-function saswp_get_judge_me_reviews_by_product_id($product_id){
-    
-    $response = array();
-    
-    if(class_exists('JGM_ProductService')){
-    
-        $result = @wp_remote_get('https://maps.googleapis.com/maps/api/place/details/json?placeid='.trim($place_id).'&key='.trim($g_api));                
-        
-        
-    }   
-    
-    return $response;
-}

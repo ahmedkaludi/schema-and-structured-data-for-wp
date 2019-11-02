@@ -64,6 +64,11 @@ class saswp_output_compatibility{
                                    
     }
     
+    public function saswp_easy_testimonials_override(){
+                        
+        add_filter('easy_testimonials_json_ld', '__return_false'); 
+                        
+    }
     public function saswp_kk_star_ratings_override(){
                         
         remove_action('wp_head', 'Bhittani\StarRating\structured_data');
