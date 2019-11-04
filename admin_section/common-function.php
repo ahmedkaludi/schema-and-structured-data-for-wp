@@ -2086,7 +2086,7 @@ if ( ! defined('ABSPATH') ) exit;
             $content = wp_strip_all_tags(strip_shortcodes($content)); 
         }
         
-        return $content;
+        return apply_filters('saswp_the_content' ,$content);
 
     }
     /**
@@ -2211,7 +2211,8 @@ if ( ! defined('ABSPATH') ) exit;
         }
             
         }
-        return $excerpt;
+                
+        return apply_filters('saswp_the_excerpt' ,$excerpt);
     }
     /**
      * since @1.8.9

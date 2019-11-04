@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.2
-Stable tag: 1.9.15
+Stable tag: 1.9.16
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -117,6 +117,22 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.9.16 (04 Nov 2019) =
+
+* Fixed: Warning: Use of undefined constant __return_empty_array #573
+* Fixed: Rating Module & Review Module learn more goes to 404 #567
+* Fixed: On tag archive pages, there is an Unparsable and Breadcrumbs error. #574
+* Fixed: In videoObject, Content url and embed url appeared inside thumbnail propery #585
+* Fixed: Warring Product schema property seller is not recognized by Google for an object of type Product. #579
+* Fixed: Item Reviewed type property's fields is not being generated dynamically on post specific modification. #578
+* Fixed: Issue with kk Star Rating plugin #570
+* Fixed: Aggregate rating is not supported in service schema #591
+* Fixed: Real Breadcrumb list is not rendering in schema markup #563
+* Added: Time field in event schema
+* Added: areaServed property in Local Business
+* Added: An option to add all the available images on a post to schema markup in Advanced tab
+* Enhancement: Social fields has now dynamic option to add as many as user want #553
 
 = 1.9.15 (23 Oct 2019) =
 
