@@ -12,465 +12,9 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 /**
  * List of hooks used in this file
  */
-add_action( 'wp_ajax_saswp_get_item_reviewed_fields', 'saswp_get_item_reviewed_fields' ) ;
 add_action( 'save_post', 'saswp_schema_type_add_meta_box_save' ) ;
 add_action( 'add_meta_boxes', 'saswp_schema_type_add_meta_box' ) ;
 
-/**
- * Function to get review schema type fields as an array
- * @param type $item
- * @param type $post_specific
- * @param type $schema_id
- * @return array
- * @since 1.0.8
- */
-function saswp_item_reviewed_fields($item, $post_specific = null, $schema_id = null){
-
-    $post_fix = '';
-
-    if($post_specific == 1 && isset($schema_id)){
-
-        $post_fix = '_'.esc_attr($schema_id);  
-
-    }
-
-    $reviewed_field = array(
-                        array(
-                                'label'      => 'Name',
-                                'id'         => 'saswp_review_schema_name'.$post_fix,
-                                'type'       => 'text',
-                                'default'    => '',
-                                'attributes' => array(
-                                        'placeholder' => 'Name'
-                                 )
-
-                        ),
-                        array(
-                                'label'      => 'Review Body',
-                                'id'         => 'saswp_review_schema_description'.$post_fix,
-                                'type'       => 'textarea',
-                                'default'    => '',
-                                'attributes' => array(
-                                        'placeholder' => 'Review Body'
-                                 )
-                        ),
-                        array(
-                                'label'      => 'Image',
-                                'id'         => 'saswp_review_schema_image'.$post_fix,
-                                'type'       => 'media',
-                                'default'    => '',
-                                'attributes' => array(
-                                        'placeholder' => 'Image'
-                                 )
-                        ),
-                        array(
-                                'label'      => 'Author',
-                                'id'         => 'saswp_review_schema_author'.$post_fix,
-                                'type'       => 'text',
-                                'default'    => '',
-                                'attributes' => array(
-                                        'placeholder' => 'Author'
-                                 )
-                        ),
-                        array(
-                                'label'      => 'Price Range',
-                                'id'         => 'saswp_review_schema_price_range'.$post_fix,
-                                'type'       => 'text',
-                                'default'    => '',
-                                'attributes' => array(
-                                        'placeholder' => '$$$ or 55$-100$'
-                                 )
-                        ),
-                        array(
-                                'label'      => 'Street Address',
-                                'id'         => 'saswp_review_schema_street_address'.$post_fix,
-                                'type'       => 'text',
-                                'default'    => '',
-                                'attributes' => array(
-                                        'placeholder' => 'Street Address'
-                                 )
-                        ),
-                        array(
-                                'label'      => 'Address Locality',
-                                'id'         => 'saswp_review_schema_locality'.$post_fix,
-                                'type'       => 'text',
-                                'default'    => '',
-                                'attributes' => array(
-                                        'placeholder' => 'Address Locality'
-                                 )
-                        ),
-                        array(
-                                'label'      => 'Address Region',
-                                'id'         => 'saswp_review_schema_region'.$post_fix,
-                                'type'       => 'text',
-                                'default'    => '',
-                                'attributes' => array(
-                                        'placeholder' => 'Address Region'
-                                 )
-                        ),
-                        array(
-                                'label'      => 'Postal Code',
-                                'id'         => 'saswp_review_schema_postal_code'.$post_fix,
-                                'type'       => 'text',
-                                'default'    => '',
-                                'attributes' => array(
-                                        'placeholder' => 'Postal Code'
-                                 )
-                        ),
-                        array(
-                                'label'      => 'Address Country',
-                                'id'         => 'saswp_review_schema_country'.$post_fix,
-                                'type'       => 'text',
-                                'default'    => '',
-                                'attributes' => array(
-                                        'placeholder' => 'Country'
-                                 )
-                        ),
-                        array(
-                                'label'      => 'Telephone',
-                                'id'         => 'saswp_review_schema_telephone'.$post_fix,
-                                'type'       => 'text',
-                                'default'    => '',
-                                'attributes' => array(
-                                        'placeholder' => '123456789'
-                                 )
-                        ),
-
-                    );
-
-    switch ($item) {
-
-                
-                case 'Adultentertainment':
-
-                     $reviewed_field; 
-
-                    break;
-                case 'Blog':
-
-                   $reviewed_field = array(
-                     array(
-                                'label'   => 'Name',
-                                'id'      => 'saswp_review_schema_name'.$post_fix,
-                                'type'    => 'text',
-                                'default' => $site_name = get_bloginfo()
-                        ),
-                     array(
-                                'label'   => 'Url',
-                                'id'      => 'saswp_review_schema_url'.$post_fix,
-                                'type'    => 'text',
-                                'default' => get_site_url()
-                        )
-                   );  
-
-                    break;
-                case 'Book':
-
-                    $reviewed_field = array(
-                     array(
-                                'label'      => 'Name',
-                                'id'         => 'saswp_review_schema_name'.$post_fix,
-                                'type'       => 'text',
-                                'default'    => '',
-                                'attributes' => array(
-                                        'placeholder' => 'Name'
-                                 )
-                        ),
-                     array(
-                                'label'      => 'Author',
-                                'id'         => 'saswp_review_schema_author'.$post_fix,
-                                'type'       => 'text',
-                                'default'    => '',
-                                'attributes' => array(
-                                        'placeholder' => 'Author'
-                                 )
-                        ),
-                    array(
-                                'label'      => 'ISBN',
-                                'id'         => 'saswp_review_schema_isbn'.$post_fix,
-                                'type'       => 'text',
-                                'default'    => '',
-                                'attributes' => array(
-                                        'placeholder' => 'ISBN'
-                                 )
-                        ),
-                    array(
-                                'label'      => 'URL',
-                                'id'         => 'saswp_review_schema_author_sameas'.$post_fix,
-                                'type'       => 'text',
-                                'default'    => '',
-                                'attributes' => array(
-                                        'placeholder' => 'URL'
-                                 )
-                        ),
-                    array(
-                                'label'      => 'Review Body',
-                                'id'         => 'saswp_review_schema_description'.$post_fix,
-                                'type'       => 'textarea',
-                                'default'    => '',
-                                'attributes' => array(
-                                        'placeholder' => 'Review Body'
-                                 )
-                        )     
-
-                    );  
-
-                    break;                
-                case 'Movie':
-                   $reviewed_field = array(
-                     array(
-                                'label'      => 'Name',
-                                'id'         => 'saswp_review_schema_name'.$post_fix,
-                                'type'       => 'text',
-                                'default'    => '',
-                                'attributes' => array(
-                                        'placeholder' => 'Name'
-                                 )
-                        ),
-                       array(
-                                'label'      => 'Date Created',
-                                'id'         => 'saswp_review_schema_date_created'.$post_fix,
-                                'type'       => 'text',
-                                'default'    => '',
-                                'attributes' => array(
-                                        'placeholder' => '2017-05-17'
-                                 )
-                        ),
-                       array(
-                                'label'       => 'Image',
-                                'id'          => 'saswp_review_schema_image'.$post_fix,
-                                'type'        => 'media',
-                                'default'     => '',
-                                'attributes'  => array(
-                                        'placeholder' => 'Image'
-                                 )
-                        ),
-                     array(
-                                'label'      => 'Director',
-                                'id'         => 'saswp_review_schema_director'.$post_fix,
-                                'type'       => 'text',
-                                'default'    => '',
-                                'attributes' => array(
-                                        'placeholder' => 'Director'
-                                 )
-                        ),                            
-                    array(
-                                'label'      => 'URL',
-                                'id'         => 'saswp_review_schema_itemreviewed_sameas'.$post_fix,
-                                'type'       => 'text',
-                                'default'    => '',
-                                'attributes' => array(
-                                        'placeholder' => 'URL'
-                                 )
-                        ),
-                    array(
-                                'label'      => 'Review Body',
-                                'id'         => 'saswp_review_schema_description'.$post_fix,
-                                'type'       => 'textarea',
-                                'default'    => '',
-                                'attributes' => array(
-                                        'placeholder' => 'Review Body'
-                                 )
-                        )     
-
-                    );
-                    break;                
-                case 'Restaurant':
-                   $reviewed_field[] = array(
-                                        'label'      => 'Serves Cuisine',
-                                        'id'         => 'saswp_review_schema_servescuisine'.$post_fix,
-                                        'type'       => 'text',
-                                        'default'    => '',
-                                        'attributes' => array(
-                                             'placeholder' => 'Serves Cuisine'
-                                     )
-                                );
-                    $reviewed_field[] = array(
-                                        'label'      => 'Menu',
-                                        'id'         => 'saswp_review_schema_menu'.$post_fix,
-                                        'type'       => 'text',
-                                        'default'    => '',
-                                        'attributes' => array(
-                                             'placeholder' => 'https://example.com/menu'
-                                     )
-                                );
-                    break;                
-                case 'WebSite':
-                 $reviewed_field = array(
-                     array(
-                                'label'   => 'Name',
-                                'id'      => 'saswp_review_schema_name'.$post_fix,
-                                'type'    => 'text',
-                                'default' => $site_name = get_bloginfo()
-                        ),
-                     array(
-                                'label'   => 'Url',
-                                'id'      => 'saswp_review_schema_url'.$post_fix,
-                                'type'    => 'text',
-                                'default' => get_site_url()
-                        )
-                 );
-                    break;                        
-
-                default:
-                    break;
-            }
-
-    return  $reviewed_field;       
-
-}
-/**
- * Function to get review schema type html markup
- * @since 1.0.8 
- * @return type html string
- */
-function saswp_get_item_reviewed_fields(){
-
-    if ( ! isset( $_GET['saswp_security_nonce'] ) ){
-        return; 
-    }
-    if ( !wp_verify_nonce( $_GET['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
-       return;  
-    } 
-
-    $post_specific = '';
-    $output        = '';
-    $item          = sanitize_text_field($_GET['item']);  
-    $schema_id     = sanitize_text_field($_GET['schema_id']);
-    $post_id       = intval($_GET['post_id']);    
-
-    if(isset($_GET['post_specific'])){
-        $post_specific = sanitize_text_field($_GET['post_specific']);  
-    }
-
-     $meta_fields = saswp_item_reviewed_fields($item, $post_specific, $schema_id);
-     
-     if($meta_fields){
-            
-         foreach ($meta_fields as $meta_field){
-
-          $attributes ='';
-
-          if(isset($meta_field['attributes'])){
-
-                    foreach ($meta_field['attributes'] as $key => $attr ){
-
-                                   $attributes .=''.esc_attr($key).'="'.esc_attr($attr).'"';
-
-                    }
-         }
-
-
-         if($post_specific == 1){
-
-             $meta_value = get_post_meta( $post_id, $meta_field['id'], true );
-
-             if(!$meta_value){
-
-                 $schema_data = get_post_meta( $schema_id, 'saswp_review_schema_details', true ); 
-
-                 $meta_value  = $schema_data[chop($meta_field['id'], '_'.$schema_id)];                          
-             }
-
-         }else{
-
-            $schema_data = get_post_meta( $schema_id, 'saswp_review_schema_details', true );                       
-            $meta_value  = $schema_data[$meta_field['id']];  
-
-         }
-
-         if ( empty( $meta_value ) ) {
-
-            $meta_value = $meta_field['default'];
-
-        }
-
-         switch ($meta_field['type']) {
-
-             case 'media':
-
-                 $media_value = array();
-                 $media_key   = $meta_field['id'].'_detail';                                                                            
-
-                 if($post_specific == 1){
-
-                     $media_value_meta = get_post_meta( $post_id, $media_key, true ); 
-
-                     if(empty($media_value_meta)){
-
-                      $media_key =   chop($meta_field['id'], '_'.$schema_id).'_detail';
-                      $media_value_meta = $schema_data[$media_key];   
-
-                     }                            
-
-                 }else{
-
-                     $media_value_meta = $schema_data[$media_key];
-
-                 }
-
-                 if(!empty($media_value_meta)){
-
-                    $media_value = $media_value_meta;  
-
-                 }                         
-
-                 $input = sprintf(
-                                        ' <input style="width: 80%%" id="%s" name="%s" type="text" value="%s" readonly>'                                                
-                                        . '<input type="hidden" data-id="'.esc_attr($meta_field['id']).'_height" class="upload-height" name="'.esc_attr($meta_field['id']).'_height" id="'.esc_attr($meta_field['id']).'_height" value="'.esc_attr($media_value['height']).'">'
-                                        . '<input type="hidden" data-id="'.esc_attr($meta_field['id']).'_width" class="upload-width" name="'.esc_attr($meta_field['id']).'_width" id="'.esc_attr($meta_field['id']).'_width" value="'.esc_attr($media_value['width']).'">'
-                                        . '<input type="hidden" data-id="'.esc_attr($meta_field['id']).'_thumbnail" class="upload-thumbnail" name="'.esc_attr($meta_field['id']).'_thumbnail" id="'.esc_attr($meta_field['id']).'_thumbnail" value="'.esc_url($media_value['thumbnail']).'">'
-                                        . '<input data-id="media" style="width: 19%%" class="button" id="%s_button" name="%s_button" type="button" value="Upload" />',
-                                        esc_attr($meta_field['id']),
-                                        esc_attr($meta_field['id']),
-                                        esc_url($meta_value),
-                                        esc_attr($meta_field['id']),
-                                        esc_attr($meta_field['id'])
-                                );
-
-
-                 break;
-
-             case 'textarea':
-                 $input = sprintf(
-                                        '<textarea %s style="width: 100%%" id="%s" name="%s" rows="5">%s</textarea>',                                                
-                                        $attributes,
-                                        esc_attr($meta_field['id']),
-                                        esc_attr($meta_field['id']),
-                                        $meta_value
-                                );                                                                
-                 break;
-
-             default:
-
-                 $input = sprintf(
-                                        '<input %s %s id="%s" name="%s" type="%s" value="%s">',  
-                                        $attributes,
-                                        $meta_field['type'] !== 'color' ? 'style="width: 100%"' : '',
-                                        esc_attr(saswp_remove_warnings($meta_field, 'id', 'saswp_string')),
-                                        esc_attr(saswp_remove_warnings($meta_field, 'id', 'saswp_string')),
-                                        esc_attr(saswp_remove_warnings($meta_field, 'type', 'saswp_string')),
-                                        $meta_value
-                                );
-
-                 break;
-
-         } 
-
-         $output .= '<tr class="saswp-review-tr">'
-                 .  '<td>'.esc_html__($meta_field['label'], 'schema-and-structured-data-for-wp' ).'</td>'
-                 .  '<td>'.$input.'</td>'
-                 .  '</tr>';
-
-    }
-         
-     }
-     
-
-    echo $output;
-
-    wp_die();
-}
 /**
  * Register a schema type metabox
  * @return null
@@ -744,7 +288,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                              'Course'                => 'Course',                             
                              'Event'                 => 'Event',                              
                              'HowTo'                 => 'HowTo',   
-                             'LocalBusiness'         => 'LocalBusiness',                                 
+                             'local_business'        => 'LocalBusiness',                                 
                              'MusicPlaylist'         => 'Music Playlist',                                                                                                                                                                                               
                              'Product'               => 'Product',                                
                              'Recipe'                => 'Recipe',                             
@@ -1146,9 +690,10 @@ function saswp_schema_type_meta_box_callback( $post) {
                         <?php 
                         
                         if(!empty($meta_list)){  
-                                                        
-                            $service     = new saswp_output_service();
                             
+                            $review_fields = array();                            
+                            $service       = new saswp_output_service();
+                                                        
                             $schema_type    = get_post_meta($post->ID, 'schema_type', true);
                             
                             if($schema_type == 'Review'){
@@ -1156,29 +701,48 @@ function saswp_schema_type_meta_box_callback( $post) {
                                 $review_post_meta = get_post_meta($post->ID, 'saswp_review_schema_details', true);                                                                
                                 $schema_type = $review_post_meta['saswp_review_schema_item_type'];
                                 
-                                $review_fields['saswp_review_name']         = 'Review Name';
-                                $review_fields['saswp_review_description']  = 'Review Description';
-                                $review_fields['saswp_review_body']         = 'Review Body';
-                                $review_fields['saswp_review_author']       = 'Review Author';
-                                $review_fields['saswp_review_publisher']    = 'Review Publisher';
-                                $review_fields['saswp_review_rating_value'] = 'Review Rating Value';                                
-                                
-                                $item_rv_meta_fields = $service->saswp_get_all_schema_type_fields($schema_type);
-                                
-                                $meta_fields = $review_fields + $item_rv_meta_fields;
-                                
-                             
-                            }else{
-                                
-                                $meta_fields = $service->saswp_get_all_schema_type_fields($schema_type);
-                                
+                                $review_fields['saswp_review_name']           = 'Review Name';
+                                $review_fields['saswp_review_description']    = 'Review Description';                                
+                                $review_fields['saswp_review_author']         = 'Review Author';
+                                $review_fields['saswp_review_author_url']     = 'Review Author Profile URL';
+                                $review_fields['saswp_review_publisher']      = 'Review Publisher';
+                                $review_fields['saswp_review_rating_value']   = 'Review Rating Value';
+                                $review_fields['saswp_review_date_published'] = 'Review Published Date'; 
+                                $review_fields['saswp_review_url']            = 'Review URL'; 
+                               
                             }
+                            
+                            $meta_fields = $service->saswp_get_all_schema_type_fields($schema_type);
                             
                             foreach($meta_list as $fieldkey => $fieldval){
                                                                                         
                             $option = '';
                             echo '<tr>'; 
                             echo '<td><select class="saswp-custom-fields-name">';
+                            
+                            if($review_fields){
+                            
+                                $option .= '<optgroup label="Reviews">';
+                                
+                                foreach ($review_fields as $key =>$val){
+                                
+                                if( $fieldkey == $key){
+                                    
+                                    $option .='<option value="'.esc_attr($key).'" selected>'.esc_attr($val).'</option>';   
+                                 
+                                }else{
+                                    
+                                    $option .='<option value="'.esc_attr($key).'">'.esc_attr($val).'</option>';   
+                                 
+                                }
+                                
+                              }
+                                $option .= '</optgroup>';
+                            }
+                                                        
+                            if($review_fields){
+                                $option .= '<optgroup label="'.esc_attr($schema_type).'">'; 
+                            }
                             
                             foreach ($meta_fields as $key =>$val){
                                 
@@ -1192,6 +756,10 @@ function saswp_schema_type_meta_box_callback( $post) {
                                  
                                 }
                                 
+                            }
+                            
+                            if($review_fields){
+                                 $option .= '</optgroup>';
                             }
                                                         
                             echo $option;                            

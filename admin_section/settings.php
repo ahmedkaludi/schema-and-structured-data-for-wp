@@ -482,7 +482,7 @@ function saswp_premium_features_callback(){ ?>
                                         
                                         $cooked_active_text = '';
                                         
-                                        if(is_plugin_active('course-schema/course-schema.php')){                                        
+                                        if(is_plugin_active('course-schema-for-saswp/course-schema-for-saswp.php')){                                        
                                             $cooked_active_text = '<label class="saswp-sts-txt">Status :<span style="color:green;">Active</span></label>';                                            
                                         }else{
                                             $cooked_active_text .='<label class="saswp-sts-txt">Status :<span>Inactive</span></label>';
@@ -561,38 +561,7 @@ function saswp_premium_features_callback(){ ?>
                                     <?php echo $cooked_active_text; ?>
                                                                            										
 				</div>
-			</li>
-                        <li>
-                            
-                                        <?php
-                                        
-                                        $cooked_active_text = '';
-                                        
-                                        if(is_plugin_active('cooked-compatibility-for-schema/cooked-compatibility-for-schema.php')){                                        
-                                            $cooked_active_text = '<label class="saswp-sts-txt">Status :<span style="color:green;">Active</span></label>';                                            
-                                        }else{
-                                            $cooked_active_text .='<label class="saswp-sts-txt">Status :<span>Inactive</span></label>';
-                                            $cooked_active_text .='<a target="_blank" href="http://structured-data-for-wp.com/extensions/cooked-compatibility-for-schema/"><span class="saswp-d-btn">Download</span></a>';
-                                        }
-                                        
-                                        ?> 
-                            
-                            
-				<div class="saswp-features-ele">
-					<div class="saswp-ele-ic saswp-ele-2">
-                                            <img src="<?php echo SASWP_PLUGIN_URL; ?>/admin_section/images/cooked-schema-wp.png">
-					</div>
-					<div class="saswp-ele-tlt">
-						<h3><?php echo esc_html__('Cooked Compatibility for Schema','schema-and-structured-data-for-wp') ?></h3>
-						<p><?php echo esc_html__('This extension will be able to take all the proper recipe data and integrate it with the schema & structured data in AMP & non-AMP.','schema-and-structured-data-for-wp') ?></p>
-					</div>
-				</div>
-				<div class="saswp-sts-btn">
-                                    
-                                    <?php echo $cooked_active_text; ?>
-                                                                           										
-				</div>
-			</li> 
+			</li>                        
                         
 		</ul>
 	</div>
@@ -1047,201 +1016,22 @@ function saswp_general_page_callback(){
         echo '</div>';
         
         //social
-        echo '<h2>'.esc_html__( 'Social Fields', 'schema-and-structured-data-for-wp' ).'</h2>';
-        $social_meta_fields = array(	
-                array(
-			'label'  => 'Facebook',
-			'id'     => 'saswp-facebook-enable-checkbox', 
-                        'name'   => 'saswp-facebook-enable-checkbox',
-			'type'   => 'checkbox',
-                        'class'  => 'checkbox saswp-checkbox', 
-                        'hidden' => array(
-                             'id'   => 'saswp-facebook-enable',
-                             'name' => 'sd_data[saswp-facebook-enable]',                             
-                        )
-		),            
-		array(
-			'label' => '',
-			'id'    => 'sd_facebook',
-                        'name'  => 'sd_data[sd_facebook]',
-                        'class' => 'regular-text',                        
-			'type'  => 'text',
-                        'attributes' => array(
-                            'placeholder' => 'https://facebook.com'
-                        )
-		    ),
-                array(
-			'label'  => 'Twitter',
-			'id'     => 'saswp-twitter-enable-checkbox', 
-                        'name'   => 'saswp-twitter-enable-checkbox',
-			'type'   => 'checkbox',
-                        'class'  => 'checkbox saswp-checkbox', 
-                        'hidden' => array(
-                             'id'   => 'saswp-twitter-enable',
-                             'name' => 'sd_data[saswp-twitter-enable]',                             
-                        )
-		),    
-                array(
-			'label'      => '',
-			'id'         => 'sd_twitter',
-                        'name'       => 'sd_data[sd_twitter]',
-                        'class'      => 'regular-text',                        
-			'type'       => 'text',
-                        'attributes' => array(
-                            'placeholder' => 'https://twitter.com'
-                        )
-		    ),              
-                array(
-			'label'  => 'Instagram',
-			'id'     => 'saswp-instagram-enable-checkbox', 
-                        'name'   => 'saswp-instagram-enable-checkbox',
-			'type'   => 'checkbox',
-                        'class'  => 'checkbox saswp-checkbox', 
-                        'hidden' => array(
-                             'id'   => 'saswp-instagram-enable',
-                             'name' => 'sd_data[saswp-instagram-enable]',                             
-                        )
-		),
-                array(
-			'label'      => '',
-			'id'         => 'sd_instagram',
-                        'name'       => 'sd_data[sd_instagram]',
-                        'class'      => 'regular-text',                        
-			'type'       => 'text',
-                        'attributes' => array(
-                            'placeholder' => 'https://instagram.com'
-                        )
-		    ), 
-                array(
-			'label'  => 'Youtube',
-			'id'     => 'saswp-youtube-enable-checkbox', 
-                        'name'   => 'saswp-youtube-enable-checkbox',
-			'type'   => 'checkbox',
-                        'class'  => 'checkbox saswp-checkbox', 
-                        'hidden' => array(
-                             'id'   => 'saswp-youtube-enable',
-                             'name' => 'sd_data[saswp-youtube-enable]',                             
-                        )
-		),    
-                array(
-			'label'      => '',
-			'id'         => 'sd_youtube',
-                        'name'       => 'sd_data[sd_youtube]',
-                        'class'      => 'regular-text',                        
-			'type'       => 'text',
-                        'attributes' => array(
-                            'placeholder' => 'https://youtube.com'
-                        )
-		    ),
-               array(
-			'label'  => 'LinkedIn',
-			'id'     => 'saswp-linkedin-enable-checkbox', 
-                        'name'   => 'saswp-linkedin-enable-checkbox',
-			'type'   => 'checkbox',
-                        'class'  => 'checkbox saswp-checkbox', 
-                        'hidden' => array(
-                             'id'   => 'saswp-linkedin-enable',
-                             'name' => 'sd_data[saswp-linkedin-enable]',                             
-                        )
-		),      
-               array(
-			'label'      => '',
-			'id'         => 'sd_linkedin',
-                        'name'       => 'sd_data[sd_linkedin]',
-                        'class'      => 'regular-text',                        
-			'type'       => 'text',
-                        'attributes' => array(
-                            'placeholder' => 'https://linkedin.com'
-                        )
-		    ),
-                array(
-			'label'  => 'Pinterest',
-			'id'     => 'saswp-pinterest-enable-checkbox', 
-                        'name'   => 'saswp-pinterest-enable-checkbox',
-			'type'   => 'checkbox',
-                        'class'  => 'checkbox saswp-checkbox', 
-                        'hidden' => array(
-                             'id'   => 'saswp-pinterest-enable',
-                             'name' => 'sd_data[saswp-pinterest-enable]',                             
-                        )
-		), 
-                array(
-			'label'      => '',
-			'id'         => 'sd_pinterest',
-                        'name'       => 'sd_data[sd_pinterest]',
-                        'class'      => 'regular-text',                        
-			'type'       => 'text',
-                        'attributes' => array(
-                            'placeholder' => 'https://pinterest.com'
-                        )
-		    ),
-                array(
-			'label'  => 'SoundCloud',
-			'id'     => 'saswp-soundcloud-enable-checkbox', 
-                        'name'   => 'saswp-soundcloud-enable-checkbox',
-			'type'   => 'checkbox',
-                        'class'  => 'checkbox saswp-checkbox', 
-                        'hidden' => array(
-                             'id'   => 'saswp-soundcloud-enable',
-                             'name' => 'sd_data[saswp-soundcloud-enable]',                             
-                        )
-		),     
-                array(
-			'label'      => '',
-			'id'         => 'sd_soundcloud',
-                        'name'       => 'sd_data[sd_soundcloud]',
-                        'class'      => 'regular-text',                        
-			'type'       => 'text',
-                        'attributes' => array(
-                            'placeholder' => 'https://soundcloud.com'
-                        )
-		    ),
-             array(
-			'label'  => 'Tumblr',
-			'id'     => 'saswp-tumblr-enable-checkbox', 
-                        'name'   => 'saswp-tumblr-enable-checkbox',
-			'type'   => 'checkbox',
-                        'class'  => 'checkbox saswp-checkbox', 
-                        'hidden' => array(
-                             'id' => 'saswp-tumblr-enable',
-                             'name' => 'sd_data[saswp-tumblr-enable]',                             
-                        )
-		),
-                array(
-			'label'      => '',
-			'id'         => 'sd_tumblr',
-                        'name'       => 'sd_data[sd_tumblr]',
-                        'class'      => 'regular-text',                        
-			'type'       => 'text',
-                        'attributes' => array(
-                            'placeholder' => 'https://tumblr.com'
-                        )
-		    ),
-                    array(
-			'label'  => 'Yelp',
-			'id'     => 'saswp-yelp-enable-checkbox', 
-                        'name'   => 'saswp-yelp-enable-checkbox',
-			'type'   => 'checkbox',
-                        'class'  => 'checkbox saswp-checkbox', 
-                        'hidden' => array(
-                             'id' => 'saswp-yelp-enable',
-                             'name' => 'sd_data[saswp-yelp-enable]',                             
-                        )
-		    ),
-                    array(
-			'label'      => '',
-			'id'         => 'sd_yelp',
-                        'name'       => 'sd_data[sd_yelp]',
-                        'class'      => 'regular-text',                        
-			'type'       => 'text',
-                        'attributes' => array(
-                            'placeholder' => 'https://yelp.com'
-                        )
-		    )                			
-	);
-         echo '<div class="saswp-social-fileds">';
-         $field_objs->saswp_field_generator($social_meta_fields, $settings);
-         echo '</div>';
+        echo '<h2>'.esc_html__( 'Social Profile', 'schema-and-structured-data-for-wp' ).'</h2>';                  
+        echo '<div class="saswp-social-fileds">';
+        echo '<p>'.esc_html__('Add your social profile, Google will automatically crawl it in Knowledge Graph','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/docs/">'.esc_html__('Learn More','schema-and-structured-data-for-wp').'</a></p>';
+        echo '<div class="saswp-social-links">';
+        echo '<table class="saswp-social-links-table">';  
+        if(isset($settings['saswp_social_links']) && !empty($settings['saswp_social_links'])){
+           
+                foreach($settings['saswp_social_links'] as $link){
+                    echo '<tr><td><input type="text" placeholder="https://www.facebook.com/profile" name="sd_data[saswp_social_links][]" value="'.esc_url($link).'"></td><td><a class="button button-default saswp-rmv-modify_row">X</a></td></tr>';
+                }
+            
+        } 
+        echo '</table>';  
+        echo '</div>';
+        echo '<a class="button button-default saswp-add-social-links">Add New Social Profile</a>'; 
+        echo '</div>';
                 
         ?>
                         
@@ -1359,6 +1149,18 @@ function saswp_import_callback(){
                              'name' => 'sd_data[saswp-microdata-cleanup]',                             
                         )
 		),
+                array(
+			'label'  => 'Add All Available Images On Post',
+			'id'     => 'saswp-other-images-checkbox',                        
+                        'name'   => 'saswp-other-images-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',   
+                        'note'   => 'It adds all the available images on a post to schema markup',   
+                        'hidden' => array(
+                             'id'   => 'saswp-other-images',
+                             'name' => 'sd_data[saswp-other-images]',                             
+                        )
+		    ),
                 
 	);        
         
@@ -1513,7 +1315,7 @@ function saswp_import_callback(){
            $add_on[] = 'Res';           
                                       
         }
-        if(is_plugin_active('course-schema/course-schema.php')){
+        if(is_plugin_active('course-schema-for-saswp/course-schema-for-saswp.php')){
                       
            $add_on[] = 'Cs';           
                                       
@@ -1713,7 +1515,7 @@ function saswp_review_page_callback(){
                         'name'   => 'saswp-google-review-checkbox',
 			'type'   => 'checkbox',
                         'class'  => 'checkbox saswp-checkbox',
-                        'note'   => 'This option enables the google review section. <a target="_blank" href="https://structured-data-for-wp.com/docs/article/how-to-display-google-review/">Learn More</a>',
+                        'note'   => 'This option enables the google review section. <a target="_blank" href="https://structured-data-for-wp.com/docs/article/how-to-fetch-google-reviewfree-version/">Learn More</a>',
                         'hidden' => array(
                              'id'   => 'saswp-google-review',
                              'name' => 'sd_data[saswp-google-review]',                             
@@ -1781,7 +1583,7 @@ function saswp_review_page_callback(){
                         'name'   => 'saswp-review-module-checkbox',
 			'type'   => 'checkbox',
                         'class'  => 'checkbox saswp-checkbox',
-                        'note'   => 'This option enables the review metabox on every post/page. <a target="_blank" href="http://structured-data-for-wp.com/docs/article/how-to-use-review-in-schema-and-structure-data/">Learn More</a>',
+                        'note'   => 'This option enables the review metabox on every post/page. <a target="_blank" href="https://structured-data-for-wp.com/docs/article/how-to-use-rating-module-in-schema-and-structured-data/">Learn More</a>',
                         'hidden' => array(
                              'id'   => 'saswp-review-module',
                              'name' => 'sd_data[saswp-review-module]',                             
@@ -2253,6 +2055,19 @@ function saswp_compatibility_page_callback(){
                         )
 		); 
         
+         $easy_testimonials = array(
+			'label'  => 'Easy Testimonials',
+			'id'     => 'saswp-easy-testimonials-checkbox',                        
+                        'name'   => 'saswp-easy-testimonials-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
+                        'note'   => saswp_get_field_note('easy_testimonials'),
+                        'hidden' => array(
+                                'id'   => 'saswp-easy-testimonials',
+                                'name' => 'sd_data[saswp-easy-testimonials]',                             
+                        )
+		);
+        
         $flex_lmx = array(
 			'label'  => 'FlexMLS IDX Plugin',
 			'id'     => 'saswp-flexmlx-compativility-checkbox', 
@@ -2285,7 +2100,7 @@ function saswp_compatibility_page_callback(){
              
          }
          
-         if(!is_plugin_active('course-schema/course-schema.php')){
+         if(!is_plugin_active('course-schema-for-saswp/course-schema-for-saswp.php')){
                           
              $learn_press['note'] = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/course-schema/">Course Schema Addon</a>';
              $learn_dash['note']  = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/course-schema/">Course Schema Addon</a>';
@@ -2349,6 +2164,7 @@ function saswp_compatibility_page_callback(){
                 $events_calendar_wd,
                 $event_organiser,
                 $modern_events_calendar,
+                $easy_testimonials,
                 $flex_lmx
                 
 	);  
@@ -2613,7 +2429,8 @@ function saswp_get_field_note($pname){
             'jannah'                   => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://codecanyon.net/item/taqyeem-wordpress-review-plugin/4558799">Taqyeem</a>',
             'zip_recipes'              => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/zip-recipes/">Zip Recipes</a>',
             'mediavine_create'         => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/mediavine-create/">Create by Mediavine</a>',
-            'ht_recipes'               => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://themeforest.net/item/culinier-food-recipe-wordpress-theme/11088564/">HT-Recipes</a>'                    
+            'ht_recipes'               => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://themeforest.net/item/culinier-food-recipe-wordpress-theme/11088564/">HT-Recipes</a>',
+            'easy_testimonials'        => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/easy-testimonials">Easy Testimonials</a>'                   
         );
           
     $active = saswp_compatible_active_list();

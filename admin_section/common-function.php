@@ -1640,7 +1640,8 @@ if ( ! defined('ABSPATH') ) exit;
                         'saswp_kb_contact_1'       => 0,                                                                                            
                         'saswp-for-wordpress'      => 1,                                                                        
                         'sd_initial_wizard_status' => 1,
-                        'saswp-microdata-cleanup'  => 1
+                        'saswp-microdata-cleanup'  => 1,
+                        'saswp-other-images'       => 1
 
                 );	  
                 
@@ -2085,7 +2086,7 @@ if ( ! defined('ABSPATH') ) exit;
             $content = wp_strip_all_tags(strip_shortcodes($content)); 
         }
         
-        return $content;
+        return apply_filters('saswp_the_content' ,$content);
 
     }
     /**
@@ -2210,7 +2211,8 @@ if ( ! defined('ABSPATH') ) exit;
         }
             
         }
-        return $excerpt;
+                
+        return apply_filters('saswp_the_excerpt' ,$excerpt);
     }
     /**
      * since @1.8.9
@@ -2616,3 +2618,68 @@ function saswp_get_taxonomy_term_list(){
         wp_die();
 }
 add_action( 'wp_ajax_saswp_get_taxonomy_term_list', 'saswp_get_taxonomy_term_list'); 
+
+add_action('init', 'saswp_save_new_social_profile');
+function saswp_save_new_social_profile(){
+    saswp_migrate_old_social_profile();
+}
+function saswp_migrate_old_social_profile(){
+    
+        $upgrade_option = get_option('saswp_social_profile_upgrade');
+        
+        if(!$upgrade_option){
+    
+            $sd_data = get_option('sd_data');
+    
+            $sd_social_profile = array();
+
+            if(isset($sd_data['sd_facebook']) && !empty($sd_data['sd_facebook'])){
+                    $sd_social_profile[] = $sd_data['sd_facebook'];
+            }	
+            if(isset($sd_data['sd_twitter']) && !empty($sd_data['sd_twitter'])){		
+                    $sd_social_profile[] = $sd_data['sd_twitter'];
+            }		
+            if(isset($sd_data['sd_instagram']) && !empty($sd_data['sd_instagram'])){		
+                    $sd_social_profile[] = $sd_data['sd_instagram'];
+            }	
+            if(isset($sd_data['sd_youtube']) && !empty($sd_data['sd_youtube'])){		
+                    $sd_social_profile[] = $sd_data['sd_youtube'];
+            }	
+            if(isset($sd_data['sd_linkedin']) && !empty($sd_data['sd_linkedin'])){		
+                    $sd_social_profile[] = $sd_data['sd_linkedin'];
+            }	
+            if(isset($sd_data['sd_pinterest']) && !empty($sd_data['sd_pinterest'])){	
+                    $sd_social_profile[] = $sd_data['sd_pinterest'];
+            }	
+            if(isset($sd_data['sd_soundcloud']) && !empty($sd_data['sd_soundcloud'])){		
+                    $sd_social_profile[] = $sd_data['sd_soundcloud'];
+            }
+            if(isset($sd_data['sd_tumblr']) && !empty($sd_data['sd_tumblr'])){		
+                    $sd_social_profile[] = $sd_data['sd_tumblr'];
+            }                
+            if(isset($sd_data['sd_yelp']) && !empty($sd_data['sd_yelp'])){		
+                    $sd_social_profile[] = $sd_data['sd_yelp'];
+            }
+            if(isset($sd_data['saswp_social_links']) && !empty($sd_data['saswp_social_links'])){
+                $sd_social_profile = array_merge($sd_social_profile, $sd_data['saswp_social_links']);
+            }
+            $sd_data['saswp_social_links'] = $sd_social_profile;        
+            update_option('sd_data', $sd_data);
+            
+            update_option('saswp_social_profile_upgrade', date("Y-m-d"));
+        }
+    
+}
+
+function saswp_format_date_time($date, $time=null){
+    
+    $formated = ''; 
+    
+    if($time){
+        $formated =  date('c',strtotime($date.' '.$time));       
+    }else{
+        $formated =  date('c',strtotime($date));  
+    }               
+    
+    return $formated;
+}

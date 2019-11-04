@@ -958,8 +958,9 @@ function saswp_custom_breadcrumbs() {
                     $archive_title       = post_type_archive_title($prefix, false);
                     $variables1_titles[] = $archive_title;
 
-
+                    
         } else if  ( is_author() ) {
+            
 	    		global $author;
 	    		
 	            $userdata            = get_userdata( $author ); 
@@ -1000,13 +1001,18 @@ function saswp_custom_breadcrumbs() {
 
                 }
               
-                    $custom_tax_name     = get_queried_object()->name;
-                    $variables1_titles[] = $custom_tax_name;
-
+                    $queried_obj = get_queried_object();
+                    
+                    if(is_object($queried_obj)){
+                         $variables1_titles[] = get_queried_object()->name;
+                         $variables2_links[]  = get_term_link($queried_obj->term_id);
+                        
+                    }
+                                                           
         } else if ( is_single() ) {
               
             // If post is a custom post type
-                    $post_type = get_post_type();
+               $post_type = get_post_type();
               
             // If it is a custom post type display name and link
             if($post_type != 'post') {
@@ -1024,7 +1030,7 @@ function saswp_custom_breadcrumbs() {
              
             // Get post category info
             $category = get_the_category();
-             
+              
             if(!empty($category)) {
                 
               $category_values = array_values( $category );
@@ -1037,7 +1043,7 @@ function saswp_custom_breadcrumbs() {
                   $variables2_links[]   = get_category_link( $category_value );
               
               }
-               
+              
                 // Get last category post is in
                 $last_category   = end(($category));
                 $category_name   = get_category($last_category);
@@ -1079,17 +1085,11 @@ function saswp_custom_breadcrumbs() {
                 $variables1_titles[]  = $cat_name;
                 $variables2_links[]   = $cat_link;
               
-            } else {
-                
-                if($post_type == 'post') {
-                    
-                     $variables1_titles[] = saswp_get_the_title();
-                     $variables2_links[]  = get_permalink();                     
-                     
-                }
-                
-            }
-              
+            } 
+            
+            $variables1_titles[] = saswp_get_the_title();
+            $variables2_links[]  = get_permalink();   
+                          
         } else if ( is_category() ) {
             
                 $category = get_the_category();
@@ -1139,21 +1139,20 @@ function saswp_custom_breadcrumbs() {
                    $variables2_links[]      = get_permalink();
             }
               
-        } else if ( is_tag() ) {               
+        } else if ( is_tag() ) {
+            
             // Tag page               
             // Get tag information
-            $term_id        = get_query_var('tag_id');
-            $taxonomy       = 'post_tag';
-            $args           = 'include=' . $term_id;
-            $terms          = get_terms( $taxonomy, $args );
-            $get_term_id    = $terms[0]->term_id;            
-            $get_term_name  = $terms[0]->name;
-            $term_link      = get_term_link($get_term_id );
-               
-            // Tag name and link
-
-            $variables1_titles[] = $get_term_name;
-            $variables2_links[]  = $term_link;           
+            $term_id        = get_query_var('tag_id');                   
+            $get_term       = get_term($term_id);
+            
+            if(is_object($get_term)){
+                
+                $variables1_titles[] = $get_term->name;
+                $variables2_links[]  = get_term_link($term_id);    
+                              
+            }
+            // Tag name and link                  
           }    
           
           $sd_data['titles']     = $variables1_titles;                        
@@ -1610,9 +1609,10 @@ function saswp_upgrade_function( $upgrader_object, $options ) {
         
            foreach($options['plugins'] as $each_plugin){
            
-            if ($each_plugin==$current_plugin_path_name){
+            if ($each_plugin == $current_plugin_path_name){
 
                saswp_review_module_upgradation();
+               saswp_migrate_old_social_profile();
 
             }
           }           

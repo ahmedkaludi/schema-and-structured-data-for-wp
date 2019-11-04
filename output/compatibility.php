@@ -32,7 +32,7 @@ class saswp_output_compatibility{
     
     public function saswp_exclude_wpsso_schema_graph( $prop_data, $mod, $mt_og, $page_type_id, $is_main ) {
          
-        return __return_empty_array;
+        return array();
         
     }
 
@@ -64,6 +64,17 @@ class saswp_output_compatibility{
                                    
     }
     
+    public function saswp_easy_testimonials_override(){
+                        
+        add_filter('easy_testimonials_json_ld', '__return_false'); 
+                        
+    }
+    public function saswp_kk_star_ratings_override(){
+                        
+        remove_action('wp_head', 'Bhittani\StarRating\structured_data');
+                        
+    }
+    
     public function saswp_wp_event_manager_override(){
                         
         if(class_exists('WP_Event_Manager_Post_Types')){
@@ -79,7 +90,7 @@ class saswp_output_compatibility{
     }
     public function saswp_remove_the_events_calendar_markup( $data, $args ){
         
-        return __return_empty_array;
+        return array();
     }
 
 

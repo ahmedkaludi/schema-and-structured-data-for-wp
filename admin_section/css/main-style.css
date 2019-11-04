@@ -1251,3 +1251,15 @@ a.saswp-revws-lnk{
 .saswp-review-content-table textarea{
     width: 100%;    
 }
+.saswp-social-links-table{
+    width: 100%;
+}
+.saswp-social-links-table input{
+    width: 100%;
+}
+.saswp-add-social-links{
+    margin: 3px !important;
+}
+.saswp-social-links-table td{
+    padding-left: 0px !important;
+}

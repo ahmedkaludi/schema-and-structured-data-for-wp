@@ -27,7 +27,7 @@ return array(
         array(
             'key'        => 'course_schema',
             'name'       => 'Course Schema',
-            'path'       => 'course-schema/course-schema.php',                        
+            'path'       => 'course-schema-for-saswp/course-schema-for-saswp.php',                        
         ),
         array(
             'key'        => 'event_schema',
