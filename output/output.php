@@ -1339,8 +1339,21 @@ function saswp_schema_output() {
                                         }
                                         
                                     }
-                            
-                                                                                                        
+                                                                        
+                                    //Easy Testomonials
+                                    $testomonials = saswp_get_easy_testomonials();   
+                                    
+                                    if($testomonials){
+                                        
+                                          $input1 = array_merge($input1,$testomonials['rating']);
+                                          
+                                          if(isset($input1['review'])){
+                                              $input1 = array_merge($input1['review'],$testomonials['reviews']);
+                                          }else{
+                                              $input1['review'] = $testomonials['reviews'];
+                                          }
+                                          
+                                    }                                    
                         
                         }                                                
                                 

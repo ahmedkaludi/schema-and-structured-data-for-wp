@@ -1004,6 +1004,150 @@ function saswp_wp_recipe_schema_json($recipe){
         return $metadata;
 }
 
+function saswp_get_testimonial_data($atts, $matche){
+                      
+                $reviews       = array();
+                $ratings       = array();                
+                $testimonial   = array();
+                
+                switch ($matche) {
+
+                    case 'single_testimonial':
+                        
+                         $arg  = array(  
+                                               'post_type'      => 'testimonial',
+                                               'post_status'    => 'publish', 
+                                               'post__in'       => array($atts['id']), 
+                                    );    
+                        
+                           
+                       
+                        break;
+                    case 'random_testimonial':
+                        
+                           $arg  = array(  
+                                      'post_type'                 => 'testimonial',
+                                      'post_status'               => 'publish', 
+                                      'posts_per_page'            => $atts['count'],                                      
+                                      'orderby'                   => 'rand',
+                           );    
+                        
+                        break;
+                   
+                    case 'testimonials':
+                    case 'testimonials_cycle':
+                    case 'testimonials_grid':
+                        
+                        $arg  = array(  
+                                      'post_type'                 => 'testimonial',
+                                      'post_status'               => 'publish', 
+                                      'posts_per_page'            => $atts['count'],                                                                            
+                           );
+
+                        break;
+                    
+                }
+                
+                $testimonial = get_posts( $arg);  
+                 
+                if(!empty($testimonial)){
+                    
+                    $sumofrating = 0;
+                    $avg_rating  = 1;
+                    
+                    foreach ($testimonial as $value){
+                                
+                         $rating       = get_post_meta($value->ID, $key='_ikcf_rating', true); 
+                         $author       = get_post_meta($value->ID, $key='_ikcf_client', true); 
+                         
+                         $sumofrating += $rating;
+                             
+                         $reviews[] = array(
+                             '@type'         => 'Review',
+                             'author'        => $author,
+                             'datePublished' => $value->post_date,
+                             'description'   => $value->post_content,
+                             'reviewRating'  => array(
+                                                '@type'	        => 'Rating',
+                                                'bestRating'	=> '5',
+                                                'ratingValue'	=> $rating,
+                                                'worstRating'	=> '1',
+                                   )
+                         ); 
+                         
+                        }
+                    
+                        if($sumofrating> 0){
+                          $avg_rating = $sumofrating /  count($reviews); 
+                        }
+
+                        $ratings['aggregateRating'] =  array(
+                                                        '@type'         => 'AggregateRating',
+                                                        'ratingValue'	=> $avg_rating,
+                                                        'reviewCount'   => count($testimonial)
+                        );
+                    
+                }
+                                               
+                return array('reviews' => $reviews, 'rating' => $ratings);
+}
+
+function saswp_get_easy_testomonials(){
+    
+    $testimonial = array();
+    
+    global $post, $sd_data;
+
+     if(isset($sd_data['saswp-easy-testimonials']) && $sd_data['saswp-easy-testimonials'] == 1){
+     
+        if(is_object($post)){
+         
+         $pattern = get_shortcode_regex();
+
+        if (   preg_match_all( '/'. $pattern .'/s', $post->post_content, $matches )
+            && array_key_exists( 2, $matches ) )
+        {
+             
+           $testimo_str = ''; 
+           
+           if(in_array( 'single_testimonial', $matches[2] )){
+               $testimo_str = 'single_testimonial';
+           }elseif(in_array( 'random_testimonial', $matches[2] )){
+               $testimo_str = 'random_testimonial';
+           }elseif(in_array( 'testimonials', $matches[2] )){
+               $testimo_str = 'testimonials';
+           }elseif(in_array( 'testimonials_cycle', $matches[2] )){
+               $testimo_str = 'testimonials_cycle';
+           }elseif(in_array( 'testimonials_grid', $matches[2] )){
+               $testimo_str = 'testimonials_grid';
+           }
+            
+        if($testimo_str){
+            
+            foreach ($matches[0] as $matche){
+            
+                $mached = rtrim($matche, ']'); 
+                $mached = ltrim($mached, '[');
+                $mached = trim($mached);
+                $atts   = shortcode_parse_atts('['.$mached.' ]');  
+                
+                $testimonial = saswp_get_testimonial_data($atts, $testimo_str);
+                                
+            break;
+         }
+            
+        }    
+                               
+       }
+         
+      }
+      
+     }   
+         
+    return $testimonial;
+    
+}
+
 function saswp_append_fetched_reviews($input1){
     
     global $post;
