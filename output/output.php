@@ -1339,7 +1339,22 @@ function saswp_schema_output() {
                                         }
                                         
                                     }
+                                      
+                                    //BNE Testomonials
+                                    $bne_testomonials = saswp_get_bne_testomonials();   
                                                                         
+                                    if($bne_testomonials){
+                                        
+                                          $input1 = array_merge($input1,$bne_testomonials['rating']);
+                                          
+                                          if(isset($input1['review'])){
+                                              $input1 = array_merge($input1['review'],$bne_testomonials['reviews']);
+                                          }else{
+                                              $input1['review'] = $bne_testomonials['reviews'];
+                                          }
+                                          
+                                    }
+                                    
                                     //Easy Testomonials
                                     $testomonials = saswp_get_easy_testomonials();   
                                     

@@ -1389,7 +1389,16 @@ jQuery(document).ready(function($){
                             
                       break;
                       
-                      
+                      case 'saswp-bne-testimonials-checkbox':
+                          
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-bne-testimonials").val(1);                                
+                            }else{
+                              $("#saswp-bne-testimonials").val(0);                                          
+                            }
+                            
+                      break;
+                                            
                       default:
                           break;
                   }
