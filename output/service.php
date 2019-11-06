@@ -2214,7 +2214,7 @@ Class saswp_output_service{
              
              $reviews_arr = array();
              $reviews     = get_approved_comments( $post_id );
-             
+                                       
              $judge_me_post = null;
              
              if(class_exists('saswp_reviews_platform_markup') && class_exists('JGM_ProductService')){

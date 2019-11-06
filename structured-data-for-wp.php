@@ -139,9 +139,9 @@ function saswp_admin_notice(){
     
     if(($next_days < $current_date) && $activation_never !='never' ){
       ?>
-         <div class="updated notice is-dismissible message notice notice-alt saswp-feedback-notice">
+         <div class="updated notice message notice notice-alt saswp-feedback-notice">
             <p><span class="dashicons dashicons-thumbs-up"></span> 
-            <?php echo esc_html__('You have been using the Schema & Structured Data for WP & AMP plugin for some time. Now, Do you like it? If Yes.', 'schema-and-structured-data-for-wp') ?>
+            <?php echo esc_html__('You have been using the Schema & Structured Data for WP & AMP for some time. Now, Do you like it? If Yes.', 'schema-and-structured-data-for-wp') ?>
             <a class="saswp-revws-lnk" target="_blank" href="https://wordpress.org/plugins/schema-and-structured-data-for-wp/#reviews"> <?php echo esc_html__('Rate Plugin', 'schema-and-structured-data-for-wp') ?></a>
           </p>
             <div class="saswp-update-notice-btns">
