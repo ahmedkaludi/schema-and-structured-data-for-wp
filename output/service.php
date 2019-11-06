@@ -3305,6 +3305,7 @@ Class saswp_output_service{
 					'@type'				=> 'TechArticle',
                                         '@id'				=> trailingslashit(saswp_get_permalink()).'#techarticle',
                                         'url'				=> saswp_get_permalink(),
+                                        'inLanguage'                    => get_bloginfo('language'),
 					'mainEntityOfPage'              => saswp_get_permalink(),					
 					'headline'			=> saswp_get_the_title(),
 					'description'                   => saswp_get_the_excerpt(),
@@ -3334,6 +3335,7 @@ Class saswp_output_service{
 					'@type'				=> 'Article',
                                         '@id'				=> trailingslashit(saswp_get_permalink()).'#article',
                                         'url'				=> saswp_get_permalink(),
+                                        'inLanguage'                    => get_bloginfo('language'),
 					'mainEntityOfPage'              => saswp_get_permalink(),					
 					'headline'			=> saswp_get_the_title(),
 					'description'                   => saswp_get_the_excerpt(),
@@ -3369,6 +3371,7 @@ Class saswp_output_service{
                                 '@id'				=> trailingslashit(saswp_get_permalink()).'#webpage',
 				'name'				=> saswp_get_the_title(),
 				'url'				=> saswp_get_permalink(),
+                                'inLanguage'                    => get_bloginfo('language'),
 				'description'                   => saswp_get_the_excerpt(),
 				'mainEntity'                    => array(
 						'@type'			=> 'Article',

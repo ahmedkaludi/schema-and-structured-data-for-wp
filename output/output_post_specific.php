@@ -983,6 +983,7 @@ function saswp_post_specific_schema_output() {
 			'@context'			=> saswp_context_url(),
 			'@type'				=> 'Blogposting' ,
                         '@id'                           => trailingslashit(get_permalink()).'#Blogposting',  
+                        'inLanguage'                    => get_bloginfo('language'),
 			'mainEntityOfPage'              => saswp_remove_warnings($all_post_meta, 'saswp_blogposting_main_entity_of_page_'.$schema_id, 'saswp_array'),
 			'headline'			=> saswp_remove_warnings($all_post_meta, 'saswp_blogposting_headline_'.$schema_id, 'saswp_array'),
 			'description'                   => saswp_remove_warnings($all_post_meta, 'saswp_blogposting_description_'.$schema_id, 'saswp_array'),
@@ -1085,6 +1086,7 @@ function saswp_post_specific_schema_output() {
 				'@context'			=> saswp_context_url(),
 				'@type'				=> 'WebPage' ,
                                 '@id'                           => trailingslashit(get_permalink()).'#webpage',     
+                                'inLanguage'                    => get_bloginfo('language'),    
 				'name'				=> saswp_remove_warnings($all_post_meta, 'saswp_webpage_name_'.$schema_id, 'saswp_array'),
 				'url'				=> saswp_remove_warnings($all_post_meta, 'saswp_webpage_url_'.$schema_id, 'saswp_array'),
 				'description'                   => saswp_remove_warnings($all_post_meta, 'saswp_webpage_description_'.$schema_id, 'saswp_array'),
@@ -1149,6 +1151,7 @@ function saswp_post_specific_schema_output() {
 					'@context'			=> saswp_context_url(),
 					'@type'				=> 'Article',
                                         '@id'                           => trailingslashit(get_permalink()).'#article',
+                                        'inLanguage'                    => get_bloginfo('language'),
 					'mainEntityOfPage'              => saswp_remove_warnings($all_post_meta, 'saswp_article_main_entity_of_page_'.$schema_id, 'saswp_array'),
 					'image'				=> saswp_remove_warnings($all_post_meta, 'saswp_article_image_'.$schema_id, 'saswp_array'),
 					'headline'			=> saswp_remove_warnings($all_post_meta, 'saswp_article_headline_'.$schema_id, 'saswp_array'),
@@ -1208,6 +1211,7 @@ function saswp_post_specific_schema_output() {
 					'@context'			=> saswp_context_url(),
 					'@type'				=> 'TechArticle',
                                         '@id'                           => trailingslashit(get_permalink()).'#techarticle',
+                                        'inLanguage'                    => get_bloginfo('language'),
 					'mainEntityOfPage'              => saswp_remove_warnings($all_post_meta, 'saswp_tech_article_main_entity_of_page_'.$schema_id, 'saswp_array'),
 					'image'				=> saswp_remove_warnings($all_post_meta, 'saswp_tech_article_image_'.$schema_id, 'saswp_array'),
 					'headline'			=> saswp_remove_warnings($all_post_meta, 'saswp_tech_article_headline_'.$schema_id, 'saswp_array'),
@@ -1296,6 +1300,7 @@ function saswp_post_specific_schema_output() {
 					'@context'			=> saswp_context_url(),
 					'@type'				=> 'NewsArticle' ,
                                         '@id'                           => trailingslashit(get_permalink()).'#newsarticle',    
+                                        'inLanguage'                    => get_bloginfo('language'),       
 					'mainEntityOfPage'              => saswp_remove_warnings($all_post_meta, 'saswp_newsarticle_main_entity_of_page_'.$schema_id, 'saswp_array'),
 					'url'				=> saswp_remove_warnings($all_post_meta, 'saswp_newsarticle_URL_'.$schema_id, 'saswp_array'),
                                         'image'				=> saswp_remove_warnings($all_post_meta, 'saswp_newsarticle_image_'.$schema_id, 'saswp_array'),
@@ -1651,6 +1656,21 @@ function saswp_post_specific_schema_output() {
                                 
                             }
                             
+                            //BNE Testomonials
+                            $bne_testomonials = saswp_get_bne_testomonials();   
+
+                            if($bne_testomonials){
+
+                                  $input1 = array_merge($input1,$bne_testomonials['rating']);
+
+                                  if(isset($input1['review'])){
+                                      $input1 = array_merge($input1['review'],$bne_testomonials['reviews']);
+                                  }else{
+                                      $input1['review'] = $bne_testomonials['reviews'];
+                                  }
+
+                            }
+                                    
                             //Easy Testomonials
                             $testomonials = saswp_get_easy_testomonials();   
 
