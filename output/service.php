@@ -2149,42 +2149,6 @@ Class saswp_output_service{
              if(!isset($product_details['product_mpn'])){
                  $product_details['product_mpn'] = get_the_ID();
              }
-             
-             $product_image_id  = $product->get_image_id(); 
-             
-             $image_list = array();
-             
-             if($product_image_id){
-                                                                    
-              $image_details = wp_get_attachment_image_src($product_image_id, 'full');
-              
-              if(!empty($image_details)){
-                  
-                 $size_array = array('full', 'large', 'medium', 'thumbnail');
-                                                   
-                 for($i =0; $i< count($size_array); $i++){
-                                                    
-                    $image_details   = wp_get_attachment_image_src($product_image_id, $size_array[$i]); 
-
-                        if(!empty($image_details)){
-
-                                $image_list['image'][$i]['@type']  = 'ImageObject';
-                                $image_list['image'][$i]['url']    = esc_url($image_details[0]);
-                                $image_list['image'][$i]['width']  = esc_attr($image_details[1]);
-                                $image_list['image'][$i]['height'] = esc_attr($image_details[2]);
-
-                        }
-                                                    
-                   }
-                 
-                 }
-              
-             }
-             
-             if(!empty($image_list)){
-                 
-                 $product_details['product_image'] = $image_list;
-             }
                                
              if(strtolower( $product->get_stock_status() ) == 'onbackorder'){
                  $product_details['product_availability'] = 'PreOrder';
@@ -3444,11 +3408,7 @@ Class saswp_output_service{
                             }
 
                            }                              
-
-                          if(isset($product_details['product_image'])){
-                            $input1 = array_merge($input1, $product_details['product_image']);
-                          }  
-
+                            
                           if(isset($product_details['product_gtin8']) && $product_details['product_gtin8'] !=''){
                             $input1['gtin8'] = esc_attr($product_details['product_gtin8']);  
                           }

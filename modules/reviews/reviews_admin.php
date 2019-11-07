@@ -70,7 +70,8 @@ class saswp_reviews_admin {
          */
         public function saswp_removing_reviews_wysiwig(){
             
-            remove_post_type_support( 'saswp_reviews', 'editor');   
+            remove_post_type_support( 'saswp_reviews', 'editor');
+            remove_post_type_support( 'saswp-collections', 'editor');
             
         }
         

@@ -226,11 +226,8 @@ function saswp_enqueue_rateyo_script( $hook ) {
 }
 add_action( 'admin_enqueue_scripts', 'saswp_enqueue_rateyo_script' );
 
-
-
 add_action( 'init', 'saswp_create_platform_custom_taxonomy', 21 );
  
-
 function saswp_create_platform_custom_taxonomy() {
  
   $labels = array(

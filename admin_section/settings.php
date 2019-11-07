@@ -2371,7 +2371,7 @@ function saswp_enqueue_style_js( $hook ) {
             'saswp_security_nonce'         => wp_create_nonce('saswp_ajax_check_nonce'),  
             'new_url_selector'             => esc_url(admin_url()).'post-new.php?post_type=saswp',
             'new_url_href'                 => htmlspecialchars_decode(wp_nonce_url(admin_url('index.php?page=saswp_add_new_data_type&'), '_wpnonce')),            
-            'collection_post_add_url'      => esc_url(admin_url()).'post-new.php?post_type=saswp-google-review',
+            'collection_post_add_url'      => esc_url(admin_url()).'post-new.php?post_type=saswp-collections',
             'collection_post_add_new_url'  => htmlspecialchars_decode(wp_nonce_url(admin_url('admin.php?page=collection'), '_wpnonce')),
             'post_type'                    => $post_type,   
             'page_now'                     => $hook,

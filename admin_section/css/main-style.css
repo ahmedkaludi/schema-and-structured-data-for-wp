@@ -1265,3 +1265,23 @@ a.saswp-revws-lnk{
 #saswp-compatibility-tabs a{
     cursor: pointer;
 }
+
+/*
+Collection css starts here
+*/
+.saswp-collection-body{
+    width:100%;
+    display:flex;
+    flex-wrap:wrap;
+}
+
+.saswp-collection-preview{
+    flex:1 0 75%;
+    margin-right:15px;
+}
+.saswp-collection-settings{
+    flex:1 0 22%;
+}
+/*
+Collection css ends here
+*/
