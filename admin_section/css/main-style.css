@@ -1262,3 +1262,6 @@ a.saswp-revws-lnk{
 .saswp-social-links-table td{
     padding-left: 0px !important;
 }
+#saswp-compatibility-tabs a{
+    cursor: pointer;
+}
