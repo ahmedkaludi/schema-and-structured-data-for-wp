@@ -93,7 +93,7 @@ class saswp_reviews_service {
 
                     $review_rating = $review['saswp_review_rating'];
 
-                    $starating = saswp_get_rating_html_by_value($review_rating);
+                       $starating = saswp_get_rating_html_by_value($review_rating);
 
                         $term      = get_term( $review['saswp_review_platform'], 'platform' );
                         $term_slug  = ''; 
@@ -278,86 +278,7 @@ class saswp_reviews_service {
             wp_die();
         
     }
-    
-    public function saswp_get_reviews_by_attr($attr){
         
-            $arg = array();
-            $arg['post_type']      = 'saswp_reviews';
-            $arg['posts_per_page'] = -1;
-            $arg['post_status']    = 'publish';
-            
-            if(isset($attr['id'])){
-              $arg['attachment_id']    = $attr['id'];  
-            }
-            if(isset($attr['title'])){
-              $arg['title']    = $attr['title'];  
-            }
-            if(isset($attr['count'])){
-                $arg['posts_per_page'] = $attr['count'];
-            }
-            
-            $meta_query = array();
-                    
-            if(isset($attr['rating'])){
-                    $meta_query[] = array(
-                        'key'     => 'saswp_review_rating',
-                        'value'   => $attr['rating'],
-                        'compare' => '='
-                    );
-            }
-            if(isset($attr['platform'])){
-                $term     = get_term_by( 'slug', $attr['platform'], 'platform' );
-                
-                  $meta_query[] =   array(
-                        'key'     => 'saswp_review_platform',
-                        'value'   => $term->term_id,
-                        'compare' => '='
-                    );
-            }
-                        
-            $meta_query_args = array(            
-            array(
-                'relation' => 'AND',
-                 $meta_query 
-                )
-            );
-            
-            $arg['meta_query'] = $meta_query_args;
-                                
-            $posts_list = get_posts($arg); 
-                 
-            $reviews = array();
-            
-            $post_meta = array(              
-              'saswp_reviewer_image',
-              'saswp_reviewer_name',
-              'saswp_review_rating',
-              'saswp_review_date',
-              'saswp_review_text',
-              'saswp_review_link',
-              'saswp_review_platform',
-            );
-        
-            if($posts_list){
-                
-                foreach($posts_list as $post){
-                
-                $review_data = array();
-                $post_id = $post->ID; 
-                                
-                foreach($post_meta as $meta_key){
-                    
-                    $review_data[$meta_key] = get_post_meta($post_id, $meta_key, true ); 
-                    
-                }
-                   $reviews[] = $review_data;  
-                }
-            }
-        
-        return $reviews;
-        
-    }
-
     /**
      * Function to show value using shortcode "saswp-reviews"
      * @param type $attr
@@ -366,7 +287,7 @@ class saswp_reviews_service {
     public function saswp_reviews_front_output($attr){
         
             global $sd_data;
-            $reviews = $this->saswp_get_reviews_by_attr($attr);
+            $reviews = $this->saswp_get_reviews_list_by_parameters($attr);
                         
             $output = $html = '';
             
@@ -497,7 +418,7 @@ class saswp_reviews_service {
                         'saswp_reviewer_lang'         => $review['language'],
                         'saswp_reviewer_name'         => $review['author_name'],
                         'saswp_review_link'           => isset($review['author_url']) ? $review['author_url'] : null,
-                        'saswp_reviewer_image'        => isset($review['profile_photo_url']) ? $review['profile_photo_url'] : null,
+                        'saswp_reviewer_image'        => isset($review['profile_photo_url']) ? $review['profile_photo_url'] : SASWP_DIR_URI.'/admin_section/images/default_user.jpg',
                         'saswp_reviewer_image_detail' => $media_detail
                 );
 
@@ -551,6 +472,118 @@ class saswp_reviews_service {
         }        
                                             
     }
+    
+    public function saswp_get_reviews_list_by_parameters($attr = null, $platform_id = null, $rvcount = null){
+            
+            $response = array();
+                                
+            $arg        = array();
+            $meta_query = array();
+            
+            $arg['post_type']      = 'saswp_reviews';
+            $arg['numberposts']    = -1;
+            $arg['post_status']    = 'publish';
+                        
+            if($attr){
+                
+            if(isset($attr['id'])){
+              $arg['attachment_id']    = $attr['id'];  
+            }
+            if(isset($attr['title'])){
+              $arg['title']    = $attr['title'];  
+            }
+            if(isset($attr['count'])){
+                $arg['posts_per_page'] = $attr['count'];
+            }    
+                
+            if(isset($attr['rating'])){
+                    $meta_query[] = array(
+                        'key'     => 'saswp_review_rating',
+                        'value'   => $attr['rating'],
+                        'compare' => '='
+                    );
+            }
+            if(isset($attr['platform'])){
+                $term     = get_term_by( 'slug', $attr['platform'], 'platform' );
+                
+                  $meta_query[] =   array(
+                        'key'     => 'saswp_review_platform',
+                        'value'   => $term->term_id,
+                        'compare' => '='
+                    );
+            }
+            $meta_query_args = array(            
+            array(
+                'relation' => 'AND',
+                 $meta_query 
+                )
+            );
+            $arg['meta_query'] = $meta_query_args;    
+            }
+            
+            
+            if($platform_id && $rvcount){
+                
+                 $arg['numberposts']    = $rvcount;
+                 $arg['meta_query'] = array(
+                                        array(
+                                            'key'     => 'saswp_review_platform',
+                                            'value'   => $platform_id,
+                                            'compare' => '==',
+                                 )
+                            ); 
+                
+            }
+                        
+            $posts_list = get_posts($arg); 
+                                   
+            if($posts_list){
+            
+             $post_meta = array(                     
+              'saswp_reviewer_image',
+              'saswp_reviewer_name',
+              'saswp_review_rating',
+              'saswp_review_date',
+              'saswp_review_text',
+              'saswp_review_link',
+              'saswp_review_platform',
+              'saswp_review_platform_icon',
+              'saswp_review_platform_name',   
+            );
+            
+            foreach($posts_list as $rv_post){
+                
+                $review_data = array();                
+                                
+                foreach($post_meta as $meta_key){
+                    
+                    $review_data[$meta_key] = get_post_meta($rv_post->ID, $meta_key, true ); 
+                    
+                    if(!$review_data['saswp_reviewer_image']){
+                        $review_data['saswp_reviewer_image'] = SASWP_DIR_URI.'/admin_section/images/default_user.jpg';
+                    }
+                                                            
+                    if(!$review_data['saswp_review_platform_icon']){
+                                                
+                        $term     = get_term( $review_data['saswp_review_platform'], 'platform' );
+                    
+                        if(isset($term->slug)){
+                            
+                            $review_data['saswp_review_platform_icon'] = SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/'.esc_attr($term->slug).'-img.png';
+                        }
+                                                
+                    }
+                                        
+                }
+                   $review_data['saswp_review_post_id'] = $rv_post->ID;
+                   $response[] = $review_data;  
+            }
+            
+        }
+                                      
+        return $response;
+    }
+    
         	                      
 }
 

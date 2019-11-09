@@ -2105,11 +2105,11 @@ Class saswp_output_service{
              
              if($product->get_short_description() && $product->get_description()){
                  
-                 $product_details['product_description'] = $product->get_short_description().' '.$product->get_description();
+                 $product_details['product_description'] = $product->get_short_description().' '.strip_tags($product->get_description());
                  
              }else if($product->get_description()){
                  
-                 $product_details['product_description'] = $product->get_description();
+                 $product_details['product_description'] = strip_tags($product->get_description());
                  
              }else{
                  

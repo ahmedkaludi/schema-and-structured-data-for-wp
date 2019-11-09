@@ -18,14 +18,23 @@ class SASWP_Reviews_Collection {
          * @var type 
          */
         private static $instance;
-        
+        private $_service = null;
+
+
         private function __construct() {
+            
+          if($this->_service == null){
+              
+              $this->_service = new saswp_reviews_service();
+              
+          }  
              
           add_filter( 'get_edit_post_link', array($this, 'saswp_set_collection_edit_link' ), 99, 3); 
           add_action( 'admin_menu', array($this, 'saswp_add_collection_menu_links' ),20);
           add_action( 'init', array($this, 'saswp_register_collection_post_type' ),20);
           add_action( 'admin_init', array($this, 'saswp_save_collection_data' ));
-             
+          add_action( 'wp_ajax_saswp_add_to_collection', array($this, 'saswp_add_to_collection' ));
+                                 
         }
         
          /**
@@ -78,19 +87,54 @@ class SASWP_Reviews_Collection {
                         'add_new_item'  	=> esc_html__( 'Edit Collection', 'schema-and-structured-data-for-wp' ),
                         'edit_item'             => esc_html__( 'Edit Collection','schema-and-structured-data-for-wp'),                
                     ),
-                    'public' 		=> true,
-                    'has_archive' 		=> false,
-                    'exclude_from_search'	=> true,
-                    'publicly_queryable'	=> false,
-                    'show_in_menu'          => 'edit.php?post_type=saswp',                
+                    'public' 		    => true,
+                    'has_archive' 	    => true,
+                    'exclude_from_search'   => true,
+                    'publicly_queryable'    => true,
+                    //'show_in_menu'          => 'edit.php?post_type=saswp',                
+                    'show_in_menu'          => false,                
                     'show_ui'               => true,
-                    'show_in_nav_menus'     => false,			
+                    'show_in_nav_menus'     => true,			
                     'show_admin_column'     => true,        
                     'rewrite'               => false,  
             );
             register_post_type( 'saswp-collections', $collections );   
         }
-        
+                        
+        public function saswp_add_to_collection(){
+                        
+            if ( ! isset( $_GET['saswp_security_nonce'] ) ){
+                return; 
+            }
+            if ( !wp_verify_nonce( $_GET['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
+               return;  
+            }
+            
+            $platform_id = intval($_GET['platform_id']);
+            $rvcount     = intval($_GET['rvcount']);
+            
+            if($platform_id  && $rvcount){
+                                
+            $reviews_list = $this->_service->saswp_get_reviews_list_by_parameters(null, $platform_id, $rvcount); 
+             
+            if($reviews_list){
+                
+                echo json_encode(array('status' => true, 'message'=> $reviews_list));
+                                                  
+            }else{
+                
+                echo json_encode(array('status' => false, 'message'=> 'Data not found'));
+                
+            }
+                                         
+            }else{
+                
+                echo json_encode(array('status' => false, 'message'=> 'Platform id or review count is missing'));
+                
+            }
+                        
+            wp_die();
+        }
         public function saswp_admin_collection_interface_render(){
          
             $post_meta = array();
@@ -128,12 +172,98 @@ class SASWP_Reviews_Collection {
                             <div class="saswp-collection-body">
                                 
                                 <div class="saswp-collection-preview">
-                                   Preview 
+                                   
+                                    
                                 </div>
-                             
+                                                             
                                 <div class="saswp-collection-settings">
-                                  <input type="text" name="test_value" value="<?php echo $post_meta['test_value'][0] ?>">
-                                 <button type="submit" class="btn btn-success button-primary" > <?php echo esc_html__('Save','schema-and-structured-data-for-wp'); ?>  </button>   
+                                    
+                                    
+                                <a class="saswp-accordion">Reviews Source</a>
+                                    <div class="saswp-accordion-panel">
+                                   <?php
+                                 
+                                 $platforms = saswp_get_terms_as_array();
+                                 
+                                 if($platforms){
+                                                                          
+                                    global $wpdb;
+                                                                      
+                                        $exists_platforms = $wpdb->get_results("
+                                          SELECT meta_value, count(meta_value) as meta_count FROM `wp_postmeta` WHERE `meta_key`='saswp_review_platform' group by meta_value",
+                                          ARRAY_A
+                                       );
+                                     
+                                     echo '<select id="saswp-plaftorm-list" name="saswp-plaftorm-list">';
+                                     
+                                     $active_options   = '';
+                                     $inactive_options = '';
+                                     
+                                     foreach($platforms as $key => $val){
+                                         
+                                         if(in_array($key, array_column($exists_platforms, 'meta_value'))){
+                                             $active_options .= '<option value="'.esc_attr($key).'">'.esc_attr($val).'</option>';
+                                         }else{
+                                             $inactive_options.= '<option value="'.esc_attr($key).'" disabled>'.esc_attr($val).'</option>';
+                                         }
+                                                                                  
+                                     }
+                                     echo '<optgroup label="Active">';
+                                     echo $active_options;
+                                     echo '</optgroup>';
+                                     echo '<optgroup label="InActive">';
+                                     echo $inactive_options;
+                                     echo '</optgroup>';
+                                     echo '</select>';
+                                                  
+                                  }
+                                                                                                   
+                                 ?>   
+                                  <input type="number" id="saswp-review-count" name="saswp-review-count" min="0">  
+                                  
+                                  <a class="button button-default saswp-add-to-collection">Add</a>
+                                  
+                                  <div class="saswp-platform-added-list">                                       
+                                  </div>
+                                  
+                                </div>
+                                                                        
+                                <a class="saswp-accordion">Presentation</a>
+                                    <div class="saswp-accordion-panel">
+                                    <lable>Design</lable>  
+                                     <select>                                     
+                                      <option value="grid">Grid</option>
+                                      <option value="slider">Slider</option>                                      
+                                      <option value="badge">Badge</option>
+                                      <option value="popup">Popop</option>
+                                      <option value="fomo">Fomo</option>                                      
+                                     </select>
+                                </div>
+                                
+                                <a class="saswp-accordion">Filter</a>
+                                <div class="saswp-accordion-panel">                                                                   
+                                  <lable>Sorting</lable>  
+                                  <select>                                      
+                                      <option value="recent">Recent</option>
+                                      <option value="oldest">Oldest</option>
+                                      <option value="newest">Newest</option>                                      
+                                      <option value="highest">Highest</option>
+                                      <option value="lowest">Lowest</option>
+                                      <option value="random">Random</option>                                      
+                                     </select>
+                                </div>
+                                
+                                <a class="saswp-accordion">Display</a>
+                                <div class="saswp-accordion-panel">                                  
+                                  <select>                                      
+                                      <option value="no_minimum">Before the content</option>
+                                      <option value="2_stars">Beetween the content</option>                                      
+                                      <option value="3_stars">After the content</option>
+                                      <option value="3_stars">Shortcode</option>                                                                  
+                                     </select>
+                                </div>
+                                
+                                 <button type="submit" class="button button-primary" > <?php echo esc_html__('Save','schema-and-structured-data-for-wp'); ?>  </button>   
                                     
                                 </div>
                                                                 
