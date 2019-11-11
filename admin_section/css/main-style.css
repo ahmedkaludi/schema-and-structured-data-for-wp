@@ -1281,7 +1281,9 @@ Collection css starts here
 }
 .saswp-collection-settings{
     flex:1 0 25%;
-    background: white;
+    background: #fff;
+    padding-bottom: 12px;
+    height:100%;
 }
 .saswp-collection-container{
     margin-top: 60px;
@@ -1432,6 +1434,7 @@ Collection css starts here
     transition: 0.4s;
     display: block;
     box-sizing: border-box;
+    position: relative;
 }
 .active, .accordion:hover {
   background-color: #ccc; 
@@ -1479,4 +1482,28 @@ Collection css starts here
 .saswp-slider-display.saswp-desing-options span{
     margin-right: 10px;
     display: inline-block;
+}
+.saswp-collection-settings li a.saswp-accordion:after{
+    content: "";
+    display: inline-block;
+    position: absolute;
+    top: 18px;
+    color: #b5b5b5;
+    border: solid #b5b5b5;
+    border-width: 0 2px 2px 0;
+    padding: 3px;
+    transform: rotate(-45deg);
+    margin: 0px 3px 0px 2px;
+    right: 18px;
+    tansition:all 0.3s ease-in-out 0s;
+}
+.saswp-collection-settings li a.saswp-accordion.active:after{
+    transform: rotate(45deg);
+    top: 15px;
+}
+.saswp-collection-settings .button-primary{
+    width: 120px;
+    text-align: center;
+    margin: 10px auto 0 auto;
+    display: inherit;
 }
