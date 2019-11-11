@@ -1450,7 +1450,7 @@ function saswp_schema_breadcrumb_output(){
             
                 $input['@context']        =  saswp_context_url();
                 $input['@type']           =  'BreadcrumbList';
-                $input['@id']             =  trailingslashit(saswp_get_permalink()).'#breadcrumb';
+                $input['@id']             =  trailingslashit($sd_data['breadcrumb_url']).'#breadcrumb';
                 $input['itemListElement'] =  $bread_crumb_list;
                                        
                 return apply_filters('saswp_modify_breadcrumb_output', $input);  
