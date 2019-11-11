@@ -231,24 +231,41 @@ class SASWP_Reviews_Collection {
                                 <a class="saswp-accordion">Presentation</a>
                                     <div class="saswp-accordion-panel">
                                     <lable>Design</lable>  
-                                     <select>                                     
+                                    <select class="saswp-collection-desing">                                     
                                       <option value="grid">Grid</option>
                                       <option value="slider">Slider</option>                                      
                                       <option value="badge">Badge</option>
                                       <option value="popup">Popop</option>
                                       <option value="fomo">Fomo</option>                                      
                                      </select>
-                                </div>
+                                    
+                                    <select class="saswp-grid-options saswp-desing-options">                                     
+                                      <option value="4_cols">4 Cols</option>
+                                      <option value="3_cols">3 Cols</option>                                      
+                                      <option value="2_cols">2 Cols</option>                                                                            
+                                    </select>
+                                    
+                                    <select class="saswp-slider-options saswp-desing-options saswp_hide">                                     
+                                      <option value="1_slider">1 Slider </option>
+                                      <option value="3_slider">3 Slider</option>                                                                            
+                                    </select>
+                                    
+                                    <div class="saswp-slider-display saswp-desing-options saswp_hide">
+                                        <input type="radio" name="slider_display" value="arrow" checked> Arrow<br>
+                                        <input type="radio" name="slider_display" value="dot"> Dot<br>
+                                    </div>
+                                                                                                                                                
+                                    </div>
                                 
                                 <a class="saswp-accordion">Filter</a>
                                 <div class="saswp-accordion-panel">                                                                   
                                   <lable>Sorting</lable>  
-                                  <select>                                      
+                                  <select class="saswp-collection-sorting">                                      
                                       <option value="recent">Recent</option>
                                       <option value="oldest">Oldest</option>
                                       <option value="newest">Newest</option>                                      
-                                      <option value="highest">Highest</option>
-                                      <option value="lowest">Lowest</option>
+                                      <option value="highest">Highest Rating</option>
+                                      <option value="lowest">Lowest Rating</option>
                                       <option value="random">Random</option>                                      
                                      </select>
                                 </div>

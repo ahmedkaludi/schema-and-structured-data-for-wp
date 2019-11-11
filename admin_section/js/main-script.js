@@ -2277,8 +2277,8 @@ jQuery(document).ready(function($){
                 
                 
             }    
-               
-            function saswp_create_collection_grid(){
+              
+            function saswp_create_collection_grid(cols){
                 
                 var html = '';
                 var platform_list = '';
@@ -2338,41 +2338,56 @@ jQuery(document).ready(function($){
                 $(".saswp-collection-preview").append(html);    
                                 
                                 
-            }    
-        
-            function saswp_create_collection_by_design(design){
+            }   
+            
+            function  saswp_create_collection_slider(slider, slider_display){
                 
+                
+            }
+            function saswp_create_collection_badge(){
+                
+            }
+            function saswp_create_collection_popup(){
+                
+            }            
+            function saswp_create_collection_fomo(){
+                
+            }
+            
+            function saswp_create_collection_by_design(design, cols, slider, slider_display){
+                
+                console.log(design +','+ cols+','+ slider+','+ slider_display);
                 var html = '';
                 
                 switch(design) {
                     
                     case "grid":
                         
-                        html = saswp_create_collection_grid();
+                         saswp_create_collection_grid(cols);
                         
                         break;
                         
                     case 'Slider':
                         
-                        html = saswp_create_collection_slider();
+                         saswp_create_collection_slider(slider, slider_display);
                         
                         break;
                     
                     case 'badge':
                         
-                        html = saswp_create_collection_badge();
+                         saswp_create_collection_badge();
                         
                         break;
                         
                     case 'popup':
                         
-                        html = saswp_create_collection_popup();
+                         saswp_create_collection_popup();
                         
                         break;
                     
                     case 'fomo':
                         
-                        html = saswp_create_collection_fomo();
+                         saswp_create_collection_fomo();
                         
                         break;
                                                                 
@@ -2412,6 +2427,34 @@ jQuery(document).ready(function($){
                                                 
                     break;
                     
+                    case 'highest':
+                        
+                        for (var key in saswp_collection) {
+                            
+                             var current_coll = saswp_collection[key];
+                            
+                            if(current_coll){
+                            
+                                var done = false;
+                                while (!done) {
+                                  done = true;
+                                  for (var i = 1; i < current_coll.length; i += 1) {
+                                    if (current_coll[i - 1]['saswp_review_rating'] < current_coll[i]['saswp_review_rating']) {
+                                      done = false;
+                                      var tmp = current_coll[i - 1];
+                                      current_coll[i - 1] = current_coll[i];
+                                      current_coll[i] = tmp;
+                                    }
+                                  }
+                                }
+                             saswp_collection[key] =  current_coll;  
+                                
+                            }
+                                                                                    
+                       }
+                                                
+                    break;
+                    
                 }
                                 
             }
@@ -2425,6 +2468,51 @@ jQuery(document).ready(function($){
                 saswp_collection[platform_id] = null;                
                 saswp_create_collection_by_design('grid');
                                
+            });
+            
+            $(".saswp-grid-options, .saswp-slider-options, .saswp-slider-display input:radio").on("change", function(){                                                                                
+                
+                var design         = $(".saswp-collection-desing").val();                                   
+                var cols           = $(".saswp-grid-options").val();
+                var slider         = $(".saswp-slider-options").val();
+                var slider_display = $("input[name='slider_display']:checked").val();
+                
+                saswp_create_collection_by_design(design, cols, slider, slider_display);                                                
+            });
+                
+            $(".saswp-collection-sorting").on("change", function(){
+                
+                var design         = $(".saswp-collection-desing").val();                                   
+                var cols           = $(".saswp-grid-options").val();
+                var slider         = $(".saswp-slider-options").val();
+                var slider_display = $("input[name='slider_display']:checked").val();
+                 var sorting       = $(".saswp-collection-sorting").val();
+                
+                saswp_collection_sorting(sorting); 
+                saswp_create_collection_by_design(design, cols, slider, slider_display);     
+                               
+            });    
+                                   
+            $(".saswp-collection-desing").on("change", function(){
+                
+                var design         = $(".saswp-collection-desing").val();                                   
+                var cols           = $(".saswp-grid-options").val();
+                var slider         = $(".saswp-slider-options").val();
+                var slider_display = $("input[name='slider_display']:checked").val();
+                                                
+                $(".saswp-desing-options").addClass('saswp_hide');
+                
+                if(design == 'grid'){
+                    $(".saswp-grid-options").removeClass("saswp_hide");
+                }
+                
+                if(design == 'slider'){
+                    $(".saswp-slider-options").removeClass("saswp_hide");
+                    $(".saswp-slider-display").removeClass("saswp_hide");
+                }
+                
+                saswp_create_collection_by_design(design, cols, slider, slider_display);
+                                                
             });
                         
             $(document).on("click", ".saswp-add-to-collection", function(e){
@@ -2452,11 +2540,17 @@ jQuery(document).ready(function($){
                                       
                                       saswp_collection[platform_id] = $.extend(saswp_collection[platform_id], res_json);
                                                                             
-                                      saswp_collection_sorting('lowest');
-                                                                                                                  
-                                      saswp_create_collection_by_design('grid');
                                       
-                                      
+                                           
+                                        var design         = $(".saswp-collection-desing").val();                                   
+                                        var cols           = $(".saswp-grid-options").val();
+                                        var slider         = $(".saswp-slider-options").val();
+                                        var slider_display = $("input[name='slider_display']:checked").val();
+                                        var sorting        = $(".saswp-collection-sorting").val();
+                
+                                      saswp_collection_sorting(sorting);  
+                                      saswp_create_collection_by_design(design, cols, slider, slider_display);
+                                                                            
                               }
                               current.removeClass('updating-message');    
                              },'json');
