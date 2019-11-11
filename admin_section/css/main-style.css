@@ -1274,11 +1274,10 @@ Collection css starts here
     display:flex;
     flex-wrap:wrap;
     margin-top: 40px;
-    border: 1px solid white;
 }
-
 .saswp-collection-preview{
-    flex:1 0 72%;    
+    flex:1 0 70%; 
+    margin-right: 20px;   
 }
 .saswp-collection-settings{
     flex:1 0 25%;
@@ -1286,32 +1285,10 @@ Collection css starts here
 }
 .saswp-collection-container{
     margin-top: 60px;
-}
-
-
-.saswp-accordion {
-  background-color: white;
-  color: #444;
-  cursor: pointer;
-  padding: 7px;
-  width: 100%;
-  border: none;
-  text-align: left;
-  outline: none;
-  font-size: 15px;
-  transition: 0.4s;
-  display: block;
-}
-
-.active, .accordion:hover {
-  background-color: #ccc; 
-}
-
-.saswp-accordion-panel {
-  padding: 0 18px;
-  display: none;
-  background-color: white;
-  overflow: hidden;
+    width:100%;
+    display: inline-block;
+    padding-right: 20px;
+    box-sizing: border-box;
 }
 .saswp-collection-preview-table{
     width: 100%;
@@ -1324,29 +1301,10 @@ Collection css starts here
     width: 100%;
 }
 
-*, *:before, *:after{
-  box-sizing: border-box;
-}
-body {
-    font-family: sans-serif;
-    font-size: 16px;
-    line-height: 1.25;
-}
-.container{
-  width:1100px;
-  margin:0 auto;
-}
-
 /** Review Design 1 **/
+
 .saswp-rd1-warp{
   margin-bottom:50px;
-}
-h2{
-  margin:30px 0px;
-  text-align:center;
-  width:100%;
-  display:inline-block;
-  font-size:20px;
 }
 .saswp-rd1-warp ul{
   padding:0px;
@@ -1355,6 +1313,7 @@ h2{
   width:100%;
   grid-template-columns:1fr 1fr 1fr;
   grid-gap:15px;
+  margin:0;
 }
 .saswp-rd1-warp li{
   padding:20px;
@@ -1363,6 +1322,7 @@ h2{
   border: 1px solid #ededed;
   background-color: #fafafa;
   border-radius: 4px;
+  margin:0px;
 }
 .saswp-rd1-data{
   display: flex;
@@ -1375,6 +1335,12 @@ h2{
   float: left;
   margin-right: 10px;
   border-radius: 100px;
+}
+.saswp-rd1-athr img {
+    max-width: 56px;
+    min-height: 56px;
+    margin-right: 10px;
+    border-radius: 100px;
 }
 .saswp-rd1-rv-lg img{
   width:20px;
@@ -1389,12 +1355,6 @@ h2{
   font-size: 16px;
   display: inline-block;
   line-height: 1.5;
-}
-.saswp-rd1-stars svg {
-    width: 18px;
-    height: 18px;
-    margin: 0 4px 0 0;
-    vertical-align: middle;
 }
 .saswp-rd1-ptdt{
   margin-top:5px;
@@ -1452,413 +1412,71 @@ h2{
   height: 20px;
 }
 
-
-
-
-/** Slider Design CSS **/
-.saswp-rd2-warp{
-  width:100%;
-  display:inline-block;
-  margin-bottom:50px;
+/** colltection settings CSS **/
+.saswp-collection-settings ul{
+    margin:0;
 }
-.saswp-rd2-warp li {
-  width:350px;
-  margin-right:25px;
+.saswp-collection-settings ul li {
+    border-bottom: 1px solid #f5f5f5;
+    margin: 0;
 }
-.saswp-rd2-warp .saswp-rd1-cnt{
-  white-space: initial;
-}
-.saswp-rd2-warp .saswp-rd2-box{
-  position: relative;
-  color: #777;
-  border: 1px solid #ededed;
-  background-color: #fafafa;
-  border-radius: 4px;
-}
-.saswp-rd2-warp .saswp-rd1-cnt{
-  height: 150px;
-  margin: 20px 20px 20px 40px;
-}
-
-.saswp-rd2-warp .saswp-rd1-data{
-  padding: 20px;
-}
-.saswp-rd2-box .saswp-rd1-stars{
-  display:inline-block;
-}
-.saswp-rd2-box .saswp-rd1-cnt p{
-  display:inline; 
-}
-.saswp-rd2-box .saswp-rd1-rv-lg{
-  line-height: 0;
-  position: absolute;
-  right: 13px;
-  top: 13px;
-  background: #fafafa;
-}
-.saswp-rd2-quote svg{
-  width: 20px;
-  fill: #bbb;
-  position: absolute;
-  height: 30px;
-  top: 15px;
-  left: 12px;
-}
-.saswp-rd2-warp .saswp-rd2-box:before {
-  position: absolute;
-  bottom: -8px;
-  left: 35px;
-  display: block;
-  width: 14px;
-  height: 14px;
-  border: 1px solid #ededed;
-  border-top: none;
-  border-left: none;
-  background-color: #fafafa;
-  content: "";
-  -webkit-transform: rotate(45deg);
-  -ms-transform: rotate(45deg);
-  transform: rotate(45deg);
-}
-.carousel-preview{
-  text-align:center;
-}
-.carousel-preview button{
-  width:12px;
-  height:12px;
-  border-radius:100px;
-  border:none;
-  margin:0px 5px;
-  cursor: pointer;
-}
-.carousel-preview button.active{
-  background:#427fed;
-}
-
-
-/** Badges CSS **/
-.saswp-rd3-warp ul{
-  padding:0px;
-  display:grid;
-  grid-template-columns:1fr 1fr 1fr 1fr;
-  grid-gap: 50px;
-  list-style-type:none;
-}
-.saswp-rd3-warp li{
-  box-shadow: 0 2px 5px 0 rgba(0,0,0,.26);
-}
-.saswp-rd3-warp li a{
-  text-decoration:none;
-}
-.saswp-rv-lg-txt{
-  background: #ededed;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  padding: 8px;
-}
-.saswp-lg svg{
-  width:20px;
-  height:20px;
-}
-.saswp-lg.saswp-fb svg{
-  width:22px;
-  height:22px;
-  background:#3c5b9b;
-  border-radius:100px;
-  padding:2px;
-}
-.saswp-rv-lg-txt h4{
-  margin:0;
-  font-size:25px;
-  line-height:1.4;
-  color:#333;
-  font-weight:400;
-}
-.saswp-lg{
-  line-height: 0;
-  margin-right: 10px;
-}
-.saswp-rv-rtng{
-  padding:20px;
-}
-.saswp-rtng-txt{
-  display: flex;
-  align-items: center;
-  line-height: 0;
-  width: 100%;
-  margin-bottom:10px;
-}
-.saswp-rtng-txt .saswp-rt-num{
-  color: #666;
-  margin-right: 10px;
-  font-size: 20px;
-}
-.saswp-rtng-txt .saswp-stars svg {
-  width: 20px;
-  height: 20px;
-  margin: 0 6px 0 0;
-  vertical-align: middle;
-}
-.saswp-bsd-rv{
-  color: #999;
-  font-size: 15px;
-}
-.saswp-stars.saswp-rd3-yrw svg {
-    width: 106px;
-    height: 20px;
-}
-.yrw-stars-1f, .yrw-stars-2f, .yrw-stars-3f, .yrw-stars-4f, .yrw-stars-0h, .yrw-stars-1h, .yrw-stars-2h, .yrw-stars-3h{
-  fill:#f15c4f;
-}
-.yrw-rating{
-  fill:#ccc;
-}
-
-
-/** Fomo CSS **/
-.saswp-fomo-wrap{
-  position:fixed;
-  bottom:20px;
-  left:20px;
-  width: calc(100% - 20px);
-  max-width: 325px;
-  border-radius: 12px;
-  background: #fff;
-  border: 1px solid #ddd;
-  box-shadow: 0 0 10px 2px rgba(0,0,0,.15);
-  transition: all .3s ease-in;
-}
-.saswp-fomo-reviews{
-  display: flex;
-  flex-wrap: wrap;
-  width: 100%;
-  align-items: center;
-  height:80px;
-}
-.saswp-str-rtng{
-  flex:1 0 60%;
-  padding-left: 15px;
-}
-.saswp-frv-lg{
-  width: 80px;
-  height: 100%;
-  border-right: 1px solid #ddd;
-  box-sizing: border-box;
-  background: linear-gradient(to bottom,#fefefe 0,#f2f2f2 100%);
-  position: relative;
-  display: flex;
-  align-items: center;
-  border-radius: 12px 0px 0px 12px;
-}
-.saswp-frv-lg svg{
-    text-align: center;
+.saswp-collection-settings ul li a{
+    padding:12px 15px;
+    background:#fff;
+    color: #444;
+    cursor: pointer;
     width: 100%;
+    border: none;
+    text-align: left;
+    font-size: 15px;
+    transition: 0.4s;
+    display: block;
+    box-sizing: border-box;
 }
-.saswp-str-rtng svg{
-  width: 20px;
-  height: 20px;
-  margin: 0px 3px 0px 0px;
+.active, .accordion:hover {
+  background-color: #ccc; 
 }
-.saswp-text-rtng{
-  font-size: 12px;
-  line-height: 1.2;
-  color: #444;
-  display: flex;
-  margin-bottom: 3px;
+.saswp-plf-lst-rv-cnt{
+    display: inline-grid;
+    width: 100%;
+    flex-wrap: wrap;
+    grid-template-columns: 100px 100px 1fr;
+    grid-gap: 5px
 }
-.saswp-text-rtng span{
-    font-weight: 600;
-    color: #666;
-    margin-right: 5px
+.saswp-accordion-panel {
+  padding: 0 18px;
+  display: none;
+  background-color: white;
+  overflow: hidden;
+  margin-bottom: 12px;
 }
-.saswp-str-rtng span.saswp-rt-dt{
-  display: block;
-  font-size: 12px;
-  color: #ababab;
+.wp-core-ui a.button.saswp-remove-platform{
+    background: #ccc;
+    border: none;
+    line-height: 22px;
+    width: 20px;
+    padding: 0;
+    font-family: sans-serif;
+    border-radius: 100px;
+    height: 20px;
+    text-align: center;
+    font-size: 10px;
+    margin-left: 10px;
 }
-.saswp-fomo-wrap a{
-  text-decoration:none;
+.cancel-btn{
+    align-items: center;
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    margin-top: 8px;
 }
-
-
-/** Popup2 CSS **/
-.btn{
-  position: fixed;
-  top: auto;
-  bottom: 0;
-  left: 20px;
-  font-family: "Arial",sans-serif;
-  z-index: 9;
-  box-shadow: 0 20px 40px 8px rgba(0,0,0,.25);
-  width:300px;
-  background: #fff;
-  border:none;
-  padding:0;
+.wp-admin .saswp-accordion-panel select.saswp-collection-desing{
+    width: 100px;
 }
-.open-class.btn{
-  width:500px;
+.saswp-slider-display.saswp-desing-options{
+    margin-top:10px;
 }
-#saswp-reviews-cntn {
-    display:none;
+.saswp-slider-display.saswp-desing-options span{
+    margin-right: 10px;
+    display: inline-block;
 }
-#saswp-sticky-review .open-class #saswp-reviews-cntn{
-  display:block;
-}
-.saswp-opn-cls-btn{
-  display: flex;
-  height: 50px;
-  justify-content: space-between;
-  align-items: center;
-  background: #fba306;
-  width:100%;
-  padding:0px 15px;
-  border-radius:4px 4px 0px 0px;
-  cursor: pointer;
-}
-.saswp-opn-cls-btn svg path{
-  fill:#fff;
-}
-.saswp-opn-cls-btn span{
-  font-size: 15px;
-  font-weight: 600;
-  color: #fff;
-}
-.saswp-reviews-info ul{
-  list-style-type:none;
-  padding:0;
-  margin:0;
-  text-align:left;
-  height: 350px;
-  overflow-y: scroll;
-}
-.saswp-reviews-info ul li{
-  border-bottom:1px solid #ccc;
-  padding:20px;
-}
-.saswp-rvws-dta{
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  width: 100%;
-}
-.saswp-rvws-dta .saswp-svg-img{
-  margin-right:10px;
-}
-.saswp-rvws-dta span.saswp-rvw-tx{
-  font-size:14px;
-  color:#444;
-}
-.saswp-rvws-dta span.saswp-rvw-nm:after{
-  content:"-";
-  display:inline-block;
-  margin:0px 10px;
-}
-.saswp-rvws-dta svg {
-  width: 18px;
-  height: 18px;
-  margin: 0 2px 0 0;
-  vertical-align: middle;
-}
-.saswp-rvws-txt h3{
-  margin: 15px 0px;
-  font-size: 18px;
-  color: #555;
-  font-weight: 400;
-}
-.saswp-rvws-txt p{
-  font-size: 13px;
-  line-height: 1.5;
-  margin: 0;
-  color: #666;
-}
-.saswp-reviews-info ul li.saswp-ttl-rvw{
-  display: flex;
-  width: 100%;
-  align-items: center;
-  text-align: center;
-  justify-content: center;
-}
-.saswp-reviews-info ul li.saswp-ttl-rvw span{
-  font-size:20px;
-  color:#666;
-}
-.saswp-ttl-rvw svg{
-  width:22px;
-  height:22px;
-  margin:0px 5px 0px 0px
-}
-.saswp-reviews-info ul li span.saswp-ttl-rvws{
-  margin-left: 10px;
-  position: relative;
-  top: -2px;
-}
-
-.btn .onclick-hide, .btn.open-class .onclick-show {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-}
-.btn .onclick-show, .btn.open-class .onclick-hide{
-  display:none;
-}
-span.saswp-mines{
-  line-height:0;
-}
-.saswp-mines:before{
-  content: "";
-  display: inline-block;
-  width: 20px;
-  height: 4px;
-  background: #fff;
-  position: relative;
-  top: 5px;
-}
-
-/** Responsvie CSS **/
-@media(max-width:1100px){
-  .container {
-      width: 100%;
-      padding:0px 10px;
-  }
-}
-
-@media(max-width:768px){
-  .saswp-rd1-warp li {
-    padding: 13px;
-  }
-  .saswp-rd3-warp ul{
-    grid-template-columns: 1fr 1fr;
-  }
-}
-
-@media(max-width:767px){
-  .saswp-rd1-warp ul{
-    grid-template-columns: 1fr;
-  }
-
-}
-
-@media(max-width:550px){
-  .saswp-rd3-warp ul{
-    grid-template-columns: 1fr;
-  }
-  .btn{
-    width:100%;
-    left:0px;
-  }
-  .open-class.btn {
-      width: 100%;
-  }
-}
-
-@media(max-width:320px){
-  .saswp-fomo-wrap {
-    left: 10px;
-    bottom:10px;
-  }
-}
-/*
-Collection css ends here
-*/

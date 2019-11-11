@@ -60,27 +60,27 @@
        if((saswp_localize_data.post_type == 'saswp' || saswp_localize_data.page_now =='saswp') && saswp_localize_data.page_now !='saswp_page_structured_data_options'){
            
            jQuery('.saswp-custom-fields-select2').select2({
-  		ajax: {
+      ajax: {
                         type: "POST",    
-    			url: ajaxurl, // AJAX URL is predefined in WordPress admin
-    			dataType: 'json',
-    			delay: 250, // delay in ms while typing when to perform a AJAX search
-    			data: function (params) {
-      				return {
+          url: ajaxurl, // AJAX URL is predefined in WordPress admin
+          dataType: 'json',
+          delay: 250, // delay in ms while typing when to perform a AJAX search
+          data: function (params) {
+              return {
                                         saswp_security_nonce: saswp_localize_data.saswp_security_nonce,
-        				q: params.term, // search query
-        				action: 'saswp_get_custom_meta_fields' // AJAX action for admin-ajax.php
-      				};
-    			},
-    			processResults: function( data ) {
-				return {
-					results: data
-				};
-			},
-			cache: true
-		},
-		minimumInputLength: 2 // the minimum of symbols to input before perform a search
-	});   
+                q: params.term, // search query
+                action: 'saswp_get_custom_meta_fields' // AJAX action for admin-ajax.php
+              };
+          },
+          processResults: function( data ) {
+        return {
+          results: data
+        };
+      },
+      cache: true
+    },
+    minimumInputLength: 2 // the minimum of symbols to input before perform a search
+  });   
            
        }    
            
@@ -412,7 +412,7 @@ jQuery(document).ready(function($){
                 }
                 
             });
-			
+      
     $(document).on("click", '.saswp-fetch-g-reviews', function(){          
                                                               
               var current        = $(this);  
@@ -495,10 +495,10 @@ jQuery(document).ready(function($){
         if(saswp_localize_data.do_tour){
                 
                 var content = '<h3>Thanks for using Structured Data!</h3>';
-			content += '<p>Do you want the latest on <b>Structured Data update</b> before others and some best resources on monetization in a single email? - Free just for users of Structured Data!</p>';
+      content += '<p>Do you want the latest on <b>Structured Data update</b> before others and some best resources on monetization in a single email? - Free just for users of Structured Data!</p>';
                         content += '<style type="text/css">';
                         content += '.wp-pointer-buttons{ padding:0; overflow: hidden; }';
-                        content += '.wp-pointer-content .button-secondary{  left: -25px;background: transparent;top: 5px; border: 0;position: relative; padding: 0; box-shadow: none;margin: 0;color: #0085ba;} .wp-pointer-content .button-primary{ display:none}	#afw_mc_embed_signup{background:#fff; clear:left; font:14px Helvetica,Arial,sans-serif; }';
+                        content += '.wp-pointer-content .button-secondary{  left: -25px;background: transparent;top: 5px; border: 0;position: relative; padding: 0; box-shadow: none;margin: 0;color: #0085ba;} .wp-pointer-content .button-primary{ display:none}  #afw_mc_embed_signup{background:#fff; clear:left; font:14px Helvetica,Arial,sans-serif; }';
                         content += '</style>';                        
                         content += '<div id="afw_mc_embed_signup">';
                         content += '<form action="//app.mailerlite.com/webforms/submit/z7t4b8" data-id="258182" data-code="z7t4b8" method="POST" target="_blank">';
@@ -577,19 +577,19 @@ jQuery(document).ready(function($){
     /* Newletters js ends here */ 
     
     
-	$(".saswp-tabs a").click(function(e){
-		var href = $(this).attr('href');                
-		var currentTab = getParameterByName('tab',href);
-		if(!currentTab){
-			currentTab = "general";
-		}                                                                
-		$(this).siblings().removeClass("nav-tab-active");
-		$(this).addClass("nav-tab-active");
-		$(".form-wrap").find(".saswp-"+currentTab).siblings().hide();
-		$(".form-wrap .saswp-"+currentTab).show();
-		window.history.pushState("", "", href);
-		return false;
-	});     
+  $(".saswp-tabs a").click(function(e){
+    var href = $(this).attr('href');                
+    var currentTab = getParameterByName('tab',href);
+    if(!currentTab){
+      currentTab = "general";
+    }                                                                
+    $(this).siblings().removeClass("nav-tab-active");
+    $(this).addClass("nav-tab-active");
+    $(".form-wrap").find(".saswp-"+currentTab).siblings().hide();
+    $(".form-wrap .saswp-"+currentTab).show();
+    window.history.pushState("", "", href);
+    return false;
+  });     
         
         $(".saswp-schame-type-select").change(function(){
             $(".saswp-custom-fields-table").html('');
@@ -1433,22 +1433,22 @@ jQuery(document).ready(function($){
 
      }).change(); 
           
-    $(document).on("click", "input[data-id=media]" ,function(e) {	// Application Icon upload
-		e.preventDefault();
+    $(document).on("click", "input[data-id=media]" ,function(e) { // Application Icon upload
+    e.preventDefault();
                 var current = $(this);
                 var button = current;
                 var id = button.attr('id').replace('_button', '');                
-		var saswpMediaUploader = wp.media({
-			title: "Application Icon",
-			button: {
-				text: "Select Icon"
-			},
-			multiple: false,  // Set this to true to allow multiple files to be selected
+    var saswpMediaUploader = wp.media({
+      title: "Application Icon",
+      button: {
+        text: "Select Icon"
+      },
+      multiple: false,  // Set this to true to allow multiple files to be selected
                         library:{type : 'image'}
-		})
-		.on("select", function() {
-			var attachment = saswpMediaUploader.state().get('selection').first().toJSON();                            
-			
+    })
+    .on("select", function() {
+      var attachment = saswpMediaUploader.state().get('selection').first().toJSON();                            
+      
                          $("#"+id).val(attachment.url);
                          $("input[data-id='"+id+"_id']").val(attachment.id);
                          $("input[data-id='"+id+"_height']").val(attachment.height);
@@ -1468,9 +1468,9 @@ jQuery(document).ready(function($){
                          
                          $(".saswp_image_div_"+id).html('<div class="saswp_image_thumbnail"><img class="saswp_image_prev" src="'+attachment.url+'"/><a data-id="'+id+'" href="#" class="saswp_prev_close">X</a></div>'+smaller_img_notice);
                         
-		})
-		.open();
-	});
+    })
+    .open();
+  });
         
     $(document).on("click", ".saswp_prev_close", function(e){
                 e.preventDefault();
@@ -1664,7 +1664,7 @@ jQuery(document).ready(function($){
                               function(response){                                  
                               if(response['status'] =='t'){                                  
                                  $(".saswp-feedback-notice").hide();                                 
-                              }       		   		
+                              }                 
                              },'json');
         });
         
@@ -1675,7 +1675,7 @@ jQuery(document).ready(function($){
                               function(response){                                  
                               if(response['status'] =='t'){                                  
                                  $(".saswp-feedback-notice").hide();                                 
-                              }       		   		
+                              }                 
                              },'json');
         });
         
@@ -1700,7 +1700,7 @@ jQuery(document).ready(function($){
                                     current.parents('.form-table tr:first').after(html);
                               }else{
                                     $(".saswp-local-business-name-select").parents('tr').remove();
-                              }       		   		
+                              }                 
                              },'json');
         });
                     
@@ -1956,7 +1956,7 @@ jQuery(document).ready(function($){
                     $.post(ajaxurl, 
                         { action:"saswp_skip_wizard", saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
                          function(response){                                  
-                          		   		
+                                    
                         },'json');
            
        }); 
@@ -2295,7 +2295,9 @@ jQuery(document).ready(function($){
                             html += '<li>';                       
                             html += '<div class="saswp-rd1-data">';
                             html += '<div class="saswp-rd1-athr">';
-                            html += '<img src="'+value.saswp_reviewer_image+'" width="70" height="56"/>';
+                            html += '<div class="saswp-rd1-athr-img">';
+                            html += '<img src="'+value.saswp_reviewer_image+'" width="56" height="56"/>';
+                            html += '</div>';
                             html += '<div class="saswp-rd1-athr-nm">';
                             html += '<h4><a href="#">'+value.saswp_reviewer_name+'</a></h4>';
                             html += saswp_create_rating_html_by_value(value.saswp_review_rating);                       
@@ -2319,8 +2321,8 @@ jQuery(document).ready(function($){
                        
                         if(saswp_collection[key]){
                             
-                            platform_list += '<div>';
-                            platform_list += $("#saswp-plaftorm-list option[value="+key+"]").text();
+                            platform_list += '<div class="cancel-btn">';
+                            platform_list += '<span>'+$("#saswp-plaftorm-list option[value="+key+"]").text()+'</span>';
                             platform_list += '<a platform-id="'+key+'" class="button button-default saswp-remove-platform">X</a>';
                             platform_list += '</div>';
                             
@@ -2356,7 +2358,7 @@ jQuery(document).ready(function($){
             
             function saswp_create_collection_by_design(design, cols, slider, slider_display){
                 
-                console.log(design +','+ cols+','+ slider+','+ slider_display);
+              
                 var html = '';
                 
                 switch(design) {
@@ -2495,9 +2497,9 @@ jQuery(document).ready(function($){
                 var cols           = $(".saswp-grid-options").val();
                 var slider         = $(".saswp-slider-options").val();
                 var slider_display = $("input[name='slider_display']:checked").val();
-                var sorting       = $(".saswp-collection-sorting").val();
+                 var sorting       = $(".saswp-collection-sorting").val();
                 
-                saswp_collection_sorting(sorting);                 
+                saswp_collection_sorting(sorting); 
                 saswp_create_collection_by_design(design, cols, slider, slider_display);     
                                
             });    

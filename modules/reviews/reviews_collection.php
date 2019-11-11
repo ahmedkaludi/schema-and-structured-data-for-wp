@@ -158,56 +158,44 @@ class SASWP_Reviews_Collection {
             <div class="saswp-collection-wrapper">  
                 
                 <form method="post" action="post.php">
+                    <input type="hidden" name="post_type" value="saswp-collections">
+                    <input type="hidden" name="saswp-collection-page" value="1">
+                    <input type="hidden" id="saswp_collection_id" name="saswp_collection_id" value="<?php echo esc_attr($post_id); ?>">                   
                     
-                            <input type="hidden" name="post_type" value="saswp-collections">
-                            <input type="hidden" name="saswp-collection-page" value="1">
-                            <input type="hidden" id="saswp_collection_id" name="saswp_collection_id" value="<?php echo esc_attr($post_id); ?>">                   
-                    
-                           <div class="saswp-collection-container">
-                                                                                                                                                  
-                            <div class="saswp-collection-title">
-                                 <input type="text" value="<?php if(get_the_title($post_id) == 'Auto Draft'){ echo 'Untitled'; }else{ echo get_the_title($post_id); } ?>" id="saswp_collection_title" name="saswp_collection_title" style="width: 30%;">
-                            </div>
-                            
-                            <div class="saswp-collection-body">
-                                
-                                <div class="saswp-collection-preview">
-                                   
-                                    
-                                </div>
-                                                             
-                                <div class="saswp-collection-settings">
-                                    
-                                    
+                    <div class="saswp-collection-container">
+                      <div class="saswp-collection-title">
+                        <input type="text" value="<?php if(get_the_title($post_id) == 'Auto Draft'){ echo 'Untitled'; }else{ echo get_the_title($post_id); } ?>" id="saswp_collection_title" name="saswp_collection_title" style="width: 30%;">
+                      </div>
+                      <div class="saswp-collection-body">
+                          <div class="saswp-collection-preview">
+                             
+                          </div>
+                                                       
+                          <div class="saswp-collection-settings">
+                            <ul>
+                              <li>
                                 <a class="saswp-accordion">Reviews Source</a>
-                                    <div class="saswp-accordion-panel">
-                                   <?php
-                                 
-                                 $platforms = saswp_get_terms_as_array();
-                                 
-                                 if($platforms){
-                                                                          
-                                    global $wpdb;
-                                                                      
-                                        $exists_platforms = $wpdb->get_results("
-                                          SELECT meta_value, count(meta_value) as meta_count FROM `wp_postmeta` WHERE `meta_key`='saswp_review_platform' group by meta_value",
-                                          ARRAY_A
-                                       );
-                                     
-                                     echo '<select id="saswp-plaftorm-list" name="saswp-plaftorm-list">';
-                                     
-                                     $active_options   = '';
-                                     $inactive_options = '';
-                                     
-                                     foreach($platforms as $key => $val){
-                                         
-                                         if(in_array($key, array_column($exists_platforms, 'meta_value'))){
-                                             $active_options .= '<option value="'.esc_attr($key).'">'.esc_attr($val).'</option>';
-                                         }else{
-                                             $inactive_options.= '<option value="'.esc_attr($key).'" disabled>'.esc_attr($val).'</option>';
-                                         }
-                                                                                  
-                                     }
+                                <div class="saswp-accordion-panel">
+                                  <?php $platforms = saswp_get_terms_as_array();
+                                      if($platforms){
+                                      global $wpdb;
+                                      $exists_platforms = $wpdb->get_results("
+                                        SELECT meta_value, count(meta_value) as meta_count FROM `wp_postmeta` WHERE `meta_key`='saswp_review_platform' group by meta_value",
+                                        ARRAY_A
+                                     ); ?>
+                                    <div class="saswp-plf-lst-rv-cnt">
+                                      <?php
+                                      echo '<select id="saswp-plaftorm-list" name="saswp-plaftorm-list">';
+                                   
+                                      $active_options   = '';
+                                      $inactive_options = '';
+                                      foreach($platforms as $key => $val){
+                                        if(in_array($key, array_column($exists_platforms, 'meta_value'))){
+                                               $active_options .= '<option value="'.esc_attr($key).'">'.esc_attr($val).'</option>';
+                                        }else{
+                                           $inactive_options.= '<option value="'.esc_attr($key).'" disabled>'.esc_attr($val).'</option>';
+                                        }
+                                      }
                                      echo '<optgroup label="Active">';
                                      echo $active_options;
                                      echo '</optgroup>';
@@ -215,50 +203,44 @@ class SASWP_Reviews_Collection {
                                      echo $inactive_options;
                                      echo '</optgroup>';
                                      echo '</select>';
-                                                  
-                                  }
-                                                                                                   
-                                 ?>   
-                                        <input type="number" id="saswp-review-count" name="saswp-review-count" min="0" value="5">  
-                                  
-                                  <a class="button button-default saswp-add-to-collection">Add</a>
-                                  
+                                                
+                                } ?>   
+                                    <input type="number" id="saswp-review-count" name="saswp-review-count" min="0" value="5">
+                                    <a class="button button-default saswp-add-to-collection">Add</a>
+                                  </div><!-- /.saswp-plf-lst-rv-cnt -->
                                   <div class="saswp-platform-added-list">                                       
                                   </div>
-                                  
                                 </div>
-                                                                        
+                              </li>
+                              <li>                                     
                                 <a class="saswp-accordion">Presentation</a>
-                                    <div class="saswp-accordion-panel">
+                                <div class="saswp-accordion-panel">
                                     <lable>Design</lable>  
-                                    <select class="saswp-collection-desing">                                     
+                                    <select class="saswp-collection-desing">
                                       <option value="grid">Grid</option>
-                                      <option value="slider">Slider</option>                                      
+                                      <option value="slider">Slider</option>
                                       <option value="badge">Badge</option>
                                       <option value="popup">Popop</option>
-                                      <option value="fomo">Fomo</option>                                      
+                                      <option value="fomo">Fomo</option>
                                      </select>
-                                    
-                                    <select class="saswp-grid-options saswp-desing-options">                                     
+                                    <select class="saswp-grid-options saswp-desing-options">
                                       <option value="4_cols">4 Cols</option>
-                                      <option value="3_cols">3 Cols</option>                                      
-                                      <option value="2_cols">2 Cols</option>                                                                            
+                                      <option value="3_cols">3 Cols</option>
+                                      <option value="2_cols">2 Cols</option>
                                     </select>
-                                    
-                                    <select class="saswp-slider-options saswp-desing-options saswp_hide">                                     
-                                      <option value="1_slider">1 Slider </option>
-                                      <option value="3_slider">3 Slider</option>                                                                            
+                                    <select class="saswp-slider-options saswp-desing-options saswp_hide">
+                                      <option value="1_slider">Slider</option>
+                                      <option value="3_slider">Carousel</option>
                                     </select>
-                                    
                                     <div class="saswp-slider-display saswp-desing-options saswp_hide">
-                                        <input type="radio" name="slider_display" value="arrow" checked> Arrow<br>
-                                        <input type="radio" name="slider_display" value="dot"> Dot<br>
+                                        <span><input type="radio" name="slider_display" value="arrow" checked> Arrows</span>
+                                        <span><input type="radio" name="slider_display" value="dot"> Dots</span>
                                     </div>
-                                                                                                                                                
-                                    </div>
-                                
+                                </div>
+                              </li>
+                              <li>
                                 <a class="saswp-accordion">Filter</a>
-                                <div class="saswp-accordion-panel">                                                                   
+                                <div class="saswp-accordion-panel">
                                   <lable>Sorting</lable>  
                                   <select class="saswp-collection-sorting">                                      
                                       <option value="recent">Recent</option>
@@ -269,31 +251,26 @@ class SASWP_Reviews_Collection {
                                       <option value="random">Random</option>                                      
                                      </select>
                                 </div>
-                                
+                              </li>
+                              <li>
                                 <a class="saswp-accordion">Display</a>
-                                <div class="saswp-accordion-panel">                                  
-                                    <select class="saswp-collection-display-method">                                      
-                                      <option value="before_the_content">Before the content</option>
-                                      <option value="between_the_content">Beetween the content</option>                                      
-                                      <option value="after_the_content">After the content</option>
-                                      <option value="shortcode">Shortcode</option>                                                                  
-                                     </select>
-                                    
-                                    <div class="saswp_hide saswp-collection-shortcode">[reviews-collection id="<?php echo $post_id; ?>"]</div>
-                                    
+                                <div class="saswp-accordion-panel">
+                                  <select class="saswp-collection-display-method">
+                                    <option value="before_the_content">Before the content</option>
+                                    <option value="between_the_content">Beetween the content</option>                                      
+                                    <option value="after_the_content">After the content</option>
+                                    <option value="shortcode">Shortcode</option>
+                                   </select>
+                                  <div class="saswp_hide saswp-collection-shortcode">[reviews-collection id="<?php echo $post_id; ?>"]</div>
                                 </div>
-                                
-                                 <button type="submit" class="button button-primary" > <?php echo esc_html__('Save','schema-and-structured-data-for-wp'); ?>  </button>   
-                                    
-                                </div>
-                                                                
-                            </div>
-                                                                            
-                    </div>
-                    
+                              </li>
+                            </ul>
+                            <button type="submit" class="button button-primary" > <?php echo esc_html__('Save','schema-and-structured-data-for-wp'); ?></button>   
+                          </div><!-- /.saswp-collection-body -->
+                      </div>
+                    </div><!-- /.saswp-collection-container -->
                 </form>    
-                
-            </div> 
+            </div><!-- /.saswp-collection-wrapper -->
 
             <?php
                                     
