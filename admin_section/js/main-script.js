@@ -2459,6 +2459,15 @@ jQuery(document).ready(function($){
                                 
             }
         
+            $(".saswp-collection-display-method").on("change", function(){
+                                              
+               if($(this).val() == 'shortcode'){
+               $(".saswp-collection-shortcode").removeClass('saswp_hide');    
+               }else{
+               $(".saswp-collection-shortcode").addClass('saswp_hide');    
+               }
+                               
+            });
             $(document).on("click", ".saswp-remove-platform", function(e){
                
                 e.preventDefault();

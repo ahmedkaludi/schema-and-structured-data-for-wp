@@ -219,7 +219,7 @@ class SASWP_Reviews_Collection {
                                   }
                                                                                                    
                                  ?>   
-                                  <input type="number" id="saswp-review-count" name="saswp-review-count" min="0">  
+                                        <input type="number" id="saswp-review-count" name="saswp-review-count" min="0" value="5">  
                                   
                                   <a class="button button-default saswp-add-to-collection">Add</a>
                                   
@@ -272,12 +272,15 @@ class SASWP_Reviews_Collection {
                                 
                                 <a class="saswp-accordion">Display</a>
                                 <div class="saswp-accordion-panel">                                  
-                                  <select>                                      
-                                      <option value="no_minimum">Before the content</option>
-                                      <option value="2_stars">Beetween the content</option>                                      
-                                      <option value="3_stars">After the content</option>
-                                      <option value="3_stars">Shortcode</option>                                                                  
+                                    <select class="saswp-collection-display-method">                                      
+                                      <option value="before_the_content">Before the content</option>
+                                      <option value="between_the_content">Beetween the content</option>                                      
+                                      <option value="after_the_content">After the content</option>
+                                      <option value="shortcode">Shortcode</option>                                                                  
                                      </select>
+                                    
+                                    <div class="saswp_hide saswp-collection-shortcode">[reviews-collection id="<?php echo $post_id; ?>"]</div>
+                                    
                                 </div>
                                 
                                  <button type="submit" class="button button-primary" > <?php echo esc_html__('Save','schema-and-structured-data-for-wp'); ?>  </button>   
