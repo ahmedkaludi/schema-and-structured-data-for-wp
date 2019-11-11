@@ -1282,20 +1282,24 @@ function saswp_append_fetched_reviews($input1){
             $mached = rtrim($matche, ']'); 
             $mached = ltrim($mached, '[');
             $mached = trim($mached);
-            $attr = shortcode_parse_atts('['.$mached.' ]');  
+            $attr   = shortcode_parse_atts('['.$mached.' ]');  
             
-            $reviews = $service->saswp_get_reviews_by_attr($attr);   
+            $reviews = $service->saswp_get_reviews_list_by_parameters($attr);   
             
             if($reviews){
              
                 $rv_markup = $service->saswp_get_reviews_schema_markup($reviews);
-            
-                if(isset($input1['review'])){
+                
+                if($rv_markup){
+                    
+                    if(isset($input1['review'])){
 
                     $input1['review'] = array_merge($input1['review'], $rv_markup['review']);
 
-                }else{
-                   $input1 = array_merge($input1, $rv_markup);
+                    }else{
+                       $input1 = array_merge($input1, $rv_markup);
+                    }
+                    
                 }
                 
             }            
