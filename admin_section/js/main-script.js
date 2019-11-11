@@ -2495,9 +2495,9 @@ jQuery(document).ready(function($){
                 var cols           = $(".saswp-grid-options").val();
                 var slider         = $(".saswp-slider-options").val();
                 var slider_display = $("input[name='slider_display']:checked").val();
-                 var sorting       = $(".saswp-collection-sorting").val();
+                var sorting       = $(".saswp-collection-sorting").val();
                 
-                saswp_collection_sorting(sorting); 
+                saswp_collection_sorting(sorting);                 
                 saswp_create_collection_by_design(design, cols, slider, slider_display);     
                                
             });    
