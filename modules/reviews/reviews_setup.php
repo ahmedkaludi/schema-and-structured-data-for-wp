@@ -325,6 +325,7 @@ function saswp_insert_platform_terms(){
                     'Rotten Tomatoes',
                     'Sitejabber', 
                     'Siftery', 
+                    'Steam',
                     'SoftwareAdvice',
                     'Shopper Approved',
                     'Talabat', 

@@ -2289,8 +2289,17 @@ jQuery(document).ready(function($){
                 if(saswp_collection){
                     
                     html += '<div class="saswp-rd1-warp">';
-                    html += '<ul>';
-                                        
+                    
+                    if(cols == '4_cols'){
+                       html += '<ul style="grid-template-columns:1fr 1fr 1fr 1fr;">'; 
+                    }
+                    if(cols == '3_cols'){
+                        html += '<ul style="grid-template-columns:1fr 1fr 1fr;">';
+                    }
+                    if(cols == '2_cols'){
+                        html += '<ul style="grid-template-columns:1fr 1fr;">';
+                    }
+                                                                                
                     for (var key in saswp_collection) {
                                                                         
                         $.each(saswp_collection[key], function(index, value){
@@ -2350,8 +2359,10 @@ jQuery(document).ready(function($){
                 
             }
             function saswp_create_collection_badge(){
+                
                 var html = '';
                 var platform_list = '';
+                
                 
                 if(saswp_collection){
                     
@@ -2359,15 +2370,29 @@ jQuery(document).ready(function($){
                     html += '<ul>';
                                         
                     for (var key in saswp_collection) {
-                                                                        
+                          
+                        var platform_icon  = '';
+                        var review_count   = 0;                        
+                        var sum_of_rating  = 0;
+                        var average_rating = 1;
+                        
                         $.each(saswp_collection[key], function(index, value){
+                            platform_icon = value.saswp_review_platform_icon;
+                            sum_of_rating += parseFloat(value.saswp_review_rating);
+                            review_count++;
+                        });  
+                        if(sum_of_rating > 0){
+                        
+                            average_rating = sum_of_rating / review_count;
                             
-                      html += '<li>';                       
+                        }
+                                                
+                        html += '<li>';                       
                       html += '<a href="#">'; 
 
                         html += '<div class="saswp-rv-lg-txt">';
                           html += '<span>';
-                           html += '<img src="'+value.saswp_review_platform_icon+'"/>';
+                           html += '<img src="'+platform_icon+'"/>';
                           html += '</span>';
                           html += '<h4>Google';
                           html += '</h4">';
@@ -2378,22 +2403,22 @@ jQuery(document).ready(function($){
 
                         html += '<div class="saswp-rtng-txt">';
                           html += '<span class="saswp-rt-num">';
-                            html += value.saswp_review_rating;
+                            html += average_rating;
                           html += '</span>';
                           html += '<span class="saswp-stars">';
-                            html += saswp_create_rating_html_by_value(value.saswp_review_rating); 
+                           html += saswp_create_rating_html_by_value(average_rating.toString()); 
                           html += '</span>';
                         html += '</div>';
 
                         html += '<span class="saswp-bsd-rv">';
-                        html += 'Based on 100 Reviews';
+                        html += 'Based on '+review_count+' Reviews';
                         html += '</span>';
 
                       html += '</div>';
                       html += '</a>';
                       html += '</li>';
-                        });
-                       
+                        
+                        
                         if(saswp_collection[key]){
                             
                             platform_list += '<div class="cancel-btn">';

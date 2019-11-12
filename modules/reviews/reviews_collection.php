@@ -223,10 +223,10 @@ class SASWP_Reviews_Collection {
                                       <option value="popup">Popop</option>
                                       <option value="fomo">Fomo</option>
                                      </select>
-                                    <select class="saswp-grid-options saswp-desing-options">
-                                      <option value="4_cols">4 Columns</option>
+                                    <select class="saswp-grid-options saswp-desing-options">                                      
                                       <option value="3_cols">3 Columns</option>
                                       <option value="2_cols">2 Columns</option>
+                                      <option value="4_cols">4 Columns</option>
                                     </select>
                                     <select class="saswp-slider-options saswp-desing-options saswp_hide">
                                       <option value="1_slider">Slider</option>
