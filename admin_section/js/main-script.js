@@ -2350,7 +2350,69 @@ jQuery(document).ready(function($){
                 
             }
             function saswp_create_collection_badge(){
+                var html = '';
+                var platform_list = '';
                 
+                if(saswp_collection){
+                    
+                    html += '<div class="saswp-rd3-warp">';
+                    html += '<ul>';
+                                        
+                    for (var key in saswp_collection) {
+                                                                        
+                        $.each(saswp_collection[key], function(index, value){
+                            
+                      html += '<li>';                       
+                      html += '<a href="#">'; 
+
+                        html += '<div class="saswp-rv-lg-txt">';
+                          html += '<span>';
+                           html += '<img src="'+value.saswp_review_platform_icon+'"/>';
+                          html += '</span>';
+                          html += '<h4>Google';
+                          html += '</h4">';
+                        html += '</div>'
+
+
+                      html += '<div class="saswp-rv-rtng">';
+
+                        html += '<div class="saswp-rtng-txt">';
+                          html += '<span class="saswp-rt-num">';
+                            html += value.saswp_review_rating;
+                          html += '</span>';
+                          html += '<span class="saswp-stars">';
+                            html += saswp_create_rating_html_by_value(value.saswp_review_rating); 
+                          html += '</span>';
+                        html += '</div>';
+
+                        html += '<span class="saswp-bsd-rv">';
+                        html += 'Based on 100 Reviews';
+                        html += '</span>';
+
+                      html += '</div>';
+                      html += '</a>';
+                      html += '</li>';
+                        });
+                       
+                        if(saswp_collection[key]){
+                            
+                            platform_list += '<div class="cancel-btn">';
+                            platform_list += '<span>'+$("#saswp-plaftorm-list option[value="+key+"]").text()+'</span>';
+                            platform_list += '<a platform-id="'+key+'" class="button button-default saswp-remove-platform">X</a>';
+                            platform_list += '</div>';
+                            
+                        }
+                                                                                                
+                    }
+                    
+                    html += '</ul>';
+                    html += '</div>';
+                                        
+                }
+                $(".saswp-collection-preview").html('');    
+                $(".saswp-platform-added-list").html('');                
+                $(".saswp-platform-added-list").append(platform_list);                 
+                $(".saswp-collection-preview").append(html); 
             }
             function saswp_create_collection_popup(){
                 

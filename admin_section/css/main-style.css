@@ -1402,17 +1402,6 @@ Collection css starts here
   -webkit-border-radius: 4px;
   border-radius: 4px;
 }
-.saswp-rd1-fb svg{
-  background:#3c5b9b;
-  width: 20px;
-  height: 20px;
-  padding: 2px;
-  border-radius: 100px;
-}
-.saswp-rd1-yrw svg{
-  width: 106px;
-  height: 20px;
-}
 
 /** colltection settings CSS **/
 .saswp-collection-settings ul{
@@ -1506,4 +1495,68 @@ Collection css starts here
     text-align: center;
     margin: 10px auto 0 auto;
     display: inherit;
+}
+
+
+/** Badges CSS **/
+.saswp-rd3-warp ul{
+  padding:0px;
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr 1fr;
+  grid-gap: 30px;
+  list-style-type:none;
+}
+.saswp-rd3-warp li{
+  box-shadow: 0 2px 5px 0 rgba(0,0,0,.26);
+}
+.saswp-rd3-warp li a{
+  text-decoration:none;
+}
+.saswp-rv-lg-txt{
+  background: #ededed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+}
+.saswp-rv-lg-txt span img{
+    width:18px;
+    height: 18px;
+    margin-right:10px;
+}
+.saswp-rv-lg-txt span {
+    line-height: 0px;
+}
+.saswp-rv-lg-txt h4{
+  margin:0;
+  font-size:22px;
+  line-height:1.4;
+  color:#333;
+  font-weight:400;
+}
+.saswp-lg{
+  line-height: 0;
+  margin-right: 10px;
+}
+.saswp-rv-rtng{
+  padding:15px;
+  background:#fff;
+}
+.saswp-rtng-txt{
+  display: flex;
+  align-items: center;
+  line-height: 0;
+  width: 100%;
+  margin-bottom:10px;
+}
+.saswp-rtng-txt .saswp-rt-num{
+  color: #666;
+  margin-right: 10px;
+  font-size: 20px;
+}
+.saswp-bsd-rv{
+  color: #999;
+  font-size: 15px;
 }
