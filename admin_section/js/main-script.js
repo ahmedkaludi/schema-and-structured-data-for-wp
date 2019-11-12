@@ -2440,47 +2440,48 @@ jQuery(document).ready(function($){
                 $(".saswp-collection-preview").append(html); 
             }
             function saswp_create_collection_popup(){
-                var html = '';
+                var html          = '';
                 var platform_list = '';
+                var html_list     = '';
                 
                 if(saswp_collection){
-                    
-                    html += '<div class="saswp-sticky-review">';
-                    html += '<div class="saswp-opn-cls-btn">';
-                    html += '<div class="onclick-hide">';
-                    html += '<span>';
-                    html += '<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="17" height="17" viewBox="0 0 1792 1792"><path d="M1728 647q0 22-26 48l-363 354 86 500q1 7 1 20 0 21-10.5 35.5t-30.5 14.5q-19 0-40-12l-449-236-449 236q-22 12-40 12-21 0-31.5-14.5t-10.5-35.5q0-6 2-20l86-500-364-354q-25-27-25-48 0-37 56-46l502-73 225-455q19-41 49-41t49 41l225 455 502 73q56 9 56 46z" fill="#e7711b"></path></svg><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="17" height="17" viewBox="0 0 1792 1792"><path d="M1728 647q0 22-26 48l-363 354 86 500q1 7 1 20 0 21-10.5 35.5t-30.5 14.5q-19 0-40-12l-449-236-449 236q-22 12-40 12-21 0-31.5-14.5t-10.5-35.5q0-6 2-20l86-500-364-354q-25-27-25-48 0-37 56-46l502-73 225-455q19-41 49-41t49 41l225 455 502 73q56 9 56 46z" fill="#e7711b"></path></svg><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="17" height="17" viewBox="0 0 1792 1792"><path d="M1728 647q0 22-26 48l-363 354 86 500q1 7 1 20 0 21-10.5 35.5t-30.5 14.5q-19 0-40-12l-449-236-449 236q-22 12-40 12-21 0-31.5-14.5t-10.5-35.5q0-6 2-20l86-500-364-354q-25-27-25-48 0-37 56-46l502-73 225-455q19-41 49-41t49 41l225 455 502 73q56 9 56 46z" fill="#e7711b"></path></svg><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="17" height="17" viewBox="0 0 1792 1792"><path d="M1728 647q0 22-26 48l-363 354 86 500q1 7 1 20 0 21-10.5 35.5t-30.5 14.5q-19 0-40-12l-449-236-449 236q-22 12-40 12-21 0-31.5-14.5t-10.5-35.5q0-6 2-20l86-500-364-354q-25-27-25-48 0-37 56-46l502-73 225-455q19-41 49-41t49 41l225 455 502 73q56 9 56 46z" fill="#e7711b"></path></svg><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="17" height="17" viewBox="0 0 1792 1792"><path d="M1250 957l257-250-356-52-66-10-30-60-159-322v963l59 31 318 168-60-355-12-66zm452-262l-363 354 86 500q5 33-6 51.5t-34 18.5q-17 0-40-12l-449-236-449 236q-23 12-40 12-23 0-34-18.5t-6-51.5l86-500-364-354q-32-32-23-59.5t54-34.5l502-73 225-455q20-41 49-41 28 0 49 41l225 455 502 73q45 7 54 34.5t-24 59.5z" fill="#e7711b"></path></svg>';
-                    html += '</span>';
-                    html += '<span>';
-                    html += '4.4 from 5.8 reviews';
-                    html += '</span>';
-                    html += '</div>';
-                    html += '<div class="onclick-show">';
-                    html += '<span>';
-                    html += 'Ratings and reviews';
-                    html += '</span>';
-                    html += '<span class="saswp-mines">';
-                    html += '</span>';
-                   
-                    html += '</div>';
-                    html += '<div id="saswp-reviews-cntn">';
-                    html += '<div class="saswp-reviews-info">';
-                    html += '<ul>';
                                         
                     for (var key in saswp_collection) {
+                        
+                         var platform_icon  = '';
+                        var review_count   = 0;                        
+                        var sum_of_rating  = 0;
+                        var average_rating = 1;
                                                                         
                         $.each(saswp_collection[key], function(index, value){
                             
-                            html += '<li>';
-                            html += '<span>';
-                            html += saswp_create_rating_html_by_value(value.saswp_review_rating);
-                            html += '</span>';
-                            html += '<span class="saswp-ttl-rvws">';
-                            html += '4.4 from 58 reviews';
-                            html += '</span>';
-                            html += '</li>';
+                            platform_icon = value.saswp_review_platform_icon;
+                            sum_of_rating += parseFloat(value.saswp_review_rating);
+                            review_count++;
+                            
+                            html_list += '<li>';
+                            html_list += '<div class="saswp-rvws-dta">';
+                            html_list += '<span class="saswp-svg-img">';
+                            html_list += saswp_create_rating_html_by_value(value.saswp_review_rating);
+                            html_list += '</span>';
+                            html_list += '<span class="saswp-rvw-tx saswp-rvw-nm">'+value.saswp_reviewer_name+'</span>';
+                            html_list += '<span class="saswp-rvw-tx">'+value.saswp_review_date+'</span>';
+                            html_list += '</div>';
+                            
+                            html_list += '<div class="saswp-rvws-txt">';
+                            html_list += '<h3>'+value.saswp_reviewer_name+'</h3>';
+                            html_list += '<p>'+value.saswp_review_text+'</p>';
+                            html_list += '</div>';
+                            
+                            html_list += '</li>';
                                                                                   
                         });
+                       
+                        if(sum_of_rating > 0){
+                        
+                            average_rating = sum_of_rating / review_count;
+                            
+                        }
                        
                         if(saswp_collection[key]){
                             
@@ -2493,7 +2494,37 @@ jQuery(document).ready(function($){
                                                                                                 
                     }
                     
-                    html += '</ul>';
+                    html += '<div id="saswp-sticky-review">';
+                    html += '<div class="saswp-open-class saswp-popup-btn">';
+                    html += '<div class="saswp-opn-cls-btn">';
+                    
+                    html += '<div class="saswp-onclick-hide">';
+                    html += '<span>';
+                    html += saswp_create_rating_html_by_value(average_rating.toString());
+                    html += '</span>';
+                    html += '<span class="saswp-ttl-rvws">'+average_rating+' from '+review_count+' reviews</span>';                    
+                    html += '</div>';
+                    
+                    html += '<div class="saswp-onclick-show">';
+                    html += '<span>Ratings and reviews</span>';                    
+                    html += '<span class="saswp-mines"></span>';                    
+                    html += '</div>';
+                    
+                    html += '</div>';
+                    html += '<div id="saswp-reviews-cntn">';
+                    html += '<div class="saswp-reviews-info">';
+                    html += '<ul>';
+                    
+                    html += '<li class="saswp-ttl-rvw">';
+                    html += '<span>';
+                    html += saswp_create_rating_html_by_value(average_rating.toString());
+                    html += '</span>';
+                    html += '<span class="saswp-ttl-rvws">'+average_rating+' from '+review_count+' reviews</span>';                    
+                    html += '</li>';                                        
+                    html += html_list;
+                    html += '</ul>';                    
+                    html += '</div>';
+                    html += '</div>';
                     html += '</div>';
                     html += '</div>';
                                         
@@ -2520,7 +2551,7 @@ jQuery(document).ready(function($){
                         
                         break;
                         
-                    case 'Slider':
+                    case 'slider':
                         
                          saswp_create_collection_slider(slider, slider_display);
                         
@@ -2612,6 +2643,11 @@ jQuery(document).ready(function($){
                                 
             }
         
+            $(document).on("click", ".saswp-opn-cls-btn", function(){
+                
+                $("#saswp-reviews-cntn").toggle();
+                                                                                
+            });
             $(".saswp-collection-display-method").on("change", function(){
                                               
                if($(this).val() == 'shortcode'){

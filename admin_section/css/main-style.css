@@ -1563,11 +1563,10 @@ Collection css starts here
 
 
 /** Popup2 CSS **/
-.btn{
+.saswp-popup-btn{
   position: fixed;
   top: auto;
-  bottom: 0;
-  left: 20px;
+  bottom: 0;  
   font-family: "Arial",sans-serif;
   z-index: 9;
   box-shadow: 0 20px 40px 8px rgba(0,0,0,.25);
@@ -1576,14 +1575,15 @@ Collection css starts here
   border:none;
   padding:0;
 }
-.open-class.btn{
+.saswp-open-class.saswp-popup-btn{
   width:500px;
 }
 #saswp-reviews-cntn {
-    display:none;
+ //   display:none;
 }
-#saswp-sticky-review .open-class #saswp-reviews-cntn{
+#saswp-sticky-review .saswp-open-class #saswp-reviews-cntn{
   display:block;
+  width: 100%;
 }
 .saswp-opn-cls-btn{
   display: flex;
@@ -1674,12 +1674,12 @@ Collection css starts here
   top: -2px;
 }
 
-.btn .onclick-hide, .btn.open-class .onclick-show {
+.btn .saswp-onclick-hide, .btn.saswp-open-class .saswp-onclick-show {
   display: flex;
   justify-content: space-between;
   width: 100%;
 }
-.btn .onclick-show, .btn.open-class .onclick-hide{
+.btn .saswp-onclick-show, .btn.saswp-open-class .saswp-onclick-hide{
   display:none;
 }
 span.saswp-mines{
