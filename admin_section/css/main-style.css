@@ -1518,7 +1518,7 @@ Collection css starts here
   align-items: center;
   justify-content: center;
   width: 100%;
-  padding: 8px;
+  padding: 6px 8px;
   box-sizing: border-box;
 }
 .saswp-rv-lg-txt span img{
@@ -1558,5 +1558,5 @@ Collection css starts here
 }
 .saswp-bsd-rv{
   color: #999;
-  font-size: 15px;
+  font-size: 14px;
 }
