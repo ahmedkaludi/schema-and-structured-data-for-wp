@@ -2094,11 +2094,14 @@ jQuery(document).ready(function($){
           current_fly.addClass('updating-message');
           var schema_type    = $('select#schema_type option:selected').val();
           var schema_subtype = '';
+          var field_name     = null;
           
           if(schema_type == 'Review'){
               schema_subtype = $('select.saswp-item-reivewed-list option:selected').val();
+              field_name  = 'saswp_review_name';
           }          
           var post_id = $('#post_ID').val();
+          
           if(schema_type !=''){
                             
               if(!saswp_meta_list_fields[schema_type]){
@@ -2111,7 +2114,7 @@ jQuery(document).ready(function($){
                             success:function(response){   
                                                                                                         
                                         saswp_meta_list_fields[schema_type] = response;                                       
-                                        saswp_get_meta_list(current_fly, 'text', saswp_meta_list_fields[schema_type], null, null, null);                                                                     
+                                        saswp_get_meta_list(current_fly, 'text', saswp_meta_list_fields[schema_type], null, field_name, null);                                                                     
                              
                             },
                             error: function(response){                    
@@ -2122,7 +2125,7 @@ jQuery(document).ready(function($){
                   
               }else{
                                         
-                saswp_get_meta_list(current_fly, 'text', saswp_meta_list_fields[schema_type], null, null, null);
+                saswp_get_meta_list(current_fly, 'text', saswp_meta_list_fields[schema_type], null, field_name, null);
                                     
               }
                      
