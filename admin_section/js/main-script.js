@@ -1887,63 +1887,29 @@ return false;
                
                 e.preventDefault();
                 
-                $(this).remove();
-                
-                var design         = $(".saswp-collection-desing").val();                                   
-                var cols           = $(".saswp-grid-options").val();
-                var slider         = $(".saswp-slider-type").val();
-                var slider_type    = $("input[name='slider_type']:checked").val();                
+                $(this).remove();                                
                 var platform_id = $(this).attr('platform-id');
                 saswp_collection[platform_id] = null;                
-                saswp_create_collection_by_design(design, cols, slider, slider_type);           
+                saswp_on_collection_design_change();          
                                
             });            
-            $(".saswp-slider-type").on("change", function(){                                                                                
+            $(".saswp-slider-type, .saswp-grid-options, .saswp-slider-display input:radio").on("change", function(){                                                                                
                 
-                var design         = $(".saswp-collection-desing").val();                                   
-                var cols           = $(".saswp-grid-options").val();
-                var slider         = $(".saswp-slider-type").val();
-                var slider_type    = $("input[name='slider_type']:checked").val();
-               
-                saswp_create_collection_by_design(design, cols, slider, slider_type);                                                
+                saswp_on_collection_design_change();
             });            
-            $(".saswp-grid-options").on("change", function(){                                                                                
-                
-                var design         = $(".saswp-collection-desing").val();                                   
-                var cols           = $(".saswp-grid-options").val();
-                var slider         = $(".saswp-slider-type").val();
-                var slider_type    = $("input[name='slider_type']:checked").val();
-               
-                saswp_create_collection_by_design(design, cols, slider, slider_type);                                                
-            });            
-            $(".saswp-slider-display input:radio").on("change", function(){                                                                                
-                
-                var design         = $(".saswp-collection-desing").val();                                   
-                var cols           = $(".saswp-grid-options").val();
-                var slider         = $(".saswp-slider-type").val();
-                var slider_type    = $("input[name='slider_type']:checked").val();
-               
-                saswp_create_collection_by_design(design, cols, slider, slider_type);                                                
-            });                
+            
             $(".saswp-collection-sorting").on("change", function(){
-                
-                var design         = $(".saswp-collection-desing").val();                                   
-                var cols           = $(".saswp-grid-options").val();
-                var slider         = $(".saswp-slider-type").val();
-                var slider_type = $("input[name='slider_type']:checked").val();
-                var sorting       = $(".saswp-collection-sorting").val();
+                                               
+                var sorting        = $(".saswp-collection-sorting").val();
                 
                 saswp_collection_sorting(sorting); 
-                saswp_create_collection_by_design(design, cols, slider, slider_type);     
+                saswp_on_collection_design_change();      
                                
             });                                       
             $(".saswp-collection-desing").on("change", function(){
                 
                 var design         = $(".saswp-collection-desing").val();                                   
-                var cols           = $(".saswp-grid-options").val();
-                var slider         = $(".saswp-slider-type").val();
-                var slider_type    = $("input[name='slider_type']:checked").val();
-                                                
+                
                 $(".saswp-desing-options").addClass('saswp_hide');
                 
                 if(design == 'grid'){
@@ -1955,7 +1921,7 @@ return false;
                     $(".saswp-slider-display").removeClass("saswp_hide");
                 }
                 
-                saswp_create_collection_by_design(design, cols, slider, slider_type);
+                saswp_on_collection_design_change();  
                                                 
             });                        
             $(".saswp-add-to-collection").on("click", function(e){

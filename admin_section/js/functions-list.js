@@ -635,7 +635,8 @@
                                 
                                 return html;
                       
-       }     
+       }    
+       
        function saswp_create_collection_slider(slider, slider_type){
                 
                 
@@ -961,8 +962,8 @@
                         
             function saswp_fomo_loop() {
                 
-                elem.eq(i % l).fadeIn(3000, function() {
-                    elem.eq(i % l).fadeOut(3000, saswp_fomo_loop);
+                elem.eq(i % l).fadeIn(1500, function() {
+                    elem.eq(i % l).fadeOut(1500, saswp_fomo_loop);
                     i++;
                 });
             }
@@ -1186,3 +1187,14 @@
                 }                           
                 
             } 
+            
+       function saswp_on_collection_design_change(){
+           
+                var design         = jQuery(".saswp-collection-desing").val();                                   
+                var cols           = jQuery(".saswp-grid-options").val();
+                var slider         = jQuery(".saswp-slider-type").val();
+                var slider_type    = jQuery("input[name='slider_type']:checked").val();
+               
+                saswp_create_collection_by_design(design, cols, slider, slider_type);                                                
+           
+       }     
