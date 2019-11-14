@@ -1425,7 +1425,7 @@ Collection css starts here
     box-sizing: border-box;
     position: relative;
 }
-.active, .accordion:hover {
+.saswp-active, .accordion:hover {
   background-color: #ccc; 
 }
 .saswp-plf-lst-rv-cnt{
@@ -1486,7 +1486,7 @@ Collection css starts here
     right: 18px;
     tansition:all 0.3s ease-in-out 0s;
 }
-.saswp-collection-settings li a.saswp-accordion.active:after{
+.saswp-collection-settings li a.saswp-accordion.saswp-active:after{
     transform: rotate(45deg);
     top: 15px;
 }
@@ -1765,7 +1765,7 @@ span.saswp-mines{
   display:inline-block;
   margin-bottom:50px;
 }
-.saswp-rd2-warp li {
+.saswp-rd2-warp div {
   width:350px;
   margin-right:25px;
 }
@@ -1835,22 +1835,11 @@ span.saswp-mines{
   margin:0px 5px;
   cursor: pointer;
 }
-.carousel-preview button.active{
+.carousel-preview button.saswp-active{
   background:#427fed;
 }
 
 /**Slider csss starts here **/
-
-/** {
-  box-sizing: border-box;
-}
-
-body {
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}*/
 
 .saswp-collection-slider { 
   width: 100%;
@@ -1894,7 +1883,7 @@ body {
   margin: 0 auto;
   padding: 20px;
 }
-.saswp-collection-slider .saswp-slider-dots .dot {
+.saswp-collection-slider .saswp-slider-dots .saswp-dot {
   width: 10px;
   height: 10px;
   background: #333;
@@ -1903,7 +1892,7 @@ body {
   cursor: pointer;
   margin: 0 20px;
 }
-.saswp-collection-slider .saswp-slider-dots .dot.active {
+.saswp-collection-slider .saswp-slider-dots .saswp-dot.saswp-active {
   background: #888;
 }
 

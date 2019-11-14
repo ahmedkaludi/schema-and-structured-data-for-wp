@@ -5,6 +5,24 @@
        var saswp_collection       = [];       
        var saswp_coll_json        = null; 
        
+       function saswp_convert_datetostring(date_str){
+           
+           var date_time = {};
+           
+           if(date_str){
+               
+             var date_string = new Date(date_str); 
+             
+               date_time = {
+                   time : date_string.toLocaleTimeString(),
+                   date : date_string.toLocaleDateString()
+               };
+           }
+           
+           return date_time;
+           
+       };
+       
        function saswp_taxonomy_term_html(taxonomy, field_name){
            
             var html ='';
@@ -432,7 +450,21 @@
 
                     return results;
             }
+       
+       function saswp_function_added_platform(key, rvcount){
+           
+            var platform_list = '';
             
+            platform_list += '<div class="cancel-btn">';
+            platform_list += '<span>'+jQuery("#saswp-plaftorm-list option[value="+key+"]").text()+'</span>';
+            platform_list += '<input type="hidden" name="saswp_platform_ids['+key+']['+rvcount+']">';
+            platform_list += '<a platform-id="'+key+'" class="button button-default saswp-remove-platform">X</a>';
+            platform_list += '</div>';
+            
+            return platform_list;
+                                   
+       }
+       
        function saswpCollectionSlider(){
 	
                 jQuery(".saswp-collection-slider").each( function(){
@@ -440,8 +472,8 @@
 		var $slider = jQuery(this),
 				$itemscontainer = $slider.find(".saswp-slider-items-container");
 		
-		if ($itemscontainer.find(".saswp-slider-item.active").length == 0){
-			$itemscontainer.find(".saswp-slider-item").first().addClass("active");
+		if ($itemscontainer.find(".saswp-slider-item.saswp-active").length == 0){
+			$itemscontainer.find(".saswp-slider-item").first().addClass("saswp-active");
 		}
 		
 		function setWidth(){
@@ -456,9 +488,9 @@
 		}
 		function setTransform(){
 			
-                        if(jQuery(".saswp-slider-item.active").length > 0){
+                        if(jQuery(".saswp-slider-item.saswp-active").length > 0){
                         
-                            var $activeItem = $itemscontainer.find(".saswp-slider-item.active"),
+                            var $activeItem = $itemscontainer.find(".saswp-slider-item.saswp-active"),
                                             activeItemOffset = $activeItem.offset().left,
                                             itemsContainerOffset = $itemscontainer.offset().left,
                                             totalOffset = activeItemOffset - itemsContainerOffset;
@@ -469,7 +501,7 @@
                         						
 		}
 		function nextSlide(){
-			var activeItem = $itemscontainer.find(".saswp-slider-item.active"),
+			var activeItem = $itemscontainer.find(".saswp-slider-item.saswp-active"),
 					activeItemIndex = activeItem.index(),
 					sliderItemTotal = $itemscontainer.find(".saswp-slider-item").length,
 					nextSlide = 0;
@@ -484,15 +516,15 @@
 					itemContainerOffset = $itemscontainer.offset().left,
 					totalOffset = nextSlideSelect.offset().left - itemContainerOffset
 			
-			$itemscontainer.find(".saswp-slider-item.active").removeClass("active");
-			nextSlideSelect.addClass("active");
-			$slider.find(".saswp-slider-dots").find(".dot").removeClass("active")
-			$slider.find(".saswp-slider-dots").find(".dot").eq(nextSlide).addClass("active");
+			$itemscontainer.find(".saswp-slider-item.saswp-active").removeClass("saswp-active");
+			nextSlideSelect.addClass("saswp-active");
+			$slider.find(".saswp-slider-dots").find(".saswp-dot").removeClass("saswp-active")
+			$slider.find(".saswp-slider-dots").find(".saswp-dot").eq(nextSlide).addClass("saswp-active");
 			$itemscontainer.css({"transform": "translate( -"+totalOffset+"px, 0px)"})
 			
 		}
 		function prevSlide(){
-			var activeItem = $itemscontainer.find(".saswp-slider-item.active"),
+			var activeItem = $itemscontainer.find(".saswp-slider-item.saswp-active"),
 					activeItemIndex = activeItem.index(),
 					sliderItemTotal = $itemscontainer.find(".saswp-slider-item").length,
 					nextSlide = 0;
@@ -507,23 +539,23 @@
 					itemContainerOffset = $itemscontainer.offset().left,
 					totalOffset = nextSlideSelect.offset().left - itemContainerOffset
 			
-			$itemscontainer.find(".saswp-slider-item.active").removeClass("active");
-			nextSlideSelect.addClass("active");
-			$slider.find(".saswp-slider-dots").find(".dot").removeClass("active")
-			$slider.find(".saswp-slider-dots").find(".dot").eq(nextSlide).addClass("active");
+			$itemscontainer.find(".saswp-slider-item.saswp-active").removeClass("saswp-active");
+			nextSlideSelect.addClass("saswp-active");
+			$slider.find(".saswp-slider-dots").find(".saswp-dot").removeClass("saswp-active")
+			$slider.find(".saswp-slider-dots").find(".saswp-dot").eq(nextSlide).addClass("saswp-active");
 			$itemscontainer.css({"transform": "translate( -"+totalOffset+"px, 0px)"})
 			
 		}
 		function makeDots(){
-			var activeItem = $itemscontainer.find(".saswp-slider-item.active"),
+			var activeItem = $itemscontainer.find(".saswp-slider-item.saswp-active"),
 					activeItemIndex = activeItem.index(),
 					sliderItemTotal = $itemscontainer.find(".saswp-slider-item").length;
 			
 			for (i = 0; i < sliderItemTotal; i++){
-				$slider.find(".saswp-slider-dots").append("<div class='dot'></div>")
+				$slider.find(".saswp-slider-dots").append("<div class='saswp-dot'></div>")
 			}
 			
-			$slider.find(".saswp-slider-dots").find(".dot").eq(activeItemIndex).addClass("active")
+			$slider.find(".saswp-slider-dots").find(".saswp-dot").eq(activeItemIndex).addClass("saswp-active")
 			
 		}
 		
@@ -549,15 +581,15 @@
 			prevSlide();
 		});
 		
-		$slider.find(".saswp-slider-dots").find(".dot").on('click', function(e){
+		$slider.find(".saswp-slider-dots").find(".saswp-dot").on('click', function(e){
 			
 			var dotIndex = jQuery(this).index(),
 			totalOffset = $itemscontainer.find(".saswp-slider-item").eq(dotIndex).offset().left - $itemscontainer.offset().left;
 					
-			$itemscontainer.find(".saswp-slider-item.active").removeClass("active");
-			$itemscontainer.find(".saswp-slider-item").eq(dotIndex).addClass("active");
-			$slider.find(".saswp-slider-dots").find(".dot").removeClass("active");
-			jQuery(this).addClass("active")
+			$itemscontainer.find(".saswp-slider-item.saswp-active").removeClass("saswp-active");
+			$itemscontainer.find(".saswp-slider-item").eq(dotIndex).addClass("saswp-active");
+			$slider.find(".saswp-slider-dots").find(".saswp-dot").removeClass("saswp-active");
+			jQuery(this).addClass("saswp-active")
 			
 			$itemscontainer.css({"transform": "translate( -"+totalOffset+"px, 0px)"})
 			
@@ -567,13 +599,61 @@
 	
                }     
             
+       function saswp_review_desing_for_slider(value){
+                      
+                            var date_str = saswp_convert_datetostring(value.saswp_review_date); 
+                        
+                            var html = '';
+           
+                                html += '<div class="saswp-rv-box">';
+                                html += '<div class="saswp-rd2-box">';
+                                html += '<div class="saswp-rd1-rv-lg">';
+                                html += '<img src="'+value.saswp_review_platform_icon+'"/>';
+                                html += '</div>';
+                                html += '<div class="saswp-rd2-quote">';
+                                html += '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" width="95.333px" height="95.332px" viewBox="0 0 95.333 95.332" style="enable-background:new 0 0 95.333 95.332;" xml:space="preserve"><path d="M30.512,43.939c-2.348-0.676-4.696-1.019-6.98-1.019c-3.527,0-6.47,0.806-8.752,1.793    c2.2-8.054,7.485-21.951,18.013-23.516c0.975-0.145,1.774-0.85,2.04-1.799l2.301-8.23c0.194-0.696,0.079-1.441-0.318-2.045    s-1.035-1.007-1.75-1.105c-0.777-0.106-1.569-0.16-2.354-0.16c-12.637,0-25.152,13.19-30.433,32.076    c-3.1,11.08-4.009,27.738,3.627,38.223c4.273,5.867,10.507,9,18.529,9.313c0.033,0.001,0.065,0.002,0.098,0.002    c9.898,0,18.675-6.666,21.345-16.209c1.595-5.705,0.874-11.688-2.032-16.851C40.971,49.307,36.236,45.586,30.512,43.939z"></path><path d="M92.471,54.413c-2.875-5.106-7.61-8.827-13.334-10.474c-2.348-0.676-4.696-1.019-6.979-1.019    c-3.527,0-6.471,0.806-8.753,1.793c2.2-8.054,7.485-21.951,18.014-23.516c0.975-0.145,1.773-0.85,2.04-1.799l2.301-8.23    c0.194-0.696,0.079-1.441-0.318-2.045c-0.396-0.604-1.034-1.007-1.75-1.105c-0.776-0.106-1.568-0.16-2.354-0.16    c-12.637,0-25.152,13.19-30.434,32.076c-3.099,11.08-4.008,27.738,3.629,38.225c4.272,5.866,10.507,9,18.528,9.312    c0.033,0.001,0.065,0.002,0.099,0.002c9.897,0,18.675-6.666,21.345-16.209C96.098,65.559,95.376,59.575,92.471,54.413z"></path></svg>';
+                                html += '</div>';
+                                html += '<div class="saswp-rd1-cnt">';
+                                html += '<span class="saswp-rd1-stars">';
+                                html += saswp_create_rating_html_by_value(value.saswp_review_rating);
+                                html += '</span>';
+                                html += '<p>';
+                                html += value.saswp_review_text;
+                                html += '</p>';
+                                html += '</div>';
+                                html += '</div>';
+                                html += '<div class="saswp-rd1-data">';
+                                html += '<div class="saswp-rd1-athr">';
+                                html += '<img src="'+value.saswp_reviewer_image+'"/>';
+                                html += '<div class="saswp-rd1-athr-nm">';
+                                html += '<h4><a href="#">'+value.saswp_reviewer_name+'</a></h4>';
+                                html += '<span class="saswp-rd1-ptdt">'+date_str.date+', '+date_str.time+'</span>';
+                                html += '</div>';
+                                html += '</div>';
+                                html += '</div>';
+                                html += '</div>';
+                                
+                                return html;
+                      
+       }     
        function saswp_create_collection_slider(slider, slider_type){
                 
                 
                 var html = '';
                 var platform_list = '';
                 
-                if(saswp_collection){
+                var has_reviews = false;
+                
+                for (var key in saswp_collection) {
+                    
+                    if(saswp_collection[key]){
+                        has_reviews = true;
+                        break;
+                    }
+                    
+                }
+                
+                if(has_reviews){
                     
                     html += '<div class="saswp-collection-slider">';
                     html += '<div class="saswp-slider-items-container">';
@@ -587,7 +667,9 @@
                             jQuery.each(saswp_collection[key], function(index, value){
                                                         
                                 html += '<div class="saswp-slider-item">';
-                                html += '<div>Slider '+index+'</div>';
+                                
+                                html += saswp_review_desing_for_slider(value);
+                                
                                 html += '</div>';
                             
                           });
@@ -606,7 +688,7 @@
                                                                     
                                 jQuery.each(p_value, function(index, value){
                                    
-                                     html += '<div>Slider '+index+'</div>';
+                                    html += saswp_review_desing_for_slider(value);
                                                                                                
                                 });
                                 
@@ -617,11 +699,8 @@
                             }
                                                        
                          }
-                                                                                 
-                            platform_list += '<div class="cancel-btn">';
-                            platform_list += '<span>'+jQuery("#saswp-plaftorm-list option[value="+key+"]").text()+'</span>';
-                            platform_list += '<a platform-id="'+key+'" class="button button-default saswp-remove-platform">X</a>';
-                            platform_list += '</div>';
+                              
+                           platform_list += saswp_function_added_platform(key, saswp_collection[key].length );                              
                             
                         }
                                                                                                 
@@ -638,15 +717,13 @@
                                         
                 }
                 
-                jQuery(".saswp-collection-preview").html('');    
-                jQuery(".saswp-platform-added-list").html('');                
-                jQuery(".saswp-platform-added-list").append(platform_list);                 
+                jQuery(".saswp-collection-preview").html('');                    
                 jQuery(".saswp-collection-preview").append(html); 
-                
-                console.log('called');
+                jQuery(".saswp-platform-added-list").html('');                
+                jQuery(".saswp-platform-added-list").append(platform_list);   
+                                
                 saswpCollectionSlider();
-                
-                                                
+                                                                
             }
             
        function saswp_create_collection_badge(){
@@ -710,10 +787,7 @@
                       html += '</a>';
                       html += '</li>';                            
                             
-                            platform_list += '<div class="cancel-btn">';
-                            platform_list += '<span>'+jQuery("#saswp-plaftorm-list option[value="+key+"]").text()+'</span>';
-                            platform_list += '<a platform-id="'+key+'" class="button button-default saswp-remove-platform">X</a>';
-                            platform_list += '</div>';
+                           platform_list +=  saswp_function_added_platform(key, saswp_collection[key].length );
                             
                         }
                                                                                                 
@@ -723,10 +797,10 @@
                     html += '</div>';
                                         
                 }
-                jQuery(".saswp-collection-preview").html('');    
-                jQuery(".saswp-platform-added-list").html('');                
-                jQuery(".saswp-platform-added-list").append(platform_list);                 
+                jQuery(".saswp-collection-preview").html('');                    
                 jQuery(".saswp-collection-preview").append(html); 
+                jQuery(".saswp-platform-added-list").html('');                
+                jQuery(".saswp-platform-added-list").append(platform_list);   
             }
             
        function saswp_create_collection_popup(){
@@ -751,13 +825,15 @@
                             sum_of_rating += parseFloat(value.saswp_review_rating);
                             review_count++;
                             
+                            var date_str = saswp_convert_datetostring(value.saswp_review_date); 
+                            
                             html_list += '<li>';
                             html_list += '<div class="saswp-rvws-dta">';
                             html_list += '<span class="saswp-svg-img">';
                             html_list += saswp_create_rating_html_by_value(value.saswp_review_rating);
                             html_list += '</span>';
                             html_list += '<span class="saswp-rvw-tx saswp-rvw-nm">'+value.saswp_reviewer_name+'</span>';
-                            html_list += '<span class="saswp-rvw-tx">'+value.saswp_review_date+'</span>';
+                            html_list += '<span class="saswp-rvw-tx">'+date_str.date+', '+date_str.time+'</span>';
                             html_list += '</div>';
                             
                             html_list += '<div class="saswp-rvws-txt">';
@@ -775,10 +851,7 @@
                             
                         }
                             
-                            platform_list += '<div class="cancel-btn">';
-                            platform_list += '<span>'+jQuery("#saswp-plaftorm-list option[value="+key+"]").text()+'</span>';
-                            platform_list += '<a platform-id="'+key+'" class="button button-default saswp-remove-platform">X</a>';
-                            platform_list += '</div>';
+                            platform_list += saswp_function_added_platform(key, saswp_collection[key].length );                                                        
                             
                         }
                                                                                                 
@@ -823,10 +896,10 @@
                     }
                                                                                 
                 }
-                jQuery(".saswp-collection-preview").html('');    
-                jQuery(".saswp-platform-added-list").html('');                
-                jQuery(".saswp-platform-added-list").append(platform_list);                 
+                jQuery(".saswp-collection-preview").html('');                    
                 jQuery(".saswp-collection-preview").append(html);
+                jQuery(".saswp-platform-added-list").html('');                
+                jQuery(".saswp-platform-added-list").append(platform_list);   
             }            
             
        function saswp_create_collection_fomo(){
@@ -842,6 +915,8 @@
                             
                          jQuery.each(saswp_collection[key], function(index, value){
                              
+                            var date_str = saswp_convert_datetostring(value.saswp_review_date); 
+                             
                             html += '<div id="'+index+'" class="saswp-fomo-wrap">';
                             html += '<div class="saswp-fomo-reviews">';                            
                             html += '<div class="saswp-frv-lg">';
@@ -853,18 +928,15 @@
                               html += saswp_create_rating_html_by_value(value.saswp_review_rating);
                              html +='<div class="saswp-text-rtng">';
                              html +='<span>'+value.saswp_review_rating+' Star Rating</span> by '+ value.saswp_reviewer_name;
-                             html += '<span class="saswp-rt-dt">'+value.saswp_review_date+'</span>';
+                             html += '<span class="saswp-rt-dt">'+date_str.date+', '+date_str.time+'</span>';
                              html +='</div>';
                             html += '</div>';                            
                             html += '</div>';
                             html += '</div>';                   
                              
                         });
-                            
-                            platform_list += '<div class="cancel-btn">';
-                            platform_list += '<span>'+jQuery("#saswp-plaftorm-list option[value="+key+"]").text()+'</span>';
-                            platform_list += '<a platform-id="'+key+'" class="button button-default saswp-remove-platform">X</a>';
-                            platform_list += '</div>';
+                                                        
+                           platform_list += saswp_function_added_platform(key, saswp_collection[key].length );                            
                             
                         }
                                                                                                 
@@ -872,10 +944,10 @@
                                         
                                                            
                 }
-                jQuery(".saswp-collection-preview").html('');    
-                jQuery(".saswp-platform-added-list").html('');                
-                jQuery(".saswp-platform-added-list").append(platform_list);                 
-                jQuery(".saswp-collection-preview").append(html);  
+                jQuery(".saswp-collection-preview").html('');                    
+                jQuery(".saswp-collection-preview").append(html);
+                			jQuery(".saswp-platform-added-list").html('');                
+                jQuery(".saswp-platform-added-list").append(platform_list);   
                 
                 saswp_fomo_slide();
                 
@@ -911,18 +983,9 @@
                             
                             if(current_coll){
                             
-                                var done = false;
-                                while (!done) {
-                                  done = true;
-                                  for (var i = 1; i < current_coll.length; i += 1) {
-                                    if (current_coll[i - 1]['saswp_review_rating'] > current_coll[i]['saswp_review_rating']) {
-                                      done = false;
-                                      var tmp = current_coll[i - 1];
-                                      current_coll[i - 1] = current_coll[i];
-                                      current_coll[i] = tmp;
-                                    }
-                                  }
-                                }
+                             current_coll.sort(function(a, b) {
+                               return a.saswp_review_rating - b.saswp_review_rating;
+                             });   
                              saswp_collection[key] =  current_coll;  
                                 
                             }
@@ -933,39 +996,89 @@
                     
                     case 'highest':
                         
-                        for (var key in saswp_collection) {
+                       for (var key in saswp_collection) {
                             
-                            var current_coll = saswp_collection[key];
+                             var current_coll = saswp_collection[key];
                             
                             if(current_coll){
                             
-                                var done = false;
-                                while (!done) {
-                                  done = true;
-                                  for (var i = 1; i < current_coll.length; i += 1) {
-                                    if (current_coll[i - 1]['saswp_review_rating'] < current_coll[i]['saswp_review_rating']) {
-                                      done = false;
-                                      var tmp = current_coll[i - 1];
-                                      current_coll[i - 1] = current_coll[i];
-                                      current_coll[i] = tmp;
-                                    }
-                                  }
-                                }
+                             current_coll.sort(function(a, b) {
+                               return a.saswp_review_rating - b.saswp_review_rating;
+                             });   
+                             current_coll.reverse();
                              saswp_collection[key] =  current_coll;  
                                 
                             }
                                                                                     
                        }
-                                                
+                    
+               case 'newest':
+               case 'recent':
+                   
+                   for (var key in saswp_collection) {
+                            
+                             var current_coll = saswp_collection[key];
+                            
+                            if(current_coll){
+                            
+                             current_coll.sort(function(a, b) {
+                               var dateA = new Date(a.saswp_review_date), dateB = new Date(b.saswp_review_date);  
+                               return dateA - dateB;
+                             });   
+                             current_coll.reverse();
+                             saswp_collection[key] =  current_coll;  
+                                
+                            }
+                                                                                    
+                       }
+                                                                                          
+                    break;
+                    
+               case 'oldest':
+                   
+                   for (var key in saswp_collection) {
+                            
+                             var current_coll = saswp_collection[key];
+                            
+                            if(current_coll){
+                            
+                             current_coll.sort(function(a, b) {
+                               var dateA = new Date(a.saswp_review_date), dateB = new Date(b.saswp_review_date);  
+                               return dateA - dateB;
+                             });                                
+                             saswp_collection[key] =  current_coll;  
+                                
+                            }
+                                                                                    
+                       }
+                                                                                          
+                    break; 
+                
+                case 'random':
+                   
+                   for (var key in saswp_collection) {
+                            
+                            var current_coll = saswp_collection[key];
+                            
+                            if(current_coll){                            
+                             current_coll.sort(function(a, b) {                                
+                               return 0.5 - Math.random();
+                             });                                
+                             saswp_collection[key] =  current_coll;  
+                                
+                            }
+                                                                                    
+                    }
+                                                                                          
                     break;
                     
                 }
                                 
-            }
+       }
        
        function saswp_create_collection_grid(cols){
                 
-                var html = '';
+                var html          = '';
                 var platform_list = '';
                 
                 if(saswp_collection){
@@ -983,8 +1096,12 @@
                     }
                                                                                 
                     for (var key in saswp_collection) {
-                                                                        
-                        jQuery.each(saswp_collection[key], function(index, value){
+                                                                                                                       
+                        if(saswp_collection[key]){
+                            
+                           jQuery.each(saswp_collection[key], function(index, value){
+                            
+                            var date_str = saswp_convert_datetostring(value.saswp_review_date); 
                             
                             html += '<li>';                       
                             html += '<div class="saswp-rd1-data">';
@@ -995,7 +1112,7 @@
                             html += '<div class="saswp-rd1-athr-nm">';
                             html += '<h4><a href="#">'+value.saswp_reviewer_name+'</a></h4>';
                             html += saswp_create_rating_html_by_value(value.saswp_review_rating);                       
-                            html += '<span class="saswp-rd1-ptdt">'+value.saswp_review_date+'</span>';
+                            html += '<span class="saswp-rd1-ptdt">'+date_str.date+', '+date_str.time+'</span>';
                             html += '</div>';
                             html += '</div>';
                             html += '<div class="saswp-rd1-rv-lg">';
@@ -1012,14 +1129,8 @@
                             html += '</li>';
                                                                                   
                         });
-                       
-                        if(saswp_collection[key]){
                             
-                            platform_list += '<div class="cancel-btn">';
-                            platform_list += '<span>'+jQuery("#saswp-plaftorm-list option[value="+key+"]").text()+'</span>';
-                            platform_list += '<a platform-id="'+key+'" class="button button-default saswp-remove-platform">X</a>';
-                            platform_list += '</div>';
-                            
+                          platform_list += saswp_function_added_platform(key, saswp_collection[key].length );  
                         }
                                                                                                 
                     }
@@ -1028,10 +1139,10 @@
                     html += '</div>';
                                         
                 }
-                jQuery(".saswp-collection-preview").html('');    
+                jQuery(".saswp-collection-preview").html('');                    
+                jQuery(".saswp-collection-preview").append(html);
                 jQuery(".saswp-platform-added-list").html('');                
-                jQuery(".saswp-platform-added-list").append(platform_list);                 
-                jQuery(".saswp-collection-preview").append(html);    
+                jQuery(".saswp-platform-added-list").append(platform_list);   
                                 
                                 
             }     

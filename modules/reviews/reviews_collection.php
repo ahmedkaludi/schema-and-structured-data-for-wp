@@ -217,14 +217,14 @@ class SASWP_Reviews_Collection {
                                 <a class="saswp-accordion">Presentation</a>
                                 <div class="saswp-accordion-panel">
                                     <lable>Design</lable>  
-                                    <select class="saswp-collection-desing">
+                                    <select name="saswp_collection_design" class="saswp-collection-desing">
                                       <option value="grid">Grid</option>
                                       <option value="slider">Slider</option>
                                       <option value="badge">Badge</option>
                                       <option value="popup">Popop</option>
                                       <option value="fomo">Fomo</option>
                                      </select>
-                                    <select class="saswp-grid-options saswp-desing-options">                                      
+                                    <select name="saswp_collection_cols" class="saswp-grid-options saswp-desing-options">                                      
                                       <option value="3_cols">3 Columns</option>
                                       <option value="2_cols">2 Columns</option>
                                       <option value="4_cols">4 Columns</option>
@@ -243,7 +243,7 @@ class SASWP_Reviews_Collection {
                                 <a class="saswp-accordion">Filter</a>
                                 <div class="saswp-accordion-panel">
                                   <lable>Sorting</lable>  
-                                  <select class="saswp-collection-sorting">                                      
+                                  <select name="saswp_collection_sorting" class="saswp-collection-sorting">                                      
                                       <option value="recent">Recent</option>
                                       <option value="oldest">Oldest</option>
                                       <option value="newest">Newest</option>                                      
@@ -255,7 +255,7 @@ class SASWP_Reviews_Collection {
                               </li>
                               <li>
                                 <a class="saswp-accordion">Display</a>
-                                <div class="saswp-accordion-panel">
+                                <div name="saswp_collection_display_type" class="saswp-accordion-panel">
                                   <select class="saswp-collection-display-method">
                                     <option value="before_the_content">Before the content</option>
                                     <option value="between_the_content">Beetween the content</option>                                      
@@ -296,7 +296,7 @@ class SASWP_Reviews_Collection {
             wp_update_post($post);
                                         
             $post_meta = array();
-            
+            //print_r($_POST);die;
             $post_meta['test_value'] = sanitize_text_field($_POST['test_value']);           
             
             if(!empty($post_meta)){
