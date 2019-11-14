@@ -1561,6 +1561,70 @@ Collection css starts here
   font-size: 14px;
 }
 
+/** Fomo CSS **/
+.saswp-fomo-wrap{
+  position:fixed;
+  bottom:20px;  
+  width: calc(100% - 20px);
+  max-width: 325px;
+  border-radius: 12px;
+  background: #fff;
+  border: 1px solid #ddd;
+  box-shadow: 0 0 10px 2px rgba(0,0,0,.15);
+  transition: all .3s ease-in;
+  display: none;
+}
+.saswp-fomo-reviews{
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  align-items: center;
+  height:80px;
+}
+.saswp-str-rtng{
+  flex:1 0 60%;
+  padding-left: 15px;
+}
+.saswp-frv-lg{
+  width: 80px;
+  height: 100%;
+  border-right: 1px solid #ddd;
+  box-sizing: border-box;
+  background: linear-gradient(to bottom,#fefefe 0,#f2f2f2 100%);
+  position: relative;
+  display: flex;
+  align-items: center;
+  border-radius: 12px 0px 0px 12px;
+}
+.saswp-frv-lg svg{
+    text-align: center;
+    width: 100%;
+}
+.saswp-str-rtng svg{
+  width: 20px;
+  height: 20px;
+  margin: 0px 3px 0px 0px;
+}
+.saswp-text-rtng{
+  font-size: 12px;
+  line-height: 1.2;
+  color: #444;
+  display: flex;
+  margin-bottom: 3px;
+}
+.saswp-text-rtng span{
+    font-weight: 600;
+    color: #666;
+    margin-right: 5px
+}
+.saswp-str-rtng span.saswp-rt-dt{
+  display: block;
+  font-size: 12px;
+  color: #ababab;
+}
+.saswp-fomo-wrap a{
+  text-decoration:none;
+}
 
 /** Popup2 CSS **/
 .saswp-popup-btn{
@@ -1694,3 +1758,155 @@ span.saswp-mines{
   position: relative;
   top: 5px;
 }
+
+/** Slider Design CSS **/
+.saswp-rd2-warp{
+  width:100%;
+  display:inline-block;
+  margin-bottom:50px;
+}
+.saswp-rd2-warp li {
+  width:350px;
+  margin-right:25px;
+}
+.saswp-rd2-warp .saswp-rd1-cnt{
+  white-space: initial;
+}
+.saswp-rd2-warp .saswp-rd2-box{
+  position: relative;
+  color: #777;
+  border: 1px solid #ededed;
+  background-color: #fafafa;
+  border-radius: 4px;
+}
+.saswp-rd2-warp .saswp-rd1-cnt{
+  height: 150px;
+  margin: 20px 20px 20px 40px;
+}
+
+.saswp-rd2-warp .saswp-rd1-data{
+  padding: 20px;
+}
+.saswp-rd2-box .saswp-rd1-stars{
+  display:inline-block;
+}
+.saswp-rd2-box .saswp-rd1-cnt p{
+  display:inline; 
+}
+.saswp-rd2-box .saswp-rd1-rv-lg{
+  line-height: 0;
+  position: absolute;
+  right: 13px;
+  top: 13px;
+  background: #fafafa;
+}
+.saswp-rd2-quote svg{
+  width: 20px;
+  fill: #bbb;
+  position: absolute;
+  height: 30px;
+  top: 15px;
+  left: 12px;
+}
+.saswp-rd2-warp .saswp-rd2-box:before {
+  position: absolute;
+  bottom: -8px;
+  left: 35px;
+  display: block;
+  width: 14px;
+  height: 14px;
+  border: 1px solid #ededed;
+  border-top: none;
+  border-left: none;
+  background-color: #fafafa;
+  content: "";
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+.carousel-preview{
+  text-align:center;
+}
+.carousel-preview button{
+  width:12px;
+  height:12px;
+  border-radius:100px;
+  border:none;
+  margin:0px 5px;
+  cursor: pointer;
+}
+.carousel-preview button.active{
+  background:#427fed;
+}
+
+/**Slider csss starts here **/
+
+/** {
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}*/
+
+.saswp-collection-slider { 
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+  overflow: hidden;
+  background: white;
+  box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.5);
+}
+.saswp-collection-slider .saswp-slider-items-container {
+  display: flex;
+  flex-wrap: wrap;
+  height: auto;
+  transition: transform 0.35s ease-in-out;
+}
+.saswp-collection-slider  .saswp-slider-items-container .saswp-slider-item {
+  width: 100vw;
+  max-width: 640px;
+  display: block;
+}
+.saswp-collection-slider .saswp-slider-controls {
+  width: 100%;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 35px;
+}
+.saswp-collection-slider .saswp-slider-controls a {
+  color: #333;
+  text-decoration: none;
+  transition: 0.15s ease-in-out;
+}
+.saswp-collection-slider .saswp-slider-controls a:hover {
+  color: #888;
+}
+.saswp-collection-slider .saswp-slider-dots {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+  padding: 20px;
+}
+.saswp-collection-slider .saswp-slider-dots .dot {
+  width: 10px;
+  height: 10px;
+  background: #333;
+  transition: 0.15s ease-in-out;
+  border-radius: 8px;
+  cursor: pointer;
+  margin: 0 20px;
+}
+.saswp-collection-slider .saswp-slider-dots .dot.active {
+  background: #888;
+}
+
+
+
+/**Slider csss ends here **/

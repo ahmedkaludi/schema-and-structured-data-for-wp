@@ -167,9 +167,10 @@ class SASWP_Reviews_Collection {
                         <input type="text" value="<?php if(get_the_title($post_id) == 'Auto Draft'){ echo 'Untitled'; }else{ echo get_the_title($post_id); } ?>" id="saswp_collection_title" name="saswp_collection_title" style="width: 30%;">
                       </div>
                       <div class="saswp-collection-body">
-                          <div class="saswp-collection-preview">
-                             
-                          </div>
+                          
+                      <div class="saswp-collection-preview">
+                                                                                                                       
+                      </div>
                                                        
                           <div class="saswp-collection-settings">
                             <ul>
@@ -228,9 +229,9 @@ class SASWP_Reviews_Collection {
                                       <option value="2_cols">2 Columns</option>
                                       <option value="4_cols">4 Columns</option>
                                     </select>
-                                    <select class="saswp-slider-options saswp-desing-options saswp_hide">
-                                      <option value="1_slider">Slider</option>
-                                      <option value="3_slider">Carousel</option>
+                                    <select class="saswp-slider-type saswp-desing-options saswp_hide">
+                                      <option value="slider">Slider</option>
+                                      <option value="carousel">Carousel</option>
                                     </select>
                                     <div class="saswp-slider-display saswp-desing-options saswp_hide">
                                         <span><input type="radio" name="slider_display" value="arrow" checked> Arrows</span>
