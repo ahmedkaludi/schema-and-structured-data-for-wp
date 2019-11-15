@@ -420,10 +420,9 @@
                }
                
            }
-           
-           jQuery(".saswp-platform-added-list").html('');                
-           jQuery(".saswp-platform-added-list").append(platform_list);   
-           
+                jQuery(".saswp-platform-added-list").html('');                
+                jQuery(".saswp-platform-added-list").append(platform_list);   
+                                 
        } 
         
        function saswp_create_rating_html_by_value(rating_val){
@@ -666,9 +665,8 @@
        
        function saswp_create_collection_slider(slider, arrow, dots){
                                 
-                var html = '';
-                               
-                if(saswp_total_collection){
+                var html = '';                               
+                if(saswp_total_collection.length > 0){
                     
                     html += '<div class="saswp-collection-slider">';
                     html += '<div class="saswp-slider-items-container">';
@@ -728,12 +726,12 @@
                     }
                     
                     html += '</div>';
+                    
+                     jQuery(".saswp-collection-preview").html('');                    
+                     jQuery(".saswp-collection-preview").append(html);                                                                                 
+                     saswpCollectionSlider();
                                         
                 }
-                
-                jQuery(".saswp-collection-preview").html('');                    
-                jQuery(".saswp-collection-preview").append(html);                                                                                 
-                saswpCollectionSlider();
                                                                 
             }
             
@@ -741,7 +739,7 @@
                 
                 var html = '';                
                                 
-                if(saswp_collection){
+                if(saswp_total_collection.length > 0){
                     
                     html += '<div class="saswp-rd3-warp">';
                     html += '<ul>';
@@ -804,11 +802,11 @@
                     
                     html += '</ul>';
                     html += '</div>';
-                                        
+                     
+                     jQuery(".saswp-collection-preview").html('');                    
+                     jQuery(".saswp-collection-preview").append(html); 
                 }
-                
-                jQuery(".saswp-collection-preview").html('');                    
-                jQuery(".saswp-collection-preview").append(html);                                   
+                                                                  
             }
             
        function saswp_create_collection_popup(){
@@ -816,7 +814,7 @@
                 var html          = '';                
                 var html_list     = '';
                 
-                if(saswp_total_collection){
+                if(saswp_total_collection.length > 0){
                         
                         var review_count   = 0;                        
                         var sum_of_rating  = 0;
@@ -891,11 +889,10 @@
                         html += '</div>';
                                                 
                     }
-                                                                                
+                      
+                    jQuery(".saswp-collection-preview").html('');                    
+                    jQuery(".saswp-collection-preview").append(html);  
                 }
-                
-                jQuery(".saswp-collection-preview").html('');                    
-                jQuery(".saswp-collection-preview").append(html);                
                 
             }            
             
@@ -903,7 +900,7 @@
                 
                 var html = '';                
                                                                                                             
-                if(saswp_total_collection){
+                if(saswp_total_collection.length > 0){
 
                  jQuery.each(saswp_total_collection, function(index, value){
 
@@ -928,12 +925,12 @@
 
                 });
 
-                }
-                
-                jQuery(".saswp-collection-preview").html('');                    
-                jQuery(".saswp-collection-preview").append(html);
+                 jQuery(".saswp-collection-preview").html('');                    
+                 jQuery(".saswp-collection-preview").append(html);
                 			                                             
-                saswp_fomo_slide(fomo_inverval, fomo_visibility);
+                 saswp_fomo_slide(fomo_inverval, fomo_visibility);
+                
+                }
                 
             }        
             
@@ -957,7 +954,7 @@
                         
        function saswp_collection_sorting(sorting_type){
              
-           if(saswp_total_collection){
+           if(saswp_total_collection.length > 0){
                
                switch(sorting_type){
                     
@@ -1015,7 +1012,8 @@
                 
                 var html          = '';                
                 var grid_cols     = '';
-                if(saswp_total_collection){
+                
+                if(saswp_total_collection.length > 0){
                     
                     html += '<div class="saswp-rd1-warp">';
                     
@@ -1061,11 +1059,12 @@
                                                                                                                                         
                     html += '</ul>';
                     html += '</div>';
+                    
+                    jQuery(".saswp-collection-preview").html('');                    
+                    jQuery(".saswp-collection-preview").append(html);
                                         
                 }
-                jQuery(".saswp-collection-preview").html('');                    
-                jQuery(".saswp-collection-preview").append(html);
-                                                                                
+                                                                                                
             }     
             
        function saswp_create_collection_by_design(design, cols, slider, arrow, dots, fomo_inverval, fomo_visibility){
@@ -1078,7 +1077,7 @@
                         
                         break;
                         
-                    case 'slider':
+                    case 'gallery':
                         
                          saswp_create_collection_slider(slider, arrow, dots);
                         
@@ -1132,4 +1131,32 @@
                 saswp_collection_sorting(sorting);  
                 saswp_create_collection_by_design(design, cols, slider, arrow, dots, fomo_inverval, fomo_visibility);                                                
            
-       }     
+       }  
+       
+       function saswp_get_collection_data(rvcount, platform_id, current = null){
+           
+            jQuery.get(ajaxurl, 
+                             { action:"saswp_add_to_collection", rvcount:rvcount, platform_id:platform_id, saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
+                             
+                              function(response){                                  
+                    
+                              if(response['status']){   
+                                      
+                                        var res_json = response['message'];
+                                                                            
+                                        saswp_collection[platform_id] = res_json;
+                                      
+                                        saswp_collection[platform_id] = jQuery.extend(saswp_collection[platform_id], res_json);
+                                                                                                                                                                                                                                                                                                       
+                                        saswp_on_collection_design_change();
+                                                                            
+                              }
+                              
+                              if(current){
+                                  current.removeClass('updating-message');    
+                              }                              
+                              
+                             },'json');
+           
+       }
+       

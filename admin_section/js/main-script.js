@@ -1874,7 +1874,7 @@ return false;
                 }
                                                                                 
             });
-            $(".saswp-collection-display-method").on("change", function(){
+            $(".saswp-collection-display-method").change(function(){
                                               
                if($(this).val() == 'shortcode'){
                $(".saswp-collection-shortcode").removeClass('saswp_hide');    
@@ -1882,7 +1882,7 @@ return false;
                $(".saswp-collection-shortcode").addClass('saswp_hide');    
                }
                                
-            });
+            }).change();
             $(document).on("click", ".saswp-remove-platform", function(e){
                
                 e.preventDefault();
@@ -1900,7 +1900,7 @@ return false;
             });
                         
                                                   
-            $(".saswp-coll-settings-options").on("change", function(){
+            $(".saswp-coll-settings-options").change(function(){
                 
                 var design         = $(".saswp-collection-desing").val();                                   
                 
@@ -1910,7 +1910,7 @@ return false;
                     $(".saswp-grid-options").removeClass("saswp_hide");
                 }
                 
-                if(design == 'slider'){                    
+                if(design == 'gallery'){                    
                     $(".saswp-slider-options").removeClass("saswp_hide");
                 }
                 
@@ -1920,43 +1920,55 @@ return false;
                 
                 saswp_on_collection_design_change();  
                                                 
-            });                        
+            }).change();
+            
             $(".saswp-add-to-collection").on("click", function(e){
                 
                 e.preventDefault();
                 
-                var current  = $(this);
+                var current     = $(this);
                 var platform_id = $("#saswp-plaftorm-list").val();
-                var rvcount  = $("#saswp-review-count").val();                
+                var rvcount     = $("#saswp-review-count").val();                
                 
                 if(platform_id && rvcount > 0){
                     
                     current.addClass('updating-message');
                     
-                     $.get(ajaxurl, 
-                             { action:"saswp_add_to_collection", rvcount:rvcount, platform_id:platform_id, saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
-                             
-                              function(response){                                  
-                    
-                              if(response['status']){
-                                      
-                                        var res_json = response['message'];
-                                                                            
-                                        saswp_collection[platform_id] = res_json;
-                                      
-                                        saswp_collection[platform_id] = $.extend(saswp_collection[platform_id], res_json);
-                                                                                                                                                                                                                                                                                                       
-                                        saswp_on_collection_design_change();
-                                                                            
-                              }
-                              current.removeClass('updating-message');    
-                             },'json');
+                    saswp_get_collection_data(rvcount, platform_id, current);
                     
                 }else{
+                    
                     alert('Enter Count');
+                    
                 }
                 
             });
+            
+            var collection_id  = $("#saswp_collection_id").val();
+            
+            if(collection_id){
+                
+               $('.spinner').addClass('is-active');
+                
+                $.get(ajaxurl, 
+                             { action:"saswp_get_collection_platforms", collection_id:collection_id, saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
+                             
+                              function(response){                                  
+                                                                                    
+                              if(response['status']){   
+                                      
+                                        var res_json = response['message'];
+                                        
+                                        $.each(res_json, function(i, e){
+                                            saswp_get_collection_data(e, i, null);
+                                        });
+                                  $('.spinner').removeClass('is-active');                                                                                                                                                       
+                              }
+                                                                                                                     
+                             },'json');
+                
+            }
+            
             //Collection js ends here
       
 });
