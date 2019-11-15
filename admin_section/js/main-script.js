@@ -1861,7 +1861,7 @@ return false;
                 }
             
             $(document).on("click", ".saswp-opn-cls-btn", function(){
-                console.log('yahoo');
+                
                 $("#saswp-reviews-cntn").toggle();
                 
                 if( $('#saswp-reviews-cntn').is(':visible') ) {
@@ -1887,38 +1887,35 @@ return false;
                
                 e.preventDefault();
                 
-                $(this).remove();                                
+                $(this).parent().remove();                                
                 var platform_id = $(this).attr('platform-id');
                 saswp_collection[platform_id] = null;                
-                saswp_on_collection_design_change();          
-                               
-            });            
-            $(".saswp-slider-type, .saswp-grid-options, .saswp-slider-display input:radio").on("change", function(){                                                                                
-                
-                saswp_on_collection_design_change();
-            });            
-            
-            $(".saswp-collection-sorting").on("change", function(){
+                saswp_on_collection_design_change();  
                                                
-                var sorting        = $(".saswp-collection-sorting").val();
+            });            
+                                  
+            $(".saswp-number-change").bind('keyup mouseup', function () {
                 
-                saswp_collection_sorting(sorting); 
-                saswp_on_collection_design_change();      
-                               
-            });                                       
-            $(".saswp-collection-desing").on("change", function(){
+                 saswp_on_collection_design_change();            
+            });
+                        
+                                                  
+            $(".saswp-coll-settings-options").on("change", function(){
                 
                 var design         = $(".saswp-collection-desing").val();                                   
                 
-                $(".saswp-desing-options").addClass('saswp_hide');
+                $(".saswp-coll-options").addClass('saswp_hide');
                 
                 if(design == 'grid'){
                     $(".saswp-grid-options").removeClass("saswp_hide");
                 }
                 
-                if(design == 'slider'){
-                    $(".saswp-slider-type").removeClass("saswp_hide");
-                    $(".saswp-slider-display").removeClass("saswp_hide");
+                if(design == 'slider'){                    
+                    $(".saswp-slider-options").removeClass("saswp_hide");
+                }
+                
+                if(design == 'fomo'){
+                    $(".saswp-fomo-options").removeClass("saswp_hide");                   
                 }
                 
                 saswp_on_collection_design_change();  
@@ -1943,22 +1940,13 @@ return false;
                     
                               if(response['status']){
                                       
-                                      var res_json = response['message'];
+                                        var res_json = response['message'];
                                                                             
-                                      saswp_collection[platform_id] = res_json;
+                                        saswp_collection[platform_id] = res_json;
                                       
-                                      saswp_collection[platform_id] = $.extend(saswp_collection[platform_id], res_json);
-                                                                            
-                                      
-                                           
-                                        var design         = $(".saswp-collection-desing").val();                                   
-                                        var cols           = $(".saswp-grid-options").val();
-                                        var slider         = $(".saswp-slider-type").val();
-                                        var slider_type = $("input[name='slider_type']:checked").val();
-                                        var sorting        = $(".saswp-collection-sorting").val();
-                
-                                      saswp_collection_sorting(sorting);  
-                                      saswp_create_collection_by_design(design, cols, slider, slider_type);
+                                        saswp_collection[platform_id] = $.extend(saswp_collection[platform_id], res_json);
+                                                                                                                                                                                                                                                                                                       
+                                        saswp_on_collection_design_change();
                                                                             
                               }
                               current.removeClass('updating-message');    
@@ -1967,8 +1955,6 @@ return false;
                 }else{
                     alert('Enter Count');
                 }
-                
-                
                 
             });
             //Collection js ends here

@@ -153,6 +153,10 @@ class SASWP_Reviews_Collection {
                 $post_id = $post->ID;
             }
             
+            $coll_desing = array(
+                
+            );
+            
             ?> 
 
             <div class="saswp-collection-wrapper">  
@@ -169,7 +173,7 @@ class SASWP_Reviews_Collection {
                       <div class="saswp-collection-body">
                           
                       <div class="saswp-collection-preview">
-                                                                                                                       
+                        <!-- Collections html will be loaded on ajax call -->                                                                                               
                       </div>
                                                        
                           <div class="saswp-collection-settings">
@@ -217,33 +221,40 @@ class SASWP_Reviews_Collection {
                                 <a class="saswp-accordion">Presentation</a>
                                 <div class="saswp-accordion-panel">
                                     <lable>Design</lable>  
-                                    <select name="saswp_collection_design" class="saswp-collection-desing">
+                                    <select name="saswp_collection_design" class="saswp-collection-desing saswp-coll-settings-options">
                                       <option value="grid">Grid</option>
-                                      <option value="slider">Slider</option>
+                                      <option value="slider">Gallery</option>
                                       <option value="badge">Badge</option>
                                       <option value="popup">Popop</option>
                                       <option value="fomo">Fomo</option>
                                      </select>
-                                    <select name="saswp_collection_cols" class="saswp-grid-options saswp-desing-options">                                      
-                                      <option value="3_cols">3 Columns</option>
-                                      <option value="2_cols">2 Columns</option>
-                                      <option value="4_cols">4 Columns</option>
-                                    </select>
-                                    <select class="saswp-slider-type saswp-desing-options saswp_hide">
+                                    
+                                    <input type="number" id="saswp-collection-cols" name="saswp_collection_cols" min="0" value="2" class="saswp-number-change saswp-coll-settings-options saswp-coll-options">                                    
+                                    <select class="saswp-slider-type saswp-slider-options saswp_hide saswp-coll-settings-options saswp-coll-options">
                                       <option value="slider">Slider</option>
                                       <option value="carousel">Carousel</option>
                                     </select>
-                                    <div class="saswp-slider-display saswp-desing-options saswp_hide">
-                                        <span><input type="radio" name="slider_display" value="arrow" checked> Arrows</span>
-                                        <span><input type="radio" name="slider_display" value="dot"> Dots</span>
+                                    <div class="saswp-slider-display saswp-slider-options saswp_hide saswp-coll-settings-options saswp-coll-options">
+                                        <span><input type="checkbox" id="saswp-gallery-arrow" name="saswp-gallery-arrow" value="arrow" checked> Arrows</span>
+                                        <span><input type="checkbox" id="saswp-gallery-dots" name="saswp-gallery-dots" value="dots" checked> Dots</span>
                                     </div>
+                                    
+                                    <div class="saswp-fomo-options saswp_hide saswp-coll-options">                                       
+                                        Interval in Seconds
+                                        <input type="number" id="saswp-fomo-interval" name="saswp-fomo-interval" class="saswp-number-change" min="1" value="3">
+                                    Visibility in Seconds
+                                    <input type="number" id="saswp-fomo-visibility" name="saswp-fomo-visibility" class="saswp-number-change" min="1" value="3">                                    
+                                        
+                                    </div>
+                                    
+                                    
                                 </div>
                               </li>
                               <li>
                                 <a class="saswp-accordion">Filter</a>
                                 <div class="saswp-accordion-panel">
                                   <lable>Sorting</lable>  
-                                  <select name="saswp_collection_sorting" class="saswp-collection-sorting">                                      
+                                  <select name="saswp_collection_sorting" class="saswp-collection-sorting saswp-coll-settings-options">                                      
                                       <option value="recent">Recent</option>
                                       <option value="oldest">Oldest</option>
                                       <option value="newest">Newest</option>                                      
@@ -282,9 +293,9 @@ class SASWP_Reviews_Collection {
             if(isset($_POST['saswp_collection_id'])){
                       
             $post_id         = intval($_POST['saswp_collection_id']);
-            $post_title      = sanitize_text_field($_POST['saswp_collection_title']);
             $collection_page = intval($_POST['saswp-collection-page']);
-            
+            $post_title      = sanitize_text_field($_POST['saswp_collection_title']);
+                        
             $post = array(                 
                     'ID'                    => $post_id,
                     'post_title'            => $post_title,                    
@@ -296,8 +307,12 @@ class SASWP_Reviews_Collection {
             wp_update_post($post);
                                         
             $post_meta = array();
-            //print_r($_POST);die;
-            $post_meta['test_value'] = sanitize_text_field($_POST['test_value']);           
+            
+            $post_meta['saswp_collection_design']  = sanitize_text_field($_POST['saswp_collection_design']);
+            $post_meta['saswp_collection_cols']    = sanitize_text_field($_POST['saswp_collection_cols']);
+            $post_meta['slider_display']           = sanitize_text_field($_POST['slider_display']);
+            $post_meta['saswp_collection_sorting'] = sanitize_text_field($_POST['saswp_collection_sorting']);
+            $post_meta['saswp_platform_ids']       = $_POST['saswp_platform_ids'];
             
             if(!empty($post_meta)){
                 
@@ -318,7 +333,7 @@ class SASWP_Reviews_Collection {
             
         }
                                     
-      }
+    }
             
 }
 
