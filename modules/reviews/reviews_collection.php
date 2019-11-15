@@ -185,7 +185,7 @@ class SASWP_Reviews_Collection {
             } else{
 
                 $post    = get_default_post_to_edit( 'saswp-google-review', true );
-                $post_id = $post->ID;
+                $post_id = intval($post->ID);
             }
             
             $coll_desing = array(
@@ -228,6 +228,7 @@ class SASWP_Reviews_Collection {
                       <div class="saswp-collection-body">
                           
                       <div class="saswp-collection-preview">
+                          
                           <span class="spinner"></span>
                         <!-- Collections html will be loaded on ajax call -->                                                                                               
                       </div>
@@ -235,7 +236,7 @@ class SASWP_Reviews_Collection {
                           <div class="saswp-collection-settings">
                             <ul>
                               <li>
-                                <a class="saswp-accordion">Reviews Source</a>
+                                <a class="saswp-accordion"><?php echo esc_html__('Reviews Source','schema-and-structured-data-for-wp'); ?></a>
                                 <div class="saswp-accordion-panel">
                                   <?php $platforms = saswp_get_terms_as_array();
                                       if($platforms){
@@ -250,6 +251,7 @@ class SASWP_Reviews_Collection {
                                    
                                       $active_options   = '';
                                       $inactive_options = '';
+                                      
                                       foreach($platforms as $key => $val){
                                         if(in_array($key, array_column($exists_platforms, 'meta_value'))){
                                                $active_options .= '<option value="'.esc_attr($key).'">'.esc_attr($val).'</option>';
@@ -257,6 +259,7 @@ class SASWP_Reviews_Collection {
                                            $inactive_options.= '<option value="'.esc_attr($key).'" disabled>'.esc_attr($val).'</option>';
                                         }
                                       }
+                                      
                                      echo '<optgroup label="Active">';
                                      echo $active_options;
                                      echo '</optgroup>';
@@ -267,7 +270,7 @@ class SASWP_Reviews_Collection {
                                                 
                                 } ?>   
                                     <input type="number" id="saswp-review-count" name="saswp-review-count" min="0" value="5">
-                                    <a class="button button-default saswp-add-to-collection">Add</a>
+                                    <a class="button button-default saswp-add-to-collection"><?php echo esc_html__('Add','schema-and-structured-data-for-wp'); ?></a>
                                   </div>
                                   <div class="saswp-platform-added-list">  
                                       
@@ -275,9 +278,9 @@ class SASWP_Reviews_Collection {
                                 </div>
                               </li>
                               <li>                                     
-                                <a class="saswp-accordion">Presentation</a>
+                                <a class="saswp-accordion"><?php echo esc_html__('Presentation','schema-and-structured-data-for-wp'); ?></a>
                                 <div class="saswp-accordion-panel">
-                                    <lable>Design</lable>  
+                                    <lable><?php echo esc_html__('Design','schema-and-structured-data-for-wp'); ?></lable>  
                                     <select name="saswp_collection_design" class="saswp-collection-desing saswp-coll-settings-options">
                                         
                                         <?php
@@ -297,14 +300,14 @@ class SASWP_Reviews_Collection {
                                         <option value="carousel" <?php echo (isset($post_meta['saswp-collection-gallery-type'][0]) && $post_meta['saswp-collection-gallery-type'][0] == 'carousel'  ? 'selected' : '' ); ?>>Carousel</option>
                                     </select>
                                     <div class="saswp-slider-display saswp-slider-options saswp_hide saswp-coll-settings-options saswp-coll-options">
-                                        <span><input type="checkbox" id="saswp-gallery-arrow" name="saswp-gallery-arrow" value="1" <?php echo (isset($post_meta['saswp-gallery-arrow'][0]) && $post_meta['saswp-gallery-arrow'][0] == 1 ? 'checked' : '' ); ?>> Arrows</span>
-                                        <span><input type="checkbox" id="saswp-gallery-dots" name="saswp-gallery-dots" value="1" <?php echo (isset($post_meta['saswp-gallery-dots'][0]) && $post_meta['saswp-gallery-dots'][0] == 1 ? 'checked' : '' ); ?>> Dots</span>
+                                        <span><input type="checkbox" id="saswp-gallery-arrow" name="saswp-gallery-arrow" value="1" <?php echo (isset($post_meta['saswp-gallery-arrow'][0]) && $post_meta['saswp-gallery-arrow'][0] == 1 ? 'checked' : '' ); ?>> <?php echo esc_html__('Arrows','schema-and-structured-data-for-wp'); ?></span>
+                                        <span><input type="checkbox" id="saswp-gallery-dots" name="saswp-gallery-dots" value="1" <?php echo (isset($post_meta['saswp-gallery-dots'][0]) && $post_meta['saswp-gallery-dots'][0] == 1 ? 'checked' : '' ); ?>> <?php echo esc_html__('Dots','schema-and-structured-data-for-wp'); ?></span>
                                     </div>
                                     
                                     <div class="saswp-fomo-options saswp_hide saswp-coll-options">                                       
-                                        Interval in Seconds
+                                        <?php echo esc_html__('Interval in Seconds','schema-and-structured-data-for-wp'); ?>
                                         <input type="number" id="saswp-fomo-interval" name="saswp-fomo-interval" class="saswp-number-change" min="1" value="<?php echo (isset($post_meta['saswp-fomo-interval'][0]) ? $post_meta['saswp-fomo-interval'][0] : '3' ); ?>">
-                                    Visibility in Seconds
+                                    <?php echo esc_html__('Visibility in Seconds','schema-and-structured-data-for-wp'); ?>
                                     <input type="number" id="saswp-fomo-visibility" name="saswp-fomo-visibility" class="saswp-number-change" min="1" value="<?php echo (isset($post_meta['saswp-fomo-visibility'][0]) ? $post_meta['saswp-fomo-visibility'][0] : '3' ); ?>">                                    
                                         
                                     </div>
@@ -312,9 +315,9 @@ class SASWP_Reviews_Collection {
                                 </div>
                               </li>
                               <li>
-                                <a class="saswp-accordion">Filter</a>
+                                <a class="saswp-accordion"><?php echo esc_html__('Filter','schema-and-structured-data-for-wp'); ?></a>
                                 <div class="saswp-accordion-panel">
-                                  <lable>Sorting</lable>  
+                                  <lable><?php echo esc_html__('Sorting','schema-and-structured-data-for-wp'); ?></lable>  
                                   <select name="saswp_collection_sorting" class="saswp-collection-sorting saswp-coll-settings-options">                                      
                                      
                                       <?php
@@ -331,7 +334,7 @@ class SASWP_Reviews_Collection {
                                 </div>
                               </li>
                               <li>
-                                <a class="saswp-accordion">Display</a>
+                                <a class="saswp-accordion"><?php echo esc_html__('Display','schema-and-structured-data-for-wp'); ?></a>
                                 <div class="saswp-accordion-panel">
                                   <select class="saswp-collection-display-method" name="saswp_collection_display_type">
                                     
