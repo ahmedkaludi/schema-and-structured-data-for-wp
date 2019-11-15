@@ -20,7 +20,6 @@ class SASWP_Reviews_Collection {
         private static $instance;
         private $_service = null;
 
-
         private function __construct() {
             
           if($this->_service == null){
@@ -170,6 +169,7 @@ class SASWP_Reviews_Collection {
                         
             wp_die();
         }
+        
         public function saswp_admin_collection_interface_render(){
          
             $post_meta = array();
@@ -410,7 +410,7 @@ class SASWP_Reviews_Collection {
             
         }
                                     
-    }
+        }
             
 }
 
