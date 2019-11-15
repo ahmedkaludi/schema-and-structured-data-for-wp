@@ -1,4 +1,4 @@
-=== Schema & Structured Data for WP & AMP ===
+# Schema & Structured Data for WP & AMP
 Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
@@ -8,7 +8,7 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 
-== Description ==
+## Description
 
 Schema & Structured Data for WP & AMP adds Google Rich Snippets markup according to Schema.org guidelines to structure your site for SEO. (AMP Compatible) 
 
@@ -34,7 +34,6 @@ Schema & Structured Data for WP & AMP adds Google Rich Snippets markup according
 * <strong>Breadcrumbs</strong> Listing Support
 * <strong>Comments</strong> Post comments Support
 * <strong>Constant Development & New Features</strong>: We’ll be releasing the constant updates along with the more handy features as soon as we get the feedback from the users.
-
 
 ### Supported Schema Types
 
@@ -97,28 +96,27 @@ Bug reports for Schema & Structured Data for WP & AMP are [welcomed on GitHub](h
 * Aqua Resizer used http://aquagraphite.com - License URI: WTFPL - http://sam.zoy.org/wtfpl/
 
 
+## Frequently Asked Questions
 
-== Frequently Asked Questions ==
-
-= How to install and use this Schema plugin? =
+<strong>How to install and use this Schema plugin?</strong>
 
 After you Active this plugin, just go to Dashboard > Structured data > Settings, and then setup the default settings, after that, just go back to 'Structured Data' click on Add New and add any data that you like!  
 
-= How do I report bugs and suggest new features? =
+<strong>How do I report bugs and suggest new features?</strong>
 
 You can report the bugs for this Schema plugin [here](https://github.com/ahmedkaludi/schema-and-structured-data-for-wp/issues)
 
-= Will you include features to my request? =
+<strong>Will you include features to my request?</strong>
 
 Yes, Absolutely! We would suggest you send your feature request by creating an issue in [Github](https://github.com/ahmedkaludi/schema-and-structured-data-for-wp/issues/new/) . It helps us organize the feedback easily.
 
-
-= How do I get in touch? =
+<strong>How do I get in touch?</strong>
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
-== Changelog ==
 
-= 1.9.16 (04 Nov 2019) =
+## Changelog
+
+<strong>1.9.16 (04 Nov 2019)</strong>
 
 * Fixed: Warning: Use of undefined constant __return_empty_array #573
 * Fixed: Rating Module & Review Module learn more goes to 404 #567
@@ -134,7 +132,7 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Added: An option to add all the available images on a post to schema markup in Advanced tab
 * Enhancement: Social fields has now dynamic option to add as many as user want #553
 
-= 1.9.15 (23 Oct 2019) =
+<strong>1.9.15 (23 Oct 2019)</strong>
 
 * Fixed: Multiple Instances of Schema Type (i.e. LocalBusiness) Merging Improperly on Same Page #537
 * Fixed: Price not showing in product schema for variable product #530
@@ -144,7 +142,7 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Enhancement: Added two section in compatiblity tab (Active & InActive) #560
 * Added: Recipe Schema Box in Premium Features tab #561
 
-= 1.9.14 (18 Oct 2019) =
+<strong>1.9.14 (18 Oct 2019)</strong>
 
 * Fixed: Google icon is not visible in schema review #554
 * Fixed: Cannot redeclare aq_resize() #555
@@ -155,20 +153,20 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Added: numberOfRooms property in House Schema type #547
 * Added: Event Schema Box in Premium Features tab #540
 
-= 1.9.13 (14 Oct 2019) =
+<strong>1.9.13 (14 Oct 2019)</strong>
 
 * Fixed: Trying to get property ‘ID’ of non-object #543
 * Fixed: Fix Service Schema "Provider Type" Output #536
 * Added: Course Schema Box in Premium Features tab #540
 
-= 1.9.12 (9 Oct 2019) =
+<strong>1.9.12 (9 Oct 2019)</strong>
 
 * Added: Custom Taxonomy in modify schema output #533
 * Added: Coordinates fields(latitude, longitude) for real estate schema #525
 * Added: Real Estate Schema Box in Premium Features tab #472
 * Enhancement: Review for Schema improvements #534
 
-= 1.9.11 (5 Oct 2019) =
+<strong>1.9.11 (5 Oct 2019)</strong>
 
 * Added: Add support for Event Subcategory schema #418
 * Fixed: Additional CSS not working on FAQ blocks #529
@@ -178,13 +176,13 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Fixed: Review Link is not working properly #510
 * Fixed: Bug in defragmented schema ( Corporation being invalid for Publisher ) #505
 
-= 1.9.10 (3 Oct 2019) =
+<strong>1.9.10 (3 Oct 2019)</strong>
 
 * Added: Field to enter Yelp link to Knowledge Graph Social Fields section #517
 * Fixed: Breadcrumb list error on custom taxonomy #523
 * Fixed: ItemList and CollectionPage schema are not being added on custom texonomy page #521
 
-= 1.9.9 (28 Sept 2019) =
+<strong>1.9.9 (28 Sept 2019)</strong>
 
 * Added: Post category in modify meta list. #509
 * Fixed: Setup Wizard is very slow. Need to improve the timing. #518
@@ -192,8 +190,7 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Fixed: KK Star is not working anymore #506
 * Fixed: The property publisher is not recognized by Google for an object of type LocalBusiness. #512
 
-
-= 1.9.8 (25 Sept 2019) =
+<strong>1.9.8 (25 Sept 2019)</strong>
 
 * Added: The Supply and Tool for the How To Schema of Gutenberg #500
 * Added: MusicPlaylist Schema Type #488
@@ -211,8 +208,7 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Bug Fixed: Review schema and webpage given an error "Thing is not a known valid target type for the itemReviewed property." #488
 * Bug Fixed: Featured image should be placed first in schema markup before the other images present in the content #496
 
-
-= 1.9.7 (19 Sept 2019) =
+<strong>1.9.7 (19 Sept 2019)</strong>
 
 * Major Feature: Schema type blocks (How To & FAQ) have been added in Gutenberg editor
 * Added: Schema markup to category of WooCommerce #405
@@ -223,8 +219,7 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Bug Fixed: Need to show the modify schema list based on target location of schema type #483
 * Bug Fixed: Fatal error function bcdiv () #489
 
-
-= 1.9.6 (11 Sept 2019) =
+<strong>1.9.6 (11 Sept 2019)</strong>
 
 * Enhancement: Remove all the global static fields and migrate its data to modify schema output #465
 * Enhancement: Other images should also get resized as like the featured image #371
@@ -237,7 +232,7 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Bug Fixed: WP Recipe Maker (Compatibility), the image is smaller than the recommended size error should not get appeared. #382
 * Added: Importer for Schema- AIORS ( https://wordpress.org/plugins/all-in-one-schemaorg-rich-snippets) #160
 
-= 1.9.5 (06 Sept 2019) =
+<strong>1.9.5 (06 Sept 2019)</strong>
 
 * Added: More Organization schema type support #423
 * Added: MedicalBusiness Schema type #334
@@ -250,8 +245,7 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Bug Fixed: Debug error logs: flexmlsConnectPageCore->__construct(NULL) #446
 * Bug Fixed: In the FAQ schema fields, accepted textarea strip html tags and convert special character to encoded string. #458
 
-
-= 1.9.4 (03 Sept 2019) =
+<strong>1.9.4 (03 Sept 2019)</strong>
 
 * Added: DataFeed Schema type #411
 * Added: Option to add multiple performer in event Schema type #411
@@ -262,8 +256,7 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Bug Fixed: Add field in Modify Schema Output defaults to null #455
 * Bug Fixed: @context property value should be changed based on site ssl certificate #447
 
-
-= 1.9.3 (30 Aug 2019) =
+<strong>1.9.3 (30 Aug 2019)</strong>
 
 * New Feature: ACF meta fields inside Modify Schema Output #216
 * Added: Compatibility with Squirrly Seo ( https://wordpress.org/plugins/squirrly-seo/ ) #426
@@ -273,7 +266,7 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Bug Fixed: Upgrade to pro message should not be there, if any pro extension is activated #450
 * Bug Fixed: Notice: Undefined index: professionalservice in /schema-and-structured-data-for-wp/output/output.php on line 3731 #448
 
-= 1.9.2 (28 Aug 2019) =
+<strong>1.9.2 (28 Aug 2019)</strong>
 
 * Added: Compatibility with SEO Framework ( https://wordpress.org/plugins/autodescription/ ) #426
 * Added: Compatibility with SEOPress ( https://wordpress.org/plugins/wp-seopress/ ) #421
@@ -285,8 +278,7 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Bug Fixed: HowTo Schema (If steps images are not there its type should not come in json markup). #442
 * Bug Fixed: Missing datePublished and mainEntityOfPage fields in DiscussionForumPosting schema #438
 
-
-= 1.9.1 (21 Aug 2019) =
+<strong>1.9.1 (21 Aug 2019)</strong>
 
 * Major Feature: Option to add schema fields value from give dropdown meta list inside Modify Schema Output section #192
 * Bug Fixed: Error log cluttered with php warning regarding count() #434
@@ -296,7 +288,7 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Bug Fixed: Setup link of default image doesn't take it anywhere #429
 * Bug Fixed: Conflict with Gutenberg and Merlin. Fatal error: Uncaught Error: Call to a member function is_block_editor() on null #413
 
-= 1.9 (03 Aug 2019) =
+<strong>1.9 (03 Aug 2019)</strong>
 
 * Major Feature: Reviews Module :- Allow users to manually add reviews from more than 80+ platforms and show it on the website with schema markup #325
 * Added: FAQ schema type #402
@@ -315,7 +307,7 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Bug Fixed: Not compatible with Orbital theme #385
 * Bug Fixed: Any AMP extensions redux settings are not being displayed when saswp is installed #412
 
-= 1.8.9 (08 July 2019) =
+<strong>1.8.9 (08 July 2019)</strong>
 
 * Added: Translation panel. User can add own text for List of labels which is being output in content #361
 * Added: compatibility with DWQA Pro version plugin ( https://wordpress.org/plugins/dw-question-answer ) #372
@@ -327,10 +319,10 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Bug Fixed: Debug Warning & notices #362
 * Bug Fixed: Micro data clean up is not working properly. #359
 
-= 1.8.8 (22 June 2019) =
+<strong>1.8.8 (22 June 2019)</strong>
 * Bug Fixed: Uncaught Error: Class 'saswp_google_review' not found. #351
 
-= 1.8.7 (21 June 2019) =
+<strong>1.8.7 (21 June 2019)</strong>
 
 * Bug Fixed: Fatal error ( Uncaught Error: Cannot use object of type Closure as array ) #317
 * Bug Fixed: Call to undefined function ampforwp_is_home() #330
@@ -342,7 +334,7 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Added: Aggregate rating fields in Recipe Schema type #331
 
 
-= 1.8.6 (07 June 2019) =
+<strong>1.8.6 (07 June 2019)</strong>
 
 * Bug Fixed: Notice: Undefined variable: custom_markup #308
 * Bug Fixed: JS and CSS should be included where it's need. #294
@@ -354,7 +346,7 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Bug Fixed: Navigation Menu should have Assigned location name #310
 
 
-= 1.8.5 (28 May 2019) =
+<strong>1.8.5 (28 May 2019)</strong>
 
 * Added: Person schema type #220
 * Added: Trip schema type #289
@@ -372,7 +364,7 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Improvement: An option for adding own custom json schema markup on every post along with current schema #274
 
 
-= 1.8.4 (22 May 2019) =
+<strong>1.8.4 (22 May 2019)</strong>
 
 * Added: Accomodation Schema type ( House, Apartment and SingleFamilyResidence )#41
 * Added: Speakable Schema type #79
@@ -391,18 +383,15 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Improvement: Product select should not have the fields on installer #266
 * Improvement: HasMap field should be there in local schema #276
 
-
-= 1.8.3 (16 May 2019) =
-
-* Bug Fixed: Warning: getimagesize #271
-
-
-= 1.8.2 (13 May 2019) =
+<strong>1.8.3 (16 May 2019)</strong>
 
 * Bug Fixed: Warning: getimagesize #271
 
+<strong>1.8.2 (13 May 2019)</strong>
 
-= 1.8.1 (13 May 2019) =
+* Bug Fixed: Warning: getimagesize #271
+
+<strong>1.8.1 (13 May 2019)</strong>
 
 * New Feature: An option for adding own custom json schema markup on every post #257
 * Added: Compatibility with WP-PostRatings ( https://wordpress.org/plugins/wp-postratings/ )#208
@@ -416,10 +405,9 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Bug Fixed: Remove unnecessary css which effect on whole wordpress admin panel #264
 * Bug Fixed: If porto theme is activated, there are validation issues in product schema type. #163
 
+<strong>1.8 (08 May 2019)</strong>
 
-= 1.8 (08 May 2019) =
-
-* New Feature: Google Reviews and its schema markup (Users can list their business reviews from google reviews using place id)  #61
+* New Feature: Google Reviews and its schema markup (Users can list their business reviews from google reviews using place id) #61
 * Added: New docs link in the plugin and everywhere #202
 * Added: Review Module Schema markup has been added #205
 * Added: Defragment Schema (Merge all the schema markup in one markup) #223
@@ -439,8 +427,7 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Bug Fixed: Notification Improvements #239
 * Bug Fixed: The Support tab Email changes #238
 
-
-= 1.7 (24 April 2019) =
+<strong>1.7 (24 April 2019)</strong>
 
 * Added: Option to enable and disable website schema markup #225
 * Added: Option to enable and disable Sitelinks Search Box in website schema markup #196
@@ -449,8 +436,7 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Bug Fixed: number_format() Debug error #213
 * Bug Fixed: Undefined offset errors #214, #232, #229
 
-
-= 1.6 (12 April 2019) =
+<strong>1.6 (12 April 2019)</strong>
 
 * Added : Option to use URL rather than phone number for contact type in Knowledge Graph #199
 * Bug Fixed: Image markup src remains null in AMP despite featured images on post #206
@@ -461,8 +447,7 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Bug Fixed: Notice: Undefined offset #197
 * Bug Fixed: Undefined index #204
 
-
-= 1.5 (27 March 2019) =
+<strong>1.5 (27 March 2019)</strong>
 
 * Bug Fixed: Warning - Missing "review" field in product schema for WooCommerce product page. #179
 * Bug Fixed: Modify schema output with custom filters #178
@@ -471,15 +456,15 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Bug Fixed: Warning - number_format() expects parameter 1 to be float, string given in  #172
 * Bug Fixed: Set-Up wizard is not working when Polylang plugin is activated #170
 
-= 1.4 (26 March 2019) =
+<strong>1.4 (26 March 2019)</strong>
 
 * Bug Fixed: Security improvement.
 
-= 1.3.1 (12 March 2019) =
+<strong>1.3.1 (12 March 2019)</strong>
 
 * Bug Fixed: Organization schema type has null value
 
-= 1.3 (11 March 2019) =
+<strong>1.3 (11 March 2019)</strong>
 
 * Added: Event schema type added to the schema type list #157
 * Added: Compatibility with The Events Calendar plugin ( https://wordpress.org/plugins/the-events-calendar/ ) has been added in AMP. #157
@@ -488,14 +473,14 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Bug Fixed: ItemAvailability text "onbackorder" should be converted to "PreOrder" for product schema #161
 * Bug Fixed: Bad escape sequence in string. #168
 
-= 1.2 (22 February 2019) =
+<strong>1.2 (22 February 2019)</strong>
 
 * New Feature: Software Application and Course schema type added to the schema type list #115
 * Bug Fixed: Modify Schema Output is not getting, Selected post meta fields value in schema markup #155
 * Bug Fixed: Author name field value is not being filled in the Review schema markup #154
 * Bug Fixed: Notice cluttering in error logs #152
 
-= 1.1 (15 February 2019) =
+<strong>1.1 (15 February 2019)</strong>
 
 * New Feature: TechArticle schema type add to the schema type list #115
 * Added: Show admin notice, when schema's default image is not set inside setting #145
@@ -503,8 +488,7 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Bug Fixed: When Review and Article schema are enabled at the same time. There is a validation error in logo markup #141
 * Bug Fixed: Image is not being fetched in local_business schema markup from local schema image field #135
 
-
-= 1.0.9 (07 February 2019) =
+<strong>1.0.9 (07 February 2019)</strong>
 
 * New Feature: SiteNavigationElement schema type add to the schema type list #115
 * Added: Option to edit the Schema type for Archive page #123
@@ -512,13 +496,11 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Bug Fixed: On/Off buttons inside modify schema are not changing its state on post save #138
 * Bug Fixed: Yoast compatibility checkbox is not active when yoast premium plugin is activated #138
 
-
-= 1.0.8.1 (31 January 2019) =
+<strong>1.0.8.1 (31 January 2019)</strong>
 
 * Bug Fixed: JSON-LD Error, when yoast compatibility is enabled #133
 
-
-= 1.0.8 (28 January 2019) =
+<strong>1.0.8 (28 January 2019)</strong>
 
 * Added: Yoast plugin compatibility ( If yoast is activated for schema. Organization & website markup should not be duplicate )
 * Improvement: Show the fields of review schema type according to selected Item Reviewed Type
@@ -526,15 +508,13 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Bug Fixed: Missing escaping, Warnings and Notices fixed
 * Bug Fixed: Google is requiring 1200 pixel wide feature images #131
 
-
-= 1.0.7.1 (5 January 2019) =
+<strong>1.0.7.1 (5 January 2019)</strong>
 
 * Improvement: AMP tab should always be shown and amp option should be disabled if amp is not activated. #87
 * Improvement: Notice box to ask for review in day interval should not be shown again, if users click no thanks button. #118
 * Bug Fixed: Warnings and Notices fixed
 
-
-= 1.0.7 (31 December 2018) =
+<strong>1.0.7 (31 December 2018)</strong>
 
 * New Feature: AudioObject schema type add to the schema type list #115
 * New Feature: Option to reset plugin's settings #104
@@ -552,17 +532,15 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Bug Fixed: Local Business -> Food Establishment -> Bakery is buggy #111
 * Bug Fixed: select 2 conflicts with avada theme #92
 * Bug Fixed: warning issues on product/apartment schema #88
-
-
 * Bug Fixed: Other bug fixed
 
-= 1.0.6.1 (22 December 2018) =
+<strong>1.0.6.1 (22 December 2018)</strong>
 
 * Bug Fixed: Errors with WP5.2 #107
 * Bug Fixed: Blank recipe post screen #91
 * Bug Fixed: Other bug fixed
 
-= 1.0.6 (14 December 2018) =
+<strong>1.0.6 (14 December 2018)</strong>
 
 * New Feature: Review schema type add to the schema type list
 * New Feature: Compatibility with Extra theme by Elegant Themes ( https://www.elegantthemes.com ) , Now extra theme built in review and rating will be indexed in google after enabling option
@@ -575,8 +553,7 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Bug Fixed: Compatibility issue with the Blackbar plugin #83
 * Bug Fixed: Restore schema button was not working on first load #81
 
-
-= 1.0.5 (30 November 2018) =
+<strong>1.0.5 (30 November 2018)</strong>
 
 * New Feature: Service schema type add to the schema type list
 * New Feature: Comments Markup, The comments on post will also appear in schema markup
@@ -584,17 +561,17 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * New Feature: Compatibility with kk Star Ratings plugin, Now the ratings will be indexed in google search and results will be appearing in the form of a rich snippet
 * Bug Fixed: Some of the missing fields added in NewsArticle schema type markup( articleSection, articleBody, wordCount & timeRequired ).
 
-= 1.0.4.1 (17 November 2018) =
+<strong>1.0.4.1 (17 November 2018)</strong>
 
 * Bug Fixed: Load review css only when review is enable for that post. #67
 * Menified review css in amp to put under amp css limitation. 
 
-= 1.0.4 (16 November 2018) =
+<strong>1.0.4 (16 November 2018)</strong>
 * Major Feature: Post Specific Meta boxes to override the schemas on posts
 * Major Feature: Rich Snippets for Reviews and Ratings
 * Security and other bug fixed
 
-= 1.0.3 (24 October 2018) =
+<strong>1.0.3 (24 October 2018)</strong>
 * Schema Pro migrator
 * Import / export functionality, so it can be transferred from staging to live website
 * Added WP Recipe Maker and WP Ultimate Recipe plugins compatibility
@@ -604,7 +581,7 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Debug errors
 * Minor Bugs Fixed
 
-= 1.0.2 (28 August 2018) =
+<strong>1.0.2 (28 August 2018)</strong>
 * First Time Installation Setup Wizard
 * Added a Support form to provide faster support
 * Full Local Business Schema Markup Support
@@ -617,10 +594,10 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Date format has been fixed via PR. Thanks to @thetoine
 * minor Bugs Fixed
 
-= 1.0.1 (27 August 2018) =
+<strong>1.0.1 (27 August 2018)</strong>
 * AMP Compatibility improved for Schema 
 * Default Schema compatibility added, which means the posts and pages will be set by default. 
 * Minor bugs fixed  
 
-= 1.0 (6 August 2018) =
+<strong>1.0 (6 August 2018)</strong>
 * Version 1.0 Released
