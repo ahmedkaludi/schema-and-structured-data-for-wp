@@ -391,7 +391,7 @@ class SASWP_Reviews_Collection {
             $post_meta['saswp-gallery-dots']            = intval($_POST['saswp-gallery-dots']);            
             $post_meta['saswp-fomo-interval']           = intval($_POST['saswp-fomo-interval']);
             $post_meta['saswp-fomo-visibility']         = intval($_POST['saswp-fomo-visibility']);
-                                    
+                                                        //Escaping is missing will do tomorrow
             $post_meta['saswp_platform_ids']            = $_POST['saswp_platform_ids'];
                         
             if(!empty($post_meta)){

@@ -1886,10 +1886,12 @@ return false;
             $(document).on("click", ".saswp-remove-platform", function(e){
                
                 e.preventDefault();
-                
-                $(this).parent().remove();                                
-                var platform_id = $(this).attr('platform-id');
-                saswp_collection[platform_id] = null;                
+                                                                
+                var platform_id = $(this).attr('platform-id');                
+                console.log(saswp_collection);
+                saswp_collection[platform_id] = null;         
+                console.log(saswp_collection);
+                $(this).parent().remove();
                 saswp_on_collection_design_change();  
                                                
             });            
@@ -1962,8 +1964,9 @@ return false;
                                         $.each(res_json, function(i, e){
                                             saswp_get_collection_data(e, i, null);
                                         });
-                                  $('.spinner').removeClass('is-active');                                                                                                                                                       
+                                                                                                                                                                                         
                               }
+                              $('.spinner').removeClass('is-active');
                                                                                                                      
                              },'json');
                 
