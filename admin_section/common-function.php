@@ -1707,7 +1707,8 @@ if ( ! defined('ABSPATH') ) exit;
 
           }
           
-          wp_enqueue_style( 'saswp-collection-css', SASWP_PLUGIN_URL . 'admin_section/css/'.(SASWP_ENVIRONMENT == 'production' ? 'collection.min.css' : 'collection.css'), false , SASWP_VERSION );
+          wp_enqueue_style( 'saswp-collection-front-css', SASWP_PLUGIN_URL . 'admin_section/css/'.(SASWP_ENVIRONMENT == 'production' ? 'collection-front.min.css' : 'collection-front.css'), false , SASWP_VERSION );
+          wp_enqueue_script( 'saswp-collection-front-js', SASWP_PLUGIN_URL . 'admin_section/js/'.(SASWP_ENVIRONMENT == 'production' ? 'collection-front.min.js' : 'collection-front.js'), false , SASWP_VERSION );
 
       }     
     /**
