@@ -869,9 +869,124 @@ class saswp_reviews_service {
         
     }
     public function saswp_create_collection_popup($collection){
-        
+                
+                   $html          = '';                
+                   $html_list     = '';
+                
+                if($collection){
+                        
+                        $review_count   = 0;                        
+                        $sum_of_rating  = 0;
+                        $average_rating = 1;
+                            
+                        foreach($collection as $value){
+                                                        
+                            $sum_of_rating += $value['saswp_review_rating'];
+                            $review_count++;
+                            
+                            $date_str = $this->saswp_convert_datetostring($value['saswp_review_date']); 
+                            
+                            $html_list .= '<li>';
+                            $html_list .= '<div class="saswp-rvws-dta">';
+                            $html_list .= '<span class="saswp-svg-img">';
+                            $html_list .= saswp_get_rating_html_by_value($value['saswp_review_rating']);
+                            $html_list .= '</span>';
+                            $html_list .= '<span class="saswp-rvw-tx saswp-rvw-nm">'.esc_attr($value['saswp_reviewer_name']).'</span>';
+                            $html_list .= '<span class="saswp-rvw-tx">'. esc_attr($date_str['date']).', '.esc_attr($date_str['time']).'</span>';
+                            $html_list .= '</div>';
+                            
+                            $html_list .= '<div class="saswp-rvws-txt">';
+                            $html_list .= '<h3>'. esc_attr($value['saswp_reviewer_name']).'</h3>';
+                            $html_list .= '<p>'. esc_attr($value['saswp_review_text']).'</p>';
+                            $html_list .= '</div>';
+                            
+                            $html_list .= '</li>';
+                            
+                        }
+                       
+                        if($sum_of_rating > 0){
+                        
+                            $average_rating = $sum_of_rating / $review_count;
+                            
+                        }                                                                                                                
+                    
+                    if($review_count > 0){
+                        
+                        $html .= '<div id="saswp-sticky-review">';
+                        $html .= '<div class="saswp-open-class saswp-popup-btn">';
+                        $html .= '<div class="saswp-opn-cls-btn">';
+
+                        $html .= '<div class="saswp-onclick-hide">';
+                        $html .= '<span>';
+                        $html .= saswp_get_rating_html_by_value($average_rating);
+                        $html .= '</span>';
+                        $html .= '<span class="saswp-ttl-rvws">'.esc_attr($average_rating).' from '.esc_attr($review_count).' reviews</span>';                    
+                        $html .= '</div>';
+
+                        $html .= '<div class="saswp-onclick-show">';
+                        $html .= '<span>Ratings and reviews</span>';                    
+                        $html .= '<span class="saswp-mines"></span>';                    
+                        $html .= '</div>';
+
+                        $html .= '</div>';
+                        $html .= '<div id="saswp-reviews-cntn">';
+                        $html .= '<div class="saswp-reviews-info">';
+                        $html .= '<ul>';
+
+                        $html .= '<li class="saswp-ttl-rvw">';
+                        $html .= '<span>';
+                        $html .= saswp_get_rating_html_by_value($average_rating);
+                        $html .= '</span>';
+                        $html .= '<span class="saswp-ttl-rvws">'. esc_attr($average_rating).' from '. esc_attr($review_count).' reviews</span>';                    
+                        $html .= '</li>';                                        
+                        $html .= $html_list;
+                        $html .= '</ul>';                    
+                        $html .= '</div>';
+                        $html .= '</div>';
+                        $html .= '</div>';
+                        $html .= '</div>';
+                                                
+                    }
+                                           
+                }
+                
+                return $html;
+                
     }
     public function saswp_create_collection_fomo($f_interval, $f_visibility, $collection){
+            
+        $html = '';
+        if($collection){
+            
+            $i=0;
+            
+            foreach ($collection as $value){
+                
+                    $date_str = $this->saswp_convert_datetostring($value['saswp_review_date']); 
+
+                    $html .= '<div id="'.$i.'" class="saswp-fomo-wrap">';
+                    $html .= '<div class="saswp-fomo-reviews">';                            
+                    $html .= '<div class="saswp-frv-lg">';
+                    $html .= '<span>';
+                    $html .= '<img height="70" width="70" src="'. esc_attr($value['saswp_review_platform_icon']).'"/>';
+                    $html .= '</span>';
+                    $html .= '</div>';                            
+                    $html .= '<div class="saswp-str-rtng">';
+                    $html .= saswp_get_rating_html_by_value($value['saswp_review_rating']);
+                    $html .='<div class="saswp-text-rtng">';
+                    $html .='<span>'. esc_attr($value['saswp_review_rating']).' Star Rating</span> by '.esc_attr($value['saswp_reviewer_name']);
+                    $html .= '<span class="saswp-rt-dt">'.esc_attr($date_str['date']).', '. esc_attr($date_str['time']).'</span>';
+                    $html .='</div>';
+                    $html .= '</div>';                            
+                    $html .= '</div>';
+                    $html .= '</div>';     
+    
+                    $i++;
+            }
+            
+        }
+        
+        return $html;
         
     }
         	                      

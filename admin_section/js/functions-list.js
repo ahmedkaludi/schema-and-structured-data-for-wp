@@ -927,9 +927,7 @@
                     html += '</div>';                   
 
                 });
-			                                             
-                 
-                
+			                                                                              
                 }
                 
                  jQuery(".saswp-collection-preview").html('');                    

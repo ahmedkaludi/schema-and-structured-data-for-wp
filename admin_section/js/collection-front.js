@@ -130,12 +130,49 @@ function saswpCollectionSlider(){
 		
 	});
 	
-               }    
+       }    
+                              
+           function saswp_fomo_slide(fomo_inverval, fomo_visibility){
+                
+            var elem = jQuery('.saswp-fomo-wrap');
+            var l = elem.length;
+            var i = 0;
+                        
+            function saswp_fomo_loop() {
+                
+                elem.eq(i % l).fadeIn(fomo_inverval*100, function() {
+                    elem.eq(i % l).fadeOut(fomo_inverval*1000, saswp_fomo_loop);
+                    i++;
+                });
+            }
 
+            saswp_fomo_loop();
+            
+           }
 
 jQuery(document).ready(function($){
        
     saswpCollectionSlider();
     
+    
+    var fomo_inverval       = jQuery("#saswp-fomo-interval").val();
+    var fomo_visibility     = jQuery("#saswp-fomo-visibility").val();
+        
+    saswp_fomo_slide(fomo_inverval, fomo_visibility);
+    
+    $(document).on("click", ".saswp-opn-cls-btn", function(){
+                
+                $("#saswp-reviews-cntn").toggle();
+                
+                if( $('#saswp-reviews-cntn').is(':visible') ) {
+                    $(".saswp-onclick-show").show();
+                    $(".saswp-onclick-hide").hide();
+                }
+                else {
+                    $(".saswp-onclick-show").hide();
+                    $(".saswp-onclick-hide").show();
+                }
+                                                                                
+    });    
     
 });  
