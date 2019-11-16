@@ -34,6 +34,8 @@ class SASWP_Reviews_Collection {
           add_action( 'admin_init', array($this, 'saswp_save_collection_data' ));
           add_action( 'wp_ajax_saswp_add_to_collection', array($this, 'saswp_add_to_collection' ));
           add_action( 'wp_ajax_saswp_get_collection_platforms', array($this, 'saswp_get_collection_platforms' ));
+          
+          add_shortcode( 'saswp-reviews-collection', array($this, 'saswp_reviews_collection_shortcode_render' ));
                                  
         }
         
@@ -168,6 +170,132 @@ class SASWP_Reviews_Collection {
             }
                         
             wp_die();
+        }
+        
+        public function saswp_collection_sorting($collection, $sorting){
+                                       
+               switch($sorting){
+                    
+                case 'lowest':
+                        
+                        
+                        break;
+                    
+                case 'highest':
+                            
+                        
+                        break;
+                        
+               case 'newest':
+               case 'recent':
+                                                    
+                                                                                          
+                    break;
+                    
+               case 'oldest':
+                   
+                           
+                                                                                                                                
+                    break; 
+                
+                case 'random':
+                            
+                           
+                                                                                          
+                    break;
+                    
+                }
+                
+                return $collection;
+                      
+            }
+                            
+        public function saswp_reviews_collection_shortcode_render($attr){
+            
+            $html = '';
+            
+            if(!is_admin()){
+                
+                if(isset($attr['id'])){
+                
+                $collection          = array();  
+                $total_collection    = array();
+                
+                $collection_data = get_post_meta($attr['id'], $key='', true);
+                
+                $design       = $collection_data['saswp_collection_design'][0];
+                $cols         = $collection_data['saswp_collection_cols'][0];
+                $arrow        = $collection_data['saswp-gallery-arrow'][0];
+                $dots         = $collection_data['saswp-gallery-dots'][0];
+                $g_type       = $collection_data['saswp-collection-gallery-type'][0];
+                $f_interval   = $collection_data['saswp-fomo-interval'][0];
+                $f_visibility = $collection_data['saswp-fomo-visibility'][0];
+                $sorting      = $collection_data['saswp_collection_sorting'][0];                
+                $platform_id  = unserialize($collection_data['saswp_platform_ids'][0]);                
+                
+                if($platform_id){
+                    
+                    foreach ($platform_id as $key => $val){
+                        
+                        $reviews_list = $this->_service->saswp_get_reviews_list_by_parameters(null, $key, $val); 
+                        $total_collection[] = $reviews_list;
+                        
+                        if($reviews_list){
+                            
+                            $collection = array_merge($collection, $reviews_list);
+                        }
+                        
+                    }
+                    
+                    $collection = $this->_service->saswp_sort_collection($collection, $sorting);
+                                                                                      
+                }
+                                                
+                if($collection){
+                
+                    switch($design) {
+                    
+                    case "grid":
+                        
+                        $html = $this->_service->saswp_create_collection_grid($cols, $collection);
+                        
+                        break;
+                        
+                    case 'gallery':
+                        
+                        $html = $this->_service->saswp_create_collection_slider($g_type, $arrow, $dots, $collection);
+                        
+                        break;
+                    
+                    case 'badge':
+                        
+                        $html = $this->_service->saswp_create_collection_badge($total_collection);
+                        
+                        break;
+                        
+                    case 'popup':
+                        
+                        $html = $this->_service->saswp_create_collection_popup($collection);
+                        
+                        break;
+                    
+                    case 'fomo':
+                        
+                        $html = $this->_service->saswp_create_collection_fomo($f_interval, $f_visibility, $collection);
+                        
+                        break;
+                                                                
+                }
+                                        
+                }
+                                              
+            }
+            
+                                
+            }
+            
+            return $html;
+                                    
         }
         
         public function saswp_admin_collection_interface_render(){
@@ -348,7 +476,7 @@ class SASWP_Reviews_Collection {
                                         
                                         ?> 
                                    </select>
-                                  <div class="saswp_hide saswp-collection-shortcode">[reviews-collection id="<?php echo $post_id; ?>"]</div>
+                                  <div class="saswp_hide saswp-collection-shortcode">[saswp-reviews-collection id="<?php echo $post_id; ?>"]</div>
                                 </div>
                               </li>
                             </ul>
@@ -381,8 +509,7 @@ class SASWP_Reviews_Collection {
                                           
             wp_update_post($post);                                      
             $post_meta = array();            
-            $post_meta['saswp_collection_design']       = sanitize_text_field($_POST['saswp_collection_design']);            
-            $post_meta['slider_display']                = sanitize_text_field($_POST['slider_display']);
+            $post_meta['saswp_collection_design']       = sanitize_text_field($_POST['saswp_collection_design']);                        
             $post_meta['saswp_collection_sorting']      = sanitize_text_field($_POST['saswp_collection_sorting']);
             $post_meta['saswp_collection_display_type'] = sanitize_text_field($_POST['saswp_collection_display_type']);
             $post_meta['saswp-collection-gallery-type'] = sanitize_text_field($_POST['saswp-collection-gallery-type']);

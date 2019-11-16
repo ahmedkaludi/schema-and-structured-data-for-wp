@@ -1706,7 +1706,8 @@ if ( ! defined('ABSPATH') ) exit;
                      wp_enqueue_style( 'saswp-style', SASWP_PLUGIN_URL . 'admin_section/css/saswp-style.min.css', false , SASWP_VERSION );       
 
           }
-
+          
+          wp_enqueue_style( 'saswp-collection-css', SASWP_PLUGIN_URL . 'admin_section/css/'.(SASWP_ENVIRONMENT == 'production' ? 'collection.min.css' : 'collection.css'), false , SASWP_VERSION );
 
       }     
     /**

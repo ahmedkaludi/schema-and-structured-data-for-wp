@@ -558,23 +558,28 @@ class saswp_reviews_service {
                 foreach($post_meta as $meta_key){
                     
                     $review_data[$meta_key] = get_post_meta($rv_post->ID, $meta_key, true ); 
-                    
-                    if(!$review_data['saswp_reviewer_image']){
-                        $review_data['saswp_reviewer_image'] = SASWP_DIR_URI.'/admin_section/images/default_user.jpg';
-                    }
-                                                            
-                    if(!$review_data['saswp_review_platform_icon']){
-                                                
-                        $term     = get_term( $review_data['saswp_review_platform'], 'platform' );
-                    
-                        if(isset($term->slug)){
-                            
-                            $review_data['saswp_review_platform_icon'] = SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/'.esc_attr($term->slug).'-img.png';
-                        }
-                                                
-                    }
                                         
                 }
+                
+                if(!$review_data['saswp_reviewer_image']){
+                    $review_data['saswp_reviewer_image'] = SASWP_DIR_URI.'/admin_section/images/default_user.jpg';
+                }
+
+                $term     = get_term( $review_data['saswp_review_platform'], 'platform' );  
+                
+                if(!$review_data['saswp_review_platform_icon']){
+
+                    if(isset($term->slug)){
+
+                        $review_data['saswp_review_platform_icon'] = SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/'.esc_attr($term->slug).'-img.png';
+                    }
+
+                }
+                
+                if(!$review_data['saswp_review_platform_name']){
+                    $review_data['saswp_review_platform_name'] = $term->name;
+                }
+                
                    $review_data['saswp_review_post_id'] = $rv_post->ID;
                    $response[] = $review_data;  
             }
@@ -584,6 +589,186 @@ class saswp_reviews_service {
         return $response;
     }
     
+    public function saswp_sort_collection($collection, $sorting){
+     
+        
+         if($collection){
+               
+               switch($sorting){
+                    
+                case 'lowest':
+                                                
+                        break;
+                    
+                case 'highest':
+                            
+                        
+                        break;
+                        
+               case 'newest':
+               case 'recent':
+                            
+                                                                                          
+                    break;
+                    
+               case 'oldest':
+                   
+                                                                                                                                                           
+                    break; 
+                
+                case 'random':
+                            
+                                                                                                                  
+                    break;
+                    
+                }
+               
+           }
+        
+        
+           return $collection;
+           
+        
+    }
+    
+    public function saswp_convert_datetostring($date_str){
+        
+        $response = array();
+        
+        $response['date'] = date('Y-m-d', strtotime($date_str));
+        $response['time'] = date('G:i:s', strtotime($date_str));
+        
+        return $response;
+        
+    }
+    
+    public function saswp_create_collection_grid($cols, $collection){
+        
+           $html          = '';                
+           $grid_cols     = '';
+
+           if($collection){
+
+               $html .= '<div class="saswp-rd1-warp">';
+
+               for($i=1; $i <= $cols; $i++ ){
+                   $grid_cols .=' 1fr'; 
+               }                     
+               $html .= '<ul style="grid-template-columns:'.esc_attr($grid_cols).';">'; 
+
+               
+               foreach ($collection as $value){
+
+                       $date_str = $this->saswp_convert_datetostring($value['saswp_review_date']); 
+
+                       $html .= '<li>';                       
+                       $html .= '<div class="saswp-rd1-data">';
+                       $html .= '<div class="saswp-rd1-athr">';
+                       $html .= '<div class="saswp-rd1-athr-img">';
+                       $html .= '<img src="'.esc_url($value['saswp_reviewer_image']).'" width="56" height="56"/>';
+                       $html .= '</div>';
+                       $html .= '<div class="saswp-rd1-athr-nm">';
+                       $html .= '<h4><a href="#">'.esc_attr($value['saswp_reviewer_name']).'</a></h4>';
+                       $html .= saswp_get_rating_html_by_value($value['saswp_review_rating']);                       
+                       $html .= '<span class="saswp-rd1-ptdt">'.esc_attr($date_str['date']).', '.esc_attr($date_str['time']).'</span>';
+                       $html .= '</div>';
+                       $html .= '</div>';
+                       $html .= '<div class="saswp-rd1-rv-lg">';
+                       $html .= '</div>';
+
+                       $html .= '<div class="saswp-rd1-rv-lg">';
+                       $html .= '<img src="'.esc_url($value['saswp_review_platform_icon']).'"/>';
+                       $html .= '</div>';
+
+                       $html .= '</div>';
+                       $html .='<div class="saswp-rd1-cnt">';
+                       $html .= '<p>'. esc_attr($value['saswp_review_text']).'</p>';
+                       $html .= '</div>';
+                       $html .= '</li>'; 
+
+               }
+
+               $html .= '</ul>';
+               $html .= '</div>';
+
+           }           
+           return $html;
+        
+    }
+    public function saswp_create_collection_slider($g_type, $arrow, $dots, $collection){
+        
+    }
+    public function saswp_create_collection_badge($collection){
+        
+                $html = '';                
+                if($collection){
+            
+                    $html .= '<div class="saswp-rd3-warp">';
+                    $html .= '<ul>';
+                                                            
+                    foreach ($collection as $platform_wise){
+
+                        $platform_icon  = '';
+                        $platform_name  = '';
+                        $review_count   = 0;                        
+                        $sum_of_rating  = 0;
+                        $average_rating = 1;
+                        
+                        foreach ($platform_wise as $key => $value){
+                            
+                            $platform_name  = $value['saswp_review_platform_name'];
+                            $platform_icon  = $value['saswp_review_platform_icon'];
+                            $sum_of_rating += $value['saswp_review_rating'];
+                            $review_count++;
+                            
+                        }
+                        
+                      if($sum_of_rating > 0){
+                        
+                            $average_rating = $sum_of_rating / $review_count;
+                            
+                        }
+                            
+                      $html .= '<li>';                       
+                      $html .= '<a href="#">'; 
+                      $html .= '<div class="saswp-rv-lg-txt">';
+                      $html .= '<span>';
+                      $html .= '<img src="'.esc_url($platform_icon).'"/>';
+                      $html .= '</span>';
+                      $html .= '<h4>'.esc_attr($platform_name).'</h4">';                      
+                      $html .= '</div>';
+                      $html .= '<div class="saswp-rv-rtng">';
+                      $html .= '<div class="saswp-rtng-txt">';
+                      $html .= '<span class="saswp-rt-num">';
+                      $html .= esc_attr($average_rating);
+                      $html .= '</span>';
+                      $html .= '<span class="saswp-stars">';
+                      $html .= saswp_get_rating_html_by_value($average_rating); 
+                      $html .= '</span>';
+                      $html .= '</div>';
+                      $html .= '<span class="saswp-bsd-rv">';
+                      $html .= 'Based on '.esc_attr($review_count).' Reviews';
+                      $html .= '</span>';
+                      $html .= '</div>';
+                      $html .= '</a>';
+                      $html .= '</li>';                                                                     
+
+                    }      
+                    
+                    $html .= '</ul>';
+                    $html .= '</div>';
+                                         
+                }
+        
+        return $html;
+        
+    }
+    public function saswp_create_collection_popup($collection){
+        
+    }
+    public function saswp_create_collection_fomo($f_interval, $f_visibility, $collection){
+        
+    }
         	                      
 }
 
