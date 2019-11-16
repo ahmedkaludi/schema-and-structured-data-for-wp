@@ -726,12 +726,13 @@
                     }
                     
                     html += '</div>';
-                    
+                                         
+                                        
+                }
+                
                      jQuery(".saswp-collection-preview").html('');                    
                      jQuery(".saswp-collection-preview").append(html);                                                                                 
                      saswpCollectionSlider();
-                                        
-                }
                                                                 
             }
             
@@ -802,10 +803,11 @@
                     
                     html += '</ul>';
                     html += '</div>';
-                     
-                     jQuery(".saswp-collection-preview").html('');                    
-                     jQuery(".saswp-collection-preview").append(html); 
+                                         
                 }
+                
+                 jQuery(".saswp-collection-preview").html('');                    
+                 jQuery(".saswp-collection-preview").append(html); 
                                                                   
             }
             
@@ -889,10 +891,11 @@
                         html += '</div>';
                                                 
                     }
-                      
-                    jQuery(".saswp-collection-preview").html('');                    
-                    jQuery(".saswp-collection-preview").append(html);  
+                                           
                 }
+                
+                    jQuery(".saswp-collection-preview").html('');                    
+                    jQuery(".saswp-collection-preview").append(html); 
                 
             }            
             
@@ -924,13 +927,15 @@
                     html += '</div>';                   
 
                 });
-
-                 jQuery(".saswp-collection-preview").html('');                    
-                 jQuery(".saswp-collection-preview").append(html);
-                			                                             
-                 saswp_fomo_slide(fomo_inverval, fomo_visibility);
+			                                             
+                 
                 
                 }
+                
+                 jQuery(".saswp-collection-preview").html('');                    
+                 jQuery(".saswp-collection-preview").append(html);
+                 
+                 saswp_fomo_slide(fomo_inverval, fomo_visibility);
                 
             }        
             
@@ -1059,11 +1064,10 @@
                                                                                                                                         
                     html += '</ul>';
                     html += '</div>';
-                    
+                                                                                
+                }
                     jQuery(".saswp-collection-preview").html('');                    
                     jQuery(".saswp-collection-preview").append(html);
-                                        
-                }
                                                                                                 
             }     
             

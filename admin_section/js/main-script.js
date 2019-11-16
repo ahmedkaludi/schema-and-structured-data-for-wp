@@ -1887,10 +1887,8 @@ return false;
                
                 e.preventDefault();
                                                                 
-                var platform_id = $(this).attr('platform-id');                
-                console.log(saswp_collection);
-                saswp_collection[platform_id] = null;         
-                console.log(saswp_collection);
+                var platform_id = $(this).attr('platform-id');                                                
+                saswp_collection.splice(platform_id, 1);                                      
                 $(this).parent().remove();
                 saswp_on_collection_design_change();  
                                                
