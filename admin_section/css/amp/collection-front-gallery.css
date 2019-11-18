@@ -1,0 +1,79 @@
+/** Slider Design CSS **/
+.saswp-rd2-warp{
+  width:100%;
+  display:inline-block;
+  margin-bottom:50px;
+}
+.saswp-rd2-warp li {
+  width:350px;
+  margin-right:25px;
+}
+.saswp-rd2-warp .saswp-rd1-cnt{
+  white-space: initial;
+}
+.saswp-rd2-warp .saswp-rd2-box{
+  position: relative;
+  color: #777;
+  border: 1px solid #ededed;
+  background-color: #fafafa;
+  border-radius: 4px;
+}
+.saswp-rd2-warp .saswp-rd1-cnt{
+  height: 150px;
+  margin: 20px 20px 20px 40px;
+}
+
+.saswp-rd2-warp .saswp-rd1-data{
+  padding: 20px;
+}
+.saswp-rd2-box .saswp-rd1-stars{
+  display:inline-block;
+}
+.saswp-rd2-box .saswp-rd1-cnt p{
+  display:inline; 
+}
+.saswp-rd2-box .saswp-rd1-rv-lg{
+  line-height: 0;
+  position: absolute;
+  right: 13px;
+  top: 13px;
+  background: #fafafa;
+}
+.saswp-rd2-quote svg{
+  width: 20px;
+  fill: #bbb;
+  position: absolute;
+  height: 30px;
+  top: 15px;
+  left: 12px;
+}
+.saswp-rd2-warp .saswp-rd2-box:before {
+  position: absolute;
+  bottom: -8px;
+  left: 35px;
+  display: block;
+  width: 14px;
+  height: 14px;
+  border: 1px solid #ededed;
+  border-top: none;
+  border-left: none;
+  background-color: #fafafa;
+  content: "";
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+.carousel-preview{
+  text-align:center;
+}
+.carousel-preview button{
+  width:12px;
+  height:12px;
+  border-radius:100px;
+  border:none;
+  margin:0px 5px;
+  cursor: pointer;
+}
+.carousel-preview button.active{
+  background:#427fed;
+}

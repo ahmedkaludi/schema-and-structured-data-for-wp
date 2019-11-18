@@ -492,12 +492,12 @@
   width:500px;
 }
 #saswp-reviews-cntn {
- //   display:none;
+    display:none;    
 }
-#saswp-sticky-review .saswp-open-class #saswp-reviews-cntn{
-  display:block;
+#saswp-sticky-review .saswp-open-class #saswp-reviews-cntn{  
   width: 100%;
 }
+
 .saswp-opn-cls-btn{
   display: flex;
   height: 50px;
@@ -592,7 +592,7 @@
   justify-content: space-between;
   width: 100%;
 }
-.btn .saswp-onclick-show, .btn.saswp-open-class .saswp-onclick-hide{
+.saswp-onclick-show{
   display:none;
 }
 span.saswp-mines{

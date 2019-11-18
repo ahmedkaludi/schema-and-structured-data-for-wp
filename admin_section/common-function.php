@@ -1708,7 +1708,7 @@ if ( ! defined('ABSPATH') ) exit;
           }
           
           wp_enqueue_style( 'saswp-collection-front-css', SASWP_PLUGIN_URL . 'admin_section/css/'.(SASWP_ENVIRONMENT == 'production' ? 'collection-front.min.css' : 'collection-front.css'), false , SASWP_VERSION );
-          wp_enqueue_script( 'saswp-collection-front-js', SASWP_PLUGIN_URL . 'admin_section/js/'.(SASWP_ENVIRONMENT == 'production' ? 'collection-front.min.js' : 'collection-front.js'), false , SASWP_VERSION );
+          wp_enqueue_script( 'saswp-collection-front-js', SASWP_PLUGIN_URL . 'admin_section/js/'.(SASWP_ENVIRONMENT == 'production' ? 'collection-front.min.js' : 'collection-front.js'), array('jquery') , SASWP_VERSION );
 
       }     
     /**
@@ -2684,4 +2684,10 @@ function saswp_format_date_time($date, $time=null){
     }               
     
     return $formated;
+}
+
+function saswp_https( $url ) {
+                        
+    return str_replace( 'http://', 'https://', $url );            
+                	
 }

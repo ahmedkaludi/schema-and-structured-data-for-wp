@@ -1,0 +1,67 @@
+/** Fomo CSS **/
+.saswp-fomo-wrap{
+  position:fixed;
+  bottom:20px;
+  left:20px;
+  width: calc(100% - 20px);
+  max-width: 325px;
+  border-radius: 12px;
+  background: #fff;
+  border: 1px solid #ddd;
+  box-shadow: 0 0 10px 2px rgba(0,0,0,.15);
+  transition: all .3s ease-in;
+  height:80px;
+}
+#saswp-reviews-fomo-amp .amp-carousel-button { display: none }
+
+.saswp-fomo-reviews{
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  align-items: center;
+  height:80px;
+}
+.saswp-str-rtng{
+  flex:1 0 60%;
+  padding-left: 15px;
+}
+.saswp-frv-lg{
+  width: 80px;
+  height: 100%;
+  border-right: 1px solid #ddd;
+  box-sizing: border-box;
+  background: linear-gradient(to bottom,#fefefe 0,#f2f2f2 100%);
+  position: relative;
+  display: flex;
+  align-items: center;
+  border-radius: 12px 0px 0px 12px;
+}
+.saswp-frv-lg svg{
+    text-align: center;
+    width: 100%;
+}
+.saswp-str-rtng svg{
+  width: 20px;
+  height: 20px;
+  margin: 0px 3px 0px 0px;
+}
+.saswp-text-rtng{
+  font-size: 12px;
+  line-height: 1.2;
+  color: #444;
+  display: flex;
+  margin-bottom: 3px;
+}
+.saswp-text-rtng span{
+    font-weight: 600;
+    color: #666;
+    margin-right: 5px
+}
+.saswp-str-rtng span.saswp-rt-dt{
+  display: block;
+  font-size: 12px;
+  color: #ababab;
+}
+.saswp-fomo-wrap a{
+  text-decoration:none;
+}

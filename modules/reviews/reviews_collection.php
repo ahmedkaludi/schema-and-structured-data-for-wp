@@ -34,6 +34,10 @@ class SASWP_Reviews_Collection {
           add_action( 'admin_init', array($this, 'saswp_save_collection_data' ));
           add_action( 'wp_ajax_saswp_add_to_collection', array($this, 'saswp_add_to_collection' ));
           add_action( 'wp_ajax_saswp_get_collection_platforms', array($this, 'saswp_get_collection_platforms' ));
+          add_action( 'amp_post_template_css', array($this, 'saswp_reviews_collection_amp_css'));
+          add_action( 'amp_post_template_data', array($this, 'saswp_reviews_collection_amp_script'));
+         // add_action( 'amp_post_template_head', array($this, 'saswp_reviews_collection_head'));
+          //add_filter('ampforwp_the_content_last_filter', array($this, 'saswp_restore_amp_script_tags'));          
           
           add_shortcode( 'saswp-reviews-collection', array($this, 'saswp_reviews_collection_shortcode_render' ));
                                  
@@ -78,6 +82,57 @@ class SASWP_Reviews_Collection {
                 
            }
             
+        }
+        public function saswp_restore_amp_script_tags($buffer){
+            
+           $buffer = preg_replace('/saswp-amp-script/', '<amp-script src="'.str_replace('http:','https:',SASWP_PLUGIN_URL).'/admin_section/js/amp/collection-front.js">' , $buffer);
+           $buffer = preg_replace('/saswp-amp-close-script/', '</amp-script>' , $buffer);
+            
+           return $buffer;
+        }
+
+        public function saswp_reviews_collection_head(){
+            
+           
+        }
+        public function saswp_reviews_collection_amp_script($data){
+                        
+            if ( empty( $data['amp_component_scripts']['amp-bind'] ) ) {
+                    $data['amp_component_scripts']['amp-bind'] = "https://cdn.ampproject.org/v0/amp-bind-latest.js";
+            }
+            if ( empty( $data['amp_component_scripts']['amp-carousel'] ) ) {
+                    $data['amp_component_scripts']['amp-carousel'] = "https://cdn.ampproject.org/v0/amp-carousel-latest.js";
+            }
+//            if ( empty( $data['amp_component_scripts']['amp-script'] ) ) {
+//                    $data['amp_component_scripts']['amp-script'] = "https://cdn.ampproject.org/v0/amp-script-latest.js";
+//            }
+            return $data;
+                        
+        }
+        
+        public function saswp_reviews_collection_amp_css(){            
+           
+           $global_css  =  SASWP_PLUGIN_URL . 'admin_section/css/amp/collection-front-global.css'; 
+           $grid_css    =  SASWP_PLUGIN_URL . 'admin_section/css/amp/collection-front-grid.css';
+           $fomo_css    =  SASWP_PLUGIN_URL . 'admin_section/css/amp/collection-front-fomo.css';
+           $gallery_css =  SASWP_PLUGIN_URL . 'admin_section/css/amp/collection-front-gallery.css';
+           $popup_css   =  SASWP_PLUGIN_URL . 'admin_section/css/amp/collection-front-popup.css';
+           $badge_css   =  SASWP_PLUGIN_URL . 'admin_section/css/amp/collection-front-badge.css';
+           
+           if(true){
+               echo file_get_contents($grid_css);
+               echo file_get_contents($global_css);
+               echo file_get_contents($badge_css);
+               echo file_get_contents($popup_css);
+               echo file_get_contents($fomo_css);
+               echo file_get_contents($gallery_css);
+               
+           }
+           
+           ?>
+
+
+            <?php
         }
         
         public function saswp_register_collection_post_type(){
@@ -283,6 +338,7 @@ class SASWP_Reviews_Collection {
                         
                         $html = $this->_service->saswp_create_collection_fomo($f_interval, $f_visibility, $collection);
                         
+                        
                         break;
                                                                 
                 }
@@ -434,12 +490,8 @@ class SASWP_Reviews_Collection {
                                     
                                     <div class="saswp-fomo-options saswp_hide saswp-coll-options">                                       
                                         <?php echo esc_html__('Interval in Seconds','schema-and-structured-data-for-wp'); ?>
-                                        <input type="number" id="saswp-fomo-interval" name="saswp-fomo-interval" class="saswp-number-change" min="1" value="<?php echo (isset($post_meta['saswp-fomo-interval'][0]) ? $post_meta['saswp-fomo-interval'][0] : '3' ); ?>">
-                                    <?php echo esc_html__('Visibility in Seconds','schema-and-structured-data-for-wp'); ?>
-                                    <input type="number" id="saswp-fomo-visibility" name="saswp-fomo-visibility" class="saswp-number-change" min="1" value="<?php echo (isset($post_meta['saswp-fomo-visibility'][0]) ? $post_meta['saswp-fomo-visibility'][0] : '3' ); ?>">                                    
-                                        
-                                    </div>
-                                                                        
+                                        <input type="number" id="saswp-fomo-interval" name="saswp-fomo-interval" class="saswp-number-change" min="1" value="<?php echo (isset($post_meta['saswp-fomo-interval'][0]) ? $post_meta['saswp-fomo-interval'][0] : '3' ); ?>">                                                                            
+                                    </div>                                                                        
                                 </div>
                               </li>
                               <li>

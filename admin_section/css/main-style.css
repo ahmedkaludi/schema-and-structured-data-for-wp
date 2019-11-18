@@ -1643,10 +1643,9 @@ Collection css starts here
   width:500px;
 }
 #saswp-reviews-cntn {
- //   display:none;
+    display:none;    
 }
-#saswp-sticky-review .saswp-open-class #saswp-reviews-cntn{
-  display:block;
+#saswp-sticky-review .saswp-open-class #saswp-reviews-cntn{  
   width: 100%;
 }
 .saswp-opn-cls-btn{
@@ -1659,6 +1658,7 @@ Collection css starts here
   padding:0px 15px;
   border-radius:4px 4px 0px 0px;
   cursor: pointer;
+  box-sizing: border-box;
 }
 .saswp-opn-cls-btn svg path{
   fill:#fff;
@@ -1895,7 +1895,8 @@ span.saswp-mines{
 .saswp-collection-slider .saswp-slider-dots .saswp-dot.saswp-active {
   background: #888;
 }
-
-
+.saswp-onclick-show{
+    display: none;
+}
 
 /**Slider csss ends here **/

@@ -748,12 +748,14 @@
                     for (var key in saswp_collection) {
                           
                         var platform_icon  = '';
+                        var platform_name  = '';
                         var review_count   = 0;                        
                         var sum_of_rating  = 0;
                         var average_rating = 1;
                         
                         jQuery.each(saswp_collection[key], function(index, value){
                             platform_icon = value.saswp_review_platform_icon;
+                            platform_name = value.saswp_review_platform_name;
                             sum_of_rating += parseFloat(value.saswp_review_rating);
                             review_count++;
                         });  
@@ -772,10 +774,8 @@
                           html += '<span>';
                            html += '<img src="'+platform_icon+'"/>';
                           html += '</span>';
-                          html += '<h4>Google';
-                          html += '</h4">';
-                        html += '</div>'
-
+                          html += '<h4>'+platform_name+'</h4">';                          
+                        html += '</div>';
 
                       html += '<div class="saswp-rv-rtng">';
 
@@ -945,8 +945,8 @@
                         
             function saswp_fomo_loop() {
                 
-                elem.eq(i % l).fadeIn(fomo_inverval*100, function() {
-                    elem.eq(i % l).fadeOut(fomo_inverval*1000, saswp_fomo_loop);
+                elem.eq(i % l).fadeIn(6000, function() {
+                    elem.eq(i % l).fadeOut(3000, saswp_fomo_loop);
                     i++;
                 });
             }
@@ -1115,7 +1115,7 @@
                 var slider              = jQuery(".saswp-slider-type").val();
                 
                 var fomo_inverval       = jQuery("#saswp-fomo-interval").val();
-                var fomo_visibility     = jQuery("#saswp-fomo-visibility").val();
+                //var fomo_visibility     = jQuery("#saswp-fomo-visibility").val();
                 
                 if(jQuery("#saswp-gallery-arrow").is(':checked')){
                     var arrow          = true;
@@ -1131,7 +1131,7 @@
                                                 
                 saswp_create_total_collection();                 
                 saswp_collection_sorting(sorting);  
-                saswp_create_collection_by_design(design, cols, slider, arrow, dots, fomo_inverval, fomo_visibility);                                                
+                saswp_create_collection_by_design(design, cols, slider, arrow, dots, fomo_inverval, fomo_inverval);                                                
            
        }  
        

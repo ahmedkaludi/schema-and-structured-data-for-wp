@@ -1,0 +1,132 @@
+/** Popup2 CSS **/
+.btn{
+  position: fixed;
+  top: auto;
+  bottom: 0;
+  left: 20px;
+  font-family: "Arial",sans-serif;
+  z-index: 9;
+  box-shadow: 0 20px 40px 8px rgba(0,0,0,.25);
+  width:300px;
+  background: #fff;
+  border:none;
+  padding:0;
+}
+.open-class.btn{
+  width:500px;
+}
+#saswp-reviews-cntn {
+    display:none;
+}
+#saswp-sticky-review .open-class #saswp-reviews-cntn{
+  display:block;
+}
+.saswp-opn-cls-btn{
+  display: flex;
+  height: 50px;
+  justify-content: space-between;
+  align-items: center;
+  background: #fba306;
+  width:100%;
+  padding:0px 15px;
+  border-radius:4px 4px 0px 0px;
+  cursor: pointer;
+}
+.saswp-opn-cls-btn svg path{
+  fill:#fff;
+}
+.saswp-opn-cls-btn span{
+  font-size: 15px;
+  font-weight: 600;
+  color: #fff;
+}
+.saswp-reviews-info ul{
+  list-style-type:none;
+  padding:0;
+  margin:0;
+  text-align:left;
+  height: 350px;
+  overflow-y: scroll;
+}
+.saswp-reviews-info ul li{
+  border-bottom:1px solid #ccc;
+  padding:20px;
+}
+.saswp-rvws-dta{
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+}
+.saswp-rvws-dta .saswp-svg-img{
+  margin-right:10px;
+}
+.saswp-rvws-dta span.saswp-rvw-tx{
+  font-size:14px;
+  color:#444;
+}
+.saswp-rvws-dta span.saswp-rvw-nm:after{
+  content:"-";
+  display:inline-block;
+  margin:0px 10px;
+}
+.saswp-rvws-dta svg {
+  width: 18px;
+  height: 18px;
+  margin: 0 2px 0 0;
+  vertical-align: middle;
+}
+.saswp-rvws-txt h3{
+  margin: 15px 0px;
+  font-size: 18px;
+  color: #555;
+  font-weight: 400;
+}
+.saswp-rvws-txt p{
+  font-size: 13px;
+  line-height: 1.5;
+  margin: 0;
+  color: #666;
+}
+.saswp-reviews-info ul li.saswp-ttl-rvw{
+  display: flex;
+  width: 100%;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+}
+.saswp-reviews-info ul li.saswp-ttl-rvw span{
+  font-size:20px;
+  color:#666;
+}
+.saswp-ttl-rvw svg{
+  width:22px;
+  height:22px;
+  margin:0px 5px 0px 0px
+}
+.saswp-reviews-info ul li span.saswp-ttl-rvws{
+  margin-left: 10px;
+  position: relative;
+  top: -2px;
+}
+
+.btn .onclick-hide, .btn.open-class .onclick-show {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+.btn .onclick-show, .btn.open-class .onclick-hide{
+  display:none;
+}
+span.saswp-mines{
+  line-height:0;
+}
+.saswp-mines:before{
+  content: "";
+  display: inline-block;
+  width: 20px;
+  height: 4px;
+  background: #fff;
+  position: relative;
+  top: 5px;
+}
