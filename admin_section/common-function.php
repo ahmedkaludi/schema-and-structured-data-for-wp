@@ -2243,18 +2243,14 @@ if ( ! defined('ABSPATH') ) exit;
         
         $blog_desc = get_bloginfo('description');
         
-//        if(isset($sd_data['saswp-yoast']) && $sd_data['saswp-yoast'] == 1){
-//            
-//            if(class_exists('WPSEO_Options')){
-//                
-//                
-//                  $afas = get_option('metadesc-home-wpseo');
-//                  
-//                  print_r($afas);die;
-//                
-//                //$blog_desc = WPSEO_Options::get( 'metadesc-home-wpseo' );
-//                print_r($blog_desc);die;
-//            }
+        if(isset($sd_data['saswp-yoast']) && $sd_data['saswp-yoast'] == 1){
+            
+            if(class_exists('WPSEO_Frontend')){
+                
+                  $front             = WPSEO_Frontend::get_instance();
+                  $blog_desc         = $front->metadesc( false );
+                 
+            }
             
         }
                         
