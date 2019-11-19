@@ -2236,7 +2236,31 @@ if ( ! defined('ABSPATH') ) exit;
         }         
         return '';
     }
-      
+    
+    function saswp_get_blog_desc(){
+        
+        global $sd_data; 
+        
+        $blog_desc = get_bloginfo('description');
+        
+//        if(isset($sd_data['saswp-yoast']) && $sd_data['saswp-yoast'] == 1){
+//            
+//            if(class_exists('WPSEO_Options')){
+//                
+//                
+//                  $afas = get_option('metadesc-home-wpseo');
+//                  
+//                  print_r($afas);die;
+//                
+//                //$blog_desc = WPSEO_Options::get( 'metadesc-home-wpseo' );
+//                print_r($blog_desc);die;
+//            }
+            
+        }
+                        
+        return $blog_desc;
+    }
+    
     /**
      * since @1.8.7
      * Here we are modifying the default title

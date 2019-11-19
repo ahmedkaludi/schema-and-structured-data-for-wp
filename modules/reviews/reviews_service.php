@@ -1154,7 +1154,7 @@ class saswp_reviews_service {
                 
              $i=0;
             
-            $html .= '<input type="hidden" id="saswp-fomo-interval" value="'.esc_attr($f_interval).'">';
+            $html .= '<input type="hidden" id="saswp_fomo_interval" value="'.esc_attr($f_interval).'">';
             foreach ($collection as $value){
                 
                     $date_str = $this->saswp_convert_datetostring($value['saswp_review_date']); 

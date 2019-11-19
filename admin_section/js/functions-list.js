@@ -1114,16 +1114,16 @@
                 var cols                = jQuery(".saswp-grid-options").val();
                 var slider              = jQuery(".saswp-slider-type").val();
                 
-                var fomo_inverval       = jQuery("#saswp-fomo-interval").val();
-                //var fomo_visibility     = jQuery("#saswp-fomo-visibility").val();
+                var fomo_inverval       = jQuery("#saswp_fomo_interval").val();
+                //var fomo_visibility     = jQuery("#saswp_fomo_visibility").val();
                 
-                if(jQuery("#saswp-gallery-arrow").is(':checked')){
+                if(jQuery("#saswp_gallery_arrow").is(':checked')){
                     var arrow          = true;
                 }else{
                     var arrow          = false;
                 }
                 
-                if(jQuery("#saswp-gallery-dots").is(':checked')){
+                if(jQuery("#saswp_gallery_dots").is(':checked')){
                     var dots            = true;
                 }else{
                     var dots            = false;

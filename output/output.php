@@ -1484,7 +1484,7 @@ function saswp_kb_website_output(){
                     $input['@id']         = $site_url.'#website';
                     $input['headline']    = $site_name;
                     $input['name']        = $site_name;
-                    $input['description'] = get_bloginfo('description');
+                    $input['description'] = saswp_get_blog_desc();
                     $input['url']         = $site_url;
                                                              
                     if(isset($sd_data['saswp_search_box_schema']) && $sd_data['saswp_search_box_schema'] == 1 || !isset($sd_data['saswp_search_box_schema'])){
@@ -1902,6 +1902,7 @@ function saswp_gutenberg_how_to_schema(){
             $input1 = array();
             
             if(function_exists('parse_blocks') && is_object($post)){
+           
                 
             $blocks = parse_blocks($post->post_content);
             

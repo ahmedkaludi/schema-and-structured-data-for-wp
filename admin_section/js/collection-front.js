@@ -138,7 +138,7 @@ jQuery(document).ready(function($){
        
     saswpCollectionSlider();
         
-    var fomo_inverval       = jQuery("#saswp-fomo-interval").val();    
+    var fomo_inverval       = jQuery("#saswp_fomo_interval").val();    
     
     var elems = $(".saswp-fomo-wrap");
     var i = 1;

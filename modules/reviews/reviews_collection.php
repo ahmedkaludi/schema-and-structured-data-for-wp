@@ -275,16 +275,36 @@ class SASWP_Reviews_Collection {
                 
                 $collection          = array();  
                 $total_collection    = array();
+                $dots = $f_interval = $f_visibility = $arrow = 1;
+                $g_type = '';
                 
                 $collection_data = get_post_meta($attr['id'], $key='', true);
                 
                 $design       = $collection_data['saswp_collection_design'][0];
                 $cols         = $collection_data['saswp_collection_cols'][0];
-                $arrow        = $collection_data['saswp-gallery-arrow'][0];
-                $dots         = $collection_data['saswp-gallery-dots'][0];
-                $g_type       = $collection_data['saswp-collection-gallery-type'][0];
-                $f_interval   = $collection_data['saswp-fomo-interval'][0];
-                $f_visibility = $collection_data['saswp-fomo-visibility'][0];
+                
+                if(isset($collection_data['saswp_gallery_arrow'][0])){
+                    
+                    $arrow        = $collection_data['saswp_gallery_arrow'][0];
+                }
+                
+                
+                if(isset($collection_data['saswp_gallery_dots'][0])){
+                    $dots         = $collection_data['saswp_gallery_dots'][0];
+                }
+                            
+                if(isset($collection_data['saswp_collection_gallery_type'][0])){
+                    $g_type       = $collection_data['saswp_collection_gallery_type'][0];
+                }
+                
+                if(isset($collection_data['saswp_fomo_interval'][0])){
+                    $f_interval   = $collection_data['saswp_fomo_interval'][0];
+                }
+                
+                if(isset($collection_data['saswp_fomo_visibility'][0])){
+                    $f_visibility = $collection_data['saswp_fomo_visibility'][0];
+                }
+                                
                 $sorting      = $collection_data['saswp_collection_sorting'][0];                
                 $platform_id  = unserialize($collection_data['saswp_platform_ids'][0]);                
                 
@@ -390,10 +410,10 @@ class SASWP_Reviews_Collection {
             );
                         
             $coll_display_type = array(
+                'shortcode'               => 'Shortcode',  
                 'before_the_content'      => 'Before the content',
                 'between_the_content'     => 'Beetween the content',
-                'after_the_content'       => 'After the content',
-                'shortcode'               => 'Shortcode',                
+                'after_the_content'       => 'After the content',                              
             );
             
             ?> 
@@ -479,18 +499,18 @@ class SASWP_Reviews_Collection {
                                      </select>
                                     
                                     <input type="number" id="saswp-collection-cols" name="saswp_collection_cols" min="0" value="<?php echo (isset($post_meta['saswp_collection_cols'][0]) ? $post_meta['saswp_collection_cols'][0] : '2' ); ?>" class="saswp-number-change saswp-coll-settings-options saswp-coll-options saswp-grid-options">                                    
-                                    <select name="saswp-collection-gallery-type" id="saswp-collection-gallery-type" class="saswp-slider-type saswp-slider-options saswp_hide saswp-coll-settings-options saswp-coll-options">
-                                        <option value="slider" <?php echo (isset($post_meta['saswp-collection-gallery-type'][0]) && $post_meta['saswp-collection-gallery-type'][0] == 'slider'  ? 'selected' : '' ); ?>>Slider</option>
-                                        <option value="carousel" <?php echo (isset($post_meta['saswp-collection-gallery-type'][0]) && $post_meta['saswp-collection-gallery-type'][0] == 'carousel'  ? 'selected' : '' ); ?>>Carousel</option>
+                                    <select name="saswp_collection_gallery_type" id="saswp_collection_gallery_type" class="saswp-slider-type saswp-slider-options saswp_hide saswp-coll-settings-options saswp-coll-options">
+                                        <option value="slider" <?php echo (isset($post_meta['saswp_collection_gallery_type'][0]) && $post_meta['saswp_collection_gallery_type'][0] == 'slider'  ? 'selected' : '' ); ?>>Slider</option>
+                                        <option value="carousel" <?php echo (isset($post_meta['saswp_collection_gallery_type'][0]) && $post_meta['saswp_collection_gallery_type'][0] == 'carousel'  ? 'selected' : '' ); ?>>Carousel</option>
                                     </select>
                                     <div class="saswp-slider-display saswp-slider-options saswp_hide saswp-coll-settings-options saswp-coll-options">
-                                        <span><input type="checkbox" id="saswp-gallery-arrow" name="saswp-gallery-arrow" value="1" <?php echo (isset($post_meta['saswp-gallery-arrow'][0]) && $post_meta['saswp-gallery-arrow'][0] == 1 ? 'checked' : '' ); ?>> <?php echo esc_html__('Arrows','schema-and-structured-data-for-wp'); ?></span>
-                                        <span><input type="checkbox" id="saswp-gallery-dots" name="saswp-gallery-dots" value="1" <?php echo (isset($post_meta['saswp-gallery-dots'][0]) && $post_meta['saswp-gallery-dots'][0] == 1 ? 'checked' : '' ); ?>> <?php echo esc_html__('Dots','schema-and-structured-data-for-wp'); ?></span>
+                                        <span><input type="checkbox" id="saswp_gallery_arrow" name="saswp_gallery_arrow" value="1" <?php echo (isset($post_meta['saswp_gallery_arrow'][0]) && $post_meta['saswp_gallery_arrow'][0] == 1 ? 'checked' : '' ); ?>> <?php echo esc_html__('Arrows','schema-and-structured-data-for-wp'); ?></span>
+                                        <span><input type="checkbox" id="saswp_gallery_dots" name="saswp_gallery_dots" value="1" <?php echo (isset($post_meta['saswp_gallery_dots'][0]) && $post_meta['saswp_gallery_dots'][0] == 1 ? 'checked' : '' ); ?>> <?php echo esc_html__('Dots','schema-and-structured-data-for-wp'); ?></span>
                                     </div>
                                     
                                     <div class="saswp-fomo-options saswp_hide saswp-coll-options">                                       
                                         <?php echo esc_html__('Interval in Seconds','schema-and-structured-data-for-wp'); ?>
-                                        <input type="number" id="saswp-fomo-interval" name="saswp-fomo-interval" class="saswp-number-change" min="1" value="<?php echo (isset($post_meta['saswp-fomo-interval'][0]) ? $post_meta['saswp-fomo-interval'][0] : '3' ); ?>">                                                                            
+                                        <input type="number" id="saswp_fomo_interval" name="saswp_fomo_interval" class="saswp-number-change" min="1" value="<?php echo (isset($post_meta['saswp_fomo_interval'][0]) ? $post_meta['saswp_fomo_interval'][0] : '3' ); ?>">                                                                            
                                     </div>                                                                        
                                 </div>
                               </li>
@@ -564,12 +584,12 @@ class SASWP_Reviews_Collection {
             $post_meta['saswp_collection_design']       = sanitize_text_field($_POST['saswp_collection_design']);                        
             $post_meta['saswp_collection_sorting']      = sanitize_text_field($_POST['saswp_collection_sorting']);
             $post_meta['saswp_collection_display_type'] = sanitize_text_field($_POST['saswp_collection_display_type']);
-            $post_meta['saswp-collection-gallery-type'] = sanitize_text_field($_POST['saswp-collection-gallery-type']);
+            $post_meta['saswp_collection_gallery_type'] = sanitize_text_field($_POST['saswp_collection_gallery_type']);
             $post_meta['saswp_collection_cols']         = intval($_POST['saswp_collection_cols']);
-            $post_meta['saswp-gallery-arrow']           = intval($_POST['saswp-gallery-arrow']);
-            $post_meta['saswp-gallery-dots']            = intval($_POST['saswp-gallery-dots']);            
-            $post_meta['saswp-fomo-interval']           = intval($_POST['saswp-fomo-interval']);
-            $post_meta['saswp-fomo-visibility']         = intval($_POST['saswp-fomo-visibility']);
+            $post_meta['saswp_gallery_arrow']           = intval($_POST['saswp_gallery_arrow']);
+            $post_meta['saswp_gallery_dots']            = intval($_POST['saswp_gallery_dots']);            
+            $post_meta['saswp_fomo_interval']           = intval($_POST['saswp_fomo_interval']);
+            $post_meta['saswp_fomo_visibility']         = intval($_POST['saswp_fomo_visibility']);
                                                         //Escaping is missing will do tomorrow
             $post_meta['saswp_platform_ids']            = $_POST['saswp_platform_ids'];
                         
