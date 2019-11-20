@@ -1356,6 +1356,7 @@ Collection css starts here
 .saswp-rd1-athr > img {
     max-width: 56px;
     min-height: 56px;
+    max-height: 56px;
     margin-right: 10px;
     border-radius: 100px;
 }
@@ -1538,6 +1539,11 @@ Collection css starts here
     margin: 10px auto 0 auto;
     display: inherit;
 }
+.saswp-collection-shortcode{
+    color: #555;
+    margin-top: 5px;
+    padding-left: 5px;
+}
 
 
 /** Badges CSS **/
@@ -1616,6 +1622,10 @@ Collection css starts here
   transition: all .3s ease-in;
   display: none;
 }
+.saswp-fomo-reviews .saswp-str-rtng .saswp-rvw-str{
+    padding-left:0px;
+    margin-bottom: 3px;
+}
 .saswp-fomo-reviews{
   display: flex;
   flex-wrap: wrap;
@@ -1652,7 +1662,7 @@ Collection css starts here
   line-height: 1.2;
   color: #444;
   display: flex;
-  margin-bottom: 3px;
+  margin-bottom: 5px;
 }
 .saswp-text-rtng span{
     font-weight: 600;
@@ -1994,6 +2004,11 @@ span.saswp-mines{
 .saswp-collection-slider .saswp-slider-dots .saswp-dot.saswp-active {
   background: #0085ba;
 }
+.saswp-collection-slider-type .saswp-slider-items-container .saswp-slider-item {
+  width: 100vw;
+  max-width: 640px;
+  display: block;
+}
 /** Single Slider CSS Ends here **/
 
 /** Carousel Slider CSS Starts here **/
@@ -2018,40 +2033,15 @@ span.saswp-mines{
     padding: 20px 10px;
     box-sizing: border-box;
 }
-/** Carousel Slider CSS Ends here **/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+.saswp-collection-carousel-type .saswp-rd1-cnt{
+    height:120px;
+}
 .saswp-collection-slider .saswp-slider-items-container {
   display: flex;
   flex-wrap: wrap;
   height: auto;
   transition: transform 0.35s ease-in-out;
 }
-
-.saswp-collection-slider-type .saswp-slider-items-container .saswp-slider-item {
-  width: 100vw;
-  max-width: 640px;
-  display: block;
-}
-
 .saswp-collection-slider .saswp-slider-controls a {
   color: #333;
   text-decoration: none;
@@ -2072,4 +2062,4 @@ span.saswp-mines{
 .saswp-dp-dsg.saswp_hide{
     display: none;
 }
-/**Slider csss ends here **/
+/** Carousel Slider CSS Ends here **/

@@ -927,9 +927,10 @@
                     html += '<div class="saswp-str-rtng">';
                       html += saswp_create_rating_html_by_value(value.saswp_review_rating);
                      html +='<div class="saswp-text-rtng">';
-                     html +='<span>'+value.saswp_review_rating+' Star Rating</span> by '+ value.saswp_reviewer_name;
-                     html += '<span class="saswp-rt-dt">'+date_str.date+', '+date_str.time+'</span>';
+                     html +='<span>'+value.saswp_review_rating+' Star Rating by</span>';
+                     html +='<span>'+value.saswp_reviewer_name+'</span>';
                      html +='</div>';
+                     html += '<span class="saswp-rt-dt">'+date_str.date+', '+date_str.time+'</span>';
                     html += '</div>';                            
                     html += '</div>';
                     html += '</div>';                   

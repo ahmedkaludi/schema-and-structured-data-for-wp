@@ -483,18 +483,14 @@ class SASWP_Reviews_Collection {
                                 <li>                                     
                                     <a class="saswp-accordion"><?php echo esc_html__('Presentation','schema-and-structured-data-for-wp'); ?></a>
                                     <div class="saswp-accordion-panel">
-                                        <div class="saswp-dp-dsg">
+                                        <div class="saswp-dp-dsg saswp-dp-dtm">
                                         <lable><?php echo esc_html__('Design','schema-and-structured-data-for-wp'); ?></lable>  
                                         <select name="saswp_collection_design" class="saswp-collection-desing saswp-coll-settings-options">
-                                            
                                             <?php
-                                            
                                             foreach($coll_desing as $key => $val){
                                                 
                                                 echo '<option value="'.esc_attr($key).'" '.($post_meta['saswp_collection_design'][0] == $key ? 'selected':'').' >'.esc_html__( $val , 'schema-and-structured-data-for-wp' ).'</option>';
-                                                
                                             }
-                                            
                                             ?>                                    
                                          </select>
                                         </div>
@@ -514,9 +510,12 @@ class SASWP_Reviews_Collection {
                                             <span><input type="checkbox" id="saswp_gallery_dots" name="saswp_gallery_dots" value="1" <?php echo (isset($post_meta['saswp_gallery_dots'][0]) && $post_meta['saswp_gallery_dots'][0] == 1 ? 'checked' : '' ); ?>> <?php echo esc_html__('Dots','schema-and-structured-data-for-wp'); ?></span>
                                         </div>
                                         
-                                        <div class="saswp-fomo-options saswp_hide saswp-coll-options">                                       
-                                            <?php echo esc_html__('Interval in Seconds','schema-and-structured-data-for-wp'); ?>
-                                            <input type="number" id="saswp_fomo_interval" name="saswp_fomo_interval" class="saswp-number-change" min="1" value="<?php echo (isset($post_meta['saswp_fomo_interval'][0]) ? $post_meta['saswp_fomo_interval'][0] : '3' ); ?>">                                                                            
+                                        <div class="saswp-fomo-options saswp_hide saswp-coll-options"> 
+                                            <div class="saswp-dp-dsg saswp-dp-dtm">
+                                            <span><?php echo esc_html__('Delay Time','schema-and-structured-data-for-wp'); ?>
+                                            </span>
+                                            <input type="number" id="saswp_fomo_interval" name="saswp_fomo_interval" class="saswp-number-change" min="1" value="<?php echo (isset($post_meta['saswp_fomo_interval'][0]) ? $post_meta['saswp_fomo_interval'][0] : '3' ); ?>"> 
+                                            </div>                                                                           
                                         </div>                                                                        
                                     </div>
                                 </li>
