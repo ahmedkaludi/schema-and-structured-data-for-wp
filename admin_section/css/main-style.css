@@ -1930,5 +1930,7 @@ span.saswp-mines{
 .saswp-onclick-show{
     display: none;
 }
-
+.saswp-dp-dsg.saswp_hide{
+    display: none;
+}
 /**Slider csss ends here **/

@@ -498,7 +498,7 @@ class SASWP_Reviews_Collection {
                                             ?>                                    
                                          </select>
                                         </div>
-                                        <div class="saswp-dp-dsg saswp-coll-options">
+                                        <div class="saswp-dp-dsg saswp-coll-options saswp-grid-options">
                                         <label>No of Rows</label>
                                         <input type="number" id="saswp-collection-cols" name="saswp_collection_cols" min="0" value="<?php echo (isset($post_meta['saswp_collection_cols'][0]) ? $post_meta['saswp_collection_cols'][0] : '2' ); ?>" class="saswp-number-change saswp-coll-settings-options saswp-coll-options saswp-grid-options">    
                                         </div>                                  
