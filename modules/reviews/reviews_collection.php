@@ -431,7 +431,7 @@ class SASWP_Reviews_Collection {
                             <div class="saswp-collection-title">
                                 <input type="text" value="<?php if(get_the_title($post_id) == 'Auto Draft'){ echo 'Untitled'; }else{ echo get_the_title($post_id); } ?>" id="saswp_collection_title" name="saswp_collection_title">
                             </div>
-                            <span class="spinner"></span>
+                            <span class="spinner saswp-spinner"></span>
                             <div class="saswp-collection-preview">
                                 
                                 <!-- Collections html will be loaded on ajax call -->

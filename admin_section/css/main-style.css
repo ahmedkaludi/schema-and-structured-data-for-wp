@@ -1735,6 +1735,11 @@ Collection css starts here
   font-weight: 600;
   color: #fff;
 }
+.saswp-onclick-hide, .saswp-onclick-show{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
 .saswp-reviews-info ul{
   list-style-type:none;
   padding:0;
@@ -1789,6 +1794,7 @@ Collection css starts here
   align-items: center;
   text-align: center;
   justify-content: center;
+  box-sizing: border-box;
 }
 .saswp-reviews-info ul li.saswp-ttl-rvw span{
   font-size:20px;
@@ -2023,6 +2029,11 @@ span.saswp-mines{
   width: 100vw;
   max-width: 640px;
   display: block;
+}
+.spinner.saswp-spinner{
+    float:none;
+    margin: 0px auto;
+    display: block;
 }
 /** Single Slider CSS Ends here **/
 
