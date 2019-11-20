@@ -1298,6 +1298,7 @@ Collection css starts here
     flex:1 0 23%;
     padding-bottom: 12px;
     height:100%;
+    width:27%;
 }
 .saswp-collection-container{
     margin-top: 60px;
@@ -1461,6 +1462,7 @@ Collection css starts here
 }
 .wp-admin .saswp-collection-settings select{
     margin:0px;
+    min-height: 30px;
 }
 .saswp-slider-display span{
     width: 30%;
@@ -1481,6 +1483,9 @@ Collection css starts here
     display: block;
     box-sizing: border-box;
     position: relative;
+}
+.saswp-collection-settings ul li input{
+    width:100%;
 }
 .saswp-collection-settings ul li a:hover, .saswp-collection-settings ul li a.active{
     background: #f5f5f5;
@@ -1508,11 +1513,12 @@ Collection css starts here
     background: #ccc;
     border: none;
     line-height: 22px;
-    width: 20px;
+    width: 22px;
     padding: 0;
     font-family: sans-serif;
     border-radius: 100px;
-    height: 20px;
+    min-height: 22px;
+    max-height: 22px;
     text-align: center;
     font-size: 10px;
     margin-left: 10px;
@@ -2089,3 +2095,28 @@ span.saswp-mines{
     display: none;
 }
 /** Carousel Slider CSS Ends here **/
+
+
+/** Responsive CSS **/
+@media(max-width:1200px){
+    .saswp-plf-lst-rv-cnt{
+        grid-template-columns: 1fr;
+    }
+}
+
+@media(max-width:767px){
+    .saswp-collection-lp{
+        flex: 1 0 100%;
+        margin-right: 0px;
+        width: 100%;
+    }
+    .saswp-collection-settings {
+        flex: 1 0 100%;
+        padding-bottom: 0px;
+        height: 100%;
+        width: 100%;
+    }
+    .wp-admin .saswp-collection-settings select{
+        max-width:100%;
+    }
+}
