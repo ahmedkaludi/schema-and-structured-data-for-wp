@@ -1353,7 +1353,7 @@ Collection css starts here
   margin-right: 10px;
   border-radius: 100px;
 }
-.saswp-rd1-athr img {
+.saswp-rd1-athr > img {
     max-width: 56px;
     min-height: 56px;
     margin-right: 10px;
@@ -1437,6 +1437,19 @@ Collection css starts here
     align-items: center;
     color:#666;
 }
+.saswp-dp-dtm{
+    margin-top:10px;
+}
+.saswp-slider-display{
+    margin-top: 15px;
+}
+.wp-admin .saswp-collection-settings select{
+    margin:0px;
+}
+.saswp-slider-display span{
+    width: 30%;
+    display: inline-block;
+}
 .saswp-collection-settings ul li a{
     padding:12px 15px;
     background:#fff;
@@ -1458,9 +1471,6 @@ Collection css starts here
 }
 .saswp-accordion.active + .saswp-accordion-panel{
     border-top:1px solid #ddd;
-}
-.saswp-active, .accordion:hover {
-  background-color: #ccc; 
 }
 .saswp-plf-lst-rv-cnt{
     display: inline-grid;
@@ -1873,33 +1883,175 @@ span.saswp-mines{
 
 /**Slider csss starts here **/
 
-.saswp-collection-slider { 
+
+/** Single Slider CSS Start here **/
+.saswp-collection-slider-type .saswp-collection-slider{
+    width: 100%;
+    max-width: 640px;
+    margin: 0 auto;
+    overflow: hidden;
+    position:relative;
+}
+.saswp-rd2-box{
+    padding: 20px 40px 20px 40px;
+    background-color: #fafafa;
+    position: relative;
+    color: #777;
+    border: 1px solid #ededed;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+.saswp-collection-slider-type .saswp-rd1-data{
+    padding: 20px;
+    box-sizing: border-box;
+}
+.saswp-slider-item .saswp-rd2-box:before {
+    position: absolute;
+    bottom: -8px;
+    left: 35px;
+    display: block;
+    width: 14px;
+    height: 14px;
+    border: 1px solid #ededed;
+    border-top: none;
+    border-left: none;
+    background-color: #fafafa;
+    content: "";
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+.saswp-slider-item .saswp-rd1-cnt{
+    margin:0px;
+}
+.saswp-collection-slider .saswp-slider-controls {
   width: 100%;
-  max-width: 640px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+.saswp-slider-controls a.saswp-slider-prev-btn{
+    position: absolute;
+    left: 10px;
+    top: 40%;
+    background: rgba(0,0,0,0.5);
+    line-height: 0;
+    border-radius: 100px;
+    width: 30px;
+    height: 30px;
+}
+.saswp-slider-controls a.saswp-slider-prev-btn:before{
+    content:"";
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border: 2px solid #fff;
+    border-top: none;
+    border-left: none;
+    transform: rotate(135deg);
+    position: relative;
+    top: 11px;
+    left: 12px;
+}
+.saswp-slider-controls a.saswp-slider-next-btn{
+    position: absolute;
+    right: 10px;
+    top: 40%;
+    background: rgba(0,0,0,0.5);
+    line-height: 0;
+    border-radius: 100px;
+    width: 30px;
+    height: 30px;
+}
+.saswp-slider-controls a.saswp-slider-next-btn:after{
+    content:"";
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border: 2px solid #fff;
+    border-top: none;
+    border-left: none;
+    transform: rotate(135deg);
+    transform: rotate(-45deg);
+    position: relative;
+    top: 11px;
+    right: -9px;
+}
+.saswp-slider-item .saswp-rd1-rv-lg img {
+    width: 25px;
+    height: 25px;
+}
+.saswp-collection-slider .saswp-slider-dots .saswp-dot {
+  width: 10px;
+  height: 10px;
+  background: #444;
+  transition: 0.15s ease-in-out;
+  border-radius: 8px;
+  cursor: pointer;
+  margin: 0 12px;
+}
+.saswp-collection-slider .saswp-slider-dots .saswp-dot.saswp-active {
+  background: #0085ba;
+}
+/** Single Slider CSS Ends here **/
+
+/** Carousel Slider CSS Starts here **/
+.saswp-collection-carousel-type .saswp-collection-slider { 
+  width: 100%;
+  max-width: 800px;
   margin: 0 auto;
   overflow: hidden;
-  background: white;
-  box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.5);
+  position: relative;
 }
+.saswp-collection-carousel-type  .saswp-slider-items-container .saswp-slider-item {
+  width: 100%;
+  max-width: 800px;
+  display: flex;
+}
+.saswp-collection-carousel-type .saswp-rv-box{
+    width: 100%;
+    margin-right: 20px;
+    max-width: 40%;
+}  
+.saswp-collection-carousel-type .saswp-rd1-data {
+    padding: 20px 10px;
+    box-sizing: border-box;
+}
+/** Carousel Slider CSS Ends here **/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 .saswp-collection-slider .saswp-slider-items-container {
   display: flex;
   flex-wrap: wrap;
   height: auto;
   transition: transform 0.35s ease-in-out;
 }
-.saswp-collection-slider  .saswp-slider-items-container .saswp-slider-item {
+
+.saswp-collection-slider-type .saswp-slider-items-container .saswp-slider-item {
   width: 100vw;
   max-width: 640px;
   display: block;
 }
-.saswp-collection-slider .saswp-slider-controls {
-  width: 100%;
-  padding: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-size: 35px;
-}
+
 .saswp-collection-slider .saswp-slider-controls a {
   color: #333;
   text-decoration: none;
@@ -1913,19 +2065,6 @@ span.saswp-mines{
   display: flex;
   justify-content: center;
   margin: 0 auto;
-  padding: 20px;
-}
-.saswp-collection-slider .saswp-slider-dots .saswp-dot {
-  width: 10px;
-  height: 10px;
-  background: #333;
-  transition: 0.15s ease-in-out;
-  border-radius: 8px;
-  cursor: pointer;
-  margin: 0 20px;
-}
-.saswp-collection-slider .saswp-slider-dots .saswp-dot.saswp-active {
-  background: #888;
 }
 .saswp-onclick-show{
     display: none;
