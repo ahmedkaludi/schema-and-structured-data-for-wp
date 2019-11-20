@@ -1463,6 +1463,8 @@ Collection css starts here
 .wp-admin .saswp-collection-settings select{
     margin:0px;
     min-height: 30px;
+    max-height: 30px; 
+    max-width: 100%;
 }
 .saswp-slider-display span{
     width: 30%;

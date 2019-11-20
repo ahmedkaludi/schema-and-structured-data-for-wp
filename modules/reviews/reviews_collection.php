@@ -593,9 +593,8 @@ class SASWP_Reviews_Collection {
             $post_meta['saswp_gallery_arrow']           = intval($_POST['saswp_gallery_arrow']);
             $post_meta['saswp_gallery_dots']            = intval($_POST['saswp_gallery_dots']);            
             $post_meta['saswp_fomo_interval']           = intval($_POST['saswp_fomo_interval']);
-            $post_meta['saswp_fomo_visibility']         = intval($_POST['saswp_fomo_visibility']);
-                                                        //Escaping is missing will do tomorrow
-            $post_meta['saswp_platform_ids']            = $_POST['saswp_platform_ids'];
+            $post_meta['saswp_fomo_visibility']         = intval($_POST['saswp_fomo_visibility']);                                                        
+            $post_meta['saswp_platform_ids']            = array_map('intval', $_POST['saswp_platform_ids']);
                         
             if(!empty($post_meta)){
                 
