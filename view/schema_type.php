@@ -263,7 +263,10 @@ function saswp_schema_type_meta_box_callback( $post) {
 
                             default:
 
-                                $speakable            = get_post_meta($post->ID, 'saswp_enable_speakable_schema', true);                                
+                                $speakable            = get_post_meta($post->ID, 'saswp_enable_speakable_schema', true);
+                                $item_list_enable     = get_post_meta($post->ID, 'saswp_enable_itemlist_schema', true);
+                                $item_list_tags       = get_post_meta($post->ID, 'saswp_item_list_tags', true);
+                                $item_list_custom     = get_post_meta($post->ID, 'saswp_item_list_custom', true);
 
                                 break;
                         }    
@@ -656,6 +659,55 @@ function saswp_schema_type_meta_box_callback( $post) {
 
                 <tr>
                    <td>
+                       <label for="saswp-itemlist"><?php echo esc_html__( 'ItemList ' ,'schema-and-structured-data-for-wp');?></label>
+                   </td>
+                   <td>
+                       <div class="saswp-enable-speakable">
+                           
+                       <div class="saswp-item-list-div">
+                           
+                       <input class="saswp-enable-itemlist" type="checkbox" name="saswp_enable_itemlist_schema" value="1" <?php if($item_list_enable == 1){echo 'checked'; }else{ echo ''; } ?>>                                                                                                           
+                                                 
+                       <select  name="saswp_item_list_tags" id="saswp_item_list_tags" class="<?php if($item_list_enable == 1){echo ''; }else{ echo 'saswp_hide'; } ?>">
+                           
+                           <?php
+                           
+                           $list_tags = array(
+                               'h1' => 'H1',
+                               'h2' => 'H2',
+                               'h3' => 'H3',
+                               'h4' => 'H4',
+                               'h5' => 'H5',
+                               'h6' => 'H6',
+                               'custom' => 'Custom',
+                               
+                           );
+                           
+                           foreach ($list_tags as $key => $tag){
+                               
+                               if($item_list_tags == $key){
+                                   echo ' <option value="'.$key.'" selected>'.$tag.'</option>';
+                               }else{
+                                   echo ' <option value="'.$key.'">'.$tag.'</option>';
+                               }
+                                                              
+                           }
+                           
+                           ?>                          
+                        </select>               
+                      
+                       <input type="text" id="saswp_item_list_custom" name="saswp_item_list_custom" placeholder="classname" value="<?php echo esc_attr($item_list_custom); ?>" class="<?php if($item_list_enable == 1 && $item_list_tags == 'custom'){echo ''; }else{ echo 'saswp_hide'; } ?>">
+                        
+                       </div> 
+                           <p class="saspw-item-list-note <?php if($item_list_enable == 1){echo ''; }else{ echo 'saswp_hide'; } ?>">It will collect all the data from selected tag to a itemlist</p>
+                       </div>
+                      
+                   </td>
+                  
+                </tr>
+                
+                <tr>
+                   <td>
                        <label for="saswp-speakable"><?php echo esc_html__( 'Speakable ' ,'schema-and-structured-data-for-wp');?></label>
                    </td>
                    <td>
@@ -920,26 +972,13 @@ function saswp_schema_type_add_meta_box_save( $post_id ) {
                     update_post_meta( $post_id, 'saswp_review_schema_details', $review_schema_details);
                                                            
                 }
-                                                                
-                if ( isset( $_POST['saswp_enable_speakable_schema'] ) ){
                     
-                    update_post_meta( $post_id, 'saswp_enable_speakable_schema', sanitize_text_field($_POST['saswp_enable_speakable_schema']) );                                                                       
-                    
-                }else{
-                    
-                   update_post_meta( $post_id, 'saswp_enable_speakable_schema', '0' );                                                                        
-                   
-                }
+                update_post_meta( $post_id, 'saswp_enable_speakable_schema', intval($_POST['saswp_enable_speakable_schema']) );                                                                       
+                update_post_meta( $post_id, 'saswp_enable_append_reviews', intval($_POST['saswp_enable_append_reviews']) );                                                                       
                 
-                if ( isset( $_POST['saswp_enable_append_reviews'] ) ){
-                    
-                    update_post_meta( $post_id, 'saswp_enable_append_reviews', sanitize_text_field($_POST['saswp_enable_append_reviews']) );                                                                       
-                    
-                }else{
-                    
-                   update_post_meta( $post_id, 'saswp_enable_append_reviews', '0' );                                                                        
-                   
-                }
+                update_post_meta( $post_id, 'saswp_enable_itemlist_schema', intval($_POST['saswp_enable_itemlist_schema']) );                                                                       
+                update_post_meta( $post_id, 'saswp_item_list_tags', sanitize_text_field($_POST['saswp_item_list_tags']) );                                                                       
+                update_post_meta( $post_id, 'saswp_item_list_custom', sanitize_text_field($_POST['saswp_item_list_custom']) );                                                                       
                                               
         }           
 

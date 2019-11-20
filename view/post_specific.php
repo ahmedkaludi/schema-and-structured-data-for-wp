@@ -20,9 +20,21 @@ class saswp_post_specific {
         protected $modify_schema_post_enable = false;
         public    $_local_sub_business       = array();
         public    $schema_type_element       =  array(                        
+                        'Article' => array(
+                               'article_items' => 'article_items',                                                
+                        ),
+                        'Blogposting' => array(
+                               'blogposting_items' => 'blogposting_items',                                                
+                        ),
+                        'NewsArticle' => array(
+                                           'newsarticle_items' => 'newsarticle_items',                                                
+                                    ),
+                        'TechArticle' => array(
+                               'tech_article_items' => 'tech_article_items',                                                
+                        ),
                         'Product' => array(
                                'product_reviews' => 'product_reviews',                                                
-                        ),
+                        ),                        
                         'DataFeed' => array(
                                'feed_element' => 'feed_element',                                                
                         ),
@@ -64,6 +76,34 @@ class saswp_post_specific {
                     );
                                 
         public $_meta_name =  array(    
+                    'article_items' => array(                    
+                    array(
+			'label'     => 'Item Name',
+			'name'      => 'saswp_article_items_name',
+			'type'      => 'text',                        
+		    )                     
+                    ),
+                    'newsarticle_items' => array(                    
+                    array(
+			'label'     => 'Item Name',
+			'name'      => 'saswp_newsarticle_items_name',
+			'type'      => 'text',                        
+		    )                     
+                    ),
+                    'tech_article_items' => array(                    
+                    array(
+			'label'     => 'Item Name',
+			'name'      => 'saswp_tech_article_items_name',
+			'type'      => 'text',                        
+		    )                     
+                    ),
+                    'blogposting_items' => array(                    
+                    array(
+			'label'     => 'Item Name',
+			'name'      => 'saswp_blogposting_items_name',
+			'type'      => 'text',                        
+		    )                     
+                    ),
                     'product_reviews' => array(                    
                     array(
 			'label'     => 'Reviewer Name',
@@ -394,7 +434,7 @@ class saswp_post_specific {
             } 
             
             $output        = '';
-            $item_reviewed          = sanitize_text_field($_GET['item']);  
+            $item_reviewed = sanitize_text_field($_GET['item']);  
             $schema_id     = sanitize_text_field($_GET['schema_id']);
             $post_id       = intval($_GET['post_id']);    
             

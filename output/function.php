@@ -2157,3 +2157,56 @@ function saswp_music_playlist_schema_markup($schema_id, $schema_post_id, $all_po
     
     return $input1;
 }
+
+function saswp_get_mainEntity($schema_id){
+    
+        global $post;
+        
+        $response  = array();
+        
+        $item_list_enable     = get_post_meta($schema_id, 'saswp_enable_itemlist_schema', true);
+        $item_list_tags       = get_post_meta($schema_id, 'saswp_item_list_tags', true);
+        $item_list_custom     = get_post_meta($schema_id, 'saswp_item_list_custom', true); 
+        
+        if($item_list_enable){
+            
+            $listitem = array();
+            
+            if($item_list_tags == 'custom'){
+                
+                $regex = '/<([0-9a-z]*)\sclass="'.$item_list_custom.'"[^>]*>(.*?)<\/\1>/';
+                
+                preg_match_all( $regex, $post->post_content, $matches , PREG_SET_ORDER );
+                                
+                foreach($matches as $match){
+                    $listitem[] = $match[2];
+                }
+                                                
+            }else{
+                                
+                $regex = '/<'.$item_list_tags.'>(.*?)<\/'.$item_list_tags.'>/';
+                
+                preg_match_all( $regex, $post->post_content, $matches , PREG_SET_ORDER );
+                
+                if($matches){
+                    foreach($matches as $match){
+                        $listitem[] = $match[1];
+                    }
+                }
+                
+            }
+                                    
+            if($listitem){
+                             
+                    $response['@type'] = 'ItemList';
+                    $response['itemListElement'] = $listitem;                 
+                    $response['itemListOrder'] = 'http://schema.org/ItemListOrderAscending ';
+                    $response['name']          = saswp_get_the_title();
+                
+            }
+                                    
+        }
+                
+        return $response;
+        
+}

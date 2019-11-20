@@ -728,6 +728,12 @@ function saswp_schema_output() {
 			'dateModified'                  => esc_html($modified_date),
 			'author'			=> saswp_get_author_details()											
                         );
+                        
+                                $mainentity = saswp_get_mainEntity($schema_post_id);
+                                
+                                if($mainentity){
+                                   $input1['mainEntity'] = $mainentity;                                     
+                                }
                                 if(!empty($publisher)){
                             
                                      $input1 = array_merge($input1, $publisher);   
@@ -880,6 +886,12 @@ function saswp_schema_output() {
                             
                                 $service = new saswp_output_service();
                                 $input1 = $service->saswp_schema_markup_generator($schema_type);
+                                
+                                $mainentity = saswp_get_mainEntity($schema_post_id);
+                                
+                                if($mainentity){
+                                   $input1['mainEntity'] = $mainentity;                                     
+                                }
 				                                
                                 if(isset($sd_data['saswp_comments_schema']) && $sd_data['saswp_comments_schema'] ==1){
                                     $input1['comment'] = saswp_get_comments(get_the_ID());
@@ -896,6 +908,12 @@ function saswp_schema_output() {
                                 
                                 $service = new saswp_output_service();
                                 $input1 = $service->saswp_schema_markup_generator($schema_type);
+                                
+                                $mainentity = saswp_get_mainEntity($schema_post_id);
+                                
+                                if($mainentity){
+                                   $input1['mainEntity'] = $mainentity;                                     
+                                }
 				                                
                                 if(isset($sd_data['saswp_comments_schema']) && $sd_data['saswp_comments_schema'] ==1){
                                     $input1['comment'] = saswp_get_comments(get_the_ID());
@@ -1049,6 +1067,13 @@ function saswp_schema_output() {
 						), 
 					'author'			=> saswp_get_author_details()					                                                    
 					);
+                                
+                                $mainentity = saswp_get_mainEntity($schema_post_id);
+                                
+                                if($mainentity){
+                                   $input1['mainEntity'] = $mainentity;                                     
+                                }
+                                
                                 if(!empty($publisher)){
                             
                                      $input1 = array_merge($input1, $publisher);   

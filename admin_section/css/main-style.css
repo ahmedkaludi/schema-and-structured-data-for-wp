@@ -7,6 +7,21 @@ and open the template in the editor.
     Created on : Jul 27, 2018, 5:36:26 PM
     Author     : Magazine3
 */
+
+.saswp-item-list-div{
+        display: flex;
+        width: 100%;    
+        align-items: center;    
+}
+
+#saswp_item_list_tags{
+        width: 100%;
+        margin-left: 10px;
+}
+#saswp_item_list_custom{
+        width: 100%;
+        margin-left: 10px;
+}
 .saswp_warning{
     color: #ef6c00 !important;   
 }

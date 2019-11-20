@@ -1009,8 +1009,23 @@ function saswp_post_specific_schema_output() {
 				),
 			);
                         
-                        
-                                 
+                            $itemlist  = get_post_meta($schema_post_id, 'blogposting_items_'.$schema_id, true);
+
+                            if($itemlist){
+
+                                $list_arr = array();
+
+                                foreach ($itemlist as $list){
+                                    $list_arr[] = $list['saswp_blogposting_items_name'];
+                                }
+
+                                $input1['mainEntity']['@type']            = 'ItemList';
+                                $input1['mainEntity']['itemListElement']  = $list_arr;                 
+                                $input1['mainEntity']['itemListOrder']    = 'http://schema.org/ItemListOrderAscending ';
+                                $input1['mainEntity']['name']             = saswp_get_the_title();
+
+                            }
+                                                         
                             if(isset($all_post_meta['saswp_blogposting_speakable_'.$schema_id]) && $all_post_meta['saswp_blogposting_speakable_'.$schema_id][0] == 1 ){
                                
                                 $input1['speakable']['@type'] = 'SpeakableSpecification';
@@ -1177,6 +1192,23 @@ function saswp_post_specific_schema_output() {
                                     
 				);
                                 
+                                $itemlist  = get_post_meta($schema_post_id, 'article_items_'.$schema_id, true);
+                                            
+                                if($itemlist){
+
+                                    $list_arr = array();
+
+                                    foreach ($itemlist as $list){
+                                        $list_arr[] = $list['saswp_article_items_name'];
+                                    }
+
+                                    $input1['mainEntity']['@type']            = 'ItemList';
+                                    $input1['mainEntity']['itemListElement']  = $list_arr;                 
+                                    $input1['mainEntity']['itemListOrder']    = 'http://schema.org/ItemListOrderAscending ';
+                                    $input1['mainEntity']['name']             = saswp_get_the_title();
+
+                                }
+                                
                                 if(isset($all_post_meta['saswp_article_speakable_'.$schema_id]) && $all_post_meta['saswp_article_speakable_'.$schema_id][0] == 1){
 
                                 $input1['speakable']['@type'] = 'SpeakableSpecification';
@@ -1236,6 +1268,23 @@ function saswp_post_specific_schema_output() {
 					),
                                     
 				); 
+                                
+                                $itemlist  = get_post_meta($schema_post_id, 'tech_article_items_'.$schema_id, true);
+                                            
+                                if($itemlist){
+
+                                    $list_arr = array();
+
+                                    foreach ($itemlist as $list){
+                                        $list_arr[] = $list['saswp_tech_article_items_name'];
+                                    }
+
+                                    $input1['mainEntity']['@type']            = 'ItemList';
+                                    $input1['mainEntity']['itemListElement']  = $list_arr;                 
+                                    $input1['mainEntity']['itemListOrder']    = 'http://schema.org/ItemListOrderAscending ';
+                                    $input1['mainEntity']['name']             = saswp_get_the_title();
+
+                                }
                                 
                                 if(isset($all_post_meta['saswp_tech_article_speakable_'.$schema_id]) && $all_post_meta['saswp_tech_article_speakable_'.$schema_id][0] == 1){
 
@@ -1341,6 +1390,24 @@ function saswp_post_specific_schema_output() {
 							'name'				=> saswp_remove_warnings($all_post_meta, 'saswp_newsarticle_organization_name_'.$schema_id, 'saswp_array'),
 							),
 					);
+                                        
+                                        
+                                            $itemlist  = get_post_meta($schema_post_id, 'newsarticle_items_'.$schema_id, true);
+                                            
+                                            if($itemlist){
+                                                
+                                                $list_arr = array();
+                                                
+                                                foreach ($itemlist as $list){
+                                                    $list_arr[] = $list['saswp_newsarticle_items_name'];
+                                                }
+                                                
+                                                $input1['mainEntity']['@type']            = 'ItemList';
+                                                $input1['mainEntity']['itemListElement']  = $list_arr;                 
+                                                $input1['mainEntity']['itemListOrder']    = 'http://schema.org/ItemListOrderAscending ';
+                                                $input1['mainEntity']['name']             = saswp_get_the_title();
+                                                
+                                            }
                                         
                                             if(isset($all_post_meta['saswp_newsarticle_speakable_'.$schema_id]) && $all_post_meta['saswp_newsarticle_speakable_'.$schema_id][0] == 1){
 
