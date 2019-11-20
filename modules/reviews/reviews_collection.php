@@ -498,7 +498,7 @@ class SASWP_Reviews_Collection {
                                         <label>Columns</label>
                                         <input type="number" id="saswp-collection-cols" name="saswp_collection_cols" min="0" value="<?php echo (isset($post_meta['saswp_collection_cols'][0]) ? $post_meta['saswp_collection_cols'][0] : '2' ); ?>" class="saswp-number-change saswp-coll-settings-options saswp-coll-options saswp-grid-options">    
                                         </div>
-                                        <div class="saswp-dp-dsg saswp-dp-dtm">
+                                        <div class="saswp-dp-dsg saswp-dp-dtm saswp-slider-options saswp-coll-options">
                                          <label>Slider Type</label>
                                         <select name="saswp_collection_gallery_type" id="saswp_collection_gallery_type" class="saswp-slider-type saswp-slider-options saswp_hide saswp-coll-settings-options saswp-coll-options">
                                             <option value="slider" <?php echo (isset($post_meta['saswp_collection_gallery_type'][0]) && $post_meta['saswp_collection_gallery_type'][0] == 'slider'  ? 'selected' : '' ); ?>>Slider</option>
@@ -540,18 +540,17 @@ class SASWP_Reviews_Collection {
                               <li>
                                 <a class="saswp-accordion"><?php echo esc_html__('Display','schema-and-structured-data-for-wp'); ?></a>
                                 <div class="saswp-accordion-panel">
-                                  <select class="saswp-collection-display-method" name="saswp_collection_display_type">
-                                    
-                                        <?php
-                                        
-                                        foreach($coll_display_type as $key => $val){
-                                            
-                                            echo '<option value="'.esc_attr($key).'" '.($post_meta['saswp_collection_display_type'][0] == $key ? 'selected':'').' >'.esc_html__( $val , 'schema-and-structured-data-for-wp' ).'</option>';
-                                            
-                                        }
-                                        
-                                        ?> 
-                                   </select>
+                                    <div class="saswp-dp-dsg">
+                                        <label>Display Type</label>
+                                        <select class="saswp-collection-display-method" name="saswp_collection_display_type">
+                                            <?php
+                                            foreach($coll_display_type as $key => $val){
+                                                
+                                                echo '<option value="'.esc_attr($key).'" '.($post_meta['saswp_collection_display_type'][0] == $key ? 'selected':'').' >'.esc_html__( $val , 'schema-and-structured-data-for-wp' ).'</option>';
+                                            }
+                                            ?> 
+                                        </select>
+                                    </div>
                                   <div class="saswp_hide saswp-collection-shortcode">[saswp-reviews-collection id="<?php echo $post_id; ?>"]</div>
                                 </div>
                               </li>
