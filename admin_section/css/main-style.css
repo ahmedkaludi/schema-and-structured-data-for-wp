@@ -1346,7 +1346,7 @@ Collection css starts here
   grid-template-columns:1fr 1fr 1fr;
   grid-gap:15px;
   margin:0;
-  overflow-x: scroll;
+  overflow-y: scroll;
 }
 .saswp-rd1-warp li{
   padding:20px;
@@ -1455,7 +1455,7 @@ Collection css starts here
     color:#666;
 }
 .saswp-dp-dtm{
-    margin-top:10px;
+    margin-top:13px;
 }
 .saswp-slider-display{
     margin-top: 15px;
@@ -1486,6 +1486,9 @@ Collection css starts here
 }
 .saswp-collection-settings ul li input{
     width:100%;
+}
+.saswp-collection-settings ul li input[type=checkbox] {
+    width:16px;
 }
 .saswp-collection-settings ul li a:hover, .saswp-collection-settings ul li a.active{
     background: #f5f5f5;

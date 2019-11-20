@@ -789,7 +789,14 @@ class saswp_reviews_service {
                 if($collection){
                     
                     if(saswp_non_amp()){
-                    
+                      
+                        if($g_type == 'slider'){
+                          $html .= '<div class="saswp-collection-slider-type">';  
+                        }else{
+                          $html .= '<div class="saswp-collection-carousel-type">';  
+                        }
+
+                        
                         $html .= '<div class="saswp-collection-slider">';
                         $html .= '<div class="saswp-slider-items-container">';
                               
@@ -835,8 +842,8 @@ class saswp_reviews_service {
                                         
                     if($arrow){
                         $html .= '<div class="saswp-slider-controls">';    
-                        $html .= '<a href="#" class="saswp-slider-prev-btn">Prev</a>';
-                        $html .= '<a href="#" class="saswp-slider-next-btn">Next</a>';
+                        $html .= '<a href="#" class="saswp-slider-prev-btn"></a>';
+                        $html .= '<a href="#" class="saswp-slider-next-btn"></a>';
                         $html .= '</div>';
                     }
                     
@@ -847,6 +854,7 @@ class saswp_reviews_service {
                         
                     }
                     
+                    $html .= '</div>';
                     $html .= '</div>';
                         
                     }else{

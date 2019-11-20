@@ -484,7 +484,7 @@ class SASWP_Reviews_Collection {
                                 <li>                                     
                                     <a class="saswp-accordion"><?php echo esc_html__('Presentation','schema-and-structured-data-for-wp'); ?></a>
                                     <div class="saswp-accordion-panel">
-                                        <div class="saswp-dp-dsg saswp-dp-dtm">
+                                        <div class="saswp-dp-dsg">
                                         <lable><?php echo esc_html__('Design','schema-and-structured-data-for-wp'); ?></lable>  
                                         <select name="saswp_collection_design" class="saswp-collection-desing saswp-coll-settings-options">
                                             <?php

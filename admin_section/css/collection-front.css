@@ -165,6 +165,7 @@
   grid-template-columns:1fr 1fr 1fr;
   grid-gap:15px;
   margin:0;
+  overflow-y: scroll;
 }
 .saswp-rd1-warp li{
   padding:20px;
@@ -187,9 +188,10 @@
   margin-right: 10px;
   border-radius: 100px;
 }
-.saswp-rd1-athr img {
+.saswp-rd1-athr > img {
     max-width: 56px;
     min-height: 56px;
+    max-height: 56px;
     margin-right: 10px;
     border-radius: 100px;
 }
@@ -255,27 +257,63 @@
 /** colltection settings CSS **/
 .saswp-collection-settings ul{
     margin:0;
+    border: 1px solid #e5e5e5;
+    box-shadow: 0 1px 1px rgba(0,0,0,.04);
 }
 .saswp-collection-settings ul li {
-    border-bottom: 1px solid #f5f5f5;
+    border-bottom: 1px solid #ddd;
     margin: 0;
+    position: relative;
+}
+.saswp-dp-dsg{
+    display: inline-grid;
+    grid-template-columns: 1fr 2fr;
+    width: 100%;
+    grid-gap: 0px 5px;
+    align-items: center;
+    color:#666;
+}
+.saswp-dp-dtm{
+    margin-top:13px;
+}
+.saswp-slider-display{
+    margin-top: 15px;
+}
+.wp-admin .saswp-collection-settings select{
+    margin:0px;
+    min-height: 30px;
+}
+.saswp-slider-display span{
+    width: 30%;
+    display: inline-block;
 }
 .saswp-collection-settings ul li a{
     padding:12px 15px;
     background:#fff;
-    color: #444;
+    color: #23282d;
     cursor: pointer;
     width: 100%;
     border: none;
     text-align: left;
-    font-size: 15px;
-    transition: 0.4s;
+    font-size: 14px;
+    line-height: 1.5;
+    font-weight: 600;
+    transition: all 0.5s ease-in-out 0s;
     display: block;
     box-sizing: border-box;
     position: relative;
 }
-.saswp-active, .accordion:hover {
-  background-color: #ccc; 
+.saswp-collection-settings ul li input{
+    width:100%;
+}
+.saswp-collection-settings ul li input[type=checkbox] {
+    width:16px;
+}
+.saswp-collection-settings ul li a:hover, .saswp-collection-settings ul li a.active{
+    background: #f5f5f5;
+}
+.saswp-accordion.active + .saswp-accordion-panel{
+    border-top:1px solid #ddd;
 }
 .saswp-plf-lst-rv-cnt{
     display: inline-grid;
@@ -285,21 +323,24 @@
     grid-gap: 5px
 }
 .saswp-accordion-panel {
-  padding: 0 18px;
+  padding: 15px 18px ;
   display: none;
   background-color: white;
   overflow: hidden;
-  margin-bottom: 12px;
+}
+.saswp-collection-settings a.saswp-add-to-collection{
+    text-align:center;
 }
 .wp-core-ui a.button.saswp-remove-platform{
     background: #ccc;
     border: none;
     line-height: 22px;
-    width: 20px;
+    width: 22px;
     padding: 0;
     font-family: sans-serif;
     border-radius: 100px;
-    height: 20px;
+    min-height: 22px;
+    max-height: 22px;
     text-align: center;
     font-size: 10px;
     margin-left: 10px;
@@ -312,7 +353,7 @@
     margin-top: 8px;
 }
 .wp-admin .saswp-accordion-panel select.saswp-collection-desing{
-    width: 100px;
+    width: 100%;
 }
 .saswp-slider-display.saswp-desing-options{
     margin-top:10px;
@@ -322,28 +363,29 @@
     display: inline-block;
 }
 .saswp-collection-settings li a.saswp-accordion:after{
-    content: "";
-    display: inline-block;
+    content: "\f140";
+    font: normal 20px/1 dashicons;
+    speak: none;
+    display: block;
     position: absolute;
-    top: 18px;
-    color: #b5b5b5;
-    border: solid #b5b5b5;
-    border-width: 0 2px 2px 0;
-    padding: 3px;
-    transform: rotate(-45deg);
-    margin: 0px 3px 0px 2px;
+    right: 0;
+    top: 13px;
     right: 18px;
-    tansition:all 0.3s ease-in-out 0s;
 }
-.saswp-collection-settings li a.saswp-accordion.saswp-active:after{
-    transform: rotate(45deg);
-    top: 15px;
+.saswp-collection-settings li a.saswp-accordion.active:after{
+    content: "\f142";
+    top: 13px;
 }
 .saswp-collection-settings .button-primary{
     width: 120px;
     text-align: center;
     margin: 10px auto 0 auto;
     display: inherit;
+}
+.saswp-collection-shortcode{
+    color: #555;
+    margin-top: 10px;
+    text-align: center;
 }
 
 
@@ -423,6 +465,10 @@
   transition: all .3s ease-in;
   display: none;
 }
+.saswp-fomo-reviews .saswp-str-rtng .saswp-rvw-str{
+    padding-left:0px;
+    margin-bottom: 3px;
+}
 .saswp-fomo-reviews{
   display: flex;
   flex-wrap: wrap;
@@ -459,7 +505,7 @@
   line-height: 1.2;
   color: #444;
   display: flex;
-  margin-bottom: 3px;
+  margin-bottom: 5px;
 }
 .saswp-text-rtng span{
     font-weight: 600;
@@ -497,7 +543,6 @@
 #saswp-sticky-review .saswp-open-class #saswp-reviews-cntn{  
   width: 100%;
 }
-
 .saswp-opn-cls-btn{
   display: flex;
   height: 50px;
@@ -508,6 +553,7 @@
   padding:0px 15px;
   border-radius:4px 4px 0px 0px;
   cursor: pointer;
+  box-sizing: border-box;
 }
 .saswp-opn-cls-btn svg path{
   fill:#fff;
@@ -516,6 +562,11 @@
   font-size: 15px;
   font-weight: 600;
   color: #fff;
+}
+.saswp-onclick-hide, .saswp-onclick-show{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
 }
 .saswp-reviews-info ul{
   list-style-type:none;
@@ -571,6 +622,7 @@
   align-items: center;
   text-align: center;
   justify-content: center;
+  box-sizing: border-box;
 }
 .saswp-reviews-info ul li.saswp-ttl-rvw span{
   font-size:20px;
@@ -592,7 +644,7 @@
   justify-content: space-between;
   width: 100%;
 }
-.saswp-onclick-show{
+.btn .saswp-onclick-show, .btn.saswp-open-class .saswp-onclick-hide{
   display:none;
 }
 span.saswp-mines{
@@ -690,32 +742,159 @@ span.saswp-mines{
 
 /**Slider csss starts here **/
 
-.saswp-collection-slider { 
+
+/** Single Slider CSS Start here **/
+.saswp-collection-slider-type .saswp-collection-slider{
+    width: 100%;
+    max-width: 640px;
+    margin: 0 auto;
+    overflow: hidden;
+    position:relative;
+}
+.saswp-rd2-box{
+    padding: 20px 40px 20px 40px;
+    background-color: #fafafa;
+    position: relative;
+    color: #777;
+    border: 1px solid #ededed;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+.saswp-collection-slider-type .saswp-rd1-data{
+    padding: 20px;
+    box-sizing: border-box;
+}
+.saswp-slider-item .saswp-rd2-box:before {
+    position: absolute;
+    bottom: -8px;
+    left: 35px;
+    display: block;
+    width: 14px;
+    height: 14px;
+    border: 1px solid #ededed;
+    border-top: none;
+    border-left: none;
+    background-color: #fafafa;
+    content: "";
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+.saswp-slider-item .saswp-rd1-cnt{
+    margin:0px;
+}
+.saswp-collection-slider .saswp-slider-controls {
   width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+.saswp-slider-controls a.saswp-slider-prev-btn{
+    position: absolute;
+    left: 10px;
+    top: 40%;
+    background: rgba(0,0,0,0.5);
+    line-height: 0;
+    border-radius: 100px;
+    width: 30px;
+    height: 30px;
+}
+.saswp-slider-controls a.saswp-slider-prev-btn:before{
+    content:"";
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border: 2px solid #fff;
+    border-top: none;
+    border-left: none;
+    transform: rotate(135deg);
+    position: relative;
+    top: 11px;
+    left: 12px;
+}
+.saswp-slider-controls a.saswp-slider-next-btn{
+    position: absolute;
+    right: 10px;
+    top: 40%;
+    background: rgba(0,0,0,0.5);
+    line-height: 0;
+    border-radius: 100px;
+    width: 30px;
+    height: 30px;
+}
+.saswp-slider-controls a.saswp-slider-next-btn:after{
+    content:"";
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border: 2px solid #fff;
+    border-top: none;
+    border-left: none;
+    transform: rotate(135deg);
+    transform: rotate(-45deg);
+    position: relative;
+    top: 11px;
+    right: -9px;
+}
+.saswp-slider-item .saswp-rd1-rv-lg img {
+    width: 25px;
+    height: 25px;
+}
+.saswp-collection-slider .saswp-slider-dots .saswp-dot {
+  width: 10px;
+  height: 10px;
+  background: #444;
+  transition: 0.15s ease-in-out;
+  border-radius: 8px;
+  cursor: pointer;
+  margin: 0 12px;
+}
+.saswp-collection-slider .saswp-slider-dots .saswp-dot.saswp-active {
+  background: #0085ba;
+}
+.saswp-collection-slider-type .saswp-slider-items-container .saswp-slider-item {
+  width: 100vw;
   max-width: 640px;
+  display: block;
+}
+.spinner.saswp-spinner{
+    float:none;
+    margin: 0px auto;
+    display: block;
+}
+/** Single Slider CSS Ends here **/
+
+/** Carousel Slider CSS Starts here **/
+.saswp-collection-carousel-type .saswp-collection-slider { 
+  width: 100%;
+  max-width: 800px;
   margin: 0 auto;
   overflow: hidden;
-  background: white;
-  box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.5);
+  position: relative;
+}
+.saswp-collection-carousel-type  .saswp-slider-items-container .saswp-slider-item {
+  width: 100%;
+  max-width: 800px;
+  display: flex;
+}
+.saswp-collection-carousel-type .saswp-rv-box{
+    width: 100%;
+    margin-right: 20px;
+    max-width: 40%;
+}  
+.saswp-collection-carousel-type .saswp-rd1-data {
+    padding: 20px 10px;
+    box-sizing: border-box;
+}
+.saswp-collection-carousel-type .saswp-rd1-cnt{
+    height:120px;
 }
 .saswp-collection-slider .saswp-slider-items-container {
   display: flex;
   flex-wrap: wrap;
   height: auto;
   transition: transform 0.35s ease-in-out;
-}
-.saswp-collection-slider  .saswp-slider-items-container .saswp-slider-item {
-  width: 100vw;
-  max-width: 640px;
-  display: block;
-}
-.saswp-collection-slider .saswp-slider-controls {
-  width: 100%;
-  padding: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-size: 35px;
 }
 .saswp-collection-slider .saswp-slider-controls a {
   color: #333;
@@ -730,17 +909,36 @@ span.saswp-mines{
   display: flex;
   justify-content: center;
   margin: 0 auto;
-  padding: 20px;
 }
-.saswp-collection-slider .saswp-slider-dots .saswp-dot {
-  width: 10px;
-  height: 10px;
-  background: #333;
-  transition: 0.15s ease-in-out;
-  border-radius: 8px;
-  cursor: pointer;
-  margin: 0 20px;
+.saswp-onclick-show{
+    display: none;
 }
-.saswp-collection-slider .saswp-slider-dots .saswp-dot.saswp-active {
-  background: #888;
+.saswp-dp-dsg.saswp_hide{
+    display: none;
+}
+/** Carousel Slider CSS Ends here **/
+
+
+/** Responsive CSS **/
+@media(max-width:1200px){
+    .saswp-plf-lst-rv-cnt{
+        grid-template-columns: 1fr;
+    }
+}
+
+@media(max-width:767px){
+    .saswp-collection-lp{
+        flex: 1 0 100%;
+        margin-right: 0px;
+        width: 100%;
+    }
+    .saswp-collection-settings {
+        flex: 1 0 100%;
+        padding-bottom: 0px;
+        height: 100%;
+        width: 100%;
+    }
+    .wp-admin .saswp-collection-settings select{
+        max-width:100%;
+    }
 }
