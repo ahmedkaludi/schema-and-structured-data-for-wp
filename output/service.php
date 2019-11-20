@@ -2498,14 +2498,15 @@ Class saswp_output_service{
          */
         public function saswp_get_all_schema_type_fields($schema_type){
             
-            $meta_field = array();                                                                     
+            $meta_field = array();    
+            
             switch ($schema_type) {
                 
                 case 'local_business':
                    
                     $meta_field = array(                                                                        
                         'local_business_id'          => 'ID',    
-                        'local_business_name'        => 'Business Name',                           
+                        'local_business_name'        => 'Name',                           
                         'local_business_name_url'    => 'URL',
                         'local_business_description' => 'Description',
                         'local_street_address'       => 'Street Address',                            
