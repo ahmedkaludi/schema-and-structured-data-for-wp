@@ -1111,7 +1111,7 @@
            
                 var sorting             = jQuery(".saswp-collection-sorting").val();
                 var design              = jQuery(".saswp-collection-desing").val();                                   
-                var cols                = jQuery(".saswp-grid-options").val();
+                var cols                = jQuery("#saswp-collection-cols").val();
                 var slider              = jQuery(".saswp-slider-type").val();
                 
                 var fomo_inverval       = jQuery("#saswp_fomo_interval").val();
