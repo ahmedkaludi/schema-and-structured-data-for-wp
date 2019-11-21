@@ -1895,11 +1895,11 @@ return false;
                 $("#saswp-reviews-cntn").toggle();
                 
                 if( $('#saswp-reviews-cntn').is(':visible') ) {
-                    $(".saswp-onclick-show").show();
+                    $(".saswp-onclick-show").css('display','flex');
                     $(".saswp-onclick-hide").hide();
                 }
                 else {
-                    $(".saswp-onclick-show").hide();
+                    $(".saswp-onclick-show").css('display','none');
                     $(".saswp-onclick-hide").show();
                 }
                                                                                 
