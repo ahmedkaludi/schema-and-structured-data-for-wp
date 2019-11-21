@@ -1520,6 +1520,9 @@ function saswp_license_status($add_on, $license_status, $license_key){
 					case 'no_activations_left':
 						$message = __( 'Your license key has reached its activation limit.' );
 						break;
+                                        case 'license_not_activable':
+						$message = __( 'Your license key may not belong to this extension.' );
+						break;    
 					default :
 						$message = __( 'An error occurred, please try again.' );
 						break;

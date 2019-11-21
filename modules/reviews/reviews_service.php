@@ -227,7 +227,7 @@ class saswp_reviews_service {
                                     
                                     $rv_limits = get_option('reviews_addon_reviews_limits');
                                     
-                                    $result['message'] = 'Reviews fetched : '. $rv_limits - $result['message']. ', Remains Limit : '.$result['message'];                                    
+                                    $result['message'] = esc_html__('Reviews fetched','schema-and-structured-data-for-wp').' : '. $rv_limits - $result['message']. ', '.esc_html__('Remains Limit','schema-and-structured-data-for-wp').' : '.$result['message'];                                    
                                     
                                     update_option('reviews_addon_reviews_limits', intval($result['message']));
                                 }
@@ -958,7 +958,7 @@ class saswp_reviews_service {
                       $html .= '</span>';
                       $html .= '</div>';
                       $html .= '<span class="saswp-bsd-rv">';
-                      $html .= 'Based on '.esc_attr($review_count).' Reviews';
+                      $html .= esc_html__('Based on','schema-and-structured-data-for-wp').' '.esc_attr($review_count).' '.esc_html__('Reviews','schema-and-structured-data-for-wp');
                       $html .= '</span>';
                       $html .= '</div>';
                       $html .= '</a>';
@@ -1015,7 +1015,7 @@ class saswp_reviews_service {
                       $html .= '</span>';
                       $html .= '</div>';
                       $html .= '<span class="saswp-bsd-rv">';
-                      $html .= 'Based on '.esc_attr($review_count).' Reviews';
+                      $html .= esc_html__('Based on','schema-and-structured-data-for-wp').' '.esc_attr($review_count).' '.esc_html__('Reviews','schema-and-structured-data-for-wp');
                       $html .= '</span>';
                       $html .= '</div>';
                       $html .= '</a>';
@@ -1087,11 +1087,11 @@ class saswp_reviews_service {
                         $html .= '<span>';
                         $html .= saswp_get_rating_html_by_value($average_rating);
                         $html .= '</span>';
-                        $html .= '<span class="saswp-ttl-rvws">'.esc_attr(number_format ($average_rating, 1)).' from '.esc_attr($review_count).' reviews</span>';                    
+                        $html .= '<span class="saswp-ttl-rvws">'.esc_attr(number_format ($average_rating, 1)).' from '.esc_attr($review_count).' '.esc_html__('reviews','schema-and-structured-data-for-wp').'</span>';                    
                         $html .= '</div>';
 
                         $html .= '<div class="saswp-onclick-show">';
-                        $html .= '<span>Ratings and reviews</span>';                    
+                        $html .= '<span>'.esc_html__('Ratings and reviews','schema-and-structured-data-for-wp').'</span>';                    
                         $html .= '<span class="saswp-mines"></span>';                    
                         $html .= '</div>';
 
@@ -1104,7 +1104,7 @@ class saswp_reviews_service {
                         $html .= '<span>';
                         $html .= saswp_get_rating_html_by_value($average_rating);
                         $html .= '</span>';
-                        $html .= '<span class="saswp-ttl-rvws">'. esc_attr(number_format ($average_rating, 1)).' from '. esc_attr($review_count).' reviews</span>';                    
+                        $html .= '<span class="saswp-ttl-rvws">'. esc_attr(number_format ($average_rating, 1)).' from '. esc_attr($review_count).' '.esc_html__('reviews','schema-and-structured-data-for-wp').'</span>';                    
                         $html .= '</li>';                                        
                         $html .= $html_list;
                         $html .= '</ul>';                    
@@ -1123,10 +1123,10 @@ class saswp_reviews_service {
                         $html .= '<span>';
                         $html .= saswp_get_rating_html_by_value($average_rating);
                         $html .= '</span>';
-                        $html .= '<span class="saswp-ttl-rvws">'.esc_attr(number_format($average_rating, 1) ).' from '.esc_attr($review_count).' reviews</span>';                    
+                        $html .= '<span class="saswp-ttl-rvws">'.esc_attr(number_format($average_rating, 1) ).' from '.esc_attr($review_count).' '.esc_html__('reviews','schema-and-structured-data-for-wp').'</span>';                    
                         $html .= '</div>';
                         $html .= '<div class="saswp-onclick-show">';
-                        $html .= '<span>Ratings and reviews</span>';                    
+                        $html .= '<span>'.esc_html__('Ratings and reviews','schema-and-structured-data-for-wp').'</span>';                    
                         $html .= '<span class="saswp-mines"></span>';                    
                         $html .= '</div>';
                         $html .= '</div>';

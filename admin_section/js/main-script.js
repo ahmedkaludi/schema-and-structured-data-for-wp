@@ -693,6 +693,15 @@ return false;
                             }
                       break;
                       
+                      case 'saswp-default-review-checkbox':
+                          saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp_default_review").val(1);                              
+                            }else{
+                              $("#saswp_default_review").val(0);                                         
+                            }
+                      break;
+                      
                       case 'saswp-extra-checkbox':
                           saswp_compatibliy_notes(current, id); 
                             if ($(this).is(':checked')) {              

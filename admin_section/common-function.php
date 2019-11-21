@@ -1641,7 +1641,8 @@ if ( ! defined('ABSPATH') ) exit;
                         'saswp-for-wordpress'      => 1,                                                                        
                         'sd_initial_wizard_status' => 1,
                         'saswp-microdata-cleanup'  => 1,
-                        'saswp-other-images'       => 1
+                        'saswp-other-images'       => 1,
+                        'saswp_default_review'     => 1 
 
                 );	  
                 

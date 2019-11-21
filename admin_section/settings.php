@@ -1062,8 +1062,28 @@ function saswp_general_page_callback(){
                         'class' => 'regular-text',                        
 			'type'  => 'text',
                         'note'  => esc_html__('According to google validation tool, Image size must be greater than or equal to 1200*728','schema-and-structured-data-for-wp')
-		)                                                                   
+		)                
+            
 	);
+        
+        
+        if(is_plugin_active('woocommerce/woocommerce.php')){
+                              
+            $meta_fields_default[] = array(
+			'label'  => 'Product Default Review',
+			'id'     => 'saswp-default-review-checkbox', 
+                        'name'   => 'saswp-default-review-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',      
+                        'note'   => 'This option will add a default review to a woocommerce product if reviews are not there', 
+                        'hidden' => array(
+                             'id'   => 'saswp_default_review',
+                             'name' => 'sd_data[saswp_default_review]',                             
+                        )
+		);
+                                      
+        }
+        
          echo '<div class="saswp-heading">';
          echo '<h2>'.esc_html__('Default Data','schema-and-structured-data-for-wp').'</h2>';                  
          echo '</div>';

@@ -430,7 +430,7 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_book_rating_value']) && isset($custom_fields['saswp_book_rating_count'])){
                         $input1['aggregateRating']['@type']         = 'aggregateRating';
                         $input1['aggregateRating']['worstRating']   =   0;
-                        $input1['aggregateRating']['bestRating']     =   5;
+                        $input1['aggregateRating']['bestRating']    =   5;
                         $input1['aggregateRating']['ratingValue']   = $custom_fields['saswp_book_rating_value'];
                         $input1['aggregateRating']['ratingCount']   = $custom_fields['saswp_book_rating_count'];                                
                     }
@@ -2097,6 +2097,7 @@ Class saswp_output_service{
              if (class_exists('WC_Product')) {
                  
              global $woocommerce;
+             global $sd_data;
                  
 	     $product = wc_get_product($post_id); 
              
@@ -2299,15 +2300,20 @@ Class saswp_output_service{
              
              }else{
                  
-                 $reviews_arr[] = array(
+                 if(isset($sd_data['saswp_default_review']) && $sd_data['saswp_default_review'] == 1){
+                 
+                     $reviews_arr[] = array(
                      'author'        => saswp_get_the_author_name(),
                      'datePublished' => get_the_date("c"),
                      'description'   => saswp_get_the_excerpt(),
                      'reviewRating'  => 5,
                  );
                  
-                 $product_details['product_review_count']   = 1;
-                 $product_details['product_average_rating'] = 5;                 
+                    $product_details['product_review_count']   = 1;
+                    $product_details['product_average_rating'] = 5;  
+                     
+                 }
+                                
              }    
                           
              $product_details['product_reviews']        = $reviews_arr;      
