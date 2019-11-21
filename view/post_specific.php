@@ -13,8 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 class saswp_post_specific {
     
-	private   $screen                    = array();
-	private   $meta_fields               = array();				
+	private   $screen                    = array();				
         protected $all_schema                = null;
         protected $options_response          = array();
         protected $modify_schema_post_enable = false;

@@ -118,7 +118,7 @@ class saswp_reviews_admin {
                     if(isset($meta_field['label'])){
                       $label =  $meta_field['label']; 
                     }
-			$label = '<label for="' . $meta_field['id'] . '">' . esc_html__( $label, 'schema-and-structured-data-for-wp' ) . '</label>';
+			$label = '<label for="' . esc_attr($meta_field['id']) . '">' . esc_html__( $label, 'schema-and-structured-data-for-wp' ) . '</label>';
 			$meta_value = get_post_meta( $post->ID, $meta_field['id'], true );
                         
 			if ( empty( $meta_value ) ) {

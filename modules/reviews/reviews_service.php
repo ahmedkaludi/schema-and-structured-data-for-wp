@@ -770,7 +770,7 @@ class saswp_reviews_service {
                 $html .= '<img src="'.esc_url($value['saswp_reviewer_image']).'"/>';
                 $html .= '<div class="saswp-rd1-athr-nm">';
                 $html .= '<h4><a href="#">'. esc_attr($value['saswp_reviewer_name']).'</a></h4>';
-                $html .= '<span class="saswp-rd1-ptdt">'.$date_str['date'].', '.$date_str['time'].'</span>';
+                $html .= '<span class="saswp-rd1-ptdt">'.esc_attr($date_str['date']).', '.esc_attr($date_str['time']).'</span>';
                 $html .= '</div>';
                 $html .= '</div>';
                 $html .= '<div class="saswp-rd1-rv-lg">';
@@ -1083,7 +1083,7 @@ class saswp_reviews_service {
                         $html .= '<span>';
                         $html .= saswp_get_rating_html_by_value($average_rating);
                         $html .= '</span>';
-                        $html .= '<span class="saswp-ttl-rvws">'.esc_attr($average_rating).' from '.esc_attr($review_count).' reviews</span>';                    
+                        $html .= '<span class="saswp-ttl-rvws">'.esc_attr(number_format ($average_rating, 1)).' from '.esc_attr($review_count).' reviews</span>';                    
                         $html .= '</div>';
 
                         $html .= '<div class="saswp-onclick-show">';
@@ -1100,7 +1100,7 @@ class saswp_reviews_service {
                         $html .= '<span>';
                         $html .= saswp_get_rating_html_by_value($average_rating);
                         $html .= '</span>';
-                        $html .= '<span class="saswp-ttl-rvws">'. esc_attr($average_rating).' from '. esc_attr($review_count).' reviews</span>';                    
+                        $html .= '<span class="saswp-ttl-rvws">'. esc_attr(number_format ($average_rating, 1)).' from '. esc_attr($review_count).' reviews</span>';                    
                         $html .= '</li>';                                        
                         $html .= $html_list;
                         $html .= '</ul>';                    

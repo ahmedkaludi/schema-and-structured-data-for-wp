@@ -872,7 +872,7 @@
                         html += '<span>';
                         html += saswp_create_rating_html_by_value(average_rating.toString());
                         html += '</span>';
-                        html += '<span class="saswp-ttl-rvws">'+average_rating+' from '+review_count+' reviews</span>';                    
+                        html += '<span class="saswp-ttl-rvws">'+average_rating.toFixed(1)+' from '+review_count+' reviews</span>';                    
                         html += '</div>';
 
                         html += '<div class="saswp-onclick-show">';
@@ -889,7 +889,7 @@
                         html += '<span>';
                         html += saswp_create_rating_html_by_value(average_rating.toString());
                         html += '</span>';
-                        html += '<span class="saswp-ttl-rvws">'+average_rating+' from '+review_count+' reviews</span>';                    
+                        html += '<span class="saswp-ttl-rvws">'+average_rating.toFixed(1)+' from '+review_count+' reviews</span>';                    
                         html += '</li>';                                        
                         html += html_list;
                         html += '</ul>';                    
