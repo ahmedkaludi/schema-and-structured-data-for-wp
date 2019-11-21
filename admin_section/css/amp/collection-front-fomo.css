@@ -24,6 +24,8 @@
 .saswp-str-rtng{
   flex:1 0 60%;
   padding-left: 15px;
+  position: relative;
+  top: -2px;
 }
 .saswp-frv-lg{
   width: 80px;
