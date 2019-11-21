@@ -552,11 +552,21 @@ class SASWP_Reviews_Collection {
                                             ?> 
                                         </select>
                                     </div>
-                                  <div class="saswp_hide saswp-collection-shortcode">[saswp-reviews-collection id="<?php echo $post_id; ?>"]</div>
+                                    
+                                        <div id="motivatebox" class="saswp_hide saswp-collection-shortcode">
+                                            <span class="motivate">
+                                            [saswp-reviews-collection id="<?php echo $post_id; ?>"]
+                                            </span>
+                                        </div>
+                                   
                                 </div>
                               </li>
                             </ul>
-                            <button type="submit" class="button button-primary" > <?php echo esc_html__('Save','schema-and-structured-data-for-wp'); ?></button>   
+                            <div class="saswp-sv-btn">
+                                <button type="submit" class="button button-primary" > 
+                                    <?php echo esc_html__('Save Menu','schema-and-structured-data-for-wp'); ?>
+                                </button>
+                            </div>   
                         </div><!-- /.saswp-collection-body -->
                       </div><!-- /.saswp-collection-body -->
                     </div><!-- /.saswp-collection-container -->

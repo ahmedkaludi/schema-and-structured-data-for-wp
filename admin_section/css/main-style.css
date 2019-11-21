@@ -1293,10 +1293,13 @@ Collection css starts here
     flex:1 0 70%; 
     margin-right: 20px;
     width:70%; 
+    background:#fff;
+    border: 1px solid #ccd0d4;
+    box-shadow: 0 1px 1px rgba(0,0,0,.04);
+    padding-bottom: 30px;
 }
 .saswp-collection-settings{
     flex:1 0 23%;
-    padding-bottom: 12px;
     height:100%;
     width:27%;
 }
@@ -1314,8 +1317,9 @@ Collection css starts here
     width: 30%;
 }
 .saswp-platform-added-list{
-    display: block;
+    display: inline-block;
     width: 100%;
+    margin-top: 10px;
 }
 .saswp-collection-title input{
     width:100%;
@@ -1329,8 +1333,13 @@ Collection css starts here
 }
 .saswp-collection-title{
     margin-bottom: 10px;
+    padding: 10px;
+    background: #f5f5f5;
+    border-bottom: 1px solid #ddd;
 }
-
+.saswp-collection-preview{
+    padding:0px 30px;
+}
 
 
 /** Review Design 1 **/
@@ -1442,10 +1451,13 @@ Collection css starts here
 }
 
 /** colltection settings CSS **/
+.saswp-collection-settings{
+    border: 1px solid #ccd0d4;
+    box-shadow: 0 1px 1px rgba(0,0,0,.04);
+}
 .saswp-collection-settings ul{
     margin:0;
-    border: 1px solid #e5e5e5;
-    box-shadow: 0 1px 1px rgba(0,0,0,.04);
+    padding:0px;
 }
 .saswp-collection-settings ul li {
     border-bottom: 1px solid #ddd;
@@ -1508,7 +1520,7 @@ Collection css starts here
     display: inline-grid;
     width: 100%;
     flex-wrap: wrap;
-    grid-template-columns: 100px 100px 1fr;
+    grid-template-columns: 180px 57px 1fr;
     grid-gap: 5px
 }
 .saswp-accordion-panel {
@@ -1518,28 +1530,33 @@ Collection css starts here
   overflow: hidden;
 }
 .saswp-collection-settings a.saswp-add-to-collection{
-    text-align:center;
+    text-align: center;
+    height: 30px;
+    font-weight: normal;
+    position: relative;
+    top: 1px;
+    line-height: 27px;
 }
 .wp-core-ui a.button.saswp-remove-platform{
-    background: #ccc;
+    background: transparent;
     border: none;
-    line-height: 22px;
-    width: 22px;
     padding: 0;
-    font-family: sans-serif;
-    border-radius: 100px;
-    min-height: 22px;
-    max-height: 22px;
-    text-align: center;
-    font-size: 10px;
-    margin-left: 10px;
+    margin-left: 6px;
+    min-height: 0px;
+}
+.wp-core-ui a.button.saswp-remove-platform:hover{
+    color:#c00;
+}
+.wp-core-ui a.button.saswp-remove-platform:after{
+    content: "\f153";
+    display: block;
+    font: normal 16px/20px dashicons;
 }
 .cancel-btn{
-    align-items: center;
-    display: flex;
-    justify-content: flex-end;
-    width: 100%;
-    margin-top: 8px;
+    margin-right:10px;
+    margin-bottom: 5px;
+    float: left;
+    display: inline-flex;
 }
 .wp-admin .saswp-accordion-panel select.saswp-collection-desing{
     width: 100%;
@@ -1557,7 +1574,7 @@ Collection css starts here
     speak: none;
     display: block;
     position: absolute;
-    right: 0;
+    color: #72777c;
     top: 13px;
     right: 18px;
 }
@@ -1565,19 +1582,24 @@ Collection css starts here
     content: "\f142";
     top: 13px;
 }
+.saswp-sv-btn{
+    background: #f5f5f5;
+    padding: 8px 10px;
+    text-align: right;
+    width: 100%;
+    box-sizing: border-box;
+}
 .saswp-collection-settings .button-primary{
-    width: 120px;
-    text-align: center;
-    margin: 10px auto 0 auto;
-    display: block;
-    padding: 7px 0px;
+    width: 89px;
+    margin: 0;
+    display: inline-block;
+    padding: 2px 0px;
 }
 .saswp-collection-shortcode{
     color: #555;
     margin-top: 10px;
     text-align: center;
 }
-
 
 /** Badges CSS **/
 .saswp-rd3-warp ul{
@@ -2132,7 +2154,6 @@ span.saswp-mines{
     }
     .saswp-collection-settings {
         flex: 1 0 100%;
-        padding-bottom: 0px;
         height: 100%;
         width: 100%;
     }
