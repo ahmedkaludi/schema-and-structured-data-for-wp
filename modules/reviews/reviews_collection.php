@@ -67,8 +67,6 @@ class SASWP_Reviews_Collection {
         }
         
         public static function saswp_set_collection_edit_link($link, $post_id, $context){
-            
-            if(is_admin()){
                 
                 if ( (isset(get_current_screen()->id) && get_current_screen()->id == 'edit-saswp-collections' ) && $context == 'display') {
 
@@ -79,8 +77,6 @@ class SASWP_Reviews_Collection {
                         return $link;
 
                 }
-                
-           }
             
         }
         public function saswp_restore_amp_script_tags($buffer){
