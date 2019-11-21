@@ -68,7 +68,7 @@ class SASWP_Reviews_Collection {
         
         public static function saswp_set_collection_edit_link($link, $post_id, $context){
                 
-                if ( (isset(get_current_screen()->id) && get_current_screen()->id == 'edit-saswp-collections' ) && $context == 'display') {
+                if (function_exists('get_current_screen') && (isset(get_current_screen()->id) && get_current_screen()->id == 'edit-saswp-collections' ) && $context == 'display') {
 
                         return wp_nonce_url(admin_url('admin.php?post_id='.$post_id.'&page=collection'), '_wpnonce');
 
@@ -79,6 +79,7 @@ class SASWP_Reviews_Collection {
                 }
             
         }
+        
         public function saswp_restore_amp_script_tags($buffer){
             
            $buffer = preg_replace('/saswp-amp-script/', '<amp-script src="'.str_replace('http:','https:',SASWP_PLUGIN_URL).'/admin_section/js/amp/collection-front.js">' , $buffer);
