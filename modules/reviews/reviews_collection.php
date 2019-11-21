@@ -367,7 +367,10 @@ class SASWP_Reviews_Collection {
                                 
             }
             
-            return $html;
+            $htmlp .= '<div class="saswp-coll-rv-d">';
+            $htmlp .= $html;  
+            $htmlp .= '</div>';
+            return $htmlp;
                                     
         }
         

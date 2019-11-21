@@ -2027,14 +2027,14 @@ span.saswp-mines{
 .saswp-collection-slider .saswp-slider-dots .saswp-dot {
   width: 10px;
   height: 10px;
-  background: #444;
+  background: #ccc;
   transition: 0.15s ease-in-out;
   border-radius: 8px;
   cursor: pointer;
   margin: 0 12px;
 }
 .saswp-collection-slider .saswp-slider-dots .saswp-dot.saswp-active {
-  background: #0085ba;
+  background: #0071a1;
 }
 .saswp-collection-slider-type .saswp-slider-items-container .saswp-slider-item {
   width: 100vw;

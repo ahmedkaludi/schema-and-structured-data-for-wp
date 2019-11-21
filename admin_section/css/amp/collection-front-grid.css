@@ -1,14 +1,4 @@
 /** Review Design 1 **/
-.saswp-rd1-warp{
-  margin-bottom:50px;
-}
-h2{
-  margin:30px 0px;
-  text-align:center;
-  width:100%;
-  display:inline-block;
-  font-size:20px;
-}
 .saswp-rd1-warp ul{
   padding:0px;
   list-style-type:none;
@@ -32,13 +22,16 @@ h2{
   align-items: flex-start;
   justify-content: space-between;
 }
-.saswp-rd1-athr amp-img{
+.saswp-rd1-athr-img amp-img{
   float: left;
+  max-width: 56px;
+  min-height: 56px;
+  max-height: 56px;
   margin-right: 10px;
   border-radius: 100px;
 }
-.saswp-rd1-rv-lg svg{
-  width:20px;
+.saswp-rd1-rv-lg amp-img{
+  max-width:20px;
   height:20px;
 }
 .saswp-rd1-athr-nm h4{
@@ -50,12 +43,6 @@ h2{
   font-size: 16px;
   display: inline-block;
   line-height: 1.5;
-}
-.saswp-rd1-stars svg {
-    width: 18px;
-    height: 18px;
-    margin: 0 4px 0 0;
-    vertical-align: middle;
 }
 .saswp-rd1-ptdt{
   margin-top:5px;
@@ -81,34 +68,33 @@ h2{
   text-align: left;
   padding: 0 2px 0 0;
   margin: 10px 0 0;
+  box-sizing: border-box;
 }
 .saswp-rd1-cnt p{
   margin:0;
 }
-.saswp-rd1-cnt::-webkit-scrollbar {
-  width: 4px;
-  display:inline-block;
-    
+.saswp-rd1-warp::-webkit-scrollbar {
+  width: 4px ;
+  display:inline-block ;
 }
-.saswp-rd1-cnt::-webkit-scrollbar-thumb {
-  -webkit-border-radius: 10px;
-  border-radius: 10px;
-  background: #ccc;
-  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
+.saswp-rd1-warp::-webkit-scrollbar-thumb {
+  -webkit-border-radius: 10px ;
+  border-radius: 10px ;
+  background: #ccc ;
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5) ;
 }
-.saswp-rd1-cnt::-webkit-scrollbar-track {
+.saswp-rd1-warp::-webkit-scrollbar-track {
   -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
   -webkit-border-radius: 4px;
   border-radius: 4px;
 }
-.saswp-rd1-fb svg{
-  background:#3c5b9b;
-  width: 20px;
-  height: 20px;
-  padding: 2px;
-  border-radius: 100px;
-}
-.saswp-rd1-yrw svg{
-  width: 106px;
-  height: 20px;
+
+@media(max-width:767px){
+  .saswp-rd1-warp li {
+    padding: 13px;
+  }
+  .saswp-rd1-warp ul{
+    grid-template-columns: 1fr;
+  }
+
 }

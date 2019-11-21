@@ -153,7 +153,9 @@
 }
 
 /** Review Design 1 **/
-
+.saswp-coll-rv-d{
+  font-family: sans-serif !important;
+}
 .saswp-rd1-warp{
   margin-bottom:50px;
 }
@@ -176,6 +178,9 @@
   border-radius: 4px;
   margin:0px;
 }
+.saswp-rd1-data h4{
+  margin:0 !important;
+}
 .saswp-rd1-data{
   display: flex;
   width: 100%;
@@ -183,24 +188,18 @@
   align-items: flex-start;
   justify-content: space-between;
 }
-.saswp-rd1-athr amp-img{
+
+.saswp-rd1-athr-img img{
   float: left;
+  max-width: 56px;
+  min-height: 56px;
+  max-height: 56px;
   margin-right: 10px;
   border-radius: 100px;
-}
-.saswp-rd1-athr > img {
-    max-width: 56px;
-    min-height: 56px;
-    max-height: 56px;
-    margin-right: 10px;
-    border-radius: 100px;
 }
 .saswp-rd1-rv-lg img{
   width:20px;
   height:20px;
-}
-.saswp-rd1-athr-nm h4{
-  margin:0;
 }
 .saswp-rd1-athr-nm h4 a{
   text-decoration: none;
@@ -455,15 +454,17 @@
 /** Fomo CSS **/
 .saswp-fomo-wrap{
   position:fixed;
-  bottom:20px;  
+  bottom:20px;
+  left:20px;
   width: calc(100% - 20px);
-  max-width: 325px;
+  max-width: 325px !important;
   border-radius: 12px;
   background: #fff;
   border: 1px solid #ddd;
   box-shadow: 0 0 10px 2px rgba(0,0,0,.15);
   transition: all .3s ease-in;
   display: none;
+  margin:0 !important;
 }
 .saswp-fomo-reviews .saswp-str-rtng .saswp-rvw-str{
     padding-left:0px;
@@ -670,6 +671,13 @@ span.saswp-mines{
   width:350px;
   margin-right:25px;
 }
+.saswp-rd1-athr img {
+    float: left;
+    margin-right: 10px;
+    border-radius: 100px;
+    width: 56px;
+    height: 56px;
+}
 .saswp-rd2-warp .saswp-rd1-cnt{
   white-space: initial;
 }
@@ -835,7 +843,7 @@ span.saswp-mines{
     transform: rotate(-45deg);
     position: relative;
     top: 11px;
-    right: -9px;
+    right: -11px;
 }
 .saswp-slider-item .saswp-rd1-rv-lg img {
     width: 25px;
@@ -844,14 +852,14 @@ span.saswp-mines{
 .saswp-collection-slider .saswp-slider-dots .saswp-dot {
   width: 10px;
   height: 10px;
-  background: #444;
+  background: #ccc;
   transition: 0.15s ease-in-out;
   border-radius: 8px;
   cursor: pointer;
   margin: 0 12px;
 }
 .saswp-collection-slider .saswp-slider-dots .saswp-dot.saswp-active {
-  background: #0085ba;
+  background: #0071a1;
 }
 .saswp-collection-slider-type .saswp-slider-items-container .saswp-slider-item {
   width: 100vw;

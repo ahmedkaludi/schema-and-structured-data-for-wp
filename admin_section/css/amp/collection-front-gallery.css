@@ -1,43 +1,7 @@
 /** Slider Design CSS **/
-.saswp-rd2-warp{
-  width:100%;
-  display:inline-block;
-  margin-bottom:50px;
-}
-.saswp-rd2-warp li {
-  width:350px;
-  margin-right:25px;
-}
-.saswp-rd2-warp .saswp-rd1-cnt{
-  white-space: initial;
-}
-.saswp-rd2-warp .saswp-rd2-box{
-  position: relative;
-  color: #777;
-  border: 1px solid #ededed;
-  background-color: #fafafa;
-  border-radius: 4px;
-}
-.saswp-rd2-warp .saswp-rd1-cnt{
-  height: 150px;
-  margin: 20px 20px 20px 40px;
-}
 
-.saswp-rd2-warp .saswp-rd1-data{
-  padding: 20px;
-}
-.saswp-rd2-box .saswp-rd1-stars{
-  display:inline-block;
-}
-.saswp-rd2-box .saswp-rd1-cnt p{
-  display:inline; 
-}
-.saswp-rd2-box .saswp-rd1-rv-lg{
-  line-height: 0;
-  position: absolute;
-  right: 13px;
-  top: 13px;
-  background: #fafafa;
+.saswp-coll-rv-d li {
+  list-style-type: none;
 }
 .saswp-rd2-quote svg{
   width: 20px;
@@ -47,7 +11,27 @@
   top: 15px;
   left: 12px;
 }
-.saswp-rd2-warp .saswp-rd2-box:before {
+.saswp-rd2-box {
+  padding: 20px 40px 20px 40px;
+  background-color: #fafafa;
+  position: relative;
+  color: #777;
+  border: 1px solid #ededed;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+.amp-carousel-slide .saswp-rd1-cnt{
+  margin:0px;
+  display: inline-block;
+  width: 100%;
+  clear: both;
+}
+.amp-carousel-slide .saswp-rd1-stars{
+  display: inline-block;
+  width: 100px;
+  float: left;
+}
+.amp-carousel-slide .saswp-rd2-box:before {
   position: absolute;
   bottom: -8px;
   left: 35px;
@@ -63,6 +47,20 @@
   -ms-transform: rotate(45deg);
   transform: rotate(45deg);
 }
+.amp-carousel-slide .saswp-rd1-data{
+  padding: 20px;
+}
+.amp-carousel-slide .saswp-rd1-athr amp-img {
+  float: left;
+  margin-right: 10px;
+  border-radius: 100px;
+  max-width: 56px;
+  height: 56px;
+}
+.amp-carousel-slide .saswp-rd1-rv-lg amp-img{
+  max-width:25px;
+  height:25px;
+}
 .carousel-preview{
   text-align:center;
 }
@@ -73,7 +71,8 @@
   border:none;
   margin:0px 5px;
   cursor: pointer;
+  background:#ccc;
 }
 .carousel-preview button.active{
-  background:#427fed;
+  background:#0071a1;
 }
