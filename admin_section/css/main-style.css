@@ -1674,6 +1674,14 @@ Collection css starts here
   align-items: center;
   border-radius: 12px 0px 0px 12px;
 }
+.saswp-fomo-reviews .saswp-frv-lg span{
+  border-radius: 10px 0px 0px 10px;
+}
+.saswp-fomo-reviews .saswp-frv-lg img{
+  position: relative;
+  top: 3px;
+  left: 4px;
+}
 .saswp-frv-lg svg{
     text-align: center;
     width: 100%;
