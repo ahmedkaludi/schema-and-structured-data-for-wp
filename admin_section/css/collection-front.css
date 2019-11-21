@@ -461,14 +461,16 @@
   border-radius: 12px;
   background: #fff;
   border: 1px solid #ddd;
-  box-shadow: 0 0 10px 2px rgba(0,0,0,.15);
+  box-shadow: 0 0 20px -14px rgba(0,0,0,.15);
   transition: all .3s ease-in;
-  display: none;
+  //display: none;
   margin:0 !important;
 }
 .saswp-fomo-reviews .saswp-str-rtng .saswp-rvw-str{
     padding-left:0px;
-    margin-bottom: 3px;
+    margin-bottom: 6px;
+    line-height: 0;
+    display: block;
 }
 .saswp-fomo-reviews{
   display: flex;
@@ -476,6 +478,15 @@
   width: 100%;
   align-items: center;
   height:80px;
+  border-radius: 12px;
+}
+.saswp-fomo-reviews .saswp-frv-lg span{
+  border-radius: 10px 0px 0px 10px;
+}
+.saswp-fomo-reviews .saswp-frv-lg img{
+  position: relative;
+  top: 6px;
+  left: 4px;
 }
 .saswp-str-rtng{
   flex:1 0 60%;
@@ -923,6 +934,9 @@ span.saswp-mines{
 }
 .saswp-dp-dsg.saswp_hide{
     display: none;
+}
+.entry .entry-content a {
+    text-decoration: none !important;
 }
 /** Carousel Slider CSS Ends here **/
 

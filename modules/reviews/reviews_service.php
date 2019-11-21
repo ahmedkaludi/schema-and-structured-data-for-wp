@@ -865,10 +865,10 @@ class saswp_reviews_service {
                          $slide_button = '';
                          
                          if($g_type == 'carousel'){
-                              $html .= '<amp-carousel id="carousel-with-preview" height="288" layout="fixed-height" type="carousel" autoplay delay="2000">';
+                              $html .= '<amp-carousel class="carousel-type" id="carousel-with-preview" height="240" layout="fixed-height" type="carousel" autoplay delay="2000">';
                          }
                          if($g_type == 'slider'){
-                              $html .= '<amp-carousel id="carousel-with-preview" height="288" layout="fixed-height" type="slides" autoplay delay="2000">';
+                              $html .= '<amp-carousel class="slider-type" id="carousel-with-preview" height="240" layout="fixed-height" type="slides"  autoplay delay="2000">';
                          }
                                                  
                          $i = 0;
@@ -1194,7 +1194,7 @@ class saswp_reviews_service {
                
             $i=0;
             
-            $html .='<amp-carousel id="saswp-reviews-fomo-amp" height="50" layout="fixed-height" type="slides" autoplay delay="10000">';
+            $html .='<amp-carousel id="saswp-reviews-fomo-amp" height="50" layout="fixed-height" type="slides"  autoplay delay="10000">';
             
             foreach ($collection as $value){
                 
@@ -1210,9 +1210,10 @@ class saswp_reviews_service {
                     $html .= '<div class="saswp-str-rtng">';
                     $html .= saswp_get_rating_html_by_value($value['saswp_review_rating']);
                     $html .='<div class="saswp-text-rtng">';
-                    $html .='<span>'. esc_attr($value['saswp_review_rating']).' Star Rating</span> by '.esc_attr($value['saswp_reviewer_name']);
-                    $html .= '<span class="saswp-rt-dt">'.esc_attr($date_str['date']).', '. esc_attr($date_str['time']).'</span>';
+                    $html .='<span>'. esc_attr($value['saswp_review_rating']).' Star Rating</span> by ';
+                    $html .= '<span>'.esc_attr($value['saswp_reviewer_name']).'</span>';
                     $html .='</div>';
+                    $html .= '<span class="saswp-rt-dt">'.esc_attr($date_str['date']).', '. esc_attr($date_str['time']).'</span>';
                     $html .= '</div>';                            
                     $html .= '</div>';
                     $html .= '</div>';     
