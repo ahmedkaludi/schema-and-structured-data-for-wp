@@ -865,10 +865,10 @@ class saswp_reviews_service {
                          $slide_button = '';
                          
                          if($g_type == 'carousel'){
-                              $html .= '<amp-carousel class="carousel-type" id="carousel-with-preview" height="240" layout="fixed-height" type="carousel" autoplay delay="2000">';
+                              $html .= '<amp-carousel class="carousel-type" id="carousel-with-preview" height="240" layout="fixed-height" type="carousel" delay="2000"  on="slideChange:AMP.setState({currentClass: event.index})">';
                          }
                          if($g_type == 'slider'){
-                              $html .= '<amp-carousel class="slider-type" id="carousel-with-preview" height="240" layout="fixed-height" type="slides"  autoplay delay="2000">';
+                              $html .= '<amp-carousel class="slider-type" id="carousel-with-preview" height="240" layout="fixed-height" type="slides"  autoplay delay="2000" on="slideChange:AMP.setState({currentClass: event.index})">';
                          }
                                                  
                          $i = 0;
@@ -879,8 +879,12 @@ class saswp_reviews_service {
                              $html .= $this->saswp_review_desing_for_slider($value);
                              $html .= '</li>';
                              
-                             $slide_button .= '<button on="tap:carousel-with-preview.goToSlide(index='.$i.'),AMP.setState({current:'.$i.'})" [class]="current=='.$i.' ? "active" : '.''.' " class="active"></button>';
-                             
+                             if($i == 0){
+                                 $slide_button .= '<button on="tap:carousel-with-preview.goToSlide(index='.$i.'),AMP.setState({currentClass:'.$i.'})" [class]="currentClass=='.$i.' ? \'active\' : \'\' " class="active"></button>';
+                             }else{
+                                 $slide_button .= '<button on="tap:carousel-with-preview.goToSlide(index='.$i.'),AMP.setState({currentClass:'.$i.'})" [class]="currentClass=='.$i.' ? \'active\' : \'\' "></button>';
+                             }
+                                                         
                              $i++;
                          }
                                                   
