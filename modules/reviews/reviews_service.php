@@ -947,7 +947,7 @@ class saswp_reviews_service {
                       $html .= '<div class="saswp-rv-rtng">';
                       $html .= '<div class="saswp-rtng-txt">';
                       $html .= '<span class="saswp-rt-num">';
-                      $html .= esc_attr($average_rating);
+                      $html .= esc_attr(number_format($average_rating,1));
                       $html .= '</span>';
                       $html .= '<span class="saswp-stars">';
                       $html .= saswp_get_rating_html_by_value($average_rating); 
@@ -1004,7 +1004,7 @@ class saswp_reviews_service {
                       $html .= '<div class="saswp-rv-rtng">';
                       $html .= '<div class="saswp-rtng-txt">';
                       $html .= '<span class="saswp-rt-num">';
-                      $html .= esc_attr($average_rating);
+                      $html .= esc_attr(number_format($average_rating, 1));
                       $html .= '</span>';
                       $html .= '<span class="saswp-stars">';
                       $html .= saswp_get_rating_html_by_value($average_rating); 
@@ -1119,7 +1119,7 @@ class saswp_reviews_service {
                         $html .= '<span>';
                         $html .= saswp_get_rating_html_by_value($average_rating);
                         $html .= '</span>';
-                        $html .= '<span class="saswp-ttl-rvws">'.esc_attr($average_rating).' from '.esc_attr($review_count).' reviews</span>';                    
+                        $html .= '<span class="saswp-ttl-rvws">'.esc_attr(number_format($average_rating, 1) ).' from '.esc_attr($review_count).' reviews</span>';                    
                         $html .= '</div>';
                         $html .= '<div class="saswp-onclick-show">';
                         $html .= '<span>Ratings and reviews</span>';                    
@@ -1135,7 +1135,7 @@ class saswp_reviews_service {
                         $html .= '<span>';
                         $html .= saswp_get_rating_html_by_value($average_rating);
                         $html .= '</span>';
-                        $html .= '<span class="saswp-ttl-rvws">'. esc_attr($average_rating).' from '. esc_attr($review_count).' reviews</span>';                    
+                        $html .= '<span class="saswp-ttl-rvws">'. esc_attr(number_format($average_rating, 1)).' from '. esc_attr($review_count).' reviews</span>';                    
                         $html .= '</li>';                                        
                         $html .= $html_list;
                         $html .= '</ul>';                    
