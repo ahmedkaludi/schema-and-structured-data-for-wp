@@ -1485,6 +1485,76 @@ function saswp_post_specific_schema_output() {
                                                 }
                                                 $input1 = saswp_append_fetched_reviews($input1);
 				}
+                                
+                         if( 'ImageObject' === $schema_type){
+				
+                                                $slogo = get_post_meta( get_the_ID(), 'saswpimage_object_organization_logo_'.$schema_id.'_detail',true);
+                                                 $author_image = get_post_meta( get_the_ID(), 'saswpimage_object_author_image_'.$schema_id.'_detail',true);
+                             
+						$input1 = array(
+						'@context'			=> saswp_context_url(),
+						'@type'				=> 'ImageObject',
+                                                '@id'                           => trailingslashit(get_permalink()).'#imageobject',    
+						'url'				=> saswp_remove_warnings($all_post_meta, 'saswpimage_object_url_'.$schema_id, 'saswp_array'),						
+						'datePublished'                 => isset($all_post_meta['saswpimage_object_date_published_'.$schema_id])?date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswpimage_object_date_published_'.$schema_id][0])):'',
+						'dateModified'                  => isset($all_post_meta['saswpimage_object_date_modified_'.$schema_id])?date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswpimage_object_date_modified_'.$schema_id][0])):'',
+						'description'                   => saswp_remove_warnings($all_post_meta, 'saswpimage_object_description_'.$schema_id, 'saswp_array'),
+						'name'				=> saswp_remove_warnings($all_post_meta, 'saswpimage_object_name_'.$schema_id, 'saswp_array'),
+						'uploadDate'                    => isset($all_post_meta['saswpimage_object_upload_date_'.$schema_id])?date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswpimage_object_upload_date_'.$schema_id][0])):'',						
+                                                'contentUrl'                    => saswp_remove_warnings($all_post_meta, 'saswpimage_object_content_url_'.$schema_id, 'saswp_array'),
+                                                'contentLocation'                    => saswp_remove_warnings($all_post_meta, 'saswpimage_object_content_location_'.$schema_id, 'saswp_array'),						
+						'author'			=> array(
+								'@type' 			=> 'Person',
+								'name'				=> saswp_remove_warnings($all_post_meta, 'saswpimage_object_author_name_'.$schema_id, 'saswp_array'),
+                                                                'description'		        => saswp_remove_warnings($all_post_meta, 'saswpimage_object_author_description_'.$schema_id, 'saswp_array'),
+								'Image'				=> array(
+								'@type'				=> 'ImageObject',
+								'url'				=> saswp_remove_warnings($all_post_meta, 'saswpimage_object_author_image_'.$schema_id, 'saswp_array'),
+								'height'			=> saswp_remove_warnings($author_image, 'height', 'saswp_string'),
+								'width'				=> saswp_remove_warnings($author_image, 'width', 'saswp_string')
+								),
+							),
+						'publisher'			=> array(
+								'@type'				=> 'Organization',
+								'logo' 				=> array(
+								'@type'				=> 'ImageObject',
+								'url'				=> saswp_remove_warnings($all_post_meta, 'saswpimage_object_organization_logo_'.$schema_id, 'saswp_array'),
+								'width'				=> saswp_remove_warnings($slogo, 'width', 'saswp_string'),
+								'height'			=> saswp_remove_warnings($slogo, 'height', 'saswp_string'),
+										),
+								'name'                          => saswp_remove_warnings($all_post_meta, 'saswpimage_object_organization_name_'.$schema_id, 'saswp_array'),
+							),
+						);
+                                                
+                                                
+                                                
+                                                $itinerary  = get_post_meta($schema_post_id, 'image_object_exif_data_'.$schema_id, true);
+                            
+                                                $itinerary_arr = array();
+
+                                                if(!empty($itinerary)){
+
+                                                    foreach($itinerary as $val){
+
+                                                        $supply_data = array();
+                                                        $supply_data['@type']        = 'PropertyValue';
+                                                        $supply_data['name']         = $val['saswpimage_object_exif_data_name'];
+                                                        $supply_data['value']        = $val['saswpimage_object_exif_data_value'];                                                        
+
+                                                       $itinerary_arr[] =  $supply_data;
+                                                    }
+                                                   $input1['exifData'] = $itinerary_arr;
+                                                }
+                                                
+                                                
+                                                if(!empty($aggregateRating)){
+                                                    $input1['aggregateRating'] = $aggregateRating;
+                                                }                                                
+                                                if(!empty($extra_theme_review)){
+                                                    $input1 = array_merge($input1, $extra_theme_review);
+                                                }
+                                                $input1 = saswp_append_fetched_reviews($input1);
+				}       
                         
                          if( 'Service' === $schema_type ){  
                              

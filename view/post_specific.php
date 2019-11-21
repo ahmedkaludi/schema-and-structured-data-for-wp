@@ -23,6 +23,9 @@ class saswp_post_specific {
                         'Article' => array(
                                'article_items' => 'article_items',                                                
                         ),
+                        'ImageObject' => array(
+                               'image_object_exif_data' => 'image_object_exif_data',                                                
+                        ),
                         'Blogposting' => array(
                                'blogposting_items' => 'blogposting_items',                                                
                         ),
@@ -82,6 +85,18 @@ class saswp_post_specific {
 			'name'      => 'saswp_article_items_name',
 			'type'      => 'text',                        
 		    )                     
+                    ),
+                    'image_object_exif_data' => array(                    
+                    array(
+			'label'     => 'Name',
+			'name'      => 'saswpimage_object_exif_data_name',
+			'type'      => 'text',                        
+		    ),
+                    array(
+			'label'     => 'Value',
+			'name'      => 'saswpimage_object_exif_data_value',
+			'type'      => 'text',                        
+		    )    
                     ),
                     'newsarticle_items' => array(                    
                     array(
@@ -2219,6 +2234,11 @@ class saswp_post_specific {
                                 'type' => 'text',                                
                         ),
                         array(
+                                'label' => 'Location Country',
+                                'id'    => 'saswp_event_schema_location_country_'.$schema_id,
+                                'type'  => 'text',                                
+                        ),
+                        array(
                                 'label' => 'Start Date',
                                 'id' => 'saswp_event_schema_start_date_'.$schema_id,
                                 'type' => 'text',                                
@@ -3197,6 +3217,88 @@ class saswp_post_specific {
                     array(
                             'label' => 'Organization Logo',
                             'id' => 'saswp_video_object_organization_logo_'.$schema_id,
+                            'type' => 'media',
+                            'default' => $sd_data['sd_logo']['url']
+                    ),    
+                   );
+                    break;
+                
+                case 'ImageObject':
+                    $meta_field = array(
+                    array(
+                            'label' => 'URL',
+                            'id' => 'saswpimage_object_url_'.$schema_id,
+                            'type' => 'text',
+                            'default' => get_permalink()
+                    ),                    
+                    array(
+                            'label' => 'Date Published',
+                            'id' => 'saswpimage_object_date_published_'.$schema_id,
+                            'type' => 'text',
+                             'default' => get_the_date("Y-m-d")
+                    ), 
+                    array(
+                            'label' => 'Date date Modified',
+                            'id' => 'saswpimage_object_date_modified_'.$schema_id,
+                            'type' => 'text',
+                            'default' => get_the_modified_date("Y-m-d")
+                    ),
+                    array(
+                            'label' => 'Description',
+                            'id' => 'saswpimage_object_description_'.$schema_id,
+                            'type' => 'textarea',
+                            'default' => get_the_excerpt()
+                    ),
+                    array(
+                            'label' => 'Name',
+                            'id' => 'saswpimage_object_name_'.$schema_id,
+                            'type' => 'text',
+                            'default' => saswp_get_the_title()
+                    ),
+                    array(
+                            'label' => 'Upload Date',
+                            'id' => 'saswpimage_object_upload_date_'.$schema_id,
+                            'type' => 'text',
+                            'default' => get_the_date("Y-m-d")
+                    ),                    
+                    array(
+                            'label' => 'Content Url',
+                            'id' => 'saswpimage_object_content_url_'.$schema_id,
+                            'type' => 'text',
+                            'default' => get_permalink()
+                    ),
+                    array(
+                            'label' => 'Content Location',
+                            'id'    => 'saswpimage_object_content_location_'.$schema_id,
+                            'type'  => 'text'                            
+                    ),    
+                    array(
+                            'label' => 'Author Name',
+                            'id' => 'saswpimage_object_author_name_'.$schema_id,
+                            'type' => 'text',
+                            'default' => $current_user->display_name    
+                    ),
+                    array(
+                            'label' => 'Author Description',
+                            'id' => 'saswpimage_object_author_description_'.$schema_id,
+                            'type' => 'textarea',
+                            'default' => $author_desc
+                    ),    
+                    array(
+                            'label' => 'Author Image',
+                            'id' => 'saswpimage_object_author_image_'.$schema_id,
+                            'type' => 'media',
+                            'default' => $author_details['url']   
+                    ),
+                    array(
+                            'label' => 'Organization Name',
+                            'id' => 'saswpimage_object_organization_name_'.$schema_id,
+                            'type' => 'text',
+                            'default' =>  $sd_data['sd_name']
+                    ),
+                    array(
+                            'label' => 'Organization Logo',
+                            'id' => 'saswpimage_object_organization_logo_'.$schema_id,
                             'type' => 'media',
                             'default' => $sd_data['sd_logo']['url']
                     ),    

@@ -1586,8 +1586,8 @@ return false;
             var type = 'text';   
             var tr   = $(this).parent().parent('tr'); 
             var fields_name = $(this).val();            
-            var str2 = "image";
-            var str3 = "logo";
+            var str2 = "_image";
+            var str3 = "_logo";
             if((fields_name.indexOf(str2) != -1)|| (fields_name.indexOf(str3) != -1)){
                 type = 'image';
             }                                     

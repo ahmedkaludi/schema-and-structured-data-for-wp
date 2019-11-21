@@ -1543,6 +1543,7 @@ function saswp_event_schema_markup($schema_id, $schema_post_id, $all_post_meta){
                                                      'addressLocality' => saswp_remove_warnings($all_post_meta, 'saswp_event_schema_location_locality_'.$schema_id, 'saswp_array'),
                                                      'postalCode'      => saswp_remove_warnings($all_post_meta, 'saswp_event_schema_location_postalcode_'.$schema_id, 'saswp_array'),
                                                      'addressRegion'   => saswp_remove_warnings($all_post_meta, 'saswp_event_schema_location_region_'.$schema_id, 'saswp_array'),                                                     
+                                                     'addressCountry'  => saswp_remove_warnings($all_post_meta, 'saswp_event_schema_location_country_'.$schema_id, 'saswp_array'),                                                     
                                                 )    
                             ),
             'offers'			=> array(

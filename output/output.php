@@ -1262,6 +1262,51 @@ function saswp_schema_output() {
                                                  }
 					                                        
 				}
+                                
+                        if( 'ImageObject' === $schema_type){
+                                                                        				
+                                                $description = saswp_get_the_excerpt();
+
+                                                if(!$description){
+                                                    $description = get_bloginfo('description');
+                                                }                                                                                                                        
+						$input1 = array(
+						'@context'			=> saswp_context_url(),
+						'@type'				=> 'ImageObject',
+                                                '@id'                           => trailingslashit(saswp_get_permalink()).'#imageobject',        
+						'url'				=> trailingslashit(saswp_get_permalink()),						                                                
+						'datePublished'                 => esc_html($date),
+						'dateModified'                  => esc_html($modified_date),
+                                                'name'				=> saswp_get_the_title(),
+						'description'                   => $description,						
+                                                'contentUrl'			=> trailingslashit(saswp_get_permalink()),						
+						'uploadDate'                    => esc_html($date),						
+						'author'			=> saswp_get_author_details()						                                                                                                      
+						);
+                                                 if(!empty($publisher)){
+                            
+                                                    $input1 = array_merge($input1, $publisher);   
+                         
+                                                 }                                                
+                                                if(isset($sd_data['saswp_comments_schema']) && $sd_data['saswp_comments_schema'] ==1){
+                                                 $input1['comment'] = saswp_get_comments(get_the_ID());
+                                                }                                                
+                                                if(!empty($aggregateRating)){
+                                                       $input1['aggregateRating'] = $aggregateRating;
+                                                 }                                               
+                                                if(!empty($extra_theme_review)){
+                                                  $input1 = array_merge($input1, $extra_theme_review);
+                                                 }
+                                                 
+                                                 $input1 = saswp_append_fetched_reviews($input1);
+                                                 $input1 = apply_filters('saswp_modify_image_object_schema_output', $input1 );
+                                                 
+                                                 if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] ==1){
+                                                    $service = new saswp_output_service();
+                                                    $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
+                                                 }
+					                                        
+				}        
                         
                         if( 'local_business' === $schema_type){
                             

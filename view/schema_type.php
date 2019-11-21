@@ -823,7 +823,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                             
                             $meta_list_arr = $meta_list_fields['text'];
                             
-                            if ((strpos($fieldkey, 'image') !== false) || strpos($fieldkey, 'logo') !== false) {
+                            if ((strpos($fieldkey, '_image') !== false) || strpos($fieldkey, '_logo') !== false) {
                                   $meta_list_arr = $meta_list_fields['image'];
                             }
                                                                                     

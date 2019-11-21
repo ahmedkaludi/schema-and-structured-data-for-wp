@@ -851,6 +851,9 @@ Class saswp_output_service{
                             if(isset($custom_fields['saswp_event_schema_location_postalcode'])){
                              $input1['location']['address']['postalCode'] =    $custom_fields['saswp_event_schema_location_postalcode'];
                             }
+                            if(isset($custom_fields['saswp_event_schema_location_country'])){
+                             $input1['location']['address']['addressCountry'] =    $custom_fields['saswp_event_schema_location_country'];
+                            }
                             if(isset($custom_fields['saswp_event_schema_location_hasmap'])){
                              $input1['location']['hasMap']  =  $custom_fields['saswp_event_schema_location_hasmap'];
                             }
@@ -1258,6 +1261,49 @@ Class saswp_output_service{
                      $input1['publisher']['@type']       =    'Organization';
                      $input1['publisher']['name']        =    $custom_fields['saswp_video_object_organization_name'];
                      $input1['publisher']['logo']        =    $custom_fields['saswp_video_object_organization_logo'];
+                    }
+                    
+                    break;
+                    
+                    case 'ImageObject':
+                    
+                    if(isset($custom_fields['saswpimage_object_url'])){
+                     $input1['url'] =    $custom_fields['saswpimage_object_url'];
+                    }                    
+                    if(isset($custom_fields['saswpimage_object_date_published'])){
+                     $input1['datePublished'] =    $custom_fields['saswpimage_object_date_published'];
+                    }                    
+                    if(isset($custom_fields['saswpimage_object_date_modified'])){
+                     $input1['dateModified'] =    $custom_fields['saswpimage_object_date_modified'];
+                    }
+                    if(isset($custom_fields['saswpimage_object_description'])){
+                     $input1['description'] =   wp_strip_all_tags(strip_shortcodes( $custom_fields['saswpimage_object_description'] ));
+                    }
+                    if(isset($custom_fields['saswpimage_object_name'])){
+                     $input1['name'] =    $custom_fields['saswpimage_object_name'];
+                    }                    
+                    if(isset($custom_fields['saswpimage_object_upload_date'])){
+                     $input1['uploadDate'] =    $custom_fields['saswpimage_object_upload_date'];
+                    }
+                    if(isset($custom_fields['saswpimage_object_thumbnail_url'])){
+                     $input1['thumbnailUrl'] =    $custom_fields['saswpimage_object_thumbnail_url'];
+                    }                                        
+                    if(isset($custom_fields['saswpimage_object_content_url'])){
+                     $input1['contentUrl'] =    $custom_fields['saswpimage_object_content_url'];
+                    }
+                    if(isset($custom_fields['saswpimage_object_content_location'])){
+                     $input1['contentLocation'] =    $custom_fields['saswpimage_object_content_location'];
+                    }
+                    if(isset($custom_fields['saswpimage_object_author_name'])){
+                     $input1['author']['name'] =    $custom_fields['saswpimage_object_author_name'];
+                    }
+                    if(isset($custom_fields['saswpimage_object_author_image'])){
+                     $input1['author']['image'] =    $custom_fields['saswpimage_object_author_image'];
+                    }                      
+                    if(isset($custom_fields['saswpimage_object_organization_logo']) && isset($custom_fields['saswpimage_object_organization_name'])){
+                     $input1['publisher']['@type']       =    'Organization';
+                     $input1['publisher']['name']        =    $custom_fields['saswpimage_object_organization_name'];
+                     $input1['publisher']['logo']        =    $custom_fields['saswpimage_object_organization_logo'];
                     }
                     
                     break;
@@ -2935,6 +2981,26 @@ Class saswp_output_service{
                     
                     break;
                 
+                case 'ImageObject':
+                    
+                    $meta_field = array(
+                        
+                        'saswpimage_object_name'               => 'Name',                        
+                        'saswpimage_object_description'        => 'Description',
+                        'saswpimage_object_url'                => 'URL',                        
+                        'saswpimage_object_date_published'     => 'Date Published',
+                        'saswpimage_object_date_modified'      => 'Date Modified',                                                
+                        'saswpimage_object_upload_date'        => 'Upload Date',                                                
+                        'saswpimage_object_content_url'        => 'Content URL',                                                
+                        'saswpimage_object_content_location'   => 'Content Location',
+                        'saswpimage_object_author_name'        => 'Author Name',                        
+                        'saswpimage_object_author_image'       => 'Author Image',
+                        'saswpimage_object_organization_name'  => 'Organization Name',
+                        'saswpimage_object_organization_logo'  => 'Organization Logo',                                         
+                    );
+                    
+                    break;
+                
                 case 'AudioObject':
                     
                     $meta_field = array(
@@ -2981,6 +3047,7 @@ Class saswp_output_service{
                         'saswp_event_schema_location_locality'       => 'Location Locality',
                         'saswp_event_schema_location_region'         => 'Location Region',                        
                         'saswp_event_schema_location_postalcode'     => 'PostalCode',
+                        'saswp_event_schema_location_country'        => 'Country',
                         'saswp_event_schema_location_hasmap'         => 'HasMape',
                         'saswp_event_schema_start_date'              => 'Start Date',
                         'saswp_event_schema_start_time'              => 'Start Time',                        
