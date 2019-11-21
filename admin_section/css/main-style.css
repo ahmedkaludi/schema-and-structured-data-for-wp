@@ -1363,6 +1363,11 @@ Collection css starts here
   flex-wrap: wrap;
   align-items: flex-start;
   justify-content: space-between;
+  position: relative;
+}
+.saswp-rd1-warp .saswp-rd1-rv-lg{
+    position: absolute;
+    right:-5px;
 }
 .saswp-rd1-athr amp-img{
   float: left;
@@ -1404,6 +1409,7 @@ Collection css starts here
 }
 .saswp-rd1-athr-nm{
   width:100%;
+  margin-left:10px;
 }
 .saswp-rd1-cnt{
   position: static;
@@ -1563,7 +1569,8 @@ Collection css starts here
     width: 120px;
     text-align: center;
     margin: 10px auto 0 auto;
-    display: inherit;
+    display: block;
+    padding: 7px 0px;
 }
 .saswp-collection-shortcode{
     color: #555;
