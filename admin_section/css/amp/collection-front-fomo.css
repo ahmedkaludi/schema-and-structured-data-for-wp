@@ -38,14 +38,10 @@
   align-items: center;
   border-radius: 12px 0px 0px 12px;
 }
-.saswp-frv-lg svg{
-    text-align: center;
-    width: 100%;
-}
-.saswp-str-rtng svg{
-  width: 20px;
-  height: 20px;
-  margin: 0px 3px 0px 0px;
+.saswp-fomo-reviews .saswp-frv-lg amp-img{
+  position: relative;
+  top: -1px;
+  left: 4px;
 }
 .saswp-text-rtng{
   font-size: 12px;

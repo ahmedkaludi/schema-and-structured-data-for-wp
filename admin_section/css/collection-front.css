@@ -461,7 +461,6 @@
   border-radius: 12px;
   background: #fff;
   border: 1px solid #ddd;
-  box-shadow: 0 0 20px -14px rgba(0,0,0,.15);
   transition: all .3s ease-in;
   //display: none;
   margin:0 !important;
@@ -479,6 +478,7 @@
   align-items: center;
   height:80px;
   border-radius: 12px;
+  box-shadow: 0 0 7px -4px rgba(0,0,0,.15);
 }
 .saswp-fomo-reviews .saswp-frv-lg span{
   border-radius: 10px 0px 0px 10px;
