@@ -1248,6 +1248,40 @@ class saswp_reviews_service {
         return $html;
         
     }
+    
+    public function saswp_collection_desing_available(){
+     
+        global $post;
+        $design = '';
+        
+        if(is_object($post)){
+               
+                $pattern = get_shortcode_regex();
+
+                if (   preg_match_all( '/'. $pattern .'/s', $post->post_content, $matches )
+                    && array_key_exists( 2, $matches )
+                    && in_array( 'saswp-reviews-collection', $matches[2] ) )
+                {
+       
+                foreach ($matches[0] as $matche){
+
+                 $mached = rtrim($matche, ']'); 
+                 $mached = ltrim($mached, '[');
+                 $mached = trim($mached);
+                 $attr   = shortcode_parse_atts('['.$mached.' ]');  
+
+                 $design = get_post_meta($attr['id'], 'saswp_collection_design',true);
+                 
+                 break;
+                 }   
+        
+             }
+                              
+          }
+                    
+        return $design;   
+                
+    }
         	                      
 }
 

@@ -93,43 +93,66 @@ class SASWP_Reviews_Collection {
            
         }
         public function saswp_reviews_collection_amp_script($data){
-                        
-            if ( empty( $data['amp_component_scripts']['amp-bind'] ) ) {
+            
+            $design = $this->_service->saswp_collection_desing_available();
+            
+            if($design == 'gallery' || $design == 'fomo'){
+                
+                if ( empty( $data['amp_component_scripts']['amp-carousel'] ) ) {
+                     $data['amp_component_scripts']['amp-carousel'] = "https://cdn.ampproject.org/v0/amp-carousel-latest.js";
+                }
+            }
+            
+            if($design == 'popup' || $design == 'gallery' || $design == 'fomo'){
+                
+                if ( empty( $data['amp_component_scripts']['amp-bind'] ) ) {
                     $data['amp_component_scripts']['amp-bind'] = "https://cdn.ampproject.org/v0/amp-bind-latest.js";
+                }
+                
             }
-            if ( empty( $data['amp_component_scripts']['amp-carousel'] ) ) {
-                    $data['amp_component_scripts']['amp-carousel'] = "https://cdn.ampproject.org/v0/amp-carousel-latest.js";
-            }
-//            if ( empty( $data['amp_component_scripts']['amp-script'] ) ) {
-//                    $data['amp_component_scripts']['amp-script'] = "https://cdn.ampproject.org/v0/amp-script-latest.js";
-//            }
-            return $data;
+            
+           return $data;
                         
         }
         
         public function saswp_reviews_collection_amp_css(){            
+            
+           $global_css  =  SASWP_PLUGIN_DIR_PATH . 'admin_section/css/amp/collection-front-global.css'; 
+           $grid_css    =  SASWP_PLUGIN_DIR_PATH . 'admin_section/css/amp/collection-front-grid.css';
+           $fomo_css    =  SASWP_PLUGIN_DIR_PATH . 'admin_section/css/amp/collection-front-fomo.css';
+           $gallery_css =  SASWP_PLUGIN_DIR_PATH . 'admin_section/css/amp/collection-front-gallery.css';
+           $popup_css   =  SASWP_PLUGIN_DIR_PATH . 'admin_section/css/amp/collection-front-popup.css';
+           $badge_css   =  SASWP_PLUGIN_DIR_PATH . 'admin_section/css/amp/collection-front-badge.css';
            
-           $global_css  =  SASWP_PLUGIN_URL . 'admin_section/css/amp/collection-front-global.css'; 
-           $grid_css    =  SASWP_PLUGIN_URL . 'admin_section/css/amp/collection-front-grid.css';
-           $fomo_css    =  SASWP_PLUGIN_URL . 'admin_section/css/amp/collection-front-fomo.css';
-           $gallery_css =  SASWP_PLUGIN_URL . 'admin_section/css/amp/collection-front-gallery.css';
-           $popup_css   =  SASWP_PLUGIN_URL . 'admin_section/css/amp/collection-front-popup.css';
-           $badge_css   =  SASWP_PLUGIN_URL . 'admin_section/css/amp/collection-front-badge.css';
+           $design = $this->_service->saswp_collection_desing_available();
            
-           if(true){
-               echo file_get_contents($grid_css);
-               echo file_get_contents($global_css);
-               echo file_get_contents($badge_css);
-               echo file_get_contents($popup_css);
-               echo file_get_contents($fomo_css);
-               echo file_get_contents($gallery_css);
+           if($design){
+               
+                echo file_get_contents($global_css);
+                
+                switch ($design) {
+                    case 'grid':
+                            echo file_get_contents($grid_css);
+                        break;
+                    case 'gallery':
+                            echo file_get_contents($gallery_css);
+                        break;
+                    case 'badge':
+                            echo file_get_contents($badge_css);
+                        break;
+                    case 'popup':
+                            echo file_get_contents($popup_css);
+                        break;
+                    case 'fomo':
+                            echo file_get_contents($fomo_css);
+                        break;
+
+                    default:
+                        break;
+                }
                
            }
            
-           ?>
-
-
-            <?php
         }
         
         public function saswp_register_collection_post_type(){
