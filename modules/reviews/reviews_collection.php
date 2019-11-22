@@ -128,23 +128,23 @@ class SASWP_Reviews_Collection {
            
            if($design){
                
-                echo file_get_contents($global_css);
+                echo @file_get_contents($global_css);
                 
                 switch ($design) {
                     case 'grid':
-                            echo file_get_contents($grid_css);
+                            echo @file_get_contents($grid_css);
                         break;
                     case 'gallery':
-                            echo file_get_contents($gallery_css);
+                            echo @file_get_contents($gallery_css);
                         break;
                     case 'badge':
-                            echo file_get_contents($badge_css);
+                            echo @file_get_contents($badge_css);
                         break;
                     case 'popup':
-                            echo file_get_contents($popup_css);
+                            echo @file_get_contents($popup_css);
                         break;
                     case 'fomo':
-                            echo file_get_contents($fomo_css);
+                            echo @file_get_contents($fomo_css);
                         break;
 
                     default:
