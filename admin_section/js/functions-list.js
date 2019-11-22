@@ -588,6 +588,11 @@
 		setWidth();
 		setTransform();
 		makeDots();
+                
+                jQuery(window).load( function(){
+					setWidth();
+					setTransform();
+		});
 		
 		jQuery(window).resize( function(){
 					setWidth();

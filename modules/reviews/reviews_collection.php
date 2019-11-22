@@ -223,44 +223,6 @@ class SASWP_Reviews_Collection {
                         
             wp_die();
         }
-        
-        public function saswp_collection_sorting($collection, $sorting){
-                                       
-               switch($sorting){
-                    
-                case 'lowest':
-                        
-                        
-                        break;
-                    
-                case 'highest':
-                            
-                        
-                        break;
-                        
-               case 'newest':
-               case 'recent':
-                                                    
-                                                                                          
-                    break;
-                    
-               case 'oldest':
-                   
-                           
-                                                                                                                                
-                    break; 
-                
-                case 'random':
-                            
-                           
-                                                                                          
-                    break;
-                    
-                }
-                
-                return $collection;
-                      
-            }
                             
         public function saswp_reviews_collection_shortcode_render($attr){
             
@@ -375,7 +337,10 @@ class SASWP_Reviews_Collection {
         }
         
         public function saswp_admin_collection_interface_render(){
-         
+            
+             if ( ! current_user_can( 'manage_options' ) ) return;
+             if ( !wp_verify_nonce( $_GET['_wpnonce'], '_wpnonce' ) ) return;
+             
             $post_meta = array();
             $post_id   = null;            
 
@@ -421,6 +386,7 @@ class SASWP_Reviews_Collection {
             <div class="saswp-collection-wrapper">  
                 
                 <form method="post" action="post.php">
+                    <input type="hidden" name="saswp_collection_nonce" value="<?php echo wp_create_nonce('saswp_collection_nonce_data');    ?>">
                     <input type="hidden" name="post_type" value="saswp-collections">
                     <input type="hidden" name="saswp-collection-page" value="1">
                     <input type="hidden" id="saswp_collection_id" name="saswp_collection_id" value="<?php echo esc_attr($post_id); ?>">                   
@@ -578,7 +544,11 @@ class SASWP_Reviews_Collection {
         }
                         
         public function saswp_save_collection_data(){
-                        
+                                    
+            if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
+            if(! current_user_can( 'manage_options' ) ) return ;		    		
+            if ( ! isset( $_POST['saswp_collection_nonce'] ) || ! wp_verify_nonce( $_POST['saswp_collection_nonce'], 'saswp_collection_nonce_data' ) ) return;            
+            
             if(isset($_POST['saswp_collection_id'])){
                       
             $post_id         = intval($_POST['saswp_collection_id']);

@@ -590,45 +590,61 @@ class saswp_reviews_service {
     }
     
     public function saswp_sort_collection($collection, $sorting){
-     
-        
+             
          if($collection){
                
                switch($sorting){
                     
                 case 'lowest':
+                    
+                        usort($collection, function($a, $b) {
+                            return $a['saswp_review_rating'] - $b['saswp_review_rating'];
+                        });
                                                 
                         break;
                     
                 case 'highest':
+                    
+                        usort($collection, function($a, $b) {
+                            return $a['saswp_review_rating'] - $b['saswp_review_rating'];
+                        });
+                        
+                        $collection = array_reverse($collection);
                             
                         
                         break;
                         
                case 'newest':
                case 'recent':
-                            
-                                                                                          
+                   
+                        usort($collection, function($a, $b) {                           
+                            return strtotime($a['saswp_review_date']) - strtotime($b['saswp_review_date']);
+                        });
+                        
+                        $collection = array_reverse($collection);
+                                                                                                             
                     break;
                     
                case 'oldest':
                    
+                        usort($collection, function($a, $b) {                           
+                            return strtotime($a['saswp_review_date']) - strtotime($b['saswp_review_date']);
+                        });
                                                                                                                                                            
                     break; 
                 
                 case 'random':
-                            
+                    
+                       shuffle($collection);
                                                                                                                   
                     break;
                     
                 }
                
            }
-        
-        
+                
            return $collection;
-           
-        
+                   
     }
     
     public function saswp_convert_datetostring($date_str){
