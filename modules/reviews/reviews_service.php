@@ -881,7 +881,7 @@ class saswp_reviews_service {
                          $slide_button = '';
                          
                          if($g_type == 'carousel'){
-                              $html .= '<amp-carousel class="carousel-type" id="carousel-with-preview" height="240" layout="fixed-height" type="carousel" delay="2000"  on="slideChange:AMP.setState({currentClass: event.index})">';
+                              $html .= '<amp-carousel class="carousel-type" id="carousel-with-preview" height="240" layout="fixed-height" type="carousel" autoplay delay="2000"  on="slideChange:AMP.setState({currentClass: event.index})">';
                          }
                          if($g_type == 'slider'){
                               $html .= '<amp-carousel class="slider-type" id="carousel-with-preview" height="240" layout="fixed-height" type="slides"  autoplay delay="2000" on="slideChange:AMP.setState({currentClass: event.index})">';

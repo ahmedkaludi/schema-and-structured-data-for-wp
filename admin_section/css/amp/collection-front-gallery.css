@@ -50,6 +50,34 @@
 .amp-carousel-slide .saswp-rd1-data{
   padding: 20px;
 }
+.saswp-rd1-data {
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+.saswp-rd1-athr-nm h4 {
+  margin: 0;
+}
+.saswp-rd1-ptdt {
+  margin-top: 5px;
+  font-size: 12px;
+  line-height: 1.2;
+  color: #999;
+  display: block;
+}
+.saswp-rd1-athr-nm h4 a {
+  text-decoration: none;
+  font-size: 16px;
+  display: inline-block;
+  line-height: 1.5;
+}
+.saswp-rd1-athr {
+  flex: 1 0 85%;
+  display: flex;
+  justify-content: flex-start;
+}
 .amp-carousel-slide .saswp-rd1-athr amp-img {
   float: left;
   margin-right: 10px;
@@ -76,21 +104,34 @@
 .carousel-preview button.active{
   background:#0071a1;
 }
-.amp-carousel-slide::-webkit-scrollbar {
+.saswp-rd1-cnt::-webkit-scrollbar {
   width: 4px ;
   display:inline-block ;
 }
-.amp-carousel-slide::-webkit-scrollbar-thumb {
+.saswp-rd1-cnt::-webkit-scrollbar-thumb {
   -webkit-border-radius: 10px ;
   border-radius: 10px ;
   background: #ccc ;
   -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5) ;
 }
-.amp-carousel-slide::-webkit-scrollbar-track {
+.saswp-rd1-cnt::-webkit-scrollbar-track {
   -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
   -webkit-border-radius: 4px;
   border-radius: 4px;
 }
+.saswp-rd1-cnt p{margin:0;}
+.saswp-rd1-cnt {
+    position: static;
+    height: 100px;
+    overflow-y: auto;
+    font-size: 14px;
+    line-height: 1.6;
+    text-align: left;
+    padding: 0 2px 0 0;
+    margin: 10px 0 0;
+}
+
+
 
 /** Carousel **/
 .carousel-type li{
