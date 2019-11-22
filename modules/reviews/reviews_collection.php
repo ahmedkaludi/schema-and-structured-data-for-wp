@@ -35,10 +35,8 @@ class SASWP_Reviews_Collection {
           add_action( 'wp_ajax_saswp_add_to_collection', array($this, 'saswp_add_to_collection' ));
           add_action( 'wp_ajax_saswp_get_collection_platforms', array($this, 'saswp_get_collection_platforms' ));
           add_action( 'amp_post_template_css', array($this, 'saswp_reviews_collection_amp_css'));
-          add_action( 'amp_post_template_data', array($this, 'saswp_reviews_collection_amp_script'));
-         // add_action( 'amp_post_template_head', array($this, 'saswp_reviews_collection_head'));
-          //add_filter('ampforwp_the_content_last_filter', array($this, 'saswp_restore_amp_script_tags'));          
-          
+          add_action( 'amp_post_template_data', array($this, 'saswp_reviews_collection_amp_script'));         
+                          
           add_shortcode( 'saswp-reviews-collection', array($this, 'saswp_reviews_collection_shortcode_render' ));
                                  
         }
@@ -569,7 +567,7 @@ class SASWP_Reviews_Collection {
         public function saswp_save_collection_data(){
                                     
             if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
-            if(! current_user_can( 'manage_options' ) ) return ;		    		
+            if ( ! current_user_can( 'manage_options' ) ) return ;		    		
             if ( ! isset( $_POST['saswp_collection_nonce'] ) || ! wp_verify_nonce( $_POST['saswp_collection_nonce'], 'saswp_collection_nonce_data' ) ) return;            
             
             if(isset($_POST['saswp_collection_id'])){

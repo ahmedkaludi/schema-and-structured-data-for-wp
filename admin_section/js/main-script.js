@@ -1944,6 +1944,7 @@ return false;
                 var design         = $(".saswp-collection-desing").val();                                   
                 
                 $(".saswp-coll-options").addClass('saswp_hide');
+                $(".saswp-collection-lp").css('height', 'auto'); 
                 
                 if(design == 'grid'){
                     $(".saswp-grid-options").removeClass("saswp_hide");
@@ -1954,7 +1955,12 @@ return false;
                 }
                 
                 if(design == 'fomo'){
-                    $(".saswp-fomo-options").removeClass("saswp_hide");                   
+                    $(".saswp-fomo-options").removeClass("saswp_hide");  
+                    $(".saswp-collection-lp").css('height', '31px'); 
+                }
+                
+                if(design == 'popup'){
+                    $(".saswp-collection-lp").css('height', '31px');                   
                 }
                 
                 saswp_on_collection_design_change();  

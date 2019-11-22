@@ -589,7 +589,7 @@
 		setTransform();
 		makeDots();
                 
-                jQuery(window).load( function(){
+                jQuery(document).ready( function(){
 					setWidth();
 					setTransform();
 		});

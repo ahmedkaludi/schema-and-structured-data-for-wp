@@ -86,6 +86,9 @@ function saswp_schema_type_meta_box_callback( $post) {
                     $business_type       = '';                
                     $custom_logo_id      = '';
                     $speakable           = '';
+                    $item_list_enable    = '';
+                    $item_list_tags      = '';
+                    $item_list_custom    = '';
                     $append_reviews      = '';  
                     $event_type          = '';
 
