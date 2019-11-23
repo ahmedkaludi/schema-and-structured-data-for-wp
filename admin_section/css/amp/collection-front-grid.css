@@ -22,6 +22,11 @@
   flex-wrap: wrap;
   align-items: flex-start;
   justify-content: space-between;
+  position: relative;
+}
+.saswp-rd1-data .saswp-rd1-rv-lg{
+  position: absolute;
+  right: 0;
 }
 .saswp-rd1-athr-img amp-img{
   float: left;
@@ -59,6 +64,7 @@
 }
 .saswp-rd1-athr-nm{
   width:100%;
+  margin-right: 25px;
 }
 .saswp-rd1-cnt{
   position: static;
@@ -76,7 +82,7 @@
 }
 .saswp-rd1-cnt::-webkit-scrollbar {
   width: 4px ;
-  display:inline-block ;
+  display:inline-block;
 }
 .saswp-rd1-cnt::-webkit-scrollbar-thumb {
   -webkit-border-radius: 10px ;

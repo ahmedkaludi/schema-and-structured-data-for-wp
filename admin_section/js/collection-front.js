@@ -166,10 +166,12 @@ jQuery(document).ready(function($){
                 if( $('#saswp-reviews-cntn').is(':visible') ) {
                     $(".saswp-onclick-show").css('display','flex');
                     $(".saswp-onclick-hide").hide();
+                    $(".saswp-open-class").css('width', '500px');
                 }
                 else {
                     $(".saswp-onclick-show").hide();
-                    $(".saswp-onclick-show").css('display','flex');
+                    $(".saswp-onclick-hide").css('display','flex');
+                    $(".saswp-open-class").css('width', '300px');
                 }
                                                                                 
     });    

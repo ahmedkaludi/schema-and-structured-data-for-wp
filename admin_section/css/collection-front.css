@@ -154,7 +154,7 @@
 
 /** Review Design 1 **/
 .saswp-coll-rv-d{
-  font-family: sans-serif !important;
+  font-family: sans-serif;
 }
 .saswp-rd1-warp{
   margin-bottom:50px;
@@ -167,7 +167,7 @@
   grid-template-columns:1fr 1fr 1fr;
   grid-gap:15px;
   margin:0;
-  overflow-y: scroll;
+  overflow-x: scroll;
 }
 .saswp-rd1-warp li{
   padding:20px;
@@ -180,6 +180,7 @@
 }
 .saswp-rd1-data h4{
   margin:0 !important;
+  line-height: 0;
 }
 .saswp-rd1-data{
   display: flex;
@@ -187,8 +188,13 @@
   flex-wrap: wrap;
   align-items: flex-start;
   justify-content: space-between;
+  position: relative;
+  font-family: sans-serif;
 }
-
+.saswp-rd1-data .saswp-rd1-rv-lg{
+  position: absolute;
+  right: 20px;
+}
 .saswp-rd1-athr-img img{
   float: left;
   max-width: 56px;
@@ -222,6 +228,7 @@
 }
 .saswp-rd1-athr-nm{
   width:100%;
+  margin-right: 25px;
 }
 .saswp-rd1-cnt{
   position: static;
@@ -395,9 +402,14 @@
   grid-template-columns:1fr 1fr 1fr 1fr;
   grid-gap: 30px;
   list-style-type:none;
+  margin:0;
+  /*overflow-x: scroll;*/
 }
+
 .saswp-rd3-warp li{
   box-shadow: 0 2px 5px 0 rgba(0,0,0,.26);
+  margin:0;
+  font-family: sans-serif;
 }
 .saswp-rd3-warp li a{
   text-decoration:none;
@@ -420,7 +432,7 @@
     line-height: 0px;
 }
 .saswp-rv-lg-txt h4{
-  margin:0;
+  margin:0 !important;
   font-size:22px;
   line-height:1.4;
   color:#333;
@@ -445,6 +457,7 @@
   color: #666;
   margin-right: 10px;
   font-size: 20px;
+  width:30px;
 }
 .saswp-bsd-rv{
   color: #999;
@@ -547,7 +560,7 @@
   padding:0;
 }
 .saswp-open-class.saswp-popup-btn{
-  width:500px;
+  width:300px;
 }
 #saswp-reviews-cntn {
     display:none;    
@@ -963,4 +976,39 @@ span.saswp-mines{
     .wp-admin .saswp-collection-settings select{
         max-width:100%;
     }
+    .saswp-rd1-warp ul, .saswp-rd3-warp ul{
+      grid-template-columns: 1fr !important;
+    }
+    .saswp-rd1-athr-nm{
+      margin:0px;
+    }
+    .saswp-collection-slider-type .saswp-slider-items-container .saswp-slider-item, .saswp-collection-slider-type .saswp-collection-slider {
+      max-width: 500px;
+    }
+    .saswp-rd1-data .saswp-rd1-rv-lg {
+      right: 0;
+    }
+
+
 }
+
+
+@media(max-width:550px){
+    .saswp-collection-slider-type .saswp-slider-items-container .saswp-slider-item, .saswp-collection-slider-type .saswp-collection-slider {
+      max-width: 320px;
+    }
+    .saswp-open-class.saswp-popup-btn{
+      width:93vw !important;
+    }
+
+}
+
+@media(max-width:320px){
+.saswp-collection-slider-type .saswp-slider-items-container .saswp-slider-item, .saswp-collection-slider-type .saswp-collection-slider {
+      max-width: 295px;
+    }
+    .saswp-fomo-wrap {
+      left: 10px;
+    }
+
+  }

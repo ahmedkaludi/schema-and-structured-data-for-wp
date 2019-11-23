@@ -127,3 +127,23 @@ span.saswp-mines{
   top: 10px;
 }
 
+@media(max-width:500px){
+  .open-class.btn {
+    width: 93vw;
+    left: 15px;
+  }
+  .btn{width:90%;}
+}
+
+@media(max-width:320px){
+  .btn{
+    width:90%;
+    left:15px;
+  }
+  .open-class.btn {
+    width: 90vw;
+  }
+  .saswp-fomo-wrap {
+    left: 10px;
+  }
+}
