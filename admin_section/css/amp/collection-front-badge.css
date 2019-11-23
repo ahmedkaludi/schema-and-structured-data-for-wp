@@ -9,6 +9,12 @@
 .saswp-rd3-warp li{
   box-shadow: 0 2px 5px 0 rgba(0,0,0,.26);
 }
+.artl-cnt .saswp-rd3-warp li{
+  padding:0px;
+}
+.artl-cnt .saswp-rd3-warp li:before{
+  display:none;
+}
 .saswp-rd3-warp li a{
   text-decoration:none;
 }
@@ -54,6 +60,7 @@
   color: #666;
   margin-right: 10px;
   font-size: 20px;
+  width:30px;
 }
 
 @media(max-width:800px){

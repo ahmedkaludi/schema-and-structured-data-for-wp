@@ -49,6 +49,9 @@
   border-bottom:1px solid #ccc;
   padding:20px;
 }
+.artl-cnt .saswp-reviews-info li:before{
+  display:none;
+}
 .saswp-rvws-dta{
   display: flex;
   align-items: center;

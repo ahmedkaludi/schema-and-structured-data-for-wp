@@ -475,14 +475,16 @@
   background: #fff;
   border: 1px solid #ddd;
   transition: all .3s ease-in;
-  //display: none;
+  display: none;
+  z-index:9;
   margin:0 !important;
+  box-shadow: 0 0 7px 4px rgba(0,0,0,.15);
 }
 .saswp-fomo-reviews .saswp-str-rtng .saswp-rvw-str{
-    padding-left:0px;
-    margin-bottom: 6px;
-    line-height: 0;
-    display: block;
+  padding-left:0px;
+  margin-bottom: 6px;
+  line-height: 0;
+  display: block;
 }
 .saswp-fomo-reviews{
   display: flex;
@@ -491,7 +493,6 @@
   align-items: center;
   height:80px;
   border-radius: 12px;
-  box-shadow: 0 0 7px -4px rgba(0,0,0,.15);
 }
 .saswp-fomo-reviews .saswp-frv-lg span{
   border-radius: 10px 0px 0px 10px;
@@ -500,6 +501,7 @@
   position: relative;
   top: 6px;
   left: 4px;
+  border-radius: 10px 0px 0px 10px;
 }
 .saswp-str-rtng{
   flex:1 0 60%;

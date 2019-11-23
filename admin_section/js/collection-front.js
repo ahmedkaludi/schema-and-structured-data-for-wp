@@ -147,7 +147,7 @@ jQuery(document).ready(function($){
     
     var elems = $(".saswp-fomo-wrap");
     var i = 1;
-    //saswp_fomo_fade(elems[0])
+    saswp_fomo_fade(elems[0])
 
     function saswp_fomo_fade(elem) {
         if (i > elems.length - 1) {
