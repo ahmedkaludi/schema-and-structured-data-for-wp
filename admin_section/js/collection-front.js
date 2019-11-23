@@ -10,7 +10,7 @@ function saswpCollectionSlider(){
 		}
 		
 		function setWidth(){
-			var totalWidth = 0
+			var totalWidth = 0;
 			
 			jQuery($itemscontainer).find(".saswp-slider-item").each( function(){
 				totalWidth += jQuery(this).outerWidth();

@@ -435,7 +435,7 @@
 		wp_send_json(
 			array(
 				'done' => 1,
-				'message' => "Stored Successfully",
+				'message' => esc_html__( 'Stored Successfully', 'schema-and-structured-data-for-wp' ),
 			)
 		);
 	}
@@ -697,7 +697,7 @@ function saswp_general_setting_fields_callback(){
             $about_page   = '<li class="saswp_fields">
 			    <label>'.esc_html__('About', 'schema-and-structured-data-for-wp').'</label>	                                                            
                             <select name="sd_data[sd_about_page]" id="sd_about_page-select">
-                            <option value="">Select an item</option>    
+                            <option value="">'.esc_html__( 'Select an item', 'schema-and-structured-data-for-wp' ).'</option>    
                             '.$about_page.'
                             </select>                            	                                
                           </li>';            
@@ -708,7 +708,7 @@ function saswp_general_setting_fields_callback(){
             $contact_page   = '<li class="saswp_fields">
 			    <label>'.esc_html__('Contact', 'schema-and-structured-data-for-wp').'</label>	                                                            
                             <select name="sd_data[sd_contact_page]" id="sd_contact_page-select">
-                            <option value="">Select an item</option>
+                            <option value="">'.esc_html__( 'Select an item', 'schema-and-structured-data-for-wp' ).'</option>
                             '.$contact_page.'
                             </select>                            	                                
                           </li>';            

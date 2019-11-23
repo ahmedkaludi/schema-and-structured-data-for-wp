@@ -78,18 +78,6 @@ class SASWP_Reviews_Collection {
             
         }
         
-        public function saswp_restore_amp_script_tags($buffer){
-            
-           $buffer = preg_replace('/saswp-amp-script/', '<amp-script src="'.str_replace('http:','https:',SASWP_PLUGIN_URL).'/admin_section/js/amp/collection-front.js">' , $buffer);
-           $buffer = preg_replace('/saswp-amp-close-script/', '</amp-script>' , $buffer);
-            
-           return $buffer;
-        }
-
-        public function saswp_reviews_collection_head(){
-            
-           
-        }
         public function saswp_reviews_collection_amp_script($data){
             
             $design = $this->_service->saswp_collection_desing_available();
@@ -419,8 +407,7 @@ class SASWP_Reviews_Collection {
                                 <input type="text" value="<?php if(get_the_title($post_id) == 'Auto Draft'){ echo 'Untitled'; }else{ echo get_the_title($post_id); } ?>" id="saswp_collection_title" name="saswp_collection_title">
                             </div>
                             <span class="spinner saswp-spinner"></span>
-                            <div class="saswp-collection-preview">
-                                
+                            <div class="saswp-collection-preview">                                
                                 <!-- Collections html will be loaded on ajax call -->
                             </div>
                         </div><!-- /.saswp-collection-lp --> 
