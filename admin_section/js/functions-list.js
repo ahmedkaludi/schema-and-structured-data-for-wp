@@ -124,32 +124,27 @@
          jQuery('.saswp-timepicker').timepicker({ 'timeFormat': 'H:i:s'});
         }
         
-       function saswp_item_reviewed_call(){
-
-        jQuery(".saswp-item-reviewed").change(function(e){
-        e.preventDefault();
-        var schema_type =""; 
-
-        if(jQuery('select#schema_type option:selected').val()){
-           schema_type = jQuery('select#schema_type option:selected').val();    
-        }       
-        if(jQuery(".saswp-tab-links.selected").attr('saswp-schema-type')){
-           schema_type = jQuery(".saswp-tab-links.selected").attr('saswp-schema-type');    
-        }
-
-        if(schema_type === 'Review'){
-
-                    var current = jQuery(this);    
-                    var item    = jQuery(this).val();
-                    var post_id = saswp_localize_data.post_id;
-                    var schema_id = jQuery(current).attr('data-id');  
+        
+       function saswp_item_reviewed_ajax(schema_type, current, manual = null){
+                               
+                    var item          = current.val();
+                    var post_id       = saswp_localize_data.post_id;
+                    var schema_id     = jQuery(current).attr('data-id');  
                     var post_specific = jQuery(current).attr('post-specific');  
+                    var append_id     = '';
+                    
+                    if(manual == null){
+                        append_id     = jQuery("#saswp_specific_"+schema_id);
+                    }else{
+                        append_id     = jQuery(".saswp-manual-modification");
+                    }
+                    
                      jQuery.get(ajaxurl, 
-                         { action:"saswp_get_item_reviewed_fields",schema_id:schema_id,  post_specific:post_specific ,item:item, post_id:post_id, saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
+                         { action:"saswp_get_item_reviewed_fields",schema_type:schema_type,schema_id:schema_id,  post_specific:post_specific ,item:item, post_id:post_id, saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
                           function(response){    
                             
-                            jQuery("#saswp_specific_"+schema_id).find(".saswp-table-create-onajax").remove();   
-                            var onload_class = jQuery("#saswp_specific_"+schema_id).find(".saswp-table-create-onload");
+                            jQuery(append_id).find(".saswp-table-create-onajax").remove();   
+                            var onload_class = jQuery(append_id).find(".saswp-table-create-onload");
                             
                             jQuery.each(onload_class, function(key, val){
                                 if(key != 0){
@@ -157,12 +152,31 @@
                                 }
                                 
                             });
-                            jQuery("#saswp_specific_"+schema_id).append(response);
+                            jQuery(append_id).append(response);
                             saswp_schema_datepicker();
                             saswp_schema_timepicker();
 
                          });
+           
+       } 
+        
+       function saswp_item_reviewed_call(){
 
+        jQuery(".saswp-item-reviewed").change(function(e){
+        e.preventDefault();
+        var schema_type = ""; 
+
+        if(jQuery('select#schema_type option:selected').val()){
+           schema_type = jQuery('select#schema_type option:selected').val();    
+        }       
+        if(jQuery(".saswp-tab-links.selected").attr('saswp-schema-type')){
+           schema_type = jQuery(".saswp-tab-links.selected").attr('saswp-schema-type');    
+        }
+        
+        if(schema_type === 'Review'){
+            var current = $(this);
+            saswp_item_reviewed_ajax(schema_type, current);
+                    
         }
 
 

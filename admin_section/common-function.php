@@ -2516,11 +2516,10 @@ function saswp_uninstall_single($blog_id = null){
             $query = "SELECT ID FROM " . $wpdb->posts;
             $all_post_id   = $wpdb->get_results($query, ARRAY_A );
             $all_post_id   = wp_list_pluck( $all_post_id, 'ID' );              
-            $post_specific = new saswp_post_specific();
-            
+                        
             foreach($post_ids as $post_id){
                 
-               $meta_fields = $post_specific->saswp_get_fields_by_schema_type($post_id); 
+               $meta_fields = saswp_get_fields_by_schema_type($post_id); 
                $meta_fields = wp_list_pluck( $meta_fields, 'id' );
                
                foreach ($meta_fields as $meta_key){                   
@@ -2711,4 +2710,11 @@ function saswp_https( $url ) {
                         
     return str_replace( 'http://', 'https://', $url );            
                 	
+}
+
+function saswp_remove_unwanted_metabox(){
+    
+    global $wp_meta_boxes;    
+    $wp_meta_boxes = array();
+    return $wp_meta_boxes;
 }

@@ -12,8 +12,9 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 /**
  * List of hooks used in this file
  */
+add_action( 'wp_ajax_saswp_get_manual_fields_on_ajax', 'saswp_get_manual_fields_on_ajax' ) ;
 add_action( 'save_post', 'saswp_schema_type_add_meta_box_save' ) ;
-add_action( 'add_meta_boxes', 'saswp_schema_type_add_meta_box' ) ;
+add_action( 'add_meta_boxes', 'saswp_schema_type_add_meta_box',99 ) ;
 
 /**
  * Register a schema type metabox
@@ -22,7 +23,7 @@ add_action( 'add_meta_boxes', 'saswp_schema_type_add_meta_box' ) ;
  * 
  */
 function saswp_schema_type_add_meta_box() {
-
+   // saswp_remove_unwanted_metabox();
     add_meta_box(
             'schema_type',
             esc_html__( 'Schema Type', 'schema-and-structured-data-for-wp' ),
@@ -67,7 +68,6 @@ function saswp_migrate_global_static_data($schema_type){
             return $meta_list;
 }
 
-
 /**
  * Function to generate html markup for schema type metabox
  * @param type $post
@@ -92,12 +92,6 @@ function saswp_schema_type_meta_box_callback( $post) {
                     $append_reviews      = '';  
                     $event_type          = '';
 
-                    $business_details    = array();
-                    $logo                = array();
-                    $service_details     = array();
-                    $review_details      = array();        
-                    $event_details       = array();
-                
                     if($post){
             
                         $schema_options    = get_post_meta($post->ID, 'schema_options', true);            
@@ -108,172 +102,14 @@ function saswp_schema_type_meta_box_callback( $post) {
                         $cus_field         = get_post_meta($post->ID, 'saswp_custom_meta_field', true); 
                         $schema_type       = get_post_meta($post->ID, 'schema_type', true);     
                         $append_reviews    = get_post_meta($post->ID, 'saswp_enable_append_reviews', true);
-
-                        switch ($schema_type) {
-
-                            case 'AudioObject':
-
-                                $audio_details    = get_post_meta($post->ID, 'saswp_audio_schema_details', true);  
-
-                                if($audio_details){
-
-                                    $meta_list = saswp_migrate_global_static_data($schema_type);                        
-                                    $fixed_text  = $audio_details;
-                                    $schema_options['enable_custom_field'] = 1;
-                                                                        
-                                    update_post_meta( $post->ID, 'schema_options', $schema_options);                 
-                                    update_post_meta( $post->ID, 'saswp_meta_list_val', $meta_list);
-                                    update_post_meta( $post->ID, 'saswp_fixed_text', $fixed_text);                                    
-                                    
-                                }
-
-                                break;
-
-                            case 'SoftwareApplication':
-
-                                $software_details    = get_post_meta($post->ID, 'saswp_software_schema_details', true);    
-
-                                if($software_details){
-
-                                    $meta_list   = saswp_migrate_global_static_data($schema_type);                             
-                                    $fixed_text  = $software_details;
-                                    $schema_options = array();
-                                    $schema_options['enable_custom_field'] = 1;     
-                                    
-                                    update_post_meta( $post->ID, 'schema_options', $schema_options);                 
-                                    update_post_meta( $post->ID, 'saswp_meta_list_val', $meta_list);
-                                    update_post_meta( $post->ID, 'saswp_fixed_text', $fixed_text);                                    
-                                }
-
-                                break;
-
-                            case 'Service':
-
-                                $service_details  = get_post_meta($post->ID, 'saswp_service_schema_details', true);
-
-                                if($service_details){
-
-                                    $meta_list   = saswp_migrate_global_static_data($schema_type);   
-
-                                    foreach($service_details as $key => $details){
-
-                                        if(is_array($details)){                                
-                                            $service_details[$key] = array_key_exists('url', $details)? $details['url'] : '';
-                                        }else{
-                                            $service_details[$key] = $details;
-                                        }                            
-                                    }
-
-                                    $fixed_text  = $service_details;
-                                    $schema_options = array();
-                                    $schema_options['enable_custom_field'] = 1; 
-                                    
-                                    update_post_meta( $post->ID, 'schema_options', $schema_options);                 
-                                    update_post_meta( $post->ID, 'saswp_meta_list_val', $meta_list);
-                                    update_post_meta( $post->ID, 'saswp_fixed_text', $fixed_text);                                    
-                                }
-
-                                break;    
-
-                            case 'local_business':
-
-                                $business_type    = get_post_meta($post->ID, 'saswp_business_type', true); 
-                                $business_name    = get_post_meta($post->ID, 'saswp_business_name', true); 
-                                $business_details = get_post_meta($post->ID, 'saswp_local_business_details', true);                                                 
-                                $dayoftheweek     = get_post_meta($post->ID, 'saswp_dayofweek', true);
-
-                                if($business_details){
-
-                                    $meta_list   = saswp_migrate_global_static_data($schema_type);   
-
-                                    foreach($business_details as $key => $details){
-
-                                        if(is_array($details)){                                
-                                            $business_details[$key] = array_key_exists('url', $details)? $details['url'] : '';
-                                        }else{
-                                            $business_details[$key] = $details;
-                                        }                            
-                                    }
-
-                                    $fixed_text  = $business_details;
-                                    $schema_options = array();
-                                    $schema_options['enable_custom_field'] = 1; 
-                                    
-                                    update_post_meta( $post->ID, 'schema_options', $schema_options);                 
-                                    update_post_meta( $post->ID, 'saswp_meta_list_val', $meta_list);
-                                    update_post_meta( $post->ID, 'saswp_fixed_text', $fixed_text);                                    
-                                }
-
-                                break;
-
-                            case 'Review':
-
-                                $review_details   = get_post_meta($post->ID, 'saswp_review_schema_details', true);                              
-
-                                if(count($review_details) > 1){
-
-                                    $meta_list     = saswp_migrate_global_static_data($schema_type); 
-
-                                    foreach($review_details as $key => $details){
-
-                                        if(is_array($details)){                                
-                                            $review_details[$key] = array_key_exists('url', $details)? $details['url'] : '';
-                                        }else{
-                                            $review_details[$key] = $details;
-                                        }                            
-                                    }
-
-                                    $fixed_text     = $review_details;
-                                    $schema_options = array();
-                                    $schema_options['enable_custom_field'] = 1; 
-                                    
-                                    update_post_meta( $post->ID, 'schema_options', $schema_options);                 
-                                    update_post_meta( $post->ID, 'saswp_meta_list_val', $meta_list);
-                                    update_post_meta( $post->ID, 'saswp_fixed_text', $fixed_text);                                    
-                                }
-
-                                break;
-
-                            case 'Event':
-
-                                $event_details   = get_post_meta($post->ID, 'saswp_event_schema_details', true);
-                                $event_type      = get_post_meta($post->ID, 'saswp_event_type', true); 
-
-                                if($event_details){
-
-                                    $meta_list   = saswp_migrate_global_static_data($schema_type);  
-
-                                    foreach($event_details as $key => $details){
-
-                                        if(is_array($details)){                                    
-                                            $event_details[$key] = array_key_exists('url', $details)? $details['url'] : '';
-                                        }else{
-                                            $event_details[$key] = $details;
-                                        }                            
-                                    }
-
-                                    $fixed_text  = $event_details;
-                                    $schema_options = array();
-                                    $schema_options['enable_custom_field'] = 1;
-                                    
-                                    update_post_meta( $post->ID, 'schema_options', $schema_options);                 
-                                    update_post_meta( $post->ID, 'saswp_meta_list_val', $meta_list);
-                                    update_post_meta( $post->ID, 'saswp_fixed_text', $fixed_text);                                    
-
-                                }
-
-                                break;
-
-                            default:
-
-                                $speakable            = get_post_meta($post->ID, 'saswp_enable_speakable_schema', true);
-                                $item_list_enable     = get_post_meta($post->ID, 'saswp_enable_itemlist_schema', true);
-                                $item_list_tags       = get_post_meta($post->ID, 'saswp_item_list_tags', true);
-                                $item_list_custom     = get_post_meta($post->ID, 'saswp_item_list_custom', true);
-
-                                break;
-                        }    
-
+                        
+                        $speakable         = get_post_meta($post->ID, 'saswp_enable_speakable_schema', true);
+                        $item_list_enable  = get_post_meta($post->ID, 'saswp_enable_itemlist_schema', true);
+                        $item_list_tags    = get_post_meta($post->ID, 'saswp_item_list_tags', true);
+                        $item_list_custom  = get_post_meta($post->ID, 'saswp_item_list_custom', true);
+                        $business_type     = get_post_meta($post->ID, 'saswp_business_type', true);
+                        $business_name     = get_post_meta($post->ID, 'saswp_business_name', true);
+                                                                         
                         $custom_logo_id   = get_theme_mod( 'custom_logo' );
 
                         if($custom_logo_id){
@@ -433,7 +269,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                 <tr class="saswp-automotivebusiness-tr" <?php if(!array_key_exists($business_name, $all_automotive_array)){ echo 'style="display:none;"';}else{ echo $style_business_name;} ?>>
                     <td><?php echo esc_html__('Sub Business Type', 'schema-and-structured-data-for-wp' ); ?></td>
                     <td>
-                        <select id="saswp_automotive" name="saswp_business_name">
+                        <select class="saswp-local-sub-type-2" id="saswp_automotive" name="saswp_business_name">
                             
                         <?php
                           foreach ($all_automotive_array as $key => $value) {
@@ -452,7 +288,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                 <tr class="saswp-emergencyservice-tr" <?php if(!array_key_exists($business_name, $all_emergency_array)){ echo 'style="display:none;"';}else{ echo $style_business_name;} ?>>
                 <td><?php echo esc_html__('Sub Business Type', 'schema-and-structured-data-for-wp' ); ?></td>    
                 <td>
-                    <select id="saswp_emergency_service" name="saswp_business_name">
+                    <select class="saswp-local-sub-type-2" id="saswp_emergency_service" name="saswp_business_name">
                         <?php
 
                           foreach ($all_emergency_array as $key => $value) {
@@ -469,7 +305,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                 <tr class="saswp-entertainmentbusiness-tr" <?php if(!array_key_exists($business_name, $all_entertainment_array)){ echo 'style="display:none;"';}else{ echo $style_business_name;} ?>>
                 <td><?php echo esc_html__('Sub Business Type', 'schema-and-structured-data-for-wp' ); ?></td>    
                 <td>
-                    <select id="saswp_entertainment" name="saswp_business_name">
+                    <select class="saswp-local-sub-type-2" id="saswp_entertainment" name="saswp_business_name">
                         <?php
 
                           foreach ($all_entertainment_array as $key => $value) {
@@ -487,7 +323,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                 <tr class="saswp-medicalbusiness-tr" <?php if(!array_key_exists($business_name, $all_medical_business_array)){ echo 'style="display:none;"';}else{ echo $style_business_name;} ?>>
                 <td><?php echo esc_html__('Sub Business Type', 'schema-and-structured-data-for-wp' ); ?></td>    
                 <td>
-                    <select id="saswp_medicalbusiness" name="saswp_business_name">
+                    <select class="saswp-local-sub-type-2" id="saswp_medicalbusiness" name="saswp_business_name">
                         <?php
 
                           foreach ($all_medical_business_array as $key => $value) {
@@ -505,7 +341,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                 <tr class="saswp-financialservice-tr" <?php if(!array_key_exists($business_name, $all_financial_array)){ echo 'style="display:none;"';}else{ echo $style_business_name;} ?>>
                 <td><?php echo esc_html__('Sub Business Type', 'schema-and-structured-data-for-wp' ); ?></td>    
                 <td>
-                    <select id="saswp_financial_service" name="saswp_business_name">
+                    <select class="saswp-local-sub-type-2" id="saswp_financial_service" name="saswp_business_name">
                         <?php
                           foreach ($all_financial_array as $key => $value) {
                             $sel = '';
@@ -521,7 +357,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                 <tr class="saswp-foodestablishment-tr" <?php if(!array_key_exists($business_name, $all_food_establishment_array)){ echo 'style="display:none;"';}else{ echo $style_business_name;} ?>>
                 <td><?php echo esc_html__('Sub Business Type', 'schema-and-structured-data-for-wp' ); ?></td>  
                 <td>
-                    <select id="saswp_food_establishment" name="saswp_business_name">                        
+                    <select class="saswp-local-sub-type-2" id="saswp_food_establishment" name="saswp_business_name">                        
                         <?php
                           foreach ($all_food_establishment_array as $key => $value) {
                             $sel = '';
@@ -537,7 +373,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                 <tr class="saswp-healthandbeautybusiness-tr" <?php if(!array_key_exists($business_name, $all_health_and_beauty_array)){ echo 'style="display:none;"';}else{ echo $style_business_name;} ?>>
                 <td><?php echo esc_html__('Sub Business Type', 'schema-and-structured-data-for-wp' ); ?></td>   
                 <td>
-                    <select id="saswp_health_and_beauty" name="saswp_business_name">
+                    <select class="saswp-local-sub-type-2" id="saswp_health_and_beauty" name="saswp_business_name">
                         <?php
 
 
@@ -555,7 +391,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                 <tr class="saswp-homeandconstructionbusiness-tr" <?php if(!array_key_exists($business_name, $all_home_and_construction_array)){ echo 'style="display:none;"';}else{ echo $style_business_name;} ?>>
                 <td><?php echo esc_html__('Sub Business Type', 'schema-and-structured-data-for-wp' ); ?></td>
                 <td>
-                    <select id="saswp_home_and_construction" name="saswp_business_name">
+                    <select class="saswp-local-sub-type-2" id="saswp_home_and_construction" name="saswp_business_name">
                         <?php
 
                           foreach ($all_home_and_construction_array as $key => $value) {
@@ -572,7 +408,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                 <tr class="saswp-legalservice-tr" <?php if(!array_key_exists($business_name, $all_legal_service_array)){ echo 'style="display:none;"';}else{ echo $style_business_name;} ?>>
                 <td><?php echo esc_html__('Sub Business Type', 'schema-and-structured-data-for-wp' ); ?></td>
                 <td>
-                    <select id="saswp_legal_service" name="saswp_business_name">
+                    <select class="saswp-local-sub-type-2" id="saswp_legal_service" name="saswp_business_name">
                         <?php
 
                           foreach ($all_legal_service_array as $key => $value) {
@@ -589,7 +425,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                 <tr class="saswp-lodgingbusiness-tr" <?php if(!array_key_exists($business_name, $all_lodging_array)){ echo 'style="display:none;"';}else{ echo $style_business_name;} ?>>
                 <td><?php echo esc_html__('Sub Business Type', 'schema-and-structured-data-for-wp' ); ?></td>
                 <td>
-                    <select id="saswp_lodging" name="saswp_business_name">
+                    <select class="saswp-local-sub-type-2" id="saswp_lodging" name="saswp_business_name">
                         <?php
 
                           foreach ($all_lodging_array as $key => $value) {
@@ -606,7 +442,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                 <tr class="saswp-sportsactivitylocation-tr" <?php if(!array_key_exists($business_name, $all_sports_activity_location)){ echo 'style="display:none;"';}else{ echo $style_business_name;} ?>>
                 <td><?php echo esc_html__('Sub Business Type', 'schema-and-structured-data-for-wp' ); ?></td>
                 <td>
-                    <select id="saswp_sports_activity_location" name="saswp_business_name">
+                    <select class="saswp-local-sub-type-2" id="saswp_sports_activity_location" name="saswp_business_name">
                         <?php
 
                           foreach ($all_sports_activity_location as $key => $value) {
@@ -623,7 +459,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                 <tr class="saswp-store-tr" <?php if(!array_key_exists($business_name, $all_store)){ echo 'style="display:none;"';}else{ echo $style_business_name;} ?>>
                 <td><?php echo esc_html__('Sub Business Type', 'schema-and-structured-data-for-wp' ); ?></td>    
                 <td>
-                    <select id="saswp_store" name="saswp_business_name">
+                    <select class="saswp-local-sub-type-2" id="saswp_store" name="saswp_business_name">
                         <?php
 
 
@@ -644,11 +480,13 @@ function saswp_schema_type_meta_box_callback( $post) {
                     <td><?php echo esc_html__('Item Reviewed Type', 'schema-and-structured-data-for-wp' ); ?></td>
                     <td>
 
-                        <select data-id="<?php if(is_object($post)){ echo esc_attr($post->ID); }  ?>" name="saswp_review_schema_item_type" class="saswp-item-reivewed-list">
-                        <?php                                
+                        <select data-id="<?php if(is_object($post)){ echo esc_attr($post->ID); }  ?>" name="saswp_review_item_reviewed_<?php echo $post->ID; ?>" class="saswp-item-reivewed-list">
+                        <?php
+                        
+                          $item = get_post_meta($post->ID, 'saswp_review_item_reviewed_'.$post->ID, true);                                                                                        
                           foreach ($item_reviewed as $key => $value) {
                             $sel = '';
-                            if(saswp_remove_warnings($review_details, 'saswp_review_schema_item_type', 'saswp_string')==$key){
+                            if($item == $key){
                               $sel = 'selected';
                             }
                             echo "<option value='".esc_attr($key)."' ".esc_attr($sel).">".esc_html__($value, 'schema-and-structured-data-for-wp' )."</option>";
@@ -737,13 +575,25 @@ function saswp_schema_type_meta_box_callback( $post) {
                 <!-- custom fields for schema output starts here -->
                               
                 <table class="option-table-class saswp_modify_schema_checkbox">
-                        <tr><td><label><?php echo esc_html__( 'Modify Schema Output', 'schema-and-structured-data-for-wp' ) ?></label></td><td><input type="checkbox" id="saswp_enable_custom_field" name="saswp_enable_custom_field" value="1" <?php if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field']==1){echo 'checked'; }?>></td></tr>   
+                    <tr>
+                        <td>    
+                            <strong><?php echo esc_html__( 'Modify Schema Output', 'schema-and-structured-data-for-wp' ) ?></strong>
+                            <div class="saswp-enable-modify-schema">                              
+                                <input type="radio" name="saswp_enable_custom_field" value="automatic" <?php echo ((isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] == 'automatic') ? 'checked':''); ?>>  <?php echo esc_html__( 'Automatic', 'schema-and-structured-data-for-wp' ) ?>
+                                <input type="radio" name="saswp_enable_custom_field" value="manual" <?php echo ((isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] == 'manual') ? 'checked':''); ?>>  <?php echo esc_html__( 'Manual', 'schema-and-structured-data-for-wp' ) ?>                                                           
+                            </div>                                                        
+                        </td>
+                    </tr>   
                 </table>  
-                   <div class="saswp-custom-fields-div" <?php if(!isset($schema_options['enable_custom_field']) || $schema_options['enable_custom_field'] ==0){echo 'style="display:none;"'; }?>>
+                
+                <div class="saswp-modify-container">
+                   
+                    <div class="saswp-dynamic-container <?php echo ((isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] == 'automatic') ? '':'saswp_hide'); ?>">
+                        
+                       <div class="saswp-custom-fields-div">
                        <table class="saswp-custom-fields-table">
                            
-                        <?php 
-                        
+                        <?php                         
                         if(!empty($meta_list)){  
                             
                             $review_fields = array();                            
@@ -753,8 +603,8 @@ function saswp_schema_type_meta_box_callback( $post) {
                             
                             if($schema_type == 'Review'){
                                 
-                                $review_post_meta = get_post_meta($post->ID, 'saswp_review_schema_details', true);                                                                
-                                $schema_type = $review_post_meta['saswp_review_schema_item_type'];
+                                $item_reviewed = get_post_meta($post->ID, 'saswp_review_item_reviewed_'.$post->ID, true);                                                                
+                                $schema_type   = $item_reviewed;
                                 
                                 $review_fields['saswp_review_name']           = 'Review Name';
                                 $review_fields['saswp_review_description']    = 'Review Description';                                
@@ -931,8 +781,45 @@ function saswp_schema_type_meta_box_callback( $post) {
                        <tr><td><a class="button button-primary saswp-add-custom-fields"><?php echo esc_html__( 'Modify', 'schema-and-structured-data-for-wp' ); ?></a></td><td></td></tr>   
                    </table>
                        
-                   </div>                   
-                  
+                   </div> 
+                        
+                    </div>
+                    
+                    <div class="saswp-static-container <?php echo ((isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] == 'manual') ? '':'saswp_hide'); ?>">
+                        
+                        <div class="saswp-manual-modification">
+                        
+                            <?php                        
+                        
+                                $output = '';
+                                $common_obj = new saswp_view_common_class();
+                                
+                                $schema_type    = get_post_meta($post->ID, 'schema_type', true);
+
+                                $schema_fields = saswp_get_fields_by_schema_type($post->ID, null, $schema_type, 'manual');
+                                $output = $common_obj->saswp_saswp_post_specific($schema_type, $schema_fields, $post->ID, $post->ID);
+                                
+                                if($schema_type == 'Review'){
+                                                                        
+                                    $item_reviewed     = get_post_meta($post->ID, 'saswp_review_item_reviewed_'.$post->ID, true);                         
+                                    if(!$item_reviewed){
+                                        $item_reviewed = 'Book';
+                                    }
+                                    $response          = saswp_get_fields_by_schema_type($post->ID, null, $item_reviewed);                                                                                                        
+                                    $output           .= $common_obj->saswp_saswp_post_specific($schema_type, $response, $post->ID, $post->ID ,$item_reviewed);
+
+                                }
+                                                                
+                                echo $output;
+                                
+                                                        
+                            ?>
+                            
+                        </div>
+                        <span class="spinner"></span>
+                    </div>
+                    
+                </div>
                 
                <!-- custom fields for schema output ends here -->
                 
@@ -941,6 +828,29 @@ function saswp_schema_type_meta_box_callback( $post) {
         </div>
             <?php
 } 
+
+function saswp_get_manual_fields_on_ajax(){
+    
+            if ( ! isset( $_GET['saswp_security_nonce'] ) ){
+                return; 
+            }
+            if ( !wp_verify_nonce( $_GET['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
+               return;  
+            } 
+            $output      = '';
+            $post_id     = intval($_GET['post_id']);
+            $schema_type = sanitize_text_field($_GET['schema_type']);
+        
+            $common_obj = new saswp_view_common_class();
+
+            $schema_fields = saswp_get_fields_by_schema_type($post_id, null, $schema_type, 'manual');
+            
+            $output = $common_obj->saswp_saswp_post_specific($schema_type, $schema_fields, $post_id, $post_id);
+            
+            echo $output;
+
+            wp_die();        
+}
 /**
  * Function to save schema type metabox value
  * @param type $post_id
@@ -958,30 +868,22 @@ function saswp_schema_type_add_meta_box_save( $post_id ) {
                 update_post_meta( $post_id, 'saswp_business_type', sanitize_text_field( $_POST['saswp_business_type'] ) );
                 update_post_meta( $post_id, 'saswp_event_type', sanitize_text_field( $_POST['saswp_event_type'] ) );
                 update_post_meta( $post_id, 'saswp_business_name', sanitize_text_field( $_POST['saswp_business_name'] ) );
-                                               
-                $review_schema_details     = array();                                                                
-                $schema_type               = sanitize_text_field($_POST['schema_type']);   
-                                                
-                update_post_meta( $post_id, 'saswp_audio_schema_details', array());
-                update_post_meta( $post_id, 'saswp_software_schema_details', array());
-                update_post_meta( $post_id, 'saswp_service_schema_details', array());
-                update_post_meta( $post_id, 'saswp_local_business_details', array());
-                update_post_meta( $post_id, 'saswp_dayofweek', array());
-                update_post_meta( $post_id, 'saswp_event_schema_details', array());
-               
-                if($schema_type == 'Review'){
-                                                                                                                        
-                    $review_schema_details['saswp_review_schema_item_type'] = sanitize_text_field($_POST['saswp_review_schema_item_type']);                                                               
-                    update_post_meta( $post_id, 'saswp_review_schema_details', $review_schema_details);
-                                                           
-                }
-                    
+                                                                                                                   
                 update_post_meta( $post_id, 'saswp_enable_speakable_schema', intval($_POST['saswp_enable_speakable_schema']) );                                                                       
                 update_post_meta( $post_id, 'saswp_enable_append_reviews', intval($_POST['saswp_enable_append_reviews']) );                                                                       
                 
                 update_post_meta( $post_id, 'saswp_enable_itemlist_schema', intval($_POST['saswp_enable_itemlist_schema']) );                                                                       
                 update_post_meta( $post_id, 'saswp_item_list_tags', sanitize_text_field($_POST['saswp_item_list_tags']) );                                                                       
                 update_post_meta( $post_id, 'saswp_item_list_custom', sanitize_text_field($_POST['saswp_item_list_custom']) );                                                                       
+                update_post_meta( $post_id, 'saswp_review_item_reviewed_'.$post_id, sanitize_text_field($_POST['saswp_review_item_reviewed_'.$post_id]) );                                                                       
+                                
+                $common_obj = new saswp_view_common_class();
+                
+                $post_obj[] = (object) array(
+                    'ID' => $post_id
+                );
+                
+                $common_obj->saswp_save_common_view($post_id, $post_obj);
                                               
         }           
 

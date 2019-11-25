@@ -238,10 +238,12 @@ window.history.pushState("", "", href);
 return false;
 });     
 
-    $(".saswp-schame-type-select").change(function(){
+    $(".saswp-schame-type-select").change(function(e){
+        
+        e.preventDefault();                        
         $(".saswp-custom-fields-table").html('');
-        var schematype = $(this).val(); 
-
+        var schematype = $(this).val();                 
+        
        $(".saswp-option-table-class tr").each(function(index,value){                
            if(index>0){
                $(this).hide(); 
@@ -296,10 +298,27 @@ return false;
          }
          if(schematype == 'Review'){            
          $(".saswp-review-text-field-tr").show();  
-         $(".saswp-option-table-class tr").find('select').attr('disabled', false);
-         saswp_item_reviewed_call();
+         $(".saswp-option-table-class tr").find('select').attr('disabled', false); 
+         $(".saswp-item-reivewed-list").change();
          }                                                 
          saswp_enable_rating_review();
+            
+        $(".saswp-manual-modification").html('');    
+        $('.saswp-static-container .spinner').addClass('is-active');
+        $.get(ajaxurl, 
+            { action:"saswp_get_manual_fields_on_ajax", schema_type:schematype, post_id: saswp_localize_data.post_id,saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
+             function(response){   
+
+              $('.saswp-static-container .spinner').removeClass('is-active');              
+              $(".saswp-manual-modification").append(response);
+              
+                               saswp_schema_datepicker();
+                               saswp_schema_timepicker();
+                               
+                               saswp_item_reviewed_call();
+              
+            });
+                  
     }); 
 
     $("#saswp_business_type").change(function(){
@@ -309,7 +328,7 @@ return false;
            $(".saswp-option-table-class tr").each(function(index,value){                
                if(index>1){
                    $(this).hide(); 
-                  // $(this).find('select').attr('disabled', true);
+                   $(this).find('.saswp-local-sub-type-2').attr('disabled', true);
                }                               
             }); 
             
@@ -345,18 +364,18 @@ return false;
             }
             
             if(schematype == 'local_business'){
-            $(".saswp-"+businesstype+'-tr').show(); 
-            $(".saswp-business-text-field-tr").show(); 
-            $(".saswp-"+businesstype+'-tr').find('select').attr('disabled', false);            
+                $(".saswp-"+businesstype+'-tr').show(); 
+                $(".saswp-business-text-field-tr").show(); 
+                $(".saswp-"+businesstype+'-tr').find('select').attr('disabled', false);            
             } 
                           
              if(schematype == 'Review'){            
-             $(".saswp-review-text-field-tr").show(); 
-             $(".saswp-review-text-field-tr").find('select').attr('disabled', false);
+                $(".saswp-review-text-field-tr").show(); 
+                $(".saswp-review-text-field-tr").find('select').attr('disabled', false);
              }
              if(schematype == 'Event'){            
-             $(".saswp-event-text-field-tr").show();
-             $(".saswp-option-table-class tr").find('select').attr('disabled', false);
+                $(".saswp-event-text-field-tr").show();
+                $(".saswp-option-table-class tr").find('select').attr('disabled', false);
              }
              
             saswp_enable_rating_review();
@@ -1581,12 +1600,15 @@ return false;
         //Changing the url of add new schema type 
         $('a[href="'+saswp_localize_data.new_url_selector+'"]').attr( 'href', saswp_localize_data.new_url_href); 
         
-        
-       $("#saswp_enable_custom_field").change(function(){
-            if ($(this).is(':checked')) { 
-                $(".saswp-custom-fields-div").show();
+       
+       $('input[type=radio][name=saswp_enable_custom_field]').on("change",function(){
+           
+            if ($(this).val()  == 'automatic') { 
+                $(".saswp-static-container").addClass('saswp_hide');
+                $(".saswp-dynamic-container").removeClass('saswp_hide');
             }else{
-                $(".saswp-custom-fields-div").hide();
+                $(".saswp-static-container").removeClass('saswp_hide');
+                $(".saswp-dynamic-container").addClass('saswp_hide');
             }
         });
         
@@ -1739,9 +1761,15 @@ return false;
         
        $(document).on("change", ".saswp-item-reivewed-list", function(){
            
-           $(".saswp-custom-fields-table").html('');
-            saswp_meta_list_fields = [];
-           
+                $(".saswp-custom-fields-table").html('');
+                 saswp_meta_list_fields = [];
+            
+                 var current = $(this);
+                 var schema_type   = $('select#schema_type option:selected').val();
+                                  
+                 saswp_item_reviewed_ajax(schema_type, current, 'manual');
+            
+                                   
        }); 
         
        $(document).on("click", '.saswp-add-custom-fields', function(){
@@ -2065,7 +2093,9 @@ return copysuccess
 
 var motivatebox = document.getElementById('motivatebox')
  
-motivatebox.addEventListener('mouseup', function(e){
+if(motivatebox){
+
+    motivatebox.addEventListener('mouseup', function(e){
     var e = e || event // equalize event object between modern and older IE browsers
     var target = e.target || e.srcElement // get target element mouse is over
     if (target.className == 'motivate'){
@@ -2076,6 +2106,9 @@ motivatebox.addEventListener('mouseup', function(e){
             showtooltip(e);
         }
     }
-}, false)
+}, false);
+    
+} 
+
       
 });
