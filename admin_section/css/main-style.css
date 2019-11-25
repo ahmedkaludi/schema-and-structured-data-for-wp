@@ -1322,14 +1322,15 @@ Collection css starts here
     margin-top: 10px;
 }
 .saswp-collection-title input{
-    width:100%;
+    width: 100%;
     padding: 3px 8px;
-    font-size: 1.7em;
-    line-height: 100%;
+    font-size: 15px;
+    line-height: 2;
     height: 1.7em;
     outline: 0;
     margin: 0 0 3px;
     background-color: #fff;
+    color: #32373c;
 }
 .saswp-collection-title{
     margin-bottom: 10px;
@@ -1355,7 +1356,6 @@ Collection css starts here
   grid-template-columns:1fr 1fr 1fr;
   grid-gap:15px;
   margin:0;
-  overflow-y: scroll;
 }
 .saswp-rd1-warp li{
   padding:20px;
@@ -1528,6 +1528,7 @@ Collection css starts here
   display: none;
   background-color: white;
   overflow: hidden;
+  border-top: 1px solid #ddd;
 }
 .saswp-collection-settings a.saswp-add-to-collection{
     text-align: center;
@@ -1598,7 +1599,10 @@ Collection css starts here
 .saswp-collection-shortcode{
     color: #555;
     margin-top: 10px;
-    text-align: center;
+    padding: 4px;
+    background: #f1f1f1;
+    display: inline-block;
+    border: 1px solid #ddd;
 }
 
 /** Badges CSS **/

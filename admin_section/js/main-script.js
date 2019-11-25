@@ -1912,21 +1912,10 @@ return false;
             
                saswpCollectionSlider();
                               
-                var acc = document.getElementsByClassName("saswp-accordion");
-                var i;
+            $(".saswp-accordion").click(function(){
+              $(this).next(".saswp-accordion-panel").slideToggle(200);
+            });
 
-                for (i = 0; i < acc.length; i++) {
-                  acc[i].addEventListener("click", function() {
-                    this.classList.toggle("active");
-                    var panel = this.nextElementSibling;
-                    if (panel.style.display === "block") {
-                      panel.style.display = "none";
-                    } else {
-                      panel.style.display = "block";
-                    }
-                  });
-                }
-            
             $(document).on("click", ".saswp-opn-cls-btn", function(){
                 
                 $("#saswp-reviews-cntn").toggle();

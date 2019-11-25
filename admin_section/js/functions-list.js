@@ -18,6 +18,11 @@
                    time : date_string.toLocaleTimeString(),
                    date : date_string.toLocaleDateString()
                };
+           }else{
+              date_time = {
+                   time : '',
+                   date : ''
+               };
            }
            
            return date_time;
@@ -1050,9 +1055,16 @@
                     
                     for(var i=1; i <=cols; i++ ){
                         grid_cols +=' 1fr'; 
-                    }                     
-                    html += '<ul style="grid-template-columns:'+grid_cols+';">'; 
-                                                                                                                                                                                                                           
+
+                    }    
+
+                      if(cols.length > 3){
+                      html += '<ul style="grid-template-columns:'+grid_cols+';overflow-y: scroll;">'; 
+                      }else{
+                      html += '<ul style="grid-template-columns:'+grid_cols+';overflow-y:hidden;">';     
+                      }
+                    
+                                                                                                                                                                                                                          
                     if(saswp_total_collection){
                             
                            jQuery.each(saswp_total_collection, function(index, value){
@@ -1067,8 +1079,13 @@
                             html += '</div>';
                             html += '<div class="saswp-rd1-athr-nm">';
                             html += '<h4><a href="#">'+value.saswp_reviewer_name+'</a></h4>';
-                            html += saswp_create_rating_html_by_value(value.saswp_review_rating);                       
-                            html += '<span class="saswp-rd1-ptdt">'+date_str.date+', '+date_str.time+'</span>';
+                            html += saswp_create_rating_html_by_value(value.saswp_review_rating);  
+
+                            if(date_str.date){
+                              html += '<span class="saswp-rd1-ptdt">'+date_str.date+', '+date_str.time+'</span>';
+
+                            }
+                            
                             html += '</div>';
                             html += '</div>';
                             html += '<div class="saswp-rd1-rv-lg">';
