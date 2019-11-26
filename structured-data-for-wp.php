@@ -32,7 +32,8 @@ define('SASWP_ENVIRONMENT', 'development');
 // including the output file
 require_once SASWP_DIR_NAME .'/output/function.php';
 require_once SASWP_DIR_NAME .'/output/output.php';
-require_once SASWP_DIR_NAME .'/output/output_post_specific.php';
+require_once SASWP_DIR_NAME .'/output/markup.php';
+require_once SASWP_DIR_NAME .'/output/single.php';
 
 if ( ! function_exists( 'is_plugin_active' ) )
      require_once( ABSPATH . '/wp-admin/includes/plugin.php' );

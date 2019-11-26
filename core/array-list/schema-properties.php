@@ -217,17 +217,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             ),
                             'note' => 'Note: Separate area served list by comma ( , )'                     
                         );
-                        
-                        $meta_field[] = array(
-                              'label' => 'Area Served',
-                            'id'    => 'local_area_served_'.$schema_id,
-                            'type'  => 'textarea',
-                            'attributes' => array(
-                                'placeholder' => 'Example, Example2'
-                            ),
-                            'note' => 'Note: Separate area served list by comma ( , )'                     
-                        );
-                        
+                                                                        
                         $meta_field[] = array(
                              'label' => 'Price Range',
                             'id' => 'local_price_range_'.$schema_id,

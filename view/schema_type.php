@@ -577,10 +577,13 @@ function saswp_schema_type_meta_box_callback( $post) {
                 <table class="option-table-class saswp_modify_schema_checkbox">
                     <tr>
                         <td>    
-                            <strong><?php echo esc_html__( 'Modify Schema Output', 'schema-and-structured-data-for-wp' ) ?></strong>
+                            <a class="button button-default"><?php echo esc_html__( 'Modify Schema Output', 'schema-and-structured-data-for-wp' ) ?></a>
                             <div class="saswp-enable-modify-schema">                              
-                                <input type="radio" name="saswp_enable_custom_field" value="automatic" <?php echo ((isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] == 'automatic') ? 'checked':''); ?>>  <?php echo esc_html__( 'Automatic', 'schema-and-structured-data-for-wp' ) ?>
-                                <input type="radio" name="saswp_enable_custom_field" value="manual" <?php echo ((isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] == 'manual') ? 'checked':''); ?>>  <?php echo esc_html__( 'Manual', 'schema-and-structured-data-for-wp' ) ?>                                                           
+                                <strong><?php echo esc_html__( 'Choose Method', 'schema-and-structured-data-for-wp' ) ?></strong>
+                                <select name="saswp_enable_custom_field" class="saswp-enable-modify-schema-output">
+                                    <option value="automatic" <?php echo ((isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] == 'automatic') ? 'selected':''); ?>><?php echo esc_html__( 'Automatic', 'schema-and-structured-data-for-wp' ) ?></option>
+                                    <option value="manual" <?php echo ((isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] == 'manual') ? 'selected':''); ?>><?php echo esc_html__( 'Manual', 'schema-and-structured-data-for-wp' ) ?></option>
+                                </select>                                
                             </div>                                                        
                         </td>
                     </tr>   
@@ -778,7 +781,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                                                       
                         </table>                    
                    <table class="option-table-class">
-                       <tr><td><a class="button button-primary saswp-add-custom-fields"><?php echo esc_html__( 'Modify', 'schema-and-structured-data-for-wp' ); ?></a></td><td></td></tr>   
+                       <tr><td><a class="button button-primary saswp-add-custom-fields"><?php echo esc_html__( 'Add Property', 'schema-and-structured-data-for-wp' ); ?></a></td><td></td></tr>   
                    </table>
                        
                    </div> 
@@ -811,8 +814,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                                 }
                                                                 
                                 echo $output;
-                                
-                                                        
+                                                                                        
                             ?>
                             
                         </div>

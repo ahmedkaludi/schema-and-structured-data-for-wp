@@ -1601,7 +1601,7 @@ return false;
         $('a[href="'+saswp_localize_data.new_url_selector+'"]').attr( 'href', saswp_localize_data.new_url_href); 
         
        
-       $('input[type=radio][name=saswp_enable_custom_field]').on("change",function(){
+       $(".saswp-enable-modify-schema-output").on("change",function(){
            
             if ($(this).val()  == 'automatic') { 
                 $(".saswp-static-container").addClass('saswp_hide');

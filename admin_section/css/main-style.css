@@ -7,7 +7,20 @@ and open the template in the editor.
     Created on : Jul 27, 2018, 5:36:26 PM
     Author     : Magazine3
 */
-
+.saswp-static-container .spinner{            
+    padding: 5px;    
+    float: none;
+    margin: 0 auto;    
+    display: block;
+}
+.saswp-item-list-div{
+        display: flex;
+        width: 100%;    
+        align-items: center;    
+}
+.saswp-enable-modify-schema{
+    padding-top: 10px;
+}
 .saswp-item-list-div{
         display: flex;
         width: 100%;    
