@@ -319,6 +319,7 @@ return false;
         $('.saswp-static-container .spinner').addClass('is-active');
         $.get(ajaxurl, 
             { action:"saswp_get_manual_fields_on_ajax", schema_type:schematype, post_id: saswp_localize_data.post_id,saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
+            
              function(response){   
 
               $('.saswp-static-container .spinner').removeClass('is-active');              
@@ -336,8 +337,10 @@ return false;
                 $(".saswp-enable-modify-schema").show();
                 
             }else{
+                
                 $(".saswp-enable-modify-schema-output").val('automatic');
-                $(".saswp-enable-modify-schema").hide();                
+                $(".saswp-enable-modify-schema-output").change();
+                $(".saswp-enable-modify-schema").hide();                                
                                                 
             }
                   

@@ -20,6 +20,10 @@ and open the template in the editor.
 }
 .saswp-enable-modify-schema{
     padding-top: 10px;
+    padding-left: 10px;
+}
+.saswp-enable-modify-schema strong{
+    margin-right: 10px;    
 }
 .saswp-item-list-div{
         display: flex;
