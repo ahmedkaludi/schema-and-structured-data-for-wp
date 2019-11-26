@@ -10,22 +10,9 @@
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
-
-	add_action( 'add_meta_boxes', 'saswp_schema_options_add_meta_box' ) ;
-	add_action( 'save_post', 'saswp_schema_options_add_meta_box_save' ) ;
 	
-        function saswp_schema_options_add_meta_box() {
-            
-	add_meta_box(
-		'schema_options',
-		esc_html__( 'Advance Schema Options', 'schema-and-structured-data-for-wp' ),
-		'saswp_schema_options_meta_box_callback',
-		'saswp',
-		'advanced',
-		'low'
-	);
-        
-        }
+	add_action( 'save_post', 'saswp_schema_options_add_meta_box_save' ) ;
+	       
         function saswp_schema_options_get_meta( $value ) {
             global $post;
             

@@ -23,7 +23,7 @@ add_action( 'add_meta_boxes', 'saswp_schema_type_add_meta_box',99 ) ;
  * 
  */
 function saswp_schema_type_add_meta_box() {
-   // saswp_remove_unwanted_metabox();
+    saswp_remove_unwanted_metabox();        
     add_meta_box(
             'schema_type',
             esc_html__( 'Schema Type', 'schema-and-structured-data-for-wp' ),
@@ -32,6 +32,37 @@ function saswp_schema_type_add_meta_box() {
             'advanced',
             'high'
     );
+    
+    add_meta_box( 'saswp_help_meta_box_id', 
+            esc_html__('Help', 'schema-and-structured-data-for-wp' ), 
+            'saswp_help_meta_box_cb', 
+            'saswp', 
+            'side', 'low' 
+            );
+    
+    add_meta_box(
+		'schema_options',
+		esc_html__( 'Advance Schema Options', 'schema-and-structured-data-for-wp' ),
+		'saswp_schema_options_meta_box_callback',
+		'saswp',
+		'advanced',
+		'low'
+	       );
+    add_meta_box( 
+                'saswp_amp_select', 
+                esc_html__( 'Placement','schema-and-structured-data-for-wp' ), 
+                'saswp_select_callback', 'saswp',
+                'normal', 
+                'high' 
+              );
+    add_meta_box(
+            'submitdiv',
+                esc_html__( 'Publish' ), 
+                'post_submit_meta_box',
+                'saswp', 
+                'side', 
+                'low' 
+            );
 
 }
 /**

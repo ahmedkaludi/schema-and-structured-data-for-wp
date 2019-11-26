@@ -627,13 +627,7 @@ if(is_admin()){
       )
     );
   }
-  add_action( 'add_meta_boxes', 'saswp_create_meta_box_select' );
-  function saswp_create_meta_box_select(){
-    // Repeater Comparison Field
-    add_meta_box( 'saswp_amp_select', esc_html__( 'Placement','schema-and-structured-data-for-wp' ), 'saswp_select_callback', 'saswp','normal', 'high' );
-    
-  }
-
+  
   function saswp_select_callback($post) {
     
     $data_group_array =  esc_sql ( get_post_meta($post->ID, 'data_group_array', true)  );                 

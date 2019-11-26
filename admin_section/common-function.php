@@ -2715,6 +2715,10 @@ function saswp_https( $url ) {
 function saswp_remove_unwanted_metabox(){
     
     global $wp_meta_boxes;    
-    $wp_meta_boxes = array();
+    
+    if(get_post_type() == 'saswp'){
+        $wp_meta_boxes = array();               
+    }
+            
     return $wp_meta_boxes;
 }
