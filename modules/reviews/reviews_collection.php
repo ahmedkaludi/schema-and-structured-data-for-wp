@@ -370,8 +370,8 @@ class SASWP_Reviews_Collection {
                 'grid'     => 'Grid',
                 'gallery'  => 'Gallery',
                 'badge'    => 'Badge',
-                'popup'    => 'Popop',
-                'fomo'     => 'Fomo',
+                'popup'    => 'PopUp',
+                'fomo'     => 'FOMO',
             );
        
             $coll_sorting = array(
