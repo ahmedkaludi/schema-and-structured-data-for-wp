@@ -86,7 +86,9 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                 if ( isset( $_POST['paywall_class_name'] ) )
                         $paywall_class_name = sanitize_text_field($_POST['paywall_class_name']);
                 if ( isset( $_POST['saswp_enable_custom_field'] ) )
-                        $enable_custom_field = sanitize_text_field($_POST['saswp_enable_custom_field']);                
+                        $enable_custom_field = sanitize_text_field($_POST['saswp_enable_custom_field']);
+                if ( isset( $_POST['saswp_modify_method'] ) )
+                        $saswp_modify_method = sanitize_text_field($_POST['saswp_modify_method']);                
                 if ( isset( $_POST['saswp_meta_list_val'] ) )                    
                     $meta_list = array_map ('sanitize_text_field', $_POST['saswp_meta_list_val']);                
                 if ( isset( $_POST['saswp_fixed_text'] ) )                    
@@ -102,7 +104,8 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                                                 'isAccessibleForFree'   => $isAccessibleForFree,
                                                 'notAccessibleForFree'  => $notAccessibleForFree,
                                                 'paywall_class_name'    => $paywall_class_name, 
-                                                'enable_custom_field'   => $enable_custom_field
+                                                'enable_custom_field'   => $enable_custom_field,
+                                                'saswp_modify_method'   => $saswp_modify_method
                                             );   
                                             
                  update_post_meta( $post_id, 'schema_options', $saswp_schema_options);                 

@@ -1366,3 +1366,60 @@ function saswp_get_mainEntity($schema_id){
         return $response;
         
 }
+
+function saswp_get_modified_markup($input1, $schema_type, $schema_post_id, $schema_options){
+            
+            if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] == 1){
+
+                if(isset($schema_options['saswp_modify_method'])){
+
+                    if($schema_options['saswp_modify_method'] == 'automatic'){
+
+                        $service = new saswp_output_service();
+                        $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);                                    
+                    }
+
+                    if($schema_options['saswp_modify_method'] == 'manual'){
+                        
+                        $all_post_meta = get_post_meta($schema_post_id, $key='', true); 
+                        
+                        switch ($schema_type) {
+                            
+                            case 'local_business':
+                                                               
+                                $data          = saswp_local_business_schema_markup($schema_post_id, $schema_post_id, $all_post_meta);
+                                $input1        = array_merge($data, $input1);
+
+                                break;
+                            
+                            case 'HowTo':
+                                
+                                                                   
+                                $data          = saswp_howto_schema_markup($schema_post_id, $schema_post_id, $all_post_meta);
+                                $input1        = array_merge($input1, $data);
+                            
+                                break;
+                            
+                            case 'FAQ':
+                                                                                                   
+                                $data          = saswp_faq_schema_markup($schema_post_id, $schema_post_id, $all_post_meta);
+                                $input1        = array_merge($input1, $data);
+                            
+                                break;
+
+                            default:
+                                break;
+                        }
+                        
+                    }
+
+                }else{
+                    $service = new saswp_output_service();
+                    $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);                                    
+                }
+
+            }
+        
+    return $input1;
+        
+}

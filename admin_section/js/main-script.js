@@ -2,6 +2,18 @@
 jQuery(document).ready(function($){   
     
     
+    $(".saswp-modify-schema-toggle").click(function(e){
+        
+        e.preventDefault();
+        
+        $(".saswp-modify-container").slideToggle("300");                
+        
+         var hiddenField = $('#saswp_enable_custom_field'),
+         val = hiddenField.val();
+         hiddenField.val(val === "1" ? "0" : "1");
+        $(".saswp-enable-modify-schema-output").change();               
+    });
+    
     $(".saswp-enable-itemlist").change(function(){
         
         if($(this).is(":checked")){
@@ -318,6 +330,16 @@ return false;
                                saswp_item_reviewed_call();
               
             });
+            
+            if(schematype == 'HowTo' || schematype == 'local_business' || schematype == 'FAQ'){
+                
+                $(".saswp-enable-modify-schema").show();
+                
+            }else{
+                $(".saswp-enable-modify-schema-output").val('automatic');
+                $(".saswp-enable-modify-schema").hide();                
+                                                
+            }
                   
     }); 
 
@@ -1603,12 +1625,16 @@ return false;
        
        $(".saswp-enable-modify-schema-output").on("change",function(){
            
+                $(".saswp-static-container").addClass('saswp_hide');
+                $(".saswp-dynamic-container").addClass('saswp_hide');
+           
+            if ($(this).val()  == 'manual') { 
+                $(".saswp-static-container").removeClass('saswp_hide');
+                $(".saswp-dynamic-container").addClass('saswp_hide');
+            }            
             if ($(this).val()  == 'automatic') { 
                 $(".saswp-static-container").addClass('saswp_hide');
                 $(".saswp-dynamic-container").removeClass('saswp_hide');
-            }else{
-                $(".saswp-static-container").removeClass('saswp_hide');
-                $(".saswp-dynamic-container").addClass('saswp_hide');
             }
         });
         

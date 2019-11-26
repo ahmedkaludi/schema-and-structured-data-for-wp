@@ -2384,7 +2384,15 @@ function saswp_enqueue_style_js( $hook ) {
         if(isset($current_screen->post_type)){                  
             $post_type = $current_screen->post_type;                
         }    
+            
+        $all_schema_array = array();
+        
+        $mappings_file = SASWP_DIR_NAME . '/core/array-list/schemas.php';
                 
+        if ( file_exists( $mappings_file ) ) {
+            $all_schema_array = include $mappings_file;
+        }
+        
         $data = array(                                    
             'post_id'                      => get_the_ID(),
             'ajax_url'                     => admin_url( 'admin-ajax.php' ),            
@@ -2396,9 +2404,10 @@ function saswp_enqueue_style_js( $hook ) {
             'collections_page_url'         => htmlspecialchars_decode(wp_nonce_url(admin_url('edit.php?post_type=saswp-collections'), '_wpnonce')),
             'post_type'                    => $post_type,   
             'page_now'                     => $hook,
-            'saswp_settings_url'           => esc_url(admin_url('edit.php?post_type=saswp&page=structured_data_options'))                       
+            'saswp_settings_url'           => esc_url(admin_url('edit.php?post_type=saswp&page=structured_data_options')),
+            'saswp_schema_types'           =>  $all_schema_array
         );
-        
+                        
         $data = apply_filters('saswp_localize_filter',$data,'saswp_localize_data');
 	// Color picker CSS
 	// @refer https://make.wordpress.org/core/2012/11/30/new-color-picker-in-wp-3-5/

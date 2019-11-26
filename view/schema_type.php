@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  */
 add_action( 'wp_ajax_saswp_get_manual_fields_on_ajax', 'saswp_get_manual_fields_on_ajax' ) ;
 add_action( 'save_post', 'saswp_schema_type_add_meta_box_save' ) ;
-add_action( 'add_meta_boxes', 'saswp_schema_type_add_meta_box',99 ) ;
+add_action( 'add_meta_boxes', 'saswp_add_all_meta_boxes',99 ) ;
 
 /**
  * Register a schema type metabox
@@ -22,8 +22,10 @@ add_action( 'add_meta_boxes', 'saswp_schema_type_add_meta_box',99 ) ;
  * @since version 1.0
  * 
  */
-function saswp_schema_type_add_meta_box() {
+function saswp_add_all_meta_boxes() {
+    
     saswp_remove_unwanted_metabox();        
+    
     add_meta_box(
             'schema_type',
             esc_html__( 'Schema Type', 'schema-and-structured-data-for-wp' ),
@@ -608,21 +610,55 @@ function saswp_schema_type_meta_box_callback( $post) {
                 <table class="option-table-class saswp_modify_schema_checkbox">
                     <tr>
                         <td>    
-                            <a class="button button-default"><?php echo esc_html__( 'Modify Schema Output', 'schema-and-structured-data-for-wp' ) ?></a>
-                            <div class="saswp-enable-modify-schema">                              
-                                <strong><?php echo esc_html__( 'Choose Method', 'schema-and-structured-data-for-wp' ) ?></strong>
-                                <select name="saswp_enable_custom_field" class="saswp-enable-modify-schema-output">
-                                    <option value="automatic" <?php echo ((isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] == 'automatic') ? 'selected':''); ?>><?php echo esc_html__( 'Automatic', 'schema-and-structured-data-for-wp' ) ?></option>
-                                    <option value="manual" <?php echo ((isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] == 'manual') ? 'selected':''); ?>><?php echo esc_html__( 'Manual', 'schema-and-structured-data-for-wp' ) ?></option>
-                                </select>                                
-                            </div>                                                        
+                            <a class="button button-default saswp-modify-schema-toggle"><?php echo esc_html__( 'Modify Schema Output', 'schema-and-structured-data-for-wp' ) ?></a>                                                                                    
+                            <input type="hidden" name="saswp_enable_custom_field" id="saswp_enable_custom_field" value="<?php echo isset($schema_options['enable_custom_field']) ? $schema_options['enable_custom_field']:'0'; ?>">
                         </td>
                     </tr>   
                 </table>  
                 
-                <div class="saswp-modify-container">
+                <div class="saswp-modify-container <?php echo ((isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] == 1) ? '':'saswp_hide'); ?>">
                    
-                    <div class="saswp-dynamic-container <?php echo ((isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] == 'automatic') ? '':'saswp_hide'); ?>">
+                        <?php
+                        
+                            $allowed_manaul = false;
+                            if($schema_type == 'HowTo' || $schema_type == 'FAQ' || $schema_type == 'local_business'){                            
+                                echo '<div class="saswp-enable-modify-schema">';                                
+                            }else{
+                                $allowed_manaul = true;
+                                echo '<div class="saswp-enable-modify-schema saswp_hide">';
+                            }
+                            
+                            echo '<strong>'.esc_html__( 'Choose Method', 'schema-and-structured-data-for-wp' ).'</strong>';
+                            echo '<select name="saswp_modify_method" class="saswp-enable-modify-schema-output">';
+                            
+                            $method_option = array(
+                                ''          => 'Select',
+                                'automatic' => 'Automatic',
+                                'manual'    => 'Manual'
+                            );
+                            
+                            foreach($method_option as $key => $val){
+                                
+                                $sel = '';
+                                                                
+                                if($allowed_manaul && $key == 'automatic'){
+                                        $sel = 'selected';
+                                }else{
+                                    if($key == $schema_options['saswp_modify_method'] && !$allowed_manaul){
+                                        $sel = 'selected';
+                                    }
+                                }
+                                
+                                echo '<option value="'.$key.'" '.$sel.'>'.$val.'</option>';
+                                
+                            }
+                            
+                            echo '</select>';
+                        
+                        ?>                                    
+                            </div>
+                    
+                    <div class="saswp-dynamic-container <?php echo ((isset($schema_options['saswp_modify_method']) && $schema_options['saswp_modify_method'] == 'automatic') ? '':'saswp_hide'); ?>">
                         
                        <div class="saswp-custom-fields-div">
                        <table class="saswp-custom-fields-table">
@@ -819,7 +855,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                         
                     </div>
                     
-                    <div class="saswp-static-container <?php echo ((isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] == 'manual') ? '':'saswp_hide'); ?>">
+                        <div class="saswp-static-container <?php echo ((isset($schema_options['saswp_modify_method']) && $schema_options['saswp_modify_method'] == 'manual') ? '':'saswp_hide'); ?>">
                         
                         <div class="saswp-manual-modification">
                         
