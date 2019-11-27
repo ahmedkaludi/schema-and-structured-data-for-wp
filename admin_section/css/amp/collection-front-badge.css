@@ -1,24 +1,24 @@
 /** Badges CSS **/
-.saswp-rd3-warp ul{
+.saswp-r3 ul{
   padding:0px;
   display:grid;
   grid-template-columns:1fr 1fr 1fr 1fr;
   grid-gap: 50px;
   list-style-type:none;
 }
-.saswp-rd3-warp li{
+.saswp-r3 li{
   box-shadow: 0 2px 5px 0 rgba(0,0,0,.26);
 }
-.artl-cnt .saswp-rd3-warp li{
+.artl-cnt .saswp-r3 li{
   padding:0px;
 }
-.artl-cnt .saswp-rd3-warp li:before{
+.artl-cnt .saswp-r3 li:before{
   display:none;
 }
-.saswp-rd3-warp li a{
+.saswp-r3 li a{
   text-decoration:none;
 }
-.saswp-rv-lg-txt{
+.saswp-r3-lg{
   background: #ededed;
   display: flex;
   align-items: center;
@@ -26,37 +26,36 @@
   width: 100%;
   padding: 8px;
 }
-.saswp-rv-lg-txt amp-img{
+.saswp-r3-lg amp-img{
   max-width:25px;
   max-height:25px;
   border-radius: 100px;
 }
-.saswp-rv-lg-txt h4{
-  margin:0;
-  font-size:25px;
+.saswp-r3-lg .saswp-r3-tlt{
+  font-size:20px;
   line-height:1.4;
   color:#333;
   font-weight:400;
 }
-.saswp-rv-lg-txt span{
+.saswp-r3-lg span{
   line-height: 0;
   margin-right: 10px;
 }
-.saswp-rv-rtng{
+.saswp-r3-rtng{
   padding:20px;
 }
-.saswp-rtng-txt{
+.saswp-r3-rtxt{
   display: flex;
   align-items: center;
   line-height: 0;
   width: 100%;
   margin-bottom:10px;
 }
-.saswp-bsd-rv{
+.saswp-r3-brv{
   color: #999;
   font-size: 15px;
 }
-.saswp-rtng-txt .saswp-rt-num{
+.saswp-r3-rtxt .saswp-r3-num{
   color: #666;
   margin-right: 10px;
   font-size: 20px;
@@ -64,7 +63,7 @@
 }
 
 @media(max-width:800px){
-  .saswp-rd3-warp ul{
+  .saswp-r3 ul{
     grid-template-columns:1fr 1fr;
     grid-gap: 20px
   }
@@ -72,7 +71,7 @@
 }
 
 @media(max-width:600px){
-  .saswp-rd3-warp ul{
+  .saswp-r3 ul{
     grid-template-columns:1fr;
   }
 

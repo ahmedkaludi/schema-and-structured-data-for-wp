@@ -1,18 +1,18 @@
 function saswpCollectionSlider(){
 	
-                jQuery(".saswp-collection-slider").each( function(){
+                jQuery(".saswp-cs").each( function(){
 		
 		var $slider = jQuery(this),
-				$itemscontainer = $slider.find(".saswp-slider-items-container");
+				$itemscontainer = $slider.find(".saswp-sic");
 		
-		if ($itemscontainer.find(".saswp-slider-item.saswp-active").length == 0){
-			$itemscontainer.find(".saswp-slider-item").first().addClass("saswp-active");
+		if ($itemscontainer.find(".saswp-si.saswp-active").length == 0){
+			$itemscontainer.find(".saswp-si").first().addClass("saswp-active");
 		}
 		
 		function setWidth(){
 			var totalWidth = 0;
 			
-			jQuery($itemscontainer).find(".saswp-slider-item").each( function(){
+			jQuery($itemscontainer).find(".saswp-si").each( function(){
 				totalWidth += jQuery(this).outerWidth();
 			});
 			
@@ -21,9 +21,9 @@ function saswpCollectionSlider(){
 		}
 		function setTransform(){
 			
-                        if(jQuery(".saswp-slider-item.saswp-active").length > 0){
+                        if(jQuery(".saswp-si.saswp-active").length > 0){
                         
-                            var $activeItem = $itemscontainer.find(".saswp-slider-item.saswp-active"),
+                            var $activeItem = $itemscontainer.find(".saswp-si.saswp-active"),
                                             activeItemOffset = $activeItem.offset().left,
                                             itemsContainerOffset = $itemscontainer.offset().left,
                                             totalOffset = activeItemOffset - itemsContainerOffset;
@@ -34,9 +34,9 @@ function saswpCollectionSlider(){
                         						
 		}
 		function nextSlide(){
-			var activeItem = $itemscontainer.find(".saswp-slider-item.saswp-active"),
+			var activeItem = $itemscontainer.find(".saswp-si.saswp-active"),
 					activeItemIndex = activeItem.index(),
-					sliderItemTotal = $itemscontainer.find(".saswp-slider-item").length,
+					sliderItemTotal = $itemscontainer.find(".saswp-si").length,
 					nextSlide = 0;
 			
 			if (activeItemIndex + 1 > sliderItemTotal - 1){
@@ -45,21 +45,21 @@ function saswpCollectionSlider(){
 				nextSlide = activeItemIndex + 1
 			}
 			
-			var nextSlideSelect = $itemscontainer.find(".saswp-slider-item").eq(nextSlide),
+			var nextSlideSelect = $itemscontainer.find(".saswp-si").eq(nextSlide),
 					itemContainerOffset = $itemscontainer.offset().left,
 					totalOffset = nextSlideSelect.offset().left - itemContainerOffset
 			
-			$itemscontainer.find(".saswp-slider-item.saswp-active").removeClass("saswp-active");
+			$itemscontainer.find(".saswp-si.saswp-active").removeClass("saswp-active");
 			nextSlideSelect.addClass("saswp-active");
-			$slider.find(".saswp-slider-dots").find(".saswp-dot").removeClass("saswp-active")
-			$slider.find(".saswp-slider-dots").find(".saswp-dot").eq(nextSlide).addClass("saswp-active");
+			$slider.find(".saswp-sd").find(".saswp-dot").removeClass("saswp-active")
+			$slider.find(".saswp-sd").find(".saswp-dot").eq(nextSlide).addClass("saswp-active");
 			$itemscontainer.css({"transform": "translate( -"+totalOffset+"px, 0px)"})
 			
 		}
 		function prevSlide(){
-			var activeItem = $itemscontainer.find(".saswp-slider-item.saswp-active"),
+			var activeItem = $itemscontainer.find(".saswp-si.saswp-active"),
 					activeItemIndex = activeItem.index(),
-					sliderItemTotal = $itemscontainer.find(".saswp-slider-item").length,
+					sliderItemTotal = $itemscontainer.find(".saswp-si").length,
 					nextSlide = 0;
 			
 			if (activeItemIndex - 1 < 0){
@@ -68,27 +68,27 @@ function saswpCollectionSlider(){
 				nextSlide = activeItemIndex - 1;
 			}
 			
-			var nextSlideSelect = $itemscontainer.find(".saswp-slider-item").eq(nextSlide),
+			var nextSlideSelect = $itemscontainer.find(".saswp-si").eq(nextSlide),
 					itemContainerOffset = $itemscontainer.offset().left,
 					totalOffset = nextSlideSelect.offset().left - itemContainerOffset
 			
-			$itemscontainer.find(".saswp-slider-item.saswp-active").removeClass("saswp-active");
+			$itemscontainer.find(".saswp-si.saswp-active").removeClass("saswp-active");
 			nextSlideSelect.addClass("saswp-active");
-			$slider.find(".saswp-slider-dots").find(".saswp-dot").removeClass("saswp-active")
-			$slider.find(".saswp-slider-dots").find(".saswp-dot").eq(nextSlide).addClass("saswp-active");
+			$slider.find(".saswp-sd").find(".saswp-dot").removeClass("saswp-active")
+			$slider.find(".saswp-sd").find(".saswp-dot").eq(nextSlide).addClass("saswp-active");
 			$itemscontainer.css({"transform": "translate( -"+totalOffset+"px, 0px)"})
 			
 		}
 		function makeDots(){
-			var activeItem = $itemscontainer.find(".saswp-slider-item.saswp-active"),
+			var activeItem = $itemscontainer.find(".saswp-si.saswp-active"),
 					activeItemIndex = activeItem.index(),
-					sliderItemTotal = $itemscontainer.find(".saswp-slider-item").length;
+					sliderItemTotal = $itemscontainer.find(".saswp-si").length;
 			
 			for (i = 0; i < sliderItemTotal; i++){
-				$slider.find(".saswp-slider-dots").append("<div class='saswp-dot'></div>")
+				$slider.find(".saswp-sd").append("<div class='saswp-dot'></div>")
 			}
 			
-			$slider.find(".saswp-slider-dots").find(".saswp-dot").eq(activeItemIndex).addClass("saswp-active")
+			$slider.find(".saswp-sd").find(".saswp-dot").eq(activeItemIndex).addClass("saswp-active")
 			
 		}
 		
@@ -119,14 +119,14 @@ function saswpCollectionSlider(){
 			prevSlide();
 		});
 		
-		$slider.find(".saswp-slider-dots").find(".saswp-dot").on('click', function(e){
+		$slider.find(".saswp-sd").find(".saswp-dot").on('click', function(e){
 			
 			var dotIndex = jQuery(this).index(),
 			totalOffset = $itemscontainer.find(".saswp-slider-item").eq(dotIndex).offset().left - $itemscontainer.offset().left;
 					
-			$itemscontainer.find(".saswp-slider-item.saswp-active").removeClass("saswp-active");
-			$itemscontainer.find(".saswp-slider-item").eq(dotIndex).addClass("saswp-active");
-			$slider.find(".saswp-slider-dots").find(".saswp-dot").removeClass("saswp-active");
+			$itemscontainer.find(".saswp-si.saswp-active").removeClass("saswp-active");
+			$itemscontainer.find(".saswp-si").eq(dotIndex).addClass("saswp-active");
+			$slider.find(".saswp-sd").find(".saswp-dot").removeClass("saswp-active");
 			jQuery(this).addClass("saswp-active");
 			
 			$itemscontainer.css({"transform": "translate( -"+totalOffset+"px, 0px)"})

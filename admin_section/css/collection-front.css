@@ -153,13 +153,13 @@
 }
 
 /** Review Design 1 **/
-.saswp-coll-rv-d{
+body .saswp-r, body .saswp-r p{
   font-family: sans-serif;
 }
-.saswp-rd1-warp{
+.saswp-r1{
   margin-bottom:50px;
 }
-.saswp-rd1-warp ul{
+.saswp-r1 ul{
   padding:0px;
   list-style-type:none;
   display:grid;
@@ -169,7 +169,7 @@
   margin:0;
   overflow-x: scroll;
 }
-.saswp-rd1-warp li{
+.saswp-r1 li{
   padding:20px;
   position: relative;
   color: #777;
@@ -178,11 +178,7 @@
   border-radius: 4px;
   margin:0px;
 }
-.saswp-rd1-data h4{
-  margin:0 !important;
-  line-height: 0;
-}
-.saswp-rd1-data{
+.saswp-rc{
   display: flex;
   width: 100%;
   flex-wrap: wrap;
@@ -191,11 +187,11 @@
   position: relative;
   font-family: sans-serif;
 }
-.saswp-rd1-data .saswp-rd1-rv-lg{
+.saswp-rc .saswp-rc-lg{
   position: absolute;
-  right: 20px;
+  right: 0px;
 }
-.saswp-rd1-athr-img img{
+.saswp-r1-aimg img{
   float: left;
   max-width: 56px;
   min-height: 56px;
@@ -203,34 +199,37 @@
   margin-right: 10px;
   border-radius: 100px;
 }
-.saswp-rd1-rv-lg img{
+.saswp-rc-lg img{
   width:20px;
   height:20px;
+  border-radius: 100px;
 }
-.saswp-rd1-athr-nm h4 a{
+.saswp-rc-nm a{
   text-decoration: none;
   color: #427fed;
   font-size: 16px;
+  font-weight:600;
   display: inline-block;
-  line-height: 1.5;
+  line-height: 1.1;
+  letter-spacing: 0;
 }
-.saswp-rd1-ptdt{
+.saswp-rc-dt{
   margin-top:5px;
   font-size:12px;
   line-height:1.2;
   color:#999;
   display:block; 
 }
-.saswp-rd1-athr{
+.saswp-rc-a{
   flex: 1 0 85%;
   display: flex;
   justify-content: flex-start;
 }
-.saswp-rd1-athr-nm{
+.saswp-rc-nm{
   width:100%;
-  margin-right: 25px;
+  line-height:1.2;
 }
-.saswp-rd1-cnt{
+.saswp-rc-cnt{
   position: static;
   height: 100px;
   overflow-y: auto;
@@ -240,21 +239,21 @@
   padding: 0 2px 0 0;
   margin: 10px 0 0;
 }
-.saswp-rd1-cnt p{
+.saswp-rc-cnt p{
   margin:0;
 }
-.saswp-rd1-cnt::-webkit-scrollbar {
+.saswp-rc-cnt::-webkit-scrollbar {
   width: 4px;
   display:inline-block;
     
 }
-.saswp-rd1-cnt::-webkit-scrollbar-thumb {
+.saswp-rc-cnt::-webkit-scrollbar-thumb {
   -webkit-border-radius: 10px;
   border-radius: 10px;
   background: #ccc;
   -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
 }
-.saswp-rd1-cnt::-webkit-scrollbar-track {
+.saswp-rc-cnt::-webkit-scrollbar-track {
   -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
   -webkit-border-radius: 4px;
   border-radius: 4px;
@@ -396,7 +395,7 @@
 
 
 /** Badges CSS **/
-.saswp-rd3-warp ul{
+.saswp-r3 ul{
   padding:0px;
   display:grid;
   grid-template-columns:1fr 1fr 1fr 1fr;
@@ -406,15 +405,15 @@
   /*overflow-x: scroll;*/
 }
 
-.saswp-rd3-warp li{
+.saswp-r3 li{
   box-shadow: 0 2px 5px 0 rgba(0,0,0,.26);
   margin:0;
   font-family: sans-serif;
 }
-.saswp-rd3-warp li a{
+.saswp-r3 li a{
   text-decoration:none;
 }
-.saswp-rv-lg-txt{
+.saswp-r3-lg{
   background: #ededed;
   display: flex;
   align-items: center;
@@ -423,16 +422,15 @@
   padding: 6px 8px;
   box-sizing: border-box;
 }
-.saswp-rv-lg-txt span img{
+.saswp-r3-lg span img{
     width:18px;
     height: 18px;
     margin-right:10px;
 }
-.saswp-rv-lg-txt span {
+.saswp-r3-lg span {
     line-height: 0px;
 }
-.saswp-rv-lg-txt h4{
-  margin:0 !important;
+.saswp-r3-lg .saswp-r3-tlt{
   font-size:22px;
   line-height:1.4;
   color:#333;
@@ -442,24 +440,24 @@
   line-height: 0;
   margin-right: 10px;
 }
-.saswp-rv-rtng{
+.saswp-r3-rtng{
   padding:15px;
   background:#fff;
 }
-.saswp-rtng-txt{
+.saswp-r3-rtxt{
   display: flex;
   align-items: center;
   line-height: 0;
   width: 100%;
   margin-bottom:10px;
 }
-.saswp-rtng-txt .saswp-rt-num{
+.saswp-r3-rtxt .saswp-r3-num{
   color: #666;
   margin-right: 10px;
   font-size: 20px;
   width:30px;
 }
-.saswp-bsd-rv{
+.saswp-r3-brv{
   color: #999;
   font-size: 14px;
 }
@@ -697,45 +695,45 @@ span.saswp-mines{
   width:350px;
   margin-right:25px;
 }
-.saswp-rd1-athr img {
+.saswp-rc-a img {
     float: left;
     margin-right: 10px;
     border-radius: 100px;
     width: 56px;
     height: 56px;
 }
-.saswp-rd2-warp .saswp-rd1-cnt{
+.saswp-rd2-warp .saswp-rc-cnt{
   white-space: initial;
 }
-.saswp-rd2-warp .saswp-rd2-box{
+.saswp-rd2-warp .saswp-r2-b{
   position: relative;
   color: #777;
   border: 1px solid #ededed;
   background-color: #fafafa;
   border-radius: 4px;
 }
-.saswp-rd2-warp .saswp-rd1-cnt{
+.saswp-rd2-warp .saswp-rc-cnt{
   height: 150px;
   margin: 20px 20px 20px 40px;
 }
 
-.saswp-rd2-warp .saswp-rd1-data{
+.saswp-rd2-warp .saswp-rc{
   padding: 20px;
 }
-.saswp-rd2-box .saswp-rd1-stars{
+.saswp-r2-b .saswp-r2-s{
   display:inline-block;
 }
-.saswp-rd2-box .saswp-rd1-cnt p{
+.saswp-r2-b .saswp-rc-cnt p{
   display:inline; 
 }
-.saswp-rd2-box .saswp-rd1-rv-lg{
+.saswp-r2-b .saswp-rc-lg{
   line-height: 0;
   position: absolute;
   right: 13px;
   top: 13px;
   background: #fafafa;
 }
-.saswp-rd2-quote svg{
+.saswp-r2-q svg{
   width: 20px;
   fill: #bbb;
   position: absolute;
@@ -743,7 +741,7 @@ span.saswp-mines{
   top: 15px;
   left: 12px;
 }
-.saswp-rd2-warp .saswp-rd2-box:before {
+.saswp-rd2-warp .saswp-r2-b:before {
   position: absolute;
   bottom: -8px;
   left: 35px;
@@ -778,14 +776,14 @@ span.saswp-mines{
 
 
 /** Single Slider CSS Start here **/
-.saswp-collection-slider-type .saswp-collection-slider{
+.saswp-cst .saswp-cs{
     width: 100%;
     max-width: 640px;
     margin: 0 auto;
     overflow: hidden;
     position:relative;
 }
-.saswp-rd2-box{
+.saswp-r2-b{
     padding: 20px 40px 20px 40px;
     background-color: #fafafa;
     position: relative;
@@ -794,11 +792,11 @@ span.saswp-mines{
     border-radius: 4px;
     box-sizing: border-box;
 }
-.saswp-collection-slider-type .saswp-rd1-data{
+.saswp-cst .saswp-rc{
     padding: 20px;
     box-sizing: border-box;
 }
-.saswp-slider-item .saswp-rd2-box:before {
+.saswp-si .saswp-r2-b:before {
     position: absolute;
     bottom: -8px;
     left: 35px;
@@ -814,10 +812,10 @@ span.saswp-mines{
     -ms-transform: rotate(45deg);
     transform: rotate(45deg);
 }
-.saswp-slider-item .saswp-rd1-cnt{
+.saswp-si .saswp-rc-cnt{
     margin:0px;
 }
-.saswp-collection-slider .saswp-slider-controls {
+.saswp-cs .saswp-slider-controls {
   width: 100%;
   display: flex;
   align-items: center;
@@ -871,11 +869,11 @@ span.saswp-mines{
     top: 11px;
     right: -11px;
 }
-.saswp-slider-item .saswp-rd1-rv-lg img {
+.saswp-si .saswp-rc-lg img {
     width: 25px;
     height: 25px;
 }
-.saswp-collection-slider .saswp-slider-dots .saswp-dot {
+.saswp-cs .saswp-sd .saswp-dot {
   width: 10px;
   height: 10px;
   background: #ccc;
@@ -884,10 +882,10 @@ span.saswp-mines{
   cursor: pointer;
   margin: 0 12px;
 }
-.saswp-collection-slider .saswp-slider-dots .saswp-dot.saswp-active {
+.saswp-cs .saswp-sd .saswp-dot.saswp-active {
   background: #0071a1;
 }
-.saswp-collection-slider-type .saswp-slider-items-container .saswp-slider-item {
+.saswp-cst .saswp-sic .saswp-si {
   width: 100vw;
   max-width: 640px;
   display: block;
@@ -900,45 +898,45 @@ span.saswp-mines{
 /** Single Slider CSS Ends here **/
 
 /** Carousel Slider CSS Starts here **/
-.saswp-collection-carousel-type .saswp-collection-slider { 
+.saswp-cct .saswp-cs { 
   width: 100%;
   max-width: 800px;
   margin: 0 auto;
   overflow: hidden;
   position: relative;
 }
-.saswp-collection-carousel-type  .saswp-slider-items-container .saswp-slider-item {
+.saswp-cct .saswp-sic .saswp-si {
   width: 100%;
   max-width: 800px;
   display: flex;
 }
-.saswp-collection-carousel-type .saswp-rv-box{
+.saswp-cct .saswp-r2-sli{
     width: 100%;
     margin-right: 20px;
     max-width: 40%;
 }  
-.saswp-collection-carousel-type .saswp-rd1-data {
+.saswp-cct .saswp-rc {
     padding: 20px 10px;
     box-sizing: border-box;
 }
-.saswp-collection-carousel-type .saswp-rd1-cnt{
+.saswp-cct .saswp-rc-cnt{
     height:120px;
 }
-.saswp-collection-slider .saswp-slider-items-container {
+.saswp-cs .saswp-sic {
   display: flex;
   flex-wrap: wrap;
   height: auto;
   transition: transform 0.35s ease-in-out;
 }
-.saswp-collection-slider .saswp-slider-controls a {
+.saswp-cs .saswp-slider-controls a {
   color: #333;
   text-decoration: none;
   transition: 0.15s ease-in-out;
 }
-.saswp-collection-slider .saswp-slider-controls a:hover {
+.saswp-cs .saswp-slider-controls a:hover {
   color: #888;
 }
-.saswp-collection-slider .saswp-slider-dots {
+.saswp-cs .saswp-sd {
   width: 100%;
   display: flex;
   justify-content: center;
@@ -978,16 +976,16 @@ span.saswp-mines{
     .wp-admin .saswp-collection-settings select{
         max-width:100%;
     }
-    .saswp-rd1-warp ul, .saswp-rd3-warp ul{
+    .saswp-r1 ul, .saswp-r3 ul{
       grid-template-columns: 1fr !important;
     }
-    .saswp-rd1-athr-nm{
+    .saswp-rc-nm{
       margin:0px;
     }
-    .saswp-collection-slider-type .saswp-slider-items-container .saswp-slider-item, .saswp-collection-slider-type .saswp-collection-slider {
+    .saswp-cst .saswp-sic .saswp-si, .saswp-cst .saswp-cs {
       max-width: 500px;
     }
-    .saswp-rd1-data .saswp-rd1-rv-lg {
+    .saswp-rc .saswp-rc-lg {
       right: 0;
     }
 
@@ -996,7 +994,7 @@ span.saswp-mines{
 
 
 @media(max-width:550px){
-    .saswp-collection-slider-type .saswp-slider-items-container .saswp-slider-item, .saswp-collection-slider-type .saswp-collection-slider {
+    .saswp-cst .saswp-sic .saswp-si, .saswp-cst .saswp-cs {
       max-width: 320px;
     }
     .saswp-open-class.saswp-popup-btn{
@@ -1006,7 +1004,7 @@ span.saswp-mines{
 }
 
 @media(max-width:320px){
-.saswp-collection-slider-type .saswp-slider-items-container .saswp-slider-item, .saswp-collection-slider-type .saswp-collection-slider {
+.saswp-cst .saswp-sic .saswp-si, .saswp-cst .saswp-cs {
       max-width: 295px;
     }
     .saswp-fomo-wrap {

@@ -512,19 +512,19 @@
        
        function saswpCollectionSlider(){
 	
-                jQuery(".saswp-collection-slider").each( function(){
+                jQuery(".saswp-cs").each( function(){
 		
 		var $slider = jQuery(this),
-				$itemscontainer = $slider.find(".saswp-slider-items-container");
+				$itemscontainer = $slider.find(".saswp-sic");
 		
-		if ($itemscontainer.find(".saswp-slider-item.saswp-active").length == 0){
-			$itemscontainer.find(".saswp-slider-item").first().addClass("saswp-active");
+		if ($itemscontainer.find(".saswp-si.saswp-active").length == 0){
+			$itemscontainer.find(".saswp-si").first().addClass("saswp-active");
 		}
 		
 		function setWidth(){
 			var totalWidth = 0
 			
-			jQuery($itemscontainer).find(".saswp-slider-item").each( function(){
+			jQuery($itemscontainer).find(".saswp-si").each( function(){
 				totalWidth += jQuery(this).outerWidth();
 			});
 			
@@ -533,9 +533,9 @@
 		}
 		function setTransform(){
 			
-                        if(jQuery(".saswp-slider-item.saswp-active").length > 0){
+                        if(jQuery(".saswp-si.saswp-active").length > 0){
                         
-                            var $activeItem = $itemscontainer.find(".saswp-slider-item.saswp-active"),
+                            var $activeItem = $itemscontainer.find(".saswp-si.saswp-active"),
                                             activeItemOffset = $activeItem.offset().left,
                                             itemsContainerOffset = $itemscontainer.offset().left,
                                             totalOffset = activeItemOffset - itemsContainerOffset;
@@ -546,9 +546,9 @@
                         						
 		}
 		function nextSlide(){
-			var activeItem = $itemscontainer.find(".saswp-slider-item.saswp-active"),
+			var activeItem = $itemscontainer.find(".saswp-si.saswp-active"),
 					activeItemIndex = activeItem.index(),
-					sliderItemTotal = $itemscontainer.find(".saswp-slider-item").length,
+					sliderItemTotal = $itemscontainer.find(".saswp-si").length,
 					nextSlide = 0;
 			
 			if (activeItemIndex + 1 > sliderItemTotal - 1){
@@ -557,11 +557,11 @@
 				nextSlide = activeItemIndex + 1
 			}
 			
-			var nextSlideSelect = $itemscontainer.find(".saswp-slider-item").eq(nextSlide),
+			var nextSlideSelect = $itemscontainer.find(".saswp-si").eq(nextSlide),
 					itemContainerOffset = $itemscontainer.offset().left,
 					totalOffset = nextSlideSelect.offset().left - itemContainerOffset
 			
-			$itemscontainer.find(".saswp-slider-item.saswp-active").removeClass("saswp-active");
+			$itemscontainer.find(".saswp-si.saswp-active").removeClass("saswp-active");
 			nextSlideSelect.addClass("saswp-active");
 			$slider.find(".saswp-slider-dots").find(".saswp-dot").removeClass("saswp-active")
 			$slider.find(".saswp-slider-dots").find(".saswp-dot").eq(nextSlide).addClass("saswp-active");
@@ -569,9 +569,9 @@
 			
 		}
 		function prevSlide(){
-			var activeItem = $itemscontainer.find(".saswp-slider-item.saswp-active"),
+			var activeItem = $itemscontainer.find(".saswp-si.saswp-active"),
 					activeItemIndex = activeItem.index(),
-					sliderItemTotal = $itemscontainer.find(".saswp-slider-item").length,
+					sliderItemTotal = $itemscontainer.find(".saswp-si").length,
 					nextSlide = 0;
 			
 			if (activeItemIndex - 1 < 0){
@@ -580,11 +580,11 @@
 				nextSlide = activeItemIndex - 1;
 			}
 			
-			var nextSlideSelect = $itemscontainer.find(".saswp-slider-item").eq(nextSlide),
+			var nextSlideSelect = $itemscontainer.find(".saswp-si").eq(nextSlide),
 					itemContainerOffset = $itemscontainer.offset().left,
 					totalOffset = nextSlideSelect.offset().left - itemContainerOffset
 			
-			$itemscontainer.find(".saswp-slider-item.saswp-active").removeClass("saswp-active");
+			$itemscontainer.find(".saswp-si.saswp-active").removeClass("saswp-active");
 			nextSlideSelect.addClass("saswp-active");
 			$slider.find(".saswp-slider-dots").find(".saswp-dot").removeClass("saswp-active")
 			$slider.find(".saswp-slider-dots").find(".saswp-dot").eq(nextSlide).addClass("saswp-active");
@@ -592,9 +592,9 @@
 			
 		}
 		function makeDots(){
-			var activeItem = $itemscontainer.find(".saswp-slider-item.saswp-active"),
+			var activeItem = $itemscontainer.find(".saswp-si.saswp-active"),
 					activeItemIndex = activeItem.index(),
-					sliderItemTotal = $itemscontainer.find(".saswp-slider-item").length;
+					sliderItemTotal = $itemscontainer.find(".saswp-si").length;
 			
 			for (i = 0; i < sliderItemTotal; i++){
 				$slider.find(".saswp-slider-dots").append("<div class='saswp-dot'></div>")
@@ -634,10 +634,10 @@
 		$slider.find(".saswp-slider-dots").find(".saswp-dot").on('click', function(e){
 			
 			var dotIndex = jQuery(this).index(),
-			totalOffset = $itemscontainer.find(".saswp-slider-item").eq(dotIndex).offset().left - $itemscontainer.offset().left;
+			totalOffset = $itemscontainer.find(".saswp-si").eq(dotIndex).offset().left - $itemscontainer.offset().left;
 					
-			$itemscontainer.find(".saswp-slider-item.saswp-active").removeClass("saswp-active");
-			$itemscontainer.find(".saswp-slider-item").eq(dotIndex).addClass("saswp-active");
+			$itemscontainer.find(".saswp-si.saswp-active").removeClass("saswp-active");
+			$itemscontainer.find(".saswp-si").eq(dotIndex).addClass("saswp-active");
 			$slider.find(".saswp-slider-dots").find(".saswp-dot").removeClass("saswp-active");
 			jQuery(this).addClass("saswp-active");
 			
@@ -655,13 +655,13 @@
                         
                             var html = '';
            
-                                html += '<div class="saswp-rv-box">';
-                                html += '<div class="saswp-rd2-box">';                                
-                                html += '<div class="saswp-rd2-quote">';
+                                html += '<div class="saswp-r2-sli">';
+                                html += '<div class="saswp-r2-b">';                                
+                                html += '<div class="saswp-r2-q">';
                                 html += '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" width="95.333px" height="95.332px" viewBox="0 0 95.333 95.332" style="enable-background:new 0 0 95.333 95.332;" xml:space="preserve"><path d="M30.512,43.939c-2.348-0.676-4.696-1.019-6.98-1.019c-3.527,0-6.47,0.806-8.752,1.793    c2.2-8.054,7.485-21.951,18.013-23.516c0.975-0.145,1.774-0.85,2.04-1.799l2.301-8.23c0.194-0.696,0.079-1.441-0.318-2.045    s-1.035-1.007-1.75-1.105c-0.777-0.106-1.569-0.16-2.354-0.16c-12.637,0-25.152,13.19-30.433,32.076    c-3.1,11.08-4.009,27.738,3.627,38.223c4.273,5.867,10.507,9,18.529,9.313c0.033,0.001,0.065,0.002,0.098,0.002    c9.898,0,18.675-6.666,21.345-16.209c1.595-5.705,0.874-11.688-2.032-16.851C40.971,49.307,36.236,45.586,30.512,43.939z"></path><path d="M92.471,54.413c-2.875-5.106-7.61-8.827-13.334-10.474c-2.348-0.676-4.696-1.019-6.979-1.019    c-3.527,0-6.471,0.806-8.753,1.793c2.2-8.054,7.485-21.951,18.014-23.516c0.975-0.145,1.773-0.85,2.04-1.799l2.301-8.23    c0.194-0.696,0.079-1.441-0.318-2.045c-0.396-0.604-1.034-1.007-1.75-1.105c-0.776-0.106-1.568-0.16-2.354-0.16    c-12.637,0-25.152,13.19-30.434,32.076c-3.099,11.08-4.008,27.738,3.629,38.225c4.272,5.866,10.507,9,18.528,9.312    c0.033,0.001,0.065,0.002,0.099,0.002c9.897,0,18.675-6.666,21.345-16.209C96.098,65.559,95.376,59.575,92.471,54.413z"></path></svg>';
                                 html += '</div>';
-                                html += '<div class="saswp-rd1-cnt">';
-                                html += '<span class="saswp-rd1-stars">';
+                                html += '<div class="saswp-rc-cnt">';
+                                html += '<span class="saswp-r2-s">';
                                 html += saswp_create_rating_html_by_value(value.saswp_review_rating);
                                 html += '</span>';
                                 html += '<p>';
@@ -669,14 +669,14 @@
                                 html += '</p>';
                                 html += '</div>';
                                 html += '</div>';
-                                html += '<div class="saswp-rd1-data">';
-                                html += '<div class="saswp-rd1-athr">';
+                                html += '<div class="saswp-rc">';
+                                html += '<div class="saswp-rc-a">';
                                 html += '<img src="'+value.saswp_reviewer_image+'"/>';
-                                html += '<div class="saswp-rd1-athr-nm">';
-                                html += '<h4><a href="#">'+value.saswp_reviewer_name+'</a></h4>';
-                                html += '<span class="saswp-rd1-ptdt">'+date_str.date+', '+date_str.time+'</span>';
+                                html += '<div class="saswp-rc-nm">';
+                                html += '<a href="#">'+value.saswp_reviewer_name+'</a>';
+                                html += '<span class="saswp-rc-dt">'+date_str.date+', '+date_str.time+'</span>';
                                 html += '</div>';
-                                html += '<div class="saswp-rd1-rv-lg">';
+                                html += '<div class="saswp-rc-lg">';
                                 html += '<img src="'+value.saswp_review_platform_icon+'"/>';
                                 html += '</div>';
                                 html += '</div>';
@@ -693,19 +693,19 @@
                 if(saswp_total_collection.length > 0){
                     
                     if(slider == 'slider'){
-                      html += '<div class="saswp-collection-slider-type">';
+                      html += '<div class="saswp-cst">';
                     }else{
-                      html += '<div class="saswp-collection-carousel-type">';
+                      html += '<div class="saswp-cct">';
                     }
                     
-                    html += '<div class="saswp-collection-slider">';
-                    html += '<div class="saswp-slider-items-container">';
+                    html += '<div class="saswp-cs">';
+                    html += '<div class="saswp-sic">';
                               
                          if(slider == 'slider'){
                             
                             jQuery.each(saswp_total_collection, function(index, value){
                                                         
-                                html += '<div class="saswp-slider-item">';
+                                html += '<div class="saswp-si">';
                                 
                                 html += saswp_review_desing_for_slider(value);
                                 
@@ -723,7 +723,7 @@
                                                                                                                 
                             jQuery.each(chunkarr, function(p_index, p_value){
                                                                 
-                                html += '<div class="saswp-slider-item">';
+                                html += '<div class="saswp-si">';
                                                                     
                                 jQuery.each(p_value, function(index, value){
                                    
@@ -802,17 +802,17 @@
                             html += '<li>';                       
                       html += '<a href="#">'; 
 
-                        html += '<div class="saswp-rv-lg-txt">';
+                        html += '<div class="saswp-r3-lg">';
                           html += '<span>';
                            html += '<img src="'+platform_icon+'"/>';
                           html += '</span>';
-                          html += '<h4>'+platform_name+'</h4">';                          
+                          html += '<span class="saswp-r3-tlt">'+platform_name+'</span">';                          
                         html += '</div>';
 
-                      html += '<div class="saswp-rv-rtng">';
+                      html += '<div class="saswp-r3-rtng">';
 
-                        html += '<div class="saswp-rtng-txt">';
-                          html += '<span class="saswp-rt-num">';
+                        html += '<div class="saswp-r3-rtxt">';
+                          html += '<span class="saswp-r3-num">';
                             html += average_rating;
                           html += '</span>';
                           html += '<span class="saswp-stars">';
@@ -820,7 +820,7 @@
                           html += '</span>';
                         html += '</div>';
 
-                        html += '<span class="saswp-bsd-rv">';
+                        html += '<span class="saswp-r3-brv">';
                         html += 'Based on '+review_count+' Reviews';
                         html += '</span>';
 
@@ -1051,7 +1051,7 @@
                 
                 if(saswp_total_collection.length > 0){
                     
-                    html += '<div class="saswp-rd1-warp">';
+                    html += '<div class="saswp-r1">';
                     
                     for(var i=1; i <=cols; i++ ){
                         grid_cols +=' 1fr'; 
@@ -1072,31 +1072,29 @@
                             var date_str = saswp_convert_datetostring(value.saswp_review_date); 
                             
                             html += '<li>';                       
-                            html += '<div class="saswp-rd1-data">';
-                            html += '<div class="saswp-rd1-athr">';
-                            html += '<div class="saswp-rd1-athr-img">';
+                            html += '<div class="saswp-rc">';
+                            html += '<div class="saswp-rc-a">';
+                            html += '<div class="saswp-r1-aimg">';
                             html += '<img src="'+value.saswp_reviewer_image+'" width="56" height="56"/>';
                             html += '</div>';
-                            html += '<div class="saswp-rd1-athr-nm">';
-                            html += '<h4><a href="#">'+value.saswp_reviewer_name+'</a></h4>';
+                            html += '<div class="saswp-rc-nm">';
+                            html += '<a href="#">'+value.saswp_reviewer_name+'</a>';
                             html += saswp_create_rating_html_by_value(value.saswp_review_rating);  
 
                             if(date_str.date){
-                              html += '<span class="saswp-rd1-ptdt">'+date_str.date+', '+date_str.time+'</span>';
+                              html += '<span class="saswp-rc-dt">'+date_str.date+', '+date_str.time+'</span>';
 
                             }
                             
                             html += '</div>';
                             html += '</div>';
-                            html += '<div class="saswp-rd1-rv-lg">';
-                            html += '</div>';
                             
-                            html += '<div class="saswp-rd1-rv-lg">';
+                            html += '<div class="saswp-rc-lg">';
                             html += '<img src="'+value.saswp_review_platform_icon+'"/>';
                             html += '</div>';
                             
                             html += '</div>';
-                            html +='<div class="saswp-rd1-cnt">';
+                            html +='<div class="saswp-rc-cnt">';
                             html += '<p>'+value.saswp_review_text+'</p>';
                             html += '</div>';
                             html += '</li>';
