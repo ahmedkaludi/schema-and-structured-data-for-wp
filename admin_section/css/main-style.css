@@ -789,7 +789,7 @@ Google review module starts here
     display: inline-block;
     vertical-align: middle;
 }
-.saswp-str-rtng .saswp-rvw-str{
+.saswp-r5-rng .saswp-rvw-str{
     display: inline-block;
     vertical-align: middle;
     padding-left: 10px;
@@ -1313,7 +1313,7 @@ Collection css starts here
     background:#fff;
     border: 1px solid #ccd0d4;
     box-shadow: 0 1px 1px rgba(0,0,0,.04);
-    padding-bottom: 30px;
+    padding-bottom: 22px;
 }
 .saswp-collection-settings{
     flex:1 0 23%;
@@ -1423,6 +1423,7 @@ Collection css starts here
   display: inline-block;
   line-height: 1.1;
   letter-spacing: 0;
+  width:80%;
 }
 .saswp-rc-dt{
   margin-top:5px;
@@ -1688,7 +1689,7 @@ Collection css starts here
 }
 
 /** Fomo CSS **/
-.saswp-fomo-wrap{
+.saswp-r5{
   position:fixed;
   bottom:20px;  
   width: calc(100% - 20px);
@@ -1700,22 +1701,22 @@ Collection css starts here
   transition: all .3s ease-in;
   display: none;
 }
-.saswp-fomo-reviews .saswp-str-rtng .saswp-rvw-str{
+.saswp-r5-r .saswp-r5-rng .saswp-rvw-str{
     padding-left:0px;
     margin-bottom: 3px;
 }
-.saswp-fomo-reviews{
+.saswp-r5-r{
   display: flex;
   flex-wrap: wrap;
   width: 100%;
   align-items: center;
   height:80px;
 }
-.saswp-str-rtng{
+.saswp-r5-rng{
   flex:1 0 60%;
   padding-left: 15px;
 }
-.saswp-frv-lg{
+.saswp-r5-lg{
   width: 80px;
   height: 100%;
   border-right: 1px solid #ddd;
@@ -1726,42 +1727,33 @@ Collection css starts here
   align-items: center;
   border-radius: 12px 0px 0px 12px;
 }
-.saswp-fomo-reviews .saswp-frv-lg span{
+.saswp-r5-r .saswp-r5-lg span{
   border-radius: 10px 0px 0px 10px;
 }
-.saswp-fomo-reviews .saswp-frv-lg img{
+.saswp-r5-r .saswp-r5-lg img{
   border-radius: 10px 0px 0px 10px;
   position: relative;
-  top: 3px;
+  top: 2px;
   left: 4px;
 }
-.saswp-frv-lg svg{
-    text-align: center;
-    width: 100%;
-}
-.saswp-str-rtng svg{
-  width: 20px;
-  height: 20px;
-  margin: 0px 3px 0px 0px;
-}
-.saswp-text-rtng{
+.saswp-r5-txrng{
   font-size: 12px;
   line-height: 1.2;
   color: #444;
   display: flex;
   margin-bottom: 5px;
 }
-.saswp-text-rtng span{
+.saswp-r5-txrng span{
     font-weight: 600;
     color: #666;
     margin-right: 5px
 }
-.saswp-str-rtng span.saswp-rt-dt{
+.saswp-r5-rng span.saswp-r5-dt{
   display: block;
   font-size: 12px;
   color: #ababab;
 }
-.saswp-fomo-wrap a{
+.saswp-r5 a{
   text-decoration:none;
 }
 
@@ -1812,7 +1804,7 @@ Collection css starts here
     justify-content: space-between;
     width: 100%;
 }
-.saswp-reviews-info ul{
+.saswp-r4-info ul{
   list-style-type:none;
   padding:0;
   margin:0;
@@ -1820,47 +1812,41 @@ Collection css starts here
   height: 350px;
   overflow-y: scroll;
 }
-.saswp-reviews-info ul li{
+.saswp-r4-info ul li{
   border-bottom:1px solid #ccc;
   padding:20px;
 }
-.saswp-rvws-dta{
+.saswp-r4-b{
   display: flex;
   align-items: center;
   justify-content: flex-start;
   width: 100%;
 }
-.saswp-rvws-dta .saswp-svg-img{
+.saswp-r4-b .saswp-r4-str{
   margin-right:10px;
 }
-.saswp-rvws-dta span.saswp-rvw-tx{
+.saswp-r4-b span.saswp-r4-tx{
   font-size:14px;
   color:#444;
 }
-.saswp-rvws-dta span.saswp-rvw-nm:after{
+.saswp-r4-b span.saswp-r4-nm:after{
   content:"-";
   display:inline-block;
   margin:0px 10px;
 }
-.saswp-rvws-dta svg {
-  width: 18px;
-  height: 18px;
-  margin: 0 2px 0 0;
-  vertical-align: middle;
-}
-.saswp-rvws-txt h3{
+.saswp-r4-cnt h3{
   margin: 15px 0px;
   font-size: 18px;
   color: #555;
   font-weight: 400;
 }
-.saswp-rvws-txt p{
+.saswp-r4-cnt p{
   font-size: 13px;
   line-height: 1.5;
   margin: 0;
   color: #666;
 }
-.saswp-reviews-info ul li.saswp-ttl-rvw{
+.saswp-r4-info ul li.saswp-r4-r{
   display: flex;
   width: 100%;
   align-items: center;
@@ -1868,19 +1854,12 @@ Collection css starts here
   justify-content: center;
   box-sizing: border-box;
 }
-.saswp-reviews-info ul li.saswp-ttl-rvw span{
+.saswp-r4-info ul li.saswp-r4-r span{
   font-size:20px;
   color:#666;
 }
-.saswp-ttl-rvw svg{
-  width:22px;
-  height:22px;
-  margin:0px 5px 0px 0px
-}
-.saswp-reviews-info ul li span.saswp-ttl-rvws{
+.saswp-r4-info ul li span.saswp-r4-rnm{
   margin-left: 10px;
-  position: relative;
-  top: -2px;
 }
 
 .btn .saswp-onclick-hide, .btn.saswp-open-class .saswp-onclick-show {

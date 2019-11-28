@@ -114,7 +114,7 @@ class saswp_reviews_service {
                                     <img src="'.esc_url($img_src).'" alt="'.esc_attr($review['saswp_reviewer_name']).'">
                                 </div>
                                 <div class="saswp-rv-cnt">
-                                    <div class="saswp-str-rtng">
+                                    <div class="saswp-r5-rng">
                                         <div class="saswp-str">
                                             <span class="saswp-athr">'.esc_attr($review['saswp_reviewer_name']).'</span>
                                             '.$starating.'                                  
@@ -1065,15 +1065,15 @@ class saswp_reviews_service {
                             $date_str = $this->saswp_convert_datetostring($value['saswp_review_date']); 
                             
                             $html_list .= '<li>';
-                            $html_list .= '<div class="saswp-rvws-dta">';
-                            $html_list .= '<span class="saswp-svg-img">';
+                            $html_list .= '<div class="saswp-r4-b">';
+                            $html_list .= '<span class="saswp-r4-str">';
                             $html_list .= saswp_get_rating_html_by_value($value['saswp_review_rating']);
                             $html_list .= '</span>';
-                            $html_list .= '<span class="saswp-rvw-tx saswp-rvw-nm">'.esc_attr($value['saswp_reviewer_name']).'</span>';
-                            $html_list .= '<span class="saswp-rvw-tx">'. esc_attr($date_str['date']).', '.esc_attr($date_str['time']).'</span>';
+                            $html_list .= '<span class="saswp-r4-tx saswp-r4-nm">'.esc_attr($value['saswp_reviewer_name']).'</span>';
+                            $html_list .= '<span class="saswp-r4-tx">'. esc_attr($date_str['date']).', '.esc_attr($date_str['time']).'</span>';
                             $html_list .= '</div>';
                             
-                            $html_list .= '<div class="saswp-rvws-txt">';
+                            $html_list .= '<div class="saswp-r4-cnt">';
                             $html_list .= '<h3>'. esc_attr($value['saswp_reviewer_name']).'</h3>';
                             $html_list .= '<p>'. esc_attr($value['saswp_review_text']).'</p>';
                             $html_list .= '</div>';
@@ -1099,7 +1099,7 @@ class saswp_reviews_service {
                         $html .= '<span>';
                         $html .= saswp_get_rating_html_by_value($average_rating);
                         $html .= '</span>';
-                        $html .= '<span class="saswp-ttl-rvws">'.esc_attr(number_format ($average_rating, 1)).' from '.esc_attr($review_count).' '.esc_html__('reviews','schema-and-structured-data-for-wp').'</span>';                    
+                        $html .= '<span class="saswp-r4-rnm">'.esc_attr(number_format ($average_rating, 1)).' from '.esc_attr($review_count).' '.esc_html__('reviews','schema-and-structured-data-for-wp').'</span>';                    
                         $html .= '</div>';
 
                         $html .= '<div class="saswp-onclick-show">';
@@ -1109,14 +1109,14 @@ class saswp_reviews_service {
 
                         $html .= '</div>';
                         $html .= '<div id="saswp-reviews-cntn">';
-                        $html .= '<div class="saswp-reviews-info">';
+                        $html .= '<div class="saswp-r4-info">';
                         $html .= '<ul>';
 
-                        $html .= '<li class="saswp-ttl-rvw">';
+                        $html .= '<li class="saswp-r4-r">';
                         $html .= '<span>';
                         $html .= saswp_get_rating_html_by_value($average_rating);
                         $html .= '</span>';
-                        $html .= '<span class="saswp-ttl-rvws">'. esc_attr(number_format ($average_rating, 1)).' from '. esc_attr($review_count).' '.esc_html__('reviews','schema-and-structured-data-for-wp').'</span>';                    
+                        $html .= '<span class="saswp-r4-rnm">'. esc_attr(number_format ($average_rating, 1)).' from '. esc_attr($review_count).' '.esc_html__('reviews','schema-and-structured-data-for-wp').'</span>';                    
                         $html .= '</li>';                                        
                         $html .= $html_list;
                         $html .= '</ul>';                    
@@ -1135,7 +1135,7 @@ class saswp_reviews_service {
                         $html .= '<span>';
                         $html .= saswp_get_rating_html_by_value($average_rating);
                         $html .= '</span>';
-                        $html .= '<span class="saswp-ttl-rvws">'.esc_attr(number_format($average_rating, 1) ).' from '.esc_attr($review_count).' '.esc_html__('reviews','schema-and-structured-data-for-wp').'</span>';                    
+                        $html .= '<span class="saswp-r4-rnm">'.esc_attr(number_format($average_rating, 1) ).' from '.esc_attr($review_count).' '.esc_html__('reviews','schema-and-structured-data-for-wp').'</span>';                    
                         $html .= '</div>';
                         $html .= '<div class="saswp-onclick-show">';
                         $html .= '<span>'.esc_html__('Ratings and reviews','schema-and-structured-data-for-wp').'</span>';                    
@@ -1144,14 +1144,14 @@ class saswp_reviews_service {
                         $html .= '</div>';
                                                 
                         $html .= '<div id="saswp-reviews-cntn">';
-                        $html .= '<div class="saswp-reviews-info">';
+                        $html .= '<div class="saswp-r4-info">';
                         $html .= '<ul>';
 
-                        $html .= '<li class="saswp-ttl-rvw">';
+                        $html .= '<li class="saswp-r4-r">';
                         $html .= '<span>';
                         $html .= saswp_get_rating_html_by_value($average_rating);
                         $html .= '</span>';
-                        $html .= '<span class="saswp-ttl-rvws">'. esc_attr(number_format($average_rating, 1)).' from '. esc_attr($review_count).' reviews</span>';                    
+                        $html .= '<span class="saswp-r4-rnm">'. esc_attr(number_format($average_rating, 1)).' from '. esc_attr($review_count).' reviews</span>';                    
                         $html .= '</li>';                                        
                         $html .= $html_list;
                         $html .= '</ul>';                    
@@ -1184,20 +1184,20 @@ class saswp_reviews_service {
                 
                     $date_str = $this->saswp_convert_datetostring($value['saswp_review_date']); 
 
-                    $html .= '<div id="'.$i.'" class="saswp-fomo-wrap">';
-                    $html .= '<div class="saswp-fomo-reviews">';                            
-                    $html .= '<div class="saswp-frv-lg">';
+                    $html .= '<div id="'.$i.'" class="saswp-r5">';
+                    $html .= '<div class="saswp-r5-r">';                            
+                    $html .= '<div class="saswp-r5-lg">';
                     $html .= '<span>';
                     $html .= '<img height="70" width="70" src="'. esc_attr($value['saswp_review_platform_icon']).'"/>';
                     $html .= '</span>';
                     $html .= '</div>';                            
-                    $html .= '<div class="saswp-str-rtng">';
+                    $html .= '<div class="saswp-r5-rng">';
                     $html .= saswp_get_rating_html_by_value($value['saswp_review_rating']);
-                    $html .='<div class="saswp-text-rtng">';
+                    $html .='<div class="saswp-r5-txrng">';
                     $html .='<span>'. esc_attr($value['saswp_review_rating']).' Star Rating</span> by ';
                     $html .= '<span>'.esc_attr($value['saswp_reviewer_name']).'</span>';
                     $html .='</div>';
-                    $html .= '<span class="saswp-rt-dt">'.esc_attr($date_str['date']).', '. esc_attr($date_str['time']).'</span>';
+                    $html .= '<span class="saswp-r5-dt">'.esc_attr($date_str['date']).', '. esc_attr($date_str['time']).'</span>';
                     $html .= '</div>';                            
                     $html .= '</div>';
                     $html .= '</div>';     
@@ -1216,20 +1216,20 @@ class saswp_reviews_service {
                 
                     $date_str = $this->saswp_convert_datetostring($value['saswp_review_date']); 
 
-                    $html .= '<div id="'.$i.'" class="saswp-fomo-wrap">';
-                    $html .= '<div class="saswp-fomo-reviews">';                            
-                    $html .= '<div class="saswp-frv-lg">';
+                    $html .= '<div id="'.$i.'" class="saswp-r5">';
+                    $html .= '<div class="saswp-r5-r">';                            
+                    $html .= '<div class="saswp-r5-lg">';
                     $html .= '<span>';
                     $html .= '<img height="70" width="70" src="'. esc_attr($value['saswp_review_platform_icon']).'"/>';
                     $html .= '</span>';
                     $html .= '</div>';                            
-                    $html .= '<div class="saswp-str-rtng">';
+                    $html .= '<div class="saswp-r5-rng">';
                     $html .= saswp_get_rating_html_by_value($value['saswp_review_rating']);
-                    $html .='<div class="saswp-text-rtng">';
+                    $html .='<div class="saswp-r5-txrng">';
                     $html .='<span>'. esc_attr($value['saswp_review_rating']).' Star Rating</span> by ';
                     $html .= '<span>'.esc_attr($value['saswp_reviewer_name']).'</span>';
                     $html .='</div>';
-                    $html .= '<span class="saswp-rt-dt">'.esc_attr($date_str['date']).', '. esc_attr($date_str['time']).'</span>';
+                    $html .= '<span class="saswp-r5-dt">'.esc_attr($date_str['date']).', '. esc_attr($date_str['time']).'</span>';
                     $html .= '</div>';                            
                     $html .= '</div>';
                     $html .= '</div>';     

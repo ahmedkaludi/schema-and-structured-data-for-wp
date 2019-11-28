@@ -145,7 +145,7 @@ jQuery(document).ready(function($){
         
     var fomo_inverval       = jQuery("#saswp_fomo_interval").val();    
     
-    var elems = $(".saswp-fomo-wrap");
+    var elems = $(".saswp-r5");
     var i = 1;
     saswp_fomo_fade(elems[0])
 

@@ -863,15 +863,15 @@
                             var date_str = saswp_convert_datetostring(value.saswp_review_date); 
                             
                             html_list += '<li>';
-                            html_list += '<div class="saswp-rvws-dta">';
-                            html_list += '<span class="saswp-svg-img">';
+                            html_list += '<div class="saswp-r4-b">';
+                            html_list += '<span class="saswp-r4-str">';
                             html_list += saswp_create_rating_html_by_value(value.saswp_review_rating);
                             html_list += '</span>';
-                            html_list += '<span class="saswp-rvw-tx saswp-rvw-nm">'+value.saswp_reviewer_name+'</span>';
-                            html_list += '<span class="saswp-rvw-tx">'+date_str.date+', '+date_str.time+'</span>';
+                            html_list += '<span class="saswp-r4-tx saswp-r4-nm">'+value.saswp_reviewer_name+'</span>';
+                            html_list += '<span class="saswp-r4-tx">'+date_str.date+', '+date_str.time+'</span>';
                             html_list += '</div>';
                             
-                            html_list += '<div class="saswp-rvws-txt">';
+                            html_list += '<div class="saswp-r4-cnt">';
                             html_list += '<h3>'+value.saswp_reviewer_name+'</h3>';
                             html_list += '<p>'+value.saswp_review_text+'</p>';
                             html_list += '</div>';
@@ -896,7 +896,7 @@
                         html += '<span>';
                         html += saswp_create_rating_html_by_value(average_rating.toString());
                         html += '</span>';
-                        html += '<span class="saswp-ttl-rvws">'+average_rating.toFixed(1)+' from '+review_count+' reviews</span>';                    
+                        html += '<span class="saswp-r4-rnm">'+average_rating.toFixed(1)+' from '+review_count+' reviews</span>';                    
                         html += '</div>';
 
                         html += '<div class="saswp-onclick-show">';
@@ -906,14 +906,14 @@
 
                         html += '</div>';
                         html += '<div id="saswp-reviews-cntn">';
-                        html += '<div class="saswp-reviews-info">';
+                        html += '<div class="saswp-r4-info">';
                         html += '<ul>';
 
-                        html += '<li class="saswp-ttl-rvw">';
+                        html += '<li class="saswp-r4-r">';
                         html += '<span>';
                         html += saswp_create_rating_html_by_value(average_rating.toString());
                         html += '</span>';
-                        html += '<span class="saswp-ttl-rvws">'+average_rating.toFixed(1)+' from '+review_count+' reviews</span>';                    
+                        html += '<span class="saswp-r4-rnm">'+average_rating.toFixed(1)+' from '+review_count+' reviews</span>';                    
                         html += '</li>';                                        
                         html += html_list;
                         html += '</ul>';                    
@@ -941,20 +941,20 @@
 
                     var date_str = saswp_convert_datetostring(value.saswp_review_date); 
 
-                    html += '<div id="'+index+'" class="saswp-fomo-wrap">';
-                    html += '<div class="saswp-fomo-reviews">';                            
-                    html += '<div class="saswp-frv-lg">';
+                    html += '<div id="'+index+'" class="saswp-r5">';
+                    html += '<div class="saswp-r5-r">';                            
+                    html += '<div class="saswp-r5-lg">';
                     html += '<span>';
                     html += '<img height="70" width="70" src="'+value.saswp_review_platform_icon+'"/>';
                     html += '</span>';
                     html += '</div>';                            
-                    html += '<div class="saswp-str-rtng">';
+                    html += '<div class="saswp-r5-rng">';
                       html += saswp_create_rating_html_by_value(value.saswp_review_rating);
-                     html +='<div class="saswp-text-rtng">';
+                     html +='<div class="saswp-r5-txrng">';
                      html +='<span>'+value.saswp_review_rating+' Star Rating by</span>';
                      html +='<span>'+value.saswp_reviewer_name+'</span>';
                      html +='</div>';
-                     html += '<span class="saswp-rt-dt">'+date_str.date+', '+date_str.time+'</span>';
+                     html += '<span class="saswp-r5-dt">'+date_str.date+', '+date_str.time+'</span>';
                     html += '</div>';                            
                     html += '</div>';
                     html += '</div>';                   
@@ -972,7 +972,7 @@
             
        function saswp_fomo_slide(fomo_inverval, fomo_visibility){
                 
-            var elem = jQuery('.saswp-collection-preview .saswp-fomo-wrap');
+            var elem = jQuery('.saswp-collection-preview .saswp-r5');
             var l = elem.length;
             var i = 0;
                         

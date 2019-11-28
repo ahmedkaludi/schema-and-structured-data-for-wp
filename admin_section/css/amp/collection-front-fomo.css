@@ -1,5 +1,5 @@
 /** Fomo CSS **/
-.saswp-fomo-wrap{
+.saswp-r5{
   position:fixed;
   bottom:20px;
   left:20px;
@@ -14,20 +14,20 @@
 }
 #saswp-reviews-fomo-amp .amp-carousel-button { display: none }
 
-.saswp-fomo-reviews{
+.saswp-r5-r{
   display: flex;
   flex-wrap: wrap;
   width: 100%;
   align-items: center;
   height:80px;
 }
-.saswp-str-rtng{
+.saswp-r5-rng{
   flex:1 0 60%;
   padding-left: 15px;
   position: relative;
   top: -2px;
 }
-.saswp-frv-lg{
+.saswp-r5-lg{
   width: 80px;
   height: 100%;
   border-right: 1px solid #ddd;
@@ -38,29 +38,29 @@
   align-items: center;
   border-radius: 12px 0px 0px 12px;
 }
-.saswp-fomo-reviews .saswp-frv-lg amp-img{
+.saswp-r5-r .saswp-r5-lg amp-img{
   position: relative;
   top: 3px;
   left: 4px;
   border-radius: 10px 0px 0px 10px;
 }
-.saswp-text-rtng{
+.saswp-r5-txrng{
   font-size: 12px;
   line-height: 1.2;
   color: #444;
   display: flex;
   margin-bottom: 3px;
 }
-.saswp-text-rtng span{
+.saswp-r5-txrng span{
     font-weight: 600;
     color: #666;
     margin-right: 5px
 }
-.saswp-str-rtng span.saswp-rt-dt{
+.saswp-r5-rng span.saswp-r5-dt{
   display: block;
   font-size: 12px;
   color: #ababab;
 }
-.saswp-fomo-wrap a{
+.saswp-r5 a{
   text-decoration:none;
 }

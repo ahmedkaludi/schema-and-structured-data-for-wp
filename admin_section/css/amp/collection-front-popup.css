@@ -37,7 +37,7 @@
   font-weight: 600;
   color: #fff;
 }
-.saswp-reviews-info ul{
+.saswp-r4-info ul{
   list-style-type:none;
   padding:0;
   margin:0;
@@ -45,69 +45,56 @@
   height: 350px;
   overflow-y: scroll;
 }
-.saswp-reviews-info ul li{
+.saswp-r4-info ul li{
   border-bottom:1px solid #ccc;
   padding:20px;
 }
-.artl-cnt .saswp-reviews-info li:before{
+.artl-cnt .saswp-r4-info li:before{
   display:none;
 }
-.saswp-rvws-dta{
+.saswp-r4-b{
   display: flex;
   align-items: center;
   justify-content: flex-start;
   width: 100%;
 }
-.saswp-rvws-dta .saswp-svg-img{
+.saswp-r4-b .saswp-r4-str{
   margin-right:10px;
 }
-.saswp-rvws-dta span.saswp-rvw-tx{
+.saswp-r4-b span.saswp-r4-tx{
   font-size:14px;
   color:#444;
 }
-.saswp-rvws-dta span.saswp-rvw-nm:after{
+.saswp-r4-b span.saswp-r4-nm:after{
   content:"-";
   display:inline-block;
   margin:0px 10px;
 }
-.saswp-rvws-dta svg {
-  width: 18px;
-  height: 18px;
-  margin: 0 2px 0 0;
-  vertical-align: middle;
-}
-.saswp-rvws-txt h3{
+.saswp-r4-cnt h3{
   margin: 15px 0px;
   font-size: 18px;
   color: #555;
   font-weight: 400;
 }
-.saswp-rvws-txt p{
+.saswp-r4-cnt p{
   font-size: 13px;
   line-height: 1.5;
   margin: 0;
   color: #666;
 }
-.saswp-reviews-info ul li.saswp-ttl-rvw{
+.saswp-r4-info ul li.saswp-r4-r{
   display: flex;
   width: 100%;
   align-items: center;
   text-align: center;
   justify-content: center;
 }
-.saswp-reviews-info ul li.saswp-ttl-rvw span{
+.saswp-r4-info ul li.saswp-r4-r span{
   font-size:20px;
   color:#666;
 }
-.saswp-ttl-rvw svg{
-  width:22px;
-  height:22px;
-  margin:0px 5px 0px 0px
-}
-.saswp-reviews-info ul li span.saswp-ttl-rvws{
+.saswp-r4-info ul li span.saswp-r4-rnm{
   margin-left: 10px;
-  position: relative;
-  top: -2px;
 }
 .btn .saswp-onclick-hide, .btn.open-class .saswp-onclick-show {
     display: flex;

@@ -167,7 +167,7 @@ body .saswp-r, body .saswp-r p{
   grid-template-columns:1fr 1fr 1fr;
   grid-gap:15px;
   margin:0;
-  overflow-x: scroll;
+  /*overflow-x: scroll;*/
 }
 .saswp-r1 li{
   padding:20px;
@@ -212,6 +212,7 @@ body .saswp-r, body .saswp-r p{
   display: inline-block;
   line-height: 1.1;
   letter-spacing: 0;
+  width:80%;
 }
 .saswp-rc-dt{
   margin-top:5px;
@@ -463,7 +464,7 @@ body .saswp-r, body .saswp-r p{
 }
 
 /** Fomo CSS **/
-.saswp-fomo-wrap{
+.saswp-r5{
   position:fixed;
   bottom:20px;
   left:20px;
@@ -478,13 +479,13 @@ body .saswp-r, body .saswp-r p{
   margin:0 !important;
   box-shadow: 0 0 7px 4px rgba(0,0,0,.15);
 }
-.saswp-fomo-reviews .saswp-str-rtng .saswp-rvw-str{
+.saswp-r5-r .saswp-str-rtng .saswp-rvw-str{
   padding-left:0px;
   margin-bottom: 6px;
   line-height: 0;
   display: block;
 }
-.saswp-fomo-reviews{
+.saswp-r5-r{
   display: flex;
   flex-wrap: wrap;
   width: 100%;
@@ -492,20 +493,20 @@ body .saswp-r, body .saswp-r p{
   height:80px;
   border-radius: 12px;
 }
-.saswp-fomo-reviews .saswp-frv-lg span{
+.saswp-r5-r .saswp-r5-lg span{
   border-radius: 10px 0px 0px 10px;
 }
-.saswp-fomo-reviews .saswp-frv-lg img{
+.saswp-r5-r .saswp-r5-lg img{
   position: relative;
-  top: 6px;
+  top: 0px;
   left: 4px;
   border-radius: 10px 0px 0px 10px;
 }
-.saswp-str-rtng{
+.saswp-r5-rng{
   flex:1 0 60%;
   padding-left: 15px;
 }
-.saswp-frv-lg{
+.saswp-r5-lg{
   width: 80px;
   height: 100%;
   border-right: 1px solid #ddd;
@@ -516,33 +517,24 @@ body .saswp-r, body .saswp-r p{
   align-items: center;
   border-radius: 12px 0px 0px 12px;
 }
-.saswp-frv-lg svg{
-    text-align: center;
-    width: 100%;
-}
-.saswp-str-rtng svg{
-  width: 20px;
-  height: 20px;
-  margin: 0px 3px 0px 0px;
-}
-.saswp-text-rtng{
+.saswp-r5-txrng{
   font-size: 12px;
   line-height: 1.2;
   color: #444;
   display: flex;
-  margin-bottom: 5px;
+  margin-bottom: 7px;
 }
-.saswp-text-rtng span{
-    font-weight: 600;
-    color: #666;
-    margin-right: 5px
+.saswp-r5-txrng span{
+  font-weight: 600;
+  color: #666;
+  margin-right: 5px
 }
-.saswp-str-rtng span.saswp-rt-dt{
+.saswp-r5-dt{
   display: block;
   font-size: 12px;
   color: #ababab;
 }
-.saswp-fomo-wrap a{
+.saswp-r5 a{
   text-decoration:none;
 }
 
@@ -593,7 +585,7 @@ body .saswp-r, body .saswp-r p{
     justify-content: space-between;
     width: 100%;
 }
-.saswp-reviews-info ul{
+.saswp-r4-info ul{
   list-style-type:none;
   padding:0;
   margin:0;
@@ -601,47 +593,13 @@ body .saswp-r, body .saswp-r p{
   height: 350px;
   overflow-y: scroll;
 }
-.saswp-reviews-info ul li{
+.saswp-r4-info ul li{
   border-bottom:1px solid #ccc;
   padding:20px;
+  margin:0;
+  font-family: sans-serif;
 }
-.saswp-rvws-dta{
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  width: 100%;
-}
-.saswp-rvws-dta .saswp-svg-img{
-  margin-right:10px;
-}
-.saswp-rvws-dta span.saswp-rvw-tx{
-  font-size:14px;
-  color:#444;
-}
-.saswp-rvws-dta span.saswp-rvw-nm:after{
-  content:"-";
-  display:inline-block;
-  margin:0px 10px;
-}
-.saswp-rvws-dta svg {
-  width: 18px;
-  height: 18px;
-  margin: 0 2px 0 0;
-  vertical-align: middle;
-}
-.saswp-rvws-txt h3{
-  margin: 15px 0px;
-  font-size: 18px;
-  color: #555;
-  font-weight: 400;
-}
-.saswp-rvws-txt p{
-  font-size: 13px;
-  line-height: 1.5;
-  margin: 0;
-  color: #666;
-}
-.saswp-reviews-info ul li.saswp-ttl-rvw{
+.saswp-r4-info ul li.saswp-r4-r{
   display: flex;
   width: 100%;
   align-items: center;
@@ -649,7 +607,45 @@ body .saswp-r, body .saswp-r p{
   justify-content: center;
   box-sizing: border-box;
 }
-.saswp-reviews-info ul li.saswp-ttl-rvw span{
+.saswp-r4-b{
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+}
+.saswp-r4-b .saswp-r4-str{
+  margin-right:10px;
+}
+.saswp-r4-b span.saswp-r4-tx{
+  font-size:14px;
+  color:#444;
+}
+.saswp-r4-b span.saswp-r4-nm:after{
+  content:"-";
+  display:inline-block;
+  margin:0px 10px;
+}
+.saswp-r4-cnt h3{
+  margin: 15px 0px !important;
+  font-size: 18px;
+  color: #555;
+  font-weight: 400;
+}
+.saswp-r4-cnt p{
+  font-size: 13px;
+  line-height: 1.5;
+  margin: 0;
+  color: #666;
+}
+.saswp-r4-info ul li.saswp-ttl-rvw{
+  display: flex;
+  width: 100%;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+.saswp-r4-info ul li.saswp-ttl-rvw span{
   font-size:20px;
   color:#666;
 }
@@ -658,10 +654,8 @@ body .saswp-r, body .saswp-r p{
   height:22px;
   margin:0px 5px 0px 0px
 }
-.saswp-reviews-info ul li span.saswp-ttl-rvws{
+.saswp-r4-info ul li span.saswp-r4-rnm{
   margin-left: 10px;
-  position: relative;
-  top: -2px;
 }
 
 .btn .saswp-onclick-hide, .btn.saswp-open-class .saswp-onclick-show {
@@ -1007,7 +1001,7 @@ span.saswp-mines{
 .saswp-cst .saswp-sic .saswp-si, .saswp-cst .saswp-cs {
       max-width: 295px;
     }
-    .saswp-fomo-wrap {
+    .saswp-r5 {
       left: 10px;
     }
 
