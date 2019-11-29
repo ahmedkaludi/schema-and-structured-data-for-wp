@@ -26,6 +26,9 @@
   width: 100%;
   clear: both;
 }
+.saswp-rvw-str{
+  justify-content: center;
+}
 .saswp-r li .saswp-rd1-stars{
   display: inline-block;
   width: 100px;
@@ -89,8 +92,13 @@
   height:25px;
   border-radius: 100px;
 }
+.saswp-r2-strs{
+  line-height: 0px;
+}
 .saswp-cp{
-  text-align:center;
+  text-align: center;
+  position: relative;
+  top: -50px;
 }
 .saswp-cp button{
   width:12px;
@@ -119,10 +127,29 @@
   -webkit-border-radius: 4px;
   border-radius: 4px;
 }
+
+.carousel-type::-webkit-scrollbar {
+  width: 4px ;
+  height:4px;
+  display:inline-block ;
+}
+.carousel-type::-webkit-scrollbar-thumb {
+  -webkit-border-radius: 10px ;
+  border-radius: 10px ;
+  background: #ccc ;
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5) ;
+}
+.carousel-type::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+}
+
+
 .saswp-rc-cnt p{margin:0;}
 .saswp-rc-cnt {
     position: static;
-    height: 100px;
+    height: 80px;
     overflow-y: auto;
     font-size: 14px;
     line-height: 1.6;
@@ -130,12 +157,23 @@
     padding: 0 2px 0 0;
     margin: 10px 0 0;
 }
-
+.saswp-r .amp-carousel-button{
+  bottom: 0px;
+  top: auto;
+  cursor: pointer
+}
 
 
 /** Carousel **/
+.carousel-type + .saswp-cp{
+  top: -32px;
+}
+.saswp-r .carousel-type .amp-carousel-button {
+  bottom: -17px;
+}
 .carousel-type li{
-  width:40%;
+  max-width:300px;
+  margin: 0px 20px 50px 0px;
 }
 .carousel-type .saswp-rv-box {
   margin-right: 20px;

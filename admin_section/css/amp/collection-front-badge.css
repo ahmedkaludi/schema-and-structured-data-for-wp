@@ -2,9 +2,11 @@
 .saswp-r3 ul{
   padding:0px;
   display:grid;
-  grid-template-columns:1fr 1fr 1fr 1fr;
-  grid-gap: 50px;
+  grid-template-columns:190px 190px 190px 190px;
+  grid-gap: 30px;
   list-style-type:none;
+  margin:0;
+  justify-content: center;
 }
 .saswp-r3 li{
   box-shadow: 0 2px 5px 0 rgba(0,0,0,.26);
@@ -19,41 +21,50 @@
   text-decoration:none;
 }
 .saswp-r3-lg{
-  background: #ededed;
+  background: #f8f8f8;
   display: flex;
+  border-bottom: 1px solid #e8e8e8;
   align-items: center;
   justify-content: center;
   width: 100%;
-  padding: 8px;
+  padding: 6px 8px;
+  box-sizing: border-box;
+  border-radius: 3px 3px 0px 0px;
 }
 .saswp-r3-lg amp-img{
-  max-width:25px;
-  max-height:25px;
+  max-width: 18px;
+  max-height: 18px;
+  margin-right: 6px;
   border-radius: 100px;
 }
 .saswp-r3-lg .saswp-r3-tlt{
-  font-size:20px;
-  line-height:1.4;
-  color:#333;
-  font-weight:400;
+  font-size: 12px;
+  line-height: 1.4;
+  text-transform: uppercase;
+  color: #555;
+  font-weight: 400;
 }
 .saswp-r3-lg span{
   line-height: 0;
-  margin-right: 10px;
 }
 .saswp-r3-rtng{
-  padding:20px;
+  padding: 13px 10px 10px 10px;
+  background: #fff;
+  border-radius: 0px 0px 3px 3px;
+  text-align: center;
 }
 .saswp-r3-rtxt{
   display: flex;
   align-items: center;
   line-height: 0;
   width: 100%;
-  margin-bottom:10px;
+  margin-bottom: 4px;
+  justify-content: center;
 }
 .saswp-r3-brv{
-  color: #999;
-  font-size: 15px;
+  color: #666;
+  font-size: 13px;
+  line-height: 1;
 }
 .saswp-r3-rtxt .saswp-r3-num{
   color: #666;
@@ -61,10 +72,18 @@
   font-size: 20px;
   width:30px;
 }
+.saswp-r3 .saswp-rvw-str .df-clr, .saswp-r3 .saswp-rvw-str .half-str, .saswp-r3 .saswp-rvw-str .str-ic {
+  display: inline-block;
+  width: 22px;
+  height: 22px;
+  background-repeat: no-repeat;
+  background-size: 22px;
+  margin-right: 3px;
+}
 
 @media(max-width:800px){
   .saswp-r3 ul{
-    grid-template-columns:1fr 1fr;
+    grid-template-columns:190px 190px;
     grid-gap: 20px
   }
 
@@ -72,7 +91,7 @@
 
 @media(max-width:600px){
   .saswp-r3 ul{
-    grid-template-columns:1fr;
+    grid-template-columns: 190px;
   }
 
 }

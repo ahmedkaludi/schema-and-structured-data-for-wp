@@ -1443,13 +1443,16 @@ Collection css starts here
 }
 .saswp-rc-cnt{
   position: static;
-  height: 100px;
+  height: 80px;
   overflow-y: auto;
   font-size: 14px;
   line-height:1.6;
   text-align: left;
   padding: 0 2px 0 0;
   margin: 10px 0 0;
+}
+.saswp-r2-strs{
+    text-align: center;
 }
 .saswp-rc-cnt p{
   margin:0;
@@ -1628,64 +1631,83 @@ Collection css starts here
 
 /** Badges CSS **/
 .saswp-rd3-warp ul{
-  padding:0px;
+   padding:0px;
   display:grid;
-  grid-template-columns:1fr 1fr 1fr 1fr;
+  grid-template-columns:190px 190px 190px 190px;
   grid-gap: 30px;
   list-style-type:none;
+  margin:0;
+  justify-content: center;
 }
 .saswp-rd3-warp li{
   box-shadow: 0 2px 5px 0 rgba(0,0,0,.26);
+  margin:0px;
 }
 .saswp-rd3-warp li a{
   text-decoration:none;
 }
 .saswp-r3-lg{
-  background: #ededed;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  padding: 6px 8px;
-  box-sizing: border-box;
+    background: #ededed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 6px 8px;
+    box-sizing: border-box;
 }
 .saswp-r3-lg span img{
-    width:18px;
+    width: 18px;
     height: 18px;
-    margin-right:10px;
+    margin-right: 10px;
 }
 .saswp-r3-lg span {
     line-height: 0px;
 }
 .saswp-r3-lg .saswp-r3-tlt{
-  font-size:21px;
-  line-height:1.4;
-  color:#333;
-  font-weight:400;
+    font-size: 12px;
+    line-height: 1.4;
+    text-transform: uppercase;
+    color: #555;
+    font-weight: 400;
 }
 .saswp-lg{
   line-height: 0;
-  margin-right: 10px;
 }
 .saswp-r3-rtng{
-  padding:15px;
-  background:#fff;
+    padding: 13px 10px 10px 10px;
+    background: #fff;
+    border-radius: 0px 0px 3px 3px;
+    text-align: center;
 }
 .saswp-r3-rtxt{
-  display: flex;
-  align-items: center;
-  line-height: 0;
-  width: 100%;
-  margin-bottom:10px;
+    display: flex;
+    align-items: center;
+    line-height: 0;
+    width: 100%;
+    margin-bottom: 10px;
+    justify-content: center;
 }
 .saswp-r3-rtxt .saswp-r3-num{
-  color: #666;
-  margin-right: 10px;
-  font-size: 20px;
+    color: #23282d;
+    margin-right: 5px;
+    font-size: 22px;
+    font-weight: 500;
+    position: relative;
+    top: 2px;
+    word-break: normal;
+}
+.saswp-rd3-warp .saswp-rvw-str .df-clr, .saswp-rd3-warp .saswp-rvw-str .half-str, .saswp-rd3-warp .saswp-rvw-str .str-ic {
+  display: inline-block;
+  width: 22px;
+  height: 22px;
+  background-repeat: no-repeat;
+  background-size: 22px;
+  margin-right: 3px;
 }
 .saswp-r3-brv{
-  color: #999;
-  font-size: 14px;
+    color: #666;
+    font-size: 13px;
+    line-height: 1;
 }
 
 /** Fomo CSS **/
@@ -2012,11 +2034,14 @@ span.saswp-mines{
   align-items: center;
   justify-content: space-between;
   box-sizing: border-box;
+      z-index: 9;
+    position: relative;
+    top: 10px;
 }
 .saswp-slider-controls a.saswp-slider-prev-btn{
     position: absolute;
     left: 10px;
-    top: 40%;
+    bottom: 0px;
     background: rgba(0,0,0,0.5);
     line-height: 0;
     border-radius: 100px;
@@ -2039,7 +2064,7 @@ span.saswp-mines{
 .saswp-slider-controls a.saswp-slider-next-btn{
     position: absolute;
     right: 10px;
-    top: 40%;
+    bottom: 0px;
     background: rgba(0,0,0,0.5);
     line-height: 0;
     border-radius: 100px;
@@ -2132,6 +2157,8 @@ span.saswp-mines{
   display: flex;
   justify-content: center;
   margin: 0 auto;
+    position: relative;
+    top: -10px;
 }
 .saswp-onclick-show{
     display: none;
