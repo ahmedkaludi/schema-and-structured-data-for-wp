@@ -1718,10 +1718,17 @@ Collection css starts here
   max-width: 325px;
   border-radius: 12px;
   background: #fff;
-  border: 1px solid #ddd;
-  box-shadow: 0 0 10px 2px rgba(0,0,0,.15);
+   border: 1px solid #e6e6e6;
+  box-shadow: 0 0 8px 0px rgba(0, 0, 0, 0.05);
   transition: all .3s ease-in;
   display: none;
+}
+.saswp-r5 .saswp-rvw-str .df-clr, .saswp-r5 .saswp-rvw-str .half-str, .saswp-r5 .saswp-rvw-str .str-ic {
+  display: inline-block;
+  width: 23px;
+  height: 20px;
+  background-repeat: no-repeat;
+  background-size: 20px;
 }
 .saswp-r5-r .saswp-r5-rng .saswp-rvw-str{
     padding-left:0px;
@@ -1753,10 +1760,12 @@ Collection css starts here
   border-radius: 10px 0px 0px 10px;
 }
 .saswp-r5-r .saswp-r5-lg img{
-  border-radius: 10px 0px 0px 10px;
   position: relative;
+  max-width: 40px;
+  max-height: 40px;
+  left: 20PX;
+  border-radius: 10px 0px 0px 10px;
   top: 2px;
-  left: 4px;
 }
 .saswp-r5-txrng{
   font-size: 12px;
@@ -1771,9 +1780,10 @@ Collection css starts here
     margin-right: 5px
 }
 .saswp-r5-rng span.saswp-r5-dt{
-  display: block;
-  font-size: 12px;
-  color: #ababab;
+    display: block;
+    font-size: 11px;
+    color: #ababab;
+    font-weight: normal;
 }
 .saswp-r5 a{
   text-decoration:none;

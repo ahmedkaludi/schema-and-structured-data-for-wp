@@ -953,7 +953,8 @@
                     html += '<div class="saswp-r5-rng">';
                       html += saswp_create_rating_html_by_value(value.saswp_review_rating);
                      html +='<div class="saswp-r5-txrng">';
-                     html +='<span>'+value.saswp_review_rating+' Star Rating by</span>';
+                     html +='<span>'+value.saswp_review_rating+' Stars</span>';
+                     html +='<span>by</span>';
                      html +='<span>'+value.saswp_reviewer_name+'</span>';
                      html +='</div>';
                      html += '<span class="saswp-r5-dt">'+date_str.date+', '+date_str.time+'</span>';

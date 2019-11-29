@@ -167,7 +167,7 @@ body .saswp-r, body .saswp-r p{
   grid-template-columns:1fr 1fr 1fr;
   grid-gap:15px;
   margin:0;
-  /*overflow-x: scroll;*/
+  overflow-x: scroll;
 }
 .saswp-r1 li{
   padding:20px;
@@ -485,25 +485,30 @@ body .saswp-r, body .saswp-r p{
 
 /** Fomo CSS **/
 .saswp-r5{
-  position:fixed;
-  bottom:20px;
-  left:20px;
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
   width: calc(100% - 20px);
-  max-width: 325px !important;
+  max-width: 325px;
   border-radius: 12px;
   background: #fff;
-  border: 1px solid #ddd;
+  border: 1px solid #e6e6e6;
+  box-shadow: 0 0 8px 0px rgba(0, 0, 0, 0.05);
   transition: all .3s ease-in;
-  display: none;
-  z-index:9;
-  margin:0 !important;
-  box-shadow: 0 0 7px 4px rgba(0,0,0,.15);
+  height: 80px;
 }
 .saswp-r5-r .saswp-str-rtng .saswp-rvw-str{
   padding-left:0px;
   margin-bottom: 6px;
   line-height: 0;
   display: block;
+}
+.saswp-r5 .saswp-rvw-str .df-clr, .saswp-r5 .saswp-rvw-str .half-str, .saswp-r5 .saswp-rvw-str .str-ic {
+  display: inline-block;
+  width: 23px;
+  height: 20px;
+  background-repeat: no-repeat;
+  background-size: 20px;
 }
 .saswp-r5-r{
   display: flex;
@@ -518,9 +523,10 @@ body .saswp-r, body .saswp-r p{
 }
 .saswp-r5-r .saswp-r5-lg img{
   position: relative;
-  top: 0px;
-  left: 4px;
+  max-width: 40px;
+  left: 20PX;
   border-radius: 10px 0px 0px 10px;
+  top: 0px;
 }
 .saswp-r5-rng{
   flex:1 0 60%;
@@ -542,7 +548,7 @@ body .saswp-r, body .saswp-r p{
   line-height: 1.2;
   color: #444;
   display: flex;
-  margin-bottom: 7px;
+  margin-bottom: 3px;
 }
 .saswp-r5-txrng span{
   font-weight: 600;
@@ -551,8 +557,9 @@ body .saswp-r, body .saswp-r p{
 }
 .saswp-r5-dt{
   display: block;
-  font-size: 12px;
+  font-size: 11px;
   color: #ababab;
+  font-weight: normal;
 }
 .saswp-r5 a{
   text-decoration:none;
@@ -646,16 +653,27 @@ body .saswp-r, body .saswp-r p{
   margin:0px 10px;
 }
 .saswp-r4-cnt h3{
-  margin: 15px 0px !important;
+  margin: 10px 0px 8px 0px !important;
   font-size: 18px;
-  color: #555;
-  font-weight: 400;
+  color: #333;
+  font-weight: 500;
+}
+.saswp-rvw-str{
+  position: relative;
+  top: 3px;
+}
+.saswp-r4-info .saswp-rvw-str .df-clr, .saswp-r4-info .saswp-rvw-str .half-str, .saswp-r4-info .saswp-rvw-str .str-ic {
+  display: inline-block;
+  width: 22px;
+  height: 20px;
+  background-repeat: no-repeat;
+  background-size: 18px;
 }
 .saswp-r4-cnt p{
   font-size: 13px;
   line-height: 1.5;
   margin: 0;
-  color: #666;
+  color: #333;
 }
 .saswp-r4-info ul li.saswp-ttl-rvw{
   display: flex;
@@ -676,6 +694,7 @@ body .saswp-r, body .saswp-r p{
 }
 .saswp-r4-info ul li span.saswp-r4-rnm{
   margin-left: 10px;
+  font-size: 18px;
 }
 
 .btn .saswp-onclick-hide, .btn.saswp-open-class .saswp-onclick-show {
