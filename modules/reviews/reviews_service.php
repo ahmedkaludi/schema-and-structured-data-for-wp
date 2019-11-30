@@ -1071,7 +1071,6 @@ class saswp_reviews_service {
                             $html_list .= '<span class="saswp-r4-str">';
                             $html_list .= saswp_get_rating_html_by_value($value['saswp_review_rating']);
                             $html_list .= '</span>';
-                            //$html_list .= '<span class="saswp-r4-tx saswp-r4-nm">'.esc_attr($value['saswp_reviewer_name']).'</span>';
                             $html_list .= '<span class="saswp-r4-tx">'. esc_attr($date_str['date']).', '.esc_attr($date_str['time']).'</span>';
                             $html_list .= '</div>';
                             

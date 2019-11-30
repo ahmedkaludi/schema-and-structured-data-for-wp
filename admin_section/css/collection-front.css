@@ -577,6 +577,7 @@ body .saswp-r, body .saswp-r p{
   background: #fff;
   border:none;
   padding:0;
+  left:20px;
 }
 .saswp-open-class.saswp-popup-btn{
   width:300px;
@@ -621,7 +622,7 @@ body .saswp-r, body .saswp-r p{
   overflow-y: scroll;
 }
 .saswp-r4-info ul li{
-  border-bottom:1px solid #ccc;
+  border-bottom:1px solid #e4e4e4;
   padding:20px;
   margin:0;
   font-family: sans-serif;

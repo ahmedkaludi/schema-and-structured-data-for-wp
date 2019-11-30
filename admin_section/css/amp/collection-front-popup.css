@@ -46,7 +46,7 @@
   overflow-y: scroll;
 }
 .saswp-r4-info ul li{
-  border-bottom:1px solid #ccc;
+  border-bottom:1px solid #e4e4e4;
   padding:20px;
 }
 .artl-cnt .saswp-r4-info li:before{
@@ -60,6 +60,7 @@
 }
 .saswp-r4-b .saswp-r4-str{
   margin-right:10px;
+  line-height: 0;
 }
 .saswp-r4-b span.saswp-r4-tx{
   font-size:14px;
@@ -70,17 +71,24 @@
   display:inline-block;
   margin:0px 10px;
 }
+.saswp-r4-info .saswp-rvw-str .df-clr, .saswp-r4-info .saswp-rvw-str .half-str, .saswp-r4-info .saswp-rvw-str .str-ic {
+  display: inline-block;
+  width: 22px;
+  height: 20px;
+  background-repeat: no-repeat;
+  background-size: 18px;
+}
 .saswp-r4-cnt h3{
-  margin: 15px 0px;
+  margin: 10px 0px 8px 0px ;
   font-size: 18px;
-  color: #555;
-  font-weight: 400;
+  color: #333;
+  font-weight: 500;
 }
 .saswp-r4-cnt p{
   font-size: 13px;
   line-height: 1.5;
   margin: 0;
-  color: #666;
+  color: #333;
 }
 .saswp-r4-info ul li.saswp-r4-r{
   display: flex;
@@ -89,12 +97,13 @@
   text-align: center;
   justify-content: center;
 }
-.saswp-r4-info ul li.saswp-r4-r span{
-  font-size:20px;
-  color:#666;
+.saswp-r4-r > span{
+  line-height:0px;
 }
 .saswp-r4-info ul li span.saswp-r4-rnm{
   margin-left: 10px;
+  font-size: 18px;
+  color:#666;
 }
 .btn .saswp-onclick-hide, .btn.open-class .saswp-onclick-show {
     display: flex;
