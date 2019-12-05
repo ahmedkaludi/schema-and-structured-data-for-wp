@@ -419,9 +419,9 @@ class SASWP_Reviews_Collection {
                                           if($platforms){
                                           global $wpdb;
                                           $exists_platforms = $wpdb->get_results("
-                                            SELECT meta_value, count(meta_value) as meta_count FROM `wp_postmeta` WHERE `meta_key`='saswp_review_platform' group by meta_value",
+                                            SELECT meta_value, count(meta_value) as meta_count FROM {$wpdb->postmeta} WHERE `meta_key`='saswp_review_platform' group by meta_value",
                                             ARRAY_A
-                                         ); ?>
+                                         );  ?>
                                         <div class="saswp-plf-lst-rv-cnt">
                                           <?php
                                           echo '<select id="saswp-plaftorm-list" name="saswp-plaftorm-list">';
