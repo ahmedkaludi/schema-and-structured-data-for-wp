@@ -1634,7 +1634,7 @@ Collection css starts here
 .saswp-rd3-warp ul{
    padding:0px;
   display:grid;
-  grid-template-columns:190px 190px 190px 190px;
+  grid-template-columns:1fr 1fr 1fr 1fr;
   grid-gap: 30px;
   list-style-type:none;
   margin:0;
