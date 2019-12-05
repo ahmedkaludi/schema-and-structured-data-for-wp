@@ -167,7 +167,6 @@ body .saswp-r, body .saswp-r p{
   grid-template-columns:1fr 1fr 1fr;
   grid-gap:15px;
   margin:0;
-  overflow-x: scroll;
 }
 .saswp-r1 li{
   padding:20px;
@@ -396,6 +395,9 @@ body .saswp-r, body .saswp-r p{
 
 
 /** Badges CSS **/
+.saswp-r3{
+  margin-bottom: 20px;
+}
 .saswp-r3 ul{
   padding:0px;
   display:grid;
@@ -431,6 +433,7 @@ body .saswp-r, body .saswp-r p{
   width: 18px;
   height: 18px;
   margin-right: 6px;
+  border-radius: 100px;
 }
 .saswp-r3-lg span {
     line-height: 0px;

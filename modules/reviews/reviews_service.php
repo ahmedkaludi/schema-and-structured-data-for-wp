@@ -672,8 +672,14 @@ class saswp_reviews_service {
 
                for($i=1; $i <= $cols; $i++ ){
                    $grid_cols .=' 1fr'; 
-               }                     
-               $html .= '<ul style="grid-template-columns:'.esc_attr($grid_cols).';">'; 
+               }     
+
+               if($cols > 5){
+
+                      $html .= '<ul style="grid-template-columns:'.esc_attr($grid_cols).';overflow-x: scroll;">'; 
+                      }else{
+                      $html .= '<ul style="grid-template-columns:'.esc_attr($grid_cols).';overflow-x:hidden;">';     
+                      }                               
 
                
                foreach ($collection as $value){
@@ -715,7 +721,11 @@ class saswp_reviews_service {
                for($i=1; $i <= $cols; $i++ ){
                    $grid_cols .=' 1fr'; 
                }                     
-               $html .= '<ul style="grid-template-columns:'.esc_attr($grid_cols).';">'; 
+               if($cols > 5){
+                  $html .= '<ul style="grid-template-columns:'.esc_attr($grid_cols).';overflow-x: scroll;">'; 
+                  }else{
+                  $html .= '<ul style="grid-template-columns:'.esc_attr($grid_cols).';overflow-x: hidden;">';     
+                  }  
                
                foreach ($collection as $value){
 
