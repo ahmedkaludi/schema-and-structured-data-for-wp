@@ -215,53 +215,27 @@ function saswp_admin_interface_render(){
 		</form>
 	</div>
     <div class="saswp-settings-second-div">
-        <p class="saswp-quick-setup"><?php 
-        $nonce = wp_create_nonce( 'saswp_install_wizard_nonce' );          
-        echo esc_html('Need Quick Setup?', 'schema-and-structured-data-for-wp'); ?>
-        </p>
-        <a href="<?php echo esc_url(admin_url( 'plugins.php?page=saswp-setup-wizard' ).'&_saswp_nonce='.$nonce); ?>" class="page-title-action saswp-start-quck-setup button button-primary"><?php echo esc_html('Try Installation Wizard', 'schema-and-structured-data-for-wp'); ?></a>
-    <div class="saswp-feedback-panel">
-        
-        <h2><?php echo esc_html__( 'Leave A Feedback', 'schema-and-structured-data-for-wp' ); ?></h2>
-        
-        <ul>
-            <li><a target="_blank" href="https://wordpress.org/support/plugin/schema-and-structured-data-for-wp/reviews/#new-post"><?php echo esc_html__( 'I would like to review this plugin', 'schema-and-structured-data-for-wp' ); ?></a></li>    
-            <li><a target="_blank" href="http://structured-data-for-wp.com/contact-us/"><?php echo esc_html__( 'I have ideas to improve this plugin', 'schema-and-structured-data-for-wp' ); ?></a></li>
-            <li><a href="<?php echo esc_url( admin_url( 'admin.php?page=structured_data_options&tab=support' ) ); ?>"><?php echo esc_html__( 'I need help this plugin', 'schema-and-structured-data-for-wp' ); ?></a></li>              
-        </ul>  
-        <div class="saswp-social-sharing-buttons">
-            <a class="saswp-facebook-share" href="https://www.facebook.com/sharer/sharer.php?u=http://structured-data-for-wp.com/" target="_blank">           
-        <span class="dashicons dashicons-facebook"></span>
-        <?php echo esc_html__( 'Share', 'schema-and-structured-data-for-wp' ); ?>
-       </a>
-        <a target="_blank" class="twitter-share-button"
-        href="https://twitter.com/home?status=I'm%20using%20this%20Structured%20data%20WordPress%20plugin%20for%20implementing%20Schema%20on%20my%20site!%20http%3A//structured-data-for-wp.com/%20via%20%40WPF_community">
-            <span class="dashicons dashicons-twitter"></span>
-                <?php echo esc_html__( 'Tweet', 'schema-and-structured-data-for-wp' ); ?>
+        <a target="_blank" href="http://structured-data-for-wp.com/pricing/">
+        <div class="saswp-upgrade-pro promo-cpn">
+            <h2><?php echo esc_html__('50% OFF on PRO','schema-and-structured-data-for-wp') ?></h2>
+            <span><?php echo esc_html__('Limited Time Offer for this festive season','schema-and-structured-data-for-wp') ?></span>
+            <div class="saswp-promo">
+                <span class="prm-txt"><?php echo esc_html__('Promo:','schema-and-structured-data-for-wp') ?></span>
+                <span class="prm-cpn"><?php echo esc_html__('BFCM2019','schema-and-structured-data-for-wp') ?></span>
+            </div>
+        </div>
         </a>
-        </div>
-        
-    </div>
-        <div class="saswp-view-docs">
-            
-            <p class="saswp-quick-setup"><?php echo esc_html__('Need Help?','schema-and-structured-data-for-wp') ?></p>  
-            <a class="button button-default" target="_blank" href="http://structured-data-for-wp.com/docs/"><?php echo esc_html__('View Documentation','schema-and-structured-data-for-wp') ?></a>
-            
-        </div>
-        
         <?php if(!saswp_ext_installed_status()) { ?>
-        
-        <div class="saswp-upgrade-pro">
-        	<h2><?php echo esc_html__('Upgrade to Pro!','schema-and-structured-data-for-wp') ?></h2>
-        	<ul>
-        		<li><?php echo esc_html__('Premium features','schema-and-structured-data-for-wp') ?></li>
-        		<li><?php echo esc_html__('Dedicated Schema Support','schema-and-structured-data-for-wp') ?></li>
-        		<li><?php echo esc_html__('Active Development','schema-and-structured-data-for-wp') ?></li>
-        	</ul>
-        	<a target="_blank" href="http://structured-data-for-wp.com/pricing/"><?php echo esc_html__('UPGRADE','schema-and-structured-data-for-wp') ?></a>
-        </div>
-        
-        <?php  } ?>                 
+            <div class="saswp-upgrade-pro">
+                <h2><?php echo esc_html__('Upgrade to Pro!','schema-and-structured-data-for-wp') ?></h2>
+                <ul>
+                    <li><?php echo esc_html__('Premium features','schema-and-structured-data-for-wp') ?></li>
+                    <li><?php echo esc_html__('Dedicated Schema Support','schema-and-structured-data-for-wp') ?></li>
+                    <li><?php echo esc_html__('Active Development','schema-and-structured-data-for-wp') ?></li>
+                </ul>
+                <a target="_blank" href="http://structured-data-for-wp.com/pricing/"><?php echo esc_html__('UPGRADE','schema-and-structured-data-for-wp') ?></a>
+            </div>
+        <?php  } ?>        
     </div>
 </div>
 
