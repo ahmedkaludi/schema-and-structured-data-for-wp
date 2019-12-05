@@ -1,0 +1,148 @@
+/** Popup2 CSS **/
+.btn{
+  position: fixed;
+  top: auto;
+  bottom: 0;
+  left: 20px;
+  font-family: "Arial",sans-serif;
+  z-index: 9;
+  box-shadow: 0 20px 40px 8px rgba(0,0,0,.25);
+  width:300px;
+  background: #fff;
+  border:none;
+  padding:0;
+}
+.open-class.btn{
+  width:500px;
+}
+#saswp-reviews-cntn {
+    display:none;
+}
+#saswp-sticky-review .open-class #saswp-reviews-cntn{
+  display:block;
+}
+.saswp-opn-cls-btn{
+  display: flex;
+  height: 50px;
+  justify-content: space-between;
+  align-items: center;
+  background: #fba306;
+  width:100%;
+  padding:0px 15px;
+  border-radius:4px 4px 0px 0px;
+  cursor: pointer;
+}
+.saswp-opn-cls-btn span{
+  font-size: 15px;
+  font-weight: 600;
+  color: #fff;
+}
+.saswp-r4-info ul{
+  list-style-type:none;
+  padding:0;
+  margin:0;
+  text-align:left;
+  height: 350px;
+  overflow-y: scroll;
+}
+.saswp-r4-info ul li{
+  border-bottom:1px solid #e4e4e4;
+  padding:20px;
+}
+.artl-cnt .saswp-r4-info li:before{
+  display:none;
+}
+.saswp-r4-b{
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+}
+.saswp-r4-b .saswp-r4-str{
+  margin-right:10px;
+  line-height: 0;
+}
+.saswp-r4-b span.saswp-r4-tx{
+  font-size:14px;
+  color:#444;
+}
+.saswp-r4-b span.saswp-r4-nm:after{
+  content:"-";
+  display:inline-block;
+  margin:0px 10px;
+}
+.saswp-r4-info .saswp-rvw-str .df-clr, .saswp-r4-info .saswp-rvw-str .half-str, .saswp-r4-info .saswp-rvw-str .str-ic {
+  display: inline-block;
+  width: 22px;
+  height: 20px;
+  background-repeat: no-repeat;
+  background-size: 18px;
+}
+.saswp-r4-cnt h3{
+  margin: 10px 0px 8px 0px ;
+  font-size: 18px;
+  color: #333;
+  font-weight: 500;
+}
+.saswp-r4-cnt p{
+  font-size: 13px;
+  line-height: 1.5;
+  margin: 0;
+  color: #333;
+}
+.saswp-r4-info ul li.saswp-r4-r{
+  display: flex;
+  width: 100%;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+}
+.saswp-r4-r > span{
+  line-height:0px;
+}
+.saswp-r4-info ul li span.saswp-r4-rnm{
+  margin-left: 10px;
+  font-size: 18px;
+  color:#666;
+}
+.btn .saswp-onclick-hide, .btn.open-class .saswp-onclick-show {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+.btn .saswp-onclick-show, .btn.open-class .saswp-onclick-hide {
+    display: none;
+}
+span.saswp-mines{
+  line-height:0;
+}
+.saswp-mines:before{
+  content: "";
+  display: inline-block;
+  width: 20px;
+  height: 4px;
+  background: #fff;
+  position: relative;
+  top: 10px;
+}
+
+@media(max-width:500px){
+  .open-class.btn {
+    width: 93vw;
+    left: 15px;
+  }
+  .btn{width:90%;}
+}
+
+@media(max-width:320px){
+  .btn{
+    width:90%;
+    left:15px;
+  }
+  .open-class.btn {
+    width: 90vw;
+  }
+  .saswp-fomo-wrap {
+    left: 10px;
+  }
+}

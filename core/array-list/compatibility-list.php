@@ -22,6 +22,13 @@ return array(
                     'opt_name'   => 'saswp-easy-testimonials',
                     'part_in'    => 'free',
         ),
+        'bne_testimonials'  =>  array(            
+                    'name'       => 'BNE Testimonials',
+                    'free'       => 'bne-testimonials/bne-testimonials.php', 
+                    'pro'        => 'bne-testimonials-pro/bne-testimonials-pro.php', 
+                    'opt_name'   => 'saswp-bne-testimonials',
+                    'part_in'    => 'free',
+        ),
         'learn_press'  =>  array(            
                     'name'       => 'Learn Press',
                     'free'       => 'learnpress/learnpress.php',    

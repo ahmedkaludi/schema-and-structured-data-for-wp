@@ -215,53 +215,27 @@ function saswp_admin_interface_render(){
 		</form>
 	</div>
     <div class="saswp-settings-second-div">
-        <p class="saswp-quick-setup"><?php 
-        $nonce = wp_create_nonce( 'saswp_install_wizard_nonce' );          
-        echo esc_html('Need Quick Setup?', 'schema-and-structured-data-for-wp'); ?>
-        </p>
-        <a href="<?php echo esc_url(admin_url( 'plugins.php?page=saswp-setup-wizard' ).'&_saswp_nonce='.$nonce); ?>" class="page-title-action saswp-start-quck-setup button button-primary"><?php echo esc_html('Try Installation Wizard', 'schema-and-structured-data-for-wp'); ?></a>
-    <div class="saswp-feedback-panel">
-        
-        <h2><?php echo esc_html__( 'Leave A Feedback', 'schema-and-structured-data-for-wp' ); ?></h2>
-        
-        <ul>
-            <li><a target="_blank" href="https://wordpress.org/support/plugin/schema-and-structured-data-for-wp/reviews/#new-post"><?php echo esc_html__( 'I would like to review this plugin', 'schema-and-structured-data-for-wp' ); ?></a></li>    
-            <li><a target="_blank" href="http://structured-data-for-wp.com/contact-us/"><?php echo esc_html__( 'I have ideas to improve this plugin', 'schema-and-structured-data-for-wp' ); ?></a></li>
-            <li><a href="<?php echo esc_url( admin_url( 'admin.php?page=structured_data_options&tab=support' ) ); ?>"><?php echo esc_html__( 'I need help this plugin', 'schema-and-structured-data-for-wp' ); ?></a></li>              
-        </ul>  
-        <div class="saswp-social-sharing-buttons">
-            <a class="saswp-facebook-share" href="https://www.facebook.com/sharer/sharer.php?u=http://structured-data-for-wp.com/" target="_blank">           
-        <span class="dashicons dashicons-facebook"></span>
-        <?php echo esc_html__( 'Share', 'schema-and-structured-data-for-wp' ); ?>
-       </a>
-        <a target="_blank" class="twitter-share-button"
-        href="https://twitter.com/home?status=I'm%20using%20this%20Structured%20data%20WordPress%20plugin%20for%20implementing%20Schema%20on%20my%20site!%20http%3A//structured-data-for-wp.com/%20via%20%40WPF_community">
-            <span class="dashicons dashicons-twitter"></span>
-                <?php echo esc_html__( 'Tweet', 'schema-and-structured-data-for-wp' ); ?>
+        <a target="_blank" href="http://structured-data-for-wp.com/pricing/">
+        <div class="saswp-upgrade-pro promo-cpn">
+            <h2><?php echo esc_html__('50% OFF on PRO','schema-and-structured-data-for-wp') ?></h2>
+            <span><?php echo esc_html__('Limited Time Offer for this festive season','schema-and-structured-data-for-wp') ?></span>
+            <div class="saswp-promo">
+                <span class="prm-txt"><?php echo esc_html__('Promo:','schema-and-structured-data-for-wp') ?></span>
+                <span class="prm-cpn"><?php echo esc_html__('BFCM2019','schema-and-structured-data-for-wp') ?></span>
+            </div>
+        </div>
         </a>
-        </div>
-        
-    </div>
-        <div class="saswp-view-docs">
-            
-            <p class="saswp-quick-setup"><?php echo esc_html__('Need Help?','schema-and-structured-data-for-wp') ?></p>  
-            <a class="button button-default" target="_blank" href="http://structured-data-for-wp.com/docs/"><?php echo esc_html__('View Documentation','schema-and-structured-data-for-wp') ?></a>
-            
-        </div>
-        
         <?php if(!saswp_ext_installed_status()) { ?>
-        
-        <div class="saswp-upgrade-pro">
-        	<h2><?php echo esc_html__('Upgrade to Pro!','schema-and-structured-data-for-wp') ?></h2>
-        	<ul>
-        		<li><?php echo esc_html__('Premium features','schema-and-structured-data-for-wp') ?></li>
-        		<li><?php echo esc_html__('Dedicated Schema Support','schema-and-structured-data-for-wp') ?></li>
-        		<li><?php echo esc_html__('Active Development','schema-and-structured-data-for-wp') ?></li>
-        	</ul>
-        	<a target="_blank" href="http://structured-data-for-wp.com/pricing/"><?php echo esc_html__('UPGRADE','schema-and-structured-data-for-wp') ?></a>
-        </div>
-        
-        <?php  } ?>                 
+            <div class="saswp-upgrade-pro">
+                <h2><?php echo esc_html__('Upgrade to Pro!','schema-and-structured-data-for-wp') ?></h2>
+                <ul>
+                    <li><?php echo esc_html__('Premium features','schema-and-structured-data-for-wp') ?></li>
+                    <li><?php echo esc_html__('Dedicated Schema Support','schema-and-structured-data-for-wp') ?></li>
+                    <li><?php echo esc_html__('Active Development','schema-and-structured-data-for-wp') ?></li>
+                </ul>
+                <a target="_blank" href="http://structured-data-for-wp.com/pricing/"><?php echo esc_html__('UPGRADE','schema-and-structured-data-for-wp') ?></a>
+            </div>
+        <?php  } ?>        
     </div>
 </div>
 
@@ -1062,8 +1036,28 @@ function saswp_general_page_callback(){
                         'class' => 'regular-text',                        
 			'type'  => 'text',
                         'note'  => esc_html__('According to google validation tool, Image size must be greater than or equal to 1200*728','schema-and-structured-data-for-wp')
-		)                                                                   
+		)                
+            
 	);
+        
+        
+        if(is_plugin_active('woocommerce/woocommerce.php')){
+                              
+            $meta_fields_default[] = array(
+			'label'  => 'Product Default Review',
+			'id'     => 'saswp-default-review-checkbox', 
+                        'name'   => 'saswp-default-review-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',      
+                        'note'   => 'This option will add a default review to a woocommerce product if reviews are not there', 
+                        'hidden' => array(
+                             'id'   => 'saswp_default_review',
+                             'name' => 'sd_data[saswp_default_review]',                             
+                        )
+		);
+                                      
+        }
+        
          echo '<div class="saswp-heading">';
          echo '<h2>'.esc_html__('Default Data','schema-and-structured-data-for-wp').'</h2>';                  
          echo '</div>';
@@ -2067,6 +2061,18 @@ function saswp_compatibility_page_callback(){
                                 'name' => 'sd_data[saswp-easy-testimonials]',                             
                         )
 		);
+         $bne_testimonials = array(
+			'label'  => 'BNE Testimonials',
+			'id'     => 'saswp-bne-testimonials-checkbox',                        
+                        'name'   => 'saswp-bne-testimonials-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
+                        'note'   => saswp_get_field_note('bne_testimonials'),
+                        'hidden' => array(
+                                'id'   => 'saswp-bne-testimonials',
+                                'name' => 'sd_data[saswp-bne-testimonials]',                             
+                        )
+		);
         
         $flex_lmx = array(
 			'label'  => 'FlexMLS IDX Plugin',
@@ -2165,6 +2171,7 @@ function saswp_compatibility_page_callback(){
                 $event_organiser,
                 $modern_events_calendar,
                 $easy_testimonials,
+                $bne_testimonials,
                 $flex_lmx
                 
 	);  
@@ -2351,20 +2358,30 @@ function saswp_enqueue_style_js( $hook ) {
         if(isset($current_screen->post_type)){                  
             $post_type = $current_screen->post_type;                
         }    
+            
+        $all_schema_array = array();
+        
+        $mappings_file = SASWP_DIR_NAME . '/core/array-list/schemas.php';
                 
+        if ( file_exists( $mappings_file ) ) {
+            $all_schema_array = include $mappings_file;
+        }
+        
         $data = array(                                    
             'post_id'                      => get_the_ID(),
             'ajax_url'                     => admin_url( 'admin-ajax.php' ),            
             'saswp_security_nonce'         => wp_create_nonce('saswp_ajax_check_nonce'),  
             'new_url_selector'             => esc_url(admin_url()).'post-new.php?post_type=saswp',
             'new_url_href'                 => htmlspecialchars_decode(wp_nonce_url(admin_url('index.php?page=saswp_add_new_data_type&'), '_wpnonce')),            
-            'collection_post_add_url'      => esc_url(admin_url()).'post-new.php?post_type=saswp-google-review',
+            'collection_post_add_url'      => esc_url(admin_url()).'post-new.php?post_type=saswp-collections',
             'collection_post_add_new_url'  => htmlspecialchars_decode(wp_nonce_url(admin_url('admin.php?page=collection'), '_wpnonce')),
+            'collections_page_url'         => htmlspecialchars_decode(wp_nonce_url(admin_url('edit.php?post_type=saswp-collections'), '_wpnonce')),
             'post_type'                    => $post_type,   
             'page_now'                     => $hook,
-            'saswp_settings_url'           => esc_url(admin_url('edit.php?post_type=saswp&page=structured_data_options'))                       
+            'saswp_settings_url'           => esc_url(admin_url('edit.php?post_type=saswp&page=structured_data_options')),
+            'saswp_schema_types'           =>  $all_schema_array
         );
-        
+                        
         $data = apply_filters('saswp_localize_filter',$data,'saswp_localize_data');
 	// Color picker CSS
 	// @refer https://make.wordpress.org/core/2012/11/30/new-color-picker-in-wp-3-5/
@@ -2379,6 +2396,8 @@ function saswp_enqueue_style_js( $hook ) {
         wp_enqueue_script( 'jquery-ui-datepicker' );
         wp_register_style( 'jquery-ui', SASWP_PLUGIN_URL. 'admin_section/css/jquery-ui.css' );
         wp_enqueue_style( 'jquery-ui' ); 
+                                
+        wp_enqueue_script( 'saswp-functions-list', SASWP_PLUGIN_URL . 'admin_section/js/'.(SASWP_ENVIRONMENT == 'production' ? 'functions-list.min.js' : 'functions-list.js'), false, SASWP_VERSION );
         
         wp_register_script( 'saswp-main-js', SASWP_PLUGIN_URL . 'admin_section/js/'.(SASWP_ENVIRONMENT == 'production' ? 'main-script.min.js' : 'main-script.js'), array('jquery','jquery-ui-core'), SASWP_VERSION , true );
                         
@@ -2430,7 +2449,8 @@ function saswp_get_field_note($pname){
             'zip_recipes'              => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/zip-recipes/">Zip Recipes</a>',
             'mediavine_create'         => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/mediavine-create/">Create by Mediavine</a>',
             'ht_recipes'               => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://themeforest.net/item/culinier-food-recipe-wordpress-theme/11088564/">HT-Recipes</a>',
-            'easy_testimonials'        => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/easy-testimonials">Easy Testimonials</a>'                   
+            'easy_testimonials'        => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/easy-testimonials">Easy Testimonials</a>',
+            'bne_testimonials'         => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/bne-testimonials/">BNE Testimonials</a>'
         );
           
     $active = saswp_compatible_active_list();

@@ -1,6 +1,6 @@
 <?php
 /**
- * Google Review Widget Class
+ * Reviews Widget Class
  *
  * @author   Magazine3
  * @category Admin

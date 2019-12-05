@@ -58,7 +58,7 @@ class saswp_reviews_admin {
         
 	public function __construct() {
                 
-		add_action( 'add_meta_boxes', array( $this, 'saswp_add_meta_boxes' ) );
+		add_action( 'add_meta_boxes', array( $this, 'saswp_add_meta_boxes' ),99 );
 		add_action( 'save_post', array( $this, 'saswp_save_fields' ) );
                 add_action( 'admin_init', array( $this, 'saswp_removing_reviews_wysiwig' ) );
                 
@@ -70,7 +70,8 @@ class saswp_reviews_admin {
          */
         public function saswp_removing_reviews_wysiwig(){
             
-            remove_post_type_support( 'saswp_reviews', 'editor');   
+            remove_post_type_support( 'saswp_reviews', 'editor');
+            remove_post_type_support( 'saswp-collections', 'editor');
             
         }
         
@@ -117,7 +118,7 @@ class saswp_reviews_admin {
                     if(isset($meta_field['label'])){
                       $label =  $meta_field['label']; 
                     }
-			$label = '<label for="' . $meta_field['id'] . '">' . esc_html__( $label, 'schema-and-structured-data-for-wp' ) . '</label>';
+			$label = '<label for="' . esc_attr($meta_field['id']) . '">' . esc_html__( $label, 'schema-and-structured-data-for-wp' ) . '</label>';
 			$meta_value = get_post_meta( $post->ID, $meta_field['id'], true );
                         
 			if ( empty( $meta_value ) ) {

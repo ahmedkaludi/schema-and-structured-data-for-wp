@@ -18,6 +18,7 @@ return array(
                 'DataFeed'                 => 'DataFeed',
                 'FAQ'                      => 'FAQ',
                 'HowTo'                    => 'HowTo',
+                'ImageObject'              => 'ImageObject',
                 'MusicPlaylist'            => 'MusicPlaylist',
                 'MusicAlbum'               => 'MusicAlbum',
                 'NewsArticle'              => 'NewsArticle',                                            

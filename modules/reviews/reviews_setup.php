@@ -226,11 +226,8 @@ function saswp_enqueue_rateyo_script( $hook ) {
 }
 add_action( 'admin_enqueue_scripts', 'saswp_enqueue_rateyo_script' );
 
-
-
 add_action( 'init', 'saswp_create_platform_custom_taxonomy', 21 );
  
-
 function saswp_create_platform_custom_taxonomy() {
  
   $labels = array(
@@ -270,6 +267,7 @@ function saswp_insert_platform_terms(){
                     'Agoda', 
                     'Avvo', 
                     'Angies List',
+                    'Apple AppStore',
                     'Expedia', 
                     'Facebook', 
                     'Google', 
@@ -281,7 +279,8 @@ function saswp_insert_platform_terms(){
                     'AliExpress', 
                     'AlternativeTo', 
                     'Amazon',
-                    'BBB', 
+                    'BBB',
+                    'BestBuy',
                     'Booking.com', 
                     'Capterra', 
                     'CarGurus',
@@ -289,14 +288,18 @@ function saswp_insert_platform_terms(){
                     'Citysearch', 
                     'Classpass', 
                     'Consumer Affairs', 
+                    'Clutch',
                     'CreditKarma', 
                     'CustomerLobby', 
                     'DealerRater', 
                     'Ebay', 
                     'Edmunds', 
                     'Etsy', 
-                    'Foursquare', 
+                    'Foursquare',
+                    'Flipkart',
                     'G2Crowd', 
+                    'Gearbest',
+                    'Gartner',
                     'Glassdoor', 
                     'Healthgrades', 
                     'HomeAdvisor', 
@@ -304,22 +307,25 @@ function saswp_insert_platform_terms(){
                     'Houzz', 
                     'Hotels.com', 
                     'HungerStation',
-                    'Indeed', 
+                    'Indeed',
+                    'IMDB',
                     'Insider Pages', 
                     'Jet',
                     'Judge.me',
                     'Lawyers.com', 
                     'Lending Tree', 
-                    'Mardindale', 
+                    'Martindale', 
                     'Newegg', 
                     'OpenRice', 
                     'Opentable', 
                     'ProductHunt',
                     'Playstore',
                     'RateMDs', 
-                    'ReserveOut', 
+                    'ReserveOut',
+                    'Rotten Tomatoes',
                     'Sitejabber', 
                     'Siftery', 
+                    'Steam',
                     'SoftwareAdvice',
                     'Shopper Approved',
                     'Talabat', 
@@ -331,7 +337,8 @@ function saswp_insert_platform_terms(){
                     'TrustRadius', 
                     'Vitals', 
                     'Walmart', 
-                    'WeddingWire', 
+                    'WeddingWire',
+                    'Wish',
                     'Yell', 
                     'YellowPages', 
                     'ZocDoc'                     

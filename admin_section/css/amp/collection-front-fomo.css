@@ -1,0 +1,75 @@
+/** Fomo CSS **/
+.saswp-r5{
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  width: calc(100% - 20px);
+  max-width: 325px;
+  border-radius: 12px;
+  background: #fff;
+  border: 1px solid #e6e6e6;
+  box-shadow: 0 0 8px 0px rgba(0, 0, 0, 0.05);
+  transition: all .3s ease-in;
+  height: 80px;
+}
+#saswp-reviews-fomo-amp .amp-carousel-button { display: none }
+
+.saswp-r5-r{
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  align-items: center;
+  height:80px;
+}
+.saswp-r5-rng{
+  flex:1 0 60%;
+  padding-left: 15px;
+  position: relative;
+  top: 0px;
+}
+.saswp-r5 .saswp-rvw-str .df-clr, .saswp-r5 .saswp-rvw-str .half-str, .saswp-r5 .saswp-rvw-str .str-ic {
+    display: inline-block;
+    width: 23px;
+    height: 20px;
+    background-repeat: no-repeat;
+    background-size: 20px;
+}
+.saswp-r5-lg{
+  width: 80px;
+  height: 100%;
+  border-right: 1px solid #ddd;
+  box-sizing: border-box;
+  background: linear-gradient(to bottom,#fefefe 0,#f2f2f2 100%);
+  position: relative;
+  display: flex;
+  align-items: center;
+  border-radius: 12px 0px 0px 12px;
+}
+.saswp-r5-r .saswp-r5-lg amp-img{
+  position: relative;
+  max-width: 40px;
+  left: 20PX;
+  border-radius: 10px 0px 0px 10px;
+  top: 4px;
+}
+.saswp-r5-txrng{
+  font-size: 12px;
+  line-height: 1.2;
+  color: #444;
+  display: flex;
+  margin-bottom: 2px;
+}
+.saswp-r5-txrng span{
+    font-weight: 600;
+    color: #666;
+    margin-right: 5px
+}
+.saswp-r5-rng span.saswp-r5-dt{
+    display: block;
+    font-size: 11px;
+    color: #ababab;
+    font-weight: normal;
+}
+.saswp-r5 a{
+  text-decoration:none;
+}

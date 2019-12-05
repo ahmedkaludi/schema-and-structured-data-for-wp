@@ -2,8 +2,8 @@
 Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
-Tested up to: 5.2
-Stable tag: 1.9.16
+Tested up to: 5.3
+Stable tag: 1.9.17
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -117,6 +117,35 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.9.17 (05 Dec 2019) =
+
+* Major Feature: Reviews Collection ( Create a collection using different platform's reviews and display them using shortcode with multiple design option )
+* Added: compatibility with Easy Testimonials ( https://wordpress.org/plugins/easy-testimonials/ ) #582
+* Added: compatibility with BNE Testimonials ( https://wordpress.org/plugins/bne-testimonials/ ) #582 
+* Added: inLanguage property in schema markup #599
+* Added: ImageObject Schema type #621
+* Added: ItemList schema type. #605
+* Fixed: Custom field for description property should not pull styles and html #602
+* Fixed: In Yoast SEO,the website schema is not fetching the description correctly. #614
+* Fixed: Breadcrumb schema taking id of the first product on the shop page. #601
+* Fixed: Fix PostalAddress in Schema Type "Event" #620
+* Fixed: Added "Time Need" text in translation panel #639
+* Fixed: Problem With Review Schema #606
+* Fixed: HTML code is displaying instead of text at description box in structure data testing tool #640
+* Fixed: If a shortcode for review is available on product page then it should fetch the review automatically. #603
+* Enhancement: Remove unwanted metabox from saswp custom post type #626
+* Enhancement: Remove unwanted notice boxes from saswp custom post type #641
+* Enhancement: Improve modify schema output option #607
+* Enhancement: Added option if User do not want to use default product Review. #619
+
+= 1.9.16.2 (29 Nov 2019) =
+
+* Fixed: Minor Fixes
+
+= 1.9.16.1 (14 Nov 2019) =
+
+* Fixed: Uncaught TypeError: $ is not a function #609
 
 = 1.9.16 (04 Nov 2019) =
 

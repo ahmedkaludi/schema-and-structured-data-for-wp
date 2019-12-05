@@ -1,0 +1,202 @@
+/** Slider Design CSS **/
+
+.saswp-r li {
+  list-style-type: none;
+}
+.saswp-r2-q svg{
+  width: 20px;
+  fill: #bbb;
+  position: absolute;
+  height: 30px;
+  top: 15px;
+  left: 12px;
+}
+.saswp-r2-b {
+  padding: 20px 40px 20px 40px;
+  background-color: #fafafa;
+  position: relative;
+  color: #777;
+  border: 1px solid #ededed;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+.saswp-r li .saswp-rc-cnt{
+  margin:0px;
+  display: inline-block;
+  width: 100%;
+  clear: both;
+}
+.saswp-rvw-str{
+  justify-content: center;
+}
+.saswp-r li .saswp-rd1-stars{
+  display: inline-block;
+  width: 100px;
+  float: left;
+}
+.saswp-r li .saswp-rd2-box:before {
+  position: absolute;
+  bottom: -8px;
+  left: 35px;
+  display: block;
+  width: 14px;
+  height: 14px;
+  border: 1px solid #ededed;
+  border-top: none;
+  border-left: none;
+  background-color: #fafafa;
+  content: "";
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+.saswp-r li .saswp-rc{
+  padding: 20px;
+}
+.saswp-rc {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.saswp-rc-dt {
+  margin-top: 5px;
+  font-size: 12px;
+  line-height: 1.2;
+  color: #999;
+  display: block;
+}
+.saswp-rc-nm a {
+  text-decoration: none;
+  font-size: 16px;
+  font-weight:600;
+  display: inline-block;
+  line-height: 1.5;
+}
+.saswp-rc-a {
+  flex: 1 0 85%;
+  display: flex;
+  justify-content: flex-start;
+}
+.saswp-r li .saswp-rc-a amp-img {
+  float: left;
+  margin-right: 10px;
+  border-radius: 100px;
+  max-width: 56px;
+  height: 56px;
+}
+.saswp-r li .saswp-rc-lg amp-img{
+  max-width:25px;
+  height:25px;
+  border-radius: 100px;
+}
+.saswp-r2-strs{
+  line-height: 0px;
+}
+.saswp-cp{
+  text-align: center;
+  position: relative;
+  top: -50px;
+}
+.saswp-cp button{
+  width:12px;
+  height:12px;
+  border-radius:100px;
+  border:none;
+  margin:0px 10px;
+  cursor: pointer;
+  background:#ccc;
+}
+.saswp-cp button.active{
+  background:#0071a1;
+}
+.saswp-r2-b::-webkit-scrollbar {
+  width: 4px ;
+  display:inline-block ;
+}
+.saswp-r2-b::-webkit-scrollbar-thumb {
+  -webkit-border-radius: 10px ;
+  border-radius: 10px ;
+  background: #ccc ;
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5) ;
+}
+.saswp-r2-b::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+}
+
+.carousel-type::-webkit-scrollbar {
+  width: 4px ;
+  height:4px;
+  display:inline-block ;
+}
+.carousel-type::-webkit-scrollbar-thumb {
+  -webkit-border-radius: 10px ;
+  border-radius: 10px ;
+  background: #ccc ;
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5) ;
+}
+.carousel-type::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+}
+
+
+.saswp-rc-cnt p{margin:0;}
+.saswp-rc-cnt {
+    position: static;
+    height: 80px;
+    overflow-y: auto;
+    font-size: 14px;
+    line-height: 1.6;
+    text-align: left;
+    padding: 0 2px 0 0;
+    margin: 10px 0 0;
+}
+.saswp-r .amp-carousel-button{
+  bottom: 0px;
+  top: auto;
+  cursor: pointer
+}
+
+
+/** Carousel **/
+.carousel-type + .saswp-cp{
+  top: -32px;
+}
+.saswp-r .carousel-type .amp-carousel-button {
+  bottom: -17px;
+}
+.carousel-type li{
+  max-width:300px;
+  margin: 0px 20px 50px 0px;
+}
+.carousel-type .saswp-rv-box {
+  margin-right: 20px;
+  max-width: 100%;
+}
+.carousel-type .saswp-rc-cnt{
+  white-space: initial;
+}
+
+amp-carousel .amp-carousel-button{
+  border-radius: 100px;
+}
+
+
+@media(max-width:767px){
+  .carousel-type li{
+    width:100%;
+  }
+  .amp-carousel-button-next {
+    right: 5px;
+  }
+  .amp-carousel-button-prev {
+    left: 5px;
+  }
+  
+}

@@ -627,13 +627,7 @@ if(is_admin()){
       )
     );
   }
-  add_action( 'add_meta_boxes', 'saswp_create_meta_box_select' );
-  function saswp_create_meta_box_select(){
-    // Repeater Comparison Field
-    add_meta_box( 'saswp_amp_select', esc_html__( 'Placement','schema-and-structured-data-for-wp' ), 'saswp_select_callback', 'saswp','normal', 'high' );
-    
-  }
-
+  
   function saswp_select_callback($post) {
     
     $data_group_array =  esc_sql ( get_post_meta($post->ID, 'data_group_array', true)  );                 
@@ -920,7 +914,8 @@ function saswp_custom_breadcrumbs() {
     
     global $sd_data;	
     $variables1_titles = array();   
-    $variables2_links  = array();   
+    $variables2_links  = array();  
+    $breadcrumb_url    = '';
     // Settings
     $prefix        = '';
     $home_title    = '';
@@ -951,17 +946,18 @@ function saswp_custom_breadcrumbs() {
         // Home page
         $variables1_titles[] = $home_title;
         $variables2_links[]  = get_home_url();
+        $breadcrumb_url      = get_home_url();
 
         
         if ( is_archive() && !is_tax() && !is_category() && !is_tag() && !is_author() ) {
-            
-                    $archive_title       = post_type_archive_title($prefix, false);
-                    $variables1_titles[] = $archive_title;
-
+                                
+                    $variables1_titles[] = post_type_archive_title($prefix, false);
+                    $variables2_links[]  = get_post_type_archive_link(get_post_type());  
+                    $breadcrumb_url      = get_post_type_archive_link(get_post_type());
                     
         } else if  ( is_author() ) {
             
-	    		global $author;
+	    	 global $author;
 	    		
 	            $userdata            = get_userdata( $author ); 
 	            $author_url          = get_author_posts_url($userdata->ID);
@@ -969,6 +965,7 @@ function saswp_custom_breadcrumbs() {
 	            // author name
 	            $variables1_titles[] = $userdata->display_name;
 	            $variables2_links[]  = $author_url;
+                    $breadcrumb_url      = $author_url;
                     
         } else if ( is_archive() && is_tax() && !is_category() && !is_tag() ) {
               
@@ -991,12 +988,14 @@ function saswp_custom_breadcrumbs() {
                         
                         if(is_object($queried_obj)){
                             $variables1_titles[] = $queried_obj->name;
-                            $variables2_links[]  = get_term_link($queried_obj->term_id);    
+                            $variables2_links[]  = get_term_link($queried_obj->term_id);  
+                            $breadcrumb_url      = get_term_link($queried_obj->term_id);
                         }
                         
                     }else{
                         $variables1_titles[] = $post_type_object->labels->name;
                         $variables2_links[]  = $post_type_archive;
+                        $breadcrumb_url      = $post_type_archive;
                     }
 
                 }
@@ -1006,7 +1005,7 @@ function saswp_custom_breadcrumbs() {
                     if(is_object($queried_obj)){
                          $variables1_titles[] = get_queried_object()->name;
                          $variables2_links[]  = get_term_link($queried_obj->term_id);
-                        
+                         $breadcrumb_url      = get_term_link($queried_obj->term_id);
                     }
                                                            
         } else if ( is_single() ) {
@@ -1025,7 +1024,8 @@ function saswp_custom_breadcrumbs() {
                     }
                     
                     $variables1_titles[]= $post_type_object->labels->name;
-                    $variables2_links[] = $post_type_archive;              
+                    $variables2_links[] = $post_type_archive;     
+                    $breadcrumb_url      = $post_type_archive;
             }
              
             // Get post category info
@@ -1041,6 +1041,7 @@ function saswp_custom_breadcrumbs() {
                   $cat_name             = $category_name->name;
                   $variables1_titles[]  = $cat_name;
                   $variables2_links[]   = get_category_link( $category_value );
+                  $breadcrumb_url       = get_category_link( $category_value );
               
               }
               
@@ -1084,11 +1085,13 @@ function saswp_custom_breadcrumbs() {
                  
                 $variables1_titles[]  = $cat_name;
                 $variables2_links[]   = $cat_link;
+                $breadcrumb_url       = $cat_link;
               
             } 
             
             $variables1_titles[] = saswp_get_the_title();
-            $variables2_links[]  = get_permalink();   
+            $variables2_links[]  = get_permalink();
+            $breadcrumb_url      = get_permalink();
                           
         } else if ( is_category() ) {
             
@@ -1104,6 +1107,7 @@ function saswp_custom_breadcrumbs() {
                       $cat_name             = $category_name->name;
                       $variables1_titles[]  = $cat_name;
                       $variables2_links[]   = get_category_link( $category_value );
+                      $breadcrumb_url       = get_category_link( $category_value );
 
                   }
               }                          
@@ -1127,16 +1131,19 @@ function saswp_custom_breadcrumbs() {
                     $parents .= '<li class="separator separator-' . esc_attr($ancestor) . '"> ' . esc_html__($separator, 'schema-and-structured-data-for-wp' ) . ' </li>';
                     $variables1_titles[]    = @get_the_title($ancestor);
                     $variables2_links[]     = get_permalink($ancestor);
+                    $breadcrumb_url         = get_permalink($ancestor);
                     
                 }
              
                     $variables1_titles[]    = saswp_get_the_title();
                     $variables2_links[]     = get_permalink();
+                    $breadcrumb_url         = get_permalink();
                    
             } else {      
                 
                    $variables1_titles[]     = saswp_get_the_title();
                    $variables2_links[]      = get_permalink();
+                   $breadcrumb_url          = get_permalink();
             }
               
         } else if ( is_tag() ) {
@@ -1149,14 +1156,16 @@ function saswp_custom_breadcrumbs() {
             if(is_object($get_term)){
                 
                 $variables1_titles[] = $get_term->name;
-                $variables2_links[]  = get_term_link($term_id);    
+                $variables2_links[]  = get_term_link($term_id);
+                $breadcrumb_url      = get_term_link($term_id);
                               
             }
             // Tag name and link                  
           }    
           
-          $sd_data['titles']     = $variables1_titles;                        
-          $sd_data['links']      = $variables2_links;   
+          $sd_data['titles']            = $variables1_titles;                        
+          $sd_data['links']             = $variables2_links;
+          $sd_data['breadcrumb_url']     = $breadcrumb_url;
           
     }
        
@@ -1505,6 +1514,9 @@ function saswp_license_status($add_on, $license_status, $license_key){
 					case 'no_activations_left':
 						$message = __( 'Your license key has reached its activation limit.' );
 						break;
+                                        case 'license_not_activable':
+						$message = __( 'Your license key may not belong to this extension.' );
+						break;    
 					default :
 						$message = __( 'An error occurred, please try again.' );
 						break;

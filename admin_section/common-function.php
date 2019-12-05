@@ -28,7 +28,8 @@ if ( ! defined('ABSPATH') ) exit;
             'translation-review-overview' => 'Review Overview',
             'translation-overall-score'   => 'Overall Score',
             'translation-tools'           => 'Tools',
-            'translation-materials'        => 'Materials',
+            'translation-materials'       => 'Materials',
+            'translation-time-needed'     => 'Time Needed',
         );
           //global variable to store List of labels ends here
         
@@ -1553,6 +1554,7 @@ if ( ! defined('ABSPATH') ) exit;
                         'add-on'         => array(),
                         'license-status' => array(),
                         'class'          => array(),
+                        'data-id'        => array()
                 );
                 $my_allowed['p'] = array(                        
                         'add-on' => array(),                        
@@ -1641,7 +1643,8 @@ if ( ! defined('ABSPATH') ) exit;
                         'saswp-for-wordpress'      => 1,                                                                        
                         'sd_initial_wizard_status' => 1,
                         'saswp-microdata-cleanup'  => 1,
-                        'saswp-other-images'       => 1
+                        'saswp-other-images'       => 1,
+                        'saswp_default_review'     => 1 
 
                 );	  
                 
@@ -1706,7 +1709,9 @@ if ( ! defined('ABSPATH') ) exit;
                      wp_enqueue_style( 'saswp-style', SASWP_PLUGIN_URL . 'admin_section/css/saswp-style.min.css', false , SASWP_VERSION );       
 
           }
-
+          
+          wp_enqueue_style( 'saswp-collection-front-css', SASWP_PLUGIN_URL . 'admin_section/css/'.(SASWP_ENVIRONMENT == 'production' ? 'collection-front.min.css' : 'collection-front.css'), false , SASWP_VERSION );
+          wp_enqueue_script( 'saswp-collection-front-js', SASWP_PLUGIN_URL . 'admin_section/js/'.(SASWP_ENVIRONMENT == 'production' ? 'collection-front.min.js' : 'collection-front.js'), array('jquery') , SASWP_VERSION );
 
       }     
     /**
@@ -2080,7 +2085,8 @@ if ( ! defined('ABSPATH') ) exit;
     function saswp_get_the_content(){
 
         global $post;
-        $content = '';        
+        $content = '';   
+        
         if(is_object($post)){
             $content = get_post_field('post_content', $post->ID);
             $content = wp_strip_all_tags(strip_shortcodes($content)); 
@@ -2123,9 +2129,7 @@ if ( ! defined('ABSPATH') ) exit;
             }
 
         }
-
-         $excerpt = wp_strip_all_tags(strip_shortcodes($excerpt)); 
-        
+               
         if(saswp_remove_warnings($sd_data, 'saswp-yoast', 'saswp_string') == 1){
 
             $yoast_meta_des = saswp_convert_yoast_metafields($post->ID, 'metadesc');
@@ -2211,7 +2215,9 @@ if ( ! defined('ABSPATH') ) exit;
         }
             
         }
-                
+           
+        $excerpt = wp_strip_all_tags(strip_shortcodes($excerpt)); 
+        
         return apply_filters('saswp_the_excerpt' ,$excerpt);
     }
     /**
@@ -2234,7 +2240,27 @@ if ( ! defined('ABSPATH') ) exit;
         }         
         return '';
     }
-      
+    
+    function saswp_get_blog_desc(){
+        
+        global $sd_data; 
+        
+        $blog_desc = get_bloginfo('description');
+        
+        if(isset($sd_data['saswp-yoast']) && $sd_data['saswp-yoast'] == 1){
+            
+            if(class_exists('WPSEO_Frontend')){
+                
+                  $front             = WPSEO_Frontend::get_instance();
+                  $blog_desc         = $front->metadesc( false );
+                 
+            }
+            
+        }
+                        
+        return $blog_desc;
+    }
+    
     /**
      * since @1.8.7
      * Here we are modifying the default title
@@ -2493,11 +2519,10 @@ function saswp_uninstall_single($blog_id = null){
             $query = "SELECT ID FROM " . $wpdb->posts;
             $all_post_id   = $wpdb->get_results($query, ARRAY_A );
             $all_post_id   = wp_list_pluck( $all_post_id, 'ID' );              
-            $post_specific = new saswp_post_specific();
-            
+                        
             foreach($post_ids as $post_id){
                 
-               $meta_fields = $post_specific->saswp_get_fields_by_schema_type($post_id); 
+               $meta_fields = saswp_get_fields_by_schema_type($post_id); 
                $meta_fields = wp_list_pluck( $meta_fields, 'id' );
                
                foreach ($meta_fields as $meta_key){                   
@@ -2682,4 +2707,121 @@ function saswp_format_date_time($date, $time=null){
     }               
     
     return $formated;
+}
+
+function saswp_https( $url ) {
+                        
+    return str_replace( 'http://', 'https://', $url );            
+                	
+}
+
+function saswp_remove_unwanted_metabox(){
+    
+    global $wp_meta_boxes;    
+    
+    if(get_post_type() == 'saswp' || get_post_type() == 'saswp_reviews'){
+        $wp_meta_boxes = array();               
+    }
+            
+    return $wp_meta_boxes;
+}
+
+
+function saswp_remove_unwanted_notice_boxes(){
+    
+    $screen_id = ''; 
+    $current_screen = get_current_screen();
+    
+    if(is_object($current_screen)){
+        $screen_id =  $current_screen->id;
+    }
+    
+    if( get_post_type() == 'saswp' || 
+        get_post_type() == 'saswp_reviews' ||
+        get_post_type() == 'saswp-collections' ||
+        $screen_id =='saswp_page_structured_data_options' ||
+        $screen_id =='edit-saswp' ||
+        $screen_id == 'saswp'     
+       ){
+        
+       remove_all_actions('admin_notices'); 
+       
+       add_action( 'admin_notices', 'saswp_admin_notice' );
+    }
+        
+}
+
+add_action('in_admin_header', 'saswp_remove_unwanted_notice_boxes');
+
+function saswp_admin_notice(){
+    
+    $screen_id      = ''; 
+    $current_screen = get_current_screen();
+    
+    if(is_object($current_screen)){
+        $screen_id =  $current_screen->id;
+    }
+    
+    $nonce = wp_create_nonce( 'saswp_install_wizard_nonce' );  
+    
+    $setup_notice = '<div class="updated notice message notice notice-alt saswp-setup-notice">'
+                    . '<p>'
+                    . '<strong>'.esc_html__('Welcome to Schema & Structured Data For WP', 'schema-and-structured-data-for-wp').'</strong>'
+                    .' - '.esc_html__('You are almost ready :)', 'schema-and-structured-data-for-wp')
+                    . '</p>'
+                    . '<p>'
+                    . '<a class="button button-primary" href="'.esc_url(admin_url( 'plugins.php?page=saswp-setup-wizard' ).'&_saswp_nonce='.$nonce).'">'
+                    . esc_html__('Run the Setup Wizard', 'schema-and-structured-data-for-wp')
+                    . '</a> '
+                    .'<a class="button saswp-skip-button">'
+                    . esc_html__('Skip Setup', 'schema-and-structured-data-for-wp')
+                    . '</a>'
+                    . '</p>'
+                    . '</div>';        
+    
+    
+          
+    $sd_data         = get_option('sd_data'); 
+        
+    if(($screen_id =='saswp_page_structured_data_options' ||$screen_id == 'plugins' || $screen_id =='edit-saswp' || $screen_id == 'saswp') && !isset($sd_data['sd_initial_wizard_status'])){
+            
+        echo $setup_notice;
+        
+    }     
+     //Feedback notice
+    $activation_date  =  get_option("saswp_activation_date");  
+    $activation_never =  get_option("saswp_activation_never");      
+    $next_days        =  strtotime("+7 day", strtotime($activation_date));
+    $next_days        =  date('Y-m-d', $next_days);   
+    $current_date     =  date("Y-m-d");
+    
+    if(($next_days < $current_date) && $activation_never !='never' ){
+      ?>
+         <div class="updated notice message notice notice-alt saswp-feedback-notice">
+            <p><span class="dashicons dashicons-thumbs-up"></span> 
+            <?php echo esc_html__('You have been using the Schema & Structured Data for WP & AMP for some time. Now, Do you like it? If Yes.', 'schema-and-structured-data-for-wp') ?>
+            <a class="saswp-revws-lnk" target="_blank" href="https://wordpress.org/plugins/schema-and-structured-data-for-wp/#reviews"> <?php echo esc_html__('Rate Plugin', 'schema-and-structured-data-for-wp') ?></a>
+          </p>
+            <div class="saswp-update-notice-btns">
+                <a  class="saswp-feedback-remindme"><?php echo esc_html__('Remind Me Later', 'schema-and-structured-data-for-wp') ?></a>
+                <a  class="saswp-feedback-no-thanks"><?php echo esc_html__('No Thanks', 'schema-and-structured-data-for-wp') ?></a>
+            </div>
+        </div>
+        <?php
+    }  
+        
+    if(isset($sd_data['sd_default_image']['url']) && $sd_data['sd_default_image']['url'] == '' && ($screen_id =='saswp_page_structured_data_options' ||$screen_id == 'plugins' || $screen_id =='edit-saswp' || $screen_id == 'saswp')){
+
+        ?>
+        <div class="updated notice is-dismissible message notice notice-alt saswp-feedback-notice">
+            <p>
+                  <span><?php echo esc_html__('You have not set up default image in Schema & Structured Data For WP.', 'schema-and-structured-data-for-wp') ?> </span>                                               
+                  <a href="<?php echo esc_url( admin_url( 'admin.php?page=structured_data_options&tab=general#saswp-default-container' ) ); ?>"> <?php echo esc_html__('Please Setup', 'schema-and-structured-data-for-wp') ?></a>
+            </p>
+        </div>
+
+      <?php   
+        
+    }
+            
 }
