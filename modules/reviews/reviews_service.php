@@ -721,11 +721,12 @@ class saswp_reviews_service {
                for($i=1; $i <= $cols; $i++ ){
                    $grid_cols .=' 1fr'; 
                }                     
-               if($cols > 5){
-                  $html .= '<ul style="grid-template-columns:'.esc_attr($grid_cols).';overflow-x: scroll;">'; 
-                  }else{
-                  $html .= '<ul style="grid-template-columns:'.esc_attr($grid_cols).';overflow-x: hidden;">';     
-                  }  
+               if($cols > 4){
+
+                      $html .= '<ul class="saswp-grid-scroll" style="grid-template-columns:'.esc_attr($grid_cols).';">'; 
+                      }else{
+                      $html .= '<ul class="saswp-grid-scroll-hidden" style="grid-template-columns:'.esc_attr($grid_cols).';">';     
+                      }  
                
                foreach ($collection as $value){
 

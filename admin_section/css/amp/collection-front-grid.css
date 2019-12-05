@@ -18,6 +18,12 @@
 .artl-cnt .saswp-r1 li:before, .saswp-r1 li:before{
   display:none;
 }
+.saswp-grid-scroll{
+  overflow-x:scroll;
+}
+.saswp-grid-scroll-hidden{
+  overflow-x: hidden;
+}
 .saswp-rc{
   display: flex;
   width: 100%;
