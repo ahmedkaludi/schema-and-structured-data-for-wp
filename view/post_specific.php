@@ -379,7 +379,7 @@ class saswp_post_specific {
                       $response_html .= '<div class="saswp-add-custom-schema-field saswp_hide">';
                   }
                                                       
-                  $response_html .= '<a class="button saswp-delete-custom-schema">Delete Custom Schema</a>';              
+                  $response_html .= '<a class="button saswp-delete-custom-schema">'.esc_html__( 'Delete Custom Schema', 'schema-and-structured-data-for-wp' ).'</a>';              
                   $response_html .= '<textarea style="margin-left:5px;" placeholder="{ Json Markup }" id="saswp_custom_schema_field" name="saswp_custom_schema_field" rows="5" cols="100">'
                   . $custom_markup
                   . '</textarea>';

@@ -1553,6 +1553,7 @@ if ( ! defined('ABSPATH') ) exit;
                         'add-on'         => array(),
                         'license-status' => array(),
                         'class'          => array(),
+                        'data-id'        => array()
                 );
                 $my_allowed['p'] = array(                        
                         'add-on' => array(),                        
@@ -2083,7 +2084,8 @@ if ( ! defined('ABSPATH') ) exit;
     function saswp_get_the_content(){
 
         global $post;
-        $content = '';        
+        $content = '';   
+        
         if(is_object($post)){
             $content = get_post_field('post_content', $post->ID);
             $content = wp_strip_all_tags(strip_shortcodes($content)); 
@@ -2126,9 +2128,7 @@ if ( ! defined('ABSPATH') ) exit;
             }
 
         }
-
-         $excerpt = wp_strip_all_tags(strip_shortcodes($excerpt)); 
-        
+               
         if(saswp_remove_warnings($sd_data, 'saswp-yoast', 'saswp_string') == 1){
 
             $yoast_meta_des = saswp_convert_yoast_metafields($post->ID, 'metadesc');
@@ -2214,7 +2214,9 @@ if ( ! defined('ABSPATH') ) exit;
         }
             
         }
-                
+           
+        $excerpt = wp_strip_all_tags(strip_shortcodes($excerpt)); 
+        
         return apply_filters('saswp_the_excerpt' ,$excerpt);
     }
     /**

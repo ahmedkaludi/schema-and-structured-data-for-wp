@@ -593,7 +593,7 @@ function saswp_schema_output() {
                                 'headline'			=> bbp_get_topic_title(get_the_ID()),
                                 'description'                   => saswp_get_the_excerpt(),
                                 "articleSection"                => bbp_get_forum_title(),
-                                "articleBody"                   => saswp_get_the_excerpt(),    
+                                "articleBody"                   => saswp_get_the_content(),    
                                 'url'				=> bbp_get_topic_permalink(),
                                 'datePublished'                 => esc_html($date),
                                 'dateModified'                  => esc_html($modified_date),
