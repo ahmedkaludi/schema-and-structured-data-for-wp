@@ -47,8 +47,8 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
             if($review_type){
                 $schema_type = $review_type;
             }
-            
-            $business_type      = get_post_meta($schema_id, 'saswp_business_type', true); 
+            $business_type      = '';
+            $business_type      = get_post_meta($schema_id, 'saswp_business_type', true);             
             $business_name      = get_post_meta($schema_id, 'saswp_business_name', true); 
                                     
             $saswp_business_type_key   = 'saswp_business_type_'.$schema_id;
