@@ -35,8 +35,7 @@ class SASWP_Reviews_Collection {
           add_action( 'wp_ajax_saswp_add_to_collection', array($this, 'saswp_add_to_collection' ));
           add_action( 'wp_ajax_saswp_get_collection_platforms', array($this, 'saswp_get_collection_platforms' ));
           add_action( 'amp_post_template_css', array($this, 'saswp_reviews_collection_amp_css'));
-          add_action( 'amp_post_template_data', array($this, 'saswp_reviews_collection_amp_script'));         
-                          
+          add_action( 'amp_post_template_data', array($this, 'saswp_reviews_collection_amp_script'));                                   
           add_shortcode( 'saswp-reviews-collection', array($this, 'saswp_reviews_collection_shortcode_render' ));
                                  
         }
@@ -385,9 +384,9 @@ class SASWP_Reviews_Collection {
                         
             $coll_display_type = array(
                 'shortcode'               => 'Shortcode',  
-                'before_the_content'      => 'Before the content',
-                'between_the_content'     => 'Beetween the content',
-                'after_the_content'       => 'After the content',                              
+               // 'before_the_content'      => 'Before the content',
+               // 'between_the_content'     => 'Beetween the content',
+               // 'after_the_content'       => 'After the content',                              
             );
             
             ?> 
@@ -601,7 +600,7 @@ class SASWP_Reviews_Collection {
                 exit;
             }
             
-        }
+         }
                                     
         }
             

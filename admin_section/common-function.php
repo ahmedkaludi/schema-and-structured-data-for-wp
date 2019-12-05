@@ -2736,8 +2736,9 @@ function saswp_remove_unwanted_notice_boxes(){
         $screen_id =  $current_screen->id;
     }
     
-    if(get_post_type() == 'saswp' || 
+    if( get_post_type() == 'saswp' || 
         get_post_type() == 'saswp_reviews' ||
+        get_post_type() == 'saswp-collections' ||
         $screen_id =='saswp_page_structured_data_options' ||
         $screen_id =='edit-saswp' ||
         $screen_id == 'saswp'     
