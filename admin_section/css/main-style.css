@@ -1307,19 +1307,20 @@ Collection css starts here
     flex-wrap:wrap;
 }
 .saswp-collection-lp{
-    flex:1 0 70%; 
+    flex:1 0 68%; 
     margin-right: 20px;
-    width:70%; 
+    width:68%; 
     background:#fff;
     border: 1px solid #ccd0d4;
     box-shadow: 0 1px 1px rgba(0,0,0,.04);
     padding-bottom: 22px;
 }
 .saswp-collection-settings{
-    flex:1 0 23%;
+    flex:1 0 27%;
     height:100%;
-    width:27%;
+    width:28%;
 }
+
 .saswp-collection-container{
     margin-top: 60px;
     width:100%;
