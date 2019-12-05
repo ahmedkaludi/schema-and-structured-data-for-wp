@@ -28,7 +28,8 @@ if ( ! defined('ABSPATH') ) exit;
             'translation-review-overview' => 'Review Overview',
             'translation-overall-score'   => 'Overall Score',
             'translation-tools'           => 'Tools',
-            'translation-materials'        => 'Materials',
+            'translation-materials'       => 'Materials',
+            'translation-time-needed'     => 'Time Needed',
         );
           //global variable to store List of labels ends here
         
