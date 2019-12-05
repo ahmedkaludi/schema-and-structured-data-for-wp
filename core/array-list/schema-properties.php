@@ -35,7 +35,8 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
 	    }
             
             $current_user       = wp_get_current_user();
-            $author_desc        = get_the_author_meta( 'user_description' ); 
+            $author_desc        = get_the_author_meta( 'user_description' );
+            $author_url         = get_the_author_meta( 'user_url' );
             $author_details     = array();
             
             if(function_exists('get_avatar_data')){
@@ -270,7 +271,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'type' => 'text',                            
                         );
                         $meta_field[] =   array(
-                            'label' => 'local_tumblr',
+                            'label' => 'Tumblr',
                             'id' => 'local_tumblr_'.$schema_id,
                             'type' => 'text',                            
                         );
@@ -358,6 +359,12 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'id' => 'saswp_blogposting_author_description_'.$schema_id,
                             'type' => 'textarea',
                             'default' => $author_desc
+                    ),
+                    array(
+                            'label'   => 'Author URL',
+                            'id'      => 'saswp_blogposting_author_url_'.$schema_id,
+                            'type'    => 'text',
+                            'default' => $author_url
                     ),    
                     array(
                             'label' => 'Organization Name',
@@ -492,6 +499,12 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'id' => 'saswp_newsarticle_author_description_'.$schema_id,
                             'type' => 'textarea',
                             'default' => $author_desc
+                    ), 
+                    array(
+                            'label'   => 'Author URL',
+                            'id'      => 'saswp_newsarticle_author_url_'.$schema_id,
+                            'type'    => 'text',
+                            'default' => $author_url
                     ),    
                     array(
                             'label' => 'Author Image',
@@ -587,6 +600,12 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'id' => 'saswp_webpage_author_description_'.$schema_id,
                             'type' => 'textarea',
                             'default' => $author_desc
+                    ), 
+                    array(
+                            'label'   => 'Author URL',
+                            'id'      => 'saswp_webpage_author_url_'.$schema_id,
+                            'type'    => 'text',
+                            'default' => $author_url
                     ),    
                     array(
                             'label' => 'Organization Name',
@@ -669,6 +688,12 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'id' => 'saswp_article_author_description_'.$schema_id,
                             'type' => 'textarea',
                             'default' => $author_desc
+                    ),
+                    array(
+                            'label'   => 'Author URL',
+                            'id'      => 'saswp_article_author_url_'.$schema_id,
+                            'type'    => 'text',
+                            'default' => $author_url
                     ),    
                     array(
                             'label' => 'Organization Name',
@@ -876,6 +901,12 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'id' => 'saswp_tech_article_author_name_'.$schema_id,
                             'type' => 'textarea',
                             'default' => $author_desc
+                    ), 
+                    array(
+                            'label'   => 'Author URL',
+                            'id'      => 'saswp_tech_article_author_url_'.$schema_id,
+                            'type'    => 'text',
+                            'default' => $author_url
                     ),    
                     array(
                             'label' => 'Organization Name',
@@ -1002,6 +1033,12 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'default' => $author_desc
                     ),  
                     array(
+                            'label'   => 'Author URL',
+                            'id'      => 'saswp_dfp_author_url_'.$schema_id,
+                            'type'    => 'text',
+                            'default' => $author_url
+                    ),    
+                    array(
                             'label'   => 'Organization Name',
                             'id'      => 'saswp_dfp_organization_name_'.$schema_id,
                             'type'    => 'text',
@@ -1071,6 +1108,12 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'id' => 'saswp_recipe_author_description_'.$schema_id,
                             'type' => 'textarea',
                             'default' => $author_desc
+                    ),
+                    array(
+                            'label'   => 'Author URL',
+                            'id'      => 'saswp_recipe_author_url_'.$schema_id,
+                            'type'    => 'text',
+                            'default' => $author_url
                     ),    
                     array(
                             'label' => 'Author Image',
@@ -1591,8 +1634,13 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'id'      => 'saswp_audio_schema_author_description_'.$schema_id,
                             'type'    => 'textarea',
                             'default' => $author_desc
-                    )    
-                                                
+                    ),
+                    array(
+                            'label'   => 'Author URL',
+                            'id'      => 'saswp_audio_schema_author_url_'.$schema_id,
+                            'type'    => 'text',
+                            'default' => $author_url
+                    )                                                  
                     );
                     break;
                 
@@ -1749,6 +1797,12 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'id' => 'saswp_video_object_author_description_'.$schema_id,
                             'type' => 'textarea',
                             'default' => $author_desc
+                    ), 
+                    array(
+                            'label'   => 'Author URL',
+                            'id'      => 'saswp_video_object_author_url_'.$schema_id,
+                            'type'    => 'text',
+                            'default' => $author_url
                     ),    
                     array(
                             'label' => 'Author Image',
@@ -1831,6 +1885,12 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'id' => 'saswpimage_object_author_description_'.$schema_id,
                             'type' => 'textarea',
                             'default' => $author_desc
+                    ),
+                    array(
+                            'label'   => 'Author URL',
+                            'id'      => 'saswpimage_object_author_url_'.$schema_id,
+                            'type'    => 'text',
+                            'default' => $author_url
                     ),    
                     array(
                             'label' => 'Author Image',
