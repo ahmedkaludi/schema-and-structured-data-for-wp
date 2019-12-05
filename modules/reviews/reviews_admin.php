@@ -58,7 +58,7 @@ class saswp_reviews_admin {
         
 	public function __construct() {
                 
-		add_action( 'add_meta_boxes', array( $this, 'saswp_add_meta_boxes' ) );
+		add_action( 'add_meta_boxes', array( $this, 'saswp_add_meta_boxes' ),99 );
 		add_action( 'save_post', array( $this, 'saswp_save_fields' ) );
                 add_action( 'admin_init', array( $this, 'saswp_removing_reviews_wysiwig' ) );
                 

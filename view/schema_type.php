@@ -61,7 +61,7 @@ function saswp_add_all_meta_boxes() {
             'submitdiv',
                 esc_html__( 'Publish' ), 
                 'post_submit_meta_box',
-                'saswp', 
+                array('saswp', 'saswp_reviews'), 
                 'side', 
                 'low' 
             );

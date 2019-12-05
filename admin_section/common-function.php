@@ -2716,9 +2716,108 @@ function saswp_remove_unwanted_metabox(){
     
     global $wp_meta_boxes;    
     
-    if(get_post_type() == 'saswp'){
+    if(get_post_type() == 'saswp' || get_post_type() == 'saswp_reviews'){
         $wp_meta_boxes = array();               
     }
             
     return $wp_meta_boxes;
+}
+
+
+function saswp_remove_unwanted_notice_boxes(){
+    
+    $screen_id = ''; 
+    $current_screen = get_current_screen();
+    
+    if(is_object($current_screen)){
+        $screen_id =  $current_screen->id;
+    }
+    
+    if(get_post_type() == 'saswp' || 
+        get_post_type() == 'saswp_reviews' ||
+        $screen_id =='saswp_page_structured_data_options' ||
+        $screen_id =='edit-saswp' ||
+        $screen_id == 'saswp'     
+       ){
+        
+       remove_all_actions('admin_notices'); 
+       
+       add_action( 'admin_notices', 'saswp_admin_notice' );
+    }
+        
+}
+
+add_action('in_admin_header', 'saswp_remove_unwanted_notice_boxes');
+
+function saswp_admin_notice(){
+    
+    $screen_id      = ''; 
+    $current_screen = get_current_screen();
+    
+    if(is_object($current_screen)){
+        $screen_id =  $current_screen->id;
+    }
+    
+    $nonce = wp_create_nonce( 'saswp_install_wizard_nonce' );  
+    
+    $setup_notice = '<div class="updated notice message notice notice-alt saswp-setup-notice">'
+                    . '<p>'
+                    . '<strong>'.esc_html__('Welcome to Schema & Structured Data For WP', 'schema-and-structured-data-for-wp').'</strong>'
+                    .' - '.esc_html__('You are almost ready :)', 'schema-and-structured-data-for-wp')
+                    . '</p>'
+                    . '<p>'
+                    . '<a class="button button-primary" href="'.esc_url(admin_url( 'plugins.php?page=saswp-setup-wizard' ).'&_saswp_nonce='.$nonce).'">'
+                    . esc_html__('Run the Setup Wizard', 'schema-and-structured-data-for-wp')
+                    . '</a> '
+                    .'<a class="button saswp-skip-button">'
+                    . esc_html__('Skip Setup', 'schema-and-structured-data-for-wp')
+                    . '</a>'
+                    . '</p>'
+                    . '</div>';        
+    
+    
+          
+    $sd_data         = get_option('sd_data'); 
+        
+    if(($screen_id =='saswp_page_structured_data_options' ||$screen_id == 'plugins' || $screen_id =='edit-saswp' || $screen_id == 'saswp') && !isset($sd_data['sd_initial_wizard_status'])){
+            
+        echo $setup_notice;
+        
+    }     
+     //Feedback notice
+    $activation_date  =  get_option("saswp_activation_date");  
+    $activation_never =  get_option("saswp_activation_never");      
+    $next_days        =  strtotime("+7 day", strtotime($activation_date));
+    $next_days        =  date('Y-m-d', $next_days);   
+    $current_date     =  date("Y-m-d");
+    
+    if(($next_days < $current_date) && $activation_never !='never' ){
+      ?>
+         <div class="updated notice message notice notice-alt saswp-feedback-notice">
+            <p><span class="dashicons dashicons-thumbs-up"></span> 
+            <?php echo esc_html__('You have been using the Schema & Structured Data for WP & AMP for some time. Now, Do you like it? If Yes.', 'schema-and-structured-data-for-wp') ?>
+            <a class="saswp-revws-lnk" target="_blank" href="https://wordpress.org/plugins/schema-and-structured-data-for-wp/#reviews"> <?php echo esc_html__('Rate Plugin', 'schema-and-structured-data-for-wp') ?></a>
+          </p>
+            <div class="saswp-update-notice-btns">
+                <a  class="saswp-feedback-remindme"><?php echo esc_html__('Remind Me Later', 'schema-and-structured-data-for-wp') ?></a>
+                <a  class="saswp-feedback-no-thanks"><?php echo esc_html__('No Thanks', 'schema-and-structured-data-for-wp') ?></a>
+            </div>
+        </div>
+        <?php
+    }  
+        
+    if(isset($sd_data['sd_default_image']['url']) && $sd_data['sd_default_image']['url'] == '' && ($screen_id =='saswp_page_structured_data_options' ||$screen_id == 'plugins' || $screen_id =='edit-saswp' || $screen_id == 'saswp')){
+
+        ?>
+        <div class="updated notice is-dismissible message notice notice-alt saswp-feedback-notice">
+            <p>
+                  <span><?php echo esc_html__('You have not set up default image in Schema & Structured Data For WP.', 'schema-and-structured-data-for-wp') ?> </span>                                               
+                  <a href="<?php echo esc_url( admin_url( 'admin.php?page=structured_data_options&tab=general#saswp-default-container' ) ); ?>"> <?php echo esc_html__('Please Setup', 'schema-and-structured-data-for-wp') ?></a>
+            </p>
+        </div>
+
+      <?php   
+        
+    }
+            
 }

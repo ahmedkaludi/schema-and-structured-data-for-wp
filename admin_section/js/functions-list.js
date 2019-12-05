@@ -676,7 +676,7 @@
                                 html += '<img src="'+value.saswp_reviewer_image+'"/>';
                                 html += '<div class="saswp-rc-nm">';
                                 html += '<a href="#">'+value.saswp_reviewer_name+'</a>';
-                                html += '<span class="saswp-rc-dt">'+date_str.date+', '+date_str.time+'</span>';
+                                html += '<span class="saswp-rc-dt">'+date_str.date+'</span>';
                                 html += '</div>';
                                 html += '<div class="saswp-rc-lg">';
                                 html += '<img src="'+value.saswp_review_platform_icon+'"/>';
@@ -869,7 +869,7 @@
                             html_list += '<span class="saswp-r4-str">';
                             html_list += saswp_create_rating_html_by_value(value.saswp_review_rating);
                             html_list += '</span>';
-                            html_list += '<span class="saswp-r4-tx">'+date_str.date+', '+date_str.time+'</span>';
+                            html_list += '<span class="saswp-r4-tx">'+date_str.date+'</span>';
                             html_list += '</div>';
                             
                             html_list += '<div class="saswp-r4-cnt">';
@@ -956,7 +956,7 @@
                      html +='<span>by</span>';
                      html +='<span>'+value.saswp_reviewer_name+'</span>';
                      html +='</div>';
-                     html += '<span class="saswp-r5-dt">'+date_str.date+', '+date_str.time+'</span>';
+                     html += '<span class="saswp-r5-dt">'+date_str.date+'</span>';
                     html += '</div>';                            
                     html += '</div>';
                     html += '</div>';                   
@@ -1084,7 +1084,7 @@
                             html += saswp_create_rating_html_by_value(value.saswp_review_rating);  
 
                             if(date_str.date){
-                              html += '<span class="saswp-rc-dt">'+date_str.date+', '+date_str.time+'</span>';
+                              html += '<span class="saswp-rc-dt">'+date_str.date+'</span>';
 
                             }
                             

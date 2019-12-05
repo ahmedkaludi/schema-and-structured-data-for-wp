@@ -1942,6 +1942,7 @@ return false;
                saswpCollectionSlider();
                               
             $(".saswp-accordion").click(function(){
+              $(this).toggleClass("active");  
               $(this).next(".saswp-accordion-panel").slideToggle(200);
             });
 
@@ -1952,10 +1953,12 @@ return false;
                 if( $('#saswp-reviews-cntn').is(':visible') ) {
                     $(".saswp-onclick-show").css('display','flex');
                     $(".saswp-onclick-hide").hide();
+                     $(".saswp-open-class").css('width', '500px');
                 }
                 else {
                     $(".saswp-onclick-show").css('display','none');
                     $(".saswp-onclick-hide").show();
+                    $(".saswp-open-class").css('width', '300px');
                 }
                                                                                 
             });

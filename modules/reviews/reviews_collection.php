@@ -371,7 +371,7 @@ class SASWP_Reviews_Collection {
                 'gallery'  => 'Gallery',
                 'badge'    => 'Badge',
                 'popup'    => 'PopUp',
-                'fomo'     => 'FOMO',
+                'fomo'     => 'Fomo',
             );
        
             $coll_sorting = array(
