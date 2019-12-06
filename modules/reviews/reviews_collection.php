@@ -52,7 +52,7 @@ class SASWP_Reviews_Collection {
 		return self::$instance;
         }
         
-        public static function saswp_add_collection_menu_links(){
+        public function saswp_add_collection_menu_links(){
             
              add_submenu_page( 'edit.php?post_type=saswp',
                 esc_html__( 'Structured Data', 'schema-and-structured-data-for-wp' ),
@@ -63,7 +63,7 @@ class SASWP_Reviews_Collection {
             
         }
         
-        public static function saswp_set_collection_edit_link($link, $post_id, $context){
+        public function saswp_set_collection_edit_link($link, $post_id, $context){
                 
                 if (function_exists('get_current_screen') && (isset(get_current_screen()->id) && get_current_screen()->id == 'edit-saswp-collections' ) && $context == 'display') {
 
