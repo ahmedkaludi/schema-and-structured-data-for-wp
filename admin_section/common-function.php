@@ -1660,16 +1660,6 @@ if ( ! defined('ABSPATH') ) exit;
                     
                 }
                 
-                $active_plugin = saswp_compatible_active_list();
-                
-                if($active_plugin){
-                    
-                    foreach ($active_plugin as $plugin){
-                        $defaults[$plugin] = 1;
-                    }
-                    
-                }
-                
                 return $defaults;
         
     }        
@@ -2589,11 +2579,24 @@ function saswp_on_activation(){
     
     if(!$installation_date){
         
-        update_option('saswp_installation_date', date("Y-m-d"));
-        update_option('sd_data', saswp_default_settings_array());  
+        update_option('saswp_installation_date', date("Y-m-d"));        
         
     }
-                          
+            
+    $defaults = get_option('sd_data');
+    
+    $active_plugin = saswp_compatible_active_list();
+                
+    if($active_plugin){
+
+        foreach ($active_plugin as $plugin){
+            $defaults[$plugin] = 1;
+        }
+
+    }
+        
+    update_option('sd_data', $defaults);  
+                              
 }
 
 function saswp_context_url(){
