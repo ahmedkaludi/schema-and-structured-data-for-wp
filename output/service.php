@@ -2901,8 +2901,8 @@ Class saswp_output_service{
                                                                                                                     
                                         if(isset($image_details[1]) && ($image_details[1] < 1200) && function_exists('saswp_aq_resize')){
                                             
-                                            $width  = array(1280, 640, 300);
-                                            $height = array(720, 480, 300);
+                                            $width  = array(1200, 1200, 1200);
+                                            $height = array(1200, 900, 675);
                                             
                                             for($i = 0; $i<3; $i++){
                                                 
@@ -3032,7 +3032,7 @@ Class saswp_output_service{
                                               
                                             if($image['width'] < 1200){
                                                 
-                                                $resized_image = saswp_aq_resize( $image['url'], 1280, 720, true, false, true );                                                                                                
+                                                $resized_image = saswp_aq_resize( $image['url'], 1200, 675, true, false, true );                                                                                                
                                                 $attach_images['image'][$key]['url']    =   $resized_image[0];
                                                 $attach_images['image'][$key]['width']  =   $resized_image[1];
                                                 $attach_images['image'][$key]['height'] =   $resized_image[2];                                                

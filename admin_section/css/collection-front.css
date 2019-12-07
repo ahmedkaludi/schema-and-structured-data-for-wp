@@ -297,8 +297,7 @@ body .saswp-r, body .saswp-r p{
   grid-gap: 30px;
   list-style-type:none;
   margin:0;
-  justify-content: center;
-  /*overflow-x: scroll;*/
+  justify-content: center;  
 }
 
 .saswp-r3 li{
