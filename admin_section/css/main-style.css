@@ -670,8 +670,11 @@ Compatibility tab css ends
 }
 
 .saswp-global-selected{
+    border-bottom: 1px solid #f1f1f1;
+    background: #f1f1f1;
     color: #000000;
     font-weight: 500;
+    margin-bottom: -1px;
 }
 #saswp-global-tabs a{
     cursor: pointer;
@@ -2329,3 +2332,26 @@ span.saswp-mines{
     line-height: 1;
     top: 0px;
 }
+
+/* Add review thickbox csss starts here */
+
+.saswp-thick-box-container{    
+    width: 580px;
+}
+#saswp-add-rv-manual{
+    padding: 10px;
+}
+#saswp-add-rv-automatic{
+    padding: 10px;
+    box-sizing: border-box;
+    width: 100%;
+    overflow-y: scroll;
+    height: 260px;
+}
+.saswp-add-rv-loop{
+    padding-bottom: 5px;
+}
+.saswp-add-rv-title{
+    padding: 10px;
+}
+/* Add review thickbox csss ends here */

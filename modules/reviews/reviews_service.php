@@ -518,10 +518,11 @@ class saswp_reviews_service {
             $arg['meta_query'] = $meta_query_args;    
             }
             
+            if($rvcount){
+                $arg['numberposts']    = $rvcount;
+            }
             
-            if($platform_id && $rvcount){
-                
-                 $arg['numberposts']    = $rvcount;
+            if($platform_id){                                 
                  $arg['meta_query'] = array(
                                         array(
                                             'key'     => 'saswp_review_platform',

@@ -595,6 +595,48 @@ function saswp_schema_type_meta_box_callback( $post) {
                    </td>
                    <td>
                       <input class="saswp-enable-append-reviews" type="checkbox" name="saswp_enable_append_reviews" value="1" <?php if(isset($append_reviews) && $append_reviews == 1){echo 'checked'; }else{ echo ''; } ?>>                                                                                                           
+                      <div style="display:none;" id="saswp-embed-code-div">
+                          <div class="saswp-add-rv-title">Get reviews attached to the schema type with two different method. <a href="#">Learn More...</a></div>
+                          <div class="saswp-thick-box-container">
+                              
+                        <div class="saswp-add-rv-popup" id="saswp-global-tabs">
+                            <h2 class="nav-tab-wrapper">
+                            <a class="nav-tab" data-id="saswp-add-rv-automatic">Automatic</a>
+                            <a class="nav-tab" data-id="saswp-add-rv-manual">Manual</a>
+                           </h2>
+                        </div>
+                         
+                            <div class="saswp-global-container" id="saswp-add-rv-automatic">
+                                
+                                <?php 
+                                
+                                $reviews_service = new saswp_reviews_service();
+                                
+                                $reviews = $reviews_service->saswp_get_reviews_list_by_parameters(null, null, 20);
+                                
+                                if($reviews){
+                                    
+                                   foreach($reviews as $key => $val){
+                                       
+                                       echo '<div class="saswp-add-rv-loop">';
+                                       echo '<input type="checkbox" name="">  <strong> '.esc_attr($val['saswp_reviewer_name']).' ('.esc_attr($val['saswp_review_rating']).')</strong>';
+                                       echo '</div>';
+                                   }
+                                   
+                                }
+                                
+                                ?>
+                                
+                            </div>
+
+                            <div class="saswp-global-container" id="saswp-add-rv-manual">
+                               <p> <?php echo esc_html__('Output reviews in front and its schema markup in source by using below shortcode' ,'schema-and-structured-data-for-wp');?> </p>
+                                <strong>[saswp-reviews]</strong>
+                            </div>
+                        
+                              
+                          </div>
+                      </div>
                    </td>
                 </tr>
                 

@@ -1,6 +1,20 @@
                               
 jQuery(document).ready(function($){   
     
+    $(document).on("click", '.saswp-enable-append-reviews', function(){
+            
+        var html = '<ul class="afw-embed-code-ul">';                       
+            html+= '<li><strong>Shortcode =</strong>yahoooo</li>';
+            html+= '<li><strong>Theme Function =</strong> yahoooo</li>';            
+            html+= '</ul>';
+           
+            
+      //  $("#saswp-embed-code-div").html(html);
+        
+       tb_show("Attache reviews to this schema type", "#TB_inline??width=615&height=400&inlineId=saswp-embed-code-div");
+       $(document).find('#TB_window').width(600).height(400).css({'top':'200px', 'margin-top': '0px'});
+    });
+    
     
     $(".saswp-modify-schema-toggle").click(function(e){
         
