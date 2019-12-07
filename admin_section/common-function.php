@@ -1688,7 +1688,7 @@ if ( ! defined('ABSPATH') ) exit;
 
                     if(isset($review_details['saswp-review-item-enable'])){
 
-                        wp_enqueue_style( 'saswp-style', SASWP_PLUGIN_URL . 'admin_section/css/saswp-style.min.css', false , SASWP_VERSION );       
+                        wp_enqueue_style( 'saswp-style', SASWP_PLUGIN_URL . 'admin_section/css/'.(SASWP_ENVIRONMENT == 'production' ? 'saswp-style.min.css' : 'saswp-style.css'), false , SASWP_VERSION );       
 
                     }                              
 
@@ -1696,7 +1696,7 @@ if ( ! defined('ABSPATH') ) exit;
 
           if(isset($sd_data['saswp-google-review']) && $sd_data['saswp-google-review'] == 1 ){
 
-                     wp_enqueue_style( 'saswp-style', SASWP_PLUGIN_URL . 'admin_section/css/saswp-style.min.css', false , SASWP_VERSION );       
+                     wp_enqueue_style( 'saswp-style', SASWP_PLUGIN_URL . 'admin_section/css/'.(SASWP_ENVIRONMENT == 'production' ? 'saswp-style.min.css' : 'saswp-style.css'), false , SASWP_VERSION );       
 
           }
           
@@ -1915,6 +1915,9 @@ if ( ! defined('ABSPATH') ) exit;
                 font-size: 15px;
                 width: 20px;
                 height: 20px;
+                position: absolute;
+                right: 0;
+                top:4px;
             }
             .saswp-g-plus amp-img{
                 width:100%;
@@ -2001,7 +2004,39 @@ if ( ! defined('ABSPATH') ) exit;
             }
             .widget .saswp-rv-img img {
                 max-width: 50px;
-            }                
+            }   
+            
+            .saswp-rv-txt{
+            position: static;
+            height: 80px;
+            overflow-y: auto;
+            font-size: 14px;
+            line-height:1.6;
+            text-align: left;
+            padding: 0 2px 0 0;
+            margin: 10px 0 0;
+            }
+            .saswp-rv-txt p{
+              margin:0;  
+            }
+            .saswp-rv-cnt::-webkit-scrollbar {
+              width: 4px ;
+              display:inline-block;
+            }
+            .saswp-rv-cnt::-webkit-scrollbar-thumb {
+              -webkit-border-radius: 10px ;
+              border-radius: 10px ;
+              background: #ccc ;
+              -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5) ;
+            }
+            .saswp-rv-cnt::-webkit-scrollbar-track {
+              -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+              -webkit-border-radius: 4px;
+            }
+            .saswp-r5-rng{
+                position: relative;
+            }
+                        
         <?php
         }
      

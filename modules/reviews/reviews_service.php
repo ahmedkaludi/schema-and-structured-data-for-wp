@@ -156,14 +156,14 @@ class saswp_reviews_service {
                                             <a target="_blank" href="'.esc_attr($review['saswp_review_link']).'"><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/'.esc_attr($term_slug).'-img.png'.'"></a>
                                         </span>
                                     </div>                                                
-                                    <p>'.substr($review['saswp_review_text'],0,300).'</p>
+                                   <div class="saswp-rv-txt"> <p>'.esc_attr($review['saswp_review_text']).'</p></div>
                                 </div>
                               </div>
                           </div>';
                                                                 
                 }
 
-             wp_enqueue_style( 'saswp-style', SASWP_PLUGIN_URL . 'admin_section/css/saswp-style.min.css', false , SASWP_VERSION );       
+             wp_enqueue_style( 'saswp-style', SASWP_PLUGIN_URL . 'admin_section/css/'.(SASWP_ENVIRONMENT == 'production' ? 'saswp-style.min.css' : 'saswp-style.css'), false , SASWP_VERSION );       
 
             } 
         return $output;            
