@@ -13,14 +13,47 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 class saswp_reviews_service {
     
+    public $_total_reviews = array();
     /**
      * List of hooks used in this context
      */
     public function saswp_service_hooks(){
-        add_action( 'wp_ajax_saswp_fetch_google_reviews', array($this,'saswp_fetch_google_reviews'));
-        add_shortcode( 'saswp-reviews', array($this, 'saswp_reviews_shortcode' ));
+        
+        add_action('wp_ajax_saswp_fetch_google_reviews', array($this,'saswp_fetch_google_reviews'));
+        add_shortcode( 'saswp-reviews', array($this, 'saswp_reviews_shortcode' ),10);
+        add_action ('wp_footer', array($this, 'saswp_fetched_reviews_schema_markup'),99);
+        add_action ('amp_post_template_footer', array($this, 'saswp_fetched_reviews_schema_markup'),99);
     }
     
+    public function saswp_fetched_reviews_schema_markup(){
+        
+                  global $sd_data;
+                  $html  = ''; 
+                  
+                    if($this->_total_reviews){
+                        
+                        $rv_markup = $this->saswp_get_reviews_schema_markup(array_unique($this->_total_reviews, SORT_REGULAR));
+                                    
+                        $input1['@context'] = saswp_context_url();
+                        $input1['@type']    = (isset($sd_data['saswp_organization_type']) && $sd_data['saswp_organization_type'] !='' )? $sd_data['saswp_organization_type'] : 'Organization';
+                        $input1['name']     = (isset($sd_data['sd_name']) && $sd_data['sd_name'] !='' )? $sd_data['sd_name'] : get_bloginfo();
+                                          
+                        $input1  = $input1 + $rv_markup;
+                      
+                        $html .= "\n";
+                        $html .= '<!-- Schema & Structured Data For Reviews v'.esc_attr(SASWP_VERSION).' - -->';
+                        $html .= "\n";
+                        $html .= '<script type="application/ld+json" class="saswp-reviews-markup">'; 
+                        $html .= "\n";       
+                        $html .= saswp_json_print_format($input1);       
+                        $html .= "\n";
+                        $html .= '</script>';
+                        $html .= "\n\n";
+                        
+                    }
+                  
+                  echo $html;
+    }
     /**
      * Function to get reviews schema markup
      * @global type $sd_data
@@ -284,55 +317,19 @@ class saswp_reviews_service {
      * @param type $attr
      * @return type
      */
-    public function saswp_reviews_front_output($attr){
         
-            global $sd_data;
-            $reviews = $this->saswp_get_reviews_list_by_parameters($attr);
-                        
-            $output = $html = '';
-            
-            if($reviews){
-                
-               $output = $this->saswp_reviews_html_markup($reviews);  
-                            
-               if(saswp_global_option()){
-                
-                 $rv_markup = $this->saswp_get_reviews_schema_markup($reviews);
-                 
-                 if($rv_markup){
-                                          
-                        $input1['@context'] = saswp_context_url();
-                        $input1['@type']    = (isset($sd_data['saswp_organization_type']) && $sd_data['saswp_organization_type'] !='' )? $sd_data['saswp_organization_type'] : 'Organization';
-                        $input1['name']     = (isset($sd_data['sd_name']) && $sd_data['sd_name'] !='' )? $sd_data['sd_name'] : get_bloginfo();
-                                          
-                        $input1  = $input1 + $rv_markup;
-                      
-                        $html .= "\n";
-                        $html .= '<!-- Schema & Structured Data For Reviews v'.esc_attr(SASWP_VERSION).' - -->';
-                        $html .= "\n";
-                        $html .= '<script type="application/ld+json" class="saswp-reviews-markup">'; 
-                        $html .= "\n";       
-                        $html .= saswp_json_print_format($input1);       
-                        $html .= "\n";
-                        $html .= '</script>';
-                        $html .= "\n\n";
-                      
-                      $output = $output.$html;
-
-                  }
-          
-                }
-                              
-            }
-            
-            return $output;
-                                        
-    }
-    
     public function saswp_reviews_shortcode($attr){
-                                                        
-        $response = $this->saswp_reviews_front_output($attr);
-                                               
+                            
+        $response = '';
+        
+        $reviews = $this->saswp_get_reviews_list_by_parameters($attr);
+        
+        if($reviews){
+            
+               $this->_total_reviews = array_merge($this->_total_reviews, $reviews);    
+               $response = $this->saswp_reviews_html_markup($reviews);                                                                                         
+        }
+                                           
         return $response;
         
     }
