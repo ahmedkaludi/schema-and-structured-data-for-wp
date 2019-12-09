@@ -470,7 +470,7 @@ class saswp_reviews_service {
                                             
     }
     
-    public function saswp_get_reviews_list_by_parameters($attr = null, $platform_id = null, $rvcount = null){
+    public function saswp_get_reviews_list_by_parameters($attr = null, $platform_id = null, $rvcount = null, $paged = null, $offset = null){
             
             $response = array();
                                 
@@ -521,6 +521,12 @@ class saswp_reviews_service {
             if($rvcount){
                 $arg['numberposts']    = $rvcount;
             }
+            if($paged){
+                $arg['paged']    = $paged;
+            }
+            if($offset){
+                $arg['offset']    = $offset;
+            }
             
             if($platform_id){                                 
                  $arg['meta_query'] = array(
@@ -552,11 +558,13 @@ class saswp_reviews_service {
             foreach($posts_list as $rv_post){
                 
                 $review_data = array();                
-                                
+                
+                $review_data['saswp_review_id'] = $rv_post->ID;
+                
                 foreach($post_meta as $meta_key){
                     
                     $review_data[$meta_key] = get_post_meta($rv_post->ID, $meta_key, true ); 
-                                        
+                                                                               
                 }
                 
                 if(!$review_data['saswp_reviewer_image']){

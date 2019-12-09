@@ -1263,21 +1263,21 @@ function saswp_get_bne_testomonials(){
     
 }
 
-function saswp_append_fetched_reviews($input1){
+function saswp_append_fetched_reviews($input1, $schema_post_id){
     
     global $post;
     
     if(is_object($post)){
     
+        $service = new saswp_reviews_service();   
+        
         $pattern = get_shortcode_regex();
 
-        if (   preg_match_all( '/'. $pattern .'/s', $post->post_content, $matches )
+        if ( preg_match_all( '/'. $pattern .'/s', $post->post_content, $matches )
             && array_key_exists( 2, $matches )
             && in_array( 'saswp-reviews', $matches[2] ) )
         {
-       
-        $service = new saswp_reviews_service();    
-            
+                            
         foreach ($matches[0] as $matche){
             
             $mached = rtrim($matche, ']'); 
@@ -1307,9 +1307,44 @@ function saswp_append_fetched_reviews($input1){
             
         }   
         
-    }
-    
-    
+        }
+        
+         $attached_rv      = get_post_meta($schema_post_id, 'saswp_attahced_reviews', true); 
+         $append_reviews   = get_post_meta($schema_post_id, 'saswp_enable_append_reviews', true);
+         
+         if($append_reviews == 1 && $attached_rv){
+             
+             $total_rv = array();
+             
+             foreach($attached_rv as $review_id){
+                 
+                  $attr['id'] =  $review_id;                  
+                  $reviews = $service->saswp_get_reviews_list_by_parameters($attr);                                                      
+                  $total_rv = array_merge($total_rv, $reviews);    
+                 
+             }
+             
+             if($total_rv){
+                 
+                $rv_markup = $service->saswp_get_reviews_schema_markup($total_rv);
+                
+                if($rv_markup){
+                    
+                    if(isset($input1['review'])){
+
+                    $input1['review'] = array_merge($input1['review'], $rv_markup['review']);
+
+                    }else{
+                       $input1 = array_merge($input1, $rv_markup);
+                    }
+                    
+                }
+                 
+             }
+             
+             
+         }
+        
    }   
     return $input1;
 }

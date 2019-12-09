@@ -289,7 +289,7 @@ function saswp_schema_output() {
                             $input1['author']['@type']              = 'Organization';                                                        
                             $input1['offers']['@type']              = 'Offer';   
                             
-                            $input1 = saswp_append_fetched_reviews($input1);
+                            $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
                             
                             $input1 = apply_filters('saswp_modify_video_game_schema_output', $input1 );
                             
@@ -318,7 +318,7 @@ function saswp_schema_output() {
                             $input1['@id']                   = trailingslashit(saswp_get_permalink()).'#TVSeries';                                                                                                                                
                             $input1['author']['@type']       = 'Person';                            
                              
-                            $input1 = saswp_append_fetched_reviews($input1);
+                            $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
                             
                             $input1 = apply_filters('saswp_modify_tvseries_schema_output', $input1 );
                             
@@ -333,7 +333,7 @@ function saswp_schema_output() {
                             $input1['@id']                   = trailingslashit(saswp_get_permalink()).'#HowTo';                                                                                                                  
                             $input1['estimatedCost']['@type']   = 'MonetaryAmount';  
                             
-                            $input1 = saswp_append_fetched_reviews($input1);
+                            $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
                             
                             $input1 = apply_filters('saswp_modify_howto_schema_output', $input1 );
                             
@@ -398,7 +398,7 @@ function saswp_schema_output() {
                             $input1['@type']                 = 'MusicPlaylist';
                             $input1['@id']                   = trailingslashit(get_permalink()).'#MusicPlaylist'; 
                             
-                            $input1 = saswp_append_fetched_reviews($input1);
+                            $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
                             
                             $input1 = apply_filters('saswp_modify_music_playlist_schema_output', $input1 );
                             
@@ -412,7 +412,7 @@ function saswp_schema_output() {
                             $input1['@type']                 = 'Book';
                             $input1['@id']                   = trailingslashit(get_permalink()).'#Book'; 
                             
-                            $input1 = saswp_append_fetched_reviews($input1);
+                            $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
                             
                             $input1 = apply_filters('saswp_modify_music_playlist_schema_output', $input1 );
                             
@@ -427,7 +427,7 @@ function saswp_schema_output() {
                             $input1['@type']                 = 'MusicAlbum';
                             $input1['@id']                   = trailingslashit(get_permalink()).'#MusicAlbum';  
                             
-                            $input1 = saswp_append_fetched_reviews($input1);
+                            $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
                             $input1 = apply_filters('saswp_modify_music_album_schema_output', $input1 );
                             
                             $input1 = saswp_get_modified_markup($input1, $schema_type, $schema_post_id, $schema_options);
@@ -713,7 +713,7 @@ function saswp_schema_output() {
                                     $input1['comment'] = saswp_get_comments(get_the_ID());
                                 }  
                                 
-                                $input1 = saswp_append_fetched_reviews($input1);
+                                $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
                                                                 
                                 
                                 $input1 = apply_filters('saswp_modify_audio_object_schema_output', $input1 );
@@ -739,7 +739,7 @@ function saswp_schema_output() {
                                    $input1['comment'] = saswp_get_comments(get_the_ID());
                                 } 
                                 
-                                $input1 = saswp_append_fetched_reviews($input1);
+                                $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
                                                                                             
                                 $input1 = apply_filters('saswp_modify_event_schema_output', $input1 );
                                 
@@ -772,7 +772,7 @@ function saswp_schema_output() {
                                    $input1['comment'] = saswp_get_comments(get_the_ID());
                                 }    
                                 
-                                $input1 = saswp_append_fetched_reviews($input1);
+                                $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
                                                                                                 
                                 $input1 = apply_filters('saswp_modify_software_application_schema_output', $input1 );
                                 
@@ -890,7 +890,7 @@ function saswp_schema_output() {
                                    $input1 = array_merge($input1, $extra_theme_review);
                                 }
                                 
-                                $input1 = saswp_append_fetched_reviews($input1);
+                                $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
                                                                                                 
                             }
                             				                                
@@ -926,7 +926,7 @@ function saswp_schema_output() {
                                 $service = new saswp_output_service();
                                 $input1 = $service->saswp_schema_markup_generator($schema_type);
                                   
-                                $input1 = saswp_append_fetched_reviews($input1);
+                                $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
                                                                                                 
                                 $input1 = apply_filters('saswp_modify_product_schema_output', $input1 );
                                 
@@ -1009,7 +1009,7 @@ function saswp_schema_output() {
                                    $input1 = array_merge($input1, $extra_theme_review);
                                 }
                                 
-                                $input1 = saswp_append_fetched_reviews($input1);
+                                $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
                                                                                                 
                                 $input1 = apply_filters('saswp_modify_service_schema_output', $input1 );
                                 
@@ -1145,7 +1145,7 @@ function saswp_schema_output() {
                                                   $input1 = array_merge($input1, $extra_theme_review);
                                                  }
                                                  
-                                                 $input1 = saswp_append_fetched_reviews($input1);
+                                                 $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
                                                  $input1 = apply_filters('saswp_modify_video_object_schema_output', $input1 );
                                                  
                                                  $input1 = saswp_get_modified_markup($input1, $schema_type, $schema_post_id, $schema_options);
@@ -1187,7 +1187,7 @@ function saswp_schema_output() {
                                                   $input1 = array_merge($input1, $extra_theme_review);
                                                  }
                                                  
-                                                 $input1 = saswp_append_fetched_reviews($input1);
+                                                 $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
                                                  $input1 = apply_filters('saswp_modify_image_object_schema_output', $input1 );
                                                  
                                                  $input1 = saswp_get_modified_markup($input1, $schema_type, $schema_post_id, $schema_options);
@@ -1225,7 +1225,7 @@ function saswp_schema_output() {
                                     $input1 = array_merge($input1, $extra_theme_review);
                                     }
                                     
-                                    $input1 = saswp_append_fetched_reviews($input1);
+                                    $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
                                                                                                             
                                     $input1 = apply_filters('saswp_modify_local_business_schema_output', $input1 );
                                     
