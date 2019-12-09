@@ -76,6 +76,18 @@ class saswp_output_compatibility{
                                    
     }
     
+    public function saswp_betteramp_override(){
+        
+        add_action( 'template_redirect', array($this, 'saswp_betteramp_override_full') ,99);
+        
+    }
+    public function saswp_betteramp_override_full(){
+        
+             remove_action( 'wp_head', 'BF_Json_LD_Generator::print_output' );
+             remove_action( 'better-amp/template/head', 'BF_Json_LD_Generator::print_output' );       
+             
+    }
+
     public function saswp_easy_testimonials_override(){
                         
         add_filter('easy_testimonials_json_ld', '__return_false'); 

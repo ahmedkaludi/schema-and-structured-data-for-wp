@@ -619,7 +619,9 @@ function saswp_amp_page_callback(){
                         )
 		) ;                                        
                         
-        if ( is_plugin_active('accelerated-mobile-pages/accelerated-moblie-pages.php') || is_plugin_active('amp/amp.php') ) {                         
+        if ( is_plugin_active('accelerated-mobile-pages/accelerated-moblie-pages.php') 
+                || is_plugin_active('amp/amp.php') || is_plugin_active('better-amp/better-amp.php')  
+                ) {                         
         }else{
             
             $non_amp_enable_field['attributes'] = array(
