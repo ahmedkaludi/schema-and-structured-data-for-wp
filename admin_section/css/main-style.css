@@ -14,9 +14,9 @@ and open the template in the editor.
     display: block;
 }
 .saswp-item-list-div{
-        display: flex;
-        width: 100%;    
-        align-items: center;    
+    display: flex;
+    width: 100%;    
+    align-items: center;    
 }
 .saswp-enable-modify-schema{
     padding-top: 10px;

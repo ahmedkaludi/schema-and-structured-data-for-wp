@@ -612,7 +612,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                                 
                                 $reviews_service = new saswp_reviews_service();
                                 
-                                $reviews = $reviews_service->saswp_get_reviews_list_by_parameters(null, null, 20);
+                                $reviews = $reviews_service->saswp_get_reviews_list_by_parameters(null, null, 30);
                                 
                                 if($reviews){
                                     
