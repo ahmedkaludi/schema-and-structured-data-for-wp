@@ -24,7 +24,7 @@ function saswp_schema_markup_hook_on_init() {
                add_action( 'wp_footer', 'saswp_schema_markup_output');    
                add_action( 'amp_post_template_footer' , 'saswp_schema_markup_output' );
             }else{
-               add_action('wp_head', 'saswp_schema_markup_output');  
+               add_action( 'wp_head', 'saswp_schema_markup_output');  
                add_action( 'amp_post_template_head' , 'saswp_schema_markup_output' );
             }               
             
@@ -32,8 +32,9 @@ function saswp_schema_markup_hook_on_init() {
                                     
             remove_action( 'amp_post_template_head', 'amp_post_template_add_schemaorg_metadata',99,1);
             remove_action( 'amp_post_template_footer', 'amp_post_template_add_schemaorg_metadata',99,1);  
-            remove_action('wp_footer', 'orbital_markup_site');            
-            add_filter('hunch_schema_markup', '__return_false');              
+            remove_action( 'wp_footer', 'orbital_markup_site'); 
+            add_filter( 'amp_schemaorg_metadata', '__return_empty_array' );
+            add_filter( 'hunch_schema_markup', '__return_false');              
                         
             if(class_exists('BSF_AIOSRS_Pro_Markup')){
                 
@@ -1307,9 +1308,9 @@ function saswp_append_fetched_reviews($input1, $schema_post_id){
             
         }   
         
-        }
+        }else{
         
-         $attached_rv      = get_post_meta($schema_post_id, 'saswp_attahced_reviews', true); 
+          $attached_rv      = get_post_meta($schema_post_id, 'saswp_attahced_reviews', true); 
          $append_reviews   = get_post_meta($schema_post_id, 'saswp_enable_append_reviews', true);
          
          if($append_reviews == 1 && $attached_rv){
@@ -1344,6 +1345,8 @@ function saswp_append_fetched_reviews($input1, $schema_post_id){
              
              
          }
+            
+        }
         
    }   
     return $input1;

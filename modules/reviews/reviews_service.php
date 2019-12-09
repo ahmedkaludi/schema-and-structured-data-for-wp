@@ -28,6 +28,7 @@ class saswp_reviews_service {
     public function saswp_fetched_reviews_schema_markup(){
         
                   global $sd_data;
+                  
                   $html  = ''; 
                   
                     if($this->_total_reviews){
