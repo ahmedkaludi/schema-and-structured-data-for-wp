@@ -1635,6 +1635,43 @@ function saswp_compatibility_page_callback(){
         
         $settings = saswp_defaultSettings();  
         
+        $ampforwp = array(
+			'label'  => 'AMPforWP',
+			'id'     => 'saswp-ampforwp-checkbox',                        
+                        'name'   => 'saswp-ampforwp-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
+                        'note'   => saswp_get_field_note('ampforwp'),
+                        'hidden' => array(
+                                'id'   => 'saswp-ampforwp',
+                                'name' => 'sd_data[saswp-ampforwp]',                             
+                        )
+		);
+        $ampbyautomatic = array(
+			'label'  => 'AMP By Automatic',
+			'id'     => 'saswp-ampbyautomatic-checkbox',                        
+                        'name'   => 'saswp-ampbyautomatic-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
+                        'note'   => saswp_get_field_note('ampbyautomatic'),
+                        'hidden' => array(
+                                'id'   => 'saswp-ampbyautomatic',
+                                'name' => 'sd_data[saswp-ampbyautomatic]',                             
+                        )
+		);
+        $betteramp = array(
+			'label'  => 'Better AMP',
+			'id'     => 'saswp-betteramp-checkbox',                        
+                        'name'   => 'saswp-betteramp-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
+                        'note'   => saswp_get_field_note('betteramp'),
+                        'hidden' => array(
+                                'id'   => 'saswp-betteramp',
+                                'name' => 'sd_data[saswp-betteramp]',                             
+                        )
+		);
+        
         $tagyeem = array(
 			'label'  => 'Tagyeem With Jannah Theme',
 			'id'     => 'saswp-tagyeem-checkbox',                        
@@ -1910,7 +1947,9 @@ function saswp_compatibility_page_callback(){
                                 'name' => 'sd_data[saswp-the-events-calendar]',                             
                         )
 		);
-                
+        
+        
+        
         $kk_star = array(
 			'label'  => 'kk Star Ratings',
 			'id'     => 'saswp-kk-star-raring-checkbox',                        
@@ -2136,7 +2175,10 @@ function saswp_compatibility_page_callback(){
                                                  
         $field_objs = new saswp_fields_generator();
         
-        $meta_fields = array(				
+        $meta_fields = array(
+                $ampforwp,
+                $ampbyautomatic,
+                $betteramp,
                 $kk_star,  
                 $wppostratings,
                 $bbpress,
@@ -2414,7 +2456,10 @@ add_action( 'admin_enqueue_scripts', 'saswp_enqueue_style_js' );
 
 function saswp_get_field_note($pname){
     
-    $notes = array(            
+    $notes = array(  
+            'ampforwp'                 => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/accelerated-mobile-pages/">AMP for WP</a>',
+            'ampbyautomatic'           => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/amp/">AMP</a>',
+            'betteramp'                => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/kk-star-ratings/">Better AMP</a>',
             'kk_star_ratings'          => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/kk-star-ratings/">kk Star Rating</a>',
             'wp_post_ratings'          => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wp-postratings/">WP-PostRatings</a>',
             'bb_press'                 => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/bbpress/">bbPress</a>',

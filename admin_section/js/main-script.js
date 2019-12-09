@@ -1184,6 +1184,36 @@ return false;
                             }
                             
                       break;
+                      
+                      case 'saswp-ampforwp-checkbox':
+                           saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-ampforwp").val(1);                                
+                            }else{
+                              $("#saswp-ampforwp").val(0);                                          
+                            }
+                            
+                      break;
+                      
+                      case 'saswp-ampbyautomatic-checkbox':
+                           saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-ampbyautomatic").val(1);                                
+                            }else{
+                              $("#saswp-ampbyautomatic").val(0);                                          
+                            }
+                            
+                      break;
+                      
+                      case 'saswp-betteramp-checkbox':
+                           saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-betteramp").val(1);                                
+                            }else{
+                              $("#saswp-betteramp").val(0);                                          
+                            }
+                            
+                      break;
                                             
                       default:
                           break;

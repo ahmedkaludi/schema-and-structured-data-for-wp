@@ -4,6 +4,24 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 return array(    
     'plugins' =>    array(        
+        'ampforwp'  =>  array(            
+                    'name'       => 'AMPforWP',
+                    'free'       => 'accelerated-mobile-pages/accelerated-moblie-pages.php',            
+                    'opt_name'   => 'saswp-ampforwp',
+                    'part_in'    => 'free',
+        ),
+        'ampbyautomatic'  =>  array(            
+                    'name'       => 'AMP',
+                    'free'       => 'amp/amp.php',            
+                    'opt_name'   => 'saswp-ampbyautomatic',
+                    'part_in'    => 'free',
+        ),
+        'betteramp'  =>  array(            
+                    'name'       => 'Better AMP',
+                    'free'       => 'better-amp/better-amp.php',            
+                    'opt_name'   => 'saswp-betteramp',
+                    'part_in'    => 'free',
+        ),        
        'flex_mls_idx'  =>  array(            
                     'name'       => 'FlexMLS IDX',
                     'free'       => 'flexmls-idx/flexmls_connect.php',            
