@@ -76,6 +76,13 @@ class saswp_output_compatibility{
                                    
     }
     
+    public function saswp_wpamp_override(){        
+        add_action('amphtml_template_head', array($this, 'saswp_wpamp_override_full'));        
+    }
+    public function saswp_wpamp_override_full($data){        
+        $data->metadata = array();
+    }
+    
     public function saswp_betteramp_override(){
         
         add_action( 'template_redirect', array($this, 'saswp_betteramp_override_full') ,99);

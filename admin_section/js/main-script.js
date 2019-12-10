@@ -1214,6 +1214,16 @@ return false;
                             }
                             
                       break;
+                      
+                      case 'saswp-wpamp-checkbox':
+                           saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-wpamp").val(1);                                
+                            }else{
+                              $("#saswp-wpamp").val(0);                                          
+                            }
+                            
+                      break;
                                             
                       default:
                           break;

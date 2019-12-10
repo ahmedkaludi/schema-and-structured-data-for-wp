@@ -619,15 +619,19 @@ function saswp_amp_page_callback(){
                         )
 		) ;                                        
                         
-        if ( is_plugin_active('accelerated-mobile-pages/accelerated-moblie-pages.php') 
-                || is_plugin_active('amp/amp.php') || is_plugin_active('better-amp/better-amp.php')  
+        if ( 
+                is_plugin_active('accelerated-mobile-pages/accelerated-moblie-pages.php') || 
+                is_plugin_active('amp/amp.php') || 
+                is_plugin_active('better-amp/better-amp.php')  ||
+                is_plugin_active('wp-amp/wp-amp.php')
+                        
                 ) {                         
         }else{
             
             $non_amp_enable_field['attributes'] = array(
                  'disabled' => 'disabled'
              );
-             $non_amp_enable_field['note'] = esc_html__('Requires','schema-and-structured-data-for-wp'). ' <a target="_blank" href="https://wordpress.org/plugins/accelerated-mobile-pages/">AMP for WP</a> or <a target="_blank" href="https://wordpress.org/plugins/amp/">AMP</a>';
+             $non_amp_enable_field['note'] = esc_html__('Requires','schema-and-structured-data-for-wp'). ' <a target="_blank" href="https://wordpress.org/plugins/accelerated-mobile-pages/">AMP for WP</a> or <a target="_blank" href="https://wordpress.org/plugins/amp/">AMP</a> or <a target="_blank" href="https://wordpress.org/plugins/better-amp/">Better AMP</a> or <a target="_blank" href="https://codecanyon.net/item/wp-amp-accelerated-mobile-pages-for-wordpress-and-woocommerce/16278608">WP AMP</a>';
              $settings['saswp-for-amp'] = 0;	
             
         }
@@ -1673,6 +1677,18 @@ function saswp_compatibility_page_callback(){
                                 'name' => 'sd_data[saswp-betteramp]',                             
                         )
 		);
+        $wpamp = array(
+			'label'  => 'WP AMP',
+			'id'     => 'saswp-wpamp-checkbox',                        
+                        'name'   => 'saswp-wpamp-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
+                        'note'   => saswp_get_field_note('wpamp'),
+                        'hidden' => array(
+                                'id'   => 'saswp-wpamp',
+                                'name' => 'sd_data[saswp-wpamp]',                             
+                        )
+		);
         
         $tagyeem = array(
 			'label'  => 'Tagyeem With Jannah Theme',
@@ -2181,6 +2197,7 @@ function saswp_compatibility_page_callback(){
                 $ampforwp,
                 $ampbyautomatic,
                 $betteramp,
+                $wpamp,
                 $kk_star,  
                 $wppostratings,
                 $bbpress,
@@ -2462,6 +2479,7 @@ function saswp_get_field_note($pname){
             'ampforwp'                 => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/accelerated-mobile-pages/">AMP for WP</a>',
             'ampbyautomatic'           => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/amp/">AMP</a>',
             'betteramp'                => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/kk-star-ratings/">Better AMP</a>',
+            'wpamp'                    => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://codecanyon.net/item/wp-amp-accelerated-mobile-pages-for-wordpress-and-woocommerce/16278608">WP AMP</a>',
             'kk_star_ratings'          => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/kk-star-ratings/">kk Star Rating</a>',
             'wp_post_ratings'          => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wp-postratings/">WP-PostRatings</a>',
             'bb_press'                 => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/bbpress/">bbPress</a>',

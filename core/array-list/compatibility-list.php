@@ -21,7 +21,13 @@ return array(
                     'free'       => 'better-amp/better-amp.php',            
                     'opt_name'   => 'saswp-betteramp',
                     'part_in'    => 'free',
-        ),        
+        ),
+        'wpamp'  =>  array(            
+                    'name'       => 'WP AMP',
+                    'free'       => 'wp-amp/wp-amp.php',            
+                    'opt_name'   => 'saswp-wpamp',
+                    'part_in'    => 'free',
+        ),
        'flex_mls_idx'  =>  array(            
                     'name'       => 'FlexMLS IDX',
                     'free'       => 'flexmls-idx/flexmls_connect.php',            

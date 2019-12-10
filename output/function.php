@@ -21,11 +21,19 @@ function saswp_schema_markup_hook_on_init() {
             global $sd_data;
         
             if(isset($sd_data['saswp-markup-footer']) && $sd_data['saswp-markup-footer'] == 1){
+                
                add_action( 'wp_footer', 'saswp_schema_markup_output');    
                add_action( 'amp_post_template_footer' , 'saswp_schema_markup_output' );
+               add_action( 'better-amp/template/footer', 'saswp_schema_markup_output', 1, 1 );
+               add_action( 'amphtml_template_footer', 'saswp_schema_markup_output');
+               
             }else{
+                
+               add_action( 'better-amp/template/head', 'saswp_schema_markup_output', 1, 1 );
                add_action( 'wp_head', 'saswp_schema_markup_output');  
                add_action( 'amp_post_template_head' , 'saswp_schema_markup_output' );
+               add_action( 'amphtml_template_head', 'saswp_schema_markup_output');
+               
             }               
             
             add_action('cooked_amp_head', 'saswp_schema_markup_output');
