@@ -2450,6 +2450,8 @@ function saswp_enqueue_style_js( $hook ) {
 	// Everything needed for media upload
         wp_enqueue_media();
         
+        wp_enqueue_script('thickbox');
+        wp_enqueue_style('thickbox');
         	
         wp_enqueue_script( 'saswp-timepicker-js', SASWP_PLUGIN_URL . 'admin_section/js/jquery.timepicker.js', false, SASWP_VERSION);        
         wp_enqueue_style( 'saswp-timepicker-css', SASWP_PLUGIN_URL . 'admin_section/css/jquery.timepicker.css', false , SASWP_VERSION );

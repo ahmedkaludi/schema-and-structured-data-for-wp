@@ -1481,8 +1481,9 @@ function saswp_woocommerce_category_schema(){
                         $category_posts['@type']       = 'ListItem';
                         $category_posts['position']    = $i;
 			$category_posts['item']        = $service->saswp_schema_markup_generator('Product');	
-                        $category_posts['item']['url'] =  get_category_link($term->term_id).'#product_'.$i;
+                        $category_posts['item']['url'] =  rtrim( get_category_link($term->term_id), '/'). "#product_".$i;    
                         unset($category_posts['item']['@id']);
+                        unset($category_posts['item']['@context']);
                         $list_item[] = $category_posts;
                         
                         $i++;
