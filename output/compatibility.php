@@ -4,6 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 class saswp_output_compatibility{
     
     public $_plugins_list = array(); 
+    public $_theme_list   = array();
     
     public function __construct() {
                         
@@ -13,6 +14,7 @@ class saswp_output_compatibility{
                 
                 $plugins_arr = include $mappings_file;
                 $this->_plugins_list = $plugins_arr['plugins'];
+                $this->_theme_list   = $plugins_arr['themes'];
                 
                 foreach($plugins_arr['plugins'] as $key => $plugin){
 
@@ -73,7 +75,43 @@ class saswp_output_compatibility{
         }
             
        }
+       //Theme starts here
+       
+       if(!empty($this->_theme_list)){
+        
+            foreach ($this->_theme_list as $key =>  $plugins){
+            
+            if(isset($sd_data[$plugins['opt_name']]) && $sd_data[$plugins['opt_name']] == 1){
+                
+                if(get_template() == $plugins['free'] || (isset($plugins['pro']) && get_template() ==$plugins['pro'])){
+                    
+                    $func_name = 'saswp_'.$key.'_override';
+                    
+                    if(method_exists($this, $func_name) && saswp_global_option()){                        
+                        call_user_func(array($this, $func_name));                        
+                    }
+                    
+                }
+                
+            }
+            
+        }
+            
+       }
+       
+       // Theme ends here
                                    
+    }
+    
+    public function saswp_soledad_override(){
+            
+         saswp_remove_anonymous_object_filter_or_action(
+            'wp_head',
+            'Penci_JSON_Schema_Validator',
+            'output_schema',
+            'action'    
+        );
+        
     }
     
     public function saswp_wpamp_override(){        

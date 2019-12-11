@@ -231,6 +231,12 @@ return array(
                 
     ),
     'themes' => array(
+        'soledad' => array(            
+                    'name'       => 'Soledad Theme',
+                    'free'       => 'soledad',               
+                    'opt_name'   => 'saswp-soledad',
+                    'part_in'    => 'free',
+        ),
         'jannah' => array(            
                     'name'       => 'Jannah',
                     'free'       => 'jannah',               

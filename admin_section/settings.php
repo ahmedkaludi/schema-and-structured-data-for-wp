@@ -2055,6 +2055,18 @@ function saswp_compatibility_page_callback(){
                                 'name' => 'sd_data[saswp-extra]',                             
                         )
 		);
+        $soledad = array(
+			'label'  => 'Soledad Theme',
+			'id'     => 'saswp-soledad-checkbox',                        
+                        'name'   => 'saswp-soledad-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
+                        'note'   => saswp_get_field_note('soledad'),
+                        'hidden' => array(
+                                'id'   => 'saswp-soledad',
+                                'name' => 'sd_data[saswp-soledad]',                             
+                        )
+		);
         $dwquestiton = array(
 			'label'  => 'DW Question Answer',
 			'id'     => 'saswp-dw-question-answer-checkbox',                        
@@ -2204,7 +2216,8 @@ function saswp_compatibility_page_callback(){
                 $woocommerce,
                 $woocommerce_bok,
                 $woocommerce_mem,
-                $cooked,                
+                $cooked, 
+                $soledad,
                 $tagyeem,
                 $extratheme,
                 $dwquestiton,                
@@ -2513,6 +2526,7 @@ function saswp_get_field_note($pname){
             'homeland'                 => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://themeforest.net/item/homeland-responsive-real-estate-theme-for-wordpress/6518965">Homeland</a>',            
             'realhomes'                => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://themeforest.net/item/real-homes-wordpress-real-estate-theme/5373914">RealHomes</a>',
             'jannah'                   => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://codecanyon.net/item/taqyeem-wordpress-review-plugin/4558799">Taqyeem</a>',
+            'soledad'                  => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://themeforest.net/item/soledad-multiconcept-blogmagazine-wp-theme/12945398">Soledad Theme</a>',
             'zip_recipes'              => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/zip-recipes/">Zip Recipes</a>',
             'mediavine_create'         => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/mediavine-create/">Create by Mediavine</a>',
             'ht_recipes'               => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://themeforest.net/item/culinier-food-recipe-wordpress-theme/11088564/">HT-Recipes</a>',
@@ -2521,7 +2535,7 @@ function saswp_get_field_note($pname){
         );
           
     $active = saswp_compatible_active_list();
-    
+        
     if(!isset($active[$pname])){
         
         return $notes[$pname];

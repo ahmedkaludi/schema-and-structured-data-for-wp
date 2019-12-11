@@ -839,6 +839,15 @@ return false;
                             }
                       break;
                       
+                      case 'saswp-soledad-checkbox':
+                          saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-soledad").val(1);             
+                            }else{
+                              $("#saswp-soledad").val(0);           
+                            }
+                      break;
+                      
                       case 'saswp-dw-question-answer-checkbox':
                           saswp_compatibliy_notes(current, id); 
                             if ($(this).is(':checked')) {              

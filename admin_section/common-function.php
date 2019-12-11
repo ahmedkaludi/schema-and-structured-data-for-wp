@@ -2863,3 +2863,45 @@ function saswp_admin_notice(){
     }
             
 }
+
+function saswp_remove_anonymous_object_filter_or_action( $tag, $class, $method, $hook_type ){
+    
+        $filters = $GLOBALS['wp_filter'][ $tag ];        
+        if ( empty ( $filters ) )
+        {
+            return;
+        }
+       
+        foreach ( $filters as $priority => $filter )
+        {
+             
+            foreach ( $filter as $identifier => $function )
+            {
+                    
+                if ( is_array( $function)
+                    and is_a( $function['function'][0], $class )
+                    and $method === $function['function'][1]
+                )
+                {         
+                    if($hook_type == 'filter'){
+                        
+                        remove_filter(
+                            $tag,
+                            array ( $function['function'][0], $method ),
+                            $priority
+                        );
+                        
+                    }
+                    if($hook_type == 'action'){
+                     
+                        remove_action(
+                            $tag,
+                            array ( $function['function'][0], $method ),
+                            $priority
+                        );
+                        
+                    }                    
+                }
+            }
+        }
+    }
