@@ -614,6 +614,8 @@ function saswp_schema_type_meta_box_callback( $post) {
                                         echo '<span class="saswp-attached-rv-count"> 0 Reviews Attached</span>';
                                     }
                                     
+                                }else{
+                                    echo '<span class="saswp-attached-rv-count saswp_hide"> 0 Reviews Attached</span>';
                                 }                                
                         
                         ?> 

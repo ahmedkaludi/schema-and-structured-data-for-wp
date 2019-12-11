@@ -19,8 +19,9 @@ jQuery(document).ready(function($){
         
     $(document).on("click", ".saswp-attach-rv-checkbox", function(){
         
-        var review_id = null;        
+        var  review_id = null;        
              review_id = parseInt($(this).parent().attr('review-id'));
+             
         if($(this).is(":checked")){  
             
             saswp_attached_rv.push(review_id);

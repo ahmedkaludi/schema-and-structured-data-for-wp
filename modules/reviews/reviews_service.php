@@ -410,7 +410,8 @@ class saswp_reviews_service {
                 $review_meta = array(
                         'saswp_review_platform'       => $term->term_id,
                         'saswp_review_location_id'    => $place_id,
-                        'saswp_review_time'           => $review['time'], 
+                        'saswp_review_time'           => $review['time'],
+                        'saswp_review_date'           => $review['date'],
                         'saswp_review_rating'         => $review['rating'],
                         'saswp_review_text'           => $review['text'],                                
                         'saswp_reviewer_lang'         => $review['language'],
