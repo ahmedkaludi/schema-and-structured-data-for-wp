@@ -152,8 +152,7 @@ jQuery(document).ready(function($){
     function saswp_fomo_fade(elem) {
         if (i > elems.length - 1) {
         i = 0;
-     }
-     console.log(fomo_inverval);
+     }     
      $(elem).fadeIn(300).delay(fomo_inverval*1000).fadeOut(300, function() {
          saswp_fomo_fade(elems[i++])
       });

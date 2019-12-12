@@ -679,7 +679,6 @@ class saswp_reviews_service {
            $grid_cols     = '';
 
            if($collection){
-
                
                if(saswp_non_amp()){
                    
@@ -708,7 +707,7 @@ class saswp_reviews_service {
                        $html .= '<img src="'.esc_url($value['saswp_reviewer_image']).'" width="56" height="56"/>';
                        $html .= '</div>';
                        $html .= '<div class="saswp-rc-nm">';
-                       $html .= '<a href="#">'.esc_attr($value['saswp_reviewer_name']).'</a>';
+                       $html .= '<a target="_blank" href="'.esc_url($value['saswp_review_link']).'">'.esc_attr($value['saswp_reviewer_name']).'</a>';
                        $html .= saswp_get_rating_html_by_value($value['saswp_review_rating']);                       
                        $html .= '<span class="saswp-rc-dt">'.esc_attr($date_str['date']).'</span>';
                        $html .= '</div>';
@@ -809,7 +808,7 @@ class saswp_reviews_service {
                 $html .= '<div class="saswp-rc-a">';
                 $html .= '<img src="'.esc_url($value['saswp_reviewer_image']).'"/>';
                 $html .= '<div class="saswp-rc-nm">';
-                $html .= '<a href="#">'. esc_attr($value['saswp_reviewer_name']).'</a>';
+                $html .= '<a target="_blank" href="'.esc_url($value['saswp_review_link']).'">'. esc_attr($value['saswp_reviewer_name']).'</a>';
                 $html .= '<span class="saswp-rc-dt">'.esc_attr($date_str['date']).'</span>';
                 $html .= '</div>';
                 $html .= '</div>';
