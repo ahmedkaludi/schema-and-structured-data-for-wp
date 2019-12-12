@@ -753,7 +753,7 @@ class saswp_reviews_service {
                        $html .= '<amp-img src="'.esc_url($value['saswp_reviewer_image']).'" width="70" height="56"></amp-img>';                       
                        $html .= '</div>';
                        $html .= '<div class="saswp-rc-nm">';
-                       $html .= '<a href="#">'.esc_attr($value['saswp_reviewer_name']).'</a>';
+                       $html .= '<a target="_blank" href="'.esc_url($value['saswp_review_link']).'">'.esc_attr($value['saswp_reviewer_name']).'</a>';
                        $html .= saswp_get_rating_html_by_value($value['saswp_review_rating']);                       
                        $html .= '<span class="saswp-rc-dt">'.esc_attr($date_str['date']).'</span>';
                        $html .= '</div>';
