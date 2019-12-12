@@ -28,13 +28,12 @@ class SASWP_Reviews_Form {
               
           }  
                          
-          add_shortcode( 'saswp-reviews-form', array($this, 'saswp_reviews_form_render' ));
-                    
+          add_shortcode( 'saswp-reviews-form', array($this, 'saswp_reviews_form_render' ));                    
           add_action( 'admin_post_saswp_review_form', array($this, 'saswp_save_review_form_data') );
-          add_action( 'admin_post_nopriv_saswp_review_form', array($this, 'saswp_save_review_form_data') );
-          
-          add_filter('amp_content_sanitizers_template_mode',array($this, 'saswp_review_form_blacklist_sanitizer'), 99);
-          add_filter('amp_content_sanitizers',array($this, 'saswp_review_form_blacklist_sanitizer'), 99);
+          add_action( 'admin_post_nopriv_saswp_review_form', array($this, 'saswp_save_review_form_data') );          
+          add_filter( 'amp_content_sanitizers_template_mode',array($this, 'saswp_review_form_blacklist_sanitizer'), 99);
+          add_filter( 'amp_content_sanitizers',array($this, 'saswp_review_form_blacklist_sanitizer'), 99);
+          add_action( 'amp_post_template_css', array($this, 'saswp_review_form_amp_css'));
                                  
         }
         
@@ -152,6 +151,12 @@ class SASWP_Reviews_Form {
             }
                         
         }
+        public function saswp_review_form_amp_css(){
+            
+             $review_css  =  SASWP_PLUGIN_DIR_PATH . 'admin_section/css/amp/review-form.css';             
+             echo @file_get_contents($review_css);
+            
+        }
         public function saswp_reviews_form_render($attr){
             
             $is_amp = false;
@@ -171,7 +176,8 @@ class SASWP_Reviews_Form {
             wp_localize_script( 'saswp-rateyo-front-js', 'saswp_reviews_front_data', $data );
             wp_enqueue_script( 'saswp-rateyo-front-js' );
             
-            wp_enqueue_script( 'saswp-review-form', SASWP_PLUGIN_URL . 'admin_section/js/'.(SASWP_ENVIRONMENT == 'production' ? 'form.min.js' : 'form.js'), false, SASWP_VERSION );
+            wp_enqueue_script( 'saswp-review-form-js', SASWP_PLUGIN_URL . 'admin_section/js/'.(SASWP_ENVIRONMENT == 'production' ? 'review-form.min.js' : 'review-form.js'), false, SASWP_VERSION );
+            wp_enqueue_style(  'saswp-review-form-css', SASWP_PLUGIN_URL . 'admin_section/css/'.(SASWP_ENVIRONMENT == 'production' ? 'review-form.min.css' : 'review-form.css'), false, SASWP_VERSION );
             
             $form = $current_url = '';
             

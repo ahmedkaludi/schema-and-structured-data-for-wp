@@ -150,7 +150,7 @@ class saswp_reviews_service {
                                 <div class="saswp-rv-cnt">
                                     <div class="saswp-r5-rng">
                                         <div class="saswp-str">
-                                            <span class="saswp-athr">'.esc_attr($review['saswp_reviewer_name']).'</span>
+                                            <a target="_blank" href="'.esc_url($review['saswp_review_link']).'"><span class="saswp-athr">'.esc_attr($review['saswp_reviewer_name']).'</span></a>
                                             '.$starating.'                                  
                                         </div> 
                                         <span class="saswp-g-plus">
