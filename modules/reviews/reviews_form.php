@@ -185,20 +185,7 @@ class SASWP_Reviews_Form {
                 $current_url = home_url( add_query_arg( array(), $wp->request ) );
             }
             
-            $attribute = array();
-            $attribute['place_id'] = $post->ID; 
-            
-            $reviews = $this->_service->saswp_get_reviews_list_by_parameters($attribute);
-           
-             if($reviews){
-               
-                $form   .= '<div class="saswp-reviews-container">'
-                        . $this->_service->saswp_reviews_html_markup($reviews)
-                        . '</div>';
-               
-             }
-            
-            $form   .= '<div class="saswp-rv-form-container">';
+            $form       .= '<div class="saswp-rv-form-container">';
             
             if(!$is_amp){               
                 $rating_html = '<div class="saswp-rating-front-div"></div><input type="hidden" name="saswp_review_rating" value="5">';
