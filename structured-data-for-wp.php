@@ -57,7 +57,7 @@ if ( ! function_exists('saswp_non_amp') ){
                            
     } 
     
-    if(function_exists('is_amp_endpoint')){
+    if(function_exists('is_amp_endpoint') && is_amp_endpoint()){
         $non_amp = false;           
     }
     if(function_exists('is_better_amp')){

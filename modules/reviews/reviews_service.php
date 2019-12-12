@@ -474,8 +474,7 @@ class saswp_reviews_service {
     
     public function saswp_get_reviews_list_by_parameters($attr = null, $platform_id = null, $rvcount = null, $paged = null, $offset = null){
             
-            $response = array();
-                                
+            $response   = array();                                
             $arg        = array();
             $meta_query = array();
             
@@ -494,7 +493,15 @@ class saswp_reviews_service {
             if(isset($attr['count'])){
                 $arg['posts_per_page'] = $attr['count'];
             }    
-                
+            
+            if(isset($attr['place_id'])){
+                    $meta_query[] = array(
+                        'key'     => 'saswp_review_location_id',
+                        'value'   => $attr['place_id'],
+                        'compare' => '='
+                    );
+            }
+            
             if(isset($attr['rating'])){
                     $meta_query[] = array(
                         'key'     => 'saswp_review_rating',

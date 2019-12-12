@@ -152,7 +152,7 @@ class SASWP_Reviews_Collection {
                     'public' 		    => true,
                     'has_archive' 	    => true,
                     'exclude_from_search'   => true,
-                    'publicly_queryable'    => true,
+                    'publicly_queryable'    => false,
                     //'show_in_menu'          => 'edit.php?post_type=saswp',                
                     'show_in_menu'          => false,                
                     'show_ui'               => true,
