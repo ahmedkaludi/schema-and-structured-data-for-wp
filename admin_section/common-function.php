@@ -518,7 +518,7 @@ if ( ! defined('ABSPATH') ) exit;
                     
                     $review_meta = array(
                         'saswp_review_platform'       => $term->term_id,
-                        'saswp_review_location_id'    => $post_id,                        
+                        'saswp_review_location_id'    => $wp_post_meta['wpcr3_review_post'][0],                        
                         'saswp_review_date'           => $wp_rv_date,
                         'saswp_review_time'           => $wp_rv_time,
                         'saswp_review_rating'         => $wp_post_meta['wpcr3_review_rating'][0],
@@ -526,7 +526,7 @@ if ( ! defined('ABSPATH') ) exit;
                         'saswp_reviewer_name'         => $wp_post_meta['wpcr3_review_name'][0],
                         'saswp_reviewer_email'        => $wp_post_meta['wpcr3_review_email'][0],
                         'saswp_reviewer_website'      => $wp_post_meta['wpcr3_review_website'][0],
-                        'saswp_review_link'           => get_permalink($wp_post_meta['wpcr3_review_post']),
+                        'saswp_review_link'           => get_permalink($wp_post_meta['wpcr3_review_post'][0]),
                         'saswp_reviewer_image'        => SASWP_DIR_URI.'/admin_section/images/default_user.jpg',
                         'saswp_reviewer_image_detail' => $media_detail
                     );
