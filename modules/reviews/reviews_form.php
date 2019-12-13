@@ -32,8 +32,7 @@ class SASWP_Reviews_Form {
           add_action( 'admin_post_saswp_review_form', array($this, 'saswp_save_review_form_data') );
           add_action( 'admin_post_nopriv_saswp_review_form', array($this, 'saswp_save_review_form_data') );          
           add_filter( 'amp_content_sanitizers_template_mode',array($this, 'saswp_review_form_blacklist_sanitizer'), 99);
-          add_filter( 'amp_content_sanitizers',array($this, 'saswp_review_form_blacklist_sanitizer'), 99);
-          add_action( 'amp_post_template_css', array($this, 'saswp_review_form_amp_css'));
+          add_filter( 'amp_content_sanitizers',array($this, 'saswp_review_form_blacklist_sanitizer'), 99);          
                                  
         }
         
@@ -152,7 +151,18 @@ class SASWP_Reviews_Form {
         }
         public function saswp_review_form_amp_css(){
             
-             $review_css  =  SASWP_PLUGIN_DIR_PATH . 'admin_section/css/amp/review-form.css';             
+             $review_css  =  SASWP_PLUGIN_DIR_PATH . 'admin_section/css/amp/review-form.css';  
+             
+             ?>
+            .saswp-rvw-str .str-ic{           
+                background-image: url(<?php echo esc_url(SASWP_DIR_URI.'/admin_section/images/full_star.png'); ?>);
+            }
+            .saswp-rvw-str .df-clr{           
+                background-image: url(<?php echo esc_url(SASWP_DIR_URI.'/admin_section/images/blank_star.png'); ?>);
+            }
+
+            <?php
+                          
              echo @file_get_contents($review_css);
             
         }
@@ -163,6 +173,7 @@ class SASWP_Reviews_Form {
             if(!saswp_non_amp()){
                 $is_amp = true;
             }
+            add_action( 'amp_post_template_css', array($this, 'saswp_review_form_amp_css'));
             
             ob_start();
             

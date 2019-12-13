@@ -37,3 +37,25 @@
     cursor: pointer;
     font-size: 15px;
 }
+
+/* 
+Rating css starts here
+*/
+
+.saswp-rvw-str .str-ic{
+    display:inline-block;
+    width: 20px;
+    height: 16px;
+    background-repeat: no-repeat;            
+}
+.saswp-rvw-str .df-clr{
+    display:inline-block;
+    width: 20px;
+    height: 16px;
+    background-repeat: no-repeat;           
+}
+       
+
+/* 
+Rating css ends here
+*/
