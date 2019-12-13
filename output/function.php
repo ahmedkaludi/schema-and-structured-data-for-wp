@@ -1272,17 +1272,29 @@ function saswp_get_bne_testomonials(){
     
 }
 
-function saswp_append_fetched_reviews($input1, $schema_post_id){
+function saswp_append_fetched_reviews($input1, $schema_post_id = null){
     
     global $post;
     
-    if(is_object($post)){
+     $content = '';
+    
+     if(is_object($post)){
+       $content = $post->post_content;
+     }
+    
+    if((function_exists('is_product_category') && is_product_category()) || is_category() ){
+        
+         $content = category_description();
+        
+    }
+    
+    if($content){
     
         $service = new saswp_reviews_service();   
         
         $pattern = get_shortcode_regex();
 
-        if ( preg_match_all( '/'. $pattern .'/s', $post->post_content, $matches )
+        if ( preg_match_all( '/'. $pattern .'/s', $content, $matches )
             && array_key_exists( 2, $matches )
             && in_array( 'saswp-reviews', $matches[2] ) )
         {
@@ -1318,6 +1330,8 @@ function saswp_append_fetched_reviews($input1, $schema_post_id){
         
         }else{
         
+          if($schema_post_id){
+             
           $attached_rv       = get_post_meta($schema_post_id, 'saswp_attahced_reviews', true); 
           $append_reviews    = get_post_meta($schema_post_id, 'saswp_enable_append_reviews', true);
          
@@ -1350,9 +1364,10 @@ function saswp_append_fetched_reviews($input1, $schema_post_id){
                 }
                  
              }
-             
-             
-         }
+                          
+            }
+              
+          }                        
             
         }
         

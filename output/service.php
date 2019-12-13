@@ -2862,8 +2862,12 @@ Class saswp_output_service{
                             $input1['@context']              = saswp_context_url();
                             $input1['@type']                 = 'Product';
                             $input1['@id']                   = trailingslashit(saswp_get_permalink()).'#Product';                                                                                                                                                                                                                                                                                        
-                        }                                                                
-                    
+                        } 
+                        
+                        if(!isset($input1['review'])){
+                           $input1 = saswp_append_fetched_reviews($input1); 
+                        }
+                                            
                     break;
 
                 default:

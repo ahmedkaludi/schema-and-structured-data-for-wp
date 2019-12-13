@@ -19,7 +19,7 @@ class saswp_reviews_service {
     public function saswp_service_hooks(){
         
         add_action('wp_ajax_saswp_fetch_google_reviews', array($this,'saswp_fetch_google_reviews'));
-        add_shortcode( 'saswp-reviews', array($this, 'saswp_reviews_shortcode' ),10);
+        add_shortcode('saswp-reviews', array($this, 'saswp_reviews_shortcode' ),10);
         add_action ('wp_footer', array($this, 'saswp_fetched_reviews_schema_markup'),99);
         add_action ('amp_post_template_footer', array($this, 'saswp_fetched_reviews_schema_markup'),99);
     }
