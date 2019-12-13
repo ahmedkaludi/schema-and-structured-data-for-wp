@@ -204,19 +204,42 @@ class SASWP_Reviews_Form {
             }
                     
             $form   .= wp_nonce_field( 'saswp_review_form', 'saswp_review_nonce' )
-                    . '<table class="form-table">'
-                    . '<tr><td>Name</td> <td><input type="text" name="saswp_reviewer_name" required></td></tr>'
-                    . '<tr><td> Text </td><td><textarea name="saswp_review_text"></textarea>'
-                    . '<input type="hidden" name="saswp_review_link" value="'.esc_url($current_url).'"></td></tr>'                    
-                    . '<tr><td></td><td>'
-                    . $rating_html                    
-                    . '</td></tr>'
-                    . '<tr><td colspan="2">'
+
+                    . '<div class="saswp-form-tbl">'
+                    
+                    . '<div class="saswp-form-fld">'
+                    .   '<span>Name</span>'
+                    .   '<input type="text" name="saswp_reviewer_name" required>'
+                    . '</div>'
+
+                    . '<div class="saswp-form-fld">'
+                    .   '<span>Comment</span>'
+                    .   '<textarea name="saswp_review_text"></textarea>'
+                    . '</div>'
+
+                    . '<input type="hidden" name="saswp_review_link" value="'.esc_url($current_url).'">'
+                    . $rating_html
                     . '<input type="hidden" name="saswp_place_id" value="'.esc_attr($post->ID).'">'
                     . '<input type="hidden" name="action" value="saswp_review_form">'
                     . '<input name="saswp-review-save" type="submit" class="submit">'
-                    . '</td></tr>'                                        
-                    . '</table>'
+                    
+                    
+                    . '</div>'
+
+
+                    // . '<table class="form-table">'
+                    // . '<tr><td>Name</td> <td><input type="text" name="saswp_reviewer_name" required></td></tr>'
+                    // . '<tr><td> Text </td><td><textarea name="saswp_review_text"></textarea>'
+                    // . '<input type="hidden" name="saswp_review_link" value="'.esc_url($current_url).'"></td></tr>'                    
+                    // . '<tr><td></td><td>'
+                    // . $rating_html                    
+                    // . '</td></tr>'
+                    // . '<tr><td colspan="2">'
+                    // . '<input type="hidden" name="saswp_place_id" value="'.esc_attr($post->ID).'">'
+                    // . '<input type="hidden" name="action" value="saswp_review_form">'
+                    // . '<input name="saswp-review-save" type="submit" class="submit">'
+                    // . '</td></tr>'                                        
+                    // . '</table>'
                     . '</form>'
                     . '</div>';
             

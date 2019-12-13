@@ -1,0 +1,15 @@
+.saswp-form-fld{
+	display:inline-block;
+	margin-bottom: 25px;
+	width: 100%;
+}
+.saswp-form-fld span {
+    display: block;
+    font-size: 16px;
+    line-height: 1.2;
+    font-weight: 400;
+    margin: 0 0 5px 0;
+}
+.saswp-rating-front-div{
+	margin-bottom: 25px;
+}
