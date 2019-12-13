@@ -347,9 +347,8 @@ Class saswp_output_service{
             
                 if($schema_type == 'Review'){
 
-                    $main_schema_type = $schema_type;
-                    $review_post_meta = get_post_meta($schema_post_id, 'saswp_review_schema_details', true);                                                                
-                    $schema_type = $review_post_meta['saswp_review_schema_item_type'];
+                    $main_schema_type = $schema_type;                                                                                  
+                    $schema_type = get_post_meta($schema_post_id, 'saswp_review_item_reviewed_'.$schema_post_id, true);
                                         
                     if(isset($custom_fields['saswp_review_name'])){
                         $review_markup['name']                       =    $custom_fields['saswp_review_name'];
@@ -418,8 +417,8 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_book_image'])){
                      $input1['image']         =    $custom_fields['saswp_book_image'];
                     }
-                    if(isset($custom_fields['saswp_book_published_date'])){
-                     $input1['datePublished'] =    date('c',strtotime($custom_fields['saswp_book_published_date']));
+                    if(isset($custom_fields['saswp_book_date_published'])){                        
+                     $input1['datePublished'] =    date('c',strtotime($custom_fields['saswp_book_date_published']));
                     }                    
                     if(isset($custom_fields['saswp_book_price_currency']) && isset($custom_fields['saswp_book_price'])){
                         $input1['offers']['@type']         = 'Offer';

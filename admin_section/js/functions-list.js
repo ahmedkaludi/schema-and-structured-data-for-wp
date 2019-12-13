@@ -179,7 +179,7 @@
         }
         
         if(schema_type === 'Review'){
-            var current = $(this);
+            var current = jQuery(this);
             saswp_item_reviewed_ajax(schema_type, current);
                     
         }

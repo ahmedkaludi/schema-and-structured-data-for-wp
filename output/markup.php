@@ -2305,16 +2305,14 @@ function saswp_service_schema_markup($schema_id, $schema_post_id, $all_post_meta
 function saswp_review_schema_markup($schema_id, $schema_post_id, $all_post_meta){
     
     global $sd_data;
-    $input = array();
+    $input1 = array();
     
     if(isset($sd_data['saswp-tagyeem']) && $sd_data['saswp-tagyeem'] == 1 && (is_plugin_active('taqyeem/taqyeem.php') || get_template() != 'jannah')){
 
          remove_action( 'TieLabs/after_post_entry',  'tie_article_schemas' );
 
      }                                                                                                                                                              
-
-    $service = new saswp_output_service();
-
+    
     $input1['@context']                     = saswp_context_url();
     $input1['@type']                        = 'Review';
     $input1['@id']                          = trailingslashit(get_permalink()).'#review';                                                           
@@ -2424,6 +2422,6 @@ function saswp_review_schema_markup($schema_id, $schema_post_id, $all_post_meta)
 
      }
     
-    return $input;
+    return $input1;
     
 }

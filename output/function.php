@@ -654,26 +654,6 @@ function saswp_structure_data_access_scripts($data){
 	return $data;
         
 }
-
-/**
- * Function to fetch schema's post meta by its id from database using get_post_meta function
- * @param type $schema_id
- * @param type $schema_key
- * @return type array
- */
-function saswp_get_schema_data($schema_id, $schema_key){
-    
-    $details = array();
-    
-    if($schema_id && $schema_key){
-        
-            $details =  get_post_meta($schema_id, $schema_key, true);    
-     
-    }  
-    
-    return $details;
-}
-
 /**
  * Function generates list items for the breadcrumbs schema markup
  * @global type $sd_data

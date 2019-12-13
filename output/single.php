@@ -454,7 +454,7 @@ function saswp_post_specific_schema_output() {
                                                                               
                          }     
                          
-                         if( 'Review' === $schema_type ){   
+                         if( 'Review' === $schema_type ){                              
                              
                                  $input1 = saswp_review_schema_markup($schema_id, $schema_post_id, $all_post_meta);    
                                                                                                                                                                                                                                                    

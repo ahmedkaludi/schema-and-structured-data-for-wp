@@ -1018,12 +1018,10 @@ function saswp_schema_output() {
 				}  
                         
                         if('Review' === $schema_type){
-                            
-                                $schema_data = saswp_get_schema_data($schema_post_id, 'saswp_review_schema_details'); 
+                                                            
                                 $service = new saswp_output_service();
-                                $review_markup = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);
-                                
-                                $item_reviewed = $schema_data['saswp_review_schema_item_type'];
+                                $review_markup = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);                                
+                                $item_reviewed = get_post_meta($schema_post_id, 'saswp_review_item_reviewed_'.$schema_post_id, true);
                                 
                                 if($item_reviewed == 'local_business'){
                                     $item_reviewed = 'LocalBusiness';
@@ -1035,7 +1033,7 @@ function saswp_schema_output() {
                                 $input1['itemReviewed']['@type']  =  $item_reviewed;
                                                             
                                 if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] == 1){
-                                                                         
+                                                                       
                                     if($review_markup){
                                      
                                         if(isset($review_markup['review'])){
