@@ -796,6 +796,7 @@ function saswp_remove_microdata($content){
         $content = preg_replace('/itemprop="logo" itemscope="" itemtype="https:\/\/schema.org\/ImageObject"/', "", $content);
         $content = preg_replace('/itemprop=\"(worstRating|ratingValue|bestRating|aggregateRating|ratingCount|reviewBody|review|name|datePublished|author|reviewRating)\"/', "", $content);
         $content = preg_replace('/itemscope\=\"(.*?)\"/', "", $content);
+        $content = preg_replace("/itemscope\='(.*?)\'/", "", $content);
         $content = preg_replace('/itemscope/', "", $content);
         
         //Clean json markup
