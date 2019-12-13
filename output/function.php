@@ -1318,8 +1318,8 @@ function saswp_append_fetched_reviews($input1, $schema_post_id){
         
         }else{
         
-          $attached_rv      = get_post_meta($schema_post_id, 'saswp_attahced_reviews', true); 
-         $append_reviews   = get_post_meta($schema_post_id, 'saswp_enable_append_reviews', true);
+          $attached_rv       = get_post_meta($schema_post_id, 'saswp_attahced_reviews', true); 
+          $append_reviews    = get_post_meta($schema_post_id, 'saswp_enable_append_reviews', true);
          
          if($append_reviews == 1 && $attached_rv){
              

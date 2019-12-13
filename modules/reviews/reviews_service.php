@@ -33,7 +33,7 @@ class saswp_reviews_service {
                     if($saswp_post_reviews){
                         
                         $rv_markup = $this->saswp_get_reviews_schema_markup(array_unique($saswp_post_reviews, SORT_REGULAR));
-                                    
+                                  
                         $input1['@context'] = saswp_context_url();
                         $input1['@type']    = (isset($sd_data['saswp_organization_type']) && $sd_data['saswp_organization_type'] !='' )? $sd_data['saswp_organization_type'] : 'Organization';
                         $input1['name']     = (isset($sd_data['sd_name']) && $sd_data['sd_name'] !='' )? $sd_data['sd_name'] : get_bloginfo();

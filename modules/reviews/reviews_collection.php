@@ -36,8 +36,7 @@ class SASWP_Reviews_Collection {
           add_action( 'wp_ajax_saswp_get_collection_platforms', array($this, 'saswp_get_collection_platforms' ));
           add_action( 'amp_post_template_css', array($this, 'saswp_reviews_collection_amp_css'));
           add_action( 'amp_post_template_data', array($this, 'saswp_reviews_collection_amp_script'));                                   
-          add_shortcode( 'saswp-reviews-collection', array($this, 'saswp_reviews_collection_shortcode_render' ),10);
-          add_action( 'wp_enqueue_scripts', array($this, 'saswp_frontend_enqueue'));
+          add_shortcode( 'saswp-reviews-collection', array($this, 'saswp_reviews_collection_shortcode_render' ),10);        
                                  
         }
         
@@ -140,16 +139,7 @@ class SASWP_Reviews_Collection {
            }
            
         }
-        public function saswp_frontend_enqueue(){ 
-          
-           $design = $this->_service->saswp_collection_desing_available();
-           
-           if($design){
-               wp_enqueue_style( 'saswp-collection-front-css', SASWP_PLUGIN_URL . 'admin_section/css/'.(SASWP_ENVIRONMENT == 'production' ? 'collection-front.min.css' : 'collection-front.css'), false , SASWP_VERSION );
-               wp_enqueue_script( 'saswp-collection-front-js', SASWP_PLUGIN_URL . 'admin_section/js/'.(SASWP_ENVIRONMENT == 'production' ? 'collection-front.min.js' : 'collection-front.js'), array('jquery') , SASWP_VERSION );
-           }
-                      
-        }      
+              
         public function saswp_register_collection_post_type(){
                         
             $collections = array(
@@ -243,7 +233,7 @@ class SASWP_Reviews_Collection {
         }
                             
         public function saswp_reviews_collection_shortcode_render($attr){
-            
+             
             global $saswp_post_reviews;
             
             $html = $htmlp = '';
@@ -307,8 +297,11 @@ class SASWP_Reviews_Collection {
                                                 
                 if($collection){
                     
+                    wp_enqueue_style( 'saswp-collection-front-css', SASWP_PLUGIN_URL . 'admin_section/css/'.(SASWP_ENVIRONMENT == 'production' ? 'collection-front.min.css' : 'collection-front.css'), false , SASWP_VERSION );
+                    wp_enqueue_script( 'saswp-collection-front-js', SASWP_PLUGIN_URL . 'admin_section/js/'.(SASWP_ENVIRONMENT == 'production' ? 'collection-front.min.js' : 'collection-front.js'), array('jquery') , SASWP_VERSION );
+                    
                     $saswp_post_reviews = array_merge($saswp_post_reviews, $collection);
-                
+                    
                     switch($design) {
                     
                     case "grid":
