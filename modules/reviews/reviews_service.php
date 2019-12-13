@@ -12,8 +12,7 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 class saswp_reviews_service {
-    
-    public $_total_reviews = array();
+        
     /**
      * List of hooks used in this context
      */
@@ -27,13 +26,13 @@ class saswp_reviews_service {
     
     public function saswp_fetched_reviews_schema_markup(){
         
-                  global $sd_data;
+                  global $sd_data, $saswp_post_reviews;
                   
                   $html  = ''; 
                   
-                    if($this->_total_reviews){
+                    if($saswp_post_reviews){
                         
-                        $rv_markup = $this->saswp_get_reviews_schema_markup(array_unique($this->_total_reviews, SORT_REGULAR));
+                        $rv_markup = $this->saswp_get_reviews_schema_markup(array_unique($saswp_post_reviews, SORT_REGULAR));
                                     
                         $input1['@context'] = saswp_context_url();
                         $input1['@type']    = (isset($sd_data['saswp_organization_type']) && $sd_data['saswp_organization_type'] !='' )? $sd_data['saswp_organization_type'] : 'Organization';
@@ -326,8 +325,8 @@ class saswp_reviews_service {
         $reviews = $this->saswp_get_reviews_list_by_parameters($attr);
         
         if($reviews){
-            
-               $this->_total_reviews = array_merge($this->_total_reviews, $reviews);    
+               global $saswp_post_reviews;
+               $saswp_post_reviews = array_merge($saswp_post_reviews, $reviews);    
                $response = $this->saswp_reviews_html_markup($reviews);                                                                                         
         }
                                            

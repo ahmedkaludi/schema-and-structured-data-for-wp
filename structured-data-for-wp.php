@@ -94,6 +94,7 @@ require_once SASWP_DIR_NAME.'/modules/reviews/reviews_widget.php';
 require_once SASWP_DIR_NAME.'/modules/reviews/reviews_collection.php';
 require_once SASWP_DIR_NAME.'/modules/reviews/reviews_form.php';
 require_once SASWP_DIR_NAME.'/core/array-list/schema-properties.php';
+require_once SASWP_DIR_NAME.'/core/global.php';
 //Module files load
 require_once SASWP_DIR_NAME.'/modules/gutenberg/includes/class-gutenberg.php';
 
