@@ -1348,6 +1348,7 @@ function saswp_import_plugin_data(){
                 if ( is_plugin_active('wp-seo-structured-data-schema/wp-seo-structured-data-schema.php')) {
                     $result = saswp_import_wp_seo_schema_plugin_data();      
                 }
+                 break;
             case 'seo_pressor':                
                 if ( is_plugin_active('seo-pressor/seo-pressor.php')) {
                     $result = saswp_import_seo_pressor_plugin_data();      
@@ -1362,7 +1363,13 @@ function saswp_import_plugin_data(){
                 if ( is_plugin_active('all-in-one-schemaorg-rich-snippets/index.php')) {
                     $result = saswp_import_aiors_plugin_data();      
                 }                
-                break;    
+                break;   
+                
+                case 'wp_custom_rv':                
+                if ( is_plugin_active('wp-customer-reviews/wp-customer-reviews-3.php')) {
+                    $result = saswp_import_wp_custom_rv_plugin_data();      
+                }                
+                break;   
                 
 
             default:

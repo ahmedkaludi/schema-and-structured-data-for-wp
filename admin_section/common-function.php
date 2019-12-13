@@ -479,6 +479,80 @@ if ( ! defined('ABSPATH') ) exit;
                              
     }
     
+    function saswp_import_wp_custom_rv_plugin_data(){
+        
+           global $wpdb;
+                                   
+            $wpdb->query('START TRANSACTION');
+            $errorDesc = array();            
+                                                            
+            $wpcr3reviews = get_posts(                
+                    array(
+                            'post_type' 	 => 'wpcr3_review',                                                                                   
+                            'posts_per_page'     => -1,   
+                            'post_status'        => 'any',
+                    )                
+                 ); 
+            
+            if($wpcr3reviews){
+                           
+                foreach($wpcr3reviews as $new_post){
+                    
+                    $review_post = (array)$new_post;                   
+                    $wp_post_id  = $review_post['ID'];
+                    $wp_rv_time  = get_post_time('h:i:s',false,$new_post);
+                    $wp_rv_date  = get_the_date('Y-m-d',$new_post);                      
+                    unset($review_post['ID']);
+                    $review_post['post_type'] = 'saswp_reviews';                    
+                    $post_id = wp_insert_post($review_post);
+                                        
+                    $wp_post_meta = get_post_meta($wp_post_id, '', true);
+                                 
+                    $term     = get_term_by( 'slug','google', 'platform' );
+                    
+                    $media_detail = array(                                                    
+                        'width'      => 300,
+                        'height'     => 300,
+                        'thumbnail'  => SASWP_DIR_URI.'/admin_section/images/default_user.jpg',
+                    );
+                    
+                    $review_meta = array(
+                        'saswp_review_platform'       => $term->term_id,
+                        'saswp_review_location_id'    => $post_id,                        
+                        'saswp_review_date'           => $wp_rv_date,
+                        'saswp_review_time'           => $wp_rv_time,
+                        'saswp_review_rating'         => $wp_post_meta['wpcr3_review_rating'][0],
+                        'saswp_review_text'           => $review_post['post_content'],                                                        
+                        'saswp_reviewer_name'         => $wp_post_meta['wpcr3_review_name'][0],
+                        'saswp_reviewer_email'        => $wp_post_meta['wpcr3_review_email'][0],
+                        'saswp_reviewer_website'      => $wp_post_meta['wpcr3_review_website'][0],
+                        'saswp_review_link'           => get_permalink($wp_post_meta['wpcr3_review_post']),
+                        'saswp_reviewer_image'        => SASWP_DIR_URI.'/admin_section/images/default_user.jpg',
+                        'saswp_reviewer_image_detail' => $media_detail
+                    );
+
+                    if($post_id && !empty($review_meta) && is_array($review_meta)){
+
+                        foreach ($review_meta as $key => $val){                     
+                            update_post_meta($post_id, $key, $val);  
+                        }
+
+                    }
+                    
+                }
+                                
+            }
+                                 
+           if ( count($errorDesc) ){
+              echo implode("\n<br/>", $errorDesc);           
+              $wpdb->query('ROLLBACK');             
+            }else{
+              $wpdb->query('COMMIT'); 
+              return true;
+            }                        
+        
+    }
+    
     function saswp_import_aiors_plugin_data(){
         
                     global $wpdb;

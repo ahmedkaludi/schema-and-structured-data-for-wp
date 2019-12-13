@@ -1176,13 +1176,20 @@ function saswp_import_callback(){
         $seo_pressor_message   = '';
         $wpsso_core_message    = '';
         $aiors_message         = '';
+        $wp_custom_rv_message  = '';
         $schema_plugin         = saswp_check_data_imported_from('schema'); 
         $schema_pro_plugin     = saswp_check_data_imported_from('schema_pro');
         $wp_seo_schema_plugin  = saswp_check_data_imported_from('wp_seo_schema');
         $seo_pressor           = saswp_check_data_imported_from('seo_pressor');
         $wpsso_core            = saswp_check_data_imported_from('wpsso_core');
         $aiors                 = saswp_check_data_imported_from('aiors');
+        $wp_custom_rv          = saswp_check_data_imported_from('wp_custom_rv');
         
+        if($wp_custom_rv->post_count !=0 ){
+            
+          $wp_custom_rv_message = $message;
+         
+        }
         if($aiors->post_count !=0 ){
             
           $aiors_message = $message;
@@ -1254,6 +1261,11 @@ function saswp_import_callback(){
                 <li><div class="saswp-tools-field-title"><div class="saswp-tooltip"><span class="saswp-tooltiptext"><?php echo esc_html__('All the settings and data you can import from this plugin when you click start importing','schema-and-structured-data-for-wp') ?></span><strong><?php echo esc_html__('Schema – All In One Schema Rich Snippets','schema-and-structured-data-for-wp'); ?></strong></div><button data-id="aiors" class="button saswp-import-plugins"><?php echo esc_html__('Import','schema-and-structured-data-for-wp'); ?></button>
                         <p class="saswp-imported-message"></p>
                         <?php echo '<p>'.esc_html__($aiors_message, 'schema-and-structured-data-for-wp').'</p>'; ?>                          
+                    </div>
+                </li>
+                <li><div class="saswp-tools-field-title"><div class="saswp-tooltip"><span class="saswp-tooltiptext"><?php echo esc_html__('All the settings and data you can import from this plugin when you click start importing','schema-and-structured-data-for-wp') ?></span><strong><?php echo esc_html__('WP Customer Reviews','schema-and-structured-data-for-wp'); ?></strong></div><button data-id="wp_custom_rv" class="button saswp-import-plugins"><?php echo esc_html__('Import','schema-and-structured-data-for-wp'); ?></button>
+                        <p class="saswp-imported-message"></p>
+                        <?php echo '<p>'.esc_html__($wp_custom_rv_message, 'schema-and-structured-data-for-wp').'</p>'; ?>                          
                     </div>
                 </li>
                 

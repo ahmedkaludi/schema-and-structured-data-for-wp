@@ -427,7 +427,7 @@ class saswp_reviews_service {
                         update_post_meta($post_id, $key, $val);  
                     }
             
-                 }
+                }
                 
             }
         }
