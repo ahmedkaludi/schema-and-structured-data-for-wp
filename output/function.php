@@ -1142,6 +1142,122 @@ function saswp_get_easy_testomonials(){
     
 }
 
+function saswp_get_testimonial_pro_data($shortcode_data, $testimo_str){
+        
+            $reviews       = array();
+            $ratings       = array();            
+            
+            if ( $shortcode_data['display_testimonials_from'] == 'specific_testimonials' && ! empty( $shortcode_data['specific_testimonial'] ) ) {
+		    $specific_testimonial_ids = $shortcode_data['specific_testimonial'];
+            } else {
+                    $specific_testimonial_ids = null;
+            }
+            
+            if ( $shortcode_data['layout'] == 'grid' && $shortcode_data['grid_pagination'] == 'true' || $shortcode_data['layout'] == 'masonry' && $shortcode_data['grid_pagination'] == 'true' || $shortcode_data['layout'] == 'list' && $shortcode_data['grid_pagination'] == 'true' ) {
+				if ( is_front_page() ) {
+					$paged = ( get_query_var( 'page' ) ) ? get_query_var( 'page' ) : 1;
+				} else {
+					$paged = ( get_query_var( 'paged' ) ) ? get_query_var( 'paged' ) : 1;
+				}
+				$args = array(
+					'post_type'      => 'spt_testimonial',
+					'orderby'        => $shortcode_data['testimonial_order_by'],
+					'order'          => $shortcode_data['testimonial_order'],
+					'posts_per_page' => $shortcode_data['number_of_total_testimonials'],
+					'post__in'       => $specific_testimonial_ids,
+					'paged'          => $paged,
+				);
+			} else {
+				$args = array(
+					'post_type'      => 'spt_testimonial',
+					'orderby'        => $shortcode_data['testimonial_order_by'],
+					'order'          => $shortcode_data['testimonial_order'],
+					'posts_per_page' => $shortcode_data['number_of_total_testimonials'],
+					'post__in'       => $specific_testimonial_ids,
+				);
+			}
+
+			if ( $shortcode_data['display_testimonials_from'] == 'category' && ! empty( $shortcode_data['category_list'] ) ) {
+				$args['tax_query'][] = array(
+					'taxonomy' => 'testimonial_cat',
+					'field'    => 'term_id',
+					'terms'    => $shortcode_data['category_list'],
+					'operator' => $shortcode_data['category_operator'],
+				);
+			}
+            
+            
+            
+
+            $testimonial = get_posts( $args );
+                             
+            if(!empty($testimonial)){
+
+                $sumofrating = 0;
+                $avg_rating  = 1;
+
+                foreach ($testimonial as $value){
+
+                     $meta_option = get_post_meta($value->ID, 'sp_tpro_meta_options', true);
+                     
+                     $tpro_rating_star  = $meta_option['tpro_rating']; 
+                                          
+                     switch ( $tpro_rating_star ) {
+                         
+                            case 'five_star':
+                                    $rating = 5;
+                                    break;
+                            case 'four_star':
+                                    $rating = 4;
+                                    break;
+                            case 'three_star':
+                                    $rating = 3;
+                                    break;
+                            case 'two_star':
+                                    $rating = 2;
+                                    break;
+                            case 'one_star':
+                                    $rating = 1;
+                                    break;
+                            default:
+                                    $rating = 1;
+                        }
+                     
+                     $author       = $meta_option['tpro_name'];  
+
+                     $sumofrating += $rating;
+
+                     $reviews[] = array(
+                         '@type'         => 'Review',
+                         'author'        => $author,
+                         'datePublished' => saswp_format_date_time($value->post_date),
+                         'description'   => $value->post_content,
+                         'reviewRating'  => array(
+                                            '@type'	        => 'Rating',
+                                            'bestRating'	=> '5',
+                                            'ratingValue'	=> $rating,
+                                            'worstRating'	=> '1',
+                               )
+                     ); 
+
+                    }
+
+                    if($sumofrating> 0){
+                      $avg_rating = $sumofrating /  count($reviews); 
+                    }
+
+                    $ratings['aggregateRating'] =  array(
+                                                    '@type'         => 'AggregateRating',
+                                                    'ratingValue'	=> $avg_rating,
+                                                    'reviewCount'   => count($testimonial)
+                    );
+
+            }
+
+            return array('reviews' => $reviews, 'rating' => $ratings);
+    
+}
+
 function saswp_get_bne_testimonials_data($atts, $testimo_str){
         
             $reviews       = array();
@@ -1195,6 +1311,60 @@ function saswp_get_bne_testimonials_data($atts, $testimo_str){
             }
 
             return array('reviews' => $reviews, 'rating' => $ratings);
+    
+}
+
+function saswp_get_testomonial_pro(){
+    
+    $testimonial = array();
+    
+    global $post, $sd_data;
+
+     if(isset($sd_data['saswp-testimonial-pro']) && $sd_data['saswp-testimonial-pro'] == 1){
+     
+        if(is_object($post)){
+         
+         $pattern = get_shortcode_regex();
+
+        if (   preg_match_all( '/'. $pattern .'/s', $post->post_content, $matches )
+            && array_key_exists( 2, $matches ) )
+        {
+             
+           $testimo_str = ''; 
+           
+           if(in_array( 'testimonial_pro', $matches[2] )){
+               $testimo_str = 'testimonial_pro';
+           }
+           
+        if($testimo_str){
+            
+            foreach ($matches[0] as $matche){
+            
+                $mached = rtrim($matche, ']'); 
+                $mached = ltrim($mached, '[');
+                $mached = trim($mached);
+                $atts   = shortcode_parse_atts('['.$mached.' ]'); 
+                
+                $shortcode_data = get_post_meta( $atts['id'], 'sp_tpro_shortcode_options', true );
+                                                
+                if($shortcode_data){
+                                
+                    $testimonial = saswp_get_testimonial_pro_data($shortcode_data, $testimo_str);
+                    
+                }
+                                                                
+            break;
+         }
+            
+        }    
+                               
+       }
+         
+      }
+      
+     }   
+         
+    return $testimonial;
     
 }
 

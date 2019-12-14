@@ -1321,7 +1321,22 @@ function saswp_schema_output() {
                                               $input1['review'] = $testomonials['reviews'];
                                           }
                                           
-                                    }                                    
+                                    }
+
+                                    // Testomonial Pro
+                                    $testomonial_pro = saswp_get_testomonial_pro();   
+                                    
+                                    if($testomonial_pro){
+                                        
+                                          $input1 = array_merge($input1,$testomonial_pro['rating']);
+                                          
+                                          if(isset($input1['review'])){
+                                              $input1 = array_merge($input1['review'],$testomonial_pro['reviews']);
+                                          }else{
+                                              $input1['review'] = $testomonial_pro['reviews'];
+                                          }
+                                          
+                                    }
                         
                         }                                                
                                 
