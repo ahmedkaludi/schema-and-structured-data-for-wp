@@ -53,6 +53,12 @@ return array(
                     'opt_name'   => 'saswp-bne-testimonials',
                     'part_in'    => 'free',
         ),
+        'testimonial_pro'  =>  array(            
+                    'name'       => 'Testimonial Pro',
+                    'free'       => 'testimonial-pro/testimonial-pro.php',                     
+                    'opt_name'   => 'saswp-testimonial-pro',
+                    'part_in'    => 'free',
+        ),
         'learn_press'  =>  array(            
                     'name'       => 'Learn Press',
                     'free'       => 'learnpress/learnpress.php',    

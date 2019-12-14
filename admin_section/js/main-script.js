@@ -1185,6 +1185,16 @@ return false;
                             
                       break;
                       
+                      case 'saswp-testimonial-pro-checkbox':
+                          
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-testimonial-pro").val(1);                                
+                            }else{
+                              $("#saswp-testimonial-pro").val(0);                                          
+                            }
+                            
+                      break;
+                      
                       case 'saswp-bne-testimonials-checkbox':
                           
                             if ($(this).is(':checked')) {              

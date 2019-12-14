@@ -138,6 +138,23 @@ class saswp_output_compatibility{
         add_filter('easy_testimonials_json_ld', '__return_false'); 
                         
     }
+    public function saswp_testimonial_pro_override(){
+      
+                $args = array(                   
+                    'post_type' => 'sp_tpro_shortcodes'
+                  );                
+                $my_posts = new WP_Query($args);
+                  
+                if ( $my_posts->have_posts() ) {
+                    
+                  while ( $my_posts->have_posts() ) : $my_posts->the_post();                 
+                  $shortcode_opt['tpro_schema_markup'] = '';
+                  update_post_meta(get_the_id(), 'sp_tpro_shortcode_options',$shortcode_opt);                    
+                  endwhile;
+                  
+            }
+                
+    }
     public function saswp_kk_star_ratings_override(){
                         
         remove_action('wp_head', 'Bhittani\StarRating\structured_data');
@@ -262,6 +279,9 @@ class saswp_output_compatibility{
     }
     public function easy_testimonials_on_activation(){
          $this->saswp_update_option_on_compatibility_activation('saswp-easy-testimonials');
+    }
+    public function testimonial_pro_on_activation(){
+         $this->saswp_update_option_on_compatibility_activation('saswp-testimonial-pro');
     }
     public function bne_testimonials_on_activation(){
          $this->saswp_update_option_on_compatibility_activation('saswp-bne-testimonials');

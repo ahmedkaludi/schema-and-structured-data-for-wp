@@ -2154,6 +2154,19 @@ function saswp_compatibility_page_callback(){
                                 'name' => 'sd_data[saswp-bne-testimonials]',                             
                         )
 		);
+         
+         $testimonial_pro = array(
+			'label'  => 'Testimonial Pro',
+			'id'     => 'saswp-testimonial-pro-checkbox',                        
+                        'name'   => 'saswp-testimonial-pro-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
+                        'note'   => saswp_get_field_note('testimonial_pro'),
+                        'hidden' => array(
+                                'id'   => 'saswp-testimonial-pro',
+                                'name' => 'sd_data[saswp-testimonial-pro]',                             
+                        )
+		);
         
         $flex_lmx = array(
 			'label'  => 'FlexMLS IDX Plugin',
@@ -2258,6 +2271,7 @@ function saswp_compatibility_page_callback(){
                 $modern_events_calendar,
                 $easy_testimonials,
                 $bne_testimonials,
+                $testimonial_pro,
                 $flex_lmx
                 
 	);  
@@ -2543,7 +2557,9 @@ function saswp_get_field_note($pname){
             'mediavine_create'         => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/mediavine-create/">Create by Mediavine</a>',
             'ht_recipes'               => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://themeforest.net/item/culinier-food-recipe-wordpress-theme/11088564/">HT-Recipes</a>',
             'easy_testimonials'        => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/easy-testimonials">Easy Testimonials</a>',
-            'bne_testimonials'         => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/bne-testimonials/">BNE Testimonials</a>'
+            'bne_testimonials'         => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/bne-testimonials/">BNE Testimonials</a>',
+            'testimonial_pro'          => esc_html__('Testimonial Pro','schema-and-structured-data-for-wp').' <a target="_blank" href="https://shapedplugin.com/plugin/testimonial-pro/">Testimonial Pro</a>'
+        
         );
           
     $active = saswp_compatible_active_list();
