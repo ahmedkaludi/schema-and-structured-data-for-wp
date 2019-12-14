@@ -120,7 +120,7 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 = 1.9.18 (14 Dec 2019) =
 
-* Major Feature: Added review form to submit user review from the post #538
+* Major Feature: Added review form to submit user review from the post. Use the shortcode to show form [saswp-reviews-form] #538
 * Feature: Added reviews popup to select review on add review enabling #600
 * Added: Author URL property in author schema #638
 * Added: Compatibility with Testimonial Pro plugin #627
