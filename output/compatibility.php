@@ -35,7 +35,7 @@ class saswp_output_compatibility{
            add_action( 'init', array($this, 'saswp_override_schema_markup'));
            add_filter( 'amp_init', array($this, 'saswp_override_schema_markup'));  
            add_filter( 'wpsso_json_prop_https_schema_org_graph', 'saswp_exclude_wpsso_schema_graph', 10, 5 );            
-           add_action("mv_create_modify_card_style_hooks", array($this, 'saswp_remove_create_mediavine'),100,2);          
+           add_action( 'mv_create_modify_card_style_hooks', array($this, 'saswp_remove_create_mediavine'),100,2);          
     }
     
     public function saswp_remove_create_mediavine($attr, $type){
@@ -369,6 +369,18 @@ class saswp_output_compatibility{
     }
     public function ht_recipes_on_activation(){
          $this->saswp_update_option_on_compatibility_activation('saswp-ht-recipes');
+    }
+    public function ampforwp_on_activation(){
+         $this->saswp_update_option_on_compatibility_activation('saswp-ampforwp');
+    }
+    public function ampbyautomatic_on_activation(){
+         $this->saswp_update_option_on_compatibility_activation('saswp-ampbyautomatic');
+    }
+    public function betteramp_on_activation(){
+         $this->saswp_update_option_on_compatibility_activation('saswp-betteramp');
+    }
+    public function wpamp_on_activation(){
+         $this->saswp_update_option_on_compatibility_activation('saswp-wpamp');
     }
     public function saswp_update_option_on_compatibility_activation($opt_name){   
         $defaults = get_option('sd_data');   
