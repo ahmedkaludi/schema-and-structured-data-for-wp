@@ -110,10 +110,12 @@ class SASWP_Reviews_Collection {
            $badge_css   =  SASWP_PLUGIN_DIR_PATH . 'admin_section/css/amp/collection-front-badge.css';
                                
            if($this->_design){               
+               
                 echo @file_get_contents($global_css);
                 
-                switch ($design) {
-                    case 'grid':
+                switch ($this->_design) {
+                    
+                    case 'grid':                       
                             echo @file_get_contents($grid_css);
                         break;
                     case 'gallery':
