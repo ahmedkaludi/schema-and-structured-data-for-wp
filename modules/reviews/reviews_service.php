@@ -153,7 +153,7 @@ class saswp_reviews_service {
                                             '.$starating.'                                  
                                         </div> 
                                         <span class="saswp-g-plus">
-                                            <a target="_blank" href="'.esc_attr($review['saswp_review_link']).'"><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/'.esc_attr($term_slug).'-img.png'.'"></a>
+                                            <a target="_blank" href="'.esc_attr($review['saswp_review_link']).'"><img src="'.esc_url($review['saswp_review_platform_icon']).'"></a>
                                         </span>
                                     </div>                                                
                                    <div class="saswp-rv-txt"> <p>'.esc_attr($review['saswp_review_text']).'</p></div>

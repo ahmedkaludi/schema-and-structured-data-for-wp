@@ -58,13 +58,20 @@ function saswp_add_all_meta_boxes() {
                 'normal', 
                 'high' 
               );
+    add_meta_box( 
+                'saswp_reviews_form', 
+                esc_html__( 'Reviews form Shortcode','schema-and-structured-data-for-wp' ), 
+                'saswp_reviews_form_shortcode_metabox', 'saswp_reviews',
+                'side', 
+                'low' 
+              );
     add_meta_box(
             'submitdiv',
                 esc_html__( 'Publish' ), 
                 'post_submit_meta_box',
                 array('saswp', 'saswp_reviews'), 
                 'side', 
-                'low' 
+                'high' 
             );
 
 }

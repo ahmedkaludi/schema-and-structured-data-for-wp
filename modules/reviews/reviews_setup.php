@@ -132,7 +132,19 @@ function saswp_reviews_custom_columns_set( $column, $post_id ) {
                     $term     = get_term( $platform, 'platform' );
                     
                     if(isset($term->slug)){
-                        echo '<span class="saswp-g-plus"><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/'.esc_attr($term->slug).'-img.png'.'" alt="Icon" /></span>';
+                        
+                        if($term->slug == 'self'){
+                            
+                             $service_object     = new saswp_output_service();
+                             $default_logo       = $service_object->saswp_get_publisher(true);                                                         
+                            
+                            echo '<span class="saswp-g-plus"><img src="'.esc_url($default_logo['url']).'" alt="Icon" /></span>';
+                            
+                        }else{
+                            echo '<span class="saswp-g-plus"><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/'.esc_attr($term->slug).'-img.png'.'" alt="Icon" /></span>';
+                        }
+                        
+                        
                     }
                                                                                                                                                                                 
                     break;
@@ -453,3 +465,9 @@ function saswp_sort_reviews_by_platform( $query ) {
 }
 
 add_filter( 'parse_query', 'saswp_sort_reviews_by_platform' );
+
+function saswp_reviews_form_shortcode_metabox($post){
+    
+    echo '<p>Use Below shortcode to show reviews form in your website. Using this you can collect reviews from your website directly</p>';
+    echo '<input type="text" value="[saswp-reviews-form]" readonly>';
+}
