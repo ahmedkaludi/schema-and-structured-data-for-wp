@@ -682,7 +682,8 @@ function saswp_schema_type_meta_box_callback( $post) {
 
                             <div class="saswp-global-container" id="saswp-add-rv-manual">
                                <p> <?php echo esc_html__('Output reviews in front and its schema markup in source by using below shortcode' ,'schema-and-structured-data-for-wp');?> </p>
-                                <strong>[saswp-reviews]</strong>
+                                <strong>[saswp-reviews]</strong><br>OR<br>
+                                <strong>[saswp-reviews-collection id="your collection id"]</strong>
                             </div>
                                                       
                           </div>
