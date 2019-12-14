@@ -130,6 +130,7 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Fixed: Show the review count correctly if user is inserting multiple shortcodes. #642
 * Fixed: Review full content is not displaying in front end #624
 * Fixed: RDFa CleanUp #632
+* Fixed: Product page schema should be dynamic for (Product, SoftwareApplication, Book) not static #634
 * Fixed: All values provided for url must point to the same page in itemList schema. #653
 * Fixed: PHP Fatal error "Uncaught Error: Using $this when not in object context" in php v7.4 #644
 * Fixed: Collection js and css should load when its need #656
