@@ -412,6 +412,11 @@ function saswp_schema_output() {
                             $input1['@type']                 = 'Book';
                             $input1['@id']                   = trailingslashit(get_permalink()).'#Book'; 
                             
+                            $service = new saswp_output_service();
+                            $input1  = $service->saswp_schema_markup_generator($schema_type);
+
+                            unset($input1['brand'], $input1['mpn'], $input1['sku'],$input1['gtin8']);
+                            
                             $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
                             
                             $input1 = apply_filters('saswp_modify_music_playlist_schema_output', $input1 );
@@ -419,8 +424,7 @@ function saswp_schema_output() {
                             $input1 = saswp_get_modified_markup($input1, $schema_type, $schema_post_id, $schema_options);
                                                                                     
                           }
-                          
-                          
+                                                    
                           if( 'MusicAlbum' === $schema_type){
                                                                                                                                                                         
                             $input1['@context']              = saswp_context_url();
@@ -758,7 +762,11 @@ function saswp_schema_output() {
                                 'author'			=> saswp_get_author_details()			
                                 );
                         
-                                                                  
+                                $service = new saswp_output_service();
+                                $input1 = $service->saswp_schema_markup_generator($schema_type);
+
+                                unset($input1['brand'], $input1['mpn'], $input1['sku'],$input1['gtin8']);
+                                
                                 if(!empty($publisher)){                            
                                      $input1 = array_merge($input1, $publisher);                            
                                 }                                

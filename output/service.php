@@ -2773,6 +2773,8 @@ Class saswp_output_service{
                     break;
                     
                 case 'Product':
+                case 'SoftwareApplication':
+                case 'Book':
                                                                         
                         $product_details = $this->saswp_woocommerce_product_details(get_the_ID());  
 
@@ -2780,7 +2782,7 @@ Class saswp_output_service{
 
                             $input1 = array(
                             '@context'			        => saswp_context_url(),
-                            '@type'				=> 'Product',
+                            '@type'				=> $schema_type,
                             '@id'				=> trailingslashit(saswp_get_permalink()).'#product',     
                             'url'				=> trailingslashit(saswp_get_permalink()),
                             'name'                              => saswp_remove_warnings($product_details, 'product_name', 'saswp_string'),
