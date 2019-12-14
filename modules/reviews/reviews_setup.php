@@ -17,6 +17,9 @@ add_action( 'init', 'saswp_register_saswp_reviews_location',20);
 add_action( 'manage_saswp_reviews_posts_custom_column' , 'saswp_reviews_custom_columns_set', 10, 2 );
 add_filter( 'manage_saswp_reviews_posts_columns', 'saswp_reviews_custom_columns' );
 
+add_action( 'manage_saswp-collections_posts_custom_column' , 'saswp_collection_custom_columns_set', 10, 2 );
+add_filter( 'manage_saswp-collections_posts_columns', 'saswp_collection_custom_columns' );
+
 /**
  * Function to register reviews post type
  * since @version 1.9
@@ -73,6 +76,28 @@ function saswp_register_saswp_reviews() {
                                 
 }
 
+function saswp_collection_custom_columns_set( $column, $post_id ) {
+                
+            switch ( $column ) {       
+                
+                case 'saswp_collection_shortcode' :
+                                        
+                    echo '[saswp-reviews-collection id="'.esc_attr($post_id).'"]';
+                    
+                break;                 
+                              
+            }
+}
+
+function saswp_collection_custom_columns($columns) {    
+    
+    unset($columns['date']);
+    
+    $columns['saswp_collection_shortcode']       = '<a>'.esc_html__( 'Shortcode', 'schema-and-structured-data-for-wp' ).'<a>';
+    
+    return $columns;
+    
+}
 
 function saswp_reviews_custom_columns_set( $column, $post_id ) {
                 
