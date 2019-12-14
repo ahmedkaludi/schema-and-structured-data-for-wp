@@ -105,7 +105,7 @@ class SASWP_Reviews_Form {
                                         
                 $post_id = wp_insert_post(  $postarr );    
                     
-                $term     = get_term_by( 'slug','google', 'platform' );   
+                $term     = get_term_by( 'slug','self', 'platform' );   
                 
                 if($rv_image){
                     

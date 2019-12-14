@@ -562,6 +562,8 @@ class saswp_reviews_service {
               'saswp_review_platform_icon',
               'saswp_review_platform_name',   
             );
+             
+             $service_object     = new saswp_output_service();
             
             foreach($posts_list as $rv_post){
                 
@@ -582,10 +584,18 @@ class saswp_reviews_service {
                 $term     = get_term( $review_data['saswp_review_platform'], 'platform' );  
                 
                 if(!$review_data['saswp_review_platform_icon']){
-
+                                        
                     if(isset($term->slug)){
-
-                        $review_data['saswp_review_platform_icon'] = SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/'.esc_attr($term->slug).'-img.png';
+                        
+                        if($term->slug == 'self'){
+                                                         
+                            $default_logo       = $service_object->saswp_get_publisher(true);                            
+                            $review_data['saswp_review_platform_icon'] = $default_logo['url'];
+                            
+                        }else{
+                            $review_data['saswp_review_platform_icon'] = SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/'.esc_attr($term->slug).'-img.png';
+                        }
+                        
                     }
 
                 }

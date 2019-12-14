@@ -288,7 +288,8 @@ function saswp_create_platform_custom_taxonomy() {
 
 function saswp_insert_platform_terms(){
     
-    $term_array = array(                    
+    $term_array = array(    
+                    'Self',
                     'Agoda', 
                     'Avvo', 
                     'Angies List',
