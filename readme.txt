@@ -118,6 +118,27 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
 
+= 1.9.18 (14 Dec 2019) =
+
+* Major Feature: Added review form to submit user review from the post #538
+* Feature: Added reviews popup to select review on add review enabling #600
+* Added: Author URL property in author schema #638
+* Added: Compatibility with Testimonial Pro plugin #627
+* Added: WP Customer Reviews ( https://wordpress.org/plugins/wp-customer-reviews/ ) importer #597
+* Added: Compatiblity with Better AMP ( https://wordpress.org/plugins/better-amp/ ), WP AMP — Accelerated Mobile Pages for WordPress and WooCommerce, PenCi Soledad AMP - WordPress Complete AMP #615
+* Added: datPublished property in DiscussionForumPosting schema #648 
+* Fixed: Show the review count correctly if user is inserting multiple shortcodes. #642
+* Fixed: Review full content is not displaying in front end #624
+* Fixed: RDFa CleanUp #632
+* Fixed: All values provided for url must point to the same page in itemList schema. #653
+* Fixed: PHP Fatal error "Uncaught Error: Using $this when not in object context" in php v7.4 #644
+* Fixed: Collection js and css should load when its need #656
+* Fixed: Review logos are not redirecting to the link #652
+* Fixed: Reviews collection not creating schema markup #655
+* Fixed: After last update error comes in review schema #657
+* Fixed: Images aspect ratio as Images should be at least 1200 pixels wide. #617
+* Enhancement: Automatic detection of compatible plugin and enable it in compatibility section #607
+
 = 1.9.17 (05 Dec 2019) =
 
 * Major Feature: Reviews Collection ( Create a collection using different platform's reviews and display them using shortcode with multiple design option )
