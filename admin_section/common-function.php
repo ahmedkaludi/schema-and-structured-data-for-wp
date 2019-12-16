@@ -14,11 +14,11 @@ if ( ! defined('ABSPATH') ) exit;
     /**
      * List of hooks used in this context
      */
-    add_action('admin_init', 'saswp_import_all_settings_and_schema',9);
+    add_action( 'admin_init', 'saswp_import_all_settings_and_schema',9);
     add_action( 'wp_ajax_saswp_export_all_settings_and_schema', 'saswp_export_all_settings_and_schema');  
-    add_action('plugins_loaded', 'saswp_defaultSettings' );
+    add_action( 'plugins_loaded', 'saswp_defaultSettings' );
     add_action( 'wp_enqueue_scripts', 'saswp_frontend_enqueue' );
-    add_action('amp_post_template_css','saswp_enqueue_amp_script');
+    add_action( 'amp_post_template_css','saswp_enqueue_amp_script');
     
     
     //global variable to store List of labels starts here   
@@ -1783,7 +1783,8 @@ if ( ! defined('ABSPATH') ) exit;
      */  
     function saswp_enqueue_amp_script(){
      
-        global $sd_data;         
+         global $sd_data;  
+        
          $saswp_review_details = esc_sql ( get_post_meta(get_the_ID(), 'saswp_review_details', true)); 
         
          $saswp_review_item_enable = 0;
@@ -1794,326 +1795,49 @@ if ( ! defined('ABSPATH') ) exit;
          
          }         
         
-         if($sd_data['saswp-review-module']== 1 && $saswp_review_item_enable == 1){                                  
-     ?>
-        .saswp-pc-wrap{
-            background-color: #004f74;
-            padding: 15px;
-            color: #fff;
-            display: flex;
-            width:auto;
-            flex-wrap: wrap;
-            margin-bottom: 20px;
-        }
-        .saswp-pc-wrap .saswp-lst span{
-            font-size: 18px;
-            font-weight: 500;
-            margin-bottom: 10px;
-            display: inline-block;
-            line-height: 1.3;
-        }
-        .saswp-pc-wrap .saswp-lst{
-            flex:1 0 42%;
-        }
-        .saswp-pc-wrap .saswp-lst ul{
-            margin:0;
-        }
-        .saswp-pc-wrap .saswp-lst p{
-            list-style-type: none;
-            font-size: 15px;
-            font-weight: lighter;
-            line-height: 1.2;
-            margin-bottom: 10px;
-            position: relative;
-            padding-left: 20px;
-            color:#eee;
-        }
-        .saswp-pc-wrap .saswp-lst p:before{
-            content: '';
-            position: absolute;
-            width: 8px;
-            height: 8px;
-            background-color: #ccc;
-            left: 0px;
-            top: 6px;
-            border-radius: 10px;
-        }
-        .sgl .saswp-rvw {
-            width: 100%;
-            margin-bottom: 34px;
-            font-size: 13px;
-            border-bottom: 1px solid #ededed;
-        }
-        .saswp-rvw-hd span {
-            background-color: #222;
-            color: #fff;
-            display: inline-block;
-            font-size: 15px;
-            line-height: 1.4;
-            padding: 8px 12px 6px;
-            margin: 26px 0px;
-        }
-        .saswp-rvw tbody{
-            width:100%;
-            display:inline-block;
-        }
-        .saswp-rvw td {
-            padding: 7px 14px;
-        }
-        .sgl table td, .saswp-rvw td {
-            border: 1px solid #ededed;
-        }
-        .saswp-rvw-sm span{
-            background-color: #222;
-            color: #fff;
-            display: inline-block;
-            padding: 8px 12px 6px;
-            margin-bottom: 13px;
-            position: relative;
-            font-size: 15px;
-            line-height: 1.2;
-        }
-        .saswp-rvw-fs {
-            line-height: 1.5;
-            font-size: 48px;
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-        .saswp-rvw-ov .ovs {
-            font-size: 11px;
-            font-weight:600;
-        }
-        .sgl .saswp-rvw tr td{
-            background:#fff;
-            width:100%;
-        }
-        .sgl .saswp-rvw tr:hover td {
-            background-color: #fcfcfc;
-        }
-        .saswp-rvw .saswp-rvw-sm {
-            padding: 21px 14px;
-        }
-        .str-ic{
-            font-size: 18px;
-            line-height: 1.2;
-        }
-        .saswp-rvw-str{
-            display: inline-flex;
-            width: 100%;
-        }
-        .saswp-rvw-ov{
-            text-align:center;
-        }
+         if($sd_data['saswp-review-module']== 1 && $saswp_review_item_enable == 1){  
+             
+              $rating_module_css  =  SASWP_PLUGIN_DIR_PATH . 'admin_section/css/amp/rating-module.css';  
+              echo @file_get_contents($rating_module_css);
+              
+        ?>
+        
         .saswp-rvw-str .half-str{
-            display:inline-block;
-            width: 20px;
-            height: 16px;
-            background-repeat: no-repeat;
+           
             background-image: url(<?php echo esc_url(SASWP_DIR_URI.'/admin_section/images/half_star.png'); ?>);
         }
         .saswp-rvw-str .str-ic{
-            display:inline-block;
-            width: 20px;
-            height: 16px;
-            background-repeat: no-repeat;
+           
             background-image: url(<?php echo esc_url(SASWP_DIR_URI.'/admin_section/images/full_star.png'); ?>);
         }
         .saswp-rvw-str .df-clr{
-            display:inline-block;
-            width: 20px;
-            height: 16px;
-            background-repeat: no-repeat;
+           
             background-image: url(<?php echo esc_url(SASWP_DIR_URI.'/admin_section/images/blank_star.png'); ?>);
         }
-        @media(max-width:500px){
-            .saswp-pc-wrap{
-                display:block;
-            }
-            .saswp-pc-wrap .saswp-lst{
-                margin-bottom:20px;
-            }
-        }
-        
-    <?php
+               
+        <?php
      }
                        
         if((has_shortcode( @get_the_content(), 'saswp-reviews')) || is_active_widget( false, false, 'saswp_google_review_widget',true ) || (isset($sd_data['saswp-review-module']) && $sd_data['saswp-review-module'] == 1) ){            
             ?>
         
-        /*** Review Design CSS ****/
-            .saswp-g-review-header{
-                margin-top: 50px;
-            }
-            .saswp-g-review-body{
-                display:inline-grid;
-                grid-template-columns: 1fr 300px;
-                grid-gap:30px;
-                margin-top:30px;
-                width:100%;
-            }
-            .saswp-review-list{}
-            .saswp-channel-list{
-                margin-right: 15px;
-            }
-            .saswp-input-fields{
-                display: inline-flex;
-                align-items: center;
-                margin-bottom: 8px;
-                width: 100%;
-            }
-            .saswp-input-fields label{
-                width: 130px;
-            }
-            .saswp-panel h3{
-                font-size: 20px;
-                line-height: 1.4;
-                color: #222;
-                text-align: center;
-                margin: 10px 0px 20px 0px;
-            }
-            .saswp-input-fields a.button-primary{
-                margin-top:10px;
-            }
-            .saswp-glg-review-body{
-                display: grid;
-                grid-template-columns: 100px 1fr;
-                grid-gap: 20px;
-                background: #fff;
-                padding: 20px;
-                box-shadow: 0px 0px 20px 1px #d2cccc;
-                margin-bottom: 30px;
-            }
-            .saswp-g-plus{
-                float: right;
-                font-size: 15px;
-                width: 20px;
-                height: 20px;
-                position: absolute;
-                right: 0;
-                top:4px;
-            }
-            .saswp-g-plus amp-img{
-                width:100%;
-            }
-            .saswp-rtng{
-                padding-left: 5px;
-                font-size: 14px;
-            }
-            .saswp-pt-dt {
-                font-size: 12px;
-                color: #999;
-                font-weight: 600;
-                margin-top: 5px;
-                display: inline-block;
-            }
-            .saswp-athr{
-                font-size: 15px;
-                line-height: 1.4;
-                color: #000;
-                font-weight: bold;
-                display: inline-block;
-                vertical-align: middle;
-            }
-            .saswp-str-rtng .saswp-rvw-str{
-                display: inline-block;
-                vertical-align: middle;
-                padding-left: 10px;
-                width: auto;
-            }
-            .amp-sidebar .saswp-str-rtng .saswp-rvw-str{padding:5px 0px 0px 0px;}
-            .saswp-rv-cnt p{
-                font-size: 16px;
-                line-height: 1.6;
-                color: #000;
-                margin: 10px 0px 0px 0px;
-            }
-            .amp-sidebar .saswp-rv-img amp-img{max-width:50px;}
-            .amp-sidebar .saswp-glg-review-body {
-                display: inline-block;
-                width:100%;
-            }
-            .amp-sidebar .saswp-rv-img{
-                width:60px;
-                float:left;
-            }
-            .amp-sidebar .saswp-rtng{display:block;}
-            
-            .saswp-rvw-str .half-str{
-                display:inline-block;
-                width: 20px;
-                height: 16px;
-                background-repeat: no-repeat;
+            .saswp-rvw-str .half-str{                
                 background-image: url(<?php echo esc_url(SASWP_DIR_URI.'/admin_section/images/half_star.png'); ?>);
             }
-            .saswp-rvw-str .str-ic{
-                display:inline-block;
-                width: 20px;
-                height: 16px;
-                background-repeat: no-repeat;
+            .saswp-rvw-str .str-ic{               
                 background-image: url(<?php echo esc_url(SASWP_DIR_URI.'/admin_section/images/full_star.png'); ?>);
             }
-            .saswp-rvw-str .df-clr{
-                display:inline-block;
-                width: 20px;
-                height: 16px;
-                background-repeat: no-repeat;
+            .saswp-rvw-str .df-clr{                
                 background-image: url(<?php echo esc_url(SASWP_DIR_URI.'/admin_section/images/blank_star.png'); ?>);
             }
-            
-            @media(max-width:767px){
-                .saswp-glg-review-body {        
-                    grid-template-columns: 50px 1fr;
-                }
-                .saswp-rv-img img{
-                    max-width:50px;
-                }
-            }
-            .widget .saswp-glg-review-body{
-                display: inline-block;
-                width: 100%;
-            }
-            .widget .saswp-rv-img{
-                margin-bottom:12px;
-            }
-            .widget .saswp-rv-img img {
-                max-width: 50px;
-            }   
-            
-            .saswp-rv-txt{
-            position: static;
-            height: 80px;
-            overflow-y: auto;
-            font-size: 14px;
-            line-height:1.6;
-            text-align: left;
-            padding: 0 2px 0 0;
-            margin: 10px 0 0;
-            }
-            .saswp-rv-txt p{
-              margin:0;  
-            }
-            .saswp-rv-cnt::-webkit-scrollbar {
-              width: 4px ;
-              display:inline-block;
-            }
-            .saswp-rv-cnt::-webkit-scrollbar-thumb {
-              -webkit-border-radius: 10px ;
-              border-radius: 10px ;
-              background: #ccc ;
-              -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5) ;
-            }
-            .saswp-rv-cnt::-webkit-scrollbar-track {
-              -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-              -webkit-border-radius: 4px;
-            }
-            .saswp-r5-rng{
-                position: relative;
-            }
-                        
+                                
         <?php
+        
+              $rating_module_front_css  =  SASWP_PLUGIN_DIR_PATH . 'admin_section/css/amp/rating-module-front.css';  
+              echo @file_get_contents($rating_module_front_css);
+        
         }
-     
-     
+          
   }
     /**
      * Function to get author name

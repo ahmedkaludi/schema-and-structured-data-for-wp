@@ -1,0 +1,166 @@
+/*** Review Design CSS ****/
+            .saswp-g-review-header{
+                margin-top: 50px;
+            }
+            .saswp-g-review-body{
+                display:inline-grid;
+                grid-template-columns: 1fr 300px;
+                grid-gap:30px;
+                margin-top:30px;
+                width:100%;
+            }
+            .saswp-review-list{}
+            .saswp-channel-list{
+                margin-right: 15px;
+            }
+            .saswp-input-fields{
+                display: inline-flex;
+                align-items: center;
+                margin-bottom: 8px;
+                width: 100%;
+            }
+            .saswp-input-fields label{
+                width: 130px;
+            }
+            .saswp-panel h3{
+                font-size: 20px;
+                line-height: 1.4;
+                color: #222;
+                text-align: center;
+                margin: 10px 0px 20px 0px;
+            }
+            .saswp-input-fields a.button-primary{
+                margin-top:10px;
+            }
+            .saswp-glg-review-body{
+                display: grid;
+                grid-template-columns: 100px 1fr;
+                grid-gap: 20px;
+                background: #fff;
+                padding: 20px;
+                box-shadow: 0px 0px 20px 1px #d2cccc;
+                margin-bottom: 30px;
+            }
+            .saswp-g-plus{
+                float: right;
+                font-size: 15px;
+                width: 20px;
+                height: 20px;
+                position: absolute;
+                right: 0;
+                top:4px;
+            }
+            .saswp-g-plus amp-img{
+                width:100%;
+            }
+            .saswp-rtng{
+                padding-left: 5px;
+                font-size: 14px;
+            }
+            .saswp-pt-dt {
+                font-size: 12px;
+                color: #999;
+                font-weight: 600;
+                margin-top: 5px;
+                display: inline-block;
+            }
+            .saswp-athr{
+                font-size: 15px;
+                line-height: 1.4;
+                color: #000;
+                font-weight: bold;
+                display: inline-block;
+                vertical-align: middle;
+            }
+            .saswp-str-rtng .saswp-rvw-str{
+                display: inline-block;
+                vertical-align: middle;
+                padding-left: 10px;
+                width: auto;
+            }
+            .amp-sidebar .saswp-str-rtng .saswp-rvw-str{padding:5px 0px 0px 0px;}
+            .saswp-rv-cnt p{
+                font-size: 16px;
+                line-height: 1.6;
+                color: #000;
+                margin: 10px 0px 0px 0px;
+            }
+            .amp-sidebar .saswp-rv-img amp-img{max-width:50px;}
+            .amp-sidebar .saswp-glg-review-body {
+                display: inline-block;
+                width:100%;
+            }
+            .amp-sidebar .saswp-rv-img{
+                width:60px;
+                float:left;
+            }
+            .amp-sidebar .saswp-rtng{display:block;}
+            
+            .saswp-rvw-str .half-str{
+                display:inline-block;
+                width: 20px;
+                height: 16px;
+                background-repeat: no-repeat;                
+            }
+            .saswp-rvw-str .str-ic{
+                display:inline-block;
+                width: 20px;
+                height: 16px;
+                background-repeat: no-repeat;               
+            }
+            .saswp-rvw-str .df-clr{
+                display:inline-block;
+                width: 20px;
+                height: 16px;
+                background-repeat: no-repeat;                
+            }
+            
+            @media(max-width:767px){
+                .saswp-glg-review-body {        
+                    grid-template-columns: 50px 1fr;
+                }
+                .saswp-rv-img img{
+                    max-width:50px;
+                }
+            }
+            .widget .saswp-glg-review-body{
+                display: inline-block;
+                width: 100%;
+            }
+            .widget .saswp-rv-img{
+                margin-bottom:12px;
+            }
+            .widget .saswp-rv-img img {
+                max-width: 50px;
+            }   
+            
+            .saswp-rv-txt{
+            position: static;
+            height: 80px;
+            overflow-y: auto;
+            font-size: 14px;
+            line-height:1.6;
+            text-align: left;
+            padding: 0 2px 0 0;
+            margin: 10px 0 0;
+            }
+            .saswp-rv-txt p{
+              margin:0;  
+            }
+            .saswp-rv-cnt::-webkit-scrollbar {
+              width: 4px ;
+              display:inline-block;
+            }
+            .saswp-rv-cnt::-webkit-scrollbar-thumb {
+              -webkit-border-radius: 10px ;
+              border-radius: 10px ;
+              background: #ccc ;
+              -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5) ;
+            }
+            .saswp-rv-cnt::-webkit-scrollbar-track {
+              -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+              -webkit-border-radius: 4px;
+            }
+            .saswp-r5-rng{
+                position: relative;
+            }

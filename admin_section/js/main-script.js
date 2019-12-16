@@ -607,108 +607,7 @@ return false;
                           }else{
                             $("#saswp-for-wordpress").val(0);  
                           }                          
-                          break;
-                      case 'saswp-facebook-enable-checkbox':  
-                          
-                          if ($(this).is(':checked')) {              
-                            $("#saswp-facebook-enable").val(1); 
-                            $("#sd_facebook").show();
-                          }else{
-                            $("#saswp-facebook-enable").val(0);  
-                            $("#sd_facebook").hide();
-                          }                          
-                          break;   
-                      case 'saswp-twitter-enable-checkbox':  
-                          
-                          if ($(this).is(':checked')) {              
-                            $("#saswp-twitter-enable").val(1);
-                            $("#sd_twitter").show();
-                          }else{
-                            $("#saswp-twitter-enable").val(0);  
-                            $("#sd_twitter").hide();
-                          }                          
-                          break;
-                      case 'saswp-google-plus-enable-checkbox':  
-                          
-                          if ($(this).is(':checked')) {              
-                            $("#saswp-google-plus-enable").val(1);  
-                            $("#sd_google_plus").show();
-                          }else{
-                            $("#saswp-google-plus-enable").val(0); 
-                            $("#sd_google_plus").hide();
-                          }                          
-                          break;
-                      case 'saswp-instagram-enable-checkbox':  
-                          
-                          if ($(this).is(':checked')) {              
-                            $("#saswp-instagram-enable").val(1);  
-                            $("#sd_instagram").show();
-                          }else{
-                            $("#saswp-instagram-enable").val(0);  
-                            $("#sd_instagram").hide();
-                          }                          
-                          break;
-                      case 'saswp-youtube-enable-checkbox':  
-                          
-                          if ($(this).is(':checked')) {
-                            $("#sd_youtube").show();  
-                            $("#saswp-youtube-enable").val(1);  
-                          }else{
-                            $("#saswp-youtube-enable").val(0);
-                            $("#sd_youtube").hide();
-                          }                          
-                          break;
-                      case 'saswp-linkedin-enable-checkbox':  
-                          
-                          if ($(this).is(':checked')) {              
-                            $("#saswp-linkedin-enable").val(1);  
-                            $("#sd_linkedin").show();
-                          }else{
-                            $("#saswp-linkedin-enable").val(0);
-                            $("#sd_linkedin").hide();
-                          }                          
-                          break; 
-                      case 'saswp-pinterest-enable-checkbox':  
-                          
-                          if ($(this).is(':checked')) {              
-                            $("#saswp-pinterest-enable").val(1);  
-                            $("#sd_pinterest").show();
-                          }else{
-                            $("#saswp-pinterest-enable").val(0); 
-                            $("#sd_pinterest").hide();
-                          }                          
-                          break; 
-                      case 'saswp-soundcloud-enable-checkbox':  
-                          
-                          if ($(this).is(':checked')) {              
-                            $("#saswp-soundcloud-enable").val(1);  
-                            $("#sd_soundcloud").show();
-                          }else{
-                            $("#saswp-soundcloud-enable").val(0);
-                            $("#sd_soundcloud").hide();
-                          }                          
-                          break; 
-                      case 'saswp-tumblr-enable-checkbox':  
-                          
-                          if ($(this).is(':checked')) {              
-                            $("#saswp-tumblr-enable").val(1);  
-                            $("#sd_tumblr").show();
-                          }else{
-                            $("#saswp-tumblr-enable").val(0);  
-                            $("#sd_tumblr").hide();
-                          }                          
-                          break; 
-                     case 'saswp-yelp-enable-checkbox':  
-                          
-                          if ($(this).is(':checked')) {              
-                            $("#saswp-yelp-enable").val(1);  
-                            $("#sd_yelp").show();
-                          }else{
-                            $("#saswp-yelp-enable").val(0);  
-                            $("#sd_yelp").hide();
-                          }                          
-                          break; 
-                      
+                          break;                      
                       case 'saswp-for-amp-checkbox':
                           
                           if ($(this).is(':checked')) {              
@@ -1319,8 +1218,7 @@ return false;
     $(document).on("click", ".saswp_prev_close", function(e){
                 e.preventDefault();
                 
-                var id = $(this).attr('data-id');   
-                console.log(id);
+                var id = $(this).attr('data-id');                   
                 $(this).parent().remove();                
                 $("#"+id).val('');
                 $("input[data-id='"+id+"_id']").val('');
@@ -1462,8 +1360,7 @@ return false;
                               if(response['status'] =='t'){
                                 $(".saswp-query-success").show();
                                 $(".saswp-query-error").hide();
-                              }else{
-                                  console.log('dd');
+                              }else{                                  
                                 $(".saswp-query-success").hide();  
                                 $(".saswp-query-error").show();
                               }
@@ -1597,9 +1494,7 @@ return false;
         //Review js starts here
         
         $(document).on("click", ".saswp-add-more-item",function(e){
-            e.preventDefault();
-            var rows = $('.saswp-review-item-list-table tr').length;
-            console.log(rows);
+            e.preventDefault();                        
             var html = '<tr class="saswp-review-item-tr">';
                 html += '<td>Review Item Feature</td>';
                 html += '<td><input type="text" name="saswp-review-item-feature[]"></td>';
@@ -2052,12 +1947,10 @@ return false;
              $(".saswp-rating-div").rateYo({
                 
               rating: saswp_reviews_data.rating_val,
-              halfStar: true,
-              //normalFill: "#ffd700",
+              halfStar: true,              
               readOnly: saswp_reviews_data.readonly,
               onSet: function (rating, rateYoInstance) {
-                $(this).next().val(rating);
-                console.log(rating);
+                    $(this).next().val(rating);                
                 }
                               
             });
@@ -2066,6 +1959,7 @@ return false;
         //rating ends here
                
             $("#sd-person-phone-number, #saswp_kb_telephone").focusout(function(){
+                
                 var current = $(this);
                 
                 current.parent().find('.saswp-phone-validation').remove();   
