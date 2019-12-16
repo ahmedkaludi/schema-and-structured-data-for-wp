@@ -589,8 +589,13 @@ class saswp_reviews_service {
                         
                         if($term->slug == 'self'){
                                                          
-                            $default_logo       = $service_object->saswp_get_publisher(true);                            
-                            $review_data['saswp_review_platform_icon'] = $default_logo['url'];
+                            $default_logo       = $service_object->saswp_get_publisher(true);  
+                            
+                            if(isset($default_logo['url'])){
+                                
+                                $review_data['saswp_review_platform_icon'] = $default_logo['url'];
+                                
+                            }
                             
                         }else{
                             $review_data['saswp_review_platform_icon'] = SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/'.esc_attr($term->slug).'-img.png';

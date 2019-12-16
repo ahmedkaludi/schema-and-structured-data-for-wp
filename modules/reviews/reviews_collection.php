@@ -256,8 +256,7 @@ class SASWP_Reviews_Collection {
                     
                     $arrow        = $collection_data['saswp_gallery_arrow'][0];
                 }
-                
-                
+                                
                 if(isset($collection_data['saswp_gallery_dots'][0])){
                     $dots         = $collection_data['saswp_gallery_dots'][0];
                 }
