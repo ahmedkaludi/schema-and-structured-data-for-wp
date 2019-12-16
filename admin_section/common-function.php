@@ -30,6 +30,8 @@ if ( ! defined('ABSPATH') ) exit;
             'translation-tools'           => 'Tools',
             'translation-materials'       => 'Materials',
             'translation-time-needed'     => 'Time Needed',
+            'translation-name'            => 'Name',
+            'translation-comment'         => 'Comment',
         );
           //global variable to store List of labels ends here
         
@@ -477,6 +479,80 @@ if ( ! defined('ABSPATH') ) exit;
             }            
         }
                              
+    }
+    
+    function saswp_import_wp_custom_rv_plugin_data(){
+        
+           global $wpdb;
+                                   
+            $wpdb->query('START TRANSACTION');
+            $errorDesc = array();            
+                                                            
+            $wpcr3reviews = get_posts(                
+                    array(
+                            'post_type' 	 => 'wpcr3_review',                                                                                   
+                            'posts_per_page'     => -1,   
+                            'post_status'        => 'any',
+                    )                
+                 ); 
+            
+            if($wpcr3reviews){
+                           
+                foreach($wpcr3reviews as $new_post){
+                    
+                    $review_post = (array)$new_post;                   
+                    $wp_post_id  = $review_post['ID'];
+                    $wp_rv_time  = get_post_time('h:i:s',false,$new_post);
+                    $wp_rv_date  = get_the_date('Y-m-d',$new_post);                      
+                    unset($review_post['ID']);
+                    $review_post['post_type'] = 'saswp_reviews';                    
+                    $post_id = wp_insert_post($review_post);
+                                        
+                    $wp_post_meta = get_post_meta($wp_post_id, '', true);
+                                 
+                    $term     = get_term_by( 'slug','google', 'platform' );
+                    
+                    $media_detail = array(                                                    
+                        'width'      => 300,
+                        'height'     => 300,
+                        'thumbnail'  => SASWP_DIR_URI.'/admin_section/images/default_user.jpg',
+                    );
+                    
+                    $review_meta = array(
+                        'saswp_review_platform'       => $term->term_id,
+                        'saswp_review_location_id'    => $wp_post_meta['wpcr3_review_post'][0],                        
+                        'saswp_review_date'           => $wp_rv_date,
+                        'saswp_review_time'           => $wp_rv_time,
+                        'saswp_review_rating'         => $wp_post_meta['wpcr3_review_rating'][0],
+                        'saswp_review_text'           => $review_post['post_content'],                                                        
+                        'saswp_reviewer_name'         => $wp_post_meta['wpcr3_review_name'][0],
+                        'saswp_reviewer_email'        => $wp_post_meta['wpcr3_review_email'][0],
+                        'saswp_reviewer_website'      => $wp_post_meta['wpcr3_review_website'][0],
+                        'saswp_review_link'           => get_permalink($wp_post_meta['wpcr3_review_post'][0]),
+                        'saswp_reviewer_image'        => SASWP_DIR_URI.'/admin_section/images/default_user.jpg',
+                        'saswp_reviewer_image_detail' => $media_detail
+                    );
+
+                    if($post_id && !empty($review_meta) && is_array($review_meta)){
+
+                        foreach ($review_meta as $key => $val){                     
+                            update_post_meta($post_id, $key, $val);  
+                        }
+
+                    }
+                    
+                }
+                                
+            }
+                                 
+           if ( count($errorDesc) ){
+              echo implode("\n<br/>", $errorDesc);           
+              $wpdb->query('ROLLBACK');             
+            }else{
+              $wpdb->query('COMMIT'); 
+              return true;
+            }                        
+        
     }
     
     function saswp_import_aiors_plugin_data(){
@@ -1660,16 +1736,6 @@ if ( ! defined('ABSPATH') ) exit;
                     
                 }
                 
-                $active_plugin = saswp_compatible_active_list();
-                
-                if($active_plugin){
-                    
-                    foreach ($active_plugin as $plugin){
-                        $defaults[$plugin] = 1;
-                    }
-                    
-                }
-                
                 return $defaults;
         
     }        
@@ -1698,7 +1764,7 @@ if ( ! defined('ABSPATH') ) exit;
 
                     if(isset($review_details['saswp-review-item-enable'])){
 
-                        wp_enqueue_style( 'saswp-style', SASWP_PLUGIN_URL . 'admin_section/css/saswp-style.min.css', false , SASWP_VERSION );       
+                        wp_enqueue_style( 'saswp-style', SASWP_PLUGIN_URL . 'admin_section/css/'.(SASWP_ENVIRONMENT == 'production' ? 'saswp-style.min.css' : 'saswp-style.css'), false , SASWP_VERSION );       
 
                     }                              
 
@@ -1706,12 +1772,9 @@ if ( ! defined('ABSPATH') ) exit;
 
           if(isset($sd_data['saswp-google-review']) && $sd_data['saswp-google-review'] == 1 ){
 
-                     wp_enqueue_style( 'saswp-style', SASWP_PLUGIN_URL . 'admin_section/css/saswp-style.min.css', false , SASWP_VERSION );       
+                     wp_enqueue_style( 'saswp-style', SASWP_PLUGIN_URL . 'admin_section/css/'.(SASWP_ENVIRONMENT == 'production' ? 'saswp-style.min.css' : 'saswp-style.css'), false , SASWP_VERSION );       
 
-          }
-          
-          wp_enqueue_style( 'saswp-collection-front-css', SASWP_PLUGIN_URL . 'admin_section/css/'.(SASWP_ENVIRONMENT == 'production' ? 'collection-front.min.css' : 'collection-front.css'), false , SASWP_VERSION );
-          wp_enqueue_script( 'saswp-collection-front-js', SASWP_PLUGIN_URL . 'admin_section/js/'.(SASWP_ENVIRONMENT == 'production' ? 'collection-front.min.js' : 'collection-front.js'), array('jquery') , SASWP_VERSION );
+          }                   
 
       }     
     /**
@@ -1925,6 +1988,9 @@ if ( ! defined('ABSPATH') ) exit;
                 font-size: 15px;
                 width: 20px;
                 height: 20px;
+                position: absolute;
+                right: 0;
+                top:4px;
             }
             .saswp-g-plus amp-img{
                 width:100%;
@@ -2011,7 +2077,39 @@ if ( ! defined('ABSPATH') ) exit;
             }
             .widget .saswp-rv-img img {
                 max-width: 50px;
-            }                
+            }   
+            
+            .saswp-rv-txt{
+            position: static;
+            height: 80px;
+            overflow-y: auto;
+            font-size: 14px;
+            line-height:1.6;
+            text-align: left;
+            padding: 0 2px 0 0;
+            margin: 10px 0 0;
+            }
+            .saswp-rv-txt p{
+              margin:0;  
+            }
+            .saswp-rv-cnt::-webkit-scrollbar {
+              width: 4px ;
+              display:inline-block;
+            }
+            .saswp-rv-cnt::-webkit-scrollbar-thumb {
+              -webkit-border-radius: 10px ;
+              border-radius: 10px ;
+              background: #ccc ;
+              -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5) ;
+            }
+            .saswp-rv-cnt::-webkit-scrollbar-track {
+              -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+              -webkit-border-radius: 4px;
+            }
+            .saswp-r5-rng{
+                position: relative;
+            }
+                        
         <?php
         }
      
@@ -2589,11 +2687,24 @@ function saswp_on_activation(){
     
     if(!$installation_date){
         
-        update_option('saswp_installation_date', date("Y-m-d"));
-        update_option('sd_data', saswp_default_settings_array());  
+        update_option('saswp_installation_date', date("Y-m-d"));        
         
     }
-                          
+            
+    $defaults = get_option('sd_data');
+    
+    $active_plugin = saswp_compatible_active_list();
+                
+    if($active_plugin){
+
+        foreach ($active_plugin as $plugin){
+            $defaults[$plugin] = 1;
+        }
+
+    }
+        
+    update_option('sd_data', $defaults);  
+                              
 }
 
 function saswp_context_url(){
@@ -2825,3 +2936,45 @@ function saswp_admin_notice(){
     }
             
 }
+
+function saswp_remove_anonymous_object_filter_or_action( $tag, $class, $method, $hook_type ){
+    
+        $filters = $GLOBALS['wp_filter'][ $tag ];        
+        if ( empty ( $filters ) )
+        {
+            return;
+        }
+       
+        foreach ( $filters as $priority => $filter )
+        {
+             
+            foreach ( $filter as $identifier => $function )
+            {
+                    
+                if ( is_array( $function)
+                    and is_a( $function['function'][0], $class )
+                    and $method === $function['function'][1]
+                )
+                {         
+                    if($hook_type == 'filter'){
+                        
+                        remove_filter(
+                            $tag,
+                            array ( $function['function'][0], $method ),
+                            $priority
+                        );
+                        
+                    }
+                    if($hook_type == 'action'){
+                     
+                        remove_action(
+                            $tag,
+                            array ( $function['function'][0], $method ),
+                            $priority
+                        );
+                        
+                    }                    
+                }
+            }
+        }
+    }

@@ -1,6 +1,6 @@
 <?php
 /**
- * Review Class
+ * Rating Class
  *
  * @author   Magazine3
  * @category Admin
@@ -11,7 +11,7 @@
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-class saswp_metaboxes_review {
+class saswp_rating_box_backend {
     
  private $screen = array();
     
@@ -235,6 +235,6 @@ class saswp_metaboxes_review {
                 }               
         }    
 }
-if (class_exists('saswp_metaboxes_review')) {
-	new saswp_metaboxes_review;
+if (class_exists('saswp_rating_box_backend')) {
+	new saswp_rating_box_backend;
 };

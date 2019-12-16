@@ -4,6 +4,30 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 return array(    
     'plugins' =>    array(        
+        'ampforwp'  =>  array(            
+                    'name'       => 'AMPforWP',
+                    'free'       => 'accelerated-mobile-pages/accelerated-moblie-pages.php',            
+                    'opt_name'   => 'saswp-ampforwp',
+                    'part_in'    => 'free',
+        ),
+        'ampbyautomatic'  =>  array(            
+                    'name'       => 'AMP',
+                    'free'       => 'amp/amp.php',            
+                    'opt_name'   => 'saswp-ampbyautomatic',
+                    'part_in'    => 'free',
+        ),
+        'betteramp'  =>  array(            
+                    'name'       => 'Better AMP',
+                    'free'       => 'better-amp/better-amp.php',            
+                    'opt_name'   => 'saswp-betteramp',
+                    'part_in'    => 'free',
+        ),
+        'wpamp'  =>  array(            
+                    'name'       => 'WP AMP',
+                    'free'       => 'wp-amp/wp-amp.php',            
+                    'opt_name'   => 'saswp-wpamp',
+                    'part_in'    => 'free',
+        ),
        'flex_mls_idx'  =>  array(            
                     'name'       => 'FlexMLS IDX',
                     'free'       => 'flexmls-idx/flexmls_connect.php',            
@@ -27,6 +51,12 @@ return array(
                     'free'       => 'bne-testimonials/bne-testimonials.php', 
                     'pro'        => 'bne-testimonials-pro/bne-testimonials-pro.php', 
                     'opt_name'   => 'saswp-bne-testimonials',
+                    'part_in'    => 'free',
+        ),
+        'testimonial_pro'  =>  array(            
+                    'name'       => 'Testimonial Pro',
+                    'free'       => 'testimonial-pro/testimonial-pro.php',                     
+                    'opt_name'   => 'saswp-testimonial-pro',
                     'part_in'    => 'free',
         ),
         'learn_press'  =>  array(            
@@ -207,6 +237,12 @@ return array(
                 
     ),
     'themes' => array(
+        'soledad' => array(            
+                    'name'       => 'Soledad Theme',
+                    'free'       => 'soledad',               
+                    'opt_name'   => 'saswp-soledad',
+                    'part_in'    => 'free',
+        ),
         'jannah' => array(            
                     'name'       => 'Jannah',
                     'free'       => 'jannah',               

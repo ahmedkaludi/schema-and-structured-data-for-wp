@@ -1,6 +1,6 @@
 <?php 
 /**
- * Review Output Class
+ * Rating Output Class
  *
  * @author   Magazine3
  * @category Frontend
@@ -10,9 +10,9 @@
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-Class saswp_review_output{
+Class saswp_rating_box_frontend{
         /**
-         * All the hooks list which are used in review module
+         * All the hooks list which are used in rating module
          */            
         public function saswp_review_hooks(){
             
@@ -346,7 +346,7 @@ Class saswp_review_output{
         }
         
 }
-if (class_exists('saswp_review_output')) {
-	$object = new saswp_review_output();
+if (class_exists('saswp_rating_box_frontend')) {
+	$object = new saswp_rating_box_frontend();
         $object->saswp_review_hooks();
 };

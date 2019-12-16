@@ -1,6 +1,91 @@
-                              
+var saswp_attached_rv = [];                              
 jQuery(document).ready(function($){   
     
+    $(document).on("click", '.saswp-attach-reviews', function(){ 
+        
+        if($(".saswp-enable-append-reviews").is(":checked")){
+            tb_show("Attach reviews to this schema type", "#TB_inline??width=615&height=400&inlineId=saswp-embed-code-div");
+            $(document).find('#TB_window').width(600).height(415).css({'top':'200px', 'margin-top': '0px'});
+            $(".saswp-attached-rv-count").show();
+        }else{
+            $(".saswp-attached-rv-count").hide();
+        }
+               
+    });
+    
+    if($("#saswp_attahced_reviews").val()){
+        saswp_attached_rv = JSON.parse($("#saswp_attahced_reviews").val());
+    }
+        
+    $(document).on("click", ".saswp-attach-rv-checkbox", function(){
+        
+        var  review_id = null;        
+             review_id = parseInt($(this).parent().attr('review-id'));
+             
+        if($(this).is(":checked")){  
+            
+            saswp_attached_rv.push(review_id);
+            
+        }else{
+            saswp_attached_rv.splice( saswp_attached_rv.indexOf(review_id), 1 );
+        }
+         $(".saswp-attached-rv-count").text(saswp_attached_rv.length+' Reviews Attached');
+        $("#saswp_attahced_reviews").val(JSON.stringify(saswp_attached_rv));        
+        
+    });
+    
+    $(".saswp-load-more-rv").on("click", function(e){
+                       
+        var offset      = $(".saswp-add-rv-loop").length;
+        var paged       = (offset/10)+1;
+        
+        $("#saswp-add-rv-automatic .spinner").addClass('is-active');
+        
+        e.preventDefault();        
+        $.get(ajaxurl, 
+            { action:"saswp_get_reviews_on_load", offset:offset, paged: paged, saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
+            
+             function(response){   
+
+             if(response['status'] == 't'){
+                 
+                 var html = '';
+                 
+                 if(response['result']){
+                    
+                     $.each(response['result'], function(i,e){
+                          
+                          var checked = '';
+                          
+                          if(saswp_attached_rv.includes(parseInt(e.saswp_review_id))){
+                              checked = "checked";
+                          }
+                          
+                         html += '<div class="saswp-add-rv-loop" review-id="'+e.saswp_review_id+'">';
+                         html += '<input class="saswp-attach-rv-checkbox" type="checkbox" '+checked+'>  <strong> '+e.saswp_reviewer_name+' ( Rating - '+e.saswp_review_rating+' ) <span class="saswp-g-plus"><img src="'+e.saswp_review_platform_icon+'"/></span></strong>';
+                         html += '</div>';
+                        
+                     });
+                      $(".saswp-add-rv-automatic-list").append(html);                      
+                 }
+                 
+                 if(response['message']){
+                     
+                    $(".saswp-rv-not-found").removeClass('saswp_hide');
+                    $(".saswp-load-more-rv").addClass('saswp_hide');
+                      
+                 }
+                        
+             }else{
+                 alert(response['message']);
+             }
+            
+             $("#saswp-add-rv-automatic .spinner").removeClass('is-active');
+             
+            },'json');
+       
+        
+    });
     
     $(".saswp-modify-schema-toggle").click(function(e){
         
@@ -755,6 +840,15 @@ return false;
                             }
                       break;
                       
+                      case 'saswp-soledad-checkbox':
+                          saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-soledad").val(1);             
+                            }else{
+                              $("#saswp-soledad").val(0);           
+                            }
+                      break;
+                      
                       case 'saswp-dw-question-answer-checkbox':
                           saswp_compatibliy_notes(current, id); 
                             if ($(this).is(':checked')) {              
@@ -1091,12 +1185,62 @@ return false;
                             
                       break;
                       
+                      case 'saswp-testimonial-pro-checkbox':
+                          
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-testimonial-pro").val(1);                                
+                            }else{
+                              $("#saswp-testimonial-pro").val(0);                                          
+                            }
+                            
+                      break;
+                      
                       case 'saswp-bne-testimonials-checkbox':
                           
                             if ($(this).is(':checked')) {              
                               $("#saswp-bne-testimonials").val(1);                                
                             }else{
                               $("#saswp-bne-testimonials").val(0);                                          
+                            }
+                            
+                      break;
+                      
+                      case 'saswp-ampforwp-checkbox':
+                           saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-ampforwp").val(1);                                
+                            }else{
+                              $("#saswp-ampforwp").val(0);                                          
+                            }
+                            
+                      break;
+                      
+                      case 'saswp-ampbyautomatic-checkbox':
+                           saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-ampbyautomatic").val(1);                                
+                            }else{
+                              $("#saswp-ampbyautomatic").val(0);                                          
+                            }
+                            
+                      break;
+                      
+                      case 'saswp-betteramp-checkbox':
+                           saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-betteramp").val(1);                                
+                            }else{
+                              $("#saswp-betteramp").val(0);                                          
+                            }
+                            
+                      break;
+                      
+                      case 'saswp-wpamp-checkbox':
+                           saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-wpamp").val(1);                                
+                            }else{
+                              $("#saswp-wpamp").val(0);                                          
                             }
                             
                       break;

@@ -122,7 +122,7 @@ function saswp_post_specific_schema_output() {
                                                                                                                                                                         
                             $input1 = saswp_music_playlist_schema_markup($schema_id, $schema_post_id, $all_post_meta);
                             
-                            $input1 = saswp_append_fetched_reviews($input1);
+                            $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
                             
                           }     
                           
@@ -130,7 +130,7 @@ function saswp_post_specific_schema_output() {
                                                                                                                                                                         
                             $input1 = saswp_music_album_schema_markup($schema_id, $schema_post_id, $all_post_meta);
                             
-                            $input1 = saswp_append_fetched_reviews($input1);
+                            $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
                             
                           }
                             
@@ -168,7 +168,7 @@ function saswp_post_specific_schema_output() {
                              
                                 $input1 = saswp_book_schema_markup($schema_id, $all_post_meta);
                             
-                                $input1 = saswp_append_fetched_reviews($input1);
+                                $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
                             
                             }    
                         
@@ -206,7 +206,7 @@ function saswp_post_specific_schema_output() {
                              
                              $input1 = saswp_howto_schema_markup($schema_id, $schema_post_id, $all_post_meta);
                              
-                             $input1 = saswp_append_fetched_reviews($input1);
+                             $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
                                                        
                             }
                             
@@ -214,7 +214,7 @@ function saswp_post_specific_schema_output() {
                              
                             $input1 = saswp_tv_series_schema_markup($schema_id, $schema_post_id, $all_post_meta);
                                                                  
-                            $input1 = saswp_append_fetched_reviews($input1);
+                            $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
                             
                          }   
                             
@@ -228,7 +228,7 @@ function saswp_post_specific_schema_output() {
                                                          
                             $input1 = saswp_video_game_schema_markup($schema_id, $schema_post_id, $all_post_meta);
                                                                                                                                             
-                            $input1 = saswp_append_fetched_reviews($input1);
+                            $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
                                                                                                                                                                                                                                
                          }   
                         
@@ -254,7 +254,7 @@ function saswp_post_specific_schema_output() {
                                    $input1 = array_merge($input1, $extra_theme_review);
                                 }                               
                                 
-                                $input1 = saswp_append_fetched_reviews($input1);
+                                $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
                                 
                         }
                         
@@ -302,7 +302,7 @@ function saswp_post_specific_schema_output() {
                                 if(!empty($extra_theme_review)){
                                    $input1 = array_merge($input1, $extra_theme_review);
                                 }
-                                $input1 = saswp_append_fetched_reviews($input1);
+                                $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
                         } 
                         
                          if( 'SoftwareApplication' === $schema_type){
@@ -315,7 +315,7 @@ function saswp_post_specific_schema_output() {
                                 if(!empty($extra_theme_review)){
                                    $input1 = array_merge($input1, $extra_theme_review);
                                 }
-                                $input1 = saswp_append_fetched_reviews($input1);
+                                $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
                         }
 			
 			 if( 'WebPage' === $schema_type){
@@ -386,7 +386,7 @@ function saswp_post_specific_schema_output() {
                                 if(!empty($extra_theme_review)){
                                    $input1 = array_merge($input1, $extra_theme_review);
                                 }
-                                $input1 = saswp_append_fetched_reviews($input1);
+                                $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
 			}
 						
 			 if( 'Product' === $schema_type){				
@@ -400,7 +400,7 @@ function saswp_post_specific_schema_output() {
                                            $input1 = array_merge($input1, $extra_theme_review);
                                         }  
                                                                                                                  
-                                        $input1 = saswp_append_fetched_reviews($input1);
+                                        $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
 			}
                         
                          if( 'NewsArticle' === $schema_type ){  
@@ -431,7 +431,7 @@ function saswp_post_specific_schema_output() {
                                    if(!empty($extra_theme_review)){
                                        $input1 = array_merge($input1, $extra_theme_review);
                                    }
-                                   $input1 = saswp_append_fetched_reviews($input1);
+                                   $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
 			}
                                 
                          if( 'ImageObject' === $schema_type){
@@ -444,7 +444,7 @@ function saswp_post_specific_schema_output() {
                                 if(!empty($extra_theme_review)){
                                     $input1 = array_merge($input1, $extra_theme_review);
                                 }
-                                $input1 = saswp_append_fetched_reviews($input1);
+                                $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
                                 
                         }       
                         
@@ -454,7 +454,7 @@ function saswp_post_specific_schema_output() {
                                                                               
                          }     
                          
-                         if( 'Review' === $schema_type ){   
+                         if( 'Review' === $schema_type ){                              
                              
                                  $input1 = saswp_review_schema_markup($schema_id, $schema_post_id, $all_post_meta);    
                                                                                                                                                                                                                                                    
@@ -471,7 +471,7 @@ function saswp_post_specific_schema_output() {
                                        $input1 = array_merge($input1, $extra_theme_review);
                                     }
                                     
-                                    $input1 = saswp_append_fetched_reviews($input1);                                                              
+                                    $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);                                                              
 			}
                         
                          global $without_aggregate;

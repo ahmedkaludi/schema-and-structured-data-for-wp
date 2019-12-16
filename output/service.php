@@ -347,9 +347,8 @@ Class saswp_output_service{
             
                 if($schema_type == 'Review'){
 
-                    $main_schema_type = $schema_type;
-                    $review_post_meta = get_post_meta($schema_post_id, 'saswp_review_schema_details', true);                                                                
-                    $schema_type = $review_post_meta['saswp_review_schema_item_type'];
+                    $main_schema_type = $schema_type;                                                                                  
+                    $schema_type = get_post_meta($schema_post_id, 'saswp_review_item_reviewed_'.$schema_post_id, true);
                                         
                     if(isset($custom_fields['saswp_review_name'])){
                         $review_markup['name']                       =    $custom_fields['saswp_review_name'];
@@ -418,8 +417,8 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_book_image'])){
                      $input1['image']         =    $custom_fields['saswp_book_image'];
                     }
-                    if(isset($custom_fields['saswp_book_published_date'])){
-                     $input1['datePublished'] =    date('c',strtotime($custom_fields['saswp_book_published_date']));
+                    if(isset($custom_fields['saswp_book_date_published'])){                        
+                     $input1['datePublished'] =    date('c',strtotime($custom_fields['saswp_book_date_published']));
                     }                    
                     if(isset($custom_fields['saswp_book_price_currency']) && isset($custom_fields['saswp_book_price'])){
                         $input1['offers']['@type']         = 'Offer';
@@ -509,7 +508,13 @@ Class saswp_output_service{
                     }                    
                     if(isset($custom_fields['saswp_article_author_name'])){
                      $input1['author']['name'] =    $custom_fields['saswp_article_author_name'];
-                    }                    
+                    }
+                    if(isset($custom_fields['saswp_article_author_description'])){
+                     $input1['author']['description'] =    $custom_fields['saswp_article_author_description'];
+                    }
+                    if(isset($custom_fields['saswp_article_author_url'])){
+                     $input1['author']['url'] =    $custom_fields['saswp_article_author_url'];
+                    }
                     if(isset($custom_fields['saswp_article_organization_logo']) && isset($custom_fields['saswp_article_organization_name'])){
                      $input1['Publisher']['@type']       =    'Organization';
                      $input1['Publisher']['name']        =    $custom_fields['saswp_article_organization_name'];
@@ -649,6 +654,12 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_blogposting_author_name'])){
                      $input1['author']['name'] =    $custom_fields['saswp_blogposting_author_name'];
                     }
+                    if(isset($custom_fields['saswp_blogposting_author_url'])){
+                     $input1['author']['url'] =    $custom_fields['saswp_blogposting_author_url'];
+                    }
+                    if(isset($custom_fields['saswp_blogposting_author_description'])){
+                     $input1['author']['description'] =    $custom_fields['saswp_blogposting_author_description'];
+                    }
                                         
                     if(isset($custom_fields['saswp_blogposting_organization_logo']) && isset($custom_fields['saswp_blogposting_organization_name'])){
                      $input1['Publisher']['@type']       =    'Organization';
@@ -684,8 +695,14 @@ Class saswp_output_service{
                      $input1['dateModified'] =    $custom_fields['saswp_audio_schema_date_modified'];
                     }
                     if(isset($custom_fields['saswp_audio_schema_author_name'])){
-                     $input1['author']['name'] =    $custom_fields['saswp_audio_author_name'];
-                    }                    
+                     $input1['author']['name'] =    $custom_fields['saswp_audio_schema_author_name'];
+                    }
+                    if(isset($custom_fields['saswp_audio_schema_author_description'])){
+                     $input1['author']['description'] =    $custom_fields['saswp_audio_schema_author_description'];
+                    }
+                    if(isset($custom_fields['saswp_audio_schema_author_url'])){
+                     $input1['author']['url'] =    $custom_fields['saswp_audio_schema_author_url'];
+                    }
                     
                     break;   
                     
@@ -773,6 +790,9 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_newsarticle_author_name'])){
                         $input1['author']['name'] =    $custom_fields['saswp_newsarticle_author_name']; 
                     }
+                    if(isset($custom_fields['saswp_newsarticle_author_url'])){
+                        $input1['author']['url'] =    $custom_fields['saswp_newsarticle_author_url']; 
+                    }
                     if(isset($custom_fields['saswp_newsarticle_author_image'])){
                        $input1['author']['Image']['url'] =    $custom_fields['saswp_newsarticle_author_image'];  
                     }                    
@@ -814,6 +834,9 @@ Class saswp_output_service{
                     }
                     if(isset($custom_fields['saswp_webpage_author_name'])){
                      $input1['mainEntity']['author']['name'] =    $custom_fields['saswp_webpage_author_name'];
+                    }
+                    if(isset($custom_fields['saswp_webpage_author_url'])){
+                     $input1['mainEntity']['author']['url'] =    $custom_fields['saswp_webpage_author_url'];
                     }
                     
                     if(isset($custom_fields['saswp_webpage_organization_name'])){
@@ -948,6 +971,12 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_tech_article_author_name'])){
                      $input1['author']['name'] =    $custom_fields['saswp_tech_article_author_name'];
                     }
+                    if(isset($custom_fields['saswp_tech_article_author_url'])){
+                     $input1['author']['url'] =    $custom_fields['saswp_tech_article_author_url'];
+                    }
+                    if(isset($custom_fields['saswp_tech_article_author_description'])){
+                     $input1['author']['description'] =    $custom_fields['saswp_tech_article_author_description'];
+                    }
                      
                     if(isset($custom_fields['saswp_tech_article_organization_logo']) && isset($custom_fields['saswp_tech_article_organization_name'])){
                      $input1['Publisher']['@type']       =    'Organization';
@@ -1003,6 +1032,12 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_dfp_author_name'])){
                      $input1['author']['name'] =    $custom_fields['saswp_dfp_author_name'];
                     }
+                    if(isset($custom_fields['saswp_dfp_author_url'])){
+                     $input1['author']['url'] =    $custom_fields['saswp_dfp_author_url'];
+                    }
+                    if(isset($custom_fields['saswp_dfp_author_description'])){
+                     $input1['author']['description'] =    $custom_fields['saswp_dfp_author_description'];
+                    }
                     
                     if(isset($custom_fields['saswp_dfp_main_entity_of_page'])){
                      $input1['mainEntityOfPage'] =    $custom_fields['saswp_dfp_main_entity_of_page'];
@@ -1038,6 +1073,12 @@ Class saswp_output_service{
                     
                     if(isset($custom_fields['saswp_recipe_author_name'])){
                      $input1['author']['name'] =    $custom_fields['saswp_recipe_author_name'];
+                    }
+                    if(isset($custom_fields['saswp_recipe_author_url'])){
+                     $input1['author']['url'] =    $custom_fields['saswp_recipe_author_url'];
+                    }
+                    if(isset($custom_fields['saswp_recipe_author_description'])){
+                     $input1['author']['description'] =    $custom_fields['saswp_recipe_author_description'];
                     }
                     if(isset($custom_fields['saswp_recipe_author_image'])){
                      $input1['author']['Image']['url'] =    $custom_fields['saswp_recipe_author_image'];
@@ -1254,6 +1295,12 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_video_object_author_name'])){
                      $input1['author']['name'] =    $custom_fields['saswp_video_object_author_name'];
                     }
+                    if(isset($custom_fields['saswp_video_object_author_url'])){
+                     $input1['author']['url'] =    $custom_fields['saswp_video_object_author_url'];
+                    }
+                    if(isset($custom_fields['saswp_video_object_author_description'])){
+                     $input1['author']['description'] =    $custom_fields['saswp_video_object_author_description'];
+                    }
                     if(isset($custom_fields['saswp_video_object_author_image'])){
                      $input1['author']['image'] =    $custom_fields['saswp_video_object_author_image'];
                     }                      
@@ -1296,6 +1343,12 @@ Class saswp_output_service{
                     }
                     if(isset($custom_fields['saswpimage_object_author_name'])){
                      $input1['author']['name'] =    $custom_fields['saswpimage_object_author_name'];
+                    }
+                    if(isset($custom_fields['saswpimage_object_author_url'])){
+                     $input1['author']['url'] =    $custom_fields['saswpimage_object_author_url'];
+                    }
+                    if(isset($custom_fields['saswpimage_object_author_description'])){
+                     $input1['author']['description'] =    $custom_fields['saswpimage_object_author_description'];
                     }
                     if(isset($custom_fields['saswpimage_object_author_image'])){
                      $input1['author']['image'] =    $custom_fields['saswpimage_object_author_image'];
@@ -2720,6 +2773,8 @@ Class saswp_output_service{
                     break;
                     
                 case 'Product':
+                case 'SoftwareApplication':
+                case 'Book':
                                                                         
                         $product_details = $this->saswp_woocommerce_product_details(get_the_ID());  
 
@@ -2727,7 +2782,7 @@ Class saswp_output_service{
 
                             $input1 = array(
                             '@context'			        => saswp_context_url(),
-                            '@type'				=> 'Product',
+                            '@type'				=> $schema_type,
                             '@id'				=> trailingslashit(saswp_get_permalink()).'#product',     
                             'url'				=> trailingslashit(saswp_get_permalink()),
                             'name'                              => saswp_remove_warnings($product_details, 'product_name', 'saswp_string'),
@@ -2808,8 +2863,12 @@ Class saswp_output_service{
                             $input1['@context']              = saswp_context_url();
                             $input1['@type']                 = 'Product';
                             $input1['@id']                   = trailingslashit(saswp_get_permalink()).'#Product';                                                                                                                                                                                                                                                                                        
-                        }                                                                
-                    
+                        } 
+                        
+                        if(!isset($input1['review'])){
+                           $input1 = saswp_append_fetched_reviews($input1); 
+                        }
+                                            
                     break;
 
                 default:
@@ -2847,8 +2906,8 @@ Class saswp_output_service{
                                                                                                                     
                                         if(isset($image_details[1]) && ($image_details[1] < 1200) && function_exists('saswp_aq_resize')){
                                             
-                                            $width  = array(1280, 640, 300);
-                                            $height = array(720, 480, 300);
+                                            $width  = array(1200, 1200, 1200);
+                                            $height = array(1200, 900, 675);
                                             
                                             for($i = 0; $i<3; $i++){
                                                 
@@ -2978,7 +3037,7 @@ Class saswp_output_service{
                                               
                                             if($image['width'] < 1200){
                                                 
-                                                $resized_image = saswp_aq_resize( $image['url'], 1280, 720, true, false, true );                                                                                                
+                                                $resized_image = saswp_aq_resize( $image['url'], 1200, 675, true, false, true );                                                                                                
                                                 $attach_images['image'][$key]['url']    =   $resized_image[0];
                                                 $attach_images['image'][$key]['width']  =   $resized_image[1];
                                                 $attach_images['image'][$key]['height'] =   $resized_image[2];                                                

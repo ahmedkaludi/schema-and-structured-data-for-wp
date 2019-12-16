@@ -1,0 +1,61 @@
+  .saswp-form-tbl{
+	margin-bottom: 20px;
+    display: inline-block;
+    width: 100%;
+}
+.saswp-form-fld{
+	display:inline-block;
+	margin-bottom: 20px;
+	width: 100%;
+}
+.saswp-form-fld span {
+    display: block;
+    font-size: 15px;
+    font-weight: 400;
+    margin: 0 0 05px 0;
+}
+.saswp-rvw-str{
+	margin-bottom: 10px;
+}
+.saswp-form-fld input{
+	width: 100%;
+    height: 35px;
+    border: 1px solid #dcd7ca;
+    padding: 0px 10px;
+}
+.saswp-form-fld textarea{
+	width: 100%;
+    height: 150px;
+    border: 1px solid #dcd7ca;
+    padding: 10px;
+}
+.saswp-form-tbl .submit{
+	background: #005be2;
+    padding: 12px 25px 12px 25px;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+/* 
+Rating css starts here
+*/
+
+.saswp-rvw-str .str-ic{
+    display:inline-block;
+    width: 20px;
+    height: 16px;
+    background-repeat: no-repeat;            
+}
+.saswp-rvw-str .df-clr{
+    display:inline-block;
+    width: 20px;
+    height: 16px;
+    background-repeat: no-repeat;           
+}
+       
+
+/* 
+Rating css ends here
+*/

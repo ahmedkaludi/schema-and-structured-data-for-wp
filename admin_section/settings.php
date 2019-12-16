@@ -619,13 +619,19 @@ function saswp_amp_page_callback(){
                         )
 		) ;                                        
                         
-        if ( is_plugin_active('accelerated-mobile-pages/accelerated-moblie-pages.php') || is_plugin_active('amp/amp.php') ) {                         
+        if ( 
+                is_plugin_active('accelerated-mobile-pages/accelerated-moblie-pages.php') || 
+                is_plugin_active('amp/amp.php') || 
+                is_plugin_active('better-amp/better-amp.php')  ||
+                is_plugin_active('wp-amp/wp-amp.php')
+                        
+                ) {                         
         }else{
             
             $non_amp_enable_field['attributes'] = array(
                  'disabled' => 'disabled'
              );
-             $non_amp_enable_field['note'] = esc_html__('Requires','schema-and-structured-data-for-wp'). ' <a target="_blank" href="https://wordpress.org/plugins/accelerated-mobile-pages/">AMP for WP</a> or <a target="_blank" href="https://wordpress.org/plugins/amp/">AMP</a>';
+             $non_amp_enable_field['note'] = esc_html__('Requires','schema-and-structured-data-for-wp'). ' <a target="_blank" href="https://wordpress.org/plugins/accelerated-mobile-pages/">AMP for WP</a> or <a target="_blank" href="https://wordpress.org/plugins/amp/">AMP</a> or <a target="_blank" href="https://wordpress.org/plugins/better-amp/">Better AMP</a> or <a target="_blank" href="https://codecanyon.net/item/wp-amp-accelerated-mobile-pages-for-wordpress-and-woocommerce/16278608">WP AMP</a>';
              $settings['saswp-for-amp'] = 0;	
             
         }
@@ -1170,13 +1176,20 @@ function saswp_import_callback(){
         $seo_pressor_message   = '';
         $wpsso_core_message    = '';
         $aiors_message         = '';
+        $wp_custom_rv_message  = '';
         $schema_plugin         = saswp_check_data_imported_from('schema'); 
         $schema_pro_plugin     = saswp_check_data_imported_from('schema_pro');
         $wp_seo_schema_plugin  = saswp_check_data_imported_from('wp_seo_schema');
         $seo_pressor           = saswp_check_data_imported_from('seo_pressor');
         $wpsso_core            = saswp_check_data_imported_from('wpsso_core');
         $aiors                 = saswp_check_data_imported_from('aiors');
+        $wp_custom_rv          = saswp_check_data_imported_from('wp_custom_rv');
         
+        if($wp_custom_rv->post_count !=0 ){
+            
+          $wp_custom_rv_message = $message;
+         
+        }
         if($aiors->post_count !=0 ){
             
           $aiors_message = $message;
@@ -1248,6 +1261,11 @@ function saswp_import_callback(){
                 <li><div class="saswp-tools-field-title"><div class="saswp-tooltip"><span class="saswp-tooltiptext"><?php echo esc_html__('All the settings and data you can import from this plugin when you click start importing','schema-and-structured-data-for-wp') ?></span><strong><?php echo esc_html__('Schema – All In One Schema Rich Snippets','schema-and-structured-data-for-wp'); ?></strong></div><button data-id="aiors" class="button saswp-import-plugins"><?php echo esc_html__('Import','schema-and-structured-data-for-wp'); ?></button>
                         <p class="saswp-imported-message"></p>
                         <?php echo '<p>'.esc_html__($aiors_message, 'schema-and-structured-data-for-wp').'</p>'; ?>                          
+                    </div>
+                </li>
+                <li><div class="saswp-tools-field-title"><div class="saswp-tooltip"><span class="saswp-tooltiptext"><?php echo esc_html__('All the settings and data you can import from this plugin when you click start importing','schema-and-structured-data-for-wp') ?></span><strong><?php echo esc_html__('WP Customer Reviews','schema-and-structured-data-for-wp'); ?></strong></div><button data-id="wp_custom_rv" class="button saswp-import-plugins"><?php echo esc_html__('Import','schema-and-structured-data-for-wp'); ?></button>
+                        <p class="saswp-imported-message"></p>
+                        <?php echo '<p>'.esc_html__($wp_custom_rv_message, 'schema-and-structured-data-for-wp').'</p>'; ?>                          
                     </div>
                 </li>
                 
@@ -1635,6 +1653,55 @@ function saswp_compatibility_page_callback(){
         
         $settings = saswp_defaultSettings();  
         
+        $ampforwp = array(
+			'label'  => 'AMPforWP',
+			'id'     => 'saswp-ampforwp-checkbox',                        
+                        'name'   => 'saswp-ampforwp-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
+                        'note'   => saswp_get_field_note('ampforwp'),
+                        'hidden' => array(
+                                'id'   => 'saswp-ampforwp',
+                                'name' => 'sd_data[saswp-ampforwp]',                             
+                        )
+		);
+        $ampbyautomatic = array(
+			'label'  => 'AMP By Automatic',
+			'id'     => 'saswp-ampbyautomatic-checkbox',                        
+                        'name'   => 'saswp-ampbyautomatic-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
+                        'note'   => saswp_get_field_note('ampbyautomatic'),
+                        'hidden' => array(
+                                'id'   => 'saswp-ampbyautomatic',
+                                'name' => 'sd_data[saswp-ampbyautomatic]',                             
+                        )
+		);
+        $betteramp = array(
+			'label'  => 'Better AMP',
+			'id'     => 'saswp-betteramp-checkbox',                        
+                        'name'   => 'saswp-betteramp-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
+                        'note'   => saswp_get_field_note('betteramp'),
+                        'hidden' => array(
+                                'id'   => 'saswp-betteramp',
+                                'name' => 'sd_data[saswp-betteramp]',                             
+                        )
+		);
+        $wpamp = array(
+			'label'  => 'WP AMP',
+			'id'     => 'saswp-wpamp-checkbox',                        
+                        'name'   => 'saswp-wpamp-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
+                        'note'   => saswp_get_field_note('wpamp'),
+                        'hidden' => array(
+                                'id'   => 'saswp-wpamp',
+                                'name' => 'sd_data[saswp-wpamp]',                             
+                        )
+		);
+        
         $tagyeem = array(
 			'label'  => 'Tagyeem With Jannah Theme',
 			'id'     => 'saswp-tagyeem-checkbox',                        
@@ -1910,7 +1977,9 @@ function saswp_compatibility_page_callback(){
                                 'name' => 'sd_data[saswp-the-events-calendar]',                             
                         )
 		);
-                
+        
+        
+        
         $kk_star = array(
 			'label'  => 'kk Star Ratings',
 			'id'     => 'saswp-kk-star-raring-checkbox',                        
@@ -1998,6 +2067,18 @@ function saswp_compatibility_page_callback(){
                                 'name' => 'sd_data[saswp-extra]',                             
                         )
 		);
+        $soledad = array(
+			'label'  => 'Soledad Theme',
+			'id'     => 'saswp-soledad-checkbox',                        
+                        'name'   => 'saswp-soledad-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
+                        'note'   => saswp_get_field_note('soledad'),
+                        'hidden' => array(
+                                'id'   => 'saswp-soledad',
+                                'name' => 'sd_data[saswp-soledad]',                             
+                        )
+		);
         $dwquestiton = array(
 			'label'  => 'DW Question Answer',
 			'id'     => 'saswp-dw-question-answer-checkbox',                        
@@ -2073,6 +2154,19 @@ function saswp_compatibility_page_callback(){
                                 'name' => 'sd_data[saswp-bne-testimonials]',                             
                         )
 		);
+         
+         $testimonial_pro = array(
+			'label'  => 'Testimonial Pro',
+			'id'     => 'saswp-testimonial-pro-checkbox',                        
+                        'name'   => 'saswp-testimonial-pro-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
+                        'note'   => saswp_get_field_note('testimonial_pro'),
+                        'hidden' => array(
+                                'id'   => 'saswp-testimonial-pro',
+                                'name' => 'sd_data[saswp-testimonial-pro]',                             
+                        )
+		);
         
         $flex_lmx = array(
 			'label'  => 'FlexMLS IDX Plugin',
@@ -2136,14 +2230,19 @@ function saswp_compatibility_page_callback(){
                                                  
         $field_objs = new saswp_fields_generator();
         
-        $meta_fields = array(				
+        $meta_fields = array(
+                $ampforwp,
+                $ampbyautomatic,
+                $betteramp,
+                $wpamp,
                 $kk_star,  
                 $wppostratings,
                 $bbpress,
                 $woocommerce,
                 $woocommerce_bok,
                 $woocommerce_mem,
-                $cooked,                
+                $cooked, 
+                $soledad,
                 $tagyeem,
                 $extratheme,
                 $dwquestiton,                
@@ -2172,6 +2271,7 @@ function saswp_compatibility_page_callback(){
                 $modern_events_calendar,
                 $easy_testimonials,
                 $bne_testimonials,
+                $testimonial_pro,
                 $flex_lmx
                 
 	);  
@@ -2389,6 +2489,8 @@ function saswp_enqueue_style_js( $hook ) {
 	// Everything needed for media upload
         wp_enqueue_media();
         
+        wp_enqueue_script('thickbox');
+        wp_enqueue_style('thickbox');
         	
         wp_enqueue_script( 'saswp-timepicker-js', SASWP_PLUGIN_URL . 'admin_section/js/jquery.timepicker.js', false, SASWP_VERSION);        
         wp_enqueue_style( 'saswp-timepicker-css', SASWP_PLUGIN_URL . 'admin_section/css/jquery.timepicker.css', false , SASWP_VERSION );
@@ -2414,7 +2516,11 @@ add_action( 'admin_enqueue_scripts', 'saswp_enqueue_style_js' );
 
 function saswp_get_field_note($pname){
     
-    $notes = array(            
+    $notes = array(  
+            'ampforwp'                 => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/accelerated-mobile-pages/">AMP for WP</a>',
+            'ampbyautomatic'           => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/amp/">AMP</a>',
+            'betteramp'                => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/kk-star-ratings/">Better AMP</a>',
+            'wpamp'                    => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://codecanyon.net/item/wp-amp-accelerated-mobile-pages-for-wordpress-and-woocommerce/16278608">WP AMP</a>',
             'kk_star_ratings'          => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/kk-star-ratings/">kk Star Rating</a>',
             'wp_post_ratings'          => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wp-postratings/">WP-PostRatings</a>',
             'bb_press'                 => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/bbpress/">bbPress</a>',
@@ -2446,15 +2552,18 @@ function saswp_get_field_note($pname){
             'homeland'                 => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://themeforest.net/item/homeland-responsive-real-estate-theme-for-wordpress/6518965">Homeland</a>',            
             'realhomes'                => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://themeforest.net/item/real-homes-wordpress-real-estate-theme/5373914">RealHomes</a>',
             'jannah'                   => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://codecanyon.net/item/taqyeem-wordpress-review-plugin/4558799">Taqyeem</a>',
+            'soledad'                  => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://themeforest.net/item/soledad-multiconcept-blogmagazine-wp-theme/12945398">Soledad Theme</a>',
             'zip_recipes'              => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/zip-recipes/">Zip Recipes</a>',
             'mediavine_create'         => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/mediavine-create/">Create by Mediavine</a>',
             'ht_recipes'               => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://themeforest.net/item/culinier-food-recipe-wordpress-theme/11088564/">HT-Recipes</a>',
             'easy_testimonials'        => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/easy-testimonials">Easy Testimonials</a>',
-            'bne_testimonials'         => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/bne-testimonials/">BNE Testimonials</a>'
+            'bne_testimonials'         => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/bne-testimonials/">BNE Testimonials</a>',
+            'testimonial_pro'          => esc_html__('Testimonial Pro','schema-and-structured-data-for-wp').' <a target="_blank" href="https://shapedplugin.com/plugin/testimonial-pro/">Testimonial Pro</a>'
+        
         );
           
     $active = saswp_compatible_active_list();
-    
+        
     if(!isset($active[$pname])){
         
         return $notes[$pname];

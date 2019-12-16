@@ -19,6 +19,7 @@ class SASWP_Reviews_Collection {
          */
         private static $instance;
         private $_service = null;
+        private $_design  = null;
 
         private function __construct() {
             
@@ -33,10 +34,9 @@ class SASWP_Reviews_Collection {
           add_action( 'init', array($this, 'saswp_register_collection_post_type' ),20);
           add_action( 'admin_init', array($this, 'saswp_save_collection_data' ));
           add_action( 'wp_ajax_saswp_add_to_collection', array($this, 'saswp_add_to_collection' ));
-          add_action( 'wp_ajax_saswp_get_collection_platforms', array($this, 'saswp_get_collection_platforms' ));
-          add_action( 'amp_post_template_css', array($this, 'saswp_reviews_collection_amp_css'));
+          add_action( 'wp_ajax_saswp_get_collection_platforms', array($this, 'saswp_get_collection_platforms' ));          
           add_action( 'amp_post_template_data', array($this, 'saswp_reviews_collection_amp_script'));                                   
-          add_shortcode( 'saswp-reviews-collection', array($this, 'saswp_reviews_collection_shortcode_render' ));
+          add_shortcode( 'saswp-reviews-collection', array($this, 'saswp_reviews_collection_shortcode_render' ),10);        
                                  
         }
         
@@ -52,7 +52,7 @@ class SASWP_Reviews_Collection {
 		return self::$instance;
         }
         
-        public static function saswp_add_collection_menu_links(){
+        public function saswp_add_collection_menu_links(){
             
              add_submenu_page( 'edit.php?post_type=saswp',
                 esc_html__( 'Structured Data', 'schema-and-structured-data-for-wp' ),
@@ -63,7 +63,7 @@ class SASWP_Reviews_Collection {
             
         }
         
-        public static function saswp_set_collection_edit_link($link, $post_id, $context){
+        public function saswp_set_collection_edit_link($link, $post_id, $context){
                 
                 if (function_exists('get_current_screen') && (isset(get_current_screen()->id) && get_current_screen()->id == 'edit-saswp-collections' ) && $context == 'display') {
 
@@ -79,7 +79,7 @@ class SASWP_Reviews_Collection {
         
         public function saswp_reviews_collection_amp_script($data){
             
-            $design = $this->_service->saswp_collection_desing_available();
+            $design = $this->_design;
             
             if($design == 'gallery' || $design == 'fomo'){
                 
@@ -108,15 +108,14 @@ class SASWP_Reviews_Collection {
            $gallery_css =  SASWP_PLUGIN_DIR_PATH . 'admin_section/css/amp/collection-front-gallery.css';
            $popup_css   =  SASWP_PLUGIN_DIR_PATH . 'admin_section/css/amp/collection-front-popup.css';
            $badge_css   =  SASWP_PLUGIN_DIR_PATH . 'admin_section/css/amp/collection-front-badge.css';
-           
-           $design = $this->_service->saswp_collection_desing_available();
-           
-           if($design){
+                               
+           if($this->_design){               
                
                 echo @file_get_contents($global_css);
                 
-                switch ($design) {
-                    case 'grid':
+                switch ($this->_design) {
+                    
+                    case 'grid':                       
                             echo @file_get_contents($grid_css);
                         break;
                     case 'gallery':
@@ -139,7 +138,7 @@ class SASWP_Reviews_Collection {
            }
            
         }
-        
+              
         public function saswp_register_collection_post_type(){
                         
             $collections = array(
@@ -152,7 +151,7 @@ class SASWP_Reviews_Collection {
                     'public' 		    => true,
                     'has_archive' 	    => true,
                     'exclude_from_search'   => true,
-                    'publicly_queryable'    => true,
+                    'publicly_queryable'    => false,
                     //'show_in_menu'          => 'edit.php?post_type=saswp',                
                     'show_in_menu'          => false,                
                     'show_ui'               => true,
@@ -233,6 +232,8 @@ class SASWP_Reviews_Collection {
         }
                             
         public function saswp_reviews_collection_shortcode_render($attr){
+             
+            global $saswp_post_reviews;
             
             $html = $htmlp = '';
             
@@ -247,8 +248,9 @@ class SASWP_Reviews_Collection {
                 
                 $collection_data = get_post_meta($attr['id'], $key='', true);
                 
-                $design       = $collection_data['saswp_collection_design'][0];
-                $cols         = $collection_data['saswp_collection_cols'][0];
+                $design        = $collection_data['saswp_collection_design'][0];
+                $this->_design = $design;
+                $cols          = $collection_data['saswp_collection_cols'][0];
                 
                 if(isset($collection_data['saswp_gallery_arrow'][0])){
                     
@@ -294,7 +296,14 @@ class SASWP_Reviews_Collection {
                 }
                                                 
                 if($collection){
-                
+                    
+                    wp_enqueue_style( 'saswp-collection-front-css', SASWP_PLUGIN_URL . 'admin_section/css/'.(SASWP_ENVIRONMENT == 'production' ? 'collection-front.min.css' : 'collection-front.css'), false , SASWP_VERSION );
+                    wp_enqueue_script( 'saswp-collection-front-js', SASWP_PLUGIN_URL . 'admin_section/js/'.(SASWP_ENVIRONMENT == 'production' ? 'collection-front.min.js' : 'collection-front.js'), array('jquery') , SASWP_VERSION );
+                    
+                    add_action( 'amp_post_template_css', array($this, 'saswp_reviews_collection_amp_css'));
+                    
+                    $saswp_post_reviews = array_merge($saswp_post_reviews, $collection);
+                    
                     switch($design) {
                     
                     case "grid":

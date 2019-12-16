@@ -13,6 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  * List of hooks used in this file
  */
 add_action( 'wp_ajax_saswp_get_manual_fields_on_ajax', 'saswp_get_manual_fields_on_ajax' ) ;
+add_action( 'wp_ajax_saswp_get_reviews_on_load', 'saswp_get_reviews_on_load' ) ;
 add_action( 'save_post', 'saswp_schema_type_add_meta_box_save' ) ;
 add_action( 'add_meta_boxes', 'saswp_add_all_meta_boxes',99 ) ;
 
@@ -57,13 +58,20 @@ function saswp_add_all_meta_boxes() {
                 'normal', 
                 'high' 
               );
+    add_meta_box( 
+                'saswp_reviews_form', 
+                esc_html__( 'Reviews form Shortcode','schema-and-structured-data-for-wp' ), 
+                'saswp_reviews_form_shortcode_metabox', 'saswp_reviews',
+                'side', 
+                'low' 
+              );
     add_meta_box(
             'submitdiv',
                 esc_html__( 'Publish' ), 
                 'post_submit_meta_box',
                 array('saswp', 'saswp_reviews'), 
                 'side', 
-                'low' 
+                'high' 
             );
 
 }
@@ -582,7 +590,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                 
                 <tr>
                    <td>
-                       <label for="saswp-speakable"><?php echo esc_html__( 'Speakable ' ,'schema-and-structured-data-for-wp');?></label>
+                       <label for="saswp-speakable"><?php echo esc_html__( 'Speakable' ,'schema-and-structured-data-for-wp');?></label>
                    </td>
                    <td>
                       <input class="saswp-enable-speakable" type="checkbox" name="saswp_enable_speakable_schema" value="1" <?php if(isset($speakable) && $speakable == 1){echo 'checked'; }else{ echo ''; } ?>>                                                                                                           
@@ -594,7 +602,92 @@ function saswp_schema_type_meta_box_callback( $post) {
                        <label for="saswp-append-reviews"><?php echo esc_html__('Add Reviews' ,'schema-and-structured-data-for-wp');?></label>
                    </td>
                    <td>
-                      <input class="saswp-enable-append-reviews" type="checkbox" name="saswp_enable_append_reviews" value="1" <?php if(isset($append_reviews) && $append_reviews == 1){echo 'checked'; }else{ echo ''; } ?>>                                                                                                           
+                      
+                      <input class="saswp-attach-reviews saswp-enable-append-reviews" type="checkbox" name="saswp_enable_append_reviews" value="1" <?php if(isset($append_reviews) && $append_reviews == 1){echo 'checked'; }else{ echo ''; } ?>>                                                                                                           
+                      <a class="saswp-attach-reviews">
+                        <?php 
+                        
+                                $attached_rv_json = '';
+                                $attached_rv      = get_post_meta($post->ID, 'saswp_attahced_reviews', true);     
+                                if($attached_rv){
+                                    $attached_rv_json = json_encode($attached_rv);
+                                }
+                                
+                                if($append_reviews == 1){
+                                    
+                                    if(is_array($attached_rv)){
+                                        echo '<span class="saswp-attached-rv-count"> '.esc_attr(count($attached_rv)).' Reviews Attached</span>';
+                                    }else{
+                                        echo '<span class="saswp-attached-rv-count"> 0 Reviews Attached</span>';
+                                    }
+                                    
+                                }else{
+                                    echo '<span class="saswp-attached-rv-count saswp_hide"> 0 Reviews Attached</span>';
+                                }                                
+                        
+                        ?> 
+                      </a>
+                      <div style="display:none;" id="saswp-embed-code-div">
+                          <div class="saswp-add-rv-title"><?php echo esc_html__('Get reviews attached to the schema type with two different method.' ,'schema-and-structured-data-for-wp');?> <a href="#"><?php echo esc_html__('Learn More...' ,'schema-and-structured-data-for-wp');?></a></div>
+                          <div class="saswp-thick-box-container">
+                              
+                        <div class="saswp-add-rv-popup" id="saswp-global-tabs">
+                            <h2 class="nav-tab-wrapper">
+                            <a class="nav-tab" data-id="saswp-add-rv-automatic"><?php echo esc_html__( 'Automatic' ,'schema-and-structured-data-for-wp');?></a>
+                            <a class="nav-tab" data-id="saswp-add-rv-manual"><?php echo esc_html__( 'Manual' ,'schema-and-structured-data-for-wp');?></a>
+                           </h2>
+                        </div>
+                         
+                            <div class="saswp-global-container" id="saswp-add-rv-automatic">
+                                
+                                <div class="saswp-add-rv-automatic-list">
+                                
+                                <?php 
+                                                                                               
+                                $reviews_service = new saswp_reviews_service();
+                                
+                                $reviews = $reviews_service->saswp_get_reviews_list_by_parameters(null, null, 10, 1);
+                                
+                                if($reviews){
+                                    
+                                   foreach($reviews as $key => $val){    
+                                       
+                                       $checked = '';
+                                       echo '<div class="saswp-add-rv-loop" review-id="'.esc_attr($val['saswp_review_id']).'">';
+                                                                              
+                                       if(is_array($attached_rv) && in_array($val['saswp_review_id'], $attached_rv)){
+                                           $checked = 'checked';
+                                       }
+                                       
+                                       echo '<input class="saswp-attach-rv-checkbox" type="checkbox" '.$checked.'>  <strong> '.esc_attr($val['saswp_reviewer_name']).' ( Rating - '.esc_attr($val['saswp_review_rating']).' ) <span class="saswp-g-plus"><img src="'.esc_url($val['saswp_review_platform_icon']).'"/></span></strong>';
+                                       echo '</div>';
+                                       
+                                   }
+                                   
+                                }
+                                
+                                ?>
+                                    
+                                </div>
+                                
+                                <?php 
+                                 echo '<input id="saswp_attahced_reviews" type="hidden" name="saswp_attahced_reviews" value="'. esc_attr($attached_rv_json).'">';
+                                ?>
+                                
+                                <div class="saswp-rv-not-found saswp_hide"><?php echo esc_html__( 'Reviews not found' ,'schema-and-structured-data-for-wp');?></div>
+                                <span class="spinner"></span>
+                                <div><a class="saswp-load-more-rv"><?php echo esc_html__( 'Load More...' ,'schema-and-structured-data-for-wp');?></a></div>
+                                                                
+                            </div>
+
+                            <div class="saswp-global-container" id="saswp-add-rv-manual">
+                               <p> <?php echo esc_html__('Output reviews in front and its schema markup in source by using below shortcode' ,'schema-and-structured-data-for-wp');?> </p>
+                                <strong>[saswp-reviews]</strong><br>OR<br>
+                                <strong>[saswp-reviews-collection id="your collection id"]</strong>
+                            </div>
+                                                      
+                          </div>
+                      </div>
                    </td>
                 </tr>
                 
@@ -898,6 +991,36 @@ function saswp_schema_type_meta_box_callback( $post) {
             <?php
 } 
 
+function saswp_get_reviews_on_load(){
+            
+            if ( ! isset( $_GET['saswp_security_nonce'] ) ){
+                return; 
+            }
+            if ( !wp_verify_nonce( $_GET['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
+               return;  
+            }
+            
+            $offset = intval($_GET['offset']);
+            $paged  = intval($_GET['paged']);
+            
+            if($paged && $offset){
+                
+                $reviews_service = new saswp_reviews_service();
+                                
+                $reviews = $reviews_service->saswp_get_reviews_list_by_parameters(null, null, 10, $paged, $offset);
+                
+                if($reviews){
+                    echo json_encode(array('status' => 't', 'result' => $reviews));
+                }else{
+                    echo json_encode(array('status' => 't', 'message' => 'Reviews not found'));
+                }
+                
+            }else{
+                echo json_encode(array('status' => 'f', 'message' => 'Page number or offset is missing'));
+            }
+        wp_die();        
+}
+
 function saswp_get_manual_fields_on_ajax(){
     
             if ( ! isset( $_GET['saswp_security_nonce'] ) ){
@@ -920,6 +1043,8 @@ function saswp_get_manual_fields_on_ajax(){
 
             wp_die();        
 }
+
+
 /**
  * Function to save schema type metabox value
  * @param type $post_id
@@ -945,7 +1070,9 @@ function saswp_schema_type_add_meta_box_save( $post_id ) {
                 update_post_meta( $post_id, 'saswp_item_list_tags', sanitize_text_field($_POST['saswp_item_list_tags']) );                                                                       
                 update_post_meta( $post_id, 'saswp_item_list_custom', sanitize_text_field($_POST['saswp_item_list_custom']) );                                                                       
                 update_post_meta( $post_id, 'saswp_review_item_reviewed_'.$post_id, sanitize_text_field($_POST['saswp_review_item_reviewed_'.$post_id]) );                                                                       
-                                
+                                                
+                update_post_meta( $post_id, 'saswp_attahced_reviews', json_decode(wp_unslash($_POST['saswp_attahced_reviews'])) );                                                                       
+                
                 $common_obj = new saswp_view_common_class();
                 
                 $post_obj[] = (object) array(

@@ -17,6 +17,9 @@ add_action( 'init', 'saswp_register_saswp_reviews_location',20);
 add_action( 'manage_saswp_reviews_posts_custom_column' , 'saswp_reviews_custom_columns_set', 10, 2 );
 add_filter( 'manage_saswp_reviews_posts_columns', 'saswp_reviews_custom_columns' );
 
+add_action( 'manage_saswp-collections_posts_custom_column' , 'saswp_collection_custom_columns_set', 10, 2 );
+add_filter( 'manage_saswp-collections_posts_columns', 'saswp_collection_custom_columns' );
+
 /**
  * Function to register reviews post type
  * since @version 1.9
@@ -73,6 +76,28 @@ function saswp_register_saswp_reviews() {
                                 
 }
 
+function saswp_collection_custom_columns_set( $column, $post_id ) {
+                
+            switch ( $column ) {       
+                
+                case 'saswp_collection_shortcode' :
+                                        
+                    echo '[saswp-reviews-collection id="'.esc_attr($post_id).'"]';
+                    
+                break;                 
+                              
+            }
+}
+
+function saswp_collection_custom_columns($columns) {    
+    
+    unset($columns['date']);
+    
+    $columns['saswp_collection_shortcode']       = '<a>'.esc_html__( 'Shortcode', 'schema-and-structured-data-for-wp' ).'<a>';
+    
+    return $columns;
+    
+}
 
 function saswp_reviews_custom_columns_set( $column, $post_id ) {
                 
@@ -107,7 +132,19 @@ function saswp_reviews_custom_columns_set( $column, $post_id ) {
                     $term     = get_term( $platform, 'platform' );
                     
                     if(isset($term->slug)){
-                        echo '<span class="saswp-g-plus"><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/'.esc_attr($term->slug).'-img.png'.'" alt="Icon" /></span>';
+                        
+                        if($term->slug == 'self'){
+                            
+                             $service_object     = new saswp_output_service();
+                             $default_logo       = $service_object->saswp_get_publisher(true);                                                         
+                            
+                            echo '<span class="saswp-g-plus"><img src="'.esc_url($default_logo['url']).'" alt="Icon" /></span>';
+                            
+                        }else{
+                            echo '<span class="saswp-g-plus"><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/'.esc_attr($term->slug).'-img.png'.'" alt="Icon" /></span>';
+                        }
+                        
+                        
                     }
                                                                                                                                                                                 
                     break;
@@ -120,7 +157,7 @@ function saswp_reviews_custom_columns_set( $column, $post_id ) {
                 case 'saswp_review_place_id' :
                     
                     $name = get_post_meta( $post_id, $key='saswp_review_location_id', true);
-                    echo esc_attr($name);
+                    echo '<a target="_blank" href="'.esc_url(get_permalink($name)).'">'.esc_attr($name).'</a>';
                                                                                                                                                             
                     break; 
                 case 'saswp_review_shortcode' :
@@ -142,7 +179,7 @@ function saswp_reviews_custom_columns($columns) {
     $columns['saswp_review_rating']        = '<a>'.esc_html__( 'Rating', 'schema-and-structured-data-for-wp' ).'<a>';    
     $columns['saswp_review_platform']      = '<a>'.esc_html__( 'Platform', 'schema-and-structured-data-for-wp' ).'<a>';    
     $columns['saswp_review_date']          = '<a>'.esc_html__( 'Review Date', 'schema-and-structured-data-for-wp' ).'<a>'; 
-    $columns['saswp_review_place_id']      = '<a>'.esc_html__( 'Place ID', 'schema-and-structured-data-for-wp' ).'<a>';    
+    $columns['saswp_review_place_id']      = '<a>'.esc_html__( 'Place ID/Reviewed To', 'schema-and-structured-data-for-wp' ).'<a>';    
     $columns['saswp_review_shortcode']     = '<a>'.esc_html__( 'Shortcode', 'schema-and-structured-data-for-wp' ).'<a>';    
     
     return $columns;
@@ -263,7 +300,8 @@ function saswp_create_platform_custom_taxonomy() {
 
 function saswp_insert_platform_terms(){
     
-    $term_array = array(                    
+    $term_array = array(    
+                    'Self',
                     'Agoda', 
                     'Avvo', 
                     'Angies List',
@@ -427,3 +465,9 @@ function saswp_sort_reviews_by_platform( $query ) {
 }
 
 add_filter( 'parse_query', 'saswp_sort_reviews_by_platform' );
+
+function saswp_reviews_form_shortcode_metabox($post){
+    
+    echo '<p>Use Below shortcode to show reviews form in your website. Using this you can collect reviews from your website directly</p>';
+    echo '<input type="text" value="[saswp-reviews-form]" readonly>';
+}
