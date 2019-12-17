@@ -243,14 +243,21 @@ class SASWP_Reviews_Collection {
                 
                 $collection          = array();  
                 $total_collection    = array();
+                $platform_id         = array();
                 $dots = $f_interval = $f_visibility = $arrow = 1;
-                $g_type = '';
+                $g_type = $design = $cols = $sorting = '';
                 
                 $collection_data = get_post_meta($attr['id'], $key='', true);
                 
-                $design        = $collection_data['saswp_collection_design'][0];
-                $this->_design = $design;
-                $cols          = $collection_data['saswp_collection_cols'][0];
+                if(isset($collection_data['saswp_collection_design'][0])){
+                    $design        = $collection_data['saswp_collection_design'][0];
+                    $this->_design = $design;
+                }
+                                
+                if(isset($collection_data['saswp_collection_cols'][0])){
+                    
+                    $cols          = $collection_data['saswp_collection_cols'][0];
+                }
                 
                 if(isset($collection_data['saswp_gallery_arrow'][0])){
                     
@@ -273,9 +280,14 @@ class SASWP_Reviews_Collection {
                     $f_visibility = $collection_data['saswp_fomo_visibility'][0];
                 }
                                 
-                $sorting      = $collection_data['saswp_collection_sorting'][0];                
-                $platform_id  = unserialize($collection_data['saswp_platform_ids'][0]);                
+                if(isset($collection_data['saswp_collection_sorting'][0])){
+                    $sorting      = $collection_data['saswp_collection_sorting'][0];                
+                }
                 
+                if(isset($collection_data['saswp_platform_ids'][0])){
+                    $platform_id  = unserialize($collection_data['saswp_platform_ids'][0]);                
+                }
+                                
                 if($platform_id){
                     
                     foreach ($platform_id as $key => $val){

@@ -1124,6 +1124,16 @@ return false;
                             
                       break;
                       
+                      case 'saswp-wordlift-checkbox':
+                           saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-wordlift").val(1);                                
+                            }else{
+                              $("#saswp-wordlift").val(0);                                          
+                            }
+                            
+                      break;
+                      
                       case 'saswp-betteramp-checkbox':
                            saswp_compatibliy_notes(current, id); 
                             if ($(this).is(':checked')) {              

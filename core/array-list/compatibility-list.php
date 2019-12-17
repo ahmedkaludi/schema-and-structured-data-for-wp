@@ -4,6 +4,12 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 return array(    
     'plugins' =>    array(        
+        'wordlift'  =>  array(            
+                    'name'       => 'WordLift',
+                    'free'       => 'wordlift/wordlift.php',            
+                    'opt_name'   => 'saswp-wordlift',
+                    'part_in'    => 'free',
+        ),
         'ampforwp'  =>  array(            
                     'name'       => 'AMPforWP',
                     'free'       => 'accelerated-mobile-pages/accelerated-moblie-pages.php',            

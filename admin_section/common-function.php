@@ -2685,6 +2685,7 @@ function saswp_remove_anonymous_object_filter_or_action( $tag, $class, $method, 
 function saswp_get_field_note($pname){
     
     $notes = array(  
+            'wordlift'                 => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wordlift/">WordLift</a>',
             'ampforwp'                 => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/accelerated-mobile-pages/">AMP for WP</a>',
             'ampbyautomatic'           => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/amp/">AMP</a>',
             'betteramp'                => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/kk-star-ratings/">Better AMP</a>',

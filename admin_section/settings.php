@@ -2167,6 +2167,18 @@ function saswp_compatibility_page_callback(){
                                 'name' => 'sd_data[saswp-testimonial-pro]',                             
                         )
 		);
+         $WordLift = array(
+			'label'  => 'WordLift',
+			'id'     => 'saswp-wordlift-checkbox',                        
+                        'name'   => 'saswp-wordlift-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
+                        'note'   => saswp_get_field_note('wordlift'),
+                        'hidden' => array(
+                                'id'   => 'saswp-wordlift',
+                                'name' => 'sd_data[saswp-wordlift]',                             
+                        )
+		);
         
         $flex_lmx = array(
 			'label'  => 'FlexMLS IDX Plugin',
@@ -2272,6 +2284,7 @@ function saswp_compatibility_page_callback(){
                 $easy_testimonials,
                 $bne_testimonials,
                 $testimonial_pro,
+                $WordLift,
                 $flex_lmx
                 
 	);  

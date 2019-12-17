@@ -1581,7 +1581,7 @@ function saswp_archive_output(){
                                     if(isset($sd_data['sd_default_image'])){
                                         
                                         $archive_image['@type']  = 'ImageObject';
-                                        $archive_image['url']    = esc_url($sd_data['sd_default_image']['url']);
+                                        $archive_image['url']    = isset($sd_data['sd_default_image']['url']) ? esc_url($sd_data['sd_default_image']['url']):'';
                                         $archive_image['width']  = esc_attr($sd_data['sd_default_image_width']);
                                         $archive_image['height'] = esc_attr($sd_data['sd_default_image_height']);                                  
                                     }
