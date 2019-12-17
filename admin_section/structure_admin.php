@@ -1274,18 +1274,18 @@ function saswp_send_query_message(){
         if ( !wp_verify_nonce( $_POST['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
            return;  
         }   
-        $customer_type  = 'Free Customer';
+        $customer_type  = 'Are you a premium customer ? No';
         $message        = sanitize_textarea_field($_POST['message']);   
         $premium_cus    = sanitize_textarea_field($_POST['premium_cus']);   
         $user           = wp_get_current_user();
         
         if($premium_cus == 'yes'){
-           $customer_type  = 'Premium Customer'; 
+           $customer_type  = 'Are you a premium customer ? Yes';
         }
         
         $message = '<p>'.$message.'</p><br><br>'
                 . $customer_type
-                . '<br><br>'.'Support query from a Schema User';
+                . '<br><br>'.'Query from plugin support tab';
         
         if($user){
             
