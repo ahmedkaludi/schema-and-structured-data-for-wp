@@ -206,30 +206,35 @@ if ( ! defined('ABSPATH') ) exit;
 
                      );                        
 
-                    foreach($all_schema_post as $schema){    
+                    if($all_schema_post){
+                    
+                        foreach($all_schema_post as $schema){    
 
-                    $export_data[$schema->ID]['post']      = (array)$schema;                    
-                    $post_meta                             = get_post_meta($schema->ID, $key='', true );    
+                        $export_data[$schema->ID]['post']      = (array)$schema;                    
+                        $post_meta                             = get_post_meta($schema->ID, $key='', true );    
 
-                    if($post_meta){
+                        if($post_meta){
 
-                        foreach ($post_meta as $key => $meta){
+                            foreach ($post_meta as $key => $meta){
 
-                            if(@unserialize($meta[0]) !== false){
-                                $post_meta[$key] = @unserialize($meta[0]);
-                            }else{
-                                $post_meta[$key] = $meta[0];
+                                if(@unserialize($meta[0]) !== false){
+                                    $post_meta[$key] = @unserialize($meta[0]);
+                                }else{
+                                    $post_meta[$key] = $meta[0];
+                                }
+
                             }
 
                         }
 
+                        $export_data[$schema->ID]['post_meta'] = $post_meta;  
+
+                        }       
+
+                      $export_data_all['posts'][$type] = $export_data;    
+                        
                     }
-
-                    $export_data[$schema->ID]['post_meta'] = $post_meta;  
-
-                  }       
-
-                    $export_data_all['posts'][$type] = $export_data;    
+                                        
                     
                 }
                 
