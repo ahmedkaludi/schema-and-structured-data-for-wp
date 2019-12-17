@@ -137,14 +137,17 @@ function saswp_reviews_custom_columns_set( $column, $post_id ) {
                             
                              $service_object     = new saswp_output_service();
                              $default_logo       = $service_object->saswp_get_publisher(true);                                                         
+                             
+                             if(isset($default_logo['url'])){
                             
-                            echo '<span class="saswp-g-plus"><img src="'.esc_url($default_logo['url']).'" alt="Icon" /></span>';
+                                 echo '<span class="saswp-g-plus"><img src="'.esc_url($default_logo['url']).'" alt="Icon" /></span>';
+                                 
+                             }
                             
                         }else{
                             echo '<span class="saswp-g-plus"><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/'.esc_attr($term->slug).'-img.png'.'" alt="Icon" /></span>';
                         }
-                        
-                        
+                                                
                     }
                                                                                                                                                                                 
                     break;

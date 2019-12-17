@@ -77,17 +77,19 @@ if ( ! defined('ABSPATH') ) exit;
         
         if($url){
             
-        $json_data       = file_get_contents($url);
+        $json_data       = @file_get_contents($url);
         
         if($json_data){
             
-        $json_array      = json_decode($json_data, true);   
+            $json_array      = json_decode($json_data, true);   
         
-        if(array_key_exists('posts', $json_array)){
-        
-            $all_schema_post = $json_array['posts'];
-            
-        }                        
+            $posts_data      = $json_array['posts'];                   
+                        
+            if($posts_data){  
+                
+            foreach($posts_data as $data){
+                    
+            $all_schema_post = $data;                   
                                 
             $schema_post = array();                     
                
@@ -140,14 +142,20 @@ if ( ! defined('ABSPATH') ) exit;
                 }
                 } 
                 
-            }    
+               }      
+                    
+                    
+                }
+                
+            }
             
+            //Saving settings data starts here
             if(array_key_exists('sd_data', $json_array)){
                         
                 $sd_data = array_map( 'sanitize_text_field' ,$json_array['sd_data']);
                 update_option('sd_data', $sd_data); 
             } 
-                         
+            //Saving settings data ends here             
              update_option('saswp-file-upload_url','');
             
         }
@@ -170,72 +178,68 @@ if ( ! defined('ABSPATH') ) exit;
      */
     function saswp_export_all_settings_and_schema(){   
         
-        if ( ! current_user_can( 'manage_options' ) ) {
-             return;
-        }
-        if ( ! isset( $_GET['_wpnonce'] ) ){
-             return; 
-        }
+                if ( ! current_user_can( 'manage_options' ) ) {
+                     return;
+                }
+                if ( ! isset( $_GET['_wpnonce'] ) ){
+                     return; 
+                }
+
+                if ( !wp_verify_nonce( $_GET['_wpnonce'], '_wpnonce' ) ){
+                     return;  
+                }
         
-        if ( !wp_verify_nonce( $_GET['_wpnonce'], '_wpnonce' ) ){
-             return;  
-        }
-        
-        $export_data     = array();
-        $export_data_all = array();                     
-        
-        $all_schema_post = get_posts(
+                $post_type = array('saswp_reviews', 'saswp', 'saswp-collections');
+                $export_data_all   = array(); 
                 
-                    array(
-                            'post_type' 	 => 'saswp',                                                                                   
-                            'posts_per_page'     => -1,   
-                            'post_status'        => 'any',
-                    )
-                
-                 ); 
-        
-             $get_sd_data                = get_option('sd_data');
-        
-             if($all_schema_post || $get_sd_data){     
-            
-              foreach($all_schema_post as $schema){    
-                                                
-                $export_data[$schema->ID]['post']      = (array)$schema;                    
-                $post_meta                             = get_post_meta($schema->ID, $key='', true );    
-                
-                if($post_meta){
-                   
-                    foreach ($post_meta as $key => $meta){
-                        
-                        if(@unserialize($meta[0]) !== false){
-                            $post_meta[$key] = @unserialize($meta[0]);
-                        }else{
-                            $post_meta[$key] = $meta[0];
+                foreach($post_type as $type){
+                    
+                    $export_data       = array();                
+
+                    $all_schema_post = get_posts(
+
+                        array(
+                                'post_type' 	     => $type,                                                                                   
+                                'posts_per_page'     => -1,   
+                                'post_status'        => 'any',
+                        )
+
+                     );                        
+
+                    foreach($all_schema_post as $schema){    
+
+                    $export_data[$schema->ID]['post']      = (array)$schema;                    
+                    $post_meta                             = get_post_meta($schema->ID, $key='', true );    
+
+                    if($post_meta){
+
+                        foreach ($post_meta as $key => $meta){
+
+                            if(@unserialize($meta[0]) !== false){
+                                $post_meta[$key] = @unserialize($meta[0]);
+                            }else{
+                                $post_meta[$key] = $meta[0];
+                            }
+
                         }
-                        
+
                     }
+
+                    $export_data[$schema->ID]['post_meta'] = $post_meta;  
+
+                  }       
+
+                    $export_data_all['posts'][$type] = $export_data;    
                     
                 }
-                               
-                $export_data[$schema->ID]['post_meta'] = $post_meta;  
                 
-              }       
-                                                  
-                $export_data_all['posts']   = $export_data;
-                $export_data_all['sd_data'] = $get_sd_data;
+                $export_data_all['sd_data']         = get_option('sd_data');
                 
                 header('Content-type: application/json');
                 header('Content-disposition: attachment; filename=structuredatabackup.json');
                 echo json_encode($export_data_all);   
-                
-        }else{
-            
-                header('Content-type: application/json');
-                header('Content-disposition: attachment; filename=structuredatabackup.json');
-                echo json_encode(array('message'=> 'Data is not available'));
-                
-        }                          
-        wp_die();
+                                              
+                wp_die();
     }    
     /**
      * We are here fetching all schema and its settings from schema plugin
