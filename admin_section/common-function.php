@@ -2191,12 +2191,12 @@ if ( ! defined('ABSPATH') ) exit;
         $author_desc        = get_the_author_meta( 'user_description' );     
 
         if(!$author_name && is_object($post)){
-
-            $author_id    = get_post_field ('post_author', $post->ID);
-            $author_name  = get_the_author_meta( 'display_name' , $author_id ); 
-
+            $author_id    = get_post_field ( 'post_author', $post->ID);
+            $author_name  = get_the_author_meta( 'display_name' , $author_id );             
         }
 
+        $author_url   = get_the_author_meta( 'url' , $author_id ); 
+        
         $author_image = array();
         
         if(function_exists('get_avatar_data')){
@@ -2205,7 +2205,8 @@ if ( ! defined('ABSPATH') ) exit;
                 
         $author_details['@type']           = 'Person';
         $author_details['name']            = esc_attr($author_name);
-        $author_details['description']     = esc_attr($author_desc);
+        $author_details['description']     = wp_strip_all_tags(strip_shortcodes($author_desc)); 
+        $author_details['url']             = esc_url($author_url);
 
         if(isset($author_image['url']) && isset($author_image['height']) && isset($author_image['width'])){
 
