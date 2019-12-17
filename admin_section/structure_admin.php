@@ -1274,23 +1274,32 @@ function saswp_send_query_message(){
         if ( !wp_verify_nonce( $_POST['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
            return;  
         }   
+        $customer_type  = 'Free Customer';
+        $message        = sanitize_textarea_field($_POST['message']);   
+        $premium_cus    = sanitize_textarea_field($_POST['premium_cus']);   
+        $user           = wp_get_current_user();
         
-        $message    = sanitize_textarea_field($_POST['message']);       
-        $user       = wp_get_current_user();
+        if($premium_cus == 'yes'){
+           $customer_type  = 'Premium Customer'; 
+        }
         
-        $message = $message.'\n\n\n'.'Support query from a Schema User';
+        $message = '<p>'.$message.'</p><br><br>'
+                . $customer_type
+                . '<br><br>'.'Support query from a Schema User';
         
         if($user){
             
             $user_data  = $user->data;        
             $user_email = $user_data->user_email;       
             //php mailer variables        
-            $sendto  = 'team@magazine3.com';
-            $subject = "Schema Customer Query";
-            $headers = 'From: '. esc_attr($user_email) . "\r\n" .
-            'Reply-To: ' . esc_attr($user_email) . "\r\n";
+            $sendto    = 'team@magazine3.com';
+            $subject   = "Schema Customer Query";
+            
+            $headers[] = 'Content-Type: text/html; charset=UTF-8';
+            $headers[] = 'From: '. esc_attr($user_email);            
+            $headers[] = 'Reply-To: ' . esc_attr($user_email);
             // Load WP components, no themes.                      
-            $sent = wp_mail($sendto, $subject, strip_tags($message), $headers); 
+            $sent = wp_mail($sendto, $subject, $message, $headers); 
 
             if($sent){
 
@@ -1303,9 +1312,8 @@ function saswp_send_query_message(){
             }
             
         }
-        
-                
-           wp_die();           
+                        
+        wp_die();           
 }
 
 add_action('wp_ajax_saswp_send_query_message', 'saswp_send_query_message');

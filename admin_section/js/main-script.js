@@ -1349,13 +1349,15 @@ return false;
 
     $(".saswp-send-query").on("click", function(e){
             e.preventDefault();   
-            var message = $("#saswp_query_message").val();              
-            if($.trim(message) !=''){
+            var message     = $("#saswp_query_message").val();  
+            var premium_cus = $("#saswp_query_premium_cus").val(); 
+            
+            if($.trim(message) !='' && premium_cus){
              $.ajax({
                             type: "POST",    
                             url:ajaxurl,                    
                             dataType: "json",
-                            data:{action:"saswp_send_query_message", message:message, saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
+                            data:{action:"saswp_send_query_message", premium_cus:premium_cus,message:message, saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
                             success:function(response){                       
                               if(response['status'] =='t'){
                                 $(".saswp-query-success").show();
@@ -1370,7 +1372,20 @@ return false;
                             }
                             });   
             }else{
-                alert('Please enter the message');
+                
+                if($.trim(message) =='' && premium_cus ==''){
+                    alert('Please enter the message and select customer type');
+                }else{
+                
+                if(premium_cus ==''){
+                    alert('Select Customer type');
+                }
+                if($.trim(message) == ''){
+                    alert('Please enter the message');
+                }
+                    
+                }
+                
             }                        
 
         });

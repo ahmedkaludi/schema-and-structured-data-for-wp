@@ -2421,7 +2421,15 @@ function saswp_support_page_callback(){
                     <br>
                     <span class="saswp-query-success saswp_hide"><?php echo esc_html__('Message sent successfully, Please wait we will get back to you shortly', 'schema-and-structured-data-for-wp'); ?></span>
                     <span class="saswp-query-error saswp_hide"><?php echo esc_html__('Message not sent. please check your network connection', 'schema-and-structured-data-for-wp'); ?></span>
-                </li> 
+                </li>
+                <li>
+                    <strong><?php echo esc_html__('Are you a premium customer ?', 'schema-and-structured-data-for-wp'); ?></strong>  
+                    <select id="saswp_query_premium_cus" name="saswp_query_premium_cus">                       
+                        <option value=""><?php echo esc_html__('Select', 'schema-and-structured-data-for-wp'); ?></option>
+                        <option value="yes"><?php echo esc_html__('Yes', 'schema-and-structured-data-for-wp'); ?></option>
+                        <option value="no"><?php echo esc_html__('No', 'schema-and-structured-data-for-wp'); ?></option>
+                    </select>                      
+                </li>
                 <li><button class="button saswp-send-query"><?php echo esc_html__('Send Message', 'schema-and-structured-data-for-wp'); ?></button></li>
             </ul>            
                    
