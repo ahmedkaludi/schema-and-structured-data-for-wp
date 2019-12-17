@@ -1124,6 +1124,16 @@ return false;
                             
                       break;
                       
+                      case 'saswp-strong-testimonials-checkbox':
+                           saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-strong-testimonials").val(1);                                
+                            }else{
+                              $("#saswp-strong-testimonials").val(0);                                          
+                            }
+                            
+                      break;
+                      
                       case 'saswp-wordlift-checkbox':
                            saswp_compatibliy_notes(current, id); 
                             if ($(this).is(':checked')) {              

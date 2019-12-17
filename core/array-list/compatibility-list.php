@@ -4,6 +4,12 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 return array(    
     'plugins' =>    array(        
+        'strong_testimonials'  =>  array(            
+                    'name'       => 'Strong Testimonials',
+                    'free'       => 'strong-testimonials/strong-testimonials.php',            
+                    'opt_name'   => 'saswp-strong-testimonials',
+                    'part_in'    => 'free',
+        ),
         'wordlift'  =>  array(            
                     'name'       => 'WordLift',
                     'free'       => 'wordlift/wordlift.php',            

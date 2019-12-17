@@ -2167,6 +2167,18 @@ function saswp_compatibility_page_callback(){
                                 'name' => 'sd_data[saswp-testimonial-pro]',                             
                         )
 		);
+         $strong_testimonials = array(
+			'label'  => 'Strong Testimonials',
+			'id'     => 'saswp-strong-testimonials-checkbox',                        
+                        'name'   => 'saswp-strong-testimonials-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
+                        'note'   => saswp_get_field_note('strong_testimonials'),
+                        'hidden' => array(
+                                'id'   => 'saswp-strong-testimonials',
+                                'name' => 'sd_data[saswp-strong-testimonials]',                             
+                        )
+		);
          $WordLift = array(
 			'label'  => 'WordLift',
 			'id'     => 'saswp-wordlift-checkbox',                        
@@ -2284,6 +2296,7 @@ function saswp_compatibility_page_callback(){
                 $easy_testimonials,
                 $bne_testimonials,
                 $testimonial_pro,
+                $strong_testimonials,
                 $WordLift,
                 $flex_lmx
                 

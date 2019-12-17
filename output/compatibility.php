@@ -151,6 +151,12 @@ class saswp_output_compatibility{
              
     }
 
+    public function saswp_strong_testimonials_override(){
+                        
+       //code to be written
+                        
+    }
+    
     public function saswp_easy_testimonials_override(){
                         
         add_filter('easy_testimonials_json_ld', '__return_false'); 
@@ -402,6 +408,9 @@ class saswp_output_compatibility{
     }
     public function wordlift_on_activation(){
          $this->saswp_update_option_on_compatibility_activation('saswp-wordlift');
+    }
+    public function strong_testimonials_on_activation(){
+         $this->saswp_update_option_on_compatibility_activation('saswp-strong-testimonials');
     }
     public function saswp_update_option_on_compatibility_activation($opt_name){   
         $defaults = get_option('sd_data');   
