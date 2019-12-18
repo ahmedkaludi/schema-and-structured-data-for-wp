@@ -24,6 +24,81 @@ class saswp_reviews_service {
         add_action ('amp_post_template_footer', array($this, 'saswp_fetched_reviews_schema_markup'),99);
     }
     
+    public function saswp_review_form_process_data($form_data){
+        
+                $rv_image = '';
+                $postarr = array();
+                
+                if(is_user_logged_in()){
+                    
+                     $current_user = wp_get_current_user();
+                     $postarr['post_author'] = $current_user->ID;
+                     $rv_image     = get_avatar_url($current_user->ID, array('size' => 300));                     
+                    
+                }
+                
+                $rv_text     = sanitize_textarea_field($form_data['saswp_review_text']);
+                $rv_name     = sanitize_text_field($form_data['saswp_reviewer_name']);
+                $rv_rating   = intval($form_data['saswp_review_rating']);  
+                $rv_place_id = intval($form_data['saswp_place_id']);  
+                $rv_link     = sanitize_text_field($form_data['saswp_review_link']);
+                $rv_date     = date('Y-m-d');
+                $rv_time     = date("h:i:sa");
+                                
+                if($rv_rating){
+                    
+                    $postarr = array(                                                                           
+                    'post_title'            => $rv_name,                    
+                    'post_status'           => 'pending',                                                            
+                    'post_name'             => $rv_name,                                                            
+                    'post_type'             => 'saswp_reviews',
+                                                                             
+                );
+                                        
+                $post_id = wp_insert_post(  $postarr );    
+                    
+                $term     = get_term_by( 'slug','self', 'platform' );   
+                
+                if($rv_image){
+                    
+                    $image_details = saswp_get_attachment_details($rv_image);   
+                    
+                    $media_detail = array(                                                    
+                        'width'      => $image_details[0][0],
+                        'height'     => $image_details[0][1],
+                        'thumbnail'  => $rv_image,
+                    );
+                    
+                }
+                
+                $review_meta = array(
+                        'saswp_review_platform'       => $term->term_id,
+                        'saswp_review_location_id'    => $rv_place_id,
+                        'saswp_review_time'           => $rv_time,
+                        'saswp_review_date'           => $rv_date,
+                        'saswp_review_rating'         => $rv_rating,
+                        'saswp_review_text'           => $rv_text,                                
+                        'saswp_reviewer_lang'         => null,
+                        'saswp_reviewer_name'         => $rv_name,
+                        'saswp_review_link'           => $rv_link,
+                        'saswp_reviewer_image'        => $rv_image ? $rv_image : SASWP_DIR_URI.'/admin_section/images/default_user.jpg',
+                        'saswp_reviewer_image_detail' => $media_detail
+                );
+                                   
+                if($post_id && !empty($review_meta) && is_array($review_meta)){
+                                        
+                    foreach ($review_meta as $key => $val){                     
+                        update_post_meta($post_id, $key, $val);  
+                    }
+            
+                 }
+                    
+                }
+                
+                return $post_id;
+        
+    }
+    
     public function saswp_fetched_reviews_schema_markup(){
         
                   global $sd_data, $saswp_post_reviews;
