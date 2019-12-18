@@ -413,7 +413,11 @@ function saswp_schema_output() {
                             $input1['@id']                   = trailingslashit(get_permalink()).'#Book'; 
                             
                             $service = new saswp_output_service();
-                            $input1  = $service->saswp_schema_markup_generator($schema_type);
+                            $woo_markp = $service->saswp_schema_markup_generator($schema_type);
+                                
+                            if($woo_markp){
+                                $input1 = array_merge($input1, $woo_markp);
+                            }
 
                             unset($input1['brand'], $input1['mpn'], $input1['sku'],$input1['gtin8']);
                             
@@ -762,9 +766,13 @@ function saswp_schema_output() {
                                 'author'			=> saswp_get_author_details()			
                                 );
                         
-                                $service = new saswp_output_service();
-                                $input1 = $service->saswp_schema_markup_generator($schema_type);
-
+                                $service   = new saswp_output_service();
+                                $woo_markp = $service->saswp_schema_markup_generator($schema_type);
+                                
+                                if($woo_markp){
+                                    $input1 = array_merge($input1, $woo_markp);
+                                }
+                                                                
                                 unset($input1['brand'], $input1['mpn'], $input1['sku'],$input1['gtin8']);
                                 
                                 if(!empty($publisher)){                            

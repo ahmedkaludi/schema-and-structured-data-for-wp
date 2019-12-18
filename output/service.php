@@ -2783,7 +2783,7 @@ Class saswp_output_service{
                             $input1 = array(
                             '@context'			        => saswp_context_url(),
                             '@type'				=> $schema_type,
-                            '@id'				=> trailingslashit(saswp_get_permalink()).'#product',     
+                            '@id'				=> trailingslashit(saswp_get_permalink()).'#'.$schema_type,     
                             'url'				=> trailingslashit(saswp_get_permalink()),
                             'name'                              => saswp_remove_warnings($product_details, 'product_name', 'saswp_string'),
                             'sku'                               => saswp_remove_warnings($product_details, 'product_sku', 'saswp_string'),    
@@ -2861,8 +2861,8 @@ Class saswp_output_service{
                         }else{
 
                             $input1['@context']              = saswp_context_url();
-                            $input1['@type']                 = 'Product';
-                            $input1['@id']                   = trailingslashit(saswp_get_permalink()).'#Product';                                                                                                                                                                                                                                                                                        
+                            $input1['@type']                 = $schema_type;
+                            $input1['@id']                   = trailingslashit(saswp_get_permalink()).'#'.$schema_type;                                                                                                                                                                                                                                                                                        
                         } 
                         
                         if(!isset($input1['review'])){
