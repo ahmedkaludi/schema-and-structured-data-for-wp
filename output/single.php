@@ -166,7 +166,7 @@ function saswp_post_specific_schema_output() {
                          
                          if( 'Book' === $schema_type){
                              
-                                $input1 = saswp_book_schema_markup($schema_id, $all_post_meta);
+                                $input1 = saswp_book_schema_markup($schema_id, $schema_post_id, $all_post_meta);
                             
                                 $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
                             
