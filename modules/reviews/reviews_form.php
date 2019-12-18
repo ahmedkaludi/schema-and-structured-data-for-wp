@@ -41,13 +41,17 @@ class SASWP_Reviews_Form {
         }
         
         public function saswp_review_form_blacklist_sanitizer($data){
+                        
+                if(function_exists('ampforwp_is_amp_endpoint')){
+                    
+                    require_once SASWP_PLUGIN_DIR_PATH .'core/3rd-party/class-amp-review-form-blacklist.php';
             
-                require_once SASWP_PLUGIN_DIR_PATH .'core/3rd-party/class-amp-review-form-blacklist.php';
-            
-                unset($data['AMPFORWP_Blacklist_Sanitizer']);
-                unset($data['AMP_Blacklist_Sanitizer']);
-		$data[ 'AMP_Review_Form_Blacklist' ] = array();
-                
+                    unset($data['AMPFORWP_Blacklist_Sanitizer']);
+                    unset($data['AMP_Blacklist_Sanitizer']);
+                    $data[ 'AMP_Review_Form_Blacklist' ] = array();
+                    
+                }
+                                
                 return $data;
             
         }
