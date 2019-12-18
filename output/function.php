@@ -1314,6 +1314,12 @@ function saswp_get_bne_testimonials_data($atts, $testimo_str){
     
 }
 
+function saswp_get_strong_testimonials(){
+    
+    //tomorrow will do it
+    
+}
+
 function saswp_get_testomonial_pro(){
     
     $testimonial = array();

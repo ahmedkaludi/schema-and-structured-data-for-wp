@@ -103,6 +103,24 @@ class saswp_output_compatibility{
                                    
     }
     
+    public function saswp_wordlift_override(){
+        
+         saswp_remove_anonymous_object_filter_or_action(
+            'wp_head',
+            'Wordlift_Term_JsonLd_Adapter',
+            'wp_head',
+            'action'    
+        );
+         
+         saswp_remove_anonymous_object_filter_or_action(
+            'wp_head',
+            'Wordlift_Jsonld_Service',
+            'wp_head',
+            'action'    
+        );
+                
+    }
+    
     public function saswp_soledad_override(){
             
          saswp_remove_anonymous_object_filter_or_action(
@@ -133,6 +151,12 @@ class saswp_output_compatibility{
              
     }
 
+    public function saswp_strong_testimonials_override(){
+                        
+       //code to be written
+                        
+    }
+    
     public function saswp_easy_testimonials_override(){
                         
         add_filter('easy_testimonials_json_ld', '__return_false'); 
@@ -381,6 +405,12 @@ class saswp_output_compatibility{
     }
     public function wpamp_on_activation(){
          $this->saswp_update_option_on_compatibility_activation('saswp-wpamp');
+    }
+    public function wordlift_on_activation(){
+         $this->saswp_update_option_on_compatibility_activation('saswp-wordlift');
+    }
+    public function strong_testimonials_on_activation(){
+         $this->saswp_update_option_on_compatibility_activation('saswp-strong-testimonials');
     }
     public function saswp_update_option_on_compatibility_activation($opt_name){   
         $defaults = get_option('sd_data');   

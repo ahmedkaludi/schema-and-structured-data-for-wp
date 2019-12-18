@@ -703,9 +703,9 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                     ),
                     array(
                             'label' => 'Organization Logo',
-                            'id' => 'saswp_article_organization_logo_'.$schema_id,
-                            'type' => 'media',
-                            'default' => isset($sd_data['sd_logo']) ? $sd_data['sd_logo']['url']:''
+                            'id'    => 'saswp_article_organization_logo_'.$schema_id,
+                            'type'  => 'media',
+                            'default' => isset($sd_data['sd_logo']['url']) ? $sd_data['sd_logo']['url']:''
                     ),
                     array(
                         'label' => 'Speakable',

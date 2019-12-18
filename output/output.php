@@ -413,7 +413,11 @@ function saswp_schema_output() {
                             $input1['@id']                   = trailingslashit(get_permalink()).'#Book'; 
                             
                             $service = new saswp_output_service();
-                            $input1  = $service->saswp_schema_markup_generator($schema_type);
+                            $woo_markp = $service->saswp_schema_markup_generator($schema_type);
+                                
+                            if($woo_markp){
+                                $input1 = array_merge($input1, $woo_markp);
+                            }
 
                             unset($input1['brand'], $input1['mpn'], $input1['sku'],$input1['gtin8']);
                             
@@ -762,9 +766,13 @@ function saswp_schema_output() {
                                 'author'			=> saswp_get_author_details()			
                                 );
                         
-                                $service = new saswp_output_service();
-                                $input1 = $service->saswp_schema_markup_generator($schema_type);
-
+                                $service   = new saswp_output_service();
+                                $woo_markp = $service->saswp_schema_markup_generator($schema_type);
+                                
+                                if($woo_markp){
+                                    $input1 = array_merge($input1, $woo_markp);
+                                }
+                                                                
                                 unset($input1['brand'], $input1['mpn'], $input1['sku'],$input1['gtin8']);
                                 
                                 if(!empty($publisher)){                            
@@ -1345,6 +1353,23 @@ function saswp_schema_output() {
                                           }
                                           
                                     }
+                                    
+                                    
+                                    // Testomonial Pro
+                                    $strong_testimonials = saswp_get_strong_testimonials();   
+                                    
+                                    if($strong_testimonials){
+                                        
+                                          $input1 = array_merge($input1,$strong_testimonials['rating']);
+                                          
+                                          if(isset($input1['review'])){
+                                              $input1 = array_merge($input1['review'],$strong_testimonials['reviews']);
+                                          }else{
+                                              $input1['review'] = $strong_testimonials['reviews'];
+                                          }
+                                          
+                                    }
+                                                                        
                         
                         }                                                
                                 
@@ -1493,6 +1518,8 @@ function saswp_woocommerce_category_schema(){
                 $service       = new saswp_output_service();                
 		$category_loop = new WP_Query( $query_string );
                 
+                $current_url = saswp_get_current_url();
+                
                 $i = 1;
                 
 		if ( $category_loop->have_posts() ):
@@ -1501,8 +1528,14 @@ function saswp_woocommerce_category_schema(){
                         $category_posts = array();
                         $category_posts['@type']       = 'ListItem';
                         $category_posts['position']    = $i;
-			$category_posts['item']        = $service->saswp_schema_markup_generator('Product');	
-                        $category_posts['item']['url'] =  rtrim( get_category_link($term->term_id), '/'). "#product_".$i;    
+			$category_posts['item']        = $service->saswp_schema_markup_generator('Product');
+                        
+                        if(saswp_has_slash($current_url)){
+                            $category_posts['item']['url'] =  trailingslashit(saswp_get_category_link($term->term_id)). "#product_".$i;    
+                        }else{
+                            $category_posts['item']['url'] =  saswp_remove_slash(saswp_get_category_link($term->term_id)). "#product_".$i;    
+                        }
+                                                
                         unset($category_posts['item']['@id']);
                         unset($category_posts['item']['@context']);
                         $list_item[] = $category_posts;
@@ -1581,7 +1614,7 @@ function saswp_archive_output(){
                                     if(isset($sd_data['sd_default_image'])){
                                         
                                         $archive_image['@type']  = 'ImageObject';
-                                        $archive_image['url']    = esc_url($sd_data['sd_default_image']['url']);
+                                        $archive_image['url']    = isset($sd_data['sd_default_image']['url']) ? esc_url($sd_data['sd_default_image']['url']):'';
                                         $archive_image['width']  = esc_attr($sd_data['sd_default_image_width']);
                                         $archive_image['height'] = esc_attr($sd_data['sd_default_image_height']);                                  
                                     }

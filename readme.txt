@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.3
-Stable tag: 1.9.18
+Stable tag: 1.9.19
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -117,6 +117,16 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.9.19 (18 Dec 2019) =
+
+* Fixed: Author URL is missing #665
+* Fixed: SoftwareApplication is being changed to Product schema type #669
+* Fixed: AMP By Automatic compatibility issue (Image is not visible on post/page when SASWP is activated) #671
+* Fixed: All values provided for url must point to the same page. #653
+* Added: Ask if they are a customer in Email sending via Option panel #647
+* Added: Compatibility with WordLift plugin. #625
+* Enhancement: Updated Export/Import feature #595
 
 = 1.9.18 (14 Dec 2019) =
 

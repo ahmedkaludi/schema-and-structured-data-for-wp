@@ -298,7 +298,7 @@ class saswp_fields_generator {
                                                                 <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/citysearch-img.png">
                                                                     <span>Citysearch</span>
                                                                 </li>
-                                                                <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/consumeraffairs-img.png">
+                                                                <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/consumer-affairs-img.png">
                                                                     <span>Consumer Affairs</span>
                                                                 </li>
                                                                 <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/creditkarma-img.png">
@@ -322,7 +322,7 @@ class saswp_fields_generator {
                                                                 <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/expedia-img.png">
                                                                     <span>Expedia</span>
                                                                 </li>
-                                                                <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/facebook-1-img.png">
+                                                                <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/facebook-img.png">
                                                                     <span>Facebook</span>
                                                                 </li>
                                                                 <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/flipkart-img.png">

@@ -14,11 +14,11 @@ if ( ! defined('ABSPATH') ) exit;
     /**
      * List of hooks used in this context
      */
-    add_action('admin_init', 'saswp_import_all_settings_and_schema',9);
+    add_action( 'admin_init', 'saswp_import_all_settings_and_schema',9);
     add_action( 'wp_ajax_saswp_export_all_settings_and_schema', 'saswp_export_all_settings_and_schema');  
-    add_action('plugins_loaded', 'saswp_defaultSettings' );
+    add_action( 'plugins_loaded', 'saswp_defaultSettings' );
     add_action( 'wp_enqueue_scripts', 'saswp_frontend_enqueue' );
-    add_action('amp_post_template_css','saswp_enqueue_amp_script');
+    add_action( 'amp_post_template_css','saswp_enqueue_amp_script');
     
     
     //global variable to store List of labels starts here   
@@ -69,7 +69,7 @@ if ( ! defined('ABSPATH') ) exit;
         
         global $wpdb;
         
-        $result          = '';
+        $result          = null;
         $errorDesc       = array();
         $all_schema_post = array();
         
@@ -77,80 +77,107 @@ if ( ! defined('ABSPATH') ) exit;
         
         if($url){
             
-        $json_data       = file_get_contents($url);
+        $json_data       = @file_get_contents($url);
         
         if($json_data){
             
-        $json_array      = json_decode($json_data, true);        
-        if(array_key_exists('posts', $json_array)){
+            $json_array      = json_decode($json_data, true);   
         
-            $all_schema_post = $json_array['posts'];
-            
-        }                        
+            $posts_data      = $json_array['posts'];                   
+                        
+            if($posts_data){  
+                
+            foreach($posts_data as $data){
+                    
+            $all_schema_post = $data;                   
                                 
-        $schema_post = array();                     
+            $schema_post = array();                     
                
             if($all_schema_post && is_array($all_schema_post)){
             // begin transaction
             $wpdb->query('START TRANSACTION');
             
             foreach($all_schema_post as $schema_post){  
+                              
+                $post_meta =     $schema_post['post_meta'];   
                 
-                $post_id = wp_insert_post($schema_post['post']);
-                $result  = $post_id;
-                $guid    = get_option('siteurl') .'/?post_type=saswp&p='.$post_id;                
-                $wpdb->query("UPDATE ".$wpdb->prefix."posts SET guid ='".esc_sql($guid)."' WHERE ID ='".esc_sql($post_id)."'");   
-                                
-                if ( isset( $schema_post['schema_type'] ) ){
-                        update_post_meta( $post_id, 'schema_type', sanitize_text_field($schema_post['schema_type'])  );
-                }
-                                
-                if ( isset( $schema_post['saswp_business_type'] ) ){
-                        update_post_meta( $post_id, 'saswp_business_type', sanitize_text_field($schema_post['saswp_business_type'])  );
-                }
-                
-                if ( isset( $schema_post['saswp_business_name'] ) ){
-                        update_post_meta( $post_id, 'saswp_business_name', sanitize_text_field($schema_post['saswp_business_name'])  );
-                }
-                
-                if ( isset( $schema_post['saswp_local_business_details'] ) ){
+                if(saswp_post_exists($schema_post['post']['ID'])){
                     
-                        $local_data = $schema_post['saswp_local_business_details'];
+                    $post_id    =     wp_update_post($schema_post['post']);  
+                     
+                }else{
+                    
+                    unset($schema_post['post']['ID']);
+                    
+                    $post_id    =     wp_insert_post($schema_post['post']); 
+                    
+                    if($post_meta){
                         
-                        if($local_data){
-                            
-                            foreach($local_data as $key => $local){
-                                                        
-                            if($key == 'local_business_logo'){
-                                
-                                $local_data[$key] = array_map('sanitize_text_field', $local);
-                            }else{
-                                $local_data[$key] = sanitize_text_field($local);
-                            }
-                                                        
-                            }
-                        }
-                                                                        
-                        update_post_meta( $post_id, 'saswp_local_business_details', $local_data  );
+                        foreach($post_meta as $key => $val){
+
+                          $explod_key = explode("_",$key);
+
+                          $exp_count  = count($explod_key);
+
+                          $explod_key[($exp_count-1)] = $post_id;
+
+                          $explod_key = implode("_", $explod_key);
+
+                          $post_meta[$explod_key] = $val;
+
+                      }  
+                        
+                    }
+                                        
                 }
-                
-                if ( isset( $schema_post['data_group_array'] ) ){
-                        $data_array = saswp_sanitize_multi_array($schema_post['data_group_array'], 'data_array'); 
-                        update_post_meta( $post_id, 'data_group_array', $data_array  );
-                }                                                                                                     
-                if(is_wp_error($result)){
+                                                                                          
+                foreach($post_meta as $key => $meta){
+                    
+                    $meta = wp_unslash($meta);
+                    
+                    if(is_array($meta)){    
+                        
+                        $meta = wp_unslash($meta);
+                        update_post_meta($post_id, $key, $meta);
+                        
+                    }else{
+                        update_post_meta($post_id, $key, sanitize_text_field($meta));
+                    }
+                                                            
+                }
+                                                                                                                    
+                if(is_wp_error($post_id)){
                     $errorDesc[] = $result->get_error_message();
                 }
                 } 
                 
-            }    
-            
+                }      
+                                        
+               }
+                
+            }            
+            //Saving settings data starts here
             if(array_key_exists('sd_data', $json_array)){
+                
+                $saswp_sd_data = $json_array['sd_data'];
+                
+                foreach($saswp_sd_data as $key => $val){
+                    
+                    if(is_array($val)){
                         
-                $sd_data = array_map( 'sanitize_text_field' ,$json_array['sd_data']);
-                update_option('sd_data', $sd_data); 
+                        $saswp_sd_data[$key] = $meta = array_map( 'sanitize_text_field' ,$val);   
+                        
+                    }else{
+                        
+                        $saswp_sd_data[$key] = sanitize_text_field($val);
+                        
+                    }
+                    
+                }
+                
+                update_option('sd_data', $saswp_sd_data); 
             } 
-                         
+            //Saving settings data ends here             
              update_option('saswp-file-upload_url','');
             
         }
@@ -173,100 +200,73 @@ if ( ! defined('ABSPATH') ) exit;
      */
     function saswp_export_all_settings_and_schema(){   
         
-        if ( ! current_user_can( 'manage_options' ) ) {
-             return;
-        }
-        if ( ! isset( $_GET['_wpnonce'] ) ){
-             return; 
-        }
+                if ( ! current_user_can( 'manage_options' ) ) {
+                     return;
+                }
+                if ( ! isset( $_GET['_wpnonce'] ) ){
+                     return; 
+                }
+
+                if ( !wp_verify_nonce( $_GET['_wpnonce'], '_wpnonce' ) ){
+                     return;  
+                }
         
-        if ( !wp_verify_nonce( $_GET['_wpnonce'], '_wpnonce' ) ){
-             return;  
-        }
-        
-        $export_data     = array();
-        $export_data_all = array();
-        $schema_post     = array();       
-        $user_id         = get_current_user_id();
-        
-        $all_schema_post = get_posts(
+                $post_type = array('saswp_reviews', 'saswp', 'saswp-collections');
+                $export_data_all   = array(); 
                 
-                    array(
-                            'post_type' 	 => 'saswp',                                                                                   
-                            'posts_per_page'     => -1,   
-                            'post_status'        => 'any',
-                    )
-                
-                 ); 
-        
-        $get_sd_data                = get_option('sd_data');
-        
-        if($all_schema_post || $get_sd_data){     
-            
-            foreach($all_schema_post as $schema){    
-                
-                $schema_post = array( 
+                foreach($post_type as $type){
                     
-                    'post_author'           => $user_id,
-                    'post_date'             => $schema->post_date,
-                    'post_date_gmt'         => $schema->post_date_gmt,
-                    'post_content'          => $schema->post_content,
-                    'post_title'            => $schema->post_title,
-                    'post_excerpt'          => $schema->post_excerpt,
-                    'post_status'           => $schema->post_status,
-                    'comment_status'        => $schema->comment_status,
-                    'ping_status'           => $schema->ping_status,
-                    'post_password'         => $schema->post_password,
-                    'post_name'             => $schema->post_name,
-                    'to_ping'               => $schema->to_ping,
-                    'pinged'                => $schema->pinged,
-                    'post_modified'         => $schema->post_modified,
-                    'post_modified_gmt'     => $schema->post_modified_gmt,
-                    'post_content_filtered' => $schema->post_content_filtered,
-                    'post_parent'           => $schema->post_parent,                                        
-                    'menu_order'            => $schema->menu_order,
-                    'post_type'             => 'saswp',
-                    'post_mime_type'        => $schema->post_mime_type,
-                    'comment_count'         => $schema->comment_count,
-                    'filter'                => $schema->filter, 
+                    $export_data       = array();                
+
+                    $all_schema_post = get_posts(
+
+                        array(
+                                'post_type' 	     => $type,                                                                                   
+                                'posts_per_page'     => -1,   
+                                'post_status'        => 'any',
+                        )
+
+                     );                        
+
+                    if($all_schema_post){
                     
-                ); 
+                        foreach($all_schema_post as $schema){    
+
+                        $export_data[$schema->ID]['post']      = (array)$schema;                    
+                        $post_meta                             = get_post_meta($schema->ID, $key='', true );    
+
+                        if($post_meta){
+
+                            foreach ($post_meta as $key => $meta){
+
+                                if(@unserialize($meta[0]) !== false){
+                                    $post_meta[$key] = @unserialize($meta[0]);
+                                }else{
+                                    $post_meta[$key] = $meta[0];
+                                }
+
+                            }
+
+                        }
+
+                        $export_data[$schema->ID]['post_meta'] = $post_meta;  
+
+                        }       
+
+                      $export_data_all['posts'][$type] = $export_data;    
+                        
+                    }
+                                        
+                    
+                }
                 
-                $export_data[$schema->ID]['post'] = $schema_post;    
-                
-                $post_meta                 = get_post_meta($schema->ID, $key='', true );
-                
-                $schema_type               =  saswp_remove_warnings($post_meta, 'schema_type', 'saswp_array');
-                $local_business_type       =  saswp_remove_warnings($post_meta, 'saswp_business_type', 'saswp_array');
-                $local_business_sub_type   =  saswp_remove_warnings($post_meta, 'saswp_business_name', 'saswp_array');
-                
-                
-                $data_group_array          = get_post_meta($schema->ID, $key='data_group_array', true );
-                $local_business_details    = get_post_meta($schema->ID, $key='saswp_local_business_details', true );
-                
-                
-                $export_data[$schema->ID]['schema_type']                  = $schema_type; 
-                $export_data[$schema->ID]['saswp_business_type']          = $local_business_type; 
-                $export_data[$schema->ID]['saswp_business_name']          = $local_business_sub_type; 
-                $export_data[$schema->ID]['data_group_array']             = $data_group_array; 
-                $export_data[$schema->ID]['saswp_local_business_details'] = $local_business_details;                 
-              }       
-                                                  
-                $export_data_all['posts']   = $export_data;
-                $export_data_all['sd_data'] = $get_sd_data;
+                $export_data_all['sd_data']         = get_option('sd_data');
                 
                 header('Content-type: application/json');
                 header('Content-disposition: attachment; filename=structuredatabackup.json');
                 echo json_encode($export_data_all);   
-                
-        }else{
-            
-                header('Content-type: application/json');
-                header('Content-disposition: attachment; filename=structuredatabackup.json');
-                echo json_encode(array('message'=> 'Data is not available'));
-                
-        }                          
-        wp_die();
+                                              
+                wp_die();
     }    
     /**
      * We are here fetching all schema and its settings from schema plugin
@@ -1783,337 +1783,61 @@ if ( ! defined('ABSPATH') ) exit;
      */  
     function saswp_enqueue_amp_script(){
      
-        global $sd_data;         
+         global $sd_data;  
+        
          $saswp_review_details = esc_sql ( get_post_meta(get_the_ID(), 'saswp_review_details', true)); 
         
-         $saswp_review_item_enable = 0;
+         $saswp_rv_item_enable = 0;
         
          if(isset($saswp_review_details['saswp-review-item-enable'])){
             
-          $saswp_review_item_enable =  $saswp_review_details['saswp-review-item-enable'];  
+          $saswp_rv_item_enable =  $saswp_review_details['saswp-review-item-enable'];  
          
          }         
         
-         if($sd_data['saswp-review-module']== 1 && $saswp_review_item_enable == 1){                                  
-     ?>
-        .saswp-pc-wrap{
-            background-color: #004f74;
-            padding: 15px;
-            color: #fff;
-            display: flex;
-            width:auto;
-            flex-wrap: wrap;
-            margin-bottom: 20px;
-        }
-        .saswp-pc-wrap .saswp-lst span{
-            font-size: 18px;
-            font-weight: 500;
-            margin-bottom: 10px;
-            display: inline-block;
-            line-height: 1.3;
-        }
-        .saswp-pc-wrap .saswp-lst{
-            flex:1 0 42%;
-        }
-        .saswp-pc-wrap .saswp-lst ul{
-            margin:0;
-        }
-        .saswp-pc-wrap .saswp-lst p{
-            list-style-type: none;
-            font-size: 15px;
-            font-weight: lighter;
-            line-height: 1.2;
-            margin-bottom: 10px;
-            position: relative;
-            padding-left: 20px;
-            color:#eee;
-        }
-        .saswp-pc-wrap .saswp-lst p:before{
-            content: '';
-            position: absolute;
-            width: 8px;
-            height: 8px;
-            background-color: #ccc;
-            left: 0px;
-            top: 6px;
-            border-radius: 10px;
-        }
-        .sgl .saswp-rvw {
-            width: 100%;
-            margin-bottom: 34px;
-            font-size: 13px;
-            border-bottom: 1px solid #ededed;
-        }
-        .saswp-rvw-hd span {
-            background-color: #222;
-            color: #fff;
-            display: inline-block;
-            font-size: 15px;
-            line-height: 1.4;
-            padding: 8px 12px 6px;
-            margin: 26px 0px;
-        }
-        .saswp-rvw tbody{
-            width:100%;
-            display:inline-block;
-        }
-        .saswp-rvw td {
-            padding: 7px 14px;
-        }
-        .sgl table td, .saswp-rvw td {
-            border: 1px solid #ededed;
-        }
-        .saswp-rvw-sm span{
-            background-color: #222;
-            color: #fff;
-            display: inline-block;
-            padding: 8px 12px 6px;
-            margin-bottom: 13px;
-            position: relative;
-            font-size: 15px;
-            line-height: 1.2;
-        }
-        .saswp-rvw-fs {
-            line-height: 1.5;
-            font-size: 48px;
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-        .saswp-rvw-ov .ovs {
-            font-size: 11px;
-            font-weight:600;
-        }
-        .sgl .saswp-rvw tr td{
-            background:#fff;
-            width:100%;
-        }
-        .sgl .saswp-rvw tr:hover td {
-            background-color: #fcfcfc;
-        }
-        .saswp-rvw .saswp-rvw-sm {
-            padding: 21px 14px;
-        }
-        .str-ic{
-            font-size: 18px;
-            line-height: 1.2;
-        }
-        .saswp-rvw-str{
-            display: inline-flex;
-            width: 100%;
-        }
-        .saswp-rvw-ov{
-            text-align:center;
-        }
+         if($sd_data['saswp-review-module']== 1 && $saswp_rv_item_enable == 1){  
+             
+              $rating_module_css  =  SASWP_PLUGIN_DIR_PATH . 'admin_section/css/amp/rating-module.css';  
+              echo @file_get_contents($rating_module_css);
+              
+        ?>
+        
         .saswp-rvw-str .half-str{
-            display:inline-block;
-            width: 20px;
-            height: 16px;
-            background-repeat: no-repeat;
+           
             background-image: url(<?php echo esc_url(SASWP_DIR_URI.'/admin_section/images/half_star.png'); ?>);
         }
         .saswp-rvw-str .str-ic{
-            display:inline-block;
-            width: 20px;
-            height: 16px;
-            background-repeat: no-repeat;
+           
             background-image: url(<?php echo esc_url(SASWP_DIR_URI.'/admin_section/images/full_star.png'); ?>);
         }
         .saswp-rvw-str .df-clr{
-            display:inline-block;
-            width: 20px;
-            height: 16px;
-            background-repeat: no-repeat;
+           
             background-image: url(<?php echo esc_url(SASWP_DIR_URI.'/admin_section/images/blank_star.png'); ?>);
         }
-        @media(max-width:500px){
-            .saswp-pc-wrap{
-                display:block;
-            }
-            .saswp-pc-wrap .saswp-lst{
-                margin-bottom:20px;
-            }
-        }
-        
-    <?php
+               
+        <?php
      }
                        
         if((has_shortcode( @get_the_content(), 'saswp-reviews')) || is_active_widget( false, false, 'saswp_google_review_widget',true ) || (isset($sd_data['saswp-review-module']) && $sd_data['saswp-review-module'] == 1) ){            
             ?>
         
-        /*** Review Design CSS ****/
-            .saswp-g-review-header{
-                margin-top: 50px;
-            }
-            .saswp-g-review-body{
-                display:inline-grid;
-                grid-template-columns: 1fr 300px;
-                grid-gap:30px;
-                margin-top:30px;
-                width:100%;
-            }
-            .saswp-review-list{}
-            .saswp-channel-list{
-                margin-right: 15px;
-            }
-            .saswp-input-fields{
-                display: inline-flex;
-                align-items: center;
-                margin-bottom: 8px;
-                width: 100%;
-            }
-            .saswp-input-fields label{
-                width: 130px;
-            }
-            .saswp-panel h3{
-                font-size: 20px;
-                line-height: 1.4;
-                color: #222;
-                text-align: center;
-                margin: 10px 0px 20px 0px;
-            }
-            .saswp-input-fields a.button-primary{
-                margin-top:10px;
-            }
-            .saswp-glg-review-body{
-                display: grid;
-                grid-template-columns: 100px 1fr;
-                grid-gap: 20px;
-                background: #fff;
-                padding: 20px;
-                box-shadow: 0px 0px 20px 1px #d2cccc;
-                margin-bottom: 30px;
-            }
-            .saswp-g-plus{
-                float: right;
-                font-size: 15px;
-                width: 20px;
-                height: 20px;
-                position: absolute;
-                right: 0;
-                top:4px;
-            }
-            .saswp-g-plus amp-img{
-                width:100%;
-            }
-            .saswp-rtng{
-                padding-left: 5px;
-                font-size: 14px;
-            }
-            .saswp-pt-dt {
-                font-size: 12px;
-                color: #999;
-                font-weight: 600;
-                margin-top: 5px;
-                display: inline-block;
-            }
-            .saswp-athr{
-                font-size: 15px;
-                line-height: 1.4;
-                color: #000;
-                font-weight: bold;
-                display: inline-block;
-                vertical-align: middle;
-            }
-            .saswp-str-rtng .saswp-rvw-str{
-                display: inline-block;
-                vertical-align: middle;
-                padding-left: 10px;
-                width: auto;
-            }
-            .amp-sidebar .saswp-str-rtng .saswp-rvw-str{padding:5px 0px 0px 0px;}
-            .saswp-rv-cnt p{
-                font-size: 16px;
-                line-height: 1.6;
-                color: #000;
-                margin: 10px 0px 0px 0px;
-            }
-            .amp-sidebar .saswp-rv-img amp-img{max-width:50px;}
-            .amp-sidebar .saswp-glg-review-body {
-                display: inline-block;
-                width:100%;
-            }
-            .amp-sidebar .saswp-rv-img{
-                width:60px;
-                float:left;
-            }
-            .amp-sidebar .saswp-rtng{display:block;}
-            
-            .saswp-rvw-str .half-str{
-                display:inline-block;
-                width: 20px;
-                height: 16px;
-                background-repeat: no-repeat;
+            .saswp-rvw-str .half-str{                
                 background-image: url(<?php echo esc_url(SASWP_DIR_URI.'/admin_section/images/half_star.png'); ?>);
             }
-            .saswp-rvw-str .str-ic{
-                display:inline-block;
-                width: 20px;
-                height: 16px;
-                background-repeat: no-repeat;
+            .saswp-rvw-str .str-ic{               
                 background-image: url(<?php echo esc_url(SASWP_DIR_URI.'/admin_section/images/full_star.png'); ?>);
             }
-            .saswp-rvw-str .df-clr{
-                display:inline-block;
-                width: 20px;
-                height: 16px;
-                background-repeat: no-repeat;
+            .saswp-rvw-str .df-clr{                
                 background-image: url(<?php echo esc_url(SASWP_DIR_URI.'/admin_section/images/blank_star.png'); ?>);
             }
-            
-            @media(max-width:767px){
-                .saswp-glg-review-body {        
-                    grid-template-columns: 50px 1fr;
-                }
-                .saswp-rv-img img{
-                    max-width:50px;
-                }
-            }
-            .widget .saswp-glg-review-body{
-                display: inline-block;
-                width: 100%;
-            }
-            .widget .saswp-rv-img{
-                margin-bottom:12px;
-            }
-            .widget .saswp-rv-img img {
-                max-width: 50px;
-            }   
-            
-            .saswp-rv-txt{
-            position: static;
-            height: 80px;
-            overflow-y: auto;
-            font-size: 14px;
-            line-height:1.6;
-            text-align: left;
-            padding: 0 2px 0 0;
-            margin: 10px 0 0;
-            }
-            .saswp-rv-txt p{
-              margin:0;  
-            }
-            .saswp-rv-cnt::-webkit-scrollbar {
-              width: 4px ;
-              display:inline-block;
-            }
-            .saswp-rv-cnt::-webkit-scrollbar-thumb {
-              -webkit-border-radius: 10px ;
-              border-radius: 10px ;
-              background: #ccc ;
-              -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5) ;
-            }
-            .saswp-rv-cnt::-webkit-scrollbar-track {
-              -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-              -webkit-border-radius: 4px;
-            }
-            .saswp-r5-rng{
-                position: relative;
-            }
-                        
+                                
         <?php
+        
+              $rating_module_front_css  =  SASWP_PLUGIN_DIR_PATH . 'admin_section/css/amp/rating-module-front.css';  
+              echo @file_get_contents($rating_module_front_css);
+        
         }
-     
-     
+          
   }
     /**
      * Function to get author name
@@ -2498,12 +2222,12 @@ if ( ! defined('ABSPATH') ) exit;
         $author_desc        = get_the_author_meta( 'user_description' );     
 
         if(!$author_name && is_object($post)){
-
-            $author_id    = get_post_field ('post_author', $post->ID);
-            $author_name  = get_the_author_meta( 'display_name' , $author_id ); 
-
+            $author_id    = get_post_field ( 'post_author', $post->ID);
+            $author_name  = get_the_author_meta( 'display_name' , $author_id );             
         }
 
+        $author_url   = get_the_author_meta( 'url' , $author_id ); 
+        
         $author_image = array();
         
         if(function_exists('get_avatar_data')){
@@ -2512,7 +2236,8 @@ if ( ! defined('ABSPATH') ) exit;
                 
         $author_details['@type']           = 'Person';
         $author_details['name']            = esc_attr($author_name);
-        $author_details['description']     = esc_attr($author_desc);
+        $author_details['description']     = wp_strip_all_tags(strip_shortcodes($author_desc)); 
+        $author_details['url']             = esc_url($author_url);
 
         if(isset($author_image['url']) && isset($author_image['height']) && isset($author_image['width'])){
 
@@ -2978,3 +2703,115 @@ function saswp_remove_anonymous_object_filter_or_action( $tag, $class, $method, 
             }
         }
     }
+    
+function saswp_get_field_note($pname){
+    
+    $notes = array(  
+            'strong_testimonials'      => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/strong-testimonials">Strong Testimonials</a>',
+            'wordlift'                 => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wordlift/">WordLift</a>',
+            'ampforwp'                 => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/accelerated-mobile-pages/">AMP for WP</a>',
+            'ampbyautomatic'           => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/amp/">AMP</a>',
+            'betteramp'                => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/kk-star-ratings/">Better AMP</a>',
+            'wpamp'                    => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://codecanyon.net/item/wp-amp-accelerated-mobile-pages-for-wordpress-and-woocommerce/16278608">WP AMP</a>',
+            'kk_star_ratings'          => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/kk-star-ratings/">kk Star Rating</a>',
+            'wp_post_ratings'          => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wp-postratings/">WP-PostRatings</a>',
+            'bb_press'                 => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/bbpress/">bbPress</a>',
+            'woocommerce'              => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/woocommerce/">Woocommerce</a>',
+            'cooked'                   => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/cooked/">Cooked</a>',
+            'the_events_calendar'      => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/the-events-calendar/">The Events Calendar</a>',
+            'yoast_seo'                => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wordpress-seo/">Yoast SEO</a>',
+            'rank_math'                => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/seo-by-rank-math/">WordPress SEO Plugin – Rank Math</a>',            
+            'dw_qna'                   => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/dw-question-answer/">DW Question Answer</a>',
+            'smart_crawl'              => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/smartcrawl-seo/">SmartCrawl Seo</a>',
+            'the_seo_framework'        => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/autodescription/">The Seo Framework</a>',
+            'seo_press'                => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wp-seopress/">SEOPress</a>',
+            'aiosp'                    => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/all-in-one-seo-pack/">All in One SEO Pack</a>',
+            'squirrly_seo'             => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/squirrly-seo/">Squirrly SEO</a>',          
+            'wp_recipe_maker'          => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wp-recipe-maker/">WP Recipe Maker</a>',        
+            'wp_ultimate_recipe'       => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wp-ultimate-recipe/">WP Ultimate Recipe</a>',        
+            'learn_press'              => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/learnpress/">Learn Press</a>',
+            'learn_dash'               => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://www.learndash.com/pricing-and-purchase/">Learn Dash</a>',
+            'lifter_lms'               => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/lifterlms/">LifterLMS</a>',
+            'wp_event_manager'         => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wp-event-manager/">WP Event Manager</a>',
+            'events_manager'           => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/events-manager/">Events Manager</a>',
+            'event_calendar_wd'        => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/event-calendar-wd/">Event Calendar WD</a>',
+            'event_organiser'          => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/event-organiser/">Event Organiser</a>',
+            'modern_events_calendar'   => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/modern-events-calendar-lite/">Modern Events Calendar Lite</a>',
+            'flex_mls_idx'             => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/flexmls-idx/">FlexMLS IDX</a>',        
+            'woocommerce_membership'   => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/woocommerce/">Woocommerce Membership</a>',
+            'woocommerce_bookings'     => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/woocommerce/">Woocommerce Bookings</a>',        
+            'extra'                    => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://www.elegantthemes.com/gallery/extra/">Extra Theme</a>',
+            'homeland'                 => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://themeforest.net/item/homeland-responsive-real-estate-theme-for-wordpress/6518965">Homeland</a>',            
+            'realhomes'                => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://themeforest.net/item/real-homes-wordpress-real-estate-theme/5373914">RealHomes</a>',
+            'jannah'                   => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://codecanyon.net/item/taqyeem-wordpress-review-plugin/4558799">Taqyeem</a>',
+            'soledad'                  => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://themeforest.net/item/soledad-multiconcept-blogmagazine-wp-theme/12945398">Soledad Theme</a>',
+            'zip_recipes'              => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/zip-recipes/">Zip Recipes</a>',
+            'mediavine_create'         => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/mediavine-create/">Create by Mediavine</a>',
+            'ht_recipes'               => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://themeforest.net/item/culinier-food-recipe-wordpress-theme/11088564/">HT-Recipes</a>',
+            'easy_testimonials'        => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/easy-testimonials">Easy Testimonials</a>',
+            'bne_testimonials'         => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/bne-testimonials/">BNE Testimonials</a>',
+            'testimonial_pro'          => esc_html__('Testimonial Pro','schema-and-structured-data-for-wp').' <a target="_blank" href="https://shapedplugin.com/plugin/testimonial-pro/">Testimonial Pro</a>'
+        
+        );
+          
+    $active = saswp_compatible_active_list();
+        
+    if(!isset($active[$pname])){
+        
+        return $notes[$pname];
+        
+    }
+    
+}    
+
+function saswp_get_category_link($term_id){
+        
+    $url = get_category_link($term_id);
+        
+    if ((function_exists( 'ampforwp_is_amp_endpoint' ) && ampforwp_is_amp_endpoint()) || function_exists( 'is_amp_endpoint' ) && is_amp_endpoint()) {  
+    
+        if(function_exists('ampforwp_url_controller')){
+            
+            $url = ampforwp_url_controller( $url );
+            
+        }
+        
+    }
+    
+    return $url;
+        
+}
+
+function saswp_get_current_url(){
+ 
+    $link = "http"; 
+      
+    if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'){
+        $link = "https"; 
+    } 
+  
+    $link .= "://"; 
+    $link .= $_SERVER['HTTP_HOST']; 
+    $link .= $_SERVER['REQUEST_URI']; 
+      
+    return $link;
+}
+
+function saswp_has_slash($url){
+ 
+    $response = false;
+    
+    if(strrev($url)[0]==='/') {
+        $response = true;
+    }
+    
+    return $response;
+}
+
+function saswp_remove_slash($url){
+    
+    $url = rtrim($url, '/\\');
+    
+    return $url;
+
+}
