@@ -132,9 +132,18 @@ if ( ! defined('ABSPATH') ) exit;
                 }
                                                                                           
                 foreach($post_meta as $key => $meta){
-                    //Escaping is missing
-                    update_post_meta($post_id, $key, $meta);
                     
+                    $meta = wp_unslash($meta);
+                    
+                    if(is_array($meta)){    
+                        
+                        $meta = wp_unslash($meta);
+                        update_post_meta($post_id, $key, $meta);
+                        
+                    }else{
+                        update_post_meta($post_id, $key, sanitize_text_field($meta));
+                    }
+                                                            
                 }
                                                                                                                     
                 if(is_wp_error($post_id)){
@@ -142,18 +151,31 @@ if ( ! defined('ABSPATH') ) exit;
                 }
                 } 
                 
-               }      
+                }      
+                                        
+               }
+                
+            }            
+            //Saving settings data starts here
+            if(array_key_exists('sd_data', $json_array)){
+                
+                $saswp_sd_data = $json_array['sd_data'];
+                
+                foreach($saswp_sd_data as $key => $val){
                     
+                    if(is_array($val)){
+                        
+                        $saswp_sd_data[$key] = $meta = array_map( 'sanitize_text_field' ,$val);   
+                        
+                    }else{
+                        
+                        $saswp_sd_data[$key] = sanitize_text_field($val);
+                        
+                    }
                     
                 }
                 
-            }
-            
-            //Saving settings data starts here
-            if(array_key_exists('sd_data', $json_array)){
-                        
-                $sd_data = array_map( 'sanitize_text_field' ,$json_array['sd_data']);
-                update_option('sd_data', $sd_data); 
+                update_option('sd_data', $saswp_sd_data); 
             } 
             //Saving settings data ends here             
              update_option('saswp-file-upload_url','');

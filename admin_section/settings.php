@@ -2296,7 +2296,7 @@ function saswp_compatibility_page_callback(){
                 $easy_testimonials,
                 $bne_testimonials,
                 $testimonial_pro,
-                $strong_testimonials,
+              //  $strong_testimonials,
                 $WordLift,
                 $flex_lmx
                 
