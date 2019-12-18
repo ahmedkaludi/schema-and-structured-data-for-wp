@@ -1510,6 +1510,8 @@ function saswp_woocommerce_category_schema(){
                 $service       = new saswp_output_service();                
 		$category_loop = new WP_Query( $query_string );
                 
+                $current_url = saswp_get_current_url();
+                
                 $i = 1;
                 
 		if ( $category_loop->have_posts() ):
@@ -1518,8 +1520,14 @@ function saswp_woocommerce_category_schema(){
                         $category_posts = array();
                         $category_posts['@type']       = 'ListItem';
                         $category_posts['position']    = $i;
-			$category_posts['item']        = $service->saswp_schema_markup_generator('Product');	
-                        $category_posts['item']['url'] =  rtrim( get_category_link($term->term_id), '/'). "#product_".$i;    
+			$category_posts['item']        = $service->saswp_schema_markup_generator('Product');
+                        
+                        if(saswp_has_slash($current_url)){
+                            $category_posts['item']['url'] =  trailingslashit(saswp_get_category_link($term->term_id)). "#product_".$i;    
+                        }else{
+                            $category_posts['item']['url'] =  saswp_remove_slash(saswp_get_category_link($term->term_id)). "#product_".$i;    
+                        }
+                                                
                         unset($category_posts['item']['@id']);
                         unset($category_posts['item']['@context']);
                         $list_item[] = $category_posts;

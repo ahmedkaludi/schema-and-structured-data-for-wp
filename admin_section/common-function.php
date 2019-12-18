@@ -2763,3 +2763,55 @@ function saswp_get_field_note($pname){
     }
     
 }    
+
+function saswp_get_category_link($term_id){
+        
+    $url = get_category_link($term_id);
+        
+    if ((function_exists( 'ampforwp_is_amp_endpoint' ) && ampforwp_is_amp_endpoint()) || function_exists( 'is_amp_endpoint' ) && is_amp_endpoint()) {  
+    
+        if(function_exists('ampforwp_url_controller')){
+            
+            $url = ampforwp_url_controller( $url );
+            
+        }
+        
+    }
+    
+    return $url;
+        
+}
+
+function saswp_get_current_url(){
+ 
+    $link = "http"; 
+      
+    if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'){
+        $link = "https"; 
+    } 
+  
+    $link .= "://"; 
+    $link .= $_SERVER['HTTP_HOST']; 
+    $link .= $_SERVER['REQUEST_URI']; 
+      
+    return $link;
+}
+
+function saswp_has_slash($url){
+ 
+    $response = false;
+    
+    if(strrev($url)[0]==='/') {
+        $response = true;
+    }
+    
+    return $response;
+}
+
+function saswp_remove_slash($url){
+    
+    $url = rtrim($url, '/\\');
+    
+    return $url;
+
+}
