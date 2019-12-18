@@ -370,6 +370,7 @@ return false;
            || schematype == 'VideoObject'
            || schematype == 'local_business'
            || schematype == 'Product'
+           || schematype == 'Review'
 
            ){
 
@@ -465,6 +466,7 @@ return false;
                || schematype == 'VideoObject'
                || schematype == 'local_business'
                || schematype == 'Product'
+               || schematype == 'Review'
                
                ){
                

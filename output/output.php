@@ -1046,7 +1046,7 @@ function saswp_schema_output() {
                                 $input1['@context']               =  saswp_context_url();
                                 $input1['@type']                  =  'Review';
                                 $input1['@id']                    =  trailingslashit(saswp_get_permalink()).'#Review';
-                                $input1['itemReviewed']['@type']  =  $item_reviewed;
+                                $input1['itemReviewed']['@type']  =  $item_reviewed;                                                                
                                                             
                                 if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] == 1){
                                                                        
@@ -1066,7 +1066,16 @@ function saswp_schema_output() {
                                         
                                     }                                                                                                                                                                                  
                                 } 
-                                                                                         
+                                
+                                $added_reviews = saswp_append_fetched_reviews($input1, $schema_post_id);
+                                
+                                if(isset($added_reviews['review'])){
+                                    
+                                    $input1['itemReviewed']['review']                    = $added_reviews['review'];
+                                    $input1['itemReviewed']['aggregateRating']           = $added_reviews['aggregateRating'];
+                                
+                                }
+                                                                                     
                                 if(isset($sd_data['saswp-tagyeem']) && $sd_data['saswp-tagyeem'] == 1 && (is_plugin_active('taqyeem/taqyeem.php') || get_template() != 'jannah') ){                                                                                                      
                            
                                    remove_action( 'TieLabs/after_post_entry',  'tie_article_schemas' );
