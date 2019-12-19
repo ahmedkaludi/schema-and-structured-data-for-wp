@@ -1659,3 +1659,26 @@ function saswp_get_modified_markup($input1, $schema_type, $schema_post_id, $sche
     return $input1;
         
 }
+
+function saswp_explod_by_semicolon($data){
+    
+    $response = array();
+    
+    if($data){
+        
+        $explod = explode(';', $data);  
+                   
+        if($explod){
+
+            foreach ($explod as $val){
+
+                $response[] = $val;  
+
+            }
+
+        }         
+    }
+    
+    return $response;
+    
+}

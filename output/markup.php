@@ -394,40 +394,21 @@ function saswp_recipe_schema_markup($schema_id, $schema_post_id, $all_post_meta)
             $instruction    = array();
 
             if(isset($all_post_meta['saswp_recipe_ingredient_'.$schema_id])){
-
-                $explod = explode(';', $all_post_meta['saswp_recipe_ingredient_'.$schema_id][0]);  
-
-                if($explod){
-
-                    foreach ($explod as $val){
-
-                        $ingredient[] = $val;  
-
-                    }
-
-                }
-
-
-
+                 $ingredient = saswp_explod_by_semicolon($all_post_meta['saswp_recipe_ingredient_'.$schema_id][0]); 
             }
 
             if(isset($all_post_meta['saswp_recipe_instructions_'.$schema_id])){
 
-                $explod = explode(';', $all_post_meta['saswp_recipe_instructions_'.$schema_id][0]);  
-
-                if($explod){
-
-                    foreach ($explod as $val){
+                $explod = saswp_explod_by_semicolon($all_post_meta['saswp_recipe_instructions_'.$schema_id][0]);  
+                
+                   foreach ($explod as $val){
 
                         $instruction[] = array(
                                                    '@type'  => "HowToStep",
                                                    'text'   => $val,                                                                                                                            
                                                    );  
 
-                  }
-
-                }                                       
-
+                  }                                                     
             }
 
             $input1 = array(
