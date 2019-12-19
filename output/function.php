@@ -603,24 +603,21 @@ function saswp_get_comments($post_id){
 		return array();
 	}
         $comments = array();
-        
-        $count	= apply_filters( 'saswp_do_comments', '10'); // default = 10
-        
+                       
         $post_comments = get_comments( array( 
-                                            'post_id' => $post_id,
-                                            'number'  => $count, 
+                                            'post_id' => $post_id,                                            
                                             'status'  => 'approve',
                                             'type'    => 'comment' 
                                         ) 
                                     );
-        
+                
         if ( count( $post_comments ) ) {
             
 		foreach ( $post_comments as $comment ) {
                     
 			$comments[] = array (
 					'@type'       => 'Comment',
-					'dateCreated' => esc_html($comment->comment_date),
+					'dateCreated' => saswp_format_date_time($comment->comment_date),
 					'description' => esc_attr($comment->comment_content),
 					'author'      => array (
                                                     '@type' => 'Person',

@@ -1773,7 +1773,7 @@ function saswp_blogposting_schema_markup($schema_id, $schema_post_id, $all_post_
                     '@type'		=> 'ImageObject',
                     'url'		=> saswp_remove_warnings($all_post_meta, 'saswp_blogposting_organization_logo_'.$schema_id, 'saswp_array'),
                     'width'		=> saswp_remove_warnings($slogo, 'width', 'saswp_string'),
-                    'height'	=> saswp_remove_warnings($slogo, 'height', 'saswp_string'),
+                    'height'	        => saswp_remove_warnings($slogo, 'height', 'saswp_string'),
                     ),
             'name'			=> saswp_remove_warnings($all_post_meta, 'saswp_blogposting_organization_name_'.$schema_id, 'saswp_array'),
             ),
