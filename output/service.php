@@ -449,6 +449,47 @@ Class saswp_output_service{
                     }
                                           
                     break; 
+                case 'Organization':      
+                    
+                    if(isset($custom_fields['saswp_organization_name'])){
+                     $input1['name'] =    $custom_fields['saswp_organization_name'];
+                    }
+                    if(isset($custom_fields['saswp_organization_description'])){
+                     $input1['description'] =    $custom_fields['saswp_organization_description'];
+                    }
+                    if(isset($custom_fields['saswp_organization_url'])){
+                     $input1['url'] =    $custom_fields['saswp_organization_url'];
+                    }                                        
+                    if(isset($custom_fields['saswp_organization_street_address'])){
+                     $input1['address']['streetAddress'] =    $custom_fields['saswp_organization_street_address'];
+                    }                    
+                    if(isset($custom_fields['saswp_organization_city'])){
+                     $input1['address']['addressLocality'] =    $custom_fields['saswp_organization_city'];
+                    }
+                    if(isset($custom_fields['saswp_organization_state'])){
+                     $input1['address']['addressRegion'] =    $custom_fields['saswp_organization_state'];
+                    }
+                    if(isset($custom_fields['saswp_organization_country'])){
+                     $input1['address']['addressCountry'] =    $custom_fields['saswp_organization_country'];
+                    }
+                    if(isset($custom_fields['saswp_organization_postal_code'])){
+                     $input1['address']['postalCode'] =    $custom_fields['saswp_organization_postal_code'];
+                    }
+                    if(isset($custom_fields['saswp_organization_telephone'])){
+                     $input1['address']['telephone'] =    $custom_fields['saswp_organization_telephone'];
+                    }
+                    if(isset($custom_fields['saswp_organization_logo'])){
+                     $input1['logo'] =    $custom_fields['saswp_organization_logo'];
+                    }
+                    if(isset($custom_fields['saswp_organization_rating_value']) && isset($custom_fields['saswp_organization_rating_count'])){
+                       $input1['aggregateRating']['@type']       =   'AggregateRating';
+                       $input1['aggregateRating']['worstRating'] =   0;
+                       $input1['aggregateRating']['bestRating']  =   5;
+                       $input1['aggregateRating']['ratingValue'] =    $custom_fields['saswp_organization_rating_value'];
+                       $input1['aggregateRating']['ratingCount'] =    $custom_fields['saswp_organization_rating_count'];
+                    }
+                                                                                  
+                    break;     
                     
                 case 'MusicAlbum':      
                     
