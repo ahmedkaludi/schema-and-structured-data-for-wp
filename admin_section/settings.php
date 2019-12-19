@@ -1579,7 +1579,7 @@ function saswp_review_page_callback(){
         <div class="saswp-quick-links-div">
             <h4><?php echo esc_html__('Quick Links','schema-and-structured-data-for-wp'); ?></h4>       
             <p><a href="<?php echo admin_url('edit.php?post_type=saswp_reviews'); ?>"><?php echo esc_html__('View Current Reviews','schema-and-structured-data-for-wp'); ?></a></p>
-            <p><a target="_blank" href="https://structured-data-for-wp.com/docs/article/how-to-show-reviews-on-the-website/"><?php echo esc_html__('How to show reviews on the website','schema-and-structured-data-for-wp'); ?></a></p>
+            <p><a target="_blank" href="https://structured-data-for-wp.com/docs/article/how-to-display-reviews-with-collection-feature/"><?php echo esc_html__('How to show reviews on the website','schema-and-structured-data-for-wp'); ?></a></p>
         </div>
          
     </div>
