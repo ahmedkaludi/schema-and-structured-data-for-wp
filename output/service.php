@@ -1159,7 +1159,21 @@ Class saswp_output_service{
                     }
                     
                     if(isset($custom_fields['saswp_recipe_ingredient'])){
-                     $input1['recipeIngredient'] =    $custom_fields['saswp_recipe_ingredient'];
+                        
+                    $ingredient     = array();
+
+                    $explod = explode(';', $custom_fields['saswp_recipe_ingredient']);  
+                   
+                    if($explod){
+
+                        foreach ($explod as $val){
+
+                            $ingredient[] = $val;  
+
+                        }
+
+                    } 
+                    $input1['recipeIngredient'] =    $ingredient;
                     }
                     if(isset($custom_fields['saswp_recipe_instructions'])){
                      $input1['recipeInstructions'] =    $custom_fields['saswp_recipe_instructions'];
