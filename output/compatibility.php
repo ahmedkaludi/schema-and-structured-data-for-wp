@@ -176,6 +176,8 @@ class saswp_output_compatibility{
                   update_post_meta(get_the_id(), 'sp_tpro_shortcode_options',$shortcode_opt);                    
                   endwhile;
                   
+                  wp_reset_postdata();
+                  
             }
                 
     }

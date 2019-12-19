@@ -597,20 +597,41 @@ function saswp_extract_wp_post_ratings(){
  */       
 function saswp_get_comments($post_id){
     
-        $comment_count = get_comments_number( $post_id );
+        global $sd_data;
         
-	if ( $comment_count < 1 ) {
-		return array();
-	}
         $comments = array();
-                       
-        $post_comments = get_comments( array( 
+        $post_comments = array();    
+       
+        if(isset($sd_data['saswp-bbpress']) && $sd_data['saswp-bbpress'] == 1 && get_post_type($post_id) == 'topic'){  
+                                         
+                  $replies_query = array(                   
+                     'post_type'      => 'reply',                     
+                  );                
+                                  
+                 if ( bbp_has_replies( $replies_query ) ) :
+                     
+			while ( bbp_replies() ) : bbp_the_reply();
+
+                        $post_comments[] = (object) array(                            
+                                        'comment_date'       => bbp_get_reply_post_date(bbp_get_reply_id(),'c'),
+                                        'comment_content'    => bbp_get_reply_content(),
+                                        'comment_author'     => the_author(),                                                                               
+                        );
+                                                                                     
+		        endwhile;
+                        wp_reset_postdata();                                                  
+	                endif;
+                                            
+        }else{            
+                        $post_comments = get_comments( array( 
                                             'post_id' => $post_id,                                            
                                             'status'  => 'approve',
                                             'type'    => 'comment' 
                                         ) 
-                                    );
-                
+                                    );   
+                                    
+        }                                                                                                                                                                                          
+          
         if ( count( $post_comments ) ) {
             
 		foreach ( $post_comments as $comment ) {
@@ -618,12 +639,12 @@ function saswp_get_comments($post_id){
 			$comments[] = array (
 					'@type'       => 'Comment',
 					'dateCreated' => saswp_format_date_time($comment->comment_date),
-					'description' => esc_attr($comment->comment_content),
+					'description' => strip_tags($comment->comment_content),
 					'author'      => array (
                                                     '@type' => 'Person',
                                                     'name'  => esc_attr($comment->comment_author),
-                                                    'url'   => esc_url($comment->comment_author_url),
-				),
+                                                    'url'   => isset($comment->comment_author_url) ? esc_url($comment->comment_author_url): '',
+				        ),
 			);
 		}
                 

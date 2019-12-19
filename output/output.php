@@ -593,6 +593,7 @@ function saswp_schema_output() {
                         if( 'DiscussionForumPosting' === $schema_type){
                                                      
                             if(isset($sd_data['saswp-bbpress']) && $sd_data['saswp-bbpress'] == 1 && is_plugin_active('bbpress/bbpress.php')){                                                                                                                                                                                            
+                                
                                 $input1 = array(
                                 '@context'			=> saswp_context_url(),
                                 '@type'				=> 'DiscussionForumPosting' ,
@@ -603,7 +604,7 @@ function saswp_schema_output() {
                                 "articleSection"                => bbp_get_forum_title(),
                                 "articleBody"                   => saswp_get_the_content(),    
                                 'url'				=> bbp_get_topic_permalink(),
-                                'datePublished'                 => bbp_get_topic_post_date(),
+                                'datePublished'                 => saswp_format_date_time(bbp_get_topic_post_date()),
                                 'dateModified'                  => esc_html($modified_date),
                                 'author'			=> saswp_get_author_details(),                                    
                                 'interactionStatistic'          => array(
