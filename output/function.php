@@ -98,8 +98,8 @@ function saswp_schema_markup_output() {
                 $item_list            = $archive_output[0];
             }
             
-            $collection_page          = $archive_output[1]; 
-            $blog_page                = $archive_output[2]; 
+            $collection_page          = isset($archive_output[1]) ? $archive_output[1]: array(); 
+            $blog_page                = isset($archive_output[1]) ? $archive_output[2]: array(); 
         }
                      
         $schema_breadcrumb_output = saswp_schema_breadcrumb_output();                      

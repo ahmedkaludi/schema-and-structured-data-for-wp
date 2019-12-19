@@ -1540,6 +1540,9 @@ function saswp_woocommerce_category_schema(){
                         $category_posts['position']    = $i;
 			$category_posts['item']        = $service->saswp_schema_markup_generator('Product');
                         
+                        $feature_image           = $service->saswp_get_fetaure_image();
+                        $category_posts['item']  = array_merge( $category_posts['item'], $feature_image);
+                        
                         if(saswp_has_slash($current_url)){
                             $category_posts['item']['url'] =  trailingslashit(saswp_get_category_link($term->term_id)). "#product_".$i;    
                         }else{
