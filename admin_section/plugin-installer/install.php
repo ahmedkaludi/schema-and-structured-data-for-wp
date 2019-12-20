@@ -665,7 +665,8 @@
 
 function saswp_general_setting_fields_callback(){
                                 
-	global $sd_data;	
+	global $sd_data;
+        global $wp_query;
         $saswp_kb_type ='';
         
         if(isset($sd_data['saswp_kb_type'])){
@@ -673,14 +674,18 @@ function saswp_general_setting_fields_callback(){
         }
         $about_page   =   '';
         $contact_page =   '';
+        $pages        = null;
         
-        
-        $pages = get_posts( array(
+        if($wp_query){
+            
+            $pages = get_posts( array(
                 'order'       => 'ASC',
                 'orderby'     => 'ID',
                 'post_type'   => 'page',
                 'post_status' => 'publish',
         ) );
+            
+        }
         
         if(!empty($pages)){
             
