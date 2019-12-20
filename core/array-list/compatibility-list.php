@@ -4,6 +4,12 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 return array(    
     'plugins' =>    array(        
+        'tevolution_events'  =>  array(            
+                    'name'       => 'Tevolution Events',
+                    'free'       => 'Tevolution-Events/events.php',            
+                    'opt_name'   => 'saswp-tevolution-events',
+                    'part_in'    => 'free',
+        ),
         'strong_testimonials'  =>  array(            
                     'name'       => 'Strong Testimonials',
                     'free'       => 'strong-testimonials/strong-testimonials.php',            

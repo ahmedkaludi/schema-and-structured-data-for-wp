@@ -1126,6 +1126,16 @@ return false;
                             
                       break;
                       
+                      case 'saswp-tevolution-events-checkbox':
+                           saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-tevolution-events").val(1);                                
+                            }else{
+                              $("#saswp-tevolution-events").val(0);                                          
+                            }
+                            
+                      break;
+                      
                       case 'saswp-strong-testimonials-checkbox':
                            saswp_compatibliy_notes(current, id); 
                             if ($(this).is(':checked')) {              

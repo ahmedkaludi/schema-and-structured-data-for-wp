@@ -157,6 +157,12 @@ class saswp_output_compatibility{
                         
     }
     
+    public function saswp_tevolution_events_override(){
+                        
+       //code to be written
+                        
+    }
+    
     public function saswp_easy_testimonials_override(){
                         
         add_filter('easy_testimonials_json_ld', '__return_false'); 
@@ -413,6 +419,9 @@ class saswp_output_compatibility{
     }
     public function strong_testimonials_on_activation(){
          $this->saswp_update_option_on_compatibility_activation('saswp-strong-testimonials');
+    }
+    public function tevolution_events_on_activation(){
+         $this->saswp_update_option_on_compatibility_activation('saswp-tevolution-events');
     }
     public function saswp_update_option_on_compatibility_activation($opt_name){   
         $defaults = get_option('sd_data');   

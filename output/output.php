@@ -743,11 +743,7 @@ function saswp_schema_output() {
                                 }                                
                                 if(!empty($extra_theme_review)){
                                    $input1 = array_merge($input1, $extra_theme_review);
-                                }                               
-                                if(isset($sd_data['saswp_comments_schema']) && $sd_data['saswp_comments_schema'] ==1){
-                                   $input1['comment'] = saswp_get_comments(get_the_ID());
-                                } 
-                                
+                                }                                                                                                
                                 $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
                                                                                             
                                 $input1 = apply_filters('saswp_modify_event_schema_output', $input1 );

@@ -2750,7 +2750,8 @@ function saswp_get_field_note($pname){
             'ht_recipes'               => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://themeforest.net/item/culinier-food-recipe-wordpress-theme/11088564/">HT-Recipes</a>',
             'easy_testimonials'        => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/easy-testimonials">Easy Testimonials</a>',
             'bne_testimonials'         => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/bne-testimonials/">BNE Testimonials</a>',
-            'testimonial_pro'          => esc_html__('Testimonial Pro','schema-and-structured-data-for-wp').' <a target="_blank" href="https://shapedplugin.com/plugin/testimonial-pro/">Testimonial Pro</a>'
+            'testimonial_pro'          => esc_html__('Testimonial Pro','schema-and-structured-data-for-wp').' <a target="_blank" href="https://shapedplugin.com/plugin/testimonial-pro/">Testimonial Pro</a>',
+            'tevolution_events'        => esc_html__('Tevolution Events','schema-and-structured-data-for-wp').' <a target="_blank" href="https://templatic.com/wordpress-plugins/tevolution/">Tevolution Events</a>'
         
         );
           
