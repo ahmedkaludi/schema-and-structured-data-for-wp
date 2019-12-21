@@ -1251,9 +1251,11 @@ add_action( 'manage_saswp_posts_custom_column' , 'saswp_custom_column_set', 10, 
  */
 
 function saswp_custom_columns($columns) { 
-  
-    $title = $columns['title'];        
+    
+    $title = $columns['title'];
+    $cb    = $columns['cb'];
     unset($columns);
+    $columns['cb']    = $cb;
     $columns['title'] = $title;
     $columns['saswp_schema_type']       = '<a>'.esc_html__( 'Schema Type', 'schema-and-structured-data-for-wp' ).'<a>';
     $columns['saswp_target_location']   = '<a>'.esc_html__( 'Target Location', 'schema-and-structured-data-for-wp' ).'<a>';    

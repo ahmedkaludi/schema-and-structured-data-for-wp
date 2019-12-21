@@ -4,11 +4,18 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 return array(    
     'plugins' =>    array(        
+        'wp_event_aggregator'  =>  array(            
+                    'name'       => 'WP Event Aggregator',
+                    'free'       => 'wp-event-aggregator/wp-event-aggregator.php', 
+                    'pro'        => 'wp-event-aggregator-pro/wp-event-aggregator-pro.php', 
+                    'opt_name'   => 'saswp-wp-event-aggregator',
+                    'part_in'    => 'pro',
+        ),
         'tevolution_events'  =>  array(            
                     'name'       => 'Tevolution Events',
                     'free'       => 'Tevolution-Events/events.php',            
                     'opt_name'   => 'saswp-tevolution-events',
-                    'part_in'    => 'free',
+                    'part_in'    => 'pro',
         ),
         'strong_testimonials'  =>  array(            
                     'name'       => 'Strong Testimonials',

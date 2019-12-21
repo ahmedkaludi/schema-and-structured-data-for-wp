@@ -157,6 +157,12 @@ class saswp_output_compatibility{
                         
     }
     
+    public function saswp_wp_event_aggregator_override(){
+                        
+       //code to be written
+                        
+    }
+    
     public function saswp_tevolution_events_override(){
                         
        //code to be written
@@ -422,6 +428,9 @@ class saswp_output_compatibility{
     }
     public function tevolution_events_on_activation(){
          $this->saswp_update_option_on_compatibility_activation('saswp-tevolution-events');
+    }
+    public function wp_event_aggregator_on_activation(){
+         $this->saswp_update_option_on_compatibility_activation('saswp-wp-event-aggregator');
     }
     public function saswp_update_option_on_compatibility_activation($opt_name){   
         $defaults = get_option('sd_data');   

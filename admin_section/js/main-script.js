@@ -1126,6 +1126,16 @@ return false;
                             
                       break;
                       
+                      case 'saswp-wp-event-aggregator-checkbox':
+                           saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-wp-event-aggregator").val(1);                                
+                            }else{
+                              $("#saswp-wp-event-aggregator").val(0);                                          
+                            }
+                            
+                      break;
+                      
                       case 'saswp-tevolution-events-checkbox':
                            saswp_compatibliy_notes(current, id); 
                             if ($(this).is(':checked')) {              
