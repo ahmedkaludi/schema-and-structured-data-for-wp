@@ -64,7 +64,7 @@ class saswp_output_compatibility{
                     
                     $func_name = 'saswp_'.$key.'_override';
                     
-                    if(method_exists($this, $func_name) && saswp_global_option()){                        
+                    if(method_exists($this, $func_name)){                        
                         call_user_func(array($this, $func_name));                        
                     }
                     
@@ -87,7 +87,7 @@ class saswp_output_compatibility{
                     
                     $func_name = 'saswp_'.$key.'_override';
                     
-                    if(method_exists($this, $func_name) && saswp_global_option()){                        
+                    if(method_exists($this, $func_name)){                        
                         call_user_func(array($this, $func_name));                        
                     }
                     
