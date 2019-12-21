@@ -596,7 +596,7 @@ function saswp_comparison_logic_checker($input){
   require_once( untrailingslashit( plugin_dir_path( __FILE__ ) ) . '/ajax-selectbox.php' );
 //Back End
 if(is_admin()){
-    
+         
   add_action( 'init', 'saswp_create_post_type' );
   
   function saswp_create_post_type() {
@@ -1250,9 +1250,11 @@ add_action( 'manage_saswp_posts_custom_column' , 'saswp_custom_column_set', 10, 
  * @return string
  */
 
-function saswp_custom_columns($columns) {    
-    
+function saswp_custom_columns($columns) { 
+  
+    $title = $columns['title'];        
     unset($columns);
+    $columns['title'] = $title;
     $columns['saswp_schema_type']       = '<a>'.esc_html__( 'Schema Type', 'schema-and-structured-data-for-wp' ).'<a>';
     $columns['saswp_target_location']   = '<a>'.esc_html__( 'Target Location', 'schema-and-structured-data-for-wp' ).'<a>';    
     

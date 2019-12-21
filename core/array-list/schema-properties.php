@@ -843,6 +843,11 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'id' => 'saswp_event_schema_url_'.$schema_id,
                                 'type' => 'text',                                
                         ),
+                        array(
+                                'label' => 'Performer Name',
+                                'id' => 'saswp_event_schema_performer_name_'.$schema_id,
+                                'type' => 'text',                                
+                        ),
                     );
                     break;
                 

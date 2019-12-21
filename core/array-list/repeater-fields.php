@@ -145,9 +145,10 @@ return array( 'schema_type_element' => array(
 			'label'     => 'Performer Type',
 			'name'      => 'saswp_event_performer_type',
 			'type'      => 'select',
-                        'options'   => array(
-                                'MusicGroup'    => 'MusicGroup',                                                              
-                                'Person'        => 'Person'
+                        'options'   => array(                                                                                              
+								'Person'           => 'Person',
+								'Organization'     => 'Organization',
+								'MusicGroup'       => 'MusicGroup'
                         )
 		    ),
                     array(

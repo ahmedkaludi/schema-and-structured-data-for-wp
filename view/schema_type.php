@@ -32,7 +32,7 @@ function saswp_add_all_meta_boxes() {
             esc_html__( 'Schema Type', 'schema-and-structured-data-for-wp' ),
             'saswp_schema_type_meta_box_callback',
             'saswp',
-            'advanced',
+            'normal',
             'high'
     );
     
