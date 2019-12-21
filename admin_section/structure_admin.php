@@ -1179,13 +1179,14 @@ function saswp_custom_column_set( $column, $post_id ) {
                 case 'saswp_schema_type' :
                     
                     $schema_type = get_post_meta( $post_id, $key='schema_type', true);
+                     $url = admin_url( 'post.php?post='.$post_id.'&action=edit' );
                     
                     if($schema_type == 'local_business'){
-                        echo 'LocalBusiness';
+                        echo '<strong><a class="row-title" href="'.esc_url($url).'">LocalBusiness</a></strong>';
                     }else if($schema_type == 'qanda'){
-                        echo 'Q&A';
+                        echo '<strong><a class="row-title" href="'.esc_url($url).'">Q&A</a></strong>';
                     }else{
-                        echo esc_attr($schema_type);
+                        echo '<strong><a class="row-title" href="'.esc_url($url).'">'.esc_html($schema_type).'</a></strong>';
                     }
                     
                     
@@ -1251,8 +1252,8 @@ add_action( 'manage_saswp_posts_custom_column' , 'saswp_custom_column_set', 10, 
 
 function saswp_custom_columns($columns) {    
     
-    unset($columns['date']);
-    $columns['saswp_schema_type']       = '<a>'.esc_html__( 'Type', 'schema-and-structured-data-for-wp' ).'<a>';
+    unset($columns);
+    $columns['saswp_schema_type']       = '<a>'.esc_html__( 'Schema Type', 'schema-and-structured-data-for-wp' ).'<a>';
     $columns['saswp_target_location']   = '<a>'.esc_html__( 'Target Location', 'schema-and-structured-data-for-wp' ).'<a>';    
     
     return $columns;
