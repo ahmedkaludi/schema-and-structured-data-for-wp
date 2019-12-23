@@ -151,6 +151,12 @@ class saswp_output_compatibility{
              
     }
 
+    public function saswp_easy_recipe_override(){
+                        
+       //code to be written
+                        
+    }
+    
     public function saswp_strong_testimonials_override(){
                         
        //code to be written
@@ -431,6 +437,9 @@ class saswp_output_compatibility{
     }
     public function wp_event_aggregator_on_activation(){
          $this->saswp_update_option_on_compatibility_activation('saswp-wp-event-aggregator');
+    }
+    public function easy_recipe_on_activation(){
+         $this->saswp_update_option_on_compatibility_activation('saswp-easy-recipe');
     }
     public function saswp_update_option_on_compatibility_activation($opt_name){   
         $defaults = get_option('sd_data');   

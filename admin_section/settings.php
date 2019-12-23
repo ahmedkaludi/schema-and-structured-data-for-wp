@@ -1964,6 +1964,18 @@ function saswp_compatibility_page_callback(){
                                 'name' => 'sd_data[saswp-zip-recipes]',                             
                         )
 		);
+        $easyrecipe = array(
+			'label'  => 'EasyRecipe',
+			'id'     => 'saswp-easy-recipe-checkbox',                        
+                        'name'   => 'saswp-easy-recipe-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
+                        'note'   => saswp_get_field_note('easy_recipe'),
+                        'hidden' => array(
+                                'id'   => 'saswp-easy-recipe',
+                                'name' => 'sd_data[saswp-easy-recipe]',                             
+                        )
+		);
         $mediavine_create = array(
 			'label'  => 'Create by Mediavine',
 			'id'     => 'saswp-mediavine-create-checkbox',                        
@@ -2274,7 +2286,8 @@ function saswp_compatibility_page_callback(){
              $zip_recipes['note']                = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/recipe-schema/">Recipe Schema Addon</a>';             
              $wp_ultimate_recipe['note']         = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/recipe-schema/">Recipe Schema Addon</a>';             
              $mediavine_create['note']           = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/recipe-schema/">Recipe Schema Addon</a>';             
-             $ht_recipes['note']                 = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/recipe-schema/">Recipe Schema Addon</a>';             
+             $ht_recipes['note']                 = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/recipe-schema/">Recipe Schema Addon</a>';
+             $easyrecipe['note']                 = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';                            
              
          }
                                                  
@@ -2305,6 +2318,7 @@ function saswp_compatibility_page_callback(){
                 $recipe_maker,
                 $wp_ultimate_recipe,
                 $zip_recipes,
+                $easyrecipe,
                 $mediavine_create,
                 $ht_recipes,
                 $rankmath,

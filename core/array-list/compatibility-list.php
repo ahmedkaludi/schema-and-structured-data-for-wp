@@ -4,6 +4,13 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 return array(    
     'plugins' =>    array(        
+        'easy_recipe'  =>  array(            
+                    'name'       => 'EasyRecipe',
+                    'free'       => 'easyrecipe/easyrecipe.php', 
+                    'pro'        => 'easyrecipe-pro/easyrecipe-pro.php', 
+                    'opt_name'   => 'saswp-easy-recipe',
+                    'part_in'    => 'pro',
+        ),
         'wp_event_aggregator'  =>  array(            
                     'name'       => 'WP Event Aggregator',
                     'free'       => 'wp-event-aggregator/wp-event-aggregator.php', 

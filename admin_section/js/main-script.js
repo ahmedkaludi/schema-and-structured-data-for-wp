@@ -1136,6 +1136,16 @@ return false;
                             
                       break;
                       
+                      case 'saswp-easy-recipe-checkbox':
+                           saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-easy-recipe").val(1);                                
+                            }else{
+                              $("#saswp-easy-recipe").val(0);                                          
+                            }
+                            
+                      break;
+                      
                       case 'saswp-tevolution-events-checkbox':
                            saswp_compatibliy_notes(current, id); 
                             if ($(this).is(':checked')) {              
