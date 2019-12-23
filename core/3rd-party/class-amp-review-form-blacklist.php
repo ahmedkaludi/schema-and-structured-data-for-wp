@@ -140,7 +140,13 @@ if ( class_exists( 'AMP_Blacklist_Sanitizer' ) ) {
 				for ( $i = $length - 1; $i >= 0; $i-- ) {
 
 					$element = $elements->item( $i );
-
+                                        
+                                       $form_class = $element->getAttribute('class');
+                                       
+                                        if(strpos($form_class, 'saswp-review-submission-form') !== false){                                           
+                                            continue;                                           
+                                        }
+                                                                              
 					$parent_node = $element->parentNode;
 
 					$parent_node->removeChild( $element );
@@ -363,9 +369,12 @@ if ( class_exists( 'AMP_Blacklist_Sanitizer' ) ) {
 
 				// Form works in AMP
 
-				// 'form',
+			 'form',
 
 				// 'label',
+                            
+                            
+                            
 
 				// 'input',
 
