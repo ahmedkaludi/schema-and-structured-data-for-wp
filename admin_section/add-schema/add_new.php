@@ -61,7 +61,7 @@ $saswp_add_data_type_config = array(
 
 	function saswp_add_new_init(){
 		// Exit if the user does not have proper permissions
-		if(! current_user_can( 'manage_options' ) ) {
+		if(! current_user_can( saswp_current_user_can() ) ) {
 		    return ;
 		}
                 

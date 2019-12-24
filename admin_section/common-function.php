@@ -63,7 +63,7 @@ if ( ! defined('ABSPATH') ) exit;
      */        
     function saswp_import_all_settings_and_schema(){
                         
-        if ( ! current_user_can( 'manage_options' ) ) {
+        if ( ! current_user_can( saswp_current_user_can() ) ) {
              return;
         }
         
@@ -200,7 +200,7 @@ if ( ! defined('ABSPATH') ) exit;
      */
     function saswp_export_all_settings_and_schema(){   
         
-                if ( ! current_user_can( 'manage_options' ) ) {
+                if ( ! current_user_can( saswp_current_user_can() ) ) {
                      return;
                 }
                 if ( ! isset( $_GET['_wpnonce'] ) ){
@@ -1600,11 +1600,12 @@ if ( ! defined('ABSPATH') ) exit;
                 );              
                 // select
                 $my_allowed['select'] = array(
-                        'class'  => array(),
-                        'id'     => array(),
-                        'name'   => array(),
-                        'value'  => array(),
-                        'type'   => array(),                    
+                        'class'    => array(),
+                        'multiple' => array(),
+                        'id'       => array(),
+                        'name'     => array(),
+                        'value'    => array(),
+                        'type'     => array(),                    
                 );
                 // checkbox
                 $my_allowed['checkbox'] = array(
@@ -1618,7 +1619,8 @@ if ( ! defined('ABSPATH') ) exit;
                 //  options
                 $my_allowed['option'] = array(
                         'selected' => array(),
-                        'value' => array(),
+                        'value'    => array(),
+                        'disabled' => array(),
                 );                       
                 // style
                 $my_allowed['style'] = array(
@@ -2461,7 +2463,7 @@ function saswp_get_permalink(){
 }
 function saswp_get_taxonomy_term_list(){
     
-        if ( ! current_user_can( 'manage_options' ) ) {
+        if ( ! current_user_can( saswp_current_user_can() ) ) {
              return;
         }
         if ( ! isset( $_GET['saswp_security_nonce'] ) ){
@@ -2817,4 +2819,108 @@ function saswp_remove_slash($url){
     
     return $url;
 
+}
+
+function saswp_get_user_roles(){
+    
+        global $wp_roles;
+        $allroles = array();
+        
+        foreach ( $wp_roles->roles as $key=>$value ){
+            $allroles[esc_attr($key)] = esc_html($value['name']);
+        }
+        
+        return $allroles;
+}
+
+function saswp_get_capability_by_role($role){
+    
+        $cap = 'manage_options';
+        
+        switch ($role) {
+            
+            case 'editor':
+                $cap = 'edit_pages';                
+                break;            
+            case 'author':
+                $cap = 'publish_posts';                
+                break;
+            case 'contributor':
+                $cap = 'edit_posts';                
+                break;
+            case 'subscriber':
+                $cap = 'read';                
+                break;
+
+            default:
+                break;
+        }   
+    
+        return $cap;
+    
+}
+
+function saswp_current_user_role(){
+    
+    if( is_user_logged_in() ) {
+        
+    $user            = wp_get_current_user();
+    $role            = (array) $user->roles;
+    
+    return $role[0];
+    
+    }
+        
+}
+
+function saswp_current_user_allowed(){
+    
+    global $sd_data;
+    
+    if( is_user_logged_in() ) {
+    
+    $currentUser     = wp_get_current_user();    
+    $saswp_roles     = isset($sd_data['saswp-role-based-access']) ? $sd_data['saswp-role-based-access'] : array();
+    $currentuserrole = (array) $currentUser->roles;
+    
+    $hasrole         = array_intersect( $currentuserrole, $saswp_roles );
+    
+    if( !empty($hasrole)){                                     
+        return $hasrole[0];
+    }
+                
+    }
+    
+    return false;
+}
+
+function saswp_current_user_can(){
+        
+        $capability = saswp_current_user_allowed() ? saswp_get_capability_by_role(saswp_current_user_allowed()) : 'manage_options';        
+        return $capability;                    
+}
+
+function saswp_post_type_capabilities(){
+        
+        $caplist = array();
+    
+        $cap = saswp_current_user_can();
+    
+        if(saswp_current_user_role() != 'administrator'){
+        
+            $caplist =  array(
+                'publish_posts'       => $cap,
+                'edit_posts'          => $cap,
+                'edit_others_posts'   => $cap,
+                'delete_posts'        => $cap,
+                'delete_others_posts' => $cap,
+                'read_private_posts'  => $cap,
+                'edit_post'           => $cap,
+                'delete_post'         => $cap,
+                'read_post'           => $cap,
+            ); 
+            
+        }
+        
+        return $caplist;      
 }

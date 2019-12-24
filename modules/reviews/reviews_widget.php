@@ -49,8 +49,8 @@ class Saswp_Reviews_Widget extends WP_Widget {
 	public function widget( $args, $instance ) {
                           
         echo html_entity_decode(esc_attr($args['before_widget']));
-		
-        
+	
+                
         if(saswp_global_option()){
           
             $attr = array(
@@ -62,12 +62,10 @@ class Saswp_Reviews_Widget extends WP_Widget {
             if($reviews){
                    global $saswp_post_reviews;
                    $saswp_post_reviews = array_merge($saswp_post_reviews, $reviews);    
-                   $response = $this->_serviceClass->saswp_reviews_html_markup($reviews);                                                                                         
+                   echo $this->_serviceClass->saswp_reviews_html_markup($reviews);                                                                                         
             }
                         
         }
-                        
-        echo $response;
         
         echo html_entity_decode(esc_attr($args['after_widget']));
     }

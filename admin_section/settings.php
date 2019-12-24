@@ -57,16 +57,20 @@ function saswp_ext_installed_status(){
     
 }
 
-function saswp_add_menu_links() {				
-	// Settings page - Same as main menu page
-	    add_submenu_page( 'edit.php?post_type=saswp', esc_html__( 'Schema & Structured Data For Wp', 'schema-and-structured-data-for-wp' ), esc_html__( 'Settings', 'schema-and-structured-data-for-wp' ), 'manage_options', 'structured_data_options', 'saswp_admin_interface_render' );	
+function saswp_add_menu_links() {	
+                       
+	    add_submenu_page( 'edit.php?post_type=saswp',
+                    esc_html__( 'Schema & Structured Data For Wp', 'schema-and-structured-data-for-wp' ),
+                    esc_html__( 'Settings', 'schema-and-structured-data-for-wp' ), 
+                    saswp_current_user_can(),
+                    'structured_data_options', 
+                    'saswp_admin_interface_render'
+                    );	
                                 
             if(!saswp_ext_installed_status()){
                 add_submenu_page( 'edit.php?post_type=saswp', esc_html__( 'Schema & Structured Data For Wp', 'schema-and-structured-data-for-wp' ), '<span style="color:#fff176;">'.esc_html__( 'Upgrade To Premium', 'schema-and-structured-data-for-wp' ).'</span>', 'manage_options', 'structured_data_premium', 'saswp_premium_interface_render' );	
             }
-            
-                                        
-        
+                                                            
 }
 add_action( 'admin_menu', 'saswp_add_menu_links' );
 
@@ -77,10 +81,11 @@ function saswp_premium_interface_render(){
         
 }
 function saswp_admin_interface_render(){
-	// Authentication
-	if ( ! current_user_can( 'manage_options' ) ) {
+	            
+        if ( ! current_user_can( saswp_current_user_can() ) ) {
 		return;
-	}
+        }
+    	
 	// Handing save settings
 	if ( isset( $_GET['settings-updated'] ) ) {							                                                 
 		settings_errors();               
@@ -359,7 +364,7 @@ add_action('upload_mimes', 'saswp_custom_upload_mimes');
 
 function saswp_handle_file_upload($option){
     
-    if ( ! current_user_can( 'upload_files' ) ) {
+    if ( ! current_user_can( saswp_current_user_can() ) ) {
 		return $option;
     }
 
@@ -1160,10 +1165,23 @@ function saswp_import_callback(){
                              'id'   => 'saswp-other-images',
                              'name' => 'sd_data[saswp-other-images]',                             
                         )
-		    ),
+		    )            
                 
 	);        
         
+        if(saswp_current_user_role() == 'administrator'){
+            
+            $meta_fields[] = array(
+			'label'   => 'Role Based Access',
+			'id'      => 'saswp-role-based-access',                        
+                        'name'    => 'sd_data[saswp-role-based-access]',
+			'type'    => 'multiselect',
+                        'note'    => 'Choose the users whom you want to allow full access to this plugin',
+                        'class'   => 'saswp-role-based-access-class',                          
+                        'options' => saswp_get_user_roles()
+		    );
+            
+        }
         
         ?>
        
@@ -2589,3 +2607,25 @@ function saswp_enqueue_style_js( $hook ) {
         
 }
 add_action( 'admin_enqueue_scripts', 'saswp_enqueue_style_js' );
+
+
+function saswp_option_page_capability( $capability ) {         
+    return saswp_current_user_can();         
+}
+
+add_filter( 'option_page_capability_sd_data_group', 'saswp_option_page_capability' );
+
+function saswp_pre_update_settings($value, $old_value,  $option){
+    
+    if(saswp_current_user_role() != 'administrator'){
+    
+        if(isset($old_value['saswp-role-based-access'])){
+           $value['saswp-role-based-access'] = $old_value['saswp-role-based-access']; 
+        }
+        
+    }
+    
+   return $value; 
+}
+
+add_filter('pre_update_option_sd_data', 'saswp_pre_update_settings',10,3);

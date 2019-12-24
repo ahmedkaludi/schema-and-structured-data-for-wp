@@ -74,7 +74,7 @@
 
 	function saswp_installer_init(){
 		// Exit if the user does not have proper permissions
-		if(! current_user_can( 'manage_options' ) ) {
+		if(! current_user_can( saswp_current_user_can() ) ) {
 			return ;
 		}
 		global $saswp_installer_config;
@@ -363,7 +363,7 @@
 	
 	function saswp_save_steps_data(){ 
             
-                 if(! current_user_can( 'manage_options' ) ) {
+                 if(! current_user_can( saswp_current_user_can() ) ) {
                     return ;
                  }
                  if ( ! isset( $_POST['wpnonce'] ) ){

@@ -57,7 +57,7 @@ class SASWP_Reviews_Collection {
              add_submenu_page( 'edit.php?post_type=saswp',
                 esc_html__( 'Structured Data', 'schema-and-structured-data-for-wp' ),
                 esc_html__( '', 'schema-and-structured-data-for-wp' ),
-                'manage_options',
+                saswp_current_user_can(),
                 'collection',
                 array($this, 'saswp_admin_collection_interface_render'));   
             
@@ -159,7 +159,18 @@ class SASWP_Reviews_Collection {
                     'show_admin_column'     => true,        
                     'rewrite'               => false,  
             );
-            register_post_type( 'saswp-collections', $collections );   
+            
+            if(saswp_current_user_allowed()){
+                
+                $cap = saswp_post_type_capabilities();
+
+                if(!empty($cap)){        
+                    $collections['capabilities'] = $cap;         
+                }
+                
+                register_post_type( 'saswp-collections', $collections );   
+            }
+                        
         }
         
         public function saswp_get_collection_platforms(){
@@ -366,7 +377,7 @@ class SASWP_Reviews_Collection {
         
         public function saswp_admin_collection_interface_render(){
             
-             if ( ! current_user_can( 'manage_options' ) ) return;
+             if ( ! current_user_can( saswp_current_user_can() ) ) return;
              if ( !wp_verify_nonce( $_GET['_wpnonce'], '_wpnonce' ) ) return;
              
             $post_meta = array();
@@ -573,7 +584,7 @@ class SASWP_Reviews_Collection {
         public function saswp_save_collection_data(){
                                     
             if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
-            if ( ! current_user_can( 'manage_options' ) ) return ;		    		
+            if ( ! current_user_can( saswp_current_user_can() ) ) return ;		    		
             if ( ! isset( $_POST['saswp_collection_nonce'] ) || ! wp_verify_nonce( $_POST['saswp_collection_nonce'], 'saswp_collection_nonce_data' ) ) return;            
             
             if(isset($_POST['saswp_collection_id'])){

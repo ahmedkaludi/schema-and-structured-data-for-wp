@@ -151,8 +151,6 @@ if ( class_exists( 'AMP_Blacklist_Sanitizer' ) ) {
 
 					$parent_node->removeChild( $element );
 
-
-
 					if ( 'body' !== $parent_node->nodeName && AMP_DOM_Utils::is_node_empty( $parent_node ) ) {
 
 						$parent_node->parentNode->removeChild( $parent_node );

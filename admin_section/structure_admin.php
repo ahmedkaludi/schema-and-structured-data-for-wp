@@ -100,7 +100,7 @@ add_action( 'untrash_saswp', 'saswp_update_ids_on_untrash' );
 
 function saswp_reset_all_settings(){   
     
-        if ( ! current_user_can( 'manage_options' ) ) {
+        if ( ! current_user_can( saswp_current_user_can() ) ) {
              return;
         }
         
@@ -604,18 +604,16 @@ if(is_admin()){
     $nonce = wp_create_nonce( 'saswp_install_wizard_nonce' );      
     $not_found_button = '<div><span class="dashicons dashicons-thumbs-up"></span>'.esc_html__("Thank you for using Schema & Structured Data For WP plugin!",'schema-and-structured-data-for-wp').' <a href="'.esc_url(admin_url( 'plugins.php?page=saswp-setup-wizard' ).'&_saswp_nonce='.$nonce).'">'.esc_html__("Start Quick Setup?",'schema-and-structured-data-for-wp').'</a></div>';       
     
-    register_post_type( 'saswp',
-            
-      array(
+    $saswp = array(
             'labels' => array(
-            'name'              => esc_html__( 'Structured Data', 'schema-and-structured-data-for-wp' ),
-            'singular_name'     => esc_html__( 'Structured Data', 'schema-and-structured-data-for-wp' ),
-            'add_new' 		=> esc_html__( 'Add Schema Type', 'schema-and-structured-data-for-wp' ),
-	    'add_new_item'  	=> '',
-            'edit_item'         => esc_html__( 'Edit Schema Type','schema-and-structured-data-for-wp'),           
-            'all_items'         => esc_html__( 'Schema Types', 'schema-and-structured-data-for-wp' ),  
-            'not_found'         => $not_found_button    
-        ),
+                'name'              => esc_html__( 'Structured Data', 'schema-and-structured-data-for-wp' ),
+                'singular_name'     => esc_html__( 'Structured Data', 'schema-and-structured-data-for-wp' ),
+                'add_new' 	    => esc_html__( 'Add Schema Type', 'schema-and-structured-data-for-wp' ),
+                'add_new_item'      => '',
+                'edit_item'         => esc_html__( 'Edit Schema Type','schema-and-structured-data-for-wp'),           
+                'all_items'         => esc_html__( 'Schema Types', 'schema-and-structured-data-for-wp' ),  
+                'not_found'         => $not_found_button    
+           ),
           'public'                => true,
           'has_archive'           => false,
           'exclude_from_search'   => true,
@@ -624,9 +622,20 @@ if(is_admin()){
           'supports'              => array('title'),  
           'menu_position'         => 100
           
-      )
-    );
-  }
+      );    
+    
+    if(saswp_current_user_allowed()){        
+        
+        $cap = saswp_post_type_capabilities();
+
+        if(!empty($cap)){        
+            $saswp['capabilities'] = $cap;         
+        }
+        
+        register_post_type( 'saswp', $saswp);
+    }
+    
+  } 
   
   function saswp_select_callback($post) {
     
@@ -846,7 +855,7 @@ function saswp_dequeue_script() {
     if( !isset( $_POST['saswp_select_name_nonce'] ) || !wp_verify_nonce( $_POST['saswp_select_name_nonce'], 'saswp_select_action_nonce' ) ) return;
       
       // if our current user can't edit this post, bail
-    if( !current_user_can( 'edit_post' ) ) return;  
+    if( !current_user_can( saswp_current_user_can() ) ) return;  
       
     $meta_value = get_post_meta( $post_id, null, true );       
     
@@ -1330,7 +1339,7 @@ add_action('wp_ajax_saswp_send_query_message', 'saswp_send_query_message');
      */
 function saswp_import_plugin_data(){                  
     
-        if ( ! current_user_can( 'manage_options' ) ) {
+        if ( ! current_user_can( saswp_current_user_can() ) ) {
              return;
         }
         
@@ -1405,7 +1414,7 @@ add_action('wp_ajax_saswp_import_plugin_data', 'saswp_import_plugin_data');
 
 function saswp_feeback_no_thanks(){     
     
-        if ( ! current_user_can( 'manage_options' ) ) {
+        if ( ! current_user_can( saswp_current_user_can() ) ) {
              return;
         }
         if ( ! isset( $_GET['saswp_security_nonce'] ) ){
@@ -1435,7 +1444,7 @@ add_action('wp_ajax_saswp_feeback_no_thanks', 'saswp_feeback_no_thanks');
 
 function saswp_feeback_remindme(){  
     
-        if ( ! current_user_can( 'manage_options' ) ) {
+        if ( ! current_user_can( saswp_current_user_can() ) ) {
              return;
         }
         if ( ! isset( $_GET['saswp_security_nonce'] ) ){
@@ -1599,7 +1608,7 @@ function saswp_license_status($add_on, $license_status, $license_key){
 
 function saswp_license_status_check(){  
     
-        if ( ! current_user_can( 'manage_options' ) ) {
+        if ( ! current_user_can( saswp_current_user_can() ) ) {
              return;
         }
         if ( ! isset( $_POST['saswp_security_nonce'] ) ){
