@@ -235,7 +235,7 @@ class saswp_fields_generator {
                                     
 					foreach ( $meta_field['options'] as $key => $value ) {	  
                                             
-                                                if($key == 'administrator' || $key == 'editor'){
+                                                if($key == 'administrator'){
                                                     
                                                     $input .= sprintf(
 							'<option %s value="%s">%s (Default)</option>',

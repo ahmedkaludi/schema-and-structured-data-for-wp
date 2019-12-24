@@ -2879,8 +2879,8 @@ function saswp_current_user_allowed(){
     
     if( is_user_logged_in() ) {
     
-    $currentUser     = wp_get_current_user();    
-    $saswp_roles     = isset($sd_data['saswp-role-based-access']) ? $sd_data['saswp-role-based-access'] : array();
+    $currentUser     = wp_get_current_user();        
+    $saswp_roles     = isset($sd_data['saswp-role-based-access']) ? $sd_data['saswp-role-based-access'] : array('administrator');
     $currentuserrole = (array) $currentUser->roles;
     
     $hasrole         = array_intersect( $currentuserrole, $saswp_roles );
