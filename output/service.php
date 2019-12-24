@@ -2941,7 +2941,7 @@ Class saswp_output_service{
             global $post;
             $input2          = array();
             $image_id 	     = get_post_thumbnail_id();
-	    $image_details   = wp_get_attachment_image_src($image_id, 'full'); 
+	    $image_details   = wp_get_attachment_image_src($image_id, 'full');            
                         
             if( is_array($image_details) ){                                
                                                                                                                     
@@ -2955,23 +2955,18 @@ Class saswp_output_service{
                                                 $resize_image = saswp_aq_resize( $image_details[0], $width[$i], $height[$i], true, false, true );
                                                 
                                                 if(isset($resize_image[0]) && isset($resize_image[1]) && isset($resize_image[2]) ){
-                                                
-                                                                                                        
+                                                                                                                                                        
                                                     $input2['image'][$i]['@type']  = 'ImageObject';
                                                     
-                                                    if($i == 0){
-                                                        
-                                                    $input2['image'][$i]['@id']    = saswp_get_permalink().'#primaryimage';    
-                                                    
+                                                    if($i == 0){                                                        
+                                                        $input2['image'][$i]['@id']    = saswp_get_permalink().'#primaryimage';                                                        
                                                     }
                                                     
                                                     $input2['image'][$i]['url']    = esc_url($resize_image[0]);
                                                     $input2['image'][$i]['width']  = esc_attr($resize_image[1]);
                                                     $input2['image'][$i]['height'] = esc_attr($resize_image[2]);  
                                                     
-                                                }
-                                                
-                                                                                                                                                
+                                                }                                                                                                                                                                                                
                                             }
                                             
                                             if(!empty($input2)){
@@ -2981,14 +2976,15 @@ Class saswp_output_service{
                                             }
                                                                                                                                                                                                                             
                                         }else{
-                                                     
-                                                $size_array = array('full', 'large', 'medium', 'thumbnail');
+                                                                                                 
+                                               $width  = array($image_details[1], 1200, 1200);
+                                               $height = array($image_details[2], 900, 675);
                                                 
-                                                for($i =0; $i< count($size_array); $i++){
+                                               for($i = 0; $i<3; $i++){
                                                     
-                                                    $image_details   = wp_get_attachment_image_src($image_id, $size_array[$i]); 
+                                                        $resize_image = saswp_aq_resize( $image_details[0], $width[$i], $height[$i], true, false, true );
 													
-                                                        if(!empty($image_details)){
+                                                        if(isset($resize_image[0]) && isset($resize_image[1]) && isset($resize_image[2]) ){
 
                                                                 $input2['image'][$i]['@type']  = 'ImageObject';
                                                                 
@@ -2998,13 +2994,12 @@ Class saswp_output_service{
                                                                 
                                                                 }
                                                                 
-                                                                $input2['image'][$i]['url']    = esc_url($image_details[0]);
-                                                                $input2['image'][$i]['width']  = esc_attr($image_details[1]);
-                                                                $input2['image'][$i]['height'] = esc_attr($image_details[2]);
+                                                                $input2['image'][$i]['url']    = esc_url($resize_image[0]);
+                                                                $input2['image'][$i]['width']  = esc_attr($resize_image[1]);
+                                                                $input2['image'][$i]['height'] = esc_attr($resize_image[2]);
 
                                                         }
-                                                    
-                                                    
+                                                                                                        
                                                 }                                                                                                                                                                                        
                                             
                                         } 
@@ -3018,8 +3013,7 @@ Class saswp_output_service{
                                                 $input2['image']['height'] = esc_attr($image_details[2]);
                                             
                                         }
-                                        
-                                                                                                                                                                                                 
+                                                                                                                                                                                                                                         
                              }
                                                        
                           //Get All the images available on post   
@@ -3109,8 +3103,7 @@ Class saswp_output_service{
                                     $input2['image']['height'] = esc_attr($sd_data['sd_default_image_height']);                                                                 
                                             
                             }
-                              
-                              
+                                                            
                           }
                                                     
                           return $input2;
