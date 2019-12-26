@@ -560,8 +560,22 @@ function saswp_post_specific_schema_output() {
                                           }
                                           
                                     }
-                            
-                                                        
+                                    
+                                    // Testomonial Pro
+                                    $strong_testimonials = saswp_get_strong_testimonials();   
+                                    
+                                    if($strong_testimonials){
+                                        
+                                          $input1 = array_merge($input1,$strong_testimonials['rating']);
+                                          
+                                          if(isset($input1['review'])){
+                                              $input1 = array_merge($input1['review'],$strong_testimonials['reviews']);
+                                          }else{
+                                              $input1['review'] = $strong_testimonials['reviews'];
+                                          }
+                                          
+                                    }
+                                                                                    
                         }
                                                                                                         		                        			                        
                          if( !empty($input1) && !isset($input1['image'])){

@@ -1280,6 +1280,54 @@ function saswp_get_testimonial_pro_data($shortcode_data, $testimo_str){
     
 }
 
+function saswp_get_strong_testimonials_data($testimonial){
+    
+            $reviews = array();
+            $ratings = array();
+    
+            if(!empty($testimonial)){
+
+                $sumofrating = 0;
+                $avg_rating  = 1;
+
+                foreach ($testimonial as $value){
+                    
+                     $rating       = 5; 
+                     $author       = get_post_meta($value->ID, $key='client_name', true);
+                     
+                     $sumofrating += $rating;
+
+                     $reviews[] = array(
+                         '@type'         => 'Review',
+                         'author'        => $author,
+                         'datePublished' => saswp_format_date_time($value->post_date),
+                         'description'   => $value->post_content,
+                         'reviewRating'  => array(
+                                            '@type'	        => 'Rating',
+                                            'bestRating'	=> '5',
+                                            'ratingValue'	=> $rating,
+                                            'worstRating'	=> '1',
+                               )
+                     ); 
+
+                    }
+
+                    if($sumofrating> 0){
+                      $avg_rating = $sumofrating /  count($reviews); 
+                    }
+
+                    $ratings['aggregateRating'] =  array(
+                                                    '@type'         => 'AggregateRating',
+                                                    'ratingValue'	=> $avg_rating,
+                                                    'reviewCount'   => count($testimonial)
+                    );
+
+            }
+
+            return array('reviews' => $reviews, 'rating' => $ratings);
+    
+}
+
 function saswp_get_bne_testimonials_data($atts, $testimo_str){
         
             $reviews       = array();
@@ -1337,6 +1385,82 @@ function saswp_get_bne_testimonials_data($atts, $testimo_str){
 }
 
 function saswp_get_strong_testimonials(){
+    
+    $testimonial = array();
+    
+    global $post, $sd_data;
+
+     if(isset($sd_data['saswp-strong-testimonials']) && $sd_data['saswp-strong-testimonials'] == 1){
+     
+        if(is_object($post)){
+         
+         $pattern = get_shortcode_regex();
+
+        if (   preg_match_all( '/'. $pattern .'/s', $post->post_content, $matches )
+            && array_key_exists( 2, $matches ) )
+        {
+             
+           $testimo_str = ''; 
+           
+           if(in_array( 'testimonial_view', $matches[2] )){
+               $testimo_str = 'testimonial_view';
+           }
+           
+        if($testimo_str){
+            
+            foreach ($matches[0] as $matche){
+             
+                $mached = rtrim($matche, ']'); 
+                $mached = ltrim($mached, '[');
+                $mached = trim($mached);
+               
+                $atts   = shortcode_parse_atts('['.$mached.' ]'); 
+                $atts   = array('id' => $atts['id']);
+                
+               
+                $out = shortcode_atts(
+			array(),
+			$atts,
+			'testimonial_view'
+		);                                
+                
+                if(class_exists('Strong_View_Form') && class_exists('Strong_View_Slideshow') && class_exists('Strong_View_Display')){
+                                    
+                    switch ( $out['mode'] ) {
+			case 'form' :
+				$view = new Strong_View_Form( $out );
+				if ( isset( $_GET['success'] ) ) {
+				    $view->success();
+				} else {
+					$view->build();
+				}
+				break;
+			case 'slideshow' :
+				$view = new Strong_View_Slideshow( $out );
+		        $view->build();
+				break;
+			default :
+				$view = new Strong_View_Display( $out );
+        		$view->build();
+		        }                 
+                        if(is_object($view)){
+                            $testimonial = saswp_get_strong_testimonials_data($view->query->posts);
+                        }
+                                        
+                }
+                
+            break;
+         }
+            
+        }    
+                               
+       }
+         
+      }
+      
+     }   
+         
+    return $testimonial;
     
     //tomorrow will do it
     
