@@ -118,6 +118,24 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
 
+= 1.9.20 (26 Dec 2019) =
+
+* Added: Role Based Access feature #631
+* Added: comment property in DiscussionForumPosting schema type using bbPress compatiblity. #649
+* Added: itemReviewed type organization in Review schema #662
+* Added: Compatibility with Strong testimonials plugin #664
+* Fixed: Change Internal Links to AMP Option is not working from SASWP v1.9.18 #686
+* Fixed: Notice: is_amp_endpoint was called incorrectly. #681
+* Fixed: By default there are 10 comments showing in markup need to set this as per users site. #668
+* Fixed: Invalid schema output when using ACF fields with recipe ingredients #659
+* Fixed: In Review schema if Item Reviewed Type selected then show Add Reviews checkbox #667
+* Fixed: How to show reviews on the website shows 404 page not found. #676
+* Fixed: Fatal error: called to undefined function "saswp_reviews_front_output" #685
+* Fixed: If image size greater than 1200px, Image croping based on image ratio is not working correct #683
+* Fixed: Form ( Which should not be displayed on amp) is being displayed when SASWP is active. #679
+* Fixed: Wrong data type appears ( If data type is set as 'Person' then 'Organization' appears as data type on the Post when 'Defragment Schema Markup' is enabled) #636
+
+
 = 1.9.19 (18 Dec 2019) =
 
 * Fixed: Author URL is missing #665
