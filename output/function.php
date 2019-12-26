@@ -103,7 +103,7 @@ function saswp_schema_markup_output() {
         }
                      
         $schema_breadcrumb_output = saswp_schema_breadcrumb_output();                      
-        $kb_website_output        = saswp_kb_website_output();      
+        $kb_website_output        = saswp_kb_website_output();           
         
         if((is_home() || is_front_page() || ( function_exists('ampforwp_is_home') && ampforwp_is_home())) || isset($sd_data['saswp-defragment']) && $sd_data['saswp-defragment'] == 1 ){
                $kb_schema_output         = saswp_kb_schema_output();
@@ -203,9 +203,8 @@ function saswp_schema_markup_output() {
                         unset($schema_breadcrumb_output['@context']);
                         unset($webpage['mainEntity']);
                         unset($kb_schema_output['@context']);                        
-                        unset($kb_website_output['@context']);
-                        
-                        $kb_schema_output['@type'] = 'Organization';    
+                        unset($kb_website_output['@context']);                        
+                        $kb_schema_output['@type'] = isset($sd_data['saswp_kb_type']) ? $sd_data['saswp_kb_type'] : 'Organization';    
                     
                      if($webpage){
                     
@@ -245,13 +244,16 @@ function saswp_schema_markup_output() {
                         if($kb_website_output){
                             
                             $kb_website_output['publisher'] = array(
-                            '@id' => $kb_schema_output['@id']
+                            '@id' => isset($kb_schema_output['@id']) ? $kb_schema_output['@id'] : ''
                             );                            
                         }
-                        
-                        $soutput['publisher'] = array(
-                            '@id' => $kb_schema_output['@id']
-                        );
+                        if($sd_data['saswp_kb_type'] == 'Organization'){                                                                             
+                            
+                            $soutput['publisher'] = array(
+                                '@id' => isset($kb_schema_output['@id']) ? $kb_schema_output['@id'] : ''
+                            );
+                            
+                        }
                         
                     }
                                         
@@ -261,8 +263,10 @@ function saswp_schema_markup_output() {
                     $final_output['@graph'][]   = $kb_website_output;
 
                     $final_output['@graph'][]   = $webpage;
-                    
-                    $final_output['@graph'][]   = $schema_breadcrumb_output;
+                   
+                    if($schema_breadcrumb_output){
+                        $final_output['@graph'][]   = $schema_breadcrumb_output;
+                    }
                     
                     $final_output['@graph'][]   = $soutput;
                         
