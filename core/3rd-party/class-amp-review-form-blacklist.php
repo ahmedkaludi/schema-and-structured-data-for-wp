@@ -54,6 +54,24 @@ if ( class_exists( 'AMP_Blacklist_Sanitizer' ) ) {
 			}
 
 			$node_name = $node->nodeName;
+                                                
+                        if($node->nodeName=='a' && $node->hasAttribute('href')){
+                            
+                            $href = $node->getAttribute('href');
+                        
+                            if( strpos($href,'tel:') ){
+                                    $disallowed = array('http://', 'https://');
+                                    foreach($disallowed as $d){
+                                  if(strpos($href, $d) === 0) {
+                                     $href = str_replace($d, '', $href);
+                                  }
+                               }
+                               $node->setAttribute('href',$href);
+                            }
+                            
+                            $node->setAttribute('href', \ampforwp_findInternalUrl($href));
+
+		        }
 
 			// Some nodes may contain valid content but are themselves invalid.
 
