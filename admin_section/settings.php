@@ -1805,6 +1805,18 @@ function saswp_compatibility_page_callback(){
                                 'name' => 'sd_data[saswp-realhomes]',                             
                         )
 		);
+        $wpresidence = array(
+			'label'  => 'WP Residence Theme',
+			'id'     => 'saswp-wpresidence-checkbox',                        
+                        'name'   => 'saswp-wpresidence-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
+                        'note'   => saswp_get_field_note('wpresidence'),
+                        'hidden' => array(
+                                'id'   => 'saswp-wpresidence',
+                                'name' => 'sd_data[saswp-wpresidence]',                             
+                        )
+		);
         
         $learn_press = array(
 			'label'  => 'LearnPress',
@@ -2274,7 +2286,9 @@ function saswp_compatibility_page_callback(){
          if(!is_plugin_active('real-estate-schema/real-estate-schema.php')){
                           
              $homeland_theme['note'] = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/extensions/">Real Estate Schema Addon</a>';
-             $real_homes['note'] = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/extensions/">Real Estate Schema Addon</a>';
+             $real_homes['note']     = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/extensions/">Real Estate Schema Addon</a>';
+             $wpresidence['note']   = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/extensions/">Real Estate Schema Addon</a>';
+             
              
          }
          
@@ -2342,6 +2356,7 @@ function saswp_compatibility_page_callback(){
                 $rankmath,
                 $homeland_theme,
                 $real_homes,
+                $wpresidence,
                 $learn_press,
                 $learn_dash,
                 $lifter_lms,

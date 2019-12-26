@@ -52,8 +52,7 @@ class saswp_output_compatibility{
 
     public function saswp_override_schema_markup(){
         
-        global $sd_data;
-        
+        global $sd_data;        
         if(!empty($this->_plugins_list)){
         
             foreach ($this->_plugins_list as $key =>  $plugins){
@@ -149,32 +148,7 @@ class saswp_output_compatibility{
              remove_action( 'wp_head', 'BF_Json_LD_Generator::print_output' );
              remove_action( 'better-amp/template/head', 'BF_Json_LD_Generator::print_output' );       
              
-    }
-
-    public function saswp_easy_recipe_override(){
-                        
-       //code to be written
-                        
-    }
-    
-    public function saswp_strong_testimonials_override(){
-                        
-       //code to be written
-                        
-    }
-    
-    public function saswp_wp_event_aggregator_override(){
-                        
-       //code to be written
-                        
-    }
-    
-    public function saswp_tevolution_events_override(){
-                        
-       //code to be written
-                        
-    }
-    
+    }       
     public function saswp_easy_testimonials_override(){
                         
         add_filter('easy_testimonials_json_ld', '__return_false'); 

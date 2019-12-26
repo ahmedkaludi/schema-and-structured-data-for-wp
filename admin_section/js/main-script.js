@@ -813,6 +813,15 @@ return false;
                             }
                       break;
                       
+                      case 'saswp-wpresidence-checkbox':
+                          saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-wpresidence").val(1);             
+                            }else{
+                              $("#saswp-wpresidence").val(0);           
+                            }
+                      break;
+                      
                       case 'saswp-realhomes-checkbox':
                           saswp_compatibliy_notes(current, id); 
                             if ($(this).is(':checked')) {              

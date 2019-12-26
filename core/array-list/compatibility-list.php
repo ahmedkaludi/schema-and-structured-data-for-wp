@@ -299,5 +299,11 @@ return array(
                     'opt_name'   => 'saswp-realhomes',
                     'part_in'    => 'pro',
         ),
+        'wpresidence' => array(            
+                    'name'       => 'WP Residence',
+                    'free'       => 'wpresidence',               
+                    'opt_name'   => 'saswp-wpresidence',
+                    'part_in'    => 'pro',
+        ),
     )
 );
