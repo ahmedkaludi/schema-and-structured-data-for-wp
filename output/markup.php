@@ -64,6 +64,70 @@ function saswp_book_schema_markup($schema_id, $schema_post_id, $all_post_meta){
     return $input1;
 }
 
+function saswp_movie_schema_markup($schema_id, $schema_post_id, $all_post_meta){
+    
+        $input1 = array();
+        
+        $howto_image = get_post_meta($schema_post_id, 'saswp_movie_image_'.$schema_id.'_detail',true); 
+
+        $tool        = get_post_meta($schema_post_id, 'movie_actor_'.$schema_id, true);                      
+
+        $input1['@context']              = saswp_context_url();
+        $input1['@type']                 = 'Movie';
+        $input1['@id']                   = ((isset($all_post_meta['saswp_howto_schema_id_'.$schema_id][0]) && $all_post_meta['saswp_howto_schema_id_'.$schema_id][0] !='') ? $all_post_meta['saswp_howto_schema_id_'.$schema_id][0] : trailingslashit(get_permalink()).'#Movie');                
+        $input1['name']                  = saswp_remove_warnings($all_post_meta, 'saswp_movie_name_'.$schema_id, 'saswp_array');
+        $input1['url']                   = saswp_remove_warnings($all_post_meta, 'saswp_movie_url_'.$schema_id, 'saswp_array');
+        $input1['sameAs']                = saswp_remove_warnings($all_post_meta, 'saswp_movie_url_'.$schema_id, 'saswp_array');
+        $input1['dateCreated']           = isset($all_post_meta['saswp_movie_date_created_'.$schema_id])?date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_movie_date_created_'.$schema_id][0])):'';        
+        $input1['description']           = saswp_remove_warnings($all_post_meta, 'saswp_movie_description_'.$schema_id, 'saswp_array');
+
+        if(!(empty($howto_image))){
+
+        $input1['image']['@type']        = 'ImageObject';
+        $input1['image']['url']          = isset($howto_image['thumbnail']) ? esc_url($howto_image['thumbnail']):'';
+        $input1['image']['height']       = isset($howto_image['width'])     ? esc_attr($howto_image['width'])   :'';
+        $input1['image']['width']        = isset($howto_image['height'])    ? esc_attr($howto_image['height'])  :'';
+
+        }      
+        
+        if(isset($all_post_meta['saswp_movie_director_'.$schema_id][0])){
+            
+        $input1['director']['@type']        = 'Person';
+        $input1['director']['name']          = $all_post_meta['saswp_movie_director_'.$schema_id][0];        
+            
+        }
+        
+        if(saswp_remove_warnings($all_post_meta, 'saswp_movie_enable_rating_'.$schema_id, 'saswp_array') == 1 && saswp_remove_warnings($all_post_meta, 'saswp_movie_rating_value_'.$schema_id, 'saswp_array') && saswp_remove_warnings($all_post_meta, 'saswp_movie_rating_count_'.$schema_id, 'saswp_array')){   
+                                 
+                                          $input1['aggregateRating'] = array(
+                                                            "@type"       => "AggregateRating",
+                                                            "ratingValue" => saswp_remove_warnings($all_post_meta, 'saswp_movie_rating_value_'.$schema_id, 'saswp_array'),
+                                                            "reviewCount" => saswp_remove_warnings($all_post_meta, 'saswp_movie_rating_count_'.$schema_id, 'saswp_array')
+                                                         );                                       
+                                         }
+                
+        $supply_arr = array();
+        
+        if(!empty($tool)){
+
+            foreach($tool as $val){
+
+                $supply_data = array();
+
+                if($val['saswp_movie_actor_name']){
+                    $supply_data['@type'] = 'Person';
+                    $supply_data['name']  = $val['saswp_movie_actor_name'];
+                    $supply_data['url']   = $val['saswp_movie_actor_url'];
+                }
+
+               $supply_arr[] =  $supply_data;
+            }
+           $input1['actor'] = $supply_arr;
+        }
+                                    
+        return $input1;
+}
+
 function saswp_howto_schema_markup($schema_id, $schema_post_id, $all_post_meta){
     
         $input1 = array();
@@ -2490,6 +2554,12 @@ function saswp_review_schema_markup($schema_id, $schema_post_id, $all_post_meta)
          case 'Organization':
 
              $item_schema = saswp_organization_schema_markup($schema_id, $schema_post_id, $all_post_meta);
+
+             break;
+         
+         case 'Movie':
+
+             $item_schema = saswp_movie_schema_markup($schema_id, $schema_post_id, $all_post_meta);
 
              break;
 

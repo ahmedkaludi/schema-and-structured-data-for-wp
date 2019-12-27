@@ -6,6 +6,9 @@ return array( 'schema_type_element' => array(
                         'MusicComposition' => array(
                                'music_composer'       => 'music_composer',                                                     
                         ),
+                        'Movie' => array(
+                               'movie_actor'       => 'movie_actor',                                                     
+                        ),
                         'Article' => array(
                                'article_items' => 'article_items',                                                
                         ),
@@ -63,7 +66,19 @@ return array( 'schema_type_element' => array(
                                'trip-itinerary'  => 'trip_itinerary'
                         )                                                                          
                     ),
-    'meta_name' => array(    
+    'meta_name' => array(
+                     'movie_actor' => array(                    
+                        array(
+                            'label'     => 'Name',
+                            'name'      => 'saswp_movie_actor_name',
+                            'type'      => 'text',                        
+                        ),
+                        array(
+                            'label'     => 'URL',
+                            'name'      => 'saswp_movie_actor_url',
+                            'type'      => 'text',                        
+                        ) 
+                    ),
                     'music_composer' => array(                    
                     array(
 			'label'     => 'Name',

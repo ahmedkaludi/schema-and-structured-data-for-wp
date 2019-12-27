@@ -450,6 +450,36 @@ Class saswp_output_service{
                     
                 break;
                 
+                case 'Movie':      
+                    
+                    if(isset($custom_fields['saswp_movie_name'])){
+                     $input1['name'] =    $custom_fields['saswp_movie_name'];
+                    }
+                    if(isset($custom_fields['saswp_movie_description'])){
+                     $input1['description'] =   wp_strip_all_tags(strip_shortcodes( $custom_fields['saswp_movie_description'] )) ;
+                    }
+                    if(isset($custom_fields['saswp_movie_url'])){
+                     $input1['url'] =    $custom_fields['saswp_movie_url'];
+                     $input1['sameAs'] =    $custom_fields['saswp_movie_url'];
+                    }
+                    if(isset($custom_fields['saswp_movie_image'])){
+                     $input1['image'] =    $custom_fields['saswp_movie_image'];
+                    }
+                    if(isset($custom_fields['saswp_movie_date_created'])){
+                     $input1['dateCreated'] =    $custom_fields['saswp_movie_date_created'];
+                    }
+                    if(isset($custom_fields['saswp_movie_director'])){
+                     $input1['director']['@type']        = 'Person';
+                     $input1['director']['name']          = $custom_fields['saswp_movie_director']; 
+                    }
+                    if(isset($custom_fields['saswp_movie_rating_value']) && isset($custom_fields['saswp_movie_rating_count'])){
+                        $input1['aggregateRating']['@type']         = 'aggregateRating';                        
+                        $input1['aggregateRating']['ratingValue']   = $custom_fields['saswp_movie_rating_value'];
+                        $input1['aggregateRating']['reviewCount']   = $custom_fields['saswp_movie_rating_count'];                                
+                    }
+                    
+                break;
+                
                 case 'MusicComposition':      
                     
                     if(isset($custom_fields['saswp_music_composition_name'])){

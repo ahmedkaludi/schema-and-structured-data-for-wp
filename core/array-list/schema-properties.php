@@ -1576,7 +1576,8 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                         'Event'                 => 'Event',                              
                                         'HowTo'                 => 'HowTo',   
                                         'local_business'        => 'LocalBusiness',                                 
-                                        'MusicPlaylist'         => 'Music Playlist', 
+                                        'MusicPlaylist'         => 'Music Playlist',
+                                        'Movie'                 => 'Movie',
                                         'Organization'          => 'Organization', 
                                         'Product'               => 'Product',                                
                                         'Recipe'                => 'Recipe',                             
@@ -3616,6 +3617,57 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'type'       => 'text',                            
                         ),    
                                                                                         
+                   );
+                    break;
+                
+                case 'Movie':
+                    
+                    $meta_field = array(                        
+                        array(
+                            'label'      => 'Name',
+                            'id'         => 'saswp_movie_name_'.$schema_id,
+                            'type'       => 'text',                           
+                        ),
+                        array(
+                            'label'      => 'Description',
+                            'id'         => 'saswp_movie_description_'.$schema_id,
+                            'type'       => 'textarea',                           
+                        ),
+                        array(
+                            'label'      => 'URL',
+                            'id'         => 'saswp_movie_url_'.$schema_id,
+                            'type'       => 'text',                           
+                        ),
+                        array(
+                            'label'      => 'Image',
+                            'id'         => 'saswp_movie_image_'.$schema_id,
+                            'type'       => 'media',                           
+                        ),
+                        array(
+                            'label'      => 'Date Created',
+                            'id'         => 'saswp_movie_date_created_'.$schema_id,
+                            'type'       => 'text',                           
+                        ),
+                        array(
+                            'label'      => 'Director',
+                            'id'         => 'saswp_movie_director_'.$schema_id,
+                            'type'       => 'text',                           
+                        ),
+                        array(
+                            'label'      => 'Aggregate Rating',
+                            'id'         => 'saswp_movie_enable_rating_'.$schema_id,
+                            'type'       => 'checkbox',                            
+                        ),
+                        array(
+                            'label'      => 'Rating',
+                            'id'         => 'saswp_movie_rating_value_'.$schema_id,
+                            'type'       => 'text',                           
+                        ),
+                        array(
+                            'label'      => 'Rating Count',
+                            'id'         => 'saswp_movie_rating_count_'.$schema_id,
+                            'type'       => 'text',                            
+                        )                                                                                         
                    );
                     break;
                                 

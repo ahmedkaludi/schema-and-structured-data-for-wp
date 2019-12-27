@@ -22,6 +22,7 @@ return array(
                 'MusicPlaylist'            => 'MusicPlaylist',
                 'MusicAlbum'               => 'MusicAlbum',
                 'MusicComposition'         => 'MusicComposition',
+                'Movie'                    => 'Movie',
                 'NewsArticle'              => 'NewsArticle',                                            
                 'qanda'                    => 'Q&A',   
                 'Review'                   => 'Review',
@@ -41,7 +42,6 @@ return array(
             'JobPosting'                  => 'JobPosting', 
             'Service'                     => 'Service',
             'Trip'                        => 'Trip',    
-
         ),
         'Media' =>  array(
              'AudioObject'              => 'AudioObject',
