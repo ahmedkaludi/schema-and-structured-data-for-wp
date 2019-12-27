@@ -203,9 +203,20 @@ function saswp_schema_markup_output() {
                         unset($schema_breadcrumb_output['@context']);
                         unset($webpage['mainEntity']);
                         unset($kb_schema_output['@context']);                        
-                        unset($kb_website_output['@context']);                        
-                        $kb_schema_output['@type'] = isset($sd_data['saswp_kb_type']) ? $sd_data['saswp_kb_type'] : 'Organization';    
-                    
+                        unset($kb_website_output['@context']); 
+                        
+                        if(isset($sd_data['saswp_kb_type'])){
+                           
+                            $kb_schema_output['@type'] = $sd_data['saswp_kb_type'];
+                            
+                            if($sd_data['saswp_kb_type'] == 'Organization'){
+                                $kb_schema_output['@type'] = isset($sd_data['saswp_organization_type']) ? $sd_data['saswp_organization_type'] : 'Organization';
+                            }
+                                                        
+                        }else{
+                            $kb_schema_output['@type'] = 'Organization';
+                        }
+                        
                      if($webpage){
                     
                          $soutput['isPartOf'] = array(
