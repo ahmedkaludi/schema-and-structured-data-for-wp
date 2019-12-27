@@ -843,6 +843,11 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'id' => 'saswp_event_schema_url_'.$schema_id,
                                 'type' => 'text',                                
                         ),
+                        array(
+                                'label' => 'Performer Name',
+                                'id' => 'saswp_event_schema_performer_name_'.$schema_id,
+                                'type' => 'text',                                
+                        ),
                     );
                     break;
                 
@@ -1571,7 +1576,8 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                         'Event'                 => 'Event',                              
                                         'HowTo'                 => 'HowTo',   
                                         'local_business'        => 'LocalBusiness',                                 
-                                        'MusicPlaylist'         => 'Music Playlist',                                                                                                                                                                                               
+                                        'MusicPlaylist'         => 'Music Playlist', 
+                                        'Organization'          => 'Organization', 
                                         'Product'               => 'Product',                                
                                         'Recipe'                => 'Recipe',                             
                                         'SoftwareApplication'   => 'SoftwareApplication',
@@ -3480,6 +3486,78 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'id'      => 'saswp_book_rating_count_'.$schema_id,
                             'type'    => 'text',                            
                     ),                                                                            
+                   );
+                    break;
+                
+                case 'Organization':
+                    
+                    $meta_field = array(                        
+                    array(
+                            'label'      => 'Name',
+                            'id'         => 'saswp_organization_name_'.$schema_id,
+                            'type'       => 'text',                           
+                        ),
+                    array(
+                            'label'      => 'Description',
+                            'id'         => 'saswp_organization_description_'.$schema_id,
+                            'type'       => 'text',                           
+                        ),    
+                    array(
+                            'label'      => 'URL',
+                            'id'         => 'saswp_organization_url_'.$schema_id,
+                            'type'       => 'text',                           
+                        ), 
+                    array(
+                            'label'      => 'Logo',
+                            'id'         => 'saswp_organization_logo_'.$schema_id,
+                            'type'       => 'media',                           
+                        ), 
+                    array(
+                            'label'      => 'Street Address',
+                            'id'         => 'saswp_organization_street_address_'.$schema_id,
+                            'type'       => 'text',                           
+                        ),
+                        array(
+                            'label'      => 'City',
+                            'id'         => 'saswp_organization_city_'.$schema_id,
+                            'type'       => 'text',                           
+                        ),
+                        array(
+                            'label'      => 'State',
+                            'id'         => 'saswp_organization_state_'.$schema_id,
+                            'type'       => 'text',                           
+                        ),
+                        array(
+                            'label'      => 'Country',
+                            'id'         => 'saswp_organization_country_'.$schema_id,
+                            'type'       => 'text',                           
+                        ),
+                        array(
+                            'label'      => 'Postal Code',
+                            'id'         => 'saswp_organization_postal_code_'.$schema_id,
+                            'type'       => 'text',                           
+                        ),
+                        array(
+                            'label'      => 'Telephone',
+                            'id'         => 'saswp_organization_telephone_'.$schema_id,
+                            'type'       => 'text',                           
+                        ),
+                        array(
+                            'label' => 'Aggregate Rating',
+                            'id'    => 'saswp_organization_enable_rating_'.$schema_id,
+                            'type'  => 'checkbox',                            
+                        ),
+                        array(
+                            'label'      => 'Rating',
+                            'id'         => 'saswp_organization_rating_value_'.$schema_id,
+                            'type'       => 'text',                           
+                        ),
+                        array(
+                            'label'      => 'Rating Count',
+                            'id'         => 'saswp_organization_rating_count_'.$schema_id,
+                            'type'       => 'text',                            
+                        ),    
+                                                                                        
                    );
                     break;
                                 

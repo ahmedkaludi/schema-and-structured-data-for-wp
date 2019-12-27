@@ -449,6 +449,47 @@ Class saswp_output_service{
                     }
                                           
                     break; 
+                case 'Organization':      
+                    
+                    if(isset($custom_fields['saswp_organization_name'])){
+                     $input1['name'] =    $custom_fields['saswp_organization_name'];
+                    }
+                    if(isset($custom_fields['saswp_organization_description'])){
+                     $input1['description'] =    $custom_fields['saswp_organization_description'];
+                    }
+                    if(isset($custom_fields['saswp_organization_url'])){
+                     $input1['url'] =    $custom_fields['saswp_organization_url'];
+                    }                                        
+                    if(isset($custom_fields['saswp_organization_street_address'])){
+                     $input1['address']['streetAddress'] =    $custom_fields['saswp_organization_street_address'];
+                    }                    
+                    if(isset($custom_fields['saswp_organization_city'])){
+                     $input1['address']['addressLocality'] =    $custom_fields['saswp_organization_city'];
+                    }
+                    if(isset($custom_fields['saswp_organization_state'])){
+                     $input1['address']['addressRegion'] =    $custom_fields['saswp_organization_state'];
+                    }
+                    if(isset($custom_fields['saswp_organization_country'])){
+                     $input1['address']['addressCountry'] =    $custom_fields['saswp_organization_country'];
+                    }
+                    if(isset($custom_fields['saswp_organization_postal_code'])){
+                     $input1['address']['postalCode'] =    $custom_fields['saswp_organization_postal_code'];
+                    }
+                    if(isset($custom_fields['saswp_organization_telephone'])){
+                     $input1['address']['telephone'] =    $custom_fields['saswp_organization_telephone'];
+                    }
+                    if(isset($custom_fields['saswp_organization_logo'])){
+                     $input1['logo'] =    $custom_fields['saswp_organization_logo'];
+                    }
+                    if(isset($custom_fields['saswp_organization_rating_value']) && isset($custom_fields['saswp_organization_rating_count'])){
+                       $input1['aggregateRating']['@type']       =   'AggregateRating';
+                       $input1['aggregateRating']['worstRating'] =   0;
+                       $input1['aggregateRating']['bestRating']  =   5;
+                       $input1['aggregateRating']['ratingValue'] =    $custom_fields['saswp_organization_rating_value'];
+                       $input1['aggregateRating']['ratingCount'] =    $custom_fields['saswp_organization_rating_count'];
+                    }
+                                                                                  
+                    break;     
                     
                 case 'MusicAlbum':      
                     
@@ -1117,11 +1158,11 @@ Class saswp_output_service{
                      $input1['nutrition']['calories'] =    $custom_fields['saswp_recipe_nutrition'];
                     }
                     
-                    if(isset($custom_fields['saswp_recipe_ingredient'])){
-                     $input1['recipeIngredient'] =    $custom_fields['saswp_recipe_ingredient'];
+                    if(isset($custom_fields['saswp_recipe_ingredient'])){                                            
+                     $input1['recipeIngredient'] =    saswp_explod_by_semicolon($custom_fields['saswp_recipe_ingredient']);
                     }
-                    if(isset($custom_fields['saswp_recipe_instructions'])){
-                     $input1['recipeInstructions'] =    $custom_fields['saswp_recipe_instructions'];
+                    if(isset($custom_fields['saswp_recipe_instructions'])){                                                                                                                     
+                     $input1['recipeInstructions'] =    saswp_explod_by_semicolon($custom_fields['saswp_recipe_instructions']);
                     }
                     if(isset($custom_fields['saswp_recipe_video_name'])){
                      $input1['video']['name'] =    $custom_fields['saswp_recipe_video_name'];
@@ -2900,7 +2941,7 @@ Class saswp_output_service{
             global $post;
             $input2          = array();
             $image_id 	     = get_post_thumbnail_id();
-	    $image_details   = wp_get_attachment_image_src($image_id, 'full'); 
+	    $image_details   = wp_get_attachment_image_src($image_id, 'full');            
                         
             if( is_array($image_details) ){                                
                                                                                                                     
@@ -2914,23 +2955,18 @@ Class saswp_output_service{
                                                 $resize_image = saswp_aq_resize( $image_details[0], $width[$i], $height[$i], true, false, true );
                                                 
                                                 if(isset($resize_image[0]) && isset($resize_image[1]) && isset($resize_image[2]) ){
-                                                
-                                                                                                        
+                                                                                                                                                        
                                                     $input2['image'][$i]['@type']  = 'ImageObject';
                                                     
-                                                    if($i == 0){
-                                                        
-                                                    $input2['image'][$i]['@id']    = saswp_get_permalink().'#primaryimage';    
-                                                    
+                                                    if($i == 0){                                                        
+                                                        $input2['image'][$i]['@id']    = saswp_get_permalink().'#primaryimage';                                                        
                                                     }
                                                     
                                                     $input2['image'][$i]['url']    = esc_url($resize_image[0]);
                                                     $input2['image'][$i]['width']  = esc_attr($resize_image[1]);
                                                     $input2['image'][$i]['height'] = esc_attr($resize_image[2]);  
                                                     
-                                                }
-                                                
-                                                                                                                                                
+                                                }                                                                                                                                                                                                
                                             }
                                             
                                             if(!empty($input2)){
@@ -2940,14 +2976,15 @@ Class saswp_output_service{
                                             }
                                                                                                                                                                                                                             
                                         }else{
-                                                     
-                                                $size_array = array('full', 'large', 'medium', 'thumbnail');
+                                                                                                 
+                                               $width  = array($image_details[1], 1200, 1200);
+                                               $height = array($image_details[2], 900, 675);
                                                 
-                                                for($i =0; $i< count($size_array); $i++){
+                                               for($i = 0; $i<3; $i++){
                                                     
-                                                    $image_details   = wp_get_attachment_image_src($image_id, $size_array[$i]); 
+                                                        $resize_image = saswp_aq_resize( $image_details[0], $width[$i], $height[$i], true, false, true );
 													
-                                                        if(!empty($image_details)){
+                                                        if(isset($resize_image[0]) && isset($resize_image[1]) && isset($resize_image[2]) ){
 
                                                                 $input2['image'][$i]['@type']  = 'ImageObject';
                                                                 
@@ -2957,13 +2994,12 @@ Class saswp_output_service{
                                                                 
                                                                 }
                                                                 
-                                                                $input2['image'][$i]['url']    = esc_url($image_details[0]);
-                                                                $input2['image'][$i]['width']  = esc_attr($image_details[1]);
-                                                                $input2['image'][$i]['height'] = esc_attr($image_details[2]);
+                                                                $input2['image'][$i]['url']    = esc_url($resize_image[0]);
+                                                                $input2['image'][$i]['width']  = esc_attr($resize_image[1]);
+                                                                $input2['image'][$i]['height'] = esc_attr($resize_image[2]);
 
                                                         }
-                                                    
-                                                    
+                                                                                                        
                                                 }                                                                                                                                                                                        
                                             
                                         } 
@@ -2977,8 +3013,7 @@ Class saswp_output_service{
                                                 $input2['image']['height'] = esc_attr($image_details[2]);
                                             
                                         }
-                                        
-                                                                                                                                                                                                 
+                                                                                                                                                                                                                                         
                              }
                                                        
                           //Get All the images available on post   
@@ -3068,8 +3103,7 @@ Class saswp_output_service{
                                     $input2['image']['height'] = esc_attr($sd_data['sd_default_image_height']);                                                                 
                                             
                             }
-                              
-                              
+                                                            
                           }
                                                     
                           return $input2;

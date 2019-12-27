@@ -276,7 +276,7 @@ class saswp_reviews_admin {
 			return $post_id;
 		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE )
 			return $post_id;                    
-                if ( !current_user_can( 'manage_options' ) ) 
+                if ( !current_user_can( saswp_current_user_can() ) ) 
                         return $post_id;
                 
 			$post_meta = array();                    

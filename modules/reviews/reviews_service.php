@@ -247,7 +247,7 @@ class saswp_reviews_service {
     
     public function saswp_fetch_google_reviews(){
                 
-                if ( ! current_user_can( 'manage_options' ) ) {
+                if ( ! current_user_can( saswp_current_user_can() ) ) {
                     return;
                 }
         

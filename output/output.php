@@ -144,8 +144,11 @@ function saswp_kb_schema_output() {
 		$input = array(
 			'@context'		=> saswp_context_url(),
 			'@type'			=> esc_attr($sd_data['saswp_kb_type']),
+                        '@id'                   => $site_url.'#Person',
 			'name'			=> esc_attr($sd_data['sd-person-name']),
+                        'jobTitle'	        => esc_attr($sd_data['sd-person-job-title']),
 			'url'			=> esc_url($sd_data['sd-person-url']),
+                        'sameAs'		=> isset($sd_data['saswp_social_links']) ? $sd_data['saswp_social_links'] : array(),                                        		
 			'image' 		=> array(
                                                         '@type'	 => 'ImageObject',
                                                         'url'	 => esc_url($image),
@@ -593,6 +596,7 @@ function saswp_schema_output() {
                         if( 'DiscussionForumPosting' === $schema_type){
                                                      
                             if(isset($sd_data['saswp-bbpress']) && $sd_data['saswp-bbpress'] == 1 && is_plugin_active('bbpress/bbpress.php')){                                                                                                                                                                                            
+                                
                                 $input1 = array(
                                 '@context'			=> saswp_context_url(),
                                 '@type'				=> 'DiscussionForumPosting' ,
@@ -603,7 +607,7 @@ function saswp_schema_output() {
                                 "articleSection"                => bbp_get_forum_title(),
                                 "articleBody"                   => saswp_get_the_content(),    
                                 'url'				=> bbp_get_topic_permalink(),
-                                'datePublished'                 => bbp_get_topic_post_date(),
+                                'datePublished'                 => saswp_format_date_time(bbp_get_topic_post_date()),
                                 'dateModified'                  => esc_html($modified_date),
                                 'author'			=> saswp_get_author_details(),                                    
                                 'interactionStatistic'          => array(
@@ -742,11 +746,7 @@ function saswp_schema_output() {
                                 }                                
                                 if(!empty($extra_theme_review)){
                                    $input1 = array_merge($input1, $extra_theme_review);
-                                }                               
-                                if(isset($sd_data['saswp_comments_schema']) && $sd_data['saswp_comments_schema'] ==1){
-                                   $input1['comment'] = saswp_get_comments(get_the_ID());
-                                } 
-                                
+                                }                                                                                                
                                 $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
                                                                                             
                                 $input1 = apply_filters('saswp_modify_event_schema_output', $input1 );
@@ -1046,7 +1046,7 @@ function saswp_schema_output() {
                                 $input1['@context']               =  saswp_context_url();
                                 $input1['@type']                  =  'Review';
                                 $input1['@id']                    =  trailingslashit(saswp_get_permalink()).'#Review';
-                                $input1['itemReviewed']['@type']  =  $item_reviewed;
+                                $input1['itemReviewed']['@type']  =  $item_reviewed;                                                                
                                                             
                                 if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] == 1){
                                                                        
@@ -1066,7 +1066,16 @@ function saswp_schema_output() {
                                         
                                     }                                                                                                                                                                                  
                                 } 
-                                                                                         
+                                
+                                $added_reviews = saswp_append_fetched_reviews($input1, $schema_post_id);
+                                
+                                if(isset($added_reviews['review'])){
+                                    
+                                    $input1['itemReviewed']['review']                    = $added_reviews['review'];
+                                    $input1['itemReviewed']['aggregateRating']           = $added_reviews['aggregateRating'];
+                                
+                                }
+                                                                                     
                                 if(isset($sd_data['saswp-tagyeem']) && $sd_data['saswp-tagyeem'] == 1 && (is_plugin_active('taqyeem/taqyeem.php') || get_template() != 'jannah') ){                                                                                                      
                            
                                    remove_action( 'TieLabs/after_post_entry',  'tie_article_schemas' );
@@ -1529,6 +1538,9 @@ function saswp_woocommerce_category_schema(){
                         $category_posts['@type']       = 'ListItem';
                         $category_posts['position']    = $i;
 			$category_posts['item']        = $service->saswp_schema_markup_generator('Product');
+                        
+                        $feature_image           = $service->saswp_get_fetaure_image();
+                        $category_posts['item']  = array_merge( $category_posts['item'], $feature_image);
                         
                         if(saswp_has_slash($current_url)){
                             $category_posts['item']['url'] =  trailingslashit(saswp_get_category_link($term->term_id)). "#product_".$i;    

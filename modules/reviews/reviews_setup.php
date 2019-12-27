@@ -44,7 +44,17 @@ function saswp_register_saswp_reviews_location() {
 	'rewrite'               => false,        
     );
         
-    register_post_type( 'saswp_rvs_location', $post_type );   
+    if(saswp_current_user_allowed()){
+        
+        $cap = saswp_post_type_capabilities();
+
+        if(!empty($cap)){        
+            $post_type['capabilities'] = $cap;         
+        }
+        
+        register_post_type( 'saswp_rvs_location', $post_type );   
+    }    
+    
                                 
 }
 
@@ -71,9 +81,18 @@ function saswp_register_saswp_reviews() {
         'show_admin_column'     => true,        
 	'rewrite'               => false,        
     );
-        
-    register_post_type( 'saswp_reviews', $post_type );   
-                                
+    
+        if(saswp_current_user_allowed()){
+            
+            $cap = saswp_post_type_capabilities();
+
+            if(!empty($cap)){        
+                $post_type['capabilities'] = $cap;         
+            }
+            
+            register_post_type( 'saswp_reviews', $post_type );   
+        }
+                                            
 }
 
 function saswp_collection_custom_columns_set( $column, $post_id ) {

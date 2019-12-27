@@ -98,12 +98,12 @@ function saswp_schema_markup_output() {
                 $item_list            = $archive_output[0];
             }
             
-            $collection_page          = $archive_output[1]; 
-            $blog_page                = $archive_output[2]; 
+            $collection_page          = isset($archive_output[1]) ? $archive_output[1]: array(); 
+            $blog_page                = isset($archive_output[1]) ? $archive_output[2]: array(); 
         }
                      
         $schema_breadcrumb_output = saswp_schema_breadcrumb_output();                      
-        $kb_website_output        = saswp_kb_website_output();      
+        $kb_website_output        = saswp_kb_website_output();           
         
         if((is_home() || is_front_page() || ( function_exists('ampforwp_is_home') && ampforwp_is_home())) || isset($sd_data['saswp-defragment']) && $sd_data['saswp-defragment'] == 1 ){
                $kb_schema_output         = saswp_kb_schema_output();
@@ -203,9 +203,8 @@ function saswp_schema_markup_output() {
                         unset($schema_breadcrumb_output['@context']);
                         unset($webpage['mainEntity']);
                         unset($kb_schema_output['@context']);                        
-                        unset($kb_website_output['@context']);
-                        
-                        $kb_schema_output['@type'] = 'Organization';    
+                        unset($kb_website_output['@context']);                        
+                        $kb_schema_output['@type'] = isset($sd_data['saswp_kb_type']) ? $sd_data['saswp_kb_type'] : 'Organization';    
                     
                      if($webpage){
                     
@@ -245,13 +244,16 @@ function saswp_schema_markup_output() {
                         if($kb_website_output){
                             
                             $kb_website_output['publisher'] = array(
-                            '@id' => $kb_schema_output['@id']
+                            '@id' => isset($kb_schema_output['@id']) ? $kb_schema_output['@id'] : ''
                             );                            
                         }
-                        
-                        $soutput['publisher'] = array(
-                            '@id' => $kb_schema_output['@id']
-                        );
+                        if($sd_data['saswp_kb_type'] == 'Organization'){                                                                             
+                            
+                            $soutput['publisher'] = array(
+                                '@id' => isset($kb_schema_output['@id']) ? $kb_schema_output['@id'] : ''
+                            );
+                            
+                        }
                         
                     }
                                         
@@ -261,8 +263,10 @@ function saswp_schema_markup_output() {
                     $final_output['@graph'][]   = $kb_website_output;
 
                     $final_output['@graph'][]   = $webpage;
-                    
-                    $final_output['@graph'][]   = $schema_breadcrumb_output;
+                   
+                    if($schema_breadcrumb_output){
+                        $final_output['@graph'][]   = $schema_breadcrumb_output;
+                    }
                     
                     $final_output['@graph'][]   = $soutput;
                         
@@ -597,36 +601,54 @@ function saswp_extract_wp_post_ratings(){
  */       
 function saswp_get_comments($post_id){
     
-        $comment_count = get_comments_number( $post_id );
+        global $sd_data;
         
-	if ( $comment_count < 1 ) {
-		return array();
-	}
         $comments = array();
-        
-        $count	= apply_filters( 'saswp_do_comments', '10'); // default = 10
-        
-        $post_comments = get_comments( array( 
-                                            'post_id' => $post_id,
-                                            'number'  => $count, 
+        $post_comments = array();    
+       
+        if(isset($sd_data['saswp-bbpress']) && $sd_data['saswp-bbpress'] == 1 && get_post_type($post_id) == 'topic'){  
+                                         
+                  $replies_query = array(                   
+                     'post_type'      => 'reply',                     
+                  );                
+                                  
+                 if ( bbp_has_replies( $replies_query ) ) :
+                     
+			while ( bbp_replies() ) : bbp_the_reply();
+
+                        $post_comments[] = (object) array(                            
+                                        'comment_date'       => bbp_get_reply_post_date(bbp_get_reply_id(),'c'),
+                                        'comment_content'    => bbp_get_reply_content(),
+                                        'comment_author'     => the_author(),                                                                               
+                        );
+                                                                                     
+		        endwhile;
+                        wp_reset_postdata();                                                  
+	                endif;
+                                            
+        }else{            
+                        $post_comments = get_comments( array( 
+                                            'post_id' => $post_id,                                            
                                             'status'  => 'approve',
                                             'type'    => 'comment' 
                                         ) 
-                                    );
-        
+                                    );   
+                                    
+        }                                                                                                                                                                                          
+          
         if ( count( $post_comments ) ) {
             
 		foreach ( $post_comments as $comment ) {
                     
 			$comments[] = array (
 					'@type'       => 'Comment',
-					'dateCreated' => esc_html($comment->comment_date),
-					'description' => esc_attr($comment->comment_content),
+					'dateCreated' => saswp_format_date_time($comment->comment_date),
+					'description' => strip_tags($comment->comment_content),
 					'author'      => array (
                                                     '@type' => 'Person',
                                                     'name'  => esc_attr($comment->comment_author),
-                                                    'url'   => esc_url($comment->comment_author_url),
-				),
+                                                    'url'   => isset($comment->comment_author_url) ? esc_url($comment->comment_author_url): '',
+				        ),
 			);
 		}
                 
@@ -1258,6 +1280,54 @@ function saswp_get_testimonial_pro_data($shortcode_data, $testimo_str){
     
 }
 
+function saswp_get_strong_testimonials_data($testimonial){
+    
+            $reviews = array();
+            $ratings = array();
+    
+            if(!empty($testimonial)){
+
+                $sumofrating = 0;
+                $avg_rating  = 1;
+
+                foreach ($testimonial as $value){
+                    
+                     $rating       = 5; 
+                     $author       = get_post_meta($value->ID, $key='client_name', true);
+                     
+                     $sumofrating += $rating;
+
+                     $reviews[] = array(
+                         '@type'         => 'Review',
+                         'author'        => $author,
+                         'datePublished' => saswp_format_date_time($value->post_date),
+                         'description'   => $value->post_content,
+                         'reviewRating'  => array(
+                                            '@type'	        => 'Rating',
+                                            'bestRating'	=> '5',
+                                            'ratingValue'	=> $rating,
+                                            'worstRating'	=> '1',
+                               )
+                     ); 
+
+                    }
+
+                    if($sumofrating> 0){
+                      $avg_rating = $sumofrating /  count($reviews); 
+                    }
+
+                    $ratings['aggregateRating'] =  array(
+                                                    '@type'         => 'AggregateRating',
+                                                    'ratingValue'	=> $avg_rating,
+                                                    'reviewCount'   => count($testimonial)
+                    );
+
+            }
+
+            return array('reviews' => $reviews, 'rating' => $ratings);
+    
+}
+
 function saswp_get_bne_testimonials_data($atts, $testimo_str){
         
             $reviews       = array();
@@ -1315,6 +1385,82 @@ function saswp_get_bne_testimonials_data($atts, $testimo_str){
 }
 
 function saswp_get_strong_testimonials(){
+    
+    $testimonial = array();
+    
+    global $post, $sd_data;
+
+     if(isset($sd_data['saswp-strong-testimonials']) && $sd_data['saswp-strong-testimonials'] == 1){
+     
+        if(is_object($post)){
+         
+         $pattern = get_shortcode_regex();
+
+        if (   preg_match_all( '/'. $pattern .'/s', $post->post_content, $matches )
+            && array_key_exists( 2, $matches ) )
+        {
+             
+           $testimo_str = ''; 
+           
+           if(in_array( 'testimonial_view', $matches[2] )){
+               $testimo_str = 'testimonial_view';
+           }
+           
+        if($testimo_str){
+            
+            foreach ($matches[0] as $matche){
+             
+                $mached = rtrim($matche, ']'); 
+                $mached = ltrim($mached, '[');
+                $mached = trim($mached);
+               
+                $atts   = shortcode_parse_atts('['.$mached.' ]'); 
+                $atts   = array('id' => $atts['id']);
+                
+               
+                $out = shortcode_atts(
+			array(),
+			$atts,
+			'testimonial_view'
+		);                                
+                
+                if(class_exists('Strong_View_Form') && class_exists('Strong_View_Slideshow') && class_exists('Strong_View_Display')){
+                                    
+                    switch ( $out['mode'] ) {
+			case 'form' :
+				$view = new Strong_View_Form( $out );
+				if ( isset( $_GET['success'] ) ) {
+				    $view->success();
+				} else {
+					$view->build();
+				}
+				break;
+			case 'slideshow' :
+				$view = new Strong_View_Slideshow( $out );
+		        $view->build();
+				break;
+			default :
+				$view = new Strong_View_Display( $out );
+        		$view->build();
+		        }                 
+                        if(is_object($view)){
+                            $testimonial = saswp_get_strong_testimonials_data($view->query->posts);
+                        }
+                                        
+                }
+                
+            break;
+         }
+            
+        }    
+                               
+       }
+         
+      }
+      
+     }   
+         
+    return $testimonial;
     
     //tomorrow will do it
     
@@ -1640,4 +1786,27 @@ function saswp_get_modified_markup($input1, $schema_type, $schema_post_id, $sche
         
     return $input1;
         
+}
+
+function saswp_explod_by_semicolon($data){
+    
+    $response = array();
+    
+    if($data){
+        
+        $explod = explode(';', $data);  
+                   
+        if($explod){
+
+            foreach ($explod as $val){
+
+                $response[] = $val;  
+
+            }
+
+        }         
+    }
+    
+    return $response;
+    
 }

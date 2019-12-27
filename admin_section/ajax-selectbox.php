@@ -347,7 +347,7 @@ function saswp_create_ajax_select_taxonomy($selectedParentValue = '',$selectedVa
         
         $is_ajax = true;
         
-        if(! current_user_can( 'manage_options' ) ) {
+        if(! current_user_can( saswp_current_user_can() ) ) {
           exit;
         }
         

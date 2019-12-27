@@ -370,6 +370,7 @@ return false;
            || schematype == 'VideoObject'
            || schematype == 'local_business'
            || schematype == 'Product'
+           || schematype == 'Review'
 
            ){
 
@@ -465,6 +466,7 @@ return false;
                || schematype == 'VideoObject'
                || schematype == 'local_business'
                || schematype == 'Product'
+               || schematype == 'Review'
                
                ){
                
@@ -811,6 +813,15 @@ return false;
                             }
                       break;
                       
+                      case 'saswp-wpresidence-checkbox':
+                          saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-wpresidence").val(1);             
+                            }else{
+                              $("#saswp-wpresidence").val(0);           
+                            }
+                      break;
+                      
                       case 'saswp-realhomes-checkbox':
                           saswp_compatibliy_notes(current, id); 
                             if ($(this).is(':checked')) {              
@@ -1120,6 +1131,36 @@ return false;
                               $("#saswp-ampbyautomatic").val(1);                                
                             }else{
                               $("#saswp-ampbyautomatic").val(0);                                          
+                            }
+                            
+                      break;
+                      
+                      case 'saswp-wp-event-aggregator-checkbox':
+                           saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-wp-event-aggregator").val(1);                                
+                            }else{
+                              $("#saswp-wp-event-aggregator").val(0);                                          
+                            }
+                            
+                      break;
+                      
+                      case 'saswp-easy-recipe-checkbox':
+                           saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-easy-recipe").val(1);                                
+                            }else{
+                              $("#saswp-easy-recipe").val(0);                                          
+                            }
+                            
+                      break;
+                      
+                      case 'saswp-tevolution-events-checkbox':
+                           saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-tevolution-events").val(1);                                
+                            }else{
+                              $("#saswp-tevolution-events").val(0);                                          
                             }
                             
                       break;

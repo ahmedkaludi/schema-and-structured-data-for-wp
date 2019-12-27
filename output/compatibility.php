@@ -52,8 +52,7 @@ class saswp_output_compatibility{
 
     public function saswp_override_schema_markup(){
         
-        global $sd_data;
-        
+        global $sd_data;        
         if(!empty($this->_plugins_list)){
         
             foreach ($this->_plugins_list as $key =>  $plugins){
@@ -64,7 +63,7 @@ class saswp_output_compatibility{
                     
                     $func_name = 'saswp_'.$key.'_override';
                     
-                    if(method_exists($this, $func_name) && saswp_global_option()){                        
+                    if(method_exists($this, $func_name)){                        
                         call_user_func(array($this, $func_name));                        
                     }
                     
@@ -87,7 +86,7 @@ class saswp_output_compatibility{
                     
                     $func_name = 'saswp_'.$key.'_override';
                     
-                    if(method_exists($this, $func_name) && saswp_global_option()){                        
+                    if(method_exists($this, $func_name)){                        
                         call_user_func(array($this, $func_name));                        
                     }
                     
@@ -149,14 +148,7 @@ class saswp_output_compatibility{
              remove_action( 'wp_head', 'BF_Json_LD_Generator::print_output' );
              remove_action( 'better-amp/template/head', 'BF_Json_LD_Generator::print_output' );       
              
-    }
-
-    public function saswp_strong_testimonials_override(){
-                        
-       //code to be written
-                        
-    }
-    
+    }       
     public function saswp_easy_testimonials_override(){
                         
         add_filter('easy_testimonials_json_ld', '__return_false'); 
@@ -175,6 +167,8 @@ class saswp_output_compatibility{
                   $shortcode_opt['tpro_schema_markup'] = '';
                   update_post_meta(get_the_id(), 'sp_tpro_shortcode_options',$shortcode_opt);                    
                   endwhile;
+                  
+                  wp_reset_postdata();
                   
             }
                 
@@ -411,6 +405,15 @@ class saswp_output_compatibility{
     }
     public function strong_testimonials_on_activation(){
          $this->saswp_update_option_on_compatibility_activation('saswp-strong-testimonials');
+    }
+    public function tevolution_events_on_activation(){
+         $this->saswp_update_option_on_compatibility_activation('saswp-tevolution-events');
+    }
+    public function wp_event_aggregator_on_activation(){
+         $this->saswp_update_option_on_compatibility_activation('saswp-wp-event-aggregator');
+    }
+    public function easy_recipe_on_activation(){
+         $this->saswp_update_option_on_compatibility_activation('saswp-easy-recipe');
     }
     public function saswp_update_option_on_compatibility_activation($opt_name){   
         $defaults = get_option('sd_data');   

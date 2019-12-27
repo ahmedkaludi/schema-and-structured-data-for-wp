@@ -28,7 +28,7 @@ class SASWP_Reviews_Form {
               
           }  
                          
-          add_shortcode( 'saswp-reviews-form', array($this, 'saswp_reviews_form_render' ));                    
+          add_shortcode( 'saswp-reviews-form', array($this, 'saswp_reviews_form_render' ));              
           add_action( 'admin_post_saswp_review_form', array($this, 'saswp_save_review_form_data') );
           add_action( 'admin_post_nopriv_saswp_review_form', array($this, 'saswp_save_review_form_data') );  
           
@@ -39,7 +39,7 @@ class SASWP_Reviews_Form {
           add_filter( 'amp_content_sanitizers',array($this, 'saswp_review_form_blacklist_sanitizer'), 99);          
                                  
         }
-        
+       
         public function saswp_review_form_blacklist_sanitizer($data){
                         
                 if(function_exists('ampforwp_is_amp_endpoint')){
@@ -72,8 +72,7 @@ class SASWP_Reviews_Form {
 
         public function saswp_save_review_form_data(){
             
-            $form_data = $_POST;     
-            
+            $form_data = $_POST;                 
             $headers = getallheaders();
             $is_amp  = false;
             $rv_link   = $form_data['saswp_review_link'];
@@ -144,8 +143,17 @@ class SASWP_Reviews_Form {
              echo @file_get_contents($review_css);
             
         }
+        
+        public function saswp_reviews_form_amp_script($data){
+                        
+             if ( empty( $data['amp_component_scripts']['amp-form'] ) ) {
+                     $data['amp_component_scripts']['amp-form'] = "https://cdn.ampproject.org/v0/amp-form-latest.js";
+             }
+            return $data;
+        }
+        
         public function saswp_reviews_form_render($attr){
-            
+                                     
             $is_amp = false;
             
             if(!saswp_non_amp()){
@@ -174,11 +182,13 @@ class SASWP_Reviews_Form {
             if(!$is_amp){ 
                 
                 $rating_html = '<div class="saswp-rating-front-div"></div><input type="hidden" name="saswp_review_rating" value="5">';
-                $form   .= '<form action="'.esc_url( admin_url('admin-post.php') ).'" method="post">';
+                $form   .= '<form action="'.esc_url( admin_url('admin-post.php') ).'" method="post" class="saswp-review-submission-form">';
                 
             }else{
                 
-                $form   .= '<form action-xhr="'.esc_url( admin_url('admin-post.php') ).'" method="post">';
+                add_action( 'amp_post_template_data', array($this, 'saswp_reviews_form_amp_script'));  
+                
+                $form   .= '<form action-xhr="'.esc_url( admin_url('admin-post.php') ).'" method="post" class="saswp-review-submission-form">';
                 
                 $rating_html = ''
                         . '<input type="hidden" name="saswp_review_rating" [value]="saswp_review_rating">'

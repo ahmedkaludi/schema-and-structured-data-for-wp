@@ -57,16 +57,20 @@ function saswp_ext_installed_status(){
     
 }
 
-function saswp_add_menu_links() {				
-	// Settings page - Same as main menu page
-	    add_submenu_page( 'edit.php?post_type=saswp', esc_html__( 'Schema & Structured Data For Wp', 'schema-and-structured-data-for-wp' ), esc_html__( 'Settings', 'schema-and-structured-data-for-wp' ), 'manage_options', 'structured_data_options', 'saswp_admin_interface_render' );	
+function saswp_add_menu_links() {	
+                       
+	    add_submenu_page( 'edit.php?post_type=saswp',
+                    esc_html__( 'Schema & Structured Data For Wp', 'schema-and-structured-data-for-wp' ),
+                    esc_html__( 'Settings', 'schema-and-structured-data-for-wp' ), 
+                    saswp_current_user_can(),
+                    'structured_data_options', 
+                    'saswp_admin_interface_render'
+                    );	
                                 
             if(!saswp_ext_installed_status()){
                 add_submenu_page( 'edit.php?post_type=saswp', esc_html__( 'Schema & Structured Data For Wp', 'schema-and-structured-data-for-wp' ), '<span style="color:#fff176;">'.esc_html__( 'Upgrade To Premium', 'schema-and-structured-data-for-wp' ).'</span>', 'manage_options', 'structured_data_premium', 'saswp_premium_interface_render' );	
             }
-            
-                                        
-        
+                                                            
 }
 add_action( 'admin_menu', 'saswp_add_menu_links' );
 
@@ -77,10 +81,11 @@ function saswp_premium_interface_render(){
         
 }
 function saswp_admin_interface_render(){
-	// Authentication
-	if ( ! current_user_can( 'manage_options' ) ) {
+	            
+        if ( ! current_user_can( saswp_current_user_can() ) ) {
 		return;
-	}
+        }
+    	
 	// Handing save settings
 	if ( isset( $_GET['settings-updated'] ) ) {							                                                 
 		settings_errors();               
@@ -359,7 +364,7 @@ add_action('upload_mimes', 'saswp_custom_upload_mimes');
 
 function saswp_handle_file_upload($option){
     
-    if ( ! current_user_can( 'upload_files' ) ) {
+    if ( ! current_user_can( saswp_current_user_can() ) ) {
 		return $option;
     }
 
@@ -1160,10 +1165,23 @@ function saswp_import_callback(){
                              'id'   => 'saswp-other-images',
                              'name' => 'sd_data[saswp-other-images]',                             
                         )
-		    ),
+		    )            
                 
 	);        
         
+        if(saswp_current_user_role() == 'administrator'){
+            
+            $meta_fields[] = array(
+			'label'   => 'Role Based Access',
+			'id'      => 'saswp-role-based-access',                        
+                        'name'    => 'sd_data[saswp-role-based-access]',
+			'type'    => 'multiselect',
+                        'note'    => 'Choose the users whom you want to allow full access to this plugin',
+                        'class'   => 'saswp-role-based-access-class',                          
+                        'options' => saswp_get_user_roles()
+		    );
+            
+        }
         
         ?>
        
@@ -1579,7 +1597,7 @@ function saswp_review_page_callback(){
         <div class="saswp-quick-links-div">
             <h4><?php echo esc_html__('Quick Links','schema-and-structured-data-for-wp'); ?></h4>       
             <p><a href="<?php echo admin_url('edit.php?post_type=saswp_reviews'); ?>"><?php echo esc_html__('View Current Reviews','schema-and-structured-data-for-wp'); ?></a></p>
-            <p><a target="_blank" href="https://structured-data-for-wp.com/docs/article/how-to-show-reviews-on-the-website/"><?php echo esc_html__('How to show reviews on the website','schema-and-structured-data-for-wp'); ?></a></p>
+            <p><a target="_blank" href="https://structured-data-for-wp.com/docs/article/how-to-display-reviews-with-collection-feature/"><?php echo esc_html__('How to show reviews on the website','schema-and-structured-data-for-wp'); ?></a></p>
         </div>
          
     </div>
@@ -1677,6 +1695,30 @@ function saswp_compatibility_page_callback(){
                                 'name' => 'sd_data[saswp-ampbyautomatic]',                             
                         )
 		);
+        $tevolution_events = array(
+			'label'  => 'Tevolution Events',
+			'id'     => 'saswp-tevolution-events-checkbox',                        
+                        'name'   => 'saswp-tevolution-events-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
+                        'note'   => saswp_get_field_note('tevolution_events'),
+                        'hidden' => array(
+                                'id'   => 'saswp-tevolution-events',
+                                'name' => 'sd_data[saswp-tevolution-events]',                             
+                        )
+		);
+        $wp_event_aggregator = array(
+			'label'  => 'WP Event Aggregator',
+			'id'     => 'saswp-wp-event-aggregator-checkbox',                        
+                        'name'   => 'saswp-wp-event-aggregator-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
+                        'note'   => saswp_get_field_note('wp_event_aggregator'),
+                        'hidden' => array(
+                                'id'   => 'saswp-wp-event-aggregator',
+                                'name' => 'sd_data[saswp-wp-event-aggregator]',                             
+                        )
+		);
         $betteramp = array(
 			'label'  => 'Better AMP',
 			'id'     => 'saswp-betteramp-checkbox',                        
@@ -1761,6 +1803,18 @@ function saswp_compatibility_page_callback(){
                         'hidden' => array(
                                 'id'   => 'saswp-realhomes',
                                 'name' => 'sd_data[saswp-realhomes]',                             
+                        )
+		);
+        $wpresidence = array(
+			'label'  => 'WP Residence Theme',
+			'id'     => 'saswp-wpresidence-checkbox',                        
+                        'name'   => 'saswp-wpresidence-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
+                        'note'   => saswp_get_field_note('wpresidence'),
+                        'hidden' => array(
+                                'id'   => 'saswp-wpresidence',
+                                'name' => 'sd_data[saswp-wpresidence]',                             
                         )
 		);
         
@@ -1938,6 +1992,18 @@ function saswp_compatibility_page_callback(){
                         'hidden' => array(
                                 'id'   => 'saswp-zip-recipes',
                                 'name' => 'sd_data[saswp-zip-recipes]',                             
+                        )
+		);
+        $easyrecipe = array(
+			'label'  => 'EasyRecipe',
+			'id'     => 'saswp-easy-recipe-checkbox',                        
+                        'name'   => 'saswp-easy-recipe-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
+                        'note'   => saswp_get_field_note('easy_recipe'),
+                        'hidden' => array(
+                                'id'   => 'saswp-easy-recipe',
+                                'name' => 'sd_data[saswp-easy-recipe]',                             
                         )
 		);
         $mediavine_create = array(
@@ -2220,7 +2286,9 @@ function saswp_compatibility_page_callback(){
          if(!is_plugin_active('real-estate-schema/real-estate-schema.php')){
                           
              $homeland_theme['note'] = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/extensions/">Real Estate Schema Addon</a>';
-             $real_homes['note'] = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/extensions/">Real Estate Schema Addon</a>';
+             $real_homes['note']     = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/extensions/">Real Estate Schema Addon</a>';
+             $wpresidence['note']   = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/extensions/">Real Estate Schema Addon</a>';
+             
              
          }
          
@@ -2240,6 +2308,8 @@ function saswp_compatibility_page_callback(){
              $events_manager['note']              = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';
              $event_organiser['note']             = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';
              $modern_events_calendar['note']      = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';
+             $tevolution_events['note']           = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';               
+             $wp_event_aggregator['note']         = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';               
              
          }
          
@@ -2248,7 +2318,8 @@ function saswp_compatibility_page_callback(){
              $zip_recipes['note']                = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/recipe-schema/">Recipe Schema Addon</a>';             
              $wp_ultimate_recipe['note']         = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/recipe-schema/">Recipe Schema Addon</a>';             
              $mediavine_create['note']           = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/recipe-schema/">Recipe Schema Addon</a>';             
-             $ht_recipes['note']                 = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/recipe-schema/">Recipe Schema Addon</a>';             
+             $ht_recipes['note']                 = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/recipe-schema/">Recipe Schema Addon</a>';
+             $easyrecipe['note']                 = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';                            
              
          }
                                                  
@@ -2279,11 +2350,13 @@ function saswp_compatibility_page_callback(){
                 $recipe_maker,
                 $wp_ultimate_recipe,
                 $zip_recipes,
+                $easyrecipe,
                 $mediavine_create,
                 $ht_recipes,
                 $rankmath,
                 $homeland_theme,
                 $real_homes,
+                $wpresidence,
                 $learn_press,
                 $learn_dash,
                 $lifter_lms,
@@ -2293,10 +2366,12 @@ function saswp_compatibility_page_callback(){
                 $events_calendar_wd,
                 $event_organiser,
                 $modern_events_calendar,
+                $tevolution_events,
+                $wp_event_aggregator,
                 $easy_testimonials,
                 $bne_testimonials,
                 $testimonial_pro,
-              //  $strong_testimonials,
+                $strong_testimonials,
                 $WordLift,
                 $flex_lmx
                 
@@ -2547,3 +2622,25 @@ function saswp_enqueue_style_js( $hook ) {
         
 }
 add_action( 'admin_enqueue_scripts', 'saswp_enqueue_style_js' );
+
+
+function saswp_option_page_capability( $capability ) {         
+    return saswp_current_user_can();         
+}
+
+add_filter( 'option_page_capability_sd_data_group', 'saswp_option_page_capability' );
+
+function saswp_pre_update_settings($value, $old_value,  $option){
+    
+    if(saswp_current_user_role() != 'administrator'){
+    
+        if(isset($old_value['saswp-role-based-access'])){
+           $value['saswp-role-based-access'] = $old_value['saswp-role-based-access']; 
+        }
+        
+    }
+    
+   return $value; 
+}
+
+add_filter('pre_update_option_sd_data', 'saswp_pre_update_settings',10,3);

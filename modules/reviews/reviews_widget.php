@@ -49,19 +49,23 @@ class Saswp_Reviews_Widget extends WP_Widget {
 	public function widget( $args, $instance ) {
                           
         echo html_entity_decode(esc_attr($args['before_widget']));
-		
-        
+	
+                
         if(saswp_global_option()){
           
-          $attr = array(
-              'count' => $instance['g_review']
-          );  
-                                
-          $response = $this->_serviceClass->saswp_reviews_front_output($attr);
+            $attr = array(
+                'count' => $instance['g_review']
+            );  
+                            
+            $reviews = $this->_serviceClass->saswp_get_reviews_list_by_parameters($attr);
+
+            if($reviews){
+                   global $saswp_post_reviews;
+                   $saswp_post_reviews = array_merge($saswp_post_reviews, $reviews);    
+                   echo $this->_serviceClass->saswp_reviews_html_markup($reviews);                                                                                         
+            }
                         
         }
-                        
-        echo $response;
         
         echo html_entity_decode(esc_attr($args['after_widget']));
     }

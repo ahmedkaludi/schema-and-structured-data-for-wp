@@ -171,7 +171,9 @@ class saswp_post_specific {
                  
                  foreach ( $this->screen as $single_screen ) {
                      
-			add_meta_box(
+                     if(saswp_current_user_allowed()){
+                      
+                         add_meta_box(
 				'post_specific',
 				esc_html__( 'Post Specific Schema', 'schema-and-structured-data-for-wp' ),
 				array( $this, 'saswp_post_meta_box_callback' ),
@@ -179,7 +181,8 @@ class saswp_post_specific {
 				'advanced',
 				'default'
 			);
-                        
+                         
+                    }			                        
 		}   
              }   
              

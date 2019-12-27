@@ -32,7 +32,7 @@ function saswp_add_all_meta_boxes() {
             esc_html__( 'Schema Type', 'schema-and-structured-data-for-wp' ),
             'saswp_schema_type_meta_box_callback',
             'saswp',
-            'advanced',
+            'normal',
             'high'
     );
     
@@ -172,7 +172,8 @@ function saswp_schema_type_meta_box_callback( $post) {
                              'Event'                 => 'Event',                              
                              'HowTo'                 => 'HowTo',   
                              'local_business'        => 'LocalBusiness',                                 
-                             'MusicPlaylist'         => 'Music Playlist',                                                                                                                                                                                               
+                             'MusicPlaylist'         => 'Music Playlist', 
+                             'Organization'          => 'Organization',    
                              'Product'               => 'Product',                                
                              'Recipe'                => 'Recipe',                             
                              'SoftwareApplication'   => 'SoftwareApplication',

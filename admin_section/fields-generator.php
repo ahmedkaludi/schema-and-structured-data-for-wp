@@ -220,7 +220,42 @@ class saswp_fields_generator {
 						);
 					}
 					$input .= '</select>';
-					break;                               
+					break; 
+                                case 'multiselect':
+					$input = sprintf(
+						'<select class="%s" id="%s" name="%s[]" multiple>',
+                                                $class,
+						esc_attr($meta_field['id']),
+						esc_attr($meta_field['name'])
+					);                                      
+                                        $settings_meta_field = array();
+                                        if(isset($settings[$meta_field['id']])){
+                                         $settings_meta_field   = $settings[$meta_field['id']];
+                                        }
+                                    
+					foreach ( $meta_field['options'] as $key => $value ) {	  
+                                            
+                                                if($key == 'administrator'){
+                                                    
+                                                    $input .= sprintf(
+							'<option %s value="%s">%s (Default)</option>',
+							'selected',                                                        
+							$key,
+							esc_html__( $value, 'schema-and-structured-data-for-wp' )
+						   );
+                                                    
+                                                }else{                                                    
+                                                    $input .= sprintf(
+							'<option %s value="%s">%s</option>',
+							in_array($key, $settings_meta_field)  ? 'selected' : '',                                                        
+							$key,
+							esc_html__( $value, 'schema-and-structured-data-for-wp' )
+						   );
+                                                    
+                                                }                                            
+					}
+					$input .= '</select>';
+					break;         
 				default:
 					                                                                        
                                     switch ($meta_field['id']) {

@@ -74,7 +74,7 @@
 
 	function saswp_installer_init(){
 		// Exit if the user does not have proper permissions
-		if(! current_user_can( 'manage_options' ) ) {
+		if(! current_user_can( saswp_current_user_can() ) ) {
 			return ;
 		}
 		global $saswp_installer_config;
@@ -363,7 +363,7 @@
 	
 	function saswp_save_steps_data(){ 
             
-                 if(! current_user_can( 'manage_options' ) ) {
+                 if(! current_user_can( saswp_current_user_can() ) ) {
                     return ;
                  }
                  if ( ! isset( $_POST['wpnonce'] ) ){
@@ -665,7 +665,8 @@
 
 function saswp_general_setting_fields_callback(){
                                 
-	global $sd_data;	
+	global $sd_data;
+        global $wp_query;
         $saswp_kb_type ='';
         
         if(isset($sd_data['saswp_kb_type'])){
@@ -673,14 +674,18 @@ function saswp_general_setting_fields_callback(){
         }
         $about_page   =   '';
         $contact_page =   '';
+        $pages        = null;
         
-        
-        $pages = get_posts( array(
+        if($wp_query){
+            
+            $pages = get_posts( array(
                 'order'       => 'ASC',
                 'orderby'     => 'ID',
                 'post_type'   => 'page',
                 'post_status' => 'publish',
         ) );
+            
+        }
         
         if(!empty($pages)){
             

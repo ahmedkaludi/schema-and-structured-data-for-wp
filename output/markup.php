@@ -394,40 +394,21 @@ function saswp_recipe_schema_markup($schema_id, $schema_post_id, $all_post_meta)
             $instruction    = array();
 
             if(isset($all_post_meta['saswp_recipe_ingredient_'.$schema_id])){
-
-                $explod = explode(';', $all_post_meta['saswp_recipe_ingredient_'.$schema_id][0]);  
-
-                if($explod){
-
-                    foreach ($explod as $val){
-
-                        $ingredient[] = $val;  
-
-                    }
-
-                }
-
-
-
+                 $ingredient = saswp_explod_by_semicolon($all_post_meta['saswp_recipe_ingredient_'.$schema_id][0]); 
             }
 
             if(isset($all_post_meta['saswp_recipe_instructions_'.$schema_id])){
 
-                $explod = explode(';', $all_post_meta['saswp_recipe_instructions_'.$schema_id][0]);  
-
-                if($explod){
-
-                    foreach ($explod as $val){
+                $explod = saswp_explod_by_semicolon($all_post_meta['saswp_recipe_instructions_'.$schema_id][0]);  
+                
+                   foreach ($explod as $val){
 
                         $instruction[] = array(
                                                    '@type'  => "HowToStep",
                                                    'text'   => $val,                                                                                                                            
                                                    );  
 
-                  }
-
-                }                                       
-
+                  }                                                     
             }
 
             $input1 = array(
@@ -774,6 +755,45 @@ function saswp_local_business_schema_markup($schema_id, $schema_post_id, $all_po
                 }
     
     return $input1;
+}
+
+function saswp_organization_schema_markup($schema_id, $schema_post_id, $all_post_meta){
+    
+            $input1 = array();
+           
+            $input1['@context']                     = saswp_context_url();
+            $input1['@type']                        = 'Organization';
+            $input1['@id']                          = trailingslashit(get_permalink()).'#Organization'; 
+            $input1['name']                         = saswp_remove_warnings($all_post_meta, 'saswp_organization_name_'.$schema_id, 'saswp_array');
+            $input1['url']                          = saswp_remove_warnings($all_post_meta, 'saswp_organization_url_'.$schema_id, 'saswp_array');                            
+            $input1['description']                  = saswp_remove_warnings($all_post_meta, 'saswp_organization_description_'.$schema_id, 'saswp_array');
+           
+            $howto_image = get_post_meta( get_the_ID(), 'saswp_organization_logo_'.$schema_id.'_detail',true); 
+            
+          if(!(empty($howto_image))){
+
+            $input1['logo']['@type']        = 'ImageObject';
+            $input1['logo']['url']          = isset($howto_image['thumbnail']) ? esc_url($howto_image['thumbnail']):'';
+            $input1['logo']['height']       = isset($howto_image['width'])     ? esc_attr($howto_image['width'])   :'';
+            $input1['logo']['width']        = isset($howto_image['height'])    ? esc_attr($howto_image['height'])  :'';
+
+          }
+          
+          $input1['address']['@type']             = 'PostalAddress';
+          $input1['address']['streetAddress']     = saswp_remove_warnings($all_post_meta, 'saswp_organization_street_address_'.$schema_id, 'saswp_array');
+          $input1['address']['addressCountry']    = saswp_remove_warnings($all_post_meta, 'saswp_organization_country_'.$schema_id, 'saswp_array');
+          $input1['address']['addressLocality']   = saswp_remove_warnings($all_post_meta, 'saswp_organization_city_'.$schema_id, 'saswp_array');
+          $input1['address']['addressRegion']     = saswp_remove_warnings($all_post_meta, 'saswp_organization_state_'.$schema_id, 'saswp_array');
+          $input1['address']['PostalCode']        = saswp_remove_warnings($all_post_meta, 'saswp_organization_postal_code_'.$schema_id, 'saswp_array');
+          $input1['telephone']                    = saswp_remove_warnings($all_post_meta, 'saswp_organization_telephone_'.$schema_id, 'saswp_array');                                                        
+                    
+          if(isset($all_post_meta['saswp_organization_enable_rating_'.$schema_id]) && isset($all_post_meta['saswp_organization_rating_value_'.$schema_id]) && isset($all_post_meta['saswp_organization_rating_count_'.$schema_id])){
+                $input1['aggregateRating']['@type']         = 'aggregateRating';
+                $input1['aggregateRating']['ratingValue']   = $all_post_meta['saswp_organization_rating_value_'.$schema_id];
+                $input1['aggregateRating']['ratingCount']   = $all_post_meta['saswp_organization_rating_count_'.$schema_id];                                
+          }
+                              
+        return $input1;
 }
 
 function saswp_video_game_schema_markup($schema_id, $schema_post_id, $all_post_meta){
@@ -1773,7 +1793,7 @@ function saswp_blogposting_schema_markup($schema_id, $schema_post_id, $all_post_
                     '@type'		=> 'ImageObject',
                     'url'		=> saswp_remove_warnings($all_post_meta, 'saswp_blogposting_organization_logo_'.$schema_id, 'saswp_array'),
                     'width'		=> saswp_remove_warnings($slogo, 'width', 'saswp_string'),
-                    'height'	=> saswp_remove_warnings($slogo, 'height', 'saswp_string'),
+                    'height'	        => saswp_remove_warnings($slogo, 'height', 'saswp_string'),
                     ),
             'name'			=> saswp_remove_warnings($all_post_meta, 'saswp_blogposting_organization_name_'.$schema_id, 'saswp_array'),
             ),
@@ -2408,6 +2428,12 @@ function saswp_review_schema_markup($schema_id, $schema_post_id, $all_post_meta)
          case 'VideoGame':
 
              $item_schema = saswp_video_game_schema_markup($schema_id, $schema_post_id, $all_post_meta);
+
+             break;
+         
+         case 'Organization':
+
+             $item_schema = saswp_organization_schema_markup($schema_id, $schema_post_id, $all_post_meta);
 
              break;
 

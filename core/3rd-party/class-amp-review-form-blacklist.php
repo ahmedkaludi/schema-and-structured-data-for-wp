@@ -54,6 +54,24 @@ if ( class_exists( 'AMP_Blacklist_Sanitizer' ) ) {
 			}
 
 			$node_name = $node->nodeName;
+                                                
+                        if($node->nodeName=='a' && $node->hasAttribute('href')){
+                            
+                            $href = $node->getAttribute('href');
+                        
+                            if( strpos($href,'tel:') ){
+                                    $disallowed = array('http://', 'https://');
+                                    foreach($disallowed as $d){
+                                  if(strpos($href, $d) === 0) {
+                                     $href = str_replace($d, '', $href);
+                                  }
+                               }
+                               $node->setAttribute('href',$href);
+                            }
+                            
+                            $node->setAttribute('href', \ampforwp_findInternalUrl($href));
+
+		        }
 
 			// Some nodes may contain valid content but are themselves invalid.
 
@@ -140,12 +158,16 @@ if ( class_exists( 'AMP_Blacklist_Sanitizer' ) ) {
 				for ( $i = $length - 1; $i >= 0; $i-- ) {
 
 					$element = $elements->item( $i );
-
+                                        
+                                       $form_class = $element->getAttribute('class');
+                                       
+                                        if(strpos($form_class, 'saswp-review-submission-form') !== false){                                           
+                                            continue;                                           
+                                        }
+                                                                              
 					$parent_node = $element->parentNode;
 
 					$parent_node->removeChild( $element );
-
-
 
 					if ( 'body' !== $parent_node->nodeName && AMP_DOM_Utils::is_node_empty( $parent_node ) ) {
 
@@ -363,9 +385,12 @@ if ( class_exists( 'AMP_Blacklist_Sanitizer' ) ) {
 
 				// Form works in AMP
 
-				// 'form',
+			 'form',
 
 				// 'label',
+                            
+                            
+                            
 
 				// 'input',
 

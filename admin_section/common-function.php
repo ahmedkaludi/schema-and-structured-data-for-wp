@@ -63,7 +63,7 @@ if ( ! defined('ABSPATH') ) exit;
      */        
     function saswp_import_all_settings_and_schema(){
                         
-        if ( ! current_user_can( 'manage_options' ) ) {
+        if ( ! current_user_can( saswp_current_user_can() ) ) {
              return;
         }
         
@@ -200,7 +200,7 @@ if ( ! defined('ABSPATH') ) exit;
      */
     function saswp_export_all_settings_and_schema(){   
         
-                if ( ! current_user_can( 'manage_options' ) ) {
+                if ( ! current_user_can( saswp_current_user_can() ) ) {
                      return;
                 }
                 if ( ! isset( $_GET['_wpnonce'] ) ){
@@ -1600,11 +1600,12 @@ if ( ! defined('ABSPATH') ) exit;
                 );              
                 // select
                 $my_allowed['select'] = array(
-                        'class'  => array(),
-                        'id'     => array(),
-                        'name'   => array(),
-                        'value'  => array(),
-                        'type'   => array(),                    
+                        'class'    => array(),
+                        'multiple' => array(),
+                        'id'       => array(),
+                        'name'     => array(),
+                        'value'    => array(),
+                        'type'     => array(),                    
                 );
                 // checkbox
                 $my_allowed['checkbox'] = array(
@@ -1618,7 +1619,8 @@ if ( ! defined('ABSPATH') ) exit;
                 //  options
                 $my_allowed['option'] = array(
                         'selected' => array(),
-                        'value' => array(),
+                        'value'    => array(),
+                        'disabled' => array(),
                 );                       
                 // style
                 $my_allowed['style'] = array(
@@ -2461,7 +2463,7 @@ function saswp_get_permalink(){
 }
 function saswp_get_taxonomy_term_list(){
     
-        if ( ! current_user_can( 'manage_options' ) ) {
+        if ( ! current_user_can( saswp_current_user_can() ) ) {
              return;
         }
         if ( ! isset( $_GET['saswp_security_nonce'] ) ){
@@ -2707,7 +2709,9 @@ function saswp_remove_anonymous_object_filter_or_action( $tag, $class, $method, 
 function saswp_get_field_note($pname){
     
     $notes = array(  
+            'easy_recipe'              => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/easyrecipe/">EasyRecipe</a>',
             'strong_testimonials'      => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/strong-testimonials">Strong Testimonials</a>',
+            'wp_event_aggregator'      => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wp-event-aggregator/">WP Event Aggregator</a>',
             'wordlift'                 => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wordlift/">WordLift</a>',
             'ampforwp'                 => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/accelerated-mobile-pages/">AMP for WP</a>',
             'ampbyautomatic'           => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/amp/">AMP</a>',
@@ -2742,6 +2746,7 @@ function saswp_get_field_note($pname){
             'woocommerce_bookings'     => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/woocommerce/">Woocommerce Bookings</a>',        
             'extra'                    => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://www.elegantthemes.com/gallery/extra/">Extra Theme</a>',
             'homeland'                 => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://themeforest.net/item/homeland-responsive-real-estate-theme-for-wordpress/6518965">Homeland</a>',            
+            'wpresidence'             => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wpresidence.net/">WP Residence</a>',            
             'realhomes'                => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://themeforest.net/item/real-homes-wordpress-real-estate-theme/5373914">RealHomes</a>',
             'jannah'                   => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://codecanyon.net/item/taqyeem-wordpress-review-plugin/4558799">Taqyeem</a>',
             'soledad'                  => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://themeforest.net/item/soledad-multiconcept-blogmagazine-wp-theme/12945398">Soledad Theme</a>',
@@ -2750,7 +2755,8 @@ function saswp_get_field_note($pname){
             'ht_recipes'               => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://themeforest.net/item/culinier-food-recipe-wordpress-theme/11088564/">HT-Recipes</a>',
             'easy_testimonials'        => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/easy-testimonials">Easy Testimonials</a>',
             'bne_testimonials'         => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/bne-testimonials/">BNE Testimonials</a>',
-            'testimonial_pro'          => esc_html__('Testimonial Pro','schema-and-structured-data-for-wp').' <a target="_blank" href="https://shapedplugin.com/plugin/testimonial-pro/">Testimonial Pro</a>'
+            'testimonial_pro'          => esc_html__('Testimonial Pro','schema-and-structured-data-for-wp').' <a target="_blank" href="https://shapedplugin.com/plugin/testimonial-pro/">Testimonial Pro</a>',
+            'tevolution_events'        => esc_html__('Tevolution Events','schema-and-structured-data-for-wp').' <a target="_blank" href="https://templatic.com/wordpress-plugins/tevolution/">Tevolution Events</a>'
         
         );
           
@@ -2814,4 +2820,108 @@ function saswp_remove_slash($url){
     
     return $url;
 
+}
+
+function saswp_get_user_roles(){
+    
+        global $wp_roles;
+        $allroles = array();
+        
+        foreach ( $wp_roles->roles as $key=>$value ){
+            $allroles[esc_attr($key)] = esc_html($value['name']);
+        }
+        
+        return $allroles;
+}
+
+function saswp_get_capability_by_role($role){
+    
+        $cap = 'manage_options';
+        
+        switch ($role) {
+            
+            case 'editor':
+                $cap = 'edit_pages';                
+                break;            
+            case 'author':
+                $cap = 'publish_posts';                
+                break;
+            case 'contributor':
+                $cap = 'edit_posts';                
+                break;
+            case 'subscriber':
+                $cap = 'read';                
+                break;
+
+            default:
+                break;
+        }   
+    
+        return $cap;
+    
+}
+
+function saswp_current_user_role(){
+    
+    if( is_user_logged_in() ) {
+        
+    $user            = wp_get_current_user();
+    $role            = (array) $user->roles;
+    
+    return $role[0];
+    
+    }
+        
+}
+
+function saswp_current_user_allowed(){
+    
+    global $sd_data;
+    
+    if( is_user_logged_in() ) {
+    
+    $currentUser     = wp_get_current_user();        
+    $saswp_roles     = isset($sd_data['saswp-role-based-access']) ? $sd_data['saswp-role-based-access'] : array('administrator');
+    $currentuserrole = (array) $currentUser->roles;
+    
+    $hasrole         = array_intersect( $currentuserrole, $saswp_roles );
+    
+    if( !empty($hasrole)){                                     
+        return $hasrole[0];
+    }
+                
+    }
+    
+    return false;
+}
+
+function saswp_current_user_can(){
+        
+        $capability = saswp_current_user_allowed() ? saswp_get_capability_by_role(saswp_current_user_allowed()) : 'manage_options';        
+        return $capability;                    
+}
+
+function saswp_post_type_capabilities(){
+        
+        $caplist = array();
+    
+        $cap = saswp_current_user_can();
+    
+        if(saswp_current_user_role() != 'administrator'){
+        
+            $caplist =  array(
+                'publish_posts'       => $cap,
+                'edit_posts'          => $cap,
+                'edit_others_posts'   => $cap,
+                'delete_posts'        => $cap,
+                'delete_others_posts' => $cap,
+                'read_private_posts'  => $cap,
+                'edit_post'           => $cap,
+                'delete_post'         => $cap,
+                'read_post'           => $cap,
+            ); 
+            
+        }
+        
+        return $caplist;      
 }

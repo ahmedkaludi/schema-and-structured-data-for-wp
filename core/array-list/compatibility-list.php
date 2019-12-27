@@ -4,6 +4,26 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 return array(    
     'plugins' =>    array(        
+        'easy_recipe'  =>  array(            
+                    'name'       => 'EasyRecipe',
+                    'free'       => 'easyrecipe/easyrecipe.php', 
+                    'pro'        => 'easyrecipe-pro/easyrecipe-pro.php', 
+                    'opt_name'   => 'saswp-easy-recipe',
+                    'part_in'    => 'pro',
+        ),
+        'wp_event_aggregator'  =>  array(            
+                    'name'       => 'WP Event Aggregator',
+                    'free'       => 'wp-event-aggregator/wp-event-aggregator.php', 
+                    'pro'        => 'wp-event-aggregator-pro/wp-event-aggregator-pro.php', 
+                    'opt_name'   => 'saswp-wp-event-aggregator',
+                    'part_in'    => 'pro',
+        ),
+        'tevolution_events'  =>  array(            
+                    'name'       => 'Tevolution Events',
+                    'free'       => 'Tevolution-Events/events.php',            
+                    'opt_name'   => 'saswp-tevolution-events',
+                    'part_in'    => 'pro',
+        ),
         'strong_testimonials'  =>  array(            
                     'name'       => 'Strong Testimonials',
                     'free'       => 'strong-testimonials/strong-testimonials.php',            
@@ -277,6 +297,12 @@ return array(
                     'name'       => 'RealHomes Theme',
                     'free'       => 'realhomes',               
                     'opt_name'   => 'saswp-realhomes',
+                    'part_in'    => 'pro',
+        ),
+        'wpresidence' => array(            
+                    'name'       => 'WP Residence',
+                    'free'       => 'wpresidence',               
+                    'opt_name'   => 'saswp-wpresidence',
                     'part_in'    => 'pro',
         ),
     )
