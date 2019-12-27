@@ -130,14 +130,18 @@ class saswp_output_compatibility{
         );
         
     }
-    
+    public function saswp_ampwp_override(){                 
+        add_action( 'template_redirect', array($this, 'saswp_ampwp_override_full'),99);                
+    }
+    public function saswp_ampwp_override_full(){            
+        remove_action( 'amp_wp_template_head', 'Amp_WP_Json_Ld_Generator::print_output' );
+    }
     public function saswp_wpamp_override(){        
         add_action('amphtml_template_head', array($this, 'saswp_wpamp_override_full'));        
     }
     public function saswp_wpamp_override_full($data){        
         $data->metadata = array();
-    }
-    
+    }    
     public function saswp_betteramp_override(){
         
         add_action( 'template_redirect', array($this, 'saswp_betteramp_override_full') ,99);
@@ -399,6 +403,9 @@ class saswp_output_compatibility{
     }
     public function wpamp_on_activation(){
          $this->saswp_update_option_on_compatibility_activation('saswp-wpamp');
+    }
+    public function ampwp_on_activation(){
+         $this->saswp_update_option_on_compatibility_activation('saswp-ampwp');
     }
     public function wordlift_on_activation(){
          $this->saswp_update_option_on_compatibility_activation('saswp-wordlift');

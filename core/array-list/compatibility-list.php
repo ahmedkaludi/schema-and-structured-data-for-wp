@@ -60,6 +60,12 @@ return array(
                     'opt_name'   => 'saswp-wpamp',
                     'part_in'    => 'free',
         ),
+        'ampwp'  =>  array(            
+                    'name'       => 'AMP WP',
+                    'free'       => 'amp-wp/amp-wp.php',            
+                    'opt_name'   => 'saswp-ampwp',
+                    'part_in'    => 'free',
+        ),
        'flex_mls_idx'  =>  array(            
                     'name'       => 'FlexMLS IDX',
                     'free'       => 'flexmls-idx/flexmls_connect.php',            
