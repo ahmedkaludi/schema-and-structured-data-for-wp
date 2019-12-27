@@ -886,6 +886,62 @@ function saswp_music_playlist_schema_markup($schema_id, $schema_post_id, $all_po
     return $input1;
 }
 
+function saswp_music_composition_schema_markup($schema_id, $schema_post_id, $all_post_meta){
+    
+            $input1 = array();
+
+            $input1['@context']              = saswp_context_url();
+            $input1['@type']                 = 'MusicComposition';
+            $input1['@id']                   = trailingslashit(get_permalink()).'#MusicComposition';                            
+            $input1['url']                   = saswp_remove_warnings($all_post_meta, 'saswp_music_composition_url_'.$schema_id, 'saswp_array');                                
+            $input1['name']                  = saswp_remove_warnings($all_post_meta, 'saswp_music_composition_name_'.$schema_id, 'saswp_array');                            
+            $input1['description']           = saswp_remove_warnings($all_post_meta, 'saswp_music_composition_description_'.$schema_id, 'saswp_array');                                
+            $input1['iswcCode']              = saswp_remove_warnings($all_post_meta, 'saswp_music_composition_iswccode_'.$schema_id, 'saswp_array');                                
+            $input1['inLanguage']            = saswp_remove_warnings($all_post_meta, 'saswp_music_composition_inlanguage_'.$schema_id, 'saswp_array');                                
+            $input1['datePublished']         = isset($all_post_meta['saswp_music_composition_date_published_'.$schema_id][0])&& $all_post_meta['saswp_music_composition_date_published_'.$schema_id][0] !='' ? date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_music_composition_date_published_'.$schema_id][0])):'';
+                        
+            if(isset($all_post_meta['saswp_music_composition_lyrics_'.$schema_id][0])){
+                $input1['lyrics']['@type'] = 'CreativeWork';
+                $input1['lyrics']['text'] = $all_post_meta['saswp_music_composition_lyrics_'.$schema_id][0];
+            }
+            
+            if(isset($all_post_meta['saswp_music_composition_publisher_'.$schema_id][0])){
+                $input1['publisher']['@type'] = 'Organization';
+                $input1['publisher']['name'] = $all_post_meta['saswp_music_composition_publisher_'.$schema_id][0];
+            }
+            
+            $image = get_post_meta( get_the_ID(), 'saswp_music_composition_image_'.$schema_id.'_detail',true);
+            
+            if(!(empty($image))){
+
+            $input1['image']['@type']        = 'ImageObject';
+            $input1['image']['url']          = isset($image['thumbnail']) ? esc_url($image['thumbnail']):'';
+            $input1['image']['height']       = isset($image['width'])     ? esc_attr($image['width'])   :'';
+            $input1['image']['width']        = isset($image['height'])    ? esc_attr($image['height'])  :'';
+
+            }
+
+            $faq_question  = get_post_meta($schema_post_id, 'music_composer_'.$schema_id, true);
+
+            $faq_question_arr = array();
+
+            if(!empty($faq_question)){
+               
+                foreach($faq_question as $val){
+
+                    $supply_data = array();
+                    $supply_data['@type']      = 'Person';
+                    $supply_data['name']       = $val['saswp_music_composition_composer_name'];
+                    $supply_data['url']        = $val['saswp_music_composition_composer_url'];                    
+
+                   $faq_question_arr[] =  $supply_data;
+                }
+               $input1['composer'] = $faq_question_arr;
+            }
+    
+    return $input1;
+}
+
 function saswp_person_schema_markup($schema_id, $schema_post_id, $all_post_meta){
         
         $input1 = array();

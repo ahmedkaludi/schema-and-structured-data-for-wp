@@ -3489,6 +3489,58 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                    );
                     break;
                 
+                case 'MusicComposition':
+                    
+                    $meta_field = array(
+                    array(
+                            'label'      => 'Name',
+                            'id'         => 'saswp_music_composition_name_'.$schema_id,
+                            'type'       => 'text',                           
+                    ),
+                    array(
+                            'label'      => 'Description',
+                            'id'         => 'saswp_music_composition_description_'.$schema_id,
+                            'type'       => 'textarea',                           
+                    ),
+                    array(
+                            'label'      => 'Lyrics',
+                            'id'         => 'saswp_music_composition_lyrics_'.$schema_id,
+                            'type'       => 'textarea',                           
+                    ),    
+                    array(
+                            'label'      => 'URL',
+                            'id'         => 'saswp_music_composition_url_'.$schema_id,
+                            'type'       => 'text',                           
+                    ),
+                    array(
+                            'label'      => 'ISWC Code',
+                            'id'         => 'saswp_music_composition_iswccode_'.$schema_id,
+                            'type'       => 'text',                           
+                    ),
+                    array(
+                            'label'      => 'Image',
+                            'id'         => 'saswp_music_composition_image_'.$schema_id,
+                            'type'       => 'media',                           
+                    ),
+                    array(
+                            'label'      => 'inLanguage',
+                            'id'         => 'saswp_music_composition_inlanguage_'.$schema_id,
+                            'type'       => 'text',                           
+                    ),                         
+                    array(
+                            'label'      => 'Publisher',
+                            'id'         => 'saswp_music_composition_publisher_'.$schema_id,
+                            'type'       => 'text',                           
+                    ),
+                     array(
+                            'label'     => 'Date Published',
+                            'id'        => 'saswp_music_composition_date_published_'.$schema_id,
+                            'type'      => 'text',
+                            'default'   => get_the_date("Y-m-d")
+                    ),    
+                   );
+                    break;
+                
                 case 'Organization':
                     
                     $meta_field = array(                        

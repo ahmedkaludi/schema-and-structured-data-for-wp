@@ -447,7 +447,38 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_music_playlist_url'])){
                      $input1['url'] =    $custom_fields['saswp_music_playlist_url'];
                     }
-                                          
+                    
+                break;
+                
+                case 'MusicComposition':      
+                    
+                    if(isset($custom_fields['saswp_music_composition_name'])){
+                     $input1['name'] =    $custom_fields['saswp_music_composition_name'];
+                    }
+                    if(isset($custom_fields['saswp_music_composition_description'])){
+                     $input1['description'] =   wp_strip_all_tags(strip_shortcodes( $custom_fields['saswp_music_composition_description'] )) ;
+                    }
+                    if(isset($custom_fields['saswp_music_composition_url'])){
+                     $input1['url'] =    $custom_fields['saswp_music_composition_url'];
+                    }
+                    if(isset($custom_fields['saswp_music_composition_inlanguage'])){
+                     $input1['inLanguage'] =    $custom_fields['saswp_music_composition_inlanguage'];
+                    }
+                    if(isset($custom_fields['saswp_music_composition_iswccode'])){
+                     $input1['iswcCode'] =    $custom_fields['saswp_music_composition_iswccode'];
+                    }
+                    if(isset($custom_fields['saswp_music_composition_image'])){
+                     $input1['image'] =    $custom_fields['saswp_music_composition_image'];
+                    }
+                    if(isset($custom_fields['saswp_music_composition_lyrics'])){
+                     $input1['lyrics']['@type'] = 'CreativeWork';
+                     $input1['lyrics']['text']  = $custom_fields['saswp_music_composition_lyrics'];
+                    }
+                    if(isset($custom_fields['saswp_music_composition_publisher'])){
+                     $input1['publisher']['@type'] = 'Organization';
+                     $input1['publisher']['name'] = $custom_fields['saswp_music_composition_publisher'];
+                    }
+                                                              
                     break; 
                 case 'Organization':      
                     

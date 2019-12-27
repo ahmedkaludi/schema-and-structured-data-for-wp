@@ -2,7 +2,10 @@
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-return array( 'schema_type_element' => array(                        
+return array( 'schema_type_element' => array( 
+                        'MusicComposition' => array(
+                               'music_composer'       => 'music_composer',                                                     
+                        ),
                         'Article' => array(
                                'article_items' => 'article_items',                                                
                         ),
@@ -61,6 +64,18 @@ return array( 'schema_type_element' => array(
                         )                                                                          
                     ),
     'meta_name' => array(    
+                    'music_composer' => array(                    
+                    array(
+			'label'     => 'Name',
+			'name'      => 'saswp_music_composition_composer_name',
+			'type'      => 'text',                        
+		    ),
+                    array(
+			'label'     => 'URL',
+			'name'      => 'saswp_music_composition_composer_url',
+			'type'      => 'text',                        
+		    )    
+                    ),
                     'article_items' => array(                    
                     array(
 			'label'     => 'Item Name',

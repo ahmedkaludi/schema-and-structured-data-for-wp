@@ -21,6 +21,7 @@ return array(
                 'ImageObject'              => 'ImageObject',
                 'MusicPlaylist'            => 'MusicPlaylist',
                 'MusicAlbum'               => 'MusicAlbum',
+                'MusicComposition'         => 'MusicComposition',
                 'NewsArticle'              => 'NewsArticle',                                            
                 'qanda'                    => 'Q&A',   
                 'Review'                   => 'Review',
