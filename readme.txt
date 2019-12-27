@@ -118,7 +118,7 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
 
-= 1.9.20 (26 Dec 2019) =
+= 1.9.20 (27 Dec 2019) =
 
 * Added: Role Based Access feature #631
 * Added: comment property in DiscussionForumPosting schema type using bbPress compatiblity. #649
