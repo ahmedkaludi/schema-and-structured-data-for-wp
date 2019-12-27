@@ -594,8 +594,10 @@ Class saswp_output_service{
                     }                    
                     break; 
                     
-                case 'HowTo':      
-                      
+                case 'HowTo':                          
+                    if(isset($custom_fields['saswp_howto_schema_id'])){
+                     $input1['@id'] =    $custom_fields['saswp_howto_schema_id'];
+                    }                    
                     if(isset($custom_fields['saswp_howto_schema_name'])){
                      $input1['name'] =    $custom_fields['saswp_howto_schema_name'];
                     }

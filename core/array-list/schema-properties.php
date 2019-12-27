@@ -2006,6 +2006,12 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                     
                     $meta_field = array(
                     array(
+                            'label'      => 'ID',
+                            'id'         => 'saswp_howto_schema_id_'.$schema_id,
+                            'type'       => 'text',
+                            'default'    => 'HowTo'   
+                    ),    
+                    array(
                             'label'      => 'Name',
                             'id'         => 'saswp_howto_schema_name_'.$schema_id,
                             'type'       => 'text',
