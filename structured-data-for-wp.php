@@ -125,3 +125,21 @@ function saswp_add_plugin_meta_links($meta_fields, $file) {
     return $meta_fields;
     
   }
+  
+if( ! class_exists( 'SASWP_Plugin_Usage_Tracker') ) {
+  require_once SASWP_DIR_NAME. '/admin_section/tracking/class-saswp-plugin-usage-tracker.php';
+}
+if( ! function_exists( 'saswp_start_plugin_tracking' ) ) {
+  function saswp_start_plugin_tracking() {
+    $settings = get_option( 'sd_data');
+    $wisdom = new SASWP_Plugin_Usage_Tracker(
+      __FILE__,
+      'http://data.ampforwp.com/ssdw',
+      (array) $settings,
+      true,
+      true,
+      0
+    );
+  }
+  saswp_start_plugin_tracking();
+}
