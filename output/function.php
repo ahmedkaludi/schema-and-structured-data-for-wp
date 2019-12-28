@@ -88,6 +88,7 @@ function saswp_schema_markup_output() {
         $gutenberg_how_to         = saswp_gutenberg_how_to_schema(); 
         $gutenberg_faq            = saswp_gutenberg_faq_schema();        
         $woo_cat_schema           = saswp_woocommerce_category_schema();  
+        $woo_shop_page            = saswp_woocommerce_shop_page();  
         $site_navigation          = saswp_site_navigation_output();     
         $contact_page_output      = saswp_contact_page_output();  	
         $about_page_output        = saswp_about_page_output();      
@@ -150,6 +151,18 @@ function saswp_schema_markup_output() {
                         if(!empty($collection_page)){
                         
                             $output .= saswp_json_print_format($collection_page);   
+                            $output .= ",";
+                            $output .= "\n\n";
+                        }
+                        if(!empty($woo_shop_page['itemlist'])){
+                        
+                            $output .= saswp_json_print_format($woo_shop_page['itemlist']);   
+                            $output .= ",";
+                            $output .= "\n\n";
+                        }
+                        if(!empty($woo_shop_page['collection'])){
+                        
+                            $output .= saswp_json_print_format($woo_shop_page['collection']);   
                             $output .= ",";
                             $output .= "\n\n";
                         }

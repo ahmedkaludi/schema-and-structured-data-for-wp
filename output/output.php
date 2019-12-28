@@ -1604,6 +1604,82 @@ function saswp_woocommerce_category_schema(){
             
 }
 
+function saswp_woocommerce_shop_page(){
+    
+    $collection     = array();
+    $itemlist_arr   = array();
+        
+    if(function_exists('is_shop') && function_exists('woocommerce_get_loop_display_mode') && is_shop()){
+        
+        $display_type = woocommerce_get_loop_display_mode();
+        $parent_id    = is_product_category() ? get_queried_object_id() : 0;
+        
+        if($display_type == 'subcategories' || $display_type == 'both'){
+            
+            $list = array();
+                                                
+            $product_categories = woocommerce_get_product_subcategories( $parent_id );
+            
+            if($product_categories){
+                                                            
+                foreach($product_categories as $cat){
+                
+                    $list[] = array(
+                      '@type'    => 'ItemPage',                          
+                      'url'      => saswp_get_category_link($cat->term_id),
+                    );
+                    
+                }
+                
+            }
+            
+            if($list){
+                
+                $collection['@context'] = saswp_context_url();
+                $collection['@type']    = 'CollectionPage';
+                $collection['mainEntity']['@type']           = 'ItemList';
+                $collection['mainEntity']['itemListElement'] = $list;
+                
+            }
+            
+        }
+        
+        if($display_type == 'products' || $display_type == 'both'){
+            
+            $item_list = array();
+                     
+            woocommerce_product_loop_start();
+                    $i = 1;
+                    if ( have_posts() ) :
+                        while ( have_posts() ) :
+                                  the_post();
+                                   
+                                       $item_list[] = array(
+                                         '@type' 		=> 'ListItem',
+                                         'position' 		=> $i,
+                                         'url' 		        => get_the_permalink()
+                                        );
+                                   $i++; 
+                        endwhile;
+                    endif;
+                        
+            woocommerce_product_loop_end();
+                        
+                if($item_list){
+                    $item_list_res['@context']        = saswp_context_url();
+                    $item_list_res['@type']           = 'ItemList';
+                    $item_list_res['itemListElement'] = $item_list;
+                    $itemlist_arr = $item_list_res;
+                }
+            
+        }
+                        
+    }
+            
+    return array('itemlist' => $itemlist_arr, 'collection' => $collection);
+    
+}
+
 /**
  * Function generates archive page schema markup in the form of CollectionPage schema type
  * @global type $query_string
