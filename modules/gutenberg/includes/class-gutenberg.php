@@ -18,13 +18,53 @@ class SASWP_Gutenberg {
          * @var type 
          */
         private static $instance;
-	    	
+        private $service;
+        private $render;
+        
+        private $blocks = array(
+            
+            'event' => array(            
+                'handler'      => 'saswp-event-js-reg',
+                'path'         => SASWP_PLUGIN_URL . '/modules/gutenberg/assets/blocks/event.js',
+                'local_var'    => 'saswpGutenbergEvent',
+                'block_name'   => 'event-block',
+                'render_func'  => 'render_event_data',
+                'local'        => array()            
+            ),
+            
+            'faq' => array(            
+                'handler'      => 'saswp-faq-js-reg',
+                'path'         => SASWP_PLUGIN_URL . '/modules/gutenberg/assets/blocks/faq.js',
+                'local_var'    => 'saswpGutenbergFaq',
+                'block_name'   => 'faq-block',
+                'render_func'  => 'render_faq_data',
+                'local'        => array()            
+            ),
+            'howto' => array(            
+                'handler'      => 'saswp-how-to-js-reg',
+                'path'         => SASWP_PLUGIN_URL . '/modules/gutenberg/assets/blocks/how-to.js',                
+                'block_name'   => 'how-to-block',
+                'render_func'  => 'render_how_to_data',
+                'local_var'    => 'saswpGutenbergHowTo',
+                'local'        => array()
+            ),
+        );
+
         /**
          * This is class constructer to use all the hooks and filters used in this class
          */
         private function __construct() {
-                    add_action( 'init', array( $this, 'register_how_to' ) );
-                    add_action( 'init', array( $this, 'register_faq' ) );
+                
+                    if($this->service == null){
+                        require_once SASWP_DIR_NAME.'/modules/gutenberg/includes/service.php';
+                        $this->service = new SASWP_Gutenberg_Service();
+                    }
+                    if($this->render == null){
+                        require_once SASWP_DIR_NAME.'/modules/gutenberg/includes/render.php';
+                        $this->render = new SASWP_Gutenberg_Render();
+                    }
+            
+                    add_action( 'init', array( $this, 'register_saswp_blocks' ) );                    
                     add_action( 'enqueue_block_editor_assets', array( $this, 'register_admin_assets' ) ); 
                     //add_action( 'enqueue_block_assets', array( $this, 'register_frontend_assets' ) ); 
                     add_filter( 'block_categories', array( $this, 'saswp_add_blocks_categories' ) );     
@@ -60,76 +100,69 @@ class SASWP_Gutenberg {
                         SASWP_PLUGIN_URL . 'modules/gutenberg/assets/css/editor.css',
                         array( 'wp-edit-blocks' )
                     );
-                                         
-                    wp_register_script(
-                        'saswp-faq-js-reg',
-                        SASWP_PLUGIN_URL . '/modules/gutenberg/assets/blocks/faq.js',
-                        array( 'wp-i18n', 'wp-element', 'wp-blocks', 'wp-components', 'wp-editor' )
-                    );
+                     
+                    if($this->blocks){
                     
-                    $inline_script = array( 
-                                 'title' => 'Faq'
-                    );            		
-                    		
-		    wp_localize_script( 'saswp-how-to-js-reg', 'saswpGutenbergFaq', $inline_script );
-        
-                    wp_enqueue_script( 'saswp-faq-js-reg' );
-                    
-                    wp_register_script(
-                        'saswp-how-to-js-reg',
-                        SASWP_PLUGIN_URL . '/modules/gutenberg/assets/blocks/how-to.js',
-                        array( 'wp-i18n', 'wp-element', 'wp-blocks', 'wp-components', 'wp-editor' )
-                    );
-                    
-                    $inline_script = array( 
-                                 'title' => 'How To'
-                    );            		
-                    		
-		    wp_localize_script( 'saswp-how-to-js-reg', 'saswpGutenbergHowTo', $inline_script );
-        
-                    wp_enqueue_script( 'saswp-how-to-js-reg' );                    
+                        foreach($this->blocks as $block){
+                        
+                            wp_register_script(
+                               $block['handler'],
+                               $block['path'],
+                               array( 'wp-i18n', 'wp-element', 'wp-blocks', 'wp-components', 'wp-editor' )                                 
+                           );
+                        
+                            wp_localize_script( $block['handler'], $block['local_var'], $block['local'] );
+                         
+                            wp_enqueue_script( $block['handler'] );
+                        }
+                        
+                    } 
+                                                         
 	}
         /**
          * Register a how to block
          * @return type
          * @since version 1.9.7
          */
-	public function register_how_to() {
+	public function register_saswp_blocks() {
             
                     if ( !function_exists( 'register_block_type' ) ) {
                             // no Gutenberg, Abort
                             return;
                     }		                  		    
                      
-                    register_block_type( 'saswp/how-to-block', array(
-                        'style'         => 'saswp-gutenberg-css-reg',
-                        'editor_style'  => 'saswp-gutenberg-css-reg-editor',
-                        'editor_script' => 'saswp-how-to-js-reg',
-                        'render_callback' => array( $this, 'render_how_to_data' ),
-                    ) );
-                                        
+                   if($this->blocks){
                     
+                    foreach($this->blocks as $block){
+
+                        register_block_type( 'saswp/'.$block['block_name'], array(
+                            'style'         => 'saswp-gutenberg-css-reg',
+                            'editor_style'  => 'saswp-gutenberg-css-reg-editor',
+                            'editor_script' => $block['handler'],
+                            'render_callback' => array( $this, $block['render_func'] ),
+                      ) );
+                        
+                    }
+                                      
+                }                                        
 	}
-        /**
-         * Register a FAQ block
-         * @return type
-         * @since version 1.9.7
-         */
-	public function register_faq() {
+        
+        public function render_event_data($attributes){
             
-                    if ( !function_exists( 'register_block_type' ) ) {
-                            // no Gutenberg, Abort
-                            return;
-                    }		                  
-		                                                                                     
-                    register_block_type( 'saswp/faq-block', array(
-                        'style'         => 'saswp-gutenberg-css-reg',
-                        'editor_style'  => 'saswp-gutenberg-css-reg-editor',
-                        'editor_script' => 'saswp-faq-js-reg',
-                        'render_callback' => array( $this, 'render_faq_data' ),
-                    ) );
-                                                            
-	}
+            ob_start();
+            
+            if ( !isset( $attributes ) ) {
+			ob_end_clean();
+                                                                       
+			return '';
+            }
+            
+            //echo '';
+            
+            return ob_get_clean();
+            
+        }
+        
         /**
          * Function to render faq block data in frontend post content
          * @param type $attributes
