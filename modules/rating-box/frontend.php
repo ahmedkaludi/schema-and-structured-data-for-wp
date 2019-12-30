@@ -120,7 +120,7 @@ Class saswp_rating_box_frontend{
                             
                             if(!empty($input1)){
                                 
-                                echo '<!-- Schema & Structured Data For WP Review Module v'.esc_attr(SASWP_VERSION).' - -->';
+                                echo '<!-- Schema & Structured Data For WP Rating Module v'.esc_attr(SASWP_VERSION).' - -->';
                                 echo "\n";
                                 echo '<script type="application/ld+json" class="saswp-schema-markup-output">'; 
                                 echo "\n";       

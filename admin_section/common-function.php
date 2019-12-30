@@ -2071,20 +2071,23 @@ if ( ! defined('ABSPATH') ) exit;
         
         $blog_desc = get_bloginfo('description');
         
+        if(is_home() || is_front_page() || ( function_exists('ampforwp_is_home') && ampforwp_is_home()) ){
+            
         if(isset($sd_data['saswp-yoast']) && $sd_data['saswp-yoast'] == 1){
             
             if(class_exists('WPSEO_Frontend')){
                 
                   $front             = WPSEO_Frontend::get_instance();
                   $blog_desc         = $front->metadesc( false );
-                 
-            }
-            
-        }
-                        
+                  
+                  if(empty($blog_desc)){
+                      $blog_desc = get_bloginfo('description');
+                  }                                   
+            }            
+          }
+        }                        
         return $blog_desc;
-    }
-    
+    }    
     /**
      * since @1.8.7
      * Here we are modifying the default title
