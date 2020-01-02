@@ -33,6 +33,7 @@ define('SASWP_ENVIRONMENT', 'development');
 require_once SASWP_DIR_NAME .'/output/function.php';
 require_once SASWP_DIR_NAME .'/output/output.php';
 require_once SASWP_DIR_NAME .'/output/markup.php';
+require_once SASWP_DIR_NAME .'/output/gutenberg.php';
 require_once SASWP_DIR_NAME .'/output/single.php';
 
 if ( ! function_exists( 'is_plugin_active' ) )

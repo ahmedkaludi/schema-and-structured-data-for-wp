@@ -7,3 +7,6 @@ and open the template in the editor.
     Created on : Sep 15, 2019, 1:52:02 PM
     Author     : acer
 */
+.saswp-event-venue-details, .saswp-event-organizers-details, .saswp-event-performers-details{
+    padding-top:15px;
+}

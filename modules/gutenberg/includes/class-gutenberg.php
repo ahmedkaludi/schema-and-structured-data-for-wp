@@ -66,24 +66,46 @@ class SASWP_Gutenberg {
             
                     add_action( 'init', array( $this, 'register_saswp_blocks' ) );                    
                     add_action( 'enqueue_block_editor_assets', array( $this, 'register_admin_assets' ) ); 
-                    //add_action( 'enqueue_block_assets', array( $this, 'register_frontend_assets' ) ); 
-                    add_filter( 'block_categories', array( $this, 'saswp_add_blocks_categories' ) );     
+                    add_action( 'enqueue_block_assets', array( $this, 'register_frontend_assets' ) ); 
+                    add_filter( 'block_categories', array( $this, 'add_blocks_categories' ) );  
+                    add_action( 'amp_post_template_css', array($this, 'register_frontend_assets_amp'));
+        }
+        
+        public function register_frontend_assets_amp(){
+            
+             global $post;
+             
+             if(function_exists('parse_blocks') && is_object($post)){
+                 
+                  $blocks = parse_blocks($post->post_content);
+                  
+                   if($blocks){
+                       
+                        foreach ($blocks as $parse_blocks){
+                            
+                            if(isset($parse_blocks['blockName']) && $parse_blocks['blockName'] === 'saswp/event-block'){
+                                $event_css  =  SASWP_PLUGIN_DIR_PATH . 'modules/gutenberg/assets/css/amp/event.css';              
+                                echo @file_get_contents($event_css);
+                            }
+                            
+                        }
+                        
+                   }
+             }
+                                                
         }
         /**
          * Function to enqueue frontend assets for gutenberg blocks
          * @Since Version 1.9.7
          */
         public function register_frontend_assets() {
-                            
-                    if(!is_admin){
-                        
+                                                                        
                         wp_enqueue_style(
                             'saswp-gutenberg-css-reg',
-                            SASWP_PLUGIN_URL . '/modules/gutenberg/assets/css/style.css',
+                            SASWP_PLUGIN_URL . '/modules/gutenberg/assets/css/event.css',
                             array()                        
                         );
-                        
-                    }                               
+                                                                           
 	}
         /**
          * Function to enqueue admin assets for gutenberg blocks
@@ -136,9 +158,9 @@ class SASWP_Gutenberg {
                     foreach($this->blocks as $block){
 
                         register_block_type( 'saswp/'.$block['block_name'], array(
-                            'style'         => 'saswp-gutenberg-css-reg',
-                            'editor_style'  => 'saswp-gutenberg-css-reg-editor',
-                            'editor_script' => $block['handler'],
+                            'style'           => 'saswp-gutenberg-css-reg',
+                            'editor_style'    => 'saswp-gutenberg-css-reg-editor',
+                            'editor_script'   => $block['handler'],
                             'render_callback' => array( $this, $block['render_func'] ),
                       ) );
                         
@@ -157,7 +179,7 @@ class SASWP_Gutenberg {
 			return '';
             }
             
-            //echo '';
+            echo $this->render->event_block_data($attributes);
             
             return ob_get_clean();
             
@@ -341,7 +363,7 @@ class SASWP_Gutenberg {
          * @return array
          * @since version 1.9.7
          */	        
-        public function saswp_add_blocks_categories($categories){
+        public function add_blocks_categories($categories){
         
         $categories[] = array(
                 'slug'  => 'saswp-blocks',
