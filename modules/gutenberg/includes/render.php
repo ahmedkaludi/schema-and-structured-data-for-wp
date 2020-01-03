@@ -76,7 +76,7 @@ class SASWP_Gutenberg_Render {
     public function job_block_data($attributes){
                         
         $response       = '';
-       // print_r($attributes);die;
+       
         if($attributes){
  
          $location = $attributes['location_address']. ', <br>' . 
@@ -87,21 +87,21 @@ class SASWP_Gutenberg_Render {
             
          $response  .='<div class="saswp-job-listing-wrapper">'                    
                     . '<ul class="saswp-job-listing-meta">'
-                    . '<li class="saswp-location"><a target="_blank" href="'.esc_url( 'https://maps.google.com/maps?q=' . rawurlencode( wp_strip_all_tags( $location ) ) . '&zoom=14&size=512x512&maptype=roadmap&sensor=false' ).'" class="saswp-google-map-link">'. $location .'</a></li>'
-                    . '<li class="saswp-date-posted">'.get_the_date("Y-m-d").'</li>'
+                    . '<li class="saswp-location"><span class="dashicons dashicons-location"></span><a target="_blank" href="'.esc_url( 'https://maps.google.com/maps?q=' . rawurlencode( wp_strip_all_tags( $location ) ) . '&zoom=14&size=512x512&maptype=roadmap&sensor=false' ).'" class="saswp-google-map-link">'. $location .'</a></li>'
+                    . '<li class="saswp-date-posted"><span class="dashicons dashicons-calendar-alt"></span> '.get_the_date("Y-m-d").'</li>'
                     . '</ul>'
                     . '<div class="saswp-job-company">'
                     . '<img src="'.esc_url($attributes['company_logo_url']).'">'
                     . '<p class="saswp-job-company-name">'
-                    . '<a target="_blank" class="saswp-job-company-website" href="'.esc_url($attributes['company_website']).'">Website</a>'
-                    . '<a target="_blank" class="saswp-job-company-twitter" href="'.esc_url($attributes['company_twitter']).'">Twitter</a>'
-                    . '<a target="_blank" class="saswp-job-company-facebook" href="'.esc_url($attributes['company_facebook']).'">Facebook</a>'
+                    . '<a target="_blank" class="saswp-job-company-website" href="'.esc_url($attributes['company_website']).'"><span class="dashicons dashicons-admin-links"></span> '.esc_html__('Website', 'schema-and-structured-data-for-wp').'</a>'
+                    . '<a target="_blank" class="saswp-job-company-twitter" href="'.esc_url($attributes['company_twitter']).'"><span class="dashicons dashicons-twitter"></span> '.esc_html__('Twitter', 'schema-and-structured-data-for-wp').'</a>'
+                    . '<a target="_blank" class="saswp-job-company-facebook" href="'.esc_url($attributes['company_facebook']).'"><span class="dashicons dashicons-facebook-alt"></span>'.esc_html__('Facebook', 'schema-and-structured-data-for-wp').'</a>'
                     . '<strong>'.esc_html($attributes['company_name']).'</strong>'
                     . '</p>'
                     . '<p class="saswp-job-company-tagline">'.esc_html($attributes['company_tagline']).'</p>';
                     
                     if($attributes['base_salary']){
-                        $response .= '<p><strong>Base Salary: </strong> <span>'.esc_html($attributes['base_salary']).' '.esc_html($attributes['currency_code']).' per '.esc_html($attributes['unit_text']).'</span> <p>';
+                        $response .= '<p><strong>'.esc_html__('Base Salary', 'schema-and-structured-data-for-wp').': </strong> <span>'.esc_html($attributes['base_salary']).' '.esc_html($attributes['currency_code']).' '.esc_html__('per', 'schema-and-structured-data-for-wp').' '.esc_html($attributes['unit_text']).'</span> <p>';
                     }
              
                     $response.= '</div>'
@@ -110,7 +110,7 @@ class SASWP_Gutenberg_Render {
                     . '</div>'
                     . '<div class="saswp-job-application">'
                     . '<div class="saswp-job-application-details">'
-                    . 'To apply for this job <strong>'.esc_html($attributes['app_email_or_website']).'</strong> '
+                    . esc_html__('To apply for this job', 'schema-and-structured-data-for-wp').' <strong>'.esc_html($attributes['app_email_or_website']).'</strong> '
                     . '<a href="mailto:'.esc_attr($attributes['app_email_or_website']).'">'.esc_attr($attributes['app_email_or_website']).'</a>'
                     . '</div>'
                     . '</div>'

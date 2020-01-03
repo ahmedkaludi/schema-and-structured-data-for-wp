@@ -8,32 +8,11 @@ and open the template in the editor.
     Author     : acer
 */
 .saswp-job-listing-meta .saswp-date-posted:before {
-    display: inline-block;
-    width: 16px;
-    height: 16px;
-    -webkit-font-smoothing: antialiased;
-    font-family: job-manager!important;
-    text-decoration: none;
-    font-weight: 400;
-    font-style: normal;
-    vertical-align: top;
-    font-size: 16px;
-    margin: 0 2px 0 0;
-    content: '\e80f';
+   
 }
 .saswp-job-listing-meta .saswp-location:before {
-    display: inline-block;
-    width: 16px;
-    height: 16px;
-    -webkit-font-smoothing: antialiased;
-    font-family: job-manager!important;
-    text-decoration: none;
-    font-weight: 400;
-    font-style: normal;
-    vertical-align: top;
-    font-size: 16px;
-    margin: 0 2px 0 0;
-    content: '\e81d';
+
+    
 }
 .saswp-job-listing-meta li {
     margin: 0 1em 0 0;
@@ -80,32 +59,10 @@ and open the template in the editor.
     margin-left: 1em;
 }
 .saswp-job-listing-wrapper .saswp-job-company .saswp-job-company-website:before {
-    display: inline-block;
-    width: 16px;
-    height: 16px;
-    -webkit-font-smoothing: antialiased;
-    font-family: job-manager!important;
-    text-decoration: none;
-    font-weight: 400;
-    font-style: normal;
-    vertical-align: top;
-    font-size: 16px;
-    margin: 0 2px 0 0;
-    content: '\e809';
+    
 }
 .saswp-job-listing-wrapper .saswp-job-company .saswp-job-company-twitter:before {
-    display: inline-block;
-    width: 16px;
-    height: 16px;
-    -webkit-font-smoothing: antialiased;
-    font-family: job-manager!important;
-    text-decoration: none;
-    font-weight: 400;
-    font-style: normal;
-    vertical-align: top;
-    font-size: 16px;
-    margin: 0 2px 0 0;
-    content: '\e80a';
+    
 }
 .saswp-job-listing-wrapper .saswp-job-application-details {
     clear: both;

@@ -72,13 +72,13 @@
                 default:false
             },
             base_salary:{
-                type:'string',                
+                type:'string'                
             },
             currency_code:{
-                type:'string',                
+                type:'string'                
             },
             unit_text:{
-                type:'string',                
+                type:'string'              
             }
             
         },        
@@ -96,7 +96,7 @@
                                 el(TextControl,{
                                 className:'saswp-job-posted-by',
                                 value :  attributes.posted_by,
-                                label : 'Posted By',
+                                label : __('Posted By', 'schema-and-structured-data-for-wp'),
                                 onChange: function(value){
                                     props.setAttributes( { posted_by: value } );
                                 }
@@ -106,7 +106,7 @@
                                 el(TextareaControl,{
                                 className:'saswp-job-description',
                                 value :  attributes.job_description,
-                                label : 'Job Description',
+                                label : __('Job Description', 'schema-and-structured-data-for-wp'),
                                 onChange: function(value){
                                     props.setAttributes( { job_description: value } );
                                 }
@@ -116,7 +116,7 @@
                                 el(TextControl,{
                                 className:'saswp-job-location',
                                 value :  attributes.location_address,
-                                label : 'Location Address',
+                                label : __('Location Address', 'schema-and-structured-data-for-wp'),
                                 onChange: function(value){
                                     props.setAttributes( { location_address: value } );
                                 }
@@ -125,7 +125,7 @@
                                 el(TextControl,{
                                 className:'saswp-job-location',
                                 value :  attributes.location_city,
-                                label : 'Location City',
+                                label : __('Location City', 'schema-and-structured-data-for-wp'),
                                 onChange: function(value){
                                     props.setAttributes( { location_city: value } );
                                 }
@@ -134,7 +134,7 @@
                                 el(TextControl,{
                                 className:'saswp-job-location',
                                 value :  attributes.location_state,
-                                label : 'Location State',
+                                label : __('Location State', 'schema-and-structured-data-for-wp'),
                                 onChange: function(value){
                                     props.setAttributes( { location_state: value } );
                                 }
@@ -143,7 +143,7 @@
                                 el(TextControl,{
                                 className:'saswp-job-location',
                                 value :  attributes.location_country,
-                                label : 'Location Country',
+                                label : __('Location Country', 'schema-and-structured-data-for-wp'),
                                 onChange: function(value){
                                     props.setAttributes( { location_country: value } );
                                 }
@@ -152,7 +152,7 @@
                                 el(TextControl,{
                                 className:'saswp-job-location',
                                 value :  attributes.location_postal_code,
-                                label : 'Location Postal Code',
+                                label : __('Location Postal Code', 'schema-and-structured-data-for-wp'),
                                 onChange: function(value){
                                     props.setAttributes( { location_postal_code: value } );
                                 }
@@ -162,7 +162,7 @@
                                 el(TextControl,{
                                 className:'saswp-job-app-email-url',
                                 value :  attributes.app_email_or_website,
-                                label : 'Application email/URL',
+                                label : __('Application email/URL', 'schema-and-structured-data-for-wp'),
                                 onChange: function(value){
                                     props.setAttributes( { app_email_or_website: value } );
                                 }
@@ -171,7 +171,7 @@
                                 el(TextControl,{
                                 className:'saswp-job-company-name',
                                 value :  attributes.company_name,
-                                label : 'Company Name',
+                                label : __('Company Name', 'schema-and-structured-data-for-wp'),
                                 onChange: function(value){
                                     props.setAttributes( { company_name: value } );
                                 }
@@ -180,7 +180,7 @@
                                 el(TextControl,{
                                 className:'saswp-job-company-website',
                                 value :  attributes.company_website,
-                                label : 'Company Website',
+                                label : __('Company Website', 'schema-and-structured-data-for-wp'),
                                 onChange: function(value){
                                     props.setAttributes( { company_website: value } );
                                 }
@@ -189,7 +189,7 @@
                                 el(TextareaControl,{
                                 className:'saswp-job-company-tagline',
                                 value :  attributes.company_tagline,
-                                label : 'Company Tagline',
+                                label : __('Company Tagline', 'schema-and-structured-data-for-wp'),
                                 onChange: function(value){
                                     props.setAttributes( { company_tagline: value } );
                                 }
@@ -198,7 +198,7 @@
                                 el(TextControl,{
                                 className:'saswp-job-company-twitter',
                                 value :  attributes.company_twitter,
-                                label : 'Company Twitter',
+                                label : __('Company Twitter', 'schema-and-structured-data-for-wp'),
                                 onChange: function(value){
                                     props.setAttributes( { company_twitter: value } );
                                 }
@@ -207,7 +207,7 @@
                                 el(TextControl,{
                                 className:'saswp-job-company-facebook',
                                 value :  attributes.company_facebook,
-                                label : 'Company Facebook',
+                                label : __('Company Facebook', 'schema-and-structured-data-for-wp'),
                                 onChange: function(value){
                                     props.setAttributes( { company_facebook: value } );
                                 }
@@ -247,7 +247,7 @@
                                 el(TextControl,{
                                 className:'saswp-job-list-expire-date',
                                 value :  attributes.listing_expire_date,
-                                label : 'Listing Expire Date',
+                                label : __('Listing Expire Date', 'schema-and-structured-data-for-wp'),
                                 onClick: function(value){                                    
                                     props.setAttributes( { listing_toggle: true } );
                                 }
@@ -277,7 +277,7 @@
                                 el(TextControl,{
                                 className:'saswp-job-base-salary',
                                 value :  attributes.base_salary,
-                                label : 'Base Salary',
+                                label : __('Base Salary', 'schema-and-structured-data-for-wp'),
                                 onChange: function(value){
                                     props.setAttributes( { base_salary: value } );
                                 }
@@ -286,7 +286,7 @@
                                 el(TextControl,{
                                 className:'saswp-job-base-salary',
                                 value :  attributes.currency_code,
-                                label : 'Currency Code',
+                                label : __('Currency Code', 'schema-and-structured-data-for-wp'),
                                 onChange: function(value){
                                     props.setAttributes( { currency_code: value } );
                                 }
@@ -295,7 +295,7 @@
                                 el(TextControl,{
                                 className:'saswp-job-base-salary',
                                 value :  attributes.unit_text,
-                                label : 'Unit Text',
+                                label : __('Unit Text', 'schema-and-structured-data-for-wp'),
                                 onChange: function(value){
                                     props.setAttributes( { unit_text: value } );
                                 }
