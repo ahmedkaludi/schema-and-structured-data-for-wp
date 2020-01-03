@@ -210,7 +210,8 @@
             }            
             }) : ''            
             ),
-            attributes.start_date_toggle ? el(
+            attributes.start_date_toggle ? 
+                el(
                 Popover,{
                     class:'saswp-calender-popover',
                     position: 'bottom',
@@ -229,7 +230,10 @@
                        props.setAttributes( { start_time: newTime } ); 
                      
                  }
-                })) : ''  );
+                })
+                ) 
+                : ''
+                );
                 
         var end_date_div = el('div',{},
             el('span', {}, 

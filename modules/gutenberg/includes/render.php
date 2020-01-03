@@ -48,7 +48,7 @@ class SASWP_Gutenberg_Render {
                     . '</div>'
                 
                     . '<div class="saswp-event-venue-details">'
-                    . '<h5>'.esc_html__('Vanue', 'schema-and-structured-data-for-wp').'</h5>'
+                    . '<h5>'.esc_html__('Venue', 'schema-and-structured-data-for-wp').'</h5>'
                     . '<span>'.esc_html($attributes['venue_name']).'</span><br><br>'
                     . '<span>'.esc_html($attributes['venue_address']).'</span>, '
                     . '<span>'.esc_html($attributes['venue_city']).'</span>, <br>'                    
@@ -70,6 +70,13 @@ class SASWP_Gutenberg_Render {
         
                     . '</div>';
                 
+        return $response;
+    }
+    
+    public function job_block_data($attributes){
+        
+        $response       = '';
+        
         return $response;
     }
     

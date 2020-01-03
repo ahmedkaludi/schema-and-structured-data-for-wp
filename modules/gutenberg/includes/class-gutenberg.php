@@ -31,7 +31,14 @@ class SASWP_Gutenberg {
                 'render_func'  => 'render_event_data',
                 'local'        => array()            
             ),
-            
+            'job' => array(            
+                'handler'      => 'saswp-job-js-reg',
+                'path'         => SASWP_PLUGIN_URL . '/modules/gutenberg/assets/blocks/job.js',
+                'local_var'    => 'saswpGutenbergJob',
+                'block_name'   => 'job-block',
+                'render_func'  => 'render_job_data',
+                'local'        => array()            
+            ),            
             'faq' => array(            
                 'handler'      => 'saswp-faq-js-reg',
                 'path'         => SASWP_PLUGIN_URL . '/modules/gutenberg/assets/blocks/faq.js',
@@ -168,6 +175,22 @@ class SASWP_Gutenberg {
                                       
                 }                                        
 	}
+        
+        public function render_job_data($attributes){
+            
+            ob_start();
+            
+            if ( !isset( $attributes ) ) {
+			ob_end_clean();
+                                                                       
+			return '';
+            }
+            
+            echo $this->render->job_block_data($attributes);
+            
+            return ob_get_clean();
+            
+        }
         
         public function render_event_data($attributes){
             
