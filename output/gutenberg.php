@@ -328,3 +328,74 @@ function saswp_gutenberg_event_schema(){
     return $input1;
         
 }
+
+function saswp_gutenberg_job_schema(){
+    
+    $input1 = array();
+     
+    $attributes = saswp_get_gutenberg_block_data('saswp/job-block');
+    
+    if(isset($attributes['attrs'])){
+        
+        $data = $attributes['attrs'];
+                
+        $input1['@context']              = saswp_context_url();
+        $input1['@type']                 = 'JobPosting';
+        $input1['@id']                   = trailingslashit(saswp_get_permalink()).'#JobPosting';  
+        $input1['title']                 = saswp_get_the_title();  
+        $input1['description']           = $data['job_description'] ? wp_strip_all_tags($data['job_description']) : saswp_get_the_excerpt();
+        $input1['datePosted']            = get_the_date("c");        
+        $input1['validThrough']          = saswp_format_date_time($data['listing_expire_date']);  
+        $input1['employmentType']        = $data['job_types'];  
+        
+        if(isset($data['location_address'])){
+                            
+        $input1['jobLocation']['@type']                      = 'Place';        
+        $input1['jobLocation']['address']['@type']           = 'PostalAddress';
+        $input1['jobLocation']['address']['streetAddress']   = $data['location_address'];
+        $input1['jobLocation']['address']['addressLocality'] = $data['location_city'];
+        $input1['jobLocation']['address']['postalCode']      = $data['location_postal_code'];
+        $input1['jobLocation']['address']['addressRegion']   = $data['location_state'];
+        $input1['jobLocation']['address']['addressCountry']  = $data['location_country'];
+        
+        }
+        if(isset($data['base_salary'])){
+        
+        $input1['baseSalary']['@type']             = 'MonetaryAmount';        
+        $input1['baseSalary']['currency']          = $data['currency_code'];
+        $input1['baseSalary']['value']['@type']    = 'QuantitativeValue';
+        $input1['baseSalary']['value']['value']    = $data['base_salary'];
+        $input1['baseSalary']['value']['unitText'] = $data['unit_text'];                
+        }
+        
+        if(isset($data['company_name']) || isset($data['company_website'])){
+                                
+        $input1['hiringOrganization']['@type']             = 'Organization';        
+        $input1['hiringOrganization']['name']              = $data['company_name'];
+        $input1['hiringOrganization']['description']       = $data['company_tagline'];
+        $input1['hiringOrganization']['logo']              = $data['company_logo_url'];
+        $input1['hiringOrganization']['sameAs']            = array(
+                                                                    $data['company_website'],
+                                                                    $data['company_twitter'],
+                                                                    $data['company_facebook']
+                                                            );
+                        
+        }
+                                                     
+        if( !empty($input1) && !isset($input1['image'])){
+
+                        $service_object     = new saswp_output_service();
+                        $input2             = $service_object->saswp_get_fetaure_image();
+
+                        if(!empty($input2)){
+
+                          $input1 = array_merge($input1,$input2); 
+
+                        }                                                                    
+                    }
+         
+        }
+                        
+    return $input1;
+        
+}

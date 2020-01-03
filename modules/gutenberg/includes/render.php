@@ -74,8 +74,49 @@ class SASWP_Gutenberg_Render {
     }
     
     public function job_block_data($attributes){
-        
+                        
         $response       = '';
+       // print_r($attributes);die;
+        if($attributes){
+ 
+         $location = $attributes['location_address']. ', <br>' . 
+                     $attributes['location_city']. ', '.
+                     $attributes['location_state']. ', <br>'.
+                     $attributes['location_country']. ', '.
+                     $attributes['location_postal_code'];
+            
+         $response  .='<div class="saswp-job-listing-wrapper">'                    
+                    . '<ul class="saswp-job-listing-meta">'
+                    . '<li class="saswp-location"><a target="_blank" href="'.esc_url( 'https://maps.google.com/maps?q=' . rawurlencode( wp_strip_all_tags( $location ) ) . '&zoom=14&size=512x512&maptype=roadmap&sensor=false' ).'" class="saswp-google-map-link">'. $location .'</a></li>'
+                    . '<li class="saswp-date-posted">'.get_the_date("Y-m-d").'</li>'
+                    . '</ul>'
+                    . '<div class="saswp-job-company">'
+                    . '<img src="'.esc_url($attributes['company_logo_url']).'">'
+                    . '<p class="saswp-job-company-name">'
+                    . '<a target="_blank" class="saswp-job-company-website" href="'.esc_url($attributes['company_website']).'">Website</a>'
+                    . '<a target="_blank" class="saswp-job-company-twitter" href="'.esc_url($attributes['company_twitter']).'">Twitter</a>'
+                    . '<a target="_blank" class="saswp-job-company-facebook" href="'.esc_url($attributes['company_facebook']).'">Facebook</a>'
+                    . '<strong>'.esc_html($attributes['company_name']).'</strong>'
+                    . '</p>'
+                    . '<p class="saswp-job-company-tagline">'.esc_html($attributes['company_tagline']).'</p>';
+                    
+                    if($attributes['base_salary']){
+                        $response .= '<p><strong>Base Salary: </strong> <span>'.esc_html($attributes['base_salary']).' '.esc_html($attributes['currency_code']).' per '.esc_html($attributes['unit_text']).'</span> <p>';
+                    }
+             
+                    $response.= '</div>'
+                    . '<div class="saswp-job-description">'
+                    . esc_html($attributes['job_description'])
+                    . '</div>'
+                    . '<div class="saswp-job-application">'
+                    . '<div class="saswp-job-application-details">'
+                    . 'To apply for this job <strong>'.esc_html($attributes['app_email_or_website']).'</strong> '
+                    . '<a href="mailto:'.esc_attr($attributes['app_email_or_website']).'">'.esc_attr($attributes['app_email_or_website']).'</a>'
+                    . '</div>'
+                    . '</div>'
+                    . '</div>';   
+            
+        }
         
         return $response;
     }

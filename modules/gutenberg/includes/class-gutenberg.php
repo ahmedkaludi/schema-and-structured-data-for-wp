@@ -29,6 +29,8 @@ class SASWP_Gutenberg {
                 'local_var'    => 'saswpGutenbergEvent',
                 'block_name'   => 'event-block',
                 'render_func'  => 'render_event_data',
+                'style'        => 'saswp-g-event-css',
+                'editor'       => 'saswp-gutenberg-css-reg-editor',
                 'local'        => array()            
             ),
             'job' => array(            
@@ -36,6 +38,8 @@ class SASWP_Gutenberg {
                 'path'         => SASWP_PLUGIN_URL . '/modules/gutenberg/assets/blocks/job.js',
                 'local_var'    => 'saswpGutenbergJob',
                 'block_name'   => 'job-block',
+                'style'        => 'saswp-g-job-css',
+                'editor'       => 'saswp-gutenberg-css-reg-editor',
                 'render_func'  => 'render_job_data',
                 'local'        => array()            
             ),            
@@ -44,6 +48,8 @@ class SASWP_Gutenberg {
                 'path'         => SASWP_PLUGIN_URL . '/modules/gutenberg/assets/blocks/faq.js',
                 'local_var'    => 'saswpGutenbergFaq',
                 'block_name'   => 'faq-block',
+                'style'        => 'saswp-g-faq-css',
+                'editor'       => 'saswp-gutenberg-css-reg-editor',
                 'render_func'  => 'render_faq_data',
                 'local'        => array()            
             ),
@@ -52,6 +58,8 @@ class SASWP_Gutenberg {
                 'path'         => SASWP_PLUGIN_URL . '/modules/gutenberg/assets/blocks/how-to.js',                
                 'block_name'   => 'how-to-block',
                 'render_func'  => 'render_how_to_data',
+                'style'        => 'saswp-g-howto-css',
+                'editor'       => 'saswp-gutenberg-css-reg-editor',
                 'local_var'    => 'saswpGutenbergHowTo',
                 'local'        => array()
             ),
@@ -94,6 +102,10 @@ class SASWP_Gutenberg {
                                 $event_css  =  SASWP_PLUGIN_DIR_PATH . 'modules/gutenberg/assets/css/amp/event.css';              
                                 echo @file_get_contents($event_css);
                             }
+                            if(isset($parse_blocks['blockName']) && $parse_blocks['blockName'] === 'saswp/job-block'){
+                                $event_css  =  SASWP_PLUGIN_DIR_PATH . 'modules/gutenberg/assets/css/amp/job.css';              
+                                echo @file_get_contents($event_css);
+                            }
                             
                         }
                         
@@ -106,12 +118,40 @@ class SASWP_Gutenberg {
          * @Since Version 1.9.7
          */
         public function register_frontend_assets() {
-                                                                        
-                        wp_enqueue_style(
-                            'saswp-gutenberg-css-reg',
-                            SASWP_PLUGIN_URL . '/modules/gutenberg/assets/css/event.css',
-                            array()                        
-                        );
+                                                                      
+                        global $post;
+             
+                        if(function_exists('parse_blocks') && is_object($post)){
+
+                             $blocks = parse_blocks($post->post_content);
+
+                              if($blocks){
+
+                                   foreach ($blocks as $parse_blocks){
+
+                                       if(isset($parse_blocks['blockName']) && $parse_blocks['blockName'] === 'saswp/event-block'){
+                                           
+                                           wp_enqueue_style(
+                                                'saswp-g-event-css',
+                                                SASWP_PLUGIN_URL . '/modules/gutenberg/assets/css/event.css',
+                                                array()                        
+                                           );
+                                           
+                                       }
+                                       if(isset($parse_blocks['blockName']) && $parse_blocks['blockName'] === 'saswp/job-block'){
+                                           
+                                           wp_enqueue_style(
+                                                'saswp-g-job-css',
+                                                SASWP_PLUGIN_URL . '/modules/gutenberg/assets/css/job.css',
+                                                array()                        
+                                           );
+                                           
+                                       }
+
+                                   }
+
+                              }
+                        }                        
                                                                            
 	}
         /**
@@ -165,8 +205,8 @@ class SASWP_Gutenberg {
                     foreach($this->blocks as $block){
 
                         register_block_type( 'saswp/'.$block['block_name'], array(
-                            'style'           => 'saswp-gutenberg-css-reg',
-                            'editor_style'    => 'saswp-gutenberg-css-reg-editor',
+                            'style'           => $block['style'],
+                            'editor_style'    => $block['editor'],
                             'editor_script'   => $block['handler'],
                             'render_callback' => array( $this, $block['render_func'] ),
                       ) );

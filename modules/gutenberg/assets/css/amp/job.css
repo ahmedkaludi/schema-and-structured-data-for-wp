@@ -1,0 +1,120 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Sep 15, 2019, 1:52:02 PM
+    Author     : acer
+*/
+.saswp-job-listing-meta .saswp-date-posted:before {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    -webkit-font-smoothing: antialiased;
+    font-family: job-manager!important;
+    text-decoration: none;
+    font-weight: 400;
+    font-style: normal;
+    vertical-align: top;
+    font-size: 16px;
+    margin: 0 2px 0 0;
+    content: '\e80f';
+}
+.saswp-job-listing-meta .saswp-location:before {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    -webkit-font-smoothing: antialiased;
+    font-family: job-manager!important;
+    text-decoration: none;
+    font-weight: 400;
+    font-style: normal;
+    vertical-align: top;
+    font-size: 16px;
+    margin: 0 2px 0 0;
+    content: '\e81d';
+}
+.saswp-job-listing-meta li {
+    margin: 0 1em 0 0;
+    padding: .5em;
+    float: left;
+    line-height: 1em;
+    color: #999;
+}
+.saswp-job-listing-meta {
+    list-style: none outside;
+    padding: 0; 
+    margin: 0 0 1.5em; 
+    overflow: hidden; 
+    zoom: 1; 
+    clear: both;
+}
+.saswp-job-listing-wrapper .saswp-job-company {
+    position: relative;
+    border: 1px solid #eee;
+    padding: 1em;
+    margin: 0 0 2em;
+    display: block;
+    clear: both;
+    min-height: 3em;
+    box-shadow: 0 1px 1px rgba(0,0,0,.1);
+    box-sizing: content-box;
+}
+.saswp-job-listing-wrapper .saswp-job-company img {
+    width: 3em;
+    height: 3em;
+    position: absolute;
+    left: 1em;
+    float: left;
+    vertical-align: middle;
+    box-shadow: none;
+}
+.saswp-job-listing-wrapper .saswp-job-company .saswp-job-company-name {
+    margin: 0 0 0 3em;
+    padding: 0 0 0 1em;
+    line-height: 1.5em;
+}
+.saswp-job-listing-wrapper .saswp-job-company .saswp-job-company-name a {
+    float: right;
+    margin-left: 1em;
+}
+.saswp-job-listing-wrapper .saswp-job-company .saswp-job-company-website:before {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    -webkit-font-smoothing: antialiased;
+    font-family: job-manager!important;
+    text-decoration: none;
+    font-weight: 400;
+    font-style: normal;
+    vertical-align: top;
+    font-size: 16px;
+    margin: 0 2px 0 0;
+    content: '\e809';
+}
+.saswp-job-listing-wrapper .saswp-job-company .saswp-job-company-twitter:before {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    -webkit-font-smoothing: antialiased;
+    font-family: job-manager!important;
+    text-decoration: none;
+    font-weight: 400;
+    font-style: normal;
+    vertical-align: top;
+    font-size: 16px;
+    margin: 0 2px 0 0;
+    content: '\e80a';
+}
+.saswp-job-listing-wrapper .saswp-job-application-details {
+    clear: both;
+    border: 1px solid #eee;
+    padding: .75em 1em 0;
+    margin: 1em 0;
+    line-height: 1.5em;
+    display: block;
+    position: relative;
+    padding-bottom: 10px;
+    box-shadow: 0 1px 1px rgba(0,0,0,.1);
+}

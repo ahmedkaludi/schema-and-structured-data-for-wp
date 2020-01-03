@@ -16,12 +16,27 @@
             posted_by:{
                 type:'string'                
             },
+            job_description : {
+              type: 'string'              
+            },
             job_types : {
               type: 'string'              
             },
-            location:{
+            location_address:{
                 type:'string'                
-            },  
+            },
+            location_city:{
+                type:'string'                
+            },
+            location_state:{
+                type:'string'                
+            },
+            location_country:{
+                type:'string'                
+            },
+            location_postal_code:{
+                type:'string'                
+            },            
             app_email_or_website:{
                 type:'string'                
             },
@@ -40,9 +55,9 @@
             company_facebook:{
                 type:'string'                
             },
-            company_video_url:{
-                type:'string'                
-            },
+//            company_video_url:{
+//                type:'string'                
+//            },
             company_logo_url:{
                 type:'string'                
             },
@@ -55,7 +70,17 @@
             listing_toggle:{
                 type:'boolean',
                 default:false
+            },
+            base_salary:{
+                type:'string',                
+            },
+            currency_code:{
+                type:'string',                
+            },
+            unit_text:{
+                type:'string',                
             }
+            
         },        
         // Allow only one How To block per post.
         supports: {
@@ -77,15 +102,63 @@
                                 }
                                 },                        
                                 ),
-                                el(TextControl,{
-                                className:'saswp-job-location',
-                                value :  attributes.location,
-                                label : 'Location',
+                                
+                                el(TextareaControl,{
+                                className:'saswp-job-description',
+                                value :  attributes.job_description,
+                                label : 'Job Description',
                                 onChange: function(value){
-                                    props.setAttributes( { location: value } );
+                                    props.setAttributes( { job_description: value } );
                                 }
                                 },                        
                                 ),
+                                                                
+                                el(TextControl,{
+                                className:'saswp-job-location',
+                                value :  attributes.location_address,
+                                label : 'Location Address',
+                                onChange: function(value){
+                                    props.setAttributes( { location_address: value } );
+                                }
+                                },                        
+                                ),
+                                el(TextControl,{
+                                className:'saswp-job-location',
+                                value :  attributes.location_city,
+                                label : 'Location City',
+                                onChange: function(value){
+                                    props.setAttributes( { location_city: value } );
+                                }
+                                },                        
+                                ),
+                                el(TextControl,{
+                                className:'saswp-job-location',
+                                value :  attributes.location_state,
+                                label : 'Location State',
+                                onChange: function(value){
+                                    props.setAttributes( { location_state: value } );
+                                }
+                                },                        
+                                ),
+                                el(TextControl,{
+                                className:'saswp-job-location',
+                                value :  attributes.location_country,
+                                label : 'Location Country',
+                                onChange: function(value){
+                                    props.setAttributes( { location_country: value } );
+                                }
+                                },                        
+                                ),
+                                el(TextControl,{
+                                className:'saswp-job-location',
+                                value :  attributes.location_postal_code,
+                                label : 'Location Postal Code',
+                                onChange: function(value){
+                                    props.setAttributes( { location_postal_code: value } );
+                                }
+                                },                        
+                                ),
+                                
                                 el(TextControl,{
                                 className:'saswp-job-app-email-url',
                                 value :  attributes.app_email_or_website,
@@ -141,35 +214,36 @@
                                 },                        
                                 ),
                                 
-                                el('div',{},
-                                el(TextControl,{
-                                className:'saswp-job-company-video',
-                                value :  attributes.company_video_url,
-                                label : 'Company Video',
-                                onChange: function(value){
-                                    props.setAttributes( { company_video_url: value } );
-                                }
-                                },                                
-                                ),
-                                el(MediaUpload,{
-                                className:'saswp-job-company-video-upload',
-                                value : attributes.company_video_url,
-                                allowedTypes:[ "video" ],                                
-                                onSelect: function(value){
-                                    props.setAttributes( { company_video_url: value.url } );
-                                },
-                                render: function(obj){
-                                   return el(IconButton,{
-                                       isSecondary: true,
-                                       icon : 'upload',
-                                       onClick: obj.open  
-                                     },
-                                      __('Upload', 'schema-and-structured-data-for-wp')
-                                     );
-                                   }
-                                },                                
-                                )
-                                ),
+//                                el('div',{},
+//                                el(TextControl,{
+//                                className:'saswp-job-company-video',
+//                                value :  attributes.company_video_url,
+//                                label : 'Company Video',
+//                                onChange: function(value){
+//                                    props.setAttributes( { company_video_url: value } );
+//                                }
+//                                },                                
+//                                ),
+//                                el(MediaUpload,{
+//                                className:'saswp-job-company-video-upload',
+//                                value : attributes.company_video_url,
+//                                allowedTypes:[ "video" ],                                
+//                                onSelect: function(value){
+//                                    props.setAttributes( { company_video_url: value.url } );
+//                                },
+//                                render: function(obj){
+//                                   return el(IconButton,{
+//                                       isSecondary: true,
+//                                       icon : 'upload',
+//                                       onClick: obj.open  
+//                                     },
+//                                      __('Upload', 'schema-and-structured-data-for-wp')
+//                                     );
+//                                   }
+//                                },                                
+//                                )
+//                                ),
+                                                
                                 el(TextControl,{
                                 className:'saswp-job-list-expire-date',
                                 value :  attributes.listing_expire_date,
@@ -198,7 +272,35 @@
                                  }
                                 })
                                 ) 
-                                : ''                                        
+                                : '',
+                                
+                                el(TextControl,{
+                                className:'saswp-job-base-salary',
+                                value :  attributes.base_salary,
+                                label : 'Base Salary',
+                                onChange: function(value){
+                                    props.setAttributes( { base_salary: value } );
+                                }
+                                },                        
+                                ),
+                                el(TextControl,{
+                                className:'saswp-job-base-salary',
+                                value :  attributes.currency_code,
+                                label : 'Currency Code',
+                                onChange: function(value){
+                                    props.setAttributes( { currency_code: value } );
+                                }
+                                },                        
+                                ),
+                                el(TextControl,{
+                                className:'saswp-job-base-salary',
+                                value :  attributes.unit_text,
+                                label : 'Unit Text',
+                                onChange: function(value){
+                                    props.setAttributes( { unit_text: value } );
+                                }
+                                },                        
+                                )                                
                             );
             
             return [
