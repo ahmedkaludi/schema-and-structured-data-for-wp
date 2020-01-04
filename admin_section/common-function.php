@@ -2541,10 +2541,12 @@ function saswp_format_date_time($date, $time=null){
     
     $formated = ''; 
     
-    if($time){
+    if($date && $time){
         $formated =  date('c',strtotime($date.' '.$time));       
     }else{
-        $formated =  date('c',strtotime($date));  
+        if($date){
+        $formated =  date('c',strtotime($date));      
+        }        
     }               
     
     return $formated;
