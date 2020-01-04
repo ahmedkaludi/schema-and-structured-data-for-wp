@@ -121,4 +121,12 @@ class SASWP_Gutenberg_Render {
         return $response;
     }
     
+    public function course_block_data($attributes){
+        
+        $response = '';
+        
+        return $response;
+        
+    }
+    
 }

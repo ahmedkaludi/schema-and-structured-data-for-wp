@@ -22,7 +22,16 @@ class SASWP_Gutenberg {
         private $render;
         
         private $blocks = array(
-            
+            'course' => array(            
+                'handler'      => 'saswp-course-js-reg',
+                'path'         => SASWP_PLUGIN_URL . '/modules/gutenberg/assets/blocks/course.js',
+                'local_var'    => 'saswpGutenbergCourse',
+                'block_name'   => 'course-block',
+                'render_func'  => 'render_course_data',
+                'style'        => 'saswp-g-course-css',
+                'editor'       => 'saswp-gutenberg-css-reg-editor',
+                'local'        => array()            
+            ),
             'event' => array(            
                 'handler'      => 'saswp-event-js-reg',
                 'path'         => SASWP_PLUGIN_URL . '/modules/gutenberg/assets/blocks/event.js',
@@ -215,6 +224,22 @@ class SASWP_Gutenberg {
                                       
                 }                                        
 	}
+        
+        public function render_course_data($attributes){
+            
+            ob_start();
+            
+            if ( !isset( $attributes ) ) {
+			ob_end_clean();
+                                                                       
+			return '';
+            }
+            
+            echo $this->render->course_block_data($attributes);
+            
+            return ob_get_clean();
+            
+        }
         
         public function render_job_data($attributes){
             

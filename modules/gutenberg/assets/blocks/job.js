@@ -8,7 +8,7 @@
                 
     blocks.registerBlockType( 'saswp/job-block', {
         title: __('Job (SASWP)', 'schema-and-structured-data-for-wp'),
-        icon: 'calendar',
+        icon: 'welcome-learn-more',
         category: 'saswp-blocks',
         keywords: ['schema', 'structured data', 'Job', 'job'],
         

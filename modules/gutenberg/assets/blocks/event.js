@@ -48,8 +48,7 @@
                 
             },
             price: {
-                type: 'integer'
-                
+                type: 'integer'                
             },
             currency_code: {
                 type: 'string',
