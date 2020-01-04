@@ -88,7 +88,8 @@ function saswp_schema_markup_output() {
         $gutenberg_how_to         = saswp_gutenberg_how_to_schema(); 
         $gutenberg_faq            = saswp_gutenberg_faq_schema();
         $gutenberg_event          = saswp_gutenberg_event_schema();  
-        $gutenberg_job            = saswp_gutenberg_job_schema();  
+        $gutenberg_job            = saswp_gutenberg_job_schema();
+        $gutenberg_course         = saswp_gutenberg_course_schema();
         $woo_cat_schema           = saswp_woocommerce_category_schema();  
         $woo_shop_page            = saswp_woocommerce_shop_page();  
         $site_navigation          = saswp_site_navigation_output();     
@@ -189,6 +190,12 @@ function saswp_schema_markup_output() {
                         if(!empty($gutenberg_faq)){
                         
                             $output .= saswp_json_print_format($gutenberg_faq);   
+                            $output .= ",";
+                            $output .= "\n\n";
+                        }
+                        if(!empty($gutenberg_course)){
+                        
+                            $output .= saswp_json_print_format($gutenberg_course);   
                             $output .= ",";
                             $output .= "\n\n";
                         }

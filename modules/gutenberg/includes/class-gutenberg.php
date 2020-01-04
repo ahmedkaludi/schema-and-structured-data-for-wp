@@ -108,12 +108,16 @@ class SASWP_Gutenberg {
                         foreach ($blocks as $parse_blocks){
                             
                             if(isset($parse_blocks['blockName']) && $parse_blocks['blockName'] === 'saswp/event-block'){
-                                $event_css  =  SASWP_PLUGIN_DIR_PATH . 'modules/gutenberg/assets/css/amp/event.css';              
-                                echo @file_get_contents($event_css);
+                                $amp_css  =  SASWP_PLUGIN_DIR_PATH . 'modules/gutenberg/assets/css/amp/event.css';              
+                                echo @file_get_contents($amp_css);
                             }
                             if(isset($parse_blocks['blockName']) && $parse_blocks['blockName'] === 'saswp/job-block'){
-                                $event_css  =  SASWP_PLUGIN_DIR_PATH . 'modules/gutenberg/assets/css/amp/job.css';              
-                                echo @file_get_contents($event_css);
+                                $amp_css  =  SASWP_PLUGIN_DIR_PATH . 'modules/gutenberg/assets/css/amp/job.css';              
+                                echo @file_get_contents($amp_css);
+                            }
+                            if(isset($parse_blocks['blockName']) && $parse_blocks['blockName'] === 'saswp/course-block'){
+                                $amp_css  =  SASWP_PLUGIN_DIR_PATH . 'modules/gutenberg/assets/css/amp/course.css';              
+                                echo @file_get_contents($amp_css);
                             }
                             
                         }
@@ -152,6 +156,15 @@ class SASWP_Gutenberg {
                                            wp_enqueue_style(
                                                 'saswp-g-job-css',
                                                 SASWP_PLUGIN_URL . '/modules/gutenberg/assets/css/job.css',
+                                                array()                        
+                                           );
+                                           
+                                       }
+                                       if(isset($parse_blocks['blockName']) && $parse_blocks['blockName'] === 'saswp/course-block'){
+                                           
+                                           wp_enqueue_style(
+                                                'saswp-g-course-css',
+                                                SASWP_PLUGIN_URL . '/modules/gutenberg/assets/css/course.css',
                                                 array()                        
                                            );
                                            

@@ -125,8 +125,28 @@ class SASWP_Gutenberg_Render {
         
         $response = '';
         
-        return $response;
+        if(isset($attributes['courses'])){
+                        
+          foreach($attributes['courses'] as $course){
+            
+            $response .= '<div class="saswp-course-loop">'
+                      . '<h3 class="saswp-course-detail">'.esc_html__('Course Details', 'schema-and-structured-data-for-wp').'</h3>'
+                      . '<h5>'.esc_html($course['name']).'</h5>'
+                      . '<p>';
+            if($course['image_url']){
+                $response .='<img src="'.esc_url($course['image_url']).'">';
+            }          
+            $response .= ''.esc_html($course['description']).'</p>'
+                      . '<h5>'.esc_html__('Provider Details', 'schema-and-structured-data-for-wp').'</h5>'
+                      . '<div><strong>'.esc_html__('Provider Name', 'schema-and-structured-data-for-wp').'</strong> : '. esc_html($course['provider_name']). '</div>'
+                      . '<div><strong>'.esc_html__('Provider Website', 'schema-and-structured-data-for-wp').'</strong> : '. '<a href="'.esc_url($course['provider_website']).'">'.esc_url($course['provider_website']).'</a></div>'                    
+                      . '</div>';  
+
+            }  
+                        
+        }
         
+        return $response;        
     }
     
 }

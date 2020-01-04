@@ -152,3 +152,14 @@ and open the template in the editor.
 /* 
     Event Block css ends here
 */
+
+/* 
+    Course Block css starts here
+*/
+.saswp-course-list li{    
+    list-style-type: none;
+    list-style: none;
+}
+/* 
+    Course Block css ends here
+*/

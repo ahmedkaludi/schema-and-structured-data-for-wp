@@ -1,7 +1,7 @@
 
 ( function( blocks, element, editor, components, i18n) {
             
-    var el               = element.createElement;    
+    const el               = element.createElement;    
     const { __ }         = i18n;    
     const { RichText,  AlignmentToolbar, BlockControls, InspectorControls, MediaUpload } = editor;
     const {Popover, Button, IconButton,  TextControl, ToggleControl, PanelBody, DateTimePicker } = components;
@@ -429,7 +429,8 @@
                          organizers_loop,
                          el(Button,{
                              className:'saswp-org-repeater',
-                             isPrimary: true,
+                             isSecondary: true,
+                             isLarge : true,
                              onClick: function() {              
                                 return props.setAttributes({
                                   organizers: [].concat(_cloneArray(props.attributes.organizers), [{
@@ -499,7 +500,8 @@
                          performers_loop,
                          el(Button,{
                              className:'saswp-org-repeater',
-                             isPrimary: true,
+                             isSecondary: true,
+                             isLarge : true,
                              onClick: function() {              
                                 return props.setAttributes({
                                   performers: [].concat(_cloneArray(props.attributes.performers), [{

@@ -399,3 +399,68 @@ function saswp_gutenberg_job_schema(){
     return $input1;
         
 }
+
+function saswp_gutenberg_course_schema(){
+    
+    $input1 = array();
+     
+    $attributes = saswp_get_gutenberg_block_data('saswp/course-block');
+    
+    if(isset($attributes['attrs'])){
+                
+        $loop_markup  = array();
+        $item_list    = array();
+        $course_count = count($attributes['attrs']['courses']);
+        $i = 1;
+        foreach($attributes['attrs']['courses'] as $course){
+            
+            $markup = array();
+            
+            $markup['@context']           = saswp_context_url();
+            $markup['@type']              = 'Course';
+            $markup['url']                = ($course_count > 1 ? saswp_get_permalink().'#course_'.$i : saswp_get_permalink());
+            $markup['@id']                = trailingslashit(saswp_get_permalink()).'#Course'; 
+            $markup['name']               = $course['name'];
+            $markup['description']        = $course['description'];
+            
+            $image_details      = wp_get_attachment_image_src($course['image_id'], 'full');                    
+            
+            if($image_details){                                
+                    $markup['image']['@type']  = 'ImageObject';
+                    $markup['image']['url']    = $image_details[0];
+                    $markup['image']['width']  = $image_details[1]; 
+                    $markup['image']['height'] = $image_details[2];                   
+            }
+            
+            $markup['provider']['@type']  = 'Organization';
+            $markup['provider']['name']   = $course['provider_name'];
+            $markup['provider']['sameAs'] = array($course['provider_website']);
+                        
+            $loop_markup[] = $markup;
+            
+            unset($markup['@context'],$markup['@id']);
+            
+            $item_list[] = array(
+                                         '@type' 		=> 'ListItem',
+                                         'position' 		=> $i,
+                                         'item' 		=> $markup,                                         
+                                );
+            
+            $i++;   
+        }
+                 
+        if($course_count > 1){
+            
+            $input1['@context']        = saswp_context_url();
+            $input1['@type']           = 'ItemList';
+            $input1['itemListElement'] = $item_list;
+            
+        }else{
+            $input1 = $loop_markup[0];
+        }
+                                
+    }
+   
+    return $input1;
+    
+}

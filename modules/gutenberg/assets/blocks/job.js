@@ -1,7 +1,7 @@
 
 ( function( blocks, element, editor, components, i18n) {
             
-    var el               = element.createElement;    
+    const el             = element.createElement;    
     const { __ }         = i18n;    
     const { RichText,  AlignmentToolbar, BlockControls, InspectorControls, MediaUpload } = editor;
     const {RadioControl, Popover, Button, IconButton,  TextareaControl, TextControl, ToggleControl, PanelBody, DateTimePicker } = components;
