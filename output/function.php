@@ -657,9 +657,10 @@ function saswp_get_comments($post_id){
 			while ( bbp_replies() ) : bbp_the_reply();
 
                         $post_comments[] = (object) array(                            
-                                        'comment_date'       => bbp_get_reply_post_date(bbp_get_reply_id(),'c'),
-                                        'comment_content'    => bbp_get_reply_content(),
-                                        'comment_author'     => the_author(),                                                                               
+                                        'comment_date'           => bbp_get_reply_post_date(bbp_get_reply_id(),'c'),
+                                        'comment_content'        => bbp_get_reply_content(),
+                                        'comment_author'         => bbp_get_reply_author(),
+                                        'comment_author_url'     => bbp_get_reply_author_url(),
                         );
                                                                                      
 		        endwhile;
