@@ -16,24 +16,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
             
             $post_id = $post->ID; 
             
-            $image_details = array();
-            
-            $image_id 	   = get_post_thumbnail_id();
-            
-            if($image_id){
-                
-                $image_details = wp_get_attachment_image_src($image_id, 'full');
-                
-            }                        
-            
-            if(empty($image_details[0]) || $image_details[0] === NULL ){
-             
-                if(isset($sd_data['sd_logo']['url'])){
-                    $image_details[0] = $sd_data['sd_logo']['url'];
-                }
-                
-	    }
-            
+                        
             $current_user       = wp_get_current_user();
             $author_desc        = get_the_author_meta( 'user_description' );
             $author_url         = get_the_author_meta( 'user_url' );
@@ -862,8 +845,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                     array(
                             'label' => 'Image',
                             'id' => 'saswp_tech_article_image_'.$schema_id,
-                            'type' => 'media',
-                            'default' => $image_details[0]
+                            'type' => 'media',                            
                     ),
                     array(
                             'label' => 'Headline',
@@ -1010,8 +992,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                     array(
                             'label' => 'Image',
                             'id' => 'saswp_dfp_image_'.$schema_id,
-                            'type' => 'media',
-                            'default' => $image_details[0]
+                            'type' => 'media',                            
                     ),    
                     array(
                             'label' => 'Date Published',
@@ -1767,8 +1748,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                     array(
                             'label' => 'Thumbnail Url',
                             'id' => 'saswp_video_object_thumbnail_url_'.$schema_id,
-                            'type' => 'text',
-                            'default' => $image_details[0]
+                            'type' => 'text',                            
                     ),
                     array(
                             'label' => 'Content Url',

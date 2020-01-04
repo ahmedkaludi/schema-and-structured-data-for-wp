@@ -182,39 +182,38 @@ function saswp_schema_output() {
         
         foreach($Conditionals as $schemaConditionals){
         
-        $schema_options = array();    
-            
-        if(isset($schemaConditionals['schema_options'])){
-            $schema_options = $schemaConditionals['schema_options'];
-        }   
-        	        
-	$schema_type      = saswp_remove_warnings($schemaConditionals, 'schema_type', 'saswp_string');         
-        $schema_post_id   = saswp_remove_warnings($schemaConditionals, 'post_id', 'saswp_string');        
-           
-        $input1         = array();
-        $logo           = ''; 
-        $height         = '';
-        $width          = '';        
-        $site_name      = get_bloginfo();    
-        
-        $service_object     = new saswp_output_service();
-        $default_logo       = $service_object->saswp_get_publisher(true);
-        $publisher          = $service_object->saswp_get_publisher();
-        
-        if(!empty($default_logo)){
-            
-            $logo   = $default_logo['url'];
-            $height = $default_logo['height'];
-            $width  = $default_logo['width'];
-            
-        }
-        
-        if(isset($sd_data['sd_name']) && $sd_data['sd_name'] !=''){            
-            $site_name = $sd_data['sd_name'];            
-        }                                                                   
+                        $schema_options = array();    
+
+                        if(isset($schemaConditionals['schema_options'])){
+                            $schema_options = $schemaConditionals['schema_options'];
+                        }   
+
+                        $schema_type      = saswp_remove_warnings($schemaConditionals, 'schema_type', 'saswp_string');         
+                        $schema_post_id   = saswp_remove_warnings($schemaConditionals, 'post_id', 'saswp_string');        
+
+                        $input1         = array();
+                        $logo           = ''; 
+                        $height         = '';
+                        $width          = '';        
+                        $site_name      = get_bloginfo();    
+
+                        $service_object     = new saswp_output_service();
+                        $default_logo       = $service_object->saswp_get_publisher(true);
+                        $publisher          = $service_object->saswp_get_publisher();
+
+                        if(!empty($default_logo)){
+
+                            $logo   = $default_logo['url'];
+                            $height = $default_logo['height'];
+                            $width  = $default_logo['width'];
+
+                        }
+
+                        if(isset($sd_data['sd_name']) && $sd_data['sd_name'] !=''){            
+                            $site_name = $sd_data['sd_name'];            
+                        }                                                                   
 				   		                                                                                           		
-			$image_id 	= get_post_thumbnail_id();
-			$image_details 	= wp_get_attachment_image_src($image_id, 'full');						
+			$image_id 	= get_post_thumbnail_id();									
 			$date 		= get_the_date("c");
 			$modified_date 	= get_the_modified_date("c");
 			$author_name 	= get_the_author();
@@ -912,11 +911,7 @@ function saswp_schema_output() {
                                 
                                  
                             }else{
-                                
-                               if(empty($image_details[0]) || $image_details[0] === NULL ){
-					$image_details[0] = $sd_data['sd_logo']['url'];
-				}
-                                
+                                                                                               
 				$input1 = array(
                                     '@context'			=> saswp_context_url(),
                                     '@type'				=> $schema_type ,
@@ -983,7 +978,9 @@ function saswp_schema_output() {
                                 $input1 = saswp_get_modified_markup($input1, $schema_type, $schema_post_id, $schema_options);
 			}
                         
-                        if( 'NewsArticle' === $schema_type ){                              
+                        if( 'NewsArticle' === $schema_type ){    
+                            
+                            $image_details 	= wp_get_attachment_image_src($image_id);
                             
                             $category_detail = get_the_category(get_the_ID());//$post->ID
                             $article_section = '';
@@ -1161,13 +1158,8 @@ function saswp_schema_output() {
                                 			
 			if( 'VideoObject' === $schema_type){
                             
-                                            if(empty($image_details[0]) || $image_details[0] === NULL ){
-
-                                                    if(isset($sd_data['sd_logo'])){
-                                                        $image_details[0] = $sd_data['sd_logo']['url'];
-                                                    }
-
-                                            }				
+                                                $image_details 	= wp_get_attachment_image_src($image_id);				
+                                                
                                                 $description = saswp_get_the_excerpt();
 
                                                 if(!$description){
