@@ -252,7 +252,7 @@ Class saswp_output_service{
                     
                 case 'custom_field':
                     
-                    $cus_field   = get_post_meta($schema_post_id, 'saswp_custom_meta_field', true); 
+                    $cus_field   = get_post_meta($schema_post_id, 'saswp_custom_meta_field', true);                    
                     $response    = get_post_meta($post->ID, $cus_field[$key], true); 
                     
                     break;
@@ -313,8 +313,38 @@ Class saswp_output_service{
                     }
                                     
                 default:
+                    if(function_exists('get_field_object')){
+                     
+                        $acf_obj = get_field_object($field);
                     
-                    $response = get_post_meta($post->ID, $field, true );
+                        if($acf_obj){
+
+                            if($acf_obj['type'] == 'image'){
+                                
+                                $image_id           = get_post_meta($post->ID, $field, true );
+                                
+                                $image_details      = wp_get_attachment_image_src($image_id, 'full');                    
+            
+                                if($image_details){
+                                    
+                                        $response['@type']  = 'ImageObject';
+                                        $response['url']    = $image_details[0];
+                                        $response['width']  = $image_details[1]; 
+                                        $response['height'] = $image_details[2];                   
+                                        
+                                }
+                                                                
+                            }else{
+                                $response = get_post_meta($post->ID, $field, true );
+                            }
+
+                        }else{
+                            $response = get_post_meta($post->ID, $field, true );
+                        }
+                        
+                    }else{
+                        $response = get_post_meta($post->ID, $field, true );
+                    }                    
                     
                     break;
             }

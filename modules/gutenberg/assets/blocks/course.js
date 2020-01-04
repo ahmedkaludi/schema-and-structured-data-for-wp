@@ -108,7 +108,7 @@
                 }),
                 el(TextControl,{            
                     className:'saswp-course-name',
-                    label : 'Name',
+                    label : __('Name', 'schema-and-structured-data-for-wp'),
                     value : course.name,
                     onChange: function( value ) {                                
                             var newObject = Object.assign({}, course, {
@@ -184,7 +184,7 @@
                         ),
                 el(TextareaControl,{            
                     className:'saswp-course-description',
-                    label : 'Description',    
+                    label : __('Description', 'schema-and-structured-data-for-wp'),    
                     value : course.description,
                     onChange: function( value ) {                                
                             var newObject = Object.assign({}, course, {
@@ -199,7 +199,7 @@
                 }),
                 el(TextControl,{            
                     className:'saswp-course-provider-name',
-                    label : 'Provider Name',
+                    label : __('Provider Name', 'schema-and-structured-data-for-wp'),
                     value : course.provider_name,
                     onChange: function( value ) {                                
                             var newObject = Object.assign({}, course, {
@@ -214,7 +214,7 @@
                 }),
                 el(TextControl,{            
                     className:'saswp-course-provider-website',
-                    label : 'Provider Website',
+                    label : __('Provider Website', 'schema-and-structured-data-for-wp'),
                     value : course.provider_website,
                     onChange: function( value ) {                                
                             var newObject = Object.assign({}, course, {
