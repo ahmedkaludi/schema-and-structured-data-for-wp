@@ -124,8 +124,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                     $style_review_name   = ''; 
                     $business_name       = '';
                     $schema_type         = '';
-                    $business_type       = '';                
-                    $custom_logo_id      = '';
+                    $business_type       = '';                                    
                     $speakable           = '';
                     $item_list_enable    = '';
                     $item_list_tags      = '';
@@ -150,15 +149,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                         $item_list_custom  = get_post_meta($post->ID, 'saswp_item_list_custom', true);
                         $business_type     = get_post_meta($post->ID, 'saswp_business_type', true);
                         $business_name     = get_post_meta($post->ID, 'saswp_business_name', true);
-                                                                         
-                        $custom_logo_id   = get_theme_mod( 'custom_logo' );
-
-                        if($custom_logo_id){
-
-                            $logo = wp_get_attachment_image_src( $custom_logo_id , 'full' );    
-
-                        }
-
+                                                                                                 
                         if($schema_type != 'local_business'){
 
                             $style_business_type = 'style="display:none"';

@@ -2931,3 +2931,26 @@ function saswp_post_type_capabilities(){
         
         return $caplist;      
 }
+
+function saswp_get_image_by_id($image_id){
+    
+    $response = array();
+    
+    if($image_id){
+        
+            $image_details      = wp_get_attachment_image_src($image_id, 'full');                    
+            
+            if($image_details){
+                
+                    $response['@type']  = 'ImageObject';
+                    $response['url']    = $image_details[0];
+                    $response['width']  = $image_details[1]; 
+                    $response['height'] = $image_details[2];                   
+                    
+            }
+                
+    }
+    
+    return $response;
+    
+}

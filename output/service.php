@@ -267,11 +267,7 @@ Class saswp_output_service{
                     
                 case 'featured_img':                    
                     $image_id 	        = get_post_thumbnail_id();
-                    $image_details      = wp_get_attachment_image_src($image_id, 'full');                    
-                    $response['@type']  = 'ImageObject';
-                    $response['url']    = $image_details[0];
-                    $response['width']  = $image_details[1]; 
-                    $response['height'] = $image_details[2];    
+                    $response           = saswp_get_image_by_id($image_id);                                        
                     
                     break;
                 case 'author_image':
@@ -321,19 +317,9 @@ Class saswp_output_service{
 
                             if($acf_obj['type'] == 'image'){
                                 
-                                $image_id           = get_post_meta($post->ID, $field, true );
-                                
-                                $image_details      = wp_get_attachment_image_src($image_id, 'full');                    
-            
-                                if($image_details){
-                                    
-                                        $response['@type']  = 'ImageObject';
-                                        $response['url']    = $image_details[0];
-                                        $response['width']  = $image_details[1]; 
-                                        $response['height'] = $image_details[2];                   
-                                        
-                                }
-                                                                
+                                $image_id           = get_post_meta($post->ID, $field, true );                                
+                                $response           = saswp_get_image_by_id($image_id);                    
+                                                                                                            
                             }else{
                                 $response = get_post_meta($post->ID, $field, true );
                             }

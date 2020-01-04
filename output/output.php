@@ -1720,18 +1720,10 @@ function saswp_archive_output(){
 		if ( $category_loop->have_posts() ):
 			while( $category_loop->have_posts() ): $category_loop->the_post();
 				$image_id 		= get_post_thumbnail_id();
+                                                                
+				$archive_image 	        = saswp_get_image_by_id($image_id);  
                                 
-                                $archive_image = array();
-				$image_details 	        = wp_get_attachment_image_src($image_id, 'full');  
-                                
-                                if(!empty($image_details)){
-                                
-                                        $archive_image['@type']  = 'ImageObject';
-                                        $archive_image['url']    = esc_url($image_details[0]);
-                                        $archive_image['width']  = esc_attr($image_details[1]);
-                                        $archive_image['height'] = esc_attr($image_details[2]);                                 
-                                    
-                                }else{
+                                if(!empty($archive_image)){
                                     
                                     if(isset($sd_data['sd_default_image'])){
                                         

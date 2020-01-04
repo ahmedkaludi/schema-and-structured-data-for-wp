@@ -156,11 +156,11 @@ function saswp_gutenberg_how_to_schema(){
 
                         if(isset($val['imageId']) && $val['imageId'] !=''){
 
-                                    $image_details   = wp_get_attachment_image_src($val['imageId']);                                                 
-                                    $supply_data['image']['@type']  = 'ImageObject';                                                
-                                    $supply_data['image']['url']    = esc_url($image_details[0]);
-                                    $supply_data['image']['width']  = esc_attr($image_details[1]);
-                                    $supply_data['image']['height'] = esc_attr($image_details[2]);
+                                    $image_details   = saswp_get_image_by_id($val['imageId']);    
+                                    
+                                    if($image_details){
+                                        $supply_data['image']  = $image_details;                                                
+                                    }                                    
 
                         }
 
@@ -216,12 +216,12 @@ function saswp_gutenberg_faq_schema(){
 
                                     if(isset($val['imageId']) && $val['imageId'] !=''){
 
-                                       $image_details   = wp_get_attachment_image_src($val['imageId']);                                                 
-                                       $supply_data['image']['@type']  = 'ImageObject';                                                
-                                       $supply_data['image']['url']    = esc_url($image_details[0]);
-                                       $supply_data['image']['width']  = esc_attr($image_details[1]);
-                                       $supply_data['image']['height'] = esc_attr($image_details[2]);
-
+                                       $image_details   = saswp_get_image_by_id($val['imageId']); 
+                                       
+                                       if($image_details){
+                                           $supply_data['image']  = $image_details;                                                
+                                       }
+                                                                              
                                      }
 
                                   $faq_question_arr[] =  $supply_data;
@@ -422,14 +422,11 @@ function saswp_gutenberg_course_schema(){
             $markup['@id']                = trailingslashit(saswp_get_permalink()).'#Course'; 
             $markup['name']               = $course['name'];
             $markup['description']        = $course['description'];
-            
-            $image_details      = wp_get_attachment_image_src($course['image_id'], 'full');                    
-            
-            if($image_details){                                
-                    $markup['image']['@type']  = 'ImageObject';
-                    $markup['image']['url']    = $image_details[0];
-                    $markup['image']['width']  = $image_details[1]; 
-                    $markup['image']['height'] = $image_details[2];                   
+                        
+            $image = saswp_get_image_by_id($course['image_id']);
+                                
+            if($image){
+                $markup['image']        = $image;
             }
             
             $markup['provider']['@type']  = 'Organization';

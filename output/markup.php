@@ -175,19 +175,14 @@ function saswp_howto_schema_markup($schema_id, $schema_post_id, $all_post_meta){
                     $supply_data['url']   = $val['saswp_howto_supply_url'];
                 }
 
-
-
                 if(isset($val['saswp_howto_supply_image_id']) && $val['saswp_howto_supply_image_id'] !=''){
 
-                            $image_details   = wp_get_attachment_image_src($val['saswp_howto_supply_image_id']); 
+                            $image_details   = saswp_get_image_by_id($val['saswp_howto_supply_image_id']); 
 
-                            $supply_data['image']['@type']  = 'ImageObject';                                                
-                            $supply_data['image']['url']    = esc_url($image_details[0]);
-                            $supply_data['image']['width']  = esc_attr($image_details[1]);
-                            $supply_data['image']['height'] = esc_attr($image_details[2]);
-
-
-
+                            if($image_details){
+                                $supply_data['image'] = $image_details;
+                            }
+                                                        
                 }
                $supply_arr[] =  $supply_data;
             }
@@ -209,14 +204,11 @@ function saswp_howto_schema_markup($schema_id, $schema_post_id, $all_post_meta){
 
                 if(isset($val['saswp_howto_tool_image_id']) && $val['saswp_howto_tool_image_id'] !=''){
 
-                    $image_details   = wp_get_attachment_image_src($val['saswp_howto_tool_image_id']); 
-
-                            $supply_data['image']['@type']  = 'ImageObject';                                                
-                            $supply_data['image']['url']    = esc_url($image_details[0]);
-                            $supply_data['image']['width']  = esc_attr($image_details[1]);
-                            $supply_data['image']['height'] = esc_attr($image_details[2]);
-
-
+                            $image_details   = saswp_get_image_by_id($val['saswp_howto_tool_image_id']); 
+                            
+                            if($image_details){
+                                $supply_data['image']  = $image_details;                                                
+                            }
 
                 }
                $tool_arr[] =  $supply_data;
@@ -257,12 +249,12 @@ function saswp_howto_schema_markup($schema_id, $schema_post_id, $all_post_meta){
 
                 if(isset($val['saswp_howto_step_image_id']) && $val['saswp_howto_step_image_id'] !=''){
 
-                            $image_details   = wp_get_attachment_image_src($val['saswp_howto_step_image_id']);                                                 
-                            $supply_data['image']['@type']  = 'ImageObject';                                                
-                            $supply_data['image']['url']    = esc_url($image_details[0]);
-                            $supply_data['image']['width']  = esc_attr($image_details[1]);
-                            $supply_data['image']['height'] = esc_attr($image_details[2]);
-
+                            $image_details   = saswp_get_image_by_id($val['saswp_howto_step_image_id']);  
+                            
+                            if($image_details){
+                                $supply_data['image']  = $image_details;                                                
+                            }
+                            
                 }
 
                $step_arr[] =  $supply_data;
