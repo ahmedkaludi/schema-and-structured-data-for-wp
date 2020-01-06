@@ -1135,6 +1135,17 @@ return false;
                             
                       break;
                       
+                      case 'saswp-ampwp-checkbox':
+                          
+                           saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-ampwp").val(1);                                
+                            }else{
+                              $("#saswp-ampwp").val(0);                                          
+                            }
+                            
+                      break;
+                      
                       case 'saswp-wp-event-aggregator-checkbox':
                            saswp_compatibliy_notes(current, id); 
                             if ($(this).is(':checked')) {              

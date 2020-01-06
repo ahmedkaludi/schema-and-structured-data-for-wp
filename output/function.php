@@ -26,6 +26,7 @@ function saswp_schema_markup_hook_on_init() {
                add_action( 'amp_post_template_footer' , 'saswp_schema_markup_output' );
                add_action( 'better-amp/template/footer', 'saswp_schema_markup_output', 1, 1 );
                add_action( 'amphtml_template_footer', 'saswp_schema_markup_output');
+               add_action( 'amp_wp_template_footer', 'saswp_schema_markup_output');
                
             }else{
                 
@@ -33,6 +34,7 @@ function saswp_schema_markup_hook_on_init() {
                add_action( 'wp_head', 'saswp_schema_markup_output');  
                add_action( 'amp_post_template_head' , 'saswp_schema_markup_output' );
                add_action( 'amphtml_template_head', 'saswp_schema_markup_output');
+               add_action( 'amp_wp_template_head', 'saswp_schema_markup_output');
                
             }               
             
@@ -84,8 +86,12 @@ function saswp_schema_markup_output() {
         $blog_page                = array();          
                 
         $gutenberg_how_to         = saswp_gutenberg_how_to_schema(); 
-        $gutenberg_faq            = saswp_gutenberg_faq_schema();        
+        $gutenberg_faq            = saswp_gutenberg_faq_schema();
+        $gutenberg_event          = saswp_gutenberg_event_schema();  
+        $gutenberg_job            = saswp_gutenberg_job_schema();
+        $gutenberg_course         = saswp_gutenberg_course_schema();
         $woo_cat_schema           = saswp_woocommerce_category_schema();  
+        $woo_shop_page            = saswp_woocommerce_shop_page();  
         $site_navigation          = saswp_site_navigation_output();     
         $contact_page_output      = saswp_contact_page_output();  	
         $about_page_output        = saswp_about_page_output();      
@@ -151,6 +157,18 @@ function saswp_schema_markup_output() {
                             $output .= ",";
                             $output .= "\n\n";
                         }
+                        if(!empty($woo_shop_page['itemlist'])){
+                        
+                            $output .= saswp_json_print_format($woo_shop_page['itemlist']);   
+                            $output .= ",";
+                            $output .= "\n\n";
+                        }
+                        if(!empty($woo_shop_page['collection'])){
+                        
+                            $output .= saswp_json_print_format($woo_shop_page['collection']);   
+                            $output .= ",";
+                            $output .= "\n\n";
+                        }
                         if(!empty($item_list)){
                         
                             $output .= saswp_json_print_format($item_list);   
@@ -172,6 +190,24 @@ function saswp_schema_markup_output() {
                         if(!empty($gutenberg_faq)){
                         
                             $output .= saswp_json_print_format($gutenberg_faq);   
+                            $output .= ",";
+                            $output .= "\n\n";
+                        }
+                        if(!empty($gutenberg_course)){
+                        
+                            $output .= saswp_json_print_format($gutenberg_course);   
+                            $output .= ",";
+                            $output .= "\n\n";
+                        }
+                        if(!empty($gutenberg_event)){
+                        
+                            $output .= saswp_json_print_format($gutenberg_event);   
+                            $output .= ",";
+                            $output .= "\n\n";
+                        }
+                        if(!empty($gutenberg_job)){
+                        
+                            $output .= saswp_json_print_format($gutenberg_job);   
                             $output .= ",";
                             $output .= "\n\n";
                         }
@@ -203,9 +239,20 @@ function saswp_schema_markup_output() {
                         unset($schema_breadcrumb_output['@context']);
                         unset($webpage['mainEntity']);
                         unset($kb_schema_output['@context']);                        
-                        unset($kb_website_output['@context']);                        
-                        $kb_schema_output['@type'] = isset($sd_data['saswp_kb_type']) ? $sd_data['saswp_kb_type'] : 'Organization';    
-                    
+                        unset($kb_website_output['@context']); 
+                        
+                        if(isset($sd_data['saswp_kb_type'])){
+                           
+                            $kb_schema_output['@type'] = $sd_data['saswp_kb_type'];
+                            
+                            if($sd_data['saswp_kb_type'] == 'Organization'){
+                                $kb_schema_output['@type'] = isset($sd_data['saswp_organization_type']) ? $sd_data['saswp_organization_type'] : 'Organization';
+                            }
+                                                        
+                        }else{
+                            $kb_schema_output['@type'] = 'Organization';
+                        }
+                        
                      if($webpage){
                     
                          $soutput['isPartOf'] = array(
@@ -348,27 +395,34 @@ function saswp_schema_markup_output() {
                 
             }
                         
-            if($custom_markup){                                     
-                        $result = json_decode($custom_markup);
-                    
-                        if($result != false){
+            if($custom_markup){    
+                
+                        $custom_output = '';
                         
+                        $cus_regex = '/\<script type\=\"application\/ld\+json\"\>/';
+                        preg_match( $cus_regex, $custom_markup, $match );
+                        
+                        if(empty($match)){
+                            
+                            $custom_output .= '<script type="application/ld+json" class="saswp-schema-markup-output">';                            
+                            $custom_output .= $custom_markup;                            
+                            $custom_output .= '</script>';
+                            
+                        }else{
+                            
+                            $custom_output = $custom_markup;
+                            $custom_output = preg_replace($cus_regex, '<script type="application/ld+json" class="saswp-schema-markup-output">', $custom_output);
+                            
+                        }
+                                                                                            
                             echo "\n";
                             echo '<!-- Schema & Structured Data For WP Custom Markup v'.esc_attr(SASWP_VERSION).' - -->';
                             echo "\n";
-                            echo '<script type="application/ld+json" class="saswp-schema-markup-output">'; 
-                            echo "\n";       
-                            echo $custom_markup;       
-                            echo "\n";
-                            echo '</script>';
+                            echo $custom_output;
                             echo "\n\n";
-                            
-                        }
-                                                
-                                                                      
+                                                                                                                      
             }
-            
-                                    			              		
+                                                			              		
 	}
                         
         if($output){
@@ -617,9 +671,10 @@ function saswp_get_comments($post_id){
 			while ( bbp_replies() ) : bbp_the_reply();
 
                         $post_comments[] = (object) array(                            
-                                        'comment_date'       => bbp_get_reply_post_date(bbp_get_reply_id(),'c'),
-                                        'comment_content'    => bbp_get_reply_content(),
-                                        'comment_author'     => the_author(),                                                                               
+                                        'comment_date'           => bbp_get_reply_post_date(bbp_get_reply_id(),'c'),
+                                        'comment_content'        => bbp_get_reply_content(),
+                                        'comment_author'         => bbp_get_reply_author(),
+                                        'comment_author_url'     => bbp_get_reply_author_url(),
                         );
                                                                                      
 		        endwhile;

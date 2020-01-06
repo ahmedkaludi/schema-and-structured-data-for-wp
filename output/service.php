@@ -252,7 +252,7 @@ Class saswp_output_service{
                     
                 case 'custom_field':
                     
-                    $cus_field   = get_post_meta($schema_post_id, 'saswp_custom_meta_field', true); 
+                    $cus_field   = get_post_meta($schema_post_id, 'saswp_custom_meta_field', true);                    
                     $response    = get_post_meta($post->ID, $cus_field[$key], true); 
                     
                     break;
@@ -267,11 +267,7 @@ Class saswp_output_service{
                     
                 case 'featured_img':                    
                     $image_id 	        = get_post_thumbnail_id();
-                    $image_details      = wp_get_attachment_image_src($image_id, 'full');                    
-                    $response['@type']  = 'ImageObject';
-                    $response['url']    = $image_details[0];
-                    $response['width']  = $image_details[1]; 
-                    $response['height'] = $image_details[2];    
+                    $response           = saswp_get_image_by_id($image_id);                                        
                     
                     break;
                 case 'author_image':
@@ -313,8 +309,28 @@ Class saswp_output_service{
                     }
                                     
                 default:
+                    if(function_exists('get_field_object')){
+                     
+                        $acf_obj = get_field_object($field);
                     
-                    $response = get_post_meta($post->ID, $field, true );
+                        if($acf_obj){
+
+                            if($acf_obj['type'] == 'image'){
+                                
+                                $image_id           = get_post_meta($post->ID, $field, true );                                
+                                $response           = saswp_get_image_by_id($image_id);                    
+                                                                                                            
+                            }else{
+                                $response = get_post_meta($post->ID, $field, true );
+                            }
+
+                        }else{
+                            $response = get_post_meta($post->ID, $field, true );
+                        }
+                        
+                    }else{
+                        $response = get_post_meta($post->ID, $field, true );
+                    }                    
                     
                     break;
             }
@@ -447,7 +463,68 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_music_playlist_url'])){
                      $input1['url'] =    $custom_fields['saswp_music_playlist_url'];
                     }
-                                          
+                    
+                break;
+                
+                case 'Movie':      
+                    
+                    if(isset($custom_fields['saswp_movie_name'])){
+                     $input1['name'] =    $custom_fields['saswp_movie_name'];
+                    }
+                    if(isset($custom_fields['saswp_movie_description'])){
+                     $input1['description'] =   wp_strip_all_tags(strip_shortcodes( $custom_fields['saswp_movie_description'] )) ;
+                    }
+                    if(isset($custom_fields['saswp_movie_url'])){
+                     $input1['url'] =    $custom_fields['saswp_movie_url'];
+                     $input1['sameAs'] =    $custom_fields['saswp_movie_url'];
+                    }
+                    if(isset($custom_fields['saswp_movie_image'])){
+                     $input1['image'] =    $custom_fields['saswp_movie_image'];
+                    }
+                    if(isset($custom_fields['saswp_movie_date_created'])){
+                     $input1['dateCreated'] =    $custom_fields['saswp_movie_date_created'];
+                    }
+                    if(isset($custom_fields['saswp_movie_director'])){
+                     $input1['director']['@type']        = 'Person';
+                     $input1['director']['name']          = $custom_fields['saswp_movie_director']; 
+                    }
+                    if(isset($custom_fields['saswp_movie_rating_value']) && isset($custom_fields['saswp_movie_rating_count'])){
+                        $input1['aggregateRating']['@type']         = 'aggregateRating';                        
+                        $input1['aggregateRating']['ratingValue']   = $custom_fields['saswp_movie_rating_value'];
+                        $input1['aggregateRating']['reviewCount']   = $custom_fields['saswp_movie_rating_count'];                                
+                    }
+                    
+                break;
+                
+                case 'MusicComposition':      
+                    
+                    if(isset($custom_fields['saswp_music_composition_name'])){
+                     $input1['name'] =    $custom_fields['saswp_music_composition_name'];
+                    }
+                    if(isset($custom_fields['saswp_music_composition_description'])){
+                     $input1['description'] =   wp_strip_all_tags(strip_shortcodes( $custom_fields['saswp_music_composition_description'] )) ;
+                    }
+                    if(isset($custom_fields['saswp_music_composition_url'])){
+                     $input1['url'] =    $custom_fields['saswp_music_composition_url'];
+                    }
+                    if(isset($custom_fields['saswp_music_composition_inlanguage'])){
+                     $input1['inLanguage'] =    $custom_fields['saswp_music_composition_inlanguage'];
+                    }
+                    if(isset($custom_fields['saswp_music_composition_iswccode'])){
+                     $input1['iswcCode'] =    $custom_fields['saswp_music_composition_iswccode'];
+                    }
+                    if(isset($custom_fields['saswp_music_composition_image'])){
+                     $input1['image'] =    $custom_fields['saswp_music_composition_image'];
+                    }
+                    if(isset($custom_fields['saswp_music_composition_lyrics'])){
+                     $input1['lyrics']['@type'] = 'CreativeWork';
+                     $input1['lyrics']['text']  = $custom_fields['saswp_music_composition_lyrics'];
+                    }
+                    if(isset($custom_fields['saswp_music_composition_publisher'])){
+                     $input1['publisher']['@type'] = 'Organization';
+                     $input1['publisher']['name'] = $custom_fields['saswp_music_composition_publisher'];
+                    }
+                                                              
                     break; 
                 case 'Organization':      
                     
@@ -563,8 +640,10 @@ Class saswp_output_service{
                     }                    
                     break; 
                     
-                case 'HowTo':      
-                      
+                case 'HowTo':                          
+                    if(isset($custom_fields['saswp_howto_schema_id'])){
+                     $input1['@id'] =    $custom_fields['saswp_howto_schema_id'];
+                    }                    
                     if(isset($custom_fields['saswp_howto_schema_name'])){
                      $input1['name'] =    $custom_fields['saswp_howto_schema_name'];
                     }
@@ -2946,9 +3025,12 @@ Class saswp_output_service{
             if( is_array($image_details) ){                                
                                                                                                                     
                                         if(isset($image_details[1]) && ($image_details[1] < 1200) && function_exists('saswp_aq_resize')){
-                                            
+                                                                                        
+                                            $img_ratio    = $image_details[1] / $image_details[2];
+                                            $targetHeight = 1200 / $img_ratio;
+                                                                                        
                                             $width  = array(1200, 1200, 1200);
-                                            $height = array(1200, 900, 675);
+                                            $height = array($targetHeight, 900, 675);
                                             
                                             for($i = 0; $i<3; $i++){
                                                 

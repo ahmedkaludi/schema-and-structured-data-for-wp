@@ -1587,7 +1587,11 @@ if ( ! defined('ABSPATH') ) exit;
                         'type'         => array(),
                         'style'        => array(),                    
                         'width'        => array(),                    
-                ); 
+                );
+                $my_allowed['script'] = array(
+                        'class'        => array(),
+                        'type'         => array(),
+                );
                 //textarea
                  $my_allowed['textarea'] = array(
                         'class' => array(),
@@ -2071,20 +2075,23 @@ if ( ! defined('ABSPATH') ) exit;
         
         $blog_desc = get_bloginfo('description');
         
+        if(is_home() || is_front_page() || ( function_exists('ampforwp_is_home') && ampforwp_is_home()) ){
+            
         if(isset($sd_data['saswp-yoast']) && $sd_data['saswp-yoast'] == 1){
             
             if(class_exists('WPSEO_Frontend')){
                 
                   $front             = WPSEO_Frontend::get_instance();
                   $blog_desc         = $front->metadesc( false );
-                 
-            }
-            
-        }
-                        
+                  
+                  if(empty($blog_desc)){
+                      $blog_desc = get_bloginfo('description');
+                  }                                   
+            }            
+          }
+        }                        
         return $blog_desc;
-    }
-    
+    }    
     /**
      * since @1.8.7
      * Here we are modifying the default title
@@ -2538,10 +2545,12 @@ function saswp_format_date_time($date, $time=null){
     
     $formated = ''; 
     
-    if($time){
+    if($date && $time){
         $formated =  date('c',strtotime($date.' '.$time));       
     }else{
-        $formated =  date('c',strtotime($date));  
+        if($date){
+        $formated =  date('c',strtotime($date));      
+        }        
     }               
     
     return $formated;
@@ -2717,6 +2726,7 @@ function saswp_get_field_note($pname){
             'ampbyautomatic'           => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/amp/">AMP</a>',
             'betteramp'                => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/kk-star-ratings/">Better AMP</a>',
             'wpamp'                    => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://codecanyon.net/item/wp-amp-accelerated-mobile-pages-for-wordpress-and-woocommerce/16278608">WP AMP</a>',
+            'ampwp'                    => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/amp-wp/">AMP WP</a>',
             'kk_star_ratings'          => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/kk-star-ratings/">kk Star Rating</a>',
             'wp_post_ratings'          => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wp-postratings/">WP-PostRatings</a>',
             'bb_press'                 => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/bbpress/">bbPress</a>',
@@ -2924,4 +2934,27 @@ function saswp_post_type_capabilities(){
         }
         
         return $caplist;      
+}
+
+function saswp_get_image_by_id($image_id){
+    
+    $response = array();
+    
+    if($image_id){
+        
+            $image_details      = wp_get_attachment_image_src($image_id, 'full');                    
+            
+            if($image_details){
+                
+                    $response['@type']  = 'ImageObject';
+                    $response['url']    = $image_details[0];
+                    $response['width']  = $image_details[1]; 
+                    $response['height'] = $image_details[2];                   
+                    
+            }
+                
+    }
+    
+    return $response;
+    
 }

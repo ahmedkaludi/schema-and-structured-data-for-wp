@@ -133,3 +133,33 @@ and open the template in the editor.
 .saswp-how-to-material-button, .saswp-how-to-tool-button{
     margin: 5px;
 }
+
+/* 
+    Event Block css starts here
+*/
+.saswp-event-date-fields{
+    display:inline-flex;
+}
+.saswp-calender-popover{
+    padding: 20px;
+}
+.saswp-event-date-fields .components-base-control{
+    padding: 5px;
+}
+.saswp-remove-repeater{
+    float: right;
+}
+/* 
+    Event Block css ends here
+*/
+
+/* 
+    Course Block css starts here
+*/
+.saswp-course-list li{    
+    list-style-type: none;
+    list-style: none;
+}
+/* 
+    Course Block css ends here
+*/

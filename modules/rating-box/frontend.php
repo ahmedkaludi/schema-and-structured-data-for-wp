@@ -120,7 +120,7 @@ Class saswp_rating_box_frontend{
                             
                             if(!empty($input1)){
                                 
-                                echo '<!-- Schema & Structured Data For WP Review Module v'.esc_attr(SASWP_VERSION).' - -->';
+                                echo '<!-- Schema & Structured Data For WP Rating Module v'.esc_attr(SASWP_VERSION).' - -->';
                                 echo "\n";
                                 echo '<script type="application/ld+json" class="saswp-schema-markup-output">'; 
                                 echo "\n";       
@@ -146,17 +146,17 @@ Class saswp_rating_box_frontend{
          */
         public function saswp_get_review_box_content(){
             
-            $saswp_review_details           = array();
-            $saswp_review_details           =  get_post_meta(get_the_ID(), 'saswp_review_details', true);           
+            $saswp_review_details           = array();                      
             $saswp_review_item_feature      = array();
             $saswp_review_item_star_rating  = array();
             $saswp_review_title             = '';
             $saswp_review_description_title = '';
             
-            $saswp_review_description = get_post_meta( get_the_ID(), 'saswp-review-item-description', true );
-            $saswp_review_props       = get_post_meta( get_the_ID(), 'saswp-review-item-props', true );
-            $saswp_review_cons        = get_post_meta( get_the_ID(), 'saswp-review-item-cons', true );
-            $saswp_over_all_rating    = '';
+            $saswp_review_details           = get_post_meta(get_the_ID(), 'saswp_review_details', true);             
+            $saswp_review_description       = get_post_meta( get_the_ID(), 'saswp-review-item-description', true );
+            $saswp_review_props             = get_post_meta( get_the_ID(), 'saswp-review-item-props', true );
+            $saswp_review_cons              = get_post_meta( get_the_ID(), 'saswp-review-item-cons', true );
+            $saswp_over_all_rating          = '';
             
             if(isset($saswp_review_details['saswp-review-item-feature'])){
                 $saswp_review_item_feature = $saswp_review_details['saswp-review-item-feature'];    
@@ -208,36 +208,7 @@ Class saswp_rating_box_frontend{
                      $boxdata.='<tr>
                             <td>'.esc_attr($saswp_review_item_feature[$i]).'</td>
                             <td>
-                                <div class="saswp-rvw-str">';                                                                  
-                                    for($j=0; $j<5; $j++){  
-                                        
-                                      if($saswp_review_item_star_rating[$i] >$j){
-                                      
-                                            $explod = explode('.', $saswp_review_item_star_rating[$i]);
-                                            
-                                            if(isset($explod[1])){
-                                                
-                                                if($j <$explod[0]){
-                                                    
-                                                    $boxdata.='<span class="str-ic"></span>';   
-                                                    
-                                                }else{
-                                                    
-                                                    $boxdata.='<span class="half-str"></span>';   
-                                                    
-                                                }                                           
-                                            }else{
-                                                
-                                                $boxdata.='<span class="str-ic"></span>';    
-                                                
-                                            }
-                                                                                                                           
-                                      } else{
-                                            $boxdata.='<span class="df-clr"></span>';   
-                                      }                                                                                                                                
-                                    }       
-                                   
-                    $boxdata.='</div>
+                                '.saswp_get_rating_html_by_value($saswp_review_item_star_rating[$i]).'
                             </td>
                         </tr>'; 
                    }   
@@ -251,44 +222,9 @@ Class saswp_rating_box_frontend{
                             </td>
                             <td>
                                 <div class="saswp-rvw-ov">
-                                    <div class="saswp-rvw-fs">'.isset($saswp_over_all_rating)? esc_attr(number_format((float)$saswp_over_all_rating, 2, '.', '')):''.'</div>';
-                                                                        
-                                    if($saswp_over_all_rating !=''){
-                                        
-                                      $boxdata.='<div class="tvw-fnl-str saswp-rvw-str">';                                            
-                                      $explod = explode('.', $saswp_over_all_rating);
-                                      
-                                      if(!empty($explod)){
-                                        
-                                          for($x=0;$x<5;$x++) { 
-                                          
-                                            if(isset($explod[1])){
-
-                                                if($saswp_over_all_rating >$x){
-
-                                                if($x <$explod[0]){
-                                                    $boxdata.='<span class="str-ic"></span>';                   
-                                                }else{
-                                                    $boxdata.='<span class="half-str"></span>';                       
-                                                }  
-
-                                                }else{
-                                                    $boxdata.='<span class="df-clr"></span>';        
-                                                }
-                                             }else{
-                                                if($saswp_over_all_rating >$x){
-                                                    $boxdata.='<span class="str-ic"></span>';      
-                                                } else{
-                                                    $boxdata.='<span class="df-clr"></span>';          
-                                                }                                        
-                                             }    
-                                         } 
-                                          
-                                      }
-                                                                                
-                                       $boxdata.='</div><span class="ovs">'.saswp_label_text('translation-overall-score').'</span>';
-                                    }                                                                                                                                                                                       
-                               $boxdata.=' </div>
+                                    <div class="saswp-rvw-fs">'.esc_html(number_format ($saswp_over_all_rating, 1)).'</div>                                                                        
+                                    '.saswp_get_rating_html_by_value($saswp_over_all_rating).'
+                               </div>
                             </td>
                         <tr>
                     </tbody>

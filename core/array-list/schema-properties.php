@@ -16,24 +16,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
             
             $post_id = $post->ID; 
             
-            $image_details = array();
-            
-            $image_id 	   = get_post_thumbnail_id();
-            
-            if($image_id){
-                
-                $image_details = wp_get_attachment_image_src($image_id, 'full');
-                
-            }                        
-            
-            if(empty($image_details[0]) || $image_details[0] === NULL ){
-             
-                if(isset($sd_data['sd_logo']['url'])){
-                    $image_details[0] = $sd_data['sd_logo']['url'];
-                }
-                
-	    }
-            
+                        
             $current_user       = wp_get_current_user();
             $author_desc        = get_the_author_meta( 'user_description' );
             $author_url         = get_the_author_meta( 'user_url' );
@@ -862,8 +845,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                     array(
                             'label' => 'Image',
                             'id' => 'saswp_tech_article_image_'.$schema_id,
-                            'type' => 'media',
-                            'default' => $image_details[0]
+                            'type' => 'media',                            
                     ),
                     array(
                             'label' => 'Headline',
@@ -1010,8 +992,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                     array(
                             'label' => 'Image',
                             'id' => 'saswp_dfp_image_'.$schema_id,
-                            'type' => 'media',
-                            'default' => $image_details[0]
+                            'type' => 'media',                            
                     ),    
                     array(
                             'label' => 'Date Published',
@@ -1576,7 +1557,8 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                         'Event'                 => 'Event',                              
                                         'HowTo'                 => 'HowTo',   
                                         'local_business'        => 'LocalBusiness',                                 
-                                        'MusicPlaylist'         => 'Music Playlist', 
+                                        'MusicPlaylist'         => 'Music Playlist',
+                                        'Movie'                 => 'Movie',
                                         'Organization'          => 'Organization', 
                                         'Product'               => 'Product',                                
                                         'Recipe'                => 'Recipe',                             
@@ -1766,8 +1748,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                     array(
                             'label' => 'Thumbnail Url',
                             'id' => 'saswp_video_object_thumbnail_url_'.$schema_id,
-                            'type' => 'text',
-                            'default' => $image_details[0]
+                            'type' => 'text',                            
                     ),
                     array(
                             'label' => 'Content Url',
@@ -2005,6 +1986,12 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                 case 'HowTo':
                     
                     $meta_field = array(
+                    array(
+                            'label'      => 'ID',
+                            'id'         => 'saswp_howto_schema_id_'.$schema_id,
+                            'type'       => 'text',
+                            'default'    => 'HowTo'   
+                    ),    
                     array(
                             'label'      => 'Name',
                             'id'         => 'saswp_howto_schema_name_'.$schema_id,
@@ -3489,6 +3476,58 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                    );
                     break;
                 
+                case 'MusicComposition':
+                    
+                    $meta_field = array(
+                    array(
+                            'label'      => 'Name',
+                            'id'         => 'saswp_music_composition_name_'.$schema_id,
+                            'type'       => 'text',                           
+                    ),
+                    array(
+                            'label'      => 'Description',
+                            'id'         => 'saswp_music_composition_description_'.$schema_id,
+                            'type'       => 'textarea',                           
+                    ),
+                    array(
+                            'label'      => 'Lyrics',
+                            'id'         => 'saswp_music_composition_lyrics_'.$schema_id,
+                            'type'       => 'textarea',                           
+                    ),    
+                    array(
+                            'label'      => 'URL',
+                            'id'         => 'saswp_music_composition_url_'.$schema_id,
+                            'type'       => 'text',                           
+                    ),
+                    array(
+                            'label'      => 'ISWC Code',
+                            'id'         => 'saswp_music_composition_iswccode_'.$schema_id,
+                            'type'       => 'text',                           
+                    ),
+                    array(
+                            'label'      => 'Image',
+                            'id'         => 'saswp_music_composition_image_'.$schema_id,
+                            'type'       => 'media',                           
+                    ),
+                    array(
+                            'label'      => 'inLanguage',
+                            'id'         => 'saswp_music_composition_inlanguage_'.$schema_id,
+                            'type'       => 'text',                           
+                    ),                         
+                    array(
+                            'label'      => 'Publisher',
+                            'id'         => 'saswp_music_composition_publisher_'.$schema_id,
+                            'type'       => 'text',                           
+                    ),
+                     array(
+                            'label'     => 'Date Published',
+                            'id'        => 'saswp_music_composition_date_published_'.$schema_id,
+                            'type'      => 'text',
+                            'default'   => get_the_date("Y-m-d")
+                    ),    
+                   );
+                    break;
+                
                 case 'Organization':
                     
                     $meta_field = array(                        
@@ -3558,6 +3597,57 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'type'       => 'text',                            
                         ),    
                                                                                         
+                   );
+                    break;
+                
+                case 'Movie':
+                    
+                    $meta_field = array(                        
+                        array(
+                            'label'      => 'Name',
+                            'id'         => 'saswp_movie_name_'.$schema_id,
+                            'type'       => 'text',                           
+                        ),
+                        array(
+                            'label'      => 'Description',
+                            'id'         => 'saswp_movie_description_'.$schema_id,
+                            'type'       => 'textarea',                           
+                        ),
+                        array(
+                            'label'      => 'URL',
+                            'id'         => 'saswp_movie_url_'.$schema_id,
+                            'type'       => 'text',                           
+                        ),
+                        array(
+                            'label'      => 'Image',
+                            'id'         => 'saswp_movie_image_'.$schema_id,
+                            'type'       => 'media',                           
+                        ),
+                        array(
+                            'label'      => 'Date Created',
+                            'id'         => 'saswp_movie_date_created_'.$schema_id,
+                            'type'       => 'text',                           
+                        ),
+                        array(
+                            'label'      => 'Director',
+                            'id'         => 'saswp_movie_director_'.$schema_id,
+                            'type'       => 'text',                           
+                        ),
+                        array(
+                            'label'      => 'Aggregate Rating',
+                            'id'         => 'saswp_movie_enable_rating_'.$schema_id,
+                            'type'       => 'checkbox',                            
+                        ),
+                        array(
+                            'label'      => 'Rating',
+                            'id'         => 'saswp_movie_rating_value_'.$schema_id,
+                            'type'       => 'text',                           
+                        ),
+                        array(
+                            'label'      => 'Rating Count',
+                            'id'         => 'saswp_movie_rating_count_'.$schema_id,
+                            'type'       => 'text',                            
+                        )                                                                                         
                    );
                     break;
                                 

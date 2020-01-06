@@ -124,7 +124,14 @@ function saswp_post_specific_schema_output() {
                             
                             $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
                             
-                          }     
+                          }
+                          if( 'MusicComposition' === $schema_type){
+                                                                                                                                                                        
+                            $input1 = saswp_music_composition_schema_markup($schema_id, $schema_post_id, $all_post_meta);
+                            
+                            $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
+                            
+                          }
                           
                           if( 'MusicAlbum' === $schema_type){
                                                                                                                                                                         
@@ -201,14 +208,22 @@ function saswp_post_specific_schema_output() {
                             $input1 = saswp_single_family_residence_schema_markup($schema_id, $schema_post_id, $all_post_meta);
                             
                          }     
-                                                
+                         
+                         if( 'Movie' === $schema_type){
+                             
+                             $input1 = saswp_movie_schema_markup($schema_id, $schema_post_id, $all_post_meta);
+                             
+                             $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
+                                                       
+                        }
+                         
                          if( 'HowTo' === $schema_type){
                              
                              $input1 = saswp_howto_schema_markup($schema_id, $schema_post_id, $all_post_meta);
                              
                              $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
                                                        
-                            }
+                        }
                             
                          if( 'TVSeries' === $schema_type){
                              

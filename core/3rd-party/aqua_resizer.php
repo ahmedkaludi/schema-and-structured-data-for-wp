@@ -36,8 +36,11 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 
 if(!class_exists('Aq_Resize')) {
-    class Aq_Exception extends Exception {}
-
+    
+    if(!class_exists('Aq_Exception')){
+        class Aq_Exception extends Exception {}
+    }
+        
     class Aq_Resize
     {
         /**

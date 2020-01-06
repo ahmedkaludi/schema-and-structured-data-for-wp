@@ -18,32 +18,173 @@ class SASWP_Gutenberg {
          * @var type 
          */
         private static $instance;
-	    	
+        private $service;
+        private $render;
+        
+        private $blocks = array(
+            'collection' => array(            
+                'handler'      => 'saswp-collection-js-reg',
+                'path'         => SASWP_PLUGIN_URL . '/modules/gutenberg/assets/blocks/collection.js',
+                'local_var'    => 'saswpGutenbergCollection',
+                'block_name'   => 'collection-block',
+                'render_func'  => 'render_collection_data',
+                'style'        => 'saswp-g-collection-css',
+                'editor'       => 'saswp-gutenberg-css-reg-editor',
+                'local'        => array()            
+            ),
+            'course' => array(            
+                'handler'      => 'saswp-course-js-reg',
+                'path'         => SASWP_PLUGIN_URL . '/modules/gutenberg/assets/blocks/course.js',
+                'local_var'    => 'saswpGutenbergCourse',
+                'block_name'   => 'course-block',
+                'render_func'  => 'render_course_data',
+                'style'        => 'saswp-g-course-css',
+                'editor'       => 'saswp-gutenberg-css-reg-editor',
+                'local'        => array()            
+            ),
+            'event' => array(            
+                'handler'      => 'saswp-event-js-reg',
+                'path'         => SASWP_PLUGIN_URL . '/modules/gutenberg/assets/blocks/event.js',
+                'local_var'    => 'saswpGutenbergEvent',
+                'block_name'   => 'event-block',
+                'render_func'  => 'render_event_data',
+                'style'        => 'saswp-g-event-css',
+                'editor'       => 'saswp-gutenberg-css-reg-editor',
+                'local'        => array()            
+            ),
+            'job' => array(            
+                'handler'      => 'saswp-job-js-reg',
+                'path'         => SASWP_PLUGIN_URL . '/modules/gutenberg/assets/blocks/job.js',
+                'local_var'    => 'saswpGutenbergJob',
+                'block_name'   => 'job-block',
+                'style'        => 'saswp-g-job-css',
+                'editor'       => 'saswp-gutenberg-css-reg-editor',
+                'render_func'  => 'render_job_data',
+                'local'        => array()            
+            ),            
+            'faq' => array(            
+                'handler'      => 'saswp-faq-js-reg',
+                'path'         => SASWP_PLUGIN_URL . '/modules/gutenberg/assets/blocks/faq.js',
+                'local_var'    => 'saswpGutenbergFaq',
+                'block_name'   => 'faq-block',
+                'style'        => 'saswp-g-faq-css',
+                'editor'       => 'saswp-gutenberg-css-reg-editor',
+                'render_func'  => 'render_faq_data',
+                'local'        => array()            
+            ),
+            'howto' => array(            
+                'handler'      => 'saswp-how-to-js-reg',
+                'path'         => SASWP_PLUGIN_URL . '/modules/gutenberg/assets/blocks/how-to.js',                
+                'block_name'   => 'how-to-block',
+                'render_func'  => 'render_how_to_data',
+                'style'        => 'saswp-g-howto-css',
+                'editor'       => 'saswp-gutenberg-css-reg-editor',
+                'local_var'    => 'saswpGutenbergHowTo',
+                'local'        => array()
+            ),
+        );
+
         /**
          * This is class constructer to use all the hooks and filters used in this class
          */
         private function __construct() {
-                    add_action( 'init', array( $this, 'register_how_to' ) );
-                    add_action( 'init', array( $this, 'register_faq' ) );
+                
+                    if($this->service == null){
+                        require_once SASWP_DIR_NAME.'/modules/gutenberg/includes/service.php';
+                        $this->service = new SASWP_Gutenberg_Service();
+                    }
+                    if($this->render == null){
+                        require_once SASWP_DIR_NAME.'/modules/gutenberg/includes/render.php';
+                        $this->render = new SASWP_Gutenberg_Render();
+                    }
+                                                                                                                                            
+                    add_action( 'init', array( $this, 'register_saswp_blocks' ) );                    
                     add_action( 'enqueue_block_editor_assets', array( $this, 'register_admin_assets' ) ); 
-                    //add_action( 'enqueue_block_assets', array( $this, 'register_frontend_assets' ) ); 
-                    add_filter( 'block_categories', array( $this, 'saswp_add_blocks_categories' ) );     
+                    add_action( 'enqueue_block_assets', array( $this, 'register_frontend_assets' ) ); 
+                    add_filter( 'block_categories', array( $this, 'add_blocks_categories' ) );  
+                    add_action( 'amp_post_template_css', array($this, 'register_frontend_assets_amp'));
+        }
+        
+        public function register_frontend_assets_amp(){
+            
+             global $post;
+             
+             if(function_exists('parse_blocks') && is_object($post)){
+                 
+                  $blocks = parse_blocks($post->post_content);
+                  
+                   if($blocks){
+                       
+                        foreach ($blocks as $parse_blocks){
+                            
+                            if(isset($parse_blocks['blockName']) && $parse_blocks['blockName'] === 'saswp/event-block'){
+                                $amp_css  =  SASWP_PLUGIN_DIR_PATH . 'modules/gutenberg/assets/css/amp/event.css';              
+                                echo @file_get_contents($amp_css);
+                            }
+                            if(isset($parse_blocks['blockName']) && $parse_blocks['blockName'] === 'saswp/job-block'){
+                                $amp_css  =  SASWP_PLUGIN_DIR_PATH . 'modules/gutenberg/assets/css/amp/job.css';              
+                                echo @file_get_contents($amp_css);
+                            }
+                            if(isset($parse_blocks['blockName']) && $parse_blocks['blockName'] === 'saswp/course-block'){
+                                $amp_css  =  SASWP_PLUGIN_DIR_PATH . 'modules/gutenberg/assets/css/amp/course.css';              
+                                echo @file_get_contents($amp_css);
+                            }
+                            
+                        }
+                        
+                   }
+             }
+                                                
         }
         /**
          * Function to enqueue frontend assets for gutenberg blocks
          * @Since Version 1.9.7
          */
         public function register_frontend_assets() {
-                            
-                    if(!is_admin){
-                        
-                        wp_enqueue_style(
-                            'saswp-gutenberg-css-reg',
-                            SASWP_PLUGIN_URL . '/modules/gutenberg/assets/css/style.css',
-                            array()                        
-                        );
-                        
-                    }                               
+                                                                      
+                        global $post;
+             
+                        if(function_exists('parse_blocks') && is_object($post)){
+
+                             $blocks = parse_blocks($post->post_content);
+
+                              if($blocks){
+
+                                   foreach ($blocks as $parse_blocks){
+
+                                       if(isset($parse_blocks['blockName']) && $parse_blocks['blockName'] === 'saswp/event-block'){
+                                           
+                                           wp_enqueue_style(
+                                                'saswp-g-event-css',
+                                                SASWP_PLUGIN_URL . '/modules/gutenberg/assets/css/event.css',
+                                                array()                        
+                                           );
+                                           
+                                       }
+                                       if(isset($parse_blocks['blockName']) && $parse_blocks['blockName'] === 'saswp/job-block'){
+                                           
+                                           wp_enqueue_style(
+                                                'saswp-g-job-css',
+                                                SASWP_PLUGIN_URL . '/modules/gutenberg/assets/css/job.css',
+                                                array()                        
+                                           );
+                                           
+                                       }
+                                       if(isset($parse_blocks['blockName']) && $parse_blocks['blockName'] === 'saswp/course-block'){
+                                           
+                                           wp_enqueue_style(
+                                                'saswp-g-course-css',
+                                                SASWP_PLUGIN_URL . '/modules/gutenberg/assets/css/course.css',
+                                                array()                        
+                                           );
+                                           
+                                       }
+
+                                   }
+
+                              }
+                        }                        
+                                                                           
 	}
         /**
          * Function to enqueue admin assets for gutenberg blocks
@@ -60,76 +201,148 @@ class SASWP_Gutenberg {
                         SASWP_PLUGIN_URL . 'modules/gutenberg/assets/css/editor.css',
                         array( 'wp-edit-blocks' )
                     );
-                                         
-                    wp_register_script(
-                        'saswp-faq-js-reg',
-                        SASWP_PLUGIN_URL . '/modules/gutenberg/assets/blocks/faq.js',
-                        array( 'wp-i18n', 'wp-element', 'wp-blocks', 'wp-components', 'wp-editor' )
-                    );
+                     
+                    if($this->blocks){
                     
-                    $inline_script = array( 
-                                 'title' => 'Faq'
-                    );            		
-                    		
-		    wp_localize_script( 'saswp-how-to-js-reg', 'saswpGutenbergFaq', $inline_script );
-        
-                    wp_enqueue_script( 'saswp-faq-js-reg' );
-                    
-                    wp_register_script(
-                        'saswp-how-to-js-reg',
-                        SASWP_PLUGIN_URL . '/modules/gutenberg/assets/blocks/how-to.js',
-                        array( 'wp-i18n', 'wp-element', 'wp-blocks', 'wp-components', 'wp-editor' )
-                    );
-                    
-                    $inline_script = array( 
-                                 'title' => 'How To'
-                    );            		
-                    		
-		    wp_localize_script( 'saswp-how-to-js-reg', 'saswpGutenbergHowTo', $inline_script );
-        
-                    wp_enqueue_script( 'saswp-how-to-js-reg' );                    
+                        foreach($this->blocks as $key => $block){
+                        
+                            wp_register_script(
+                               $block['handler'],
+                               $block['path'],
+                               array( 'wp-i18n', 'wp-element', 'wp-blocks', 'wp-components', 'wp-editor' )                                 
+                           );
+                            
+                            
+                            if($key == 'collection'){
+                                
+                                $collection = get_posts( array(
+                                'posts_per_page' => -1,
+                                'post_type'      => 'saswp-collections',
+                                'post_status'    => 'publish',
+                                    
+                             ));
+                                        
+                                if($collection){
+
+                                    $col_opt = array(); 
+
+                                    foreach($collection as $col){
+
+                                       $col_opt[] = array(
+                                           'value' => $col->ID,
+                                           'label' => $col->post_title
+                                       );
+
+                                    }
+
+                                    $block['local']['collection'] = $col_opt;
+
+                                }else{
+                                    $block['local']['collection_not_found']      = true;
+                                    $block['local']['collection_url']            = wp_nonce_url(admin_url('admin.php?page=collection'), '_wpnonce');
+                                }
+                               }
+                                                    
+                            wp_localize_script( $block['handler'], $block['local_var'], $block['local'] );
+                         
+                            wp_enqueue_script( $block['handler'] );
+                        }
+                        
+                    } 
+                                                         
 	}
         /**
          * Register a how to block
          * @return type
          * @since version 1.9.7
          */
-	public function register_how_to() {
+	public function register_saswp_blocks() {
             
                     if ( !function_exists( 'register_block_type' ) ) {
                             // no Gutenberg, Abort
                             return;
                     }		                  		    
                      
-                    register_block_type( 'saswp/how-to-block', array(
-                        'style'         => 'saswp-gutenberg-css-reg',
-                        'editor_style'  => 'saswp-gutenberg-css-reg-editor',
-                        'editor_script' => 'saswp-how-to-js-reg',
-                        'render_callback' => array( $this, 'render_how_to_data' ),
-                    ) );
-                                        
+                   if($this->blocks){
                     
+                    foreach($this->blocks as $block){
+
+                        register_block_type( 'saswp/'.$block['block_name'], array(
+                            'style'           => $block['style'],
+                            'editor_style'    => $block['editor'],
+                            'editor_script'   => $block['handler'],
+                            'render_callback' => array( $this, $block['render_func'] ),
+                      ) );
+                        
+                    }
+                                      
+                }                                        
 	}
-        /**
-         * Register a FAQ block
-         * @return type
-         * @since version 1.9.7
-         */
-	public function register_faq() {
+        
+        public function render_collection_data($attributes){
             
-                    if ( !function_exists( 'register_block_type' ) ) {
-                            // no Gutenberg, Abort
-                            return;
-                    }		                  
-		                                                                                     
-                    register_block_type( 'saswp/faq-block', array(
-                        'style'         => 'saswp-gutenberg-css-reg',
-                        'editor_style'  => 'saswp-gutenberg-css-reg-editor',
-                        'editor_script' => 'saswp-faq-js-reg',
-                        'render_callback' => array( $this, 'render_faq_data' ),
-                    ) );
-                                                            
-	}
+            ob_start();
+            
+            if ( !isset( $attributes ) ) {
+			ob_end_clean();
+                                                                       
+			return '';
+            }
+            
+            echo $this->render->collection_block_data($attributes);
+            
+            return ob_get_clean();
+            
+        }
+        
+        public function render_course_data($attributes){
+            
+            ob_start();
+            
+            if ( !isset( $attributes ) ) {
+			ob_end_clean();
+                                                                       
+			return '';
+            }
+            
+            echo $this->render->course_block_data($attributes);
+            
+            return ob_get_clean();
+            
+        }        
+        
+        public function render_job_data($attributes){
+            
+            ob_start();
+            
+            if ( !isset( $attributes ) ) {
+			ob_end_clean();
+                                                                       
+			return '';
+            }
+            
+            echo $this->render->job_block_data($attributes);
+            
+            return ob_get_clean();
+            
+        }
+        
+        public function render_event_data($attributes){
+            
+            ob_start();
+            
+            if ( !isset( $attributes ) ) {
+			ob_end_clean();
+                                                                       
+			return '';
+            }
+            
+            echo $this->render->event_block_data($attributes);
+            
+            return ob_get_clean();
+            
+        }
+        
         /**
          * Function to render faq block data in frontend post content
          * @param type $attributes
@@ -308,7 +521,7 @@ class SASWP_Gutenberg {
          * @return array
          * @since version 1.9.7
          */	        
-        public function saswp_add_blocks_categories($categories){
+        public function add_blocks_categories($categories){
         
         $categories[] = array(
                 'slug'  => 'saswp-blocks',

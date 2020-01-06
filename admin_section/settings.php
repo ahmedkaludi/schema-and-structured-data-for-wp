@@ -628,7 +628,8 @@ function saswp_amp_page_callback(){
                 is_plugin_active('accelerated-mobile-pages/accelerated-moblie-pages.php') || 
                 is_plugin_active('amp/amp.php') || 
                 is_plugin_active('better-amp/better-amp.php')  ||
-                is_plugin_active('wp-amp/wp-amp.php')
+                is_plugin_active('wp-amp/wp-amp.php') ||
+                is_plugin_active('amp-wp/amp-wp.php')
                         
                 ) {                         
         }else{
@@ -1695,6 +1696,18 @@ function saswp_compatibility_page_callback(){
                                 'name' => 'sd_data[saswp-ampbyautomatic]',                             
                         )
 		);
+        $ampwp = array(
+			'label'  => 'AMP WP',
+			'id'     => 'saswp-ampwp-checkbox',                        
+                        'name'   => 'saswp-ampwp-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
+                        'note'   => saswp_get_field_note('ampwp'),
+                        'hidden' => array(
+                                'id'   => 'saswp-ampwp',
+                                'name' => 'sd_data[saswp-ampwp]',                             
+                        )
+		);
         $tevolution_events = array(
 			'label'  => 'Tevolution Events',
 			'id'     => 'saswp-tevolution-events-checkbox',                        
@@ -2330,6 +2343,7 @@ function saswp_compatibility_page_callback(){
                 $ampbyautomatic,
                 $betteramp,
                 $wpamp,
+                $ampwp,
                 $kk_star,  
                 $wppostratings,
                 $bbpress,

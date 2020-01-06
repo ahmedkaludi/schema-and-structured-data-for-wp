@@ -182,39 +182,38 @@ function saswp_schema_output() {
         
         foreach($Conditionals as $schemaConditionals){
         
-        $schema_options = array();    
-            
-        if(isset($schemaConditionals['schema_options'])){
-            $schema_options = $schemaConditionals['schema_options'];
-        }   
-        	        
-	$schema_type      = saswp_remove_warnings($schemaConditionals, 'schema_type', 'saswp_string');         
-        $schema_post_id   = saswp_remove_warnings($schemaConditionals, 'post_id', 'saswp_string');        
-           
-        $input1         = array();
-        $logo           = ''; 
-        $height         = '';
-        $width          = '';        
-        $site_name      = get_bloginfo();    
-        
-        $service_object     = new saswp_output_service();
-        $default_logo       = $service_object->saswp_get_publisher(true);
-        $publisher          = $service_object->saswp_get_publisher();
-        
-        if(!empty($default_logo)){
-            
-            $logo   = $default_logo['url'];
-            $height = $default_logo['height'];
-            $width  = $default_logo['width'];
-            
-        }
-        
-        if(isset($sd_data['sd_name']) && $sd_data['sd_name'] !=''){            
-            $site_name = $sd_data['sd_name'];            
-        }                                                                   
+                        $schema_options = array();    
+
+                        if(isset($schemaConditionals['schema_options'])){
+                            $schema_options = $schemaConditionals['schema_options'];
+                        }   
+
+                        $schema_type      = saswp_remove_warnings($schemaConditionals, 'schema_type', 'saswp_string');         
+                        $schema_post_id   = saswp_remove_warnings($schemaConditionals, 'post_id', 'saswp_string');        
+
+                        $input1         = array();
+                        $logo           = ''; 
+                        $height         = '';
+                        $width          = '';        
+                        $site_name      = get_bloginfo();    
+
+                        $service_object     = new saswp_output_service();
+                        $default_logo       = $service_object->saswp_get_publisher(true);
+                        $publisher          = $service_object->saswp_get_publisher();
+
+                        if(!empty($default_logo)){
+
+                            $logo   = $default_logo['url'];
+                            $height = $default_logo['height'];
+                            $width  = $default_logo['width'];
+
+                        }
+
+                        if(isset($sd_data['sd_name']) && $sd_data['sd_name'] !=''){            
+                            $site_name = $sd_data['sd_name'];            
+                        }                                                                   
 				   		                                                                                           		
-			$image_id 	= get_post_thumbnail_id();
-			$image_details 	= wp_get_attachment_image_src($image_id, 'full');						
+			$image_id 	= get_post_thumbnail_id();									
 			$date 		= get_the_date("c");
 			$modified_date 	= get_the_modified_date("c");
 			$author_name 	= get_the_author();
@@ -329,6 +328,20 @@ function saswp_schema_output() {
                                 
                             }
                         
+                           if( 'Movie' === $schema_type){
+                                                         
+                            $input1['@context']              = saswp_context_url();
+                            $input1['@type']                 = 'Movie';
+                            $input1['@id']                   = trailingslashit(saswp_get_permalink()).'#Movie';                                                                                                                                              
+                            
+                            $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
+                            
+                            $input1 = apply_filters('saswp_modify_movie_schema_output', $input1 );
+                            
+                            $input1 = saswp_get_modified_markup($input1, $schema_type, $schema_post_id, $schema_options);
+                            
+                            }
+                            
                         if( 'HowTo' === $schema_type){
                                                          
                             $input1['@context']              = saswp_context_url();
@@ -404,6 +417,22 @@ function saswp_schema_output() {
                             $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
                             
                             $input1 = apply_filters('saswp_modify_music_playlist_schema_output', $input1 );
+                            
+                            $input1 = saswp_get_modified_markup($input1, $schema_type, $schema_post_id, $schema_options);
+                                                                                    
+                          }
+                          
+                          if( 'MusicComposition' === $schema_type){
+                                                                                                                                                                        
+                            $input1['@context']              = saswp_context_url();
+                            $input1['@type']                 = 'MusicComposition';
+                            $input1['@id']                   = trailingslashit(get_permalink()).'#MusicComposition'; 
+                            $input1['inLanguage']            = get_bloginfo('language');
+                            $input1['datePublished']         = esc_html($date);                 
+                            
+                            $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
+                            
+                            $input1 = apply_filters('saswp_modify_music_composition_schema_output', $input1 );
                             
                             $input1 = saswp_get_modified_markup($input1, $schema_type, $schema_post_id, $schema_options);
                                                                                     
@@ -597,6 +626,10 @@ function saswp_schema_output() {
                                                      
                             if(isset($sd_data['saswp-bbpress']) && $sd_data['saswp-bbpress'] == 1 && is_plugin_active('bbpress/bbpress.php')){                                                                                                                                                                                            
                                 
+                                
+                                $bbp_date   = get_post_time( get_option( 'date_format' ), get_the_ID(), true );
+                                $bbp_time   = get_post_time( get_option( 'time_format' ), get_the_ID(), true ); 
+                                
                                 $input1 = array(
                                 '@context'			=> saswp_context_url(),
                                 '@type'				=> 'DiscussionForumPosting' ,
@@ -607,7 +640,7 @@ function saswp_schema_output() {
                                 "articleSection"                => bbp_get_forum_title(),
                                 "articleBody"                   => saswp_get_the_content(),    
                                 'url'				=> bbp_get_topic_permalink(),
-                                'datePublished'                 => saswp_format_date_time(bbp_get_topic_post_date()),
+                                'datePublished'                 => saswp_format_date_time($bbp_date, $bbp_time),
                                 'dateModified'                  => esc_html($modified_date),
                                 'author'			=> saswp_get_author_details(),                                    
                                 'interactionStatistic'          => array(
@@ -878,11 +911,7 @@ function saswp_schema_output() {
                                 
                                  
                             }else{
-                                
-                               if(empty($image_details[0]) || $image_details[0] === NULL ){
-					$image_details[0] = $sd_data['sd_logo']['url'];
-				}
-                                
+                                                                                               
 				$input1 = array(
                                     '@context'			=> saswp_context_url(),
                                     '@type'				=> $schema_type ,
@@ -949,7 +978,9 @@ function saswp_schema_output() {
                                 $input1 = saswp_get_modified_markup($input1, $schema_type, $schema_post_id, $schema_options);
 			}
                         
-                        if( 'NewsArticle' === $schema_type ){                              
+                        if( 'NewsArticle' === $schema_type ){    
+                            
+                            $image_details 	= wp_get_attachment_image_src($image_id);
                             
                             $category_detail = get_the_category(get_the_ID());//$post->ID
                             $article_section = '';
@@ -1127,13 +1158,8 @@ function saswp_schema_output() {
                                 			
 			if( 'VideoObject' === $schema_type){
                             
-                                            if(empty($image_details[0]) || $image_details[0] === NULL ){
-
-                                                    if(isset($sd_data['sd_logo'])){
-                                                        $image_details[0] = $sd_data['sd_logo']['url'];
-                                                    }
-
-                                            }				
+                                                $image_details 	= wp_get_attachment_image_src($image_id);				
+                                                
                                                 $description = saswp_get_the_excerpt();
 
                                                 if(!$description){
@@ -1574,6 +1600,82 @@ function saswp_woocommerce_category_schema(){
             
 }
 
+function saswp_woocommerce_shop_page(){
+    
+    $collection     = array();
+    $itemlist_arr   = array();
+        
+    if(function_exists('is_shop') && function_exists('woocommerce_get_loop_display_mode') && is_shop()){
+        
+        $display_type = woocommerce_get_loop_display_mode();
+        $parent_id    = is_product_category() ? get_queried_object_id() : 0;
+        
+        if($display_type == 'subcategories' || $display_type == 'both'){
+            
+            $list = array();
+                                                
+            $product_categories = woocommerce_get_product_subcategories( $parent_id );
+            
+            if($product_categories){
+                                                            
+                foreach($product_categories as $cat){
+                
+                    $list[] = array(
+                      '@type'    => 'ItemPage',                          
+                      'url'      => saswp_get_category_link($cat->term_id),
+                    );
+                    
+                }
+                
+            }
+            
+            if($list){
+                
+                $collection['@context'] = saswp_context_url();
+                $collection['@type']    = 'CollectionPage';
+                $collection['mainEntity']['@type']           = 'ItemList';
+                $collection['mainEntity']['itemListElement'] = $list;
+                
+            }
+            
+        }
+        
+        if($display_type == 'products' || $display_type == 'both'){
+            
+            $item_list = array();
+                     
+            woocommerce_product_loop_start();
+                    $i = 1;
+                    if ( have_posts() ) :
+                        while ( have_posts() ) :
+                                  the_post();
+                                   
+                                       $item_list[] = array(
+                                         '@type' 		=> 'ListItem',
+                                         'position' 		=> $i,
+                                         'url' 		        => get_the_permalink()
+                                        );
+                                   $i++; 
+                        endwhile;
+                    endif;
+                        
+            woocommerce_product_loop_end();
+                        
+                if($item_list){
+                    $item_list_res['@context']        = saswp_context_url();
+                    $item_list_res['@type']           = 'ItemList';
+                    $item_list_res['itemListElement'] = $item_list;
+                    $itemlist_arr = $item_list_res;
+                }
+            
+        }
+                        
+    }
+            
+    return array('itemlist' => $itemlist_arr, 'collection' => $collection);
+    
+}
+
 /**
  * Function generates archive page schema markup in the form of CollectionPage schema type
  * @global type $query_string
@@ -1610,18 +1712,10 @@ function saswp_archive_output(){
 		if ( $category_loop->have_posts() ):
 			while( $category_loop->have_posts() ): $category_loop->the_post();
 				$image_id 		= get_post_thumbnail_id();
+                                                                
+				$archive_image 	        = saswp_get_image_by_id($image_id);  
                                 
-                                $archive_image = array();
-				$image_details 	        = wp_get_attachment_image_src($image_id, 'full');  
-                                
-                                if(!empty($image_details)){
-                                
-                                        $archive_image['@type']  = 'ImageObject';
-                                        $archive_image['url']    = esc_url($image_details[0]);
-                                        $archive_image['width']  = esc_attr($image_details[1]);
-                                        $archive_image['height'] = esc_attr($image_details[2]);                                 
-                                    
-                                }else{
+                                if(!empty($archive_image)){
                                     
                                     if(isset($sd_data['sd_default_image'])){
                                         
@@ -1916,220 +2010,3 @@ function saswp_site_navigation_output(){
                                         
     return apply_filters('saswp_modify_sitenavigation_output', $input);
 }      
-
-function saswp_gutenberg_how_to_schema(){
-                        
-            global $post;
-            $input1 = array();
-            
-            if(function_exists('parse_blocks') && is_object($post)){
-           
-                
-            $blocks = parse_blocks($post->post_content);
-            
-                if($blocks){
-
-                foreach ($blocks as $parse_blocks){
-
-                if(isset($parse_blocks['blockName']) && $parse_blocks['blockName'] === 'saswp/how-to-block'){
-                    
-                $service_object     = new saswp_output_service();   
-                $feature_image      = $service_object->saswp_get_fetaure_image();                  
-                                       
-                $input1['@context']              = saswp_context_url();
-                $input1['@type']                 = 'HowTo';
-                $input1['@id']                   = trailingslashit(get_permalink()).'#HowTo';
-                $input1['name']                  = saswp_get_the_title();                
-                $input1['datePublished']         = get_the_date("c");
-                $input1['dateModified']          = get_the_modified_date("c");
-                
-                if(!empty($feature_image)){
-                            
-                    $input1 = array_merge($input1, $feature_image);   
-                         
-                }                
-                
-                if(array_key_exists('description', $parse_blocks['attrs'])){
-                    $input1['description']           = $parse_blocks['attrs']['description'];
-                }
-                
-                $supply     = array();
-                $supply_arr = array();
-                
-                if(array_key_exists('materials', $parse_blocks['attrs'])){
-                    $supply = $parse_blocks['attrs']['materials'];
-                }
-                
-                if(!empty($supply)){
-
-                    foreach($supply as $val){
-
-                        $supply_data = array();
-
-                        if($val['name']){
-                            $supply_data['@type'] = 'HowToSupply';
-                            $supply_data['name']  = $val['name'];                            
-                        }
-
-                       $supply_arr[] =  $supply_data;
-                    }
-                   $input1['supply'] = $supply_arr;
-                }
-                                
-                $tool     = array();
-                $tool_arr = array();
-                
-                if(array_key_exists('tools', $parse_blocks['attrs'])){
-                    $tool = $parse_blocks['attrs']['tools'];
-                }
-                
-                if(!empty($tool)){
-
-                    foreach($tool as $val){
-
-                        $supply_data = array();
-
-                        if($val['name']){
-                            $supply_data['@type'] = 'HowToTool';
-                            $supply_data['name']  = $val['name'];                            
-                        }
-
-                       $tool_arr[] =  $supply_data;
-                    }
-                   $input1['tool'] = $tool_arr;
-                }
-                                
-                $step     = array();
-                $step_arr = array(); 
-                
-                if(array_key_exists('items', $parse_blocks['attrs'])){
-                    $step = $parse_blocks['attrs']['items'];
-                }                                                           
-                if(!empty($step)){
-
-                    foreach($step as $key => $val){
-
-                        $supply_data = array();
-                        $direction   = array();
-                        $tip         = array();
-
-                       if($val['title'] || $val['description']){
-
-                            if($val['title']){
-                            $direction['@type']     = 'HowToDirection';
-                            $direction['text']      = $val['title'];
-                        }
-
-                        if($val['description']){
-
-                            $tip['@type']           = 'HowToTip';
-                            $tip['text']            = $val['description'];
-
-                        }
-
-                        $supply_data['@type']   = 'HowToStep';
-                        $supply_data['url']     = trailingslashit(get_permalink()).'#step'.++$key;
-                        $supply_data['name']    = $val['title'];    
-
-                        if(isset($direction['text']) || isset($tip['text'])){
-                            $supply_data['itemListElement']  = array($direction, $tip);
-                        }
-
-                        if(isset($val['imageId']) && $val['imageId'] !=''){
-
-                                    $image_details   = wp_get_attachment_image_src($val['imageId']);                                                 
-                                    $supply_data['image']['@type']  = 'ImageObject';                                                
-                                    $supply_data['image']['url']    = esc_url($image_details[0]);
-                                    $supply_data['image']['width']  = esc_attr($image_details[1]);
-                                    $supply_data['image']['height'] = esc_attr($image_details[2]);
-
-                        }
-
-                        $step_arr[] =  $supply_data;
-
-                       }
-
-                    }
-
-                   $input1['step'] = $step_arr;
-
-                }  
-                
-                 if(isset($parse_blocks['attrs']['days']) || $parse_blocks['attrs']['hours'] || $parse_blocks['attrs']['minutes']){
-                     
-                             $input1['totalTime'] = 'P'. 
-                             ((isset($parse_blocks['attrs']['days']) && $parse_blocks['attrs']['days'] !='') ? esc_attr($parse_blocks['attrs']['days']).'DT':''). 
-                             ((isset($parse_blocks['attrs']['hours']) && $parse_blocks['attrs']['hours'] !='') ? esc_attr($parse_blocks['attrs']['hours']).'H':''). 
-                             ((isset($parse_blocks['attrs']['minutes']) && $parse_blocks['attrs']['minutes'] !='') ? esc_attr($parse_blocks['attrs']['minutes']).'M':''); 
-                             
-                 }   
-
-                }
-
-               }
-
-                }
-                
-            }                       
-            return $input1;
-    
-}
-
-
-function saswp_gutenberg_faq_schema(){
-                        
-            global $post;
-            $input1 = array();
-                        
-            if(function_exists('parse_blocks') && is_object($post)){
-                
-                $blocks = parse_blocks($post->post_content);
-
-                if($blocks){
-
-                foreach ($blocks as $parse_blocks){
-
-                if(isset($parse_blocks['blockName']) && $parse_blocks['blockName'] === 'saswp/faq-block'){
-
-                                $input1['@context']              = saswp_context_url();
-                                $input1['@type']                 = 'FAQPage';
-                                $input1['@id']                   = trailingslashit(get_permalink()).'#FAQPage';                            
-
-                                $faq_question_arr = array();
-
-                                if(!empty($parse_blocks['attrs']['items'])){
-
-                                    foreach($parse_blocks['attrs']['items'] as $val){
-
-                                        $supply_data = array();
-                                        $supply_data['@type']                   = 'Question';
-                                        $supply_data['name']                    = $val['title'];
-                                        $supply_data['acceptedAnswer']['@type'] = 'Answer';
-                                        $supply_data['acceptedAnswer']['text']  = $val['description'];
-
-                                         if(isset($val['imageId']) && $val['imageId'] !=''){
-
-                                            $image_details   = wp_get_attachment_image_src($val['imageId']);                                                 
-                                            $supply_data['image']['@type']  = 'ImageObject';                                                
-                                            $supply_data['image']['url']    = esc_url($image_details[0]);
-                                            $supply_data['image']['width']  = esc_attr($image_details[1]);
-                                            $supply_data['image']['height'] = esc_attr($image_details[2]);
-
-                                          }
-
-                                       $faq_question_arr[] =  $supply_data;
-                                    }
-                                   $input1['mainEntity'] = $faq_question_arr;
-                                }
-
-                          }
-
-                     }
-
-                }
-                
-            }
-
-            return $input1;
-    
-}

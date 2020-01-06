@@ -207,17 +207,6 @@ class saswp_view_common_class {
                                 
                 global $sd_data;                        
                 
-                $image_id      = get_post_thumbnail_id();
-                $image_details = wp_get_attachment_image_src($image_id, 'full');
-                
-                if(empty($image_details[0]) || $image_details[0] === NULL ){
-                
-                 if(isset($sd_data['sd_logo']['url'])){
-                     $image_details[0] = $sd_data['sd_logo']['url'];
-                 }
-                                    
-                }
-                
                 $current_user   = wp_get_current_user();
                 $author_details = array();
                 
