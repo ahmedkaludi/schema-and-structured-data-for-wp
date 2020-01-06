@@ -682,7 +682,7 @@ if(is_admin()){
           'page_template'       =>  esc_html__("Page Template",'schema-and-structured-data-for-wp'),
         ),
         esc_html__("Other",'schema-and-structured-data-for-wp') => array( 
-          'ef_taxonomy'         =>  esc_html__("Taxonomy Term",'schema-and-structured-data-for-wp'), 
+          'ef_taxonomy'         =>  esc_html__("Taxonomy (Tag)",'schema-and-structured-data-for-wp'), 
         )
       ); 
 
