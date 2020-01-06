@@ -314,10 +314,7 @@ class saswp_post_specific {
                   $response_html .= '<textarea style="margin-left:5px;" placeholder="{ Json Markup }" id="saswp_custom_schema_field" name="saswp_custom_schema_field" rows="5" cols="100">'
                   . $custom_markup
                   . '</textarea>';
-                  
-                  if(json_decode($custom_markup) == false){
-                      $response_html .= '<p style="text-align:center;color:red;margin-top:0px;">'.esc_html__( 'Not a valid json', 'schema-and-structured-data-for-wp' ).'</p>';
-                  }                  
+                                                      
                   $response_html .= '</div>';                                    
                   $response_html .= '</div>';
                 
@@ -385,10 +382,7 @@ class saswp_post_specific {
                   $response_html .= '<a class="button saswp-delete-custom-schema">'.esc_html__( 'Delete Custom Schema', 'schema-and-structured-data-for-wp' ).'</a>';              
                   $response_html .= '<textarea style="margin-left:5px;" placeholder="{ Json Markup }" id="saswp_custom_schema_field" name="saswp_custom_schema_field" rows="5" cols="100">'
                   . $custom_markup
-                  . '</textarea>';
-                  if(json_decode($custom_markup) == false){
-                      $response_html .= '<p style="text-align:center;color:red;margin-top:0px;">'.esc_html__( 'Not a valid json', 'schema-and-structured-data-for-wp' ).'</p>';
-                  }
+                  . '</textarea>';                  
                   $response_html .= '</div>';                                    
                   $response_html .= '</div>';
                   
@@ -494,8 +488,10 @@ class saswp_post_specific {
 		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return $post_id;       			
                 if ( ! current_user_can( 'edit_post', $post_id ) ) return $post_id;    
                                        
-                $option         = get_option('modify_schema_post_enable_'.$post_id);                                                                                    
-                $custom_schema  = wp_unslash($_POST['saswp_custom_schema_field']);
+                $allowed_html = saswp_expanded_allowed_tags(); 
+                 
+                $option         = get_option('modify_schema_post_enable_'.$post_id);                
+                $custom_schema  = wp_kses(wp_unslash($_POST['saswp_custom_schema_field']), $allowed_html);
                 update_post_meta( $post_id, 'saswp_custom_schema_field', $custom_schema );
                                                                     
                 if($option != 'enable'){

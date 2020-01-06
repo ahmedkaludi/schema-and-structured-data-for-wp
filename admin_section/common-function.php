@@ -1587,7 +1587,11 @@ if ( ! defined('ABSPATH') ) exit;
                         'type'         => array(),
                         'style'        => array(),                    
                         'width'        => array(),                    
-                ); 
+                );
+                $my_allowed['script'] = array(
+                        'class'        => array(),
+                        'type'         => array(),
+                );
                 //textarea
                  $my_allowed['textarea'] = array(
                         'class' => array(),
