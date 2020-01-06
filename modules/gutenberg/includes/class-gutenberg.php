@@ -22,6 +22,16 @@ class SASWP_Gutenberg {
         private $render;
         
         private $blocks = array(
+            'collection' => array(            
+                'handler'      => 'saswp-collection-js-reg',
+                'path'         => SASWP_PLUGIN_URL . '/modules/gutenberg/assets/blocks/collection.js',
+                'local_var'    => 'saswpGutenbergCollection',
+                'block_name'   => 'collection-block',
+                'render_func'  => 'render_collection_data',
+                'style'        => 'saswp-g-collection-css',
+                'editor'       => 'saswp-gutenberg-css-reg-editor',
+                'local'        => array()            
+            ),
             'course' => array(            
                 'handler'      => 'saswp-course-js-reg',
                 'path'         => SASWP_PLUGIN_URL . '/modules/gutenberg/assets/blocks/course.js',
@@ -87,7 +97,7 @@ class SASWP_Gutenberg {
                         require_once SASWP_DIR_NAME.'/modules/gutenberg/includes/render.php';
                         $this->render = new SASWP_Gutenberg_Render();
                     }
-            
+                                                                                                                                            
                     add_action( 'init', array( $this, 'register_saswp_blocks' ) );                    
                     add_action( 'enqueue_block_editor_assets', array( $this, 'register_admin_assets' ) ); 
                     add_action( 'enqueue_block_assets', array( $this, 'register_frontend_assets' ) ); 
@@ -194,14 +204,45 @@ class SASWP_Gutenberg {
                      
                     if($this->blocks){
                     
-                        foreach($this->blocks as $block){
+                        foreach($this->blocks as $key => $block){
                         
                             wp_register_script(
                                $block['handler'],
                                $block['path'],
                                array( 'wp-i18n', 'wp-element', 'wp-blocks', 'wp-components', 'wp-editor' )                                 
                            );
-                        
+                            
+                            
+                            if($key == 'collection'){
+                                
+                                $collection = get_posts( array(
+                                'posts_per_page' => -1,
+                                'post_type'      => 'saswp-collections',
+                                'post_status'    => 'publish',
+                                    
+                             ));
+                                        
+                                if($collection){
+
+                                    $col_opt = array(); 
+
+                                    foreach($collection as $col){
+
+                                       $col_opt[] = array(
+                                           'value' => $col->ID,
+                                           'label' => $col->post_title
+                                       );
+
+                                    }
+
+                                    $block['local']['collection'] = $col_opt;
+
+                                }else{
+                                    $block['local']['collection_not_found']      = true;
+                                    $block['local']['collection_url']            = wp_nonce_url(admin_url('admin.php?page=collection'), '_wpnonce');
+                                }
+                               }
+                                                    
                             wp_localize_script( $block['handler'], $block['local_var'], $block['local'] );
                          
                             wp_enqueue_script( $block['handler'] );
@@ -238,6 +279,22 @@ class SASWP_Gutenberg {
                 }                                        
 	}
         
+        public function render_collection_data($attributes){
+            
+            ob_start();
+            
+            if ( !isset( $attributes ) ) {
+			ob_end_clean();
+                                                                       
+			return '';
+            }
+            
+            echo $this->render->collection_block_data($attributes);
+            
+            return ob_get_clean();
+            
+        }
+        
         public function render_course_data($attributes){
             
             ob_start();
@@ -252,7 +309,7 @@ class SASWP_Gutenberg {
             
             return ob_get_clean();
             
-        }
+        }        
         
         public function render_job_data($attributes){
             

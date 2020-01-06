@@ -149,4 +149,18 @@ class SASWP_Gutenberg_Render {
         return $response;        
     }
     
+    public function collection_block_data($attributes){
+        
+        $response = '';
+        
+        if(isset($attributes['id'])){
+                                    
+          $response =  do_shortcode('[saswp-reviews-collection id="'.$attributes['id'].'"]');
+                        
+        }
+                
+        return $response;
+        
+    }
+    
 }
