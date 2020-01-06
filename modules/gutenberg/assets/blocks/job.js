@@ -8,7 +8,7 @@
                 
     blocks.registerBlockType( 'saswp/job-block', {
         title: __('Job (SASWP)', 'schema-and-structured-data-for-wp'),
-        icon: 'welcome-learn-more',
+        icon: 'id',
         category: 'saswp-blocks',
         keywords: ['schema', 'structured data', 'Job', 'job'],
         
@@ -244,6 +244,8 @@
 //                                )
 //                                ),
                                                 
+                                el('div',{className:'saswp-listing-fields'},
+                                
                                 el(TextControl,{
                                 className:'saswp-job-list-expire-date',
                                 value :  attributes.listing_expire_date,
@@ -273,6 +275,8 @@
                                 })
                                 ) 
                                 : '',
+                                
+                                ),
                                 
                                 el(TextControl,{
                                 className:'saswp-job-base-salary',

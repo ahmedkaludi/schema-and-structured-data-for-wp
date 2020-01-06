@@ -118,6 +118,29 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
 
+= 1.9.21 (06 Jan 2020) =
+
+* Added: Schema Blocks (Event, Job, Course, Review/Collection  ) #436 
+* Added: Data tracking and deactivate question #12
+* Added: MusicComposition schema type #688
+* Added: Movie schema type #688
+* Added: Movie as a Item Reviewed Type in Review schema #684
+* Added: Support For Plugin AMP WP ( https://wordpress.org/plugins/amp-wp ) #674
+* Added: Collection schema for shop page. #687
+* Added: id property in HowTo Schema #677
+* Added: Show time field in schema markup if user is using modify schema option #682
+* Fixed: Custom schema option enhancement #701
+* Fixed: Organization type entered in Knowledge Graph is not displayed same in the markup. #690
+* Fixed: Review/Ratings problem in display. #693
+* Fixed: Images are not displaying when user adding through the Advanced custom field. #705
+* Fixed: DiscussionForumPosting is always 1970-01-01T00:00:00+00:00 when bbpress support is on #702
+* Fixed: The “name” of _guest_ users is empty (registered users are OK) #706
+* Fixed: When BBPress compatibility is on. Coment author name appears on front html multiple time #707
+* Fixed: Conflict with NT Conversi Shortcodes plugin #704
+* Fixed: #primaryimage size should be 1200*(maintain aspect ratio) size so that the image should display perfectly in rich result preview. #692
+* Fixed: Article schema:- Website Markup is showing description meta of post and not of the website. #691
+
+
 = 1.9.20 (27 Dec 2019) =
 
 * Added: Role Based Access feature #631
