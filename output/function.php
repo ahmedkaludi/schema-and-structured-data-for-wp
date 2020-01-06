@@ -402,34 +402,27 @@ function saswp_schema_markup_output() {
                         $cus_regex = '/\<script type\=\"application\/ld\+json\"\>/';
                         preg_match( $cus_regex, $custom_markup, $match );
                         
-                        if(!empty($match)){
+                        if(empty($match)){
                             
-                            $custom_output .= '<script type="application/ld+json" class="saswp-schema-markup-output">';
-                            $custom_output .= '\n';
-                            $custom_output .= $custom_markup;
-                            $custom_output .= '\n';
+                            $custom_output .= '<script type="application/ld+json" class="saswp-schema-markup-output">';                            
+                            $custom_output .= $custom_markup;                            
                             $custom_output .= '</script>';
                             
                         }else{
                             
-                            $custom_output .= $custom_markup;
+                            $custom_output = $custom_markup;
                             $custom_output = preg_replace($cus_regex, '<script type="application/ld+json" class="saswp-schema-markup-output">', $custom_output);
+                            
                         }
-                                            
-                        if($result != false){
-                        
+                                                                                            
                             echo "\n";
                             echo '<!-- Schema & Structured Data For WP Custom Markup v'.esc_attr(SASWP_VERSION).' - -->';
                             echo "\n";
                             echo $custom_output;
                             echo "\n\n";
-                            
-                        }
-                                                
-                                                                      
+                                                                                                                      
             }
-            
-                                    			              		
+                                                			              		
 	}
                         
         if($output){
