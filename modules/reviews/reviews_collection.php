@@ -603,15 +603,15 @@ class SASWP_Reviews_Collection {
                                           
             wp_update_post($post);                                      
             $post_meta = array();            
-            $post_meta['saswp_collection_design']       = sanitize_text_field($_POST['saswp_collection_design']);                        
-            $post_meta['saswp_collection_sorting']      = sanitize_text_field($_POST['saswp_collection_sorting']);
-            $post_meta['saswp_collection_display_type'] = sanitize_text_field($_POST['saswp_collection_display_type']);
-            $post_meta['saswp_collection_gallery_type'] = sanitize_text_field($_POST['saswp_collection_gallery_type']);
-            $post_meta['saswp_collection_cols']         = intval($_POST['saswp_collection_cols']);
-            $post_meta['saswp_gallery_arrow']           = intval($_POST['saswp_gallery_arrow']);
-            $post_meta['saswp_gallery_dots']            = intval($_POST['saswp_gallery_dots']);            
-            $post_meta['saswp_fomo_interval']           = intval($_POST['saswp_fomo_interval']);
-            $post_meta['saswp_fomo_visibility']         = intval($_POST['saswp_fomo_visibility']);                                                        
+            $post_meta['saswp_collection_design']       = isset($_POST['saswp_collection_design']) ? sanitize_text_field($_POST['saswp_collection_design']) : '';                        
+            $post_meta['saswp_collection_sorting']      = isset($_POST['saswp_collection_sorting']) ? sanitize_text_field($_POST['saswp_collection_sorting']) : '';
+            $post_meta['saswp_collection_display_type'] = isset($_POST['saswp_collection_display_type']) ? sanitize_text_field($_POST['saswp_collection_display_type']) : '';
+            $post_meta['saswp_collection_gallery_type'] = isset($_POST['saswp_collection_gallery_type']) ? sanitize_text_field($_POST['saswp_collection_gallery_type']) : '';
+            $post_meta['saswp_collection_cols']         = isset($_POST['saswp_collection_cols']) ? intval($_POST['saswp_collection_cols']) : '';
+            $post_meta['saswp_gallery_arrow']           = isset($_POST['saswp_gallery_arrow']) ? intval($_POST['saswp_gallery_arrow']) : '';
+            $post_meta['saswp_gallery_dots']            = isset($_POST['saswp_gallery_dots']) ? intval($_POST['saswp_gallery_dots']) : '';            
+            $post_meta['saswp_fomo_interval']           = isset($_POST['saswp_fomo_interval']) ? intval($_POST['saswp_fomo_interval']) : '';
+            $post_meta['saswp_fomo_visibility']         = isset($_POST['saswp_fomo_visibility']) ? intval($_POST['saswp_fomo_visibility']) : '';                                                        
             $post_meta['saswp_platform_ids']            = array_map('intval', $_POST['saswp_platform_ids']);
                         
             if(!empty($post_meta)){
