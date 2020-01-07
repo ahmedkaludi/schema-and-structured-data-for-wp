@@ -2237,17 +2237,6 @@ span.saswp-mines{
     line-height: 1.4;
     margin-bottom: 10px;
 }
-.saswp-upgrade-pro ul li:before {
-    content: "";
-    background-image: url(../images/check.png);
-    background-repeat: no-repeat;
-    background-size: 20px;
-    width: 20px;
-    height: 20px;
-    position: absolute;
-    left: 2px;
-    top: 2px;
-}
 .saswp-upgrade-pro a{
     background: #d2150a;
     padding: 10px 0px;
@@ -2321,18 +2310,6 @@ span.saswp-mines{
 .saswp-settings-second-div a{
 	text-decoration: none;
 }
-.saswp-upgrade-pro ul li:before{
-	content: "\f147";
-    background-repeat: no-repeat;
-    font-family: dashicons;
-    position: absolute;
-    color: #46b450;
-    font-size: 25px;
-    left: 0px;
-    line-height: 1;
-    top: 0px;
-}
-
 /* Add review thickbox csss starts here */
 
 .saswp-thick-box-container{    
