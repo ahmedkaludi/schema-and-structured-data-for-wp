@@ -312,7 +312,7 @@ Class saswp_output_service{
                     if(function_exists('get_field_object')){
                      
                         $acf_obj = get_field_object($field);
-                    
+                                            
                         if($acf_obj){
 
                             if($acf_obj['type'] == 'image'){
@@ -320,6 +320,16 @@ Class saswp_output_service{
                                 $image_id           = get_post_meta($post->ID, $field, true );                                
                                 $response           = saswp_get_image_by_id($image_id);                    
                                                                                                             
+                            }else if($acf_obj['type'] == 'repeater'){
+                                                                                                
+                                if(isset($acf_obj['value'])){
+                                    foreach($acf_obj['value'] as $value){
+                                        foreach ($value as $val){
+                                         $response[] = $val;   
+                                        }
+                                    }
+                                }                                
+                                                                
                             }else{
                                 $response = get_post_meta($post->ID, $field, true );
                             }
@@ -1237,11 +1247,21 @@ Class saswp_output_service{
                      $input1['nutrition']['calories'] =    $custom_fields['saswp_recipe_nutrition'];
                     }
                     
-                    if(isset($custom_fields['saswp_recipe_ingredient'])){                                            
-                     $input1['recipeIngredient'] =    saswp_explod_by_semicolon($custom_fields['saswp_recipe_ingredient']);
+                    if(isset($custom_fields['saswp_recipe_ingredient'])){  
+                        
+                      if(is_array($custom_fields['saswp_recipe_ingredient'])){                          
+                          $input1['recipeIngredient'] =   $custom_fields['saswp_recipe_ingredient'];                          
+                      }else{                        
+                          $input1['recipeIngredient'] =    saswp_explod_by_semicolon($custom_fields['saswp_recipe_ingredient']);                          
+                      }
+                                             
                     }
-                    if(isset($custom_fields['saswp_recipe_instructions'])){                                                                                                                     
-                     $input1['recipeInstructions'] =    saswp_explod_by_semicolon($custom_fields['saswp_recipe_instructions']);
+                    if(isset($custom_fields['saswp_recipe_instructions'])){  
+                        if(is_array($custom_fields['saswp_recipe_instructions'])){
+                            $input1['recipeInstructions'] =    $custom_fields['saswp_recipe_instructions'];   
+                        }else{
+                            $input1['recipeInstructions'] =    saswp_explod_by_semicolon($custom_fields['saswp_recipe_instructions']);
+                        }                     
                     }
                     if(isset($custom_fields['saswp_recipe_video_name'])){
                      $input1['video']['name'] =    $custom_fields['saswp_recipe_video_name'];
