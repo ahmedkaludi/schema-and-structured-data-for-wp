@@ -8,37 +8,6 @@
  * @version 1.0
  */
 if (! defined('ABSPATH') ) exit;
-
-
-/**
- * List of schema type who do not support aggregateRating directly
- */
-$without_aggregate = array(
-        'Apartment',
-        'House',
-        'SingleFamilyResidence',
-        'Article',
-        'Blogposting',
-        'DiscussionForumPosting',
-        'DataFeed',
-        'FAQ',
-        'NewsArticle',
-        'qanda',        
-        'TechArticle',
-        'WebPage',
-        'JobPosting',
-        'Service',
-        'Trip',
-        'MedicalCondition',
-        'TouristAttraction',
-        'TouristDestination',
-        'LandmarksOrHistoricalBuildings',
-        'HinduTemple',
-        'Church',
-        'Mosque',
-        'Person'
-);
-
 /**
  * Function generates knowledge graph schema
  * @global type $sd_data
@@ -169,7 +138,7 @@ function saswp_kb_schema_output() {
  */
 function saswp_schema_output() {     
     
-	global $sd_data;
+	global $sd_data, $saswp_schemas_data;
 
 	$Conditionals = saswp_get_all_schema_posts();           
         
@@ -279,8 +248,7 @@ function saswp_schema_output() {
                             $input1 = apply_filters('saswp_modify_faq_schema_output', $input1 );
                             
                             $input1 = saswp_get_modified_markup($input1, $schema_type, $schema_post_id, $schema_options);
-                            
-                                                                                                                                                                                                                                                           
+                                                                                                                                                                                                                                                                                       
                          }
                        
                         if( 'VideoGame' === $schema_type){
@@ -296,8 +264,9 @@ function saswp_schema_output() {
                             $input1 = apply_filters('saswp_modify_video_game_schema_output', $input1 );
                             
                             $input1 = saswp_get_modified_markup($input1, $schema_type, $schema_post_id, $schema_options);
-                                                                                                                                                                                                                               
-                            }
+                              
+                            
+                        }
                         
                         if( 'MedicalCondition' === $schema_type){
                             
@@ -328,7 +297,7 @@ function saswp_schema_output() {
                                 
                             }
                         
-                           if( 'Movie' === $schema_type){
+                        if( 'Movie' === $schema_type){
                                                          
                             $input1['@context']              = saswp_context_url();
                             $input1['@type']                 = 'Movie';
@@ -422,7 +391,7 @@ function saswp_schema_output() {
                                                                                     
                           }
                           
-                          if( 'MusicComposition' === $schema_type){
+                        if( 'MusicComposition' === $schema_type){
                                                                                                                                                                         
                             $input1['@context']              = saswp_context_url();
                             $input1['@type']                 = 'MusicComposition';
@@ -438,7 +407,7 @@ function saswp_schema_output() {
                                                                                     
                           }
                           
-                          if( 'Book' === $schema_type){
+                        if( 'Book' === $schema_type){
                                                                                                                                                                         
                             $input1['@context']              = saswp_context_url();
                             $input1['@type']                 = 'Book';
@@ -461,7 +430,7 @@ function saswp_schema_output() {
                                                                                     
                           }
                                                     
-                          if( 'MusicAlbum' === $schema_type){
+                        if( 'MusicAlbum' === $schema_type){
                                                                                                                                                                         
                             $input1['@context']              = saswp_context_url();
                             $input1['@type']                 = 'MusicAlbum';
@@ -1422,7 +1391,7 @@ function saswp_schema_output() {
                              }                                                                    
                         }
                
-		if(isset($schema_options['notAccessibleForFree']) && $schema_options['notAccessibleForFree'] == 1){
+		         if(isset($schema_options['notAccessibleForFree']) && $schema_options['notAccessibleForFree'] == 1){
 
 			add_filter( 'amp_post_template_data', 'saswp_structure_data_access_scripts');			
                         
@@ -1453,16 +1422,21 @@ function saswp_schema_output() {
                 
                 if(!empty($input1)){
                     $all_schema_output[] = $input1;		                    
-                }                
-               
+                }      
+                
+                if(isset($saswp_schemas_data[$schema_type]) && !empty($saswp_schemas_data[$schema_type])){                    
+                    $saswp_schemas_data[$schema_type][] = $input1;                     
+                }else{
+                    $saswp_schemas_data[$schema_type][] = $input1; 
+                }
+                
         }   
                 
         if($recipe_json){
             foreach($recipe_json as $json){
                 array_push($all_schema_output, $json);
             }
-        }
-        
+        }        
         return apply_filters('saswp_modify_schema_output', $all_schema_output);
 }
 /**
