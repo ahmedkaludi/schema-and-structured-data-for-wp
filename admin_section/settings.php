@@ -1170,7 +1170,7 @@ function saswp_import_callback(){
                 
 	);        
         
-        if(saswp_current_user_role() == 'administrator'){
+        if(is_super_admin()){
             
             $meta_fields[] = array(
 			'label'   => 'Role Based Access',
@@ -2646,14 +2646,17 @@ add_filter( 'option_page_capability_sd_data_group', 'saswp_option_page_capabilit
 
 function saswp_pre_update_settings($value, $old_value,  $option){
     
-    if(saswp_current_user_role() != 'administrator'){
+    if(!is_super_admin()){
     
         if(isset($old_value['saswp-role-based-access'])){
            $value['saswp-role-based-access'] = $old_value['saswp-role-based-access']; 
         }
         
-    }
-    
+    }else{
+        if(!in_array('administrator', $value['saswp-role-based-access'])){
+            array_push($value['saswp-role-based-access'], 'administrator');
+        }
+    }    
    return $value; 
 }
 

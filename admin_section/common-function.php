@@ -2871,19 +2871,6 @@ function saswp_get_capability_by_role($role){
     
 }
 
-function saswp_current_user_role(){
-    
-    if( is_user_logged_in() ) {
-        
-    $user            = wp_get_current_user();
-    $role            = (array) $user->roles;
-    
-    return $role[0];
-    
-    }
-        
-}
-
 function saswp_current_user_allowed(){
     
     global $sd_data;
@@ -2917,7 +2904,7 @@ function saswp_post_type_capabilities(){
     
         $cap = saswp_current_user_can();
     
-        if(saswp_current_user_role() != 'administrator'){
+        if(!is_super_admin()){
         
             $caplist =  array(
                 'publish_posts'       => $cap,
