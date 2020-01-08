@@ -11,6 +11,64 @@
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
 
+/**
+     * Function to get reviews schema markup
+     * @global type $sd_data
+     * @return string
+     */
+function saswp_get_reviews_schema_markup($reviews){
+                            
+                            $sumofrating = 0;
+                            $avg_rating  = 1;
+                            $reviews_arr = array();
+                            $input1      = array();
+                            
+                            if($reviews){
+                                
+                                foreach($reviews as $rv){
+                                                                        
+                                    $sumofrating += $rv['saswp_review_rating'];
+                                    
+                                    if($rv['saswp_review_rating'] && $rv['saswp_reviewer_name']){
+                                        
+                                        $reviews_arr[] = array(
+                                            '@type'         => 'Review',
+                                            'author'        => $rv['saswp_reviewer_name'],
+                                            'datePublished' => $rv['saswp_review_date'],
+                                            'description'   => $rv['saswp_review_text'],
+                                            'reviewRating'  => array(
+                                                        '@type'       => 'Rating',
+                                                        'bestRating'  => 5,
+                                                        'ratingValue' => $rv['saswp_review_rating'],
+                                                        'worstRating' => 1
+                                            ),
+                                       );
+                                        
+                                    }
+                                    
+                                }
+                                
+                                    if($sumofrating> 0){
+                                      $avg_rating = $sumofrating /  count($reviews); 
+                                    }
+                                
+                                    if(!empty($reviews_arr)){
+                                       
+                                        $input1['review'] = $reviews_arr;
+                                        
+                                    }
+
+                                    $input1['aggregateRating'] = array(
+                                        '@type'       => 'AggregateRating',
+                                        'reviewCount' => count($reviews),
+                                        'ratingValue' => esc_attr($avg_rating),                                        
+                                     );
+                                
+                                }
+                            return $input1;                                      
+                        
+    }
+
 function saswp_book_schema_markup($schema_id, $schema_post_id, $all_post_meta){
  
             $input1 = array();

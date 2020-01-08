@@ -80,6 +80,12 @@ function saswp_kb_schema_output() {
                 }
 		                    
 		$input = array_merge($input, $contact_info);
+                
+                $reviews = saswp_fetched_reviews_schema_markup();
+                
+                if($reviews){
+                    $input  = array_merge($input, $reviews); 
+                }
                         		                
 }				
 		// Person
@@ -127,7 +133,7 @@ function saswp_kb_schema_output() {
 			'telephone'		=> esc_attr($sd_data['sd-person-phone-number']),
 			);
 	}
-                
+                        
 	return apply_filters('saswp_modify_organization_output', $input);	             
 }
 
@@ -138,9 +144,9 @@ function saswp_kb_schema_output() {
  */
 function saswp_schema_output() {     
     
-	global $sd_data, $saswp_schemas_data;
+	global $sd_data;
 
-	$Conditionals = saswp_get_all_schema_posts();           
+	$Conditionals = saswp_get_all_schema_posts();   
         
 	if(!$Conditionals){
 		return ;
@@ -1443,12 +1449,6 @@ function saswp_schema_output() {
                     $all_schema_output[] = $input1;		                    
                 }      
                 
-                if(isset($saswp_schemas_data[$schema_type]) && !empty($saswp_schemas_data[$schema_type])){                    
-                    $saswp_schemas_data[$schema_type][] = $input1;                     
-                }else{
-                    $saswp_schemas_data[$schema_type][] = $input1; 
-                }
-                
         }   
                 
         if($recipe_json){
@@ -2002,4 +2002,67 @@ function saswp_site_navigation_output(){
             }                                                
                                         
     return apply_filters('saswp_modify_sitenavigation_output', $input);
-}      
+}   
+
+function saswp_fetched_reviews_json_ld(){
+    
+    global $sd_data;
+    $input1 = array();
+    
+    if(!(is_home() || is_front_page() || ( function_exists('ampforwp_is_home') && ampforwp_is_home())) || (isset($sd_data['saswp_kb_type']) && $sd_data['saswp_kb_type'] == 'Person') ){
+    
+        $json_ld = saswp_fetched_reviews_schema_markup();
+    
+        if($json_ld){
+
+            $input1['@context'] = saswp_context_url();
+            $input1['@type']    = (isset($sd_data['saswp_organization_type']) && $sd_data['saswp_organization_type'] !='' && (isset($sd_data['saswp_kb_type']) && $sd_data['saswp_kb_type'] == 'Organization' )  )? $sd_data['saswp_organization_type'] : 'Organization';
+            $input1['name']     = (isset($sd_data['sd_name']) && $sd_data['sd_name'] !='' )? $sd_data['sd_name'] : get_bloginfo();
+
+            $input1  = array_merge($input1, $json_ld); 
+
+        }
+        
+    }
+    
+    return $input1;
+    
+}
+
+function saswp_fetched_reviews_schema_markup(){
+        
+                    global $saswp_post_reviews, $with_aggregate;
+                  
+                    $input1 = array();
+                  
+                    if($saswp_post_reviews){
+                        
+                        $added_type = array();
+                        
+                        $all_schema = saswp_get_all_schema_posts();
+                        
+                        if(is_array($all_schema)){
+                            $added_type =  array_column($all_schema, 'schema_type');   
+                        }
+
+                        $status = false;
+                        
+                        foreach($with_aggregate as $value){
+                            
+                            if(in_array($value, $added_type)){
+                                
+                                $status = true;                                                                
+                                break;
+                                
+                            }
+                            
+                        }
+                        
+                        if(!$status){
+                            $input1 = saswp_get_reviews_schema_markup(array_unique($saswp_post_reviews, SORT_REGULAR));                                                                                                                       
+                        }
+                                                
+                    }
+                  
+                return $input1;
+    }

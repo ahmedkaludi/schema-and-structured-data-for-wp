@@ -13,6 +13,8 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 add_filter( 'amp_init', 'saswp_schema_markup_hook_on_init' );
 add_action( 'init', 'saswp_schema_markup_hook_on_init');
+add_action( 'wp', 'saswp_wp_hook_operation',999 );
+
 
 function saswp_schema_markup_hook_on_init() {
         
@@ -66,15 +68,70 @@ function saswp_schema_markup_hook_on_init() {
         }                       
 }
 
+function saswp_wp_hook_operation(){
+    
+    ob_start('saswp_schema_markup_output_in_buffer');
+    
+}
+
+function saswp_schema_markup_output_in_buffer($content){
+    
+     global $saswp_post_reviews;   
+     
+     if($saswp_post_reviews){
+     
+            $saswp_json_ld =  saswp_get_all_schema_markup_output();  
+     
+            if(!empty($saswp_json_ld['saswp_json_ld'])){
+
+                $regex = '/<script type\=\"application\/ld\+json\" class\=\"saswp\-schema\-markup\-output\"\>(.*?)<\/script>/s'; 
+
+                $content = preg_replace($regex, $saswp_json_ld['saswp_json_ld'], $content);
+
+            }
+         
+     }
+     
+    return $content;
+}
+
+function saswp_schema_markup_output(){
+    
+    $saswp_json_ld =  saswp_get_all_schema_markup_output();    
+    
+    if(!empty($saswp_json_ld['saswp_json_ld'])){
+        
+        echo "\n";
+        echo "<!-- Schema & Structured Data For WP v".esc_attr(SASWP_VERSION)." - -->";
+        echo "\n";
+        echo $saswp_json_ld['saswp_json_ld'];
+        echo "\n\n";
+        
+    }
+    
+    if(!empty($saswp_json_ld['saswp_custom_json_ld'])){
+        
+        echo "\n";
+        echo '<!-- Schema & Structured Data For WP Custom Markup v'.esc_attr(SASWP_VERSION).' - -->';
+        echo "\n";
+        echo $saswp_json_ld['saswp_custom_json_ld'];
+        echo "\n\n";
+        
+    }
+        
+}
 /**
  * This function collects all the schema markups and show them at one place either header or footer
  * @global type $sd_data
  * @global type json array
  */
-function saswp_schema_markup_output() {
+function saswp_get_all_schema_markup_output() {
        
         global $sd_data;
         global $post;
+        
+        $response_html = '';
+        $custom_output = '';
        
         $custom_markup            = '';
         $output                   = '';
@@ -97,6 +154,7 @@ function saswp_schema_markup_output() {
         $about_page_output        = saswp_about_page_output();      
         $author_output            = saswp_author_output();
         $archive_output           = saswp_archive_output();
+        $collection_output        = saswp_fetched_reviews_json_ld();
         
         if($archive_output){
             
@@ -208,6 +266,12 @@ function saswp_schema_markup_output() {
                         if(!empty($gutenberg_job)){
                         
                             $output .= saswp_json_print_format($gutenberg_job);   
+                            $output .= ",";
+                            $output .= "\n\n";
+                        }
+                        if(!empty($collection_output)){
+                        
+                            $output .= saswp_json_print_format($collection_output);   
                             $output .= ",";
                             $output .= "\n\n";
                         }
@@ -397,29 +461,22 @@ function saswp_schema_markup_output() {
                         
             if($custom_markup){    
                 
-                        $custom_output = '';
-                        
                         $cus_regex = '/\<script type\=\"application\/ld\+json\"\>/';
                         preg_match( $cus_regex, $custom_markup, $match );
                         
                         if(empty($match)){
                             
-                            $custom_output .= '<script type="application/ld+json" class="saswp-schema-markup-output">';                            
+                            $custom_output .= '<script type="application/ld+json" class="saswp-custom-schema-markup-output">';                            
                             $custom_output .= $custom_markup;                            
                             $custom_output .= '</script>';
                             
                         }else{
                             
                             $custom_output = $custom_markup;
-                            $custom_output = preg_replace($cus_regex, '<script type="application/ld+json" class="saswp-schema-markup-output">', $custom_output);
+                            $custom_output = preg_replace($cus_regex, '<script type="application/ld+json" class="saswp-custom-schema-markup-output">', $custom_output);
                             
                         }
-                                                                                            
-                            echo "\n";
-                            echo '<!-- Schema & Structured Data For WP Custom Markup v'.esc_attr(SASWP_VERSION).' - -->';
-                            echo "\n";
-                            echo $custom_output;
-                            echo "\n\n";
+                                                                                                                        
                                                                                                                       
             }
                                                 			              		
@@ -428,17 +485,15 @@ function saswp_schema_markup_output() {
         if($output){
             
             $stroutput = '['. trim($output). ']';
-            $filter_string = str_replace(',]', ']',$stroutput);   
-            echo "\n";
-            echo '<!-- Schema & Structured Data For WP v'.esc_attr(SASWP_VERSION).' - -->';
-            echo "\n";
-            echo '<script type="application/ld+json" class="saswp-schema-markup-output">'; 
-            echo "\n";       
-            echo $filter_string;       
-            echo "\n";
-            echo '</script>';
-            echo "\n\n";
+            $filter_string = str_replace(',]', ']',$stroutput);               
+            $response_html.= '<script type="application/ld+json" class="saswp-schema-markup-output">'; 
+            $response_html.= "\n";       
+            $response_html.= $filter_string;       
+            $response_html.= "\n";
+            $response_html.= '</script>';            
         }
+        
+        return array('saswp_json_ld' => $response_html, 'saswp_custom_json_ld' => $custom_output);
                 
 }
 
@@ -1633,59 +1688,15 @@ function saswp_get_bne_testomonials(){
 
 function saswp_append_fetched_reviews($input1, $schema_post_id = null){
     
-    global $post;
-    
-     $content = '';
-    
-     if(is_object($post)){
-       $content = $post->post_content;
-     }
-    
-    if((function_exists('is_product_category') && is_product_category()) || is_category() ){
+        global $saswp_post_reviews;
         
-         $content = category_description();
+        $service = new saswp_reviews_service();
         
-    }
-    
-    if($content){
-    
-        $service = new saswp_reviews_service();   
-        
-        $pattern = get_shortcode_regex();
-
-        if ( preg_match_all( '/'. $pattern .'/s', $content, $matches )
-            && array_key_exists( 2, $matches )
-            && in_array( 'saswp-reviews', $matches[2] ) )
-        {
-                            
-        foreach ($matches[0] as $matche){
-            
-            $mached = rtrim($matche, ']'); 
-            $mached = ltrim($mached, '[');
-            $mached = trim($mached);
-            $attr   = shortcode_parse_atts('['.$mached.' ]');  
-            
-            $reviews = $service->saswp_get_reviews_list_by_parameters($attr);   
-            
-            if($reviews){
-             
-                $rv_markup = $service->saswp_get_reviews_schema_markup($reviews);
-                
-                if($rv_markup){
-                    
-                    if(isset($input1['review'])){
-
-                    $input1['review'] = array_merge($input1['review'], $rv_markup['review']);
-
-                    }else{
-                       $input1 = array_merge($input1, $rv_markup);
-                    }
-                    
-                }
-                
-            }            
-            
-        }   
+        if ( $saswp_post_reviews ){
+                  
+          $rv_markup = saswp_get_reviews_schema_markup(array_unique($saswp_post_reviews, SORT_REGULAR));
+      
+          $input1 = array_merge($input1, $rv_markup);
         
         }else{
         
@@ -1708,7 +1719,7 @@ function saswp_append_fetched_reviews($input1, $schema_post_id = null){
              
              if($total_rv){
                  
-                $rv_markup = $service->saswp_get_reviews_schema_markup($total_rv);
+                $rv_markup = saswp_get_reviews_schema_markup($total_rv);
                 
                 if($rv_markup){
                     
@@ -1729,8 +1740,7 @@ function saswp_append_fetched_reviews($input1, $schema_post_id = null){
           }                        
             
         }
-        
-   }   
+           
     return $input1;
 }
 

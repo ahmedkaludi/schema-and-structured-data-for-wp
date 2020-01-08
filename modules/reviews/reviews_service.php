@@ -19,9 +19,8 @@ class saswp_reviews_service {
     public function saswp_service_hooks(){
         
         add_action('wp_ajax_saswp_fetch_google_reviews', array($this,'saswp_fetch_google_reviews'));
-        add_shortcode('saswp-reviews', array($this, 'saswp_reviews_shortcode' ),10);
-        add_action ('wp_footer', array($this, 'saswp_fetched_reviews_schema_markup'),99);
-        add_action ('amp_post_template_footer', array($this, 'saswp_fetched_reviews_schema_markup'),99);
+        add_shortcode('saswp-reviews', array($this, 'saswp_reviews_shortcode' ),10);  
+        
     }
     
     public function saswp_review_form_process_data($form_data){
@@ -97,96 +96,7 @@ class saswp_reviews_service {
                 
                 return $post_id;
         
-    }
-    
-    public function saswp_fetched_reviews_schema_markup(){
-        
-                  global $sd_data, $saswp_post_reviews;
-                  
-                  $html  = ''; 
-                  
-                    if($saswp_post_reviews){
-                        
-                        $rv_markup = $this->saswp_get_reviews_schema_markup(array_unique($saswp_post_reviews, SORT_REGULAR));
-                                  
-                        $input1['@context'] = saswp_context_url();
-                        $input1['@type']    = (isset($sd_data['saswp_organization_type']) && $sd_data['saswp_organization_type'] !='' )? $sd_data['saswp_organization_type'] : 'Organization';
-                        $input1['name']     = (isset($sd_data['sd_name']) && $sd_data['sd_name'] !='' )? $sd_data['sd_name'] : get_bloginfo();
-                                          
-                        $input1  = $input1 + $rv_markup;
-                      
-                        $html .= "\n";
-                        $html .= '<!-- Schema & Structured Data For Reviews v'.esc_attr(SASWP_VERSION).' - -->';
-                        $html .= "\n";
-                        $html .= '<script type="application/ld+json" class="saswp-reviews-markup">'; 
-                        $html .= "\n";       
-                        $html .= saswp_json_print_format($input1);       
-                        $html .= "\n";
-                        $html .= '</script>';
-                        $html .= "\n\n";
-                        
-                    }
-                  
-                  echo $html;
-    }
-    /**
-     * Function to get reviews schema markup
-     * @global type $sd_data
-     * @return string
-     */
-    public function saswp_get_reviews_schema_markup($reviews){
-                            
-                            $sumofrating = 0;
-                            $avg_rating  = 1;
-                            $reviews_arr = array();
-                            $input1      = array();
-                            
-                            if($reviews){
-                                
-                                foreach($reviews as $rv){
-                                                                        
-                                    $sumofrating += $rv['saswp_review_rating'];
-                                    
-                                    if($rv['saswp_review_rating'] && $rv['saswp_reviewer_name']){
-                                        
-                                        $reviews_arr[] = array(
-                                            '@type'         => 'Review',
-                                            'author'        => $rv['saswp_reviewer_name'],
-                                            'datePublished' => $rv['saswp_review_date'],
-                                            'description'   => $rv['saswp_review_text'],
-                                            'reviewRating'  => array(
-                                                        '@type'       => 'Rating',
-                                                        'bestRating'  => 5,
-                                                        'ratingValue' => $rv['saswp_review_rating'],
-                                                        'worstRating' => 1
-                                            ),
-                                       );
-                                        
-                                    }
-                                    
-                                }
-                                
-                                    if($sumofrating> 0){
-                                      $avg_rating = $sumofrating /  count($reviews); 
-                                    }
-                                
-                                    if(!empty($reviews_arr)){
-                                       
-                                        $input1['review'] = $reviews_arr;
-                                        
-                                    }
-
-                                    $input1['aggregateRating'] = array(
-                                        '@type'       => 'AggregateRating',
-                                        'reviewCount' => count($reviews),
-                                        'ratingValue' => esc_attr($avg_rating),                                        
-                                     );
-                                
-                                }
-                            return $input1;                                      
-                        
-    }
-    
+    }                
     /**
      * Function to generate reviews html
      * @param type $reviews

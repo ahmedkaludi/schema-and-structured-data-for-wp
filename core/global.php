@@ -3,6 +3,26 @@
 if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
+$with_aggregate = array(
+        'Book',                     
+        'Course',                                         
+        'HowTo',                    
+        'ImageObject',              
+        'MusicPlaylist',            
+        'MusicAlbum',               
+        'MusicComposition',         
+        'Movie',                                                    
+        'Review',                   
+        'Recipe',                   
+        'TVSeries', 
+        'SoftwareApplication',                                                                  
+        'Event',                    
+        'VideoGame',                
+        'AudioObject',              
+        'VideoObject',              
+        'local_business',           
+        'Product'              
+);
 $without_aggregate = array(
         'Apartment',
         'House',
@@ -29,4 +49,3 @@ $without_aggregate = array(
         'Person'
 );
 $saswp_post_reviews = array();
-$saswp_schemas_data = array();

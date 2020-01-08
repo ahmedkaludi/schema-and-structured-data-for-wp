@@ -193,10 +193,8 @@ if( ! class_exists( 'SASWP_Plugin_Usage_Tracker') ) {
 					'body'        => $body,
 					'user-agent'  => 'PUT/1.0.0; ' . home_url()
 				)
-			);
-			//print_r($request['body']); die;
+			);			
 		 	
-
 			$this->set_track_time();
 	
 			if( is_wp_error( $request ) ) {
@@ -326,8 +324,7 @@ if( ! class_exists( 'SASWP_Plugin_Usage_Tracker') ) {
 
 			if( false !== get_option( 'wisdom_deactivation_reason_' . $this->plugin_name ) ) {
 				$body['deactivation_reason'] = get_option( 'wisdom_deactivation_reason_' . $this->plugin_name );
-			}
-		//	print_r($body); die;
+			}		
 			// Return the data
 			return $body;
 	
