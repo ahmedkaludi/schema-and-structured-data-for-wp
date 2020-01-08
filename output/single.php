@@ -99,258 +99,112 @@ function saswp_post_specific_schema_output() {
                         $extra_theme_review = array();
                         $service_object     = new saswp_output_service();
                         $extra_theme_review = $service_object->saswp_extra_theme_review_details(get_the_ID());
-                                    
-                         if( 'Person' === $schema_type){
-                             
-                             $input1 = saswp_person_schema_markup($schema_id, $schema_post_id, $all_post_meta);
-                            
-                         }         
+                                 
                         
-                         if( 'Trip' === $schema_type){
-                             
-                            $input1 = saswp_trip_schema_markup($schema_id, $schema_post_id, $all_post_meta);
+                        switch ($schema_type) {
                             
-                         }   
-                            
-                         if( 'FAQ' === $schema_type){
-                                                                                                                                                                        
-                             $input1 = saswp_faq_schema_markup($schema_id, $schema_post_id, $all_post_meta);
-                            
-                          }  
-                          
-                          if( 'MusicPlaylist' === $schema_type){
-                                                                                                                                                                        
-                            $input1 = saswp_music_playlist_schema_markup($schema_id, $schema_post_id, $all_post_meta);
-                            
-                            $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
-                            
-                          }
-                          if( 'MusicComposition' === $schema_type){
-                                                                                                                                                                        
-                            $input1 = saswp_music_composition_schema_markup($schema_id, $schema_post_id, $all_post_meta);
-                            
-                            $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
-                            
-                          }
-                          
-                          if( 'MusicAlbum' === $schema_type){
-                                                                                                                                                                        
-                            $input1 = saswp_music_album_schema_markup($schema_id, $schema_post_id, $all_post_meta);
-                            
-                            $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
-                            
-                          }
-                            
-                          if( 'JobPosting' === $schema_type){
-                             
-                            $input1 = saswp_job_posting_schema_markup($schema_id, $schema_post_id, $all_post_meta);
-                                                        
-                          }      
-                        
-                          if( 'Mosque' === $schema_type){
-                             
-                              $input1 = saswp_mosque_schema_markup($schema_id, $schema_post_id, $all_post_meta);
-                                                                                   
-                          }  
-                        
-                         if( 'Church' === $schema_type){
-                             
-                             $input1 = saswp_church_schema_markup($schema_id, $schema_post_id, $all_post_meta);
-                                                                                   
-                            }   
-                        
-                         if( 'HinduTemple' === $schema_type){
-                             
-                             $input1 = saswp_hindu_temple_schema_markup($schema_id, $schema_post_id, $all_post_meta);
-                             
-                         }   
-                        
-                         if( 'LandmarksOrHistoricalBuildings' === $schema_type){
-                             
-                            $input1 = saswp_lorh_schema_markup($schema_id, $schema_post_id, $all_post_meta);
-                                                                                   
-                         } 
-                         
-                         if( 'Book' === $schema_type){
+                            case 'Person':
+                                    $input1 = saswp_person_schema_markup($schema_id, $schema_post_id, $all_post_meta);
+                                break;                            
+                            case 'Book':
                              
                                 $input1 = saswp_book_schema_markup($schema_id, $schema_post_id, $all_post_meta);
                             
                                 $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
-                            
-                            }    
-                        
-                         if( 'TouristAttraction' === $schema_type){
+                                    
+                                break;
+                            case 'LandmarksOrHistoricalBuildings':
                              
-                             $input1 = saswp_tourist_attraction_schema_markup($schema_id, $schema_post_id, $all_post_meta);
-                                                                                   
-                         }
-                         
-                         if( 'TouristDestination' === $schema_type){
+                               $input1 = saswp_lorh_schema_markup($schema_id, $schema_post_id, $all_post_meta);
+                                    
+                                break;
+                            case 'HinduTemple':
                              
-                             $input1 = saswp_tourist_destination_schema_markup($schema_id, $schema_post_id, $all_post_meta);
-                            
-                         }   
-                        
-                         if( 'Apartment' === $schema_type){
-                             
-                            $input1 = saswp_apartment_schema_markup($schema_id, $schema_post_id, $all_post_meta);
-                            
-                         }
-                                                                                                                                            
-                         if( 'House' === $schema_type){
-                             
-                             $input1 = saswp_house_schema_makrup($schema_id, $schema_post_id, $all_post_meta);
-                            
-                         }  
-                            
-                         if( 'SingleFamilyResidence' === $schema_type){
-                             
-                            $input1 = saswp_single_family_residence_schema_markup($schema_id, $schema_post_id, $all_post_meta);
-                            
-                         }     
-                         
-                         if( 'Movie' === $schema_type){
-                             
-                             $input1 = saswp_movie_schema_markup($schema_id, $schema_post_id, $all_post_meta);
-                             
-                             $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
-                                                       
-                        }
-                         
-                         if( 'HowTo' === $schema_type){
-                             
-                             $input1 = saswp_howto_schema_markup($schema_id, $schema_post_id, $all_post_meta);
-                             
-                             $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
-                                                       
-                        }
-                            
-                         if( 'TVSeries' === $schema_type){
-                             
-                            $input1 = saswp_tv_series_schema_markup($schema_id, $schema_post_id, $all_post_meta);
-                                                                 
-                            $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
-                            
-                         }   
-                            
-                         if( 'MedicalCondition' === $schema_type){
-                                                         
-                            $input1 = saswp_medical_condition_schema_markup($schema_id, $schema_post_id, $all_post_meta);
-                                                                                                                                                                                                   
-                         }
-                            
-                         if( 'VideoGame' === $schema_type){
-                                                         
-                            $input1 = saswp_video_game_schema_markup($schema_id, $schema_post_id, $all_post_meta);
-                                                                                                                                            
-                            $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
-                                                                                                                                                                                                                               
-                         }   
-                        
-                         if( 'qanda' === $schema_type){      
-                             
-                             $input1 = saswp_qanda_schema_markup($schema_id, $schema_post_id, $all_post_meta);                            
-			 }   
-                         
-                         if( 'DataFeed' === $schema_type){
-                                  
-                             $input1 = saswp_data_feed_schema_markup($schema_id, $schema_post_id, $all_post_meta);                            
-                                                            
-                        }
-                        
-                         if( 'Event' === $schema_type){
-                       
-                                $input1 = saswp_event_schema_markup($schema_id, $schema_post_id, $all_post_meta);
-                                                                                                                                                
-                                if(!empty($aggregateRating)){
-                                    $input1['aggregateRating'] = $aggregateRating;
-                                }                                
-                                if(!empty($extra_theme_review)){
-                                   $input1 = array_merge($input1, $extra_theme_review);
-                                }                               
+                                $input1 = saswp_hindu_temple_schema_markup($schema_id, $schema_post_id, $all_post_meta);
                                 
+                                break;
+                            case 'Church':
+                             
+                                $input1 = saswp_church_schema_markup($schema_id, $schema_post_id, $all_post_meta);
+                                    
+                                break;
+                            case 'Mosque':
+                             
+                                $input1 = saswp_mosque_schema_markup($schema_id, $schema_post_id, $all_post_meta);
+                                    
+                                break;
+                            case 'JobPosting':
+                                
+                                $input1 = saswp_job_posting_schema_markup($schema_id, $schema_post_id, $all_post_meta);
+                                    
+                                break;
+                            case 'MusicAlbum':
+                                
+                                $input1 = saswp_music_album_schema_markup($schema_id, $schema_post_id, $all_post_meta);
+                            
                                 $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
+                                    
+                                break;
+                            case 'MusicComposition':
                                 
-                        }
-                        
-                         if( 'DiscussionForumPosting' === $schema_type){
+                                    $input1 = saswp_music_composition_schema_markup($schema_id, $schema_post_id, $all_post_meta);
                             
-                            $input1 = saswp_dfp_schema_markup($schema_id, $schema_post_id, $all_post_meta);                            
-                        }
-                        
-                         if( 'Course' === $schema_type){
-                         
-                                $input1 = saswp_course_schema_markup($schema_id, $schema_post_id, $all_post_meta);
+                                    $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
+                                    
+                                break;
+                            case 'MusicPlaylist':
+                                
+                                $input1 = saswp_music_playlist_schema_markup($schema_id, $schema_post_id, $all_post_meta);
+                            
+                                $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
+                                    
+                                break;
+                            case 'FAQ':
+                                    $input1 = saswp_faq_schema_markup($schema_id, $schema_post_id, $all_post_meta);
+                                break;
+                            case 'Trip':
+                                    $input1 = saswp_trip_schema_markup($schema_id, $schema_post_id, $all_post_meta);
+                                break;                            
+                            case 'HowTo':
+                             
+                                $input1 = saswp_howto_schema_markup($schema_id, $schema_post_id, $all_post_meta);
 
-                                if(!empty($aggregateRating)){
-                                    
-                                    $input1['aggregateRating'] = $aggregateRating;
-                                    
-                                }                                
-                                if(!empty($extra_theme_review)){
-                                    
-                                   $input1 = array_merge($input1, $extra_theme_review);
-                                   
-                                }                               
-                                                            
-                        }
-                                                
-                         if( 'Blogposting' === $schema_type){
-                    		
-                                $input1 = saswp_blogposting_schema_markup($schema_id, $schema_post_id, $all_post_meta);                            
-                        
-                               if(!empty($aggregateRating)){
-                                    $input1['aggregateRating'] = $aggregateRating;
-                                }                                
-                                if(!empty($extra_theme_review)){
-                                   $input1 = array_merge($input1, $extra_theme_review);
-                                }
-                     }
-                     
-                         if( 'AudioObject' === $schema_type){
-                    		    
-                               $input1 = saswp_audio_object_schema_markup($schema_id, $schema_post_id, $all_post_meta);                            
-			
-                               if(!empty($aggregateRating)){
-                                    $input1['aggregateRating'] = $aggregateRating;
-                                }                                
-                                if(!empty($extra_theme_review)){
-                                   $input1 = array_merge($input1, $extra_theme_review);
-                                }
                                 $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
-                        } 
-                        
-                         if( 'SoftwareApplication' === $schema_type){
-                                                                            
-                                $input1 = saswp_software_app_schema_markup($schema_id, $schema_post_id, $all_post_meta);
-                                                        
-                               if(!empty($aggregateRating)){
-                                    $input1['aggregateRating'] = $aggregateRating;
-                                }                                
-                                if(!empty($extra_theme_review)){
-                                   $input1 = array_merge($input1, $extra_theme_review);
-                                }
-                                $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
-                        }
-			
-			 if( 'WebPage' === $schema_type){
-                             
-				$input1 = saswp_webpage_schema_markup($schema_id, $schema_post_id, $all_post_meta);                            
-                            
-                                if(!empty($aggregateRating)){
                                     
-                                    $input1['mainEntity']['aggregateRating'] = $aggregateRating;
-                                    
-                                }
+                                break;
+                            case 'Movie':
                                 
-                                if(!empty($extra_theme_review)){
+                                $input1 = saswp_movie_schema_markup($schema_id, $schema_post_id, $all_post_meta);
+                             
+                                $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
                                     
-                                   $input1 = array_merge($input1, $extra_theme_review);
-                                   
-                                }
-			}
-			
-			 if( 'Article' === $schema_type ){
+                                break;
+                            case 'SingleFamilyResidence':
+                                
+                                $input1 = saswp_single_family_residence_schema_markup($schema_id, $schema_post_id, $all_post_meta);
+                                    
+                                break;
+                            case 'House':
+                                
+                                $input1 = saswp_house_schema_makrup($schema_id, $schema_post_id, $all_post_meta);
+                                    
+                                break;
+                            case 'Apartment':
+                                
+                                 $input1 = saswp_apartment_schema_markup($schema_id, $schema_post_id, $all_post_meta);
+                                    
+                                break;
+                            case 'TouristDestination':
+                                
+                                 $input1 = saswp_tourist_destination_schema_markup($schema_id, $schema_post_id, $all_post_meta);
+                                
+                                break;
+                            case 'TouristAttraction':
+                             
+                                $input1 = saswp_tourist_attraction_schema_markup($schema_id, $schema_post_id, $all_post_meta);
+                                                                                                            
+                                break;                            
+                            case 'Article':
                              
                                 $input1 = saswp_article_schema_markup($schema_id, $schema_post_id, $all_post_meta);    
                                
@@ -368,10 +222,127 @@ function saswp_post_specific_schema_output() {
                                    $input1 = array_merge($input1, $extra_theme_review);
                                    
                                 }
-			}
-                        
-                         if( 'TechArticle' === $schema_type ){
+			            
+                                break;
+                            case 'WebPage':
                              
+				$input1 = saswp_webpage_schema_markup($schema_id, $schema_post_id, $all_post_meta);                            
+                            
+                                if(!empty($aggregateRating)){
+                                    
+                                    $input1['mainEntity']['aggregateRating'] = $aggregateRating;
+                                    
+                                }
+                                
+                                if(!empty($extra_theme_review)){
+                                    
+                                   $input1 = array_merge($input1, $extra_theme_review);
+                                   
+                                }
+			            
+                                break;
+                            case 'SoftwareApplication':
+                                                                            
+                                $input1 = saswp_software_app_schema_markup($schema_id, $schema_post_id, $all_post_meta);
+                                                        
+                               if(!empty($aggregateRating)){
+                                    $input1['aggregateRating'] = $aggregateRating;
+                                }                                
+                                if(!empty($extra_theme_review)){
+                                   $input1 = array_merge($input1, $extra_theme_review);
+                                }
+                                $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
+                                    
+                                break;
+                            case 'AudioObject':
+                                    
+                               $input1 = saswp_audio_object_schema_markup($schema_id, $schema_post_id, $all_post_meta);                            
+			
+                               if(!empty($aggregateRating)){
+                                    $input1['aggregateRating'] = $aggregateRating;
+                                }                                
+                                if(!empty($extra_theme_review)){
+                                   $input1 = array_merge($input1, $extra_theme_review);
+                                }
+                                $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
+                                    
+                                break;
+                            case 'Blogposting':
+                                
+                                $input1 = saswp_blogposting_schema_markup($schema_id, $schema_post_id, $all_post_meta);                            
+                        
+                                if(!empty($aggregateRating)){
+                                    $input1['aggregateRating'] = $aggregateRating;
+                                }                                
+                                if(!empty($extra_theme_review)){
+                                   $input1 = array_merge($input1, $extra_theme_review);
+                                }
+                         
+                                break;
+                            case 'Course':
+                         
+                                $input1 = saswp_course_schema_markup($schema_id, $schema_post_id, $all_post_meta);
+
+                                if(!empty($aggregateRating)){
+                                    
+                                    $input1['aggregateRating'] = $aggregateRating;
+                                    
+                                }                                
+                                if(!empty($extra_theme_review)){
+                                    
+                                   $input1 = array_merge($input1, $extra_theme_review);
+                                   
+                                }                               
+                                    
+                                break;
+                            case 'DiscussionForumPosting':
+                            
+                                $input1 = saswp_dfp_schema_markup($schema_id, $schema_post_id, $all_post_meta);                            
+                                                            
+                                break;
+                            case 'Event':
+                        
+                                $input1 = saswp_event_schema_markup($schema_id, $schema_post_id, $all_post_meta);
+                                                                                                                                                
+                                if(!empty($aggregateRating)){
+                                    $input1['aggregateRating'] = $aggregateRating;
+                                }                                
+                                if(!empty($extra_theme_review)){
+                                   $input1 = array_merge($input1, $extra_theme_review);
+                                }                               
+                                
+                                $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
+                                    
+                                break;
+                            case 'DataFeed':
+                                
+                                $input1 = saswp_data_feed_schema_markup($schema_id, $schema_post_id, $all_post_meta);                            
+                                    
+                                break;
+                            case 'qanda':
+                                
+                                 $input1 = saswp_qanda_schema_markup($schema_id, $schema_post_id, $all_post_meta);                            
+                                    
+                                break;
+                            case 'VideoGame':
+                                
+                                $input1 = saswp_video_game_schema_markup($schema_id, $schema_post_id, $all_post_meta);
+                                                                                                                                            
+                                $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
+                                    
+                                break;
+                            case 'MedicalCondition':
+                                    $input1 = saswp_medical_condition_schema_markup($schema_id, $schema_post_id, $all_post_meta);
+                                break;
+                            case 'TVSeries':
+                                
+                                $input1 = saswp_tv_series_schema_markup($schema_id, $schema_post_id, $all_post_meta);
+                                                                 
+                                $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
+                                    
+                                break;
+                            case 'TechArticle':
+                                
                                 $input1 = saswp_tech_article_schema_markup($schema_id, $schema_post_id, $all_post_meta);                            
                                 
                                 if(saswp_remove_warnings($all_post_meta, 'saswp_tech_article_enable_rating_'.$schema_id, 'saswp_array') == 1 && saswp_remove_warnings($all_post_meta, 'saswp_tech_article_rating_'.$schema_id, 'saswp_array') && saswp_remove_warnings($all_post_meta, 'saswp_tech_article_review_count_'.$schema_id, 'saswp_array')){   
@@ -389,10 +360,10 @@ function saswp_post_specific_schema_output() {
                                    $input1 = array_merge($input1, $extra_theme_review);
                                    
                                 }
-			}
-	
-			 if( 'Recipe' === $schema_type){
-                             
+			    
+                                break;
+                            case 'Recipe':
+                                
                                 $input1 = saswp_recipe_schema_markup($schema_id, $schema_post_id, $all_post_meta);
                                                                                 
                                 if(!empty($aggregateRating)){
@@ -402,23 +373,23 @@ function saswp_post_specific_schema_output() {
                                    $input1 = array_merge($input1, $extra_theme_review);
                                 }
                                 $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
-			}
-						
-			 if( 'Product' === $schema_type){				
+			            
+                                break;
+                            case 'Product':
+                                
+                                $input1 = saswp_product_schema_markup($schema_id, $schema_post_id, $all_post_meta);
 
-                                       $input1 = saswp_product_schema_markup($schema_id, $schema_post_id, $all_post_meta);
-                                                                                                                                                                     
-                                        if(!empty($aggregateRating)){
-                                            $input1['aggregateRating'] = $aggregateRating;
-                                        }                                        
-                                        if(!empty($extra_theme_review)){
-                                           $input1 = array_merge($input1, $extra_theme_review);
-                                        }  
-                                                                                                                 
-                                        $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
-			}
-                        
-                         if( 'NewsArticle' === $schema_type ){  
+                                 if(!empty($aggregateRating)){
+                                     $input1['aggregateRating'] = $aggregateRating;
+                                 }                                        
+                                 if(!empty($extra_theme_review)){
+                                    $input1 = array_merge($input1, $extra_theme_review);
+                                 }  
+
+                                 $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
+			        
+                                break;
+                            case 'NewsArticle':
                              
                                 $input1 = saswp_news_article_schema_markup($schema_id, $schema_post_id, $all_post_meta);                            
                                 
@@ -434,10 +405,10 @@ function saswp_post_specific_schema_output() {
                                 if(!empty($aggregateRating)){
                                     $input1['aggregateRating'] = $aggregateRating;
                                 }                                                
-			}
-			
-			 if( 'VideoObject' === $schema_type){
-				
+			            
+                                break;
+                            case 'VideoObject':
+                                
                                    $input1 = saswp_video_object_schema_markup($schema_id, $schema_post_id, $all_post_meta);   
 
                                    if(!empty($aggregateRating)){
@@ -446,11 +417,11 @@ function saswp_post_specific_schema_output() {
                                    if(!empty($extra_theme_review)){
                                        $input1 = array_merge($input1, $extra_theme_review);
                                    }
-                                   $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
-			}
-                                
-                         if( 'ImageObject' === $schema_type){
-				                                                
+                                   $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);			
+                                    
+                                break;
+                            case 'ImageObject':
+                                                                				                                                
                                 $input1 = saswp_image_object_schema_markup($schema_id, $schema_post_id, $all_post_meta);   
 
                                 if(!empty($aggregateRating)){
@@ -460,23 +431,20 @@ function saswp_post_specific_schema_output() {
                                     $input1 = array_merge($input1, $extra_theme_review);
                                 }
                                 $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
-                                
-                        }       
-                        
-                         if( 'Service' === $schema_type ){  
+                                                                                            
+                                break;
+                            case 'Service':
                              
                                $input1 = saswp_service_schema_markup($schema_id, $schema_post_id, $all_post_meta);    
-                                                                              
-                         }     
-                         
-                         if( 'Review' === $schema_type ){                              
+                                    
+                                break;
+                            case 'Review':
                              
                                  $input1 = saswp_review_schema_markup($schema_id, $schema_post_id, $all_post_meta);    
-                                                                                                                                                                                                                                                   
-			}    
-                                
-                         if( 'local_business' === $schema_type){
-                             
+                                    
+                                break;
+                            case 'local_business':
+                                                                                             
                                     $input1 = saswp_local_business_schema_markup($schema_id, $schema_post_id, $all_post_meta);
                                                                                                          
                                     if(!empty($aggregateRating)){
@@ -487,7 +455,11 @@ function saswp_post_specific_schema_output() {
                                     }
                                     
                                     $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);                                                              
-			}
+			                                    
+                                break;
+                            default:
+                                break;
+                        }   
                         
                          global $without_aggregate;
                         
