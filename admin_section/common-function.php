@@ -2410,7 +2410,7 @@ function saswp_on_activation(){
         
     }
             
-    $defaults = get_option('sd_data');
+    $defaults = get_option('sd_data', saswp_default_settings_array());
     
     $active_plugin = saswp_compatible_active_list();
                 
