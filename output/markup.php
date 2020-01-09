@@ -611,7 +611,7 @@ function saswp_recipe_schema_markup($schema_id, $schema_post_id, $all_post_meta)
 
 function saswp_product_schema_markup($schema_id, $schema_post_id, $all_post_meta){
     
-    $input1 = array();
+            $input1 = array();
     
             $product_image = get_post_meta( get_the_ID(), 'saswp_product_schema_image_'.$schema_id.'_detail',true);                                                                           
             $input1 = array(
@@ -621,31 +621,37 @@ function saswp_product_schema_markup($schema_id, $schema_post_id, $all_post_meta
             'url'				=> trailingslashit(get_permalink()),
             'name'                          => saswp_remove_warnings($all_post_meta, 'saswp_product_schema_name_'.$schema_id, 'saswp_array'),
             'sku'                           => saswp_remove_warnings($all_post_meta, 'saswp_product_schema_sku_'.$schema_id, 'saswp_array'),
-            'description'                   => saswp_remove_warnings($all_post_meta, 'saswp_product_schema_description_'.$schema_id, 'saswp_array'),													
-            'image'                         =>array(
-                                                        '@type'		=> 'ImageObject',
-                                                        'url'		=> saswp_remove_warnings($product_image, 'thumbnail', 'saswp_string'),
-                                                        'width'		=> saswp_remove_warnings($product_image, 'width', 'saswp_string'),
-                                                        'height'            => saswp_remove_warnings($product_image, 'height', 'saswp_string'),
-                                                        ),
-            'offers'                        => array(
-                                                    '@type'	          => 'Offer',
-                                                    'availability'	  => saswp_remove_warnings($all_post_meta, 'saswp_product_schema_availability_'.$schema_id, 'saswp_array'),													
-                                                    'itemCondition'   => saswp_remove_warnings($all_post_meta, 'saswp_product_schema_condition_'.$schema_id, 'saswp_array'),
-                                                    'price' 	  => saswp_remove_warnings($all_post_meta, 'saswp_product_schema_price_'.$schema_id, 'saswp_array'),
-                                                    'priceCurrency'	  => saswp_remove_warnings($all_post_meta, 'saswp_product_schema_currency_'.$schema_id, 'saswp_array'),
-                                                    'url'             => trailingslashit(get_permalink()),
-                                                    'priceValidUntil' => isset($all_post_meta['saswp_product_schema_priceValidUntil_'.$schema_id])?date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_product_schema_priceValidUntil_'.$schema_id][0])):'',
-                                                    ), 
+            'description'                   => saswp_remove_warnings($all_post_meta, 'saswp_product_schema_description_'.$schema_id, 'saswp_array'),													                       
             'brand'                         => array('@type' => 'Thing',
                                                      'name'  => saswp_remove_warnings($all_post_meta, 'saswp_product_schema_brand_name_'.$schema_id, 'saswp_array'),
                                                     )    
             ); 
-
-            if(isset($all_post_meta['saswp_product_schema_seller_'.$schema_id])){
-                $input1['offers']['seller']['@type']   = 'Organization';
-                $input1['offers']['seller']['name']    = esc_attr($all_post_meta['saswp_product_schema_seller_'.$schema_id][0]);  
-            }                                        
+            
+            if(isset($product_image['thumbnail']) && $product_image['thumbnail']){
+                
+                $input1['image']['@type']           = 'Offer';
+                $input1['image']['url']             = $product_image['thumbnail'];
+                $input1['image']['width']           = $product_image['width'];
+                $input1['image']['height']          = $product_image['height'];
+                
+            }
+            
+            if(isset($all_post_meta['saswp_product_schema_price_'.$schema_id][0]) && $all_post_meta['saswp_product_schema_price_'.$schema_id][0]){
+                            
+                $input1['offers']['@type']           = 'Offer';
+                $input1['offers']['availability']    = saswp_remove_warnings($all_post_meta, 'saswp_product_schema_availability_'.$schema_id, 'saswp_array');
+                $input1['offers']['itemCondition']   = saswp_remove_warnings($all_post_meta, 'saswp_product_schema_condition_'.$schema_id, 'saswp_array');
+                $input1['offers']['price']           = saswp_remove_warnings($all_post_meta, 'saswp_product_schema_price_'.$schema_id, 'saswp_array');
+                $input1['offers']['priceCurrency']   = saswp_remove_warnings($all_post_meta, 'saswp_product_schema_currency_'.$schema_id, 'saswp_array');
+                $input1['offers']['url']             = trailingslashit(saswp_get_permalink());
+                $input1['offers']['priceValidUntil'] = isset($all_post_meta['saswp_product_schema_priceValidUntil_'.$schema_id])?date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_product_schema_priceValidUntil_'.$schema_id][0])):'';
+            
+                if(isset($all_post_meta['saswp_product_schema_seller_'.$schema_id])){
+                    $input1['offers']['seller']['@type']   = 'Organization';
+                    $input1['offers']['seller']['name']    = esc_attr($all_post_meta['saswp_product_schema_seller_'.$schema_id][0]);  
+                }
+            }
+                                                    
             if(isset($all_post_meta['saswp_product_schema_gtin8_'.$schema_id])){
                 $input1['gtin8'] = esc_attr($all_post_meta['saswp_product_schema_gtin8_'.$schema_id][0]);  
             }
