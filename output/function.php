@@ -11,10 +11,9 @@
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-add_filter( 'amp_init', 'saswp_schema_markup_hook_on_init' );
+add_action( 'amp_init', 'saswp_schema_markup_hook_on_init' );
 add_action( 'init', 'saswp_schema_markup_hook_on_init');
 add_action( 'wp', 'saswp_wp_hook_operation',999 );
-
 
 function saswp_schema_markup_hook_on_init() {
         
@@ -1071,7 +1070,6 @@ function saswp_get_ids_from_content_by_type($type){
 
                     return $gutenberg_matches + $classic_matches;  
                     
-
             default:
                 break;
         }
@@ -1701,11 +1699,12 @@ function saswp_append_fetched_reviews($input1, $schema_post_id = null){
         }else{
         
           if($schema_post_id){
-             
-          $attached_rv       = get_post_meta($schema_post_id, 'saswp_attahced_reviews', true); 
-          $append_reviews    = get_post_meta($schema_post_id, 'saswp_enable_append_reviews', true);
+          
+          $attached_col       = get_post_meta($schema_post_id, 'saswp_attached_collection', true);     
+          $attached_rv        = get_post_meta($schema_post_id, 'saswp_attahced_reviews', true); 
+          $append_reviews     = get_post_meta($schema_post_id, 'saswp_enable_append_reviews', true);
          
-         if($append_reviews == 1 && $attached_rv){
+         if($append_reviews == 1 && ($attached_rv || $attached_col)){
              
              $total_rv = array();
              
@@ -1717,9 +1716,34 @@ function saswp_append_fetched_reviews($input1, $schema_post_id = null){
                  
              }
              
+             if($attached_col){
+                 
+                 $total_col_rv = array();
+                 
+                 foreach($attached_col as $col_id){
+                     
+                     $collection_data = get_post_meta($col_id, $key='', true);
+                     
+                     if(isset($collection_data['saswp_platform_ids'][0])){
+                        $platform_ids  = unserialize($collection_data['saswp_platform_ids'][0]);                
+                        
+                        foreach($platform_ids as $key => $val){
+                            
+                            $reviews_list   = $service->saswp_get_reviews_list_by_parameters(null, $key, $val); 
+                            $total_col_rv   = array_merge($total_col_rv, $reviews_list);
+                            
+                        }
+                                                
+                     }
+                     
+                 }
+                
+                 $total_rv = array_merge($total_rv ,$total_col_rv);
+             }
+                    
              if($total_rv){
                  
-                $rv_markup = saswp_get_reviews_schema_markup($total_rv);
+                $rv_markup = saswp_get_reviews_schema_markup(array_unique($total_rv, SORT_REGULAR));
                 
                 if($rv_markup){
                     

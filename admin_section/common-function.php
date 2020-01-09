@@ -19,21 +19,6 @@ if ( ! defined('ABSPATH') ) exit;
     add_action( 'plugins_loaded', 'saswp_defaultSettings' );
     add_action( 'wp_enqueue_scripts', 'saswp_frontend_enqueue' );
     add_action( 'amp_post_template_css','saswp_enqueue_amp_script');
-    
-    
-    //global variable to store List of labels starts here   
-        $translation_labels = array(
-            'translation-pros'            => 'Pros',
-            'translation-cons'            => 'Cons',
-            'translation-review-overview' => 'Review Overview',
-            'translation-overall-score'   => 'Overall Score',
-            'translation-tools'           => 'Tools',
-            'translation-materials'       => 'Materials',
-            'translation-time-needed'     => 'Time Needed',
-            'translation-name'            => 'Name',
-            'translation-comment'         => 'Comment',
-        );
-          //global variable to store List of labels ends here
         
       /**
        * Function to get manual translated text 
@@ -2756,7 +2741,7 @@ function saswp_get_field_note($pname){
             'woocommerce_bookings'     => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/woocommerce/">Woocommerce Bookings</a>',        
             'extra'                    => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://www.elegantthemes.com/gallery/extra/">Extra Theme</a>',
             'homeland'                 => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://themeforest.net/item/homeland-responsive-real-estate-theme-for-wordpress/6518965">Homeland</a>',            
-            'wpresidence'             => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wpresidence.net/">WP Residence</a>',            
+            'wpresidence'              => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wpresidence.net/">WP Residence</a>',            
             'realhomes'                => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://themeforest.net/item/real-homes-wordpress-real-estate-theme/5373914">RealHomes</a>',
             'jannah'                   => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://codecanyon.net/item/taqyeem-wordpress-review-plugin/4558799">Taqyeem</a>',
             'soledad'                  => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://themeforest.net/item/soledad-multiconcept-blogmagazine-wp-theme/12945398">Soledad Theme</a>',

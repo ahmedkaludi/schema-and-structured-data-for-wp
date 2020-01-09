@@ -23,6 +23,45 @@ class saswp_reviews_service {
         
     }
     
+    public function saswp_get_collection_list($colcount = null, $paged = null, $offset = null){
+        
+            $response  = array();
+        
+            $arg['post_type']      = 'saswp-collections';
+            $arg['numberposts']    = -1;
+            $arg['post_status']    = 'publish';
+            
+            if($colcount){
+                $arg['numberposts']    = $colcount;
+            }
+            if($paged){
+                $arg['paged']    = $paged;
+            }
+            if($offset){
+                $arg['offset']    = $offset;
+            }
+            
+            $collection = get_posts( $arg );
+            
+            if($collection){
+
+                $col_opt = array(); 
+
+                foreach($collection as $col){
+
+                   $col_opt[] = array(
+                       'value' => $col->ID,
+                       'label' => $col->post_title
+                   );
+
+                }
+
+               $response  = $col_opt;
+
+            }
+          return $response;             
+    }
+    
     public function saswp_review_form_process_data($form_data){
         
                 $rv_image = '';

@@ -2318,17 +2318,24 @@ span.saswp-mines{
 #saswp-add-rv-manual{
     padding: 10px;
 }
-#saswp-add-rv-automatic{
+#saswp-add-rv-automatic, #saswp-add-rv-collection{
     padding: 10px;
     box-sizing: border-box;
     width: 100%;
     overflow-y: scroll;
     height: 260px;
 }
-.saswp-add-rv-loop{
+.saswp-add-rv-loop, .saswp-add-collection-loop{
     padding-bottom: 10px;
 }
 .saswp-add-rv-title{
     padding: 10px;
+}
+.close-attached-reviews-popup{
+    float: right;    
+    margin-right: 20px !important;
+}
+.saswp-add-rv-note{
+ padding-bottom: 10px;   
 }
 /* Add review thickbox csss ends here */

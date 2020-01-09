@@ -48,4 +48,15 @@ $without_aggregate = array(
         'Mosque',
         'Person'
 );
+$translation_labels = array(
+    'translation-pros'            => 'Pros',
+    'translation-cons'            => 'Cons',
+    'translation-review-overview' => 'Review Overview',
+    'translation-overall-score'   => 'Overall Score',
+    'translation-tools'           => 'Tools',
+    'translation-materials'       => 'Materials',
+    'translation-time-needed'     => 'Time Needed',
+    'translation-name'            => 'Name',
+    'translation-comment'         => 'Comment',
+);          
 $saswp_post_reviews = array();
