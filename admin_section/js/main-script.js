@@ -2069,33 +2069,38 @@ return false;
                                         
         //Adding settings button beside add schema type button on schema type list page       
         
+        $(document).on('click', ".saswp-show-accept-rv-popup" , function(){            
+             tb_show("Reviews Form", "#TB_inline??width=600&height=400&inlineId=saswp-accept-reviews-popup");
+            $(document).find('#TB_window').width(600).height(400).css({'top':'100px', 'margin-top': '0px'});
+            
+        });
         
-//        if(true){
-//            
-//            var html  = '<div class="saswp-custom-post-tab">';
-//                
-//                html += '<h2 class="nav-tab-wrapper">';
-//                html += '<a class="nav-tab saswp-global-selected" data-id="saswp-add-rv-automatic">Reviews</a>';
-//                html += '<a class="nav-tab" data-id="saswp-add-rv-collection">Collection</a>';
-//                html += '<a class="nav-tab" data-id="saswp-add-rv-manual">Shortcode</a>';
-//                html += '</h2>';
-//                
-//                html += '</div>';
-//            
-//            jQuery(jQuery(".wrap")).prepend(html);
-//            
-//        }
-        
-        
+        if( ( saswp_localize_data.post_type == 'saswp_reviews' || saswp_localize_data.post_type == 'saswp-collections' ) && (saswp_localize_data.page_now == 'edit.php')){
+            
+            var html  = '<div class="saswp-custom-post-tab">';
+            
+                html += '<div style="display:none;" id="saswp-accept-reviews-popup">';
+                html += '<div class="saswp-accept-rv-container">';
+                html += '<p>Use Below shortcode to show reviews form in your website. Using this you can accept reviews from your website directly</p>';
+                html += '<input value="[saswp-reviews-form]" type="text" readonly>';
+                html += '</div>';
+                html += '</div>';
+                
+                html += '<h2 class="nav-tab-wrapper">';
+                html += '<a href='+saswp_localize_data.reviews_page_url+' class="nav-tab '+(saswp_localize_data.current_url == saswp_localize_data.reviews_page_url ? 'saswp-global-selected' : '' )+'">Reviews</a>';
+                html += '<a href='+saswp_localize_data.collections_page_url+' class="nav-tab '+(saswp_localize_data.current_url == saswp_localize_data.collections_page_url ? 'saswp-global-selected' : '' )+'">Collections</a>';
+                html += '<a class="nav-tab saswp-show-accept-rv-popup">Accept Reviews</a>';
+                html += '</h2>';
+                
+                html += '</div>';
+            
+            jQuery(jQuery(".wrap")).prepend(html);
+            
+        }
+                
         if ('saswp' == saswp_localize_data.post_type && saswp_localize_data.page_now == 'edit.php') {
         
           jQuery(jQuery(".wrap a")[0]).after("<a href='"+saswp_localize_data.saswp_settings_url+"' id='' class='page-title-action'>Settings</a>");
-         
-        }
-        
-        if ('saswp_reviews' == saswp_localize_data.post_type && saswp_localize_data.page_now == 'edit.php') {
-        
-          jQuery(jQuery(".wrap a")[0]).after("<a href='"+saswp_localize_data.collections_page_url+"' id='' class='page-title-action'>Collections</a>");
          
         }
         
