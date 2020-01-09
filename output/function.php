@@ -712,9 +712,15 @@ function saswp_get_comments($post_id){
         global $sd_data;
         
         $comments = array();
-        $post_comments = array();    
+        $post_comments = array();   
+        
+        $is_bbpress = false;
+        
+        if(isset($sd_data['saswp-bbpress']) && $sd_data['saswp-bbpress'] == 1 && get_post_type($post_id) == 'topic'){
+            $is_bbpress = true;
+        }
        
-        if(isset($sd_data['saswp-bbpress']) && $sd_data['saswp-bbpress'] == 1 && get_post_type($post_id) == 'topic'){  
+        if($is_bbpress){  
                                          
                   $replies_query = array(                   
                      'post_type'      => 'reply',                     
@@ -725,7 +731,7 @@ function saswp_get_comments($post_id){
 			while ( bbp_replies() ) : bbp_the_reply();
 
                         $post_comments[] = (object) array(                            
-                                        'comment_date'           => bbp_get_reply_post_date(bbp_get_reply_id(),'c'),
+                                        'comment_date'           => get_post_time( DATE_ATOM, false, bbp_get_reply_id(), true ),
                                         'comment_content'        => bbp_get_reply_content(),
                                         'comment_author'         => bbp_get_reply_author(),
                                         'comment_author_url'     => bbp_get_reply_author_url(),
@@ -751,7 +757,7 @@ function saswp_get_comments($post_id){
                     
 			$comments[] = array (
 					'@type'       => 'Comment',
-					'dateCreated' => saswp_format_date_time($comment->comment_date),
+					'dateCreated' => $is_bbpress ? $comment->comment_date : saswp_format_date_time($comment->comment_date),
 					'description' => strip_tags($comment->comment_content),
 					'author'      => array (
                                                     '@type' => 'Person',
