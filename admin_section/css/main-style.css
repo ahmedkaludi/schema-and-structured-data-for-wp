@@ -246,7 +246,7 @@ Tooltip css ends here
     float:right;
 }
 .saswp-settings-first-div{
-    width: 92%;
+    width: 75%;
 }
 .saswp-settings-container{
     display: inline-flex;
@@ -256,7 +256,7 @@ Tooltip css ends here
     float: right; 
     position: relative;
     top: 20px;
-    margin-right: 30px;
+    margin-right: 0;
     margin-top: 37px;
 }
 .saswp-feedback-panel{
@@ -981,12 +981,13 @@ Google review module ends here
 
 /*** Upgrade Pro CSS ***/
 .saswp-upgrade-pro{
-    background: #fff;
+     background: #fff;
     padding: 25px;
     border: 1px solid #d8d8d8;
     display: inline-block;
     margin-top: 10px;
-    width: 81%;
+    width: 100%;
+    box-sizing: border-box;
 }
 .saswp-upgrade-pro h2{
     font-size: 20px;
@@ -2211,14 +2212,6 @@ span.saswp-mines{
     }
 }
 /*** Upgrade Pro CSS starts here***/
-.saswp-upgrade-pro{
-    background: #fff;
-    padding: 25px;
-    border: 1px solid #d8d8d8;
-    display: inline-block;
-    margin-top: 10px;
-    width: 81%;
-}
 .saswp-upgrade-pro h2{
     font-size: 20px;
     margin: 0;

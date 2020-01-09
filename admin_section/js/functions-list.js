@@ -815,7 +815,7 @@
 
                         html += '<div class="saswp-r3-rtxt">';
                           html += '<span class="saswp-r3-num">';
-                            html += average_rating;
+                            html += average_rating.toFixed(1);
                           html += '</span>';
                           html += '<span class="saswp-stars">';
                            html += saswp_create_rating_html_by_value(average_rating.toString()); 

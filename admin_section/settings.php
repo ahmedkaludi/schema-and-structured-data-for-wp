@@ -220,7 +220,7 @@ function saswp_admin_interface_render(){
 		</form>
 	</div>
     <div class="saswp-settings-second-div">
-        <a target="_blank" href="http://structured-data-for-wp.com/pricing/">
+<!--        <a target="_blank" href="http://structured-data-for-wp.com/pricing/">
         <div class="saswp-upgrade-pro promo-cpn">
             <h2><?php echo esc_html__('50% OFF on PRO','schema-and-structured-data-for-wp') ?></h2>
             <span><?php echo esc_html__('Limited Time Offer for this festive season','schema-and-structured-data-for-wp') ?></span>
@@ -229,7 +229,7 @@ function saswp_admin_interface_render(){
                 <span class="prm-cpn"><?php echo esc_html__('BFCM2019','schema-and-structured-data-for-wp') ?></span>
             </div>
         </div>
-        </a>
+        </a>-->
         <?php if(!saswp_ext_installed_status()) { ?>
             <div class="saswp-upgrade-pro">
                 <h2><?php echo esc_html__('Upgrade to Pro!','schema-and-structured-data-for-wp') ?></h2>
