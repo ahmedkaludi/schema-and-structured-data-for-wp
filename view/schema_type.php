@@ -640,7 +640,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                         ?> 
                       </a>
                       <div style="display:none;" id="saswp-embed-code-div">
-                          <div class="saswp-add-rv-title"><?php echo esc_html__('Get reviews attached to the schema type with three different method.' ,'schema-and-structured-data-for-wp');?> <a target="_blank" href="https://structured-data-for-wp.com/docs/article/attach-reviews-to-current-schema-type/"><?php echo esc_html__('Learn More...' ,'schema-and-structured-data-for-wp');?></a></div>
+                          <div class="saswp-add-rv-title"><?php echo esc_html__('Get reviews attached to the schema type with three different method.' ,'schema-and-structured-data-for-wp');?> <a target="_blank" href="https://structured-data-for-wp.com/docs/article/how-to-append-fetched-reviews-in-schema-markup/"><?php echo esc_html__('Learn More...' ,'schema-and-structured-data-for-wp');?></a></div>
                           <div class="saswp-thick-box-container">
                               
                         <div class="saswp-add-rv-popup" id="saswp-global-tabs">

@@ -43,6 +43,10 @@ and open the template in the editor.
     color: #ef6c00 !important;   
 }
 
+.saswp_hide_imp{
+    display: none !important;
+}
+
 .saswp_hide{
     display: none;
 }
@@ -1305,6 +1309,23 @@ a.saswp-revws-lnk{
 /*
 Collection css starts here
 */
+.saswp-grid-pagination{
+     display: inline-block;
+     padding: 20px;
+}
+.saswp-grid-pagination a{
+      color: black;
+  float: left;
+  padding: 8px 16px;
+  text-decoration: none;
+}
+.saswp-grid-pagination a.active {
+  background-color: #4CAF50;
+  color: white;
+}
+.saswp-grid-pagination a:hover:not(.active) {
+    background-color: #ddd;
+}
 .saswp-collection-body{
     width:100%;
     display:flex;
@@ -1364,11 +1385,11 @@ Collection css starts here
     padding:0px 30px;
 }
 
-
 /** Review Design 1 **/
 
 .saswp-r1{
   margin-bottom:50px;
+  text-align: center;
 }
 .saswp-r1 ul{
   padding:0px;
@@ -1429,6 +1450,7 @@ Collection css starts here
   line-height: 1.1;
   letter-spacing: 0;
   width:80%;
+  text-align: left;
 }
 .saswp-rc-dt{
   margin-top:5px;

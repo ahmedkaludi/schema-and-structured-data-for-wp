@@ -5,6 +5,7 @@
        var saswp_collection       = [];
        var saswp_total_collection = [];
        var saswp_coll_json        = null; 
+       var saswp_grid_page        = 1; 
        
        function saswp_convert_datetostring(date_str){
            
@@ -1046,18 +1047,20 @@
                       
        }
        
-       function saswp_create_collection_grid(cols){
+       function saswp_create_collection_grid(cols, pagination, perpage, offset, nextpage){
                 
                 var html          = '';                
                 var grid_cols     = '';
+                var page_count    = 0;
                 
                 if(saswp_total_collection.length > 0){
                     
+                    page_count = Math.ceil(saswp_total_collection.length / perpage);
+                    
                     html += '<div class="saswp-r1">';
                     
-                    for(var i=1; i <=cols; i++ ){
+                    for(var i=1; i <= cols; i++){
                         grid_cols +=' 1fr'; 
-
                     }    
 
                       if(cols.length > 3){
@@ -1069,7 +1072,14 @@
                                                                                                                                                                                                                           
                     if(saswp_total_collection){
                             
-                           jQuery.each(saswp_total_collection, function(index, value){
+                           var grid_col = saswp_total_collection;                           
+                           
+                           if(pagination && perpage > 0){
+                               
+                               grid_col = grid_col.slice(offset, nextpage);
+                               
+                           }                                                        
+                           jQuery.each(grid_col, function(index, value){
                             
                             var date_str = saswp_convert_datetostring(value.saswp_review_date); 
                             
@@ -1106,6 +1116,28 @@
                     }
                                                                                                                                         
                     html += '</ul>';
+               
+                    if(page_count > 0 && pagination){
+               
+                        html += '<div class="saswp-grid-pagination">';                    
+                        html += '<a class="saswp-grid-page" data-id="1" href="#">&laquo;</a>'; 
+                        
+                        for(var i=1; i <= page_count; i++){
+                            
+                            if(i == saswp_grid_page){
+                                html += '<a class="active saswp-grid-page" data-id="'+i+'" href="#">'+i+'</a>';    
+                            }else{
+                                html += '<a class="saswp-grid-page" data-id="'+i+'" href="#">'+i+'</a>';    
+                            }
+                            
+                        }      
+                        
+                        html += '<a class="saswp-grid-page" data-id="'+page_count+'" href="#">&raquo;</a>';                                     
+                        
+                        html += '</div>';                        
+                        
+                    }
+                                   
                     html += '</div>';
                                                                                 
                 }
@@ -1114,13 +1146,13 @@
                                                                                                 
             }     
             
-       function saswp_create_collection_by_design(design, cols, slider, arrow, dots, fomo_inverval, fomo_visibility){
+       function saswp_create_collection_by_design(design, cols, slider, arrow, dots, fomo_inverval, fomo_visibility, pagination, perpage, offset, nextpage){
                                                               
                 switch(design) {
                     
                     case "grid":
                         
-                         saswp_create_collection_grid(cols);
+                         saswp_create_collection_grid(cols, pagination, perpage, offset, nextpage);
                         
                         break;
                         
@@ -1159,7 +1191,23 @@
                 var cols                = jQuery("#saswp-collection-cols").val();
                 var slider              = jQuery(".saswp-slider-type").val();
                 
-                var fomo_inverval       = jQuery("#saswp_fomo_interval").val();
+                var fomo_inverval       = jQuery("#saswp_fomo_interval").val();                
+                var perpage             = parseInt(jQuery("#saswp-coll-per-page").val());
+                
+                var pagination          = false;
+                var offset              = 0;
+                var nextpage            = perpage;
+                
+                if(jQuery("#saswp-coll-pagination").is(":checked")){                    
+                    pagination          = true;                          
+                    var data_id         = saswp_grid_page;                     
+                    if(data_id > 0){                        
+                        nextpage            = data_id * perpage;                
+                    }                    
+                    offset              = nextpage - perpage;
+                    
+                }
+                
                 //var fomo_visibility     = jQuery("#saswp_fomo_visibility").val();
                 
                 if(jQuery("#saswp_gallery_arrow").is(':checked')){
@@ -1176,7 +1224,7 @@
                                                 
                 saswp_create_total_collection();                 
                 saswp_collection_sorting(sorting);  
-                saswp_create_collection_by_design(design, cols, slider, arrow, dots, fomo_inverval, fomo_inverval);                                                
+                saswp_create_collection_by_design(design, cols, slider, arrow, dots, fomo_inverval, fomo_inverval, pagination, perpage, offset, nextpage);                                                
            
        }  
        

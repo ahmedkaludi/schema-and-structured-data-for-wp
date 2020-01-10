@@ -2138,9 +2138,27 @@ return false;
                                 
             });   
             
-            //Collection js starst here
+            //Collection js start here
             
                saswpCollectionSlider();
+               
+               
+            $(document).on("click", ".saswp-grid-page", function(e){
+                e.preventDefault();
+                saswp_grid_page  = $(this).attr('data-id');
+                saswp_on_collection_design_change();                                    
+            });                  
+               
+            $("#saswp-coll-pagination").change(function(){
+                saswp_grid_page = 1;
+                $("#saswp-coll-per-page").parent().addClass('saswp_hide_imp');
+                
+                if($(this).is(":checked")){
+                    $("#saswp-coll-per-page").parent().removeClass('saswp_hide_imp');
+                }
+                 saswp_on_collection_design_change();   
+                
+            });   
                               
             $(".saswp-accordion").click(function(){
               $(this).toggleClass("active");  
@@ -2190,7 +2208,7 @@ return false;
                         
                                                   
             $(".saswp-coll-settings-options").change(function(){
-                
+                saswp_grid_page = 1;
                 var design         = $(".saswp-collection-desing").val();                                   
                 
                 $(".saswp-coll-options").addClass('saswp_hide');
