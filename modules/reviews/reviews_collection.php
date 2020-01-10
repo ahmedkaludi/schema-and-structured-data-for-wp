@@ -252,9 +252,11 @@ class SASWP_Reviews_Collection {
                 
                 if(isset($attr['id'])){
                 
-                $collection          = array();  
-                $total_collection    = array();
+                $total_reviews       = array();    
+                $collection          = array();                  
                 $platform_id         = array();
+                $pagination          = null;
+                $perpage             = null;
                 $dots = $f_interval = $f_visibility = $arrow = 1;
                 $g_type = $design = $cols = $sorting = '';
                 
@@ -298,39 +300,52 @@ class SASWP_Reviews_Collection {
                 if(isset($collection_data['saswp_platform_ids'][0])){
                     $platform_id  = unserialize($collection_data['saswp_platform_ids'][0]);                
                 }
-                                
-                if($platform_id){
-                    
-                    foreach ($platform_id as $key => $val){
-                        
-                        $reviews_list = $this->_service->saswp_get_reviews_list_by_parameters(null, $key, $val); 
-                        $total_collection[] = $reviews_list;
-                        
-                        if($reviews_list){
-                            
-                            $collection = array_merge($collection, $reviews_list);
-                        }
-                        
-                    }
-                    
-                    $collection = $this->_service->saswp_sort_collection($collection, $sorting);
-                                                                                      
+                if(isset($collection_data['saswp_platform_ids'][0])){
+                    $total_reviews  = unserialize($collection_data['saswp_total_reviews'][0]);                
+                }
+                if(isset($collection_data['saswp_collection_pagination'][0])){
+                    $pagination  = $collection_data['saswp_collection_pagination'][0];                
+                }
+                if(isset($collection_data['saswp_platform_ids'][0])){
+                    $perpage  = $collection_data['saswp_collection_per_page'][0];                
                 }
                                                 
-                if($collection){
+                if($total_reviews){
                     
                     wp_enqueue_style( 'saswp-collection-front-css', SASWP_PLUGIN_URL . 'admin_section/css/'.(SASWP_ENVIRONMENT == 'production' ? 'collection-front.min.css' : 'collection-front.css'), false , SASWP_VERSION );
                     wp_enqueue_script( 'saswp-collection-front-js', SASWP_PLUGIN_URL . 'admin_section/js/'.(SASWP_ENVIRONMENT == 'production' ? 'collection-front.min.js' : 'collection-front.js'), array('jquery') , SASWP_VERSION );
                     
                     add_action( 'amp_post_template_css', array($this, 'saswp_reviews_collection_amp_css'));
                     
+                    
+                    if($design == 'grid'){
+                        
+                        $nextpage = $perpage;
+                        $offset   = 0;
+
+                        if($pagination){
+
+                            $data_id = 1; 
+
+                            if($data_id > 0){                        
+                                $nextpage            = $data_id * $perpage;                
+                            }                    
+                            $offset    = $nextpage - $perpage;
+
+                           $total_reviews = array_slice($total_reviews, $offset, $nextpage ); 
+
+                        }
+                                                
+                    }
+                                        
+                    $collection = $this->_service->saswp_get_reviews_list_by_design($design, $platform_id, $total_reviews, $sorting);                    
                     $saswp_post_reviews = array_merge($saswp_post_reviews, $collection);
                     
                     switch($design) {
                     
                     case "grid":
                         
-                        $html = $this->_service->saswp_create_collection_grid($cols, $collection);
+                        $html = $this->_service->saswp_create_collection_grid($cols, $collection, $total_reviews, $pagination, $perpage, $offset, $nextpage);
                         
                         break;
                         
@@ -342,7 +357,7 @@ class SASWP_Reviews_Collection {
                     
                     case 'badge':
                         
-                        $html = $this->_service->saswp_create_collection_badge($total_collection);
+                        $html = $this->_service->saswp_create_collection_badge($collection);
                         
                         break;
                         
@@ -610,8 +625,7 @@ class SASWP_Reviews_Collection {
                     'post_status'           => 'publish',
                     'post_name'             => $post_title,                                        
                     'post_type'             => 'saswp-collections',                                                            
-                );
-                                          
+                );                                        
             wp_update_post($post);                                      
             $post_meta = array();            
             $post_meta['saswp_collection_design']       = isset($_POST['saswp_collection_design']) ? sanitize_text_field($_POST['saswp_collection_design']) : '';                        
@@ -626,6 +640,7 @@ class SASWP_Reviews_Collection {
             $post_meta['saswp_fomo_interval']           = isset($_POST['saswp_fomo_interval']) ? intval($_POST['saswp_fomo_interval']) : '';
             $post_meta['saswp_fomo_visibility']         = isset($_POST['saswp_fomo_visibility']) ? intval($_POST['saswp_fomo_visibility']) : '';                                                        
             $post_meta['saswp_platform_ids']            = array_map('intval', $_POST['saswp_platform_ids']);
+            $post_meta['saswp_total_reviews']           = array_map('intval', json_decode($_POST['saswp_total_reviews']));
                         
             if(!empty($post_meta)){
                 

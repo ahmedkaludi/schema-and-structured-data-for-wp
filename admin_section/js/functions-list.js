@@ -4,6 +4,7 @@
        var saswp_taxonomy_term    = []; 
        var saswp_collection       = [];
        var saswp_total_collection = [];
+       var saswp_total_reviews     = [];
        var saswp_coll_json        = null; 
        var saswp_grid_page        = 1; 
        
@@ -430,8 +431,8 @@
                                              
                if(saswp_collection[key]){
                    
-                   jQuery.each(saswp_collection[key], function(index, value){
-                  
+                   jQuery.each(saswp_collection[key], function(index, value){                       
+                        saswp_total_reviews.push(value.saswp_review_id);
                         saswp_total_collection.push(value);
                    
                     });
@@ -440,6 +441,7 @@
                }
                
            }
+                platform_list += '<input type="hidden" name="saswp_total_reviews" value="'+JSON.stringify(saswp_total_reviews)+'">';
                 jQuery(".saswp-platform-added-list").html('');                
                 jQuery(".saswp-platform-added-list").append(platform_list);   
                                  

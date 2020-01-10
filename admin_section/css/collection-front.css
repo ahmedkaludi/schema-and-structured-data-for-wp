@@ -1,4 +1,23 @@
 /** Widgest Reviews CSS **/
+
+.saswp-grid-pagination{
+     display: inline-block;
+     padding: 20px;
+}
+.saswp-grid-pagination a{
+      color: black;
+  float: left;
+  padding: 8px 16px;
+  text-decoration: none;
+}
+.saswp-grid-pagination a.active {
+  background-color: #4CAF50;
+  color: white;
+}
+.saswp-grid-pagination a:hover:not(.active) {
+    background-color: #ddd;
+}
+
 .widget .saswp-glg-review-body{
     display: inline-block;
     width: 100%;
