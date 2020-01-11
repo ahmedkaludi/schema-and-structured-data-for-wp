@@ -309,7 +309,7 @@ function saswp_get_all_schema_markup_output() {
                             $kb_schema_output['@type'] = $sd_data['saswp_kb_type'];
                             
                             if($sd_data['saswp_kb_type'] == 'Organization'){
-                                $kb_schema_output['@type'] = isset($sd_data['saswp_organization_type']) ? $sd_data['saswp_organization_type'] : 'Organization';
+                                $kb_schema_output['@type'] = (isset($sd_data['saswp_organization_type']) && !empty($sd_data['saswp_organization_type'])) ? $sd_data['saswp_organization_type'] : 'Organization';
                             }
                                                         
                         }else{
