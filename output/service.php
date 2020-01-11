@@ -3042,7 +3042,7 @@ Class saswp_output_service{
             $image_id 	     = get_post_thumbnail_id();
 	    $image_details   = wp_get_attachment_image_src($image_id, 'full');            
                         
-            if( is_array($image_details) ){                                
+            if( is_array($image_details) && !empty($image_details)){                                
                                                                                                                     
                                         if(isset($image_details[1]) && ($image_details[1] < 1200) && function_exists('saswp_aq_resize')){
                                                                                         
@@ -3139,7 +3139,7 @@ Class saswp_output_service{
                               
                               foreach ($attachments[2] as $attachment) {
                                                                                                                                        
-                                  if(!empty($attach_details)){
+                                  if(is_array($attach_details) && !empty($attach_details)){
                                                                             
                                                 $attach_images['image'][$k]['@type']  = 'ImageObject';                                                
                                                 $attach_images['image'][$k]['url']    = esc_url($attachment);
@@ -3175,9 +3175,15 @@ Class saswp_output_service{
                                             if($image['width'] < 1200){
                                                 
                                                 $resized_image = saswp_aq_resize( $image['url'], 1200, 675, true, false, true );                                                                                                
-                                                $attach_images['image'][$key]['url']    =   $resized_image[0];
-                                                $attach_images['image'][$key]['width']  =   $resized_image[1];
-                                                $attach_images['image'][$key]['height'] =   $resized_image[2];                                                
+                                                
+                                                if(is_array($resized_image) && !empty($resized_image)){
+                                                    
+                                                    $attach_images['image'][$key]['url']    =   $resized_image[0];
+                                                    $attach_images['image'][$key]['width']  =   $resized_image[1];
+                                                    $attach_images['image'][$key]['height'] =   $resized_image[2];                                                
+                                                    
+                                                }
+                                                
                                             }                                             
                                             $attach_images['image'][$key]['@id']    =   saswp_get_permalink().'#primaryimage';                                            
                                           }                                                                                         
