@@ -252,7 +252,8 @@ class SASWP_Reviews_Collection {
                 
                 if(isset($attr['id'])){
                 
-                $total_reviews       = array();    
+                $total_reviews       = array(); 
+                $total_reviews_count = 0;
                 $collection          = array();                  
                 $platform_id         = array();
                 $pagination          = null;
@@ -301,7 +302,8 @@ class SASWP_Reviews_Collection {
                     $platform_id  = unserialize($collection_data['saswp_platform_ids'][0]);                
                 }
                 if(isset($collection_data['saswp_platform_ids'][0])){
-                    $total_reviews  = unserialize($collection_data['saswp_total_reviews'][0]);                
+                    $total_reviews  = unserialize($collection_data['saswp_total_reviews'][0]);
+                    $total_reviews_count = count($total_reviews);
                 }
                 if(isset($collection_data['saswp_collection_pagination'][0])){
                     $pagination  = $collection_data['saswp_collection_pagination'][0];                
@@ -326,18 +328,23 @@ class SASWP_Reviews_Collection {
                         if($pagination){
 
                             $data_id = 1; 
-
+                            
+                            if(isset($_GET['rv_page'])){
+                                $data_id = sanitize_text_field($_GET['rv_page']); 
+                            }
+                            
                             if($data_id > 0){                        
                                 $nextpage            = $data_id * $perpage;                
                             }                    
                             $offset    = $nextpage - $perpage;
-
-                           $total_reviews = array_slice($total_reviews, $offset, $nextpage ); 
+                            
+                            $array_chunk = array_chunk($total_reviews,$perpage);                            
+                            $total_reviews = $array_chunk[($data_id-1)]; 
 
                         }
                                                 
                     }
-                                        
+                                     
                     $collection = $this->_service->saswp_get_reviews_list_by_design($design, $platform_id, $total_reviews, $sorting);                    
                     $saswp_post_reviews = array_merge($saswp_post_reviews, $collection);
                     
@@ -345,7 +352,7 @@ class SASWP_Reviews_Collection {
                     
                     case "grid":
                         
-                        $html = $this->_service->saswp_create_collection_grid($cols, $collection, $total_reviews, $pagination, $perpage, $offset, $nextpage);
+                        $html = $this->_service->saswp_create_collection_grid($cols, $collection, $total_reviews, $pagination, $perpage, $offset, $nextpage, $data_id, $total_reviews_count);
                         
                         break;
                         
@@ -498,6 +505,9 @@ class SASWP_Reviews_Collection {
                                       <div class="saswp-platform-added-list">  
                                           
                                       </div>
+                                        <div class="saswp-total-reviews-list">  
+                                          
+                                      </div>
                                     </div>
                                 </li>
                                 <li>                                     
@@ -521,7 +531,7 @@ class SASWP_Reviews_Collection {
                                         
                                         <div class="saswp-dp-dsg saswp-coll-options saswp-grid-options saswp-dp-dtm">
                                             <span><?php echo esc_html__( 'Pagination', 'schema-and-structured-data-for-wp' ); ?></span>
-                                            <span><input name="saswp_collection_pagination" type="checkbox" id="saswp-coll-pagination" class="saswp-coll-settings-options" value="1" <?php echo (isset($post_meta['saswp_collection_pagination'][0]) ? 'checked' : '' ); ?>></span>
+                                            <span><input name="saswp_collection_pagination" type="checkbox" id="saswp-coll-pagination" class="saswp-coll-settings-options" value="1" <?php echo (isset($post_meta['saswp_collection_pagination'][0]) && $post_meta['saswp_collection_pagination'][0] == 1 ? 'checked' : '' ); ?>></span>
                                         </div>
                                         
                                         <div class="saswp-dp-dsg saswp-coll-options saswp-grid-options saswp-dp-dtm saswp_hide_imp">

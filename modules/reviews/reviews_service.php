@@ -760,14 +760,14 @@ class saswp_reviews_service {
         
     }
     
-    public function saswp_create_collection_grid($cols, $collection, $total_reviews, $pagination, $perpage, $offset, $nextpage){
+    public function saswp_create_collection_grid($cols, $collection, $total_reviews, $pagination, $perpage, $offset, $nextpage, $data_id, $total_reviews_count){
         
            $html          = '';                
            $grid_cols     = '';
 
            if($collection){
                
-               $page_count = ceil(6 / $perpage);               
+               $page_count = ceil($total_reviews_count / $perpage);               
                $html .= '<div class="saswp-r1">';
 
                for($i=1; $i <= $cols; $i++ ){
@@ -813,23 +813,26 @@ class saswp_reviews_service {
                $html .= '</ul>';
                
                if($page_count > 0 && $pagination){
-               
-                        $html .= '<div class="saswp-grid-pagination">';                    
-                        $html .= '<a class="saswp-grid-page" data-id="1" href="#">&laquo;</a>'; 
-                        
+                   
                         $current_url = saswp_get_current_url();
+                        $current_url = substr($current_url, 0, strpos($current_url, "?rv_page"));
+                        
+                        $html .= '<div class="saswp-grid-pagination">';                    
+                        $html .= '<a class="saswp-grid-page" data-id="1" href="'.esc_url($current_url).'">&laquo;</a>'; 
+                        
+                        
                         
                         for($i=1; $i <= $page_count; $i++){
                             
-                            if($i == 1){
-                                $html .= '<a class="active saswp-grid-page" data-id="'.$i.'" href="'.esc_url($current_url.'?rv_page='.$i).'">'.$i.'</a>';    
+                            if($i == $data_id){
+                                $html .= '<a class="active saswp-grid-page" href="'.esc_url($current_url.'?rv_page='.$i).'">'.$i.'</a>';    
                             }else{
-                                $html .= '<a class="saswp-grid-page" data-id="'.$i.'" href="'.esc_url($current_url.'?rv_page='.$i).'">'.$i.'</a>';    
+                                $html .= '<a class="saswp-grid-page" href="'.esc_url($current_url.'?rv_page='.$i).'">'.$i.'</a>';    
                             }
                             
                         }      
                         
-                        $html .= '<a class="saswp-grid-page" data-id="'.$page_count.'" href="#">&raquo;</a>';                                     
+                        $html .= '<a class="saswp-grid-page" href="'.esc_url($current_url.'?rv_page='.$page_count).'">&raquo;</a>';                                     
                         
                         $html .= '</div>';                        
                         

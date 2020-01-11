@@ -425,14 +425,13 @@
            
            var platform_list = '';
            
-           saswp_total_collection = [];     
-           
+           saswp_total_collection = []; 
+                      
            for(var key in saswp_collection){
                                              
                if(saswp_collection[key]){
                    
-                   jQuery.each(saswp_collection[key], function(index, value){                       
-                        saswp_total_reviews.push(value.saswp_review_id);
+                   jQuery.each(saswp_collection[key], function(index, value){                                               
                         saswp_total_collection.push(value);
                    
                     });
@@ -440,8 +439,7 @@
                    platform_list += saswp_function_added_platform(key, saswp_collection[key].length );
                }
                
-           }
-                platform_list += '<input type="hidden" name="saswp_total_reviews" value="'+JSON.stringify(saswp_total_reviews)+'">';
+           }                
                 jQuery(".saswp-platform-added-list").html('');                
                 jQuery(".saswp-platform-added-list").append(platform_list);   
                                  
@@ -1049,6 +1047,26 @@
                       
        }
        
+       function saswp_collection_total_reviews_id(){
+           
+           if(saswp_total_collection.length > 0){
+               
+               saswp_total_reviews    = [];
+               
+               jQuery.each(saswp_total_collection, function(index, value){
+                   
+                   saswp_total_reviews.push(value.saswp_review_id);
+                   
+               });
+               
+               var html = '<input type="hidden" name="saswp_total_reviews" value="'+JSON.stringify(saswp_total_reviews)+'">';
+               
+               jQuery(".saswp-total-reviews-list").html('');                
+               jQuery(".saswp-total-reviews-list").append(html); 
+           }
+                      
+       }
+       
        function saswp_create_collection_grid(cols, pagination, perpage, offset, nextpage){
                 
                 var html          = '';                
@@ -1226,6 +1244,7 @@
                                                 
                 saswp_create_total_collection();                 
                 saswp_collection_sorting(sorting);  
+                saswp_collection_total_reviews_id();
                 saswp_create_collection_by_design(design, cols, slider, arrow, dots, fomo_inverval, fomo_inverval, pagination, perpage, offset, nextpage);                                                
            
        }  
