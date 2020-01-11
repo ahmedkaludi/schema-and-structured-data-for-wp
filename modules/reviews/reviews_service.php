@@ -815,12 +815,12 @@ class saswp_reviews_service {
                if($page_count > 0 && $pagination){
                    
                         $current_url = saswp_get_current_url();
-                        $current_url = substr($current_url, 0, strpos($current_url, "?rv_page"));
                         
+                        if(strpos($current_url, "?rv_page") !== false){
+                            $current_url = substr($current_url, 0, strpos($current_url, "?rv_page"));
+                        }                        
                         $html .= '<div class="saswp-grid-pagination">';                    
                         $html .= '<a class="saswp-grid-page" data-id="1" href="'.esc_url($current_url).'">&laquo;</a>'; 
-                        
-                        
                         
                         for($i=1; $i <= $page_count; $i++){
                             
@@ -837,11 +837,8 @@ class saswp_reviews_service {
                         $html .= '</div>';                        
                         
                     }
-               
-               
-               
+                                             
                $html .= '</div>';
-               
                
            }           
            return $html;
