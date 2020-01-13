@@ -7,6 +7,9 @@ and open the template in the editor.
     Created on : Jul 27, 2018, 5:36:26 PM
     Author     : Magazine3
 */
+.saswp-setup-schema-btn{
+    margin: 5px !important;
+}
 .saswp-static-container .spinner{            
     padding: 5px;    
     float: none;
@@ -389,8 +392,7 @@ clear: both;
    display: inline-block;
     width: 25%;
     vertical-align: top; 
-    box-sizing: border-box;
-    padding-right:10px;
+    box-sizing: border-box;    
 }
 .saswp-post-specific-container{
     display: inline-block;
@@ -400,22 +402,27 @@ clear: both;
 .saswp-post-specific-wrapper{
     padding: 10px;
 }
-.saswp-tab a.selected {
-    background-color: #ccc;
+.saswp-tab a.selected {    
+    color: #555;    
+    background-color: #eee;
 }
 .saswp-tab-links{
-    display: block;
-    background-color: inherit;
-    color: black;
-    padding: 6px 10px;    
+    display: block;    
+    padding: 10px;    
     outline: none;
     text-align: left;
     cursor: pointer;
     transition: 0.3s;
     font-size: 15px;
     width: 100%;
-    overflow: hidden;
-    margin-right: 10px;
+    overflow: hidden;    
+    box-shadow: none;
+    text-decoration: none;
+    line-height: 20px!important;
+    border-bottom: 1px solid #eee;
+}
+#post_specific .inside{
+    padding: 0px;
 }
 .saswp-star-rating{
     cursor: pointer;
@@ -590,13 +597,15 @@ input:checked + .saswp-slider:before {
 .saswp-slider.saswp-round:before {
   border-radius: 50%;
 }
-
+.saswp-tab-nav{
+    background-color: #fafafa;
+    margin-top: 0px;
+}
 .saswp-tab-nav li{
     display: flex;    
     align-items: center;
     justify-content: space-between;
-    margin-bottom:10px;
-    border-bottom: 1px solid #eee;
+    margin-bottom:0px;    
 }
 
 .saswp-tab-nav .selected{
