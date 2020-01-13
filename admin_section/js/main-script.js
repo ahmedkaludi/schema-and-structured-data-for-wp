@@ -1393,7 +1393,7 @@ return false;
                var post_id =   $(this).attr("data-post-id");     
                var modified = $(".saswp_modify_this_schema_hidden_"+schema_id).val();
                if($(this).is(':checked')){
-               var status = 1;  
+               var status = 0;  
                
                $(".saswp-ps-toggle[schema-id="+schema_id+"]").addClass('saswp_hide'); 
                $(".saswp-restore-schema[schema-id="+schema_id+"]").parent().addClass('saswp_hide');
@@ -1410,7 +1410,7 @@ return false;
                     $(".saswp-restore-schema[schema-id="+schema_id+"]").parent().addClass('saswp_hide');
                   } 
                    
-               var status = 0;    
+               var status = 1;    
                }
              $.ajax({
                             type: "POST",    

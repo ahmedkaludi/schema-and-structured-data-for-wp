@@ -84,7 +84,7 @@ class saswp_post_specific {
             
             $schema_enable     = get_post_meta($post_id, 'saswp_enable_disable_schema', true); 
                         
-            if(isset($schema_enable[$schema_id]) && $schema_enable[$schema_id] == 1){                        
+            if(isset($schema_enable[$schema_id]) && $schema_enable[$schema_id] == 0){                        
                         $disabled = 'checked';                         
             } 
             
@@ -184,7 +184,7 @@ class saswp_post_specific {
                       
                          add_meta_box(
 				'post_specific',
-				esc_html__( 'Schema & Structured Data for WP & AMP', 'schema-and-structured-data-for-wp' ),
+				esc_html__( 'Schema & Structured Data on this post', 'schema-and-structured-data-for-wp' ),
 				array( $this, 'saswp_post_meta_box_callback' ),
 				$single_screen,
 				'advanced',
@@ -239,7 +239,7 @@ class saswp_post_specific {
                                            
                      $disabled = '';
                                                                                     
-                     if(isset($schema_enable[$schema->ID]) && $schema_enable[$schema->ID] == 1){
+                     if(isset($schema_enable[$schema->ID]) && $schema_enable[$schema->ID] == 0){
                          
                         $disabled = 'checked';    
                      
@@ -282,9 +282,19 @@ class saswp_post_specific {
                              $setting_options  .= '<div class="saswp-ps-text saswp_hide">';
                          }else{
                              $setting_options  .= '<div class="saswp-ps-text '.($modify_this ? 'saswp_hide' : '').'">';
-                         }                         
-                         $setting_options  .= '<span>Dynamic Data is added automatically</span><br>';
-                         $setting_options  .= '<a class="button button-default saswp-modify-schema button" schema-id="'.esc_attr($schema->ID).'">Modify This</a>';
+                         }    
+                         
+                         $schema_type_txt = $schema_type;
+                         
+                         if($schema_type == 'local_business'){
+                             $schema_type_txt = 'Local Business';
+                         }
+                         if($schema_type == 'qanda'){
+                             $schema_type_txt = 'Q&A';
+                         }
+                         
+                         $setting_options  .= '<span>'.$schema_type_txt.' schema is fetched automatically</span><br><br>';
+                         $setting_options  .= '<a class="button button-default saswp-modify-schema button" schema-id="'.esc_attr($schema->ID).'">Modify Schema Output</a>';
                          $setting_options  .= '</div>';                                                                  
                                         
                     $setting_options.= '</div>';
@@ -352,7 +362,7 @@ class saswp_post_specific {
                   }
                                                       
                   $response_html .= '<a class="button saswp-delete-custom-schema">'.esc_html__( 'Delete Custom Schema', 'schema-and-structured-data-for-wp' ).'</a>';              
-                  $response_html .= '<textarea style="margin-left:5px;" placeholder="{ Json Markup }" id="saswp_custom_schema_field" name="saswp_custom_schema_field" rows="5" cols="100">'
+                  $response_html .= '<textarea style="margin-left:5px;" placeholder="JSON-LD" id="saswp_custom_schema_field" name="saswp_custom_schema_field" rows="5" cols="100">'
                   . $custom_markup
                   . '</textarea>';
                                                       
@@ -421,7 +431,7 @@ class saswp_post_specific {
                   }
                                                       
                   $response_html .= '<a class="button saswp-delete-custom-schema">'.esc_html__( 'Delete Custom Schema', 'schema-and-structured-data-for-wp' ).'</a>';              
-                  $response_html .= '<textarea style="margin-left:5px;" placeholder="{ Json Markup }" id="saswp_custom_schema_field" name="saswp_custom_schema_field" rows="5" cols="100">'
+                  $response_html .= '<textarea style="margin-left:5px;" placeholder="JSON-LD" id="saswp_custom_schema_field" name="saswp_custom_schema_field" rows="5" cols="100">'
                   . $custom_markup
                   . '</textarea>';                  
                   $response_html .= '</div>';                                    

@@ -43,18 +43,20 @@ class saswp_rating_box_backend {
            if($this->screen){
                
                foreach ( $this->screen as $single_screen ) {
-               
-               add_meta_box(
-                     'sasw-review',
-                     esc_html__( 'Review', 'schema-and-structured-data-for-wp' ),
-                     array( $this, 'saswp_meta_box_callback' ),
-                     $single_screen,
-                     'advanced',
-                     'default'
-             );
-               
-            }           
-           }                          
+                   
+                        if(saswp_current_user_allowed()){
+
+                            add_meta_box(
+                              'sasw-review',
+                              esc_html__( 'Rating Box', 'schema-and-structured-data-for-wp' ),
+                              array( $this, 'saswp_meta_box_callback' ),
+                              $single_screen,
+                              'advanced',
+                              'default'
+                            );                   
+                        }               
+                    }           
+               }                          
           }
        }
         function saswp_review_get_meta( $value ) {

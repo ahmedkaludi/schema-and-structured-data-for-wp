@@ -413,7 +413,7 @@ clear: both;
     cursor: pointer;
     transition: 0.3s;
     font-size: 15px;
-        width: 130px;
+    width: 100%;
     overflow: hidden;
     margin-right: 10px;
 }
