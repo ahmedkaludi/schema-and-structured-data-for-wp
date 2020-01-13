@@ -137,8 +137,8 @@
                     var item          = current.val();
                     var post_id       = saswp_localize_data.post_id;
                     var schema_id     = jQuery(current).attr('data-id');  
-                    var post_specific = jQuery(current).attr('post-specific');  
-                    var append_id     = '';
+                    var post_specific = jQuery(current).attr('post-specific');                     
+                    var modify_this   = jQuery(".saswp_modify_this_schema_hidden_"+schema_id).val();                     
                     
                     if(manual == null){
                         append_id     = jQuery("#saswp_specific_"+schema_id);
@@ -147,7 +147,7 @@
                     }
                     
                      jQuery.get(ajaxurl, 
-                         { action:"saswp_get_item_reviewed_fields",schema_type:schema_type,schema_id:schema_id,  post_specific:post_specific ,item:item, post_id:post_id, saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
+                         { action:"saswp_get_item_reviewed_fields",modify_this:modify_this, schema_type:schema_type,schema_id:schema_id,  post_specific:post_specific ,item:item, post_id:post_id, saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
                           function(response){    
                             
                             jQuery(append_id).find(".saswp-table-create-onajax").remove();   

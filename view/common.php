@@ -132,7 +132,7 @@ class saswp_view_common_class {
                  
         }
         
-    public function saswp_schema_fields_html_on_the_fly($schema_type, $schema_id, $post_id){
+    public function saswp_schema_fields_html_on_the_fly($schema_type, $schema_id, $post_id, $disabled_schema=null, $modify_this=null){
             
                     $howto_data        = array();                    
                     $tabs_fields       = '';
@@ -143,14 +143,24 @@ class saswp_view_common_class {
                         
                     if($type_fields){
                         
-                        $tabs_fields .= '<div class="saswp-table-create-onajax">';
+                    if(empty($disabled_schema)){
                         
-                        foreach($type_fields as $key => $value){
+                        if($modify_this == 1){
+                             $tabs_fields .= '<div schema-id="'.esc_attr($schema_id).'" class="saswp-table-create-onajax saswp-ps-toggle">';   
+                        }else{
+                             $tabs_fields .= '<div schema-id="'.esc_attr($schema_id).'" class="saswp-table-create-onajax saswp-ps-toggle saswp_hide">';
+                        }
+
+                        }else{                         
+                            $tabs_fields .= '<div schema-id="'.esc_attr($schema_id).'" class="saswp-table-create-onajax saswp-ps-toggle saswp_hide">';                     
+                        }
+                        
+                     foreach($type_fields as $key => $value){
                             
                             $howto_data[$value.'_'.$schema_id]  = get_post_meta($post_id, $value.'_'.$schema_id, true);                                       
                                                  
-                            $tabs_fields .= '<div class="saswp-'.$key.'-section-main">';                                                  
-                            $tabs_fields .= '<div class="saswp-'.$key.'-section" data-id="'.esc_attr($schema_id).'">';                         
+                            $tabs_fields .= '<div class="saswp-'.esc_attr($key).'-section-main">';                                                  
+                            $tabs_fields .= '<div class="saswp-'.esc_attr($key).'-section" data-id="'.esc_attr($schema_id).'">';                         
                             if(isset($howto_data[$value.'_'.$schema_id])){
 
                                 $howto_supply = $howto_data[$value.'_'.$schema_id];                                                     
@@ -203,7 +213,7 @@ class saswp_view_common_class {
             
         }
         
-    public function saswp_saswp_post_specific($schema_type, $saswp_meta_fields, $post_id, $schema_id=null, $item_reviewed = null) { 
+    public function saswp_saswp_post_specific($schema_type, $saswp_meta_fields, $post_id, $schema_id=null, $item_reviewed = null, $disabled_schema=null, $modify_this=null) { 
                                 
                 global $sd_data;                        
                 
@@ -503,16 +513,29 @@ class saswp_view_common_class {
 			
 		}
                 
-                     $tabs_fields  = '';           
-                     $tabs_fields .= '<div class="saswp-table-create-onload">';    
+                     $tabs_fields  = '';
+                     
+                     if(empty($disabled_schema)){
+                         
+                         if($modify_this == 1){
+                             $tabs_fields .= '<div schema-id="'.esc_attr($schema_id).'" class="saswp-table-create-onload saswp-ps-toggle">';    
+                         }else{
+                             $tabs_fields .= '<div schema-id="'.esc_attr($schema_id).'" class="saswp-table-create-onload saswp-ps-toggle saswp_hide">'; 
+                         }
+                                                     
+                     }else{                         
+                         $tabs_fields .= '<div schema-id="'.esc_attr($schema_id).'" class="saswp-table-create-onload saswp-ps-toggle saswp_hide">';                          
+                     }
+                     
+                     
                      //$output variable is already escaped above
                      $tabs_fields .= '<table class="form-table"><tbody>' . $output . '</tbody></table>';
                      $tabs_fields .= '</div>';
                        
                      if($item_reviewed){
-                        $tabs_fields .=  $this->saswp_schema_fields_html_on_the_fly($item_reviewed, $schema_id, $post_id);    
+                        $tabs_fields .=  $this->saswp_schema_fields_html_on_the_fly($item_reviewed, $schema_id, $post_id, $disabled_schema, $modify_this);    
                      }else{
-                        $tabs_fields .=  $this->saswp_schema_fields_html_on_the_fly($schema_type, $schema_id, $post_id); 
+                        $tabs_fields .=  $this->saswp_schema_fields_html_on_the_fly($schema_type, $schema_id, $post_id, $disabled_schema, $modify_this); 
                      }
                      
                 
@@ -580,6 +603,8 @@ class saswp_view_common_class {
                 if($schema_count > 0){
                                                                       
                  foreach($all_schema as $schema){
+                     
+                      update_post_meta( $post_id, 'saswp_modify_this_schema_'.$schema->ID, intval($_POST['saswp_modify_this_schema_'.$schema->ID]));
                                           
                      foreach ($this->schema_type_element as $element){
                          

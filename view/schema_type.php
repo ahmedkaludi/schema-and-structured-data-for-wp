@@ -1015,7 +1015,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                                 $schema_type    = get_post_meta($post->ID, 'schema_type', true);
 
                                 $schema_fields = saswp_get_fields_by_schema_type($post->ID, null, $schema_type, 'manual');
-                                $output = $common_obj->saswp_saswp_post_specific($schema_type, $schema_fields, $post->ID, $post->ID);
+                                $output = $common_obj->saswp_saswp_post_specific($schema_type, $schema_fields, $post->ID, $post->ID, null, null, 1);
                                 
                                 if($schema_type == 'Review'){
                                                                         
@@ -1024,7 +1024,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                                         $item_reviewed = 'Book';
                                     }
                                     $response          = saswp_get_fields_by_schema_type($post->ID, null, $item_reviewed);                                                                                                        
-                                    $output           .= $common_obj->saswp_saswp_post_specific($schema_type, $response, $post->ID, $post->ID ,$item_reviewed);
+                                    $output           .= $common_obj->saswp_saswp_post_specific($schema_type, $response, $post->ID, $post->ID ,$item_reviewed, null, 1);
 
                                 }
                                                                 
@@ -1114,7 +1114,7 @@ function saswp_get_manual_fields_on_ajax(){
 
             $schema_fields = saswp_get_fields_by_schema_type($post_id, null, $schema_type, 'manual');
             
-            $output = $common_obj->saswp_saswp_post_specific($schema_type, $schema_fields, $post_id, $post_id);
+            $output = $common_obj->saswp_saswp_post_specific($schema_type, $schema_fields, $post_id, $post_id, null, null, 1);
             
             echo $output;
 

@@ -1364,13 +1364,52 @@ return false;
         });
         
         //Settings page jquery ends here
+        
+    $(document).on("click", ".saswp-modify-schema", function(e){
+                    e.preventDefault(); 
+                                        
+                    var schema_id   = $(this).attr('schema-id');
+                    
+                    $(".saswp_modify_this_schema_hidden_"+schema_id).val(1);
+                    $(".saswp-restore-schema[schema-id="+schema_id+"]").parent().removeClass('saswp_hide');
+                    $(".saswp-modify-schema[schema-id="+schema_id+"]").parent().addClass('saswp_hide');   
+                    $(".saswp-ps-toggle[schema-id="+schema_id+"]").removeClass('saswp_hide');   
+                    
+     });
+     
+     $(document).on("click", ".saswp-restore-schema", function(e){
+                    e.preventDefault(); 
+                                        
+                    var schema_id   = $(this).attr('schema-id');
+                    $(".saswp_modify_this_schema_hidden_"+schema_id).val(0);                                                           
+                    $(".saswp-restore-schema[schema-id="+schema_id+"]").parent().addClass('saswp_hide');
+                    $(".saswp-modify-schema[schema-id="+schema_id+"]").parent().removeClass('saswp_hide');
+                    $(".saswp-ps-toggle[schema-id="+schema_id+"]").addClass('saswp_hide'); 
+                   
+    });
 
     $(document).on("change",".saswp-schema-type-toggle", function(e){
                var schema_id = $(this).attr("data-schema-id"); 
                var post_id =   $(this).attr("data-post-id");     
+               var modified = $(".saswp_modify_this_schema_hidden_"+schema_id).val();
                if($(this).is(':checked')){
-               var status = 1;    
+               var status = 1;  
+               
+               $(".saswp-ps-toggle[schema-id="+schema_id+"]").addClass('saswp_hide'); 
+               $(".saswp-restore-schema[schema-id="+schema_id+"]").parent().addClass('saswp_hide');
+               $(".saswp-modify-schema[schema-id="+schema_id+"]").parent().addClass('saswp_hide');
+                              
                }else{
+                   
+                  if(modified == 1){
+                    $(".saswp-ps-toggle[schema-id="+schema_id+"]").removeClass('saswp_hide'); 
+                    $(".saswp-restore-schema[schema-id="+schema_id+"]").parent().removeClass('saswp_hide');
+                  }else{
+                    $(".saswp-modify-schema[schema-id="+schema_id+"]").parent().removeClass('saswp_hide'); 
+                     $(".saswp-ps-toggle[schema-id="+schema_id+"]").addClass('saswp_hide'); 
+                    $(".saswp-restore-schema[schema-id="+schema_id+"]").parent().addClass('saswp_hide');
+                  } 
+                   
                var status = 0;    
                }
              $.ajax({

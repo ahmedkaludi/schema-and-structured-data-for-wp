@@ -2356,4 +2356,16 @@ span.saswp-mines{
 .saswp-accept-rv-container{
     margin-right: 20px;
 }
+.saswp-post-specific-setting{
+    border-bottom: 1px solid #eee;
+    text-align: center;
+    padding-bottom: 10px;
+
+}
+.saswp-ps-text{
+    padding-bottom: 10px;
+}
+.saswp-ps-toggle{
+    padding: 10px;
+}
 /* Add review thickbox csss ends here */
