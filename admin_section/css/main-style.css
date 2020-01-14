@@ -7,6 +7,13 @@ and open the template in the editor.
     Created on : Jul 27, 2018, 5:36:26 PM
     Author     : Magazine3
 */
+.saswp-disable-btn-container{
+    float: right;
+    padding:10px;
+}
+.saswp-disable-label{
+    padding: 10px;
+}
 .saswp-setup-schema-btn{
     margin: 5px !important;
 }
@@ -576,7 +583,7 @@ On/Off Buttons starts here
 }
 
 input:checked + .saswp-slider {
-  background-color: #61bd3b;
+  background-color: #00a0d2;
   border-radius: 30px;
 }
 

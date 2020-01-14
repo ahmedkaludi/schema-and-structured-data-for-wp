@@ -1393,14 +1393,16 @@ return false;
                var post_id =   $(this).attr("data-post-id");     
                var modified = $(".saswp_modify_this_schema_hidden_"+schema_id).val();
                if($(this).is(':checked')){
-               var status = 0;  
+                    var status = 0;  
                
-               $(".saswp-ps-toggle[schema-id="+schema_id+"]").addClass('saswp_hide'); 
-               $(".saswp-restore-schema[schema-id="+schema_id+"]").parent().addClass('saswp_hide');
-               $(".saswp-modify-schema[schema-id="+schema_id+"]").parent().addClass('saswp_hide');
+                    $(".saswp-ps-toggle[schema-id="+schema_id+"]").addClass('saswp_hide'); 
+                    $(".saswp-restore-schema[schema-id="+schema_id+"]").parent().addClass('saswp_hide');
+                    $(".saswp-modify-schema[schema-id="+schema_id+"]").parent().addClass('saswp_hide');
+
+                    $("#saswp_custom_schema_field[schema-id="+schema_id+"]").parent().addClass('saswp_hide');
                               
                }else{
-                   
+                   $("#saswp_custom_schema_field[schema-id="+schema_id+"]").parent().removeClass('saswp_hide');
                   if(modified == 1){
                     $(".saswp-ps-toggle[schema-id="+schema_id+"]").removeClass('saswp_hide'); 
                     $(".saswp-restore-schema[schema-id="+schema_id+"]").parent().removeClass('saswp_hide');
@@ -1410,7 +1412,7 @@ return false;
                     $(".saswp-restore-schema[schema-id="+schema_id+"]").parent().addClass('saswp_hide');
                   } 
                    
-               var status = 1;    
+                    var status = 1;    
                }
              $.ajax({
                             type: "POST",    
