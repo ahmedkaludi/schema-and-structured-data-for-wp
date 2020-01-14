@@ -198,12 +198,37 @@ class saswp_post_specific {
             if ( !wp_verify_nonce( $_GET['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
                return;  
             }
-            $meta_name  = '';
-            $meta_array = array();
-            if(isset($_GET['meta_name'])){
-                $meta_name = sanitize_text_field($_GET['meta_name']);                
-                $meta_array = $this->_common_view->_meta_name[$meta_name];                                
+            $meta_name   = '';
+            $meta_array  = array();
+            $schema_id   = null;
+            $schema_type = '';
+            
+            if(isset($_GET['schema_id'])){
+                $schema_id = intval($_GET['schema_id']);
             }
+            if(isset($_GET['schema_type'])){
+                $schema_type = sanitize_text_field($_GET['schema_type']);
+            }              
+            if(isset($_GET['meta_name'])){  
+                
+                $meta_name = sanitize_text_field($_GET['meta_name']);                     
+                if($meta_name == 'itemlist_item'){
+                    
+                     $itemval     = $this->_common_view->_meta_name[$meta_name][$schema_type];                     
+                     if($itemval){
+                         
+                         foreach($itemval as $key => $val){
+                             $itemval[$key]['name'] = $val['id'];
+                             unset($itemval[$key]['id']);
+                         }
+                         
+                     }
+                     
+                     $meta_array  = $itemval;                                               
+                }else{
+                     $meta_array = $this->_common_view->_meta_name[$meta_name];         
+                }                                                           
+            }           
             if(!empty($meta_array)){
              echo json_encode($meta_array);   
             }            
@@ -246,7 +271,8 @@ class saswp_post_specific {
                           continue;
                       }
                                            
-                     $disabled = '';
+                     $disabled  = '';
+                     $item_type = '';
                                                                                     
                      if(isset($schema_enable[$schema->ID]) && $schema_enable[$schema->ID] == 0){
                          
@@ -256,9 +282,13 @@ class saswp_post_specific {
                      
                      $modify_this       = get_post_meta($post->ID, 'saswp_modify_this_schema_'.$schema->ID, true);                                          
                      $schema_type       = get_post_meta($schema->ID, 'schema_type', true);  
-                     $response          = saswp_get_fields_by_schema_type($schema->ID);                                                              
+                     $response          = saswp_get_fields_by_schema_type($schema->ID);                       
                      $saswp_meta_fields = array_filter($response);                     
                      $output            = $this->_common_view->saswp_saswp_post_specific($schema_type, $saswp_meta_fields, $post->ID, $schema->ID, null, $disabled, $modify_this ); 
+                     
+                     if($schema_type == 'ItemList'){
+                         $item_type         = '('.get_post_meta($schema->ID, 'saswp_itemlist_item_type', true).')';
+                     }
                      
                      if($schema_type == 'Review'){
                         
@@ -319,7 +349,7 @@ class saswp_post_specific {
                     
                      if($key==0){
                          
-                     $tabs .='<li class="selected"><a saswp-schema-type="'.esc_attr($schema_type).'" data-id="saswp_specific_'.esc_attr($schema->ID).'" class="saswp-tab-links selected">'.esc_attr($schema_type == 'local_business'? 'LocalBusiness': $schema_type).'</a>'
+                     $tabs .='<li class="selected"><a saswp-schema-type="'.esc_attr($schema_type).'" data-id="saswp_specific_'.esc_attr($schema->ID).'" class="saswp-tab-links selected">'.esc_attr($schema_type == 'local_business'? 'LocalBusiness': $schema_type.' '.$item_type ).'</a>'
                              . '</li>';    
                      
                      $tabs_fields .= '<div data-id="'.esc_attr($schema->ID).'" id="saswp_specific_'.esc_attr($schema->ID).'" class="saswp-post-specific-wrapper">';
@@ -331,7 +361,7 @@ class saswp_post_specific {
                      }else{
                          
                      $tabs .='<li>'
-                             . '<a saswp-schema-type="'.esc_attr($schema_type).'" data-id="saswp_specific_'.esc_attr($schema->ID).'" class="saswp-tab-links">'.esc_attr($schema_type == 'local_business'? 'LocalBusiness': $schema_type).'</a>'
+                             . '<a saswp-schema-type="'.esc_attr($schema_type).'" data-id="saswp_specific_'.esc_attr($schema->ID).'" class="saswp-tab-links">'.esc_attr($schema_type == 'local_business'? 'LocalBusiness': $schema_type.' '.$item_type ).'</a>'
                              . '</li>';   
                      
                      $tabs_fields .= '<div data-id="'.esc_attr($schema->ID).'" id="saswp_specific_'.esc_attr($schema->ID).'" class="saswp-post-specific-wrapper saswp_hide">';                     

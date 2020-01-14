@@ -39,6 +39,7 @@ return array(
              'VideoGame'                => 'VideoGame'                                         
          ),
         'Intangible' => array(
+            'ItemList'                    => 'ItemList', 
             'JobPosting'                  => 'JobPosting', 
             'Service'                     => 'Service',
             'Trip'                        => 'Trip',    

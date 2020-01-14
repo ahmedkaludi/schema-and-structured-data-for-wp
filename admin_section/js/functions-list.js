@@ -305,12 +305,12 @@
                                                                                      
        }
              
-       function saswp_get_post_specific_schema_fields(current_fly, index, meta_name, div_type, schema_id, fields_type){
+       function saswp_get_post_specific_schema_fields(current_fly, index, meta_name, div_type, schema_id, fields_type, schema_type){
                             
                             if (!saswp_meta_fields[fields_type]) {
                                 
                                 jQuery.get(ajaxurl, 
-                                    { action:"saswp_get_schema_dynamic_fields_ajax",meta_name:meta_name, saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
+                                    { action:"saswp_get_schema_dynamic_fields_ajax",schema_id:schema_id,schema_type:schema_type, meta_name:meta_name, saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
                                      function(response){                                  
                                          saswp_meta_fields[fields_type] = response;                                         
                                          var html = saswp_fields_html_generator(index, schema_id, fields_type, div_type, response);

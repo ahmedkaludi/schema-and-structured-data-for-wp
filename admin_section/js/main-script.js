@@ -453,7 +453,15 @@ return false;
          $(".saswp-review-text-field-tr").show();  
          $(".saswp-option-table-class tr").find('select').attr('disabled', false); 
          $(".saswp-item-reivewed-list").change();
-         }                                                 
+         }
+         if(schematype == 'ItemList'){  
+         $(".saswp-schema-modify-section").hide();  
+         $(".saswp-itemlist-text-field-tr").show();  
+         $(".saswp-option-table-class tr").find('select').attr('disabled', false); 
+         $(".saswp-itemlist-item-type-list").change();
+         }else{
+         $(".saswp-schema-modify-section").show();      
+         }
          saswp_enable_rating_review();
             
         $(".saswp-manual-modification").html('');    
@@ -540,6 +548,13 @@ return false;
                 $(".saswp-review-text-field-tr").show(); 
                 $(".saswp-review-text-field-tr").find('select').attr('disabled', false);
              }
+              if(schematype == 'ItemList'){     
+                $(".saswp-schema-modify-section").hide();  
+                $(".saswp-itemlist-text-field-tr").show();  
+                $(".saswp-option-table-class tr").find('select').attr('disabled', false);                 
+              }else{
+                $(".saswp-schema-modify-section").hide();    
+              }
              if(schematype == 'Event'){            
                 $(".saswp-event-text-field-tr").show();
                 $(".saswp-option-table-class tr").find('select').attr('disabled', false);
@@ -1898,7 +1913,7 @@ return false;
           var schema_id   = $(this).attr('data-id');
           var fields_type = $(this).attr('fields_type'); 
           var div_type    = $(this).attr('div_type');
-          
+          var schema_type = 'Article';
           var count =  $("saswp_specific_"+schema_id+" , .saswp-"+div_type+"-table-div").length;
           var index =  $( "saswp_specific_"+schema_id+" , .saswp-"+div_type+"-table-div:nth-child("+count+")" ).attr('data-id');
               index = ++index;
@@ -1907,7 +1922,7 @@ return false;
                index = 0;
            }
                        
-            saswp_get_post_specific_schema_fields(current_fly, index, fields_type, div_type, schema_id, fields_type+'_');               
+            saswp_get_post_specific_schema_fields(current_fly, index, fields_type, div_type, schema_id, fields_type+'_', schema_type);               
             
        });
        

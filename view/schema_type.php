@@ -156,7 +156,15 @@ function saswp_schema_type_meta_box_callback( $post) {
                             $style_business_name = 'style="display:none"';
 
                          }                            
-                        }                                                  
+                        }
+                        $item_list_item = array(                                                                                    
+                             'Article'               => 'Article',                                                              
+                             'Course'                => 'Course',                                                                                                                                                                                                            
+                             'Movie'                 => 'Movie',                                   
+                             'Product'               => 'Product',                                
+                             'Recipe'                => 'Recipe',                                                                                      
+                        );
+                        
                         $item_reviewed = array(                                                                                    
                              'Book'                  => 'Book',                             
                              'Course'                => 'Course',                             
@@ -508,7 +516,29 @@ function saswp_schema_type_meta_box_callback( $post) {
                     </select>
                 </td>    
                 </tr>                
-                
+                                
+                <!-- ItemList Schema type starts here -->
+                <tr class="saswp-itemlist-text-field-tr" <?php echo $style_review_name; ?>>
+                    <td><?php echo esc_html__('Item Type', 'schema-and-structured-data-for-wp' ); ?></td>
+                    <td>
+
+                        <select data-id="<?php if(is_object($post)){ echo esc_attr($post->ID); }  ?>" name="saswp_itemlist_item_type" class="saswp-itemlist-item-type-list">
+                        <?php
+                        
+                          $item = get_post_meta($post->ID, 'saswp_itemlist_item_type', true);                                                                                        
+                          foreach ($item_list_item as $key => $value) {
+                            $sel = '';
+                            if($item == $key){
+                              $sel = 'selected';
+                            }
+                            echo "<option value='".esc_attr($key)."' ".esc_attr($sel).">".esc_html__($value, 'schema-and-structured-data-for-wp' )."</option>";
+                          }
+                        ?>
+                    </select>                                                                
+                    </td>
+                </tr>                                                                                        
+                <!-- ItemList Schema type ends here -->
+                                
                 <!-- Review Schema type starts here -->
                 <tr class="saswp-review-text-field-tr" <?php echo $style_review_name; ?>>
                     <td><?php echo esc_html__('Item Reviewed Type', 'schema-and-structured-data-for-wp' ); ?></td>
@@ -1147,6 +1177,7 @@ function saswp_schema_type_add_meta_box_save( $post_id ) {
                 update_post_meta( $post_id, 'saswp_item_list_tags', sanitize_text_field($_POST['saswp_item_list_tags']) );                                                                       
                 update_post_meta( $post_id, 'saswp_item_list_custom', sanitize_text_field($_POST['saswp_item_list_custom']) );                                                                       
                 update_post_meta( $post_id, 'saswp_review_item_reviewed_'.$post_id, sanitize_text_field($_POST['saswp_review_item_reviewed_'.$post_id]) );                                                                       
+                update_post_meta( $post_id, 'saswp_itemlist_item_type', sanitize_text_field($_POST['saswp_itemlist_item_type']) );                                                                       
                                                 
                 update_post_meta( $post_id, 'saswp_attahced_reviews', json_decode(wp_unslash($_POST['saswp_attahced_reviews'])) );                                                                       
                 update_post_meta( $post_id, 'saswp_attached_collection', json_decode(wp_unslash($_POST['saswp_attached_collection'])) );                                                                       
