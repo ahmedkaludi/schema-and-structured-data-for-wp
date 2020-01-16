@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.3
-Stable tag: 1.9.21
+Stable tag: 1.9.22
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -117,6 +117,30 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+
+= 1.9.22 (16 Jan 2020) =
+
+* Added: Pagination option in review collection
+* Added: Show review form on button click #713
+* Added: Compatibility of WP News Schema #709
+* Added: Collection to Attach reviews to this schema type section, #718
+* Added: ItemList schema type in main schema type dropdown #709
+* Added: Review, collection and accept review tab in review and collection post type menu #719
+* Fixed: Change the term "Taxonomy Terms" to "Taxonomy(Tag)" #697
+* Fixed: ACF compatibility does not work with ACF repeater fields #708
+* Fixed: ACF compatibility does not work with ACF repeater fields #708
+* Fixed: Role based access does not work properly with default role Administrator(Default)
+* Fixed: If review collection shortcode is in footer then markup is not loading. #699
+* Fixed: If review collection shortcode is in footer then markup is not loading. #699
+* Fixed: Organization schema appears twice when reviews exists #714
+* Fixed: Data tracking "Lear more" option redirecting to wrong tutorial. #727
+* Fixed: If price is not present in schema then offer should not show in schema markup. #723
+* Fixed: bbPress Compatiblity issue #724
+* Fixed: Division by zero #731
+* Fixed: Knowledge Graph Settings: Organization Type is optional but produce errors In Schema #720
+* Fixed: Notice & Warning fixes.
+
 
 = 1.9.21 (06 Jan 2020) =
 
