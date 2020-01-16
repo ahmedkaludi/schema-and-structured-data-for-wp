@@ -2270,3 +2270,11 @@ function saswp_fetched_reviews_schema_markup(){
                   
                 return $input1;
     }
+    
+function saswp_itemlist_output(){
+    
+    $input1 = array();
+    
+    return $input1;
+    
+}    

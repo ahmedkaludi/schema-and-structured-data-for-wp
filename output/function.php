@@ -153,6 +153,7 @@ function saswp_get_all_schema_markup_output() {
         $about_page_output        = saswp_about_page_output();      
         $author_output            = saswp_author_output();
         $archive_output           = saswp_archive_output();
+        $itemlist_output          = saswp_itemlist_output();
         $collection_output        = saswp_fetched_reviews_json_ld();
         
         if($archive_output){
@@ -219,6 +220,12 @@ function saswp_get_all_schema_markup_output() {
                         if(!empty($item_list)){
                         
                             $output .= saswp_json_print_format($item_list);   
+                            $output .= ",";
+                            $output .= "\n\n";
+                        }
+                        if(!empty($itemlist_output)){
+                        
+                            $output .= saswp_json_print_format($itemlist_output);   
                             $output .= ",";
                             $output .= "\n\n";
                         }
@@ -929,6 +936,11 @@ function saswp_remove_microdata($content){
         //Clean json markup
         if(isset($sd_data['saswp-aiosp']) && $sd_data['saswp-aiosp'] == 1 ){
             $content = preg_replace('/<script type=\"application\/ld\+json" class=\"aioseop-schema"\>(.*?)<\/script>/', "", $content);
+        }
+        
+        //Clean json markup
+        if(isset($sd_data['saswp-wordpress-news']) && $sd_data['saswp-wordpress-news'] == 1 ){
+            $content = preg_replace("/<script type\=\'application\/ld\+json\' class\=\'wpnews-schema-graph(.*?)'\>(.*?)<\/script>/s", "", $content);
         }
         
         if(isset($sd_data['saswp-wp-ultimate-recipe']) && $sd_data['saswp-wp-ultimate-recipe'] == 1 ){

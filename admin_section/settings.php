@@ -1672,6 +1672,19 @@ function saswp_compatibility_page_callback(){
         
         $settings = saswp_defaultSettings();  
         
+        $wordpress_news = array(
+			'label'  => 'Wordpress News',
+			'id'     => 'saswp-wordpress-news-checkbox',                        
+                        'name'   => 'saswp-wordpress-news-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
+                        'note'   => saswp_get_field_note('wordpress_news'),
+                        'hidden' => array(
+                                'id'   => 'saswp-wordpress-news',
+                                'name' => 'sd_data[saswp-wordpress-news]',                             
+                        )
+		);
+        
         $ampforwp = array(
 			'label'  => 'AMPforWP',
 			'id'     => 'saswp-ampforwp-checkbox',                        
@@ -2386,6 +2399,7 @@ function saswp_compatibility_page_callback(){
                 $bne_testimonials,
                 $testimonial_pro,
                 $strong_testimonials,
+                $wordpress_news,
                 $WordLift,
                 $flex_lmx
                 

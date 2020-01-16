@@ -1205,6 +1205,16 @@ return false;
                             
                       break;
                       
+                      case 'saswp-wordpress-news-checkbox':
+                           saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-wordpress-news").val(1);                                
+                            }else{
+                              $("#saswp-wordpress-news").val(0);                                          
+                            }
+                            
+                      break;
+                      
                       case 'saswp-ampwp-checkbox':
                           
                            saswp_compatibliy_notes(current, id); 
