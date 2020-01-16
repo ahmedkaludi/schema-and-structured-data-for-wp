@@ -353,7 +353,11 @@ class saswp_post_specific {
                              . '</li>';    
                      
                      $tabs_fields .= '<div data-id="'.esc_attr($schema->ID).'" id="saswp_specific_'.esc_attr($schema->ID).'" class="saswp-post-specific-wrapper">';
-                     $tabs_fields .= $setting_options;  
+                     
+                     if($schema_type != 'ItemList'){                         
+                         $tabs_fields .= $setting_options;  
+                     }
+                                          
                      $tabs_fields .= $output;  
                      $tabs_fields .= $btn_in_loop;
                      $tabs_fields .= '</div>';
@@ -365,7 +369,11 @@ class saswp_post_specific {
                              . '</li>';   
                      
                      $tabs_fields .= '<div data-id="'.esc_attr($schema->ID).'" id="saswp_specific_'.esc_attr($schema->ID).'" class="saswp-post-specific-wrapper saswp_hide">';                     
-                     $tabs_fields .= $setting_options;  
+                     
+                     if($schema_type != 'ItemList'){                         
+                         $tabs_fields .= $setting_options;  
+                     }
+                     
                      $tabs_fields .= $output;                     
                      $tabs_fields .= $btn_in_loop;                     
                      $tabs_fields .= '</div>';

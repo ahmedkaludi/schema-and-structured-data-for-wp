@@ -1904,6 +1904,7 @@ return false;
        }); 
                                                                                     
        $(document).on("click", ".saswp_add_schema_fields_on_fly", function(e){
+           
            e.preventDefault();
            
           var current_fly = $(this); 

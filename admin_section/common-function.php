@@ -2930,3 +2930,33 @@ function saswp_get_image_by_id($image_id){
     return $response;
     
 }
+
+function saswp_is_date_field($date_str){
+    
+    $response = false;
+    
+            if (strpos($date_str, 'date_modified') !== false 
+             || strpos($date_str, 'date_published') !== false
+             || strpos($date_str, 'published_date') !== false
+             || strpos($date_str, 'video_upload_date') !== false
+             || strpos($date_str, 'qa_date_created') !== false 
+             || strpos($date_str, 'accepted_answer_date_created') !== false 
+             || strpos($date_str, 'suggested_answer_date_created') !== false 
+             || strpos($date_str, 'priceValidUntil') !== false
+             || strpos($date_str, 'priceValidUntil') !== false
+             || strpos($date_str, 'priceValidUntil') !== false
+             || strpos($date_str, 'start_date') !== false
+             || strpos($date_str, 'end_date') !== false
+             || strpos($date_str, 'validfrom') !== false
+             || strpos($date_str, 'dateposted') !== false
+             || strpos($date_str, 'validthrough') !== false
+             || strpos($date_str, 'date_of_birth') !== false
+             || strpos($date_str, 'date_created') !== false
+             || strpos($date_str, 'created_date') !== false
+             ) {
+                $response = true;
+               }
+    
+    return $response;
+    
+}

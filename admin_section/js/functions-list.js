@@ -351,8 +351,9 @@
             jQuery.each(schema_fields, function(eachindex, element){
                                 
                 var meta_class = "";
-                if(element.name == 'saswp_tvseries_season_published_date' || element.name == 'saswp_feed_element_date_created' || element.name == 'saswp_product_reviews_created_date'){
-                    meta_class = "saswp-datepicker-picker";    
+                
+                if(element.name.indexOf('published_date') > -1 || element.name.indexOf('date_created') > -1 || element.name.indexOf('created_date') > -1 || element.name.indexOf('modified_date') > -1 || element.name.indexOf('date_published') > -1 || element.name.indexOf('date_modified') > -1){
+                    meta_class = "saswp-datepicker-picker";   
                 }
                 
                 switch(element.type) {

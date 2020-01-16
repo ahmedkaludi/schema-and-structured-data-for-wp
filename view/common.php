@@ -130,19 +130,29 @@ class saswp_view_common_class {
 						);
 					}
 					$input .= '</select>';
-					break;                
+					break;  
+                                        
+                                case 'checkbox':
+                                                                        
+					$input = sprintf(
+						'<input id="%s" name="%s" type="checkbox" value="1" %s>', 
+                                                esc_attr($meta_field['name']).'_'.esc_attr($index).'_'.esc_attr($schema_id),
+                                                esc_attr($meta_name).'_'.esc_attr($schema_id).'['.esc_attr($index).']['.esc_attr($meta_field['name']).']',
+						$data[$meta_field['name']] === '1' ? 'checked' : '',
+												
+						);
+					break;           
                                          
 				default:
                                                     
                                     $class = '';
-
-                                    if ((strpos($meta_field['name'].'_'.$index.'_'.$schema_id, 'published_date') !== false) || (strpos($meta_field['name'].'_'.$index.'_'.$schema_id, 'date_created') !== false) || (strpos($meta_field['name'].'_'.$index.'_'.$schema_id, 'created_date') !== false)){                                                                                                           
-
-                                            $class = 'class="saswp-datepicker-picker"';    
+                                    
+                                    if (saswp_is_date_field($meta_field['name'].'_'.$index.'_'.$schema_id)) {
+                                                $class='saswp-datepicker-picker';    
                                     }
                                                                                                             
                                      $input = sprintf(
-						'<input %s  style="width:100%%" id="%s" name="%s" type="%s" value="%s">',
+						'<input class="%s"  style="width:100%%" id="%s" name="%s" type="%s" value="%s">',
                                                 $class,
 						esc_attr($meta_field['name']).'_'.esc_attr($index).'_'.esc_attr($schema_id),
 						esc_attr($meta_name).'_'.esc_attr($schema_id).'['.esc_attr($index).']['.esc_attr($meta_field['name']).']',
@@ -172,8 +182,14 @@ class saswp_view_common_class {
                     $type_fields = array_key_exists($schema_type, $schema_type_fields) ? $schema_type_fields[$schema_type]:'';  
                         
                     if($type_fields){
+                       
+                    if($schema_type == 'ItemList'){
                         
-                    if(empty($disabled_schema)){
+                         $tabs_fields .= '<div schema-id="'.esc_attr($schema_id).'" class="saswp-table-create-onajax saswp-ps-toggle">';   
+                        
+                    }else{
+                    
+                        if(empty($disabled_schema)){
                         
                         if($modify_this == 1){
                              $tabs_fields .= '<div schema-id="'.esc_attr($schema_id).'" class="saswp-table-create-onajax saswp-ps-toggle">';   
@@ -184,6 +200,8 @@ class saswp_view_common_class {
                         }else{                         
                             $tabs_fields .= '<div schema-id="'.esc_attr($schema_id).'" class="saswp-table-create-onajax saswp-ps-toggle saswp_hide">';                     
                         }
+                                                
+                    } 
                         
                      foreach($type_fields as $key => $value){
                             
@@ -473,25 +491,8 @@ class saswp_view_common_class {
                                              if (strpos($meta_field['id'], 'closes_time') !== false || strpos($meta_field['id'], 'opens_time') !== false || strpos($meta_field['id'], 'start_time') !== false || strpos($meta_field['id'], 'end_time') !== false){
                                                 $class='saswp-timepicker';    
                                              }
-                                             if (strpos($meta_field['id'], 'date_modified') !== false 
-                                                     || strpos($meta_field['id'], 'date_published') !== false  
-                                                     || strpos($meta_field['id'], 'video_upload_date') !== false
-                                                     || strpos($meta_field['id'], 'qa_date_created') !== false 
-                                                     || strpos($meta_field['id'], 'accepted_answer_date_created') !== false 
-                                                     || strpos($meta_field['id'], 'suggested_answer_date_created') !== false 
-                                                     || strpos($meta_field['id'], 'priceValidUntil') !== false
-                                                     || strpos($meta_field['id'], 'priceValidUntil') !== false
-                                                     || strpos($meta_field['id'], 'priceValidUntil') !== false
-                                                     || strpos($meta_field['id'], 'start_date') !== false
-                                                     || strpos($meta_field['id'], 'end_date') !== false
-                                                     || strpos($meta_field['id'], 'validfrom') !== false
-                                                     || strpos($meta_field['id'], 'dateposted') !== false
-                                                     || strpos($meta_field['id'], 'validthrough') !== false
-                                                     || strpos($meta_field['id'], 'date_of_birth') !== false
-                                                     || strpos($meta_field['id'], 'date_created') !== false
-                                                     || strpos($meta_field['id'], 'created_date') !== false
-                                                     ) {
-                                             $class='saswp-datepicker-picker';    
+                                             if (saswp_is_date_field($meta_field['id'])) {
+                                                $class='saswp-datepicker-picker';    
                                              }
                                              
                                             $input = sprintf(
