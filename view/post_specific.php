@@ -301,13 +301,21 @@ class saswp_post_specific {
                          $output           .= $this->_common_view->saswp_saswp_post_specific($schema_type, $saswp_meta_fields, $post->ID, $schema->ID ,$item_reviewed, $disabled, $modify_this);
                          
                      }
-                      
-                    $setting_options = '<div class="saswp-post-specific-setting">';
-                    
-                    $setting_options.= '<div class="saswp-ps-buttons">';
-                    
-                         $setting_options  .= '<input class="saswp_modify_this_schema_hidden_'.esc_attr($schema->ID).'" type="hidden" name="saswp_modify_this_schema_'.esc_attr($schema->ID).'" value="'.($modify_this ? $modify_this : 0).'">';
+                     
+                     if($schema_type == 'ItemList'){
+                         $setting_options = '<div class="saswp-post-specific-setting saswp_hide">';
+                     }else{
+                         $setting_options = '<div class="saswp-post-specific-setting">';
+                     }
+                     
+                         $setting_options.= '<div class="saswp-ps-buttons">';
                          
+                            if($schema_type == 'ItemList'){
+                                 $setting_options  .= '<input class="saswp_modify_this_schema_hidden_'.esc_attr($schema->ID).'" type="hidden" name="saswp_modify_this_schema_'.esc_attr($schema->ID).'" value="1">';
+                            }else{
+                                 $setting_options  .= '<input class="saswp_modify_this_schema_hidden_'.esc_attr($schema->ID).'" type="hidden" name="saswp_modify_this_schema_'.esc_attr($schema->ID).'" value="'.($modify_this ? $modify_this : 0).'">';
+                            }
+                    
                          if(!empty($disabled)){
                              $setting_options  .= '<div class="saswp-ps-text saswp_hide">';
                          }else{
@@ -352,12 +360,8 @@ class saswp_post_specific {
                      $tabs .='<li class="selected"><a saswp-schema-type="'.esc_attr($schema_type).'" data-id="saswp_specific_'.esc_attr($schema->ID).'" class="saswp-tab-links selected">'.esc_attr($schema_type == 'local_business'? 'LocalBusiness': $schema_type.' '.$item_type ).'</a>'
                              . '</li>';    
                      
-                     $tabs_fields .= '<div data-id="'.esc_attr($schema->ID).'" id="saswp_specific_'.esc_attr($schema->ID).'" class="saswp-post-specific-wrapper">';
-                     
-                     if($schema_type != 'ItemList'){                         
-                         $tabs_fields .= $setting_options;  
-                     }
-                                          
+                     $tabs_fields .= '<div data-id="'.esc_attr($schema->ID).'" id="saswp_specific_'.esc_attr($schema->ID).'" class="saswp-post-specific-wrapper">';                                                                  
+                     $tabs_fields .= $setting_options;                                                                 
                      $tabs_fields .= $output;  
                      $tabs_fields .= $btn_in_loop;
                      $tabs_fields .= '</div>';
@@ -368,12 +372,8 @@ class saswp_post_specific {
                              . '<a saswp-schema-type="'.esc_attr($schema_type).'" data-id="saswp_specific_'.esc_attr($schema->ID).'" class="saswp-tab-links">'.esc_attr($schema_type == 'local_business'? 'LocalBusiness': $schema_type.' '.$item_type ).'</a>'
                              . '</li>';   
                      
-                     $tabs_fields .= '<div data-id="'.esc_attr($schema->ID).'" id="saswp_specific_'.esc_attr($schema->ID).'" class="saswp-post-specific-wrapper saswp_hide">';                     
-                     
-                     if($schema_type != 'ItemList'){                         
-                         $tabs_fields .= $setting_options;  
-                     }
-                     
+                     $tabs_fields .= '<div data-id="'.esc_attr($schema->ID).'" id="saswp_specific_'.esc_attr($schema->ID).'" class="saswp-post-specific-wrapper saswp_hide">';                                                                  
+                     $tabs_fields .= $setting_options;                       
                      $tabs_fields .= $output;                     
                      $tabs_fields .= $btn_in_loop;                     
                      $tabs_fields .= '</div>';
