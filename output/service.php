@@ -3045,9 +3045,13 @@ Class saswp_output_service{
             if( is_array($image_details) && !empty($image_details)){                                
                                                                                                                     
                                         if(isset($image_details[1]) && ($image_details[1] < 1200) && function_exists('saswp_aq_resize')){
-                                                                                        
-                                            $img_ratio    = $image_details[1] / $image_details[2];
-                                            $targetHeight = 1200 / $img_ratio;
+                                                
+                                            $targetHeight = 1200;
+                                            
+                                            if( ($image_details[1] > 0) && ($image_details[2] > 0) ){                                            
+                                                $img_ratio    = $image_details[1] / $image_details[2];
+                                                $targetHeight = 1200 / $img_ratio;                                                
+                                            }
                                                                                         
                                             $width  = array(1200, 1200, 1200);
                                             $height = array($targetHeight, 900, 675);
