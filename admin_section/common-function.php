@@ -2573,7 +2573,8 @@ function saswp_remove_unwanted_notice_boxes(){
         get_post_type() == 'saswp-collections' ||
         $screen_id =='saswp_page_structured_data_options' ||
         $screen_id =='edit-saswp' ||
-        $screen_id == 'saswp'     
+        $screen_id == 'saswp' ||
+        $screen_id == 'edit-saswp-collections'
        ){
         
        remove_all_actions('admin_notices'); 

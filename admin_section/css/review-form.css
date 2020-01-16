@@ -13,3 +13,10 @@
 .saswp-rating-front-div{
 	margin-bottom: 25px;
 }
+.saswp-rv-form-btn{
+    padding:10px;
+    text-align: center;
+}
+.saswp_hide{
+    display: none;
+}

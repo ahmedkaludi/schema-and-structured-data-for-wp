@@ -7,6 +7,22 @@ and open the template in the editor.
     Created on : Jul 27, 2018, 5:36:26 PM
     Author     : Magazine3
 */
+.saswp_review_form_toggle_check{
+    margin:10px !important;   
+}
+.saswp-show-form-on-tab{
+    padding: 5px;
+    display: inline-block;
+    width: 100%;
+}
+.saswp-show-form-on-tab strong{    
+    display: inline-block;
+    width: 30%;
+}
+.saswp-show-form-on-tab input{        
+    width: 45%;
+    text-align: center;
+}
 .saswp-disable-btn-container{
     float: right;
     padding:10px;

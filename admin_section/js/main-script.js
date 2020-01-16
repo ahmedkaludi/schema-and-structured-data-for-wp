@@ -2149,7 +2149,8 @@ return false;
                 html += '<div style="display:none;" id="saswp-accept-reviews-popup">';
                 html += '<div class="saswp-accept-rv-container">';
                 html += '<p>Use Below shortcode to show reviews form in your website. Using this you can accept reviews from your website directly</p>';
-                html += '<input value="[saswp-reviews-form]" type="text" readonly>';
+                html += '<div class="saswp-show-form-on-tab"><strong>Simple Form</strong> <input value="[saswp-reviews-form]" type="text" readonly></div>';
+                html += '<div class="saswp-show-form-on-tab"><strong>Show form on button tap</strong> <input value="[saswp-reviews-form onbutton=&quot;1&quot;]" type="text" readonly></div>';
                 html += '</div>';
                 html += '</div>';
                 
