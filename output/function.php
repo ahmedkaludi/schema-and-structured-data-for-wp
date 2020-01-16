@@ -152,8 +152,7 @@ function saswp_get_all_schema_markup_output() {
         $contact_page_output      = saswp_contact_page_output();  	
         $about_page_output        = saswp_about_page_output();      
         $author_output            = saswp_author_output();
-        $archive_output           = saswp_archive_output();
-        $itemlist_output          = saswp_itemlist_output();
+        $archive_output           = saswp_archive_output();        
         $collection_output        = saswp_fetched_reviews_json_ld();
         
         if($archive_output){
@@ -222,13 +221,7 @@ function saswp_get_all_schema_markup_output() {
                             $output .= saswp_json_print_format($item_list);   
                             $output .= ",";
                             $output .= "\n\n";
-                        }
-                        if(!empty($itemlist_output)){
-                        
-                            $output .= saswp_json_print_format($itemlist_output);   
-                            $output .= ",";
-                            $output .= "\n\n";
-                        }
+                        }                        
                         if(!empty($woo_cat_schema)){
                         
                             $output .= saswp_json_print_format($woo_cat_schema);   

@@ -248,6 +248,18 @@ function saswp_schema_output() {
                         
                         switch ($schema_type) {
                             
+                            case 'ItemList':
+                                                                                                                                                
+                                $input1['@context']                     = saswp_context_url();
+                                $input1['@type']                        = 'ItemList';  
+                                $input1['url']                          = saswp_get_permalink();  
+
+                                $input1 = apply_filters('saswp_modify_itemlist_schema_output', $input1 );
+                                
+                                $input1 = saswp_itemlist_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
+                                                                                                                                                                                                                                              
+                            break;
+                            
                             case 'FAQ':
                                                                                                                                                 
                                 $input1['@context']                     = saswp_context_url();
@@ -2270,11 +2282,3 @@ function saswp_fetched_reviews_schema_markup(){
                   
                 return $input1;
     }
-    
-function saswp_itemlist_output(){
-    
-    $input1 = array();
-    
-    return $input1;
-    
-}    

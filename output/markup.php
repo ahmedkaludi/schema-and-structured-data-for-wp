@@ -1147,6 +1147,79 @@ function saswp_trip_schema_markup($schema_id, $schema_post_id, $all_post_meta){
     return $input1;
 }
 
+
+function saswp_itemlist_schema_markup($schema_id, $schema_post_id, $all_post_meta){
+    
+    $response = array();
+    
+    $itemlist      = get_post_meta($schema_post_id, 'itemlist_item_'.$schema_id, true);  
+    $itemtype      = get_post_meta($schema_id, 'saswp_itemlist_item_type', true);  
+    $type_func     = 'saswp_'.$itemtype.'_schema_markup';    
+    $list_item     = array();
+    $image_details = array();
+    $logo_details  = array();
+    
+    if($itemlist){
+        
+                  $i = 1;
+                  foreach($itemlist as $item_meta){
+            
+                    $all_post_meta = array(); 
+            
+                    foreach($item_meta as $key => $val){
+                        
+                        $all_post_meta[$key.$schema_id] = array($val);   
+                       
+                        if( strpos($key, 'image__id') !== false ){
+                         
+                         $image_details   = saswp_get_image_by_id($val); 
+                                                  
+                        }
+                        
+                        if( strpos($key, 'logo__id') !== false ){
+                         
+                         $logo_details   = saswp_get_image_by_id($val); 
+                                                  
+                        }
+                        
+                    }
+                   
+                    if(function_exists($type_func)){
+                        
+                        $markup = call_user_func($type_func, $schema_id, $schema_post_id, $all_post_meta);                  
+                        unset($markup['@context'], $markup['@id']);
+                        
+                        if($image_details){
+                          $markup['image'] =  $image_details; 
+                        }
+                        if($logo_details){
+                          $markup['publisher']['@type'] =  'Organization'; 
+                          $markup['publisher']['logo']  =  $logo_details; 
+                        }
+                                                
+                        $json_markup['@type']       = 'ListItem';
+                        $json_markup['position']    = $i;
+                        $json_markup['item']        = $markup;
+
+                        $list_item[] = $json_markup;
+                        
+                    }
+                    
+                 $i++;
+                }
+            
+                    $response['@context']                     = saswp_context_url();
+                    $response['@context']                     = saswp_context_url();
+                    $response['@type']                        = 'ItemList';  
+                    $response['url']                          = saswp_get_permalink(); 
+                    $response['itemListElement']              = $list_item;
+       
+    }    
+    
+    return $response;
+    
+}
+
 function saswp_faq_schema_markup($schema_id, $schema_post_id, $all_post_meta){
     
     $input1 = array();
@@ -2110,6 +2183,7 @@ function saswp_article_schema_markup($schema_id, $schema_post_id, $all_post_meta
                 '@context'			=> saswp_context_url(),
                 '@type'				=> 'Article',
                 '@id'                           => trailingslashit(get_permalink()).'#article',
+                'url'				=> saswp_remove_warnings($all_post_meta, 'saswp_article_url_'.$schema_id, 'saswp_array'),
                 'inLanguage'                    => get_bloginfo('language'),
                 'mainEntityOfPage'              => saswp_remove_warnings($all_post_meta, 'saswp_article_main_entity_of_page_'.$schema_id, 'saswp_array'),
                 'image'				=> saswp_remove_warnings($all_post_meta, 'saswp_article_image_'.$schema_id, 'saswp_array'),
@@ -2123,20 +2197,21 @@ function saswp_article_schema_markup($schema_id, $schema_post_id, $all_post_meta
                                 'name'		=> saswp_remove_warnings($all_post_meta, 'saswp_article_author_name_'.$schema_id, 'saswp_array'),
                                 'description'   => saswp_remove_warnings($all_post_meta, 'saswp_article_author_description_'.$schema_id, 'saswp_array'),
                                 'url'           => saswp_remove_warnings($all_post_meta, 'saswp_article_author_url_'.$schema_id, 'saswp_array') 
-                                 ),
-                'publisher'			=> array(
-                        '@type'			=> 'Organization',
-                        'logo' 			=> array(
-                                '@type'		=> 'ImageObject',
-                                'url'		=> saswp_remove_warnings($all_post_meta, 'saswp_article_organization_logo_'.$schema_id, 'saswp_array'),
-                                'width'		=> saswp_remove_warnings($slogo, 'width', 'saswp_string'),
-                                'height'	=> saswp_remove_warnings($slogo, 'height', 'saswp_string'),
-                                ),
-                        'name'			=> saswp_remove_warnings($all_post_meta, 'saswp_article_organization_name_'.$schema_id, 'saswp_array'),
-                ),
+                                 )                
 
         );
 
+        if(isset($all_post_meta['saswp_article_organization_logo_'.$schema_id][0]) || isset($all_post_meta['saswp_article_organization_name_'.$schema_id][0])){
+        
+            $input1['publisher']['@type']          = 'Organization';
+            $input1['publisher']['logo']['@type']  = 'ImageObject';
+            $input1['publisher']['logo']['url']    = saswp_remove_warnings($all_post_meta, 'saswp_article_organization_logo_'.$schema_id, 'saswp_array');
+            $input1['publisher']['logo']['width']  = saswp_remove_warnings($slogo, 'width', 'saswp_string');
+            $input1['publisher']['logo']['height'] = saswp_remove_warnings($slogo, 'height', 'saswp_string');
+            $input1['publisher']['name']           = saswp_remove_warnings($all_post_meta, 'saswp_article_organization_name_'.$schema_id, 'saswp_array');
+            
+        }
+        
         $itemlist  = get_post_meta($schema_post_id, 'article_items_'.$schema_id, true);
 
         if($itemlist){
