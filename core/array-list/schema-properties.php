@@ -14,8 +14,9 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
             global $post;
             global $sd_data;  
             
-            $business_type      = '';
-                                    
+            $business_type = $current_user = $author_desc = $author_url = '';
+            $author_details     = array();
+            
             if($review_type){
                 $schema_type = $review_type;
             }else{
@@ -28,8 +29,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
             
                 $current_user       = wp_get_current_user();
                 $author_desc        = get_the_author_meta( 'user_description' );
-                $author_url         = get_the_author_meta( 'user_url' );
-                $author_details     = array();
+                $author_url         = get_the_author_meta( 'user_url' );                
 
                 if(function_exists('get_avatar_data')){
                     $author_details	= get_avatar_data($current_user->ID);           
@@ -130,7 +130,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                            'label' => 'Description',
                             'id' => 'local_business_description_'.$schema_id,
                             'type' => 'textarea',
-                            'default' => $post->post_excerpt                            
+                            'default' => is_object($post) ? $post->post_excerpt : ''                            
                         );
                     
                         $meta_field[] = array(
@@ -340,7 +340,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'label' => 'Author Name',
                             'id' => 'saswp_blogposting_author_name_'.$schema_id,
                             'type' => 'text',
-                            'default' => $current_user->display_name
+                            'default' => is_object($current_user) ? $current_user->display_name : ''
                     ),
                     array(
                             'label' => 'Author Description',
@@ -445,7 +445,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'label' => 'Article Body',
                             'id' => 'saswp_newsarticle_body_'.$schema_id,
                             'type' => 'textarea',
-                            'default' => $post->post_content
+                            'default' => is_object($post) ? $post->post_content : ''
                     ),
                      array(
                             'label' => 'Name',
@@ -480,7 +480,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'label' => 'Author Name',
                             'id' => 'saswp_newsarticle_author_name_'.$schema_id,
                             'type' => 'text',
-                            'default' => $current_user->display_name
+                            'default' => is_object($current_user) ?  $current_user->display_name : ''
                     ),
                     array(
                             'label' => 'Author Description',
@@ -581,7 +581,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'label' => 'Author Name',
                             'id' => 'saswp_webpage_author_name_'.$schema_id,
                             'type' => 'text',
-                            'default' => $current_user->display_name
+                            'default' => is_object($current_user) ? $current_user->display_name : ''
                     ),
                     array(
                             'label' => 'Author Description',
@@ -669,7 +669,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'label' => 'Author Name',
                             'id' => 'saswp_article_author_name_'.$schema_id,
                             'type' => 'text',
-                            'default' => $current_user->display_name
+                            'default' => is_object($current_user) ? $current_user->display_name : ''
                     ),
                     array(
                             'label' => 'Author Description',
@@ -886,7 +886,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'label' => 'Author Name',
                             'id' => 'saswp_tech_article_author_name_'.$schema_id,
                             'type' => 'text',
-                            'default' => $current_user->display_name
+                            'default' => is_object($current_user) ? $current_user->display_name : ''
                     ),
                     array(
                             'label' => 'Author Description',
@@ -933,7 +933,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'label' => 'Description',
                             'id' => 'saswp_course_description_'.$schema_id,
                             'type' => 'textarea',
-                            'default' => $post->post_excerpt
+                            'default' => is_object($post) ? $post->post_excerpt : ''
                     ) ,    
                     array(
                             'label' => 'URL',
@@ -1015,7 +1015,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'label' => 'Author Name',
                             'id' => 'saswp_dfp_author_name_'.$schema_id,
                             'type' => 'text',
-                            'default' => $current_user->display_name
+                            'default' => is_object($current_user) ? $current_user->display_name : ''
                     ),
                     array(
                             'label'   => 'Author Description',
@@ -1039,7 +1039,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'label'   => 'Organization Logo',
                             'id'      => 'saswp_dfp_organization_logo_'.$schema_id,
                             'type'    => 'media',
-                            'default' => $sd_data['sd_logo']['url']
+                            'default' => isset($sd_data['sd_logo']['url']) ? $sd_data['sd_logo']['url'] : ''
                     ),    
                         
                     );
@@ -1092,7 +1092,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'label' => 'Author Name',
                             'id' => 'saswp_recipe_author_name_'.$schema_id,
                             'type' => 'text',
-                            'default' => $current_user->display_name
+                            'default' => is_object($current_user) ? $current_user->display_name : ''
                     ),
                     array(
                             'label' => 'Author Description',
@@ -1110,7 +1110,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'label' => 'Author Image',
                             'id' => 'saswp_recipe_author_image_'.$schema_id,
                             'type' => 'media',
-                            'default' => $author_details['url']
+                            'default' => isset($author_details['url']) ? $author_details['url'] : ''
                     ),
                     array(
                             'label' => 'Organization Name',
@@ -1122,7 +1122,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'label' => 'Organization Logo',
                             'id' => 'saswp_recipe_organization_logo_'.$schema_id,
                             'type' => 'media',
-                            'default' => $sd_data['sd_logo']['url']
+                            'default' => isset($sd_data['sd_logo']['url']) ? $sd_data['sd_logo']['url'] : ''
                     ),                                                                                            
                     array(
                             'label' => 'Prepare Time',
@@ -1788,7 +1788,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'label' => 'Author Name',
                             'id' => 'saswp_video_object_author_name_'.$schema_id,
                             'type' => 'text',
-                            'default' => $current_user->display_name    
+                            'default' => is_object($current_user) ? $current_user->display_name : ''    
                     ),
                     array(
                             'label' => 'Author Description',
@@ -1876,7 +1876,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'label' => 'Author Name',
                             'id' => 'saswpimage_object_author_name_'.$schema_id,
                             'type' => 'text',
-                            'default' => $current_user->display_name    
+                            'default' => is_object($current_user) ? $current_user->display_name : ''    
                     ),
                     array(
                             'label' => 'Author Description',
@@ -1894,19 +1894,19 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'label' => 'Author Image',
                             'id' => 'saswpimage_object_author_image_'.$schema_id,
                             'type' => 'media',
-                            'default' => $author_details['url']   
+                            'default' => isset($author_details['url']) ? $author_details['url'] : ''   
                     ),
                     array(
                             'label' => 'Organization Name',
                             'id' => 'saswpimage_object_organization_name_'.$schema_id,
                             'type' => 'text',
-                            'default' =>  $sd_data['sd_name']
+                            'default' => isset($sd_data['sd_name']) ? $sd_data['sd_name'] : ''
                     ),
                     array(
                             'label' => 'Organization Logo',
                             'id' => 'saswpimage_object_organization_logo_'.$schema_id,
                             'type' => 'media',
-                            'default' => $sd_data['sd_logo']['url']
+                            'default' => isset($sd_data['sd_logo']['url']) ? $sd_data['sd_logo']['url'] : ''
                     ),    
                    );
                     break;
