@@ -241,7 +241,8 @@ class saswp_post_specific {
              $tabs              = '';
              $tabs_fields       = '';
              $schema_ids        = array();
-                                     
+              
+             $modify_option = get_option('modify_schema_post_enable_'.esc_attr($post->ID));      
              $schema_enable = get_post_meta($post->ID, 'saswp_enable_disable_schema', true);   
              $custom_markp  = get_post_meta($post->ID, 'saswp_custom_schema_field', true);              
              $disable_btn.= '<div class="saswp-disable-btn-container">'
@@ -270,21 +271,34 @@ class saswp_post_specific {
                       if($advnace_status !== 1){
                           continue;
                       }
-                                           
+                                                          
                      $disabled  = '';
+                     $modified  = false;
                      $item_type = '';
                                                                                     
                      if(isset($schema_enable[$schema->ID]) && $schema_enable[$schema->ID] == 0){
                          
                         $disabled = 'checked';    
                      
-                     }  
+                     }
+                     
+                     if($modify_option == 'enable' && !isset($schema_enable[$schema->ID])){
+                     
+                        $disabled = 'checked'; 
+                         
+                     }
+                     
+                     if($modify_option == 'enable' && (isset($schema_enable[$schema->ID]) && $schema_enable[$schema->ID] == 1)){
+                     
+                        $modified = true;  
+                         
+                     }
                      
                      $modify_this       = get_post_meta($post->ID, 'saswp_modify_this_schema_'.$schema->ID, true);                                          
                      $schema_type       = get_post_meta($schema->ID, 'schema_type', true);  
                      $response          = saswp_get_fields_by_schema_type($schema->ID);                       
                      $saswp_meta_fields = array_filter($response);                     
-                     $output            = $this->_common_view->saswp_saswp_post_specific($schema_type, $saswp_meta_fields, $post->ID, $schema->ID, null, $disabled, $modify_this ); 
+                     $output            = $this->_common_view->saswp_saswp_post_specific($schema_type, $saswp_meta_fields, $post->ID, $schema->ID, null, $disabled, $modify_this, $modified ); 
                      
                      if($schema_type == 'ItemList'){
                          $item_type         = '('.get_post_meta($schema->ID, 'saswp_itemlist_item_type', true).')';
@@ -298,7 +312,7 @@ class saswp_post_specific {
                          }
                          $response          = saswp_get_fields_by_schema_type($schema->ID, null, $item_reviewed);                                                              
                          $saswp_meta_fields = array_filter($response);                           
-                         $output           .= $this->_common_view->saswp_saswp_post_specific($schema_type, $saswp_meta_fields, $post->ID, $schema->ID ,$item_reviewed, $disabled, $modify_this);
+                         $output           .= $this->_common_view->saswp_saswp_post_specific($schema_type, $saswp_meta_fields, $post->ID, $schema->ID ,$item_reviewed, $disabled, $modify_this, $modified);
                          
                      }
                      
@@ -313,13 +327,13 @@ class saswp_post_specific {
                             if($schema_type == 'ItemList'){
                                  $setting_options  .= '<input class="saswp_modify_this_schema_hidden_'.esc_attr($schema->ID).'" type="hidden" name="saswp_modify_this_schema_'.esc_attr($schema->ID).'" value="1">';
                             }else{
-                                 $setting_options  .= '<input class="saswp_modify_this_schema_hidden_'.esc_attr($schema->ID).'" type="hidden" name="saswp_modify_this_schema_'.esc_attr($schema->ID).'" value="'.($modify_this ? $modify_this : 0).'">';
+                                 $setting_options  .= '<input class="saswp_modify_this_schema_hidden_'.esc_attr($schema->ID).'" type="hidden" name="saswp_modify_this_schema_'.esc_attr($schema->ID).'" value="'.( ($modify_this || $modified ) ? 1 : 0).'">';
                             }
                     
                          if(!empty($disabled)){
                              $setting_options  .= '<div class="saswp-ps-text saswp_hide">';
                          }else{
-                             $setting_options  .= '<div class="saswp-ps-text '.($modify_this ? '' : 'saswp_hide').'">';
+                             $setting_options  .= '<div class="saswp-ps-text '.( ($modify_this || $modified ) ? '' : 'saswp_hide').'">';
                          }
                          
                          $setting_options  .= '<a class="button button-default saswp-restore-schema button" schema-id="'.esc_attr($schema->ID).'">Restore Default</a>';                         
@@ -328,7 +342,7 @@ class saswp_post_specific {
                          if(!empty($disabled)){
                              $setting_options  .= '<div class="saswp-ps-text saswp_hide">';
                          }else{
-                             $setting_options  .= '<div class="saswp-ps-text '.($modify_this ? 'saswp_hide' : '').'">';
+                             $setting_options  .= '<div class="saswp-ps-text '.(($modify_this || $modified ) ? 'saswp_hide' : '').'">';
                          }    
                          
                          $schema_type_txt = $schema_type;
@@ -501,10 +515,10 @@ class saswp_post_specific {
                 if ( ! current_user_can( 'edit_post', $post_id ) ) return $post_id;    
                                        
                 $allowed_html = saswp_expanded_allowed_tags(); 
-                 
-                                
+                                                 
                 $custom_schema  = wp_kses(wp_unslash($_POST['saswp_custom_schema_field']), $allowed_html);
                 update_post_meta( $post_id, 'saswp_custom_schema_field', $custom_schema );
+                update_option('modify_schema_post_enable_'.$post_id, ''); 
                                                                                
                 $this->_common_view->saswp_save_common_view($post_id, $this->all_schema);
 	}

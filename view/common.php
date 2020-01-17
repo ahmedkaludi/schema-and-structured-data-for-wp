@@ -172,7 +172,7 @@ class saswp_view_common_class {
                  
         }
         
-    public function saswp_schema_fields_html_on_the_fly($schema_type, $schema_id, $post_id, $disabled_schema=null, $modify_this=null){
+    public function saswp_schema_fields_html_on_the_fly($schema_type, $schema_id, $post_id, $disabled_schema=null, $modify_this=null, $modified = null){
             
                     $howto_data        = array();                    
                     $tabs_fields       = '';
@@ -191,7 +191,7 @@ class saswp_view_common_class {
                     
                         if(empty($disabled_schema)){
                         
-                        if($modify_this == 1){
+                        if( $modified || $modify_this == 1){
                              $tabs_fields .= '<div schema-id="'.esc_attr($schema_id).'" class="saswp-table-create-onajax saswp-ps-toggle">';   
                         }else{
                              $tabs_fields .= '<div schema-id="'.esc_attr($schema_id).'" class="saswp-table-create-onajax saswp-ps-toggle saswp_hide">';
@@ -259,7 +259,7 @@ class saswp_view_common_class {
             
         }
         
-    public function saswp_saswp_post_specific($schema_type, $saswp_meta_fields, $post_id, $schema_id=null, $item_reviewed = null, $disabled_schema=null, $modify_this=null) { 
+    public function saswp_saswp_post_specific($schema_type, $saswp_meta_fields, $post_id, $schema_id=null, $item_reviewed = null, $disabled_schema=null, $modify_this=null, $modified= null) { 
                                 
                 global $sd_data;                        
                 
@@ -546,7 +546,7 @@ class saswp_view_common_class {
                      
                      if(empty($disabled_schema)){
                          
-                         if($modify_this == 1){
+                         if($modified  ||$modify_this == 1){
                              $tabs_fields .= '<div schema-id="'.esc_attr($schema_id).'" class="saswp-table-create-onload saswp-ps-toggle">';    
                          }else{
                              $tabs_fields .= '<div schema-id="'.esc_attr($schema_id).'" class="saswp-table-create-onload saswp-ps-toggle saswp_hide">'; 
@@ -562,10 +562,10 @@ class saswp_view_common_class {
                      $tabs_fields .= '</div>';
                        
                      if($item_reviewed){
-                        $tabs_fields .=  $this->saswp_schema_fields_html_on_the_fly($item_reviewed, $schema_id, $post_id, $disabled_schema, $modify_this);    
+                        $tabs_fields .=  $this->saswp_schema_fields_html_on_the_fly($item_reviewed, $schema_id, $post_id, $disabled_schema, $modify_this, $modified);    
                      }else{
                          
-                        $tabs_fields .=  $this->saswp_schema_fields_html_on_the_fly($schema_type, $schema_id, $post_id, $disabled_schema, $modify_this); 
+                        $tabs_fields .=  $this->saswp_schema_fields_html_on_the_fly($schema_type, $schema_id, $post_id, $disabled_schema, $modify_this, $modified); 
                      }
                      
                 

@@ -119,7 +119,7 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 == Changelog ==
 
 
-= 1.9.22 (16 Jan 2020) =
+= 1.9.22 (17 Jan 2020) =
 
 * Added: Pagination option in review collection
 * Added: Show review form on button click #713

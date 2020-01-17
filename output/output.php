@@ -238,11 +238,14 @@ function saswp_schema_output() {
                         $extra_theme_review = array();                        
                         $extra_theme_review = $service_object->saswp_extra_theme_review_details(get_the_ID());
                         
+                        $modify_option      = get_option('modify_schema_post_enable_'.get_the_ID()); 
                         $modified_schema    = get_post_meta(get_the_ID(), 'saswp_modify_this_schema_'.$schema_post_id, true);   
                         $schema_enable      = get_post_meta(get_the_ID(), 'saswp_enable_disable_schema', true); 
                         $all_post_meta      = get_post_meta(get_the_ID(), $key='', true);
                         
-                        if(isset($schema_enable[$schema_post_id]) && $schema_enable[$schema_post_id] == 0){
+                        if( (isset($schema_enable[$schema_post_id]) && $schema_enable[$schema_post_id] == 0 ) || 
+                                ($modify_option == 'enable' && !isset($schema_enable[$schema_post_id]))  
+                                ){
                                     continue;
                         }
                         
