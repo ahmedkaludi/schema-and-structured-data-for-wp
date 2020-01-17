@@ -138,8 +138,7 @@ class saswp_view_common_class {
 						'<input id="%s" name="%s" type="checkbox" value="1" %s>', 
                                                 esc_attr($meta_field['name']).'_'.esc_attr($index).'_'.esc_attr($schema_id),
                                                 esc_attr($meta_name).'_'.esc_attr($schema_id).'['.esc_attr($index).']['.esc_attr($meta_field['name']).']',
-						$data[$meta_field['name']] === '1' ? 'checked' : '',
-												
+						$data[$meta_field['name']] === '1' ? 'checked' : ''												
 						);
 					break;           
                                          
