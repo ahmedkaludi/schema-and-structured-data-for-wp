@@ -49,10 +49,7 @@ class saswp_post_specific {
 		add_action( 'save_post', array( $this, 'saswp_post_specific_save_fields' ) );
                 add_action( 'wp_ajax_saswp_get_sub_business_ajax', array($this,'saswp_get_sub_business_ajax'));
                 
-                add_action( 'wp_ajax_saswp_get_schema_dynamic_fields_ajax', array($this,'saswp_get_schema_dynamic_fields_ajax'));
-                
-                add_action( 'wp_ajax_saswp_modify_schema_post_enable', array($this,'saswp_modify_schema_post_enable'));
-                                                                                
+                add_action( 'wp_ajax_saswp_get_schema_dynamic_fields_ajax', array($this,'saswp_get_schema_dynamic_fields_ajax'));                                                                                                                
                 add_action( 'wp_ajax_saswp_enable_disable_schema_on_post', array($this,'saswp_enable_disable_schema_on_post'));
                 
         }
@@ -473,33 +470,6 @@ class saswp_post_specific {
                 echo $this->saswp_post_meta_box_html($post);                                             
                                                                                                                                                                    		
 	}        
-        /**
-         * Generate the post specific metabox html with dynamic values on ajax call
-         * @return type string
-         * @since version 1.0.4
-         */                             
-        public function saswp_modify_schema_post_enable(){
-            
-                if ( ! isset( $_GET['saswp_security_nonce'] ) ){
-                    return; 
-                }
-                if ( !wp_verify_nonce( $_GET['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
-                   return;  
-                }  
-                
-                 $post_id = intval($_GET['post_id']);
-                                                   
-                 update_option('modify_schema_post_enable_'.$post_id, 'enable');    
-                                                 
-                 $post = get_post($post_id);
-                 
-                 $response = $this->saswp_post_meta_box_html($post);
-                 
-                 echo $response;
-                                                   
-                 wp_die();
-                 
-                }
         
         /**
          * Function to save post specific metabox fields value
