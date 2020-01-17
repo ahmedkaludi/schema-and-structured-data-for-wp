@@ -29,6 +29,7 @@ and open the template in the editor.
 }
 .saswp-disable-label{
     padding: 10px;
+    color: #999;
 }
 .saswp-setup-schema-btn{
     margin: 5px !important;
@@ -427,18 +428,18 @@ clear: both;
 }
 .saswp-tab a.selected {    
     color: #555;    
-    background-color: #eee;
+    background-color: #fff;
 }
 .saswp-tab-links{
-    display: block;    
-    padding: 10px;    
-    outline: none;
+    display: block;
+    padding: 12px 14px;
+    outline: 0;
     text-align: left;
     cursor: pointer;
-    transition: 0.3s;
+    transition: .3s;
     font-size: 15px;
     width: 100%;
-    overflow: hidden;    
+    overflow: hidden;
     box-shadow: none;
     text-decoration: none;
     line-height: 20px!important;
@@ -446,6 +447,7 @@ clear: both;
 }
 #post_specific .inside{
     padding: 0px;
+    margin: 0px;
 }
 .saswp-star-rating{
     cursor: pointer;
@@ -561,10 +563,10 @@ Compatibility tab css ends
 On/Off Buttons starts here
 */
 .saswp-switch {
-    position: relative;
+        position: relative;
     display: inline-block;
-    width: 40px;
-    height: 22px;
+    width: 30px;
+    height: 16px;
     border: 20px;
 }
 
@@ -575,25 +577,25 @@ On/Off Buttons starts here
 }
 
 .saswp-slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #5a6783;
-  transition: .4s;
-  border-radius: 20px;
+ position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #b5b5b5;
+    transition: .4s;
+    border-radius: 20px;
 }
 
 .saswp-slider:before {
     position: absolute;
     content: "";
-    height: 15px;
-    width: 15px;
-    left: 4px;
-    bottom: 4px;
-    background-color: white;
+    height: 10px;
+    width: 10px;
+    left: 2px;
+    bottom: 3px;
+    background-color: #fff;
     transition: .4s;
     border-radius: 20px;
 }
@@ -621,7 +623,7 @@ input:checked + .saswp-slider:before {
   border-radius: 50%;
 }
 .saswp-tab-nav{
-    background-color: #fafafa;
+    background-color: #f9f9f9;
     margin-top: 0px;
 }
 .saswp-tab-nav li{
@@ -631,8 +633,9 @@ input:checked + .saswp-slider:before {
     margin-bottom:0px;    
 }
 
-.saswp-tab-nav .selected{
-    background-color: #ccc;
+.saswp-tab-nav .selected{    
+    width: 100.5%;
+    z-index: 9999;
 }
 .saswp-single-post-restore .saswp-switch{
     height: 28px;
@@ -2395,7 +2398,10 @@ span.saswp-mines{
 
 }
 .saswp-ps-text{
-    padding-bottom: 10px;
+    padding: 20px 5px;
+}
+.saswp-ps-text span{
+    font-weight:600;
 }
 .saswp-ps-toggle{
     padding: 10px;

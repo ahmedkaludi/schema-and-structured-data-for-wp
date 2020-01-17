@@ -1655,7 +1655,7 @@ return false;
                     
     saswp_item_reviewed_call();
                                                 
-        $('.saswp-local-schema-time-picker').timepicker({ 'timeFormat': 'H:i:s'});
+        jQuery('.saswp-local-schema-time-picker').timepicker({ 'timeFormat': 'H:i:s'});
         
         $(document).on("click",".saswp-add-custom-schema", function(e){
             
