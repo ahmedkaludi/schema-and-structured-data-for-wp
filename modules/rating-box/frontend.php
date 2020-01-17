@@ -122,7 +122,7 @@ Class saswp_rating_box_frontend{
                                 
                                 echo '<!-- Schema & Structured Data For WP Rating Module v'.esc_attr(SASWP_VERSION).' - -->';
                                 echo "\n";
-                                echo '<script type="application/ld+json" class="saswp-schema-markup-output">'; 
+                                echo '<script type="application/ld+json" class="saswp-schema-markup-rating-module-output">'; 
                                 echo "\n";       
                                 echo saswp_json_print_format($input1);       
                                 echo "\n";

@@ -153,7 +153,13 @@ class SASWP_Reviews_Form {
         }
         
         public function saswp_reviews_form_render($attr){
-                                     
+            
+            $on_button = false;
+            
+            if(isset($attr['onbutton'])){
+                $on_button = true;
+            }
+            
             $is_amp = false;
             
             if(!saswp_non_amp()){
@@ -181,14 +187,22 @@ class SASWP_Reviews_Form {
             
             if(!$is_amp){ 
                 
+                if($on_button){
+                    $form       .= '<div class="saswp-rv-form-btn"><a href="#" class="button button-default">Review Form</a></div>';
+                }
+                
                 $rating_html = '<div class="saswp-rating-front-div"></div><input type="hidden" name="saswp_review_rating" value="5">';
-                $form   .= '<form action="'.esc_url( admin_url('admin-post.php') ).'" method="post" class="saswp-review-submission-form">';
+                $form   .= '<form action="'.esc_url( admin_url('admin-post.php') ).'" method="post" class="saswp-review-submission-form '.($on_button ? "saswp_hide" : "").'">';
                 
             }else{
                 
                 add_action( 'amp_post_template_data', array($this, 'saswp_reviews_form_amp_script'));  
                 
-                $form   .= '<form action-xhr="'.esc_url( admin_url('admin-post.php') ).'" method="post" class="saswp-review-submission-form">';
+                if($on_button){
+                    $form       .= '<div class="saswp-rv-form-btn"><span href="#" class="button button-default" on="tap:AMP.setState({ saswp_review_form_toggle: !saswp_review_form_toggle })" role="button" tabindex="1">Review Form</span></div>';
+                }
+                
+                $form   .= '<form   action-xhr="'.esc_url( admin_url('admin-post.php') ).'" method="post" class="saswp-review-submission-form '.($on_button ? "saswp_hide" : "").'" [class]="saswp_review_form_toggle ? \'saswp-review-submission-form\' : \'saswp_hide saswp-review-submission-form\' ">';
                 
                 $rating_html = ''
                         . '<input type="hidden" name="saswp_review_rating" [value]="saswp_review_rating">'

@@ -19,9 +19,93 @@ class saswp_reviews_service {
     public function saswp_service_hooks(){
         
         add_action('wp_ajax_saswp_fetch_google_reviews', array($this,'saswp_fetch_google_reviews'));
-        add_shortcode('saswp-reviews', array($this, 'saswp_reviews_shortcode' ),10);
-        add_action ('wp_footer', array($this, 'saswp_fetched_reviews_schema_markup'),99);
-        add_action ('amp_post_template_footer', array($this, 'saswp_fetched_reviews_schema_markup'),99);
+        add_shortcode('saswp-reviews', array($this, 'saswp_reviews_shortcode' ),10);  
+        
+    }
+    
+    public function saswp_get_reviews_list_by_design($design, $platform_id, $total_reviews, $sorting){
+        
+        $badge_collection = array();
+        $collection       = array();
+        $attr             = array();
+        
+        switch ($design) {
+            
+            case 'grid':                                
+                $attr['in'] = $total_reviews;
+                $collection = $this->saswp_get_reviews_list_by_parameters($attr); 
+                break;
+            case 'gallery':              
+            case 'badge':                                
+            case 'popup':                
+            case 'fomo':
+                
+                if($platform_id){
+
+                    foreach ($platform_id as $key => $val){
+
+                        $reviews_list = $this->saswp_get_reviews_list_by_parameters(null, $key, $val); 
+                        $badge_collection[] = $reviews_list;
+
+                        if($reviews_list){
+
+                            $collection = array_merge($collection, $reviews_list);
+                        }
+
+                    }
+
+                }
+                
+                if($design == 'badge'){
+                    $collection = $badge_collection;
+                }
+                $collection = $this->saswp_sort_collection($collection, $sorting);                
+                break;
+
+            default:
+                break;
+        }
+                
+        return $collection;        
+    }
+    
+    public function saswp_get_collection_list($colcount = null, $paged = null, $offset = null){
+        
+            $response  = array();
+        
+            $arg['post_type']      = 'saswp-collections';
+            $arg['numberposts']    = -1;
+            $arg['post_status']    = 'publish';
+            
+            if($colcount){
+                $arg['numberposts']    = $colcount;
+            }
+            if($paged){
+                $arg['paged']    = $paged;
+            }
+            if($offset){
+                $arg['offset']    = $offset;
+            }
+            
+            $collection = get_posts( $arg );
+            
+            if($collection){
+
+                $col_opt = array(); 
+
+                foreach($collection as $col){
+
+                   $col_opt[] = array(
+                       'value' => $col->ID,
+                       'label' => $col->post_title
+                   );
+
+                }
+
+               $response  = $col_opt;
+
+            }
+          return $response;             
     }
     
     public function saswp_review_form_process_data($form_data){
@@ -97,96 +181,7 @@ class saswp_reviews_service {
                 
                 return $post_id;
         
-    }
-    
-    public function saswp_fetched_reviews_schema_markup(){
-        
-                  global $sd_data, $saswp_post_reviews;
-                  
-                  $html  = ''; 
-                  
-                    if($saswp_post_reviews){
-                        
-                        $rv_markup = $this->saswp_get_reviews_schema_markup(array_unique($saswp_post_reviews, SORT_REGULAR));
-                                  
-                        $input1['@context'] = saswp_context_url();
-                        $input1['@type']    = (isset($sd_data['saswp_organization_type']) && $sd_data['saswp_organization_type'] !='' )? $sd_data['saswp_organization_type'] : 'Organization';
-                        $input1['name']     = (isset($sd_data['sd_name']) && $sd_data['sd_name'] !='' )? $sd_data['sd_name'] : get_bloginfo();
-                                          
-                        $input1  = $input1 + $rv_markup;
-                      
-                        $html .= "\n";
-                        $html .= '<!-- Schema & Structured Data For Reviews v'.esc_attr(SASWP_VERSION).' - -->';
-                        $html .= "\n";
-                        $html .= '<script type="application/ld+json" class="saswp-reviews-markup">'; 
-                        $html .= "\n";       
-                        $html .= saswp_json_print_format($input1);       
-                        $html .= "\n";
-                        $html .= '</script>';
-                        $html .= "\n\n";
-                        
-                    }
-                  
-                  echo $html;
-    }
-    /**
-     * Function to get reviews schema markup
-     * @global type $sd_data
-     * @return string
-     */
-    public function saswp_get_reviews_schema_markup($reviews){
-                            
-                            $sumofrating = 0;
-                            $avg_rating  = 1;
-                            $reviews_arr = array();
-                            $input1      = array();
-                            
-                            if($reviews){
-                                
-                                foreach($reviews as $rv){
-                                                                        
-                                    $sumofrating += $rv['saswp_review_rating'];
-                                    
-                                    if($rv['saswp_review_rating'] && $rv['saswp_reviewer_name']){
-                                        
-                                        $reviews_arr[] = array(
-                                            '@type'         => 'Review',
-                                            'author'        => $rv['saswp_reviewer_name'],
-                                            'datePublished' => $rv['saswp_review_date'],
-                                            'description'   => $rv['saswp_review_text'],
-                                            'reviewRating'  => array(
-                                                        '@type'       => 'Rating',
-                                                        'bestRating'  => 5,
-                                                        'ratingValue' => $rv['saswp_review_rating'],
-                                                        'worstRating' => 1
-                                            ),
-                                       );
-                                        
-                                    }
-                                    
-                                }
-                                
-                                    if($sumofrating> 0){
-                                      $avg_rating = $sumofrating /  count($reviews); 
-                                    }
-                                
-                                    if(!empty($reviews_arr)){
-                                       
-                                        $input1['review'] = $reviews_arr;
-                                        
-                                    }
-
-                                    $input1['aggregateRating'] = array(
-                                        '@type'       => 'AggregateRating',
-                                        'reviewCount' => count($reviews),
-                                        'ratingValue' => esc_attr($avg_rating),                                        
-                                     );
-                                
-                                }
-                            return $input1;                                      
-                        
-    }
-    
+    }                
     /**
      * Function to generate reviews html
      * @param type $reviews
@@ -557,7 +552,10 @@ class saswp_reviews_service {
             $arg['post_status']    = 'publish';
                         
             if($attr){
-                
+            
+            if(isset($attr['in'])){
+              $arg['post__in']    = $attr['in'];  
+            }                    
             if(isset($attr['id'])){
               $arg['attachment_id']    = $attr['id'];  
             }
@@ -762,15 +760,14 @@ class saswp_reviews_service {
         
     }
     
-    public function saswp_create_collection_grid($cols, $collection){
+    public function saswp_create_collection_grid($cols, $collection, $total_reviews, $pagination, $perpage, $offset, $nextpage, $data_id, $total_reviews_count){
         
            $html          = '';                
            $grid_cols     = '';
 
            if($collection){
                
-               if(saswp_non_amp()){
-                   
+               $page_count = ceil($total_reviews_count / $perpage);               
                $html .= '<div class="saswp-r1">';
 
                for($i=1; $i <= $cols; $i++ ){
@@ -779,11 +776,10 @@ class saswp_reviews_service {
 
                if($cols > 5){
 
-                      $html .= '<ul style="grid-template-columns:'.esc_attr($grid_cols).';overflow-x: scroll;">'; 
-                      }else{
-                      $html .= '<ul style="grid-template-columns:'.esc_attr($grid_cols).';overflow-x:hidden;">';     
-                      }                               
-
+                $html .= '<ul style="grid-template-columns:'.esc_attr($grid_cols).';overflow-x: scroll;">'; 
+                }else{
+                $html .= '<ul style="grid-template-columns:'.esc_attr($grid_cols).';overflow-x:hidden;">';     
+                }                               
                
                foreach ($collection as $value){
 
@@ -815,56 +811,34 @@ class saswp_reviews_service {
                }
 
                $html .= '</ul>';
-               $html .= '</div>';
-                   
-               }else{
-                   
-               $html .= '<div class="saswp-r1">';
-
-               for($i=1; $i <= $cols; $i++ ){
-                   $grid_cols .=' 1fr'; 
-               }                     
-               if($cols > 4){
-
-                      $html .= '<ul class="saswp-grid-scroll" style="grid-template-columns:'.esc_attr($grid_cols).';">'; 
-                      }else{
-                      $html .= '<ul class="saswp-grid-scroll-hidden" style="grid-template-columns:'.esc_attr($grid_cols).';">';     
-                      }  
                
-               foreach ($collection as $value){
-
-                       $date_str = $this->saswp_convert_datetostring($value['saswp_review_date']); 
-
-                       $html .= '<li>';                       
-                       $html .= '<div class="saswp-rc">';
-                       $html .= '<div class="saswp-rc-a">';
-                       $html .= '<div class="saswp-r1-aimg">';
-                       $html .= '<amp-img src="'.esc_url($value['saswp_reviewer_image']).'" width="70" height="56"></amp-img>';                       
-                       $html .= '</div>';
-                       $html .= '<div class="saswp-rc-nm">';
-                       $html .= '<a target="_blank" href="'.esc_url($value['saswp_review_link']).'">'.esc_attr($value['saswp_reviewer_name']).'</a>';
-                       $html .= saswp_get_rating_html_by_value($value['saswp_review_rating']);                       
-                       $html .= '<span class="saswp-rc-dt">'.esc_attr($date_str['date']).'</span>';
-                       $html .= '</div>';
-                       $html .= '</div>';
-
-                       $html .= '<div class="saswp-rc-lg">';
-                       $html .= '<img src="'.esc_url($value['saswp_review_platform_icon']).'"/>';
-                       $html .= '</div>';
-
-                       $html .= '</div>';
-                       $html .='<div class="saswp-rc-cnt">';
-                       $html .= '<p>'. esc_attr($value['saswp_review_text']).'</p>';
-                       $html .= '</div>';
-                       $html .= '</li>'; 
-
-               }
-
-               $html .= '</ul>';
+               if($page_count > 0 && $pagination){
+                   
+                        $current_url = saswp_get_current_url();
+                        
+                        if(strpos($current_url, "?rv_page") !== false){
+                            $current_url = substr($current_url, 0, strpos($current_url, "?rv_page"));
+                        }                        
+                        $html .= '<div class="saswp-grid-pagination">';                    
+                        $html .= '<a class="saswp-grid-page" data-id="1" href="'.esc_url($current_url).'">&laquo;</a>'; 
+                        
+                        for($i=1; $i <= $page_count; $i++){
+                            
+                            if($i == $data_id){
+                                $html .= '<a class="active saswp-grid-page" href="'.esc_url($current_url.'?rv_page='.$i).'">'.$i.'</a>';    
+                            }else{
+                                $html .= '<a class="saswp-grid-page" href="'.esc_url($current_url.'?rv_page='.$i).'">'.$i.'</a>';    
+                            }
+                            
+                        }      
+                        
+                        $html .= '<a class="saswp-grid-page" href="'.esc_url($current_url.'?rv_page='.$page_count).'">&raquo;</a>';                                     
+                        
+                        $html .= '</div>';                        
+                        
+                    }
+                                             
                $html .= '</div>';
-                   
-                   
-               }
                
            }           
            return $html;

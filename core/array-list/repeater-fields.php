@@ -3,9 +3,12 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 return array( 'schema_type_element' => array( 
+                        'ItemList' => array(
+                               'itemlist_item'       => 'itemlist_item',                                                     
+                        ),
                         'MusicComposition' => array(
                                'music_composer'       => 'music_composer',                                                     
-                        ),
+                        ),                        
                         'Movie' => array(
                                'movie_actor'       => 'movie_actor',                                                     
                         ),

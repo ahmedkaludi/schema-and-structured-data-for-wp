@@ -54,7 +54,24 @@ Rating css starts here
     height: 16px;
     background-repeat: no-repeat;           
 }
-       
+      
+.saswp-rv-form-btn{
+    padding:10px;
+    text-align: center;
+    
+}
+.saswp-rv-form-btn span{
+    background: #005be2;
+    cursor: pointer;
+    padding: 12px 25px 12px 25px;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-size: 15px;    
+}
+.saswp_hide{
+    display: none;
+}
 
 /* 
 Rating css ends here

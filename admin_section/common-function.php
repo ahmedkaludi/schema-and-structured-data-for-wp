@@ -19,21 +19,6 @@ if ( ! defined('ABSPATH') ) exit;
     add_action( 'plugins_loaded', 'saswp_defaultSettings' );
     add_action( 'wp_enqueue_scripts', 'saswp_frontend_enqueue' );
     add_action( 'amp_post_template_css','saswp_enqueue_amp_script');
-    
-    
-    //global variable to store List of labels starts here   
-        $translation_labels = array(
-            'translation-pros'            => 'Pros',
-            'translation-cons'            => 'Cons',
-            'translation-review-overview' => 'Review Overview',
-            'translation-overall-score'   => 'Overall Score',
-            'translation-tools'           => 'Tools',
-            'translation-materials'       => 'Materials',
-            'translation-time-needed'     => 'Time Needed',
-            'translation-name'            => 'Name',
-            'translation-comment'         => 'Comment',
-        );
-          //global variable to store List of labels ends here
         
       /**
        * Function to get manual translated text 
@@ -2425,7 +2410,7 @@ function saswp_on_activation(){
         
     }
             
-    $defaults = get_option('sd_data');
+    $defaults = get_option('sd_data', saswp_default_settings_array());
     
     $active_plugin = saswp_compatible_active_list();
                 
@@ -2588,7 +2573,8 @@ function saswp_remove_unwanted_notice_boxes(){
         get_post_type() == 'saswp-collections' ||
         $screen_id =='saswp_page_structured_data_options' ||
         $screen_id =='edit-saswp' ||
-        $screen_id == 'saswp'     
+        $screen_id == 'saswp' ||
+        $screen_id == 'edit-saswp-collections'
        ){
         
        remove_all_actions('admin_notices'); 
@@ -2675,7 +2661,7 @@ function saswp_admin_notice(){
 
 function saswp_remove_anonymous_object_filter_or_action( $tag, $class, $method, $hook_type ){
     
-        $filters = $GLOBALS['wp_filter'][ $tag ];        
+        $filters = $GLOBALS['wp_filter'][ $tag ];               
         if ( empty ( $filters ) )
         {
             return;
@@ -2719,6 +2705,7 @@ function saswp_get_field_note($pname){
     
     $notes = array(  
             'easy_recipe'              => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/easyrecipe/">EasyRecipe</a>',
+            'wordpress_news'           => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="#">Wordpress News</a>',
             'strong_testimonials'      => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/strong-testimonials">Strong Testimonials</a>',
             'wp_event_aggregator'      => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wp-event-aggregator/">WP Event Aggregator</a>',
             'wordlift'                 => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wordlift/">WordLift</a>',
@@ -2756,7 +2743,7 @@ function saswp_get_field_note($pname){
             'woocommerce_bookings'     => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/woocommerce/">Woocommerce Bookings</a>',        
             'extra'                    => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://www.elegantthemes.com/gallery/extra/">Extra Theme</a>',
             'homeland'                 => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://themeforest.net/item/homeland-responsive-real-estate-theme-for-wordpress/6518965">Homeland</a>',            
-            'wpresidence'             => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wpresidence.net/">WP Residence</a>',            
+            'wpresidence'              => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wpresidence.net/">WP Residence</a>',            
             'realhomes'                => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://themeforest.net/item/real-homes-wordpress-real-estate-theme/5373914">RealHomes</a>',
             'jannah'                   => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://codecanyon.net/item/taqyeem-wordpress-review-plugin/4558799">Taqyeem</a>',
             'soledad'                  => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://themeforest.net/item/soledad-multiconcept-blogmagazine-wp-theme/12945398">Soledad Theme</a>',
@@ -2871,19 +2858,6 @@ function saswp_get_capability_by_role($role){
     
 }
 
-function saswp_current_user_role(){
-    
-    if( is_user_logged_in() ) {
-        
-    $user            = wp_get_current_user();
-    $role            = (array) $user->roles;
-    
-    return $role[0];
-    
-    }
-        
-}
-
 function saswp_current_user_allowed(){
     
     global $sd_data;
@@ -2917,7 +2891,7 @@ function saswp_post_type_capabilities(){
     
         $cap = saswp_current_user_can();
     
-        if(saswp_current_user_role() != 'administrator'){
+        if(!is_super_admin()){
         
             $caplist =  array(
                 'publish_posts'       => $cap,
@@ -2954,6 +2928,36 @@ function saswp_get_image_by_id($image_id){
             }
                 
     }
+    
+    return $response;
+    
+}
+
+function saswp_is_date_field($date_str){
+    
+    $response = false;
+    
+            if (strpos($date_str, 'date_modified') !== false 
+             || strpos($date_str, 'date_published') !== false
+             || strpos($date_str, 'published_date') !== false
+             || strpos($date_str, 'video_upload_date') !== false
+             || strpos($date_str, 'qa_date_created') !== false 
+             || strpos($date_str, 'accepted_answer_date_created') !== false 
+             || strpos($date_str, 'suggested_answer_date_created') !== false 
+             || strpos($date_str, 'priceValidUntil') !== false
+             || strpos($date_str, 'priceValidUntil') !== false
+             || strpos($date_str, 'priceValidUntil') !== false
+             || strpos($date_str, 'start_date') !== false
+             || strpos($date_str, 'end_date') !== false
+             || strpos($date_str, 'validfrom') !== false
+             || strpos($date_str, 'dateposted') !== false
+             || strpos($date_str, 'validthrough') !== false
+             || strpos($date_str, 'date_of_birth') !== false
+             || strpos($date_str, 'date_created') !== false
+             || strpos($date_str, 'created_date') !== false
+             ) {
+                $response = true;
+               }
     
     return $response;
     

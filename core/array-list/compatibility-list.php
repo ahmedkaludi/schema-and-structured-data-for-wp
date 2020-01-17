@@ -4,6 +4,12 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 return array(    
     'plugins' =>    array(        
+        'wordpress_news'  =>  array(            
+                    'name'       => 'Wordpress News',
+                    'free'       => 'wordpress-news/wp-news.php',                     
+                    'opt_name'   => 'saswp-wordpress-news',
+                    'part_in'    => 'free',
+        ),
         'easy_recipe'  =>  array(            
                     'name'       => 'EasyRecipe',
                     'free'       => 'easyrecipe/easyrecipe.php', 

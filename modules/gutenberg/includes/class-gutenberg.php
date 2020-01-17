@@ -212,31 +212,13 @@ class SASWP_Gutenberg {
                                array( 'wp-i18n', 'wp-element', 'wp-blocks', 'wp-components', 'wp-editor' )                                 
                            );
                             
-                            
                             if($key == 'collection'){
                                 
-                                $collection = get_posts( array(
-                                'posts_per_page' => -1,
-                                'post_type'      => 'saswp-collections',
-                                'post_status'    => 'publish',
-                                    
-                             ));
+                                 $review_service = new saswp_reviews_service();
+                                 $col_opt  = $review_service->saswp_get_collection_list();
                                         
-                                if($collection){
-
-                                    $col_opt = array(); 
-
-                                    foreach($collection as $col){
-
-                                       $col_opt[] = array(
-                                           'value' => $col->ID,
-                                           'label' => $col->post_title
-                                       );
-
-                                    }
-
+                                if($col_opt){                                    
                                     $block['local']['collection'] = $col_opt;
-
                                 }else{
                                     $block['local']['collection_not_found']      = true;
                                     $block['local']['collection_url']            = wp_nonce_url(admin_url('admin.php?page=collection'), '_wpnonce');

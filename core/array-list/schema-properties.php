@@ -14,37 +14,42 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
             global $post;
             global $sd_data;  
             
-            $post_id = $post->ID; 
-            
-                        
-            $current_user       = wp_get_current_user();
-            $author_desc        = get_the_author_meta( 'user_description' );
-            $author_url         = get_the_author_meta( 'user_url' );
-            $author_details     = array();
-            
-            if(function_exists('get_avatar_data')){
-                $author_details	= get_avatar_data($current_user->ID);           
-            }
-            
-            $schema_type        = get_post_meta($schema_id, 'schema_type', true); 
-            
+            $business_type      = '';
+                                    
             if($review_type){
                 $schema_type = $review_type;
+            }else{
+                $schema_type        = get_post_meta($schema_id, 'schema_type', true); 
             }
-            $business_type      = '';
-            $business_type      = get_post_meta($schema_id, 'saswp_business_type', true);             
-            $business_name      = get_post_meta($schema_id, 'saswp_business_name', true); 
-                                    
-            $saswp_business_type_key   = 'saswp_business_type_'.$schema_id;
-            $saved_business_type       = get_post_meta( $post->ID, $saswp_business_type_key, true );
-            $saved_saswp_business_name = get_post_meta( $post->ID, 'saswp_business_name_'.$schema_id, true );    
             
-            if($saved_business_type){
-              $business_type = $saved_business_type;
+            if($manual == null){
+            
+                $post_id = $post->ID; 
+            
+                $current_user       = wp_get_current_user();
+                $author_desc        = get_the_author_meta( 'user_description' );
+                $author_url         = get_the_author_meta( 'user_url' );
+                $author_details     = array();
+
+                if(function_exists('get_avatar_data')){
+                    $author_details	= get_avatar_data($current_user->ID);           
+                }
+
+                $business_type      = get_post_meta($schema_id, 'saswp_business_type', true);             
+                $business_name      = get_post_meta($schema_id, 'saswp_business_name', true); 
+                $saswp_business_type_key   = 'saswp_business_type_'.$schema_id;
+                $saved_business_type       = get_post_meta( $post->ID, $saswp_business_type_key, true );
+                $saved_saswp_business_name = get_post_meta( $post->ID, 'saswp_business_name_'.$schema_id, true );    
+
+                if($saved_business_type){
+                  $business_type = $saved_business_type;
+                }
+                if($saved_saswp_business_name){
+                  $business_name = $saved_saswp_business_name;
+                }
+                
             }
-            if($saved_saswp_business_name){
-              $business_name = $saved_saswp_business_name;
-            }
+            
             $meta_field = array();
             
             switch ($schema_type) {
@@ -1276,8 +1281,14 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                 
                 case 'Product':                
                     
-                    $service = new saswp_output_service();
-                    $product_details = $service->saswp_woocommerce_product_details($post_id);     
+                    $product_details = array();
+                    
+                    if($manual == null){
+                    
+                        $service = new saswp_output_service();
+                        $product_details = $service->saswp_woocommerce_product_details($post_id);     
+                        
+                    }
                     
                     $meta_field = array(
                         

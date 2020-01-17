@@ -15,10 +15,19 @@ class saswp_view_common_class {
     
     public    $_meta_name                = array();
     public    $schema_type_element       = array();
+    public    $itemlist_meta             = array();
+    public    $item_list_item = array(
+                             'Article'               => 'Article',                                                              
+                             'Course'                => 'Course',                                                                                                                                                                                                            
+                             'Movie'                 => 'Movie',                                   
+                             'Product'               => 'Product',                                
+                             'Recipe'                => 'Recipe',                                                                                      
+                        );
     
     public function __construct() {
-            
+        
                 $mapping_repeater = SASWP_DIR_NAME . '/core/array-list/repeater-fields.php';
+                require_once SASWP_DIR_NAME.'/core/array-list/schema-properties.php';
                 
                 if ( file_exists( $mapping_repeater ) ) {
                     
@@ -27,14 +36,35 @@ class saswp_view_common_class {
                     $this->schema_type_element = $repeater_fields['schema_type_element'];
                     $this->_meta_name          = $repeater_fields['meta_name'];
                     
-		}
+                    foreach($this->item_list_item as $item){
+                        $this->itemlist_meta[$item]  = saswp_get_fields_by_schema_type(null, null, $item, 'manual');                        
+                    }
+                    $this->_meta_name['itemlist_item'] = $this->itemlist_meta;
+		}                
                 
         }
     
     public function saswp_get_dynamic_html($schema_id, $meta_name, $index, $data){
-                                                             
-                $meta_fields = $this->_meta_name[$meta_name];               
-            
+                
+                $item_type = get_post_meta($schema_id, 'saswp_itemlist_item_type', true); 
+                
+                if($meta_name == 'itemlist_item'){
+                    
+                    $itemval = $this->_meta_name[$meta_name][$item_type];
+                    if($itemval){
+                         
+                         foreach($itemval as $key => $val){
+                             $itemval[$key]['name'] = $val['id'];
+                             unset($itemval[$key]['id']);
+                         }
+                         
+                     }
+                    
+                    $meta_fields = $itemval;  
+                }else{
+                    $meta_fields = $this->_meta_name[$meta_name];               
+                }    
+                
                 $output  = '';                                                                                                                                                         
 		foreach ( $meta_fields as $meta_field ) {
                     
@@ -100,19 +130,28 @@ class saswp_view_common_class {
 						);
 					}
 					$input .= '</select>';
-					break;                
+					break;  
+                                        
+                                case 'checkbox':
+                                                                        
+					$input = sprintf(
+						'<input id="%s" name="%s" type="checkbox" value="1" %s>', 
+                                                esc_attr($meta_field['name']).'_'.esc_attr($index).'_'.esc_attr($schema_id),
+                                                esc_attr($meta_name).'_'.esc_attr($schema_id).'['.esc_attr($index).']['.esc_attr($meta_field['name']).']',
+						$data[$meta_field['name']] === '1' ? 'checked' : ''												
+						);
+					break;           
                                          
 				default:
                                                     
                                     $class = '';
-
-                                    if ((strpos($meta_field['name'].'_'.$index.'_'.$schema_id, 'published_date') !== false) || (strpos($meta_field['name'].'_'.$index.'_'.$schema_id, 'date_created') !== false) || (strpos($meta_field['name'].'_'.$index.'_'.$schema_id, 'created_date') !== false)){                                                                                                           
-
-                                            $class = 'class="saswp-datepicker-picker"';    
+                                    
+                                    if (saswp_is_date_field($meta_field['name'].'_'.$index.'_'.$schema_id)) {
+                                                $class='saswp-datepicker-picker';    
                                     }
                                                                                                             
                                      $input = sprintf(
-						'<input %s  style="width:100%%" id="%s" name="%s" type="%s" value="%s">',
+						'<input class="%s"  style="width:100%%" id="%s" name="%s" type="%s" value="%s">',
                                                 $class,
 						esc_attr($meta_field['name']).'_'.esc_attr($index).'_'.esc_attr($schema_id),
 						esc_attr($meta_name).'_'.esc_attr($schema_id).'['.esc_attr($index).']['.esc_attr($meta_field['name']).']',
@@ -132,7 +171,7 @@ class saswp_view_common_class {
                  
         }
         
-    public function saswp_schema_fields_html_on_the_fly($schema_type, $schema_id, $post_id){
+    public function saswp_schema_fields_html_on_the_fly($schema_type, $schema_id, $post_id, $disabled_schema=null, $modify_this=null, $modified = null){
             
                     $howto_data        = array();                    
                     $tabs_fields       = '';
@@ -142,25 +181,41 @@ class saswp_view_common_class {
                     $type_fields = array_key_exists($schema_type, $schema_type_fields) ? $schema_type_fields[$schema_type]:'';  
                         
                     if($type_fields){
+                       
+                    if($schema_type == 'ItemList'){
                         
-                        $tabs_fields .= '<div class="saswp-table-create-onajax">';
+                         $tabs_fields .= '<div schema-id="'.esc_attr($schema_id).'" class="saswp-table-create-onajax saswp-ps-toggle">';   
                         
-                        foreach($type_fields as $key => $value){
+                    }else{
+                    
+                        if(empty($disabled_schema)){
+                        
+                        if( $modified || $modify_this == 1){
+                             $tabs_fields .= '<div schema-id="'.esc_attr($schema_id).'" class="saswp-table-create-onajax saswp-ps-toggle">';   
+                        }else{
+                             $tabs_fields .= '<div schema-id="'.esc_attr($schema_id).'" class="saswp-table-create-onajax saswp-ps-toggle saswp_hide">';
+                        }
+
+                        }else{                         
+                            $tabs_fields .= '<div schema-id="'.esc_attr($schema_id).'" class="saswp-table-create-onajax saswp-ps-toggle saswp_hide">';                     
+                        }
+                                                
+                    } 
+                        
+                     foreach($type_fields as $key => $value){
                             
-                            $howto_data[$value.'_'.$schema_id]  = get_post_meta($post_id, $value.'_'.$schema_id, true);                                       
-                                                 
-                            $tabs_fields .= '<div class="saswp-'.$key.'-section-main">';                                                  
-                            $tabs_fields .= '<div class="saswp-'.$key.'-section" data-id="'.esc_attr($schema_id).'">';                         
+                            $howto_data[$value.'_'.$schema_id]  = get_post_meta($post_id, $value.'_'.$schema_id, true);                                                                                    
+                            $tabs_fields .= '<div class="saswp-'.esc_attr($key).'-section-main">';                                                  
+                            $tabs_fields .= '<div class="saswp-'.esc_attr($key).'-section" data-id="'.esc_attr($schema_id).'">';                         
                             if(isset($howto_data[$value.'_'.$schema_id])){
 
                                 $howto_supply = $howto_data[$value.'_'.$schema_id];                                                     
                                 $supply_html  = '';
 
                                 if(!empty($howto_supply)){
-
+                                    
                                        $i = 0;
                                        foreach ($howto_supply as $supply){
-
                                            $supply_html .= '<div class="saswp-'.$key.'-table-div saswp-dynamic-properties" data-id="'.$i.'">';
                                            $supply_html .= '<a class="saswp-table-close">X</a>';
                                            $supply_html .= $this->saswp_get_dynamic_html($schema_id, $value, $i, $supply);
@@ -203,7 +258,7 @@ class saswp_view_common_class {
             
         }
         
-    public function saswp_saswp_post_specific($schema_type, $saswp_meta_fields, $post_id, $schema_id=null, $item_reviewed = null) { 
+    public function saswp_saswp_post_specific($schema_type, $saswp_meta_fields, $post_id, $schema_id=null, $item_reviewed = null, $disabled_schema=null, $modify_this=null, $modified= null) { 
                                 
                 global $sd_data;                        
                 
@@ -435,25 +490,8 @@ class saswp_view_common_class {
                                              if (strpos($meta_field['id'], 'closes_time') !== false || strpos($meta_field['id'], 'opens_time') !== false || strpos($meta_field['id'], 'start_time') !== false || strpos($meta_field['id'], 'end_time') !== false){
                                                 $class='saswp-timepicker';    
                                              }
-                                             if (strpos($meta_field['id'], 'date_modified') !== false 
-                                                     || strpos($meta_field['id'], 'date_published') !== false  
-                                                     || strpos($meta_field['id'], 'video_upload_date') !== false
-                                                     || strpos($meta_field['id'], 'qa_date_created') !== false 
-                                                     || strpos($meta_field['id'], 'accepted_answer_date_created') !== false 
-                                                     || strpos($meta_field['id'], 'suggested_answer_date_created') !== false 
-                                                     || strpos($meta_field['id'], 'priceValidUntil') !== false
-                                                     || strpos($meta_field['id'], 'priceValidUntil') !== false
-                                                     || strpos($meta_field['id'], 'priceValidUntil') !== false
-                                                     || strpos($meta_field['id'], 'start_date') !== false
-                                                     || strpos($meta_field['id'], 'end_date') !== false
-                                                     || strpos($meta_field['id'], 'validfrom') !== false
-                                                     || strpos($meta_field['id'], 'dateposted') !== false
-                                                     || strpos($meta_field['id'], 'validthrough') !== false
-                                                     || strpos($meta_field['id'], 'date_of_birth') !== false
-                                                     || strpos($meta_field['id'], 'date_created') !== false
-                                                     || strpos($meta_field['id'], 'created_date') !== false
-                                                     ) {
-                                             $class='saswp-datepicker-picker';    
+                                             if (saswp_is_date_field($meta_field['id'])) {
+                                                $class='saswp-datepicker-picker';    
                                              }
                                              
                                             $input = sprintf(
@@ -503,16 +541,30 @@ class saswp_view_common_class {
 			
 		}
                 
-                     $tabs_fields  = '';           
-                     $tabs_fields .= '<div class="saswp-table-create-onload">';    
+                     $tabs_fields  = '';
+                     
+                     if(empty($disabled_schema)){
+                         
+                         if($modified  ||$modify_this == 1){
+                             $tabs_fields .= '<div schema-id="'.esc_attr($schema_id).'" class="saswp-table-create-onload saswp-ps-toggle">';    
+                         }else{
+                             $tabs_fields .= '<div schema-id="'.esc_attr($schema_id).'" class="saswp-table-create-onload saswp-ps-toggle saswp_hide">'; 
+                         }
+                                                     
+                     }else{                         
+                         $tabs_fields .= '<div schema-id="'.esc_attr($schema_id).'" class="saswp-table-create-onload saswp-ps-toggle saswp_hide">';                          
+                     }
+                     
+                     
                      //$output variable is already escaped above
                      $tabs_fields .= '<table class="form-table"><tbody>' . $output . '</tbody></table>';
                      $tabs_fields .= '</div>';
                        
                      if($item_reviewed){
-                        $tabs_fields .=  $this->saswp_schema_fields_html_on_the_fly($item_reviewed, $schema_id, $post_id);    
+                        $tabs_fields .=  $this->saswp_schema_fields_html_on_the_fly($item_reviewed, $schema_id, $post_id, $disabled_schema, $modify_this, $modified);    
                      }else{
-                        $tabs_fields .=  $this->saswp_schema_fields_html_on_the_fly($schema_type, $schema_id, $post_id); 
+                         
+                        $tabs_fields .=  $this->saswp_schema_fields_html_on_the_fly($schema_type, $schema_id, $post_id, $disabled_schema, $modify_this, $modified); 
                      }
                      
                 
@@ -580,15 +632,17 @@ class saswp_view_common_class {
                 if($schema_count > 0){
                                                                       
                  foreach($all_schema as $schema){
+                     
+                      update_post_meta( $post_id, 'saswp_modify_this_schema_'.$schema->ID, intval($_POST['saswp_modify_this_schema_'.$schema->ID]));
                                           
                      foreach ($this->schema_type_element as $element){
-                         
+                          
                         foreach($element as $key => $val){
                                                                                                                    
                             $element_val          = array();   
                             
                             $data = (array) $_POST[$val.'_'.$schema->ID];  
-
+                           
                             foreach ($data as $supply){
                                 
                                 $sanitize_data = array();
@@ -599,10 +653,9 @@ class saswp_view_common_class {
                                 
                                 $element_val[] = $sanitize_data;     
                                 
-                            }
-                            
+                            }                            
                             update_post_meta( $post_id, $val.'_'.intval($schema->ID), $element_val);
-                                                                                  
+                                                                                                              
                         }    
                          
                      }    

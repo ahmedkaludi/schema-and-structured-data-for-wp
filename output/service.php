@@ -312,7 +312,7 @@ Class saswp_output_service{
                     if(function_exists('get_field_object')){
                      
                         $acf_obj = get_field_object($field);
-                    
+                                            
                         if($acf_obj){
 
                             if($acf_obj['type'] == 'image'){
@@ -320,6 +320,16 @@ Class saswp_output_service{
                                 $image_id           = get_post_meta($post->ID, $field, true );                                
                                 $response           = saswp_get_image_by_id($image_id);                    
                                                                                                             
+                            }else if($acf_obj['type'] == 'repeater'){
+                                                                                                
+                                if(isset($acf_obj['value'])){
+                                    foreach($acf_obj['value'] as $value){
+                                        foreach ($value as $val){
+                                         $response[] = $val;   
+                                        }
+                                    }
+                                }                                
+                                                                
                             }else{
                                 $response = get_post_meta($post->ID, $field, true );
                             }
@@ -1237,11 +1247,21 @@ Class saswp_output_service{
                      $input1['nutrition']['calories'] =    $custom_fields['saswp_recipe_nutrition'];
                     }
                     
-                    if(isset($custom_fields['saswp_recipe_ingredient'])){                                            
-                     $input1['recipeIngredient'] =    saswp_explod_by_semicolon($custom_fields['saswp_recipe_ingredient']);
+                    if(isset($custom_fields['saswp_recipe_ingredient'])){  
+                        
+                      if(is_array($custom_fields['saswp_recipe_ingredient'])){                          
+                          $input1['recipeIngredient'] =   $custom_fields['saswp_recipe_ingredient'];                          
+                      }else{                        
+                          $input1['recipeIngredient'] =    saswp_explod_by_semicolon($custom_fields['saswp_recipe_ingredient']);                          
+                      }
+                                             
                     }
-                    if(isset($custom_fields['saswp_recipe_instructions'])){                                                                                                                     
-                     $input1['recipeInstructions'] =    saswp_explod_by_semicolon($custom_fields['saswp_recipe_instructions']);
+                    if(isset($custom_fields['saswp_recipe_instructions'])){  
+                        if(is_array($custom_fields['saswp_recipe_instructions'])){
+                            $input1['recipeInstructions'] =    $custom_fields['saswp_recipe_instructions'];   
+                        }else{
+                            $input1['recipeInstructions'] =    saswp_explod_by_semicolon($custom_fields['saswp_recipe_instructions']);
+                        }                     
                     }
                     if(isset($custom_fields['saswp_recipe_video_name'])){
                      $input1['video']['name'] =    $custom_fields['saswp_recipe_video_name'];
@@ -3022,12 +3042,16 @@ Class saswp_output_service{
             $image_id 	     = get_post_thumbnail_id();
 	    $image_details   = wp_get_attachment_image_src($image_id, 'full');            
                         
-            if( is_array($image_details) ){                                
+            if( is_array($image_details) && !empty($image_details)){                                
                                                                                                                     
                                         if(isset($image_details[1]) && ($image_details[1] < 1200) && function_exists('saswp_aq_resize')){
-                                                                                        
-                                            $img_ratio    = $image_details[1] / $image_details[2];
-                                            $targetHeight = 1200 / $img_ratio;
+                                                
+                                            $targetHeight = 1200;
+                                            
+                                            if( ($image_details[1] > 0) && ($image_details[2] > 0) ){                                            
+                                                $img_ratio    = $image_details[1] / $image_details[2];
+                                                $targetHeight = 1200 / $img_ratio;                                                
+                                            }
                                                                                         
                                             $width  = array(1200, 1200, 1200);
                                             $height = array($targetHeight, 900, 675);
@@ -3119,7 +3143,7 @@ Class saswp_output_service{
                               
                               foreach ($attachments[2] as $attachment) {
                                                                                                                                        
-                                  if(!empty($attach_details)){
+                                  if(is_array($attach_details) && !empty($attach_details)){
                                                                             
                                                 $attach_images['image'][$k]['@type']  = 'ImageObject';                                                
                                                 $attach_images['image'][$k]['url']    = esc_url($attachment);
@@ -3155,9 +3179,15 @@ Class saswp_output_service{
                                             if($image['width'] < 1200){
                                                 
                                                 $resized_image = saswp_aq_resize( $image['url'], 1200, 675, true, false, true );                                                                                                
-                                                $attach_images['image'][$key]['url']    =   $resized_image[0];
-                                                $attach_images['image'][$key]['width']  =   $resized_image[1];
-                                                $attach_images['image'][$key]['height'] =   $resized_image[2];                                                
+                                                
+                                                if(is_array($resized_image) && !empty($resized_image)){
+                                                    
+                                                    $attach_images['image'][$key]['url']    =   $resized_image[0];
+                                                    $attach_images['image'][$key]['width']  =   $resized_image[1];
+                                                    $attach_images['image'][$key]['height'] =   $resized_image[2];                                                
+                                                    
+                                                }
+                                                
                                             }                                             
                                             $attach_images['image'][$key]['@id']    =   saswp_get_permalink().'#primaryimage';                                            
                                           }                                                                                         

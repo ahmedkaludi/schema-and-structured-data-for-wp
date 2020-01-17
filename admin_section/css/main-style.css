@@ -7,6 +7,33 @@ and open the template in the editor.
     Created on : Jul 27, 2018, 5:36:26 PM
     Author     : Magazine3
 */
+.saswp_review_form_toggle_check{
+    margin:10px !important;   
+}
+.saswp-show-form-on-tab{
+    padding: 5px;
+    display: inline-block;
+    width: 100%;
+}
+.saswp-show-form-on-tab strong{    
+    display: inline-block;
+    width: 30%;
+}
+.saswp-show-form-on-tab input{        
+    width: 45%;
+    text-align: center;
+}
+.saswp-disable-btn-container{
+    float: right;
+    padding:10px;
+}
+.saswp-disable-label{
+    padding: 10px;
+    color: #999;
+}
+.saswp-setup-schema-btn{
+    margin: 5px !important;
+}
 .saswp-static-container .spinner{            
     padding: 5px;    
     float: none;
@@ -41,6 +68,10 @@ and open the template in the editor.
 }
 .saswp_warning{
     color: #ef6c00 !important;   
+}
+
+.saswp_hide_imp{
+    display: none !important;
 }
 
 .saswp_hide{
@@ -246,7 +277,7 @@ Tooltip css ends here
     float:right;
 }
 .saswp-settings-first-div{
-    width: 92%;
+    width: 75%;
 }
 .saswp-settings-container{
     display: inline-flex;
@@ -256,7 +287,7 @@ Tooltip css ends here
     float: right; 
     position: relative;
     top: 20px;
-    margin-right: 30px;
+    margin-right: 0;
     margin-top: 37px;
 }
 .saswp-feedback-panel{
@@ -385,8 +416,7 @@ clear: both;
    display: inline-block;
     width: 25%;
     vertical-align: top; 
-    box-sizing: border-box;
-    padding-right:10px;
+    box-sizing: border-box;    
 }
 .saswp-post-specific-container{
     display: inline-block;
@@ -396,22 +426,28 @@ clear: both;
 .saswp-post-specific-wrapper{
     padding: 10px;
 }
-.saswp-tab a.selected {
-    background-color: #ccc;
+.saswp-tab a.selected {    
+    color: #555;    
+    background-color: #fff;
 }
 .saswp-tab-links{
     display: block;
-    background-color: inherit;
-    color: black;
-    padding: 6px 10px;    
-    outline: none;
+    padding: 12px 14px;
+    outline: 0;
     text-align: left;
     cursor: pointer;
-    transition: 0.3s;
+    transition: .3s;
     font-size: 15px;
-        width: 130px;
+    width: 100%;
     overflow: hidden;
-    margin-right: 10px;
+    box-shadow: none;
+    text-decoration: none;
+    line-height: 20px!important;
+    border-bottom: 1px solid #eee;
+}
+#post_specific .inside{
+    padding: 0px;
+    margin: 0px;
 }
 .saswp-star-rating{
     cursor: pointer;
@@ -527,10 +563,10 @@ Compatibility tab css ends
 On/Off Buttons starts here
 */
 .saswp-switch {
-    position: relative;
+        position: relative;
     display: inline-block;
-    width: 40px;
-    height: 22px;
+    width: 30px;
+    height: 16px;
     border: 20px;
 }
 
@@ -541,31 +577,31 @@ On/Off Buttons starts here
 }
 
 .saswp-slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #5a6783;
-  transition: .4s;
-  border-radius: 20px;
+ position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #b5b5b5;
+    transition: .4s;
+    border-radius: 20px;
 }
 
 .saswp-slider:before {
     position: absolute;
     content: "";
-    height: 15px;
-    width: 15px;
-    left: 4px;
-    bottom: 4px;
-    background-color: white;
+    height: 10px;
+    width: 10px;
+    left: 2px;
+    bottom: 3px;
+    background-color: #fff;
     transition: .4s;
     border-radius: 20px;
 }
 
 input:checked + .saswp-slider {
-  background-color: #61bd3b;
+  background-color: #00a0d2;
   border-radius: 30px;
 }
 
@@ -586,17 +622,20 @@ input:checked + .saswp-slider:before {
 .saswp-slider.saswp-round:before {
   border-radius: 50%;
 }
-
+.saswp-tab-nav{
+    background-color: #f9f9f9;
+    margin-top: 0px;
+}
 .saswp-tab-nav li{
     display: flex;    
     align-items: center;
     justify-content: space-between;
-    margin-bottom:10px;
-    border-bottom: 1px solid #eee;
+    margin-bottom:0px;    
 }
 
-.saswp-tab-nav .selected{
-    background-color: #ccc;
+.saswp-tab-nav .selected{    
+    width: 100.5%;
+    z-index: 9999;
 }
 .saswp-single-post-restore .saswp-switch{
     height: 28px;
@@ -981,12 +1020,13 @@ Google review module ends here
 
 /*** Upgrade Pro CSS ***/
 .saswp-upgrade-pro{
-    background: #fff;
+     background: #fff;
     padding: 25px;
     border: 1px solid #d8d8d8;
     display: inline-block;
     margin-top: 10px;
-    width: 81%;
+    width: 100%;
+    box-sizing: border-box;
 }
 .saswp-upgrade-pro h2{
     font-size: 20px;
@@ -1304,6 +1344,23 @@ a.saswp-revws-lnk{
 /*
 Collection css starts here
 */
+.saswp-grid-pagination{
+     display: inline-block;
+     padding: 20px;
+}
+.saswp-grid-pagination a{
+      color: black;
+  float: left;
+  padding: 8px 16px;
+  text-decoration: none;
+}
+.saswp-grid-pagination a.active {
+  background-color: #4CAF50;
+  color: white;
+}
+.saswp-grid-pagination a:hover:not(.active) {
+    background-color: #ddd;
+}
 .saswp-collection-body{
     width:100%;
     display:flex;
@@ -1363,11 +1420,11 @@ Collection css starts here
     padding:0px 30px;
 }
 
-
 /** Review Design 1 **/
 
 .saswp-r1{
   margin-bottom:50px;
+  text-align: center;
 }
 .saswp-r1 ul{
   padding:0px;
@@ -1428,6 +1485,7 @@ Collection css starts here
   line-height: 1.1;
   letter-spacing: 0;
   width:80%;
+  text-align: left;
 }
 .saswp-rc-dt{
   margin-top:5px;
@@ -2211,14 +2269,6 @@ span.saswp-mines{
     }
 }
 /*** Upgrade Pro CSS starts here***/
-.saswp-upgrade-pro{
-    background: #fff;
-    padding: 25px;
-    border: 1px solid #d8d8d8;
-    display: inline-block;
-    margin-top: 10px;
-    width: 81%;
-}
 .saswp-upgrade-pro h2{
     font-size: 20px;
     margin: 0;
@@ -2236,17 +2286,6 @@ span.saswp-mines{
     font-size: 14px;
     line-height: 1.4;
     margin-bottom: 10px;
-}
-.saswp-upgrade-pro ul li:before {
-    content: "";
-    background-image: url(../images/check.png);
-    background-repeat: no-repeat;
-    background-size: 20px;
-    width: 20px;
-    height: 20px;
-    position: absolute;
-    left: 2px;
-    top: 2px;
 }
 .saswp-upgrade-pro a{
     background: #d2150a;
@@ -2321,18 +2360,6 @@ span.saswp-mines{
 .saswp-settings-second-div a{
 	text-decoration: none;
 }
-.saswp-upgrade-pro ul li:before{
-	content: "\f147";
-    background-repeat: no-repeat;
-    font-family: dashicons;
-    position: absolute;
-    color: #46b450;
-    font-size: 25px;
-    left: 0px;
-    line-height: 1;
-    top: 0px;
-}
-
 /* Add review thickbox csss starts here */
 
 .saswp-thick-box-container{    
@@ -2341,17 +2368,42 @@ span.saswp-mines{
 #saswp-add-rv-manual{
     padding: 10px;
 }
-#saswp-add-rv-automatic{
+#saswp-add-rv-automatic, #saswp-add-rv-collection{
     padding: 10px;
     box-sizing: border-box;
     width: 100%;
     overflow-y: scroll;
     height: 260px;
 }
-.saswp-add-rv-loop{
+.saswp-add-rv-loop, .saswp-add-collection-loop{
     padding-bottom: 10px;
 }
 .saswp-add-rv-title{
+    padding: 10px;
+}
+.close-attached-reviews-popup{
+    float: right;    
+    margin-right: 20px !important;
+}
+.saswp-add-rv-note{
+ padding-bottom: 10px;   
+}
+.saswp-accept-rv-container{
+    margin-right: 20px;
+}
+.saswp-post-specific-setting{
+    border-bottom: 1px solid #eee;
+    text-align: center;
+    padding-bottom: 10px;
+
+}
+.saswp-ps-text{
+    padding: 20px 5px;
+}
+.saswp-ps-text span{
+    font-weight:600;
+}
+.saswp-ps-toggle{
     padding: 10px;
 }
 /* Add review thickbox csss ends here */

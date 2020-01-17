@@ -4,7 +4,9 @@
        var saswp_taxonomy_term    = []; 
        var saswp_collection       = [];
        var saswp_total_collection = [];
+       var saswp_total_reviews     = [];
        var saswp_coll_json        = null; 
+       var saswp_grid_page        = 1; 
        
        function saswp_convert_datetostring(date_str){
            
@@ -135,8 +137,8 @@
                     var item          = current.val();
                     var post_id       = saswp_localize_data.post_id;
                     var schema_id     = jQuery(current).attr('data-id');  
-                    var post_specific = jQuery(current).attr('post-specific');  
-                    var append_id     = '';
+                    var post_specific = jQuery(current).attr('post-specific');                     
+                    var modify_this   = jQuery(".saswp_modify_this_schema_hidden_"+schema_id).val();                     
                     
                     if(manual == null){
                         append_id     = jQuery("#saswp_specific_"+schema_id);
@@ -145,7 +147,7 @@
                     }
                     
                      jQuery.get(ajaxurl, 
-                         { action:"saswp_get_item_reviewed_fields",schema_type:schema_type,schema_id:schema_id,  post_specific:post_specific ,item:item, post_id:post_id, saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
+                         { action:"saswp_get_item_reviewed_fields",modify_this:modify_this, schema_type:schema_type,schema_id:schema_id,  post_specific:post_specific ,item:item, post_id:post_id, saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
                           function(response){    
                             
                             jQuery(append_id).find(".saswp-table-create-onajax").remove();   
@@ -303,12 +305,12 @@
                                                                                      
        }
              
-       function saswp_get_post_specific_schema_fields(current_fly, index, meta_name, div_type, schema_id, fields_type){
+       function saswp_get_post_specific_schema_fields(current_fly, index, meta_name, div_type, schema_id, fields_type, schema_type){
                             
                             if (!saswp_meta_fields[fields_type]) {
                                 
                                 jQuery.get(ajaxurl, 
-                                    { action:"saswp_get_schema_dynamic_fields_ajax",meta_name:meta_name, saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
+                                    { action:"saswp_get_schema_dynamic_fields_ajax",schema_id:schema_id,schema_type:schema_type, meta_name:meta_name, saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
                                      function(response){                                  
                                          saswp_meta_fields[fields_type] = response;                                         
                                          var html = saswp_fields_html_generator(index, schema_id, fields_type, div_type, response);
@@ -349,8 +351,9 @@
             jQuery.each(schema_fields, function(eachindex, element){
                                 
                 var meta_class = "";
-                if(element.name == 'saswp_tvseries_season_published_date' || element.name == 'saswp_feed_element_date_created' || element.name == 'saswp_product_reviews_created_date'){
-                    meta_class = "saswp-datepicker-picker";    
+                
+                if(element.name.indexOf('published_date') > -1 || element.name.indexOf('date_created') > -1 || element.name.indexOf('created_date') > -1 || element.name.indexOf('modified_date') > -1 || element.name.indexOf('date_published') > -1 || element.name.indexOf('date_modified') > -1){
+                    meta_class = "saswp-datepicker-picker";   
                 }
                 
                 switch(element.type) {
@@ -423,14 +426,13 @@
            
            var platform_list = '';
            
-           saswp_total_collection = [];     
-           
+           saswp_total_collection = []; 
+                      
            for(var key in saswp_collection){
                                              
                if(saswp_collection[key]){
                    
-                   jQuery.each(saswp_collection[key], function(index, value){
-                  
+                   jQuery.each(saswp_collection[key], function(index, value){                                               
                         saswp_total_collection.push(value);
                    
                     });
@@ -438,7 +440,7 @@
                    platform_list += saswp_function_added_platform(key, saswp_collection[key].length );
                }
                
-           }
+           }                
                 jQuery(".saswp-platform-added-list").html('');                
                 jQuery(".saswp-platform-added-list").append(platform_list);   
                                  
@@ -815,7 +817,7 @@
 
                         html += '<div class="saswp-r3-rtxt">';
                           html += '<span class="saswp-r3-num">';
-                            html += average_rating;
+                            html += average_rating.toFixed(1);
                           html += '</span>';
                           html += '<span class="saswp-stars">';
                            html += saswp_create_rating_html_by_value(average_rating.toString()); 
@@ -1046,18 +1048,40 @@
                       
        }
        
-       function saswp_create_collection_grid(cols){
+       function saswp_collection_total_reviews_id(){
+           
+           if(saswp_total_collection.length > 0){
+               
+               saswp_total_reviews    = [];
+               
+               jQuery.each(saswp_total_collection, function(index, value){
+                   
+                   saswp_total_reviews.push(value.saswp_review_id);
+                   
+               });
+               
+               var html = '<input type="hidden" name="saswp_total_reviews" value="'+JSON.stringify(saswp_total_reviews)+'">';
+               
+               jQuery(".saswp-total-reviews-list").html('');                
+               jQuery(".saswp-total-reviews-list").append(html); 
+           }
+                      
+       }
+       
+       function saswp_create_collection_grid(cols, pagination, perpage, offset, nextpage){
                 
                 var html          = '';                
                 var grid_cols     = '';
+                var page_count    = 0;
                 
                 if(saswp_total_collection.length > 0){
                     
+                    page_count = Math.ceil(saswp_total_collection.length / perpage);
+                    
                     html += '<div class="saswp-r1">';
                     
-                    for(var i=1; i <=cols; i++ ){
+                    for(var i=1; i <= cols; i++){
                         grid_cols +=' 1fr'; 
-
                     }    
 
                       if(cols.length > 3){
@@ -1069,7 +1093,14 @@
                                                                                                                                                                                                                           
                     if(saswp_total_collection){
                             
-                           jQuery.each(saswp_total_collection, function(index, value){
+                           var grid_col = saswp_total_collection;                           
+                           
+                           if(pagination && perpage > 0){
+                               
+                               grid_col = grid_col.slice(offset, nextpage);
+                               
+                           }                                                        
+                           jQuery.each(grid_col, function(index, value){
                             
                             var date_str = saswp_convert_datetostring(value.saswp_review_date); 
                             
@@ -1106,6 +1137,28 @@
                     }
                                                                                                                                         
                     html += '</ul>';
+               
+                    if(page_count > 0 && pagination){
+               
+                        html += '<div class="saswp-grid-pagination">';                    
+                        html += '<a class="saswp-grid-page" data-id="1" href="#">&laquo;</a>'; 
+                        
+                        for(var i=1; i <= page_count; i++){
+                            
+                            if(i == saswp_grid_page){
+                                html += '<a class="active saswp-grid-page" data-id="'+i+'" href="#">'+i+'</a>';    
+                            }else{
+                                html += '<a class="saswp-grid-page" data-id="'+i+'" href="#">'+i+'</a>';    
+                            }
+                            
+                        }      
+                        
+                        html += '<a class="saswp-grid-page" data-id="'+page_count+'" href="#">&raquo;</a>';                                     
+                        
+                        html += '</div>';                        
+                        
+                    }
+                                   
                     html += '</div>';
                                                                                 
                 }
@@ -1114,13 +1167,13 @@
                                                                                                 
             }     
             
-       function saswp_create_collection_by_design(design, cols, slider, arrow, dots, fomo_inverval, fomo_visibility){
+       function saswp_create_collection_by_design(design, cols, slider, arrow, dots, fomo_inverval, fomo_visibility, pagination, perpage, offset, nextpage){
                                                               
                 switch(design) {
                     
                     case "grid":
                         
-                         saswp_create_collection_grid(cols);
+                         saswp_create_collection_grid(cols, pagination, perpage, offset, nextpage);
                         
                         break;
                         
@@ -1159,7 +1212,23 @@
                 var cols                = jQuery("#saswp-collection-cols").val();
                 var slider              = jQuery(".saswp-slider-type").val();
                 
-                var fomo_inverval       = jQuery("#saswp_fomo_interval").val();
+                var fomo_inverval       = jQuery("#saswp_fomo_interval").val();                
+                var perpage             = parseInt(jQuery("#saswp-coll-per-page").val());
+                
+                var pagination          = false;
+                var offset              = 0;
+                var nextpage            = perpage;
+                
+                if(jQuery("#saswp-coll-pagination").is(":checked")){                    
+                    pagination          = true;                          
+                    var data_id         = saswp_grid_page;                     
+                    if(data_id > 0){                        
+                        nextpage            = data_id * perpage;                
+                    }                    
+                    offset              = nextpage - perpage;
+                    
+                }
+                
                 //var fomo_visibility     = jQuery("#saswp_fomo_visibility").val();
                 
                 if(jQuery("#saswp_gallery_arrow").is(':checked')){
@@ -1176,7 +1245,8 @@
                                                 
                 saswp_create_total_collection();                 
                 saswp_collection_sorting(sorting);  
-                saswp_create_collection_by_design(design, cols, slider, arrow, dots, fomo_inverval, fomo_inverval);                                                
+                saswp_collection_total_reviews_id();
+                saswp_create_collection_by_design(design, cols, slider, arrow, dots, fomo_inverval, fomo_inverval, pagination, perpage, offset, nextpage);                                                
            
        }  
        

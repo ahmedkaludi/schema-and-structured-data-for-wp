@@ -220,7 +220,7 @@ function saswp_admin_interface_render(){
 		</form>
 	</div>
     <div class="saswp-settings-second-div">
-        <a target="_blank" href="http://structured-data-for-wp.com/pricing/">
+<!--        <a target="_blank" href="http://structured-data-for-wp.com/pricing/">
         <div class="saswp-upgrade-pro promo-cpn">
             <h2><?php echo esc_html__('50% OFF on PRO','schema-and-structured-data-for-wp') ?></h2>
             <span><?php echo esc_html__('Limited Time Offer for this festive season','schema-and-structured-data-for-wp') ?></span>
@@ -229,7 +229,7 @@ function saswp_admin_interface_render(){
                 <span class="prm-cpn"><?php echo esc_html__('BFCM2019','schema-and-structured-data-for-wp') ?></span>
             </div>
         </div>
-        </a>
+        </a>-->
         <?php if(!saswp_ext_installed_status()) { ?>
             <div class="saswp-upgrade-pro">
                 <h2><?php echo esc_html__('Upgrade to Pro!','schema-and-structured-data-for-wp') ?></h2>
@@ -1170,7 +1170,7 @@ function saswp_import_callback(){
                 
 	);        
         
-        if(saswp_current_user_role() == 'administrator'){
+        if(is_super_admin()){
             
             $meta_fields[] = array(
 			'label'   => 'Role Based Access',
@@ -1671,6 +1671,19 @@ function saswp_email_schema_callback(){
 function saswp_compatibility_page_callback(){
         
         $settings = saswp_defaultSettings();  
+        
+        $wordpress_news = array(
+			'label'  => 'Wordpress News',
+			'id'     => 'saswp-wordpress-news-checkbox',                        
+                        'name'   => 'saswp-wordpress-news-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
+                        'note'   => saswp_get_field_note('wordpress_news'),
+                        'hidden' => array(
+                                'id'   => 'saswp-wordpress-news',
+                                'name' => 'sd_data[saswp-wordpress-news]',                             
+                        )
+		);
         
         $ampforwp = array(
 			'label'  => 'AMPforWP',
@@ -2386,6 +2399,7 @@ function saswp_compatibility_page_callback(){
                 $bne_testimonials,
                 $testimonial_pro,
                 $strong_testimonials,
+                $wordpress_news,
                 $WordLift,
                 $flex_lmx
                 
@@ -2590,7 +2604,8 @@ function saswp_enqueue_style_js( $hook ) {
             $all_schema_array = include $mappings_file;
         }
         
-        $data = array(                                    
+        $data = array(     
+            'current_url'                  => saswp_get_current_url(), 
             'post_id'                      => get_the_ID(),
             'ajax_url'                     => admin_url( 'admin-ajax.php' ),            
             'saswp_security_nonce'         => wp_create_nonce('saswp_ajax_check_nonce'),  
@@ -2598,7 +2613,8 @@ function saswp_enqueue_style_js( $hook ) {
             'new_url_href'                 => htmlspecialchars_decode(wp_nonce_url(admin_url('index.php?page=saswp_add_new_data_type&'), '_wpnonce')),            
             'collection_post_add_url'      => esc_url(admin_url()).'post-new.php?post_type=saswp-collections',
             'collection_post_add_new_url'  => htmlspecialchars_decode(wp_nonce_url(admin_url('admin.php?page=collection'), '_wpnonce')),
-            'collections_page_url'         => htmlspecialchars_decode(wp_nonce_url(admin_url('edit.php?post_type=saswp-collections'), '_wpnonce')),
+            'collections_page_url'         => htmlspecialchars_decode(admin_url('edit.php?post_type=saswp-collections')),
+            'reviews_page_url'             => htmlspecialchars_decode(admin_url('edit.php?post_type=saswp_reviews')),
             'post_type'                    => $post_type,   
             'page_now'                     => $hook,
             'saswp_settings_url'           => esc_url(admin_url('edit.php?post_type=saswp&page=structured_data_options')),
@@ -2646,14 +2662,17 @@ add_filter( 'option_page_capability_sd_data_group', 'saswp_option_page_capabilit
 
 function saswp_pre_update_settings($value, $old_value,  $option){
     
-    if(saswp_current_user_role() != 'administrator'){
+    if(!is_super_admin()){
     
         if(isset($old_value['saswp-role-based-access'])){
            $value['saswp-role-based-access'] = $old_value['saswp-role-based-access']; 
         }
         
-    }
-    
+    }else{
+        if(!in_array('administrator', $value['saswp-role-based-access'])){
+            array_push($value['saswp-role-based-access'], 'administrator');
+        }
+    }    
    return $value; 
 }
 
