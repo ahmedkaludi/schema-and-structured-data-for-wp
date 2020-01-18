@@ -2343,20 +2343,29 @@ Class saswp_output_service{
              $date_on_sale                           = $product->get_date_on_sale_to();                            
              $product_details['product_name']        = $product->get_title();
              
+             $product_desc                           = '';
+             
              if($product->get_short_description() && $product->get_description()){
                  
-                 $product_details['product_description'] = $product->get_short_description().' '.strip_tags($product->get_description());
+                 $product_desc = $product->get_short_description().' '.strip_tags($product->get_description());
                  
              }else if($product->get_description()){
                  
-                 $product_details['product_description'] = strip_tags($product->get_description());
+                 $product_desc = strip_tags($product->get_description());
                  
              }else{
                  
-                 $product_details['product_description'] = strip_tags(get_the_excerpt());
+                 $product_desc = strip_tags(get_the_excerpt());
                  
              }
-                          
+             
+             if(isset($sd_data['saswp-yoast']) && class_exists('WPSEO_Meta')){
+                 $product_desc = saswp_get_the_excerpt();
+                 
+             }
+             
+             $product_details['product_description'] = $product_desc;
+             
              if($product->get_attributes()){
                  
                  foreach ($product->get_attributes() as $attribute) {
