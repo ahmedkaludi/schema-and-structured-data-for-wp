@@ -2525,7 +2525,44 @@ Class saswp_output_service{
              return $product_details;                       
         }
         
-        /**
+        
+        public function saswp_rating_box_rating_markup($post_id){
+            
+                global $sd_data;
+
+                $response               = array(); 
+                $over_all               = '';
+                $item_enable            = 0;
+                $review_count           = "1";
+
+                $rating_box   = get_post_meta($post_id, 'saswp_review_details', true); 
+
+                if(isset($rating_box['saswp-review-item-over-all'])){
+
+                    $over_all = $rating_box['saswp-review-item-over-all'];  
+
+                }
+
+                if(isset($rating_box['saswp-review-item-enable'])){
+
+                    $item_enable =  $rating_box['saswp-review-item-enable'];  
+
+                }  
+
+                if($over_all && $review_count && $item_enable ==1 && isset($sd_data['saswp-review-module']) && $sd_data['saswp-review-module'] ==1){
+
+                   $response =       array(
+                                                    "@type"       => "AggregateRating",
+                                                    "ratingValue" => $over_all,
+                                                    "reviewCount" => $review_count
+                                                 ); 
+
+                }
+    
+            return $response;            
+        }
+
+                /**
          * This function gets the review details in schema markup from the current post which has extra theme enabled
          * Extra Theme ( https://www.elegantthemes.com/preview/Extra/ )
          * @global type $sd_data
