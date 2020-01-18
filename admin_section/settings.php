@@ -1166,9 +1166,9 @@ function saswp_import_callback(){
                              'id'   => 'saswp-other-images',
                              'name' => 'sd_data[saswp-other-images]',                             
                         )
-		    )            
+		    )                  
                 
-	);        
+	);   
         
         if(is_super_admin()){
             
@@ -1182,8 +1182,8 @@ function saswp_import_callback(){
                         'options' => saswp_get_user_roles()
 		    );
             
-        }
-        
+        }       
+                
         ?>
        
         <?php
@@ -1321,6 +1321,47 @@ function saswp_import_callback(){
                     <div class="">
                         <div class="saswp-tooltip"><strong><?php echo esc_html__('Remove Data On Uninstall','schema-and-structured-data-for-wp'); ?></strong></div><input type="checkbox" id="saswp_rmv_data_on_uninstall" name="sd_data[saswp_rmv_data_on_uninstall]" <?php echo (isset($sd_data['saswp_rmv_data_on_uninstall'])? 'checked': ''); ?>>                        
                         <p><?php echo esc_html__('This will remove all of its data when the plugin is deleted','schema-and-structured-data-for-wp'); ?></p>
+                    </div>
+                </li> 
+                
+            </ul>
+            
+            <ul>
+                <li>
+                    <div class="saswp-tools-field-title">
+                        
+                        <div class="saswp-tooltip"><strong><?php echo esc_html__('Data Tracking','schema-and-structured-data-for-wp'); ?></strong></div>
+                        
+                        <?php
+                        
+                            $settings       = saswp_defaultSettings();
+                            $allow_tracking = get_option( 'wisdom_allow_tracking' );
+                            
+                            $plugin         = basename( SASWP_DIR_NAME_FILE, '.php' );
+                       
+                            if(isset($allow_tracking[$plugin])){
+                                                $track_url = add_query_arg( array(
+                                                        'plugin'        => $plugin,
+                                                        'plugin_action'	=> 'no'
+                                                ) );
+                                echo '<a href="'. esc_url_raw( $track_url ).'" class="button-secondary">'.esc_html__( 'Disallow', 'schema-and-structured-data-for-wp' ).'</a>';
+
+                            }else{
+
+                                $track_url = add_query_arg(array(
+					'plugin' 		=> $plugin,
+					'plugin_action'   	=> 'yes'
+				));
+                             
+                                 echo '<a href="'. esc_url_raw( $track_url ).'" class="button-secondary">'.esc_html__( 'Allow', 'schema-and-structured-data-for-wp' ).'</a>';
+                                
+                            }
+                        
+                        ?>
+                                                                        
+                        <p><?php echo esc_html__('We guarantee no sensitive data is collected','schema-and-structured-data-for-wp'); ?>
+                            <a target="_blank" href="https://structured-data-for-wp.com/docs/article/usage-data-tracking/"><?php echo esc_html__('Learn more', 'schema-and-structured-data-for-wp'); ?></a>
+                        </p>
                     </div>
                 </li> 
                 

@@ -131,8 +131,9 @@ if( ! class_exists( 'SASWP_Plugin_Usage_Tracker') ) {
 }
 if( ! function_exists( 'saswp_start_plugin_tracking' ) ) {
   function saswp_start_plugin_tracking() {
+    global $saswp_wisdom;              
     $settings = get_option( 'sd_data');
-    $wisdom = new SASWP_Plugin_Usage_Tracker(
+    $saswp_wisdom = new SASWP_Plugin_Usage_Tracker(
       __FILE__,
       'http://data.ampforwp.com/ssdw',
       (array) $settings,
@@ -141,5 +142,6 @@ if( ! function_exists( 'saswp_start_plugin_tracking' ) ) {
       0
     );
   }
+  
   saswp_start_plugin_tracking();
 }
