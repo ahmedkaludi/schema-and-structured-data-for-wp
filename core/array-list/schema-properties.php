@@ -890,7 +890,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                     ),
                     array(
                             'label' => 'Author Description',
-                            'id' => 'saswp_tech_article_author_name_'.$schema_id,
+                            'id' => 'saswp_tech_article_author_description_'.$schema_id,
                             'type' => 'textarea',
                             'default' => $author_desc
                     ), 

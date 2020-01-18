@@ -2360,8 +2360,7 @@ Class saswp_output_service{
              }
              
              if(isset($sd_data['saswp-yoast']) && class_exists('WPSEO_Meta')){
-                 $product_desc = saswp_get_the_excerpt();
-                 
+                 $product_desc = saswp_get_the_excerpt();                 
              }
              
              $product_details['product_description'] = $product_desc;
