@@ -2587,8 +2587,10 @@ function saswp_support_page_callback(){
        
             <ul>
                 <li>
-                    <textarea rows="5" cols="60" id="saswp_query_message" name="saswp_query_message"> </textarea>
-                    <br>
+                   <input type="text" id="saswp_query_email" name="saswp_query_email" placeholder="email">
+                </li>
+                <li>                    
+                    <div><textarea rows="5" cols="60" id="saswp_query_message" name="saswp_query_message" placeholder="Write your query"></textarea></div>
                     <span class="saswp-query-success saswp_hide"><?php echo esc_html__('Message sent successfully, Please wait we will get back to you shortly', 'schema-and-structured-data-for-wp'); ?></span>
                     <span class="saswp-query-error saswp_hide"><?php echo esc_html__('Message not sent. please check your network connection', 'schema-and-structured-data-for-wp'); ?></span>
                 </li>
