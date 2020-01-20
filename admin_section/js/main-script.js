@@ -1205,6 +1205,16 @@ return false;
                             
                       break;
                       
+                      case 'saswp-total-recipe-generator-checkbox':
+                           saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-total-recipe-generator").val(1);                                
+                            }else{
+                              $("#saswp-total-recipe-generator").val(0);                                          
+                            }
+                            
+                      break;
+                      
                       case 'saswp-wordpress-news-checkbox':
                            saswp_compatibliy_notes(current, id); 
                             if ($(this).is(':checked')) {              

@@ -158,9 +158,9 @@ class saswp_output_compatibility{
         add_filter('easy_testimonials_json_ld', '__return_false'); 
                         
     }
-    public function saswp_wordpress_news_override(){
-                                
-                        
+    public function saswp_wordpress_news_override(){                                                        
+    }
+    public function saswp_total_recipe_generator_override(){                                                        
     }
     public function saswp_testimonial_pro_override(){
       
@@ -429,10 +429,15 @@ class saswp_output_compatibility{
     public function wordpress_news_on_activation(){
          $this->saswp_update_option_on_compatibility_activation('saswp-wordpress-news');
     }
+    public function total_recipe_generator_on_activation(){
+         $this->saswp_update_option_on_compatibility_activation('saswp-total-recipe-generator');
+    }
     public function saswp_update_option_on_compatibility_activation($opt_name){   
+        
         $defaults = get_option('sd_data');   
         $defaults[$opt_name] = 1;        
         update_option('sd_data', $defaults); 
+        
     }
     /**
      * Functions on compatiblity plugin activation ends here
