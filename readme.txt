@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.3
-Stable tag: 1.9.22
+Stable tag: 1.9.23
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -117,6 +117,17 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.9.23 (20 Jan 2020) =
+
+* Added: Option for disallowing data tracking. #728
+* Added: Support tab should have the email field #738
+* Fixed: Warning: number_format() expects parameter 1 to be float, string given #735
+* Fixed: Issues after .22 release in wordpress logs (Warnings and notices) #736
+* Fixed: Enhance product description when user using Yoast SEO. #730
+* Fixed: TypeError: s(…).timepicker is not a function (main-script.min.js) #729
+* Fixed: Modify schema output and Add Property button Disappear after Clicking on update #739
+* Fixed: Author description is over writing the author name field #737
 
 
 = 1.9.22 (17 Jan 2020) =
