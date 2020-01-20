@@ -2343,20 +2343,28 @@ Class saswp_output_service{
              $date_on_sale                           = $product->get_date_on_sale_to();                            
              $product_details['product_name']        = $product->get_title();
              
+             $product_desc                           = '';
+             
              if($product->get_short_description() && $product->get_description()){
                  
-                 $product_details['product_description'] = $product->get_short_description().' '.strip_tags($product->get_description());
+                 $product_desc = $product->get_short_description().' '.strip_tags($product->get_description());
                  
              }else if($product->get_description()){
                  
-                 $product_details['product_description'] = strip_tags($product->get_description());
+                 $product_desc = strip_tags($product->get_description());
                  
              }else{
                  
-                 $product_details['product_description'] = strip_tags(get_the_excerpt());
+                 $product_desc = strip_tags(get_the_excerpt());
                  
              }
-                          
+             
+             if(isset($sd_data['saswp-yoast']) && class_exists('WPSEO_Meta')){
+                 $product_desc = saswp_get_the_excerpt();                 
+             }
+             
+             $product_details['product_description'] = $product_desc;
+             
              if($product->get_attributes()){
                  
                  foreach ($product->get_attributes() as $attribute) {
@@ -2517,7 +2525,44 @@ Class saswp_output_service{
              return $product_details;                       
         }
         
-        /**
+        
+        public function saswp_rating_box_rating_markup($post_id){
+            
+                global $sd_data;
+
+                $response               = array(); 
+                $over_all               = '';
+                $item_enable            = 0;
+                $review_count           = "1";
+
+                $rating_box   = get_post_meta($post_id, 'saswp_review_details', true); 
+
+                if(isset($rating_box['saswp-review-item-over-all'])){
+
+                    $over_all = $rating_box['saswp-review-item-over-all'];  
+
+                }
+
+                if(isset($rating_box['saswp-review-item-enable'])){
+
+                    $item_enable =  $rating_box['saswp-review-item-enable'];  
+
+                }  
+
+                if($over_all && $review_count && $item_enable ==1 && isset($sd_data['saswp-review-module']) && $sd_data['saswp-review-module'] ==1){
+
+                   $response =       array(
+                                                    "@type"       => "AggregateRating",
+                                                    "ratingValue" => $over_all,
+                                                    "reviewCount" => $review_count
+                                                 ); 
+
+                }
+    
+            return $response;            
+        }
+
+                /**
          * This function gets the review details in schema markup from the current post which has extra theme enabled
          * Extra Theme ( https://www.elegantthemes.com/preview/Extra/ )
          * @global type $sd_data

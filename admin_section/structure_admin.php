@@ -1289,7 +1289,8 @@ function saswp_send_query_message(){
            return;  
         }   
         $customer_type  = 'Are you a premium customer ? No';
-        $message        = sanitize_textarea_field($_POST['message']);   
+        $message        = sanitize_textarea_field($_POST['message']); 
+        $email          = sanitize_textarea_field($_POST['email']); 
         $premium_cus    = sanitize_textarea_field($_POST['premium_cus']);   
         $user           = wp_get_current_user();
         
@@ -1304,7 +1305,11 @@ function saswp_send_query_message(){
         if($user){
             
             $user_data  = $user->data;        
-            $user_email = $user_data->user_email;       
+            $user_email = $user_data->user_email;     
+            
+            if($email){
+                $user_email = $email;
+            }            
             //php mailer variables        
             $sendto    = 'team@magazine3.com';
             $subject   = "Schema Customer Query";

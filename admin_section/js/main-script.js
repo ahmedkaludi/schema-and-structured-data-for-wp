@@ -553,7 +553,7 @@ return false;
                 $(".saswp-itemlist-text-field-tr").show();  
                 $(".saswp-option-table-class tr").find('select').attr('disabled', false);                 
               }else{
-                $(".saswp-schema-modify-section").hide();    
+                $(".saswp-schema-modify-section").show();    
               }
              if(schematype == 'Event'){            
                 $(".saswp-event-text-field-tr").show();
@@ -1543,14 +1543,15 @@ return false;
     $(".saswp-send-query").on("click", function(e){
             e.preventDefault();   
             var message     = $("#saswp_query_message").val();  
+            var email       = $("#saswp_query_email").val();  
             var premium_cus = $("#saswp_query_premium_cus").val(); 
-            
-            if($.trim(message) !='' && premium_cus){
+            console.log(saswpIsEmail(email));
+            if($.trim(message) !='' && premium_cus && $.trim(email) !='' && saswpIsEmail(email) == true){
              $.ajax({
                             type: "POST",    
                             url:ajaxurl,                    
                             dataType: "json",
-                            data:{action:"saswp_send_query_message", premium_cus:premium_cus,message:message, saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
+                            data:{action:"saswp_send_query_message", premium_cus:premium_cus,message:message,email:email, saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
                             success:function(response){                       
                               if(response['status'] =='t'){
                                 $(".saswp-query-success").show();
@@ -1566,8 +1567,8 @@ return false;
                             });   
             }else{
                 
-                if($.trim(message) =='' && premium_cus ==''){
-                    alert('Please enter the message and select customer type');
+                if($.trim(message) =='' && premium_cus =='' && $.trim(email) ==''){
+                    alert('Please enter the message, email and select customer type');
                 }else{
                 
                 if(premium_cus ==''){
@@ -1575,6 +1576,12 @@ return false;
                 }
                 if($.trim(message) == ''){
                     alert('Please enter the message');
+                }
+                if($.trim(email) == ''){
+                    alert('Please enter the email');
+                }
+                if(saswpIsEmail(email) == false){
+                    alert('Please enter a valid email');
                 }
                     
                 }

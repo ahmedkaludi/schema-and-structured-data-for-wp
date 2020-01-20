@@ -2579,12 +2579,16 @@ function saswp_remove_unwanted_notice_boxes(){
         
        remove_all_actions('admin_notices'); 
        
+       global $saswp_wisdom;
+       
+       add_action( 'admin_notices', array($saswp_wisdom , 'optin_notice') );
+       add_action( 'admin_notices', array($saswp_wisdom , 'marketing_notice') );
        add_action( 'admin_notices', 'saswp_admin_notice' );
     }
         
 }
 
-add_action('in_admin_header', 'saswp_remove_unwanted_notice_boxes');
+add_action('in_admin_header', 'saswp_remove_unwanted_notice_boxes',999);
 
 function saswp_admin_notice(){
     

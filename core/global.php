@@ -60,3 +60,4 @@ $translation_labels = array(
     'translation-comment'         => 'Comment',
 );          
 $saswp_post_reviews = array();
+$saswp_wisdom;

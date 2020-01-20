@@ -156,7 +156,7 @@ Class saswp_rating_box_frontend{
             $saswp_review_description       = get_post_meta( get_the_ID(), 'saswp-review-item-description', true );
             $saswp_review_props             = get_post_meta( get_the_ID(), 'saswp-review-item-props', true );
             $saswp_review_cons              = get_post_meta( get_the_ID(), 'saswp-review-item-cons', true );
-            $saswp_over_all_rating          = '';
+            $saswp_over_all_rating          = 0;
             
             if(isset($saswp_review_details['saswp-review-item-feature'])){
                 $saswp_review_item_feature = $saswp_review_details['saswp-review-item-feature'];    
@@ -172,7 +172,7 @@ Class saswp_rating_box_frontend{
             }
            
             if(isset($saswp_review_details['saswp-review-item-over-all'])){
-                $saswp_over_all_rating = $saswp_review_details['saswp-review-item-over-all'];    
+                $saswp_over_all_rating = (float)$saswp_review_details['saswp-review-item-over-all'];    
             }    
             
             $boxdata ='';
@@ -220,12 +220,15 @@ Class saswp_rating_box_frontend{
                                 '.wpautop( stripslashes ( $saswp_review_description ) ).'
                                 </div>
                             </td>
-                            <td>
-                                <div class="saswp-rvw-ov">
-                                    <div class="saswp-rvw-fs">'.esc_html(number_format ($saswp_over_all_rating, 1)).'</div>                                                                        
-                                    '.saswp_get_rating_html_by_value($saswp_over_all_rating).'
-                               </div>
-                            </td>
+                            <td>';                                
+                                if($saswp_over_all_rating > 0){
+                                    
+                                    $boxdata.= '<div class="saswp-rvw-ov">'
+                                               .'<div class="saswp-rvw-fs">'.esc_html(number_format ($saswp_over_all_rating, 1)).'</div>                                                                        
+                                               '.saswp_get_rating_html_by_value($saswp_over_all_rating).'</div>';
+                                    
+                                }                                                                                                         
+                $boxdata.= '</td>
                         <tr>
                     </tbody>
                 </table>'; 

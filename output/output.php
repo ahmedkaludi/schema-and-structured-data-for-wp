@@ -155,6 +155,8 @@ function saswp_schema_output() {
         $all_schema_output = array();
         $recipe_json       = array();
         
+        $service_object     = new saswp_output_service();
+        
         foreach($Conditionals as $schemaConditionals){
         
                         $schema_options = array();    
@@ -171,8 +173,7 @@ function saswp_schema_output() {
                         $height         = '';
                         $width          = '';        
                         $site_name      = get_bloginfo();    
-
-                        $service_object     = new saswp_output_service();
+                        
                         $default_logo       = $service_object->saswp_get_publisher(true);
                         $publisher          = $service_object->saswp_get_publisher();
 
@@ -191,53 +192,9 @@ function saswp_schema_output() {
 			$image_id 	= get_post_thumbnail_id();									
 			$date 		= get_the_date("c");
 			$modified_date 	= get_the_modified_date("c");
-			$author_name 	= get_the_author();
-                        $author_id      = get_the_author_meta('ID');   
-                        
-                        if(!$author_name){
-				
-                        $author_id    = get_post_field('post_author', $schema_post_id);
-		        $author_name = get_the_author_meta( 'display_name' , $author_id ); 
-                        
-			}
-                                                
-                        $saswp_review_details   = get_post_meta(get_the_ID(), 'saswp_review_details', true); 
-                        
-                        $aggregateRating        = array();                                                
-                        $saswp_over_all_rating  = '';
-                        
-                        if(isset($saswp_review_details['saswp-review-item-over-all'])){
-                            
-                        $saswp_over_all_rating = $saswp_review_details['saswp-review-item-over-all'];  
-                        
-                        }
-                        
-                        $saswp_review_item_enable = 0;
-                        
-                        if(isset($saswp_review_details['saswp-review-item-enable'])){
-                            
-                        $saswp_review_item_enable =  $saswp_review_details['saswp-review-item-enable'];  
-                         
-                        }  
-                        
-                        $saswp_review_count = "1";
-                       
-                        
-                        if($saswp_over_all_rating && $saswp_review_count && $saswp_review_item_enable ==1 && isset($sd_data['saswp-review-module']) && $sd_data['saswp-review-module'] ==1){
-                            
-                           $aggregateRating =       array(
-                                                            "@type"       => "AggregateRating",
-                                                            "ratingValue" => $saswp_over_all_rating,
-                                                            "reviewCount" => $saswp_review_count
-                                                         ); 
-                           
-                        }
-                                                                        
-                        $service_object     = new saswp_output_service();
-                        
-                        $extra_theme_review = array();                        
+			                                              
                         $extra_theme_review = $service_object->saswp_extra_theme_review_details(get_the_ID());
-                        
+                        $aggregateRating    = $service_object->saswp_rating_box_rating_markup(get_the_ID());
                         $modify_option      = get_option('modify_schema_post_enable_'.get_the_ID()); 
                         $modified_schema    = get_post_meta(get_the_ID(), 'saswp_modify_this_schema_'.$schema_post_id, true);
                         
@@ -509,9 +466,8 @@ function saswp_schema_output() {
                                 $input1['@context']              = saswp_context_url();
                                 $input1['@type']                 = 'Book';
                                 $input1['@id']                   = trailingslashit(get_permalink()).'#Book'; 
-
-                                $service = new saswp_output_service();
-                                $woo_markp = $service->saswp_schema_markup_generator($schema_type);
+                                
+                                $woo_markp = $service_object->saswp_schema_markup_generator($schema_type);
 
                                 if($woo_markp){
                                     $input1 = array_merge($input1, $woo_markp);
@@ -943,9 +899,8 @@ function saswp_schema_output() {
                                 'dateModified'                  => esc_html($modified_date),
                                 'author'			=> saswp_get_author_details()			
                                 );
-                        
-                                $service   = new saswp_output_service();
-                                $woo_markp = $service->saswp_schema_markup_generator($schema_type);
+                                                        
+                                $woo_markp = $service_object->saswp_schema_markup_generator($schema_type);
                                 
                                 if($woo_markp){
                                     $input1 = array_merge($input1, $woo_markp);
@@ -980,9 +935,8 @@ function saswp_schema_output() {
                             break;
                         
                             case 'WebPage':
-                                
-                                $service = new saswp_output_service();
-                                $input1 = $service->saswp_schema_markup_generator($schema_type);
+                                                                
+                                $input1 = $service_object->saswp_schema_markup_generator($schema_type);
 				                                
                                 if(isset($sd_data['saswp_comments_schema']) && $sd_data['saswp_comments_schema'] ==1){
                                     $input1['comment'] = saswp_get_comments(get_the_ID());
@@ -1006,9 +960,8 @@ function saswp_schema_output() {
                             break;
                             
                             case 'Article':
-                                
-                                $service = new saswp_output_service();
-                                $input1 = $service->saswp_schema_markup_generator($schema_type);
+                                                                
+                                $input1 = $service_object->saswp_schema_markup_generator($schema_type);
                                 
                                 $mainentity = saswp_get_mainEntity($schema_post_id);
                                 
@@ -1031,9 +984,8 @@ function saswp_schema_output() {
                             break;
                         
                             case 'TechArticle':
-                                
-                                $service = new saswp_output_service();
-                                $input1 = $service->saswp_schema_markup_generator($schema_type);
+                                                                
+                                $input1 = $service_object->saswp_schema_markup_generator($schema_type);
                                 
                                 $mainentity = saswp_get_mainEntity($schema_post_id);
                                 
@@ -1122,15 +1074,13 @@ function saswp_schema_output() {
                             case 'qanda':
                                                         
                                 if(isset($sd_data['saswp-dw-question-answer']) && $sd_data['saswp-dw-question-answer'] ==1){
-
-                                    $service_object = new saswp_output_service();
+                                    
                                     $input1  = $service_object->saswp_dw_question_answers_details(get_the_ID()); 
 
                                 }
 
                                 if(isset($sd_data['saswp-bbpress']) && $sd_data['saswp-bbpress'] ==1){
-
-                                    $service_object = new saswp_output_service();
+                                    
                                     $input1  = $service_object->saswp_bb_press_topic_details(get_the_ID()); 
 
                                 }
@@ -1147,9 +1097,8 @@ function saswp_schema_output() {
                             break;
                         
                             case 'Product':
-                                	                                                                
-                                $service = new saswp_output_service();
-                                $input1 = $service->saswp_schema_markup_generator($schema_type);
+                                	                                                                                                
+                                $input1 = $service_object->saswp_schema_markup_generator($schema_type);
                                   
                                 $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
                                                                                                 
@@ -1261,9 +1210,8 @@ function saswp_schema_output() {
                             break;
                             
                             case 'Review':
-                                                            
-                                $service = new saswp_output_service();
-                                $review_markup = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);                                
+                                                                                            
+                                $review_markup = $service_object->saswp_replace_with_custom_fields_value($input1, $schema_post_id);                                
                                 $item_reviewed = get_post_meta($schema_post_id, 'saswp_review_item_reviewed_'.$schema_post_id, true);
                                 
                                 if($item_reviewed == 'local_business'){
@@ -1631,8 +1579,7 @@ function saswp_schema_output() {
                         //Check for Featured Image
                         
                          if( !empty($input1) && !isset($input1['image'])){
-                             
-                             $service_object     = new saswp_output_service();
+                                                          
                              $input2             = $service_object->saswp_get_fetaure_image();
                              
                              if(!empty($input2)){

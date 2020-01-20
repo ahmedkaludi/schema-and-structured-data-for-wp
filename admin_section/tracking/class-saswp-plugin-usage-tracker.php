@@ -97,7 +97,7 @@ if( ! class_exists( 'SASWP_Plugin_Usage_Tracker') ) {
 			// If not, then tracking is allowed
 			if( ! $this->require_optin ) {
 				$this->set_can_collect_email( true, $this->plugin_name );
-				//$this->set_is_tracking_allowed( true );
+				$this->set_is_tracking_allowed( true );
 				$this->update_block_notice();
 				$this->do_tracking();
 			}
@@ -656,10 +656,10 @@ if( ! class_exists( 'SASWP_Plugin_Usage_Tracker') ) {
 				$plugin = sanitize_text_field( $_GET['plugin'] );
 				$action = sanitize_text_field( $_GET['plugin_action'] );
 				if( $action == 'yes' ) {
-					//$this->set_is_tracking_allowed( true, $plugin );
+					$this->set_is_tracking_allowed( true, $plugin );
 					$this->do_tracking( true ); // Run this straightaway
 				} else {
-					//$this->set_is_tracking_allowed( false, $plugin );
+					$this->set_is_tracking_allowed( false, $plugin );
 				}
 				$this->update_block_notice( $plugin );
 			}
