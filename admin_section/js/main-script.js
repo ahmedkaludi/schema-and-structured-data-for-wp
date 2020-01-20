@@ -553,7 +553,7 @@ return false;
                 $(".saswp-itemlist-text-field-tr").show();  
                 $(".saswp-option-table-class tr").find('select').attr('disabled', false);                 
               }else{
-                $(".saswp-schema-modify-section").hide();    
+                $(".saswp-schema-modify-section").show();    
               }
              if(schematype == 'Event'){            
                 $(".saswp-event-text-field-tr").show();
