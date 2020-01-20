@@ -2727,9 +2727,16 @@ function saswp_pre_update_settings($value, $old_value,  $option){
         }
         
     }else{
-        if(!in_array('administrator', $value['saswp-role-based-access'])){
-            array_push($value['saswp-role-based-access'], 'administrator');
+        
+        if(isset($value['saswp-role-based-access']) && !empty($value['saswp-role-based-access'])){
+                if(!in_array('administrator', $value['saswp-role-based-access'])){
+                    array_push($value['saswp-role-based-access'], 'administrator');
+                }
+        }else{
+                $value['saswp-role-based-access'] = array();
+                array_push($value['saswp-role-based-access'], 'administrator');
         }
+                
     }    
    return $value; 
 }
