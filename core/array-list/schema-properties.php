@@ -1773,27 +1773,27 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'type' => 'text'                            
                     ),    
                     array(
-                            'label' => 'Embed Url',
-                            'id' => 'saswp_video_object_embed_url_'.$schema_id,
-                            'type' => 'text',
+                            'label'   => 'Embed Url',
+                            'id'      => 'saswp_video_object_embed_url_'.$schema_id,
+                            'type'    => 'text',
                             'default' => get_permalink()
                     ),    
                     array(
-                            'label' => 'Main Entity Id',
-                            'id' => 'saswp_video_object_main_entity_id_'.$schema_id,
-                            'type' => 'text',
+                            'label'   => 'Main Entity Id',
+                            'id'      => 'saswp_video_object_main_entity_id_'.$schema_id,
+                            'type'    => 'text',
                             'default' => get_permalink()
                     ),
                     array(
-                            'label' => 'Author Name',
-                            'id' => 'saswp_video_object_author_name_'.$schema_id,
-                            'type' => 'text',
+                            'label'   => 'Author Name',
+                            'id'      => 'saswp_video_object_author_name_'.$schema_id,
+                            'type'    => 'text',
                             'default' => is_object($current_user) ? $current_user->display_name : ''    
                     ),
                     array(
-                            'label' => 'Author Description',
-                            'id' => 'saswp_video_object_author_description_'.$schema_id,
-                            'type' => 'textarea',
+                            'label'   => 'Author Description',
+                            'id'      => 'saswp_video_object_author_description_'.$schema_id,
+                            'type'    => 'textarea',
                             'default' => $author_desc
                     ), 
                     array(
@@ -1803,22 +1803,22 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'default' => $author_url
                     ),    
                     array(
-                            'label' => 'Author Image',
-                            'id' => 'saswp_video_object_author_image_'.$schema_id,
-                            'type' => 'media',
+                            'label'   => 'Author Image',
+                            'id'      => 'saswp_video_object_author_image_'.$schema_id,
+                            'type'    => 'media',
                             'default' => $author_details['url']   
                     ),
                     array(
-                            'label' => 'Organization Name',
-                            'id' => 'saswp_video_object_organization_name_'.$schema_id,
-                            'type' => 'text',
-                            'default' =>  $sd_data['sd_name']
+                            'label'   => 'Organization Name',
+                            'id'      => 'saswp_video_object_organization_name_'.$schema_id,
+                            'type'    => 'text',
+                            'default' => isset($sd_data['sd_name']) ? $sd_data['sd_name'] : ''
                     ),
                     array(
-                            'label' => 'Organization Logo',
-                            'id' => 'saswp_video_object_organization_logo_'.$schema_id,
-                            'type' => 'media',
-                            'default' => $sd_data['sd_logo']['url']
+                            'label'   => 'Organization Logo',
+                            'id'      => 'saswp_video_object_organization_logo_'.$schema_id,
+                            'type'    => 'media',
+                            'default' => isset($sd_data['sd_logo']['url']) ? $sd_data['sd_logo']['url'] : ''
                     ),    
                    );
                     break;
@@ -1891,21 +1891,21 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'default' => $author_url
                     ),    
                     array(
-                            'label' => 'Author Image',
-                            'id' => 'saswpimage_object_author_image_'.$schema_id,
-                            'type' => 'media',
+                            'label'   => 'Author Image',
+                            'id'      => 'saswpimage_object_author_image_'.$schema_id,
+                            'type'    => 'media',
                             'default' => isset($author_details['url']) ? $author_details['url'] : ''   
                     ),
                     array(
-                            'label' => 'Organization Name',
-                            'id' => 'saswpimage_object_organization_name_'.$schema_id,
-                            'type' => 'text',
+                            'label'   => 'Organization Name',
+                            'id'      => 'saswpimage_object_organization_name_'.$schema_id,
+                            'type'    => 'text',
                             'default' => isset($sd_data['sd_name']) ? $sd_data['sd_name'] : ''
                     ),
                     array(
-                            'label' => 'Organization Logo',
-                            'id' => 'saswpimage_object_organization_logo_'.$schema_id,
-                            'type' => 'media',
+                            'label'   => 'Organization Logo',
+                            'id'      => 'saswpimage_object_organization_logo_'.$schema_id,
+                            'type'    => 'media',
                             'default' => isset($sd_data['sd_logo']['url']) ? $sd_data['sd_logo']['url'] : ''
                     ),    
                    );

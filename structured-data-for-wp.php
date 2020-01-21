@@ -102,6 +102,7 @@ require_once SASWP_DIR_NAME.'/core/global.php';
 require_once SASWP_DIR_NAME.'/core/queries_function.php';
 //Module files load
 require_once SASWP_DIR_NAME.'/modules/gutenberg/includes/class-gutenberg.php';
+require_once SASWP_DIR_NAME.'/modules/elementor/elementor-loader.php';
 
 //Loading Third party files
 require_once SASWP_DIR_NAME.'/core/3rd-party/aqua_resizer.php';

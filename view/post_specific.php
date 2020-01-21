@@ -235,6 +235,8 @@ class saswp_post_specific {
         public function saswp_post_meta_box_fields($post){    
             
              $response_html     = '';
+             $disable_btn       = '';
+             $cus_schema        = '';
              $tabs              = '';
              $tabs_fields       = '';
              $schema_ids        = array();

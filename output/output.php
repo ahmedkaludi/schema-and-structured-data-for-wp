@@ -641,6 +641,7 @@ function saswp_schema_output() {
                                 $input1['@context']              = saswp_context_url();
                                 $input1['@type']                 = 'Person';
                                 $input1['@id']                   = trailingslashit(saswp_get_permalink()).'#Person';                                                        
+                                $input1['name']                  = saswp_get_the_title();
                                 $input1['address']['@type']      = 'PostalAddress';             
 
                                 $input1 = apply_filters('saswp_modify_person_schema_output', $input1 );
