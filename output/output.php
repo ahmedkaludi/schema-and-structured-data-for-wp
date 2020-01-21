@@ -1307,6 +1307,8 @@ function saswp_schema_output() {
                         
                             case 'VideoObject':
                                 
+                                $video_links      = saswp_get_video_links();
+                                
                                 $image_details 	= wp_get_attachment_image_src($image_id);				
 
                                 $description = saswp_get_the_excerpt();
@@ -1328,6 +1330,14 @@ function saswp_schema_output() {
                                 'thumbnailUrl'                  => isset($image_details[0]) ? esc_url($image_details[0]):'',						
                                 'author'			=> saswp_get_author_details()						                                                                                                      
                                 );
+                                
+                                if(isset($video_links[0])){
+                                    
+                                    $input1['contentUrl'] = $video_links[0];
+                                    $input1['embedUrl']   = $video_links[0];
+                                    
+                                }
+                                
                                  if(!empty($publisher)){
 
                                     $input1 = array_merge($input1, $publisher);   

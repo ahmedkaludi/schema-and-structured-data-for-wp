@@ -13,10 +13,10 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 class saswp_post_specific {
     
-	private   $screen                    = array();				
-        protected $all_schema                = null;
-        protected $options_response          = array();
-        protected $modify_schema_post_enable = false;        
+	public    $screen                    = array();				
+        public    $all_schema                = null;
+        public    $options_response          = array();
+        public    $modify_schema_post_enable = false;        
         public    $_local_sub_business       = array(); 
         public    $_common_view              = null;
         

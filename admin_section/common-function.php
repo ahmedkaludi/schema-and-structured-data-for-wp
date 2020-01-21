@@ -2967,3 +2967,47 @@ function saswp_is_date_field($date_str){
     return $response;
     
 }
+
+function saswp_get_video_links(){
+    
+    global $post;
+    
+    $response = array();
+    
+    if(is_object($post)){
+        
+         $pattern = get_shortcode_regex();
+         
+         if ( preg_match_all( '/'. $pattern .'/s', $post->post_content, $matches )
+            && array_key_exists( 2, $matches )
+            && in_array( 'playlist', $matches[2] ) )
+            {
+             
+              foreach ($matches[0] as $match){
+            
+                $mached = rtrim($match, ']'); 
+                $mached = ltrim($mached, '[');
+                $mached = trim($mached, '[]');
+                $attr = shortcode_parse_atts($mached);  
+                $response[] = wp_get_attachment_url($attr['ids']);
+                
+              }
+                          
+            }
+           
+           preg_match_all( '/src\=\"(.*?)youtube\.com(.*?)\"/s', $post->post_content, $matches, PREG_SET_ORDER );
+           
+           if($matches){
+               
+               foreach($matches as $match){
+                   
+                  $response[] = $match[1].'youtube.com'.$match[2]; 
+                   
+               }
+                              
+           }
+           
+    }
+        
+    return $response;
+}
