@@ -46,7 +46,7 @@ class SASWP_Elementor_Loader {
 	 * @access public
 	 */
 	public function widget_scripts() {
-		wp_register_script( 'elementor-helloff-world', SASWP_PLUGIN_URL .'/modules/elementor/assets/js/saswp-elementor-faq.js', [ 'jquery' ], false, true );
+		wp_register_script( 'elementor-helloff-world', SASWP_PLUGIN_URL .'/modules/elementor/assets/js/faq-block.js', [ 'jquery' ], false, true );
 	}
 
 	/**
