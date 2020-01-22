@@ -75,16 +75,16 @@ function saswp_wp_hook_operation(){
 
 function saswp_schema_markup_output_in_buffer($content){
     
-     global $saswp_post_reviews;   
+     global $saswp_post_reviews, $saswp_elementor_faq;   
      
-     if($saswp_post_reviews){
+     if($saswp_post_reviews || $saswp_elementor_faq){
      
             $saswp_json_ld =  saswp_get_all_schema_markup_output();  
      
             if(!empty($saswp_json_ld['saswp_json_ld'])){
 
                 $regex = '/<script type\=\"application\/ld\+json\" class\=\"saswp\-schema\-markup\-output\"\>(.*?)<\/script>/s'; 
-
+                
                 $content = preg_replace($regex, $saswp_json_ld['saswp_json_ld'], $content);
 
             }
@@ -143,6 +143,7 @@ function saswp_get_all_schema_markup_output() {
                 
         $gutenberg_how_to         = saswp_gutenberg_how_to_schema(); 
         $gutenberg_faq            = saswp_gutenberg_faq_schema();
+        $elementor_faq            = saswp_elementor_faq_schema();
         $gutenberg_event          = saswp_gutenberg_event_schema();  
         $gutenberg_job            = saswp_gutenberg_job_schema();
         $gutenberg_course         = saswp_gutenberg_course_schema();
@@ -237,6 +238,12 @@ function saswp_get_all_schema_markup_output() {
                         if(!empty($gutenberg_faq)){
                         
                             $output .= saswp_json_print_format($gutenberg_faq);   
+                            $output .= ",";
+                            $output .= "\n\n";
+                        }
+                        if(!empty($elementor_faq)){
+                        
+                            $output .= saswp_json_print_format($elementor_faq);   
                             $output .= ",";
                             $output .= "\n\n";
                         }
