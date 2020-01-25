@@ -646,11 +646,11 @@ function saswp_schema_type_meta_box_callback( $post) {
                                     
                                     $rv_text = '';
                                     
-                                    if(count($attached_rv) > 0){
+                                    if($attached_rv && count($attached_rv) > 0){
                                         $rv_text .= count($attached_rv). ' Reviews, ';
                                     }
                                     
-                                    if(count($attached_col) > 0){
+                                    if($attached_col && count($attached_col) > 0){
                                         $rv_text .= count($attached_col). ' Collection';
                                     }
                                     if(!$rv_text){
@@ -822,12 +822,16 @@ function saswp_schema_type_meta_box_callback( $post) {
                                 if($allowed_manaul && $key == 'automatic'){
                                         $sel = 'selected';
                                 }else{
-                                    if($key == $schema_options['saswp_modify_method'] && !$allowed_manaul){
-                                        $sel = 'selected';
+                                    
+                                    if(isset($schema_options['saswp_modify_method'])){
+                                        if($key == $schema_options['saswp_modify_method'] && !$allowed_manaul){
+                                            $sel = 'selected';
+                                        }
                                     }
+                                    
                                 }
                                 
-                                echo '<option value="'.$key.'" '.$sel.'>'.$val.'</option>';
+                                echo '<option value="'.esc_attr($key).'" '.esc_attr($sel).'>'.esc_html($val).'</option>';
                                 
                             }
                             

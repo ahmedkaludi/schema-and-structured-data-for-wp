@@ -2,7 +2,7 @@
 /*
 Plugin Name: Schema & Structured Data for WP & AMP
 Description: Schema & Structured Data adds Google Rich Snippets markup according to Schema.org guidelines to structure your site for SEO. (AMP Compatible) 
-Version: 1.9.23
+Version: 1.9.24
 Text Domain: schema-and-structured-data-for-wp
 Domain Path: /languages
 Author: Magazine3
@@ -13,7 +13,7 @@ License: GPL2
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-define('SASWP_VERSION', '1.9.23');
+define('SASWP_VERSION', '1.9.24');
 define('SASWP_DIR_NAME_FILE', __FILE__ );
 define('SASWP_DIR_NAME', dirname( __FILE__ ));
 define('SASWP_DIR_URI', plugin_dir_url(__FILE__));
@@ -34,6 +34,8 @@ require_once SASWP_DIR_NAME .'/output/function.php';
 require_once SASWP_DIR_NAME .'/output/output.php';
 require_once SASWP_DIR_NAME .'/output/markup.php';
 require_once SASWP_DIR_NAME .'/output/gutenberg.php';
+require_once SASWP_DIR_NAME .'/output/elementor.php';
+require_once SASWP_DIR_NAME .'/output/divi-builder.php';
 
 if ( ! function_exists( 'is_plugin_active' ) )
      require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
@@ -91,6 +93,7 @@ require_once SASWP_DIR_NAME.'/modules/rating-box/frontend.php';
 require_once SASWP_DIR_NAME.'/output/service.php'; 
 require_once SASWP_DIR_NAME.'/output/compatibility.php'; 
 //Loading Reviews files
+require_once SASWP_DIR_NAME.'/modules/divi-builder/extension.php'; 
 require_once SASWP_DIR_NAME.'/modules/reviews/reviews_admin.php'; 
 require_once SASWP_DIR_NAME.'/modules/reviews/reviews_setup.php';
 require_once SASWP_DIR_NAME.'/modules/reviews/reviews_service.php';
@@ -102,6 +105,7 @@ require_once SASWP_DIR_NAME.'/core/global.php';
 require_once SASWP_DIR_NAME.'/core/queries_function.php';
 //Module files load
 require_once SASWP_DIR_NAME.'/modules/gutenberg/includes/class-gutenberg.php';
+require_once SASWP_DIR_NAME.'/modules/elementor/elementor-loader.php';
 
 //Loading Third party files
 require_once SASWP_DIR_NAME.'/core/3rd-party/aqua_resizer.php';

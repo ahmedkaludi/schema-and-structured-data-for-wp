@@ -3,6 +3,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
+$saswp_divi_faq = array();
 $with_aggregate = array(
         'Book',                     
         'Course',                                         
@@ -60,4 +61,6 @@ $translation_labels = array(
     'translation-comment'         => 'Comment',
 );          
 $saswp_post_reviews = array();
+$saswp_elementor_faq = array();
 $saswp_wisdom;
+

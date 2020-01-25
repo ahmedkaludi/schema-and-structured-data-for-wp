@@ -2709,6 +2709,7 @@ function saswp_get_field_note($pname){
     
     $notes = array(  
             'easy_recipe'              => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/easyrecipe/">EasyRecipe</a>',
+            'total_recipe_generator'   => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://codecanyon.net/item/total-recipe-generator-wordpress-recipe-maker-with-schema-and-nutrition-facts-elementor-addon/21445400/">Total Recipe Generator</a>',
             'wordpress_news'           => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="#">Wordpress News</a>',
             'strong_testimonials'      => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/strong-testimonials">Strong Testimonials</a>',
             'wp_event_aggregator'      => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wp-event-aggregator/">WP Event Aggregator</a>',
@@ -2965,4 +2966,48 @@ function saswp_is_date_field($date_str){
     
     return $response;
     
+}
+
+function saswp_get_video_links(){
+    
+    global $post;
+    
+    $response = array();
+    
+    if(is_object($post)){
+        
+         $pattern = get_shortcode_regex();
+         
+         if ( preg_match_all( '/'. $pattern .'/s', $post->post_content, $matches )
+            && array_key_exists( 2, $matches )
+            && in_array( 'playlist', $matches[2] ) )
+            {
+             
+              foreach ($matches[0] as $match){
+            
+                $mached = rtrim($match, ']'); 
+                $mached = ltrim($mached, '[');
+                $mached = trim($mached, '[]');
+                $attr = shortcode_parse_atts($mached);  
+                $response[] = wp_get_attachment_url($attr['ids']);
+                
+              }
+                          
+            }
+           
+           preg_match_all( '/src\=\"(.*?)youtube\.com(.*?)\"/s', $post->post_content, $matches, PREG_SET_ORDER );
+           
+           if($matches){
+               
+               foreach($matches as $match){
+                   
+                  $response[] = $match[1].'youtube.com'.$match[2]; 
+                   
+               }
+                              
+           }
+           
+    }
+        
+    return $response;
 }

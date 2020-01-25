@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.3
-Stable tag: 1.9.23
+Stable tag: 1.9.24
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -117,6 +117,14 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.9.24 (25 Jan 2020) =
+
+* Added: FAQ schema block for DIVI builder. #722
+* Added: FAQ schema block for Elementor #721
+* Fixed: Detection of video url automatically for VideoObject schema #726
+* Fixed: Warning & Notices fixes #741
+
 
 = 1.9.23 (20 Jan 2020) =
 

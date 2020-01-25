@@ -178,7 +178,9 @@ class saswp_view_common_class {
                     
                     $schema_type_fields = $this->schema_type_element;
                     
-                    $type_fields = array_key_exists($schema_type, $schema_type_fields) ? $schema_type_fields[$schema_type]:'';  
+                    if($schema_type !=''){
+                        
+                        $type_fields = array_key_exists($schema_type, $schema_type_fields) ? $schema_type_fields[$schema_type]:'';  
                         
                     if($type_fields){
                        
@@ -253,8 +255,10 @@ class saswp_view_common_class {
                         $tabs_fields .= '</div>';
                             
                         }
+                        
+                    }
                                                                                                                                                                                                                                    
-                     return $tabs_fields;
+                    return $tabs_fields;
             
         }
         

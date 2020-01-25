@@ -4,6 +4,12 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 return array(    
     'plugins' =>    array(        
+        'total_recipe_generator'  =>  array(            
+                    'name'       => 'Total Recipe Generator',
+                    'free'       => 'total-recipe-generator-el/total-recipe-generator-el.php',                     
+                    'opt_name'   => 'saswp-total-recipe-generator',
+                    'part_in'    => 'pro',
+        ),
         'wordpress_news'  =>  array(            
                     'name'       => 'Wordpress News',
                     'free'       => 'wordpress-news/wp-news.php',                     

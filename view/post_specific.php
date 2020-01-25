@@ -13,10 +13,10 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 class saswp_post_specific {
     
-	private   $screen                    = array();				
-        protected $all_schema                = null;
-        protected $options_response          = array();
-        protected $modify_schema_post_enable = false;        
+	public    $screen                    = array();				
+        public    $all_schema                = null;
+        public    $options_response          = array();
+        public    $modify_schema_post_enable = false;        
         public    $_local_sub_business       = array(); 
         public    $_common_view              = null;
         
@@ -235,6 +235,8 @@ class saswp_post_specific {
         public function saswp_post_meta_box_fields($post){    
             
              $response_html     = '';
+             $disable_btn       = '';
+             $cus_schema        = '';
              $tabs              = '';
              $tabs_fields       = '';
              $schema_ids        = array();

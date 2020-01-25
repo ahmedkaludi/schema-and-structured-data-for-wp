@@ -1750,6 +1750,18 @@ function saswp_compatibility_page_callback(){
                                 'name' => 'sd_data[saswp-ampbyautomatic]',                             
                         )
 		);
+        $total_recipe_generator = array(
+			'label'  => 'Total Recipe Generator',
+			'id'     => 'saswp-total-recipe-generator-checkbox',                        
+                        'name'   => 'saswp-total-recipe-generator-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
+                        'note'   => saswp_get_field_note('total_recipe_generator'),
+                        'hidden' => array(
+                                'id'   => 'saswp-total-recipe-generator',
+                                'name' => 'sd_data[saswp-total-recipe-generator]',                             
+                        )
+		);
         $ampwp = array(
 			'label'  => 'AMP WP',
 			'id'     => 'saswp-ampwp-checkbox',                        
@@ -2386,9 +2398,11 @@ function saswp_compatibility_page_callback(){
              $wp_ultimate_recipe['note']         = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/recipe-schema/">Recipe Schema Addon</a>';             
              $mediavine_create['note']           = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/recipe-schema/">Recipe Schema Addon</a>';             
              $ht_recipes['note']                 = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/recipe-schema/">Recipe Schema Addon</a>';
-             $easyrecipe['note']                 = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';                            
+             $easyrecipe['note']                 = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Recipe Schema Addon</a>';                            
+             $total_recipe_generator['note']     = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Recipe Schema Addon</a>';                            
              
          }
+         
                                                  
         $field_objs = new saswp_fields_generator();
         
@@ -2418,6 +2432,7 @@ function saswp_compatibility_page_callback(){
                 $recipe_maker,
                 $wp_ultimate_recipe,
                 $zip_recipes,
+                $total_recipe_generator,
                 $easyrecipe,
                 $mediavine_create,
                 $ht_recipes,
@@ -2712,9 +2727,16 @@ function saswp_pre_update_settings($value, $old_value,  $option){
         }
         
     }else{
-        if(!in_array('administrator', $value['saswp-role-based-access'])){
-            array_push($value['saswp-role-based-access'], 'administrator');
+        
+        if(isset($value['saswp-role-based-access']) && !empty($value['saswp-role-based-access'])){
+                if(!in_array('administrator', $value['saswp-role-based-access'])){
+                    array_push($value['saswp-role-based-access'], 'administrator');
+                }
+        }else{
+                $value['saswp-role-based-access'] = array();
+                array_push($value['saswp-role-based-access'], 'administrator');
         }
+                
     }    
    return $value; 
 }
