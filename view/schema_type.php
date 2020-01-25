@@ -646,11 +646,11 @@ function saswp_schema_type_meta_box_callback( $post) {
                                     
                                     $rv_text = '';
                                     
-                                    if(count($attached_rv) > 0){
+                                    if($attached_rv && count($attached_rv) > 0){
                                         $rv_text .= count($attached_rv). ' Reviews, ';
                                     }
                                     
-                                    if(count($attached_col) > 0){
+                                    if($attached_col && count($attached_col) > 0){
                                         $rv_text .= count($attached_col). ' Collection';
                                     }
                                     if(!$rv_text){
