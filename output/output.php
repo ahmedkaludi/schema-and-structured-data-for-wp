@@ -120,9 +120,9 @@ function saswp_kb_schema_output() {
 			'@context'		=> saswp_context_url(),
 			'@type'			=> esc_attr($sd_data['saswp_kb_type']),
                         '@id'                   => $site_url.'#Person',
-			'name'			=> esc_attr($sd_data['sd-person-name']),
-                        'jobTitle'	        => esc_attr($sd_data['sd-person-job-title']),
-			'url'			=> esc_url($sd_data['sd-person-url']),
+			'name'			=> isset($sd_data['sd-person-name']) ? esc_attr($sd_data['sd-person-name']) : '',
+                        'jobTitle'	        => isset($sd_data['sd-person-job-title']) ? esc_attr($sd_data['sd-person-job-title']) : '',
+			'url'			=> isset($sd_data['sd-person-url']) ? esc_url($sd_data['sd-person-url']) : '',
                         'sameAs'		=> isset($sd_data['saswp_social_links']) ? $sd_data['saswp_social_links'] : array(),                                        		
 			'image' 		=> array(
                                                         '@type'	 => 'ImageObject',

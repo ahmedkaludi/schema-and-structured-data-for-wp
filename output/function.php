@@ -1116,9 +1116,9 @@ function saswp_wp_recipe_schema_json($recipe){
                     
                     $image_size    = @getimagesize($image_url);
                     
-                    if($image_size[0] < 1280 && $image_size[1] < 720){
+                    if($image_size[0] < 1200 && $image_size[1] < 720){
                                             
-                        $image_details = @saswp_aq_resize( $image_url, 1280, 720, true, false, true );
+                        $image_details = @saswp_aq_resize( $image_url, 1200, 720, true, false, true );
                     
                             if($image_details){
 

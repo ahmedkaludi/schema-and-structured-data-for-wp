@@ -1,4 +1,12 @@
 <?php
+/**
+ * Output Page
+ *
+ * @author   Magazine3
+ * @category Frontend
+ * @path  output/compatibility
+ * @version 1.9.0
+ */
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 class saswp_output_compatibility{

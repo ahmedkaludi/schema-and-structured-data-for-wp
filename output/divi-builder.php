@@ -9,6 +9,12 @@
  */
 if (! defined('ABSPATH') ) exit;
 
+/**
+ * Function to generate schema markup for divi-builder Faq block
+ * @global type $post
+ * @global type $saswp_divi_faq
+ * @return type array
+ */
 function saswp_divi_builder_faq_schema(){
               
             $input1 = array();

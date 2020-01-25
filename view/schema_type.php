@@ -249,18 +249,21 @@ function saswp_schema_type_meta_box_callback( $post) {
                                $option_html = '';   
 
                                foreach($type as $key => $value){
-                                $sel = '';
-                                if($schema_type == $key){
-                                  $sel = 'selected';
-                                }
+                                   
+                                    $sel = '';
+                                
+                                    if($schema_type == $key){
+                                        $sel = 'selected';
+                                    }
+                                    
                                     $option_html.= "<option value='".esc_attr($key)."' ".esc_attr($sel).">".esc_html__($value, 'schema-and-structured-data-for-wp' )."</option>";    
 
-                               }   
+                                }   
 
-                                        echo '<optgroup label="'.esc_attr($parent_type).'">';
-                                        //Escaping is done while adding data in this variable
-                                        echo $option_html;   
-                                        echo '</optgroup>';                                                                                 
+                                    echo '<optgroup label="'.esc_attr($parent_type).'">';
+                                    //Escaping is done while adding data in this variable
+                                    echo $option_html;   
+                                    echo '</optgroup>';                                                                                 
                             }
 
                           }                                                                    

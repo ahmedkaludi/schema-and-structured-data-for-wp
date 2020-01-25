@@ -9,6 +9,12 @@
  */
 if (! defined('ABSPATH') ) exit;
 
+/**
+ * Function to generate schema markup for Gutenberg Faq block
+ * @global type $post
+ * @param type $block
+ * @return type array
+ */
 function saswp_get_gutenberg_block_data($block){
     
     global $post;
