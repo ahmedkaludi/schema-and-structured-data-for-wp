@@ -1820,8 +1820,7 @@ function saswp_woocommerce_shop_page(){
         if($display_type == 'products' || $display_type == 'both'){
             
             $item_list = array();
-                     
-            woocommerce_product_loop_start();
+                                 
                     $i = 1;
                     if ( have_posts() ) :
                         while ( have_posts() ) :
@@ -1835,9 +1834,7 @@ function saswp_woocommerce_shop_page(){
                                    $i++; 
                         endwhile;
                     endif;
-                        
-            woocommerce_product_loop_end();
-                        
+                                                            
                 if($item_list){
                     $item_list_res['@context']        = saswp_context_url();
                     $item_list_res['@type']           = 'ItemList';
