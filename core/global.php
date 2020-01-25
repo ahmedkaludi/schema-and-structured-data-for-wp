@@ -3,6 +3,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
+$saswp_divi_faq = array();
 $with_aggregate = array(
         'Book',                     
         'Course',                                         

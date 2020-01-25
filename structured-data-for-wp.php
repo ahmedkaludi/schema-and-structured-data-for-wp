@@ -35,6 +35,7 @@ require_once SASWP_DIR_NAME .'/output/output.php';
 require_once SASWP_DIR_NAME .'/output/markup.php';
 require_once SASWP_DIR_NAME .'/output/gutenberg.php';
 require_once SASWP_DIR_NAME .'/output/elementor.php';
+require_once SASWP_DIR_NAME .'/output/divi-builder.php';
 
 if ( ! function_exists( 'is_plugin_active' ) )
      require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
@@ -92,6 +93,7 @@ require_once SASWP_DIR_NAME.'/modules/rating-box/frontend.php';
 require_once SASWP_DIR_NAME.'/output/service.php'; 
 require_once SASWP_DIR_NAME.'/output/compatibility.php'; 
 //Loading Reviews files
+require_once SASWP_DIR_NAME.'/modules/divi-builder/extension.php'; 
 require_once SASWP_DIR_NAME.'/modules/reviews/reviews_admin.php'; 
 require_once SASWP_DIR_NAME.'/modules/reviews/reviews_setup.php';
 require_once SASWP_DIR_NAME.'/modules/reviews/reviews_service.php';
