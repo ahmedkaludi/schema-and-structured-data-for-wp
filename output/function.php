@@ -1139,6 +1139,17 @@ function saswp_wp_recipe_schema_json($recipe){
                 }
                
             }
+            
+            if(isset($metadata['video'])){
+
+                if(!$metadata['video']['description']){
+                 $metadata['video']['description'] = saswp_get_the_excerpt();
+                }
+                if(!$metadata['video']['uploadDate']){
+                 $metadata['video']['uploadDate'] = get_the_date('c');
+                }     
+
+            }
                         
         return $metadata;
 }

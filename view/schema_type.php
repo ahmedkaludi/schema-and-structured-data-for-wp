@@ -845,8 +845,8 @@ function saswp_schema_type_meta_box_callback( $post) {
                     
                     <div class="saswp-dynamic-container <?php echo ((isset($schema_options['saswp_modify_method']) && $schema_options['saswp_modify_method'] == 'automatic') ? '':'saswp_hide'); ?>">
                         
-                       <div class="saswp-custom-fields-div">
-                       <table class="saswp-custom-fields-table">
+                        <div class="saswp-custom-fields-div">
+                        <table class="saswp-custom-fields-table">
                            
                         <?php                         
                         if(!empty($meta_list)){  
@@ -1032,11 +1032,11 @@ function saswp_schema_type_meta_box_callback( $post) {
                         ?>
                                                       
                         </table>                    
-                   <table class="option-table-class">
-                       <tr><td><a class="button button-primary saswp-add-custom-fields"><?php echo esc_html__( 'Add Property', 'schema-and-structured-data-for-wp' ); ?></a></td><td></td></tr>   
-                   </table>
+                        <table class="option-table-class">
+                            <tr><td><a class="button button-primary saswp-add-custom-fields"><?php echo esc_html__( 'Add Property', 'schema-and-structured-data-for-wp' ); ?></a></td><td></td></tr>   
+                        </table>
                        
-                   </div> 
+                        </div> 
                         
                     </div>
                     
@@ -1114,7 +1114,7 @@ function saswp_get_reviews_on_load(){
                         foreach($collection as $col){
                             
                             $reviews[] = array(
-                                'saswp_review_id' => $col['value'],
+                                'saswp_review_id'     => $col['value'],
                                 'saswp_reviewer_name' => $col['label']
                             );
                             
