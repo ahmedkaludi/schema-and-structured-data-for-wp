@@ -2112,13 +2112,22 @@ if ( ! defined('ABSPATH') ) exit;
         
         //SEOPress
         if(saswp_remove_warnings($sd_data, 'saswp-seo-press', 'saswp_string') == 1){
-             require_once ( WP_PLUGIN_DIR. '/wp-seopress/inc/functions/options-titles-metas.php'); //Social                                     
-             $c_title =  seopress_titles_the_title();
+            
+             if(!is_admin()){
+            
+                    require_once ( WP_PLUGIN_DIR. '/wp-seopress/inc/functions/options-titles-metas.php');
              
-             if($c_title){
-                 $title = $c_title;
-             }             
-                                      
+                    if(function_exists('seopress_titles_the_title') && seopress_titles_the_title() !=''){
+
+                       $c_title =  seopress_titles_the_title();                
+                       if($c_title){
+                           $title = $c_title;
+                       }
+
+                    }
+                 
+             }   
+                                                               
         }
         
         //All in one Seo pack
