@@ -70,7 +70,7 @@ jQuery(document).ready(function($){
                  });    
                 
 		var currentFiledNumber = $(this).attr("class").split(" ")[2];
-                var saswp_call_nonce = $("#saswp_select_name_nonce").val();
+                var saswp_call_nonce = jQuery("#saswp_select_name_nonce").val();
 		
 		parent.find(".ajax-output").remove();
 		parent.find(".ajax-output-child").remove();
@@ -131,7 +131,7 @@ function taxonomyDataCall(){
 			parentSelector = jQuery(this).parents("td").find(".insert-ajax-select");
 			var selectedValue = jQuery(this).val();
 			var currentFiledNumber = jQuery(this).attr("name").split("[")[1].replace("]",'');
-                        var saswp_call_nonce = $("#saswp_select_name_nonce").val();
+                        var saswp_call_nonce = jQuery("#saswp_select_name_nonce").val();
 			
 			parentSelector.find(".ajax-output-child").remove();
 			parentSelector.find(".spinner").attr("style","visibility:visible");
