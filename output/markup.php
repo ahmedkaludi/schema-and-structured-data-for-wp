@@ -629,7 +629,7 @@ function saswp_product_schema_markup($schema_id, $schema_post_id, $all_post_meta
             
             if(isset($product_image['thumbnail']) && $product_image['thumbnail']){
                 
-                $input1['image']['@type']           = 'Offer';
+                $input1['image']['@type']           = 'ImageObject';
                 $input1['image']['url']             = $product_image['thumbnail'];
                 $input1['image']['width']           = $product_image['width'];
                 $input1['image']['height']          = $product_image['height'];
