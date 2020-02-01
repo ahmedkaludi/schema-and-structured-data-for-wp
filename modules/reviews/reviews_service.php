@@ -700,7 +700,9 @@ class saswp_reviews_service {
                 case 'lowest':
                     
                         usort($collection, function($a, $b) {
-                            return $a['saswp_review_rating'] - $b['saswp_review_rating'];
+                            if(isset(a['saswp_review_rating'])){
+                                return $a['saswp_review_rating'] - $b['saswp_review_rating'];
+                            }                            
                         });
                                                 
                         break;
@@ -708,19 +710,24 @@ class saswp_reviews_service {
                 case 'highest':
                     
                         usort($collection, function($a, $b) {
-                            return $a['saswp_review_rating'] - $b['saswp_review_rating'];
+                            if(isset($a['saswp_review_rating'])){
+                                return $a['saswp_review_rating'] - $b['saswp_review_rating'];
+                            }
+                            
                         });
                         
                         $collection = array_reverse($collection);
-                            
                         
                         break;
                         
                case 'newest':
                case 'recent':
                    
-                        usort($collection, function($a, $b) {                           
-                            return strtotime($a['saswp_review_date']) - strtotime($b['saswp_review_date']);
+                        usort($collection, function($a, $b) {
+                            if(isset($a['saswp_review_date'])){
+                                return strtotime($a['saswp_review_date']) - strtotime($b['saswp_review_date']);
+                            }
+                            
                         });
                         
                         $collection = array_reverse($collection);
@@ -729,8 +736,10 @@ class saswp_reviews_service {
                     
                case 'oldest':
                    
-                        usort($collection, function($a, $b) {                           
-                            return strtotime($a['saswp_review_date']) - strtotime($b['saswp_review_date']);
+                        usort($collection, function($a, $b) {
+                            if(isset($a['saswp_review_date'])){
+                                return strtotime($a['saswp_review_date']) - strtotime($b['saswp_review_date']);
+                            }                            
                         });
                                                                                                                                                            
                     break; 
