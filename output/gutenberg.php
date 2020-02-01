@@ -287,7 +287,7 @@ function saswp_gutenberg_how_to_schema(){
                 }
                 
                                 
-            return $input1;
+            return apply_filters('saswp_modify_howto_schema_output', $input1 );
     
 }
 
@@ -371,7 +371,7 @@ function saswp_gutenberg_faq_schema(){
                 
             }            
 
-            return $input1;
+            return apply_filters('saswp_modify_faq_schema_output', $input1 );
     
 }
 
