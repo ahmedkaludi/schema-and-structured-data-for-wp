@@ -612,7 +612,8 @@ function saswp_remove_warnings($data, $index, $type){
  * @return type array
  */
 function saswp_reading_time_and_word_count() {
-
+    
+    global $post;
     // Predefined words-per-minute rate.
     $words_per_minute = 225;
     $words_per_second = $words_per_minute / 60;
@@ -620,8 +621,11 @@ function saswp_reading_time_and_word_count() {
     // Count the words in the content.
     $word_count      = 0;
     $text            = trim( strip_tags( @get_the_content() ) );
+    
+    if(!$text && is_object($post)){
+        $text = $post->post_content;
+    }    
     $word_count      = substr_count( "$text ", ' ' );
-
     // How many seconds (total)?
     $seconds = floor( $word_count / $words_per_second );
 
