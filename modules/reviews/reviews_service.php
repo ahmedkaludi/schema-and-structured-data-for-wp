@@ -753,8 +753,10 @@ class saswp_reviews_service {
         
         $response = array();
         
-        $response['date'] = date('Y-m-d', strtotime($date_str));
-        $response['time'] = date('G:i:s', strtotime($date_str));
+        if($date_str){
+            $response['date'] = date('Y-m-d', strtotime($date_str));
+            $response['time'] = date('G:i:s', strtotime($date_str));
+        }
         
         return $response;
         
@@ -784,7 +786,6 @@ class saswp_reviews_service {
                foreach ($collection as $value){
 
                        $date_str = $this->saswp_convert_datetostring($value['saswp_review_date']); 
-
                        $html .= '<li>';                       
                        $html .= '<div class="saswp-rc">';
                        $html .= '<div class="saswp-rc-a">';
@@ -794,7 +795,7 @@ class saswp_reviews_service {
                        $html .= '<div class="saswp-rc-nm">';
                        $html .= '<a target="_blank" href="'.esc_url($value['saswp_review_link']).'">'.esc_attr($value['saswp_reviewer_name']).'</a>';
                        $html .= saswp_get_rating_html_by_value($value['saswp_review_rating']);                       
-                       $html .= '<span class="saswp-rc-dt">'.esc_attr($date_str['date']).'</span>';
+                       $html .= '<span class="saswp-rc-dt">'.(isset($date_str['date']) ? esc_attr($date_str['date']): '' ).'</span>';
                        $html .= '</div>';
                        $html .= '</div>';
 
@@ -872,7 +873,7 @@ class saswp_reviews_service {
                 $html .= '<img src="'.esc_url($value['saswp_reviewer_image']).'"/>';
                 $html .= '<div class="saswp-rc-nm">';
                 $html .= '<a target="_blank" href="'.esc_url($value['saswp_review_link']).'">'. esc_attr($value['saswp_reviewer_name']).'</a>';
-                $html .= '<span class="saswp-rc-dt">'.esc_attr($date_str['date']).'</span>';
+                $html .= '<span class="saswp-rc-dt">'.(isset($date_str['date']) ? esc_attr($date_str['date']): '' ).'</span>';
                 $html .= '</div>';
                 $html .= '</div>';
                 $html .= '<div class="saswp-rc-lg">';
@@ -1159,7 +1160,7 @@ class saswp_reviews_service {
                             $html_list .= '<span class="saswp-r4-str">';
                             $html_list .= saswp_get_rating_html_by_value($value['saswp_review_rating']);
                             $html_list .= '</span>';
-                            $html_list .= '<span class="saswp-r4-tx">'. esc_attr($date_str['date']).'</span>';
+                            $html_list .= '<span class="saswp-r4-tx">'. (isset($date_str['date']) ? esc_attr($date_str['date']): '' ).'</span>';
                             $html_list .= '</div>';
                             
                             $html_list .= '<div class="saswp-r4-cnt">';
@@ -1287,7 +1288,7 @@ class saswp_reviews_service {
                     $html .='<span>by</span>';
                     $html .= '<span>'.esc_attr($value['saswp_reviewer_name']).'</span>';
                     $html .='</div>';
-                    $html .= '<span class="saswp-r5-dt">'.esc_attr($date_str['date']).'</span>';
+                    $html .= '<span class="saswp-r5-dt">'.(isset($date_str['date']) ? esc_attr($date_str['date']): '' ).'</span>';
                     $html .= '</div>';                            
                     $html .= '</div>';
                     $html .= '</div>';     
@@ -1320,7 +1321,7 @@ class saswp_reviews_service {
                     $html .='<span> by</span>';
                     $html .= '<span>'.esc_attr($value['saswp_reviewer_name']).'</span>';
                     $html .='</div>';
-                    $html .= '<span class="saswp-r5-dt">'.esc_attr($date_str['date']).'</span>';
+                    $html .= '<span class="saswp-r5-dt">'.(isset($date_str['date']) ? esc_attr($date_str['date']): '' ).'</span>';
                     $html .= '</div>';                            
                     $html .= '</div>';
                     $html .= '</div>';     

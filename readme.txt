@@ -118,6 +118,16 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
 
+= 1.9.25 (27 Jan 2020) =
+
+* Fixed: User can not select to a specific post tag in placement section #751
+* Fixed: Offer is not a known valid target type for the image property #752
+* Fixed: Double display of Woocommerce-Categories on Archive-Pages #743
+* Fixed: Fatal error: Cannot redeclare seopress_titles_single_cpt_noindex_option() when SEOPress compatibility is on #748
+* Fixed: Description field and the plublished date validation issue with video object in WP Recipe Maker Plugin #744
+* Fixed: Warning & Notices fixes #746
+
+
 = 1.9.24 (25 Jan 2020) =
 
 * Added: FAQ schema block for DIVI builder. #722
