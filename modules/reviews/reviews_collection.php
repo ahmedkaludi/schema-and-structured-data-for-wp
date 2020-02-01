@@ -258,6 +258,7 @@ class SASWP_Reviews_Collection {
                 $platform_id         = array();
                 $pagination          = null;
                 $perpage             = null;
+                $data_id             = null;
                 $dots = $f_interval = $f_visibility = $arrow = 1;
                 $g_type = $design = $cols = $sorting = '';
                 

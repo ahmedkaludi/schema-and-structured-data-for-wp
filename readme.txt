@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.3
-Stable tag: 1.9.24
+Stable tag: 1.9.25
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -117,6 +117,22 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.9.25 (1 Feb 2020) =
+
+* Fixed: User can not select to a specific post tag in placement section #751
+* Fixed: Offer is not a known valid target type for the image property #752
+* Fixed: Double display of Woocommerce-Categories on Archive-Pages #743
+* Fixed: Fatal error: Cannot redeclare seopress_titles_single_cpt_noindex_option() when SEOPress compatibility is on #748
+* Fixed: Description field and the plublished date validation issue with video object in WP Recipe Maker Plugin #744
+* Fixed: Warning & Notices fixes #746, #766, #755
+* Fixed: Error in Article schema due to WP recipe maker plugin #747
+* Fixed: Breaks Yoast FAQ block schema #762
+* Fixed: Fatal error: Cannot redeclare seopress_titles_single_cpt_noindex_option(), When SEOPress compatibility is on
+* Fixed: Aggregate rating still loading in Service schema which is not allowed by google #761
+* Added: "Review Form" label in the Translation Panel #764
+* Added: FAQ filter in Gutenberg schema block #764
+
 
 = 1.9.24 (25 Jan 2020) =
 

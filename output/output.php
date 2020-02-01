@@ -120,9 +120,9 @@ function saswp_kb_schema_output() {
 			'@context'		=> saswp_context_url(),
 			'@type'			=> esc_attr($sd_data['saswp_kb_type']),
                         '@id'                   => $site_url.'#Person',
-			'name'			=> esc_attr($sd_data['sd-person-name']),
-                        'jobTitle'	        => esc_attr($sd_data['sd-person-job-title']),
-			'url'			=> esc_url($sd_data['sd-person-url']),
+			'name'			=> isset($sd_data['sd-person-name']) ? esc_attr($sd_data['sd-person-name']) : '',
+                        'jobTitle'	        => isset($sd_data['sd-person-job-title']) ? esc_attr($sd_data['sd-person-job-title']) : '',
+			'url'			=> isset($sd_data['sd-person-url']) ? esc_url($sd_data['sd-person-url']) : '',
                         'sameAs'		=> isset($sd_data['saswp_social_links']) ? $sd_data['saswp_social_links'] : array(),                                        		
 			'image' 		=> array(
                                                         '@type'	 => 'ImageObject',
@@ -1189,16 +1189,7 @@ function saswp_schema_output() {
 				$input1['@context'] =  saswp_context_url();
                                 $input1['@type']    =  $schema_type;
                                 $input1['@id']      =  trailingslashit(saswp_get_permalink()).'#service';
-                                                                                                
-                                if(!empty($aggregateRating)){
-                                    $input1['aggregateRating'] = $aggregateRating;
-                                }                                
-                                if(!empty($extra_theme_review)){
-                                   $input1 = array_merge($input1, $extra_theme_review);
-                                }
-                                
-                                $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
-                                                                                                
+                                                                                                                                                                                                                                
                                 $input1 = apply_filters('saswp_modify_service_schema_output', $input1 );
                                 
                                 $input1 = saswp_get_modified_markup($input1, $schema_type, $schema_post_id, $schema_options);
@@ -1820,8 +1811,7 @@ function saswp_woocommerce_shop_page(){
         if($display_type == 'products' || $display_type == 'both'){
             
             $item_list = array();
-                     
-            woocommerce_product_loop_start();
+                                 
                     $i = 1;
                     if ( have_posts() ) :
                         while ( have_posts() ) :
@@ -1835,9 +1825,7 @@ function saswp_woocommerce_shop_page(){
                                    $i++; 
                         endwhile;
                     endif;
-                        
-            woocommerce_product_loop_end();
-                        
+                                                            
                 if($item_list){
                     $item_list_res['@context']        = saswp_context_url();
                     $item_list_res['@type']           = 'ItemList';

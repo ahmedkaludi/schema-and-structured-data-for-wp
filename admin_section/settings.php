@@ -786,7 +786,7 @@ function saswp_general_page_callback(){
 			'name'              => 'sd_data[sd_about_page]', 
                         'id'                => 'sd_about_page',
 			'echo'              => 0, 
-			'show_option_none'  => esc_html__( 'Select an item', 'schema-and-structured-data-for-wp' ), 
+			'show_option_none'  => esc_html__( 'Select a Page', 'schema-and-structured-data-for-wp' ), 
 			'option_none_value' => '', 
 			'selected'          =>  isset($settings['sd_about_page']) ? esc_attr($settings['sd_about_page']) : '',
 		)); ?>
@@ -807,7 +807,7 @@ function saswp_general_page_callback(){
 			'name'              => 'sd_data[sd_contact_page]', 
                         'id'                => 'sd_contact_page-select',
 			'echo'              => 0, 
-			'show_option_none'  => esc_html( 'Select an item', 'schema-and-structured-data-for-wp' ), 
+			'show_option_none'  => esc_html( 'Select a Page', 'schema-and-structured-data-for-wp' ), 
 			'option_none_value' => '', 
 			'selected'          =>  isset($settings['sd_contact_page']) ? esc_attr($settings['sd_contact_page']) : '',
 		)); ?>

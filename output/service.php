@@ -18,10 +18,8 @@ Class saswp_output_service{
         public function saswp_service_hooks(){
             
            add_action( 'wp_ajax_saswp_get_custom_meta_fields', array($this, 'saswp_get_custom_meta_fields')); 
-           add_action( 'wp_ajax_saswp_get_schema_type_fields', array($this, 'saswp_get_schema_type_fields')); 
-           
-           add_action( 'wp_ajax_saswp_get_meta_list', array($this, 'saswp_get_meta_list')); 
-           
+           add_action( 'wp_ajax_saswp_get_schema_type_fields', array($this, 'saswp_get_schema_type_fields'));            
+           add_action( 'wp_ajax_saswp_get_meta_list', array($this, 'saswp_get_meta_list'));            
            add_filter( 'saswp_modify_post_meta_list', array( $this, 'saswp_get_acf_meta_keys' ) );
            
         }    

@@ -9,6 +9,12 @@
  */
 if (! defined('ABSPATH') ) exit;
 
+/**
+ * Function to generate schema markup for elementor Faq block
+ * @global type $post
+ * @global type $saswp_elementor_faq
+ * @return type array
+ */
 function saswp_elementor_faq_schema(){
               
             $input1 = array();

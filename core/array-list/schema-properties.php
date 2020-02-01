@@ -648,6 +648,18 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'default' => get_the_excerpt()
                     ),
                     array(
+                            'label'   => 'Article Section',
+                            'id'      => 'saswp_article_section_'.$schema_id,
+                            'type'    => 'textarea',
+                            'default' => get_the_excerpt()
+                    ),    
+                    array(
+                            'label'   => 'Article Body',
+                            'id'      => 'saswp_article_body_'.$schema_id,
+                            'type'    => 'textarea',
+                            'default' => get_the_content()
+                    ),    
+                    array(
                             'label' => 'Keywords',
                             'id' => 'saswp_article_keywords_'.$schema_id,
                             'type' => 'text',

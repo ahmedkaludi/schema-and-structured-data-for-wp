@@ -830,8 +830,8 @@ function saswp_dequeue_script() {
       //Enque select 2 script starts here      
        if($hook == 'saswp' || get_post_type() == 'saswp'){
            
-        wp_dequeue_script( 'avada-fusion-options' );   
-        wp_register_script( 'structure_admin', SASWP_PLUGIN_URL . 'admin_section/js/structure_admin.min.js', array( 'jquery', 'jquery-ui-core'), SASWP_VERSION, true );   
+        wp_dequeue_script( 'avada-fusion-options' );          
+        wp_register_script( 'structure_admin', SASWP_PLUGIN_URL . 'admin_section/js/'.(SASWP_ENVIRONMENT == 'production' ? 'structure_admin.min.js' : 'structure_admin.js'), array( 'jquery', 'jquery-ui-core'), SASWP_VERSION, true );   
            
         wp_localize_script( 'structure_admin', 'saswp_app_object', $data_array );
         wp_enqueue_script( 'structure_admin' );

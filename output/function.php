@@ -612,7 +612,8 @@ function saswp_remove_warnings($data, $index, $type){
  * @return type array
  */
 function saswp_reading_time_and_word_count() {
-
+    
+    global $post;
     // Predefined words-per-minute rate.
     $words_per_minute = 225;
     $words_per_second = $words_per_minute / 60;
@@ -620,8 +621,11 @@ function saswp_reading_time_and_word_count() {
     // Count the words in the content.
     $word_count      = 0;
     $text            = trim( strip_tags( @get_the_content() ) );
+    
+    if(!$text && is_object($post)){
+        $text = $post->post_content;
+    }    
     $word_count      = substr_count( "$text ", ' ' );
-
     // How many seconds (total)?
     $seconds = floor( $word_count / $words_per_second );
 
@@ -1116,9 +1120,9 @@ function saswp_wp_recipe_schema_json($recipe){
                     
                     $image_size    = @getimagesize($image_url);
                     
-                    if($image_size[0] < 1280 && $image_size[1] < 720){
+                    if($image_size[0] < 1200 && $image_size[1] < 720){
                                             
-                        $image_details = @saswp_aq_resize( $image_url, 1280, 720, true, false, true );
+                        $image_details = @saswp_aq_resize( $image_url, 1200, 720, true, false, true );
                     
                             if($image_details){
 
@@ -1138,6 +1142,17 @@ function saswp_wp_recipe_schema_json($recipe){
                     $metadata['image'] =  $image_list;
                 }
                
+            }
+            
+            if(isset($metadata['video'])){
+
+                if(!$metadata['video']['description']){
+                 $metadata['video']['description'] = saswp_get_the_excerpt();
+                }
+                if(!$metadata['video']['uploadDate']){
+                 $metadata['video']['uploadDate'] = get_the_date('c');
+                }     
+
             }
                         
         return $metadata;
