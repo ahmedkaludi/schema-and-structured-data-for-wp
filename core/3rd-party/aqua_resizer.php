@@ -121,8 +121,10 @@ if(!class_exists('Aq_Resize')) {
                     $wp_upload_dir = wp_upload_dir();
                     $dir_baseurl    = $wp_upload_dir['baseurl'];
                     $dir_baseurl    = explode('/', $dir_baseurl);
-                    $dir_name       = end($dir_baseurl); 
-                    $cdn_url        = explode($dir_name, $cdn_url);
+                    $dir_name       = end($dir_baseurl);                     
+                    if($dir_name){
+                        $cdn_url        = explode($dir_name, $cdn_url);
+                    }                    
                     if ( ! isset($cdn_url[1]) ) {
                        $cdn_url = array();
                        $cdn_url[1] = '';
