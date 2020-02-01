@@ -54,9 +54,8 @@ function saswp_gutenberg_how_to_schema(){
                 global $post, $sd_data;
                 
                 $input1 = array();
-
                 
-                 $yoast_howto = saswp_get_gutenberg_block_data('yoast/how-to-block');                 
+                $yoast_howto = saswp_get_gutenberg_block_data('yoast/how-to-block');                 
                 if(isset($sd_data['saswp-yoast']) && $sd_data['saswp-yoast'] == 1 && $yoast_howto && isset($yoast_howto['attrs'])){
                     
                 $service_object     = new saswp_output_service();   
