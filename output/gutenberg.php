@@ -26,7 +26,7 @@ function saswp_get_gutenberg_block_data($block){
     if(function_exists('parse_blocks') && is_object($post)){
         
             $blocks = parse_blocks($post->post_content);            
-
+            
             if($blocks){
 
                 foreach ($blocks as $parse_blocks){
@@ -51,9 +51,102 @@ function saswp_get_gutenberg_block_data($block){
 
 function saswp_gutenberg_how_to_schema(){
                         
-                global $post;
+                global $post, $sd_data;
+                
                 $input1 = array();
 
+                 $yoast_howto = saswp_get_gutenberg_block_data('yoast/how-to-block');                 
+                if(isset($sd_data['saswp-yoast']) && $sd_data['saswp-yoast'] == 1 && $yoast_howto && isset($yoast_howto['attrs'])){
+                    
+                $service_object     = new saswp_output_service();   
+                $feature_image      = $service_object->saswp_get_fetaure_image();                  
+                                       
+                $input1['@context']              = saswp_context_url();
+                $input1['@type']                 = 'HowTo';
+                $input1['@id']                   = trailingslashit(saswp_get_permalink()).'#HowTo';
+                $input1['name']                  = saswp_get_the_title();                
+                $input1['datePublished']         = get_the_date("c");
+                $input1['dateModified']          = get_the_modified_date("c");
+                
+                if(!empty($feature_image)){
+                            
+                    $input1 = array_merge($input1, $feature_image);   
+                         
+                }                
+                
+                if(array_key_exists('jsonDescription', $yoast_howto['attrs'])){
+                    $input1['description']           = $yoast_howto['attrs']['jsonDescription'];
+                }else{
+                    $input1['description']           = saswp_get_the_excerpt();
+                }
+                             
+                $step     = array();
+                $step_arr = array(); 
+                
+                if(array_key_exists('steps', $yoast_howto['attrs'])){
+                    $step = $yoast_howto['attrs']['steps'];
+                }                                                           
+                if(!empty($step)){
+
+                    foreach($step as $key => $val){
+
+                        $supply_data = array();
+                        $direction   = array();
+                        $tip         = array();
+
+                       if($val['name'] || $val['text']){
+
+                        if(isset($val['text'][0])){
+                            $direction['@type']     = 'HowToDirection';
+                            $direction['text']      = $val['text'][0];
+                        }
+
+                        if(isset($val['text'][0])){
+
+                            $tip['@type']           = 'HowToTip';
+                            $tip['text']            = $val['text'][0];
+
+                        }
+
+                        $supply_data['@type']   = 'HowToStep';
+                        $supply_data['url']     = trailingslashit(saswp_get_permalink()).'#step'.++$key;
+                        $supply_data['name']    = $val['name'][0];    
+
+                        if(isset($direction['text']) || isset($tip['text'])){
+                            $supply_data['itemListElement']  = array($direction, $tip);
+                        }
+
+                        if(isset($val['text'][1]['key']) && $val['text'][1]['key'] !=''){
+
+                                    $image_details   = saswp_get_image_by_id($val['text'][1]['key']);    
+                                    
+                                    if($image_details){
+                                        $supply_data['image']  = $image_details;                                                
+                                    }                                    
+
+                        }
+
+                        $step_arr[] =  $supply_data;
+
+                       }
+
+                    }
+
+                   $input1['step'] = $step_arr;
+
+                }  
+                
+                 if(isset($yoast_howto['attrs']['days']) || isset($yoast_howto['attrs']['hours']) || isset($yoast_howto['attrs']['minutes'])){
+                     
+                             $input1['totalTime'] = 'P'. 
+                             ((isset($yoast_howto['attrs']['days']) && $yoast_howto['attrs']['days'] !='') ? esc_attr($yoast_howto['attrs']['days']).'DT':''). 
+                             ((isset($yoast_howto['attrs']['hours']) && $yoast_howto['attrs']['hours'] !='') ? esc_attr($yoast_howto['attrs']['hours']).'H':''). 
+                             ((isset($yoast_howto['attrs']['minutes']) && $yoast_howto['attrs']['minutes'] !='') ? esc_attr($yoast_howto['attrs']['minutes']).'M':''); 
+                             
+                 }       
+
+                }else{
+                
                 $parse_blocks = saswp_get_gutenberg_block_data('saswp/how-to-block');
 
                 if(isset($parse_blocks['attrs'])){
@@ -140,9 +233,9 @@ function saswp_gutenberg_how_to_schema(){
 
                        if($val['title'] || $val['description']){
 
-                            if($val['title']){
+                            if($val['description']){
                             $direction['@type']     = 'HowToDirection';
-                            $direction['text']      = $val['title'];
+                            $direction['text']      = $val['description'];
                         }
 
                         if($val['description']){
@@ -180,7 +273,7 @@ function saswp_gutenberg_how_to_schema(){
 
                 }  
                 
-                 if(isset($parse_blocks['attrs']['days']) || $parse_blocks['attrs']['hours'] || $parse_blocks['attrs']['minutes']){
+                 if(isset($parse_blocks['attrs']['days']) || isset($parse_blocks['attrs']['hours']) || isset($parse_blocks['attrs']['minutes'])){
                      
                              $input1['totalTime'] = 'P'. 
                              ((isset($parse_blocks['attrs']['days']) && $parse_blocks['attrs']['days'] !='') ? esc_attr($parse_blocks['attrs']['days']).'DT':''). 
@@ -190,6 +283,9 @@ function saswp_gutenberg_how_to_schema(){
                  }   
 
                 }
+                    
+                }
+                
                                 
             return $input1;
     
@@ -197,12 +293,48 @@ function saswp_gutenberg_how_to_schema(){
 
 function saswp_gutenberg_faq_schema(){
                         
-            global $post;
+            global $post, $sd_data;
             $input1 = array();
 
-            $attributes = saswp_get_gutenberg_block_data('saswp/faq-block');
+            $yoast_faq = saswp_get_gutenberg_block_data('yoast/faq-block');
+            
+            if(isset($sd_data['saswp-yoast']) && $sd_data['saswp-yoast'] == 1 && $yoast_faq && isset($yoast_faq['attrs'])){
+                                
+                           $input1['@context']              = saswp_context_url();
+                           $input1['@type']                 = 'FAQPage';
+                           $input1['@id']                   = trailingslashit(saswp_get_permalink()).'#FAQPage';                            
 
-            if(isset($attributes['attrs'])){
+                           $faq_question_arr = array();
+
+                           if(!empty($yoast_faq['attrs']['questions'])){
+
+                               foreach($yoast_faq['attrs']['questions'] as $val){
+
+                                   $supply_data = array();
+                                   $supply_data['@type']                   = 'Question';
+                                   $supply_data['name']                    = $val['question'][0];
+                                   $supply_data['acceptedAnswer']['@type'] = 'Answer';
+                                   $supply_data['acceptedAnswer']['text']  = $val['answer'][0];
+
+                                    if(isset($val['answer'][1]['key']) && $val['answer'][1]['key'] !=''){
+
+                                       $image_details   = saswp_get_image_by_id($val['answer'][1]['key']); 
+                                       
+                                       if($image_details){
+                                           $supply_data['image']  = $image_details;                                                
+                                       }
+                                                                              
+                                     }
+
+                                  $faq_question_arr[] =  $supply_data;
+                               }
+                              $input1['mainEntity'] = $faq_question_arr;
+                           }                                          
+            }else{
+            
+                $attributes = saswp_get_gutenberg_block_data('saswp/faq-block');
+
+                if(isset($attributes['attrs'])){
 
                            $input1['@context']              = saswp_context_url();
                            $input1['@type']                 = 'FAQPage';
@@ -236,6 +368,8 @@ function saswp_gutenberg_faq_schema(){
                            }
 
            }
+                
+            }            
 
             return $input1;
     
