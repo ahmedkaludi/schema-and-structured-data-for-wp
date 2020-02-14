@@ -1382,10 +1382,7 @@ Class saswp_output_service{
                     }
                     if(isset($custom_fields['saswp_service_schema_telephone'])){
                       $input1['provider']['address']['telephone'] =    $custom_fields['saswp_service_schema_telephone'];
-                    }
-                    if(isset($custom_fields['saswp_service_schema_price_range'])){
-                      $input1['provider']['priceRange'] =    $custom_fields['saswp_service_schema_price_range'];
-                    }
+                    }                    
                     if(isset($custom_fields['saswp_service_schema_description'])){
                       $input1['description'] =   wp_strip_all_tags(strip_shortcodes( $custom_fields['saswp_service_schema_description'] ));
                     }

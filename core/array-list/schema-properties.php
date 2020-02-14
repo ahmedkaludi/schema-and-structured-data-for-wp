@@ -1483,12 +1483,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'label' => 'Telephone',
                             'id' => 'saswp_service_schema_telephone_'.$schema_id,
                             'type' => 'text',                            
-                    ),
-                    array(
-                            'label' => 'Price Range',
-                            'id' => 'saswp_service_schema_price_range_'.$schema_id,
-                            'type' => 'text',                           
-                    ),
+                    ),                    
                     array(
                             'label' => 'Description',
                             'id' => 'saswp_service_schema_description_'.$schema_id,
