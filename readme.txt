@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.3
-Stable tag: 1.9.25
+Stable tag: 1.9.26
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -117,6 +117,10 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.9.25.1 (5 Feb 2020) =
+
+* Fixed: Fatal error: Cannot use isset() on the result of an expression( you can use “null !==expression” instead) #768
 
 = 1.9.25 (1 Feb 2020) =
 

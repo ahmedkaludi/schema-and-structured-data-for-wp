@@ -37,20 +37,20 @@ function saswp_add_all_meta_boxes() {
     );
     
     add_meta_box( 'saswp_help_meta_box_id', 
-            esc_html__('Help', 'schema-and-structured-data-for-wp' ), 
-            'saswp_help_meta_box_cb', 
-            'saswp', 
-            'side', 'low' 
-            );
-    
+                esc_html__('Help', 'schema-and-structured-data-for-wp' ), 
+                'saswp_help_meta_box_cb', 
+                'saswp', 
+                'side', 'low' 
+                );
+        
     add_meta_box(
-		'schema_options',
-		esc_html__( 'Advance Schema Options', 'schema-and-structured-data-for-wp' ),
-		'saswp_schema_options_meta_box_callback',
-		'saswp',
-		'advanced',
-		'low'
-	       );
+                'schema_options',
+                esc_html__( 'Advance Schema Options', 'schema-and-structured-data-for-wp' ),
+                'saswp_schema_options_meta_box_callback',
+                'saswp',
+                'advanced',
+                'low'
+                );
     add_meta_box( 
                 'saswp_amp_select', 
                 esc_html__( 'Placement','schema-and-structured-data-for-wp' ), 
@@ -142,7 +142,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                         $cus_field         = get_post_meta($post->ID, 'saswp_custom_meta_field', true); 
                         $schema_type       = get_post_meta($post->ID, 'schema_type', true);     
                         $append_reviews    = get_post_meta($post->ID, 'saswp_enable_append_reviews', true);
-                        
+                        $event_type        = get_post_meta($post->ID, 'saswp_event_type', true);                         
                         $speakable         = get_post_meta($post->ID, 'saswp_enable_speakable_schema', true);
                         $item_list_enable  = get_post_meta($post->ID, 'saswp_enable_itemlist_schema', true);
                         $item_list_tags    = get_post_meta($post->ID, 'saswp_item_list_tags', true);
