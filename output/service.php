@@ -967,11 +967,10 @@ Class saswp_output_service{
                      $input1['mainEntity']['author']['url'] =    $custom_fields['saswp_webpage_author_url'];
                     }
                     
-                    if(isset($custom_fields['saswp_webpage_organization_name'])){
-                     $input1['mainEntity']['Publisher']['name'] =    $custom_fields['saswp_webpage_organization_name'];
-                    }
-                    if(isset($custom_fields['saswp_webpage_organization_logo'])){
-                     $input1['mainEntity']['Publisher']['logo']['url'] =    $custom_fields['saswp_webpage_organization_logo'];
+                    if(isset($custom_fields['saswp_webpage_organization_logo']) && isset($custom_fields['saswp_webpage_organization_name'])){
+                        $input1['mainEntity']['publisher']['@type']              =    'Organization';
+                        $input1['mainEntity']['publisher']['logo'] =    $custom_fields['saswp_webpage_organization_logo'];
+                        $input1['mainEntity']['publisher']['name'] =    $custom_fields['saswp_webpage_organization_name'];
                     }
                     
                     break;
@@ -1211,13 +1210,13 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_recipe_author_image'])){
                      $input1['author']['Image']['url'] =    $custom_fields['saswp_recipe_author_image'];
                     }
-                    if(isset($custom_fields['saswp_recipe_organization_name'])){
-                     $input1['mainEntity']['Publisher']['name'] =    $custom_fields['saswp_recipe_organization_name'];
+
+                    if(isset($custom_fields['saswp_recipe_organization_name']) && isset($custom_fields['saswp_recipe_organization_logo'])){
+                        $input1['mainEntity']['publisher']['@type']       =    'Organization';
+                        $input1['mainEntity']['publisher']['logo']        =    $custom_fields['saswp_recipe_organization_logo'];
+                        $input1['mainEntity']['publisher']['name']        =    $custom_fields['saswp_recipe_organization_name'];
                     }
-                    
-                    if(isset($custom_fields['saswp_recipe_organization_logo'])){
-                     $input1['mainEntity']['Publisher']['logo']['url'] =    $custom_fields['saswp_recipe_organization_logo'];
-                    }
+
                     if(isset($custom_fields['saswp_recipe_preptime'])){
                      $input1['prepTime'] =    $custom_fields['saswp_recipe_preptime'];
                     }

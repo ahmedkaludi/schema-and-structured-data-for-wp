@@ -657,7 +657,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'label'   => 'Article Body',
                             'id'      => 'saswp_article_body_'.$schema_id,
                             'type'    => 'textarea',
-                            'default' => get_the_content()
+                            'default' => @get_the_content()
                     ),    
                     array(
                             'label' => 'Keywords',
