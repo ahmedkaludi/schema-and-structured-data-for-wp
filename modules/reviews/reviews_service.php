@@ -226,7 +226,7 @@ class saswp_reviews_service {
                                             <a target="_blank" href="'.esc_attr($review['saswp_review_link']).'"><img src="'.esc_url($review['saswp_review_platform_icon']).'"></a>
                                         </span>
                                     </div>                                                
-                                   <div class="saswp-rv-txt"> <p>'.esc_attr($review['saswp_review_text']).'</p></div>
+                                   <div class="saswp-rv-txt"> <p>'.wp_strip_all_tags(html_entity_decode($review['saswp_review_text'])).'</p></div>
                                 </div>
                               </div>
                           </div>';
