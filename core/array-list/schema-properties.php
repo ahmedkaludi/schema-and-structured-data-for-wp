@@ -717,12 +717,15 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                     break;
                 
                 case 'Event':
-                                        
+                    
+                    $event_type        = get_post_meta($schema_id, 'saswp_event_type', true);                         
+                        
                     $meta_field = array(
                         array(
                             'label'   => 'Type',
                             'id'      => 'saswp_event_schema_type_'.$schema_id,
-                            'type'    => 'select',                           
+                            'type'    => 'select', 
+                            'default' => $event_type,                          
                             'options' => array(
                                 ''                 => 'Select Type (Optional)',
                                 'BusinessEvent'    => 'BusinessEvent',
