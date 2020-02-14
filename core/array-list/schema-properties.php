@@ -1816,7 +1816,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'label'   => 'Author Image',
                             'id'      => 'saswp_video_object_author_image_'.$schema_id,
                             'type'    => 'media',
-                            'default' => $author_details['url']   
+                            'default' => isset($author_details['url']) ? $author_details['url'] : ''   
                     ),
                     array(
                             'label'   => 'Organization Name',

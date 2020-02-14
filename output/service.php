@@ -1420,11 +1420,11 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_video_object_thumbnail_url'])){
                      $input1['thumbnailUrl'] =    $custom_fields['saswp_video_object_thumbnail_url'];
                     }                                        
-                    if(isset($custom_fields['saswp_video_object_content_url'])){
+                    if(isset($custom_fields['saswp_video_object_content_url']) && wp_http_validate_url($custom_fields['saswp_video_object_content_url']) ){
                      $input1['contentUrl'] =    $custom_fields['saswp_video_object_content_url'];
                     }
-                    if(isset($custom_fields['saswp_video_object_embed_url'])){
-                     $input1['embedUrl'] =    $custom_fields['saswp_video_object_embed_url'];
+                    if(isset($custom_fields['saswp_video_object_embed_url']) && wp_http_validate_url($custom_fields['saswp_video_object_embed_url'])){
+                     $input1['embedUrl']   =    $custom_fields['saswp_video_object_embed_url'];
                     }                                                                                                  
                     if(isset($custom_fields['saswp_video_object_author_name'])){
                      $input1['author']['name'] =    $custom_fields['saswp_video_object_author_name'];
