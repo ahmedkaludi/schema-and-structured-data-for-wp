@@ -1307,7 +1307,21 @@ function saswp_schema_output() {
 
                                 if(!$description){
                                     $description = get_bloginfo('description');
-                                }                                                                                                                        
+                                }  
+                                $thumbnail = '';
+                                
+                                if(isset($image_details[0])){
+
+                                       $thumbnail = $image_details[0];
+                                       
+                                }else{
+
+                                    if(isset($sd_data['sd_default_image']['thumbnail'])){
+                                       $thumbnail = $sd_data['sd_default_image']['thumbnail'];    
+                                    }
+                                    
+                                }
+                                
                                 $input1 = array(
                                 '@context'			=> saswp_context_url(),
                                 '@type'				=> 'VideoObject',
@@ -1317,10 +1331,10 @@ function saswp_schema_output() {
                                 'datePublished'                 => esc_html($date),
                                 'dateModified'                  => esc_html($modified_date),
                                 'description'                   => $description,
-                                'name'				=> saswp_get_the_title(),
+                                'name'				            => saswp_get_the_title(),
                                 'uploadDate'                    => esc_html($date),
-                                'thumbnailUrl'                  => isset($image_details[0]) ? esc_url($image_details[0]):'',						
-                                'author'			=> saswp_get_author_details()						                                                                                                      
+                                'thumbnailUrl'                  => $thumbnail,
+                                'author'			            => saswp_get_author_details()						                                                                                                      
                                 );
                                 
                                 if(isset($video_links[0])){
