@@ -3079,7 +3079,7 @@ Class saswp_output_service{
             global $post;
             $input2          = array();
             $image_id 	     = get_post_thumbnail_id();
-	    $image_details   = wp_get_attachment_image_src($image_id, 'full');            
+	        $image_details   = wp_get_attachment_image_src($image_id, 'full');            
                         
             if( is_array($image_details) && !empty($image_details)){                                
                                                                                                                     

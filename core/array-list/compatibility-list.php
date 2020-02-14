@@ -6,7 +6,8 @@ return array(
     'plugins' =>    array(        
         'total_recipe_generator'  =>  array(            
                     'name'       => 'Total Recipe Generator',
-                    'free'       => 'total-recipe-generator-el/total-recipe-generator-el.php',                     
+                    'free'       => 'total-recipe-generator-el/total-recipe-generator-el.php',
+                    'pro'        => 'total-recipe-generator/total-recipe-generator.php',                     
                     'opt_name'   => 'saswp-total-recipe-generator',
                     'part_in'    => 'pro',
         ),
