@@ -118,6 +118,16 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
 
+= 1.9.26 (15 Feb 2020) =
+
+* Fixed: A value for the thumbnailUrl field is required(Video Object) #770
+* Fixed: Remove priceRange$ property from services schema type #775
+* Fixed: HTML tags are showing in the review's comments #789
+* Fixed: Things is not a know valid target type for the publisher property #774
+* Fixed: Event type drop down value is being reset, even after changing the value #797
+* Fixed: The text inside tag 'script type=application/ld+json' contains 'html comments', which is disallowed #769
+* Fixed: Notices and warning #779, #772, #784
+
 = 1.9.25.1 (5 Feb 2020) =
 
 * Fixed: Fatal error: Cannot use isset() on the result of an expression( you can use “null !==expression” instead) #768
