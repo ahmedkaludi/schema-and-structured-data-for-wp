@@ -226,7 +226,7 @@ class saswp_reviews_service {
                                             <a target="_blank" href="'.esc_attr($review['saswp_review_link']).'"><img src="'.esc_url($review['saswp_review_platform_icon']).'"></a>
                                         </span>
                                     </div>                                                
-                                   <div class="saswp-rv-txt"> <p>'.esc_attr($review['saswp_review_text']).'</p></div>
+                                   <div class="saswp-rv-txt"> <p>'.wp_strip_all_tags(html_entity_decode($review['saswp_review_text'])).'</p></div>
                                 </div>
                               </div>
                           </div>';
@@ -699,21 +699,16 @@ class saswp_reviews_service {
                     
                 case 'lowest':
                     
-                        usort($collection, function($a, $b) {
-                            if(isset(a['saswp_review_rating'])){
-                                return $a['saswp_review_rating'] - $b['saswp_review_rating'];
-                            }                            
+                        usort($collection, function($a, $b) {                            
+                                return $a['saswp_review_rating'] - $b['saswp_review_rating'];                                                        
                         });
                                                 
                         break;
                     
                 case 'highest':
                     
-                        usort($collection, function($a, $b) {
-                            if(isset($a['saswp_review_rating'])){
-                                return $a['saswp_review_rating'] - $b['saswp_review_rating'];
-                            }
-                            
+                        usort($collection, function($a, $b) {                            
+                                return $a['saswp_review_rating'] - $b['saswp_review_rating'];                                                        
                         });
                         
                         $collection = array_reverse($collection);
@@ -723,10 +718,8 @@ class saswp_reviews_service {
                case 'newest':
                case 'recent':
                    
-                        usort($collection, function($a, $b) {
-                            if(isset($a['saswp_review_date'])){
-                                return strtotime($a['saswp_review_date']) - strtotime($b['saswp_review_date']);
-                            }
+                        usort($collection, function($a, $b) {                            
+                                return strtotime($a['saswp_review_date']) - strtotime($b['saswp_review_date']);                            
                             
                         });
                         
@@ -736,10 +729,8 @@ class saswp_reviews_service {
                     
                case 'oldest':
                    
-                        usort($collection, function($a, $b) {
-                            if(isset($a['saswp_review_date'])){
-                                return strtotime($a['saswp_review_date']) - strtotime($b['saswp_review_date']);
-                            }                            
+                        usort($collection, function($a, $b) {                            
+                                return strtotime($a['saswp_review_date']) - strtotime($b['saswp_review_date']);                                                        
                         });
                                                                                                                                                            
                     break; 

@@ -37,20 +37,20 @@ function saswp_add_all_meta_boxes() {
     );
     
     add_meta_box( 'saswp_help_meta_box_id', 
-            esc_html__('Help', 'schema-and-structured-data-for-wp' ), 
-            'saswp_help_meta_box_cb', 
-            'saswp', 
-            'side', 'low' 
-            );
-    
+                esc_html__('Help', 'schema-and-structured-data-for-wp' ), 
+                'saswp_help_meta_box_cb', 
+                'saswp', 
+                'side', 'low' 
+                );
+        
     add_meta_box(
-		'schema_options',
-		esc_html__( 'Advance Schema Options', 'schema-and-structured-data-for-wp' ),
-		'saswp_schema_options_meta_box_callback',
-		'saswp',
-		'advanced',
-		'low'
-	       );
+                'schema_options',
+                esc_html__( 'Advance Schema Options', 'schema-and-structured-data-for-wp' ),
+                'saswp_schema_options_meta_box_callback',
+                'saswp',
+                'advanced',
+                'low'
+                );
     add_meta_box( 
                 'saswp_amp_select', 
                 esc_html__( 'Placement','schema-and-structured-data-for-wp' ), 
@@ -142,7 +142,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                         $cus_field         = get_post_meta($post->ID, 'saswp_custom_meta_field', true); 
                         $schema_type       = get_post_meta($post->ID, 'schema_type', true);     
                         $append_reviews    = get_post_meta($post->ID, 'saswp_enable_append_reviews', true);
-                        
+                        $event_type        = get_post_meta($post->ID, 'saswp_event_type', true);                         
                         $speakable         = get_post_meta($post->ID, 'saswp_enable_speakable_schema', true);
                         $item_list_enable  = get_post_meta($post->ID, 'saswp_enable_itemlist_schema', true);
                         $item_list_tags    = get_post_meta($post->ID, 'saswp_item_list_tags', true);
@@ -1175,12 +1175,22 @@ function saswp_schema_type_add_meta_box_save( $post_id ) {
                 update_post_meta( $post_id, 'schema_type', sanitize_text_field( $_POST['schema_type'] ) );                
                 update_post_meta( $post_id, 'saswp_business_type', sanitize_text_field( $_POST['saswp_business_type'] ) );
                 update_post_meta( $post_id, 'saswp_event_type', sanitize_text_field( $_POST['saswp_event_type'] ) );
-                update_post_meta( $post_id, 'saswp_business_name', sanitize_text_field( $_POST['saswp_business_name'] ) );
-                                                                                                                   
-                update_post_meta( $post_id, 'saswp_enable_speakable_schema', intval($_POST['saswp_enable_speakable_schema']) );                                                                       
-                update_post_meta( $post_id, 'saswp_enable_append_reviews', intval($_POST['saswp_enable_append_reviews']) );                                                                       
+
+                if(isset($_POST['saswp_business_name'])){
+                    update_post_meta( $post_id, 'saswp_business_name', sanitize_text_field( $_POST['saswp_business_name'] ) );   
+                }
+                if(isset($_POST['saswp_enable_speakable_schema'])){
+                    update_post_meta( $post_id, 'saswp_enable_speakable_schema', intval($_POST['saswp_enable_speakable_schema']) );                                                                       
+                }
+
+                if(isset($_POST['saswp_enable_append_reviews'])){
+                    update_post_meta( $post_id, 'saswp_enable_append_reviews', intval($_POST['saswp_enable_append_reviews']) );                                                                       
+                }
+
+                if(isset($_POST['saswp_enable_itemlist_schema'])){
+                    update_post_meta( $post_id, 'saswp_enable_itemlist_schema', intval($_POST['saswp_enable_itemlist_schema']) );                                                                       
+                }
                 
-                update_post_meta( $post_id, 'saswp_enable_itemlist_schema', intval($_POST['saswp_enable_itemlist_schema']) );                                                                       
                 update_post_meta( $post_id, 'saswp_item_list_tags', sanitize_text_field($_POST['saswp_item_list_tags']) );                                                                       
                 update_post_meta( $post_id, 'saswp_item_list_custom', sanitize_text_field($_POST['saswp_item_list_custom']) );                                                                       
                 update_post_meta( $post_id, 'saswp_review_item_reviewed_'.$post_id, sanitize_text_field($_POST['saswp_review_item_reviewed_'.$post_id]) );                                                                       

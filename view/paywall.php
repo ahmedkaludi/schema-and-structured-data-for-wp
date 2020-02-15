@@ -78,6 +78,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                 $fixed_text           = '';
                 $taxonomy_term        = '';
                 $fixed_image          = '';
+                $cus_meta_field       = array();
                 
                 if ( isset( $_POST['notAccessibleForFree'] ) )
                         $notAccessibleForFree = sanitize_text_field($_POST['notAccessibleForFree']);

@@ -657,7 +657,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'label'   => 'Article Body',
                             'id'      => 'saswp_article_body_'.$schema_id,
                             'type'    => 'textarea',
-                            'default' => get_the_content()
+                            'default' => @get_the_content()
                     ),    
                     array(
                             'label' => 'Keywords',
@@ -717,12 +717,15 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                     break;
                 
                 case 'Event':
-                                        
+                    
+                    $event_type        = get_post_meta($schema_id, 'saswp_event_type', true);                         
+                        
                     $meta_field = array(
                         array(
                             'label'   => 'Type',
                             'id'      => 'saswp_event_schema_type_'.$schema_id,
-                            'type'    => 'select',                           
+                            'type'    => 'select', 
+                            'default' => $event_type,                          
                             'options' => array(
                                 ''                 => 'Select Type (Optional)',
                                 'BusinessEvent'    => 'BusinessEvent',
@@ -1483,12 +1486,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'label' => 'Telephone',
                             'id' => 'saswp_service_schema_telephone_'.$schema_id,
                             'type' => 'text',                            
-                    ),
-                    array(
-                            'label' => 'Price Range',
-                            'id' => 'saswp_service_schema_price_range_'.$schema_id,
-                            'type' => 'text',                           
-                    ),
+                    ),                    
                     array(
                             'label' => 'Description',
                             'id' => 'saswp_service_schema_description_'.$schema_id,
@@ -1818,7 +1816,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'label'   => 'Author Image',
                             'id'      => 'saswp_video_object_author_image_'.$schema_id,
                             'type'    => 'media',
-                            'default' => $author_details['url']   
+                            'default' => isset($author_details['url']) ? $author_details['url'] : ''   
                     ),
                     array(
                             'label'   => 'Organization Name',
