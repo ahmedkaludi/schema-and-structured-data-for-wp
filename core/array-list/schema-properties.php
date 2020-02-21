@@ -1546,7 +1546,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'type' => 'text',                           
                         );
                         $meta_field[] = array(
-                            'label' => 'Review Author Profile URL',
+                            'label' => 'Review Author URL',
                             'id' => 'saswp_review_author_url_'.$schema_id,
                             'type' => 'text',                           
                         );
@@ -1555,6 +1555,11 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'id' => 'saswp_review_publisher_'.$schema_id,
                             'type' => 'text',                           
                         );
+                        $meta_field[] = array(
+                                'label' => 'Review Publisher URL',
+                                'id'    => 'saswp_review_publisher_url'.$schema_id,
+                                'type'  => 'text',                           
+                            );
                         $meta_field[] = array(
                             'label' => 'Review Published Date',
                             'id' => 'saswp_review_date_published_'.$schema_id,
@@ -1738,7 +1743,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                     break;
                 
                 case 'VideoObject':
-                        
+
                     $video_links      = saswp_get_video_links();                        
 
                     $meta_field = array(

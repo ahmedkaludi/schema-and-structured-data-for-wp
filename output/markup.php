@@ -2618,6 +2618,11 @@ function saswp_review_schema_markup($schema_id, $schema_post_id, $all_post_meta)
     if(isset($all_post_meta['saswp_review_publisher_'.$schema_id][0])){
         $input1['publisher']['@type']          =   'Organization';                                              
         $input1['publisher']['name']           =    $all_post_meta['saswp_review_publisher_'.$schema_id][0];                                              
+        if(isset($all_post_meta['saswp_review_publisher_url'.$schema_id][0])){
+
+            $input1['publisher']['sameAs']            = $all_post_meta['saswp_review_publisher_url'.$schema_id][0];   
+       
+        }
      }
 
     if(isset($all_post_meta['saswp_review_description_'.$schema_id])){                                                                     
