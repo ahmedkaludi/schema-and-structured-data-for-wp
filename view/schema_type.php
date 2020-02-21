@@ -1185,6 +1185,8 @@ function saswp_schema_type_add_meta_box_save( $post_id ) {
 
                 if(isset($_POST['saswp_enable_append_reviews'])){
                     update_post_meta( $post_id, 'saswp_enable_append_reviews', intval($_POST['saswp_enable_append_reviews']) );                                                                       
+                }else{
+                    update_post_meta( $post_id, 'saswp_enable_append_reviews', 0);                                                                       
                 }
 
                 if(isset($_POST['saswp_enable_itemlist_schema'])){
