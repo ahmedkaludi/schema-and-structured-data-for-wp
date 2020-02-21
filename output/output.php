@@ -707,12 +707,18 @@ function saswp_schema_output() {
                                                      
                             if(isset($sd_data['saswp-bbpress']) && $sd_data['saswp-bbpress'] == 1 && is_plugin_active('bbpress/bbpress.php')){                                                                                                                                                                                            
                                 
+                                $headline = bbp_get_topic_title(get_the_ID());
+
+                                if (strlen($headline) > 110){
+                                    $headline = substr($headline, 0, 106) . ' ...';
+                                }
+
                                 $input1 = array(
                                 '@context'			=> saswp_context_url(),
                                 '@type'				=> 'DiscussionForumPosting' ,
                                 '@id'				=> bbp_get_topic_permalink().'#discussionforumposting',
                                 'mainEntityOfPage'              => bbp_get_topic_permalink(), 
-                                'headline'			=> bbp_get_topic_title(get_the_ID()),
+                                'headline'			=> $headline,
                                 'description'                   => saswp_get_the_excerpt(),
                                 "articleSection"                => bbp_get_forum_title(),
                                 "articleBody"                   => saswp_get_the_content(),    
