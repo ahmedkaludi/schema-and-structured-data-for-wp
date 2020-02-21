@@ -3086,7 +3086,7 @@ Class saswp_output_service{
                         
             if( is_array($image_details) && !empty($image_details)){                                
                                                                                                                     
-                                        if(isset($image_details[1]) && ($image_details[1] < 1200) && function_exists('saswp_aq_resize')){
+                                        if( ( (isset($image_details[1]) && ($image_details[1] < 1200)) || (isset($image_details[2]) && ($image_details[2] < 675)) ) && function_exists('saswp_aq_resize')){
                                                 
                                             $targetHeight = 1200;
                                             
