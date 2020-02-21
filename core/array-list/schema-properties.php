@@ -1738,6 +1738,9 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                     break;
                 
                 case 'VideoObject':
+                        
+                    $video_links      = saswp_get_video_links();                        
+
                     $meta_field = array(
                     array(
                             'label' => 'URL',
@@ -1801,7 +1804,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'label'   => 'Embed Url',
                             'id'      => 'saswp_video_object_embed_url_'.$schema_id,
                             'type'    => 'text',
-                            'default' => get_permalink()
+                            'default' => isset($video_links[0]) ? $video_links[0] : get_permalink()                            
                     ),    
                     array(
                             'label'   => 'Main Entity Id',
