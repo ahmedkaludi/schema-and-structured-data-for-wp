@@ -184,6 +184,7 @@ class saswp_view_common_class {
             
                     $howto_data        = array();                    
                     $tabs_fields       = '';
+                    $itemlist_sub_type = '';
                     
                     $schema_type_fields = $this->schema_type_element;
                     
@@ -194,7 +195,7 @@ class saswp_view_common_class {
                     if($type_fields){
                        
                     if($schema_type == 'ItemList'){
-                        
+                         $itemlist_sub_type     = get_post_meta($schema_id, 'saswp_itemlist_item_type', true); 
                          $tabs_fields .= '<div schema-id="'.esc_attr($schema_id).'" class="saswp-table-create-onajax saswp-ps-toggle">';   
                         
                     }else{
@@ -256,7 +257,7 @@ class saswp_view_common_class {
                                 
                             }
                                                         
-                            $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" div_type="'.$key.'" fields_type="'.$value.'" class="button saswp_add_schema_fields_on_fly saswp-'.$key.'">'.esc_html__( 'Add '.$btn_text, 'schema-and-structured-data-for-wp' ).'</a>';                                                                                                    
+                            $tabs_fields .= '<a itemlist_sub_type="'.esc_attr($itemlist_sub_type).'" data-id="'.esc_attr($schema_id).'" div_type="'.$key.'" fields_type="'.$value.'" class="button saswp_add_schema_fields_on_fly saswp-'.$key.'">'.esc_html__( 'Add '.$btn_text, 'schema-and-structured-data-for-wp' ).'</a>';                                                                                                    
                             $tabs_fields .= '</div>';                                                                                                
                          
                         }
