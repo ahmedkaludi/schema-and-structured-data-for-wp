@@ -443,6 +443,15 @@ function saswp_course_schema_markup($schema_id, $schema_post_id, $all_post_meta)
                                                  'sameAs'		=> saswp_remove_warnings($all_post_meta, 'saswp_course_sameas_'.$schema_id, 'saswp_array') 
                                              )											
                  );
+
+                 if(isset($all_post_meta['saswp_course_enable_rating_'.$schema_id]) && saswp_remove_warnings($all_post_meta, 'saswp_course_rating_'.$schema_id, 'saswp_array') && saswp_remove_warnings($all_post_meta, 'saswp_course_review_count_'.$schema_id, 'saswp_array')){
+                                 
+                    $input1['aggregateRating'] = array(
+                                       "@type"       => "AggregateRating",
+                                       "ratingValue" => saswp_remove_warnings($all_post_meta, 'saswp_course_rating_'.$schema_id, 'saswp_array'),
+                                       "reviewCount" => saswp_remove_warnings($all_post_meta, 'saswp_course_review_count_'.$schema_id, 'saswp_array')
+                    );                                       
+            }
     
     return $input1;
     

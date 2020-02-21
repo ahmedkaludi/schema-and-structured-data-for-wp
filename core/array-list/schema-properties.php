@@ -979,6 +979,21 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'id' => 'saswp_course_sameas_'.$schema_id,
                             'type' => 'text',
                             'default' => get_home_url() 
+                    ),
+                    array(
+                        'label' => 'Aggregate Rating',
+                        'id' => 'saswp_course_enable_rating_'.$schema_id,
+                        'type' => 'checkbox',                            
+                    ),
+                    array(
+                        'label' => 'Rating',
+                        'id' => 'saswp_course_rating_'.$schema_id,
+                        'type' => 'text',                            
+                    ),
+                    array(
+                        'label' => 'Number of Reviews',
+                        'id' => 'saswp_course_review_count_'.$schema_id,
+                        'type' => 'text',                            
                     )                                                     
                     );
                     break;

@@ -467,7 +467,7 @@ function saswp_schema_output() {
                                 $input1['@type']                 = 'Book';
                                 $input1['@id']                   = trailingslashit(get_permalink()).'#Book'; 
                                 
-                                $woo_markp = $service_object->saswp_schema_markup_generator($schema_type);
+                                 $woo_markp = $service_object->saswp_schema_markup_generator($schema_type);
 
                                 if($woo_markp){
                                     $input1 = array_merge($input1, $woo_markp);
@@ -477,7 +477,7 @@ function saswp_schema_output() {
 
                                 $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
 
-                                $input1 = apply_filters('saswp_modify_music_playlist_schema_output', $input1 );
+                                $input1 = apply_filters('saswp_modify_book_schema_output', $input1 );
 
                                 $input1 = saswp_get_modified_markup($input1, $schema_type, $schema_post_id, $schema_options);
                                 
@@ -685,7 +685,8 @@ function saswp_schema_output() {
                                         }                                
                                         if(!empty($extra_theme_review)){
                                            $input1 = array_merge($input1, $extra_theme_review);
-                                        }                               
+                                        }   
+                                        $input1 = saswp_append_fetched_reviews($input1);                            
                                         if(isset($sd_data['saswp_comments_schema']) && $sd_data['saswp_comments_schema'] ==1){
                                            $input1['comment'] = saswp_get_comments(get_the_ID());
                                         }
