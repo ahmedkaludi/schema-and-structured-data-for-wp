@@ -220,7 +220,8 @@ class saswp_reviews_service {
                                     <div class="saswp-r5-rng">
                                         <div class="saswp-str">
                                             <a target="_blank" href="'.esc_url($review['saswp_review_link']).'"><span class="saswp-athr">'.esc_attr($review['saswp_reviewer_name']).'</span></a>
-                                            '.$starating.'                                  
+                                            '.$starating.'
+                                            <div>'.(isset($review['saswp_review_date']) ? esc_attr($review['saswp_review_date']) : '').'</div>                                  
                                         </div> 
                                         <span class="saswp-g-plus">
                                             <a target="_blank" href="'.esc_attr($review['saswp_review_link']).'"><img src="'.esc_url($review['saswp_review_platform_icon']).'"></a>
