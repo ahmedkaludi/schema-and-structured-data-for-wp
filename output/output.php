@@ -1439,7 +1439,8 @@ function saswp_schema_output() {
                                     '@context'                          => saswp_context_url(),
                                     '@type'				=> esc_attr($local_business),
                                     '@id'                               => trailingslashit(saswp_get_permalink()).'#'. strtolower(esc_attr($local_business)),                                            
-                                    'url'				=> trailingslashit(saswp_get_permalink()),								
+                                    'url'				=> trailingslashit(saswp_get_permalink()),	
+                                    'name'				=> get_bloginfo( 'name' )							
 				);  
                                                                              
                                     if(!empty($aggregateRating)){
