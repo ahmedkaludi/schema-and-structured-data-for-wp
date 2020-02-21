@@ -1,6 +1,9 @@
 var saswp_attached_rv  = [];  
 var saswp_attached_col = [];  
-jQuery(document).ready(function($){   
+jQuery(document).ready(function($){
+  
+  $(".saswp-upgrade-to-pro").parent().attr({'href': 'https://structured-data-for-wp.com/pricing/', 'target': '_blank'});  
+  
     
     $(document).on("click", '.saswp-attach-reviews', function(){ 
         
