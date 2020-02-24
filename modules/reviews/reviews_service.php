@@ -331,7 +331,7 @@ class saswp_reviews_service {
                                     
                                     $rv_limits = get_option('reviews_addon_reviews_limits');
                                     
-                                    $result['message'] = esc_html__('Reviews fetched','schema-and-structured-data-for-wp').' : '. $rv_limits - $result['message']. ', '.esc_html__('Remains Limit','schema-and-structured-data-for-wp').' : '.$result['message'];                                    
+                                    $result['message'] = esc_html__('Reviews fetched','schema-and-structured-data-for-wp').' : '. ($rv_limits - $result['message'] ). ', '.esc_html__('Remains Limit','schema-and-structured-data-for-wp').' : '.$result['message'];                                    
                                     
                                     update_option('reviews_addon_reviews_limits', intval($result['message']));
                                 }
