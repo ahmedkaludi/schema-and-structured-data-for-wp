@@ -1404,26 +1404,59 @@ return false;
         //Settings page jquery ends here
         
     $(document).on("click", ".saswp-modify-schema", function(e){
+      
                     e.preventDefault(); 
-                                        
+                                                            
                     var schema_id   = $(this).attr('schema-id');
-                    
-                    $(".saswp_modify_this_schema_hidden_"+schema_id).val(1);
-                    $(".saswp-restore-schema[schema-id="+schema_id+"]").parent().removeClass('saswp_hide');
-                    $(".saswp-modify-schema[schema-id="+schema_id+"]").parent().addClass('saswp_hide');   
-                    $(".saswp-ps-toggle[schema-id="+schema_id+"]").removeClass('saswp_hide');   
-                    
+
+                    var current = $(this);
+                    current.addClass('updating-message');
+
+                    $.get(ajaxurl, 
+                      { action:"saswp_modify_schema_post_enable", schema_id:schema_id, post_id: saswp_localize_data.post_id,saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
+                       function(response){                           
+                                                  
+                        $(".saswp-post-specific-wrapper[data-id="+schema_id+"] .saswp-post-specific-setting").after(response);
+                        $(".saswp_modify_this_schema_hidden_"+schema_id).val(1);
+                        $(".saswp-ps-toggle[schema-id="+schema_id+"]").removeClass('saswp_hide');   
+                        $(".saswp-restore-schema[schema-id="+schema_id+"]").parent().removeClass('saswp_hide');
+                        $(".saswp-modify-schema[schema-id="+schema_id+"]").parent().addClass('saswp_hide');   
+
+                        current.removeClass('updating-message');                        
+                        saswp_schema_datepicker();
+                        saswp_enable_rating_review();
+                        saswp_item_reviewed_call();
+
+                      });
+
      });
      
      $(document).on("click", ".saswp-restore-schema", function(e){
                     e.preventDefault(); 
-                                        
+
                     var schema_id   = $(this).attr('schema-id');
-                    $(".saswp_modify_this_schema_hidden_"+schema_id).val(0);                                                           
-                    $(".saswp-restore-schema[schema-id="+schema_id+"]").parent().addClass('saswp_hide');
-                    $(".saswp-modify-schema[schema-id="+schema_id+"]").parent().removeClass('saswp_hide');
-                    $(".saswp-ps-toggle[schema-id="+schema_id+"]").addClass('saswp_hide'); 
-                   
+
+                    var current = $(this);
+                    current.addClass('updating-message');
+
+                    $.post(ajaxurl, 
+                      { action:"saswp_modify_schema_post_restore", schema_id:schema_id, post_id: saswp_localize_data.post_id,saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
+                       function(response){    
+                        current.removeClass('updating-message');                                               
+
+                        if(response['status']  == 't'){
+
+                          $(".saswp_modify_this_schema_hidden_"+schema_id).val(0);                                                           
+                          $(".saswp-restore-schema[schema-id="+schema_id+"]").parent().addClass('saswp_hide');
+                          $(".saswp-modify-schema[schema-id="+schema_id+"]").parent().removeClass('saswp_hide');
+                          $(".saswp-ps-toggle[schema-id="+schema_id+"]").remove(); 
+                        
+                        }else{
+                          alert('Something went wrong');
+                        }                        
+                        
+                      }, 'json');
+                                       
     });
 
     $(document).on("change",".saswp-schema-type-toggle", function(e){
@@ -1695,25 +1728,7 @@ return false;
             $(".saswp-add-custom-schema").show();
                                                
         });
-        
-        $(".saswp-modify_schema_post_enable").on("click", function(e){
-            var current = $(this);
-            current.addClass('updating-message');
-            e.preventDefault();                                                    
-                         $.get(ajaxurl, 
-                             { action:"saswp_modify_schema_post_enable", post_id: saswp_localize_data.post_id,saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
-                              function(response){   
-                               current.remove();   
-                               $(".saswp-add-custom-schema-div").remove();
-                               $("#post_specific .inside").append(response); 
-                               current.removeClass('updating-message');                               
-                               saswp_schema_datepicker();
-                               saswp_schema_timepicker();
-                               saswp_enable_rating_review();
-                               saswp_item_reviewed_call();
-                             });
-                             
-        });
+                
         saswp_schema_datepicker();  
         saswp_schema_timepicker();
         

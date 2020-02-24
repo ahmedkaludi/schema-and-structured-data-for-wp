@@ -673,9 +673,15 @@ class saswp_view_common_class {
 
                                         $element_val[] = $sanitize_data;     
 
-                                    }                            
+                                    }    
+                                    
+                                    if(!isset($_POST['saswp_modify_this_schema_'.$schema->ID]) || $_POST['saswp_modify_this_schema_'.$schema->ID] == 0){
+                                        update_post_meta( $post_id, 'saswp_modify_this_schema_'.$schema->ID, intval($_POST['saswp_modify_this_schema_'.$schema->ID]));
+                                    }else{
+                                        update_post_meta( $post_id, $val.'_'.intval($schema->ID), $element_val);
+                                    }
                                 
-                                    update_post_meta( $post_id, $val.'_'.intval($schema->ID), $element_val);
+                                    
                                 
                                 }    
                                                                 
