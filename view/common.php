@@ -579,6 +579,7 @@ class saswp_view_common_class {
                      }else{
                          
                         $tabs_fields .=  $this->saswp_schema_fields_html_on_the_fly($schema_type, $schema_id, $post_id, $disabled_schema, $modify_this, $modified); 
+                        
                      }
                      
                 
@@ -642,52 +643,45 @@ class saswp_view_common_class {
                 if(!empty($all_schema)){
                   $schema_count = count($all_schema);  
                 }
-                
+               
                 if($schema_count > 0){
                                                                       
                  foreach($all_schema as $schema){
-                     
+                   
                      if(isset($_POST['saswp_modify_this_schema_'.$schema->ID])){
                          update_post_meta( $post_id, 'saswp_modify_this_schema_'.$schema->ID, intval($_POST['saswp_modify_this_schema_'.$schema->ID]));
                      }
-                                      
+                                  
                      foreach ($this->schema_type_element as $element){
                           
                         foreach($element as $key => $val){
                             
-                            if( isset($_POST[$val.'_'.$schema->ID]) && !empty($_POST[$val.'_'.$schema->ID]) ){
-                            
-                                $element_val          = array();   
-                                
-                                $data = (array) $_POST[$val.'_'.$schema->ID];  
+                            $element_val          = array();   
 
+                            if(array_key_exists($val.'_'.$schema->ID, $_POST)){
+                               
+                                $data = (array) $_POST[$val.'_'.$schema->ID];  
+                                 
                                 if($data){
                                 
                                     foreach ($data as $supply){
 
                                         $sanitize_data = array();
 
-                                            foreach($supply as $k => $el){  
-                                                $sanitize_data[$k] = wp_kses_post(wp_unslash($el));                                   
+                                            foreach($supply as $k => $el){   
+                                                    if($el){
+                                                        $sanitize_data[$k] = wp_kses_post(wp_unslash($el));                                                                                                                                   
+                                                    }                                               
+                                                    
                                             }
-
-                                        $element_val[] = $sanitize_data;     
-
-                                    }    
-                                    
-                                    if(!isset($_POST['saswp_modify_this_schema_'.$schema->ID]) || $_POST['saswp_modify_this_schema_'.$schema->ID] == 0){
-                                        update_post_meta( $post_id, 'saswp_modify_this_schema_'.$schema->ID, intval($_POST['saswp_modify_this_schema_'.$schema->ID]));
-                                    }else{
-                                        update_post_meta( $post_id, $val.'_'.intval($schema->ID), $element_val);
-                                    }
-                                
-                                    
-                                
-                                }    
-                                                                
-                            }
-                                                                                                              
-                        }    
+                                            if($sanitize_data){
+                                                $element_val[] = $sanitize_data;     
+                                            }                                         
+                                        } 
+                                    }                                                                                                         
+                                }                               
+                                update_post_meta( $post_id, $val.'_'.intval($schema->ID), $element_val);                                                                                                              
+                           }    
                          
                      }    
                                                                      
