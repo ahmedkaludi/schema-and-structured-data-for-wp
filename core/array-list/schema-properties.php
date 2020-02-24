@@ -1971,7 +1971,12 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'label' => 'Author Name',
                             'id' => 'saswp_qa_question_author_name_'.$schema_id,
                             'type' => 'text',                           
-                    ),    
+                    ),  
+                    array(
+                        'label' => 'Answer Count',
+                        'id'    => 'saswp_qa_answer_count_'.$schema_id,
+                        'type'  => 'text',                           
+                    ),                      
                     array(
                             'label' => 'Accepted Answer Text',
                             'id' => 'saswp_qa_accepted_answer_text_'.$schema_id,

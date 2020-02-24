@@ -1509,14 +1509,19 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_qa_upvote_count'])){
                      $input1['mainEntity']['upvoteCount'] =    $custom_fields['saswp_qa_upvote_count'];
                     }
+                    if(isset($custom_fields['saswp_qa_answer_count'])){
+                        $input1['mainEntity']['answerCount'] =    $custom_fields['saswp_qa_answer_count'];
+                    }
                     
                     if(isset($custom_fields['saswp_qa_date_created'])){
                      $input1['mainEntity']['dateCreated'] =    $custom_fields['saswp_qa_date_created'];
                     }
                     if(isset($custom_fields['saswp_qa_question_author_name'])){
+                     $input1['mainEntity']['author']['@type'] =    'Person';
                      $input1['mainEntity']['author']['name'] =    $custom_fields['saswp_qa_question_author_name'];
                     }
                     if(isset($custom_fields['saswp_qa_accepted_answer_text'])){
+                     $input1['mainEntity']['acceptedAnswer']['@type'] =    'Answer';   
                      $input1['mainEntity']['acceptedAnswer']['text'] =    $custom_fields['saswp_qa_accepted_answer_text'];
                     }
                     
@@ -1534,6 +1539,7 @@ Class saswp_output_service{
                      $input1['mainEntity']['acceptedAnswer']['author']['name'] =    $custom_fields['saswp_qa_accepted_author_name'];
                     }                                        
                     if(isset($custom_fields['saswp_qa_suggested_answer_text'])){
+                     $input1['mainEntity']['suggestedAnswer']['@type'] =    'Answer';   
                      $input1['mainEntity']['suggestedAnswer']['text'] =    $custom_fields['saswp_qa_suggested_answer_text'];
                     }
                     if(isset($custom_fields['saswp_qa_suggested_answer_date_created'])){

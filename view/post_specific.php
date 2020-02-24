@@ -481,7 +481,7 @@ class saswp_post_specific {
                     
                      if($key==0){
                          
-                     $tabs .='<li class="selected"><a saswp-schema-type="'.esc_attr($schema_type).'" data-id="saswp_specific_'.esc_attr($schema->ID).'" class="saswp-tab-links selected">'.esc_attr($schema_type == 'local_business'? 'LocalBusiness': $schema_type.' '.$item_type ).'</a>'
+                     $tabs .='<li class="selected"><a saswp-schema-type="'.esc_attr($schema_type).'" data-id="saswp_specific_'.esc_attr($schema->ID).'" class="saswp-tab-links selected">'.esc_attr(($schema_type == 'local_business'? 'LocalBusiness': ($schema_type =='qanda' ? 'Q&A' : $schema_type)).' '.$item_type ).'</a>'
                              . '</li>';    
                      
                      $tabs_fields .= '<div data-id="'.esc_attr($schema->ID).'" id="saswp_specific_'.esc_attr($schema->ID).'" class="saswp-post-specific-wrapper">';                                                                  
@@ -493,7 +493,7 @@ class saswp_post_specific {
                      }else{
                          
                      $tabs .='<li>'
-                             . '<a saswp-schema-type="'.esc_attr($schema_type).'" data-id="saswp_specific_'.esc_attr($schema->ID).'" class="saswp-tab-links">'.esc_attr($schema_type == 'local_business'? 'LocalBusiness': $schema_type.' '.$item_type ).'</a>'
+                             . '<a saswp-schema-type="'.esc_attr($schema_type).'" data-id="saswp_specific_'.esc_attr($schema->ID).'" class="saswp-tab-links">'.esc_attr(($schema_type == 'local_business'? 'LocalBusiness': ($schema_type =='qanda' ? 'Q&A' : $schema_type)).' '.$item_type ).'</a>'
                              . '</li>';   
                      
                      $tabs_fields .= '<div data-id="'.esc_attr($schema->ID).'" id="saswp_specific_'.esc_attr($schema->ID).'" class="saswp-post-specific-wrapper saswp_hide">';                                                                  

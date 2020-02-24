@@ -1917,7 +1917,7 @@ function saswp_qanda_schema_markup($schema_id, $schema_post_id, $all_post_meta){
         $input1  = $service_object->saswp_dw_question_answers_details(get_the_ID());  
 
     }else{
-
+        
         $input1 = array(
             '@context'		  => saswp_context_url(),
             '@type'		  => 'QAPage',

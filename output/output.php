@@ -1073,6 +1073,15 @@ function saswp_schema_output() {
                             break;
                         
                             case 'qanda':
+
+                                $input1 = array(
+                                    '@context'			=> saswp_context_url(),
+                                    '@type'				=> 'QAPage' ,
+                                    '@id'				=> trailingslashit(saswp_get_permalink()).'#QAPage',       						                                                            		
+                                    'mainEntity'	    => array(
+                                        '@type'    => 'Question'
+                                    ) ,
+                                );
                                                         
                                 if(isset($sd_data['saswp-dw-question-answer']) && $sd_data['saswp-dw-question-answer'] ==1){
                                     
