@@ -14,7 +14,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
             global $post;
             global $sd_data;  
             
-            $business_type = $current_user = $author_desc = $author_url = '';
+            $business_type = $current_user = $author_desc = $author_url = $post_id = '';
             $author_details     = array();
             
             if($review_type){
@@ -25,8 +25,10 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
             
             if($manual == null){
             
-                $post_id = $post->ID; 
-            
+                if(is_object($post)){
+                        $post_id = $post->ID; 
+                }
+
                 $current_user       = wp_get_current_user();
                 $author_desc        = get_the_author_meta( 'user_description' );
                 $author_url         = get_the_author_meta( 'user_url' );                
@@ -38,8 +40,8 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                 $business_type      = get_post_meta($schema_id, 'saswp_business_type', true);             
                 $business_name      = get_post_meta($schema_id, 'saswp_business_name', true); 
                 $saswp_business_type_key   = 'saswp_business_type_'.$schema_id;
-                $saved_business_type       = get_post_meta( $post->ID, $saswp_business_type_key, true );
-                $saved_saswp_business_name = get_post_meta( $post->ID, 'saswp_business_name_'.$schema_id, true );    
+                $saved_business_type       = get_post_meta( $post_id, $saswp_business_type_key, true );
+                $saved_saswp_business_name = get_post_meta( $post_id, 'saswp_business_name_'.$schema_id, true );    
 
                 if($saved_business_type){
                   $business_type = $saved_business_type;
@@ -1313,7 +1315,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                     
                     $product_details = array();
                     
-                    if($manual == null){
+                    if($manual == null && $post_id){
                     
                         $service = new saswp_output_service();
                         $product_details = $service->saswp_woocommerce_product_details($post_id);     
