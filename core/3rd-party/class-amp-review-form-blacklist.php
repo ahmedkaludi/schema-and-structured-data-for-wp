@@ -161,7 +161,7 @@ if ( class_exists( 'AMP_Blacklist_Sanitizer' ) ) {
                                         
                                        $form_class = $element->getAttribute('class');
                                        
-                                        if(strpos($form_class, 'saswp-review-submission-form') !== false){                                           
+                                        if( (strpos($form_class, 'saswp-review-submission-form') !== false) || (strpos($form_class, 'ampforwp-form-allow') !== false) ){                                           
                                             continue;                                           
                                         }
                                                                               

@@ -184,6 +184,7 @@ class saswp_view_common_class {
             
                     $howto_data        = array();                    
                     $tabs_fields       = '';
+                    $itemlist_sub_type = '';
                     
                     $schema_type_fields = $this->schema_type_element;
                     
@@ -194,7 +195,7 @@ class saswp_view_common_class {
                     if($type_fields){
                        
                     if($schema_type == 'ItemList'){
-                        
+                         $itemlist_sub_type     = get_post_meta($schema_id, 'saswp_itemlist_item_type', true); 
                          $tabs_fields .= '<div schema-id="'.esc_attr($schema_id).'" class="saswp-table-create-onajax saswp-ps-toggle">';   
                         
                     }else{
@@ -256,7 +257,7 @@ class saswp_view_common_class {
                                 
                             }
                                                         
-                            $tabs_fields .= '<a data-id="'.esc_attr($schema_id).'" div_type="'.$key.'" fields_type="'.$value.'" class="button saswp_add_schema_fields_on_fly saswp-'.$key.'">'.esc_html__( 'Add '.$btn_text, 'schema-and-structured-data-for-wp' ).'</a>';                                                                                                    
+                            $tabs_fields .= '<a itemlist_sub_type="'.esc_attr($itemlist_sub_type).'" data-id="'.esc_attr($schema_id).'" div_type="'.$key.'" fields_type="'.$value.'" class="button saswp_add_schema_fields_on_fly saswp-'.$key.'">'.esc_html__( 'Add '.$btn_text, 'schema-and-structured-data-for-wp' ).'</a>';                                                                                                    
                             $tabs_fields .= '</div>';                                                                                                
                          
                         }
@@ -578,6 +579,7 @@ class saswp_view_common_class {
                      }else{
                          
                         $tabs_fields .=  $this->saswp_schema_fields_html_on_the_fly($schema_type, $schema_id, $post_id, $disabled_schema, $modify_this, $modified); 
+                        
                      }
                      
                 
@@ -641,46 +643,45 @@ class saswp_view_common_class {
                 if(!empty($all_schema)){
                   $schema_count = count($all_schema);  
                 }
-                
+               
                 if($schema_count > 0){
                                                                       
                  foreach($all_schema as $schema){
-                     
+                   
                      if(isset($_POST['saswp_modify_this_schema_'.$schema->ID])){
                          update_post_meta( $post_id, 'saswp_modify_this_schema_'.$schema->ID, intval($_POST['saswp_modify_this_schema_'.$schema->ID]));
                      }
-                                      
+                                  
                      foreach ($this->schema_type_element as $element){
                           
                         foreach($element as $key => $val){
                             
-                            if( isset($_POST[$val.'_'.$schema->ID]) && !empty($_POST[$val.'_'.$schema->ID]) ){
-                            
-                                $element_val          = array();   
-                                
-                                $data = (array) $_POST[$val.'_'.$schema->ID];  
+                            $element_val          = array();   
 
+                            if(array_key_exists($val.'_'.$schema->ID, $_POST)){
+                               
+                                $data = (array) $_POST[$val.'_'.$schema->ID];  
+                                 
                                 if($data){
                                 
                                     foreach ($data as $supply){
 
                                         $sanitize_data = array();
 
-                                            foreach($supply as $k => $el){  
-                                                $sanitize_data[$k] = wp_kses_post(wp_unslash($el));                                   
+                                            foreach($supply as $k => $el){   
+                                                    if($el){
+                                                        $sanitize_data[$k] = wp_kses_post(wp_unslash($el));                                                                                                                                   
+                                                    }                                               
+                                                    
                                             }
-
-                                        $element_val[] = $sanitize_data;     
-
-                                    }                            
-                                
-                                    update_post_meta( $post_id, $val.'_'.intval($schema->ID), $element_val);
-                                
-                                }    
-                                                                
-                            }
-                                                                                                              
-                        }    
+                                            if($sanitize_data){
+                                                $element_val[] = $sanitize_data;     
+                                            }                                         
+                                        } 
+                                    }                                                                                                         
+                                }                               
+                                update_post_meta( $post_id, $val.'_'.intval($schema->ID), $element_val);                                                                                                              
+                           }    
                          
                      }    
                                                                      

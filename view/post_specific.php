@@ -45,15 +45,122 @@ class saswp_post_specific {
                 
                 add_action( 'wp_ajax_saswp_get_item_reviewed_fields', array($this, 'saswp_get_item_reviewed_fields')) ;
                            
-		add_action( 'add_meta_boxes', array( $this, 'saswp_post_specifc_add_meta_boxes' ) );		
-		add_action( 'save_post', array( $this, 'saswp_post_specific_save_fields' ) );
+		        add_action( 'add_meta_boxes', array( $this, 'saswp_post_specifc_add_meta_boxes' ) );		
+		        add_action( 'save_post', array( $this, 'saswp_post_specific_save_fields' ) );
                 add_action( 'wp_ajax_saswp_get_sub_business_ajax', array($this,'saswp_get_sub_business_ajax'));
                 
                 add_action( 'wp_ajax_saswp_get_schema_dynamic_fields_ajax', array($this,'saswp_get_schema_dynamic_fields_ajax'));                                                                                                                
                 add_action( 'wp_ajax_saswp_enable_disable_schema_on_post', array($this,'saswp_enable_disable_schema_on_post'));
+                add_action( 'wp_ajax_saswp_modify_schema_post_enable', array($this,'saswp_modify_schema_post_enable')); 
+                add_action( 'wp_ajax_saswp_modify_schema_post_restore', array($this,'saswp_modify_schema_post_restore'));                    
                 
         }
         
+        /**
+         * Generate the post specific metabox html with dynamic values on ajax call
+         * @return type string
+         * @since version 1.0.4
+         */                             
+        public function saswp_modify_schema_post_restore(){
+            
+            
+
+            if ( ! isset( $_POST['saswp_security_nonce'] ) ){
+                return; 
+            }
+            if ( !wp_verify_nonce( $_POST['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
+               return;  
+            }  
+            
+                $post_id        = intval($_POST['post_id']);
+                $schema_id      = intval($_POST['schema_id']);            
+             
+                update_post_meta($post_id, 'saswp_modify_this_schema_'.$schema_id, 0); 
+
+                $meta_field = saswp_get_fields_by_schema_type($schema_id);
+                
+                if($meta_field){
+                    foreach($meta_field as $field){
+                        $result = delete_post_meta($post_id, $field['id']); 
+                    }
+                }                             
+                echo json_encode(array('status'=> 't', 'msg'=>esc_html__( 'Schema has been restored', 'schema-and-structured-data-for-wp' )));                
+                wp_die();
+             
+            }
+
+        public function saswp_get_schema_fields_on_ajax($post_id, $schema_id, $item_reviewed = null){
+
+                $response = array();
+
+                $args = array(
+                    'p'         => $post_id, // ID of a page, post, or custom type
+                    'post_type' => 'any'
+                );
+             
+                $my_posts = new WP_Query($args);
+            
+                if ( $my_posts->have_posts() ) {
+                    
+                    while ( $my_posts->have_posts() ) : $my_posts->the_post();   
+                    
+                        if($item_reviewed != null){
+                            $response          = saswp_get_fields_by_schema_type($schema_id, null, $item_reviewed); 
+                        }else{
+                            $response          = saswp_get_fields_by_schema_type($schema_id);    
+                        }
+                                             
+                    endwhile;
+                
+                }
+                return $response;
+        }    
+
+        /**
+         * Generate the post specific metabox html with dynamic values on ajax call
+         * @return type string
+         * @since version 1.0.4
+         */                             
+        public function saswp_modify_schema_post_enable(){
+            
+            if ( ! isset( $_GET['saswp_security_nonce'] ) ){
+                return; 
+            }
+            if ( !wp_verify_nonce( $_GET['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
+               return;  
+            }  
+            
+             $post_id        = intval($_GET['post_id']);
+             $schema_id      = intval($_GET['schema_id']);
+             $modify_this    = 1;
+             $disabled       = '';
+             $modified       = false;
+             
+             update_post_meta($post_id, 'saswp_modify_this_schema_'.$schema_id, 1); 
+             $schema_type       = get_post_meta($schema_id, 'schema_type', true); 
+             $response = $this->saswp_get_schema_fields_on_ajax($post_id, $schema_id);                                            
+             $saswp_meta_fields = array_filter($response); 
+             
+             $output            = $this->_common_view->saswp_saswp_post_specific($schema_type, $saswp_meta_fields, $post_id, $schema_id, null, $disabled, $modify_this, $modified ); 
+
+             if($schema_type == 'Review'){
+                        
+                $item_reviewed     = get_post_meta($post->ID, 'saswp_review_item_reviewed_'.$schema_id, true);                         
+                if(!$item_reviewed){
+                    $item_reviewed = 'Book';
+                }
+                $response = $this->saswp_get_schema_fields_on_ajax($post_id, $schema_id, $item_reviewed);                                                                
+                $saswp_meta_fields = array_filter($response);                           
+                $output           .= $this->_common_view->saswp_saswp_post_specific($schema_type, $saswp_meta_fields, $post_id, $schema_id ,$item_reviewed, $disabled, $modify_this, $modified);
+                
+            }
+
+             echo $output;
+                                               
+             wp_die();
+             
+            }
+
         /**
         * Function to get review schema type html markup
         * @since 1.0.8 
@@ -262,7 +369,7 @@ class saswp_post_specific {
                 $cus_schema .= '</div>';
                           
              if(!empty($this->all_schema)){  
-                 
+                    
                  foreach($this->all_schema as $key => $schema){
                      
                       $advnace_status = saswp_check_advance_display_status($schema->ID);
@@ -274,6 +381,7 @@ class saswp_post_specific {
                      $disabled  = '';
                      $modified  = false;
                      $item_type = '';
+                     $output    = '';
                                                                                     
                      if(isset($schema_enable[$schema->ID]) && $schema_enable[$schema->ID] == 0){
                          
@@ -296,14 +404,17 @@ class saswp_post_specific {
                      $modify_this       = get_post_meta($post->ID, 'saswp_modify_this_schema_'.$schema->ID, true);                                          
                      $schema_type       = get_post_meta($schema->ID, 'schema_type', true);  
                      $response          = saswp_get_fields_by_schema_type($schema->ID);                       
-                     $saswp_meta_fields = array_filter($response);                     
-                     $output            = $this->_common_view->saswp_saswp_post_specific($schema_type, $saswp_meta_fields, $post->ID, $schema->ID, null, $disabled, $modify_this, $modified ); 
+                     $saswp_meta_fields = array_filter($response); 
+                     if($modify_this){
+                        $output            = $this->_common_view->saswp_saswp_post_specific($schema_type, $saswp_meta_fields, $post->ID, $schema->ID, null, $disabled, $modify_this, $modified ); 
+                     }                    
+                     
                      
                      if($schema_type == 'ItemList'){
                          $item_type         = '('.get_post_meta($schema->ID, 'saswp_itemlist_item_type', true).')';
                      }
                      
-                     if($schema_type == 'Review'){
+                     if($schema_type == 'Review' && $modify_this){
                         
                          $item_reviewed     = get_post_meta($post->ID, 'saswp_review_item_reviewed_'.$schema->ID, true);                         
                          if(!$item_reviewed){
@@ -370,7 +481,7 @@ class saswp_post_specific {
                     
                      if($key==0){
                          
-                     $tabs .='<li class="selected"><a saswp-schema-type="'.esc_attr($schema_type).'" data-id="saswp_specific_'.esc_attr($schema->ID).'" class="saswp-tab-links selected">'.esc_attr($schema_type == 'local_business'? 'LocalBusiness': $schema_type.' '.$item_type ).'</a>'
+                     $tabs .='<li class="selected"><a saswp-schema-type="'.esc_attr($schema_type).'" data-id="saswp_specific_'.esc_attr($schema->ID).'" class="saswp-tab-links selected">'.esc_attr(($schema_type == 'local_business'? 'LocalBusiness': ($schema_type =='qanda' ? 'Q&A' : $schema_type)).' '.$item_type ).'</a>'
                              . '</li>';    
                      
                      $tabs_fields .= '<div data-id="'.esc_attr($schema->ID).'" id="saswp_specific_'.esc_attr($schema->ID).'" class="saswp-post-specific-wrapper">';                                                                  
@@ -382,7 +493,7 @@ class saswp_post_specific {
                      }else{
                          
                      $tabs .='<li>'
-                             . '<a saswp-schema-type="'.esc_attr($schema_type).'" data-id="saswp_specific_'.esc_attr($schema->ID).'" class="saswp-tab-links">'.esc_attr($schema_type == 'local_business'? 'LocalBusiness': $schema_type.' '.$item_type ).'</a>'
+                             . '<a saswp-schema-type="'.esc_attr($schema_type).'" data-id="saswp_specific_'.esc_attr($schema->ID).'" class="saswp-tab-links">'.esc_attr(($schema_type == 'local_business'? 'LocalBusiness': ($schema_type =='qanda' ? 'Q&A' : $schema_type)).' '.$item_type ).'</a>'
                              . '</li>';   
                      
                      $tabs_fields .= '<div data-id="'.esc_attr($schema->ID).'" id="saswp_specific_'.esc_attr($schema->ID).'" class="saswp-post-specific-wrapper saswp_hide">';                                                                  
@@ -398,7 +509,7 @@ class saswp_post_specific {
                                   
                 $response_html .= '<div>';                  
                 $response_html .= '<div class="saswp-tab saswp-post-specific-tab-wrapper">';                
-		$response_html .= '<ul class="saswp-tab-nav">';
+		        $response_html .= '<ul class="saswp-tab-nav">';
                 $response_html .= $tabs;    
                 
                 $response_html .='<li>'

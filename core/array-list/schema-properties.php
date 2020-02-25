@@ -14,7 +14,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
             global $post;
             global $sd_data;  
             
-            $business_type = $current_user = $author_desc = $author_url = '';
+            $business_type = $current_user = $author_desc = $author_url = $post_id = '';
             $author_details     = array();
             
             if($review_type){
@@ -25,8 +25,10 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
             
             if($manual == null){
             
-                $post_id = $post->ID; 
-            
+                if(is_object($post)){
+                        $post_id = $post->ID; 
+                }
+
                 $current_user       = wp_get_current_user();
                 $author_desc        = get_the_author_meta( 'user_description' );
                 $author_url         = get_the_author_meta( 'user_url' );                
@@ -38,8 +40,8 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                 $business_type      = get_post_meta($schema_id, 'saswp_business_type', true);             
                 $business_name      = get_post_meta($schema_id, 'saswp_business_name', true); 
                 $saswp_business_type_key   = 'saswp_business_type_'.$schema_id;
-                $saved_business_type       = get_post_meta( $post->ID, $saswp_business_type_key, true );
-                $saved_saswp_business_name = get_post_meta( $post->ID, 'saswp_business_name_'.$schema_id, true );    
+                $saved_business_type       = get_post_meta( $post_id, $saswp_business_type_key, true );
+                $saved_saswp_business_name = get_post_meta( $post_id, 'saswp_business_name_'.$schema_id, true );    
 
                 if($saved_business_type){
                   $business_type = $saved_business_type;
@@ -445,7 +447,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'label' => 'Article Body',
                             'id' => 'saswp_newsarticle_body_'.$schema_id,
                             'type' => 'textarea',
-                            'default' => is_object($post) ? $post->post_content : ''
+                            'default' => is_object($post) ? wp_strip_all_tags(strip_shortcodes($post->post_content)) : ''
                     ),
                      array(
                             'label' => 'Name',
@@ -657,7 +659,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'label'   => 'Article Body',
                             'id'      => 'saswp_article_body_'.$schema_id,
                             'type'    => 'textarea',
-                            'default' => @get_the_content()
+                            'default' => is_object($post) ? wp_strip_all_tags(strip_shortcodes($post->post_content)) : ''
                     ),    
                     array(
                             'label' => 'Keywords',
@@ -979,6 +981,21 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'id' => 'saswp_course_sameas_'.$schema_id,
                             'type' => 'text',
                             'default' => get_home_url() 
+                    ),
+                    array(
+                        'label' => 'Aggregate Rating',
+                        'id' => 'saswp_course_enable_rating_'.$schema_id,
+                        'type' => 'checkbox',                            
+                    ),
+                    array(
+                        'label' => 'Rating',
+                        'id' => 'saswp_course_rating_'.$schema_id,
+                        'type' => 'text',                            
+                    ),
+                    array(
+                        'label' => 'Number of Reviews',
+                        'id' => 'saswp_course_review_count_'.$schema_id,
+                        'type' => 'text',                            
                     )                                                     
                     );
                     break;
@@ -1298,7 +1315,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                     
                     $product_details = array();
                     
-                    if($manual == null){
+                    if($manual == null && $post_id){
                     
                         $service = new saswp_output_service();
                         $product_details = $service->saswp_woocommerce_product_details($post_id);     
@@ -1531,7 +1548,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'type' => 'text',                           
                         );
                         $meta_field[] = array(
-                            'label' => 'Review Author Profile URL',
+                            'label' => 'Review Author URL',
                             'id' => 'saswp_review_author_url_'.$schema_id,
                             'type' => 'text',                           
                         );
@@ -1540,6 +1557,11 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'id' => 'saswp_review_publisher_'.$schema_id,
                             'type' => 'text',                           
                         );
+                        $meta_field[] = array(
+                                'label' => 'Review Publisher URL',
+                                'id'    => 'saswp_review_publisher_url'.$schema_id,
+                                'type'  => 'text',                           
+                            );
                         $meta_field[] = array(
                             'label' => 'Review Published Date',
                             'id' => 'saswp_review_date_published_'.$schema_id,
@@ -1723,6 +1745,9 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                     break;
                 
                 case 'VideoObject':
+
+                    $video_links      = saswp_get_video_links();                        
+
                     $meta_field = array(
                     array(
                             'label' => 'URL',
@@ -1786,7 +1811,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'label'   => 'Embed Url',
                             'id'      => 'saswp_video_object_embed_url_'.$schema_id,
                             'type'    => 'text',
-                            'default' => get_permalink()
+                            'default' => isset($video_links[0]) ? $video_links[0] : get_permalink()                            
                     ),    
                     array(
                             'label'   => 'Main Entity Id',
@@ -1948,7 +1973,12 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'label' => 'Author Name',
                             'id' => 'saswp_qa_question_author_name_'.$schema_id,
                             'type' => 'text',                           
-                    ),    
+                    ),  
+                    array(
+                        'label' => 'Answer Count',
+                        'id'    => 'saswp_qa_answer_count_'.$schema_id,
+                        'type'  => 'text',                           
+                    ),                      
                     array(
                             'label' => 'Accepted Answer Text',
                             'id' => 'saswp_qa_accepted_answer_text_'.$schema_id,

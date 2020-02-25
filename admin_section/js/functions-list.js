@@ -246,7 +246,8 @@
                                        html += '<option value="saswp_review_description">Review Description</option>';                                              
                                        html += '<option value="saswp_review_author">Review Author</option>';
                                        html += '<option value="saswp_review_author_url">Review Author Profile URL</option>';
-                                       html += '<option value="saswp_review_publisher">Review Publisher</option>';    
+                                       html += '<option value="saswp_review_publisher">Review Publisher</option>';
+                                       html += '<option value="saswp_review_publisher_url">Review Publisher URL</option>';    
                                        html += '<option value="saswp_review_rating_value">Review Rating Value</option>';
                                        html += '<option value="saswp_review_date_published">Review Published Date</option>';
                                        html += '<option value="saswp_review_url">Review URL</option>';

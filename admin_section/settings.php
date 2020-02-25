@@ -68,7 +68,7 @@ function saswp_add_menu_links() {
                     );	
                                 
             if(!saswp_ext_installed_status()){
-                add_submenu_page( 'edit.php?post_type=saswp', esc_html__( 'Schema & Structured Data For Wp', 'schema-and-structured-data-for-wp' ), '<span style="color:#fff176;">'.esc_html__( 'Upgrade To Premium', 'schema-and-structured-data-for-wp' ).'</span>', 'manage_options', 'structured_data_premium', 'saswp_premium_interface_render' );	
+                add_submenu_page( 'edit.php?post_type=saswp', esc_html__( 'Schema & Structured Data For Wp', 'schema-and-structured-data-for-wp' ), '<span class="saswp-upgrade-to-pro" style="color:#fff176;">'.esc_html__( 'Upgrade To Premium', 'schema-and-structured-data-for-wp' ).'</span>', 'manage_options', 'structured_data_premium', 'saswp_premium_interface_render' );	
             }
                                                             
 }
@@ -1166,7 +1166,19 @@ function saswp_import_callback(){
                              'id'   => 'saswp-other-images',
                              'name' => 'sd_data[saswp-other-images]',                             
                         )
-		    )                  
+                ),
+                array(
+                        'label'  => 'Allow Multiple Size Image Creation',
+                        'id'     => 'saswp-multiple-size-image-checkbox',                        
+                        'name'   => 'saswp-multiple-size-image-checkbox',
+                        'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',   
+                        'note'   => 'According to Google, For best results, multiple high-resolution images with the following aspect ratios: 16x9, 4x3, and 1x1 should be there',   
+                        'hidden' => array(
+                                'id'   => 'saswp-multiple-size-image',
+                                'name' => 'sd_data[saswp-multiple-size-image]',                             
+                        )
+                )                  
                 
 	);   
         

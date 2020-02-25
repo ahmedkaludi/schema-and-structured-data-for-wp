@@ -392,6 +392,9 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_review_publisher'])){
                        $review_markup['publisher']['@type']          =   'Organization';                                              
                        $review_markup['publisher']['name']           =    $custom_fields['saswp_review_publisher'];                                              
+                       if(isset($custom_fields['saswp_review_publisher_url'])){
+                        $review_markup['publisher']['sameAs'] =    array($custom_fields['saswp_review_publisher_url']);
+                       }
                     }                    
                     if(isset($custom_fields['saswp_review_author'])){
                        $review_markup['author']['@type']             =   'Person';                                              
@@ -1506,14 +1509,19 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_qa_upvote_count'])){
                      $input1['mainEntity']['upvoteCount'] =    $custom_fields['saswp_qa_upvote_count'];
                     }
+                    if(isset($custom_fields['saswp_qa_answer_count'])){
+                        $input1['mainEntity']['answerCount'] =    $custom_fields['saswp_qa_answer_count'];
+                    }
                     
                     if(isset($custom_fields['saswp_qa_date_created'])){
                      $input1['mainEntity']['dateCreated'] =    $custom_fields['saswp_qa_date_created'];
                     }
                     if(isset($custom_fields['saswp_qa_question_author_name'])){
+                     $input1['mainEntity']['author']['@type'] =    'Person';
                      $input1['mainEntity']['author']['name'] =    $custom_fields['saswp_qa_question_author_name'];
                     }
                     if(isset($custom_fields['saswp_qa_accepted_answer_text'])){
+                     $input1['mainEntity']['acceptedAnswer']['@type'] =    'Answer';   
                      $input1['mainEntity']['acceptedAnswer']['text'] =    $custom_fields['saswp_qa_accepted_answer_text'];
                     }
                     
@@ -1531,6 +1539,7 @@ Class saswp_output_service{
                      $input1['mainEntity']['acceptedAnswer']['author']['name'] =    $custom_fields['saswp_qa_accepted_author_name'];
                     }                                        
                     if(isset($custom_fields['saswp_qa_suggested_answer_text'])){
+                     $input1['mainEntity']['suggestedAnswer']['@type'] =    'Answer';   
                      $input1['mainEntity']['suggestedAnswer']['text'] =    $custom_fields['saswp_qa_suggested_answer_text'];
                     }
                     if(isset($custom_fields['saswp_qa_suggested_answer_date_created'])){
@@ -2810,8 +2819,7 @@ Class saswp_output_service{
          */
         public function saswp_schema_markup_generator($schema_type){
             
-                        global $post;                        
-                        global $sd_data;
+                        global $post, $sd_data;                                                
             
                         $logo         = ''; 
                         $height       = '';
@@ -2838,12 +2846,9 @@ Class saswp_output_service{
                             
                         }
                         
-                        $input1         = array();
-                                                            
-                        $image_id 	= get_post_thumbnail_id();
-			$image_details 	= wp_get_attachment_image_src($image_id, 'full');                       			
-			$date 		= get_the_date("c");
-			$modified_date 	= get_the_modified_date("c");                        
+                        $input1         = array();                                                                                    			                  			
+                        $date 		    = get_the_date("c");
+                        $modified_date 	= get_the_modified_date("c");                        
 			                                                
             switch ($schema_type) {
                 
@@ -2910,11 +2915,7 @@ Class saswp_output_service{
                 
                 case 'WebPage':
                     
-                    if(empty($image_details[0]) || $image_details[0] === NULL ){
-					$image_details[0] = $logo;
-                    }
-                    
-                    $input1 = array(
+                 $input1 = array(
 				'@context'			=> saswp_context_url(),
 				'@type'				=> 'WebPage' ,
                                 '@id'				=> trailingslashit(saswp_get_permalink()).'#webpage',
@@ -2924,8 +2925,7 @@ Class saswp_output_service{
 				'description'                   => saswp_get_the_excerpt(),
 				'mainEntity'                    => array(
 						'@type'			=> 'Article',
-						'mainEntityOfPage'	=> saswp_get_permalink(),
-						'image'			=> esc_url($image_details[0]),
+						'mainEntityOfPage'	=> saswp_get_permalink(),						
 						'headline'		=> saswp_get_the_title(),
 						'description'		=> saswp_get_the_excerpt(),
                                                 'articleBody'           => saswp_get_the_content(),
@@ -3052,17 +3052,7 @@ Class saswp_output_service{
 
                 default:
                     break;
-            }
-            
-            if( !empty($input1) && !isset($input1['image'])){
-                                                          
-                    $input2 = $this->saswp_get_fetaure_image();
-                    if(!empty($input2)){
-
-                      $input1 = array_merge($input1,$input2);                                
-                    }                                                                    
-            }
-                        
+            }                                    
             return $input1;
             
         }
@@ -3075,15 +3065,23 @@ Class saswp_output_service{
          */
         public function saswp_get_fetaure_image(){
             
-            global $sd_data;
-            global $post;
-            $input2          = array();
-            $image_id 	     = get_post_thumbnail_id();
-	        $image_details   = wp_get_attachment_image_src($image_id, 'full');            
-                        
+            global $post, $sd_data, $saswp_featured_image;
+
+            $input2          = array();             
+            $multiple_size   = false;
+
+            if( (isset($sd_data['saswp-multiple-size-image']) && $sd_data['saswp-multiple-size-image'] == 1) || !isset($sd_data['saswp-multiple-size-image'])){
+                $multiple_size = true;
+            }
+
+            if(!$saswp_featured_image){
+                $image_id 	            = get_post_thumbnail_id();
+                $saswp_featured_image   = wp_get_attachment_image_src($image_id, 'full');            
+            }
+	        $image_details = $saswp_featured_image;                       
             if( is_array($image_details) && !empty($image_details)){                                
                                                                                                                     
-                                        if(isset($image_details[1]) && ($image_details[1] < 1200) && function_exists('saswp_aq_resize')){
+                                        if( ( (isset($image_details[1]) && ($image_details[1] < 1200)) || (isset($image_details[2]) && ($image_details[2] < 675)) ) && function_exists('saswp_aq_resize')){
                                                 
                                             $targetHeight = 1200;
                                             
@@ -3091,11 +3089,16 @@ Class saswp_output_service{
                                                 $img_ratio    = $image_details[1] / $image_details[2];
                                                 $targetHeight = 1200 / $img_ratio;                                                
                                             }
-                                                                                        
-                                            $width  = array(1200, 1200, 1200);
-                                            $height = array($targetHeight, 900, 675);
                                             
-                                            for($i = 0; $i<3; $i++){
+                                            if($multiple_size){
+                                                $width  = array(1200, 1200, 1200);
+                                                $height = array($targetHeight, 900, 675);
+                                            }else{
+                                                $width  = array(1200);
+                                                $height = array($targetHeight);
+                                            }                                                                                        
+                                            
+                                            for($i = 0; $i < count($width); $i++){
                                                 
                                                 $resize_image = saswp_aq_resize( $image_details[0], $width[$i], $height[$i], true, false, true );
                                                 
@@ -3121,11 +3124,16 @@ Class saswp_output_service{
                                             }
                                                                                                                                                                                                                             
                                         }else{
-                                                                                                 
-                                               $width  = array($image_details[1], 1200, 1200);
-                                               $height = array($image_details[2], 900, 675);
-                                                
-                                               for($i = 0; $i<3; $i++){
+                                                       
+                                            if($multiple_size){
+                                                $width  = array($image_details[1], 1200, 1200);
+                                                $height = array($image_details[2], 900, 675);
+                                            }else{
+                                                $width  = array($image_details[1]);
+                                                $height = array($image_details[2]);
+                                            }  
+                                                                                               
+                                               for($i = 0; $i < count($width); $i++){
                                                     
                                                         $resize_image = saswp_aq_resize( $image_details[0], $width[$i], $height[$i], true, false, true );
 													
@@ -3266,39 +3274,37 @@ Class saswp_output_service{
          * @return type array
          */
         public function saswp_get_publisher($d_logo = null){
-                
-                        global $sd_data;  
+                        
+                        global $sd_data, $saswp_custom_logo;  
                                                                         
                         $publisher    = array();
                         $default_logo = array();
                         $custom_logo  = array();
                                       
                         $logo      = isset($sd_data['sd_logo']['url']) ?     $sd_data['sd_logo']['url']:'';	
-			$height    = isset($sd_data['sd_logo']['height']) ?  $sd_data['sd_logo']['height']:'';
-			$width     = isset($sd_data['sd_logo']['width']) ?   $sd_data['sd_logo']['width']:'';
+			            $height    = isset($sd_data['sd_logo']['height']) ?  $sd_data['sd_logo']['height']:'';
+			            $width     = isset($sd_data['sd_logo']['width']) ?   $sd_data['sd_logo']['width']:'';
                         $site_name = isset($sd_data['sd_name']) && $sd_data['sd_name'] !='' ? $sd_data['sd_name']:get_bloginfo();
                                                                                                                        
                         if($logo =='' && $height =='' && $width ==''){
-                            
-                            $sizes = array(
-					'width'  => 600,
-					'height' => 60,
-					'crop'   => false,
-				); 
-                            
-                            $custom_logo_id = get_theme_mod( 'custom_logo' );     
-                            
-                            if($custom_logo_id){
+                                                                                    
+                            if(!$saswp_custom_logo){
                                 
-                                $custom_logo    = wp_get_attachment_image_src( $custom_logo_id, $sizes);
+                                $custom_logo_id    = get_theme_mod( 'custom_logo' );     
+                                $img_details       = wp_get_attachment_image_src( $custom_logo_id, 'full');                                  
+                                if($img_details[0]){
+                                    $img_details = @saswp_aq_resize( $img_details[0], 600, 60, true, false, true );
+                                }
                                 
-                            }
-                            
+                                $saswp_custom_logo =  $img_details;                              
+                            }   
+                                                     
+                            $custom_logo = $saswp_custom_logo;                                                                               
                             if(isset($custom_logo) && is_array($custom_logo)){
                                 
-                                $logo           = array_key_exists(0, $custom_logo)? $custom_logo[0]:'';
-                                $height         = array_key_exists(1, $custom_logo)? $custom_logo[1]:'';
-                                $width          = array_key_exists(2, $custom_logo)? $custom_logo[2]:'';
+                                $logo           = array_key_exists(0, $custom_logo)? $custom_logo[0]:'';                                
+                                $width          = array_key_exists(1, $custom_logo)? $custom_logo[1]:'';
+                                $height         = array_key_exists(2, $custom_logo)? $custom_logo[2]:'';
                             
                             }
                                                         

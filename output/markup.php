@@ -443,6 +443,15 @@ function saswp_course_schema_markup($schema_id, $schema_post_id, $all_post_meta)
                                                  'sameAs'		=> saswp_remove_warnings($all_post_meta, 'saswp_course_sameas_'.$schema_id, 'saswp_array') 
                                              )											
                  );
+
+                 if(isset($all_post_meta['saswp_course_enable_rating_'.$schema_id]) && saswp_remove_warnings($all_post_meta, 'saswp_course_rating_'.$schema_id, 'saswp_array') && saswp_remove_warnings($all_post_meta, 'saswp_course_review_count_'.$schema_id, 'saswp_array')){
+                                 
+                    $input1['aggregateRating'] = array(
+                                       "@type"       => "AggregateRating",
+                                       "ratingValue" => saswp_remove_warnings($all_post_meta, 'saswp_course_rating_'.$schema_id, 'saswp_array'),
+                                       "reviewCount" => saswp_remove_warnings($all_post_meta, 'saswp_course_review_count_'.$schema_id, 'saswp_array')
+                    );                                       
+            }
     
     return $input1;
     
@@ -1499,10 +1508,17 @@ function saswp_lorh_schema_markup($schema_id, $schema_post_id, $all_post_meta){
     $input1['maximumAttendeeCapacity']    = saswp_remove_warnings($all_post_meta, 'saswp_lorh_schema_maximum_a_capacity_'.$schema_id, 'saswp_array');                          
 
     $input1['address']['@type']             = 'PostalAddress';
-    $input1['address']['addressCountry']    = saswp_remove_warnings($all_post_meta, 'saswp_lorh_schema_address_country_'.$schema_id, 'saswp_array');
-    $input1['address']['addressLocality']   = saswp_remove_warnings($all_post_meta, 'saswp_lorh_schema_address_locality_'.$schema_id, 'saswp_array');
-    $input1['address']['addressRegion']     = saswp_remove_warnings($all_post_meta, 'saswp_lorh_schema_address_region_'.$schema_id, 'saswp_array');
-    $input1['address']['PostalCode']        = saswp_remove_warnings($all_post_meta, 'saswp_lorh_schema_address_postal_code_'.$schema_id, 'saswp_array');
+    $input1['address']['addressCountry']    = saswp_remove_warnings($all_post_meta, 'saswp_lorh_schema_country_'.$schema_id, 'saswp_array');
+    $input1['address']['addressLocality']   = saswp_remove_warnings($all_post_meta, 'saswp_lorh_schema_locality_'.$schema_id, 'saswp_array');
+    $input1['address']['addressRegion']     = saswp_remove_warnings($all_post_meta, 'saswp_lorh_schema_region_'.$schema_id, 'saswp_array');
+    $input1['address']['PostalCode']        = saswp_remove_warnings($all_post_meta, 'saswp_lorh_schema_postal_code_'.$schema_id, 'saswp_array');
+
+    if(isset($all_post_meta['saswp_lorh_schema_latitude_'.$schema_id][0]) && isset($all_post_meta['saswp_lorh_schema_longitude_'.$schema_id][0])){
+
+        $input1['geo']['@type']     = 'GeoCoordinates';
+        $input1['geo']['latitude']  = $all_post_meta['saswp_lorh_schema_latitude_'.$schema_id][0];
+        $input1['geo']['longitude'] = $all_post_meta['saswp_lorh_schema_longitude_'.$schema_id][0];
+    }
     
     return $input1;
     
@@ -1510,7 +1526,7 @@ function saswp_lorh_schema_markup($schema_id, $schema_post_id, $all_post_meta){
 
 function saswp_tourist_attraction_schema_markup($schema_id, $schema_post_id, $all_post_meta){
     
-        $input1 = array();
+        $input1 = array();        
     
         $howto_image = get_post_meta( get_the_ID(), 'saswp_ta_schema_image_'.$schema_id.'_detail',true); 
 
@@ -1533,10 +1549,17 @@ function saswp_tourist_attraction_schema_markup($schema_id, $schema_post_id, $al
         $input1['isAccessibleForFree']    = saswp_remove_warnings($all_post_meta, 'saswp_ta_schema_is_acceesible_free_'.$schema_id, 'saswp_array');
 
         $input1['address']['@type']             = 'PostalAddress';
-        $input1['address']['addressCountry']    = saswp_remove_warnings($all_post_meta, 'saswp_ta_schema_address_country_'.$schema_id, 'saswp_array');
-        $input1['address']['addressLocality']   = saswp_remove_warnings($all_post_meta, 'saswp_ta_schema_address_locality_'.$schema_id, 'saswp_array');
-        $input1['address']['addressRegion']     = saswp_remove_warnings($all_post_meta, 'saswp_ta_schema_address_region_'.$schema_id, 'saswp_array');
-        $input1['address']['PostalCode']        = saswp_remove_warnings($all_post_meta, 'saswp_ta_schema_address_postal_code_'.$schema_id, 'saswp_array');
+        $input1['address']['addressCountry']    = saswp_remove_warnings($all_post_meta, 'saswp_ta_schema_country_'.$schema_id, 'saswp_array');
+        $input1['address']['addressLocality']   = saswp_remove_warnings($all_post_meta, 'saswp_ta_schema_locality_'.$schema_id, 'saswp_array');
+        $input1['address']['addressRegion']     = saswp_remove_warnings($all_post_meta, 'saswp_ta_schema_region_'.$schema_id, 'saswp_array');
+        $input1['address']['PostalCode']        = saswp_remove_warnings($all_post_meta, 'saswp_ta_schema_postal_code_'.$schema_id, 'saswp_array');
+
+        if(isset($all_post_meta['saswp_ta_schema_latitude_'.$schema_id][0]) && isset($all_post_meta['saswp_ta_schema_longitude_'.$schema_id][0])){
+
+            $input1['geo']['@type']     = 'GeoCoordinates';
+            $input1['geo']['latitude']  = $all_post_meta['saswp_ta_schema_latitude_'.$schema_id][0];
+            $input1['geo']['longitude'] = $all_post_meta['saswp_ta_schema_longitude_'.$schema_id][0];
+        }
     
     
     return $input1;
@@ -1567,11 +1590,18 @@ function saswp_tourist_destination_schema_markup($schema_id, $schema_post_id, $a
 
 
     $input1['address']['@type']             = 'PostalAddress';
-    $input1['address']['addressCountry']    = saswp_remove_warnings($all_post_meta, 'saswp_td_schema_address_country_'.$schema_id, 'saswp_array');
-    $input1['address']['addressLocality']   = saswp_remove_warnings($all_post_meta, 'saswp_td_schema_address_locality_'.$schema_id, 'saswp_array');
-    $input1['address']['addressRegion']     = saswp_remove_warnings($all_post_meta, 'saswp_td_schema_address_region_'.$schema_id, 'saswp_array');
-    $input1['address']['PostalCode'] = saswp_remove_warnings($all_post_meta, 'saswp_td_schema_address_postal_code_'.$schema_id, 'saswp_array');                                                       
-                            
+    $input1['address']['addressCountry']    = saswp_remove_warnings($all_post_meta, 'saswp_td_schema_country_'.$schema_id, 'saswp_array');
+    $input1['address']['addressLocality']   = saswp_remove_warnings($all_post_meta, 'saswp_td_schema_locality_'.$schema_id, 'saswp_array');
+    $input1['address']['addressRegion']     = saswp_remove_warnings($all_post_meta, 'saswp_td_schema_region_'.$schema_id, 'saswp_array');
+    $input1['address']['PostalCode'] = saswp_remove_warnings($all_post_meta, 'saswp_td_schema_postal_code_'.$schema_id, 'saswp_array');                                                       
+    
+    if(isset($all_post_meta['saswp_td_schema_latitude_'.$schema_id][0]) && isset($all_post_meta['saswp_td_schema_longitude_'.$schema_id][0])){
+
+        $input1['geo']['@type']     = 'GeoCoordinates';
+        $input1['geo']['latitude']  = $all_post_meta['saswp_td_schema_latitude_'.$schema_id][0];
+        $input1['geo']['longitude'] = $all_post_meta['saswp_td_schema_longitude_'.$schema_id][0];
+    }
+    
     return $input1;
 }
 
@@ -1887,7 +1917,7 @@ function saswp_qanda_schema_markup($schema_id, $schema_post_id, $all_post_meta){
         $input1  = $service_object->saswp_dw_question_answers_details(get_the_ID());  
 
     }else{
-
+        
         $input1 = array(
             '@context'		  => saswp_context_url(),
             '@type'		  => 'QAPage',
@@ -2073,15 +2103,7 @@ function saswp_blogposting_schema_markup($schema_id, $schema_post_id, $all_post_
                  "/html/head/meta[@name='description']/@content"
             );
 
-        }
-            if(saswp_remove_warnings($all_post_meta, 'saswp_blogposting_enable_rating_'.$schema_id, 'saswp_array') == 1 && saswp_remove_warnings($all_post_meta, 'saswp_blogposting_rating_'.$schema_id, 'saswp_array') && saswp_remove_warnings($all_post_meta, 'saswp_blogposting_review_count_'.$schema_id, 'saswp_array')){   
-
-                $input1['aggregateRating'] = array(
-                                "@type"       => "AggregateRating",
-                                "ratingValue" => saswp_remove_warnings($all_post_meta, 'saswp_blogposting_rating_'.$schema_id, 'saswp_array'),
-                                "reviewCount" => saswp_remove_warnings($all_post_meta, 'saswp_blogposting_review_count_'.$schema_id, 'saswp_array')
-                            );                                       
-            }
+        }            
     
     return $input1;
     
@@ -2190,7 +2212,7 @@ function saswp_article_schema_markup($schema_id, $schema_post_id, $all_post_meta
                 'headline'			=> saswp_remove_warnings($all_post_meta, 'saswp_article_headline_'.$schema_id, 'saswp_array'),
                 'description'                   => saswp_remove_warnings($all_post_meta, 'saswp_article_description_'.$schema_id, 'saswp_array'),
                 'articleSection'                => saswp_remove_warnings($all_post_meta, 'saswp_article_section_'.$schema_id, 'saswp_array'),
-                'articleBody'                   => saswp_remove_warnings($all_post_meta, 'saswp_article_body_'.$schema_id, 'saswp_array'),
+                'articleBody'                   => isset($all_post_meta['saswp_article_body_'.$schema_id][0]) ? wp_strip_all_tags(strip_shortcodes($all_post_meta['saswp_article_body_'.$schema_id][0])) : '',
                 'keywords'		        => saswp_remove_warnings($all_post_meta, 'saswp_article_keywords_'.$schema_id, 'saswp_array'),                
                 'datePublished'                 => isset($all_post_meta['saswp_article_date_published_'.$schema_id][0])? saswp_format_date_time($all_post_meta['saswp_article_date_published_'.$schema_id][0], get_post_time('h:i:s')):'',
                 'dateModified'                  => isset($all_post_meta['saswp_article_date_modified_'.$schema_id][0])? saswp_format_date_time($all_post_meta['saswp_article_date_modified_'.$schema_id][0], get_the_modified_time('h:i:s')):'',
@@ -2596,6 +2618,11 @@ function saswp_review_schema_markup($schema_id, $schema_post_id, $all_post_meta)
     if(isset($all_post_meta['saswp_review_publisher_'.$schema_id][0])){
         $input1['publisher']['@type']          =   'Organization';                                              
         $input1['publisher']['name']           =    $all_post_meta['saswp_review_publisher_'.$schema_id][0];                                              
+        if(isset($all_post_meta['saswp_review_publisher_url'.$schema_id][0])){
+
+            $input1['publisher']['sameAs']            = $all_post_meta['saswp_review_publisher_url'.$schema_id][0];   
+       
+        }
      }
 
     if(isset($all_post_meta['saswp_review_description_'.$schema_id])){                                                                     
