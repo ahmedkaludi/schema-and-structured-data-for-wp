@@ -1166,7 +1166,19 @@ function saswp_import_callback(){
                              'id'   => 'saswp-other-images',
                              'name' => 'sd_data[saswp-other-images]',                             
                         )
-		    )                  
+                ),
+                array(
+                        'label'  => 'Allow Multiple Size Image Creation',
+                        'id'     => 'saswp-multiple-size-image-checkbox',                        
+                        'name'   => 'saswp-multiple-size-image-checkbox',
+                        'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',   
+                        'note'   => 'According to Google, For best results, multiple high-resolution images with the following aspect ratios: 16x9, 4x3, and 1x1 should be there',   
+                        'hidden' => array(
+                                'id'   => 'saswp-multiple-size-image',
+                                'name' => 'sd_data[saswp-multiple-size-image]',                             
+                        )
+                )                  
                 
 	);   
         

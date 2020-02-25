@@ -118,6 +118,27 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
 
+= 1.9.27 (25 Feb 2020) =
+
+* Added: Allow Multiple Size Images Creation #828
+* Added: “sameAs” property in Review schema #803
+* Fixed: Allow the form when ampforwp-form-allow class is available #798
+* Fixed: GPS coordinates are not working on Post for tourist attraction schema type. #800
+* Fixed: BlogPosting is not a known valid target type for the itemReviewed property. #812
+* Fixed: User is not able to view the embeded url in the post url #815
+* Fixed: Shortcode should not be there in article body #802
+* Fixed: Reviews are not integrating into the Course schema type.(urgent) #816
+* Fixed: Change the URL of "Upgrade to premium" option in dashboard. #808
+* Fixed: Itemlist schema always show article as item type on individual post #810
+* Fixed: Speed issue after activation of schema plugin #778
+* Fixed: DiscussionForumPosting – issue with headline #801
+* Fixed: Corporation is not a known valid target type for the publisher property. #783
+* Fixed: Date is not appearing single review shortcode #791
+* Fixed: Resize the image based on height and width #811
+* Fixed: Restore to Auto Fetch option does not fetch the data from the current article, but displays data from previous article. #825
+* Fixed: Deprecated: The behavior of unparenthesized expressions containing both '.' and '+'/'-' will change in PHP 8: '+'/'-' #829
+* Fixed: Question Title in Q&A schema is not being displayed. Shows "Unspecified Type" in its place. #827
+
 = 1.9.26 (15 Feb 2020) =
 
 * Fixed: A value for the thumbnailUrl field is required(Video Object) #770

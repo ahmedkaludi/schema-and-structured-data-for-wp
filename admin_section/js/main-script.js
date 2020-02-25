@@ -1157,6 +1157,16 @@ return false;
                             }
                             
                       break;
+
+                      case 'saswp-multiple-size-image-checkbox':
+                          
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-multiple-size-image").val(1);                                
+                            }else{
+                              $("#saswp-multiple-size-image").val(0);                                          
+                            }
+                            
+                      break;
                       
                       case 'saswp-easy-testimonials-checkbox':
                           

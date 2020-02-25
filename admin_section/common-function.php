@@ -1700,18 +1700,19 @@ if ( ! defined('ABSPATH') ) exit;
                 }
                 $defaults = array(
                                                                                                 
-                        'saswp_kb_type'            => 'Organization',    
-                        'sd_name'                  => $sd_name,   
-                        'sd_alt_name'              => $sd_name,
-                        'sd_url'                   => $current_url,                    
-                        'sd-person-name'           => $username,                                            
-                        'sd-person-url'            => $current_url,                                                                                                
-                        'saswp_kb_contact_1'       => 0,                                                                                            
-                        'saswp-for-wordpress'      => 1,                                                                        
-                        'sd_initial_wizard_status' => 1,
-                        'saswp-microdata-cleanup'  => 1,
-                        'saswp-other-images'       => 1,
-                        'saswp_default_review'     => 1 
+                        'saswp_kb_type'             => 'Organization',    
+                        'sd_name'                   => $sd_name,   
+                        'sd_alt_name'               => $sd_name,
+                        'sd_url'                    => $current_url,                    
+                        'sd-person-name'            => $username,                                            
+                        'sd-person-url'             => $current_url,                                                                                                
+                        'saswp_kb_contact_1'        => 0,                                                                                            
+                        'saswp-for-wordpress'       => 1,                                                                        
+                        'sd_initial_wizard_status'  => 1,
+                        'saswp-microdata-cleanup'   => 1,
+                        'saswp-other-images'        => 1,
+                        'saswp_default_review'      => 1,
+                        'saswp-multiple-size-image' => 1     
 
                 );	  
                 

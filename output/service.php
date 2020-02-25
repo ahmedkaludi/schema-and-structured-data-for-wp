@@ -3065,8 +3065,14 @@ Class saswp_output_service{
          */
         public function saswp_get_fetaure_image(){
             
-            global $post, $sd_data, $saswp_featured_image;            
-            $input2          = array();            
+            global $post, $sd_data, $saswp_featured_image;
+
+            $input2          = array();             
+            $multiple_size   = false;
+
+            if( (isset($sd_data['saswp-multiple-size-image']) && $sd_data['saswp-multiple-size-image'] == 1) || !isset($sd_data['saswp-multiple-size-image'])){
+                $multiple_size = true;
+            }
 
             if(!$saswp_featured_image){
                 $image_id 	            = get_post_thumbnail_id();
@@ -3083,11 +3089,16 @@ Class saswp_output_service{
                                                 $img_ratio    = $image_details[1] / $image_details[2];
                                                 $targetHeight = 1200 / $img_ratio;                                                
                                             }
-                                                                                        
-                                            $width  = array(1200, 1200, 1200);
-                                            $height = array($targetHeight, 900, 675);
                                             
-                                            for($i = 0; $i<3; $i++){
+                                            if($multiple_size){
+                                                $width  = array(1200, 1200, 1200);
+                                                $height = array($targetHeight, 900, 675);
+                                            }else{
+                                                $width  = array(1200);
+                                                $height = array($targetHeight);
+                                            }                                                                                        
+                                            
+                                            for($i = 0; $i < count($width); $i++){
                                                 
                                                 $resize_image = saswp_aq_resize( $image_details[0], $width[$i], $height[$i], true, false, true );
                                                 
@@ -3113,11 +3124,16 @@ Class saswp_output_service{
                                             }
                                                                                                                                                                                                                             
                                         }else{
-                                                                                                 
-                                               $width  = array($image_details[1], 1200, 1200);
-                                               $height = array($image_details[2], 900, 675);
-                                                
-                                               for($i = 0; $i<3; $i++){
+                                                       
+                                            if($multiple_size){
+                                                $width  = array($image_details[1], 1200, 1200);
+                                                $height = array($image_details[2], 900, 675);
+                                            }else{
+                                                $width  = array($image_details[1]);
+                                                $height = array($image_details[2]);
+                                            }  
+                                                                                               
+                                               for($i = 0; $i < count($width); $i++){
                                                     
                                                         $resize_image = saswp_aq_resize( $image_details[0], $width[$i], $height[$i], true, false, true );
 													
