@@ -144,18 +144,30 @@ function saswp_kb_schema_output() {
  */
 function saswp_schema_output() {     
     
-	global $sd_data;
+	    global $sd_data;
 
-	$Conditionals = saswp_get_all_schema_posts();   
+    	$Conditionals = saswp_get_all_schema_posts();   
         
-	if(!$Conditionals){
-		return ;
-	}
-        
-        $all_schema_output = array();
-        $recipe_json       = array();
-        
+        if(!$Conditionals){
+            return ;
+        }
         $service_object     = new saswp_output_service();
+
+        $all_schema_output  = array();
+        $recipe_json        = array();
+        
+        $site_name          = get_bloginfo();         
+        $image_id 	        = get_post_thumbnail_id();									
+        $date 		        = get_the_date("c");
+        $modified_date 	    = get_the_modified_date("c");        
+        $modify_option      = get_option('modify_schema_post_enable_'.get_the_ID()); 
+        $schema_enable      = get_post_meta(get_the_ID(), 'saswp_enable_disable_schema', true); 
+        $all_post_meta      = get_post_meta(get_the_ID(), $key='', true);
+        $default_logo       = $service_object->saswp_get_publisher(true);
+        $publisher          = $service_object->saswp_get_publisher();
+        $extra_theme_review = $service_object->saswp_extra_theme_review_details(get_the_ID());
+        $aggregateRating    = $service_object->saswp_rating_box_rating_markup(get_the_ID());
+        
         
         foreach($Conditionals as $schemaConditionals){
         
@@ -171,12 +183,8 @@ function saswp_schema_output() {
                         $input1         = array();
                         $logo           = ''; 
                         $height         = '';
-                        $width          = '';        
-                        $site_name      = get_bloginfo();    
-                        
-                        $default_logo       = $service_object->saswp_get_publisher(true);
-                        $publisher          = $service_object->saswp_get_publisher();
-
+                        $width          = '';                                   
+                                                
                         if(!empty($default_logo)){
 
                             $logo   = $default_logo['url'];
@@ -187,20 +195,10 @@ function saswp_schema_output() {
 
                         if(isset($sd_data['sd_name']) && $sd_data['sd_name'] !=''){            
                             $site_name = $sd_data['sd_name'];            
-                        }                                                                   
-				   		                                                                                           		
-			$image_id 	= get_post_thumbnail_id();									
-			$date 		= get_the_date("c");
-			$modified_date 	= get_the_modified_date("c");
-			                                              
-                        $extra_theme_review = $service_object->saswp_extra_theme_review_details(get_the_ID());
-                        $aggregateRating    = $service_object->saswp_rating_box_rating_markup(get_the_ID());
-                        $modify_option      = get_option('modify_schema_post_enable_'.get_the_ID()); 
+                        }                                                                   				   		                                                                                           		                        
+			                                                                                              
                         $modified_schema    = get_post_meta(get_the_ID(), 'saswp_modify_this_schema_'.$schema_post_id, true);
-                        
-                        $schema_enable      = get_post_meta(get_the_ID(), 'saswp_enable_disable_schema', true); 
-                        $all_post_meta      = get_post_meta(get_the_ID(), $key='', true);
-                        
+                                                                        
                         if($modify_option == 'enable' && (isset($schema_enable[$schema_post_id]) && $schema_enable[$schema_post_id] == 1)){
                      
                             $modified_schema = 1;  
@@ -1604,16 +1602,33 @@ function saswp_schema_output() {
                                 
                         //Check for Featured Image
                         
-                         if( !empty($input1) && !isset($input1['image'])){
+                        if($schema_type == 'WebPage'){
+
+                            if( !empty($input1) && !isset($input1['mainEntity']['image'])){
                                                           
-                             $input2             = $service_object->saswp_get_fetaure_image();
-                             
-                             if(!empty($input2)){
-                                 
-                               $input1 = array_merge($input1,$input2); 
-                               
-                             }                                                                    
+                                $input2             = $service_object->saswp_get_fetaure_image();
+                                
+                                if(!empty($input2)){
+                                    
+                                  $input1['mainEntity'] = array_merge($input1['mainEntity'],$input2); 
+                                  
+                                }                                                                    
+                           }
+
+                        }else{
+                            
+                            if( !empty($input1) && !isset($input1['image'])){
+                                                          
+                                $input2             = $service_object->saswp_get_fetaure_image();
+                                
+                                if(!empty($input2)){
+                                    
+                                  $input1 = array_merge($input1,$input2); 
+                                  
+                                }                                                                    
+                           }
                         }
+                         
                
 		         if(isset($schema_options['notAccessibleForFree']) && $schema_options['notAccessibleForFree'] == 1){
 
