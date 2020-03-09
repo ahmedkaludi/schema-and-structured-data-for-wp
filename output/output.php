@@ -332,8 +332,7 @@ function saswp_schema_output() {
                                                          
                                 $input1['@context']              = saswp_context_url();
                                 $input1['@type']                 = 'HowTo';
-                                $input1['@id']                   = trailingslashit(saswp_get_permalink()).'#HowTo';                                                                                                                  
-                                $input1['estimatedCost']['@type']   = 'MonetaryAmount';  
+                                $input1['@id']                   = trailingslashit(saswp_get_permalink()).'#HowTo';                                                                                                                                                    
 
                                 $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
 

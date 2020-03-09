@@ -661,12 +661,12 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_howto_schema_description'])){
                      $input1['description'] =    wp_strip_all_tags(strip_shortcodes( $custom_fields['saswp_howto_schema_description'] ));
                     }
-                    if(isset($custom_fields['saswp_howto_ec_schema_currency'])){
+                    if(isset($custom_fields['saswp_howto_ec_schema_currency']) && isset($custom_fields['saswp_howto_ec_schema_value'])){
+                     $input1['estimatedCost']['@type']    =    'MonetaryAmount';
                      $input1['estimatedCost']['currency'] =    $custom_fields['saswp_howto_ec_schema_currency'];
+                     $input1['estimatedCost']['value']    =    $custom_fields['saswp_howto_ec_schema_value'];
                     }
-                    if(isset($custom_fields['saswp_howto_ec_schema_value'])){
-                     $input1['estimatedCost']['value'] =    $custom_fields['saswp_howto_ec_schema_value'];
-                    }
+                    
                     if(isset($custom_fields['saswp_howto_schema_totaltime'])){
                      $input1['totalTime']     =    $custom_fields['saswp_howto_schema_totaltime'];
                     }
