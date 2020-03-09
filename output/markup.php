@@ -2600,7 +2600,8 @@ function saswp_service_schema_markup($schema_id, $schema_post_id, $all_post_meta
 function saswp_review_schema_markup($schema_id, $schema_post_id, $all_post_meta){
     
     global $sd_data;
-    $input1 = array();
+    $input1        = array();
+    $review_author = '';
     
     if(isset($sd_data['saswp-tagyeem']) && $sd_data['saswp-tagyeem'] == 1 && (is_plugin_active('taqyeem/taqyeem.php') || get_template() != 'jannah')){
 
@@ -2611,8 +2612,8 @@ function saswp_review_schema_markup($schema_id, $schema_post_id, $all_post_meta)
     $input1['@context']                     = saswp_context_url();
     $input1['@type']                        = 'Review';
     $input1['@id']                          = trailingslashit(get_permalink()).'#review';                                                           
-    $input1['name']                         = $all_post_meta['saswp_review_name_'.$schema_id][0];
-    $input1['url']                          = $all_post_meta['saswp_review_url_'.$schema_id][0];                                
+    $input1['name']                         = isset($all_post_meta['saswp_review_name_'.$schema_id][0]) ? $all_post_meta['saswp_review_name_'.$schema_id][0] : '';
+    $input1['url']                          = isset($all_post_meta['saswp_review_url_'.$schema_id][0]) ? $all_post_meta['saswp_review_url_'.$schema_id][0] : '';                                
     $input1['datePublished']                = isset($all_post_meta['saswp_review_date_published_'.$schema_id][0])&& $all_post_meta['saswp_review_date_published_'.$schema_id][0] !='' ? saswp_format_date_time($all_post_meta['saswp_review_date_published_'.$schema_id][0], get_post_time('h:i:s')) : '';                               
 
     if(isset($all_post_meta['saswp_review_publisher_'.$schema_id][0])){
@@ -2657,7 +2658,7 @@ function saswp_review_schema_markup($schema_id, $schema_post_id, $all_post_meta)
                           );                                       
      } 
 
-     $item_reviewed = $all_post_meta['saswp_review_item_reviewed_'.$schema_id][0];
+     $item_reviewed = isset($all_post_meta['saswp_review_item_reviewed_'.$schema_id][0]) ? $all_post_meta['saswp_review_item_reviewed_'.$schema_id][0] : '';
      $item_schema = array();
      switch ($item_reviewed) {
          case 'Book':
