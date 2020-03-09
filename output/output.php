@@ -736,7 +736,7 @@ function saswp_schema_output() {
                                 $input1 = array(
                                 '@context'			=> saswp_context_url(),
                                 '@type'				=> 'DiscussionForumPosting' ,
-                                '@id'				=> trailingslashit(saswp_get_permalink()).'#blogposting',    			
+                                '@id'				=> trailingslashit(saswp_get_permalink()).'#BlogPosting',    			
                                 'url'				=> trailingslashit(saswp_get_permalink()),
                                 'mainEntityOfPage'              => saswp_get_permalink(),       
                                 'headline'			=> saswp_get_the_title(),
@@ -776,11 +776,12 @@ function saswp_schema_output() {
                             break;
                         
                             case 'Blogposting':
+                            case 'BlogPosting':
                                 
                                 $input1 = array(
                                 '@context'			=> saswp_context_url(),
                                 '@type'				=> 'BlogPosting' ,
-                                '@id'				=> trailingslashit(saswp_get_permalink()).'#blogposting',    
+                                '@id'				=> trailingslashit(saswp_get_permalink()).'#BlogPosting',    
                                 'url'				=> trailingslashit(saswp_get_permalink()),
                                 'inLanguage'                    => get_bloginfo('language'),    
                                 'mainEntityOfPage'              => trailingslashit(saswp_get_permalink()),
@@ -1477,7 +1478,7 @@ function saswp_schema_output() {
                         
                         //Speakable schema
                         
-                        if($schema_type == 'TechArticle' || $schema_type == 'Article' || $schema_type == 'Blogposting' || $schema_type == 'NewsArticle' || $schema_type == 'WebPage'){
+                        if($schema_type == 'TechArticle' || $schema_type == 'Article' || $schema_type == 'Blogposting' || $schema_type == 'BlogPosting' || $schema_type == 'NewsArticle' || $schema_type == 'WebPage'){
                                            
                               $speakable_status = get_post_meta($schema_post_id, 'saswp_enable_speakable_schema', true);
                             

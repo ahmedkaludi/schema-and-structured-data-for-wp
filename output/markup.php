@@ -2049,8 +2049,8 @@ function saswp_blogposting_schema_markup($schema_id, $schema_post_id, $all_post_
     $slogo = get_post_meta( get_the_ID(), 'saswp_blogposting_organization_logo_'.$schema_id.'_detail',true);                                 
     $input1 = array(
     '@context'			=> saswp_context_url(),
-    '@type'				=> 'Blogposting' ,
-    '@id'                           => trailingslashit(get_permalink()).'#Blogposting',  
+    '@type'				=> 'BlogPosting' ,
+    '@id'                           => trailingslashit(get_permalink()).'#BlogPosting',  
     'inLanguage'                    => get_bloginfo('language'),
     'mainEntityOfPage'              => saswp_remove_warnings($all_post_meta, 'saswp_blogposting_main_entity_of_page_'.$schema_id, 'saswp_array'),
     'headline'			=> saswp_remove_warnings($all_post_meta, 'saswp_blogposting_headline_'.$schema_id, 'saswp_array'),

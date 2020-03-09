@@ -289,6 +289,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                     break;
                 
                 case 'Blogposting':
+                case 'BlogPosting':        
                     $meta_field = array(
                     array(
                             'label' => 'Main Entity Of Page',

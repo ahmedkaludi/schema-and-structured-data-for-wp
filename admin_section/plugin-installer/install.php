@@ -785,7 +785,7 @@ function saswp_select_schema_fields_callback(){
 
     					<select id="schema_type" name="sd_data_create__post_schema['.$key.'][schema_type]">
                 			<option value="">'.esc_html__('Select Schema Type', 'schema-and-structured-data-for-wp').'</option>
-                			<option value="Blogposting">'.esc_html__('Blogposting', 'schema-and-structured-data-for-wp').'</option>
+                			<option value="BlogPosting">'.esc_html__('BlogPosting', 'schema-and-structured-data-for-wp').'</option>
                 			<option value="NewsArticle">'.esc_html__('NewsArticl', 'schema-and-structured-data-for-wp').'e</option>
                 			<option value="WebPage">'.esc_html__('WebPage', 'schema-and-structured-data-for-wp').'</option>
                 			<option value="Article">'.esc_html__('Article', 'schema-and-structured-data-for-wp').'</option>
