@@ -3194,8 +3194,8 @@ Class saswp_output_service{
                                                                             
                                                 $attach_images['image'][$k]['@type']  = 'ImageObject';                                                
                                                 $attach_images['image'][$k]['url']    = esc_url($attachment);
-                                                $attach_images['image'][$k]['width']  = esc_attr($attach_details[$k][0]);
-                                                $attach_images['image'][$k]['height'] = esc_attr($attach_details[$k][1]);
+                                                $attach_images['image'][$k]['width']  = isset($attach_details[$k][0]) ? $attach_details[$k][0] : 0;
+                                                $attach_images['image'][$k]['height'] = isset($attach_details[$k][1]) ? $attach_details[$k][1] : 0;
                                       
                                   }
                                   
