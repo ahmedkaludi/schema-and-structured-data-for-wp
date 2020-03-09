@@ -37,7 +37,7 @@ class saswp_view_common_class {
                     $this->_meta_name          = $repeater_fields['meta_name'];
                     
                     foreach($this->item_list_item as $item){
-                        $this->itemlist_meta[$item]  = saswp_get_fields_by_schema_type(null, null, $item, 'manual');                        
+                        $this->itemlist_meta[$item]  = @saswp_get_fields_by_schema_type(null, null, $item, 'manual');                        
                     }
                     $this->_meta_name['itemlist_item'] = $this->itemlist_meta;
 		}                
