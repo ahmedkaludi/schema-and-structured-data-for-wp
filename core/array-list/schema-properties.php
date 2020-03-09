@@ -1412,8 +1412,15 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'label'   => 'GTIN8',
                             'id'      => 'saswp_product_schema_gtin8_'.$schema_id,
                             'type'    => 'text',  
+                            'note'    => 'OR',  
                             'default' => saswp_remove_warnings($product_details, 'product_gtin8', 'saswp_string')    
                        ),
+                        array(
+                        'label'   => 'GTIN13',
+                        'id'      => 'saswp_product_schema_gtin13_'.$schema_id,
+                        'type'    => 'text',  
+                        'default' => saswp_remove_warnings($product_details, 'product_gtin13', 'saswp_string')    
+                        ),
                         array(
                             'label' => 'Seller Organization',
                             'id'    => 'saswp_product_schema_seller_'.$schema_id,

@@ -1313,8 +1313,10 @@ Class saswp_output_service{
                     }
                     if(isset($custom_fields['saswp_product_schema_gtin8'])){
                      $input1['gtin8'] =    $custom_fields['saswp_product_schema_gtin8'];
-                    }                    
-                    
+                    }
+                    if(isset($custom_fields['saswp_product_schema_gtin13'])){
+                        $input1['gtin13'] =    $custom_fields['saswp_product_schema_gtin13'];
+                    }                                        
                     if(isset($custom_fields['saswp_product_schema_description'])){
                      $input1['description'] =  wp_strip_all_tags(strip_shortcodes( $custom_fields['saswp_product_schema_description'] ));
                     }                    
@@ -2387,6 +2389,11 @@ Class saswp_output_service{
                       $product_details['product_gtin8'] = $attribute['options'][0];   
                                                                  
                      }
+                     if(strtolower($attribute['name']) == 'gtin13'){
+                                            
+                        $product_details['product_gtin13'] = $attribute['options'][0];   
+                                                                   
+                       }
                      if(strtolower($attribute['name']) == 'brand'){
                                             
                       $product_details['product_brand'] = $attribute['options'][0];   
@@ -2998,6 +3005,9 @@ Class saswp_output_service{
                             
                           if(isset($product_details['product_gtin8']) && $product_details['product_gtin8'] !=''){
                             $input1['gtin8'] = esc_attr($product_details['product_gtin8']);  
+                          }
+                          if(isset($product_details['product_gtin13']) && $product_details['product_gtin13'] !=''){
+                            $input1['gtin13'] = esc_attr($product_details['product_gtin13']);  
                           }
                           if(isset($product_details['product_mpn']) && $product_details['product_mpn'] !=''){
                             $input1['mpn'] = esc_attr($product_details['product_mpn']);  

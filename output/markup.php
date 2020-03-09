@@ -664,6 +664,9 @@ function saswp_product_schema_markup($schema_id, $schema_post_id, $all_post_meta
             if(isset($all_post_meta['saswp_product_schema_gtin8_'.$schema_id])){
                 $input1['gtin8'] = esc_attr($all_post_meta['saswp_product_schema_gtin8_'.$schema_id][0]);  
             }
+            if(isset($all_post_meta['saswp_product_schema_gtin13_'.$schema_id])){
+                $input1['gtin13'] = esc_attr($all_post_meta['saswp_product_schema_gtin13_'.$schema_id][0]);  
+            }
             if(isset($all_post_meta['saswp_product_schema_mpn_'.$schema_id])){
               $input1['mpn'] = esc_attr($all_post_meta['saswp_product_schema_mpn_'.$schema_id][0]);  
             }
