@@ -2955,7 +2955,7 @@ function saswp_is_date_field($date_str){
             if (strpos($date_str, 'date_modified') !== false 
              || strpos($date_str, 'date_published') !== false
              || strpos($date_str, 'published_date') !== false
-             || strpos($date_str, 'video_upload_date') !== false
+             || strpos($date_str, 'upload_date') !== false
              || strpos($date_str, 'qa_date_created') !== false 
              || strpos($date_str, 'accepted_answer_date_created') !== false 
              || strpos($date_str, 'suggested_answer_date_created') !== false 
