@@ -332,8 +332,7 @@ function saswp_schema_output() {
                                                          
                                 $input1['@context']              = saswp_context_url();
                                 $input1['@type']                 = 'HowTo';
-                                $input1['@id']                   = trailingslashit(saswp_get_permalink()).'#HowTo';                                                                                                                  
-                                $input1['estimatedCost']['@type']   = 'MonetaryAmount';  
+                                $input1['@id']                   = trailingslashit(saswp_get_permalink()).'#HowTo';                                                                                                                                                    
 
                                 $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
 
@@ -471,7 +470,7 @@ function saswp_schema_output() {
                                     $input1 = array_merge($input1, $woo_markp);
                                 }
 
-                                unset($input1['brand'], $input1['mpn'], $input1['sku'],$input1['gtin8']);
+                                unset($input1['brand'], $input1['mpn'], $input1['sku'],$input1['gtin8'], $input1['gtin13']);
 
                                 $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
 
@@ -736,7 +735,7 @@ function saswp_schema_output() {
                                 $input1 = array(
                                 '@context'			=> saswp_context_url(),
                                 '@type'				=> 'DiscussionForumPosting' ,
-                                '@id'				=> trailingslashit(saswp_get_permalink()).'#blogposting',    			
+                                '@id'				=> trailingslashit(saswp_get_permalink()).'#BlogPosting',    			
                                 'url'				=> trailingslashit(saswp_get_permalink()),
                                 'mainEntityOfPage'              => saswp_get_permalink(),       
                                 'headline'			=> saswp_get_the_title(),
@@ -776,11 +775,12 @@ function saswp_schema_output() {
                             break;
                         
                             case 'Blogposting':
+                            case 'BlogPosting':
                                 
                                 $input1 = array(
                                 '@context'			=> saswp_context_url(),
                                 '@type'				=> 'BlogPosting' ,
-                                '@id'				=> trailingslashit(saswp_get_permalink()).'#blogposting',    
+                                '@id'				=> trailingslashit(saswp_get_permalink()).'#BlogPosting',    
                                 'url'				=> trailingslashit(saswp_get_permalink()),
                                 'inLanguage'                    => get_bloginfo('language'),    
                                 'mainEntityOfPage'              => trailingslashit(saswp_get_permalink()),
@@ -905,7 +905,7 @@ function saswp_schema_output() {
                                     $input1 = array_merge($input1, $woo_markp);
                                 }
                                                                 
-                                unset($input1['brand'], $input1['mpn'], $input1['sku'],$input1['gtin8']);
+                                unset($input1['brand'], $input1['mpn'], $input1['sku'],$input1['gtin8'], $input1['gtin13']);
                                 
                                 if(!empty($publisher)){                            
                                      $input1 = array_merge($input1, $publisher);                            
@@ -1374,8 +1374,7 @@ function saswp_schema_output() {
                                 if($modified_schema == 1){
                                     
                                     $input1 = saswp_video_object_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
-                                }
-				
+                                }                                
                             break;
                         
                             case 'ImageObject':
@@ -1477,7 +1476,7 @@ function saswp_schema_output() {
                         
                         //Speakable schema
                         
-                        if($schema_type == 'TechArticle' || $schema_type == 'Article' || $schema_type == 'Blogposting' || $schema_type == 'NewsArticle' || $schema_type == 'WebPage'){
+                        if($schema_type == 'TechArticle' || $schema_type == 'Article' || $schema_type == 'Blogposting' || $schema_type == 'BlogPosting' || $schema_type == 'NewsArticle' || $schema_type == 'WebPage'){
                                            
                               $speakable_status = get_post_meta($schema_post_id, 'saswp_enable_speakable_schema', true);
                             

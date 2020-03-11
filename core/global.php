@@ -29,7 +29,7 @@ $without_aggregate = array(
         'House',
         'SingleFamilyResidence',
         'Article',
-        'Blogposting',
+        'BlogPosting',
         'DiscussionForumPosting',
         'DataFeed',
         'FAQ',

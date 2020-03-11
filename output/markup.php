@@ -664,6 +664,9 @@ function saswp_product_schema_markup($schema_id, $schema_post_id, $all_post_meta
             if(isset($all_post_meta['saswp_product_schema_gtin8_'.$schema_id])){
                 $input1['gtin8'] = esc_attr($all_post_meta['saswp_product_schema_gtin8_'.$schema_id][0]);  
             }
+            if(isset($all_post_meta['saswp_product_schema_gtin13_'.$schema_id])){
+                $input1['gtin13'] = esc_attr($all_post_meta['saswp_product_schema_gtin13_'.$schema_id][0]);  
+            }
             if(isset($all_post_meta['saswp_product_schema_mpn_'.$schema_id])){
               $input1['mpn'] = esc_attr($all_post_meta['saswp_product_schema_mpn_'.$schema_id][0]);  
             }
@@ -2049,8 +2052,8 @@ function saswp_blogposting_schema_markup($schema_id, $schema_post_id, $all_post_
     $slogo = get_post_meta( get_the_ID(), 'saswp_blogposting_organization_logo_'.$schema_id.'_detail',true);                                 
     $input1 = array(
     '@context'			=> saswp_context_url(),
-    '@type'				=> 'Blogposting' ,
-    '@id'                           => trailingslashit(get_permalink()).'#Blogposting',  
+    '@type'				=> 'BlogPosting' ,
+    '@id'                           => trailingslashit(get_permalink()).'#BlogPosting',  
     'inLanguage'                    => get_bloginfo('language'),
     'mainEntityOfPage'              => saswp_remove_warnings($all_post_meta, 'saswp_blogposting_main_entity_of_page_'.$schema_id, 'saswp_array'),
     'headline'			=> saswp_remove_warnings($all_post_meta, 'saswp_blogposting_headline_'.$schema_id, 'saswp_array'),
@@ -2600,7 +2603,8 @@ function saswp_service_schema_markup($schema_id, $schema_post_id, $all_post_meta
 function saswp_review_schema_markup($schema_id, $schema_post_id, $all_post_meta){
     
     global $sd_data;
-    $input1 = array();
+    $input1        = array();
+    $review_author = '';
     
     if(isset($sd_data['saswp-tagyeem']) && $sd_data['saswp-tagyeem'] == 1 && (is_plugin_active('taqyeem/taqyeem.php') || get_template() != 'jannah')){
 
@@ -2611,8 +2615,8 @@ function saswp_review_schema_markup($schema_id, $schema_post_id, $all_post_meta)
     $input1['@context']                     = saswp_context_url();
     $input1['@type']                        = 'Review';
     $input1['@id']                          = trailingslashit(get_permalink()).'#review';                                                           
-    $input1['name']                         = $all_post_meta['saswp_review_name_'.$schema_id][0];
-    $input1['url']                          = $all_post_meta['saswp_review_url_'.$schema_id][0];                                
+    $input1['name']                         = isset($all_post_meta['saswp_review_name_'.$schema_id][0]) ? $all_post_meta['saswp_review_name_'.$schema_id][0] : '';
+    $input1['url']                          = isset($all_post_meta['saswp_review_url_'.$schema_id][0]) ? $all_post_meta['saswp_review_url_'.$schema_id][0] : '';                                
     $input1['datePublished']                = isset($all_post_meta['saswp_review_date_published_'.$schema_id][0])&& $all_post_meta['saswp_review_date_published_'.$schema_id][0] !='' ? saswp_format_date_time($all_post_meta['saswp_review_date_published_'.$schema_id][0], get_post_time('h:i:s')) : '';                               
 
     if(isset($all_post_meta['saswp_review_publisher_'.$schema_id][0])){
@@ -2657,7 +2661,7 @@ function saswp_review_schema_markup($schema_id, $schema_post_id, $all_post_meta)
                           );                                       
      } 
 
-     $item_reviewed = $all_post_meta['saswp_review_item_reviewed_'.$schema_id][0];
+     $item_reviewed = isset($all_post_meta['saswp_review_item_reviewed_'.$schema_id][0]) ? $all_post_meta['saswp_review_item_reviewed_'.$schema_id][0] : '';
      $item_schema = array();
      switch ($item_reviewed) {
          case 'Book':

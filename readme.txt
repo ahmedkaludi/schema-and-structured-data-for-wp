@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.3
-Stable tag: 1.9.27
+Stable tag: 1.9.28
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -117,6 +117,19 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.9.28 (11 Mar 2020) =
+
+
+* Added: Support for EAN-codes (gtin 13) in product schema #862
+* Fixed: images not found in customizer #868
+* Fixed: After adding product in the review section using add schema type wizard it's showing the book #841
+* Fixed: Schema type in Archive of general settings need to have some padding as it should display as sub child of the archive #846
+* Fixed: When migrating from ampforwp to schema default post and page type is setting up to apartment in backend #851
+* Fixed: YouTube URL is not getting fetched if the embed structure is different. #854
+* Fixed: If there are no data in the value and currency fields of the How-to schema, than it should not add estimatedCost property. #853
+* Fixed: Warnings & Notices fixed. #861, #847 & #866, 
+
 
 = 1.9.27 (25 Feb 2020) =
 

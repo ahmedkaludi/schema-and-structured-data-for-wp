@@ -18,7 +18,7 @@ return array( 'schema_type_element' => array(
                         'ImageObject' => array(
                                'image_object_exif_data' => 'image_object_exif_data',                                                
                         ),
-                        'Blogposting' => array(
+                        'BlogPosting' => array(
                                'blogposting_items' => 'blogposting_items',                                                
                         ),
                         'NewsArticle' => array(

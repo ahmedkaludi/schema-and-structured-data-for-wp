@@ -255,6 +255,10 @@ function saswp_schema_type_meta_box_callback( $post) {
                                     if($schema_type == $key){
                                         $sel = 'selected';
                                     }
+
+                                    if($schema_type == 'Blogposting' && $key == 'BlogPosting'){
+                                        $sel = 'selected';
+                                    }
                                     
                                     $option_html.= "<option value='".esc_attr($key)."' ".esc_attr($sel).">".esc_html__($value, 'schema-and-structured-data-for-wp' )."</option>";    
 

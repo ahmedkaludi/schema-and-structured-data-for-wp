@@ -370,7 +370,9 @@ padding-bottom: 10px;
 float:left;
 clear: both;
 }
-
+label[for="saswp_archive_schema_type"] {
+    padding-left: 10px;
+}
 .saswp-amp .saswp-knowledge-field{
 float: right;
 width: 75%;

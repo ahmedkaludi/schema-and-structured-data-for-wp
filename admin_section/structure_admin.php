@@ -153,25 +153,27 @@ function saswp_check_advance_display_status($post_id){
               
           foreach ($resultset as $result){
               
-          $data             = array_filter($result);
-          $number_of_fields = count($data);
-          $checker          = 0;
-          
-          if ( $number_of_fields > 0 ) {
-            
-            $checker = count( array_unique($data) );
-            
-            $array_is_false =  in_array(false, $result);
-            
-            if (  $array_is_false ) {
+            if(is_array($result)){
+                $data             = array_filter($result);
+                $number_of_fields = count($data);
+                $checker          = 0;
                 
-              $checker = 0;
-              
+                if ( $number_of_fields > 0 ) {
+                  
+                  $checker = count( array_unique($data) );
+                  
+                  $array_is_false =  in_array(false, $result);
+                  
+                  if (  $array_is_false ) {
+                      
+                    $checker = 0;
+                    
+                  }
+                  
+                }  
+                
+                $condition_array[] = $checker;
             }
-            
-          }  
-          
-          $condition_array[] = $checker;
           
           }          
             $array_is_true = in_array(true,$condition_array);
@@ -263,12 +265,14 @@ function saswp_generate_field_data( $post_id ){
       
       $output = array();
       
-      if($data_group_array){ 
+      if(!empty($data_group_array) && is_array($data_group_array)){ 
           
-        foreach ($data_group_array as $gropu){
+        foreach ($data_group_array as $group){
 
-           $output[] = array_map('saswp_comparison_logic_checker', $gropu['data_array']);     
-
+          if(is_array($group['data_array'])){
+            $output[] = array_map('saswp_comparison_logic_checker', $group['data_array']);     
+          }
+           
         }   
       
       } 
