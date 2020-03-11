@@ -1374,8 +1374,7 @@ function saswp_schema_output() {
                                 if($modified_schema == 1){
                                     
                                     $input1 = saswp_video_object_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
-                                }
-				
+                                }                                
                             break;
                         
                             case 'ImageObject':

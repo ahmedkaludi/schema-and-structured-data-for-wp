@@ -3013,11 +3013,22 @@ function saswp_get_video_links(){
                    
                   $response[] = $match[1].'youtube.com'.$match[2]; 
                    
-               }
-                              
+               }                              
            }
            
-    }
-        
+           preg_match_all( '/src\=\"(.*?)youtu\.be(.*?)\"/s', $post->post_content, $youtubematches, PREG_SET_ORDER );
+           
+           if($youtubematches){
+               
+               foreach($youtubematches as $match){
+                   
+                  $response[] = $match[1].'youtu.be'.$match[2]; 
+                   
+               }
+                              
+           }  
+                 
+           
+    }    
     return $response;
 }
