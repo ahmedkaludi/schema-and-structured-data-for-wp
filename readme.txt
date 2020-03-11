@@ -120,6 +120,7 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 = 1.9.28 (11 Mar 2020) =
 
+
 * Added: Support for EAN-codes (gtin 13) in product schema #862
 * Fixed: images not found in customizer #868
 * Fixed: After adding product in the review section using add schema type wizard it's showing the book #841
