@@ -485,7 +485,7 @@ class SASWP_Gutenberg {
                     echo '<ul>';
                     foreach($attributes['tools'] as $val){
                         if($val['name']){
-                            echo '<li>'. esc_attr($val['name']).'</li>';
+                            echo '<li>'. wp_kses_post($val['name']).'</li>';
                         }
                         
                     }
@@ -503,8 +503,9 @@ class SASWP_Gutenberg {
                     
                     echo '<ul>';
                     foreach($attributes['materials'] as $val){
+
                         if($val['name']){
-                            echo '<li>'. esc_attr($val['name']).'</li>';
+                            echo '<li>'. wp_kses_post($val['name']).'</li>';
                         }
                         
                     }
