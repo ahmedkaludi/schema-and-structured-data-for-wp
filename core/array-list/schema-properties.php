@@ -1543,42 +1543,50 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         $meta_field[] = array(
                             'label' => 'Review Name',
                             'id'    => 'saswp_review_name_'.$schema_id,
-                            'type'  => 'text',                           
+                            'type'  => 'text',              
+                            'default' => get_the_title()             
                         );
                         $meta_field[] = array(
                             'label' => 'Review Description',
                             'id' => 'saswp_review_description_'.$schema_id,
                             'type' => 'textarea',                           
+                            'default' => get_the_excerpt()                         
                         );                        
                         $meta_field[] = array(
                             'label' => 'Review Author',
                             'id' => 'saswp_review_author_'.$schema_id,
-                            'type' => 'text',                           
+                            'type' => 'text',                            
+                            'default' => is_object($current_user) ?  $current_user->display_name : ''
                         );
                         $meta_field[] = array(
                             'label' => 'Review Author URL',
                             'id' => 'saswp_review_author_url_'.$schema_id,
-                            'type' => 'text',                           
+                            'type' => 'text',
+                            'default' => $author_url                           
                         );
                         $meta_field[] = array(
                             'label' => 'Review Publisher',
                             'id' => 'saswp_review_publisher_'.$schema_id,
-                            'type' => 'text',                           
+                            'type' => 'text',   
+                            'default'=> saswp_remove_warnings($sd_data, 'sd_name', 'saswp_string')                        
                         );
                         $meta_field[] = array(
                                 'label' => 'Review Publisher URL',
                                 'id'    => 'saswp_review_publisher_url'.$schema_id,
                                 'type'  => 'text',                           
+                                'default' => get_home_url() 
                             );
                         $meta_field[] = array(
                             'label' => 'Review Published Date',
                             'id' => 'saswp_review_date_published_'.$schema_id,
-                            'type' => 'text',                           
+                            'type' => 'text',
+                            'default' => get_the_date("Y-m-d")                           
                         );
                         $meta_field[] = array(
                             'label' => 'Review URL',
                             'id' => 'saswp_review_url_'.$schema_id,
-                            'type' => 'text',                           
+                            'type' => 'text',               
+                            'default' => get_permalink()             
                         ); 
                         $meta_field[] = array(
                             'label' => 'Review Rating',
