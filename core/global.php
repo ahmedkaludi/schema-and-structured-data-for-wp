@@ -57,6 +57,7 @@ $translation_labels = array(
     'translation-tools'           => 'Tools',
     'translation-materials'       => 'Materials',
     'translation-time-needed'     => 'Time Needed',
+    'translation-estimate-cost'     => 'Estimate Cost',
     'translation-name'            => 'Name',
     'translation-comment'         => 'Comment',
     'translation-review-form'     => 'Review Form',

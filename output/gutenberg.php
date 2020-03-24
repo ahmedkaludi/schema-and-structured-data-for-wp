@@ -282,6 +282,13 @@ function saswp_gutenberg_how_to_schema(){
                              
                  }   
 
+                 if(isset($parse_blocks['attrs']['price']) && isset($parse_blocks['attrs']['currency'])){
+                
+                    $input1['estimatedCost']['@type']   = 'MonetaryAmount';
+                    $input1['estimatedCost']['currency']= $parse_blocks['attrs']['currency'];
+                    $input1['estimatedCost']['value']   = $parse_blocks['attrs']['price'];
+                 }
+
                 }
                     
                 }
