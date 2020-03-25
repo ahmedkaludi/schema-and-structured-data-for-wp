@@ -2881,13 +2881,24 @@ function saswp_current_user_allowed(){
     
     $currentUser     = wp_get_current_user();        
     $saswp_roles     = isset($sd_data['saswp-role-based-access']) ? $sd_data['saswp-role-based-access'] : array('administrator');
-    $currentuserrole = (array) $currentUser->roles;
-    
-    $hasrole         = array_intersect( $currentuserrole, $saswp_roles );
-    
-    if( !empty($hasrole)){                                     
-        return $hasrole[0];
-    }
+
+    if($currentUser){
+        
+        if($currentUser->roles){
+                $currentuserrole = (array) $currentUser->roles;
+        }else{
+            if($currentUser->caps['administrator']){
+                    $currentuserrole = array('administrator');
+            }	
+        }
+        
+        $hasrole         = array_intersect( $currentuserrole, $saswp_roles );
+        
+        if( !empty($hasrole)){                                     
+            return $hasrole[0];
+        }
+
+    }    
                 
     }
     
