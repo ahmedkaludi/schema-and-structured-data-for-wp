@@ -631,5 +631,3 @@ if (class_exists('saswp_post_specific')) {
 	$object = new saswp_post_specific();
         $object->saswp_post_specific_hooks();
 };
-
-

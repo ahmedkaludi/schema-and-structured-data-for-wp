@@ -94,6 +94,5 @@ class SASWP_Elementor_Loader {
 		add_action( 'elementor/widgets/widgets_registered', [ $this, 'register_widgets' ] );
 	}
 }
-
 // Instantiate Plugin Class
 SASWP_Elementor_Loader::instance();

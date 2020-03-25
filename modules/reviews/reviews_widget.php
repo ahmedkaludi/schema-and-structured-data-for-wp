@@ -117,5 +117,4 @@ class Saswp_Reviews_Widget extends WP_Widget {
 function register_saswp_reviews_widget(){
     register_widget('Saswp_Reviews_Widget');
 }
-
 add_action('widgets_init', 'register_saswp_reviews_widget');

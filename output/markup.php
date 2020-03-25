@@ -2741,6 +2741,5 @@ function saswp_review_schema_markup($schema_id, $schema_post_id, $all_post_meta)
 
      }
     
-    return $input1;
-    
+    return $input1;    
 }

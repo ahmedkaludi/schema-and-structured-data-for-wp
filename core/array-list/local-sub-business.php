@@ -190,5 +190,4 @@ return array(
                               'psychiatric'     => 'Psychiatric',
                               'publichealth'    => 'Public Health',
                 )
- ); 
-                            
+ );                             

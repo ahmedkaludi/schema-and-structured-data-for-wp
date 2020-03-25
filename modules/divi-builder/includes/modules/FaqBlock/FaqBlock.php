@@ -74,5 +74,4 @@ class SASWP_Divi_FaqBlock extends ET_Builder_Module {
 	}      
 
 }
-
 new SASWP_Divi_FaqBlock;

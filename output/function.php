@@ -1924,8 +1924,6 @@ function saswp_explod_by_semicolon($data){
             }
 
         }         
-    }
-    
-    return $response;
-    
+    }    
+    return $response;    
 }

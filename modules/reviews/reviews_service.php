@@ -1342,4 +1342,3 @@ class saswp_reviews_service {
 
 $saswp_service_obj = new saswp_reviews_service();
 $saswp_service_obj->saswp_service_hooks();
-?>

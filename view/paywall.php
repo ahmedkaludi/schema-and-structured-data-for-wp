@@ -115,9 +115,5 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                  update_post_meta( $post_id, 'saswp_fixed_text', $fixed_text);
                  update_post_meta( $post_id, 'saswp_taxonomy_term', $taxonomy_term);
                  update_post_meta( $post_id, 'saswp_fixed_image', $fixed_image);
-                 update_post_meta( $post_id, 'saswp_custom_meta_field', $cus_meta_field);
-               
-               
-        }    
-
-
+                 update_post_meta( $post_id, 'saswp_custom_meta_field', $cus_meta_field);                              
+}    

@@ -605,6 +605,5 @@ function saswp_gutenberg_course_schema(){
                                 
     }
    
-    return $input1;
-    
+    return $input1;    
 }

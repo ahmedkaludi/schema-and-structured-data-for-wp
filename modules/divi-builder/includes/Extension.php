@@ -42,5 +42,4 @@ class SASWP_Extension extends DiviExtension {
 		parent::__construct( $name, $args );
 	}
 }
-
 new SASWP_Extension;

@@ -452,7 +452,6 @@ class saswp_output_compatibility{
      */
         
 }
-
 if(class_exists('saswp_output_compatibility')){
    $obj_compatibility =  new saswp_output_compatibility();
    $obj_compatibility->saswp_service_compatibility_hooks();

@@ -65,4 +65,3 @@ $translation_labels = array(
 $saswp_post_reviews = array();
 $saswp_elementor_faq = array();
 $saswp_wisdom;
-
