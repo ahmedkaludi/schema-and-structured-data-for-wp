@@ -2116,10 +2116,10 @@ if ( ! defined('ABSPATH') ) exit;
         if(saswp_remove_warnings($sd_data, 'saswp-seo-press', 'saswp_string') == 1){
             
              if(!is_admin()){
-            
-                    require_once ( WP_PLUGIN_DIR. '/wp-seopress/inc/functions/options-titles-metas.php');
-             
+                                             
                     if(function_exists('seopress_titles_the_title') && seopress_titles_the_title() !=''){
+
+                       require_once ( WP_PLUGIN_DIR. '/wp-seopress/inc/functions/options-titles-metas.php');
 
                        $c_title =  seopress_titles_the_title();                
                        if($c_title){
