@@ -1,8 +1,5 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-class SASWP_Gutenberg_Service {
-
-
-    
+class SASWP_Gutenberg_Service {    
 }

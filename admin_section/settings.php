@@ -394,6 +394,36 @@ function saswp_premium_features_callback(){ ?>
 	<div class="saswp-pre-ftrs-wrap">
 		<ul class="saswp-features-blocks">
                     
+                <li>
+                            
+                            <?php
+                            
+                            $cooked_active_text = '';
+                            
+                            if(is_plugin_active('reviews-for-schema/reviews-for-schema.php')){                                        
+                                $cooked_active_text = '<label class="saswp-sts-txt">Status :<span style="color:green;">Active</span></label>';                                            
+                            }else{
+                                $cooked_active_text .='<label class="saswp-sts-txt">Status :<span>Inactive</span></label>';
+                                $cooked_active_text .='<a target="_blank" href="http://structured-data-for-wp.com/extensions/"><span class="saswp-d-btn">Download</span></a>';
+                            }
+                            
+                            ?> 
+                                            
+                    <div class="saswp-features-ele">
+                        <div class="saswp-ele-ic" style="background: #509207;">
+                                <img src="<?php echo SASWP_PLUGIN_URL; ?>/admin_section/images/customer-review.png">
+                            </div>
+                            <div class="saswp-ele-tlt">
+                                    <h3><?php echo esc_html__('Reviews for Schema','schema-and-structured-data-for-wp') ?></h3>
+                                    <p><?php echo esc_html__('Fetch reviews from 75+ platforms with a single click with proper structured data so you can get the stars in your search engine rankings. It also works for the AMP.','schema-and-structured-data-for-wp') ?></p>
+                            </div>
+                    </div>
+                    <div class="saswp-sts-btn">
+                        
+                        <?php echo $cooked_active_text; ?>
+                                                                                                                                               
+                    </div>
+            </li>
                         <li>
                             
                                         <?php

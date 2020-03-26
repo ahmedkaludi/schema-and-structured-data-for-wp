@@ -57,6 +57,7 @@ $translation_labels = array(
     'translation-tools'           => 'Tools',
     'translation-materials'       => 'Materials',
     'translation-time-needed'     => 'Time Needed',
+    'translation-estimate-cost'     => 'Estimate Cost',
     'translation-name'            => 'Name',
     'translation-comment'         => 'Comment',
     'translation-review-form'     => 'Review Form',
@@ -64,4 +65,3 @@ $translation_labels = array(
 $saswp_post_reviews = array();
 $saswp_elementor_faq = array();
 $saswp_wisdom;
-

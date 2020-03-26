@@ -1903,7 +1903,8 @@ if ( ! defined('ABSPATH') ) exit;
         
         if(is_object($post)){
             $content = get_post_field('post_content', $post->ID);
-            $content = wp_strip_all_tags(strip_shortcodes($content)); 
+            $content = wp_strip_all_tags(strip_shortcodes($content));             
+            $content = preg_replace('/[^A-Za-z0-9\-]/', ' ', $content); // Removes special chars.
         }
         
         return apply_filters('saswp_the_content' ,$content);
@@ -2115,10 +2116,10 @@ if ( ! defined('ABSPATH') ) exit;
         if(saswp_remove_warnings($sd_data, 'saswp-seo-press', 'saswp_string') == 1){
             
              if(!is_admin()){
-            
-                    require_once ( WP_PLUGIN_DIR. '/wp-seopress/inc/functions/options-titles-metas.php');
-             
+                                             
                     if(function_exists('seopress_titles_the_title') && seopress_titles_the_title() !=''){
+
+                       require_once ( WP_PLUGIN_DIR. '/wp-seopress/inc/functions/options-titles-metas.php');
 
                        $c_title =  seopress_titles_the_title();                
                        if($c_title){
@@ -2881,13 +2882,24 @@ function saswp_current_user_allowed(){
     
     $currentUser     = wp_get_current_user();        
     $saswp_roles     = isset($sd_data['saswp-role-based-access']) ? $sd_data['saswp-role-based-access'] : array('administrator');
-    $currentuserrole = (array) $currentUser->roles;
-    
-    $hasrole         = array_intersect( $currentuserrole, $saswp_roles );
-    
-    if( !empty($hasrole)){                                     
-        return $hasrole[0];
-    }
+
+    if($currentUser){
+        
+        if($currentUser->roles){
+                $currentuserrole = (array) $currentUser->roles;
+        }else{
+            if($currentUser->caps['administrator']){
+                    $currentuserrole = array('administrator');
+            }	
+        }
+        
+        $hasrole         = array_intersect( $currentuserrole, $saswp_roles );
+        
+        if( !empty($hasrole)){                                     
+            return $hasrole[0];
+        }
+
+    }    
                 
     }
     

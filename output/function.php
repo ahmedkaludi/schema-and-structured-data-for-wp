@@ -943,6 +943,7 @@ function saswp_remove_microdata($content){
         $content = preg_replace('/itemscope\=\"(.*?)\"/', "", $content);
         $content = preg_replace("/itemscope\='(.*?)\'/", "", $content);
         $content = preg_replace('/itemscope/', "", $content);
+        $content = preg_replace('/hreview-aggregate/', "", $content);
         
         //Clean json markup
         if(isset($sd_data['saswp-aiosp']) && $sd_data['saswp-aiosp'] == 1 ){
@@ -1924,8 +1925,6 @@ function saswp_explod_by_semicolon($data){
             }
 
         }         
-    }
-    
-    return $response;
-    
+    }    
+    return $response;    
 }

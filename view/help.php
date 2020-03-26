@@ -30,5 +30,4 @@ function saswp_disable_new_posts() {
 	unset($submenu['edit.php?post_type=saswp'][10]);
         
 }
-add_action('admin_menu', 'saswp_disable_new_posts');
- 	
+add_action('admin_menu', 'saswp_disable_new_posts'); 	

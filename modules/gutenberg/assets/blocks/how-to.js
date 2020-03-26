@@ -30,6 +30,10 @@
               type:'boolean',
               default:false
             },
+            hasCost:{
+              type:'boolean',
+              default:false
+            },
             alignment: {
                 type: 'string',
                 default: 'none'
@@ -53,6 +57,14 @@
             minutes: {
                   type: 'string',
                   selector: '.saswp-how-to-minutes'
+            },
+            currency: {
+              type: 'string',
+              selector: '.saswp-how-to-currency'
+            },
+            price: {
+              type: 'number',
+              selector: '.saswp-how-to-price'
             },
             items: {                     
               default: [{index: 0, title: "", description: "", imageUrl: "", imageId: null}],
@@ -146,6 +158,61 @@
                 		
             }
             
+            function saswpGetCost(){
+                
+              var cost = el('fieldset',{className:'saswp-how-to-cost'},el('legend',{className:'saswp-how-to-cost-legend'}, 'Estimate Cost : ',
+                          el('span',{className:'saswp-how-to-duration-time-input'},                          
+                          el(TextControl,
+                          {
+                             className:'saswp-how-to-cost-input',
+                             placeholder: 'USD',
+                             value: attributes.currency,                               
+                             autoFocus: true,
+                             onChange: function( newContent ) {                                
+                                  props.setAttributes( { currency: newContent } );
+                             }
+                          },),
+                          el(TextControl,
+                          {
+                             className:'saswp-how-to-cost-input',
+                             placeholder: '20',
+                             value: attributes.price,                               
+                             autoFocus: true,
+                             onChange: function( newContent ) {                                
+                                props.setAttributes( { price: newContent } );
+                             }
+                          },),
+                          el( IconButton, {
+                              icon: "trash",
+                              className: 'saswp-how-to-step-button',            
+                              onClick: function() {  
+                                props.setAttributes( { hasCost: false } );   
+                              }
+                            } 
+                          )
+                         )        
+                  ));
+
+                  
+          
+             var addCost = el( IconButton, {
+                                  icon: "insert",
+                                  className: 'saswp-how-to-step-button',            
+                                  onClick: function(){
+                                    props.setAttributes( { hasCost: true } );  
+                                  }
+                                },
+                              __('Add Cost', 'schema-and-structured-data-for-wp')
+                          );     
+              
+              if(attributes.hasCost){
+                  return cost;
+              }else{
+                  return addCost;
+              }
+                                             
+          }
+
             function saswpGetDuration(){
                 
                 var duration = el('fieldset',{className:'saswp-how-to-duration'},el('legend',{className:'saswp-how-to-duration-legend'}, 'Time Needed : ',
@@ -191,6 +258,8 @@
                             )
                            )        
                     ));
+
+
             
                var addDuration = el( IconButton, {
                                     icon: "insert",
@@ -721,7 +790,8 @@
                 ,el(
                 'div',
                 { className: props.className },
-                saswpGetDuration(),                
+                saswpGetDuration(), 
+                saswpGetCost(),                
                 el( RichText, {                
                           tagName: 'p',
                           className:'saswp-how-to-description',

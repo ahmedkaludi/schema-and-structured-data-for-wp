@@ -504,7 +504,7 @@
             var platform_list = '';
             
             platform_list += '<div class="cancel-btn">';
-            platform_list += '<span>'+jQuery("#saswp-plaftorm-list option[value="+key+"]").text()+'</span>';
+            platform_list += '<span>'+jQuery("#saswp-plaftorm-list option[value="+key+"]").text()+'</span><span>('+rvcount+')</span>';
             platform_list += '<input type="hidden" name="saswp_platform_ids['+key+']" value="'+rvcount+'">';
             platform_list += '<a platform-id="'+key+'" class="button button-default saswp-remove-platform"></a>';
             platform_list += '</div>';

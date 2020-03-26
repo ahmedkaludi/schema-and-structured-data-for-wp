@@ -1212,7 +1212,5 @@ function saswp_schema_type_add_meta_box_save( $post_id ) {
                     'ID' => $post_id
                 );
                 
-                $common_obj->saswp_save_common_view($post_id, $post_obj);
-                                              
-        }           
-
+                $common_obj->saswp_save_common_view($post_id, $post_obj);                                              
+}           

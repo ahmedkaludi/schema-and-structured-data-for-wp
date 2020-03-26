@@ -395,7 +395,28 @@ class SASWP_Gutenberg {
                 echo '<div class="saswp-how-to-block-section">';
                 
                 echo '<div class="saswp-how-to-block-steps">';
-                                
+                
+                if(isset($attributes['hasCost'])){
+                    echo '<p class="saswp-how-to-total-time">';
+                    
+                    $time_html = '';
+                       
+                    if(isset($attributes['price']) && $attributes['price'] != ''){
+                        $time_html .=   esc_attr($attributes['price']). ' ';
+                    }
+                    
+                    if(isset($attributes['currency']) && $attributes['currency'] != ''){
+                        $time_html .=     esc_attr($attributes['currency']);
+                    }
+                                        
+                    if($time_html !=''){
+                     echo '<span class="saswp-how-to-duration-time-text"><strong>'.saswp_label_text('translation-estimate-cost').' :</strong> </span>';    
+                     echo $time_html;
+                    }
+                                        
+                    echo '</p>';
+                }
+
                 if(isset($attributes['hasDuration'])){
                     echo '<p class="saswp-how-to-total-time">';
                     
@@ -464,7 +485,7 @@ class SASWP_Gutenberg {
                     echo '<ul>';
                     foreach($attributes['tools'] as $val){
                         if($val['name']){
-                            echo '<li>'. esc_attr($val['name']).'</li>';
+                            echo '<li>'. wp_kses_post($val['name']).'</li>';
                         }
                         
                     }
@@ -482,8 +503,9 @@ class SASWP_Gutenberg {
                     
                     echo '<ul>';
                     foreach($attributes['materials'] as $val){
+
                         if($val['name']){
-                            echo '<li>'. esc_attr($val['name']).'</li>';
+                            echo '<li>'. wp_kses_post($val['name']).'</li>';
                         }
                         
                     }

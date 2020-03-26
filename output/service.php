@@ -2144,6 +2144,9 @@ Class saswp_output_service{
                     }
                     if(isset($custom_fields['saswp_jobposting_schema_bs_unittext'])){
                      $input1['baseSalary']['value']['unitText'] =    $custom_fields['saswp_jobposting_schema_bs_unittext'];
+                    }                    
+                    if(isset($custom_fields['saswp_jobposting_schema_validthrough']) && $custom_fields['saswp_jobposting_schema_validthrough'] < date('Y-m-d') ){
+                        $input1 = array();    
                     }
                     
                 break;

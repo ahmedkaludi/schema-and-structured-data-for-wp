@@ -685,14 +685,14 @@ class saswp_view_common_class {
                          
                      }    
                                                                      
-                        $response          = saswp_get_fields_by_schema_type($schema->ID, 'save'); 
+                        $response          = @saswp_get_fields_by_schema_type($schema->ID, 'save'); 
                         
                         $this->saswp_save_meta_fields_value($post_meta, $response, $post_id);
                         
                         if(isset($_POST['saswp_review_item_reviewed_'.$schema->ID]) && $_POST['saswp_review_item_reviewed_'.$schema->ID] !=''){
                              $item_reviewed = sanitize_text_field($_POST['saswp_review_item_reviewed_'.$schema->ID]);
                             
-                             $response          = saswp_get_fields_by_schema_type($schema->ID, 'save', $item_reviewed); 
+                             $response          = @saswp_get_fields_by_schema_type($schema->ID, 'save', $item_reviewed); 
                              $this->saswp_save_meta_fields_value($post_meta, $response, $post_id);
                         }
                    

@@ -196,5 +196,4 @@ class SASWP_Divi_FaqBlockChild extends ET_Builder_Module {
                           
 	}
 }
-
 new SASWP_Divi_FaqBlockChild;

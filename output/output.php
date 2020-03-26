@@ -2275,4 +2275,4 @@ function saswp_fetched_reviews_schema_markup(){
                     }
                   
                 return $input1;
-    }
+}
