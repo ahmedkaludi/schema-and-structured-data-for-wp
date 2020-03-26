@@ -128,6 +128,7 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Fixed: How to module Gutenberg renders the markup instead of the link #857
 * Fixed: In review schema type when we try to modify this schema on the post the default values in it are also in blank #867
 * Fixed: Validation errors: The mandatory tag 'link rel=canonical' is missing or incorrect due to schema #848
+* Fixed: Fatal error: require_once(): Failed opening required '/wp-content/plugins/wp-seopress/inc/functions/options-titles-metas.php’ #892
 * Added: Reviews for Schema in Premium Features section #837
 * Added: Estimate Cost fields in gutenberg How-to module. #835
 
