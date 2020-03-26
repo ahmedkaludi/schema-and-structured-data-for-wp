@@ -118,8 +118,21 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
 
-= 1.9.28 (11 Mar 2020) =
+= 1.9.29 (26 Mar 2020) =
 
+* Fixed: When we update the page it is getting redirect to the warning url when schema is activated #871
+* Fixed: hreview and other microdata cleanup #877
+* Fixed: Add property(modify schema output) does not load properties. #872
+* Fixed: The review count and the review comment showing incorrect in collection panel #855
+* Fixed: If job post schema has been expired than its markup should not be shown #858
+* Fixed: How to module Gutenberg renders the markup instead of the link #857
+* Fixed: In review schema type when we try to modify this schema on the post the default values in it are also in blank #867
+* Fixed: Validation errors: The mandatory tag 'link rel=canonical' is missing or incorrect due to schema #848
+* Added: Reviews for Schema in Premium Features section #837
+* Added: Estimate Cost fields in gutenberg How-to module. #835
+
+
+= 1.9.28 (11 Mar 2020) =
 
 * Added: Support for EAN-codes (gtin 13) in product schema #862
 * Fixed: images not found in customizer #868
