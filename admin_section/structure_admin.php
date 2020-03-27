@@ -1195,7 +1195,18 @@ function saswp_custom_column_set( $column, $post_id ) {
                      $url = admin_url( 'post.php?post='.$post_id.'&action=edit' );
                     
                     if($schema_type == 'local_business'){
-                        echo '<strong><a class="row-title" href="'.esc_url($url).'">LocalBusiness</a></strong>';
+
+                      $business_type     = get_post_meta($post_id, 'saswp_business_type', true);
+                      $business_name     = get_post_meta($post_id, 'saswp_business_name', true);
+
+                      if($business_name){
+                          echo '<strong><a class="row-title" href="'.esc_url($url).'">LocalBusiness ('.esc_html($business_name).')</a></strong>';   
+                      } else if($business_type){
+                          echo '<strong><a class="row-title" href="'.esc_url($url).'">LocalBusiness ('.esc_html($business_type).')</a></strong>';
+                      } else {
+                          echo '<strong><a class="row-title" href="'.esc_url($url).'">LocalBusiness</a></strong>';
+                      }
+                        
                     }else if($schema_type == 'qanda'){
                         echo '<strong><a class="row-title" href="'.esc_url($url).'">Q&A</a></strong>';
                     }else{
