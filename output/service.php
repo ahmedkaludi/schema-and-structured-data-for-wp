@@ -3305,7 +3305,7 @@ Class saswp_output_service{
                                 
                                 $custom_logo_id    = get_theme_mod( 'custom_logo' );     
                                 $img_details       = wp_get_attachment_image_src( $custom_logo_id, 'full');                                  
-                                if($img_details[0]){
+                                if(isset($img_details[0])){
                                     $img_details = @saswp_aq_resize( $img_details[0], 600, 60, true, false, true );
                                 }
                                 
