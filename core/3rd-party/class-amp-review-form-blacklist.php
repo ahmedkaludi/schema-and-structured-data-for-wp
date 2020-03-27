@@ -323,15 +323,7 @@ if ( class_exists( 'AMP_Blacklist_Sanitizer' ) ) {
 
 				}
 
-			}
- 
-			// Remove the node from the parent, if defined.
-
-			if ( $node->parentNode ) {
-
-				$node->parentNode->removeChild( $node );
-
-			}
+			} 			
 
 		}
  
