@@ -3115,7 +3115,7 @@ Class saswp_output_service{
                                                 
                                                 $resize_image = saswp_aq_resize( $image_details[0], $width[$i], $height[$i], true, false, true );
                                                 
-                                                if(isset($resize_image[0]) && isset($resize_image[1]) && isset($resize_image[2]) ){
+                                                if(isset($resize_image[0]) && $resize_image[0] !='' && isset($resize_image[1]) && isset($resize_image[2]) ){
                                                                                                                                                         
                                                     $input2['image'][$i]['@type']  = 'ImageObject';
                                                     
@@ -3150,7 +3150,7 @@ Class saswp_output_service{
                                                     
                                                         $resize_image = saswp_aq_resize( $image_details[0], $width[$i], $height[$i], true, false, true );
 													
-                                                        if(isset($resize_image[0]) && isset($resize_image[1]) && isset($resize_image[2]) ){
+                                                        if(isset($resize_image[0]) && $resize_image[0] != '' && isset($resize_image[1]) && isset($resize_image[2]) ){
 
                                                                 $input2['image'][$i]['@type']  = 'ImageObject';
                                                                 
@@ -3170,7 +3170,7 @@ Class saswp_output_service{
                                             
                                         } 
                                         
-                                        if(empty($input2)){
+                                        if(empty($input2) && isset($image_details[0]) && $image_details[0] !='' && isset($image_details[1]) && isset($image_details[2]) ){
                                             
                                                 $input2['image']['@type']  = 'ImageObject';
                                                 $input2['image']['@id']    = saswp_get_permalink().'#primaryimage';
@@ -3205,11 +3205,13 @@ Class saswp_output_service{
                                                                                                                                        
                                   if(is_array($attach_details) && !empty($attach_details)){
                                                                             
-                                                $attach_images['image'][$k]['@type']  = 'ImageObject';                                                
-                                                $attach_images['image'][$k]['url']    = esc_url($attachment);
-                                                $attach_images['image'][$k]['width']  = isset($attach_details[$k][0]) ? $attach_details[$k][0] : 0;
-                                                $attach_images['image'][$k]['height'] = isset($attach_details[$k][1]) ? $attach_details[$k][1] : 0;
-                                      
+                                                if($attachment !=''){
+                                                    $attach_images['image'][$k]['@type']  = 'ImageObject';                                                
+                                                    $attach_images['image'][$k]['url']    = esc_url($attachment);
+                                                    $attach_images['image'][$k]['width']  = isset($attach_details[$k][0]) ? $attach_details[$k][0] : 0;
+                                                    $attach_images['image'][$k]['height'] = isset($attach_details[$k][1]) ? $attach_details[$k][1] : 0;
+                                                }
+                                                                                      
                                   }
                                   
                                   $k++;
@@ -3242,10 +3244,12 @@ Class saswp_output_service{
                                                 
                                                 if(is_array($resized_image) && !empty($resized_image)){
                                                     
-                                                    $attach_images['image'][$key]['url']    =   $resized_image[0];
-                                                    $attach_images['image'][$key]['width']  =   $resized_image[1];
-                                                    $attach_images['image'][$key]['height'] =   $resized_image[2];                                                
-                                                    
+                                                    if(isset($resized_image[0]) && $resized_image[0] !=''){
+                                                        $attach_images['image'][$key]['url']    =   $resized_image[0];
+                                                        $attach_images['image'][$key]['width']  =   $resized_image[1];
+                                                        $attach_images['image'][$key]['height'] =   $resized_image[2];                                                
+                                                    }
+                                                                                                        
                                                 }
                                                 
                                             }                                             
