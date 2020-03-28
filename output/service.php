@@ -979,7 +979,10 @@ Class saswp_output_service{
                     break;
                                                     
                 case 'Event':      
-                      
+                    
+                    $phy_location = array();
+                    $vir_location = array();
+                    
                     if(isset($custom_fields['saswp_event_schema_name'])){
                      $input1['name'] =    $custom_fields['saswp_event_schema_name'];
                     }
@@ -989,29 +992,57 @@ Class saswp_output_service{
                                        
                     if(isset($custom_fields['saswp_event_schema_location_name']) || isset($custom_fields['saswp_event_schema_location_streetaddress'])){
                         
-                            $input1['location']['@type'] = 'Place';   
-                            $input1['location']['name']  =    $custom_fields['saswp_event_schema_location_name'];
+                        $phy_location['@type'] = 'Place';   
+                        $phy_location['name']  =    $custom_fields['saswp_event_schema_location_name'];
 
                             if(isset($custom_fields['saswp_event_schema_location_streetaddress'])){
-                              $input1['location']['address']['streetAddress'] =    $custom_fields['saswp_event_schema_location_streetaddress'];
+                                $phy_location['address']['streetAddress'] =    $custom_fields['saswp_event_schema_location_streetaddress'];
                             }                                          
                             if(isset($custom_fields['saswp_event_schema_location_locality'])){
-                             $input1['location']['address']['addressLocality'] =    $custom_fields['saswp_event_schema_location_locality'];
+                                $phy_location['address']['addressLocality'] =    $custom_fields['saswp_event_schema_location_locality'];
                             }
                             if(isset($custom_fields['saswp_event_schema_location_region'])){
-                             $input1['location']['address']['addressRegion'] =    $custom_fields['saswp_event_schema_location_region'];
+                                $phy_location['address']['addressRegion'] =    $custom_fields['saswp_event_schema_location_region'];
                             }                    
                             if(isset($custom_fields['saswp_event_schema_location_postalcode'])){
-                             $input1['location']['address']['postalCode'] =    $custom_fields['saswp_event_schema_location_postalcode'];
+                                $phy_location['address']['postalCode'] =    $custom_fields['saswp_event_schema_location_postalcode'];
                             }
                             if(isset($custom_fields['saswp_event_schema_location_country'])){
-                             $input1['location']['address']['addressCountry'] =    $custom_fields['saswp_event_schema_location_country'];
+                                $phy_location['address']['addressCountry'] =    $custom_fields['saswp_event_schema_location_country'];
                             }
                             if(isset($custom_fields['saswp_event_schema_location_hasmap'])){
-                             $input1['location']['hasMap']  =  $custom_fields['saswp_event_schema_location_hasmap'];
+                             $phy_location['hasMap']  =  $custom_fields['saswp_event_schema_location_hasmap'];
                             }
+                    }
+                    if(isset($custom_fields['saswp_event_schema_virtual_location_name']) || isset($custom_fields['saswp_event_schema_virtual_location_url'])){
+                            $vir_location['@type'] = 'VirtualLocation';
+                            $reviews_arr['name']   = $custom_fields['saswp_event_schema_virtual_location_name'];
+                            $vir_location['url']   = $custom_fields['saswp_event_schema_virtual_location_url'];
                     }                                        
                     
+                    $input1['location'] = array($vir_location, $phy_location);
+
+                    if(isset($custom_fields['saswp_event_schema_status'])){
+                        $input1['eventStatus'] = $custom_fields['saswp_event_schema_status'];
+                    }
+                    if( isset($custom_fields['saswp_event_schema_attendance_mode']) ){
+                        $input1['eventAttendanceMode'] = $custom_fields['saswp_event_schema_attendance_mode'];
+                    }
+
+                    if(isset($custom_fields['saswp_event_schema_previous_start_date'])){
+                     
+                        $time = '';
+                        
+                        if(isset($custom_fields['saswp_event_schema_previous_start_time'])){
+                            
+                           $time =  $custom_fields['saswp_event_schema_previous_start_time'];
+                           
+                        }
+                        
+                        $input1['previousStartDate'] =    saswp_format_date_time($custom_fields['saswp_event_schema_previous_start_date'], $time);
+                        
+                    }
+
                     if(isset($custom_fields['saswp_event_schema_start_date'])){
                      
                      $time = '';

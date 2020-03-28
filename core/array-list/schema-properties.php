@@ -752,6 +752,30 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'TheaterEvent'     => 'TheaterEvent',
                                 'VisualArtsEvent'  => 'VisualArtsEvent'
                             ) 
+                        ),
+                        array(
+                                'label' => 'Event Status',
+                                'id'    => 'saswp_event_schema_status_'.$schema_id,
+                                'type'  => 'select',
+                                'options' => array(
+                                        ''                      => 'Select Status',
+                                        'EventScheduled'        => 'EventScheduled',                                        
+                                        'EventPostponed'        => 'Postponed',
+                                        'EventRescheduled'      => 'Rescheduled',
+                                        'EventMovedOnline'      => 'MovedOnline', 
+                                        'EventCancelled'        => 'Cancelled'
+                                )                                 
+                        ),
+                        array(
+                                'label' => 'Attendance Mode',
+                                'id'    => 'saswp_event_schema_attendance_mode_'.$schema_id,
+                                'type'  => 'select',
+                                'options' => array(
+                                        ''                              => 'Select Attendance Mode',        
+                                        'OfflineEventAttendanceMode'    => 'Offline',
+                                        'OnlineEventAttendanceMode'     => 'Online', 
+                                        'MixedEventAttendanceMode'      => 'Mixed',                                        
+                                )                                 
                         ),    
                         array(
                                 'label' => 'Name',
@@ -762,6 +786,16 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'label' => 'Description',
                                 'id' => 'saswp_event_schema_description_'.$schema_id,
                                 'type' => 'textarea',                                
+                        ),
+                        array(
+                                'label' => 'Virtual Location Name',
+                                'id'    => 'saswp_event_schema_virtual_location_name_'.$schema_id,
+                                'type'  => 'text',                                
+                        ),
+                        array(
+                                'label' => 'Virtual Location URL',
+                                'id'    => 'saswp_event_schema_virtual_location_url_'.$schema_id,
+                                'type'  => 'text',                                
                         ),
                         array(
                                 'label' => 'Location Name',
@@ -794,6 +828,11 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'type'  => 'text',                                
                         ),
                         array(
+                                'label' => 'Previous Start Date',
+                                'id' => 'saswp_event_schema_previous_start_date_'.$schema_id,
+                                'type' => 'text',                                
+                        ),
+                        array(
                                 'label' => 'Start Date',
                                 'id' => 'saswp_event_schema_start_date_'.$schema_id,
                                 'type' => 'text',                                
@@ -812,7 +851,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'label' => 'End Time',
                                 'id' => 'saswp_event_schema_end_time_'.$schema_id,
                                 'type' => 'text',                                
-                        ),
+                        ),                        
                         array(
                                 'label' => 'Image',
                                 'id' => 'saswp_event_schema_image_'.$schema_id,

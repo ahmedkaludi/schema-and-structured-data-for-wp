@@ -1434,6 +1434,7 @@ return false;
 
                         current.removeClass('updating-message');                        
                         saswp_schema_datepicker();
+                        saswp_schema_timepicker();
                         saswp_enable_rating_review();
                         saswp_item_reviewed_call();
 
