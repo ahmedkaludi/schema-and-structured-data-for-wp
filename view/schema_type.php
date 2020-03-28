@@ -873,6 +873,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                                 $review_fields['saswp_review_publisher_url']  = 'Review Publisher URL';
                                 $review_fields['saswp_review_rating_value']   = 'Review Rating Value';
                                 $review_fields['saswp_review_date_published'] = 'Review Published Date'; 
+                                $review_fields['saswp_review_date_modified']  = 'Review Modified Date'; 
                                 $review_fields['saswp_review_url']            = 'Review URL'; 
                                
                             }

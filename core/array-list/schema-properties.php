@@ -1622,6 +1622,12 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'default' => get_the_date("Y-m-d")                           
                         );
                         $meta_field[] = array(
+                                'label' => 'Review Modified Date',
+                                'id' => 'saswp_review_date_modified_'.$schema_id,
+                                'type' => 'text',
+                                'default' => get_the_modified_date("Y-m-d")                           
+                            );
+                        $meta_field[] = array(
                             'label' => 'Review URL',
                             'id' => 'saswp_review_url_'.$schema_id,
                             'type' => 'text',               

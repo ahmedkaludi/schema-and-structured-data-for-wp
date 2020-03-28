@@ -412,7 +412,17 @@ Class saswp_output_service{
                             $review_markup['datePublished'] =    date('c',strtotime($custom_fields['saswp_review_date_published']));
                         }
                        
-                    }  
+                    }
+                    
+                    if(isset($custom_fields['saswp_review_date_modified'])){
+
+                        if(saswp_validate_date($custom_fields['saswp_review_date_modified'], 'Y-m-d\TH:i:sP')){
+                            $review_markup['dateModified'] =    $custom_fields['saswp_review_date_modified'];
+                        }else{
+                            $review_markup['dateModified'] =    date('c',strtotime($custom_fields['saswp_review_date_modified']));
+                        }
+                       
+                    }
 
                 }
                                    
