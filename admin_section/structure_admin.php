@@ -39,28 +39,34 @@ function saswp_delete_post_transient( $post_id ){
 }
 
 function saswp_get_saved_schema_ids(){
-    
+
+    global $all_schemas;
     $schema_ids = array();
-    
-    $all_schemas = get_posts(
-                    array(
-                            'post_type' 	 => 'saswp',
-                            'posts_per_page'     => -1,   
-                            'post_status'        => 'publish',
-                    )
-                 );    
-    if($all_schemas){
-        
-     foreach($all_schemas as $schema){
-         
-         $schema_ids[] = $schema->ID;
-         
-     }  
-     
+
+    if(!$all_schemas){
+
+      $all_schemas = get_posts(
+        array(
+                'post_type' 	 => 'saswp',
+                'posts_per_page'     => -1,   
+                'post_status'        => 'publish',
+        )
+     );   
+
     }
+
+    if($all_schemas){
+      
+      foreach($all_schemas as $schema){
+         
+        $schema_ids[] = $schema->ID;
+        
+      }
+      
+    }    
     
     return $schema_ids;
-    
+
 }
 
 /*
