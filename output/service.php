@@ -405,7 +405,13 @@ Class saswp_output_service{
                         }
                     }
                      if(isset($custom_fields['saswp_review_date_published'])){
-                       $review_markup['datePublished'] =    date('c',strtotime($custom_fields['saswp_review_date_published']));
+
+                        if(saswp_validate_date($custom_fields['saswp_review_date_published'], 'Y-m-d\TH:i:sP')){
+                            $review_markup['datePublished'] =    $custom_fields['saswp_review_date_published'];
+                        }else{
+                            $review_markup['datePublished'] =    date('c',strtotime($custom_fields['saswp_review_date_published']));
+                        }
+                       
                     }  
 
                 }
@@ -2176,7 +2182,7 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_jobposting_schema_bs_unittext'])){
                      $input1['baseSalary']['value']['unitText'] =    $custom_fields['saswp_jobposting_schema_bs_unittext'];
                     }                    
-                    if(isset($custom_fields['saswp_jobposting_schema_validthrough']) && $custom_fields['saswp_jobposting_schema_validthrough'] < date('Y-m-d') ){
+                    if(isset($custom_fields['saswp_jobposting_schema_validthrough']) && date('Y-m-d',strtotime($custom_fields['saswp_jobposting_schema_validthrough'])) < date('Y-m-d') ){
                         $input1 = array();    
                     }
                     

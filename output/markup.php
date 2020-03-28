@@ -1405,7 +1405,7 @@ function saswp_job_posting_schema_markup($schema_id, $schema_post_id, $all_post_
     $input1['baseSalary']['value']['value']    = saswp_remove_warnings($all_post_meta, 'saswp_jobposting_schema_bs_value_'.$schema_id, 'saswp_array');
     $input1['baseSalary']['value']['unitText'] = saswp_remove_warnings($all_post_meta, 'saswp_jobposting_schema_bs_unittext_'.$schema_id, 'saswp_array');
     
-    if(isset($all_post_meta['saswp_jobposting_schema_validthrough_'.$schema_id][0]) && $all_post_meta['saswp_jobposting_schema_validthrough_'.$schema_id][0] < date('Y-m-d')){
+    if(isset($all_post_meta['saswp_jobposting_schema_validthrough_'.$schema_id][0]) && date('Y-m-d',strtotime($all_post_meta['saswp_jobposting_schema_validthrough_'.$schema_id][0])) < date('Y-m-d')){
         $input1 = array();    
     }
     

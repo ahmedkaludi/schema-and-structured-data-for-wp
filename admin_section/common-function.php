@@ -2537,6 +2537,11 @@ function saswp_migrate_old_social_profile(){
     
 }
 
+function saswp_validate_date($date, $format = 'Y-m-d H:i:s'){
+        $d = DateTime::createFromFormat($format, $date);
+        return $d && $d->format($format) == $date;
+}
+
 function saswp_format_date_time($date, $time=null){
     
     $formated = ''; 
