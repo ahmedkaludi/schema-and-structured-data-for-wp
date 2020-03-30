@@ -345,19 +345,7 @@ function saswp_event_schema_markup($schema_id, $schema_post_id, $all_post_meta){
                                                         'url'		=>  isset($event_image['thumbnail']) ? esc_url($event_image['thumbnail']):'' ,
                                                         'width'		=>  isset($event_image['width'])     ? esc_attr($event_image['width'])   :'' ,
                                                         'height'            =>  isset($event_image['height'])    ? esc_attr($event_image['height'])  :'' ,
-                                                    ),                                
-            'location'			=> array(
-                                                '@type'   => 'Place',
-                                                'name'    => saswp_remove_warnings($all_post_meta, 'saswp_event_schema_location_name_'.$schema_id, 'saswp_array'),
-                                                'address' => array(
-                                                     '@type'           => 'PostalAddress',
-                                                     'streetAddress'   => saswp_remove_warnings($all_post_meta, 'saswp_event_schema_location_streetaddress_'.$schema_id, 'saswp_array'),
-                                                     'addressLocality' => saswp_remove_warnings($all_post_meta, 'saswp_event_schema_location_locality_'.$schema_id, 'saswp_array'),
-                                                     'postalCode'      => saswp_remove_warnings($all_post_meta, 'saswp_event_schema_location_postalcode_'.$schema_id, 'saswp_array'),
-                                                     'addressRegion'   => saswp_remove_warnings($all_post_meta, 'saswp_event_schema_location_region_'.$schema_id, 'saswp_array'),                                                     
-                                                     'addressCountry'  => saswp_remove_warnings($all_post_meta, 'saswp_event_schema_location_country_'.$schema_id, 'saswp_array'),                                                     
-                                                )    
-                            ),
+                                                    ),                                            
             'offers'			=> array(
                                                 '@type'           => 'Offer',
                                                 'url'             => saswp_remove_warnings($all_post_meta, 'saswp_event_schema_url_'.$schema_id, 'saswp_array'),	                        
@@ -367,8 +355,53 @@ function saswp_event_schema_markup($schema_id, $schema_post_id, $all_post_meta){
                                                 'validFrom'       => isset($all_post_meta['saswp_event_schema_validfrom_'.$schema_id])?date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_event_schema_validfrom_'.$schema_id][0])):'',
                             )                         
                 );
-            
-                
+
+
+                $phy_location = array(
+                    '@type'   => 'Place',
+                    'name'    => saswp_remove_warnings($all_post_meta, 'saswp_event_schema_location_name_'.$schema_id, 'saswp_array'),
+                    'address' => array(
+                         '@type'           => 'PostalAddress',
+                         'streetAddress'   => saswp_remove_warnings($all_post_meta, 'saswp_event_schema_location_streetaddress_'.$schema_id, 'saswp_array'),
+                         'addressLocality' => saswp_remove_warnings($all_post_meta, 'saswp_event_schema_location_locality_'.$schema_id, 'saswp_array'),
+                         'postalCode'      => saswp_remove_warnings($all_post_meta, 'saswp_event_schema_location_postalcode_'.$schema_id, 'saswp_array'),
+                         'addressRegion'   => saswp_remove_warnings($all_post_meta, 'saswp_event_schema_location_region_'.$schema_id, 'saswp_array'),                                                     
+                         'addressCountry'  => saswp_remove_warnings($all_post_meta, 'saswp_event_schema_location_country_'.$schema_id, 'saswp_array'),                                                     
+                    )    
+                    );
+
+                $vir_location = array(
+                    '@type'   => 'VirtualLocation',
+                    'name'    => isset($all_post_meta['saswp_event_schema_virtual_location_name_'.$schema_id][0]) ? $all_post_meta['saswp_event_schema_virtual_location_name_'.$schema_id][0] : '',
+                    'url'     => isset($all_post_meta['saswp_event_schema_virtual_location_url_'.$schema_id][0]) ? $all_post_meta['saswp_event_schema_virtual_location_url_'.$schema_id][0]: ''
+                );    
+                if(isset($all_post_meta['saswp_event_schema_attendance_mode_'.$schema_id][0]) && $all_post_meta['saswp_event_schema_attendance_mode_'.$schema_id][0] == 'OfflineEventAttendanceMode'){
+                    $input1['location'] =  $phy_location;  
+                }else if(isset($all_post_meta['saswp_event_schema_attendance_mode_'.$schema_id][0]) && $all_post_meta['saswp_event_schema_attendance_mode_'.$schema_id][0] == 'OnlineEventAttendanceMode'){
+                    $input1['location'] =  $vir_location;   
+                }else{
+                    $input1['location'] =  array($vir_location, $phy_location);   
+                }            
+                if(isset($all_post_meta['saswp_event_schema_status_'.$schema_id][0])){
+                    $input1['eventStatus'] = $all_post_meta['saswp_event_schema_status_'.$schema_id][0];
+                }
+                if(isset($all_post_meta['saswp_event_schema_attendance_mode_'.$schema_id][0])){
+                    $input1['eventAttendanceMode'] = $all_post_meta['saswp_event_schema_attendance_mode_'.$schema_id][0];
+                }
+                if(isset($all_post_meta['saswp_event_schema_previous_start_date_'.$schema_id][0])){
+
+                    $date = $time = '';
+                    
+                    $date = $all_post_meta['saswp_event_schema_previous_start_date_'.$schema_id][0];
+                    
+                    if(isset($all_post_meta['saswp_event_schema_previous_start_time_'.$schema_id][0])){
+                        $time  = $all_post_meta['saswp_event_schema_previous_start_time_'.$schema_id][0];    
+                    }
+                    
+                    $input1['previousStartDate']        = saswp_format_date_time($date, $time);
+
+                }
+
                 if(isset($all_post_meta['saswp_event_schema_start_date_'.$schema_id][0])){
                     
                     $date = $time = '';
@@ -1372,7 +1405,7 @@ function saswp_job_posting_schema_markup($schema_id, $schema_post_id, $all_post_
     $input1['baseSalary']['value']['value']    = saswp_remove_warnings($all_post_meta, 'saswp_jobposting_schema_bs_value_'.$schema_id, 'saswp_array');
     $input1['baseSalary']['value']['unitText'] = saswp_remove_warnings($all_post_meta, 'saswp_jobposting_schema_bs_unittext_'.$schema_id, 'saswp_array');
     
-    if(isset($all_post_meta['saswp_jobposting_schema_validthrough_'.$schema_id][0]) && $all_post_meta['saswp_jobposting_schema_validthrough_'.$schema_id][0] < date('Y-m-d')){
+    if(isset($all_post_meta['saswp_jobposting_schema_validthrough_'.$schema_id][0]) && date('Y-m-d',strtotime($all_post_meta['saswp_jobposting_schema_validthrough_'.$schema_id][0])) < date('Y-m-d')){
         $input1 = array();    
     }
     
@@ -2621,6 +2654,7 @@ function saswp_review_schema_markup($schema_id, $schema_post_id, $all_post_meta)
     $input1['name']                         = isset($all_post_meta['saswp_review_name_'.$schema_id][0]) ? $all_post_meta['saswp_review_name_'.$schema_id][0] : '';
     $input1['url']                          = isset($all_post_meta['saswp_review_url_'.$schema_id][0]) ? $all_post_meta['saswp_review_url_'.$schema_id][0] : '';                                
     $input1['datePublished']                = isset($all_post_meta['saswp_review_date_published_'.$schema_id][0])&& $all_post_meta['saswp_review_date_published_'.$schema_id][0] !='' ? saswp_format_date_time($all_post_meta['saswp_review_date_published_'.$schema_id][0], get_post_time('h:i:s')) : '';                               
+    $input1['dateModified']                 = isset($all_post_meta['saswp_review_date_modified_'.$schema_id][0])&& $all_post_meta['saswp_review_date_modified_'.$schema_id][0] !='' ? saswp_format_date_time($all_post_meta['saswp_review_date_modified_'.$schema_id][0], get_post_time('h:i:s')) : '';                               
 
     if(isset($all_post_meta['saswp_review_publisher_'.$schema_id][0])){
         $input1['publisher']['@type']          =   'Organization';                                              

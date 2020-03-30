@@ -250,6 +250,7 @@
                                        html += '<option value="saswp_review_publisher_url">Review Publisher URL</option>';    
                                        html += '<option value="saswp_review_rating_value">Review Rating Value</option>';
                                        html += '<option value="saswp_review_date_published">Review Published Date</option>';
+                                       html += '<option value="saswp_review_date_modified">Review Modified Date</option>';
                                        html += '<option value="saswp_review_url">Review URL</option>';
                                        html += '</optgroup>'; 
                                       

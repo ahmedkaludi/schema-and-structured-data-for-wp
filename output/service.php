@@ -405,8 +405,24 @@ Class saswp_output_service{
                         }
                     }
                      if(isset($custom_fields['saswp_review_date_published'])){
-                       $review_markup['datePublished'] =    date('c',strtotime($custom_fields['saswp_review_date_published']));
-                    }  
+
+                        if(saswp_validate_date($custom_fields['saswp_review_date_published'], 'Y-m-d\TH:i:sP')){
+                            $review_markup['datePublished'] =    $custom_fields['saswp_review_date_published'];
+                        }else{
+                            $review_markup['datePublished'] =    date('c',strtotime($custom_fields['saswp_review_date_published']));
+                        }
+                       
+                    }
+                    
+                    if(isset($custom_fields['saswp_review_date_modified'])){
+
+                        if(saswp_validate_date($custom_fields['saswp_review_date_modified'], 'Y-m-d\TH:i:sP')){
+                            $review_markup['dateModified'] =    $custom_fields['saswp_review_date_modified'];
+                        }else{
+                            $review_markup['dateModified'] =    date('c',strtotime($custom_fields['saswp_review_date_modified']));
+                        }
+                       
+                    }
 
                 }
                                    
@@ -979,7 +995,10 @@ Class saswp_output_service{
                     break;
                                                     
                 case 'Event':      
-                      
+                    
+                    $phy_location = array();
+                    $vir_location = array();
+                    
                     if(isset($custom_fields['saswp_event_schema_name'])){
                      $input1['name'] =    $custom_fields['saswp_event_schema_name'];
                     }
@@ -989,29 +1008,57 @@ Class saswp_output_service{
                                        
                     if(isset($custom_fields['saswp_event_schema_location_name']) || isset($custom_fields['saswp_event_schema_location_streetaddress'])){
                         
-                            $input1['location']['@type'] = 'Place';   
-                            $input1['location']['name']  =    $custom_fields['saswp_event_schema_location_name'];
+                        $phy_location['@type'] = 'Place';   
+                        $phy_location['name']  =    $custom_fields['saswp_event_schema_location_name'];
 
                             if(isset($custom_fields['saswp_event_schema_location_streetaddress'])){
-                              $input1['location']['address']['streetAddress'] =    $custom_fields['saswp_event_schema_location_streetaddress'];
+                                $phy_location['address']['streetAddress'] =    $custom_fields['saswp_event_schema_location_streetaddress'];
                             }                                          
                             if(isset($custom_fields['saswp_event_schema_location_locality'])){
-                             $input1['location']['address']['addressLocality'] =    $custom_fields['saswp_event_schema_location_locality'];
+                                $phy_location['address']['addressLocality'] =    $custom_fields['saswp_event_schema_location_locality'];
                             }
                             if(isset($custom_fields['saswp_event_schema_location_region'])){
-                             $input1['location']['address']['addressRegion'] =    $custom_fields['saswp_event_schema_location_region'];
+                                $phy_location['address']['addressRegion'] =    $custom_fields['saswp_event_schema_location_region'];
                             }                    
                             if(isset($custom_fields['saswp_event_schema_location_postalcode'])){
-                             $input1['location']['address']['postalCode'] =    $custom_fields['saswp_event_schema_location_postalcode'];
+                                $phy_location['address']['postalCode'] =    $custom_fields['saswp_event_schema_location_postalcode'];
                             }
                             if(isset($custom_fields['saswp_event_schema_location_country'])){
-                             $input1['location']['address']['addressCountry'] =    $custom_fields['saswp_event_schema_location_country'];
+                                $phy_location['address']['addressCountry'] =    $custom_fields['saswp_event_schema_location_country'];
                             }
                             if(isset($custom_fields['saswp_event_schema_location_hasmap'])){
-                             $input1['location']['hasMap']  =  $custom_fields['saswp_event_schema_location_hasmap'];
+                             $phy_location['hasMap']  =  $custom_fields['saswp_event_schema_location_hasmap'];
                             }
+                    }
+                    if(isset($custom_fields['saswp_event_schema_virtual_location_name']) || isset($custom_fields['saswp_event_schema_virtual_location_url'])){
+                            $vir_location['@type'] = 'VirtualLocation';
+                            $reviews_arr['name']   = $custom_fields['saswp_event_schema_virtual_location_name'];
+                            $vir_location['url']   = $custom_fields['saswp_event_schema_virtual_location_url'];
                     }                                        
                     
+                    $input1['location'] = array($vir_location, $phy_location);
+
+                    if(isset($custom_fields['saswp_event_schema_status'])){
+                        $input1['eventStatus'] = $custom_fields['saswp_event_schema_status'];
+                    }
+                    if( isset($custom_fields['saswp_event_schema_attendance_mode']) ){
+                        $input1['eventAttendanceMode'] = $custom_fields['saswp_event_schema_attendance_mode'];
+                    }
+
+                    if(isset($custom_fields['saswp_event_schema_previous_start_date'])){
+                     
+                        $time = '';
+                        
+                        if(isset($custom_fields['saswp_event_schema_previous_start_time'])){
+                            
+                           $time =  $custom_fields['saswp_event_schema_previous_start_time'];
+                           
+                        }
+                        
+                        $input1['previousStartDate'] =    saswp_format_date_time($custom_fields['saswp_event_schema_previous_start_date'], $time);
+                        
+                    }
+
                     if(isset($custom_fields['saswp_event_schema_start_date'])){
                      
                      $time = '';
@@ -2145,7 +2192,7 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_jobposting_schema_bs_unittext'])){
                      $input1['baseSalary']['value']['unitText'] =    $custom_fields['saswp_jobposting_schema_bs_unittext'];
                     }                    
-                    if(isset($custom_fields['saswp_jobposting_schema_validthrough']) && $custom_fields['saswp_jobposting_schema_validthrough'] < date('Y-m-d') ){
+                    if(isset($custom_fields['saswp_jobposting_schema_validthrough']) && date('Y-m-d',strtotime($custom_fields['saswp_jobposting_schema_validthrough'])) < date('Y-m-d') ){
                         $input1 = array();    
                     }
                     
@@ -3115,7 +3162,7 @@ Class saswp_output_service{
                                                 
                                                 $resize_image = saswp_aq_resize( $image_details[0], $width[$i], $height[$i], true, false, true );
                                                 
-                                                if(isset($resize_image[0]) && isset($resize_image[1]) && isset($resize_image[2]) ){
+                                                if(isset($resize_image[0]) && $resize_image[0] !='' && isset($resize_image[1]) && isset($resize_image[2]) ){
                                                                                                                                                         
                                                     $input2['image'][$i]['@type']  = 'ImageObject';
                                                     
@@ -3150,7 +3197,7 @@ Class saswp_output_service{
                                                     
                                                         $resize_image = saswp_aq_resize( $image_details[0], $width[$i], $height[$i], true, false, true );
 													
-                                                        if(isset($resize_image[0]) && isset($resize_image[1]) && isset($resize_image[2]) ){
+                                                        if(isset($resize_image[0]) && $resize_image[0] != '' && isset($resize_image[1]) && isset($resize_image[2]) ){
 
                                                                 $input2['image'][$i]['@type']  = 'ImageObject';
                                                                 
@@ -3170,7 +3217,7 @@ Class saswp_output_service{
                                             
                                         } 
                                         
-                                        if(empty($input2)){
+                                        if(empty($input2) && isset($image_details[0]) && $image_details[0] !='' && isset($image_details[1]) && isset($image_details[2]) ){
                                             
                                                 $input2['image']['@type']  = 'ImageObject';
                                                 $input2['image']['@id']    = saswp_get_permalink().'#primaryimage';
@@ -3205,11 +3252,13 @@ Class saswp_output_service{
                                                                                                                                        
                                   if(is_array($attach_details) && !empty($attach_details)){
                                                                             
-                                                $attach_images['image'][$k]['@type']  = 'ImageObject';                                                
-                                                $attach_images['image'][$k]['url']    = esc_url($attachment);
-                                                $attach_images['image'][$k]['width']  = isset($attach_details[$k][0]) ? $attach_details[$k][0] : 0;
-                                                $attach_images['image'][$k]['height'] = isset($attach_details[$k][1]) ? $attach_details[$k][1] : 0;
-                                      
+                                                if($attachment !=''){
+                                                    $attach_images['image'][$k]['@type']  = 'ImageObject';                                                
+                                                    $attach_images['image'][$k]['url']    = esc_url($attachment);
+                                                    $attach_images['image'][$k]['width']  = isset($attach_details[$k][0]) ? $attach_details[$k][0] : 0;
+                                                    $attach_images['image'][$k]['height'] = isset($attach_details[$k][1]) ? $attach_details[$k][1] : 0;
+                                                }
+                                                                                      
                                   }
                                   
                                   $k++;
@@ -3242,10 +3291,12 @@ Class saswp_output_service{
                                                 
                                                 if(is_array($resized_image) && !empty($resized_image)){
                                                     
-                                                    $attach_images['image'][$key]['url']    =   $resized_image[0];
-                                                    $attach_images['image'][$key]['width']  =   $resized_image[1];
-                                                    $attach_images['image'][$key]['height'] =   $resized_image[2];                                                
-                                                    
+                                                    if(isset($resized_image[0]) && $resized_image[0] !=''){
+                                                        $attach_images['image'][$key]['url']    =   $resized_image[0];
+                                                        $attach_images['image'][$key]['width']  =   $resized_image[1];
+                                                        $attach_images['image'][$key]['height'] =   $resized_image[2];                                                
+                                                    }
+                                                                                                        
                                                 }
                                                 
                                             }                                             
@@ -3305,7 +3356,7 @@ Class saswp_output_service{
                                 
                                 $custom_logo_id    = get_theme_mod( 'custom_logo' );     
                                 $img_details       = wp_get_attachment_image_src( $custom_logo_id, 'full');                                  
-                                if($img_details[0]){
+                                if(isset($img_details[0])){
                                     $img_details = @saswp_aq_resize( $img_details[0], 600, 60, true, false, true );
                                 }
                                 

@@ -873,6 +873,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                                 $review_fields['saswp_review_publisher_url']  = 'Review Publisher URL';
                                 $review_fields['saswp_review_rating_value']   = 'Review Rating Value';
                                 $review_fields['saswp_review_date_published'] = 'Review Published Date'; 
+                                $review_fields['saswp_review_date_modified']  = 'Review Modified Date'; 
                                 $review_fields['saswp_review_url']            = 'Review URL'; 
                                
                             }
@@ -1183,6 +1184,8 @@ function saswp_schema_type_add_meta_box_save( $post_id ) {
 
                 if(isset($_POST['saswp_business_name'])){
                     update_post_meta( $post_id, 'saswp_business_name', sanitize_text_field( $_POST['saswp_business_name'] ) );   
+                }else{
+                    update_post_meta( $post_id, 'saswp_business_name', '' );   
                 }
                 if(isset($_POST['saswp_enable_speakable_schema'])){
                     update_post_meta( $post_id, 'saswp_enable_speakable_schema', intval($_POST['saswp_enable_speakable_schema']) );                                                                       
