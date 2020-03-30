@@ -121,6 +121,7 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 = 1.9.30 (30 Mar 2020) =
 
 * Fixed: Duplicate Query in some places that can be improved #897
+* Fixed: Structured data markup has a corrupted font #902
 * Fixed: Review Schema, datePublished is being populated with an incorrect format as offset time is missing #894
 * Fixed: Primary image other properties should not be appeared if url is blank #882
 * Fixed: Jump links not working in AMP if user is using it along with the Schema and Structured data FOR WP plugin #878
