@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.3
-Stable tag: 1.9.29
+Stable tag: 1.9.30
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -117,6 +117,19 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.9.30 (30 Mar 2020) =
+
+* Fixed: Duplicate Query in some places that can be improved #897
+* Fixed: Review Schema, datePublished is being populated with an incorrect format as offset time is missing #894
+* Fixed: Primary image other properties should not be appeared if url is blank #882
+* Fixed: Jump links not working in AMP if user is using it along with the Schema and Structured data FOR WP plugin #878
+* Fixed: Debug Warnings.(Trying to access array offset on value of type bool in /htdocs/1/wp-content/plugins/schema-and-structured-data-for-wp/output/service.php on line 3308) #898
+* Fixed: If we selected sub-business type that selected sub-business type should also appear in the schema type column #899
+* Added: Virtual Location property in event schema #886
+* Added: Event Attendance Mode property in event schema (google latest support) #886
+* Added: Event Status property in event schema (google latest support) #891
+* Added: Date Modified proprerty in review schema type. #894
 
 = 1.9.29 (26 Mar 2020) =
 
