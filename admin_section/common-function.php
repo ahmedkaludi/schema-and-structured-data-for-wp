@@ -1904,7 +1904,7 @@ if ( ! defined('ABSPATH') ) exit;
         if(is_object($post)){
             $content = get_post_field('post_content', $post->ID);
             $content = wp_strip_all_tags(strip_shortcodes($content));             
-            $content = preg_replace('/[^A-Za-z0-9\-]/', ' ', $content); // Removes special chars.
+            $content = str_replace('=', '', $content); // Removes special chars.
         }
         
         return apply_filters('saswp_the_content' ,$content);
