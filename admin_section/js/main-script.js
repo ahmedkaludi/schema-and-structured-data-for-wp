@@ -787,6 +787,15 @@ return false;
                               $("#saswp-kk-star-raring").val(0);           
                             }
                       break;
+                      case 'saswp-simple-author-box-checkbox':
+                          
+                          saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-simple-author-box").val(1);             
+                            }else{
+                              $("#saswp-simple-author-box").val(0);           
+                            }
+                      break;
                       case 'saswp-woocommerce-checkbox':
                           saswp_compatibliy_notes(current, id); 
                             if ($(this).is(':checked')) {              

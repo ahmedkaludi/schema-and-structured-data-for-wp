@@ -17,6 +17,12 @@ return array(
                     'opt_name'   => 'saswp-wordpress-news',
                     'part_in'    => 'free',
         ),
+        'simple_author_box'  =>  array(            
+            'name'       => 'Simple Author Box',
+            'free'       => 'simple-author-box/simple-author-box.php',                     
+            'opt_name'   => 'saswp-simple-author-box',
+            'part_in'    => 'free',
+        ),
         'easy_recipe'  =>  array(            
                     'name'       => 'EasyRecipe',
                     'free'       => 'easyrecipe/easyrecipe.php', 
