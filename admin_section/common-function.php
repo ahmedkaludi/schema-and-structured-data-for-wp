@@ -3064,8 +3064,13 @@ function saswp_get_video_links(){
                    
                }
                               
-           }  
-                 
+           } 
+
+           $attributes = saswp_get_gutenberg_block_data('core-embed/youtube');            
+           
+           if(isset($attributes['attrs']['url'])){
+                $response[] = $attributes['attrs']['url']; 
+           }
            
     }    
     return $response;
