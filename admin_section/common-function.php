@@ -2562,6 +2562,9 @@ function saswp_validate_date($date, $format = 'Y-m-d H:i:s'){
 function saswp_format_date_time($date, $time=null){
     
     $formated = ''; 
+
+    $timezone = get_option('timezone_string');
+    date_default_timezone_set($timezone);
     
     if($date && $time){
         $formated =  date('c',strtotime($date.' '.$time));       

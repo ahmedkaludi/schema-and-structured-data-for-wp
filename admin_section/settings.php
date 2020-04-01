@@ -1878,7 +1878,7 @@ function saswp_compatibility_page_callback(){
 		);
         
         $tagyeem = array(
-			'label'  => 'Tagyeem With Jannah Theme',
+			'label'  => 'Taqyeem With Jannah Theme',
 			'id'     => 'saswp-tagyeem-checkbox',                        
                         'name'   => 'saswp-tagyeem-checkbox',
 			'type'   => 'checkbox',
