@@ -290,8 +290,13 @@ return array(
                     'free'       => 'ht-recipes/ht-recipes.php',                     
                     'opt_name'   => 'saswp-ht-recipes',
                     'part_in'    => 'pro',
-        )    
-                
+        ),
+        'taqyeem' => array(            
+            'name'       => 'Taqyeem',
+            'free'       => 'taqyeem/taqyeem.php',               
+            'opt_name'   => 'saswp-taqyeem',
+            'part_in'    => 'free',
+        ),                    
     ),
     'themes' => array(
         'soledad' => array(            
@@ -299,13 +304,7 @@ return array(
                     'free'       => 'soledad',               
                     'opt_name'   => 'saswp-soledad',
                     'part_in'    => 'free',
-        ),
-        'jannah' => array(            
-                    'name'       => 'Jannah',
-                    'free'       => 'jannah',               
-                    'opt_name'   => 'saswp-tagyeem',
-                    'part_in'    => 'free',
-        ),
+        ),        
         'extra' => array(            
                     'name'       => 'Extra',
                     'free'       => 'Extra',               

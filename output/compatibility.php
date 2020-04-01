@@ -191,6 +191,9 @@ class saswp_output_compatibility{
     }
     public function saswp_simple_author_box_override(){                                                    
     }
+    public function saswp_taqyeem_override(){ 
+        remove_filter('tie_taqyeem_after_review_box', 'taqyeem_review_rich_snippet');
+    }
 
     public function saswp_kk_star_ratings_override(){
                         
@@ -391,6 +394,9 @@ class saswp_output_compatibility{
     }
     public function aiosp_on_activation(){
          $this->saswp_update_option_on_compatibility_activation('saswp-aiosp');
+    }
+    public function taqyeem_on_activation(){
+        $this->saswp_update_option_on_compatibility_activation('saswp-taqyeem');
     }
     public function squirrly_seo_on_activation(){
          $this->saswp_update_option_on_compatibility_activation('saswp-squirrly-seo');

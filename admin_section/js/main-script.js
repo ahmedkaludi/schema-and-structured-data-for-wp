@@ -868,12 +868,12 @@ return false;
                             }
                       break;
                       
-                      case 'saswp-tagyeem-checkbox':
+                      case 'saswp-taqyeem-checkbox':
                           saswp_compatibliy_notes(current, id); 
                             if ($(this).is(':checked')) {              
-                              $("#saswp-tagyeem").val(1);             
+                              $("#saswp-taqyeem").val(1);             
                             }else{
-                              $("#saswp-tagyeem").val(0);           
+                              $("#saswp-taqyeem").val(0);           
                             }
                       break;
                       

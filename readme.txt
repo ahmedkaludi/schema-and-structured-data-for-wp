@@ -721,7 +721,7 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Added: Event schema type added to the schema type list #157
 * Added: Compatibility with The Events Calendar plugin ( https://wordpress.org/plugins/the-events-calendar/ ) has been added in AMP. #157
 * Added: New Organization type list has been added to knowledge graph section including "NewsMediaOrganization". #147
-* Added: Compatibility with ( Tagyeem Review Plugin & Jannah News Theme ). #151
+* Added: Compatibility with ( taqyeem Review Plugin & Jannah News Theme ). #151
 * Bug Fixed: ItemAvailability text "onbackorder" should be converted to "PreOrder" for product schema #161
 * Bug Fixed: Bad escape sequence in string. #168
 

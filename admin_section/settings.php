@@ -1877,16 +1877,16 @@ function saswp_compatibility_page_callback(){
                         )
 		);
         
-        $tagyeem = array(
-			'label'  => 'Taqyeem With Jannah Theme',
-			'id'     => 'saswp-tagyeem-checkbox',                        
-                        'name'   => 'saswp-tagyeem-checkbox',
+        $taqyeem = array(
+			'label'  => 'Taqyeem',
+			'id'     => 'saswp-taqyeem-checkbox',                        
+                        'name'   => 'saswp-taqyeem-checkbox',
 			'type'   => 'checkbox',
                         'class'  => 'checkbox saswp-checkbox',
-                        'note'   => saswp_get_field_note('jannah'),
+                        'note'   => saswp_get_field_note('taqyeem'),
                         'hidden' => array(
-                                'id'   => 'saswp-tagyeem',
-                                'name' => 'sd_data[saswp-tagyeem]',                             
+                                'id'   => 'saswp-taqyeem',
+                                'name' => 'sd_data[saswp-taqyeem]',                             
                         )
 		);
         $smart_crawl = array(
@@ -2475,7 +2475,7 @@ function saswp_compatibility_page_callback(){
                 $woocommerce_mem,
                 $cooked, 
                 $soledad,
-                $tagyeem,
+                $taqyeem,
                 $extratheme,
                 $dwquestiton,                
                 $yoast,

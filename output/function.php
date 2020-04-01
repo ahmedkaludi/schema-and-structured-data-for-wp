@@ -638,6 +638,49 @@ function saswp_reading_time_and_word_count() {
  * @param type $id
  * @return type array
  */
+function saswp_extract_taqyeem_ratings(){
+        
+    global $sd_data, $post;    
+    $star_rating = array();
+    
+    if(isset($sd_data['saswp-taqyeem']) && $sd_data['saswp-taqyeem'] == 1 && function_exists('taqyeem_review_get_rich_snippet')){
+       
+        $rate  = get_post_meta( $post->ID, 'tie_user_rate', true );
+		$count = get_post_meta( $post->ID, 'tie_users_num', true );
+         
+        if( ! empty( $rate ) && ! empty( $count ) ){
+
+            $totla_users_score = round( $rate/$count, 2 );
+			$totla_users_score = ( $totla_users_score > 5 ) ? 5 : $totla_users_score;
+           
+            $star_rating['@type']        = 'AggregateRating';
+            $star_rating['ratingValue']  = $totla_users_score;
+            $star_rating['reviewCount']  = $count;                                                                                              
+            
+        }else{
+
+            $total_score = (int) get_post_meta( $post->ID, 'taq_review_score', true );
+
+            if( ! empty( $total_score ) && $total_score > 0 ){
+                $total_score = round( ($total_score*5)/100, 1 );
+            }
+
+            $star_rating['@type']        = 'AggregateRating';
+            $star_rating['ratingValue']  = $total_score;
+            $star_rating['reviewCount']  = 1;                                                                                              
+
+        }
+        
+    } 
+    return $star_rating;                       
+}
+
+/**
+ * Extracting the value of star ratings plugins on current post
+ * @global type $sd_data
+ * @param type $id
+ * @return type array
+ */
 function saswp_extract_kk_star_ratings(){
         
             global $sd_data;    
