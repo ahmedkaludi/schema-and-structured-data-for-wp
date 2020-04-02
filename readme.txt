@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.4
-Stable tag: 1.9.30
+Stable tag: 1.9.31
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -117,6 +117,16 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.9.31 (02 Apr 2020) =
+
+* Fixed: Select2 is not a function #904
+* Fixed: In Event date Time Zone is not working properly #806
+* Fixed: Count parameter must be an array #908
+* Fixed: YouTube URL is not getting fetched if add with Gutenberg block #900
+* Added: Compatibility with "Tagyeem" ( https://codecanyon.net/item/taqyeem-wordpress-review-plugin/4558799 ) plugin #594
+* Added: Compatibility with simple author box ( https://wordpress.org/plugins/simple-author-box ) #805
+
 
 = 1.9.30 (30 Mar 2020) =
 
