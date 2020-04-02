@@ -1248,52 +1248,7 @@ function saswp_schema_output() {
                                     $input1['itemReviewed']['review']                    = $added_reviews['review'];
                                     $input1['itemReviewed']['aggregateRating']           = $added_reviews['aggregateRating'];
                                 
-                                }
-                                                                                     
-                                if(isset($sd_data['saswp-tagyeem']) && $sd_data['saswp-tagyeem'] == 1 && (is_plugin_active('taqyeem/taqyeem.php') || get_template() != 'jannah') ){                                                                                                      
-                           
-                                   remove_action( 'TieLabs/after_post_entry',  'tie_article_schemas' );
-
-                                   $input1 = array(
-                                           '@context'       => saswp_context_url(),
-                                           '@type'          => 'Review',
-                                           '@id'	     => trailingslashit(saswp_get_permalink()).'#review',
-                                           'dateCreated'    => esc_html($date),
-                                           'datePublished'  => esc_html($date),
-                                           'dateModified'   => esc_html($modified_date),
-                                           'headline'       => saswp_get_the_title(),
-                                           'name'           => saswp_get_the_title(),
-                                           'keywords'       => tie_get_plain_terms( get_the_ID(), 'post_tag' ),
-                                           'url'            => trailingslashit(saswp_get_permalink()),
-                                           'description'    => saswp_get_the_excerpt(),
-                                           'articleBody'    => saswp_get_the_content(),
-                                           'copyrightYear'  => get_the_time( 'Y' ),                                                                                                           
-                                           'author'	     => saswp_get_author_details()                                                        
-
-                                           );
-
-                                           $total_score = (int) get_post_meta( get_the_ID(), 'taq_review_score', true );
-
-                                           if( ! empty( $total_score ) && $total_score > 0 ){
-
-                                               $total_score = round( ($total_score*5)/100, 1 );
-
-                                           }
-
-                                           $input1['itemReviewed'] = array(
-                                                   '@type' => 'Organization',
-                                                   'name'  => saswp_get_the_title(),
-                                           );
-
-                                           $input1['reviewRating'] = array(
-                                               '@type'       => 'Rating',
-                                               'worstRating' => 1,
-                                               'bestRating'  => 5,
-                                               'ratingValue' => esc_attr($total_score),
-                                               'description' => get_post_meta( get_the_ID(), 'taq_review_summary', true ),
-                                            );    
-
-                                }
+                                }                                                                                                                     
                                 
                                 $input1 = apply_filters('saswp_modify_service_schema_output', $input1 );
                                 
@@ -1499,6 +1454,13 @@ function saswp_schema_output() {
                             
                                     if($schema_type == 'Review'){
                                         
+                                      //Taqyeem 
+                                      
+                                      $taqyeem_rating = saswp_extract_taqyeem_ratings();
+
+                                      if(!empty($taqyeem_rating)){
+                                        $input1['itemReviewed']['aggregateRating'] = $taqyeem_rating; 
+                                      }
                                         //kk star rating 
                             
                                     $kkstar_aggregateRating = saswp_extract_kk_star_ratings();
@@ -1515,10 +1477,17 @@ function saswp_schema_output() {
                                         $input1['itemReviewed']['aggregateRating'] = $wp_post_rating_ar; 
                                     }
                                         
-                                    }else{
-                                    
+                                    }else{                                                                            
+
+                                        //Taqyeem 
+                                      
+                                        $taqyeem_rating = saswp_extract_taqyeem_ratings();
+
+                                        if(!empty($taqyeem_rating)){
+                                            $input1['aggregateRating'] = $taqyeem_rating; 
+                                        }
+
                                         //kk star rating 
-                            
                                         $kkstar_aggregateRating = saswp_extract_kk_star_ratings();
 
                                         if(!empty($kkstar_aggregateRating)){
@@ -1594,8 +1563,7 @@ function saswp_schema_output() {
                                               $input1['review'] = $strong_testimonials['reviews'];
                                           }
                                           
-                                    }
-                                                                        
+                                    }                                                                                                            
                         
                         }                                                
                                 

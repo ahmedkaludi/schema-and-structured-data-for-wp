@@ -189,6 +189,12 @@ class saswp_output_compatibility{
             }
                 
     }
+    public function saswp_simple_author_box_override(){                                                    
+    }
+    public function saswp_taqyeem_override(){ 
+        remove_filter('tie_taqyeem_after_review_box', 'taqyeem_review_rich_snippet');
+    }
+
     public function saswp_kk_star_ratings_override(){
                         
         remove_action('wp_head', 'Bhittani\StarRating\structured_data');
@@ -308,6 +314,9 @@ class saswp_output_compatibility{
     public function flex_mls_idx_on_activation(){        
         $this->saswp_update_option_on_compatibility_activation('saswp-flexmlx-compativility');                
     }
+    public function simple_author_box_on_activation(){
+        $this->saswp_update_option_on_compatibility_activation('saswp-simple-author-box');
+    }
     public function kk_star_ratings_on_activation(){
         $this->saswp_update_option_on_compatibility_activation('saswp-kk-star-raring');
     }
@@ -385,6 +394,9 @@ class saswp_output_compatibility{
     }
     public function aiosp_on_activation(){
          $this->saswp_update_option_on_compatibility_activation('saswp-aiosp');
+    }
+    public function taqyeem_on_activation(){
+        $this->saswp_update_option_on_compatibility_activation('saswp-taqyeem');
     }
     public function squirrly_seo_on_activation(){
          $this->saswp_update_option_on_compatibility_activation('saswp-squirrly-seo');

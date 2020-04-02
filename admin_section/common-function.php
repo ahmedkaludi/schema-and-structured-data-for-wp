@@ -2218,7 +2218,7 @@ if ( ! defined('ABSPATH') ) exit;
      */
     function saswp_get_author_details(){
 
-        global $post;
+        global $post, $sd_data;
 
         $author_details = array();            
 
@@ -2251,6 +2251,23 @@ if ( ! defined('ABSPATH') ) exit;
             $author_details['image']['height'] = $author_image['height'];
             $author_details['image']['width']  = $author_image['width'];
 
+        }
+        if(isset($sd_data['saswp-simple-author-box']) && $sd_data['saswp-simple-author-box'] == 1 && function_exists('sab_fs') ){
+
+            $sab_image = get_the_author_meta( 'sabox-profile-image', $author_id );
+
+            if($sab_image){
+
+                $image = @getimagesize($sab_image);
+
+                if($image){
+                    $author_details['image']['@type']  = 'ImageObject';
+                    $author_details['image']['url']    = $sab_image;
+                    $author_details['image']['height'] = $image[1];
+                    $author_details['image']['width']  = $image[0];
+                }                
+                                 
+            }
         }
 
         return $author_details;
@@ -2545,6 +2562,9 @@ function saswp_validate_date($date, $format = 'Y-m-d H:i:s'){
 function saswp_format_date_time($date, $time=null){
     
     $formated = ''; 
+
+    $timezone = get_option('timezone_string');
+    date_default_timezone_set($timezone);
     
     if($date && $time){
         $formated =  date('c',strtotime($date.' '.$time));       
@@ -2736,6 +2756,7 @@ function saswp_get_field_note($pname){
             'wpamp'                    => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://codecanyon.net/item/wp-amp-accelerated-mobile-pages-for-wordpress-and-woocommerce/16278608">WP AMP</a>',
             'ampwp'                    => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/amp-wp/">AMP WP</a>',
             'kk_star_ratings'          => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/kk-star-ratings/">kk Star Rating</a>',
+            'simple_author_box'        => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/simple-author-box//">Simple Author Box</a>',
             'wp_post_ratings'          => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wp-postratings/">WP-PostRatings</a>',
             'bb_press'                 => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/bbpress/">bbPress</a>',
             'woocommerce'              => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/woocommerce/">Woocommerce</a>',
@@ -2766,15 +2787,15 @@ function saswp_get_field_note($pname){
             'homeland'                 => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://themeforest.net/item/homeland-responsive-real-estate-theme-for-wordpress/6518965">Homeland</a>',            
             'wpresidence'              => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wpresidence.net/">WP Residence</a>',            
             'realhomes'                => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://themeforest.net/item/real-homes-wordpress-real-estate-theme/5373914">RealHomes</a>',
-            'jannah'                   => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://codecanyon.net/item/taqyeem-wordpress-review-plugin/4558799">Taqyeem</a>',
+            'taqyeem'                   => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://codecanyon.net/item/taqyeem-wordpress-review-plugin/4558799">Taqyeem</a>',
             'soledad'                  => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://themeforest.net/item/soledad-multiconcept-blogmagazine-wp-theme/12945398">Soledad Theme</a>',
             'zip_recipes'              => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/zip-recipes/">Zip Recipes</a>',
             'mediavine_create'         => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/mediavine-create/">Create by Mediavine</a>',
             'ht_recipes'               => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://themeforest.net/item/culinier-food-recipe-wordpress-theme/11088564/">HT-Recipes</a>',
             'easy_testimonials'        => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/easy-testimonials">Easy Testimonials</a>',
             'bne_testimonials'         => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/bne-testimonials/">BNE Testimonials</a>',
-            'testimonial_pro'          => esc_html__('Testimonial Pro','schema-and-structured-data-for-wp').' <a target="_blank" href="https://shapedplugin.com/plugin/testimonial-pro/">Testimonial Pro</a>',
-            'tevolution_events'        => esc_html__('Tevolution Events','schema-and-structured-data-for-wp').' <a target="_blank" href="https://templatic.com/wordpress-plugins/tevolution/">Tevolution Events</a>'
+            'testimonial_pro'          => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://shapedplugin.com/plugin/testimonial-pro/">Testimonial Pro</a>',
+            'tevolution_events'        => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://templatic.com/wordpress-plugins/tevolution/">Tevolution Events</a>'
         
         );
           
@@ -3043,8 +3064,13 @@ function saswp_get_video_links(){
                    
                }
                               
-           }  
-                 
+           } 
+
+           $attributes = saswp_get_gutenberg_block_data('core-embed/youtube');            
+           
+           if(isset($attributes['attrs']['url'])){
+                $response[] = $attributes['attrs']['url']; 
+           }
            
     }    
     return $response;

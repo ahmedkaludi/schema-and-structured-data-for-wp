@@ -83,7 +83,7 @@
        }
        
        function saswpCustomSelect2(){          
-       if((saswp_localize_data.post_type == 'saswp' || saswp_localize_data.page_now =='saswp') && saswp_localize_data.page_now !='saswp_page_structured_data_options'){
+       if((saswp_localize_data.post_type == 'saswp' || saswp_localize_data.page_now =='saswp') && saswp_localize_data.page_now !='saswp_page_structured_data_options' && jQuery('.saswp-custom-fields-select2').length ){
            
            jQuery('.saswp-custom-fields-select2').select2({
       ajax: {

@@ -1803,7 +1803,19 @@ function saswp_compatibility_page_callback(){
                                 'id'   => 'saswp-total-recipe-generator',
                                 'name' => 'sd_data[saswp-total-recipe-generator]',                             
                         )
-		);
+                );
+        $simple_author_box = array(
+                'label'  => 'Simple Author Box',
+                'id'     => 'saswp-simple-author-box-checkbox',                        
+                'name'   => 'saswp-simple-author-box-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('simple_author_box'),
+                'hidden' => array(
+                        'id'   => 'saswp-simple-author-box',
+                        'name' => 'sd_data[saswp-simple-author-box]',                             
+                )
+        );        
         $ampwp = array(
 			'label'  => 'AMP WP',
 			'id'     => 'saswp-ampwp-checkbox',                        
@@ -1865,16 +1877,16 @@ function saswp_compatibility_page_callback(){
                         )
 		);
         
-        $tagyeem = array(
-			'label'  => 'Tagyeem With Jannah Theme',
-			'id'     => 'saswp-tagyeem-checkbox',                        
-                        'name'   => 'saswp-tagyeem-checkbox',
+        $taqyeem = array(
+			'label'  => 'Taqyeem',
+			'id'     => 'saswp-taqyeem-checkbox',                        
+                        'name'   => 'saswp-taqyeem-checkbox',
 			'type'   => 'checkbox',
                         'class'  => 'checkbox saswp-checkbox',
-                        'note'   => saswp_get_field_note('jannah'),
+                        'note'   => saswp_get_field_note('taqyeem'),
                         'hidden' => array(
-                                'id'   => 'saswp-tagyeem',
-                                'name' => 'sd_data[saswp-tagyeem]',                             
+                                'id'   => 'saswp-taqyeem',
+                                'name' => 'sd_data[saswp-taqyeem]',                             
                         )
 		);
         $smart_crawl = array(
@@ -2454,7 +2466,8 @@ function saswp_compatibility_page_callback(){
                 $betteramp,
                 $wpamp,
                 $ampwp,
-                $kk_star,  
+                $kk_star,
+                $simple_author_box,  
                 $wppostratings,
                 $bbpress,
                 $woocommerce,
@@ -2462,7 +2475,7 @@ function saswp_compatibility_page_callback(){
                 $woocommerce_mem,
                 $cooked, 
                 $soledad,
-                $tagyeem,
+                $taqyeem,
                 $extratheme,
                 $dwquestiton,                
                 $yoast,
