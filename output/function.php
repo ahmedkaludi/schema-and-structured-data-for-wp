@@ -1916,7 +1916,7 @@ function saswp_get_modified_markup($input1, $schema_type, $schema_post_id, $sche
                             case 'local_business':
                                                                
                                 $data          = saswp_local_business_schema_markup($schema_post_id, $schema_post_id, $all_post_meta);
-                                $input1        = array_merge($data, $input1);
+                                $input1        = array_merge($input1, $data);
 
                                 break;
                             
