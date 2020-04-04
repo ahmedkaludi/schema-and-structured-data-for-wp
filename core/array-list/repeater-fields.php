@@ -38,7 +38,11 @@ return array( 'schema_type_element' => array(
                         ),
                         'Event' => array(
                                'performer'     => 'performer',                                                
-                        ),
+						),
+						'qanda' => array(
+							'accepted_answer'  => 'accepted_answer',
+							'suggested_answer' => 'suggested_answer' 							
+					 	),
                         'HowTo' => array(
                                'how-to-supply' => 'howto_supply', 
                                'how-to-tool'   => 'howto_tool', 
@@ -196,22 +200,76 @@ return array( 'schema_type_element' => array(
 		    )                                                            
                     ),
                     'howto_supply' => array(                    
-                    array(
-			'label'     => 'Supply Name',
-			'name'      => 'saswp_howto_supply_name',
-			'type'      => 'text',                        
-		    ),
-                    array(
-			'label'     => 'Supply URL',
-			'name'      => 'saswp_howto_supply_url',
-			'type'      => 'text',                        
-		    ),    
-                    array(
-			'label'     => 'Supply Image',
-			'name'      => 'saswp_howto_supply_image',
-			'type'      => 'media',                        
-		    )                                        
-                    ),   
+						array(
+							'label'     => 'Supply Name',
+							'name'      => 'saswp_howto_supply_name',
+							'type'      => 'text',                        
+							),
+									array(
+							'label'     => 'Supply URL',
+							'name'      => 'saswp_howto_supply_url',
+							'type'      => 'text',                        
+							),    
+									array(
+							'label'     => 'Supply Image',
+							'name'      => 'saswp_howto_supply_image',
+							'type'      => 'media',                        
+							)                                        
+					),					
+					'accepted_answer' => array(                    
+						array(
+							'label'     => 'Accepted Answer Text',
+							'name'      => 'saswp_qa_accepted_answer_text',
+							'type'      => 'text',                        
+							),
+						array(
+							'label'     => 'Accepted Answer Date Created',
+							'name'      => 'saswp_qa_accepted_answer_date_created',
+							'type'      => 'text',                        
+							),    
+						array(
+							'label'     => 'Accepted Answer Upvote Count',
+							'name'      => 'saswp_qa_accepted_answer_upvote_count',
+							'type'      => 'number',                        
+							),
+						array(
+								'label'     => 'Accepted Answer Url',
+								'name'      => 'saswp_qa_accepted_answer_url',
+								'type'      => 'text',                        
+						),
+						array(
+								'label'     => 'Accepted Answer Author Name',
+								'name'      => 'saswp_qa_accepted_author_name',
+								'type'      => 'text',                        
+							)                                        
+                    ),
+					'suggested_answer' => array(                    
+						array(
+							'label'     => 'suggested Answer Text',
+							'name'      => 'saswp_qa_suggested_answer_text',
+							'type'      => 'text',                        
+							),
+						array(
+							'label'     => 'suggested Answer Date Created',
+							'name'      => 'saswp_qa_suggested_answer_date_created',
+							'type'      => 'text',                        
+							),    
+						array(
+							'label'     => 'suggested Answer Upvote Count',
+							'name'      => 'saswp_qa_suggested_answer_upvote_count',
+							'type'      => 'number',                        
+							),
+						array(
+								'label'     => 'suggested Answer Url',
+								'name'      => 'saswp_qa_suggested_answer_url',
+								'type'      => 'text',                        
+						),
+						array(
+								'label'     => 'suggested Answer Author Name',
+								'name'      => 'saswp_qa_suggested_author_name',
+								'type'      => 'text',                        
+							)                                        
+                    ),
                     'howto_tool' => array(                    
                     array(
 			'label'     => 'Tool Name',

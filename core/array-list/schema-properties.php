@@ -2039,58 +2039,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         'label' => 'Answer Count',
                         'id'    => 'saswp_qa_answer_count_'.$schema_id,
                         'type'  => 'text',                           
-                    ),                      
-                    array(
-                            'label' => 'Accepted Answer Text',
-                            'id' => 'saswp_qa_accepted_answer_text_'.$schema_id,
-                            'type' => 'text',                           
-                    ),
-                    array(
-                            'label' => 'Accepted Answer Date Created',
-                            'id' => 'saswp_qa_accepted_answer_date_created_'.$schema_id,
-                            'type' => 'text',                           
-                    ),
-                    array(
-                            'label' => 'Accepted Answer Upvote Count',
-                            'id' => 'saswp_qa_accepted_answer_upvote_count_'.$schema_id,
-                            'type' => 'text',                           
-                    ),
-                    array(
-                            'label' => 'Accepted Answer Url',
-                            'id' => 'saswp_qa_accepted_answer_url_'.$schema_id,
-                            'type' => 'text',                           
-                    ),
-                    array(
-                            'label' => 'Accepted Answer Author Name',
-                            'id' => 'saswp_qa_accepted_author_name_'.$schema_id,
-                            'type' => 'text',                           
-                    ),    
-                                                
-                    array(
-                            'label' => 'Suggested Answer Text',
-                            'id' => 'saswp_qa_suggested_answer_text_'.$schema_id,
-                            'type' => 'text',                           
-                    ),
-                    array(
-                            'label' => 'Suggested Answer Date Created',
-                            'id' => 'saswp_qa_suggested_answer_date_created_'.$schema_id,
-                            'type' => 'text',                           
-                    ),
-                    array(
-                            'label' => 'Suggested Answer Upvote Count',
-                            'id' => 'saswp_qa_suggested_answer_upvote_count_'.$schema_id,
-                            'type' => 'text',                           
-                    ),
-                    array(
-                            'label' => 'Suggested Answer Url',
-                            'id' => 'saswp_qa_suggested_answer_url_'.$schema_id,
-                            'type' => 'text',                           
-                    ),
-                    array(
-                            'label' => 'Suggested Answer Author Name',
-                            'id' => 'saswp_qa_suggested_author_name_'.$schema_id,
-                            'type' => 'text',                           
-                    ),                        
+                    )                                            
                         
                    );
                     break;
