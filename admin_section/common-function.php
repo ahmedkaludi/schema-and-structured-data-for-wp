@@ -2966,6 +2966,29 @@ function saswp_post_type_capabilities(){
         return $caplist;      
 }
 
+function saswp_get_image_by_url($url){
+    
+    $response = array();
+    
+    if($url){        
+                
+            $image_details      = @getimagesize($url);                    
+            
+            if($image_details){
+
+                    $response['@type']  = 'ImageObject';
+                    $response['url']    = $url;
+                    $response['width']  = $image_details[0]; 
+                    $response['height'] = $image_details[1];                   
+                    
+            }
+                
+    }
+    
+    return $response;
+    
+}
+
 function saswp_get_image_by_id($image_id){
     
     $response = array();
