@@ -21,7 +21,7 @@ class HowTo_Block extends Widget_Base {
 		return [ 'howto', 'how to','how to schema', 'schema', 'structured data' ];
 	}
         public function get_icon() {
-		return 'eicon-list';
+		return 'eicon-text';
 	}
 
 	protected function _register_controls() {
