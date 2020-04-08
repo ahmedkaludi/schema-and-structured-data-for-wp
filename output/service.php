@@ -2721,7 +2721,7 @@ Class saswp_output_service{
                         $suggested_answer[] =  array(
                             '@type'       => 'Answer',
                             'upvoteCount' => 1,
-                            'url'         => get_permalink($answer->ID),
+                            'url'         => get_permalink().'#post-'.$answer->ID,
                             'text'        => wp_strip_all_tags($answer->post_content),
                             'dateCreated' => get_the_date("Y-m-d\TH:i:s\Z", $answer),
                             'author'      => array('@type' => 'Person', 'name' => $authorinfo->data->user_nicename),
