@@ -1293,6 +1293,7 @@ function saswp_schema_output() {
                                 'datePublished'                 => esc_html($date),
                                 'dateModified'                  => esc_html($modified_date),
                                 'description'                   => $description,
+                                'transcript'                    => saswp_get_the_content(),
                                 'name'				            => saswp_get_the_title(),
                                 'uploadDate'                    => esc_html($date),
                                 'thumbnailUrl'                  => $thumbnail,

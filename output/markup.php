@@ -2505,6 +2505,7 @@ function saswp_video_object_schema_markup($schema_id, $schema_post_id, $all_post
         'datePublished'                 => isset($all_post_meta['saswp_video_object_date_published_'.$schema_id])? saswp_format_date_time($all_post_meta['saswp_video_object_date_published_'.$schema_id][0], get_post_time('h:i:s')) :'',
         'dateModified'                  => isset($all_post_meta['saswp_video_object_date_modified_'.$schema_id])? saswp_format_date_time($all_post_meta['saswp_video_object_date_modified_'.$schema_id][0], get_the_modified_time('h:i:s')) :'',
         'description'                   => saswp_remove_warnings($all_post_meta, 'saswp_video_object_description_'.$schema_id, 'saswp_array'),
+        'transcript'                    => saswp_remove_warnings($all_post_meta, 'saswp_video_object_transcript_'.$schema_id, 'saswp_array'),
         'name'				            => saswp_remove_warnings($all_post_meta, 'saswp_video_object_name_'.$schema_id, 'saswp_array'),
         'uploadDate'                    => isset($all_post_meta['saswp_video_object_upload_date_'.$schema_id])?date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_video_object_upload_date_'.$schema_id][0])):'',
         'thumbnailUrl'                  => saswp_remove_warnings($all_post_meta, 'saswp_video_object_thumbnail_url_'.$schema_id, 'saswp_array'),

@@ -1463,6 +1463,9 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_video_object_description'])){
                      $input1['description'] =   wp_strip_all_tags(strip_shortcodes( $custom_fields['saswp_video_object_description'] ));
                     }
+                    if(isset($custom_fields['saswp_video_object_transcript'])){
+                    $input1['transcript'] =   wp_strip_all_tags(strip_shortcodes( $custom_fields['saswp_video_object_transcript'] ));
+                    }
                     if(isset($custom_fields['saswp_video_object_name'])){
                      $input1['name'] =    $custom_fields['saswp_video_object_name'];
                     }                    

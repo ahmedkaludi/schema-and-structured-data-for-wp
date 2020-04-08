@@ -1835,15 +1835,21 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'default' => get_the_modified_date("Y-m-d")
                     ),
                     array(
-                            'label' => 'Description',
-                            'id' => 'saswp_video_object_description_'.$schema_id,
-                            'type' => 'textarea',
+                            'label'   => 'Description',
+                            'id'      => 'saswp_video_object_description_'.$schema_id,
+                            'type'    => 'textarea',
                             'default' => get_the_excerpt()
                     ),
                     array(
-                            'label' => 'Name',
-                            'id' => 'saswp_video_object_name_'.$schema_id,
-                            'type' => 'text',
+                            'label'   => 'Transcript',
+                            'id'      => 'saswp_video_object_transcript_'.$schema_id,
+                            'type'    => 'textarea',
+                            'default' => is_object($post) ? wp_strip_all_tags(strip_shortcodes($post->post_content)) : ''
+                    ),
+                    array(
+                            'label'   => 'Name',
+                            'id'      => 'saswp_video_object_name_'.$schema_id,
+                            'type'    => 'text',
                             'default' => saswp_get_the_title()
                     ),
                     array(
