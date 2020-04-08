@@ -581,6 +581,18 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'default' => get_the_modified_date("Y-m-d")
                     ),
                     array(
+                        'label'   => 'Last Reviewed',
+                        'id'      => 'saswp_webpage_last_reviewed_'.$schema_id,
+                        'type'    => 'text',
+                        'default' => get_the_modified_date("Y-m-d")
+                    ),
+                     array(
+                        'label'   => 'Reviewed By',
+                        'id'      => 'saswp_webpage_reviewed_by_'.$schema_id,
+                        'type'    => 'text',
+                        'default' => saswp_remove_warnings($sd_data, 'sd_name', 'saswp_string')
+                      ),
+                    array(
                             'label' => 'Author Name',
                             'id' => 'saswp_webpage_author_name_'.$schema_id,
                             'type' => 'text',
