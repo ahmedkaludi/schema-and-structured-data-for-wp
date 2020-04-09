@@ -71,6 +71,25 @@ class SASWP_Reviews_Form {
         
 
         public function saswp_save_review_form_data(){
+            /**
+             * getallheaders() is supported only in Apache Web Server
+             * and not in other popular web servers like NGINX.
+             * 
+             * Create the function if not already present, following the code
+             * in https://www.php.net/manual/en/function.getallheaders.php#84262
+             */
+            if (!function_exists('getallheaders')) {
+                function getallheaders()
+                {
+                    $headers = [];
+                    foreach ($_SERVER as $name => $value) {
+                        if (substr($name, 0, 5) == 'HTTP_') {
+                            $headers[str_replace(' ', '-', ucwords(strtolower(str_replace('_', ' ', substr($name, 5)))))] = $value;
+                        }
+                    }
+                    return $headers;
+                }
+            }  
             
             $form_data = $_POST;                 
             $headers = getallheaders();
