@@ -94,7 +94,7 @@ class Faq_Block extends Widget_Base {
             
                 global $saswp_elementor_faq;
             
-		$settings            = $this->get_settings_for_display();
+				$settings            = $this->get_settings_for_display();
                 $order_type          = $settings['order_type'];                
                 $style               ='';
                 

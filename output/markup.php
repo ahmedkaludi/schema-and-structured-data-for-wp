@@ -1957,36 +1957,66 @@ function saswp_qanda_schema_markup($schema_id, $schema_post_id, $all_post_meta){
 
     }else{
         
-        $input1 = array(
-            '@context'		  => saswp_context_url(),
-            '@type'		  => 'QAPage',
-            '@id'                 => trailingslashit(get_permalink()).'#qapage',
-            'mainEntity'          => array(
-                    '@type'		  => 'Question' ,
-                    'name'		  => saswp_remove_warnings($all_post_meta, 'saswp_qa_question_title_'.$schema_id, 'saswp_array'),
-                    'text'		  => saswp_remove_warnings($all_post_meta, 'saswp_qa_question_description_'.$schema_id, 'saswp_array'),
-                    'upvoteCount'         => saswp_remove_warnings($all_post_meta, 'saswp_qa_upvote_count_'.$schema_id, 'saswp_array'),
-                    'dateCreated'         => isset($all_post_meta['saswp_qa_date_created_'.$schema_id])?date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_qa_date_created_'.$schema_id][0])):'',
-                    'author'              => array('@type' => 'Person','name' =>saswp_remove_warnings($all_post_meta, 'saswp_qa_question_author_name_'.$schema_id, 'saswp_array')) ,
-                    'answerCount'         => 2 ,
-                    'acceptedAnswer'         => array(
-                                    '@type'       => 'Answer',
-                                    'upvoteCount' => saswp_remove_warnings($all_post_meta, 'saswp_qa_accepted_answer_upvote_count_'.$schema_id, 'saswp_array'),
-                                    'url'         => saswp_remove_warnings($all_post_meta, 'saswp_qa_accepted_answer_url_'.$schema_id, 'saswp_array'),
-                                    'text'        => saswp_remove_warnings($all_post_meta, 'saswp_qa_accepted_answer_text_'.$schema_id, 'saswp_array'),
-                                    'dateCreated' => isset($all_post_meta['saswp_qa_accepted_answer_date_created_'.$schema_id])?date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_qa_accepted_answer_date_created_'.$schema_id][0])):'',
-                                    'author'      => array('@type' => 'Person', 'name' => saswp_remove_warnings($all_post_meta, 'saswp_qa_accepted_author_name_'.$schema_id, 'saswp_array')),
-                    ) ,
-                    'suggestedAnswer'         => array(
-                                    '@type'       => 'Answer',
-                                    'upvoteCount' => saswp_remove_warnings($all_post_meta, 'saswp_qa_suggested_answer_upvote_count_'.$schema_id, 'saswp_array'),
-                                    'url'         => saswp_remove_warnings($all_post_meta, 'saswp_qa_suggested_answer_url_'.$schema_id, 'saswp_array'),
-                                    'text'        => saswp_remove_warnings($all_post_meta, 'saswp_qa_suggested_answer_text_'.$schema_id, 'saswp_array'),
-                                    'dateCreated' => isset($all_post_meta['saswp_qa_suggested_answer_date_created_'.$schema_id])?date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_qa_suggested_answer_date_created_'.$schema_id][0])):'',
-                                    'author'      => array('@type' => 'Person', 'name' => saswp_remove_warnings($all_post_meta, 'saswp_qa_suggested_author_name_'.$schema_id, 'saswp_array')),
-                    ) ,                                            
-            )
-        );
+        $input1['@context'] = saswp_context_url();
+        $input1['@type']    = 'QAPage';
+        $input1['@id']      = trailingslashit(get_permalink()).'#qapage';
+
+        $input1['mainEntity']['@type']         = 'Question';
+        $input1['mainEntity']['name']          = saswp_remove_warnings($all_post_meta, 'saswp_qa_question_title_'.$schema_id, 'saswp_array');
+        $input1['mainEntity']['text']          = saswp_remove_warnings($all_post_meta, 'saswp_qa_question_description_'.$schema_id, 'saswp_array');
+        $input1['mainEntity']['upvoteCount']   = saswp_remove_warnings($all_post_meta, 'saswp_qa_upvote_count_'.$schema_id, 'saswp_array');
+        $input1['mainEntity']['dateCreated']   = isset($all_post_meta['saswp_qa_date_created_'.$schema_id])?date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_qa_date_created_'.$schema_id][0])):'';
+        $input1['mainEntity']['author']        = array('@type' => 'Person','name' =>saswp_remove_warnings($all_post_meta, 'saswp_qa_question_author_name_'.$schema_id, 'saswp_array'));
+        $input1['mainEntity']['answerCount']   = saswp_remove_warnings($all_post_meta, 'saswp_qa_answer_count_'.$schema_id, 'saswp_array');
+        
+        $answer    = get_post_meta($schema_post_id, 'accepted_answer_'.$schema_id, true);
+
+        $answer_arr = array();
+        
+        if(!empty($answer)){
+
+            foreach($answer as $val){
+
+                $supply_data = array();
+
+                if($val['saswp_qa_accepted_answer_text']){
+                    $supply_data['@type']       = 'Answer';
+                    $supply_data['upvoteCount'] = $val['saswp_qa_accepted_answer_upvote_count'];
+                    $supply_data['url']         = $val['saswp_qa_accepted_answer_url'];
+                    $supply_data['text']        = $val['saswp_qa_accepted_answer_text'];
+                    $supply_data['dateCreated'] = saswp_format_date_time($val['saswp_qa_accepted_answer_date_created']);
+                    $supply_data['author']      = $val['saswp_qa_accepted_author_name'];                    
+                }
+
+               $answer_arr[] =  $supply_data;
+            }
+           $input1['mainEntity']['acceptedAnswer'] = $answer_arr;
+        }
+
+        $answer    = get_post_meta($schema_post_id, 'suggested_answer_'.$schema_id, true);
+
+        $answer_arr = array();
+        
+        if(!empty($answer)){
+
+            foreach($answer as $val){
+
+                $supply_data = array();
+
+                if($val['saswp_qa_suggested_answer_text']){
+                    $supply_data['@type']       = 'Answer';
+                    $supply_data['upvoteCount'] = $val['saswp_qa_suggested_answer_upvote_count'];
+                    $supply_data['url']         = $val['saswp_qa_suggested_answer_url'];
+                    $supply_data['text']        = $val['saswp_qa_suggested_answer_text'];
+                    $supply_data['dateCreated'] = saswp_format_date_time($val['saswp_qa_suggested_answer_date_created']);
+                    $supply_data['author']      = $val['saswp_qa_suggested_author_name'];                    
+                }
+
+               $answer_arr[] =  $supply_data;
+            }
+           $input1['mainEntity']['suggestedAnswer'] = $answer_arr;
+        }
+
     }   
     
     return $input1;
@@ -2188,6 +2218,17 @@ function saswp_webpage_schema_markup($schema_id, $schema_post_id, $all_post_meta
         'inLanguage'                    => get_bloginfo('language'),    
         'name'				=> saswp_remove_warnings($all_post_meta, 'saswp_webpage_name_'.$schema_id, 'saswp_array'),
         'url'				=> saswp_remove_warnings($all_post_meta, 'saswp_webpage_url_'.$schema_id, 'saswp_array'),
+        'lastReviewed' 	    => isset($all_post_meta['saswp_webpage_last_reviewed_'.$schema_id])? saswp_format_date_time($all_post_meta['saswp_webpage_last_reviewed_'.$schema_id][0], get_post_time('h:i:s')) :'',
+        'reviewedBy'	    => array(
+            '@type'			=> 'Organization',
+            'logo' 			=> array(
+                    '@type'		=> 'ImageObject',
+                    'url'		=> saswp_remove_warnings($all_post_meta, 'saswp_webpage_organization_logo_'.$schema_id, 'saswp_array'),
+                    'width'		=> saswp_remove_warnings($slogo, 'width', 'saswp_string'),
+                    'height'	=> saswp_remove_warnings($slogo, 'height', 'saswp_string'),
+                    ),
+            'name'			=> saswp_remove_warnings($all_post_meta, 'saswp_webpage_organization_name_'.$schema_id, 'saswp_array'),
+         ),        
         'description'                   => saswp_remove_warnings($all_post_meta, 'saswp_webpage_description_'.$schema_id, 'saswp_array'),
         'mainEntity'                    => array(
                         '@type'			=> 'Article',
@@ -2467,14 +2508,15 @@ function saswp_video_object_schema_markup($schema_id, $schema_post_id, $all_post
         $author_image = get_post_meta( get_the_ID(), 'saswp_video_object_author_image_'.$schema_id.'_detail',true);
 
         $input1 = array(
-        '@context'			=> saswp_context_url(),
-        '@type'				=> 'VideoObject',
+        '@context'			            => saswp_context_url(),
+        '@type'				            => 'VideoObject',
         '@id'                           => trailingslashit(get_permalink()).'#videoobject',    
-        'url'				=> saswp_remove_warnings($all_post_meta, 'saswp_video_object_url_'.$schema_id, 'saswp_array'),
-        'headline'			=> saswp_remove_warnings($all_post_meta, 'saswp_video_object_headline_'.$schema_id, 'saswp_array'),
+        'url'				            => saswp_remove_warnings($all_post_meta, 'saswp_video_object_url_'.$schema_id, 'saswp_array'),
+        'headline'			            => saswp_remove_warnings($all_post_meta, 'saswp_video_object_headline_'.$schema_id, 'saswp_array'),
         'datePublished'                 => isset($all_post_meta['saswp_video_object_date_published_'.$schema_id])? saswp_format_date_time($all_post_meta['saswp_video_object_date_published_'.$schema_id][0], get_post_time('h:i:s')) :'',
         'dateModified'                  => isset($all_post_meta['saswp_video_object_date_modified_'.$schema_id])? saswp_format_date_time($all_post_meta['saswp_video_object_date_modified_'.$schema_id][0], get_the_modified_time('h:i:s')) :'',
         'description'                   => saswp_remove_warnings($all_post_meta, 'saswp_video_object_description_'.$schema_id, 'saswp_array'),
+        'transcript'                    => saswp_remove_warnings($all_post_meta, 'saswp_video_object_transcript_'.$schema_id, 'saswp_array'),
         'name'				            => saswp_remove_warnings($all_post_meta, 'saswp_video_object_name_'.$schema_id, 'saswp_array'),
         'uploadDate'                    => isset($all_post_meta['saswp_video_object_upload_date_'.$schema_id])?date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_video_object_upload_date_'.$schema_id][0])):'',
         'thumbnailUrl'                  => saswp_remove_warnings($all_post_meta, 'saswp_video_object_thumbnail_url_'.$schema_id, 'saswp_array'),

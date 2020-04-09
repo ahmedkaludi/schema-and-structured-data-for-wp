@@ -954,13 +954,21 @@ Class saswp_output_service{
                 case 'WebPage':
                     
                     if(isset($custom_fields['saswp_webpage_name'])){
-                     $input1['name'] =    $custom_fields['saswp_webpage_name'];
+                        $input1['name'] =    $custom_fields['saswp_webpage_name'];
                     }
                     if(isset($custom_fields['saswp_webpage_url'])){
-                     $input1['url'] =    $custom_fields['saswp_webpage_url'];
+                        $input1['url'] =    $custom_fields['saswp_webpage_url'];
                     }
                     if(isset($custom_fields['saswp_webpage_description'])){
-                     $input1['description'] =   wp_strip_all_tags(strip_shortcodes( $custom_fields['saswp_webpage_description'] )) ;
+                        $input1['description'] =   wp_strip_all_tags(strip_shortcodes( $custom_fields['saswp_webpage_description'] )) ;
+                    }
+
+                    if(isset($custom_fields['saswp_webpage_reviewed_by'])){
+                        $input1['reviewedBy'] =    $custom_fields['saswp_webpage_reviewed_by'];
+                    }
+
+                    if(isset($custom_fields['saswp_webpage_last_reviewed'])){
+                        $input1['lastReviewed'] =    $custom_fields['saswp_webpage_last_reviewed'];
                     }
                     
                     if(isset($custom_fields['saswp_webpage_main_entity_of_page'])){
@@ -1462,6 +1470,9 @@ Class saswp_output_service{
                     }
                     if(isset($custom_fields['saswp_video_object_description'])){
                      $input1['description'] =   wp_strip_all_tags(strip_shortcodes( $custom_fields['saswp_video_object_description'] ));
+                    }
+                    if(isset($custom_fields['saswp_video_object_transcript'])){
+                    $input1['transcript'] =   wp_strip_all_tags(strip_shortcodes( $custom_fields['saswp_video_object_transcript'] ));
                     }
                     if(isset($custom_fields['saswp_video_object_name'])){
                      $input1['name'] =    $custom_fields['saswp_video_object_name'];
@@ -2721,7 +2732,7 @@ Class saswp_output_service{
                         $suggested_answer[] =  array(
                             '@type'       => 'Answer',
                             'upvoteCount' => 1,
-                            'url'         => get_permalink($answer->ID),
+                            'url'         => get_permalink().'#post-'.$answer->ID,
                             'text'        => wp_strip_all_tags($answer->post_content),
                             'dateCreated' => get_the_date("Y-m-d\TH:i:s\Z", $answer),
                             'author'      => array('@type' => 'Person', 'name' => $authorinfo->data->user_nicename),
@@ -2975,10 +2986,21 @@ Class saswp_output_service{
                  $input1 = array(
 				'@context'			=> saswp_context_url(),
 				'@type'				=> 'WebPage' ,
-                                '@id'				=> trailingslashit(saswp_get_permalink()).'#webpage',
+                '@id'				=> trailingslashit(saswp_get_permalink()).'#webpage',
 				'name'				=> saswp_get_the_title(),
-				'url'				=> saswp_get_permalink(),
-                                'inLanguage'                    => get_bloginfo('language'),
+                'url'				=> saswp_get_permalink(),
+                'lastReviewed'      => esc_html($modified_date),
+                'reviewedBy'        => array(
+                    '@type'			=> 'Organization',
+                    'logo' 			=> array(
+                        '@type'		=> 'ImageObject',
+                        'url'		=> esc_url($logo),
+                        'width'		=> esc_attr($width),
+                        'height'	=> esc_attr($height),
+                        ),
+                    'name'			=> esc_attr($site_name),
+                ), 
+                'inLanguage'                    => get_bloginfo('language'),
 				'description'                   => saswp_get_the_excerpt(),
 				'mainEntity'                    => array(
 						'@type'			=> 'Article',

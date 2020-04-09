@@ -290,9 +290,9 @@ function saswp_generate_field_data( $post_id ){
 function saswp_comparison_logic_checker($input){
     
         global $post;              
-        $type       = $input['key_1'];
-        $comparison = $input['key_2'];
-        $data       = $input['key_3'];
+        $type       = isset($input['key_1']) ? $input['key_1'] : '';
+        $comparison = isset($input['key_2']) ? $input['key_2'] : '';
+        $data       = isset($input['key_3']) ? $input['key_3'] : '';
         $result     = ''; 
        
         // Get all the users registered

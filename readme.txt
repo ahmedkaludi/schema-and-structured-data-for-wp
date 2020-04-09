@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.4
-Stable tag: 1.9.31
+Stable tag: 1.9.32
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -117,6 +117,18 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.9.32 (09 Apr 2020) =
+
+* Added: Property "Transcript" in videoObject schema type #776
+* Added: Property "Last reviewed & Reviewed by" in WebPage schema type #776
+* Added: HowTo schema widget for Elementor #819
+* Enhancement: Q&A schema shoud have option to add more suggested answers. #912
+* Fixed: Notice: date_default_timezone_set(): Timezone ID '' is invalid
+* Fixed: Undefined index: key_3 in admin_section\structure_admin.php on line 295 #921
+* Fixed: LocalBusiness @id field value is not being added in json ld markup #915
+* Fixed: Q&A schema on a bbpress topic page, it outputs the reply's permalink but it should be reply's fragment on the topic page linked using anchor (#) links. #831
+
 
 = 1.9.31 (02 Apr 2020) =
 

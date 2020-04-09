@@ -581,6 +581,18 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'default' => get_the_modified_date("Y-m-d")
                     ),
                     array(
+                        'label'   => 'Last Reviewed',
+                        'id'      => 'saswp_webpage_last_reviewed_'.$schema_id,
+                        'type'    => 'text',
+                        'default' => get_the_modified_date("Y-m-d")
+                    ),
+                     array(
+                        'label'   => 'Reviewed By',
+                        'id'      => 'saswp_webpage_reviewed_by_'.$schema_id,
+                        'type'    => 'text',
+                        'default' => saswp_remove_warnings($sd_data, 'sd_name', 'saswp_string')
+                      ),
+                    array(
                             'label' => 'Author Name',
                             'id' => 'saswp_webpage_author_name_'.$schema_id,
                             'type' => 'text',
@@ -1835,15 +1847,21 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'default' => get_the_modified_date("Y-m-d")
                     ),
                     array(
-                            'label' => 'Description',
-                            'id' => 'saswp_video_object_description_'.$schema_id,
-                            'type' => 'textarea',
+                            'label'   => 'Description',
+                            'id'      => 'saswp_video_object_description_'.$schema_id,
+                            'type'    => 'textarea',
                             'default' => get_the_excerpt()
                     ),
                     array(
-                            'label' => 'Name',
-                            'id' => 'saswp_video_object_name_'.$schema_id,
-                            'type' => 'text',
+                            'label'   => 'Transcript',
+                            'id'      => 'saswp_video_object_transcript_'.$schema_id,
+                            'type'    => 'textarea',
+                            'default' => is_object($post) ? wp_strip_all_tags(strip_shortcodes($post->post_content)) : ''
+                    ),
+                    array(
+                            'label'   => 'Name',
+                            'id'      => 'saswp_video_object_name_'.$schema_id,
+                            'type'    => 'text',
                             'default' => saswp_get_the_title()
                     ),
                     array(
@@ -2039,58 +2057,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         'label' => 'Answer Count',
                         'id'    => 'saswp_qa_answer_count_'.$schema_id,
                         'type'  => 'text',                           
-                    ),                      
-                    array(
-                            'label' => 'Accepted Answer Text',
-                            'id' => 'saswp_qa_accepted_answer_text_'.$schema_id,
-                            'type' => 'text',                           
-                    ),
-                    array(
-                            'label' => 'Accepted Answer Date Created',
-                            'id' => 'saswp_qa_accepted_answer_date_created_'.$schema_id,
-                            'type' => 'text',                           
-                    ),
-                    array(
-                            'label' => 'Accepted Answer Upvote Count',
-                            'id' => 'saswp_qa_accepted_answer_upvote_count_'.$schema_id,
-                            'type' => 'text',                           
-                    ),
-                    array(
-                            'label' => 'Accepted Answer Url',
-                            'id' => 'saswp_qa_accepted_answer_url_'.$schema_id,
-                            'type' => 'text',                           
-                    ),
-                    array(
-                            'label' => 'Accepted Answer Author Name',
-                            'id' => 'saswp_qa_accepted_author_name_'.$schema_id,
-                            'type' => 'text',                           
-                    ),    
-                                                
-                    array(
-                            'label' => 'Suggested Answer Text',
-                            'id' => 'saswp_qa_suggested_answer_text_'.$schema_id,
-                            'type' => 'text',                           
-                    ),
-                    array(
-                            'label' => 'Suggested Answer Date Created',
-                            'id' => 'saswp_qa_suggested_answer_date_created_'.$schema_id,
-                            'type' => 'text',                           
-                    ),
-                    array(
-                            'label' => 'Suggested Answer Upvote Count',
-                            'id' => 'saswp_qa_suggested_answer_upvote_count_'.$schema_id,
-                            'type' => 'text',                           
-                    ),
-                    array(
-                            'label' => 'Suggested Answer Url',
-                            'id' => 'saswp_qa_suggested_answer_url_'.$schema_id,
-                            'type' => 'text',                           
-                    ),
-                    array(
-                            'label' => 'Suggested Answer Author Name',
-                            'id' => 'saswp_qa_suggested_author_name_'.$schema_id,
-                            'type' => 'text',                           
-                    ),                        
+                    )                                            
                         
                    );
                     break;
