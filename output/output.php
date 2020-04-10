@@ -1477,6 +1477,15 @@ function saswp_schema_output() {
                                     if(!empty($wp_post_rating_ar)){
                                         $input1['itemReviewed']['aggregateRating'] = $wp_post_rating_ar; 
                                     }
+
+                                    // WP Customer Reviews starts here
+                                    $wp_customer_rv = saswp_get_wp_customer_reviews();                                    
+                                    
+                                    if($wp_customer_rv){                                        
+                                        $input1['itemReviewed']['aggregateRating'] = $wp_customer_rv['AggregateRating'];
+                                        $input1['itemReviewed']['review'] = $wp_customer_rv['reviews'];                                                                                                                              
+                                    }
+                                    // WP Customer Reviews ends here
                                         
                                     }else{                                                                            
 
@@ -1502,6 +1511,15 @@ function saswp_schema_output() {
                                         if(!empty($wp_post_rating_ar)){
                                             $input1['aggregateRating'] = $wp_post_rating_ar; 
                                         }
+
+                                        // WP Customer Reviews starts here
+                                        $wp_customer_rv = saswp_get_wp_customer_reviews();                                    
+                                        
+                                        if($wp_customer_rv){                                        
+                                            $input1['aggregateRating'] = $wp_customer_rv['AggregateRating'];
+                                            $input1['review'] = $wp_customer_rv['reviews'];                                                                                                                              
+                                        }
+                                        // WP Customer Reviews ends here
                                         
                                     }
                                       
@@ -1564,7 +1582,7 @@ function saswp_schema_output() {
                                               $input1['review'] = $strong_testimonials['reviews'];
                                           }
                                           
-                                    }                                                                                                            
+                                    }                                                                        
                         
                         }                                                
                                 

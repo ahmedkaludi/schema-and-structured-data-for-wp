@@ -1804,6 +1804,18 @@ function saswp_compatibility_page_callback(){
                                 'name' => 'sd_data[saswp-total-recipe-generator]',                             
                         )
                 );
+        $wp_customer_review = array(
+                'label'  => 'WP Customer Reviews',
+                'id'     => 'saswp-wp-customer-reviews-checkbox',                        
+                'name'   => 'saswp-wp-customer-reviews-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('wp_customer_reviews'),
+                'hidden' => array(
+                        'id'   => 'saswp-wp-customer-reviews',
+                        'name' => 'sd_data[saswp-wp-customer-reviews]',                             
+                )
+        );        
         $simple_author_box = array(
                 'label'  => 'Simple Author Box',
                 'id'     => 'saswp-simple-author-box-checkbox',                        
@@ -2467,6 +2479,7 @@ function saswp_compatibility_page_callback(){
                 $wpamp,
                 $ampwp,
                 $kk_star,
+                $wp_customer_review,
                 $simple_author_box,  
                 $wppostratings,
                 $bbpress,

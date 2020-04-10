@@ -1978,3 +1978,79 @@ function saswp_explod_by_semicolon($data){
     }    
     return $response;    
 }
+function saswp_get_wp_customer_reviews(){
+
+    global $post, $sd_data, $response_rv;
+    
+    $reviews = array();
+    $ratings = array();
+
+    if(!$response_rv && isset($sd_data['saswp-wp-customer-reviews']) && $sd_data['saswp-wp-customer-reviews'] == 1){
+
+        $queryOpts = array(
+            'orderby'          => 'date',
+            'order'            => 'DESC',        
+            'post_type'        => 'wpcr3_review',
+            'post_status'      => 'publish',    
+            'posts_per_page'   => -1,    
+        );
+
+        if ($post->ID != -1) {
+			// if $postid is not -1 (all reviews from all posts), need to filter by meta value for post id
+			$meta_query = array('relation' => 'AND');
+			$meta_query[] = array(
+				'key' => "wpcr3_review_post",
+				'value' => $post->ID,
+				'compare' => '='
+			);
+			$queryOpts['meta_query'] = $meta_query;
+		}
+        
+        $reviews_post = new WP_Query($queryOpts);    
+        
+        if($reviews_post->posts){
+    
+            $sumofrating = 0;
+            $avg_rating  = 1;
+    
+            foreach ($reviews_post->posts as $value){
+                
+                 $meta = get_post_custom($value->ID);
+                 
+                 $rating       = $meta['wpcr3_review_rating'][0];              
+                 
+                 $sumofrating += $rating;
+                    
+                 $reviews[] = array(
+                     '@type'         => 'Review',
+                     'author'        => array('@type'=> 'Person', 'name' => $meta['wpcr3_review_name'][0]),
+                     'datePublished' => saswp_format_date_time($value->post_date),
+                     'description'   => $value->post_content,
+                     'reviewRating'  => array(
+                                        '@type'	        => 'Rating',
+                                        'bestRating'	=> '5',
+                                        'ratingValue'	=> $rating,
+                                        'worstRating'	=> '1',
+                           )
+                 ); 
+    
+                }
+    
+                if($sumofrating> 0){
+                  $avg_rating = $sumofrating /  count($reviews); 
+                }
+    
+                $ratings =  array(
+                                                '@type'         => 'AggregateRating',
+                                                'ratingValue'	=> $avg_rating,
+                                                'reviewCount'   => count($reviews)
+                );
+    
+        }
+        $response_rv =  array('reviews' => $reviews, 'AggregateRating' => $ratings);
+
+    }    
+
+    return $response_rv;
+
+}

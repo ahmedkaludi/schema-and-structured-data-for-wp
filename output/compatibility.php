@@ -170,6 +170,8 @@ class saswp_output_compatibility{
     }
     public function saswp_total_recipe_generator_override(){                                                        
     }
+    public function saswp_wp_customer_reviews_override(){                                                        
+    }
     public function saswp_testimonial_pro_override(){
       
                 $args = array(                   
@@ -451,6 +453,9 @@ class saswp_output_compatibility{
     }
     public function total_recipe_generator_on_activation(){
          $this->saswp_update_option_on_compatibility_activation('saswp-total-recipe-generator');
+    }
+    public function wp_customer_reviews_on_activation(){
+        $this->saswp_update_option_on_compatibility_activation('saswp-wp-customer-reviews');
     }
     public function saswp_update_option_on_compatibility_activation($opt_name){   
         

@@ -1227,6 +1227,16 @@ return false;
                             
                       break;
                       
+                      case 'saswp-wp-customer-reviews-checkbox':
+                           saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-wp-customer-reviews").val(1);                                
+                            }else{
+                              $("#saswp-wp-customer-reviews").val(0);                                          
+                            }
+                            
+                      break;
+                      
                       case 'saswp-total-recipe-generator-checkbox':
                            saswp_compatibliy_notes(current, id); 
                             if ($(this).is(':checked')) {              

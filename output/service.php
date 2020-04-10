@@ -776,6 +776,7 @@ Class saswp_output_service{
                     break;
                 
                 case 'Blogposting':
+                case 'BlogPosting':
                                        
                     if(isset($custom_fields['saswp_blogposting_main_entity_of_page'])){
                      $input1['mainEntityOfPage'] =    $custom_fields['saswp_blogposting_main_entity_of_page'];
