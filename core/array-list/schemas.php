@@ -28,7 +28,8 @@ return array(
                 'Review'                   => 'Review',
                 'Recipe'                   => 'Recipe', 
                 'TVSeries'                 => 'TVSeries',
-                'SoftwareApplication'      => 'SoftwareApplication',       
+                'SoftwareApplication'      => 'SoftwareApplication', 
+                'MobileApplication'        => 'MobileApplication',       
                 'TechArticle'              => 'TechArticle',                                                                                        
                 'WebPage'                  => 'WebPage'                                                                
         ),

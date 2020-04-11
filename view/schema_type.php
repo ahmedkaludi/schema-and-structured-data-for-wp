@@ -177,6 +177,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                              'Product'               => 'Product',                                
                              'Recipe'                => 'Recipe',                             
                              'SoftwareApplication'   => 'SoftwareApplication',
+                             'MobileApplication'     => 'MobileApplication',
                              'VideoGame'             => 'VideoGame', 
                         );                                                             
 

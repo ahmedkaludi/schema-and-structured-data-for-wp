@@ -1679,6 +1679,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                         'Product'               => 'Product',                                
                                         'Recipe'                => 'Recipe',                             
                                         'SoftwareApplication'   => 'SoftwareApplication',
+                                        'MobileApplication'     => 'MobileApplication',
                                         'VideoGame'             => 'VideoGame', 
                             )                                                        
                          );
@@ -1816,6 +1817,75 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         ),    
                     );
                     break;
+
+                    case 'MobileApplication':
+                                        
+                        $meta_field = array(
+                        
+                        array(
+                                'label' => 'Name',
+                                'id' => 'saswp_mobile_app_schema_name_'.$schema_id,
+                                'type' => 'text',                           
+                        ),
+                        array(
+                                'label' => 'Description',
+                                'id' => 'saswp_mobile_app_schema_description_'.$schema_id,
+                                'type' => 'textarea',                            
+                        ),
+                        array(
+                                'label' => 'Image',
+                                'id'    => 'saswp_mobile_app_schema_image_'.$schema_id,
+                                'type'  => 'media',                            
+                        ),    
+                        array(
+                                'label' => 'Operating System',
+                                'id' => 'saswp_mobile_app_schema_operating_system_'.$schema_id,
+                                'type' => 'text',                            
+                        ),
+                        array(
+                                'label' => 'Application Category',
+                                'id' => 'saswp_mobile_app_schema_application_category_'.$schema_id,
+                                'type' => 'text',                            
+                        ),
+                        array(
+                                'label' => 'Price',
+                                'id' => 'saswp_mobile_app_schema_price_'.$schema_id,
+                                'type' => 'text',                            
+                        ),
+                        array(
+                                'label' => 'Price Currency',
+                                'id' => 'saswp_mobile_app_schema_price_currency_'.$schema_id,
+                                'type' => 'text',                           
+                        ),                            
+                        array(
+                                'label' => 'Date Published',
+                                'id' => 'saswp_mobile_app_schema_date_published_'.$schema_id,
+                                'type' => 'text',
+                                'default' => get_the_date("Y-m-d")
+                        ),
+                        array(
+                                'label' => 'Date Modified',
+                                'id' => 'saswp_mobile_app_schema_date_modified_'.$schema_id,
+                                'type' => 'text',
+                                'default' => get_the_modified_date("Y-m-d")
+                        ),
+                        array(
+                                'label' => 'Aggregate Rating',
+                                'id' => 'saswp_mobile_app_schema_enable_rating_'.$schema_id,
+                                'type' => 'checkbox',                           
+                            ),
+                        array(
+                                'label' => 'Rating',
+                                'id' => 'saswp_mobile_app_schema_rating_value_'.$schema_id,
+                                'type' => 'text',                           
+                            ),
+                        array(
+                                'label' => 'Rating Count',
+                                'id' => 'saswp_mobile_app_schema_rating_count_'.$schema_id,
+                                'type' => 'text',                            
+                            ),    
+                        );
+                        break;    
                 
                 case 'VideoObject':
 

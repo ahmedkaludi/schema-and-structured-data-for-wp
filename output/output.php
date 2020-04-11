@@ -932,6 +932,51 @@ function saswp_schema_output() {
                                 }
                                                         
                             break;
+
+                            case 'MobileApplication':
+                                                                                                           
+                                $input1 = array(
+                                '@context'			=> saswp_context_url(),
+                                '@type'				=> $schema_type ,
+                                '@id'				=> trailingslashit(saswp_get_permalink()).'#MobileApplication',         						                        
+                                'datePublished'                 => esc_html($date),
+                                'dateModified'                  => esc_html($modified_date),
+                                'author'			=> saswp_get_author_details()			
+                                );
+                                                        
+                                $woo_markp = $service_object->saswp_schema_markup_generator($schema_type);
+                                
+                                if($woo_markp){
+                                    $input1 = array_merge($input1, $woo_markp);
+                                }
+                                                                
+                                unset($input1['brand'], $input1['mpn'], $input1['sku'],$input1['gtin8'], $input1['gtin13']);
+                                
+                                if(!empty($publisher)){                            
+                                     $input1 = array_merge($input1, $publisher);                            
+                                }                                
+                                if(!empty($aggregateRating)){
+                                    $input1['aggregateRating'] = $aggregateRating;
+                                }                                
+                                if(!empty($extra_theme_review)){
+                                   $input1 = array_merge($input1, $extra_theme_review);
+                                }                               
+                                if(isset($sd_data['saswp_comments_schema']) && $sd_data['saswp_comments_schema'] ==1){
+                                   $input1['comment'] = saswp_get_comments(get_the_ID());
+                                }    
+                                
+                                $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
+                                                                                                
+                                $input1 = apply_filters('saswp_modify_mobile_application_schema_output', $input1 );
+                                
+                                $input1 = saswp_get_modified_markup($input1, $schema_type, $schema_post_id, $schema_options);
+                                
+                                if($modified_schema == 1){
+                                    
+                                    $input1 = saswp_mobile_app_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
+                                }
+                                                        
+                            break;
                         
                             case 'WebPage':
                                                                 

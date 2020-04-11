@@ -883,16 +883,50 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_software_schema_date_modified'])){
                      $input1['dateModified'] =    $custom_fields['saswp_software_schema_date_modified'];
                     }
-                    if(isset($custom_fields['saswp_software_rating_value']) && isset($custom_fields['saswp_software_rating_count'])){
-                       $input1['aggregateRating']['@type']       =   'AggregateRating';
-                       $input1['aggregateRating']['worstRating'] =   0;
-                       $input1['aggregateRating']['bestRating']  =   5;
-                       $input1['aggregateRating']['ratingValue'] =    $custom_fields['saswp_software_rating_value'];
-                       $input1['aggregateRating']['ratingCount'] =    $custom_fields['saswp_software_rating_count'];
-                    }
+                    if(isset($custom_fields['saswp_software_schema_rating']) && isset($custom_fields['saswp_software_schema_rating_count'])){
+                        $input1['aggregateRating']['@type']       =   'AggregateRating';                           
+                        $input1['aggregateRating']['ratingValue'] =    $custom_fields['saswp_software_schema_rating'];
+                        $input1['aggregateRating']['ratingCount'] =    $custom_fields['saswp_software_schema_rating_count'];
+                     }
+                                                                                
+                    break;    
                     
-                                                            
-                    break;       
+                    case 'MobileApplication':
+                    
+                        if(isset($custom_fields['saswp_mobile_app_schema_name'])){
+                         $input1['name'] =    $custom_fields['saswp_mobile_app_schema_name'];
+                        }
+                        if(isset($custom_fields['saswp_mobile_app_schema_description'])){
+                         $input1['description'] =    wp_strip_all_tags(strip_shortcodes( $custom_fields['saswp_mobile_app_schema_description'] ));
+                        }
+                        if(isset($custom_fields['saswp_mobile_app_schema_image'])){
+                         $input1['image'] =    $custom_fields['saswp_mobile_app_schema_image'];
+                        }
+                        if(isset($custom_fields['saswp_mobile_app_schema_operating_system'])){
+                         $input1['operatingSystem'] =    $custom_fields['saswp_mobile_app_schema_operating_system'];
+                        }
+                        if(isset($custom_fields['saswp_mobile_app_schema_application_category'])){
+                         $input1['applicationCategory'] =    $custom_fields['saswp_mobile_app_schema_application_category'];
+                        }
+                        if(isset($custom_fields['saswp_mobile_app_schema_price'])){
+                         $input1['offers']['price'] =    $custom_fields['saswp_mobile_app_schema_price'];
+                        }
+                        if(isset($custom_fields['saswp_mobile_app_schema_price_currency'])){
+                         $input1['offers']['priceCurrency'] =    $custom_fields['saswp_mobile_app_schema_price_currency'];
+                        }                    
+                        if(isset($custom_fields['saswp_mobile_app_schema_date_published'])){
+                         $input1['datePublished'] =    $custom_fields['saswp_mobile_app_schema_date_published'];
+                        }
+                        if(isset($custom_fields['saswp_mobile_app_schema_date_modified'])){
+                         $input1['dateModified'] =    $custom_fields['saswp_mobile_app_schema_date_modified'];
+                        }
+                        if(isset($custom_fields['saswp_mobile_app_schema_rating_value']) && isset($custom_fields['saswp_mobile_app_schema_rating_count'])){
+                           $input1['aggregateRating']['@type']       =   'AggregateRating';                           
+                           $input1['aggregateRating']['ratingValue'] =    $custom_fields['saswp_mobile_app_schema_rating_value'];
+                           $input1['aggregateRating']['ratingCount'] =    $custom_fields['saswp_mobile_app_schema_rating_count'];
+                        }
+                                                                                    
+                        break;       
                 
                 case 'NewsArticle':
                                                                   
@@ -3033,6 +3067,7 @@ Class saswp_output_service{
                     
                 case 'Product':
                 case 'SoftwareApplication':
+                case 'MobileApplication':
                 case 'Book':
                                                                         
                         $product_details = $this->saswp_woocommerce_product_details(get_the_ID());  

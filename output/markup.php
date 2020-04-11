@@ -489,7 +489,51 @@ function saswp_course_schema_markup($schema_id, $schema_post_id, $all_post_meta)
     return $input1;
     
 }
+function saswp_mobile_app_schema_markup($schema_id, $schema_post_id, $all_post_meta){
+    
+    $input1 = array();
+        
+    $input1 = array(
+             '@context'			=> saswp_context_url(),
+             '@type'				=> 'MobileApplication',
+             '@id'                           => trailingslashit(get_permalink()).'#MobileApplication',     
+             'name'			        => saswp_remove_warnings($all_post_meta, 'saswp_mobile_app_schema_name_'.$schema_id, 'saswp_array'),
+             'description'                   => saswp_remove_warnings($all_post_meta, 'saswp_mobile_app_schema_description_'.$schema_id, 'saswp_array'),
+             'operatingSystem'		=> saswp_remove_warnings($all_post_meta, 'saswp_mobile_app_schema_operating_system_'.$schema_id, 'saswp_array'),
+             'applicationCategory'		=> saswp_remove_warnings($all_post_meta, 'saswp_mobile_app_schema_application_category_'.$schema_id, 'saswp_array'),                        
+             'offers'                        => array(
+                                                 '@type'         => 'Offer',
+                                                 'price'         => saswp_remove_warnings($all_post_meta, 'saswp_mobile_app_schema_price_'.$schema_id, 'saswp_array'),	                         
+                                                 'priceCurrency' => saswp_remove_warnings($all_post_meta, 'saswp_mobile_app_schema_price_currency_'.$schema_id, 'saswp_array'),	                         
+                                              ),
+             'datePublished'                 => isset($all_post_meta['saswp_mobile_app_schema_date_published_'.$schema_id][0])? saswp_format_date_time($all_post_meta['saswp_mobile_app_schema_date_published_'.$schema_id][0], get_post_time('h:i:s')) : '',
+             'dateModified'                  => isset($all_post_meta['saswp_mobile_app_schema_date_modified_'.$schema_id][0])? saswp_format_date_time($all_post_meta['saswp_mobile_app_schema_date_modified_'.$schema_id][0], get_the_modified_time('h:i:s')) : '',
 
+                );
+
+                $soft_image = get_post_meta( get_the_ID(), 'saswp_mobile_app_schema_image_'.$schema_id.'_detail',true); 
+
+                if(!(empty($soft_image))){
+
+                     $input1['image']['@type']        = 'ImageObject';
+                     $input1['image']['url']          = isset($soft_image['thumbnail']) ? esc_url($soft_image['thumbnail']):'';
+                     $input1['image']['height']       = isset($soft_image['width'])     ? esc_attr($soft_image['width'])   :'';
+                     $input1['image']['width']        = isset($soft_image['height'])    ? esc_attr($soft_image['height'])  :'';
+
+                 }
+                 
+                 if(saswp_remove_warnings($all_post_meta, 'saswp_mobile_app_schema_enable_rating_'.$schema_id, 'saswp_array') == 1){   
+                                 
+                                          $input1['aggregateRating'] = array(
+                                                            "@type"       => "AggregateRating",
+                                                            "ratingValue" => saswp_remove_warnings($all_post_meta, 'saswp_mobile_app_schema_rating_value_'.$schema_id, 'saswp_array'),
+                                                            "reviewCount" => saswp_remove_warnings($all_post_meta, 'saswp_mobile_app_schema_rating_count_'.$schema_id, 'saswp_array')
+                                                         );                                       
+                }
+        
+    return $input1;
+    
+}
 function saswp_software_app_schema_markup($schema_id, $schema_post_id, $all_post_meta){
     
     $input1 = array();
@@ -2788,6 +2832,11 @@ function saswp_review_schema_markup($schema_id, $schema_post_id, $all_post_meta)
              $item_schema = saswp_software_app_schema_markup($schema_id, $schema_post_id, $all_post_meta);
 
              break;
+         case 'MobileApplication':
+
+             $item_schema = saswp_mobile_app_schema_markup($schema_id, $schema_post_id, $all_post_meta);
+   
+            break;    
          case 'VideoGame':
 
              $item_schema = saswp_video_game_schema_markup($schema_id, $schema_post_id, $all_post_meta);
