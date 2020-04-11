@@ -33,7 +33,7 @@ function saswp_get_reviews_schema_markup($reviews){
                                         
                                         $reviews_arr[] = array(
                                             '@type'         => 'Review',
-                                            'author'        => $rv['saswp_reviewer_name'],
+                                            'author'        => array('@type'=> 'Person', 'name' => $rv['saswp_reviewer_name']),
                                             'datePublished' => $rv['saswp_review_date'],
                                             'description'   => $rv['saswp_review_text'],
                                             'reviewRating'  => array(

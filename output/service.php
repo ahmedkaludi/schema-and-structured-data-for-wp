@@ -2709,7 +2709,7 @@ Class saswp_output_service{
             
             $review_data['review'] = array(
                 '@type'         => 'Review',
-                'author'        => get_the_author(),
+                'author'        => array('@type'=> 'Person', 'name' => get_the_author()),
                 'datePublished' => get_the_date("c"),
                 'name'          => $post_review_title,
                 'reviewBody'    => $post_review_desc,

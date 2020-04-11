@@ -1269,7 +1269,7 @@ function saswp_get_testimonial_data($atts, $matche){
                              
                          $reviews[] = array(
                              '@type'         => 'Review',
-                             'author'        => $author,
+                             'author'        => array('@type'=> 'Person', 'name' => $author),
                              'datePublished' => saswp_format_date_time($value->post_date),
                              'description'   => $value->post_content,
                              'reviewRating'  => array(
@@ -1440,7 +1440,7 @@ function saswp_get_testimonial_pro_data($shortcode_data, $testimo_str){
 
                      $reviews[] = array(
                          '@type'         => 'Review',
-                         'author'        => $author,
+                         'author'        => array('@type'=> 'Person', 'name' => $author),
                          'datePublished' => saswp_format_date_time($value->post_date),
                          'description'   => $value->post_content,
                          'reviewRating'  => array(
@@ -1488,7 +1488,7 @@ function saswp_get_strong_testimonials_data($testimonial){
 
                      $reviews[] = array(
                          '@type'         => 'Review',
-                         'author'        => $author,
+                         'author'        => array('@type'=> 'Person', 'name' => $author),
                          'datePublished' => saswp_format_date_time($value->post_date),
                          'description'   => $value->post_content,
                          'reviewRating'  => array(
@@ -1544,7 +1544,7 @@ function saswp_get_bne_testimonials_data($atts, $testimo_str){
 
                      $reviews[] = array(
                          '@type'         => 'Review',
-                         'author'        => $author,
+                         'author'        => array('@type'=> 'Person', 'name' => $author),
                          'datePublished' => saswp_format_date_time($value->post_date),
                          'description'   => $value->post_content,
                          'reviewRating'  => array(
