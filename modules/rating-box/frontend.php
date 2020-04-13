@@ -91,7 +91,7 @@ Class saswp_rating_box_frontend{
                                     'name'           => saswp_get_the_title(),                                    
                                     'url'            => get_permalink(),
                                     'description'    => saswp_get_the_excerpt(),
-                                    'copyrightYear'  => get_the_time( 'Y' ),                                                                                                           
+                                    'copyrightYear'  => get_the_modified_date('Y'),                                                                                                           
                                     'author'	     => array(
                                                             '@type' 	=> 'Person',
                                                             'name'		=> esc_attr($aurthor_name),
