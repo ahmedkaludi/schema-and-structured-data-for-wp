@@ -2398,23 +2398,27 @@ Class saswp_output_service{
              if(is_object($product)){   
                                                
                if(is_object($woocommerce)){
-				 			
-                        if($product->get_type() == 'variable'){
+                             
+                        if(method_exists('WC_Product_Simple', 'get_type')){
 
-                            $product_id_some = $woocommerce->product_factory->get_product();
+                            if($product->get_type() == 'variable'){
 
-                            $variations  = $product_id_some->get_available_variations(); 
+                                $product_id_some = $woocommerce->product_factory->get_product();
+    
+                                $variations  = $product_id_some->get_available_variations(); 
+                                
+                                    if($variations){
+    
+                                            foreach($variations as $value){
+    
+                                                    $varible_prices[] = $value['display_price']; 
+    
+                                            }
+                                    }
+    
+                            }
                             
-                                if($variations){
-
-                                        foreach($variations as $value){
-
-                                                $varible_prices[] = $value['display_price']; 
-
-                                        }
-                                }
-
-                        }
+                        }                                        
 				 				 
                 }  
                  
@@ -2510,12 +2514,18 @@ Class saswp_output_service{
                  $product_details['product_availability'] = $product->get_stock_status();
              }
              
-             if($product->get_type() == 'variable'){
-                 $product_details['product_varible_price']   = $varible_prices;
+             if(method_exists('WC_Product_Simple', 'get_type')){
+                 
+                if($product->get_type() == 'variable'){
+                    $product_details['product_varible_price']   = $varible_prices;
+                }else{
+                    $product_details['product_price']           = $product->get_price();
+                }
+
              }else{
-                 $product_details['product_price']           = $product->get_price();
+                $product_details['product_price']           = $product->get_price();
              }
-             
+                          
              $product_details['product_sku']             = $product->get_sku() ? $product->get_sku(): get_the_ID();             
              
              if(isset($date_on_sale)){
