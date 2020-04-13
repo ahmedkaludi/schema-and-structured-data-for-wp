@@ -1196,7 +1196,7 @@ function saswp_import_callback(){
                              'id'   => 'saswp-other-images',
                              'name' => 'sd_data[saswp-other-images]',                             
                         )
-                ),
+                ),                
                 array(
                         'label'  => 'Allow Multiple Size Image Creation',
                         'id'     => 'saswp-multiple-size-image-checkbox',                        
@@ -1207,6 +1207,18 @@ function saswp_import_callback(){
                         'hidden' => array(
                                 'id'   => 'saswp-multiple-size-image',
                                 'name' => 'sd_data[saswp-multiple-size-image]',                             
+                        )
+                ),
+                array(
+                        'label'  => 'Add Featured Image in RSS feed',
+                        'id'     => 'saswp-rss-feed-image-checkbox',                        
+                        'name'   => 'saswp-rss-feed-image-checkbox',
+                        'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',   
+                        'note'   => 'Showing images alongside news/blogs if your website or blog appears in Google News',   
+                        'hidden' => array(
+                                'id'   => 'saswp-rss-feed-image',
+                                'name' => 'sd_data[saswp-rss-feed-image]',                             
                         )
                 )                  
                 

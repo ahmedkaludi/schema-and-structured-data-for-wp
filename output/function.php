@@ -2054,3 +2054,19 @@ function saswp_get_wp_customer_reviews(){
     return $response_rv;
 
 }
+add_filter( 'the_content', 'saswp_featured_image_in_feed' );
+
+function saswp_featured_image_in_feed( $content ) {
+
+    global $post, $sd_data;
+
+    if( is_feed() &&  isset($sd_data['saswp-rss-feed-image']) && $sd_data['saswp-rss-feed-image'] == 1 ) {
+        if ( has_post_thumbnail( $post->ID ) ){
+            $image  = get_the_post_thumbnail( $post->ID, 'medium', array( 'style' => 'float:right; margin:0 0 10px 10px;' ) );
+            $content = $image . $content;
+        }
+    }
+
+    return $content;
+    
+}

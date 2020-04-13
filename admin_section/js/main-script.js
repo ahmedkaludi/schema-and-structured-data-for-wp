@@ -1167,6 +1167,16 @@ return false;
                             
                       break;
 
+                      case 'saswp-rss-feed-image-checkbox':
+                          
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-rss-feed-image").val(1);                                
+                            }else{
+                              $("#saswp-rss-feed-image").val(0);                                          
+                            }
+                            
+                      break;
+
                       case 'saswp-multiple-size-image-checkbox':
                           
                             if ($(this).is(':checked')) {              
