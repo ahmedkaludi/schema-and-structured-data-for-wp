@@ -2214,6 +2214,18 @@ function saswp_compatibility_page_callback(){
                                 'id'   => 'saswp-kk-star-raring',
                                 'name' => 'sd_data[saswp-kk-star-raring]',                             
                         )
+                );
+        $yasr = array(
+			'label'  => 'Yet Another Stars Rating',
+			'id'     => 'saswp-yet-another-stars-rating-checkbox',                        
+                        'name'   => 'saswp-yet-another-stars-rating-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
+                        'note'   => saswp_get_field_note('yet_another_stars_rating'),
+                        'hidden' => array(
+                                'id'   => 'saswp-yet-another-stars-rating',
+                                'name' => 'sd_data[saswp-yet-another-stars-rating]',                             
+                        )
 		);
         $wppostratings = array(
 			'label'  => 'WP-PostRatings',
@@ -2491,6 +2503,7 @@ function saswp_compatibility_page_callback(){
                 $wpamp,
                 $ampwp,
                 $kk_star,
+                $yasr,
                 $wp_customer_review,
                 $simple_author_box,  
                 $wppostratings,

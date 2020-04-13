@@ -4,6 +4,12 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 return array(    
     'plugins' =>    array(        
+        'yet_another_stars_rating'  =>  array(            
+            'name'       => 'Yet Another Stars Rating',
+            'free'       => 'yet-another-stars-rating/yet-another-stars-rating.php',                    
+            'opt_name'   => 'saswp-yet-another-stars-rating',
+            'part_in'    => 'free',
+        ),
         'wp_customer_reviews'  =>  array(            
                     'name'       => 'WP Customer Reviews',
                     'free'       => 'wp-customer-reviews/wp-customer-reviews-3.php',                    

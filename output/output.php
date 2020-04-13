@@ -1499,6 +1499,15 @@ function saswp_schema_output() {
                                                      
                             
                                     if($schema_type == 'Review'){
+
+
+                                     //kk star rating 
+                            
+                                    $yasr = saswp_extract_yet_another_stars_rating();
+                                
+                                    if(!empty($yasr)){
+                                        $input1['itemReviewed']['aggregateRating'] = $yasr; 
+                                    }   
                                         
                                       //Taqyeem 
                                       
@@ -1507,7 +1516,7 @@ function saswp_schema_output() {
                                       if(!empty($taqyeem_rating)){
                                         $input1['itemReviewed']['aggregateRating'] = $taqyeem_rating; 
                                       }
-                                        //kk star rating 
+                                    //kk star rating 
                             
                                     $kkstar_aggregateRating = saswp_extract_kk_star_ratings();
                                 
@@ -1533,6 +1542,14 @@ function saswp_schema_output() {
                                     // WP Customer Reviews ends here
                                         
                                     }else{                                                                            
+
+                                        //yet another star rating
+                            
+                                        $yasr = saswp_extract_yet_another_stars_rating();
+                                    
+                                        if(!empty($yasr)){
+                                            $input1['aggregateRating'] = $yasr; 
+                                        }
 
                                         //Taqyeem 
                                       

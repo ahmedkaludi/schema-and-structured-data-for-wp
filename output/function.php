@@ -683,6 +683,47 @@ function saswp_extract_taqyeem_ratings(){
 }
 
 /**
+ * Extracting the value of yet another star rating plugins on current post
+ * @global type $sd_data
+ * @param type $id
+ * @return type array
+ */
+function saswp_extract_yet_another_stars_rating(){
+        
+    global $sd_data;    
+    $result = array();
+
+    if(isset($sd_data['saswp-yet-another-stars-rating']) && $sd_data['saswp-yet-another-stars-rating'] == 1 && method_exists('YasrDatabaseRatings', 'getVisitorVotes') ){
+               
+        $visitor_votes  = YasrDatabaseRatings::getVisitorVotes(false);
+         
+        if( $visitor_votes && ($visitor_votes['sum_votes'] != 0 && $visitor_votes['number_of_votes'] != 0) ){
+           
+            $average_rating = $visitor_votes['sum_votes'] / $visitor_votes['number_of_votes'];
+            $average_rating = round($average_rating, 1);
+
+            $result['@type']       = 'AggregateRating';            
+            $result['ratingCount'] = $visitor_votes['number_of_votes'];
+            $result['ratingValue'] = $average_rating;  
+            $result['bestRating']  = 5;
+            $result['worstRating'] = 1;                                                         
+            
+            return $result;
+            
+        }else{
+            
+            return array();    
+            
+        }
+        
+    }else{
+        
+        return array();
+        
+    }                        
+}
+
+/**
  * Extracting the value of star ratings plugins on current post
  * @global type $sd_data
  * @param type $id

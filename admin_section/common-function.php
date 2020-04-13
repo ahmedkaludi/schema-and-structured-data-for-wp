@@ -2749,6 +2749,7 @@ function saswp_get_field_note($pname){
     $notes = array(  
             'easy_recipe'              => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/easyrecipe/">EasyRecipe</a>',
             'total_recipe_generator'   => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://codecanyon.net/item/total-recipe-generator-wordpress-recipe-maker-with-schema-and-nutrition-facts-elementor-addon/21445400/">Total Recipe Generator</a>',
+            'yet_another_stars_rating' => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/yet-another-stars-rating/">Yet Another Stars Rating</a>',
             'wp_customer_reviews'      => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wp-customer-reviews">WP Customer Reviews</a>',
             'wordpress_news'           => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="#">Wordpress News</a>',
             'strong_testimonials'      => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/strong-testimonials">Strong Testimonials</a>',
