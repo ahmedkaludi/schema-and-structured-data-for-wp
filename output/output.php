@@ -735,7 +735,7 @@ function saswp_schema_output() {
                                 $input1 = array(
                                 '@context'			=> saswp_context_url(),
                                 '@type'				=> 'DiscussionForumPosting' ,
-                                '@id'				=> trailingslashit(saswp_get_permalink()).'#BlogPosting',    			
+                                '@id'				=> trailingslashit(saswp_get_permalink()).'#DiscussionForumPosting',    			
                                 'url'				=> trailingslashit(saswp_get_permalink()),
                                 'mainEntityOfPage'              => saswp_get_permalink(),       
                                 'headline'			=> saswp_get_the_title(),

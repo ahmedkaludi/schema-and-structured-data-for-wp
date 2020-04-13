@@ -2744,7 +2744,10 @@ function saswp_enqueue_style_js( $hook ) {
             'post_type'                    => $post_type,   
             'page_now'                     => $hook,
             'saswp_settings_url'           => esc_url(admin_url('edit.php?post_type=saswp&page=structured_data_options')),
-            'saswp_schema_types'           =>  $all_schema_array
+            'saswp_schema_types'           =>  $all_schema_array,
+            'trans_based_on'               => saswp_label_text('translation-based-on'),
+            'trans_reviews'                => saswp_label_text('translation-reviews'),
+            'trans_self'                   => saswp_label_text('translation-self')
         );
                         
         $data = apply_filters('saswp_localize_filter',$data,'saswp_localize_data');

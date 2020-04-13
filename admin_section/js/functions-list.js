@@ -794,6 +794,11 @@
                         jQuery.each(saswp_collection[key], function(index, value){
                             platform_icon = value.saswp_review_platform_icon;
                             platform_name = value.saswp_review_platform_name;
+
+                            if(platform_name == 'Self'){
+                                platform_name = saswp_localize_data.trans_self;
+                            }
+
                             sum_of_rating += parseFloat(value.saswp_review_rating);
                             review_count++;
                         });  
@@ -827,7 +832,7 @@
                         html += '</div>';
 
                         html += '<span class="saswp-r3-brv">';
-                        html += 'Based on '+review_count+' Reviews';
+                        html += saswp_localize_data.trans_based_on +' '+ review_count+' '+saswp_localize_data.trans_reviews;
                         html += '</span>';
 
                       html += '</div>';

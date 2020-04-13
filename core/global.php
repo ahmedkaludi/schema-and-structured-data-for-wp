@@ -59,10 +59,13 @@ $translation_labels = array(
     'translation-tools'           => 'Tools',
     'translation-materials'       => 'Materials',
     'translation-time-needed'     => 'Time Needed',
-    'translation-estimate-cost'     => 'Estimate Cost',
+    'translation-estimate-cost'   => 'Estimate Cost',
     'translation-name'            => 'Name',
     'translation-comment'         => 'Comment',
     'translation-review-form'     => 'Review Form',
+    'translation-based-on'        => 'Based On',
+    'translation-reviews'         => 'Reviews',
+    'translation-self'            => 'Self',
 );          
 $saswp_post_reviews = array();
 $saswp_elementor_faq = array();
