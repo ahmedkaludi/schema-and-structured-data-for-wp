@@ -901,12 +901,12 @@ function saswp_list_items_generator(){
 		$bc_titles = array();
 		$bc_links  = array();
                 
-                if(isset($sd_data['titles'])){		
+        if(isset($sd_data['titles']) && !empty($sd_data['titles'])){		
 			$bc_titles = $sd_data['titles'];
 		}
-		if(isset($sd_data['links'])){
+		if(isset($sd_data['links']) && !empty($sd_data['links'])){
 			$bc_links = $sd_data['links'];
-		}	
+        }	        
                 
                 $j = 1;
                 $i = 0;
@@ -920,17 +920,20 @@ function saswp_list_items_generator(){
                                     
                                     if(array_key_exists($i, $bc_links) && array_key_exists($i, $bc_titles)){
                                     
-                                        $breadcrumbslist[] = array(
-								'@type'			=> 'ListItem',
-								'position'		=> $j,
-								'item'			=> array(
-									'@id'		=> $bc_links[$i],
-									'name'		=> $bc_titles[$i],
-									),
-							          );
-                                        
-                                        $j++;
-                                        
+                                        if($bc_links[$i] != '' && $bc_titles[$i] != '' ){
+
+                                            $breadcrumbslist[] = array(
+                                                '@type'			=> 'ListItem',
+                                                'position'		=> $j,
+                                                'item'			=> array(
+                                                    '@id'		=> $bc_links[$i],
+                                                    'name'		=> $bc_titles[$i],
+                                                    ),
+                                              );
+                                            
+                                            $j++;
+
+                                        }                                                                                
                                         
                                     }
                                     					
@@ -938,24 +941,28 @@ function saswp_list_items_generator(){
                 
                      }
                
-}
+    }
         if(is_page()){
                         if(!empty($bc_titles) && !empty($bc_links)){
                             
                             for($i=0;$i<sizeof($bc_titles);$i++){
                             
                                 if(array_key_exists($i, $bc_links) && array_key_exists($i, $bc_titles)){
-                                 
-                                    $breadcrumbslist[] = array(
-								'@type'			=> 'ListItem',
-								'position'		=> $j,
-								'item'			=> array(
-									'@id'		=> $bc_links[$i],
-									'name'		=> $bc_titles[$i],
-									),
-							);
+        
+                                    if($bc_links[$i] !='' && $bc_titles[$i] != ''){
 
-                                    $j++;
+                                        $breadcrumbslist[] = array(
+                                            '@type'			=> 'ListItem',
+                                            'position'		=> $j,
+                                            'item'			=> array(
+                                                '@id'		=> $bc_links[$i],
+                                                'name'		=> $bc_titles[$i],
+                                                ),
+                                        );
+    
+                                        $j++;
+
+                                    }                                    
                                     
                                 }                                				
 
@@ -963,7 +970,7 @@ function saswp_list_items_generator(){
                         }
 			
 
-}
+    }
         if(is_archive()){
 
          if(!empty($bc_titles) && !empty($bc_links)){
@@ -972,22 +979,26 @@ function saswp_list_items_generator(){
                  
                     if(array_key_exists($i, $bc_links) && array_key_exists($i, $bc_titles)){
                                                
-                        $breadcrumbslist[] = array(
-								        '@type'		=> 'ListItem',
-								        'position'	=> $j,
-								        'item'		=> array(
-									'@id'		=> $bc_links[$i],
-									'name'		=> $bc_titles[$i],
-									),
-							);
-                        $j++;
+                        if($bc_links[$i] != '' && $bc_titles[$i] !=''){
+
+                            $breadcrumbslist[] = array(
+                                '@type'		=> 'ListItem',
+                                'position'	=> $j,
+                                'item'		=> array(
+                                        '@id'		=> $bc_links[$i],
+                                        'name'		=> $bc_titles[$i],
+                                        ),
+                                );
+                            $j++;
+
+                        }                        
                 
                     }
             				                
-		}
+		        }
                           
          }               	
-}
+    }
         
        return $breadcrumbslist;
 }
