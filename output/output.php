@@ -1806,7 +1806,7 @@ function saswp_woocommerce_category_schema(){
                 $list_item     = array();
                 $term          = get_queried_object();
                 $service       = new saswp_output_service();                
-		$category_loop = new WP_Query( $query_string );
+		        $category_loop = new WP_Query( $query_string );
                 
                 $current_url = saswp_get_current_url();
                 
@@ -1818,7 +1818,7 @@ function saswp_woocommerce_category_schema(){
                         $category_posts = array();
                         $category_posts['@type']       = 'ListItem';
                         $category_posts['position']    = $i;
-			$category_posts['item']        = $service->saswp_schema_markup_generator('Product');
+			            $category_posts['item']        = $service->saswp_schema_markup_generator('Product');
                         
                         $feature_image           = $service->saswp_get_fetaure_image();
                         $category_posts['item']  = array_merge( $category_posts['item'], $feature_image);
@@ -1841,9 +1841,16 @@ function saswp_woocommerce_category_schema(){
                 $item_list_schema = array();
                 
                 if($list_item){                    
+                    
                     $item_list_schema['@context']        = saswp_context_url();
-                    $item_list_schema['@type']           = 'ItemList';                                      
-                    $item_list_schema['url']             = get_category_link($term->term_id);
+                    $item_list_schema['@type']           = 'ItemList';    
+
+                    if(saswp_has_slash($current_url)){
+                        $item_list_schema['url'] =  trailingslashit(saswp_get_category_link($term->term_id));    
+                    }else{                        
+                        $item_list_schema['url'] =  saswp_remove_slash(saswp_get_category_link($term->term_id));    
+                    }
+                    
                     $item_list_schema['itemListElement'] = $list_item;
                 }
                                                                                 

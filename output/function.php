@@ -2103,7 +2103,7 @@ function saswp_featured_image_in_feed( $content ) {
 
     if( is_feed() &&  isset($sd_data['saswp-rss-feed-image']) && $sd_data['saswp-rss-feed-image'] == 1 ) {
         if ( has_post_thumbnail( $post->ID ) ){
-            $image  = get_the_post_thumbnail( $post->ID, 'medium', array( 'style' => 'float:right; margin:0 0 10px 10px;' ) );
+            $image  = get_the_post_thumbnail( $post->ID, 'full', array( 'style' => 'float:right; margin:0 0 10px 10px;' ) );
             $content = $image . $content;
         }
     }
