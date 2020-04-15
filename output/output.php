@@ -1540,6 +1540,16 @@ function saswp_schema_output() {
                                         $input1['itemReviewed']['review'] = $wp_customer_rv['reviews'];                                                                                                                              
                                     }
                                     // WP Customer Reviews ends here
+
+                                    //Reviews wp theme starts here
+                                        
+                                    $reviews_wp_theme = saswp_get_reviews_wp_theme();                                    
+                                        
+                                    if($reviews_wp_theme){                                        
+                                        $input1['itemReviewed']['aggregateRating'] = $reviews_wp_theme['AggregateRating'];
+                                        $input1['itemReviewed']['review']          = $reviews_wp_theme['reviews'];                                                                                                                              
+                                    }
+                                    //Reviews wp theme ends here
                                         
                                     }else{                                                                            
 
@@ -1582,6 +1592,16 @@ function saswp_schema_output() {
                                             $input1['review'] = $wp_customer_rv['reviews'];                                                                                                                              
                                         }
                                         // WP Customer Reviews ends here
+
+                                        //Reviews wp theme starts here
+                                        
+                                        $reviews_wp_theme = saswp_get_reviews_wp_theme();                                    
+                                        
+                                        if($reviews_wp_theme){                                        
+                                            $input1['aggregateRating'] = $reviews_wp_theme['AggregateRating'];
+                                            $input1['review']          = $reviews_wp_theme['reviews'];                                                                                                                              
+                                        }
+                                        //Reviews wp theme ends here
                                         
                                     }
                                       

@@ -2592,15 +2592,15 @@ Class saswp_output_service{
                         
                         $reviews_arr[] = $rv;  
                         
-                    }                    
+                    }
+                                        
                     $product_details['product_review_count']   = count($judge_me_post);
                     if($sumofrating > 0){                        
                         $product_details['product_average_rating'] = $sumofrating /  count($judge_me_post);
                     }
                  
              }else if($reviews){
-                 
-                 
+                                  
              foreach($reviews as $review){                 
                  
                  $reviews_arr[] = array(

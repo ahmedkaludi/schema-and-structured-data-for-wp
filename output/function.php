@@ -1056,6 +1056,15 @@ function saswp_remove_microdata($content){
         if(isset($sd_data['saswp-wordpress-news']) && $sd_data['saswp-wordpress-news'] == 1 ){
             $content = preg_replace("/<script type\=\'application\/ld\+json\' class\=\'wpnews-schema-graph(.*?)'\>(.*?)<\/script>/s", "", $content);
         }
+
+
+        if(function_exists('review_child_company_reviews_comments') && isset($sd_data['saswp-wp-theme-reviews']) && $sd_data['saswp-wp-theme-reviews'] == 1){
+
+            $regex = '/<\/section>[\s\n]*<script type=\"application\/ld\+json\">(.*?)<\/script>/s';
+
+            $content = preg_replace($regex, '</section>', $content);        
+            
+        }
         
         if(isset($sd_data['saswp-wp-ultimate-recipe']) && $sd_data['saswp-wp-ultimate-recipe'] == 1 ){
          
@@ -2103,6 +2112,86 @@ function saswp_get_wp_customer_reviews(){
 
     }    
 
+    return $response_rv;
+
+}
+function saswp_get_reviews_wp_theme(){
+
+    global $post, $sd_data, $response_rv;
+    
+    $reviews = array();
+    $ratings = array();
+
+    if(!$response_rv && function_exists('review_child_company_reviews_comments') && isset($sd_data['saswp-wp-theme-reviews']) && $sd_data['saswp-wp-theme-reviews'] == 1){
+
+        $reviews_post     = get_approved_comments( $post->ID );
+        
+        if($reviews_post){
+    
+            $sumofrating = 0;
+            $avg_rating  = 1;
+    
+            foreach ($reviews_post as $review){
+
+                $comment_meta = get_comment_meta( $review->comment_ID, 'review', true );
+                $comment_meta = explode( ',', $comment_meta );
+
+                $user_overall = 0;
+                $user_rates   = 0;
+                $counter      = 0;
+
+
+                $criterias = get_post_meta( get_the_ID(), 'reviews_score' );
+                $rate_criterias = array();
+                if( !empty( $criterias ) ){
+                    foreach( $criterias as $criteria ){
+                        $rate_criterias[] = $criteria['review_criteria'];
+                    }
+                }
+                                                                    
+                for( $i=0; $i<sizeof($comment_meta); $i++ ){
+                    if( !empty( $rate_criterias[$i] ) ){
+                        $temp = explode( '|', $comment_meta[$i] );										
+                        $user_overall += $temp[1];
+                        $user_rates++;
+
+                    }
+                }
+                
+                $user_overall = $user_overall / $user_rates;
+                $rating       = round( $user_overall, 1 );                                  
+                $sumofrating += round( $user_overall, 1 );
+                    
+                 $reviews[] = array(
+                     '@type'         => 'Review',
+                     'author'        => array('@type'=> 'Person', 'name' => $review->comment_author ? $review->comment_author : 'Anonymous'),
+                     'datePublished' => saswp_format_date_time($review->comment_date),
+                     'description'   => $review->comment_content,
+                     'reviewRating'  => array(
+                                        '@type'	        => 'Rating',
+                                        'bestRating'	=> '5',
+                                        'ratingValue'	=> $rating,
+                                        'worstRating'	=> '1',
+                           )
+                 ); 
+    
+                }
+    
+                if($sumofrating> 0){
+                  $avg_rating = $sumofrating /  count($reviews); 
+                }
+    
+                $ratings =  array(
+                                                '@type'         => 'AggregateRating',
+                                                'ratingValue'	=> $avg_rating,
+                                                'reviewCount'   => count($reviews)
+                );
+    
+        }
+        $response_rv =  array('reviews' => $reviews, 'AggregateRating' => $ratings);
+
+    }    
+    
     return $response_rv;
 
 }

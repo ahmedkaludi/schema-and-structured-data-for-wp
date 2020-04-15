@@ -341,5 +341,11 @@ return array(
                     'opt_name'   => 'saswp-wpresidence',
                     'part_in'    => 'pro',
         ),
+        'reviews' => array(            
+            'name'       => 'Reviews WP Theme',
+            'free'       => 'reviews',               
+            'opt_name'   => 'saswp-wp-theme-reviews',
+            'part_in'    => 'free',
+        ),
     )
 );

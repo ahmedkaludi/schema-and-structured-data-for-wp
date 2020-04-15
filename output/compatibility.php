@@ -128,6 +128,12 @@ class saswp_output_compatibility{
                 
     }
     
+    public function saswp_reviews_override(){
+            
+        
+       
+   }
+
     public function saswp_soledad_override(){
             
          saswp_remove_anonymous_object_filter_or_action(

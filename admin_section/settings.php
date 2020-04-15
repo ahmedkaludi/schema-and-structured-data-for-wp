@@ -2313,7 +2313,19 @@ function saswp_compatibility_page_callback(){
                                 'id'   => 'saswp-soledad',
                                 'name' => 'sd_data[saswp-soledad]',                             
                         )
-		);
+                );
+        $reviews_wp_theme = array(
+                'label'  => 'Reviews WP Theme',
+                'id'     => 'saswp-wp-theme-reviews-checkbox',                        
+                'name'   => 'saswp-wp-theme-reviews-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('reviews'),
+                'hidden' => array(
+                        'id'   => 'saswp-wp-theme-reviews',
+                        'name' => 'sd_data[saswp-wp-theme-reviews]',                             
+                )
+        );        
         $dwquestiton = array(
 			'label'  => 'DW Question Answer',
 			'id'     => 'saswp-dw-question-answer-checkbox',                        
@@ -2513,6 +2525,7 @@ function saswp_compatibility_page_callback(){
                 $woocommerce_mem,
                 $cooked, 
                 $soledad,
+                $reviews_wp_theme,
                 $taqyeem,
                 $extratheme,
                 $dwquestiton,                

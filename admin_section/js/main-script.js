@@ -840,6 +840,15 @@ return false;
                               $("#saswp-soledad").val(0);           
                             }
                       break;
+
+                      case 'saswp-wp-theme-reviews-checkbox':
+                          saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-wp-theme-reviews").val(1);             
+                            }else{
+                              $("#saswp-wp-theme-reviews").val(0);           
+                            }
+                      break;
                       
                       case 'saswp-dw-question-answer-checkbox':
                           saswp_compatibliy_notes(current, id); 
