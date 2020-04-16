@@ -701,6 +701,9 @@ Class saswp_output_service{
                         if(isset($custom_fields['saswp_special_announcement_newsupdates_and_guidelines'])){
                          $input1['newsUpdatesAndGuidelines'] =    $custom_fields['saswp_special_announcement_newsupdates_and_guidelines'];
                         }
+                        if(isset($custom_fields['saswp_special_announcement_disease_prevention_info'])){
+                            $input1['diseasePreventionInfo'] =    $custom_fields['saswp_special_announcement_disease_prevention_info'];
+                        }
                         if(isset($custom_fields['saswp_special_announcement_image'])){
                          $input1['image'] =    $custom_fields['saswp_special_announcement_image'];
                         }

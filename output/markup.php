@@ -2336,6 +2336,7 @@ function saswp_special_announcement_schema_markup($schema_id, $schema_post_id, $
             'category'			           => saswp_remove_warnings($all_post_meta, 'saswp_special_announcement_category_'.$schema_id, 'saswp_array'),
             'quarantineGuidelines'			=> saswp_remove_warnings($all_post_meta, 'saswp_special_announcement_quarantine_guidelines_'.$schema_id, 'saswp_array'),
             'newsUpdatesAndGuidelines'			=> saswp_remove_warnings($all_post_meta, 'saswp_special_announcement_newsupdates_and_guidelines_'.$schema_id, 'saswp_array'),
+            'diseasePreventionInfo'			=> saswp_remove_warnings($all_post_meta, 'saswp_special_announcement_disease_prevention_info_'.$schema_id, 'saswp_array'),
             'text'                   => saswp_remove_warnings($all_post_meta, 'saswp_special_announcement_description_'.$schema_id, 'saswp_array'),                        
             'keywords'		        => saswp_remove_warnings($all_post_meta, 'saswp_special_announcement_keywords_'.$schema_id, 'saswp_array'),                
             'datePublished'                 => isset($all_post_meta['saswp_special_announcement_date_published_'.$schema_id][0])? saswp_format_date_time($all_post_meta['saswp_special_announcement_date_published_'.$schema_id][0], get_post_time('h:i:s')):'',

@@ -770,6 +770,12 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                         'id' => 'saswp_special_announcement_newsupdates_and_guidelines_'.$schema_id,
                                         'type' => 'text',
                                         'default' => get_permalink()
+                                   ),     
+                                   array(
+                                        'label' => 'Disease Prevention Info',
+                                        'id' => 'saswp_special_announcement_disease_prevention_info_'.$schema_id,
+                                        'type' => 'text',
+                                        'default' => get_permalink()
                                    ),                        
                                     array(
                                             'label' => 'Keywords',
