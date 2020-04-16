@@ -81,113 +81,110 @@ class SASWP_Divi_FaqBlockChild extends ET_Builder_Module {
 
 
 	}
-	public function get_advanced_fields_config() {
-		$advanced_fields = $this->advanced_tab_options;
+	// public function get_advanced_fields_config() {
+	// 	$advanced_fields = $this->advanced_tab_options;
 
-		$advanced_fields['fonts']  = array(
-			'main_text'   => array(
-				'label'    => esc_html__( 'Content', 'schema-and-structured-data-for-wp' ),
-				'css'      => array(
-					'main' => "{$this->main_css_element} .saswp_timeline_child_inner",
-				),
-				'font_size' => array(
-					'default' => absint( '14' ) . 'px',
-				),
-				'line_height' => array(
-					'default' => '1.4em',
-				),
-				'letter_spacing' => array(
-					'default' => '0px',
-				),
-				'toggle_slug' => 'text',
-			),
-			'header'   => array(
-				'label'    => esc_html__( 'Heading', 'schema-and-structured-data-for-wp' ),
-				'css'      => array(
-					'main' => "{$this->main_css_element} .saswp_timeline_child_inner h1",
-				),
-				'font_size' => array(
-					'default' => absint( et_get_option( 'body_header_size', '30' ) ) . 'px',
-				),
-				'toggle_slug' => 'header',
-				'sub_toggle'  => 'h1',
-			),
-			'header_2'   => array(
-				'label'    => esc_html__( 'Heading 2', 'schema-and-structured-data-for-wp' ),
-				'css'      => array(
-					'main' => "{$this->main_css_element} .saswp_timeline_child_inner h2",
-				),
-				'font_size' => array(
-					'default' => '26px',
-				),
-				'line_height' => array(
-					'default' => '1em',
-				),
-				'toggle_slug' => 'header',
-				'sub_toggle'  => 'h2',
-			),
-			'header_3'   => array(
-				'label'    => esc_html__( 'Heading 3', 'schema-and-structured-data-for-wp' ),
-				'css'      => array(
-					'main' => "{$this->main_css_element} .saswp_timeline_date h3",
-				),
-				'font_size' => array(
-					'default' => '22px',
-				),
-				'line_height' => array(
-					'default' => '1em',
-				),
-				'toggle_slug' => 'header',
-				'sub_toggle'  => 'h3',
-			),
-			'header_4'   => array(
-				'label'    => esc_html__( 'Heading 4', 'schema-and-structured-data-for-wp' ),
-				'css'      => array(
-					'main' => "{$this->main_css_element} h4",
-				),
-				'font_size' => array(
-					'default' => '18px',
-				),
-				'line_height' => array(
-					'default' => '1em',
-				),
-				'toggle_slug' => 'header',
-				'sub_toggle'  => 'h4',
-			),
-			'header_5'   => array(
-				'label'    => esc_html__( 'Heading 5', 'schema-and-structured-data-for-wp' ),
-				'css'      => array(
-					'main' => "{$this->main_css_element} h5",
-				),
-				'font_size' => array(
-					'default' => '16px',
-				),
-				'line_height' => array(
-					'default' => '1em',
-				),
-				'toggle_slug' => 'header',
-				'sub_toggle'  => 'h5',
-			),
-			'header_6'   => array(
-				'label'    => esc_html__( 'Heading 6', 'schema-and-structured-data-for-wp' ),
-				'css'      => array(
-					'main' => "{$this->main_css_element} h6",
-				),
-				'font_size' => array(
-					'default' => '14px',
-				),
-				'line_height' => array(
-					'default' => '1em',
-				),
-				'toggle_slug' => 'header',
-				'sub_toggle'  => 'h6',
-			),
-		);
-
-
-
-		return $advanced_fields;
-	}
+	// 	$advanced_fields['fonts']  = array(
+	// 		'main_text'   => array(
+	// 			'label'    => esc_html__( 'Content', 'schema-and-structured-data-for-wp' ),
+	// 			'css'      => array(
+	// 				'main' => "{$this->main_css_element} .saswp_timeline_child_inner",
+	// 			),
+	// 			'font_size' => array(
+	// 				'default' => absint( '14' ) . 'px',
+	// 			),
+	// 			'line_height' => array(
+	// 				'default' => '1.4em',
+	// 			),
+	// 			'letter_spacing' => array(
+	// 				'default' => '0px',
+	// 			),
+	// 			'toggle_slug' => 'text',
+	// 		),
+	// 		'header'   => array(
+	// 			'label'    => esc_html__( 'Heading', 'schema-and-structured-data-for-wp' ),
+	// 			'css'      => array(
+	// 				'main' => "{$this->main_css_element} .saswp_timeline_child_inner h1",
+	// 			),
+	// 			'font_size' => array(
+	// 				'default' => absint( et_get_option( 'body_header_size', '30' ) ) . 'px',
+	// 			),
+	// 			'toggle_slug' => 'header',
+	// 			'sub_toggle'  => 'h1',
+	// 		),
+	// 		'header_2'   => array(
+	// 			'label'    => esc_html__( 'Heading 2', 'schema-and-structured-data-for-wp' ),
+	// 			'css'      => array(
+	// 				'main' => "{$this->main_css_element} .saswp_timeline_child_inner h2",
+	// 			),
+	// 			'font_size' => array(
+	// 				'default' => '26px',
+	// 			),
+	// 			'line_height' => array(
+	// 				'default' => '1em',
+	// 			),
+	// 			'toggle_slug' => 'header',
+	// 			'sub_toggle'  => 'h2',
+	// 		),
+	// 		'header_3'   => array(
+	// 			'label'    => esc_html__( 'Heading 3', 'schema-and-structured-data-for-wp' ),
+	// 			'css'      => array(
+	// 				'main' => "{$this->main_css_element} .saswp_timeline_date h3",
+	// 			),
+	// 			'font_size' => array(
+	// 				'default' => '22px',
+	// 			),
+	// 			'line_height' => array(
+	// 				'default' => '1em',
+	// 			),
+	// 			'toggle_slug' => 'header',
+	// 			'sub_toggle'  => 'h3',
+	// 		),
+	// 		'header_4'   => array(
+	// 			'label'    => esc_html__( 'Heading 4', 'schema-and-structured-data-for-wp' ),
+	// 			'css'      => array(
+	// 				'main' => "{$this->main_css_element} h4",
+	// 			),
+	// 			'font_size' => array(
+	// 				'default' => '18px',
+	// 			),
+	// 			'line_height' => array(
+	// 				'default' => '1em',
+	// 			),
+	// 			'toggle_slug' => 'header',
+	// 			'sub_toggle'  => 'h4',
+	// 		),
+	// 		'header_5'   => array(
+	// 			'label'    => esc_html__( 'Heading 5', 'schema-and-structured-data-for-wp' ),
+	// 			'css'      => array(
+	// 				'main' => "{$this->main_css_element} h5",
+	// 			),
+	// 			'font_size' => array(
+	// 				'default' => '16px',
+	// 			),
+	// 			'line_height' => array(
+	// 				'default' => '1em',
+	// 			),
+	// 			'toggle_slug' => 'header',
+	// 			'sub_toggle'  => 'h5',
+	// 		),
+	// 		'header_6'   => array(
+	// 			'label'    => esc_html__( 'Heading 6', 'schema-and-structured-data-for-wp' ),
+	// 			'css'      => array(
+	// 				'main' => "{$this->main_css_element} h6",
+	// 			),
+	// 			'font_size' => array(
+	// 				'default' => '14px',
+	// 			),
+	// 			'line_height' => array(
+	// 				'default' => '1em',
+	// 			),
+	// 			'toggle_slug' => 'header',
+	// 			'sub_toggle'  => 'h6',
+	// 		),
+	// 	);
+	// 	return $advanced_fields;
+	// }
 
 	function render( $attrs, $content = null, $render_slug ) {
             
