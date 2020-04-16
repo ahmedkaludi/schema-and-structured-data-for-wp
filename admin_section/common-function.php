@@ -3021,6 +3021,8 @@ function saswp_is_date_field($date_str){
     
             if (strpos($date_str, 'date_modified') !== false 
              || strpos($date_str, 'date_published') !== false
+             || strpos($date_str, 'date_posted') !== false
+             || strpos($date_str, 'date_expires') !== false
              || strpos($date_str, 'published_date') !== false
              || strpos($date_str, 'upload_date') !== false
              || strpos($date_str, 'qa_date_created') !== false 

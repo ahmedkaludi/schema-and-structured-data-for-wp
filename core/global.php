@@ -49,7 +49,8 @@ $without_aggregate = array(
         'HinduTemple',
         'Church',
         'Mosque',
-        'Person'
+        'Person',
+        'SpecialAnnouncement'
 );
 $translation_labels = array(
     'translation-pros'            => 'Pros',

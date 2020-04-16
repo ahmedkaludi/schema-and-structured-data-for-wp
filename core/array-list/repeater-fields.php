@@ -47,7 +47,10 @@ return array( 'schema_type_element' => array(
                                'how-to-supply' => 'howto_supply', 
                                'how-to-tool'   => 'howto_tool', 
                                'how-to-step'   => 'howto_step', 
-                        ),
+						),
+						'SpecialAnnouncement' => array(
+							'announcement-location' => 'announcement_location', 														
+					    ),
                         'MusicPlaylist' => array(
                                'music-playlist-track' => 'music_playlist_track',                                                               
                         ),
@@ -308,7 +311,58 @@ return array( 'schema_type_element' => array(
 			'name'      => 'saswp_howto_step_image',
 			'type'      => 'media',                        
 		    )                                        
-                    ),
+					),					
+					'announcement_location' => array(                    
+						array(
+							'label'     => 'Location Type',
+							'name'      => 'saswp_sp_location_type',
+							'type'      => 'select',
+								'options'   => array(
+									'CovidTestingFacility'  => 'CovidTestingFacility',
+									'School'                => 'School'
+								)                        
+							),
+							array(
+								'label'     => 'Location Name',
+								'name'      => 'saswp_sp_location_name',
+								'type'      => 'text',                        
+							),
+							array(
+								'label'     => 'Location Street Address',
+								'name'      => 'saswp_sp_location_street_address',
+								'type'      => 'text',                        
+							),	
+							array(
+								'label'     => 'Location Address Locality',
+								'name'      => 'saswp_sp_location_street_locality',
+								'type'      => 'text',                        
+							),	
+							array(
+								'label'     => 'Location Address Region',
+								'name'      => 'saswp_sp_location_street_region',
+								'type'      => 'text',                        
+							),
+							array(
+								'label'     => 'Location URL',
+								'name'      => 'saswp_sp_location_url',
+								'type'      => 'text',                        
+							),							
+							array(
+								'label'     => 'Location Telephone',
+								'name'      => 'saswp_sp_location_telephone',
+								'type'      => 'text',                        
+							),
+							array(
+								'label'     => 'Location PriceRange',
+								'name'      => 'saswp_sp_location_price_range',
+								'type'      => 'text',                        
+							),							
+							array(
+							'label'     => 'Location Image',
+							'name'      => 'saswp_sp_location_image',
+							'type'      => 'media',                        
+							)                                        
+					),
                     'mc_symptom' => array(                    
                     array(
 			'label'     => 'Sign Or Symptom',

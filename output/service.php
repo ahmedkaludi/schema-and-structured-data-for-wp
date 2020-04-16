@@ -182,8 +182,11 @@ Class saswp_output_service{
                     $fixed_text        = get_post_meta($schema_post_id, 'saswp_fixed_text', true) ; 
 
                     if(isset($fixed_text[$key])){
-                    
-                        if (strpos($fixed_text[$key], 'http') !== false) {
+                        
+                        $explod = @explode('.', $fixed_text[$key]);                        
+                        $ext    = @strtolower(end($explod));           
+
+                        if ($ext == 'jpg' || $ext == 'png' || $ext == 'gif' || $ext == 'jpeg') {
                         
                         $image_details = @getimagesize($fixed_text[$key]);
                         
@@ -666,6 +669,80 @@ Class saswp_output_service{
                      $input1['Publisher']['logo']        =    $custom_fields['saswp_article_organization_logo'];
                     }                    
                     break; 
+                    case 'SpecialAnnouncement':      
+                        
+                        $location = array();
+                        
+                        if(isset($custom_fields['saswp_special_announcement_location_type'])){
+
+                            $location = array(
+                                '@type' => $custom_fields['saswp_special_announcement_location_type'],
+                                'name' => $custom_fields['saswp_special_announcement_location_name'],
+                                'image' => $custom_fields['saswp_special_announcement_location_image'],
+                                'url' => $custom_fields['saswp_special_announcement_location_url'],
+                                'telephone' => $custom_fields['saswp_special_announcement_location_telephone'],
+                                'priceRange' => $custom_fields['saswp_special_announcement_location_price_range'],
+                                'address' => array(
+                                            '@type' => 'PostalAddress',
+                                            'streetAddress' => $custom_fields['saswp_special_announcement_location_street_address'],
+                                            'addressLocality' => $custom_fields['saswp_special_announcement_location_address_locality'],
+                                            'addressRegion' => $custom_fields['saswp_special_announcement_location_address_region'],  
+                                ),
+                            );
+
+                            $input1['announcementLocation'] = $location;
+                        }
+                        if(isset($custom_fields['saswp_special_announcement_category'])){
+                            $input1['category'] =    $custom_fields['saswp_special_announcement_category'];
+                        }
+                        if(isset($custom_fields['saswp_special_announcement_quarantine_guidelines'])){
+                         $input1['quarantineGuidelines'] =    $custom_fields['saswp_special_announcement_quarantine_guidelines'];
+                        }
+                        if(isset($custom_fields['saswp_special_announcement_newsupdates_and_guidelines'])){
+                         $input1['newsUpdatesAndGuidelines'] =    $custom_fields['saswp_special_announcement_newsupdates_and_guidelines'];
+                        }
+                        if(isset($custom_fields['saswp_special_announcement_image'])){
+                         $input1['image'] =    $custom_fields['saswp_special_announcement_image'];
+                        }
+                        if(isset($custom_fields['saswp_special_announcement_url'])){
+                         $input1['url'] =    $custom_fields['saswp_special_announcement_url'];
+                        }                        
+                        if(isset($custom_fields['saswp_special_announcement_keywords'])){
+                         $input1['keywords'] =    $custom_fields['saswp_special_announcement_keywords'];
+                        }                        
+                        if(isset($custom_fields['saswp_special_announcement_name'])){
+                         $input1['name'] =    $custom_fields['saswp_special_announcement_name'];
+                        }                    
+                        if(isset($custom_fields['saswp_special_announcement_description'])){
+                         $input1['text'] =    wp_strip_all_tags(strip_shortcodes( $custom_fields['saswp_special_announcement_description'] ));
+                        }
+                        if(isset($custom_fields['saswp_special_announcement_date_published'])){
+                         $input1['datePublished'] =    $custom_fields['saswp_special_announcement_date_published'];
+                        }
+                        if(isset($custom_fields['saswp_special_announcement_date_modified'])){
+                         $input1['dateModified'] =    $custom_fields['saswp_special_announcement_date_modified'];
+                        }
+                        if(isset($custom_fields['saswp_special_announcement_date_posted'])){
+                          $input1['datePosted'] =    $custom_fields['saswp_special_announcement_date_posted'];
+                        }
+                        if(isset($custom_fields['saswp_special_announcement_date_expires'])){
+                         $input1['expires'] =    $custom_fields['saswp_special_announcement_date_expires'];
+                        }                    
+                        if(isset($custom_fields['saswp_special_announcement_author_name'])){
+                         $input1['author']['name'] =    $custom_fields['saswp_special_announcement_author_name'];
+                        }
+                        if(isset($custom_fields['saswp_special_announcement_author_description'])){
+                         $input1['author']['description'] =    $custom_fields['saswp_special_announcement_author_description'];
+                        }
+                        if(isset($custom_fields['saswp_special_announcement_author_url'])){
+                         $input1['author']['url'] =    $custom_fields['saswp_special_announcement_author_url'];
+                        }
+                        if(isset($custom_fields['saswp_special_announcement_organization_logo']) && isset($custom_fields['saswp_special_announcement_organization_name'])){
+                         $input1['Publisher']['@type']       =    'Organization';
+                         $input1['Publisher']['name']        =    $custom_fields['saswp_special_announcement_organization_name'];
+                         $input1['Publisher']['logo']        =    $custom_fields['saswp_special_announcement_organization_logo'];
+                        }                    
+                        break;     
                     
                 case 'HowTo':                          
                     if(isset($custom_fields['saswp_howto_schema_id'])){
@@ -3025,6 +3102,34 @@ Class saswp_output_service{
 				);
 
                     break;
+                    case 'SpecialAnnouncement':                   
+                        $input1 = array(
+                        '@context'			=> saswp_context_url(),
+                        '@type'				=> 'SpecialAnnouncement',
+                        '@id'				=> trailingslashit(saswp_get_permalink()).'#SpecialAnnouncement',
+                        'url'				=> saswp_get_permalink(),
+                        'inLanguage'        => get_bloginfo('language'),                        
+                        'name'			    => saswp_get_the_title(),                        
+                        'text'                   => saswp_get_the_excerpt(),                                                                    
+                        'keywords'                      => saswp_get_the_tags(),
+                        'datePublished'                 => esc_html($date),
+                        'datePosted'                    => esc_html($date),
+                        'dateModified'                  => esc_html($modified_date),
+                        'expires'                  => esc_html($modified_date),
+                        'author'			=> saswp_get_author_details(),
+                        'publisher'			=> array(
+                            '@type'			=> 'Organization',
+                            'logo' 			=> array(
+                                '@type'		=> 'ImageObject',
+                                'url'		=> esc_url($logo),
+                                'width'		=> esc_attr($width),
+                                'height'	=> esc_attr($height),
+                                ),
+                            'name'			=> esc_attr($site_name),
+                        ),
+                                        
+                    );    
+                        break;    
                 
                 case 'WebPage':
                     
