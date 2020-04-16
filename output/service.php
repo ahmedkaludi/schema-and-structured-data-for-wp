@@ -140,10 +140,10 @@ Class saswp_output_service{
                     $response = get_site_url();                    
                     break;
                 case 'post_title':
-                    $response = saswp_get_the_title();                    
+                    $response = get_the_title();                    
                     break;
                 case 'post_content':
-                    $response = saswp_get_the_content();                        
+                    $response = get_the_content();                        
                     break;
                 case 'post_category':
                     $categories = get_the_category();
