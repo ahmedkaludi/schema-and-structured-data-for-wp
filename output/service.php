@@ -3347,7 +3347,7 @@ Class saswp_output_service{
                                                                                                                                    
                               }else{
                                   
-                                  if($attach_images){
+                                  if($attach_images &&  isset($attach_images['image'])){
                                       
                                       foreach($attach_images['image'] as $key => $image){
                                                
