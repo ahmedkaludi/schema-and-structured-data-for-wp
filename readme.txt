@@ -55,7 +55,7 @@ Schema & Structured Data for WP & AMP adds Google Rich Snippets markup according
 * TVSeries
 * SoftwareApplication
 * MobileApplication
-* SpecialAnnouncement (Coronavirus)
+* SpecialAnnouncement (Related to Coronavirus)
 * TechArticle
 * WebPage
 * Event
