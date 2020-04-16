@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.4
-Stable tag: 1.9.32
+Stable tag: 1.9.33
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -14,7 +14,7 @@ Schema & Structured Data for WP & AMP adds Google Rich Snippets markup according
 
 ### Features 
 
-* <strong>Schema Types</strong>: Currently, We have 33 schema types such as Blog Posting, News article, Local Business, Web page, Article, Recipe, Product, and Video Object [view all](https://structured-data-for-wp.com/docs/article/how-many-schema-types-do-we-support/). We are going to add all the schema types in the future. You can request the one you want and we will add it for you! 
+* <strong>Schema Types</strong>: Currently, We have more than 35 schema types such as Blog Posting, News article, Local Business, Web page, Article, Recipe, Product, and Video Object [view all](https://structured-data-for-wp.com/docs/article/how-many-schema-types-do-we-support/). We are going to add all the schema types in the future. You can request the one you want and we will add it for you! 
 * <strong>Conditional Display Fields</strong>: Meaning you include or exclude any posts, pages, post types, taxonomies and more! 
 * <strong>Knowlegde Base Support</strong>: Recognize the content based on the organization or a person via data type option.
 * <strong>Full AMP Compatiblity</strong>: Supports the AMP for WP and AMP by Automattic plugins. 
@@ -54,6 +54,8 @@ Schema & Structured Data for WP & AMP adds Google Rich Snippets markup according
 * Recipe
 * TVSeries
 * SoftwareApplication
+* MobileApplication
+* SpecialAnnouncement (Coronavirus)
 * TechArticle
 * WebPage
 * Event
@@ -117,6 +119,27 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.9.33 (16 Apr 2020) =
+
+* Added: Compatibility with "Yet Another Stars Rating" ( https://wordpress.org/plugins/yet-another-stars-rating/ ) plugin #919
+* Added: Compatibility with "WP Customer Reviews" ( https://wordpress.org/plugins/wp-customer-reviews/ ) plugin #888
+* Added: Compatibility with "Products And Services Review WP Theme" ( https://themeforest.net/item/reviews-products-and-services-review-wp-theme/13004739?s_rank=4 ) plugin #933
+* Added: MobileApplication schema type #757
+* Added: Special Announcement schema type related to Coronavirus #757
+* Added: Translate field for "badge" #924
+* Added: An option as when we enable it the featured image should be passed along with the content to RSS feed #913
+* Fixed: Fatal error: Call to undefined method WC_Product_Simple::get_type() in /plugins/schema-and-structured-data-for-wp/output/service.php on line 2356 #929
+* Fixed: Custom name of the business is not working #928
+* Fixed: Review:- Copyrightyear is not updated accordingly. #694
+* Fixed: Item list error ( All values provided for URL must point to the same page ) on product category pages (Pagination). #758
+* Fixed: breadcrumb navxt compatibility + validation error #876
+* Fixed: Category selection is not working correct in placement #890
+* Fixed: Debug error #939
+* Fixed: Fatal Error with FAQ block #931
+* Fixed: Warning with FAQ block in DIVI builder. #780
+* Fixed: Blogposting: Item reviewed and Aggregate rating error due to Taqyeem compatibility. #926
+
 
 = 1.9.32 (09 Apr 2020) =
 
