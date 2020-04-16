@@ -1032,6 +1032,11 @@ class saswp_reviews_service {
                         foreach ($platform_wise as $key => $value){
                             
                             $platform_name  = $value['saswp_review_platform_name'];
+
+                            if($platform_name == 'Self'){
+                                $platform_name = saswp_label_text('translation-self');
+                            }
+
                             $platform_icon  = $value['saswp_review_platform_icon'];
                             $sum_of_rating += $value['saswp_review_rating'];
                             $review_count++;
@@ -1062,7 +1067,7 @@ class saswp_reviews_service {
                       $html .= '</span>';
                       $html .= '</div>';
                       $html .= '<span class="saswp-r3-brv">';
-                      $html .= esc_html__('Based on','schema-and-structured-data-for-wp').' '.esc_attr($review_count).' '.esc_html__('Reviews','schema-and-structured-data-for-wp');
+                      $html .= saswp_label_text('translation-based-on').' '.esc_attr($review_count).' '.saswp_label_text('translation-reviews');
                       $html .= '</span>';
                       $html .= '</div>';
                       $html .= '</a>';
@@ -1089,6 +1094,9 @@ class saswp_reviews_service {
                         foreach ($platform_wise as $key => $value){
                             
                             $platform_name  = $value['saswp_review_platform_name'];
+                            if($platform_name == 'Self'){
+                                $platform_name = saswp_label_text('translation-self');
+                            }
                             $platform_icon  = $value['saswp_review_platform_icon'];
                             $sum_of_rating += $value['saswp_review_rating'];
                             $review_count++;
@@ -1119,7 +1127,7 @@ class saswp_reviews_service {
                       $html .= '</span>';
                       $html .= '</div>';
                       $html .= '<span class="saswp-r3-brv">';
-                      $html .= esc_html__('Based on','schema-and-structured-data-for-wp').' '.esc_attr($review_count).' '.esc_html__('Reviews','schema-and-structured-data-for-wp');
+                      $html .= saswp_label_text('translation-based-on').' '.esc_attr($review_count).' '.saswp_label_text('translation-reviews');
                       $html .= '</span>';
                       $html .= '</div>';
                       $html .= '</a>';

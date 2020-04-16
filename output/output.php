@@ -735,7 +735,7 @@ function saswp_schema_output() {
                                 $input1 = array(
                                 '@context'			=> saswp_context_url(),
                                 '@type'				=> 'DiscussionForumPosting' ,
-                                '@id'				=> trailingslashit(saswp_get_permalink()).'#BlogPosting',    			
+                                '@id'				=> trailingslashit(saswp_get_permalink()).'#DiscussionForumPosting',    			
                                 'url'				=> trailingslashit(saswp_get_permalink()),
                                 'mainEntityOfPage'              => saswp_get_permalink(),       
                                 'headline'			=> saswp_get_the_title(),
@@ -932,6 +932,51 @@ function saswp_schema_output() {
                                 }
                                                         
                             break;
+
+                            case 'MobileApplication':
+                                                                                                           
+                                $input1 = array(
+                                '@context'			=> saswp_context_url(),
+                                '@type'				=> $schema_type ,
+                                '@id'				=> trailingslashit(saswp_get_permalink()).'#MobileApplication',         						                        
+                                'datePublished'                 => esc_html($date),
+                                'dateModified'                  => esc_html($modified_date),
+                                'author'			=> saswp_get_author_details()			
+                                );
+                                                        
+                                $woo_markp = $service_object->saswp_schema_markup_generator($schema_type);
+                                
+                                if($woo_markp){
+                                    $input1 = array_merge($input1, $woo_markp);
+                                }
+                                                                
+                                unset($input1['brand'], $input1['mpn'], $input1['sku'],$input1['gtin8'], $input1['gtin13']);
+                                
+                                if(!empty($publisher)){                            
+                                     $input1 = array_merge($input1, $publisher);                            
+                                }                                
+                                if(!empty($aggregateRating)){
+                                    $input1['aggregateRating'] = $aggregateRating;
+                                }                                
+                                if(!empty($extra_theme_review)){
+                                   $input1 = array_merge($input1, $extra_theme_review);
+                                }                               
+                                if(isset($sd_data['saswp_comments_schema']) && $sd_data['saswp_comments_schema'] ==1){
+                                   $input1['comment'] = saswp_get_comments(get_the_ID());
+                                }    
+                                
+                                $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
+                                                                                                
+                                $input1 = apply_filters('saswp_modify_mobile_application_schema_output', $input1 );
+                                
+                                $input1 = saswp_get_modified_markup($input1, $schema_type, $schema_post_id, $schema_options);
+                                
+                                if($modified_schema == 1){
+                                    
+                                    $input1 = saswp_mobile_app_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
+                                }
+                                                        
+                            break;
                         
                             case 'WebPage':
                                                                 
@@ -956,6 +1001,24 @@ function saswp_schema_output() {
                                     $input1 = saswp_webpage_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
                                 }
 				
+                            break;
+                            
+                            case 'SpecialAnnouncement':
+                                                                
+                                $input1 = $service_object->saswp_schema_markup_generator($schema_type);                                                                
+				                                
+                                if(isset($sd_data['saswp_comments_schema']) && $sd_data['saswp_comments_schema'] ==1){
+                                    $input1['comment'] = saswp_get_comments(get_the_ID());
+                                }                                                                
+                                $input1 = apply_filters('saswp_modify_special_announcement_schema_output', $input1 );  
+                                
+                                $input1 = saswp_get_modified_markup($input1, $schema_type, $schema_post_id, $schema_options);
+                                
+                                if($modified_schema == 1){
+                                    
+                                    $input1 = saswp_special_announcement_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
+                                }
+			                                
                             break;
                             
                             case 'Article':
@@ -1454,6 +1517,15 @@ function saswp_schema_output() {
                                                      
                             
                                     if($schema_type == 'Review'){
+
+
+                                     //kk star rating 
+                            
+                                    $yasr = saswp_extract_yet_another_stars_rating();
+                                
+                                    if(!empty($yasr)){
+                                        $input1['itemReviewed']['aggregateRating'] = $yasr; 
+                                    }   
                                         
                                       //Taqyeem 
                                       
@@ -1462,7 +1534,7 @@ function saswp_schema_output() {
                                       if(!empty($taqyeem_rating)){
                                         $input1['itemReviewed']['aggregateRating'] = $taqyeem_rating; 
                                       }
-                                        //kk star rating 
+                                    //kk star rating 
                             
                                     $kkstar_aggregateRating = saswp_extract_kk_star_ratings();
                                 
@@ -1477,8 +1549,35 @@ function saswp_schema_output() {
                                     if(!empty($wp_post_rating_ar)){
                                         $input1['itemReviewed']['aggregateRating'] = $wp_post_rating_ar; 
                                     }
+
+                                    // WP Customer Reviews starts here
+                                    $wp_customer_rv = saswp_get_wp_customer_reviews();                                    
+                                    
+                                    if($wp_customer_rv){                                        
+                                        $input1['itemReviewed']['aggregateRating'] = $wp_customer_rv['AggregateRating'];
+                                        $input1['itemReviewed']['review'] = $wp_customer_rv['reviews'];                                                                                                                              
+                                    }
+                                    // WP Customer Reviews ends here
+
+                                    //Reviews wp theme starts here
+                                        
+                                    $reviews_wp_theme = saswp_get_reviews_wp_theme();                                    
+                                        
+                                    if($reviews_wp_theme){                                        
+                                        $input1['itemReviewed']['aggregateRating'] = $reviews_wp_theme['AggregateRating'];
+                                        $input1['itemReviewed']['review']          = $reviews_wp_theme['reviews'];                                                                                                                              
+                                    }
+                                    //Reviews wp theme ends here
                                         
                                     }else{                                                                            
+
+                                        //yet another star rating
+                            
+                                        $yasr = saswp_extract_yet_another_stars_rating();
+                                    
+                                        if(!empty($yasr)){
+                                            $input1['aggregateRating'] = $yasr; 
+                                        }
 
                                         //Taqyeem 
                                       
@@ -1502,6 +1601,25 @@ function saswp_schema_output() {
                                         if(!empty($wp_post_rating_ar)){
                                             $input1['aggregateRating'] = $wp_post_rating_ar; 
                                         }
+
+                                        // WP Customer Reviews starts here
+                                        $wp_customer_rv = saswp_get_wp_customer_reviews();                                    
+                                        
+                                        if($wp_customer_rv){                                        
+                                            $input1['aggregateRating'] = $wp_customer_rv['AggregateRating'];
+                                            $input1['review'] = $wp_customer_rv['reviews'];                                                                                                                              
+                                        }
+                                        // WP Customer Reviews ends here
+
+                                        //Reviews wp theme starts here
+                                        
+                                        $reviews_wp_theme = saswp_get_reviews_wp_theme();                                    
+                                        
+                                        if($reviews_wp_theme){                                        
+                                            $input1['aggregateRating'] = $reviews_wp_theme['AggregateRating'];
+                                            $input1['review']          = $reviews_wp_theme['reviews'];                                                                                                                              
+                                        }
+                                        //Reviews wp theme ends here
                                         
                                     }
                                       
@@ -1564,7 +1682,7 @@ function saswp_schema_output() {
                                               $input1['review'] = $strong_testimonials['reviews'];
                                           }
                                           
-                                    }                                                                                                            
+                                    }                                                                        
                         
                         }                                                
                                 
@@ -1726,7 +1844,7 @@ function saswp_woocommerce_category_schema(){
                 $list_item     = array();
                 $term          = get_queried_object();
                 $service       = new saswp_output_service();                
-		$category_loop = new WP_Query( $query_string );
+		        $category_loop = new WP_Query( $query_string );
                 
                 $current_url = saswp_get_current_url();
                 
@@ -1738,7 +1856,7 @@ function saswp_woocommerce_category_schema(){
                         $category_posts = array();
                         $category_posts['@type']       = 'ListItem';
                         $category_posts['position']    = $i;
-			$category_posts['item']        = $service->saswp_schema_markup_generator('Product');
+			            $category_posts['item']        = $service->saswp_schema_markup_generator('Product');
                         
                         $feature_image           = $service->saswp_get_fetaure_image();
                         $category_posts['item']  = array_merge( $category_posts['item'], $feature_image);
@@ -1761,9 +1879,16 @@ function saswp_woocommerce_category_schema(){
                 $item_list_schema = array();
                 
                 if($list_item){                    
+                    
                     $item_list_schema['@context']        = saswp_context_url();
-                    $item_list_schema['@type']           = 'ItemList';                                      
-                    $item_list_schema['url']             = get_category_link($term->term_id);
+                    $item_list_schema['@type']           = 'ItemList';    
+
+                    if(saswp_has_slash($current_url)){
+                        $item_list_schema['url'] =  trailingslashit(saswp_get_category_link($term->term_id));    
+                    }else{                        
+                        $item_list_schema['url'] =  saswp_remove_slash(saswp_get_category_link($term->term_id));    
+                    }
+                    
                     $item_list_schema['itemListElement'] = $list_item;
                 }
                                                                                 

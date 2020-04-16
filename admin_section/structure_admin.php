@@ -411,29 +411,36 @@ function saswp_comparison_logic_checker($input){
 
       // Post Category
         case 'post_category':
-         
-          $current_category = '';
+
+          global $cat_id_obj;
+          $cat_id_arr = array();          
           
           if(is_object($post)){
-          
-              $postcat = get_the_category( $post->ID );
-                if(!empty($postcat)){
-                    if(is_object($postcat[0])){                 
-                      $current_category = $postcat[0]->cat_ID;                   
-                    }               
+
+              if(!$cat_id_obj){
+                $cat_id_obj = get_the_category( $post->ID );
+              }
+                            
+              if($cat_id_obj){
+
+                foreach ($cat_id_obj as $value) {
+                  $cat_id_arr[] = $value->term_id;
                 }
+
+              }                              
                             
           }
           
           if ( $comparison == 'equal') {
-              if ( $data == $current_category ) {
+              if (in_array($data, $cat_id_arr) ) {
                   $result = true;
               }
           }
+          
           if ( $comparison == 'not_equal') {
-              if ( $data != $current_category ) {
-                  $result = true;
-              }
+            if (!in_array($data, $cat_id_arr) ) {
+              $result = true;
+            }
           }
         break;
       // Post Format

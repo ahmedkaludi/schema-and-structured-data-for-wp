@@ -128,6 +128,12 @@ class saswp_output_compatibility{
                 
     }
     
+    public function saswp_reviews_override(){
+            
+        
+       
+   }
+
     public function saswp_soledad_override(){
             
          saswp_remove_anonymous_object_filter_or_action(
@@ -169,6 +175,11 @@ class saswp_output_compatibility{
     public function saswp_wordpress_news_override(){                                                        
     }
     public function saswp_total_recipe_generator_override(){                                                        
+    }
+    public function saswp_wp_customer_reviews_override(){                                                        
+    }
+    public function saswp_yet_another_stars_rating_override(){    
+        remove_filter('the_content', 'yasr_add_schema');                                                    
     }
     public function saswp_testimonial_pro_override(){
       
@@ -451,6 +462,12 @@ class saswp_output_compatibility{
     }
     public function total_recipe_generator_on_activation(){
          $this->saswp_update_option_on_compatibility_activation('saswp-total-recipe-generator');
+    }
+    public function wp_customer_reviews_on_activation(){
+        $this->saswp_update_option_on_compatibility_activation('saswp-wp-customer-reviews');
+    }
+    public function yet_another_stars_rating_on_activation(){
+        $this->saswp_update_option_on_compatibility_activation('saswp-yet-another-stars-rating');
     }
     public function saswp_update_option_on_compatibility_activation($opt_name){   
         

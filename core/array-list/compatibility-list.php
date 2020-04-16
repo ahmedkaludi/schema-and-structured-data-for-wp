@@ -4,12 +4,24 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 return array(    
     'plugins' =>    array(        
+        'yet_another_stars_rating'  =>  array(            
+            'name'       => 'Yet Another Stars Rating',
+            'free'       => 'yet-another-stars-rating/yet-another-stars-rating.php',                    
+            'opt_name'   => 'saswp-yet-another-stars-rating',
+            'part_in'    => 'free',
+        ),
+        'wp_customer_reviews'  =>  array(            
+                    'name'       => 'WP Customer Reviews',
+                    'free'       => 'wp-customer-reviews/wp-customer-reviews-3.php',                    
+                    'opt_name'   => 'saswp-wp-customer-reviews',
+                    'part_in'    => 'free',
+        ),
         'total_recipe_generator'  =>  array(            
-                    'name'       => 'Total Recipe Generator',
-                    'free'       => 'total-recipe-generator-el/total-recipe-generator-el.php',
-                    'pro'        => 'total-recipe-generator/total-recipe-generator.php',                     
-                    'opt_name'   => 'saswp-total-recipe-generator',
-                    'part_in'    => 'pro',
+            'name'       => 'Total Recipe Generator',
+            'free'       => 'total-recipe-generator-el/total-recipe-generator-el.php',
+            'pro'        => 'total-recipe-generator/total-recipe-generator.php',                     
+            'opt_name'   => 'saswp-total-recipe-generator',
+            'part_in'    => 'pro',
         ),
         'wordpress_news'  =>  array(            
                     'name'       => 'Wordpress News',
@@ -328,6 +340,12 @@ return array(
                     'free'       => 'wpresidence',               
                     'opt_name'   => 'saswp-wpresidence',
                     'part_in'    => 'pro',
+        ),
+        'reviews' => array(            
+            'name'       => 'Reviews WP Theme',
+            'free'       => 'reviews',               
+            'opt_name'   => 'saswp-wp-theme-reviews',
+            'part_in'    => 'free',
         ),
     )
 );

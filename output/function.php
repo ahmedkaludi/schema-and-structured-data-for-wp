@@ -683,6 +683,47 @@ function saswp_extract_taqyeem_ratings(){
 }
 
 /**
+ * Extracting the value of yet another star rating plugins on current post
+ * @global type $sd_data
+ * @param type $id
+ * @return type array
+ */
+function saswp_extract_yet_another_stars_rating(){
+        
+    global $sd_data;    
+    $result = array();
+
+    if(isset($sd_data['saswp-yet-another-stars-rating']) && $sd_data['saswp-yet-another-stars-rating'] == 1 && method_exists('YasrDatabaseRatings', 'getVisitorVotes') ){
+               
+        $visitor_votes  = YasrDatabaseRatings::getVisitorVotes(false);
+         
+        if( $visitor_votes && ($visitor_votes['sum_votes'] != 0 && $visitor_votes['number_of_votes'] != 0) ){
+           
+            $average_rating = $visitor_votes['sum_votes'] / $visitor_votes['number_of_votes'];
+            $average_rating = round($average_rating, 1);
+
+            $result['@type']       = 'AggregateRating';            
+            $result['ratingCount'] = $visitor_votes['number_of_votes'];
+            $result['ratingValue'] = $average_rating;  
+            $result['bestRating']  = 5;
+            $result['worstRating'] = 1;                                                         
+            
+            return $result;
+            
+        }else{
+            
+            return array();    
+            
+        }
+        
+    }else{
+        
+        return array();
+        
+    }                        
+}
+
+/**
  * Extracting the value of star ratings plugins on current post
  * @global type $sd_data
  * @param type $id
@@ -860,12 +901,12 @@ function saswp_list_items_generator(){
 		$bc_titles = array();
 		$bc_links  = array();
                 
-                if(isset($sd_data['titles'])){		
+        if(isset($sd_data['titles']) && !empty($sd_data['titles'])){		
 			$bc_titles = $sd_data['titles'];
 		}
-		if(isset($sd_data['links'])){
+		if(isset($sd_data['links']) && !empty($sd_data['links'])){
 			$bc_links = $sd_data['links'];
-		}	
+        }	        
                 
                 $j = 1;
                 $i = 0;
@@ -879,17 +920,20 @@ function saswp_list_items_generator(){
                                     
                                     if(array_key_exists($i, $bc_links) && array_key_exists($i, $bc_titles)){
                                     
-                                        $breadcrumbslist[] = array(
-								'@type'			=> 'ListItem',
-								'position'		=> $j,
-								'item'			=> array(
-									'@id'		=> $bc_links[$i],
-									'name'		=> $bc_titles[$i],
-									),
-							          );
-                                        
-                                        $j++;
-                                        
+                                        if($bc_links[$i] != '' && $bc_titles[$i] != '' ){
+
+                                            $breadcrumbslist[] = array(
+                                                '@type'			=> 'ListItem',
+                                                'position'		=> $j,
+                                                'item'			=> array(
+                                                    '@id'		=> $bc_links[$i],
+                                                    'name'		=> $bc_titles[$i],
+                                                    ),
+                                              );
+                                            
+                                            $j++;
+
+                                        }                                                                                
                                         
                                     }
                                     					
@@ -897,24 +941,28 @@ function saswp_list_items_generator(){
                 
                      }
                
-}
+    }
         if(is_page()){
                         if(!empty($bc_titles) && !empty($bc_links)){
                             
                             for($i=0;$i<sizeof($bc_titles);$i++){
                             
                                 if(array_key_exists($i, $bc_links) && array_key_exists($i, $bc_titles)){
-                                 
-                                    $breadcrumbslist[] = array(
-								'@type'			=> 'ListItem',
-								'position'		=> $j,
-								'item'			=> array(
-									'@id'		=> $bc_links[$i],
-									'name'		=> $bc_titles[$i],
-									),
-							);
+        
+                                    if($bc_links[$i] !='' && $bc_titles[$i] != ''){
 
-                                    $j++;
+                                        $breadcrumbslist[] = array(
+                                            '@type'			=> 'ListItem',
+                                            'position'		=> $j,
+                                            'item'			=> array(
+                                                '@id'		=> $bc_links[$i],
+                                                'name'		=> $bc_titles[$i],
+                                                ),
+                                        );
+    
+                                        $j++;
+
+                                    }                                    
                                     
                                 }                                				
 
@@ -922,7 +970,7 @@ function saswp_list_items_generator(){
                         }
 			
 
-}
+    }
         if(is_archive()){
 
          if(!empty($bc_titles) && !empty($bc_links)){
@@ -931,22 +979,26 @@ function saswp_list_items_generator(){
                  
                     if(array_key_exists($i, $bc_links) && array_key_exists($i, $bc_titles)){
                                                
-                        $breadcrumbslist[] = array(
-								        '@type'		=> 'ListItem',
-								        'position'	=> $j,
-								        'item'		=> array(
-									'@id'		=> $bc_links[$i],
-									'name'		=> $bc_titles[$i],
-									),
-							);
-                        $j++;
+                        if($bc_links[$i] != '' && $bc_titles[$i] !=''){
+
+                            $breadcrumbslist[] = array(
+                                '@type'		=> 'ListItem',
+                                'position'	=> $j,
+                                'item'		=> array(
+                                        '@id'		=> $bc_links[$i],
+                                        'name'		=> $bc_titles[$i],
+                                        ),
+                                );
+                            $j++;
+
+                        }                        
                 
                     }
             				                
-		}
+		        }
                           
          }               	
-}
+    }
         
        return $breadcrumbslist;
 }
@@ -1003,6 +1055,15 @@ function saswp_remove_microdata($content){
         //Clean json markup
         if(isset($sd_data['saswp-wordpress-news']) && $sd_data['saswp-wordpress-news'] == 1 ){
             $content = preg_replace("/<script type\=\'application\/ld\+json\' class\=\'wpnews-schema-graph(.*?)'\>(.*?)<\/script>/s", "", $content);
+        }
+
+
+        if(function_exists('review_child_company_reviews_comments') && isset($sd_data['saswp-wp-theme-reviews']) && $sd_data['saswp-wp-theme-reviews'] == 1){
+
+            $regex = '/<\/section>[\s\n]*<script type=\"application\/ld\+json\">(.*?)<\/script>/s';
+
+            $content = preg_replace($regex, '</section>', $content);        
+            
         }
         
         if(isset($sd_data['saswp-wp-ultimate-recipe']) && $sd_data['saswp-wp-ultimate-recipe'] == 1 ){
@@ -1269,7 +1330,7 @@ function saswp_get_testimonial_data($atts, $matche){
                              
                          $reviews[] = array(
                              '@type'         => 'Review',
-                             'author'        => $author,
+                             'author'        => array('@type'=> 'Person', 'name' => $author),
                              'datePublished' => saswp_format_date_time($value->post_date),
                              'description'   => $value->post_content,
                              'reviewRating'  => array(
@@ -1440,7 +1501,7 @@ function saswp_get_testimonial_pro_data($shortcode_data, $testimo_str){
 
                      $reviews[] = array(
                          '@type'         => 'Review',
-                         'author'        => $author,
+                         'author'        => array('@type'=> 'Person', 'name' => $author),
                          'datePublished' => saswp_format_date_time($value->post_date),
                          'description'   => $value->post_content,
                          'reviewRating'  => array(
@@ -1488,7 +1549,7 @@ function saswp_get_strong_testimonials_data($testimonial){
 
                      $reviews[] = array(
                          '@type'         => 'Review',
-                         'author'        => $author,
+                         'author'        => array('@type'=> 'Person', 'name' => $author),
                          'datePublished' => saswp_format_date_time($value->post_date),
                          'description'   => $value->post_content,
                          'reviewRating'  => array(
@@ -1544,7 +1605,7 @@ function saswp_get_bne_testimonials_data($atts, $testimo_str){
 
                      $reviews[] = array(
                          '@type'         => 'Review',
-                         'author'        => $author,
+                         'author'        => array('@type'=> 'Person', 'name' => $author),
                          'datePublished' => saswp_format_date_time($value->post_date),
                          'description'   => $value->post_content,
                          'reviewRating'  => array(
@@ -1977,4 +2038,176 @@ function saswp_explod_by_semicolon($data){
         }         
     }    
     return $response;    
+}
+function saswp_get_wp_customer_reviews(){
+
+    global $post, $sd_data, $response_rv;
+    
+    $reviews = array();
+    $ratings = array();
+
+    if(!$response_rv && isset($sd_data['saswp-wp-customer-reviews']) && $sd_data['saswp-wp-customer-reviews'] == 1){
+
+        $queryOpts = array(
+            'orderby'          => 'date',
+            'order'            => 'DESC',        
+            'post_type'        => 'wpcr3_review',
+            'post_status'      => 'publish',    
+            'posts_per_page'   => -1,    
+        );
+
+        if ($post->ID != -1) {
+			// if $postid is not -1 (all reviews from all posts), need to filter by meta value for post id
+			$meta_query = array('relation' => 'AND');
+			$meta_query[] = array(
+				'key' => "wpcr3_review_post",
+				'value' => $post->ID,
+				'compare' => '='
+			);
+			$queryOpts['meta_query'] = $meta_query;
+		}
+        
+        $reviews_post = new WP_Query($queryOpts);    
+        
+        if($reviews_post->posts){
+    
+            $sumofrating = 0;
+            $avg_rating  = 1;
+    
+            foreach ($reviews_post->posts as $value){
+                
+                 $meta = get_post_custom($value->ID);
+                 
+                 $rating       = $meta['wpcr3_review_rating'][0];              
+                 
+                 $sumofrating += $rating;
+                    
+                 $reviews[] = array(
+                     '@type'         => 'Review',
+                     'author'        => array('@type'=> 'Person', 'name' => $meta['wpcr3_review_name'][0]),
+                     'datePublished' => saswp_format_date_time($value->post_date),
+                     'description'   => $value->post_content,
+                     'reviewRating'  => array(
+                                        '@type'	        => 'Rating',
+                                        'bestRating'	=> '5',
+                                        'ratingValue'	=> $rating,
+                                        'worstRating'	=> '1',
+                           )
+                 ); 
+    
+                }
+    
+                if($sumofrating> 0){
+                  $avg_rating = $sumofrating /  count($reviews); 
+                }
+    
+                $ratings =  array(
+                                                '@type'         => 'AggregateRating',
+                                                'ratingValue'	=> $avg_rating,
+                                                'reviewCount'   => count($reviews)
+                );
+    
+        }
+        $response_rv =  array('reviews' => $reviews, 'AggregateRating' => $ratings);
+
+    }    
+
+    return $response_rv;
+
+}
+function saswp_get_reviews_wp_theme(){
+
+    global $post, $sd_data, $response_rv;
+    
+    $reviews = array();
+    $ratings = array();
+
+    if(!$response_rv && function_exists('review_child_company_reviews_comments') && isset($sd_data['saswp-wp-theme-reviews']) && $sd_data['saswp-wp-theme-reviews'] == 1){
+
+        $reviews_post     = get_approved_comments( $post->ID );
+        
+        if($reviews_post){
+    
+            $sumofrating = 0;
+            $avg_rating  = 1;
+    
+            foreach ($reviews_post as $review){
+
+                $comment_meta = get_comment_meta( $review->comment_ID, 'review', true );
+                $comment_meta = explode( ',', $comment_meta );
+
+                $user_overall = 0;
+                $user_rates   = 0;
+                $counter      = 0;
+
+
+                $criterias = get_post_meta( get_the_ID(), 'reviews_score' );
+                $rate_criterias = array();
+                if( !empty( $criterias ) ){
+                    foreach( $criterias as $criteria ){
+                        $rate_criterias[] = $criteria['review_criteria'];
+                    }
+                }
+                                                                    
+                for( $i=0; $i<sizeof($comment_meta); $i++ ){
+                    if( !empty( $rate_criterias[$i] ) ){
+                        $temp = explode( '|', $comment_meta[$i] );										
+                        $user_overall += $temp[1];
+                        $user_rates++;
+
+                    }
+                }
+                
+                $user_overall = $user_overall / $user_rates;
+                $rating       = round( $user_overall, 1 );                                  
+                $sumofrating += round( $user_overall, 1 );
+                    
+                 $reviews[] = array(
+                     '@type'         => 'Review',
+                     'author'        => array('@type'=> 'Person', 'name' => $review->comment_author ? $review->comment_author : 'Anonymous'),
+                     'datePublished' => saswp_format_date_time($review->comment_date),
+                     'description'   => $review->comment_content,
+                     'reviewRating'  => array(
+                                        '@type'	        => 'Rating',
+                                        'bestRating'	=> '5',
+                                        'ratingValue'	=> $rating,
+                                        'worstRating'	=> '1',
+                           )
+                 ); 
+    
+                }
+    
+                if($sumofrating> 0){
+                  $avg_rating = $sumofrating /  count($reviews); 
+                }
+    
+                $ratings =  array(
+                                                '@type'         => 'AggregateRating',
+                                                'ratingValue'	=> $avg_rating,
+                                                'reviewCount'   => count($reviews)
+                );
+    
+        }
+        $response_rv =  array('reviews' => $reviews, 'AggregateRating' => $ratings);
+
+    }    
+    
+    return $response_rv;
+
+}
+add_filter( 'the_content', 'saswp_featured_image_in_feed' );
+
+function saswp_featured_image_in_feed( $content ) {
+
+    global $post, $sd_data;
+
+    if( is_feed() &&  isset($sd_data['saswp-rss-feed-image']) && $sd_data['saswp-rss-feed-image'] == 1 ) {
+        if ( has_post_thumbnail( $post->ID ) ){
+            $image  = get_the_post_thumbnail( $post->ID, 'full', array( 'style' => 'float:right; margin:0 0 10px 10px;' ) );
+            $content = $image . $content;
+        }
+    }
+
+    return $content;
+    
 }

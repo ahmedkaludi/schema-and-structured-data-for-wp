@@ -1196,7 +1196,7 @@ function saswp_import_callback(){
                              'id'   => 'saswp-other-images',
                              'name' => 'sd_data[saswp-other-images]',                             
                         )
-                ),
+                ),                
                 array(
                         'label'  => 'Allow Multiple Size Image Creation',
                         'id'     => 'saswp-multiple-size-image-checkbox',                        
@@ -1207,6 +1207,18 @@ function saswp_import_callback(){
                         'hidden' => array(
                                 'id'   => 'saswp-multiple-size-image',
                                 'name' => 'sd_data[saswp-multiple-size-image]',                             
+                        )
+                ),
+                array(
+                        'label'  => 'Add Featured Image in RSS feed',
+                        'id'     => 'saswp-rss-feed-image-checkbox',                        
+                        'name'   => 'saswp-rss-feed-image-checkbox',
+                        'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',   
+                        'note'   => 'Showing images alongside news/blogs if your website or blog appears in Google News',   
+                        'hidden' => array(
+                                'id'   => 'saswp-rss-feed-image',
+                                'name' => 'sd_data[saswp-rss-feed-image]',                             
                         )
                 )                  
                 
@@ -1804,6 +1816,18 @@ function saswp_compatibility_page_callback(){
                                 'name' => 'sd_data[saswp-total-recipe-generator]',                             
                         )
                 );
+        $wp_customer_review = array(
+                'label'  => 'WP Customer Reviews',
+                'id'     => 'saswp-wp-customer-reviews-checkbox',                        
+                'name'   => 'saswp-wp-customer-reviews-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('wp_customer_reviews'),
+                'hidden' => array(
+                        'id'   => 'saswp-wp-customer-reviews',
+                        'name' => 'sd_data[saswp-wp-customer-reviews]',                             
+                )
+        );        
         $simple_author_box = array(
                 'label'  => 'Simple Author Box',
                 'id'     => 'saswp-simple-author-box-checkbox',                        
@@ -2190,6 +2214,18 @@ function saswp_compatibility_page_callback(){
                                 'id'   => 'saswp-kk-star-raring',
                                 'name' => 'sd_data[saswp-kk-star-raring]',                             
                         )
+                );
+        $yasr = array(
+			'label'  => 'Yet Another Stars Rating',
+			'id'     => 'saswp-yet-another-stars-rating-checkbox',                        
+                        'name'   => 'saswp-yet-another-stars-rating-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
+                        'note'   => saswp_get_field_note('yet_another_stars_rating'),
+                        'hidden' => array(
+                                'id'   => 'saswp-yet-another-stars-rating',
+                                'name' => 'sd_data[saswp-yet-another-stars-rating]',                             
+                        )
 		);
         $wppostratings = array(
 			'label'  => 'WP-PostRatings',
@@ -2277,7 +2313,19 @@ function saswp_compatibility_page_callback(){
                                 'id'   => 'saswp-soledad',
                                 'name' => 'sd_data[saswp-soledad]',                             
                         )
-		);
+                );
+        $reviews_wp_theme = array(
+                'label'  => 'Reviews WP Theme',
+                'id'     => 'saswp-wp-theme-reviews-checkbox',                        
+                'name'   => 'saswp-wp-theme-reviews-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('reviews'),
+                'hidden' => array(
+                        'id'   => 'saswp-wp-theme-reviews',
+                        'name' => 'sd_data[saswp-wp-theme-reviews]',                             
+                )
+        );        
         $dwquestiton = array(
 			'label'  => 'DW Question Answer',
 			'id'     => 'saswp-dw-question-answer-checkbox',                        
@@ -2467,6 +2515,8 @@ function saswp_compatibility_page_callback(){
                 $wpamp,
                 $ampwp,
                 $kk_star,
+                $yasr,
+                $wp_customer_review,
                 $simple_author_box,  
                 $wppostratings,
                 $bbpress,
@@ -2475,6 +2525,7 @@ function saswp_compatibility_page_callback(){
                 $woocommerce_mem,
                 $cooked, 
                 $soledad,
+                $reviews_wp_theme,
                 $taqyeem,
                 $extratheme,
                 $dwquestiton,                
@@ -2731,7 +2782,10 @@ function saswp_enqueue_style_js( $hook ) {
             'post_type'                    => $post_type,   
             'page_now'                     => $hook,
             'saswp_settings_url'           => esc_url(admin_url('edit.php?post_type=saswp&page=structured_data_options')),
-            'saswp_schema_types'           =>  $all_schema_array
+            'saswp_schema_types'           =>  $all_schema_array,
+            'trans_based_on'               => saswp_label_text('translation-based-on'),
+            'trans_reviews'                => saswp_label_text('translation-reviews'),
+            'trans_self'                   => saswp_label_text('translation-self')
         );
                         
         $data = apply_filters('saswp_localize_filter',$data,'saswp_localize_data');

@@ -787,6 +787,15 @@ return false;
                               $("#saswp-kk-star-raring").val(0);           
                             }
                       break;
+                      case 'saswp-yet-another-stars-rating-checkbox':
+                          
+                          saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-yet-another-stars-rating").val(1);             
+                            }else{
+                              $("#saswp-yet-another-stars-rating").val(0);           
+                            }
+                      break;
                       case 'saswp-simple-author-box-checkbox':
                           
                           saswp_compatibliy_notes(current, id); 
@@ -829,6 +838,15 @@ return false;
                               $("#saswp-soledad").val(1);             
                             }else{
                               $("#saswp-soledad").val(0);           
+                            }
+                      break;
+
+                      case 'saswp-wp-theme-reviews-checkbox':
+                          saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-wp-theme-reviews").val(1);             
+                            }else{
+                              $("#saswp-wp-theme-reviews").val(0);           
                             }
                       break;
                       
@@ -1167,6 +1185,16 @@ return false;
                             
                       break;
 
+                      case 'saswp-rss-feed-image-checkbox':
+                          
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-rss-feed-image").val(1);                                
+                            }else{
+                              $("#saswp-rss-feed-image").val(0);                                          
+                            }
+                            
+                      break;
+
                       case 'saswp-multiple-size-image-checkbox':
                           
                             if ($(this).is(':checked')) {              
@@ -1223,6 +1251,16 @@ return false;
                               $("#saswp-ampbyautomatic").val(1);                                
                             }else{
                               $("#saswp-ampbyautomatic").val(0);                                          
+                            }
+                            
+                      break;
+                      
+                      case 'saswp-wp-customer-reviews-checkbox':
+                           saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-wp-customer-reviews").val(1);                                
+                            }else{
+                              $("#saswp-wp-customer-reviews").val(0);                                          
                             }
                             
                       break;

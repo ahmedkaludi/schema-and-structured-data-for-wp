@@ -16,7 +16,8 @@ $with_aggregate = array(
         'Review',                   
         'Recipe',                   
         'TVSeries', 
-        'SoftwareApplication',                                                                  
+        'SoftwareApplication',
+        'MobileApplication',                                                                  
         'Event',                    
         'VideoGame',                
         'AudioObject',              
@@ -30,6 +31,7 @@ $without_aggregate = array(
         'SingleFamilyResidence',
         'Article',
         'BlogPosting',
+        'Blogposting',
         'DiscussionForumPosting',
         'DataFeed',
         'FAQ',
@@ -47,7 +49,8 @@ $without_aggregate = array(
         'HinduTemple',
         'Church',
         'Mosque',
-        'Person'
+        'Person',
+        'SpecialAnnouncement'
 );
 $translation_labels = array(
     'translation-pros'            => 'Pros',
@@ -57,10 +60,13 @@ $translation_labels = array(
     'translation-tools'           => 'Tools',
     'translation-materials'       => 'Materials',
     'translation-time-needed'     => 'Time Needed',
-    'translation-estimate-cost'     => 'Estimate Cost',
+    'translation-estimate-cost'   => 'Estimate Cost',
     'translation-name'            => 'Name',
     'translation-comment'         => 'Comment',
     'translation-review-form'     => 'Review Form',
+    'translation-based-on'        => 'Based On',
+    'translation-reviews'         => 'Reviews',
+    'translation-self'            => 'Self',
 );          
 $saswp_post_reviews = array();
 $saswp_elementor_faq = array();
