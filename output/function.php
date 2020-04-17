@@ -2235,3 +2235,67 @@ function saswp_featured_image_in_feed( $content ) {
     return $content;
     
 }
+function saswp_get_loop_markup($i) {
+
+    global $sd_data;
+
+    $response = array();
+    $site_name ='';
+
+    $schema_type        =  $sd_data['saswp_archive_schema_type'];
+
+    if(isset($sd_data['sd_name']) && $sd_data['sd_name'] !=''){
+        $site_name = $sd_data['sd_name'];  
+    }else{
+        $site_name = get_bloginfo();    
+    }
+
+    $service_object     = new saswp_output_service();
+    $logo               = $service_object->saswp_get_publisher(true);   
+
+    $schema_properties = array();
+
+    $image_id 		        = get_post_thumbnail_id();                                                                
+    $archive_image 	        = saswp_get_image_by_id($image_id);  
+    
+    if(!empty($archive_image)){
+        
+        if(isset($sd_data['sd_default_image'])){
+            
+            $archive_image['@type']  = 'ImageObject';
+            $archive_image['url']    = isset($sd_data['sd_default_image']['url']) ? esc_url($sd_data['sd_default_image']['url']):'';
+            $archive_image['width']  = esc_attr($sd_data['sd_default_image_width']);
+            $archive_image['height'] = esc_attr($sd_data['sd_default_image_height']);                                  
+        }
+                                            
+    }
+                                    
+    $publisher_info['type']           = 'Organization';                                
+    $publisher_info['name']           = esc_attr($site_name);
+    $publisher_info['logo']['@type']  = 'ImageObject';
+    $publisher_info['logo']['url']    = isset($logo['url'])    ? esc_attr($logo['url']):'';
+    $publisher_info['logo']['width']  = isset($logo['width'])  ? esc_attr($logo['width']):'';
+    $publisher_info['logo']['height'] = isset($logo['height']) ? esc_attr($logo['height']):'';
+                                                                                                                                                                    
+    $schema_properties['@type']            = esc_attr($schema_type);
+    $schema_properties['headline']         = saswp_get_the_title();
+    $schema_properties['url']              = get_the_permalink();                                                                                                
+    $schema_properties['datePublished']    = get_the_date('c');
+    $schema_properties['dateModified']     = get_the_modified_date('c');
+    $schema_properties['mainEntityOfPage'] = get_the_permalink();
+    $schema_properties['author']           = get_the_author();
+    $schema_properties['publisher']        = $publisher_info;                                
+                                                                    
+    if(!empty($archive_image['url'])){                                
+        $schema_properties['image']            = $archive_image;                                    
+    }
+
+    $itemlist_arr = array(
+                '@type' 		    => 'ListItem',
+                'position' 		    => $i,
+                'url' 		        => get_the_permalink(),                
+        );    
+    $response = array('schema_properties' => $schema_properties, 'itemlist' => $itemlist_arr);
+
+    return $response;
+}
