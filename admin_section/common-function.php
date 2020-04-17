@@ -1864,13 +1864,17 @@ if ( ! defined('ABSPATH') ) exit;
                        
             foreach ($attachments as $url){
              
-            $image_data = array();    
-            $image = @getimagesize($url);
-                     
-            $image_data[0] =  $image[0]; //width
-            $image_data[1] =  $image[1]; //height
-            
+                $image_data = array();    
 
+                $image = @getimagesize($url);
+
+                if(is_array($image)){
+
+                    $image_data[0] =  $image[0]; //width
+                    $image_data[1] =  $image[1]; //height
+
+                }                                 
+            
                 if(empty($image) || $image == false){
                     
                     $img_id           = attachment_url_to_postid($url);

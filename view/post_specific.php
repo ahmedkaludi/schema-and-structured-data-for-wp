@@ -579,7 +579,7 @@ class saswp_post_specific {
         public function saswp_post_meta_box_callback() { 
                     
                 global $post;                 
-		wp_nonce_field( 'post_specific_data', 'post_specific_nonce' );  
+		        wp_nonce_field( 'post_specific_data', 'post_specific_nonce' );  
                 echo $this->saswp_post_meta_box_html($post);                                             
                                                                                                                                                                    		
 	}        

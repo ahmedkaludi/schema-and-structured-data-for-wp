@@ -2187,7 +2187,31 @@ function saswp_get_reviews_wp_theme(){
                                                 'reviewCount'   => count($reviews)
                 );
     
+        }else{
+
+            $author_average = get_post_meta( get_the_ID(), 'author_average', true );
+            
+            $ratings =  array(
+                '@type'         => 'AggregateRating',
+                'ratingValue'	=> $author_average,
+                'reviewCount'   => 1
+            );
+
+            $reviews[] = array(
+                '@type'         => 'Review',
+                'author'        => array('@type'=> 'Person', 'name' => saswp_get_the_author_name()),
+                'datePublished' => get_the_date("c"),
+                'description'   => saswp_get_the_excerpt(),
+                'reviewRating'  => array(
+                                   '@type'	        => 'Rating',
+                                   'bestRating'	    => '5',
+                                   'ratingValue'	=> $author_average,
+                                   'worstRating'	=> '1',
+                      )
+            ); 
+            
         }
+        
         $response_rv =  array('reviews' => $reviews, 'AggregateRating' => $ratings);
 
     }    
