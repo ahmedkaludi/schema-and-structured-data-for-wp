@@ -1984,10 +1984,11 @@ function saswp_archive_output(){
 	global $query_string, $sd_data;   
                 
     $output = array();
-    $category_posts  = array();
-    $item_list       = array();  
-    $collection_page = array();
-    $blog_page       = array();   
+    $category_posts   = array();
+    $item_list        = array();  
+    $collection_page  = array();
+    $blog_page        = array();   
+    $item_list_schema = array();
                  	        	
 	if(isset($sd_data['saswp_archive_schema']) && $sd_data['saswp_archive_schema'] == 1){
                     
