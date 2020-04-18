@@ -600,8 +600,7 @@ class saswp_post_specific {
                 $allowed_html = saswp_expanded_allowed_tags(); 
                                                  
                 $custom_schema  = wp_kses(wp_unslash($_POST['saswp_custom_schema_field']), $allowed_html);
-                update_post_meta( $post_id, 'saswp_custom_schema_field', $custom_schema );
-                update_option('modify_schema_post_enable_'.$post_id, ''); 
+                update_post_meta( $post_id, 'saswp_custom_schema_field', $custom_schema );                 
                                                                                
                 $this->_common_view->saswp_save_common_view($post_id, $this->all_schema);
 	}
