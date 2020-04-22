@@ -25,10 +25,12 @@ add_action( 'add_meta_boxes', 'saswp_add_all_meta_boxes',99 ) ;
  */
 function saswp_add_all_meta_boxes() {
     
+    global $saswp_metaboxes;
+
     saswp_remove_unwanted_metabox();        
     
     add_meta_box(
-            'schema_type',
+            'saswp_schema_type',
             esc_html__( 'Schema Type', 'schema-and-structured-data-for-wp' ),
             'saswp_schema_type_meta_box_callback',
             'saswp',
@@ -36,7 +38,7 @@ function saswp_add_all_meta_boxes() {
             'high'
     );
     
-    add_meta_box( 'saswp_help_meta_box_id', 
+    add_meta_box( 'saswp_help_meta_box', 
                 esc_html__('Help', 'schema-and-structured-data-for-wp' ), 
                 'saswp_help_meta_box_cb', 
                 'saswp', 
@@ -44,7 +46,7 @@ function saswp_add_all_meta_boxes() {
                 );
         
     add_meta_box(
-                'schema_options',
+                'saswp_schema_options',
                 esc_html__( 'Advance Schema Options', 'schema-and-structured-data-for-wp' ),
                 'saswp_schema_options_meta_box_callback',
                 'saswp',
@@ -66,7 +68,7 @@ function saswp_add_all_meta_boxes() {
                 'low' 
               );
     add_meta_box(
-            'submitdiv',
+            'saswp_submitdiv',
                 esc_html__( 'Publish' ), 
                 'post_submit_meta_box',
                 array('saswp', 'saswp_reviews'), 
@@ -74,6 +76,12 @@ function saswp_add_all_meta_boxes() {
                 'high' 
             );
 
+            $saswp_metaboxes[]= 'saswp_schema_type';
+            $saswp_metaboxes[]= 'saswp_help_meta_box';
+            $saswp_metaboxes[]= 'saswp_schema_options';
+            $saswp_metaboxes[]= 'saswp_amp_select';
+            $saswp_metaboxes[]= 'saswp_submitdiv';
+            $saswp_metaboxes[]= 'saswp_reviews_form';
 }
 /**
  * Function to get schema type meta 

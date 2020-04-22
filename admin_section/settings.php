@@ -2751,7 +2751,9 @@ function saswp_support_page_callback(){
  * Enqueue CSS and JS
  */
 function saswp_enqueue_style_js( $hook ) { 
-    
+        
+        global $saswp_metaboxes;
+        
         $post_type = '';
         
         $current_screen = get_current_screen(); 
@@ -2759,7 +2761,9 @@ function saswp_enqueue_style_js( $hook ) {
         if(isset($current_screen->post_type)){                  
             $post_type = $current_screen->post_type;                
         }    
-            
+        
+        if($saswp_metaboxes || $post_type == 'saswp' || $post_type == 'saswp-collections' || $post_type == 'saswp_reviews' || $hook == 'saswp_page_structured_data_options' || $hook == 'saswp_page_collection' ){
+
         $all_schema_array = array();
         
         $mappings_file = SASWP_DIR_NAME . '/core/array-list/schemas.php';
@@ -2816,6 +2820,8 @@ function saswp_enqueue_style_js( $hook ) {
         wp_enqueue_style( 'saswp-main-css', SASWP_PLUGIN_URL . 'admin_section/css/'.(SASWP_ENVIRONMENT == 'production' ? 'main-style.min.css' : 'main-style.css'), false , SASWP_VERSION );
                         
         wp_style_add_data( 'saswp-main-css', 'rtl', 'replace' );
+
+        }                
         
 }
 add_action( 'admin_enqueue_scripts', 'saswp_enqueue_style_js' );

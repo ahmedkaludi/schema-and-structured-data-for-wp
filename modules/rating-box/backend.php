@@ -24,7 +24,7 @@ class saswp_rating_box_backend {
         
         function saswp_review_add_meta_box($post) {
             
-            global $sd_data;          
+            global $sd_data, $saswp_metaboxes;          
              
             $review_post_id = '';
             
@@ -47,13 +47,14 @@ class saswp_rating_box_backend {
                         if(saswp_current_user_allowed()){
 
                             add_meta_box(
-                              'sasw-review',
+                              'saswp_rating_box',
                               esc_html__( 'Rating Box', 'schema-and-structured-data-for-wp' ),
                               array( $this, 'saswp_meta_box_callback' ),
                               $single_screen,
                               'advanced',
                               'default'
                             );                   
+                            $saswp_metaboxes[]= 'saswp_rating_box';                         
                         }               
                     }           
                }                          

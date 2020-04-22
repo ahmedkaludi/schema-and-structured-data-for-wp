@@ -259,7 +259,7 @@ class saswp_post_specific {
 
         public function saswp_post_specifc_add_meta_boxes() {
             
-            global $post;
+            global $post, $saswp_metaboxes;
                         
             $post_specific_id = '';            
             
@@ -279,19 +279,18 @@ class saswp_post_specific {
                      if(saswp_current_user_allowed()){
                       
                          add_meta_box(
-				'post_specific',
-				esc_html__( 'Schema & Structured Data on this post', 'schema-and-structured-data-for-wp' ),
-				array( $this, 'saswp_post_meta_box_callback' ),
-				$single_screen,
-				'advanced',
-				'default'
-			);
-                         
+                                'saswp_post_specific',
+                                esc_html__( 'Schema & Structured Data on this post', 'schema-and-structured-data-for-wp' ),
+                                array( $this, 'saswp_post_meta_box_callback' ),
+                                $single_screen,
+                                'advanced',
+                                'default'
+                        );
+                        $saswp_metaboxes[]= 'saswp_post_specific';                         
                     }			                        
-		}   
+		        }   
              }   
-             
-            		
+                         		
 	}
         
         public function saswp_get_schema_dynamic_fields_ajax(){
@@ -582,7 +581,7 @@ class saswp_post_specific {
 		        wp_nonce_field( 'post_specific_data', 'post_specific_nonce' );  
                 echo $this->saswp_post_meta_box_html($post);                                             
                                                                                                                                                                    		
-	}        
+        }        
         
         /**
          * Function to save post specific metabox fields value
