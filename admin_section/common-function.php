@@ -1906,8 +1906,9 @@ if ( ! defined('ABSPATH') ) exit;
         $content = '';   
         
         if(is_object($post)){
-            $content = get_post_field('post_content', $post->ID);
-            $content = wp_strip_all_tags(strip_shortcodes($content));             
+            $content = get_post_field('post_content', $post->ID);            
+            $content = wp_strip_all_tags(strip_shortcodes($content));   
+            $content = preg_replace('/\[.*?\]/','', $content);            
             $content = str_replace('=', '', $content); // Removes special chars.
         }
         
@@ -2036,7 +2037,7 @@ if ( ! defined('ABSPATH') ) exit;
         }
            
         $excerpt = wp_strip_all_tags(strip_shortcodes($excerpt)); 
-        
+        $excerpt = preg_replace('/\[.*?\]/','', $excerpt);
         return apply_filters('saswp_the_excerpt' ,$excerpt);
     }
     /**
