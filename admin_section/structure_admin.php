@@ -985,13 +985,16 @@ function saswp_custom_breadcrumbs() {
             
 	    	 global $author;
 	    		
-	            $userdata            = get_userdata( $author ); 
-	            $author_url          = get_author_posts_url($userdata->ID);
+              $userdata            = get_userdata( $author ); 
+              
+              if($userdata){
 
-	            // author name
-	            $variables1_titles[] = $userdata->display_name;
-	            $variables2_links[]  = $author_url;
-                    $breadcrumb_url      = $author_url;
+                $author_url          = get_author_posts_url($userdata->ID);	            
+	              $variables1_titles[] = $userdata->display_name;
+	              $variables2_links[]  = $author_url;
+                $breadcrumb_url      = $author_url;
+
+              }	            
                     
         } else if ( is_archive() && is_tax() && !is_category() && !is_tag() ) {
               
