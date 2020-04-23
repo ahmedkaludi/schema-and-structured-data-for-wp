@@ -129,6 +129,7 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Fixed: Notice: Trying to access array offset on value of type bool #940
 * Fixed: Change icons of upgrade to premium box in settings area #945
 * Fixed: Warning error #934
+* Fixed: Author archive page has PHP errors #955
 * Added: Blog Schema on homepage when archive schema option is enable with BlogPosting
 
 
