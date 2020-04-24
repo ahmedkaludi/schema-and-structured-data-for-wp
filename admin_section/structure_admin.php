@@ -983,14 +983,12 @@ function saswp_custom_breadcrumbs() {
                     
         } else if  ( is_author() ) {
             
-	    	 global $author;
-	    		
-              $userdata            = get_userdata( $author ); 
+	    	 global $authordata;	    		               
               
-              if($userdata){
-
-                $author_url          = get_author_posts_url($userdata->ID);	            
-	              $variables1_titles[] = $userdata->display_name;
+              if($authordata){
+                
+                $author_url          = get_author_posts_url($authordata->ID);	                            
+	              $variables1_titles[] = $authordata->display_name;
 	              $variables2_links[]  = $author_url;
                 $breadcrumb_url      = $author_url;
 
