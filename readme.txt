@@ -120,7 +120,7 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
 
-= 1.9.34 (23 Apr 2020) =
+= 1.9.34 (24 Apr 2020) =
 
 * Fixed: Admin scripts enqueued on all screens #950
 * Fixed: Strip all other shortcode from content #777
