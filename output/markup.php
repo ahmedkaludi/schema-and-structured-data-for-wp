@@ -467,6 +467,8 @@ function saswp_course_schema_markup($schema_id, $schema_post_id, $all_post_meta)
              '@id'                           => trailingslashit(get_permalink()).'#course',    
              'name'			        => saswp_remove_warnings($all_post_meta, 'saswp_course_name_'.$schema_id, 'saswp_array'),
              'description'                   => saswp_remove_warnings($all_post_meta, 'saswp_course_description_'.$schema_id, 'saswp_array'),			
+             'courseCode'                   => saswp_remove_warnings($all_post_meta, 'saswp_course_code_'.$schema_id, 'saswp_array'),			
+             'timeRequired'                   => saswp_remove_warnings($all_post_meta, 'saswp_course_duration_'.$schema_id, 'saswp_array'),			
              'url'				=> saswp_remove_warnings($all_post_meta, 'saswp_course_url_'.$schema_id, 'saswp_array'),
              'datePublished'                 => isset($all_post_meta['saswp_course_date_published_'.$schema_id][0])? saswp_format_date_time($all_post_meta['saswp_course_date_published_'.$schema_id][0], get_post_time('h:i:s')) : '',
              'dateModified'                  => isset($all_post_meta['saswp_course_date_modified_'.$schema_id][0])? saswp_format_date_time($all_post_meta['saswp_course_date_modified_'.$schema_id][0], get_the_modified_time('h:i:s')) : '',
@@ -477,6 +479,17 @@ function saswp_course_schema_markup($schema_id, $schema_post_id, $all_post_meta)
                                              )											
                  );
 
+                if( isset($all_post_meta['saswp_course_content_location_name_'.$schema_id][0]) || isset($all_post_meta['saswp_course_content_location_locality_'.$schema_id][0]) || isset($all_post_meta['saswp_course_content_location_country_'.$schema_id][0])  ){
+
+                        $input1['contentLocation']['@type']                        =   'Place';
+                        $input1['contentLocation']['name']                         =   $all_post_meta['saswp_course_content_location_name_'.$schema_id][0];
+                        $input1['contentLocation']['address']['addressLocality']   =   $all_post_meta['saswp_course_content_location_locality_'.$schema_id][0];
+                        $input1['contentLocation']['address']['addressRegion']     =   $all_post_meta['saswp_course_content_location_region_'.$schema_id][0];
+                        $input1['contentLocation']['address']['PostalCode']        =   $all_post_meta['saswp_course_content_location_postal_code_'.$schema_id][0];
+                        $input1['contentLocation']['address']['addressCountry']    =   $all_post_meta['saswp_course_content_location_country_'.$schema_id][0];
+
+                } 
+                 
                  if(isset($all_post_meta['saswp_course_enable_rating_'.$schema_id]) && saswp_remove_warnings($all_post_meta, 'saswp_course_rating_'.$schema_id, 'saswp_array') && saswp_remove_warnings($all_post_meta, 'saswp_course_review_count_'.$schema_id, 'saswp_array')){
                                  
                     $input1['aggregateRating'] = array(

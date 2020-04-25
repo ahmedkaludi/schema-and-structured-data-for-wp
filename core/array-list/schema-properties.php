@@ -1168,61 +1168,96 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                 case 'Course':                                        
                     $meta_field = array(
                     array(
-                            'label' => 'Name',
-                            'id' => 'saswp_course_name_'.$schema_id,
-                            'type' => 'text',
+                            'label'   => 'Name',
+                            'id'      => 'saswp_course_name_'.$schema_id,
+                            'type'    => 'text',
                             'default' => saswp_get_the_title()
                     ),
                     array(
-                            'label' => 'Description',
-                            'id' => 'saswp_course_description_'.$schema_id,
-                            'type' => 'textarea',
+                            'label'   => 'Description',
+                            'id'      => 'saswp_course_description_'.$schema_id,
+                            'type'    => 'textarea',
                             'default' => is_object($post) ? $post->post_excerpt : ''
-                    ) ,    
+                    ),
                     array(
-                            'label' => 'URL',
-                            'id' => 'saswp_course_url_'.$schema_id,
-                            'type' => 'text',
+                        'label'   => 'Duration',
+                        'id'      => 'saswp_course_duration_'.$schema_id,
+                        'type'    => 'text'                        
+                   ),
+                   array(
+                        'label'   => 'Course Code',
+                        'id'      => 'saswp_course_code_'.$schema_id,
+                        'type'    => 'text'                        
+                   ),
+                   array(
+                        'label'   => 'Content Location Name',
+                        'id'      => 'saswp_course_content_location_name_'.$schema_id,
+                        'type'    => 'text'                        
+                   ),                   
+                   array(
+                        'label'   => 'Content Location Locality',
+                        'id'      => 'saswp_course_content_location_locality_'.$schema_id,
+                        'type'    => 'text'                        
+                   ),
+                   array(
+                        'label'   => 'Content Location Region',
+                        'id'      => 'saswp_course_content_location_region_'.$schema_id,
+                        'type'    => 'text'                        
+                   ),
+                   array(
+                        'label'   => 'Content Location Country',
+                        'id'      => 'saswp_course_content_location_country_'.$schema_id,
+                        'type'    => 'text'                        
+                   ),
+                   array(
+                        'label'   => 'Content Location Postal Code',
+                        'id'      => 'saswp_course_content_location_postal_code_'.$schema_id,
+                        'type'    => 'text'                        
+                   ),
+                    array(
+                            'label'   => 'URL',
+                            'id'      => 'saswp_course_url_'.$schema_id,
+                            'type'    => 'text',
                             'default' => get_permalink()
                     ),                     
                     array(
-                            'label' => 'Date Published',
-                            'id' => 'saswp_course_date_published_'.$schema_id,
-                            'type' => 'text',
+                            'label'   => 'Date Published',
+                            'id'      => 'saswp_course_date_published_'.$schema_id,
+                            'type'    => 'text',
                             'default' => get_the_date("Y-m-d")
                     ), 
                     array(
-                            'label' => 'Date Modified',
-                            'id' => 'saswp_course_date_modified_'.$schema_id,
-                            'type' => 'text',
+                            'label'   => 'Date Modified',
+                            'id'      => 'saswp_course_date_modified_'.$schema_id,
+                            'type'    => 'text',
                             'default' => get_the_modified_date("Y-m-d")
                     ),                    
                     array(
-                            'label' => 'Provider Name',
-                            'id' => 'saswp_course_provider_name_'.$schema_id,
-                            'type' => 'text',
+                            'label'   => 'Provider Name',
+                            'id'      => 'saswp_course_provider_name_'.$schema_id,
+                            'type'    => 'text',
                             'default' => get_bloginfo()
                     ),
                     array(
-                            'label' => 'Provider SameAs',
-                            'id' => 'saswp_course_sameas_'.$schema_id,
-                            'type' => 'text',
+                            'label'   => 'Provider SameAs',
+                            'id'      => 'saswp_course_sameas_'.$schema_id,
+                            'type'    => 'text',
                             'default' => get_home_url() 
                     ),
                     array(
-                        'label' => 'Aggregate Rating',
-                        'id' => 'saswp_course_enable_rating_'.$schema_id,
-                        'type' => 'checkbox',                            
+                            'label' => 'Aggregate Rating',
+                            'id'    => 'saswp_course_enable_rating_'.$schema_id,
+                            'type'  => 'checkbox',                            
                     ),
                     array(
-                        'label' => 'Rating',
-                        'id' => 'saswp_course_rating_'.$schema_id,
-                        'type' => 'text',                            
+                            'label' => 'Rating',
+                            'id'    => 'saswp_course_rating_'.$schema_id,
+                            'type'  => 'text',                            
                     ),
                     array(
-                        'label' => 'Number of Reviews',
-                        'id' => 'saswp_course_review_count_'.$schema_id,
-                        'type' => 'text',                            
+                            'label' => 'Number of Reviews',
+                            'id'    => 'saswp_course_review_count_'.$schema_id,
+                            'type'  => 'text',                            
                     )                                                     
                     );
                     break;

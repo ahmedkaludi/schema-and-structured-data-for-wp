@@ -1302,6 +1302,15 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_course_date_modified'])){
                      $input1['dateModified'] =    $custom_fields['saswp_course_date_modified'];
                     }
+
+                    if(isset($custom_fields['saswp_course_duration'])){
+                        $input1['timeRequired'] =    $custom_fields['saswp_course_duration'];
+                    }
+
+                    if(isset($custom_fields['saswp_course_code'])){
+                        $input1['courseCode'] =    $custom_fields['saswp_course_code'];
+                    }
+
                     if(isset($custom_fields['saswp_course_provider_name'])){
                      $input1['provider']['name'] =    $custom_fields['saswp_course_provider_name'];
                     }
@@ -1309,7 +1318,23 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_course_sameas'])){
                      $input1['provider']['sameAs'] =    $custom_fields['saswp_course_sameas'];
                     }
+
+                    if(isset($custom_fields['saswp_course_content_location_name']) || isset($custom_fields['saswp_course_content_location_locality']) || isset($custom_fields['saswp_course_content_location_country'])){
+
+                        $input1['contentLocation']['@type']                        =   'Place';
+                        $input1['contentLocation']['name']                         =   $custom_fields['saswp_course_content_location_name'];
+                        $input1['contentLocation']['address']['addressLocality']   =   $custom_fields['saswp_course_content_location_locality'];
+                        $input1['contentLocation']['address']['addressRegion']     =   $custom_fields['saswp_course_content_location_region'];
+                        $input1['contentLocation']['address']['PostalCode']        =   $custom_fields['saswp_course_content_location_postal_code'];
+                        $input1['contentLocation']['address']['addressCountry']    =   $custom_fields['saswp_course_content_location_country'];
+
+                    }
                     
+                    if(isset($custom_fields['saswp_course_rating']) && isset($custom_fields['saswp_course_review_count'])){
+                        $input1['aggregateRating']['@type']       =   'AggregateRating';                                                
+                        $input1['aggregateRating']['ratingValue'] =    $custom_fields['saswp_course_rating'];
+                        $input1['aggregateRating']['ratingCount'] =    $custom_fields['saswp_course_review_count'];
+                     }
                     break;    
                     
                 case 'DiscussionForumPosting':      
