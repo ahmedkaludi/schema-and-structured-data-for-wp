@@ -2532,15 +2532,15 @@ Class saswp_output_service{
              
              if($product->get_short_description() && $product->get_description()){
                  
-                 $product_desc = $product->get_short_description().' '.strip_tags($product->get_description());
+                 $product_desc = $product->get_short_description().' '.wp_strip_all_tags(strip_shortcodes($product->get_description()));
                  
              }else if($product->get_description()){
                  
-                 $product_desc = strip_tags($product->get_description());
+                 $product_desc = wp_strip_all_tags(strip_shortcodes($product->get_description()));
                  
              }else{
                  
-                 $product_desc = strip_tags(get_the_excerpt());
+                 $product_desc = wp_strip_all_tags(strip_shortcodes(get_the_excerpt()));
                  
              }
              
@@ -2686,7 +2686,7 @@ Class saswp_output_service{
                  $reviews_arr[] = array(
                      'author'        => $review->comment_author ? $review->comment_author : 'Anonymous' ,
                      'datePublished' => $review->comment_date,
-                     'description'   => $review->comment_content,
+                     'description'   => wp_strip_all_tags(strip_shortcodes($review->comment_content)),
                      'reviewRating'  => get_comment_meta( $review->comment_ID, 'rating', true ) ? get_comment_meta( $review->comment_ID, 'rating', true ) : '5',
                  );
                  

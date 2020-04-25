@@ -80,16 +80,22 @@ class saswp_reviews_admin {
          * @since version 1.9
          */
 	public function saswp_add_meta_boxes() {
-            
+		
+		global $saswp_metaboxes;
+		
 		foreach ( $this->screen as $single_screen ) {
+			
 			add_meta_box(
-				'review_content',
+				'saswp_review_content',
 				esc_html__( 'Review Content', 'schema-and-structured-data-for-wp' ),
 				array( $this, 'saswp_meta_box_callback' ),
 				$single_screen,
 				'normal',
 				'high'
 			);
+
+			$saswp_metaboxes[]= 'saswp_review_content'; 
+
 		}
                 
 	}

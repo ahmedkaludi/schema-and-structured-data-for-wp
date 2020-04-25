@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.4
-Stable tag: 1.9.33
+Stable tag: 1.9.34
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -119,6 +119,19 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.9.34 (24 Apr 2020) =
+
+* Fixed: Admin scripts enqueued on all screens #950
+* Fixed: Strip all other shortcode from content #777
+* Fixed: Remove empty options key from the plugin #943
+* Fixed: is_amp_endpoint was called incorrectly with WP CLI #936
+* Fixed: Notice: Trying to access array offset on value of type bool #940
+* Fixed: Change icons of upgrade to premium box in settings area #945
+* Fixed: Warning error #934
+* Fixed: Author archive page has PHP errors #955
+* Added: Blog Schema on homepage when archive schema option is enable with BlogPosting
+
 
 = 1.9.33 (16 Apr 2020) =
 

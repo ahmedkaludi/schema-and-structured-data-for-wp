@@ -1864,13 +1864,17 @@ if ( ! defined('ABSPATH') ) exit;
                        
             foreach ($attachments as $url){
              
-            $image_data = array();    
-            $image = @getimagesize($url);
-                     
-            $image_data[0] =  $image[0]; //width
-            $image_data[1] =  $image[1]; //height
-            
+                $image_data = array();    
 
+                $image = @getimagesize($url);
+
+                if(is_array($image)){
+
+                    $image_data[0] =  $image[0]; //width
+                    $image_data[1] =  $image[1]; //height
+
+                }                                 
+            
                 if(empty($image) || $image == false){
                     
                     $img_id           = attachment_url_to_postid($url);
@@ -1902,8 +1906,9 @@ if ( ! defined('ABSPATH') ) exit;
         $content = '';   
         
         if(is_object($post)){
-            $content = get_post_field('post_content', $post->ID);
-            $content = wp_strip_all_tags(strip_shortcodes($content));             
+            $content = get_post_field('post_content', $post->ID);            
+            $content = wp_strip_all_tags(strip_shortcodes($content));   
+            $content = preg_replace('/\[.*?\]/','', $content);            
             $content = str_replace('=', '', $content); // Removes special chars.
         }
         
@@ -2032,7 +2037,7 @@ if ( ! defined('ABSPATH') ) exit;
         }
            
         $excerpt = wp_strip_all_tags(strip_shortcodes($excerpt)); 
-        
+        $excerpt = preg_replace('/\[.*?\]/','', $excerpt);
         return apply_filters('saswp_the_excerpt' ,$excerpt);
     }
     /**
@@ -2925,13 +2930,17 @@ function saswp_current_user_allowed(){
             }	
         }
         
-        $hasrole         = array_intersect( $currentuserrole, $saswp_roles );
-        
-        if( !empty($hasrole)){                                     
-            return $hasrole[0];
-        }
+        if( is_array($currentuserrole) ){
 
-    }    
+            $hasrole         = array_intersect( $currentuserrole, $saswp_roles );
+        
+            if( !empty($hasrole)){                                     
+                return $hasrole[0];
+            }
+
+        }        
+
+      }    
                 
     }
     
