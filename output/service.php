@@ -1087,7 +1087,7 @@ Class saswp_output_service{
                     }
                     
                     if(isset($custom_fields['saswp_webpage_main_entity_of_page'])){
-                     $input1['mainEntity']['mainEntityOfPage'] =    $custom_fields['saswp_webpage_main_entity_of_page'];
+                     $input1['mainEntity']['mainEntityOfPage'] =    wp_strip_all_tags(strip_shortcodes($custom_fields['saswp_webpage_main_entity_of_page']));
                     }
                     if(isset($custom_fields['saswp_webpage_image'])){
                      $input1['mainEntity']['image'] =    $custom_fields['saswp_webpage_image'];
