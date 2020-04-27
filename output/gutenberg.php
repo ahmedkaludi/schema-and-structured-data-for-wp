@@ -226,22 +226,22 @@ function saswp_gutenberg_how_to_schema(){
                 if(!empty($step)){
 
                     foreach($step as $key => $val){
-
+                        
                         $supply_data = array();
                         $direction   = array();
-                        $tip         = array();
+                        $tip         = array();                        
 
                        if($val['title'] || $val['description']){
 
                             if($val['description']){
                             $direction['@type']     = 'HowToDirection';
-                            $direction['text']      = $val['description'];
+                            $direction['text']      = saswp_remove_all_images($val['description']);
                         }
 
                         if($val['description']){
 
                             $tip['@type']           = 'HowToTip';
-                            $tip['text']            = $val['description'];
+                            $tip['text']            = saswp_remove_all_images($val['description']);
 
                         }
 

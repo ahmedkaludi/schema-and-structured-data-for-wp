@@ -3115,3 +3115,12 @@ function saswp_get_video_links(){
     }    
     return $response;
 }
+function saswp_remove_all_images($content){
+
+    if($content){
+        $content = preg_replace('/<img[^>]+./','', $content);   
+    }
+    
+    return $content;
+
+}
