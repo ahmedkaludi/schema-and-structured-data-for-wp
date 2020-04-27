@@ -131,19 +131,19 @@ Class saswp_output_service{
             
             switch ($field) {
                 case 'blogname':
-                    $response    = get_bloginfo();                    
+                    $response   = get_bloginfo();                    
                     break;
                 case 'blogdescription':
-                    $response = get_bloginfo('description');                    
+                    $response  = get_bloginfo('description');                    
                     break;
                 case 'site_url':
                     $response = get_site_url();                    
                     break;
                 case 'post_title':
-                    $response = get_the_title();                    
+                    $response = @get_the_title();                    
                     break;
                 case 'post_content':
-                    $response = get_the_content();                        
+                    $response = @get_the_content();                        
                     break;
                 case 'post_category':
                     $categories = get_the_category();
