@@ -23,7 +23,8 @@ $with_aggregate = array(
         'VideoGame',                
         'AudioObject',              
         'VideoObject',              
-        'local_business',           
+        'local_business',
+        'Organization',           
         'Product'              
 );
 $without_aggregate = array(

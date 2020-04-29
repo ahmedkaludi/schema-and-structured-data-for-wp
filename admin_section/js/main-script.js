@@ -414,6 +414,7 @@ return false;
 
         if(schematype == 'Book' 
            || schematype == 'Course' 
+           || schematype == 'Organization' 
            || schematype == 'CreativeWorkSeries'
            || schematype == 'MobileApplication'
            || schematype == 'ImageObject'
@@ -426,7 +427,6 @@ return false;
            || schematype == 'Event'
            || schematype == 'VideoGame'
            || schematype == 'Service'
-
            || schematype == 'AudioObject'
            || schematype == 'VideoObject'
            || schematype == 'local_business'
@@ -521,6 +521,7 @@ return false;
             
             if(schematype == 'Book' 
                || schematype == 'Course' 
+               || schematype == 'Organization' 
                || schematype == 'CreativeWorkSeries' 
                || schematype == 'MobileApplication' 
                || schematype == 'ImageObject' 
@@ -532,8 +533,7 @@ return false;
                || schematype == 'SoftwareApplication'
                || schematype == 'Event'
                || schematype == 'VideoGame'
-               || schematype == 'Service'
-               
+               || schematype == 'Service'               
                || schematype == 'AudioObject'
                || schematype == 'VideoObject'
                || schematype == 'local_business'

@@ -71,6 +71,7 @@ return array(
             'Mosque'              => 'Mosque',
         ),
         'Thing' => array(
-            'Person'             => 'Person',                                                                                
+            'Person'             => 'Person',
+            'Organization'       => 'Organization',                                                                                
         )
      );

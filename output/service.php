@@ -585,15 +585,58 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_organization_telephone'])){
                      $input1['address']['telephone'] =    $custom_fields['saswp_organization_telephone'];
                     }
+                    if(isset($custom_fields['saswp_organization_email'])){
+                     $input1['address']['email'] =    $custom_fields['saswp_organization_email'];
+                    }
                     if(isset($custom_fields['saswp_organization_logo'])){
                      $input1['logo'] =    $custom_fields['saswp_organization_logo'];
                     }
+                    if(isset($custom_fields['saswp_organization_image'])){
+                     $input1['image'] =    $custom_fields['saswp_organization_image'];
+                    }
+                    if(isset($custom_fields['saswp_organization_duns'])){
+                        $input1['duns'] =    $custom_fields['saswp_organization_duns'];
+                    }
+                    if(isset($custom_fields['saswp_organization_founder'])){
+                        $input1['founder'] =    $custom_fields['saswp_organization_founder'];
+                    }
+                    if(isset($custom_fields['saswp_organization_founding_date'])){
+                        $input1['foundingDate'] =    $custom_fields['saswp_organization_founding_date'];
+                    }
+                    if(isset($custom_fields['saswp_organization_qualifications'])){
+                        $input1['hasCredential'] =    $custom_fields['saswp_organization_qualifications'];
+                    }
+                    if(isset($custom_fields['saswp_organization_knows_about'])){
+                        $input1['knowsAbout'] =    $custom_fields['saswp_organization_knows_about'];
+                    }
+                    if(isset($custom_fields['saswp_organization_member_of'])){
+                        $input1['memberOf'] =    $custom_fields['saswp_organization_member_of'];
+                    }
+                    if(isset($custom_fields['saswp_organization_parent_organization'])){
+                        $input1['parentOrganization'] =    $custom_fields['saswp_organization_parent_organization'];
+                    }
+
+                    $sameas = array();
+                    if(isset($custom_fields['saswp_organization_website'])){
+                        $sameas[] =    $custom_fields['saswp_organization_website'];
+                    }
+                    if(isset($custom_fields['saswp_organization_facebook'])){
+                        $sameas[] =    $custom_fields['saswp_organization_facebook'];
+                    }
+                    if(isset($custom_fields['saswp_organization_twitter'])){
+                        $sameas[] =    $custom_fields['saswp_organization_twitter'];
+                    }
+                    if(isset($custom_fields['saswp_organization_linkedin'])){
+                        $sameas[] =    $custom_fields['saswp_organization_linkedin'];
+                    }
+                    if($sameas){
+                        $input1['sameAs'] = $sameas;
+                    }
+
                     if(isset($custom_fields['saswp_organization_rating_value']) && isset($custom_fields['saswp_organization_rating_count'])){
-                       $input1['aggregateRating']['@type']       =   'AggregateRating';
-                       $input1['aggregateRating']['worstRating'] =   0;
-                       $input1['aggregateRating']['bestRating']  =   5;
-                       $input1['aggregateRating']['ratingValue'] =    $custom_fields['saswp_organization_rating_value'];
-                       $input1['aggregateRating']['ratingCount'] =    $custom_fields['saswp_organization_rating_count'];
+                        $input1['aggregateRating']['@type']       =   'AggregateRating';                                                
+                        $input1['aggregateRating']['ratingValue'] =    $custom_fields['saswp_organization_rating_value'];
+                        $input1['aggregateRating']['ratingCount'] =    $custom_fields['saswp_organization_rating_count'];
                     }
                                                                                   
                     break;     
@@ -2156,7 +2199,7 @@ Class saswp_output_service{
                     }
                     
                 break;
-                
+                                
                 case 'Apartment':      
                       
                     if(isset($custom_fields['saswp_apartment_schema_name'])){

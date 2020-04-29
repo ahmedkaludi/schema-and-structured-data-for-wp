@@ -1007,13 +1007,35 @@ function saswp_organization_schema_markup($schema_id, $schema_post_id, $all_post
           $input1['address']['addressLocality']   = saswp_remove_warnings($all_post_meta, 'saswp_organization_city_'.$schema_id, 'saswp_array');
           $input1['address']['addressRegion']     = saswp_remove_warnings($all_post_meta, 'saswp_organization_state_'.$schema_id, 'saswp_array');
           $input1['address']['PostalCode']        = saswp_remove_warnings($all_post_meta, 'saswp_organization_postal_code_'.$schema_id, 'saswp_array');
-          $input1['telephone']                    = saswp_remove_warnings($all_post_meta, 'saswp_organization_telephone_'.$schema_id, 'saswp_array');                                                        
-                    
+          $input1['address']['telephone']         = saswp_remove_warnings($all_post_meta, 'saswp_organization_telephone_'.$schema_id, 'saswp_array');                                                        
+          $input1['address']['email']             = saswp_remove_warnings($all_post_meta, 'saswp_organization_email_'.$schema_id, 'saswp_array');                                                        
+          
+          if( isset($all_post_meta['saswp_organization_duns_'.$schema_id][0]) ){
+            $input1['duns']         = $all_post_meta['saswp_organization_duns_'.$schema_id][0];            
+          }
+          if( isset($all_post_meta['saswp_organization_founder_'.$schema_id][0]) ){
+            $input1['founder']         = $all_post_meta['saswp_organization_founder_'.$schema_id][0];            
+          }
+          if( isset($all_post_meta['saswp_organization_founding_date_'.$schema_id][0]) ){
+            $input1['foundingDate']         = saswp_format_date_time($all_post_meta['saswp_organization_founding_date_'.$schema_id][0]);            
+          }
+          if( isset($all_post_meta['saswp_organization_qualifications_'.$schema_id][0]) ){
+            $input1['hasCredential']         = $all_post_meta['saswp_organization_qualifications_'.$schema_id][0];            
+          }
+          if( isset($all_post_meta['saswp_organization_knows_about_'.$schema_id][0]) ){
+            $input1['knowsAbout']         = $all_post_meta['saswp_organization_knows_about_'.$schema_id][0];            
+          }
+          if( isset($all_post_meta['saswp_organization_member_of_'.$schema_id][0]) ){
+            $input1['memberOf']         = $all_post_meta['saswp_organization_member_of_'.$schema_id][0];            
+          }
+          if( isset($all_post_meta['saswp_organization_parent_organization_'.$schema_id][0]) ){
+            $input1['parentOrganization']         = $all_post_meta['saswp_organization_parent_organization_'.$schema_id][0];            
+          }          
           if(isset($all_post_meta['saswp_organization_enable_rating_'.$schema_id]) && isset($all_post_meta['saswp_organization_rating_value_'.$schema_id]) && isset($all_post_meta['saswp_organization_rating_count_'.$schema_id])){
                 $input1['aggregateRating']['@type']         = 'aggregateRating';
                 $input1['aggregateRating']['ratingValue']   = $all_post_meta['saswp_organization_rating_value_'.$schema_id];
                 $input1['aggregateRating']['ratingCount']   = $all_post_meta['saswp_organization_rating_count_'.$schema_id];                                
-          }
+          }          
                               
         return $input1;
 }
