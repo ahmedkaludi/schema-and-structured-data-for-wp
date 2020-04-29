@@ -2079,8 +2079,7 @@ Class saswp_output_service{
                     }
                     if(isset($custom_fields['saswp_person_schema_date_of_birth'])){
                      $input1['birthDate'] =    $custom_fields['saswp_person_schema_date_of_birth'];
-                    }
-                    
+                    }                    
                     if(isset($custom_fields['saswp_person_schema_nationality'])){
                      $input1['nationality'] =    $custom_fields['saswp_person_schema_nationality'];
                     }
@@ -2089,6 +2088,71 @@ Class saswp_output_service{
                     }
                     if(isset($custom_fields['saswp_person_schema_job_title'])){
                      $input1['jobTitle'] =    $custom_fields['saswp_person_schema_job_title'];
+                    }
+                    if(isset($custom_fields['saswp_person_schema_award'])){
+                        $input1['award'] =    $custom_fields['saswp_person_schema_award'];
+                    }
+                    if(isset($custom_fields['saswp_person_schema_brand'])){
+                        $input1['brand'] =    $custom_fields['saswp_person_schema_brand'];
+                    }
+
+                    if(isset($custom_fields['saswp_person_schema_honorific_prefix'])){
+                        $input1['honorificPrefix'] =    $custom_fields['saswp_person_schema_honorific_prefix'];
+                    }
+                    if(isset($custom_fields['saswp_person_schema_honorific_suffix'])){
+                        $input1['honorificSuffix'] =    $custom_fields['saswp_person_schema_honorific_suffix'];
+                    }
+                    if(isset($custom_fields['saswp_person_schema_qualifications'])){
+                        $input1['hasCredential'] =    $custom_fields['saswp_person_schema_qualifications'];
+                    }                    
+                    if(isset($custom_fields['saswp_person_schema_affiliation'])){
+                        $input1['affiliation'] =    $custom_fields['saswp_person_schema_affiliation'];
+                    }
+                    if(isset($custom_fields['saswp_person_schema_alumniof'])){
+                        $input1['alumniOf'] =    $custom_fields['saswp_person_schema_alumniof'];
+                    }
+                    if(isset($custom_fields['saswp_person_schema_occupation_name'])){
+                        $input1['hasOccupation']['name'] =    $custom_fields['saswp_person_schema_occupation_name'];
+                    }
+                    if(isset($custom_fields['saswp_person_schema_occupation_description'])){
+                        $input1['hasOccupation']['description'] =    $custom_fields['saswp_person_schema_occupation_description'];
+                    }
+                    if(isset($custom_fields['saswp_person_schema_occupation_city'])){
+                        $input1['hasOccupation']['occupationLocation']['@type'] = 'City'; 
+                        $input1['hasOccupation']['occupationLocation']['name']  =    $custom_fields['saswp_person_schema_occupation_city'];
+                    }
+                    if(isset($custom_fields['saswp_person_schema_estimated_salary'])){
+                        $input1['hasOccupation']['estimatedSalary']['@type']     =  'MonetaryAmountDistribution';
+                        $input1['hasOccupation']['estimatedSalary']['name']      =  'base';
+                        $input1['hasOccupation']['estimatedSalary']['currency']  =  $custom_fields['saswp_person_schema_salary_currency'];
+                        $input1['hasOccupation']['estimatedSalary']['duration']  =  $custom_fields['saswp_person_schema_salary_duration'];
+                        
+                        $input1['hasOccupation']['estimatedSalary']['percentile10']  =  $custom_fields['saswp_person_schema_salary_percentile10'];
+                        $input1['hasOccupation']['estimatedSalary']['percentile25']  =  $custom_fields['saswp_person_schema_salary_percentile25'];
+                        $input1['hasOccupation']['estimatedSalary']['median']        =  $custom_fields['saswp_person_schema_salary_median'];
+                        $input1['hasOccupation']['estimatedSalary']['percentile75']  =  $custom_fields['saswp_person_schema_salary_percentile75'];
+                        $input1['hasOccupation']['estimatedSalary']['percentile90']  =  $custom_fields['saswp_person_schema_salary_percentile90'];
+                    }
+                    if(isset($custom_fields['saswp_person_schema_salary_last_reviewed'])){
+                        $input1['hasOccupation']['mainEntityOfPage']['@type']         = 'WebPage'; 
+                        $input1['hasOccupation']['mainEntityOfPage']['lastReviewed']  =    $custom_fields['saswp_person_schema_salary_last_reviewed'];
+                    }                    
+
+                    $sameas = array();
+                    if(isset($custom_fields['saswp_person_schema_website'])){
+                        $sameas[] =    $custom_fields['saswp_person_schema_website'];
+                    }
+                    if(isset($custom_fields['saswp_person_schema_facebook'])){
+                        $sameas[] =    $custom_fields['saswp_person_schema_facebook'];
+                    }
+                    if(isset($custom_fields['saswp_person_schema_twitter'])){
+                        $sameas[] =    $custom_fields['saswp_person_schema_twitter'];
+                    }
+                    if(isset($custom_fields['saswp_person_schema_linkedin'])){
+                        $sameas[] =    $custom_fields['saswp_person_schema_linkedin'];
+                    }
+                    if($sameas){
+                        $input1['sameAs'] = $sameas;
                     }
                     
                 break;

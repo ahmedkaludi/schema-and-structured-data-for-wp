@@ -1199,7 +1199,74 @@ function saswp_person_schema_markup($schema_id, $schema_post_id, $all_post_meta)
         $input1['image']['width']        = isset($image['height'])    ? esc_attr($image['height'])  :'';
 
         }
-        
+
+        if(isset($all_post_meta['saswp_person_schema_award_'.$schema_id][0])){
+            $input1['award']        = $all_post_meta['saswp_person_schema_award_'.$schema_id][0];
+        }
+        if(isset($all_post_meta['saswp_person_schema_brand_'.$schema_id][0])){
+            $input1['brand']        = $all_post_meta['saswp_person_schema_brand_'.$schema_id][0];
+        }
+        if(isset($all_post_meta['saswp_person_schema_honorific_prefix_'.$schema_id][0])){
+            $input1['honorificPrefix']        = $all_post_meta['saswp_person_schema_honorific_prefix_'.$schema_id][0];
+        }
+        if(isset($all_post_meta['saswp_person_schema_honorific_suffix_'.$schema_id][0])){
+            $input1['honorificSuffix']        = $all_post_meta['saswp_person_schema_honorific_suffix_'.$schema_id][0];
+        }
+        if(isset($all_post_meta['saswp_person_schema_qualifications_'.$schema_id][0])){
+            $input1['hasCredential']        = $all_post_meta['saswp_person_schema_qualifications_'.$schema_id][0];
+        }
+        if(isset($all_post_meta['saswp_person_schema_affiliation_'.$schema_id][0])){
+            $input1['affiliation']        = $all_post_meta['saswp_person_schema_affiliation_'.$schema_id][0];
+        }
+        if(isset($all_post_meta['saswp_person_schema_alumniof_'.$schema_id][0])){
+            $input1['alumniOf']        = $all_post_meta['saswp_person_schema_alumniof_'.$schema_id][0];
+        }
+
+        $sameas = array();
+
+        if(isset($all_post_meta['saswp_person_schema_website_'.$schema_id][0])){
+            $sameas[]        = $all_post_meta['saswp_person_schema_website_'.$schema_id][0];
+        }
+        if(isset($all_post_meta['saswp_person_schema_facebook_'.$schema_id][0])){
+            $sameas[]        = $all_post_meta['saswp_person_schema_facebook_'.$schema_id][0];
+        }
+        if(isset($all_post_meta['saswp_person_schema_twitter_'.$schema_id][0])){
+            $sameas[]        = $all_post_meta['saswp_person_schema_twitter_'.$schema_id][0];
+        }
+        if(isset($all_post_meta['saswp_person_schema_linkedin_'.$schema_id][0])){
+            $sameas[]        = $all_post_meta['saswp_person_schema_linkedin_'.$schema_id][0];
+        }
+        if($sameas){
+            $input1['sameAs'] = $sameas;
+        }
+
+        if(isset($all_post_meta['saswp_person_schema_occupation_name_'.$schema_id][0])){
+            $input1['hasOccupation']['name'] =    $all_post_meta['saswp_person_schema_occupation_name_'.$schema_id][0];
+        }
+        if(isset($all_post_meta['saswp_person_schema_occupation_description_'.$schema_id][0])){
+            $input1['hasOccupation']['description'] =    $all_post_meta['saswp_person_schema_occupation_description_'.$schema_id][0];
+        }
+        if(isset($all_post_meta['saswp_person_schema_occupation_city_'.$schema_id][0])){
+            $input1['hasOccupation']['occupationLocation']['@type'] = 'City'; 
+            $input1['hasOccupation']['occupationLocation']['name']  =    $all_post_meta['saswp_person_schema_occupation_city_'.$schema_id][0];
+        }
+        if(isset($all_post_meta['saswp_person_schema_estimated_salary_'.$schema_id][0])){
+            $input1['hasOccupation']['estimatedSalary']['@type']     =  'MonetaryAmountDistribution';
+            $input1['hasOccupation']['estimatedSalary']['name']      =  'base';
+            $input1['hasOccupation']['estimatedSalary']['currency']  =  $all_post_meta['saswp_person_schema_salary_currency_'.$schema_id][0];
+            $input1['hasOccupation']['estimatedSalary']['duration']  =  $all_post_meta['saswp_person_schema_salary_duration_'.$schema_id][0];
+            
+            $input1['hasOccupation']['estimatedSalary']['percentile10']  =  $all_post_meta['saswp_person_schema_salary_percentile10_'.$schema_id][0];
+            $input1['hasOccupation']['estimatedSalary']['percentile25']  =  $all_post_meta['saswp_person_schema_salary_percentile25_'.$schema_id][0];
+            $input1['hasOccupation']['estimatedSalary']['median']        =  $all_post_meta['saswp_person_schema_salary_median_'.$schema_id][0];
+            $input1['hasOccupation']['estimatedSalary']['percentile75']  =  $all_post_meta['saswp_person_schema_salary_percentile75_'.$schema_id][0];
+            $input1['hasOccupation']['estimatedSalary']['percentile90']  =  $all_post_meta['saswp_person_schema_salary_percentile90_'.$schema_id][0];
+        }
+        if(isset($all_post_meta['saswp_person_schema_salary_last_reviewed_'.$schema_id][0])){
+            $input1['hasOccupation']['mainEntityOfPage']['@type']         = 'WebPage'; 
+            $input1['hasOccupation']['mainEntityOfPage']['lastReviewed']  =    saswp_format_date_time($all_post_meta['saswp_person_schema_salary_last_reviewed_'.$schema_id][0]);
+        }
+
         return $input1;
 }
 

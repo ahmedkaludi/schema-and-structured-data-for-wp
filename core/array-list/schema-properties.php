@@ -3652,8 +3652,117 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'label'      => 'Website',
                             'id'         => 'saswp_person_schema_website_'.$schema_id,
                             'type'       => 'text',                            
-                    ),    
-                                                                    
+                    ),
+                    array(
+                        'label'      => 'Facebook',
+                        'id'         => 'saswp_person_schema_facebook_'.$schema_id,
+                        'type'       => 'text',                            
+                    ),
+                    array(
+                        'label'      => 'Twitter',
+                        'id'         => 'saswp_person_schema_twitter_'.$schema_id,
+                        'type'       => 'text',                            
+                    ),
+                    array(
+                        'label'      => 'LinkedIn',
+                        'id'         => 'saswp_person_schema_linkedin_'.$schema_id,
+                        'type'       => 'text',                            
+                    ),
+                    array(
+                        'label'      => 'Affiliation',
+                        'id'         => 'saswp_person_schema_affiliation_'.$schema_id,
+                        'type'       => 'text',                            
+                    ),
+                    array(
+                        'label'      => 'Alumni Of',
+                        'id'         => 'saswp_person_schema_alumniof_'.$schema_id,
+                        'type'       => 'text',                            
+                    ), 
+                    array(
+                        'label'      => 'Award',
+                        'id'         => 'saswp_person_schema_award_'.$schema_id,
+                        'type'       => 'text',                            
+                    ),
+                    array(
+                        'label'      => 'Brand',
+                        'id'         => 'saswp_person_schema_brand_'.$schema_id,
+                        'type'       => 'text',                            
+                    ),
+                    array(
+                        'label'      => 'Qualifications',
+                        'id'         => 'saswp_person_schema_qualifications_'.$schema_id,
+                        'type'       => 'text',                            
+                    ),
+                    array(
+                        'label'      => 'Occupation Name',
+                        'id'         => 'saswp_person_schema_occupation_name_'.$schema_id,
+                        'type'       => 'text',                            
+                    ),
+                    array(
+                        'label'      => 'Occupation Description',
+                        'id'         => 'saswp_person_schema_occupation_description_'.$schema_id,
+                        'type'       => 'textarea',                            
+                    ),
+                    array(
+                        'label'      => 'Estimated Salary',
+                        'id'         => 'saswp_person_schema_estimated_salary_'.$schema_id,
+                        'type'       => 'text',                            
+                    ),
+                    array(
+                        'label'      => 'Salary Currency',
+                        'id'         => 'saswp_person_schema_salary_currency_'.$schema_id,
+                        'type'       => 'text',                            
+                    ),
+                    array(
+                        'label'      => 'Salary Duration',
+                        'id'         => 'saswp_person_schema_salary_duration_'.$schema_id,
+                        'type'       => 'text',                            
+                    ),
+                    array(
+                        'label'      => 'Salary Median',
+                        'id'         => 'saswp_person_schema_salary_median_'.$schema_id,
+                        'type'       => 'text',                            
+                    ),
+                    array(
+                        'label'      => 'Salary Percentile10',
+                        'id'         => 'saswp_person_schema_salary_percentile10_'.$schema_id,
+                        'type'       => 'text',                            
+                    ),
+                    array(
+                        'label'      => 'Salary Percentile25',
+                        'id'         => 'saswp_person_schema_salary_percentile25_'.$schema_id,
+                        'type'       => 'text',                            
+                    ),
+                    array(
+                        'label'      => 'Salary Percentile75',
+                        'id'         => 'saswp_person_schema_salary_percentile75_'.$schema_id,
+                        'type'       => 'text',                            
+                    ),
+                    array(
+                        'label'      => 'Salary Percentile90',
+                        'id'         => 'saswp_person_schema_salary_percentile90_'.$schema_id,
+                        'type'       => 'text',                            
+                    ),
+                    array(
+                        'label'      => 'Salary Last Reviewed',
+                        'id'         => 'saswp_person_schema_salary_last_reviewed_'.$schema_id,
+                        'type'       => 'text',                            
+                    ),
+                    array(
+                        'label'      => 'Occupation City',
+                        'id'         => 'saswp_person_schema_occupation_city_'.$schema_id,
+                        'type'       => 'text',                            
+                    ),
+                    array(
+                        'label'      => 'Honorific Prefix',
+                        'id'         => 'saswp_person_schema_honorific_prefix_'.$schema_id,
+                        'type'       => 'text',                            
+                    ),
+                    array(
+                        'label'      => 'Honorific Suffix',
+                        'id'         => 'saswp_person_schema_honorific_suffix_'.$schema_id,
+                        'type'       => 'text',                            
+                    ),                                                                        
                    );
                     break;
                 
