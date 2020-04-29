@@ -414,6 +414,9 @@ return false;
 
         if(schematype == 'Book' 
            || schematype == 'Course' 
+           || schematype == 'CreativeWorkSeries'
+           || schematype == 'MobileApplication'
+           || schematype == 'ImageObject'
            || schematype == 'HowTo' 
            || schematype == 'MusicPlaylist' 
            || schematype == 'MusicAlbum'               
@@ -518,6 +521,9 @@ return false;
             
             if(schematype == 'Book' 
                || schematype == 'Course' 
+               || schematype == 'CreativeWorkSeries' 
+               || schematype == 'MobileApplication' 
+               || schematype == 'ImageObject' 
                || schematype == 'HowTo' 
                || schematype == 'MusicPlaylist' 
                || schematype == 'MusicAlbum'               

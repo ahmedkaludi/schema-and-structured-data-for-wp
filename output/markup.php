@@ -2302,6 +2302,47 @@ function saswp_blogposting_schema_markup($schema_id, $schema_post_id, $all_post_
     
 }
 
+function saswp_creative_work_series_schema_markup($schema_id, $schema_post_id, $all_post_meta){
+    
+    $input1 = array();
+    
+    $slogo = get_post_meta( get_the_ID(), 'saswp_cws_schema_organization_logo_'.$schema_id.'_detail',true);                                 
+
+    $input1 = array(
+    '@context'			            => saswp_context_url(),
+    '@type'				            => 'CreativeWorkSeries' ,
+    '@id'                           => trailingslashit(get_permalink()).'#CreativeWorkSeries',  
+    'inLanguage'                    => get_bloginfo('language'),        
+    'description'                   => saswp_remove_warnings($all_post_meta, 'saswp_cws_schema_description_'.$schema_id, 'saswp_array'),
+    'keywords'                      => saswp_remove_warnings($all_post_meta, 'saswp_cws_schema_keywords_'.$schema_id, 'saswp_array'),
+    'name'				            => saswp_remove_warnings($all_post_meta, 'saswp_cws_schema_name_'.$schema_id, 'saswp_array'),
+    'url'				            => saswp_remove_warnings($all_post_meta, 'saswp_cws_schema_url_'.$schema_id, 'saswp_array'),
+    'datePublished'                 => isset($all_post_meta['saswp_cws_schema_date_published_'.$schema_id])? saswp_format_date_time($all_post_meta['saswp_cws_schema_date_published_'.$schema_id][0], get_post_time('h:i:s')) :'',
+    'dateModified'                  => isset($all_post_meta['saswp_cws_schema_date_modified_'.$schema_id])? saswp_format_date_time($all_post_meta['saswp_cws_schema_date_modified_'.$schema_id][0], get_the_modified_time('h:i:s')) :'',
+    'startDate'                 => isset($all_post_meta['saswp_cws_schema_start_date_'.$schema_id])? saswp_format_date_time($all_post_meta['saswp_cws_schema_start_date_'.$schema_id][0]) :'',
+    'endDate'                   => isset($all_post_meta['saswp_cws_schema_end_date_'.$schema_id])? saswp_format_date_time($all_post_meta['saswp_cws_schema_end_date_'.$schema_id][0]) :'',
+    'author'			=> array(
+                            '@type' 	        => 'Person',
+                            'name'		        => saswp_remove_warnings($all_post_meta, 'saswp_cws_schema_author_name_'.$schema_id, 'saswp_array'),
+                            'description'	    => saswp_remove_warnings($all_post_meta, 'saswp_cws_schema_author_description_'.$schema_id, 'saswp_array'),
+                            'url'       	    => saswp_remove_warnings($all_post_meta, 'saswp_cws_schema_author_url_'.$schema_id, 'saswp_array')
+                            ),
+    'publisher'			=> array(
+                            '@type'			=> 'Organization',
+                            'logo' 			=> array(
+                            '@type'		    => 'ImageObject',
+                            'url'		    => saswp_remove_warnings($all_post_meta, 'saswp_cws_schema_organization_logo_'.$schema_id, 'saswp_array'),
+                            'width'		    => saswp_remove_warnings($slogo, 'width', 'saswp_string'),
+                            'height'	    => saswp_remove_warnings($slogo, 'height', 'saswp_string'),
+                            ),
+    'name'			=> saswp_remove_warnings($all_post_meta, 'saswp_cws_schema_organization_name_'.$schema_id, 'saswp_array'),
+    ),
+    );
+                        
+    return $input1;
+    
+}
+
 function saswp_audio_object_schema_markup($schema_id, $schema_post_id, $all_post_meta){
     
     $input1 = array();

@@ -3765,7 +3765,85 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                     ),                                                                        
                    );
                     break;
-                
+
+                    case 'CreativeWorkSeries':
+                    
+                        $meta_field = array(
+                        array(
+                                'label'      => 'Name',
+                                'id'         => 'saswp_cws_schema_name_'.$schema_id,
+                                'type'       => 'text',                           
+                        ),
+                        array(
+                                'label'      => 'URL',
+                                'id'         => 'saswp_cws_schema_url_'.$schema_id,
+                                'type'       => 'text',                           
+                        ),
+                        array(
+                                'label'      => 'Description',
+                                'id'         => 'saswp_cws_schema_description_'.$schema_id,
+                                'type'       => 'text',                           
+                        ),
+                        array(
+                                'label'      => 'Keywords',
+                                'id'         => 'saswp_cws_schema_keywords_'.$schema_id,
+                                'type'       => 'text',                           
+                        ),
+                        array(
+                                'label'      => 'Start Date',
+                                'id'         => 'saswp_cws_schema_start_date_'.$schema_id,
+                                'type'       => 'text',                           
+                        ),
+                        array(
+                                'label'      => 'End Date',
+                                'id'         => 'saswp_cws_schema_end_date_'.$schema_id,
+                                'type'       => 'text',                           
+                        ),
+                        array(
+                                'label'      => 'Date Published',
+                                'id'         => 'saswp_cws_schema_date_published_'.$schema_id,
+                                'type'       => 'text',
+                                'default'    => get_the_date("Y-m-d")
+                        ), 
+                        array(
+                                'label'      => 'Date Modified',
+                                'id'         => 'saswp_cws_schema_date_modified_'.$schema_id,
+                                'type'       => 'text',
+                                'default'    => get_the_modified_date("Y-m-d")
+                        ),     
+                        array(
+                                'label'      => 'Author Name',
+                                'id'         => 'saswp_cws_schema_author_name_'.$schema_id,
+                                'type'       => 'text',
+                                'default'    => is_object($current_user) ? $current_user->display_name : ''
+                        ),
+                        array(
+                                'label'      => 'Author Description',
+                                'id'         => 'saswp_cws_schema_author_description_'.$schema_id,
+                                'type'       => 'textarea',
+                                'default'    => $author_desc
+                        ),
+                        array(
+                                'label'      => 'Author URL',
+                                'id'         => 'saswp_cws_schema_author_url_'.$schema_id,
+                                'type'       => 'text',
+                                'default'    => $author_url
+                        ),    
+                        array(
+                                'label'      => 'Organization Name',
+                                'id'         => 'saswp_cws_schema_organization_name_'.$schema_id,
+                                'type'       => 'text',
+                                'default'    => saswp_remove_warnings($sd_data, 'sd_name', 'saswp_string')
+                       ),
+                         array(
+                                'label'      => 'Organization Logo',
+                                'id'         => 'saswp_cws_schema_organization_logo_'.$schema_id,
+                                'type'       => 'media',
+                                'default'    => isset($sd_data['sd_logo']) ? $sd_data['sd_logo']['url'] : ''
+                        )    
+                       );
+                        break;
+
                 case 'DataFeed':
                     
                     $meta_field = array(

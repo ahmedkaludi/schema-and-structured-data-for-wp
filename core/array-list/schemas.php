@@ -14,6 +14,7 @@ return array(
                 'BlogPosting'              => 'BlogPosting',
                 'Book'                     => 'Book',
                 'Course'                   => 'Course',
+                'CreativeWorkSeries'       => 'CreativeWorkSeries',
                 'DiscussionForumPosting'   => 'DiscussionForumPosting',
                 'DataFeed'                 => 'DataFeed',
                 'FAQ'                      => 'FAQ',
