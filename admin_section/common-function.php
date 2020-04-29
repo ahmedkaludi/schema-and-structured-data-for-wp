@@ -1879,8 +1879,13 @@ if ( ! defined('ABSPATH') ) exit;
                     
                     $img_id           = attachment_url_to_postid($url);
                     $imageDetail      = wp_get_attachment_image_src( $img_id , 'full');
-                    $image_data[0]    = $imageDetail[1]; // width
-                    $image_data[1]    = $imageDetail[2]; // height
+
+                    if($imageDetail && is_array($imageDetail)){
+
+                        $image_data[0]    = $imageDetail[1]; // width
+                        $image_data[1]    = $imageDetail[2]; // height
+
+                    }                    
                     
                 }
                 

@@ -120,6 +120,18 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
 
+= 1.9.35 (29 Apr 2020) =
+
+* Added: CreativeWorkSeries schema #948
+* Added: More properties to Person schema #956
+* Added: More properties to Organization schema #956
+* Added: More properties to Course schema #957
+* Fixed: The following external resources have small response bodies. Inlining the response in HTML can reduce blocking of page rendering. #839
+* Fixed: HowTo Gutenberg block, Image URLs go into the text of the itemListElement #958
+* Fixed: HTML comments are rendering in the contentUrl and embedUrl of video object schema #946
+* Fixed: Gutenberg comments are not being stripped from article content #949
+
+
 = 1.9.34 (24 Apr 2020) =
 
 * Fixed: Admin scripts enqueued on all screens #950
