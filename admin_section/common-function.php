@@ -1879,8 +1879,13 @@ if ( ! defined('ABSPATH') ) exit;
                     
                     $img_id           = attachment_url_to_postid($url);
                     $imageDetail      = wp_get_attachment_image_src( $img_id , 'full');
-                    $image_data[0]    = $imageDetail[1]; // width
-                    $image_data[1]    = $imageDetail[2]; // height
+
+                    if($imageDetail && is_array($imageDetail)){
+
+                        $image_data[0]    = $imageDetail[1]; // width
+                        $image_data[1]    = $imageDetail[2]; // height
+
+                    }                    
                     
                 }
                 
@@ -3028,29 +3033,30 @@ function saswp_is_date_field($date_str){
     
     $response = false;
     
-            if (strpos($date_str, 'date_modified') !== false 
-             || strpos($date_str, 'date_published') !== false
-             || strpos($date_str, 'date_posted') !== false
-             || strpos($date_str, 'date_expires') !== false
-             || strpos($date_str, 'published_date') !== false
-             || strpos($date_str, 'upload_date') !== false
-             || strpos($date_str, 'qa_date_created') !== false 
-             || strpos($date_str, 'accepted_answer_date_created') !== false 
-             || strpos($date_str, 'suggested_answer_date_created') !== false 
-             || strpos($date_str, 'priceValidUntil') !== false
-             || strpos($date_str, 'priceValidUntil') !== false
-             || strpos($date_str, 'priceValidUntil') !== false
-             || strpos($date_str, 'start_date') !== false
-             || strpos($date_str, 'end_date') !== false
-             || strpos($date_str, 'validfrom') !== false
-             || strpos($date_str, 'dateposted') !== false
-             || strpos($date_str, 'validthrough') !== false
-             || strpos($date_str, 'date_of_birth') !== false
-             || strpos($date_str, 'date_created') !== false
-             || strpos($date_str, 'created_date') !== false
-             ) {
-                $response = true;
-               }
+    if (strpos($date_str, 'date_modified')                    !== false 
+        || strpos($date_str, 'date_published')                !== false
+        || strpos($date_str, 'last_reviewed')                 !== false
+        || strpos($date_str, 'date_posted')                   !== false
+        || strpos($date_str, 'date_expires')                  !== false
+        || strpos($date_str, 'published_date')                !== false
+        || strpos($date_str, 'upload_date')                   !== false
+        || strpos($date_str, 'qa_date_created')               !== false 
+        || strpos($date_str, 'accepted_answer_date_created')  !== false 
+        || strpos($date_str, 'suggested_answer_date_created') !== false 
+        || strpos($date_str, 'priceValidUntil')               !== false
+        || strpos($date_str, 'priceValidUntil')               !== false
+        || strpos($date_str, 'priceValidUntil')               !== false
+        || strpos($date_str, 'start_date')                    !== false
+        || strpos($date_str, 'end_date')                      !== false
+        || strpos($date_str, 'validfrom')                     !== false
+        || strpos($date_str, 'dateposted')                    !== false
+        || strpos($date_str, 'validthrough')                  !== false
+        || strpos($date_str, 'date_of_birth')                 !== false
+        || strpos($date_str, 'date_created')                  !== false
+        || strpos($date_str, 'created_date')                  !== false
+        ) {
+            $response = true;
+        }
     
     return $response;
     
@@ -3114,4 +3120,13 @@ function saswp_get_video_links(){
            
     }    
     return $response;
+}
+function saswp_remove_all_images($content){
+
+    if($content){
+        $content = preg_replace('/<img[^>]+./','', $content);   
+    }
+    
+    return $content;
+
 }

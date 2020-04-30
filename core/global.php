@@ -15,14 +15,16 @@ $with_aggregate = array(
         'Movie',                                                    
         'Review',                   
         'Recipe',                   
-        'TVSeries', 
+        'TVSeries',
+        'CreativeWorkSeries', 
         'SoftwareApplication',
         'MobileApplication',                                                                  
         'Event',                    
         'VideoGame',                
         'AudioObject',              
         'VideoObject',              
-        'local_business',           
+        'local_business',
+        'Organization',           
         'Product'              
 );
 $without_aggregate = array(

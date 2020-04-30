@@ -14,6 +14,7 @@ return array(
                 'BlogPosting'              => 'BlogPosting',
                 'Book'                     => 'Book',
                 'Course'                   => 'Course',
+                'CreativeWorkSeries'       => 'CreativeWorkSeries',
                 'DiscussionForumPosting'   => 'DiscussionForumPosting',
                 'DataFeed'                 => 'DataFeed',
                 'FAQ'                      => 'FAQ',
@@ -70,6 +71,7 @@ return array(
             'Mosque'              => 'Mosque',
         ),
         'Thing' => array(
-            'Person'             => 'Person',                                                                                
+            'Person'             => 'Person',
+            'Organization'       => 'Organization',                                                                                
         )
      );
