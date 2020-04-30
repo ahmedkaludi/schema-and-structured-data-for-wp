@@ -130,6 +130,7 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Fixed: HowTo Gutenberg block, Image URLs go into the text of the itemListElement #958
 * Fixed: HTML comments are rendering in the contentUrl and embedUrl of video object schema #946
 * Fixed: Gutenberg comments are not being stripped from article content #949
+* Fixed: PHP Notices #965
 
 
 = 1.9.34 (24 Apr 2020) =
