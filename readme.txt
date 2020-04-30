@@ -120,7 +120,7 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
 
-= 1.9.35 (29 Apr 2020) =
+= 1.9.35 (30 Apr 2020) =
 
 * Added: CreativeWorkSeries schema #948
 * Added: More properties to Person schema #956
