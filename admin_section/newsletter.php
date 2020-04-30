@@ -16,49 +16,7 @@ class saswp_ads_newsletter {
 	function __construct () {
 		
                 add_filter( 'saswp_localize_filter',array($this,'saswp_add_localize_footer_data'),10,2);
-                add_action('wp_ajax_saswp_subscribe_to_news_letter', array($this, 'saswp_subscribe_to_news_letter'));
-        }
-        
-        function saswp_subscribe_to_news_letter(){
-
-                if ( ! isset( $_POST['saswp_security_nonce'] ) ){
-                    return; 
-                }
-                if ( !wp_verify_nonce( $_POST['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
-                   return;  
-                }
-
-                $sendy_url = 'https://mail.magazine3.company';
-	        $list      = 'sY2uGpLehrgHVPm8dTEpxg';
-                $api_key   = 'lQ8CZLYxFBq6iUMoYpId'; //Can be retrieved from your Sendy's main settings
-
-                //POST variables
-	        $name  = sanitize_text_field($_POST['name']);
-                $email = sanitize_text_field($_POST['email']);
-                
-                if($email){
-                        //subscribe
-                        $postdata = http_build_query(
-                                array(
-                                'name'    => $name,
-                                'email'   => $email,
-                                'list'    => $list,
-                                'api_key' => $api_key,
-                                'boolean' => 'true'
-                                )
-                        );
-                        $opts     = array('http' => array('method'  => 'POST', 'header'  => 'Content-type: application/x-www-form-urlencoded', 'content' => $postdata));
-                        $context  = stream_context_create($opts);
-                        $result   = file_get_contents($sendy_url.'/subscribe', false, $context);            
-                                
-                        echo $result;
-
-                }else{
-                        echo esc_html__('Email id required', 'schema-and-structured-data-for-wp');                        
-                }                        
-
-                wp_die();
-        }
+	}
 	        
         function saswp_add_localize_footer_data($object, $object_name){
             

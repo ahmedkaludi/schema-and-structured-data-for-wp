@@ -297,77 +297,30 @@ jQuery(document).ready(function($){
         
      if(saswp_localize_data.do_tour){
                 
-                   var  content = '<h3>Thanks for using Structured Data!</h3>';
-                        content += '<p>Do you want the latest on <b>Structured Data update</b> before others and some best resources on monetization in a single email? - Free just for users of Structured Data!</p>';
+                var content = '<h3>Thanks for using Structured Data!</h3>';
+      content += '<p>Do you want the latest on <b>Structured Data update</b> before others and some best resources on monetization in a single email? - Free just for users of Structured Data!</p>';
                         content += '<style type="text/css">';
                         content += '.wp-pointer-buttons{ padding:0; overflow: hidden; }';
-                        content += '.wp-pointer-content .button-secondary{  left: -25px;background: transparent;top: 5px; border: 0;position: relative; padding: 0; box-shadow: none;margin: 0;color: #0085ba;} .wp-pointer-content .button-primary{ display:none}  #saswp_mc_embed_signup{background:#fff; clear:left; font:14px Helvetica,Arial,sans-serif; }';
+                        content += '.wp-pointer-content .button-secondary{  left: -25px;background: transparent;top: 5px; border: 0;position: relative; padding: 0; box-shadow: none;margin: 0;color: #0085ba;} .wp-pointer-content .button-primary{ display:none}  #afw_mc_embed_signup{background:#fff; clear:left; font:14px Helvetica,Arial,sans-serif; }';
                         content += '</style>';                        
-                        content += '<div id="saswp_mc_embed_signup">';
-                        content += '<form method="POST" accept-charset="utf-8" id="saswp-news-letter-form">';
-                        content += '<div id="saswp_mc_embed_signup_scroll">';
-                        content += '<div class="saswp-mc-field-group" style="    margin-left: 15px;    width: 195px;    float: left;">';
-                        content += '<input type="text" name="saswp_subscriber_name" class="form-control" placeholder="Name" hidden value="'+saswp_localize_data.current_user_name+'" style="display:none">';
-                        content += '<input type="text" value="'+saswp_localize_data.current_user_email+'" name="saswp_subscriber_email" class="form-control" placeholder="Email*"  style="      width: 180px;    padding: 6px 5px;">';                        
+                        content += '<div id="afw_mc_embed_signup">';
+                        content += '<form action="//app.mailerlite.com/webforms/submit/z7t4b8" data-id="258182" data-code="z7t4b8" method="POST" target="_blank">';
+                        content += '<div id="afw_mc_embed_signup_scroll">';
+                        content += '<div class="afw-mc-field-group" style="    margin-left: 15px;    width: 195px;    float: left;">';
+                        content += '<input type="text" name="fields[name]" class="form-control" placeholder="Name" hidden value="'+saswp_localize_data.current_user_name+'" style="display:none">';
+                        content += '<input type="text" value="'+saswp_localize_data.current_user_email+'" name="fields[email]" class="form-control" placeholder="Email*"  style="      width: 180px;    padding: 6px 5px;">';
+                        content += '<input type="text" name="fields[company]" class="form-control" placeholder="Website" hidden style=" display:none; width: 168px; padding: 6px 5px;" value="'+saswp_localize_data.get_home_url+'">';
                         content += '<input type="hidden" name="ml-submit" value="1" />';
                         content += '</div>';
-                        content += '<div id="mce-responses">';                                                
+                        content += '<div id="mce-responses">';
+                        content += '<div class="response" id="mce-error-response" style="display:none"></div>';
+                        content += '<div class="response" id="mce-success-response" style="display:none"></div>';
                         content += '</div>';
                         content += '<div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_a631df13442f19caede5a5baf_c9a71edce6" tabindex="-1" value=""></div>';
                         content += '<input type="submit" value="Subscribe" name="subscribe" id="pointer-close" class="button mc-newsletter-sent" style=" background: #0085ba; border-color: #006799; padding: 0px 16px; text-shadow: 0 -1px 1px #006799,1px 0 1px #006799,0 1px 1px #006799,-1px 0 1px #006799; height: 30px; margin-top: 1px; color: #fff; box-shadow: 0 1px 0 #006799;">';
-                        content += '<p id="saswp-news-letter-status"></p>';
                         content += '</div>';
                         content += '</form>';
                         content += '</div>';
-
-                        $(document).on("submit", "#saswp-news-letter-form", function(e){
-                          e.preventDefault(); 
-                          
-                          var $form = $(this),
-                          name = $form.find('input[name="saswp_subscriber_name"]').val(),
-                          email = $form.find('input[name="saswp_subscriber_email"]').val();                          
-                          
-                          $.post(saswp_localize_data.ajax_url,
-                                     {action:'saswp_subscribe_to_news_letter',
-                                     saswp_security_nonce:saswp_localize_data.saswp_security_nonce,
-                                     name:name, email:email},
-                            function(data) {
-                              
-                                if(data)
-                                {
-                                  if(data=="Some fields are missing.")
-                                  {
-                                    $("#saswp-news-letter-status").text("Please fill in your name and email.");
-                                    $("#saswp-news-letter-status").css("color", "red");
-                                  }
-                                  else if(data=="Invalid email address.")
-                                  {
-                                    $("#saswp-news-letter-status").text("Your email address is invalid.");
-                                    $("#saswp-news-letter-status").css("color", "red");
-                                  }
-                                  else if(data=="Invalid list ID.")
-                                  {
-                                    $("#saswp-news-letter-status").text("Your list ID is invalid.");
-                                    $("#saswp-news-letter-status").css("color", "red");
-                                  }
-                                  else if(data=="Already subscribed.")
-                                  {
-                                    $("#saswp-news-letter-status").text("You're already subscribed!");
-                                    $("#saswp-news-letter-status").css("color", "red");
-                                  }
-                                  else
-                                  {
-                                    $("#saswp-news-letter-status").text("You're subscribed!");
-                                    $("#saswp-news-letter-status").css("color", "green");
-                                  }
-                                }
-                                else
-                                {
-                                  alert("Sorry, unable to subscribe. Please try again later!");
-                                }
-                            }
-                          );
-                        });      
                 
                 var setup;                
                 var wp_pointers_tour_opts = {
@@ -377,7 +330,7 @@ jQuery(document).ready(function($){
                         align:"left"
                     }
                 };
-                                                
+                                
                 wp_pointers_tour_opts = $.extend (wp_pointers_tour_opts, {
                         buttons: function (event, t) {
                                 button= jQuery ('<a id="pointer-close" class="button-secondary">' + saswp_localize_data.button1 + '</a>');
@@ -386,10 +339,7 @@ jQuery(document).ready(function($){
                                         t.element.pointer ('close');
                                 });
                                 button_2.on('click', function() {
-                                  setTimeout(function(){ 
-                                      t.element.pointer ('close');
-                                 }, 3000);
-                                      
+                                        t.element.pointer ('close');
                                 } );
                                 return button;
                         },
@@ -430,17 +380,17 @@ jQuery(document).ready(function($){
     /* Newletters js ends here */ 
         
     $(".saswp-tabs a").click(function(e){
-        var href = $(this).attr('href');                
-        var currentTab = getParameterByName('tab',href);
-        if(!currentTab){
-          currentTab = "general";
-        }                                                                
-        $(this).siblings().removeClass("nav-tab-active");
-        $(this).addClass("nav-tab-active");
-        $(".form-wrap").find(".saswp-"+currentTab).siblings().hide();
-        $(".form-wrap .saswp-"+currentTab).show();
-        window.history.pushState("", "", href);
-        return false;
+var href = $(this).attr('href');                
+var currentTab = getParameterByName('tab',href);
+if(!currentTab){
+  currentTab = "general";
+}                                                                
+$(this).siblings().removeClass("nav-tab-active");
+$(this).addClass("nav-tab-active");
+$(".form-wrap").find(".saswp-"+currentTab).siblings().hide();
+$(".form-wrap .saswp-"+currentTab).show();
+window.history.pushState("", "", href);
+return false;
 });     
 
     $(".saswp-schame-type-select").change(function(e){
