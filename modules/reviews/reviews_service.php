@@ -214,7 +214,7 @@ class saswp_reviews_service {
                         $output.= '<div class="saswp-g-review-panel">
                               <div class="saswp-glg-review-body">
                                 <div class="saswp-rv-img">
-                                    <img src="'.esc_url($img_src).'" alt="'.esc_attr($review['saswp_reviewer_name']).'">
+                                    <img loading="lazy" src="'.esc_url($img_src).'" alt="'.esc_attr($review['saswp_reviewer_name']).'">
                                 </div>
                                 <div class="saswp-rv-cnt">
                                     <div class="saswp-r5-rng">
@@ -791,7 +791,7 @@ class saswp_reviews_service {
                        $html .= '<div class="saswp-rc">';
                        $html .= '<div class="saswp-rc-a">';
                        $html .= '<div class="saswp-r1-aimg">';
-                       $html .= '<img src="'.esc_url($value['saswp_reviewer_image']).'" width="56" height="56"/>';
+                       $html .= '<img loading="lazy" src="'.esc_url($value['saswp_reviewer_image']).'" width="56" height="56"/>';
                        $html .= '</div>';
                        $html .= '<div class="saswp-rc-nm">';
                        $html .= '<a target="_blank" href="'.esc_url($value['saswp_review_link']).'">'.esc_attr($value['saswp_reviewer_name']).'</a>';
@@ -871,7 +871,7 @@ class saswp_reviews_service {
                 $html .= '</div>';
                 $html .= '<div class="saswp-rc">';
                 $html .= '<div class="saswp-rc-a">';
-                $html .= '<img src="'.esc_url($value['saswp_reviewer_image']).'"/>';
+                $html .= '<img loading="lazy" src="'.esc_url($value['saswp_reviewer_image']).'"/>';
                 $html .= '<div class="saswp-rc-nm">';
                 $html .= '<a target="_blank" href="'.esc_url($value['saswp_review_link']).'">'. esc_attr($value['saswp_reviewer_name']).'</a>';
                 $html .= '<span class="saswp-rc-dt">'.(isset($date_str['date']) ? esc_attr($date_str['date']): '' ).'</span>';
