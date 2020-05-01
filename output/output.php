@@ -1528,13 +1528,13 @@ function saswp_schema_output() {
                                     $local_business = 'LocalBusiness';
                                 } 
                                 
-				$input1 = array(
-                                    '@context'                          => saswp_context_url(),
-                                    '@type'				=> esc_attr($local_business),
-                                    '@id'                               => trailingslashit(saswp_get_permalink()).'#'. strtolower(esc_attr($local_business)),                                            
-                                    'url'				=> trailingslashit(saswp_get_permalink()),	
-                                    'name'				=> get_bloginfo( 'name' )							
-				);  
+                                $input1 = array(
+                                                    '@context'                          => saswp_context_url(),
+                                                    '@type'				=> esc_attr($local_business),
+                                                    '@id'                               => trailingslashit(saswp_get_permalink()).'#'. strtolower(esc_attr($local_business)),                                            
+                                                    'url'				=> trailingslashit(saswp_get_permalink()),	
+                                                    'name'				=> get_bloginfo( 'name' )							
+                                );  
                                                                              
                                     if(!empty($aggregateRating)){
                                     $input1['aggregateRating'] = $aggregateRating;
@@ -1551,8 +1551,11 @@ function saswp_schema_output() {
                                     
                                     if($modified_schema == 1){
                                     
-                                    $input1 = saswp_local_business_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
-                                }
+                                      $input1 = saswp_local_business_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
+
+                                    }
+
+                                    $input1['@type'] = $local_business;
                                 
                             break;
                             
