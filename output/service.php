@@ -2811,21 +2811,41 @@ Class saswp_output_service{
                         $product_details['product_average_rating'] = $sumofrating /  count($judge_me_post);
                     }
                  
-             }else if($reviews){
+             }else if( $reviews && is_array($reviews) ){
+
+              $sumofrating = 0;
+              $avg_rating  = 1;
                                   
              foreach($reviews as $review){                 
-                 
+                
+                $rating = get_comment_meta( $review->comment_ID, 'rating', true ) ? get_comment_meta( $review->comment_ID, 'rating', true ) : '5';
+
+                $sumofrating += $rating;
+                
                  $reviews_arr[] = array(
                      'author'        => $review->comment_author ? $review->comment_author : 'Anonymous' ,
                      'datePublished' => $review->comment_date,
                      'description'   => wp_strip_all_tags(strip_shortcodes($review->comment_content)),
-                     'reviewRating'  => get_comment_meta( $review->comment_ID, 'rating', true ) ? get_comment_meta( $review->comment_ID, 'rating', true ) : '5',
+                     'reviewRating'  => $rating,
                  );
                  
              }   
+
+             if($sumofrating> 0){
+                $avg_rating = $sumofrating /  count($reviews); 
+             }
              
-             $product_details['product_review_count']   = $product->get_review_count();
-             $product_details['product_average_rating'] = $product->get_average_rating();             
+             if($product->get_review_count()){
+                $product_details['product_review_count']   = $product->get_review_count();
+             }else{
+                $product_details['product_review_count']   = count($reviews);
+             }
+
+             if($product->get_average_rating()){
+                $product_details['product_average_rating'] = $product->get_average_rating();             
+             }else{
+                $product_details['product_average_rating'] = $avg_rating;             
+             }             
              
              }else{
                  
