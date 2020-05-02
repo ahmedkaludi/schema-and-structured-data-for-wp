@@ -400,12 +400,16 @@ function saswp_create_ajax_select_taxonomy($selectedParentValue = '',$selectedVa
         
         $sel="";
       
-        if($selectedValue == $taxonomy->slug){
-          
-          $sel = "selected";
-        
-        }
-        $choices .= '<option value="'.esc_attr($taxonomy->slug).'" '.esc_attr($sel).'>'.esc_html__($taxonomy->name,'schema-and-structured-data-for-wp').'</option>';
+         if(is_object($taxonomy)){
+
+            if($selectedValue == $taxonomy->slug){
+            
+              $sel = "selected";
+            
+            }
+            $choices .= '<option value="'.esc_attr($taxonomy->slug).'" '.esc_attr($sel).'>'.esc_html__($taxonomy->name,'schema-and-structured-data-for-wp').'</option>';
+            
+         }         
       
     }
     

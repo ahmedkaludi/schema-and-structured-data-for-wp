@@ -126,10 +126,12 @@ jQuery(document).ready(function($){
 });//jQuery(document) closed
 function taxonomyDataCall(){
 	jQuery('select.ajax-output').change(function(){
-		var mainSelectedValue = jQuery(".select-post-type").val();
+				
+		var mainSelectedValue = jQuery(this).closest("tr").find('.select-post-type').val();
+		
 		if(mainSelectedValue=="ef_taxonomy"){
 			parentSelector = jQuery(this).parents("td").find(".insert-ajax-select");
-			var selectedValue = jQuery(this).val();
+			var selectedValue = jQuery(this).val();			
 			var currentFiledNumber = jQuery(this).attr("name").split("[")[1].replace("]",'');
                         var saswp_call_nonce = jQuery("#saswp_select_name_nonce").val();
 			
