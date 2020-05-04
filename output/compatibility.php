@@ -172,6 +172,8 @@ class saswp_output_compatibility{
         add_filter('easy_testimonials_json_ld', '__return_false'); 
                         
     }
+    public function saswp_all_in_one_event_calendar_override(){                                                        
+    }
     public function saswp_wordpress_news_override(){                                                        
     }
     public function saswp_total_recipe_generator_override(){                                                        
@@ -366,6 +368,9 @@ class saswp_output_compatibility{
     }
     public function cooked_on_activation(){
          $this->saswp_update_option_on_compatibility_activation('saswp-cooked');
+    }
+    public function all_in_one_event_calendar_on_activation(){
+        $this->saswp_update_option_on_compatibility_activation('saswp-all-in-one-event-calendar');
     }
     public function the_events_calendar_on_activation(){
          $this->saswp_update_option_on_compatibility_activation('saswp-the-events-calendar');

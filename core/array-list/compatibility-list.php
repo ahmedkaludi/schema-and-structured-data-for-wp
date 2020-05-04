@@ -42,6 +42,13 @@ return array(
                     'opt_name'   => 'saswp-easy-recipe',
                     'part_in'    => 'pro',
         ),
+        'all_in_one_event_calendar'  =>  array(            
+            'name'       => 'All In One Event Calendar',
+            'free'       => 'all-in-one-event-calendar/all-in-one-event-calendar.php', 
+            'pro'        => 'all-in-one-event-calendar/all-in-one-event-calendar.php', 
+            'opt_name'   => 'saswp-all-in-one-event-calendar',
+            'part_in'    => 'pro',
+        ),
         'wp_event_aggregator'  =>  array(            
                     'name'       => 'WP Event Aggregator',
                     'free'       => 'wp-event-aggregator/wp-event-aggregator.php', 

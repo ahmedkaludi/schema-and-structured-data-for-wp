@@ -1875,7 +1875,19 @@ function saswp_compatibility_page_callback(){
                                 'id'   => 'saswp-wp-event-aggregator',
                                 'name' => 'sd_data[saswp-wp-event-aggregator]',                             
                         )
-		);
+        );
+        $all_in_one_event_calendar = array(
+                'label'  => 'All In One Event Calendar',
+                'id'     => 'saswp-all-in-one-event-calendar-checkbox',                        
+                'name'   => 'saswp-all-in-one-event-calendar-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('all_in_one_event_calendar'),
+                'hidden' => array(
+                        'id'   => 'saswp-all-in-one-event-calendar',
+                        'name' => 'sd_data[saswp-all-in-one-event-calendar]',                             
+                )
+        );        
         $betteramp = array(
 			'label'  => 'Better AMP',
 			'id'     => 'saswp-betteramp-checkbox',                        
@@ -2491,6 +2503,7 @@ function saswp_compatibility_page_callback(){
              $modern_events_calendar['note']      = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';
              $tevolution_events['note']           = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';               
              $wp_event_aggregator['note']         = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';               
+             $all_in_one_event_calendar['note']   = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';               
              
          }
          
@@ -2557,6 +2570,7 @@ function saswp_compatibility_page_callback(){
                 $modern_events_calendar,
                 $tevolution_events,
                 $wp_event_aggregator,
+                $all_in_one_event_calendar,
                 $easy_testimonials,
                 $bne_testimonials,
                 $testimonial_pro,

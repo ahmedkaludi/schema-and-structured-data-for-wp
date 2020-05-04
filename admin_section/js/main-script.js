@@ -1311,6 +1311,15 @@ return false;
                             }
                             
                       break;
+
+                      case 'saswp-all-in-one-event-calendar-checkbox':
+                           saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-all-in-one-event-calendar").val(1);                                
+                            }else{
+                              $("#saswp-all-in-one-event-calendar").val(0);                                          
+                            }                            
+                      break;
                       
                       case 'saswp-easy-recipe-checkbox':
                            saswp_compatibliy_notes(current, id); 

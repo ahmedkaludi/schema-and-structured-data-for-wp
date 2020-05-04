@@ -1201,8 +1201,9 @@ Class saswp_output_service{
                             $reviews_arr['name']   = $custom_fields['saswp_event_schema_virtual_location_name'];
                             $vir_location['url']   = $custom_fields['saswp_event_schema_virtual_location_url'];
                     }                                        
-                    
-                    $input1['location'] = array($vir_location, $phy_location);
+                    if($vir_location || $phy_location){
+                        $input1['location'] = array($vir_location, $phy_location);
+                    }                    
 
                     if(isset($custom_fields['saswp_event_schema_status'])){
                         $input1['eventStatus'] = $custom_fields['saswp_event_schema_status'];
