@@ -2241,7 +2241,7 @@ if ( ! defined('ABSPATH') ) exit;
             $author_name  = get_the_author_meta( 'display_name' , $author_id );             
         }
 
-        $author_url   = get_the_author_meta( 'url' , $author_id ); 
+        $author_url   = get_author_posts_url( $author_id ); 
         
         $author_image = array();
         
