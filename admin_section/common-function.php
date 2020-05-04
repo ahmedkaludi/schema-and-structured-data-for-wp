@@ -2242,7 +2242,20 @@ if ( ! defined('ABSPATH') ) exit;
         }
 
         $author_url   = get_author_posts_url( $author_id ); 
-        
+        $same_as      = array();
+
+        $social_links = array('url', 'facebook', 'twitter', 'instagram', 'linkedin', 'myspace', 'pinterest', 'soundcloud', 'tumblr', 'youtube', 'wikipedia', 'jabber', 'yim', 'aim');
+
+        foreach($social_links as $links){
+
+            $url  = get_the_author_meta($links, $author_id );
+
+            if($url){
+                $same_as[] = $url;
+            }
+
+        }
+                        
         $author_image = array();
         
         if(function_exists('get_avatar_data')){
@@ -2253,6 +2266,7 @@ if ( ! defined('ABSPATH') ) exit;
         $author_details['name']            = esc_attr($author_name);
         $author_details['description']     = wp_strip_all_tags(strip_shortcodes($author_desc)); 
         $author_details['url']             = esc_url($author_url);
+        $author_details['sameAs']          = $same_as;
 
         if(isset($author_image['url']) && isset($author_image['height']) && isset($author_image['width'])){
 
