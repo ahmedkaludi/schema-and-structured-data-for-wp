@@ -33,18 +33,30 @@ class SASWP_Gutenberg_Render {
                     }
 
                 }
+
+        $previous_date = '';
+
+        if(isset($attributes['event_status']) && $attributes['event_status'] == 'EventRescheduled' && isset($attributes['previous_date'])){
+
+            $previous_date = '<strong>'.esc_html__('Previous Date', 'schema-and-structured-data-for-wp').' : </strong> <span>'.esc_html($attributes['previous_date']).'</span>'
+                            . (!isset($attributes['all_day']) ?  '<span> ,'.esc_html($attributes['previous_time']).'</span><br>' : '<br>');        
+
+        }                
         
         $response   .= '<div class="saswp-event-wrapper">'
-                
+                    . (isset($attributes['description']) ? '<p>'.$attributes['description'].'</p>' : '')
                     . '<div class="saswp-event-dates">'
                     . '<h5>'.esc_html__('Event Details', 'schema-and-structured-data-for-wp').'</h5>'
                     . '<strong>'.esc_html__('Start Date', 'schema-and-structured-data-for-wp').' : </strong> <span>'.esc_html($attributes['start_date']).'</span>'
-                    . (!$attributes['all_day'] ?  '<span> ,'.esc_html($attributes['start_time']).'</span><br>' : '<br>')
+                    . (!isset($attributes['all_day']) ?  '<span> ,'.esc_html($attributes['start_time']).'</span><br>' : '<br>')
                     . '<strong>'.esc_html__('End Date', 'schema-and-structured-data-for-wp').' : </strong> <span>'.esc_html($attributes['end_date']).'</span>'
-                    . (!$attributes['all_day'] ?  '<span> ,'.esc_html($attributes['end_time']).'</span><br>' : '<br>')
+                    . (!isset($attributes['all_day']) ?  '<span> ,'.esc_html($attributes['end_time']).'</span><br>' : '<br>')                    
+                    . $previous_date
                     . ($attributes['website'] ? '<strong>'.esc_html__('Website', 'schema-and-structured-data-for-wp').' : </strong> <span><a href="'.esc_url($attributes['website']).'">'.esc_url($attributes['website']).'</a></span><br>' : '')
-                    . ($attributes['price'] ? '<strong>'.esc_html__('Price', 'schema-and-structured-data-for-wp').' : </strong> <span>'.esc_html($attributes['price']).' '. ($attributes['currency_code'] ? esc_html($attributes['currency_code']) : 'USD').'</span>' : '')
-                    . ($attributes['all_day'] ?  '<div>'.esc_html__('This event is all day', 'schema-and-structured-data-for-wp').'</div>' : '')
+                    . ($attributes['price'] ? '<strong>'.esc_html__('Price', 'schema-and-structured-data-for-wp').' : </strong> <span>'.esc_html($attributes['price']).' '. (isset($attributes['currency_code']) ? esc_html($attributes['currency_code']) : 'USD').'</span><br>' : '')
+                    . ($attributes['attendance_mode'] ? '<strong>'.esc_html__('Attendance Mode', 'schema-and-structured-data-for-wp').' : </strong> <span>'.esc_html($attributes['attendance_mode']).'</span><br>' : '')
+                    . ($attributes['event_status'] ? '<strong>'.esc_html__('Status', 'schema-and-structured-data-for-wp').' : </strong> <span>'.esc_html($attributes['event_status']).'</span>' : '')
+                    . (isset($attributes['all_day']) ?  '<div>'.esc_html__('This event is all day', 'schema-and-structured-data-for-wp').'</div>' : '')
                     . '</div>'
                 
                     . '<div class="saswp-event-venue-details">'

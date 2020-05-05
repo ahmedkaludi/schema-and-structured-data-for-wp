@@ -4,7 +4,7 @@
     const el               = element.createElement;    
     const { __ }         = i18n;    
     const { RichText,  AlignmentToolbar, BlockControls, InspectorControls, MediaUpload } = editor;
-    const {Popover, Button, IconButton,  TextControl, ToggleControl, PanelBody, DateTimePicker } = components;
+    const {SelectControl, Popover, Button, IconButton,  TextControl, ToggleControl, PanelBody, DateTimePicker } = components;
                 
     blocks.registerBlockType( 'saswp/event-block', {
         title: __('Event (SASWP)', 'schema-and-structured-data-for-wp'),
@@ -13,6 +13,9 @@
         keywords: ['schema', 'structured data', 'Event', 'event'],
         
         attributes:{
+            description: {
+                type: 'string'             
+            },
             start_date: {
                 type: 'string'             
             },
@@ -38,14 +41,32 @@
             end_date_toggle: {
                 type: 'boolean',
                 default: false
+            },            
+            previous_date: {
+                type: 'string'              
+            },
+            previous_time: {
+                type: 'string'                
+            },
+            previous_date_iso: {
+                type: 'string'                
+            },
+            previous_date_toggle: {
+                type: 'boolean',
+                default: false
             },
             all_day: {
                 type: 'boolean',
                 default: false
             },
             website: {
-                type: 'string'
-                
+                type: 'string'                
+            },
+            event_status: {
+              type: 'string'                
+            },
+            attendance_mode: {
+              type: 'string'                
             },
             price: {
                 type: 'integer'                
@@ -191,6 +212,54 @@
             
         }
         
+        var previous_date_div = el('div',{
+          className:'components-base-control'
+        },
+        el('div',{className:'components-base-control__field'},el('span', {
+          className: 'components-base-control__label'
+        }, 'Previous Date'),
+            el('span',{className:'saswp-event-date-fields'},
+            el(TextControl,{            
+            className:'saswp-event-previous-date',
+            value : attributes.previous_date,
+            onClick:function(){
+              props.setAttributes( { previous_date_toggle: true } );   
+            }            
+            }),
+            !attributes.all_day ? 
+            el(TextControl,{            
+            className:'saswp-event-start-time',
+            value : attributes.previous_time,
+            onClick:function(){
+              props.setAttributes( { previous_date_toggle: true } );   
+            }            
+            }) : ''            
+            ),
+            attributes.previous_date_toggle ? 
+                el(
+                Popover,{
+                    class:'saswp-calender-popover',
+                    position: 'bottom',
+                    onClose: function(){
+                       props.setAttributes( { previous_date_toggle: false } );     
+                    }
+                },
+                el(DateTimePicker,{
+                 currentDate: attributes.previous_date_iso,                 
+                 is12Hour : true,
+                 onChange: function(value){
+                      attributes.previous_date_iso = value;
+                      var newDate = moment(value).format('YYYY-MM-DD'); 
+                      var newTime = moment(value).format('h:mm:ss a'); 
+                       props.setAttributes( { previous_date: newDate } ); 
+                       props.setAttributes( { previous_time: newTime } );                      
+                  }
+                })
+                ) 
+                : ''
+            )
+        );
+
         var start_date_div = el('div',{},el('span', {}, 'Start Date'),
             el('span',{className:'saswp-event-date-fields'},
             el(TextControl,{            
@@ -278,6 +347,17 @@
                 
         var event_details = el('fieldset',{
             className:'saswp-event-date-fieldset'},
+                el( RichText, {                
+                  tagName: 'p',
+                  className:'saswp-event-fieldset-description',
+                  placeholder: __('Enter event description', 'schema-and-structured-data-for-wp'),                   
+                  value: attributes.description,
+                  autoFocus: true, 
+                  onChange: function( newContent ) {                                
+                      props.setAttributes( { description: newContent } );
+                  }
+                }            
+              ),
                 start_date_div, end_date_div,
                 el(TextControl,{
                     value : attributes.website,
@@ -299,7 +379,36 @@
                     onChange: function(value){
                          props.setAttributes( { currency_code: value } ); 
                     }
-                })
+                }),
+                el(SelectControl,{
+                  value : attributes.event_status,
+                  label: __('Event Status', 'schema-and-structured-data-for-wp'),
+                  options:[
+                    { label: 'Select Status', value: '' },
+                    { label: 'EventScheduled', value: 'EventScheduled' },
+                    { label: 'Postponed', value: 'EventPostponed' },
+                    { label: 'Rescheduled', value: 'EventRescheduled' },
+                    { label: 'MovedOnline', value: 'EventMovedOnline' },
+                    { label: 'Cancelled', value: 'EventCancelled' },
+                  ] ,
+                  onChange: function(value){
+                       props.setAttributes( { event_status: value } ); 
+                  }
+              }),
+              attributes.event_status == 'EventRescheduled' ? previous_date_div : '',
+              el(SelectControl,{
+                value : attributes.attendance_mode,
+                label: __('Attendance Mode', 'schema-and-structured-data-for-wp'),
+                options:[
+                  { label: 'Select Attendance Mode', value: '' },
+                  { label: 'Offline', value: 'OfflineEventAttendanceMode' },
+                  { label: 'Online', value: 'OnlineEventAttendanceMode' },
+                  { label: 'Mixed', value: 'MixedEventAttendanceMode' }                                    
+                ] ,
+                onChange: function(value){
+                     props.setAttributes( { attendance_mode: value } ); 
+                }
+            })
         );
                                      
         var venue = el('fieldset',{className:'saswp-event-venue-fieldset'},el('div',{className:'saswp-event-venue'},

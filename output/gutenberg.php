@@ -396,9 +396,16 @@ function saswp_gutenberg_event_schema(){
         $input1['@type']                 = 'Event';
         $input1['@id']                   = trailingslashit(saswp_get_permalink()).'#Event';  
         $input1['name']                  = saswp_get_the_title();  
-        $input1['description']           = saswp_get_the_excerpt();
+        $input1['description']           = isset($data['description']) ? $data['description'] : saswp_get_the_excerpt();
         $input1['startDate']             = saswp_format_date_time($data['start_date'], $data['start_time']);
         $input1['endDate']               = saswp_format_date_time($data['end_date'], $data['end_time']);
+
+        $input1['eventStatus']           = $data['event_status'];
+        $input1['eventAttendanceMode']   = $data['attendance_mode'];
+
+        if(isset($data['event_status']) && $data['event_status'] == 'EventRescheduled' && isset($data['previous_date'])){
+            $input1['PreviousStartDate']               = saswp_format_date_time($data['previous_date'], $data['previous_time']);
+        }
         
         if(isset($data['venue_address']) || isset($data['venue_name'])){
                             
@@ -417,7 +424,7 @@ function saswp_gutenberg_event_schema(){
         $input1['offers']['@type']         = 'Offer';
         $input1['offers']['url']           = saswp_get_permalink();
         $input1['offers']['price']         = $data['price'];
-        $input1['offers']['priceCurrency'] = $data['currency'] ? $data['currency'] : 'USD';
+        $input1['offers']['priceCurrency'] = (isset($data['currency']) && $data['currency']) ? $data['currency'] : 'USD';
         $input1['offers']['availability']  = 'InStock';
         $input1['offers']['validFrom']     = saswp_format_date_time($data['start_date'], $data['start_time']);
         
