@@ -3145,3 +3145,24 @@ function saswp_remove_all_images($content){
     return $content;
 
 }
+
+function saswp_update_global_post(){
+
+  global $post, $redux_builder_amp, $saswp_post_data;
+  
+  if( (function_exists('ampforwp_is_front_page') && ampforwp_is_front_page()) && (function_exists('ampforwp_is_amp_endpoint') && ampforwp_is_amp_endpoint()) ){
+
+    $page_id = ampforwp_get_the_ID();  
+    
+    if($page_id){
+
+        if(!$saswp_post_data){
+                $saswp_post_data = get_post($page_id);      
+        }
+
+         $post = $saswp_post_data;     
+
+    }            
+  }
+
+}
