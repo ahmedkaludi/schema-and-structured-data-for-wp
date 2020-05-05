@@ -2115,7 +2115,20 @@ function saswp_archive_output(){
            }
         }   
 
-        if( is_home() || is_front_page() || ( function_exists('ampforwp_is_home') && ampforwp_is_home() )  ){
+        $homepage = false;
+        
+        if(saswp_non_amp()){
+            
+            if(is_home()){
+                $homepage = true;
+            }
+        }else{
+            if(function_exists('ampforwp_is_home') && ampforwp_is_home()){            
+                $homepage = true;
+            }
+        }
+
+        if( $homepage ){
             
             $i = 1;
             if ( have_posts() ):
