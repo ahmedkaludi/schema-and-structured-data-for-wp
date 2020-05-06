@@ -1320,6 +1320,15 @@ return false;
                               $("#saswp-all-in-one-event-calendar").val(0);                                          
                             }                            
                       break;
+
+                       case 'saswp-event-on-checkbox':
+                           saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-event-on").val(1);                                
+                            }else{
+                              $("#saswp-event-on").val(0);                                          
+                            }                            
+                      break;
                       
                       case 'saswp-easy-recipe-checkbox':
                            saswp_compatibliy_notes(current, id); 

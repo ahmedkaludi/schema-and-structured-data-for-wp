@@ -49,6 +49,12 @@ return array(
             'opt_name'   => 'saswp-all-in-one-event-calendar',
             'part_in'    => 'pro',
         ),
+        'event_on'  =>  array(            
+            'name'       => 'Event On',
+            'free'       => 'eventON/eventon.php',             
+            'opt_name'   => 'saswp-event-on',
+            'part_in'    => 'pro',
+        ),
         'wp_event_aggregator'  =>  array(            
                     'name'       => 'WP Event Aggregator',
                     'free'       => 'wp-event-aggregator/wp-event-aggregator.php', 

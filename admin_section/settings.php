@@ -1887,6 +1887,18 @@ function saswp_compatibility_page_callback(){
                         'id'   => 'saswp-all-in-one-event-calendar',
                         'name' => 'sd_data[saswp-all-in-one-event-calendar]',                             
                 )
+        ); 
+        $event_on = array(
+                'label'  => 'Event On',
+                'id'     => 'saswp-event-on-checkbox',                        
+                'name'   => 'saswp-event-on-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('event_on'),
+                'hidden' => array(
+                        'id'   => 'saswp-event-on',
+                        'name' => 'sd_data[saswp-event-on]',                             
+                )
         );        
         $betteramp = array(
 			'label'  => 'Better AMP',
@@ -2504,6 +2516,7 @@ function saswp_compatibility_page_callback(){
              $tevolution_events['note']           = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';               
              $wp_event_aggregator['note']         = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';               
              $all_in_one_event_calendar['note']   = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';               
+             $event_on['note']                    = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';               
              
          }
          
@@ -2571,6 +2584,7 @@ function saswp_compatibility_page_callback(){
                 $tevolution_events,
                 $wp_event_aggregator,
                 $all_in_one_event_calendar,
+                $event_on,
                 $easy_testimonials,
                 $bne_testimonials,
                 $testimonial_pro,

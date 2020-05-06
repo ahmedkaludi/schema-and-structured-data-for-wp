@@ -75,14 +75,14 @@ function saswp_wp_hook_operation(){
 
 function saswp_schema_markup_output_in_buffer($content){
     
-    global $saswp_post_reviews, $saswp_elementor_faq, $saswp_divi_faq, $saswp_elementor_howto;
+    global $saswp_post_reviews, $saswp_elementor_faq, $saswp_divi_faq, $saswp_elementor_howto, $saswp_evo_json_ld;
      
     if(!$saswp_divi_faq){
         $regex = "<script type='text/javascript' src='".SASWP_PLUGIN_URL."modules/divi-builder/scripts/frontend-bundle.min.js?ver=1.0.0'></script>";
         $content = str_replace($regex, '', $content);
     }
      
-     if($saswp_post_reviews || $saswp_elementor_faq || $saswp_divi_faq || $saswp_elementor_howto){
+     if($saswp_post_reviews || $saswp_elementor_faq || $saswp_divi_faq || $saswp_elementor_howto || $saswp_evo_json_ld){
      
             $saswp_json_ld =  saswp_get_all_schema_markup_output();  
      

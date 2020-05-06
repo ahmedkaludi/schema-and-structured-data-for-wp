@@ -311,7 +311,7 @@ function saswp_comparison_logic_checker($input){
               
                   $current_post_type = '';
               
-                  if(is_singular() || is_admin() || is_front_page()){
+                  if( (is_singular() || is_admin() || is_front_page()) && is_object($post) ){
                       
                      $current_post_type  = get_post_type($post->ID);   
                      
