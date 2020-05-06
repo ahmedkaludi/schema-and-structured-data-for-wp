@@ -1064,6 +1064,10 @@ function saswp_remove_microdata($content){
             $content = preg_replace("/<script type\=\'application\/ld\+json\' class\=\'wpnews-schema-graph(.*?)'\>(.*?)<\/script>/s", "", $content);
         }
 
+        
+        if(isset($sd_data['saswp-event-on']) && $sd_data['saswp-event-on'] == 1 ){
+            $content = preg_replace("/<div class\=\"evo_event_schema\"(.*?)>(.*?)<\/script><\/div>/s", "", $content);
+        }
 
         if(function_exists('review_child_company_reviews_comments') && isset($sd_data['saswp-wp-theme-reviews']) && $sd_data['saswp-wp-theme-reviews'] == 1){
 
