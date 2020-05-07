@@ -146,6 +146,9 @@ class saswp_output_compatibility{
         );
         
     }
+    public function saswp_classipress_override(){
+        add_filter( 'appthemes_schema_output', '__return_false');                
+   }
     public function saswp_ampwp_override(){                 
         add_action( 'template_redirect', array($this, 'saswp_ampwp_override_full'),99);                
     }

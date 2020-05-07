@@ -348,6 +348,12 @@ return array(
             'opt_name'   => 'saswp-myhome',
             'part_in'    => 'pro',
         ),
+        'classipress' => array(            
+            'name'       => 'ClassiPress',
+            'free'       => 'classipress',               
+            'opt_name'   => 'saswp-classipress',
+            'part_in'    => 'pro',
+        ),
         'realestate_5' => array(            
             'name'       => 'WP Pro Realestate 5',
             'free'       => 'realestate-5',               

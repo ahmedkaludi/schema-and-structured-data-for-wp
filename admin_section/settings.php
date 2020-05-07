@@ -2010,6 +2010,19 @@ function saswp_compatibility_page_callback(){
                         'name' => 'sd_data[saswp-myhome]',                             
                 )
         ); 
+
+        $classipress = array(
+                'label'  => 'ClassiPress',
+                'id'     => 'saswp-classipress-checkbox',                        
+                'name'   => 'saswp-classipress-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('classipress'),
+                'hidden' => array(
+                        'id'   => 'saswp-classipress',
+                        'name' => 'sd_data[saswp-classipress]',                             
+                )
+        ); 
         
         $realestate_5 = array(
                 'label'  => 'WP Pro Real Estate 5',
@@ -2520,6 +2533,7 @@ function saswp_compatibility_page_callback(){
              $wpresidence['note']    = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/extensions/">Real Estate Schema Addon</a>';
              $myhome['note']         = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/extensions/">Real Estate Schema Addon</a>';
              $realestate_5['note']   = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/extensions/">Real Estate Schema Addon</a>';
+             $classipress['note']   = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/extensions/">Real Estate Schema Addon</a>';
              
              
          }
@@ -2600,6 +2614,7 @@ function saswp_compatibility_page_callback(){
                 $real_homes,
                 $wpresidence,
                 $myhome,
+                $classipress,
                 $realestate_5,
                 $learn_press,
                 $learn_dash,

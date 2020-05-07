@@ -945,6 +945,15 @@ return false;
                               $("#saswp-realestate-5").val(0);           
                             }
                       break;
+
+                      case 'saswp-classipress-checkbox':
+                          saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-classipress").val(1);             
+                            }else{
+                              $("#saswp-classipress").val(0);           
+                            }
+                      break;
                       
                       case 'saswp-realhomes-checkbox':
                           saswp_compatibliy_notes(current, id); 
