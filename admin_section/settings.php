@@ -1997,7 +1997,19 @@ function saswp_compatibility_page_callback(){
                                 'id'   => 'saswp-wpresidence',
                                 'name' => 'sd_data[saswp-wpresidence]',                             
                         )
-		);
+                );
+        $myhome = array(
+                'label'  => 'My Home Theme',
+                'id'     => 'saswp-myhome-checkbox',                        
+                'name'   => 'saswp-myhome-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('myhome'),
+                'hidden' => array(
+                        'id'   => 'saswp-myhome',
+                        'name' => 'sd_data[saswp-myhome]',                             
+                )
+        );        
         
         $learn_press = array(
 			'label'  => 'LearnPress',
@@ -2492,7 +2504,8 @@ function saswp_compatibility_page_callback(){
                           
              $homeland_theme['note'] = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/extensions/">Real Estate Schema Addon</a>';
              $real_homes['note']     = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/extensions/">Real Estate Schema Addon</a>';
-             $wpresidence['note']   = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/extensions/">Real Estate Schema Addon</a>';
+             $wpresidence['note']    = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/extensions/">Real Estate Schema Addon</a>';
+             $myhome['note']         = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/extensions/">Real Estate Schema Addon</a>';
              
              
          }
@@ -2572,6 +2585,7 @@ function saswp_compatibility_page_callback(){
                 $homeland_theme,
                 $real_homes,
                 $wpresidence,
+                $myhome,
                 $learn_press,
                 $learn_dash,
                 $lifter_lms,

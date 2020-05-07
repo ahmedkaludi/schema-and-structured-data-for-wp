@@ -342,6 +342,12 @@ return array(
                     'opt_name'   => 'saswp-homeland',
                     'part_in'    => 'pro',
         ),
+        'myhome' => array(            
+            'name'       => 'My Home Theme',
+            'free'       => 'myhome',               
+            'opt_name'   => 'saswp-myhome',
+            'part_in'    => 'pro',
+        ),
         'saswp_realhomes' => array(            
                     'name'       => 'RealHomes Theme',
                     'free'       => 'realhomes',               

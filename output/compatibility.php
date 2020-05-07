@@ -133,7 +133,9 @@ class saswp_output_compatibility{
         
        
    }
-
+    public function saswp_myhome_override(){                    
+   
+    }
     public function saswp_soledad_override(){
             
          saswp_remove_anonymous_object_filter_or_action(
