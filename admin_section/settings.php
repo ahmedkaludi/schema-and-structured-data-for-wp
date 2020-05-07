@@ -2009,7 +2009,20 @@ function saswp_compatibility_page_callback(){
                         'id'   => 'saswp-myhome',
                         'name' => 'sd_data[saswp-myhome]',                             
                 )
-        );        
+        ); 
+        
+        $realestate_5 = array(
+                'label'  => 'WP Pro Real Estate 5',
+                'id'     => 'saswp-realestate-5-checkbox',                        
+                'name'   => 'saswp-realestate-5-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('realestate_5'),
+                'hidden' => array(
+                        'id'   => 'saswp-realestate-5',
+                        'name' => 'sd_data[saswp-realestate-5]',                             
+                )
+        ); 
         
         $learn_press = array(
 			'label'  => 'LearnPress',
@@ -2506,6 +2519,7 @@ function saswp_compatibility_page_callback(){
              $real_homes['note']     = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/extensions/">Real Estate Schema Addon</a>';
              $wpresidence['note']    = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/extensions/">Real Estate Schema Addon</a>';
              $myhome['note']         = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/extensions/">Real Estate Schema Addon</a>';
+             $realestate_5['note']   = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/extensions/">Real Estate Schema Addon</a>';
              
              
          }
@@ -2586,6 +2600,7 @@ function saswp_compatibility_page_callback(){
                 $real_homes,
                 $wpresidence,
                 $myhome,
+                $realestate_5,
                 $learn_press,
                 $learn_dash,
                 $lifter_lms,

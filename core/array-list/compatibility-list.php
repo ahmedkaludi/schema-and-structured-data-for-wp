@@ -348,6 +348,12 @@ return array(
             'opt_name'   => 'saswp-myhome',
             'part_in'    => 'pro',
         ),
+        'realestate_5' => array(            
+            'name'       => 'WP Pro Realestate 5',
+            'free'       => 'realestate-5',               
+            'opt_name'   => 'saswp-realestate-5',
+            'part_in'    => 'pro',
+        ),
         'saswp_realhomes' => array(            
                     'name'       => 'RealHomes Theme',
                     'free'       => 'realhomes',               
