@@ -10,6 +10,12 @@ return array(
             'opt_name'   => 'saswp-yet-another-stars-rating',
             'part_in'    => 'free',
         ),
+        'stachethemes_event_calendar'  =>  array(            
+            'name'       => 'Stachethemes Event Calendar',
+            'free'       => 'stachethemes_event_calendar/stachethemes_event_calendar.php',                    
+            'opt_name'   => 'saswp-stachethemes-event-calendar',
+            'part_in'    => 'pro',
+        ),
         'wp_customer_reviews'  =>  array(            
                     'name'       => 'WP Customer Reviews',
                     'free'       => 'wp-customer-reviews/wp-customer-reviews-3.php',                    

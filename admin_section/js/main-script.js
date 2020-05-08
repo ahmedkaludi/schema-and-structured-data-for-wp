@@ -1339,6 +1339,16 @@ return false;
                             
                       break;
 
+                      case 'saswp-stachethemes-event-calendar-checkbox':
+                           saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-stachethemes-event-calendar").val(1);                                
+                            }else{
+                              $("#saswp-stachethemes-event-calendar").val(0);                                          
+                            }
+                            
+                      break;
+
                       case 'saswp-all-in-one-event-calendar-checkbox':
                            saswp_compatibliy_notes(current, id); 
                             if ($(this).is(':checked')) {              
