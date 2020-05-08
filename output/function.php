@@ -2261,26 +2261,12 @@ function saswp_get_loop_markup($i) {
         $site_name = get_bloginfo();    
     }
 
-    $service_object     = new saswp_output_service();
-    $logo               = $service_object->saswp_get_publisher(true);   
-
     $schema_properties = array();
 
-    $image_id 		        = get_post_thumbnail_id();                                                                
-    $archive_image 	        = saswp_get_image_by_id($image_id);  
-    
-    if(!empty($archive_image)){
-        
-        if(isset($sd_data['sd_default_image'])){
-            
-            $archive_image['@type']  = 'ImageObject';
-            $archive_image['url']    = isset($sd_data['sd_default_image']['url']) ? esc_url($sd_data['sd_default_image']['url']):'';
-            $archive_image['width']  = esc_attr($sd_data['sd_default_image_width']);
-            $archive_image['height'] = esc_attr($sd_data['sd_default_image_height']);                                  
-        }
-                                            
-    }
-                                    
+    $service_object     = new saswp_output_service();
+    $logo               = $service_object->saswp_get_publisher(true);   
+    $feature_image      = $service_object->saswp_get_fetaure_image();             
+                                                                                                      
     $publisher_info['type']           = 'Organization';                                
     $publisher_info['name']           = esc_attr($site_name);
     $publisher_info['logo']['@type']  = 'ImageObject';
@@ -2296,9 +2282,9 @@ function saswp_get_loop_markup($i) {
     $schema_properties['mainEntityOfPage'] = get_the_permalink();
     $schema_properties['author']           = get_the_author();
     $schema_properties['publisher']        = $publisher_info;                                
-                                                                    
-    if(!empty($archive_image['url'])){                                
-        $schema_properties['image']            = $archive_image;                                    
+      
+    if(!empty($feature_image)){                            
+        $schema_properties = array_merge($schema_properties, $feature_image);        
     }
 
     $itemlist_arr = array(
