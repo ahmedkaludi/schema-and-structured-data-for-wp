@@ -29,6 +29,7 @@ $with_aggregate = array(
 );
 $without_aggregate = array(
         'Apartment',
+        'RealEstateListing',
         'House',
         'SingleFamilyResidence',
         'Article',

@@ -836,6 +836,64 @@ function saswp_product_schema_markup($schema_id, $schema_post_id, $all_post_meta
     
 }
 
+function saswp_real_estate_listing_schema_markup($schema_id, $schema_post_id, $all_post_meta){
+    
+    $product_image = get_post_meta( get_the_ID(), 'saswp_real_estate_listing_image_'.$schema_id.'_detail',true);
+
+    $input1 = array(
+        '@context'			=> saswp_context_url(),
+        '@type'				=> 'RealEstateListing',
+        '@id'                           => trailingslashit(get_permalink()).'#RealEstateListing',    
+        'url'				=> trailingslashit(get_permalink()),
+        'name'                          => saswp_remove_warnings($all_post_meta, 'saswp_real_estate_listing_name_'.$schema_id, 'saswp_array'),    
+        'description'                   => saswp_remove_warnings($all_post_meta, 'saswp_real_estate_listing_description_'.$schema_id, 'saswp_array'),													                            
+        );
+                
+        $input1['datePosted']           = isset($all_post_meta['saswp_real_estate_listing_date_posted_'.$schema_id][0])?date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_real_estate_listing_date_posted_'.$schema_id][0])):'';
+        
+        if(isset($product_image['thumbnail']) && $product_image['thumbnail']){
+        
+            $input1['image']['@type']           = 'ImageObject';
+            $input1['image']['url']             = $product_image['thumbnail'];
+            $input1['image']['width']           = $product_image['width'];
+            $input1['image']['height']          = $product_image['height'];
+            
+        }
+
+        if(isset($all_post_meta['saswp_real_estate_listing_price_'.$schema_id][0]) && $all_post_meta['saswp_real_estate_listing_price_'.$schema_id][0]){
+                    
+            $input1['offers']['@type']           = 'Offer';
+            $input1['offers']['availability']    = saswp_remove_warnings($all_post_meta, 'saswp_real_estate_listing_availability_'.$schema_id, 'saswp_array');        
+            $input1['offers']['price']           = saswp_remove_warnings($all_post_meta, 'saswp_real_estate_listing_price_'.$schema_id, 'saswp_array');
+            $input1['offers']['priceCurrency']   = saswp_remove_warnings($all_post_meta, 'saswp_real_estate_listing_currency_'.$schema_id, 'saswp_array');        
+            $input1['offers']['validFrom']       = isset($all_post_meta['saswp_real_estate_listing_validfrom_'.$schema_id])?date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_real_estate_listing_validfrom_'.$schema_id][0])):'';
+                
+        }
+
+        $location = array();
+                            
+        if(isset($all_post_meta['saswp_real_estate_listing_location_name_'.$schema_id][0])){
+
+            $location[] = array(
+                '@type' => 'Place',
+                'name' => saswp_remove_warnings($all_post_meta, 'saswp_real_estate_listing_location_name_'.$schema_id, 'saswp_array'),                
+                'telephone' => saswp_remove_warnings($all_post_meta, 'saswp_real_estate_listing_phone_'.$schema_id, 'saswp_array'),                
+                'address' => array(
+                            '@type' => 'PostalAddress',
+                            'streetAddress' => saswp_remove_warnings($all_post_meta, 'saswp_real_estate_listing_streetaddress_'.$schema_id, 'saswp_array'),
+                            'addressLocality' => saswp_remove_warnings($all_post_meta, 'saswp_real_estate_listing_locality_'.$schema_id, 'saswp_array'),
+                            'addressRegion' => saswp_remove_warnings($all_post_meta, 'saswp_real_estate_listing_region_'.$schema_id, 'saswp_array'),  
+                            'addressCountry' => saswp_remove_warnings($all_post_meta, 'saswp_real_estate_listing_country_'.$schema_id, 'saswp_array'),  
+                            'postalCode   ' => saswp_remove_warnings($all_post_meta, 'saswp_real_estate_listing_postalcode_'.$schema_id, 'saswp_array'),  
+                ),
+            );
+            $input1['contentLocation'] = $location;
+        } 
+
+    return $input1;
+
+}
+
 function saswp_local_business_schema_markup($schema_id, $schema_post_id, $all_post_meta){
     
             $input1 = array();

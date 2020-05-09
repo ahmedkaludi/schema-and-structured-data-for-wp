@@ -1602,6 +1602,58 @@ Class saswp_output_service{
                     }
                                                             
                     break;
+
+                    case 'RealEstateListing':                                                                                                  
+                        if(isset($custom_fields['saswp_real_estate_listing_date_posted'])){
+                            $input1['datePosted'] =    $custom_fields['saswp_real_estate_listing_date_posted'];
+                        }
+                        if(isset($custom_fields['saswp_real_estate_listing_name'])){
+                         $input1['name'] =    $custom_fields['saswp_real_estate_listing_name'];
+                        }
+                        if(isset($custom_fields['saswp_real_estate_listing_url'])){
+                         $input1['url'] =    $custom_fields['saswp_real_estate_listing_url'];
+                        }                                                
+                        if(isset($custom_fields['saswp_real_estate_listing_description'])){
+                         $input1['description'] =    $custom_fields['saswp_real_estate_listing_description'];
+                        }
+                        if(isset($custom_fields['saswp_real_estate_listing_image'])){
+                         $input1['image'] =    $custom_fields['saswp_real_estate_listing_image'];
+                        }                        
+                        if(isset($custom_fields['saswp_real_estate_listing_availability'])){
+                         $input1['offers']['availability'] =    $custom_fields['saswp_real_estate_listing_availability'];                         
+                        }
+                        if(isset($custom_fields['saswp_real_estate_listing_price'])){
+                         $input1['offers']['price'] =    $custom_fields['saswp_real_estate_listing_price'];                                                                                                
+                        }
+                        if(isset($custom_fields['saswp_real_estate_listing_currency'])){
+                         $input1['offers']['priceCurrency'] =    $custom_fields['saswp_real_estate_listing_currency'];                         
+                        }
+                        if(isset($custom_fields['saswp_real_estate_listing_validfrom'])){
+                         $input1['offers']['validfrom'] =    $custom_fields['saswp_real_estate_listing_validfrom'];                         
+                        }                                                                                          
+                        
+                        $location = array();
+                        
+                        if(isset($custom_fields['saswp_real_estate_listing_location_name'])){
+
+                            $location = array(
+                                '@type' => 'Place',
+                                'name' => $custom_fields['saswp_real_estate_listing_location_name'],                                                               
+                                'telephone' => $custom_fields['saswp_real_estate_listing_location_name'],                                
+                                'address' => array(
+                                            '@type' => 'PostalAddress',
+                                            'streetAddress'   => $custom_fields['saswp_real_estate_listing_streetaddress'],
+                                            'addressLocality' => $custom_fields['saswp_real_estate_listing_locality'],
+                                            'addressRegion'   => $custom_fields['saswp_real_estate_listing_region'],
+                                            'addressCountry'   => $custom_fields['saswp_real_estate_listing_country'],
+                                            'postalCode'      => $custom_fields['saswp_real_estate_listing_postalcode'],  
+                                ),
+                            );
+
+                            $input1['contentLocation'] = $location;
+                        }
+
+                        break;    
                 
                 case 'Service':
                     if(isset($custom_fields['saswp_service_schema_name'])){

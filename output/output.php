@@ -1234,7 +1234,30 @@ function saswp_schema_output() {
                                 }
 			                                
                             break;
-                        
+
+                            case 'RealEstateListing':
+
+                                $input1 = array(
+                                    '@context'			=> saswp_context_url(),
+                                    '@type'				=> 'RealEstateListing',
+                                    '@id'                           => trailingslashit(saswp_get_permalink()).'#RealEstateListing',        
+                                    'url'				=> trailingslashit(saswp_get_permalink()),
+                                    'name'			=> saswp_get_the_title(),
+                                    'datePosted'                 => esc_html($date),                                    
+                                    'description'                   => $description,                                    
+                                    );
+                                	                                                                                                                                                                                                                                                                                                  
+                                $input1 = apply_filters('saswp_modify_real_estate_listing_schema_output', $input1 );
+                                
+                                $input1 = saswp_get_modified_markup($input1, $schema_type, $schema_post_id, $schema_options);
+                                
+                                if($modified_schema == 1){
+                                    
+                                    $input1 = saswp_real_estate_listing_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
+                                }
+			
+                            break;
+
                             case 'Product':
                                 	                                                                                                
                                 $input1 = $service_object->saswp_schema_markup_generator($schema_type);
