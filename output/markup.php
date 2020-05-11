@@ -53,16 +53,16 @@ function saswp_get_reviews_schema_markup($reviews){
                                     }
                                 
                                     if(!empty($reviews_arr)){
-                                       
+                                        
+                                        $input1['aggregateRating'] = array(
+                                            '@type'       => 'AggregateRating',
+                                            'reviewCount' => count($reviews),
+                                            'ratingValue' => esc_attr($avg_rating),                                        
+                                         );
+
                                         $input1['review'] = $reviews_arr;
                                         
-                                    }
-
-                                    $input1['aggregateRating'] = array(
-                                        '@type'       => 'AggregateRating',
-                                        'reviewCount' => count($reviews),
-                                        'ratingValue' => esc_attr($avg_rating),                                        
-                                     );
+                                    }                                    
                                 
                                 }
                             return $input1;                                      
