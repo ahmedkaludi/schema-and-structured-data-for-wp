@@ -10,3 +10,6 @@ and open the template in the editor.
 .saswp-event-venue-details, .saswp-event-organizers-details, .saswp-event-performers-details{
     padding-top:15px;
 }
+.saswp-event-date-fieldset select{
+    max-width: 100%;
+}

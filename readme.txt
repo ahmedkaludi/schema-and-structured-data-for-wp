@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.4
-Stable tag: 1.9.35
+Stable tag: 1.9.36
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -119,6 +119,21 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.9.36 (12 May 2020) =
+
+* Fixed: Speed is getting effected by images which are gernerated from our schema plugin #966
+* Fixed: Woocommerce Membership points to wrong link #975
+* Fixed: Multiple reviews must be accompanied by aggregateRating #976
+* Fixed: Author url is showing a link to the home page in Article schema #979
+* Fixed: Article schema not being displayed on the AMP version of homepage #970
+* Fixed: CollectionPage schema is not taking featured image #991
+* Fixed: Aggregate Rating should be a parent and the reviews should be a child of it. #990
+* Fixed: Placement condition for tag is properly not working #971
+* Added: sameAs property for author #978
+* Added: RealEstateListing schema #992
+* Added: eventStatus and eventMode In gutenberg event(SASWP) #980
+
 
 = 1.9.35 (30 Apr 2020) =
 

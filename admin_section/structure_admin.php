@@ -311,11 +311,17 @@ function saswp_comparison_logic_checker($input){
               
                   $current_post_type = '';
               
-                  if(is_singular() || is_admin()){
+                  if( (is_singular() || is_admin() || is_front_page()) && is_object($post) ){
                       
                      $current_post_type  = get_post_type($post->ID);   
                      
-                  }   
+                  } 
+                  
+                  if(function_exists('ampforwp_is_front_page') && ampforwp_is_front_page()){
+
+                    $current_post_type = 'page';
+                    
+                  }
                   
                   if ( $comparison == 'equal' ) {
                       
@@ -540,49 +546,77 @@ function saswp_comparison_logic_checker($input){
         case 'ef_taxonomy':
         // Get all the post registered taxonomies        
         // Get the list of all the taxonomies associated with current post
-        $taxonomy_names = get_post_taxonomies( $post->ID );
+        $taxonomy_names = get_post_taxonomies( $post->ID );        
 
         $checker    = '';
         $post_terms = '';
 
           if ( $data != 'all') {
+
             $post_terms = wp_get_post_terms($post->ID, $data);           
-
-            if ( $comparison == 'equal' ) {
-                if ( $post_terms ) {
-                    $result = true;
-                }
-            }
-
-            if ( $comparison == 'not_equal') { 
-                $checker =  in_array($data, $taxonomy_names);       
-                if ( ! $checker ) {
-                    $result = true;
-                }
-            }
-            if($result==true && isset( $input['key_4'] ) && $input['key_4'] !='all'){
-                
+                                
+            if(isset( $input['key_4'] ) && $input['key_4'] !='all'){
+             
               $term_data       = $input['key_4'];
               $terms           = wp_get_post_terms( $post->ID ,$data);
-              
+              $termChoices = array();
+
               if(count($terms)>0){
-                  
-                $termChoices = array();
-                
+                                                  
                 foreach ($terms as $key => $termvalue) {
                     
                    $termChoices[] = $termvalue->slug;
                    
                  } 
                  
-              }
+              }                                                        
               
-              $result = false;
-              
+            if ( $comparison == 'equal' ) {
               if(in_array($term_data, $termChoices)){
                 $result = true;
               }
-            }//if closed for key_4
+            }
+
+            if ( $comparison == 'not_equal') { 
+              if(!in_array($term_data, $termChoices)){
+                $result = true;
+              }
+            }
+
+            }else{
+              
+              if($input['key_4'] == 'all'){
+              
+                if ( $comparison == 'equal' ) {
+                  if ( $post_terms ) {
+                      $result = true;
+                  }
+                }
+
+                if ( $comparison == 'not_equal') { 
+                  if ( !$post_terms ) {
+                    $result = true;
+                  }
+                }
+
+              }else{
+
+                if ( $comparison == 'equal' ) {
+                  if ( $post_terms ) {
+                      $result = true;
+                  }
+                }
+
+                if ( $comparison == 'not_equal') { 
+                    $checker =  in_array($data, $taxonomy_names);       
+                    if ( ! $checker ) {
+                        $result = true;
+                    }
+                }
+
+              }
+                
+            }
 
           } else {
 

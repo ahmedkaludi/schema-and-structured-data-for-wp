@@ -133,7 +133,9 @@ class saswp_output_compatibility{
         
        
    }
-
+    public function saswp_myhome_override(){                    
+   
+    }
     public function saswp_soledad_override(){
             
          saswp_remove_anonymous_object_filter_or_action(
@@ -144,6 +146,9 @@ class saswp_output_compatibility{
         );
         
     }
+    public function saswp_classipress_override(){
+        add_filter( 'appthemes_schema_output', '__return_false');                
+   }
     public function saswp_ampwp_override(){                 
         add_action( 'template_redirect', array($this, 'saswp_ampwp_override_full'),99);                
     }
@@ -171,6 +176,13 @@ class saswp_output_compatibility{
                         
         add_filter('easy_testimonials_json_ld', '__return_false'); 
                         
+    }
+    public function saswp_all_in_one_event_calendar_override(){                                                        
+    }
+    public function saswp_stachethemes_event_calendar_override(){                                                        
+    }
+    public function saswp_event_on_override(){ 
+        
     }
     public function saswp_wordpress_news_override(){                                                        
     }
@@ -367,6 +379,9 @@ class saswp_output_compatibility{
     public function cooked_on_activation(){
          $this->saswp_update_option_on_compatibility_activation('saswp-cooked');
     }
+    public function all_in_one_event_calendar_on_activation(){
+        $this->saswp_update_option_on_compatibility_activation('saswp-all-in-one-event-calendar');
+    }
     public function the_events_calendar_on_activation(){
          $this->saswp_update_option_on_compatibility_activation('saswp-the-events-calendar');
     }
@@ -453,6 +468,9 @@ class saswp_output_compatibility{
     }
     public function wp_event_aggregator_on_activation(){
          $this->saswp_update_option_on_compatibility_activation('saswp-wp-event-aggregator');
+    }
+    public function stachethemes_event_calendar_on_activation(){
+        $this->saswp_update_option_on_compatibility_activation('saswp-stachethemes-event-calendar');
     }
     public function easy_recipe_on_activation(){
          $this->saswp_update_option_on_compatibility_activation('saswp-easy-recipe');

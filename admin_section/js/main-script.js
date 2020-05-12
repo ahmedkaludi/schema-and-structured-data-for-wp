@@ -927,6 +927,33 @@ return false;
                               $("#saswp-wpresidence").val(0);           
                             }
                       break;
+
+                      case 'saswp-myhome-checkbox':
+                          saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-myhome").val(1);             
+                            }else{
+                              $("#saswp-myhome").val(0);           
+                            }
+                      break;
+
+                      case 'saswp-realestate-5-checkbox':
+                          saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-realestate-5").val(1);             
+                            }else{
+                              $("#saswp-realestate-5").val(0);           
+                            }
+                      break;
+
+                      case 'saswp-classipress-checkbox':
+                          saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-classipress").val(1);             
+                            }else{
+                              $("#saswp-classipress").val(0);           
+                            }
+                      break;
                       
                       case 'saswp-realhomes-checkbox':
                           saswp_compatibliy_notes(current, id); 
@@ -943,6 +970,15 @@ return false;
                               $("#saswp-learn-press").val(1);             
                             }else{
                               $("#saswp-learn-press").val(0);           
+                            }
+                      break;
+
+                      case 'saswp-wplms-checkbox':
+                          saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-wplms").val(1);             
+                            }else{
+                              $("#saswp-wplms").val(0);           
                             }
                       break;
                       
@@ -1310,6 +1346,34 @@ return false;
                               $("#saswp-wp-event-aggregator").val(0);                                          
                             }
                             
+                      break;
+
+                      case 'saswp-stachethemes-event-calendar-checkbox':
+                           saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-stachethemes-event-calendar").val(1);                                
+                            }else{
+                              $("#saswp-stachethemes-event-calendar").val(0);                                          
+                            }
+                            
+                      break;
+
+                      case 'saswp-all-in-one-event-calendar-checkbox':
+                           saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-all-in-one-event-calendar").val(1);                                
+                            }else{
+                              $("#saswp-all-in-one-event-calendar").val(0);                                          
+                            }                            
+                      break;
+
+                       case 'saswp-event-on-checkbox':
+                           saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-event-on").val(1);                                
+                            }else{
+                              $("#saswp-event-on").val(0);                                          
+                            }                            
                       break;
                       
                       case 'saswp-easy-recipe-checkbox':

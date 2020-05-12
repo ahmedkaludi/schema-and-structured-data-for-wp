@@ -1572,7 +1572,104 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
 
                     );
                     break;
-                
+                    case 'RealEstateListing':                                                                                                            
+                        
+                        $meta_field = array(
+                        array(
+                                'label'   => 'Date Posted',
+                                'id'      => 'saswp_real_estate_listing_date_posted_'.$schema_id,
+                                'type'    => 'text', 
+                                'default' => get_the_date("Y-m-d")                                
+                        ),    
+                        array(
+                                'label'   => 'Name',
+                                'id'      => 'saswp_real_estate_listing_name_'.$schema_id,
+                                'type'    => 'text', 
+                                'default' => saswp_get_the_title()                                
+                        ),
+                        array(
+                                'label'   => 'URL',
+                                'id'      => 'saswp_real_estate_listing_url_'.$schema_id,
+                                'type'    => 'text',     
+                                'default' => get_permalink()
+                        ),    
+                        array(
+                                'label'   => 'Description',
+                                'id'      => 'saswp_real_estate_listing_description_'.$schema_id,
+                                'type'    => 'textarea', 
+                                'default' => get_the_excerpt()
+                        ), 
+                        array(
+                                'label'    => 'Image',
+                                'id'       => 'saswp_real_estate_listing_image_'.$schema_id,
+                                'type'     => 'media',                           
+                         ),                        
+                            array(
+                                'label'   => 'Price',
+                                'id'      => 'saswp_real_estate_listing_price_'.$schema_id,
+                                'type'    => 'text'                                
+                         ),
+                         array(
+                                'label'   => 'Currency',
+                                'id'      => 'saswp_real_estate_listing_currency_'.$schema_id,
+                                'type'    => 'text'                                
+                          ),
+                            array(
+                                'label'   => 'Price Valid From',
+                                'id'      => 'saswp_real_estate_listing_validfrom_'.$schema_id,
+                                'type'    => 'text'                                
+                           ),                            
+                            array(
+                                'label'   => 'Availability',
+                                'id'      => 'saswp_real_estate_listing_availability_'.$schema_id,
+                                'type'    => 'select',                            
+                                'options' => array(
+                                         'InStock'           => 'In Stock',
+                                         'OutOfStock'        => 'Out Of Stock',
+                                         'Discontinued'      => 'Discontinued',
+                                         'PreOrder'          => 'Pre Order', 
+                                )                                
+                                ), 
+                                array(
+                                        'label' => 'Location Name',
+                                        'id' => 'saswp_real_estate_listing_location_name_'.$schema_id,
+                                        'type' => 'text',                                
+                                ),
+                                array(
+                                        'label' => 'Location Street Address',
+                                        'id' => 'saswp_real_estate_listing_streetaddress_'.$schema_id,
+                                        'type' => 'text',                                
+                                ),
+                                array(
+                                        'label' => 'Location Locality',
+                                        'id' => 'saswp_real_estate_listing_locality_'.$schema_id,
+                                        'type' => 'text',                                
+                                ),
+                                array(
+                                        'label' => 'Location Region',
+                                        'id' => 'saswp_real_estate_listing_region_'.$schema_id,
+                                        'type' => 'text',                                
+                                ),
+                                array(
+                                        'label' => 'Location PostalCode',
+                                        'id' => 'saswp_real_estate_listing_postalcode_'.$schema_id,
+                                        'type' => 'text',                                
+                                ),
+                                array(
+                                        'label' => 'Location Country',
+                                        'id'    => 'saswp_real_estate_listing_country_'.$schema_id,
+                                        'type'  => 'text',                                
+                                ),
+                                array(
+                                        'label' => 'Location Phone',
+                                        'id'    => 'saswp_real_estate_listing_phone_'.$schema_id,
+                                        'type'  => 'text',                                
+                                )                                                                                
+                            
+                        );
+                        
+                        break;
+
                 case 'Product':                
                     
                     $product_details = array();

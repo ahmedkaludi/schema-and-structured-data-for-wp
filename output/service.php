@@ -1201,8 +1201,9 @@ Class saswp_output_service{
                             $reviews_arr['name']   = $custom_fields['saswp_event_schema_virtual_location_name'];
                             $vir_location['url']   = $custom_fields['saswp_event_schema_virtual_location_url'];
                     }                                        
-                    
-                    $input1['location'] = array($vir_location, $phy_location);
+                    if($vir_location || $phy_location){
+                        $input1['location'] = array($vir_location, $phy_location);
+                    }                    
 
                     if(isset($custom_fields['saswp_event_schema_status'])){
                         $input1['eventStatus'] = $custom_fields['saswp_event_schema_status'];
@@ -1601,6 +1602,58 @@ Class saswp_output_service{
                     }
                                                             
                     break;
+
+                    case 'RealEstateListing':                                                                                                  
+                        if(isset($custom_fields['saswp_real_estate_listing_date_posted'])){
+                            $input1['datePosted'] =    $custom_fields['saswp_real_estate_listing_date_posted'];
+                        }
+                        if(isset($custom_fields['saswp_real_estate_listing_name'])){
+                         $input1['name'] =    $custom_fields['saswp_real_estate_listing_name'];
+                        }
+                        if(isset($custom_fields['saswp_real_estate_listing_url'])){
+                         $input1['url'] =    $custom_fields['saswp_real_estate_listing_url'];
+                        }                                                
+                        if(isset($custom_fields['saswp_real_estate_listing_description'])){
+                         $input1['description'] =    $custom_fields['saswp_real_estate_listing_description'];
+                        }
+                        if(isset($custom_fields['saswp_real_estate_listing_image'])){
+                         $input1['image'] =    $custom_fields['saswp_real_estate_listing_image'];
+                        }                        
+                        if(isset($custom_fields['saswp_real_estate_listing_availability'])){
+                         $input1['offers']['availability'] =    $custom_fields['saswp_real_estate_listing_availability'];                         
+                        }
+                        if(isset($custom_fields['saswp_real_estate_listing_price'])){
+                         $input1['offers']['price'] =    $custom_fields['saswp_real_estate_listing_price'];                                                                                                
+                        }
+                        if(isset($custom_fields['saswp_real_estate_listing_currency'])){
+                         $input1['offers']['priceCurrency'] =    $custom_fields['saswp_real_estate_listing_currency'];                         
+                        }
+                        if(isset($custom_fields['saswp_real_estate_listing_validfrom'])){
+                         $input1['offers']['validfrom'] =    $custom_fields['saswp_real_estate_listing_validfrom'];                         
+                        }                                                                                          
+                        
+                        $location = array();
+                        
+                        if(isset($custom_fields['saswp_real_estate_listing_location_name'])){
+
+                            $location = array(
+                                '@type' => 'Place',
+                                'name' => $custom_fields['saswp_real_estate_listing_location_name'],                                                               
+                                'telephone' => $custom_fields['saswp_real_estate_listing_location_name'],                                
+                                'address' => array(
+                                            '@type' => 'PostalAddress',
+                                            'streetAddress'   => $custom_fields['saswp_real_estate_listing_streetaddress'],
+                                            'addressLocality' => $custom_fields['saswp_real_estate_listing_locality'],
+                                            'addressRegion'   => $custom_fields['saswp_real_estate_listing_region'],
+                                            'addressCountry'   => $custom_fields['saswp_real_estate_listing_country'],
+                                            'postalCode'      => $custom_fields['saswp_real_estate_listing_postalcode'],  
+                                ),
+                            );
+
+                            $input1['contentLocation'] = $location;
+                        }
+
+                        break;    
                 
                 case 'Service':
                     if(isset($custom_fields['saswp_service_schema_name'])){
@@ -2811,21 +2864,41 @@ Class saswp_output_service{
                         $product_details['product_average_rating'] = $sumofrating /  count($judge_me_post);
                     }
                  
-             }else if($reviews){
+             }else if( $reviews && is_array($reviews) ){
+
+              $sumofrating = 0;
+              $avg_rating  = 1;
                                   
              foreach($reviews as $review){                 
-                 
+                
+                $rating = get_comment_meta( $review->comment_ID, 'rating', true ) ? get_comment_meta( $review->comment_ID, 'rating', true ) : '5';
+
+                $sumofrating += $rating;
+                
                  $reviews_arr[] = array(
                      'author'        => $review->comment_author ? $review->comment_author : 'Anonymous' ,
                      'datePublished' => $review->comment_date,
                      'description'   => wp_strip_all_tags(strip_shortcodes($review->comment_content)),
-                     'reviewRating'  => get_comment_meta( $review->comment_ID, 'rating', true ) ? get_comment_meta( $review->comment_ID, 'rating', true ) : '5',
+                     'reviewRating'  => $rating,
                  );
                  
              }   
+
+             if($sumofrating> 0){
+                $avg_rating = $sumofrating /  count($reviews); 
+             }
              
-             $product_details['product_review_count']   = $product->get_review_count();
-             $product_details['product_average_rating'] = $product->get_average_rating();             
+             if($product->get_review_count()){
+                $product_details['product_review_count']   = $product->get_review_count();
+             }else{
+                $product_details['product_review_count']   = count($reviews);
+             }
+
+             if($product->get_average_rating()){
+                $product_details['product_average_rating'] = $product->get_average_rating();             
+             }else{
+                $product_details['product_average_rating'] = $avg_rating;             
+             }             
              
              }else{
                  

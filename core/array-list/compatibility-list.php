@@ -10,6 +10,12 @@ return array(
             'opt_name'   => 'saswp-yet-another-stars-rating',
             'part_in'    => 'free',
         ),
+        'stachethemes_event_calendar'  =>  array(            
+            'name'       => 'Stachethemes Event Calendar',
+            'free'       => 'stachethemes_event_calendar/stachethemes_event_calendar.php',                    
+            'opt_name'   => 'saswp-stachethemes-event-calendar',
+            'part_in'    => 'pro',
+        ),
         'wp_customer_reviews'  =>  array(            
                     'name'       => 'WP Customer Reviews',
                     'free'       => 'wp-customer-reviews/wp-customer-reviews-3.php',                    
@@ -41,6 +47,19 @@ return array(
                     'pro'        => 'easyrecipe-pro/easyrecipe-pro.php', 
                     'opt_name'   => 'saswp-easy-recipe',
                     'part_in'    => 'pro',
+        ),
+        'all_in_one_event_calendar'  =>  array(            
+            'name'       => 'All In One Event Calendar',
+            'free'       => 'all-in-one-event-calendar/all-in-one-event-calendar.php', 
+            'pro'        => 'all-in-one-event-calendar/all-in-one-event-calendar.php', 
+            'opt_name'   => 'saswp-all-in-one-event-calendar',
+            'part_in'    => 'pro',
+        ),
+        'event_on'  =>  array(            
+            'name'       => 'Event On',
+            'free'       => 'eventON/eventon.php',             
+            'opt_name'   => 'saswp-event-on',
+            'part_in'    => 'pro',
         ),
         'wp_event_aggregator'  =>  array(            
                     'name'       => 'WP Event Aggregator',
@@ -316,6 +335,12 @@ return array(
                     'free'       => 'soledad',               
                     'opt_name'   => 'saswp-soledad',
                     'part_in'    => 'free',
+        ),  
+        'wplms' => array(            
+            'name'       => 'WPLMS',
+            'free'       => 'wplms',               
+            'opt_name'   => 'saswp-wplms',
+            'part_in'    => 'pro',
         ),        
         'extra' => array(            
                     'name'       => 'Extra',
@@ -328,6 +353,24 @@ return array(
                     'free'       => 'homeland',               
                     'opt_name'   => 'saswp-homeland',
                     'part_in'    => 'pro',
+        ),
+        'myhome' => array(            
+            'name'       => 'My Home Theme',
+            'free'       => 'myhome',               
+            'opt_name'   => 'saswp-myhome',
+            'part_in'    => 'pro',
+        ),
+        'classipress' => array(            
+            'name'       => 'ClassiPress',
+            'free'       => 'classipress',               
+            'opt_name'   => 'saswp-classipress',
+            'part_in'    => 'pro',
+        ),
+        'realestate_5' => array(            
+            'name'       => 'WP Pro Realestate 5',
+            'free'       => 'realestate-5',               
+            'opt_name'   => 'saswp-realestate-5',
+            'part_in'    => 'pro',
         ),
         'saswp_realhomes' => array(            
                     'name'       => 'RealHomes Theme',

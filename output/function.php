@@ -75,14 +75,14 @@ function saswp_wp_hook_operation(){
 
 function saswp_schema_markup_output_in_buffer($content){
     
-    global $saswp_post_reviews, $saswp_elementor_faq, $saswp_divi_faq, $saswp_elementor_howto;
+    global $saswp_post_reviews, $saswp_elementor_faq, $saswp_divi_faq, $saswp_elementor_howto, $saswp_evo_json_ld;
      
     if(!$saswp_divi_faq){
         $regex = "<script type='text/javascript' src='".SASWP_PLUGIN_URL."modules/divi-builder/scripts/frontend-bundle.min.js?ver=1.0.0'></script>";
         $content = str_replace($regex, '', $content);
     }
      
-     if($saswp_post_reviews || $saswp_elementor_faq || $saswp_divi_faq || $saswp_elementor_howto){
+     if($saswp_post_reviews || $saswp_elementor_faq || $saswp_divi_faq || $saswp_elementor_howto || $saswp_evo_json_ld){
      
             $saswp_json_ld =  saswp_get_all_schema_markup_output();  
      
@@ -131,6 +131,8 @@ function saswp_schema_markup_output(){
  */
 function saswp_get_all_schema_markup_output() {
        
+        saswp_update_global_post();
+
         global $sd_data;
         global $post;
         
@@ -805,7 +807,7 @@ function saswp_extract_wp_post_ratings(){
                 
             }                        
        }       
-       
+
 /**
  * Gets all the comments of current post
  * @param type $post_id
@@ -813,67 +815,135 @@ function saswp_extract_wp_post_ratings(){
  */       
 function saswp_get_comments($post_id){
     
-        global $sd_data;
-        
-        $comments = array();
-        $post_comments = array();   
-        
-        $is_bbpress = false;
-        
-        if(isset($sd_data['saswp-bbpress']) && $sd_data['saswp-bbpress'] == 1 && get_post_type($post_id) == 'topic'){
-            $is_bbpress = true;
-        }
-       
-        if($is_bbpress){  
-                                         
-                  $replies_query = array(                   
-                     'post_type'      => 'reply',                     
-                  );                
-                                  
-                 if ( bbp_has_replies( $replies_query ) ) :
-                     
-			while ( bbp_replies() ) : bbp_the_reply();
+    global $sd_data;
+    
+    $comments = array();
+    $post_comments = array();   
+    
+    $is_bbpress = false;
+    
+    if(isset($sd_data['saswp-bbpress']) && $sd_data['saswp-bbpress'] == 1 && get_post_type($post_id) == 'topic'){
+        $is_bbpress = true;
+    }
+   
+    if($is_bbpress){  
+                                     
+              $replies_query = array(                   
+                 'post_type'      => 'reply',                     
+              );                
+                              
+             if ( bbp_has_replies( $replies_query ) ) :
+                 
+        while ( bbp_replies() ) : bbp_the_reply();
 
-                        $post_comments[] = (object) array(                            
-                                        'comment_date'           => get_post_time( DATE_ATOM, false, bbp_get_reply_id(), true ),
-                                        'comment_content'        => bbp_get_reply_content(),
-                                        'comment_author'         => bbp_get_reply_author(),
-                                        'comment_author_url'     => bbp_get_reply_author_url(),
-                        );
-                                                                                     
-		        endwhile;
-                        wp_reset_postdata();                                                  
-	                endif;
-                                            
-        }else{            
-                        $post_comments = get_comments( array( 
-                                            'post_id' => $post_id,                                            
-                                            'status'  => 'approve',
-                                            'type'    => 'comment' 
-                                        ) 
-                                    );   
-                                    
-        }                                                                                                                                                                                          
+                    $post_comments[] = (object) array(                            
+                                    'comment_date'           => get_post_time( DATE_ATOM, false, bbp_get_reply_id(), true ),
+                                    'comment_content'        => bbp_get_reply_content(),
+                                    'comment_author'         => bbp_get_reply_author(),
+                                    'comment_author_url'     => bbp_get_reply_author_url(),
+                    );
+                                                                                 
+            endwhile;
+                    wp_reset_postdata();                                                  
+                endif;
+                                        
+    }else{            
+                    $post_comments = get_comments( array( 
+                                        'post_id' => $post_id,                                            
+                                        'status'  => 'approve',
+                                        'type'    => 'comment' 
+                                    ) 
+                                );   
+                                
+    }                                                                                                                                                                                          
+      
+    if ( count( $post_comments ) ) {
+        
+    foreach ( $post_comments as $comment ) {
+                
+        $comments[] = array (
+                '@type'       => 'Comment',
+                'dateCreated' => $is_bbpress ? $comment->comment_date : saswp_format_date_time($comment->comment_date),
+                'description' => strip_tags($comment->comment_content),
+                'author'      => array (
+                                                '@type' => 'Person',
+                                                'name'  => esc_attr($comment->comment_author),
+                                                'url'   => isset($comment->comment_author_url) ? esc_url($comment->comment_author_url): '',
+                    ),
+        );
+    }
+            
+    return apply_filters( 'saswp_filter_comments', $comments );
+}
+    
+}       
+/**
+ * Gets all the comments of current post
+ * @param type $post_id
+ * @return type array
+ */       
+function saswp_get_comments_with_rating(){
+    
+        global $sd_data, $post;
+        
+        $comments      = array();
+        $ratings       = array();
+        $post_comments = array();   
+        $response      = array();
+               
+        $post_comments = get_comments( array( 
+            'post_id' => $post->ID,                                            
+            'status'  => 'approve',
+            'type'    => 'comment' 
+        ) 
+      );                                                                                                                                                                              
           
         if ( count( $post_comments ) ) {
+
+        $sumofrating = 0;
+        $avg_rating  = 1;
             
-		foreach ( $post_comments as $comment ) {
-                    
+		foreach ( $post_comments as $comment ) {                        
+
+            $rating = get_comment_meta($comment->comment_ID, 'review_rating', true);
+
+            $sumofrating += $rating;
+
 			$comments[] = array (
-					'@type'       => 'Comment',
-					'dateCreated' => $is_bbpress ? $comment->comment_date : saswp_format_date_time($comment->comment_date),
-					'description' => strip_tags($comment->comment_content),
-					'author'      => array (
-                                                    '@type' => 'Person',
-                                                    'name'  => esc_attr($comment->comment_author),
-                                                    'url'   => isset($comment->comment_author_url) ? esc_url($comment->comment_author_url): '',
-				        ),
+					'@type'         => 'Review',
+					'datePublished' => saswp_format_date_time($comment->comment_date),
+					'description'   => strip_tags($comment->comment_content),
+					'author'        => array (
+                                            '@type' => 'Person',
+                                            'name'  => esc_attr($comment->comment_author),
+                                            'url'   => isset($comment->comment_author_url) ? esc_url($comment->comment_author_url): '',
+                                    ),
+                    'reviewRating'  => array(
+                            '@type'	        => 'Rating',
+                            'bestRating'	=> '5',
+                            'ratingValue'	=> $rating,
+                            'worstRating'	=> '1',
+               )
 			);
-		}
-                
-		return apply_filters( 'saswp_filter_comments', $comments );
-	}
+        }
         
+        if($sumofrating> 0){
+            $avg_rating = $sumofrating /  count($comments); 
+        }
+        
+        $ratings =  array(
+                '@type'         => 'AggregateRating',
+                'ratingValue'	=> $avg_rating,
+                'reviewCount'   => count($comments)
+        );
+                		
+    }
+
+    if($comments){
+        $response = array('reviews' => $comments, 'ratings' => $ratings);
+    }
+    
+    return apply_filters( 'saswp_filter_comments_with_rating',  $response);        
 }       
 
 /**
@@ -1062,6 +1132,10 @@ function saswp_remove_microdata($content){
             $content = preg_replace("/<script type\=\'application\/ld\+json\' class\=\'wpnews-schema-graph(.*?)'\>(.*?)<\/script>/s", "", $content);
         }
 
+        
+        if(isset($sd_data['saswp-event-on']) && $sd_data['saswp-event-on'] == 1 ){
+            $content = preg_replace("/<div class\=\"evo_event_schema\"(.*?)>(.*?)<\/script><\/div>/s", "", $content);
+        }
 
         if(function_exists('review_child_company_reviews_comments') && isset($sd_data['saswp-wp-theme-reviews']) && $sd_data['saswp-wp-theme-reviews'] == 1){
 
@@ -2255,26 +2329,12 @@ function saswp_get_loop_markup($i) {
         $site_name = get_bloginfo();    
     }
 
-    $service_object     = new saswp_output_service();
-    $logo               = $service_object->saswp_get_publisher(true);   
-
     $schema_properties = array();
 
-    $image_id 		        = get_post_thumbnail_id();                                                                
-    $archive_image 	        = saswp_get_image_by_id($image_id);  
-    
-    if(!empty($archive_image)){
-        
-        if(isset($sd_data['sd_default_image'])){
-            
-            $archive_image['@type']  = 'ImageObject';
-            $archive_image['url']    = isset($sd_data['sd_default_image']['url']) ? esc_url($sd_data['sd_default_image']['url']):'';
-            $archive_image['width']  = esc_attr($sd_data['sd_default_image_width']);
-            $archive_image['height'] = esc_attr($sd_data['sd_default_image_height']);                                  
-        }
-                                            
-    }
-                                    
+    $service_object     = new saswp_output_service();
+    $logo               = $service_object->saswp_get_publisher(true);   
+    $feature_image      = $service_object->saswp_get_fetaure_image();             
+                                                                                                      
     $publisher_info['type']           = 'Organization';                                
     $publisher_info['name']           = esc_attr($site_name);
     $publisher_info['logo']['@type']  = 'ImageObject';
@@ -2290,9 +2350,9 @@ function saswp_get_loop_markup($i) {
     $schema_properties['mainEntityOfPage'] = get_the_permalink();
     $schema_properties['author']           = get_the_author();
     $schema_properties['publisher']        = $publisher_info;                                
-                                                                    
-    if(!empty($archive_image['url'])){                                
-        $schema_properties['image']            = $archive_image;                                    
+      
+    if(!empty($feature_image)){                            
+        $schema_properties = array_merge($schema_properties, $feature_image);        
     }
 
     $itemlist_arr = array(

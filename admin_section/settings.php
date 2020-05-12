@@ -1863,7 +1863,19 @@ function saswp_compatibility_page_callback(){
                                 'id'   => 'saswp-tevolution-events',
                                 'name' => 'sd_data[saswp-tevolution-events]',                             
                         )
-		);
+                );
+        $stachethemes_events = array(
+                'label'  => 'Stachethemes Event Calendar',
+                'id'     => 'saswp-stachethemes-event-calendar-checkbox',                        
+                'name'   => 'saswp-stachethemes-event-calendar-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('stachethemes_event_calendar'),
+                'hidden' => array(
+                        'id'   => 'saswp-stachethemes-event-calendar',
+                        'name' => 'sd_data[saswp-stachethemes-event-calendar]',                             
+                )
+        );        
         $wp_event_aggregator = array(
 			'label'  => 'WP Event Aggregator',
 			'id'     => 'saswp-wp-event-aggregator-checkbox',                        
@@ -1875,7 +1887,31 @@ function saswp_compatibility_page_callback(){
                                 'id'   => 'saswp-wp-event-aggregator',
                                 'name' => 'sd_data[saswp-wp-event-aggregator]',                             
                         )
-		);
+        );
+        $all_in_one_event_calendar = array(
+                'label'  => 'All In One Event Calendar',
+                'id'     => 'saswp-all-in-one-event-calendar-checkbox',                        
+                'name'   => 'saswp-all-in-one-event-calendar-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('all_in_one_event_calendar'),
+                'hidden' => array(
+                        'id'   => 'saswp-all-in-one-event-calendar',
+                        'name' => 'sd_data[saswp-all-in-one-event-calendar]',                             
+                )
+        ); 
+        $event_on = array(
+                'label'  => 'Event On',
+                'id'     => 'saswp-event-on-checkbox',                        
+                'name'   => 'saswp-event-on-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('event_on'),
+                'hidden' => array(
+                        'id'   => 'saswp-event-on',
+                        'name' => 'sd_data[saswp-event-on]',                             
+                )
+        );        
         $betteramp = array(
 			'label'  => 'Better AMP',
 			'id'     => 'saswp-betteramp-checkbox',                        
@@ -1973,7 +2009,45 @@ function saswp_compatibility_page_callback(){
                                 'id'   => 'saswp-wpresidence',
                                 'name' => 'sd_data[saswp-wpresidence]',                             
                         )
-		);
+                );
+        $myhome = array(
+                'label'  => 'My Home Theme',
+                'id'     => 'saswp-myhome-checkbox',                        
+                'name'   => 'saswp-myhome-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('myhome'),
+                'hidden' => array(
+                        'id'   => 'saswp-myhome',
+                        'name' => 'sd_data[saswp-myhome]',                             
+                )
+        ); 
+
+        $classipress = array(
+                'label'  => 'ClassiPress',
+                'id'     => 'saswp-classipress-checkbox',                        
+                'name'   => 'saswp-classipress-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('classipress'),
+                'hidden' => array(
+                        'id'   => 'saswp-classipress',
+                        'name' => 'sd_data[saswp-classipress]',                             
+                )
+        ); 
+        
+        $realestate_5 = array(
+                'label'  => 'WP Pro Real Estate 5',
+                'id'     => 'saswp-realestate-5-checkbox',                        
+                'name'   => 'saswp-realestate-5-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('realestate_5'),
+                'hidden' => array(
+                        'id'   => 'saswp-realestate-5',
+                        'name' => 'sd_data[saswp-realestate-5]',                             
+                )
+        ); 
         
         $learn_press = array(
 			'label'  => 'LearnPress',
@@ -1999,7 +2073,19 @@ function saswp_compatibility_page_callback(){
                                 'id'   => 'saswp-learn-dash',
                                 'name' => 'sd_data[saswp-learn-dash]',                             
                 )
-	);
+        );
+        $wplms = array(
+                'label'  => 'WPLMS',
+                'id'     => 'saswp-wplms-checkbox',                        
+                'name'   => 'saswp-wplms-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',  
+                'note'   => saswp_get_field_note('wplms'),
+                'hidden' => array(
+                        'id'   => 'saswp-wplms',
+                        'name' => 'sd_data[saswp-wplms]',                             
+        )
+        );
         
         $lifter_lms = array(
 			'label'  => 'LifterLMS',
@@ -2468,7 +2554,10 @@ function saswp_compatibility_page_callback(){
                           
              $homeland_theme['note'] = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/extensions/">Real Estate Schema Addon</a>';
              $real_homes['note']     = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/extensions/">Real Estate Schema Addon</a>';
-             $wpresidence['note']   = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/extensions/">Real Estate Schema Addon</a>';
+             $wpresidence['note']    = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/extensions/">Real Estate Schema Addon</a>';
+             $myhome['note']         = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/extensions/">Real Estate Schema Addon</a>';
+             $realestate_5['note']   = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/extensions/">Real Estate Schema Addon</a>';
+             $classipress['note']   = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/extensions/">Real Estate Schema Addon</a>';
              
              
          }
@@ -2478,6 +2567,7 @@ function saswp_compatibility_page_callback(){
              $learn_press['note'] = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/course-schema/">Course Schema Addon</a>';
              $learn_dash['note']  = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/course-schema/">Course Schema Addon</a>';
              $lifter_lms['note']  = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/course-schema/">Course Schema Addon</a>';
+             $wplms['note']  = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/course-schema/">Course Schema Addon</a>';
              
          }
          
@@ -2491,6 +2581,9 @@ function saswp_compatibility_page_callback(){
              $modern_events_calendar['note']      = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';
              $tevolution_events['note']           = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';               
              $wp_event_aggregator['note']         = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';               
+             $stachethemes_events['note']         = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';               
+             $all_in_one_event_calendar['note']   = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';               
+             $event_on['note']                    = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';               
              
          }
          
@@ -2546,9 +2639,13 @@ function saswp_compatibility_page_callback(){
                 $homeland_theme,
                 $real_homes,
                 $wpresidence,
+                $myhome,
+                $classipress,
+                $realestate_5,
                 $learn_press,
                 $learn_dash,
                 $lifter_lms,
+                $wplms,
                 $the_events_calendar,
                 $wp_event_manager,
                 $events_manager,
@@ -2557,6 +2654,9 @@ function saswp_compatibility_page_callback(){
                 $modern_events_calendar,
                 $tevolution_events,
                 $wp_event_aggregator,
+                $all_in_one_event_calendar,
+                $event_on,
+                $stachethemes_events,
                 $easy_testimonials,
                 $bne_testimonials,
                 $testimonial_pro,

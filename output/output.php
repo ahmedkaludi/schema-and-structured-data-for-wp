@@ -1234,7 +1234,30 @@ function saswp_schema_output() {
                                 }
 			                                
                             break;
-                        
+
+                            case 'RealEstateListing':
+
+                                $input1 = array(
+                                    '@context'			=> saswp_context_url(),
+                                    '@type'				=> 'RealEstateListing',
+                                    '@id'                           => trailingslashit(saswp_get_permalink()).'#RealEstateListing',        
+                                    'url'				=> trailingslashit(saswp_get_permalink()),
+                                    'name'			=> saswp_get_the_title(),
+                                    'datePosted'                 => esc_html($date),                                    
+                                    'description'                   => $description,                                    
+                                    );
+                                	                                                                                                                                                                                                                                                                                                  
+                                $input1 = apply_filters('saswp_modify_real_estate_listing_schema_output', $input1 );
+                                
+                                $input1 = saswp_get_modified_markup($input1, $schema_type, $schema_post_id, $schema_options);
+                                
+                                if($modified_schema == 1){
+                                    
+                                    $input1 = saswp_real_estate_listing_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
+                                }
+			
+                            break;
+
                             case 'Product':
                                 	                                                                                                
                                 $input1 = $service_object->saswp_schema_markup_generator($schema_type);
@@ -1528,13 +1551,13 @@ function saswp_schema_output() {
                                     $local_business = 'LocalBusiness';
                                 } 
                                 
-				$input1 = array(
-                                    '@context'                          => saswp_context_url(),
-                                    '@type'				=> esc_attr($local_business),
-                                    '@id'                               => trailingslashit(saswp_get_permalink()).'#'. strtolower(esc_attr($local_business)),                                            
-                                    'url'				=> trailingslashit(saswp_get_permalink()),	
-                                    'name'				=> get_bloginfo( 'name' )							
-				);  
+                                $input1 = array(
+                                                    '@context'                          => saswp_context_url(),
+                                                    '@type'				=> esc_attr($local_business),
+                                                    '@id'                               => trailingslashit(saswp_get_permalink()).'#'. strtolower(esc_attr($local_business)),                                            
+                                                    'url'				=> trailingslashit(saswp_get_permalink()),	
+                                                    'name'				=> get_bloginfo( 'name' )							
+                                );  
                                                                              
                                     if(!empty($aggregateRating)){
                                     $input1['aggregateRating'] = $aggregateRating;
@@ -1551,8 +1574,11 @@ function saswp_schema_output() {
                                     
                                     if($modified_schema == 1){
                                     
-                                    $input1 = saswp_local_business_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
-                                }
+                                      $input1 = saswp_local_business_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
+
+                                    }
+
+                                    $input1['@type'] = $local_business;
                                 
                             break;
                             
@@ -2112,7 +2138,20 @@ function saswp_archive_output(){
            }
         }   
 
-        if( is_home() || is_front_page() || ( function_exists('ampforwp_is_home') && ampforwp_is_home() )  ){
+        $homepage = false;
+        
+        if(saswp_non_amp()){
+            
+            if(is_home()){
+                $homepage = true;
+            }
+        }else{
+            if(function_exists('ampforwp_is_home') && ampforwp_is_home()){            
+                $homepage = true;
+            }
+        }
+
+        if( $homepage ){
             
             $i = 1;
             if ( have_posts() ):
