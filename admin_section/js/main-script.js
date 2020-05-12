@@ -972,6 +972,15 @@ return false;
                               $("#saswp-learn-press").val(0);           
                             }
                       break;
+
+                      case 'saswp-wplms-checkbox':
+                          saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-wplms").val(1);             
+                            }else{
+                              $("#saswp-wplms").val(0);           
+                            }
+                      break;
                       
                       case 'saswp-learn-dash-checkbox':
                           saswp_compatibliy_notes(current, id); 

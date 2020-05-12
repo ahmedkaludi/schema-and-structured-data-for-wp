@@ -807,7 +807,7 @@ function saswp_extract_wp_post_ratings(){
                 
             }                        
        }       
-       
+
 /**
  * Gets all the comments of current post
  * @param type $post_id
@@ -815,67 +815,135 @@ function saswp_extract_wp_post_ratings(){
  */       
 function saswp_get_comments($post_id){
     
-        global $sd_data;
-        
-        $comments = array();
-        $post_comments = array();   
-        
-        $is_bbpress = false;
-        
-        if(isset($sd_data['saswp-bbpress']) && $sd_data['saswp-bbpress'] == 1 && get_post_type($post_id) == 'topic'){
-            $is_bbpress = true;
-        }
-       
-        if($is_bbpress){  
-                                         
-                  $replies_query = array(                   
-                     'post_type'      => 'reply',                     
-                  );                
-                                  
-                 if ( bbp_has_replies( $replies_query ) ) :
-                     
-			while ( bbp_replies() ) : bbp_the_reply();
+    global $sd_data;
+    
+    $comments = array();
+    $post_comments = array();   
+    
+    $is_bbpress = false;
+    
+    if(isset($sd_data['saswp-bbpress']) && $sd_data['saswp-bbpress'] == 1 && get_post_type($post_id) == 'topic'){
+        $is_bbpress = true;
+    }
+   
+    if($is_bbpress){  
+                                     
+              $replies_query = array(                   
+                 'post_type'      => 'reply',                     
+              );                
+                              
+             if ( bbp_has_replies( $replies_query ) ) :
+                 
+        while ( bbp_replies() ) : bbp_the_reply();
 
-                        $post_comments[] = (object) array(                            
-                                        'comment_date'           => get_post_time( DATE_ATOM, false, bbp_get_reply_id(), true ),
-                                        'comment_content'        => bbp_get_reply_content(),
-                                        'comment_author'         => bbp_get_reply_author(),
-                                        'comment_author_url'     => bbp_get_reply_author_url(),
-                        );
-                                                                                     
-		        endwhile;
-                        wp_reset_postdata();                                                  
-	                endif;
-                                            
-        }else{            
-                        $post_comments = get_comments( array( 
-                                            'post_id' => $post_id,                                            
-                                            'status'  => 'approve',
-                                            'type'    => 'comment' 
-                                        ) 
-                                    );   
-                                    
-        }                                                                                                                                                                                          
+                    $post_comments[] = (object) array(                            
+                                    'comment_date'           => get_post_time( DATE_ATOM, false, bbp_get_reply_id(), true ),
+                                    'comment_content'        => bbp_get_reply_content(),
+                                    'comment_author'         => bbp_get_reply_author(),
+                                    'comment_author_url'     => bbp_get_reply_author_url(),
+                    );
+                                                                                 
+            endwhile;
+                    wp_reset_postdata();                                                  
+                endif;
+                                        
+    }else{            
+                    $post_comments = get_comments( array( 
+                                        'post_id' => $post_id,                                            
+                                        'status'  => 'approve',
+                                        'type'    => 'comment' 
+                                    ) 
+                                );   
+                                
+    }                                                                                                                                                                                          
+      
+    if ( count( $post_comments ) ) {
+        
+    foreach ( $post_comments as $comment ) {
+                
+        $comments[] = array (
+                '@type'       => 'Comment',
+                'dateCreated' => $is_bbpress ? $comment->comment_date : saswp_format_date_time($comment->comment_date),
+                'description' => strip_tags($comment->comment_content),
+                'author'      => array (
+                                                '@type' => 'Person',
+                                                'name'  => esc_attr($comment->comment_author),
+                                                'url'   => isset($comment->comment_author_url) ? esc_url($comment->comment_author_url): '',
+                    ),
+        );
+    }
+            
+    return apply_filters( 'saswp_filter_comments', $comments );
+}
+    
+}       
+/**
+ * Gets all the comments of current post
+ * @param type $post_id
+ * @return type array
+ */       
+function saswp_get_comments_with_rating(){
+    
+        global $sd_data, $post;
+        
+        $comments      = array();
+        $ratings       = array();
+        $post_comments = array();   
+        $response      = array();
+               
+        $post_comments = get_comments( array( 
+            'post_id' => $post->ID,                                            
+            'status'  => 'approve',
+            'type'    => 'comment' 
+        ) 
+      );                                                                                                                                                                              
           
         if ( count( $post_comments ) ) {
+
+        $sumofrating = 0;
+        $avg_rating  = 1;
             
-		foreach ( $post_comments as $comment ) {
-                    
+		foreach ( $post_comments as $comment ) {                        
+
+            $rating = get_comment_meta($comment->comment_ID, 'review_rating', true);
+
+            $sumofrating += $rating;
+
 			$comments[] = array (
-					'@type'       => 'Comment',
-					'dateCreated' => $is_bbpress ? $comment->comment_date : saswp_format_date_time($comment->comment_date),
-					'description' => strip_tags($comment->comment_content),
-					'author'      => array (
-                                                    '@type' => 'Person',
-                                                    'name'  => esc_attr($comment->comment_author),
-                                                    'url'   => isset($comment->comment_author_url) ? esc_url($comment->comment_author_url): '',
-				        ),
+					'@type'         => 'Review',
+					'datePublished' => saswp_format_date_time($comment->comment_date),
+					'description'   => strip_tags($comment->comment_content),
+					'author'        => array (
+                                            '@type' => 'Person',
+                                            'name'  => esc_attr($comment->comment_author),
+                                            'url'   => isset($comment->comment_author_url) ? esc_url($comment->comment_author_url): '',
+                                    ),
+                    'reviewRating'  => array(
+                            '@type'	        => 'Rating',
+                            'bestRating'	=> '5',
+                            'ratingValue'	=> $rating,
+                            'worstRating'	=> '1',
+               )
 			);
-		}
-                
-		return apply_filters( 'saswp_filter_comments', $comments );
-	}
+        }
         
+        if($sumofrating> 0){
+            $avg_rating = $sumofrating /  count($comments); 
+        }
+        
+        $ratings =  array(
+                '@type'         => 'AggregateRating',
+                'ratingValue'	=> $avg_rating,
+                'reviewCount'   => count($comments)
+        );
+                		
+    }
+
+    if($comments){
+        $response = array('reviews' => $comments, 'ratings' => $ratings);
+    }
+    
+    return apply_filters( 'saswp_filter_comments_with_rating',  $response);        
 }       
 
 /**

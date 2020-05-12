@@ -335,6 +335,12 @@ return array(
                     'free'       => 'soledad',               
                     'opt_name'   => 'saswp-soledad',
                     'part_in'    => 'free',
+        ),  
+        'wplms' => array(            
+            'name'       => 'WPLMS',
+            'free'       => 'wplms',               
+            'opt_name'   => 'saswp-wplms',
+            'part_in'    => 'pro',
         ),        
         'extra' => array(            
                     'name'       => 'Extra',

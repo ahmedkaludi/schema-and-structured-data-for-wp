@@ -2073,7 +2073,19 @@ function saswp_compatibility_page_callback(){
                                 'id'   => 'saswp-learn-dash',
                                 'name' => 'sd_data[saswp-learn-dash]',                             
                 )
-	);
+        );
+        $wplms = array(
+                'label'  => 'WPLMS',
+                'id'     => 'saswp-wplms-checkbox',                        
+                'name'   => 'saswp-wplms-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',  
+                'note'   => saswp_get_field_note('wplms'),
+                'hidden' => array(
+                        'id'   => 'saswp-wplms',
+                        'name' => 'sd_data[saswp-wplms]',                             
+        )
+        );
         
         $lifter_lms = array(
 			'label'  => 'LifterLMS',
@@ -2555,6 +2567,7 @@ function saswp_compatibility_page_callback(){
              $learn_press['note'] = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/course-schema/">Course Schema Addon</a>';
              $learn_dash['note']  = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/course-schema/">Course Schema Addon</a>';
              $lifter_lms['note']  = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/course-schema/">Course Schema Addon</a>';
+             $wplms['note']  = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/course-schema/">Course Schema Addon</a>';
              
          }
          
@@ -2632,6 +2645,7 @@ function saswp_compatibility_page_callback(){
                 $learn_press,
                 $learn_dash,
                 $lifter_lms,
+                $wplms,
                 $the_events_calendar,
                 $wp_event_manager,
                 $events_manager,
