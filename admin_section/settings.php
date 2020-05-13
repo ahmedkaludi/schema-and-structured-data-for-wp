@@ -2853,6 +2853,29 @@ function saswp_support_page_callback(){
 function saswp_enqueue_style_js( $hook ) { 
         
         global $saswp_metaboxes;
+
+        $translable_txt = array(
+                'attach_review'     => esc_html__( 'Attach reviews to this schema type' , 'schema-and-structured-data-for-wp' ),
+                'place_id'          => esc_html__( 'Place ID' , 'schema-and-structured-data-for-wp' ),
+                'reviews'           => esc_html__( 'Reviews' , 'schema-and-structured-data-for-wp' ),
+                'fetch'             => esc_html__( 'Fetch' , 'schema-and-structured-data-for-wp' ),
+                'step_in'           => esc_html__( 'Reviews count should be in step of 10' , 'schema-and-structured-data-for-wp' ),
+                'blocks_zero'       => esc_html__( 'Blocks value is zero' , 'schema-and-structured-data-for-wp' ),
+                'success'           => esc_html__( 'Success', 'schema-and-structured-data-for-wp' ),
+                'enter_place_id'    => esc_html__( 'Please enter place id' , 'schema-and-structured-data-for-wp' ),
+                'enter_api_key'     => esc_html__( 'Please enter api key' , 'schema-and-structured-data-for-wp' ),
+                'enter_rv_api_key'  => esc_html__( 'Please enter reviews api key' , 'schema-and-structured-data-for-wp' ),
+                'using_schema'      => esc_html__( 'Thanks for using Structured Data!' , 'schema-and-structured-data-for-wp' ),
+                'do_you_want'       => esc_html__( 'Do you want the latest on ' , 'schema-and-structured-data-for-wp' ),
+                'sd_update'         => esc_html__( 'Structured Data update' , 'schema-and-structured-data-for-wp' ),
+                'before_others'     => esc_html__( ' before others and some best resources on monetization in a single email? - Free just for users of Structured Data!' , 'schema-and-structured-data-for-wp' ),
+                'fill_email'        => esc_html__( 'Please fill in your name and email.' , 'schema-and-structured-data-for-wp' ),
+                'invalid_email'     => esc_html__( 'Your email address is invalid.' , 'schema-and-structured-data-for-wp' ),
+                'list_id_invalid'   => esc_html__( 'Your list ID is invalid.' , 'schema-and-structured-data-for-wp' ),
+                'already_subsribed' => esc_html__( 'You\'re already subscribed!' , 'schema-and-structured-data-for-wp' ),
+                'subsribed'         => esc_html__( 'Please enter reviews api key' , 'schema-and-structured-data-for-wp' ),
+                'try_again'         => esc_html__( 'Please enter reviews api key' , 'schema-and-structured-data-for-wp' )
+        );
         
         $post_type = '';
         
@@ -2889,7 +2912,8 @@ function saswp_enqueue_style_js( $hook ) {
             'saswp_schema_types'           =>  $all_schema_array,
             'trans_based_on'               => saswp_label_text('translation-based-on'),
             'trans_reviews'                => saswp_label_text('translation-reviews'),
-            'trans_self'                   => saswp_label_text('translation-self')
+            'trans_self'                   => saswp_label_text('translation-self'),
+            'translable_txt'               => $translable_txt
         );
                         
         $data = apply_filters('saswp_localize_filter',$data,'saswp_localize_data');
