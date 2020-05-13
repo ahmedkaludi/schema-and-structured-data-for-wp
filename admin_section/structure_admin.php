@@ -1284,8 +1284,10 @@ function saswp_custom_column_set( $column, $post_id ) {
                                    
                                }else{
                                    
-                                   $enabled .= $group['key_3'].', ';   
-                                   
+                                   if(isset($group['key_3'])){
+                                      $enabled .= $group['key_3'].', ';   
+                                   } 
+                                                                      
                                }
                                                                                        
                            }else{
