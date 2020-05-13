@@ -442,7 +442,7 @@ class SASWP_Gutenberg {
                     echo '</p>';
                 }                
                 if(isset($attributes['description'])){
-                    echo '<p>'.esc_attr($attributes['description']).'</p>';
+                    echo '<p>'.html_entity_decode(esc_attr($attributes['description'])).'</p>';
                 }
                                 
                 if(isset($attributes['items'])){
