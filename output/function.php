@@ -1929,15 +1929,19 @@ function saswp_append_fetched_reviews($input1, $schema_post_id = null){
              
              $total_rv = array();
              
-             foreach($attached_rv as $review_id){
+             if($attached_rv && is_array($attached_rv)){
+
+                foreach($attached_rv as $review_id){
                  
-                  $attr['id'] =  $review_id;                  
-                  $reviews = $service->saswp_get_reviews_list_by_parameters($attr);                                                      
-                  $total_rv = array_merge($total_rv, $reviews);    
-                 
-             }
+                    $attr['id'] =  $review_id;                  
+                    $reviews = $service->saswp_get_reviews_list_by_parameters($attr);                                                      
+                    $total_rv = array_merge($total_rv, $reviews);    
+                   
+               }
+
+             }             
              
-             if($attached_col){
+             if($attached_col && is_array($attached_col)){
                  
                  $total_col_rv = array();
                  
