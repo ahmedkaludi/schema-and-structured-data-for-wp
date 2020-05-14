@@ -1704,7 +1704,7 @@ function saswp_review_page_callback(){
        
        $meta_fields = array(				
                 array(
-			'label'  => 'Rating Module',
+			'label'  => 'Rating Box',
 			'id'     => 'saswp-review-module-checkbox',                        
                         'name'   => 'saswp-review-module-checkbox',
 			'type'   => 'checkbox',
@@ -1714,7 +1714,19 @@ function saswp_review_page_callback(){
                              'id'   => 'saswp-review-module',
                              'name' => 'sd_data[saswp-review-module]',                             
                         )
-		)
+                ),
+                array(
+                        'label'  => 'Stars Rating',
+                        'id'     => 'saswp-stars-rating-checkbox',                        
+                        'name'   => 'saswp-stars-rating-checkbox',
+                        'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
+                        'note'   => 'This option adds rating field in wordpress default comment box <a target="_blank" href="https://structured-data-for-wp.com/docs/article/how-to-use-rating-module-in-schema-and-structured-data/">Learn More</a>',
+                        'hidden' => array(
+                                'id'   => 'saswp-stars-rating',
+                                'name' => 'sd_data[saswp-stars-rating]',                             
+                        )
+                )
            );  
        
        $field_objs->saswp_field_generator($meta_fields, $settings); 

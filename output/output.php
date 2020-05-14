@@ -1662,6 +1662,18 @@ function saswp_schema_output() {
                                         $input1['itemReviewed']['review']          = $reviews_wp_theme['reviews'];                                                                                                                              
                                     }
                                     //Reviews wp theme ends here
+
+                                    //High priority reivew which is on post itself by stars rating
+
+                                    if(saswp_check_stars_rating()){
+
+                                        $stars_rating = saswp_get_comments_with_rating();
+
+                                        if($stars_rating) {
+                                            $input1['itemReviewed']['aggregateRating'] = $stars_rating['ratings'];
+                                            $input1['itemReviewed']['review']          = $stars_rating['reviews'];                                                                                                                              
+                                        }
+                                    }                                    
                                         
                                     }else{                                                                            
 
@@ -1714,6 +1726,18 @@ function saswp_schema_output() {
                                             $input1['review']          = $reviews_wp_theme['reviews'];                                                                                                                              
                                         }
                                         //Reviews wp theme ends here
+                                        
+                                        //High priority reivew which is on post itself by stars rating
+
+                                        if(saswp_check_stars_rating()){
+
+                                            $stars_rating = saswp_get_comments_with_rating();
+
+                                            if($stars_rating) {
+                                                $input1['aggregateRating'] = $stars_rating['ratings'];
+                                                $input1['review']          = $stars_rating['reviews'];                                                                                                                              
+                                            }
+                                        }
                                         
                                     }
                                       
@@ -1897,7 +1921,7 @@ function saswp_kb_website_output(){
                 if(isset($sd_data['saswp_website_schema']) && $sd_data['saswp_website_schema'] == 1 || !isset($sd_data['saswp_website_schema'])){
                  
                 $site_url  = get_home_url();
-		$site_name = get_bloginfo();
+		        $site_name = get_bloginfo();
                 
                 if($site_url && $site_name){
                  

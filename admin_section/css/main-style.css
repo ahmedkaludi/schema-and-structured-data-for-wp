@@ -2397,7 +2397,6 @@ span.saswp-mines{
     border-bottom: 1px solid #eee;
     text-align: center;
     padding-bottom: 10px;
-
 }
 .saswp-ps-text{
     padding: 20px 5px;
@@ -2409,3 +2408,6 @@ span.saswp-mines{
     padding: 10px;
 }
 /* Add review thickbox csss ends here */
+.saswp-stars-post-table td{
+padding: 2px;
+}

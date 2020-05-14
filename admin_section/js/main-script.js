@@ -835,6 +835,17 @@ jQuery(document).ready(function($){
                               $("#saswp-review-module").val(0);           
                             }
                       break;
+
+                      case 'saswp-stars-rating-checkbox':
+                          
+                            if ($(this).is(':checked')) { 
+                              $(".saswp-stars-post-table").removeClass('saswp_hide');             
+                              $("#saswp-stars-rating").val(1);             
+                            }else{
+                              $(".saswp-stars-post-table").addClass('saswp_hide');
+                              $("#saswp-stars-rating").val(0);           
+                            }
+                      break;
                       
                       case 'saswp-kk-star-raring-checkbox':
                           

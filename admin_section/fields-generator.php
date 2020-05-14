@@ -613,22 +613,48 @@ class saswp_fields_generator {
 			}
                         $reviews =  $pro_api = $toggle_button = '';
                         
-                        if($meta_field['id'] == 'saswp_google_place_api_key'){
-                                                                                                                                                                                                                                                                                                                                                                     
+                        $subfields = '';
+
+                        if($meta_field['id'] == 'saswp-stars-rating-checkbox'){
+                            
+                            $sel_value = array();
+
+                            if(isset($settings['saswp-stars-post-taype'])){
+                                $sel_value = $settings['saswp-stars-post-taype'];                           
+                            }                             
+
+                            $post_type = saswp_post_type_generator();
+                            
+                            if($post_type){
+                                
+                                if(isset($settings['saswp-stars-rating']) && $settings['saswp-stars-rating'] == 1){
+                                    $subfields .= '<div><table class="saswp-stars-post-table">';
+                                }else{
+                                    $subfields .= '<div><table class="saswp-stars-post-table saswp_hide">';
+                                }
+                                
+                                foreach($post_type as $key => $value){
+                                    $subfields .= '<tr><td><input type="checkbox" name="sd_data[saswp-stars-post-taype][]" value="'.esc_attr($key).'" '.(in_array($key, $sel_value) ? 'checked':'' ).' /></td><td> '.esc_html($value).' </td><tr>';
+                                }
+
+                                $subfields .= '</table></div>';
+
+                            }
+
                         }
                         
+
                         $allowed_html = saswp_expanded_allowed_tags();
                         
                         if($meta_field['id'] == 'saswp-reviews-module-section'){
                             $output .= '<li class="saswp-rev-mod">'                                                                
                                 .  '<div class="saswp-knowledge-label">'.$label.'</div>'
-                                .  '<div class="saswp-knowledge-field">'.$input.'<p class="">'.$note.'</p></div>'
-                                                               
+                                .  '<div class="saswp-knowledge-field">'.$input.'<p class="">'.$note.'</p>'.$subfields.'</div>'                                                               
                                 .  '</li>';
                         }else{
                             $output .= '<li>'                                                                
                                 .  '<div class="saswp-knowledge-label">'.$label.'</div>'
-                                .  '<div class="saswp-knowledge-field">'.$input.'<p class="">'.$note.'</p></div>'
+                                .  '<div class="saswp-knowledge-field">'.$input.'<p class="">'.$note.'</p>'.$subfields.'</div>'
                                                                
                                 .  '</li>';    
                         }

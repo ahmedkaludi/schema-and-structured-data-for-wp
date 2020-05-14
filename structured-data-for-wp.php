@@ -94,6 +94,7 @@ require_once SASWP_DIR_NAME.'/output/compatibility.php';
 //Loading Reviews files
 require_once SASWP_DIR_NAME.'/modules/divi-builder/extension.php'; 
 require_once SASWP_DIR_NAME.'/modules/reviews/reviews_admin.php'; 
+require_once SASWP_DIR_NAME.'/modules/reviews/comments.php'; 
 require_once SASWP_DIR_NAME.'/modules/reviews/reviews_setup.php';
 require_once SASWP_DIR_NAME.'/modules/reviews/reviews_service.php';
 require_once SASWP_DIR_NAME.'/modules/reviews/reviews_widget.php';
