@@ -23,8 +23,7 @@ class SASWP_Gutenberg {
         
         private $blocks = array(
             'collection' => array(            
-                'handler'      => 'saswp-collection-js-reg',
-                'path'         => SASWP_PLUGIN_URL . '/modules/gutenberg/assets/blocks/collection.js',
+                'handler'      => 'saswp-collection-js-reg',                
                 'local_var'    => 'saswpGutenbergCollection',
                 'block_name'   => 'collection-block',
                 'render_func'  => 'render_collection_data',
@@ -33,8 +32,7 @@ class SASWP_Gutenberg {
                 'local'        => array()            
             ),
             'course' => array(            
-                'handler'      => 'saswp-course-js-reg',
-                'path'         => SASWP_PLUGIN_URL . '/modules/gutenberg/assets/blocks/course.js',
+                'handler'      => 'saswp-course-js-reg',                
                 'local_var'    => 'saswpGutenbergCourse',
                 'block_name'   => 'course-block',
                 'render_func'  => 'render_course_data',
@@ -43,8 +41,7 @@ class SASWP_Gutenberg {
                 'local'        => array()            
             ),
             'event' => array(            
-                'handler'      => 'saswp-event-js-reg',
-                'path'         => SASWP_PLUGIN_URL . '/modules/gutenberg/assets/blocks/event.js',
+                'handler'      => 'saswp-event-js-reg',                
                 'local_var'    => 'saswpGutenbergEvent',
                 'block_name'   => 'event-block',
                 'render_func'  => 'render_event_data',
@@ -53,8 +50,7 @@ class SASWP_Gutenberg {
                 'local'        => array()            
             ),
             'job' => array(            
-                'handler'      => 'saswp-job-js-reg',
-                'path'         => SASWP_PLUGIN_URL . '/modules/gutenberg/assets/blocks/job.js',
+                'handler'      => 'saswp-job-js-reg',                
                 'local_var'    => 'saswpGutenbergJob',
                 'block_name'   => 'job-block',
                 'style'        => 'saswp-g-job-css',
@@ -63,8 +59,7 @@ class SASWP_Gutenberg {
                 'local'        => array()            
             ),            
             'faq' => array(            
-                'handler'      => 'saswp-faq-js-reg',
-                'path'         => SASWP_PLUGIN_URL . '/modules/gutenberg/assets/blocks/faq.js',
+                'handler'      => 'saswp-faq-js-reg',                
                 'local_var'    => 'saswpGutenbergFaq',
                 'block_name'   => 'faq-block',
                 'style'        => 'saswp-g-faq-css',
@@ -73,8 +68,7 @@ class SASWP_Gutenberg {
                 'local'        => array()            
             ),
             'howto' => array(            
-                'handler'      => 'saswp-how-to-js-reg',
-                'path'         => SASWP_PLUGIN_URL . '/modules/gutenberg/assets/blocks/how-to.js',                
+                'handler'      => 'saswp-how-to-js-reg',                                
                 'block_name'   => 'how-to-block',
                 'render_func'  => 'render_how_to_data',
                 'style'        => 'saswp-g-howto-css',
@@ -88,7 +82,11 @@ class SASWP_Gutenberg {
          * This is class constructer to use all the hooks and filters used in this class
          */
         private function __construct() {
-                
+            
+                    foreach ($this->blocks as $key => $value) {
+                        $this->blocks[$key]['path'] = SASWP_PLUGIN_URL. '/modules/gutenberg/assets/blocks/'.$key.'.js'; 
+                    }
+
                     if($this->service == null){
                         require_once SASWP_DIR_NAME.'/modules/gutenberg/includes/service.php';
                         $this->service = new SASWP_Gutenberg_Service();
