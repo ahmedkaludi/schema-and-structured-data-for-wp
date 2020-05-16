@@ -229,7 +229,12 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'label' => 'Serves Cuisine',
                             'id' => 'local_serves_cuisine_'.$schema_id,
                             'type' => 'text',                            
-                         );                                                
+                         );
+                        $meta_field[] =   array(
+                                'label' => 'Additional Type',
+                                'id'    => 'local_additional_type_'.$schema_id,
+                                'type'  => 'text',                            
+                        );                                                
                         $meta_field[] =   array(
                             'label' => 'Facebook',
                             'id' => 'local_facebook_'.$schema_id,
@@ -1783,6 +1788,11 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'label' => 'Seller Organization',
                             'id'    => 'saswp_product_schema_seller_'.$schema_id,
                             'type'  => 'text',                             
+                       ),
+                       array(
+                        'label' => 'Additional Type',
+                        'id'    => 'saswp_product_additional_type_'.$schema_id,
+                        'type'  => 'text',                             
                        ),
                         array(
                             'label' => 'Aggregate Rating',

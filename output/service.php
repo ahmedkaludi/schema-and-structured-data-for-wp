@@ -887,7 +887,10 @@ Class saswp_output_service{
                     }                    
                     if(isset($custom_fields['local_menu'])){
                      $input1['hasMenu'] =    $custom_fields['local_menu'];
-                    }                    
+                    }
+                    if(isset($custom_fields['local_additional_type'])){
+                        $input1['additionalType'] =    $custom_fields['local_additional_type'];
+                    }
                     if(isset($custom_fields['local_rating_value']) && isset($custom_fields['local_rating_count'])){
                        $input1['aggregateRating']['@type']       =   'AggregateRating';
                        $input1['aggregateRating']['worstRating'] =   0;
@@ -1555,6 +1558,9 @@ Class saswp_output_service{
                     }
                     if(isset($custom_fields['saswp_product_schema_gtin13'])){
                         $input1['gtin13'] =    $custom_fields['saswp_product_schema_gtin13'];
+                    }
+                    if(isset($custom_fields['saswp_product_additional_type'])){
+                        $input1['additionalType'] =    $custom_fields['saswp_product_additional_type'];
                     }                                        
                     if(isset($custom_fields['saswp_product_schema_description'])){
                      $input1['description'] =  wp_strip_all_tags(strip_shortcodes( $custom_fields['saswp_product_schema_description'] ));

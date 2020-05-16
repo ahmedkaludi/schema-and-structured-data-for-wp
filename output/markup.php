@@ -760,6 +760,10 @@ function saswp_product_schema_markup($schema_id, $schema_post_id, $all_post_meta
             if(isset($all_post_meta['saswp_product_schema_mpn_'.$schema_id])){
               $input1['mpn'] = esc_attr($all_post_meta['saswp_product_schema_mpn_'.$schema_id][0]);  
             }
+
+            if(isset($all_post_meta['saswp_product_additional_type_'.$schema_id][0])){
+                $input1['additionalType'] = esc_attr($all_post_meta['saswp_product_additional_type_'.$schema_id][0]);  
+            }
             
             if(saswp_remove_warnings($all_post_meta, 'saswp_product_schema_enable_rating_'.$schema_id, 'saswp_array') == 1 && saswp_remove_warnings($all_post_meta, 'saswp_product_schema_rating_'.$schema_id, 'saswp_array') && saswp_remove_warnings($all_post_meta, 'saswp_product_schema_review_count_'.$schema_id, 'saswp_array')){   
                                  
@@ -955,6 +959,10 @@ function saswp_local_business_schema_markup($schema_id, $schema_post_id, $all_po
             'openingHours'                => $operation_days,                                                                                                     
             );
             
+                if(isset($all_post_meta['local_additional_type_'.$schema_id][0])){
+                    $input1['additionalType'] = $all_post_meta['local_additional_type_'.$schema_id][0];   
+                }
+
                 if(isset($all_post_meta['local_price_range_'.$schema_id][0])){
                    $input1['priceRange'] = esc_attr($all_post_meta['local_price_range_'.$schema_id][0]);   
                 }
