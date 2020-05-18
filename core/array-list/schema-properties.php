@@ -1577,6 +1577,80 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
 
                     );
                     break;
+
+                    case 'PsychologicalTreatment':                                                                                                            
+                        
+                        $meta_field = array(
+                        array(
+                                'label'   => 'Name',
+                                'id'      => 'saswp_psychological_treatment_name_'.$schema_id,
+                                'type'    => 'text'                                                 
+                        ),
+                        array(
+                                'label'   => 'Description',
+                                'id'      => 'saswp_psychological_treatment_description_'.$schema_id,
+                                'type'    => 'textarea'                                                 
+                        ),
+                        array(
+                                'label'   => 'URL',
+                                'id'      => 'saswp_psychological_treatment_url_'.$schema_id,
+                                'type'    => 'text'                                                 
+                        ),
+                        array(
+                                'label'   => 'Image',
+                                'id'      => 'saswp_psychological_treatment_image_'.$schema_id,
+                                'type'    => 'media'                                                 
+                        ),
+                        array(
+                                'label'   => 'Drug',
+                                'id'      => 'saswp_psychological_treatment_drug_'.$schema_id,
+                                'type'    => 'text'                                                 
+                        ),    
+                        array(
+                                'label'   => 'Body Location',
+                                'id'      => 'saswp_psychological_treatment_body_location_'.$schema_id,
+                                'type'    => 'text'                                                 
+                        ),
+                        array(
+                                'label'   => 'Preparation',
+                                'id'      => 'saswp_psychological_treatment_preparation_'.$schema_id,
+                                'type'    => 'text'                                                 
+                        ),
+                        array(
+                                'label'   => 'Followup',
+                                'id'      => 'saswp_psychological_treatment_followup_'.$schema_id,
+                                'type'    => 'text'                                                 
+                        ),
+                        array(
+                                'label'   => 'How Performed',
+                                'id'      => 'saswp_psychological_treatment_how_performed_'.$schema_id,
+                                'type'    => 'text'                                                 
+                        ),
+                        array(
+                                'label'   => 'Procedure Type',
+                                'id'      => 'saswp_psychological_treatment_procedure_type_'.$schema_id,
+                                'type'    => 'select',
+                                'options' => array(
+                                        'Surgical'           => 'Surgical',
+                                        'Noninvasive'        => 'Noninvasive',
+                                        'Percutaneous'       => 'Percutaneous'                                        
+                               )                                                         
+                        ) ,
+                        array(
+                                'label'   => 'MedicalCode',
+                                'id'      => 'saswp_psychological_treatment_medical_code_'.$schema_id,
+                                'type'    => 'text'                                                 
+                        ), 
+                        array(
+                                'label'   => 'Additional Type',
+                                'id'      => 'saswp_psychological_treatment_additional_type_'.$schema_id,
+                                'type'    => 'text'                                                 
+                        ),                              
+                            
+                        );
+                        
+                        break;
+
                     case 'RealEstateListing':                                                                                                            
                         
                         $meta_field = array(

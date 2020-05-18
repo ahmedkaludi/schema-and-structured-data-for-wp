@@ -898,6 +898,56 @@ function saswp_real_estate_listing_schema_markup($schema_id, $schema_post_id, $a
 
 }
 
+function saswp_psychological_treatment_schema_markup($schema_id, $schema_post_id, $all_post_meta){
+    
+    $product_image = get_post_meta( get_the_ID(), 'saswp_psychological_treatment_image_'.$schema_id.'_detail',true);
+
+    $input1 = array(
+        '@context'			=> saswp_context_url(),
+        '@type'				=> 'PsychologicalTreatment',
+        '@id'               => trailingslashit(get_permalink()).'#PsychologicalTreatment',    
+        'url'				=> saswp_remove_warnings($all_post_meta, 'saswp_psychological_treatment_url_'.$schema_id, 'saswp_array'),
+        'name'              => saswp_remove_warnings($all_post_meta, 'saswp_psychological_treatment_name_'.$schema_id, 'saswp_array'),    
+        'description'       => saswp_remove_warnings($all_post_meta, 'saswp_psychological_treatment_description_'.$schema_id, 'saswp_array'),													                            
+        );
+                        
+        if(isset($product_image['thumbnail']) && $product_image['thumbnail']){
+        
+            $input1['image']['@type']           = 'ImageObject';
+            $input1['image']['url']             = $product_image['thumbnail'];
+            $input1['image']['width']           = $product_image['width'];
+            $input1['image']['height']          = $product_image['height'];
+            
+        }
+        if(isset($all_post_meta['saswp_psychological_treatment_drug_'.$schema_id][0])){
+            $input1['drug']                    = $all_post_meta['saswp_psychological_treatment_drug_'.$schema_id][0];
+        }
+        if(isset($all_post_meta['saswp_psychological_treatment_body_location_'.$schema_id][0])){
+            $input1['bodyLocation']                    = $all_post_meta['saswp_psychological_treatment_body_location_'.$schema_id][0];
+        }
+        if(isset($all_post_meta['saswp_psychological_treatment_preparation_'.$schema_id][0])){
+            $input1['preparation']                    = $all_post_meta['saswp_psychological_treatment_preparation_'.$schema_id][0];
+        }
+        if(isset($all_post_meta['saswp_psychological_treatment_followup_'.$schema_id][0])){
+            $input1['followup']                    = $all_post_meta['saswp_psychological_treatment_followup_'.$schema_id][0];
+        }
+        if(isset($all_post_meta['saswp_psychological_treatment_how_performed_'.$schema_id][0])){
+            $input1['Howperformed']                    = $all_post_meta['saswp_psychological_treatment_how_performed_'.$schema_id][0];
+        }
+        if(isset($all_post_meta['saswp_psychological_treatment_procedure_type_'.$schema_id][0])){
+            $input1['procedureType']            = $all_post_meta['saswp_psychological_treatment_procedure_type_'.$schema_id][0];
+        }
+        if(isset($all_post_meta['saswp_psychological_treatment_medical_code_'.$schema_id][0])){
+            $input1['code']                    = $all_post_meta['saswp_psychological_treatment_medical_code_'.$schema_id][0];
+        }
+        if(isset($all_post_meta['saswp_psychological_treatment_additional_type_'.$schema_id][0])){
+            $input1['additionalType']          = $all_post_meta['saswp_psychological_treatment_additional_type_'.$schema_id][0];
+        }                 
+
+    return $input1;
+
+}
+
 function saswp_local_business_schema_markup($schema_id, $schema_post_id, $all_post_meta){
     
             $input1 = array();
