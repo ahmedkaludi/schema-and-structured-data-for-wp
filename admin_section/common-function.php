@@ -3180,9 +3180,9 @@ function saswp_update_global_post(){
 
 }
 
-add_filter('wpseo_metadesc', 'saswp_yoast_homepage_meta_desc', 2,2);
+add_filter('wpseo_metadesc', 'saswp_yoast_homepage_meta_desc', 10,2);
 
-function saswp_yoast_homepage_meta_desc($description, $peresentation){
+function saswp_yoast_homepage_meta_desc($description, $peresentation = false){
 
     global $saswp_yoast_home_meta;
 
