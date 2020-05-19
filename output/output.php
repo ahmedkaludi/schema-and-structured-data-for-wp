@@ -1244,7 +1244,7 @@ function saswp_schema_output() {
                                     'url'				=> trailingslashit(saswp_get_permalink()),
                                     'name'			=> saswp_get_the_title(),
                                     'datePosted'                 => esc_html($date),                                    
-                                    'description'                   => $description,                                    
+                                    'description'                   => saswp_get_the_excerpt(),                                    
                                     );
                                 	                                                                                                                                                                                                                                                                                                  
                                 $input1 = apply_filters('saswp_modify_real_estate_listing_schema_output', $input1 );
@@ -1254,6 +1254,28 @@ function saswp_schema_output() {
                                 if($modified_schema == 1){
                                     
                                     $input1 = saswp_real_estate_listing_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
+                                }
+			
+                            break;
+
+                            case 'PsychologicalTreatment':
+
+                                $input1 = array(
+                                    '@context'			=> saswp_context_url(),
+                                    '@type'				=> 'PsychologicalTreatment',
+                                    '@id'               => trailingslashit(saswp_get_permalink()).'#PsychologicalTreatment',        
+                                    'url'				=> trailingslashit(saswp_get_permalink()),
+                                    'name'			    => saswp_get_the_title(),                                    
+                                    'description'       => saswp_get_the_excerpt(),                                    
+                                    );
+                                	                                                                                                                                                                                                                                                                                                  
+                                $input1 = apply_filters('saswp_modify_psychological_treatment_schema_output', $input1 );
+                                
+                                $input1 = saswp_get_modified_markup($input1, $schema_type, $schema_post_id, $schema_options);
+                                
+                                if($modified_schema == 1){
+                                    
+                                    $input1 = saswp_psychological_treatment_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
                                 }
 			
                             break;
@@ -1662,6 +1684,18 @@ function saswp_schema_output() {
                                         $input1['itemReviewed']['review']          = $reviews_wp_theme['reviews'];                                                                                                                              
                                     }
                                     //Reviews wp theme ends here
+
+                                    //High priority reivew which is on post itself by stars rating
+
+                                    if(saswp_check_stars_rating()){
+
+                                        $stars_rating = saswp_get_comments_with_rating();
+
+                                        if($stars_rating) {
+                                            $input1['itemReviewed']['aggregateRating'] = $stars_rating['ratings'];
+                                            $input1['itemReviewed']['review']          = $stars_rating['reviews'];                                                                                                                              
+                                        }
+                                    }                                    
                                         
                                     }else{                                                                            
 
@@ -1714,6 +1748,18 @@ function saswp_schema_output() {
                                             $input1['review']          = $reviews_wp_theme['reviews'];                                                                                                                              
                                         }
                                         //Reviews wp theme ends here
+                                        
+                                        //High priority reivew which is on post itself by stars rating
+
+                                        if(saswp_check_stars_rating()){
+
+                                            $stars_rating = saswp_get_comments_with_rating();
+
+                                            if($stars_rating) {
+                                                $input1['aggregateRating'] = $stars_rating['ratings'];
+                                                $input1['review']          = $stars_rating['reviews'];                                                                                                                              
+                                            }
+                                        }
                                         
                                     }
                                       
@@ -1897,7 +1943,7 @@ function saswp_kb_website_output(){
                 if(isset($sd_data['saswp_website_schema']) && $sd_data['saswp_website_schema'] == 1 || !isset($sd_data['saswp_website_schema'])){
                  
                 $site_url  = get_home_url();
-		$site_name = get_bloginfo();
+		        $site_name = get_bloginfo();
                 
                 if($site_url && $site_name){
                  

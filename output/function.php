@@ -907,9 +907,11 @@ function saswp_get_comments_with_rating(){
 
             $rating = get_comment_meta($comment->comment_ID, 'review_rating', true);
 
-            $sumofrating += $rating;
+            if(is_numeric($rating)){
 
-			$comments[] = array (
+                $sumofrating += $rating;
+
+                $comments[] = array (
 					'@type'         => 'Review',
 					'datePublished' => saswp_format_date_time($comment->comment_date),
 					'description'   => strip_tags($comment->comment_content),
@@ -924,18 +926,20 @@ function saswp_get_comments_with_rating(){
                             'ratingValue'	=> $rating,
                             'worstRating'	=> '1',
                )
-			);
-        }
-        
-        if($sumofrating> 0){
-            $avg_rating = $sumofrating /  count($comments); 
-        }
-        
-        $ratings =  array(
-                '@type'         => 'AggregateRating',
-                'ratingValue'	=> $avg_rating,
-                'reviewCount'   => count($comments)
-        );
+            );
+            
+            if($sumofrating> 0){
+                $avg_rating = $sumofrating /  count($comments); 
+            }
+            
+            $ratings =  array(
+                    '@type'         => 'AggregateRating',
+                    'ratingValue'	=> $avg_rating,
+                    'reviewCount'   => count($comments)
+            );
+
+            }            			
+        }                
                 		
     }
 
@@ -1929,15 +1933,19 @@ function saswp_append_fetched_reviews($input1, $schema_post_id = null){
              
              $total_rv = array();
              
-             foreach($attached_rv as $review_id){
+             if($attached_rv && is_array($attached_rv)){
+
+                foreach($attached_rv as $review_id){
                  
-                  $attr['id'] =  $review_id;                  
-                  $reviews = $service->saswp_get_reviews_list_by_parameters($attr);                                                      
-                  $total_rv = array_merge($total_rv, $reviews);    
-                 
-             }
+                    $attr['id'] =  $review_id;                  
+                    $reviews = $service->saswp_get_reviews_list_by_parameters($attr);                                                      
+                    $total_rv = array_merge($total_rv, $reviews);    
+                   
+               }
+
+             }             
              
-             if($attached_col){
+             if($attached_col && is_array($attached_col)){
                  
                  $total_col_rv = array();
                  

@@ -1,5 +1,4 @@
 <?php
-
 if(defined('AMP__DIR__')){
 	$amp_blacklist_sanitizer =  realpath( AMP__DIR__ . 'includes/sanitizers/class-amp-blacklist-sanitizer.php') ;
 }
@@ -27,8 +26,6 @@ if ( class_exists( 'AMP_Blacklist_Sanitizer' ) ) {
 
 		);
 
-
-
 		public function sanitize() {
 
 			$blacklisted_tags = $this->get_blacklisted_tags();
@@ -43,8 +40,7 @@ if ( class_exists( 'AMP_Blacklist_Sanitizer' ) ) {
 
 			$this->strip_attributes_recursive( $body, $blacklisted_attributes, $blacklisted_protocols );
 
-		}
-		
+		}		
 		private function strip_attributes_recursive( $node, $bad_attributes, $bad_protocols ) {
 
 			if ( $node->nodeType !== XML_ELEMENT_NODE ) {
@@ -139,8 +135,7 @@ if ( class_exists( 'AMP_Blacklist_Sanitizer' ) ) {
 
 			}
 
-		}
-		
+		}		
 		private function strip_tags( $node, $tag_names ) {
 
 			foreach ( $tag_names as $tag_name ) {
@@ -180,169 +175,111 @@ if ( class_exists( 'AMP_Blacklist_Sanitizer' ) ) {
 			}
 
 		}
-
-
-
 		private function sanitize_a_attribute( $node, $attribute ) {
-
 			$attribute_name = strtolower( $attribute->name );
-
-
-
+	
 			if ( 'rel' === $attribute_name ) {
-
 				$old_value = $attribute->value;
-
 				$new_value = trim( preg_replace( self::PATTERN_REL_WP_ATTACHMENT, '', $old_value ) );
-
 				if ( empty( $new_value ) ) {
-
 					$node->removeAttribute( $attribute_name );
-
 				} elseif ( $old_value !== $new_value ) {
-
 					$node->setAttribute( $attribute_name, $new_value );
-
 				}
-
 			} elseif ( 'rev' === $attribute_name ) {
-
 				// rev removed from HTML5 spec, which was used by Jetpack Markdown.
-
 				$node->removeAttribute( $attribute_name );
-
 			} elseif ( 'target' === $attribute_name ) {
-
 				// _blank is the only allowed value and it must be lowercase.
-
 				// replace _new with _blank and others should simply be removed.
-
 				$old_value = strtolower( $attribute->value );
-
 				if ( '_blank' === $old_value || '_new' === $old_value ) {
-
 					// _new is not allowed; swap with _blank
-
 					$node->setAttribute( $attribute_name, '_blank' );
-
 				} else {
-
 					// only _blank is allowed
-
 					$node->removeAttribute( $attribute_name );
-
 				}
-
 			}
-
-		}
- 
+		} 
 		private function validate_a_node( $node ) {
-
 			// Get the href attribute
-
 			$href = $node->getAttribute( 'href' );
- 
+	
 			// If no href is set and this isn't an anchor, it's invalid
-
 			if ( empty( $href ) ) {
-
 				$name_attr = $node->getAttribute( 'name' );
-
-				if ( ! empty( $name_attr ) ) {
-
+				$id_attr = $node->getAttribute( 'id' );
+				$class = $node->getAttribute( 'class' );
+				$on = $node->getAttribute( 'on' );
+				if ( ! empty( $name_attr ) || ! empty( $id_attr ) || ! empty( $class ) || ! empty( $on ) ) {
 					// No further validation is required
-
 					return true;
-
 				} else {
-
 					return false;
-
 				}
-
 			}
- 
+	
 			// If this is an anchor link, just return true
-
 			if ( 0 === strpos( $href, '#' ) ) {
-
 				return true;
-
 			}
- 
+	
 			// If the href starts with a '/', append the home_url to it for validation purposes.
-
 			if ( 0 === stripos( $href, '/' ) ) {
-
 				$href = untrailingslashit( get_home_url() ) . $href;
-
 			}
- 
-			$valid_protocols = array( 'http', 'https', 'mailto', 'sms', 'tel', 'viber', 'whatsapp' );
-
-			$special_protocols = array( 'tel', 'sms' ); // these ones don't valid with `filter_var+FILTER_VALIDATE_URL`
-
+	
+			$valid_protocols = array( 'http', 'https', 'mailto', 'sms', 'tel', 'viber', 'whatsapp' , 'ftp','skype', 'tg');
+			$special_protocols = array( 'tel', 'sms','skype' ); // these ones don't valid with `filter_var+FILTER_VALIDATE_URL`
 			$protocol = strtok( $href, ':' );
- 
-			if ( false === filter_var( $href, FILTER_VALIDATE_URL )
-
-				&& ! in_array( $protocol, $special_protocols ) ) {
-
-				return false;
-
+	
+			/* Convert space into %20 and esc url so it can work with the correct 
+			urls that have spaces */
+			if ( strpos($href, ' ') ){
+				$href = esc_url($href);
 			}
- 
-			if ( ! in_array( $protocol, $valid_protocols ) ) {
-
-				return false;
-
-			}
- 
-			return true;
-
-		}
-
-
-
-		private function replace_node_with_children( $node, $bad_attributes, $bad_protocols ) {
-
-			// If the node has children and also has a parent node,
-
-			// clone and re-add all the children just before current node.
-
-			if ( $node->hasChildNodes() && $node->parentNode ) {
-
-				foreach ( $node->childNodes as $child_node ) {
-
-					$new_child = $child_node->cloneNode( true );
-
-					$this->strip_attributes_recursive( $new_child, $bad_attributes, $bad_protocols );
-
-					$node->parentNode->insertBefore( $new_child, $node );
-
+			/*	Issue was with multibyte string.
+			 *  For more info check: https://github.com/ahmedkaludi/accelerated-mobile-pages/issues/2556 and https://github.com/ahmedkaludi/accelerated-mobile-pages/issues/2967
+			*/
+			if( false === $this->contains_any_multibyte($href) ){
+				if ( false === filter_var( $href, FILTER_VALIDATE_URL )
+					&& ! in_array( $protocol, $special_protocols, true ) ) {
+					return false;
 				}
-
-			} 			
-
-		}
- 
-		private function merge_defaults_with_args( $key, $values ) {
-
-			// Merge default values with user specified args
-
-			if ( ! empty( $this->args[ $key ] )
-
-				&& is_array( $this->args[ $key ] ) ) {
-
-				$values = array_merge( $values, $this->args[ $key ] );
-
 			}
- 
-			return $values;
-
+	
+			if ( ! in_array( $protocol, $valid_protocols, true ) ) {
+				return false;
+			}
+	
+			return true;
 		}
- 
+		private function replace_node_with_children( $node, $bad_attributes, $bad_protocols ) {
+			// If the node has children and also has a parent node,
+			// clone and re-add all the children just before current node.
+			if ( $node->hasChildNodes() && $node->parentNode ) {
+				foreach ( $node->childNodes as $child_node ) {
+					$new_child = $child_node->cloneNode( true );
+					$this->strip_attributes_recursive( $new_child, $bad_attributes, $bad_protocols );
+					$node->parentNode->insertBefore( $new_child, $node );
+				}
+			}
+	
+			// Remove the node from the parent, if defined.
+			if ( $node->parentNode ) {
+				$node->parentNode->removeChild( $node );
+			}
+		} 
+		private function merge_defaults_with_args( $key, $values ) {
+			// Merge default values with user specified args
+			if ( ! empty( $this->args[ $key ] )
+				&& is_array( $this->args[ $key ] ) ) {
+				$values = array_merge( $values, $this->args[ $key ] );
+			}
+	
+			return $values;
+		} 
 		private function get_blacklisted_protocols() {
 
 			return $this->merge_defaults_with_args( 'add_blacklisted_protocols', array(
@@ -352,7 +289,14 @@ if ( class_exists( 'AMP_Blacklist_Sanitizer' ) ) {
 			) );
 
 		}
- 
+		private	function contains_any_multibyte($string){
+			if(function_exists('mb_check_encoding')){
+				return !\mb_check_encoding($string, 'ASCII') && \mb_check_encoding($string, 'UTF-8');
+			}
+			else{
+				return false;
+			}
+		}
 		private function get_blacklisted_tags() {
 
 			return $this->merge_defaults_with_args( 'add_blacklisted_tags', array(
@@ -419,7 +363,6 @@ if ( class_exists( 'AMP_Blacklist_Sanitizer' ) ) {
 			) );
 
 		}
-
 		private function get_blacklisted_attributes() {
 
 			return $this->merge_defaults_with_args( 'add_blacklisted_attributes', array(
@@ -437,7 +380,6 @@ if ( class_exists( 'AMP_Blacklist_Sanitizer' ) ) {
 			) );
 
 		}
-
 	}
 
 }

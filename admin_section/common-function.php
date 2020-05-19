@@ -1914,7 +1914,8 @@ if ( ! defined('ABSPATH') ) exit;
             $content = get_post_field('post_content', $post->ID);            
             $content = wp_strip_all_tags(strip_shortcodes($content));   
             $content = preg_replace('/\[.*?\]/','', $content);            
-            $content = str_replace('=', '', $content); // Removes special chars.
+            $content = str_replace('=', '', $content); 
+            $content = str_replace(array("\n","\r\n","\r"), ' ', $content);
         }
         
         return apply_filters('saswp_the_content' ,$content);
@@ -1931,6 +1932,7 @@ if ( ! defined('ABSPATH') ) exit;
         global $sd_data;
         
         $excerpt = '';
+        
         
         if(is_object($post)){
 
@@ -2078,12 +2080,17 @@ if ( ! defined('ABSPATH') ) exit;
             
             if(class_exists('WPSEO_Frontend')){
                 
-                  $front             = WPSEO_Frontend::get_instance();
-                  $blog_desc         = $front->metadesc( false );
-                  
-                  if(empty($blog_desc)){
-                      $blog_desc = get_bloginfo('description');
-                  }                                   
+                if (defined('WPSEO_VERSION') && WPSEO_VERSION < 14.0) {
+                    $front             = WPSEO_Frontend::get_instance();
+                    $blog_desc         = $front->metadesc( false );  
+                }else{
+                   global $saswp_yoast_home_meta;
+                   $blog_desc = $saswp_yoast_home_meta;                                        
+                }
+                                                      
+                if(empty($blog_desc)){
+                    $blog_desc = get_bloginfo('description');
+                }                                   
             }            
           }
         }                        
@@ -3172,3 +3179,14 @@ function saswp_update_global_post(){
   }
 
 }
+
+add_filter('wpseo_metadesc', 'saswp_yoast_homepage_meta_desc', 2,2);
+
+function saswp_yoast_homepage_meta_desc($description, $peresentation){
+
+    global $saswp_yoast_home_meta;
+
+    $saswp_yoast_home_meta = $description;
+
+    return $description;
+}	

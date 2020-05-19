@@ -16,7 +16,43 @@ class saswp_ads_newsletter {
 	function __construct () {
 		
                 add_filter( 'saswp_localize_filter',array($this,'saswp_add_localize_footer_data'),10,2);
-	}
+                add_action('wp_ajax_saswp_subscribe_to_news_letter', array($this, 'saswp_subscribe_to_news_letter'));
+        }
+        
+        function saswp_subscribe_to_news_letter(){
+
+                if ( ! isset( $_POST['saswp_security_nonce'] ) ){
+                    return; 
+                }
+                if ( !wp_verify_nonce( $_POST['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
+                   return;  
+                }
+                                
+	        $name    = sanitize_text_field($_POST['name']);
+                $email   = sanitize_text_field($_POST['email']);
+                $website = sanitize_text_field($_POST['website']);
+                
+                if($email){
+                        
+                    $api_url = 'http://magazine3.company/wp-json/api/central/email/subscribe';
+
+		    $api_params = array(
+		        'name'    => $name,
+		        'email'   => $email,
+		        'website' => $website,
+		        'type'    => 'schema'
+                    );
+                    
+		    $response = wp_remote_post( $api_url, array( 'timeout' => 15, 'sslverify' => false, 'body' => $api_params ) );
+                    $response = wp_remote_retrieve_body( $response );                    
+		    echo $response;
+
+                }else{
+                        echo esc_html__('Email id required', 'schema-and-structured-data-for-wp');                        
+                }                        
+
+                wp_die();
+        }
 	        
         function saswp_add_localize_footer_data($object, $object_name){
             
