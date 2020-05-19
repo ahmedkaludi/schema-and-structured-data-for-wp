@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.4
-Stable tag: 1.9.36
+Stable tag: 1.9.37
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -119,6 +119,20 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.9.37 (19 May 2020) =
+
+* New  : Stars Rating in WordPress default comment form #844
+* Added: PsychologicalTreatment Schema Type
+* Added: additionaType property to Product and LocalBusiness schema type
+* Fixed: Deprecated: WPSEO_Frontend::metadesc is deprecated since version WPSEO 14.0 with no alternative available #1004
+* Fixed: Some of the content is getting doubled when placed through AMP editor. #1003
+* Fixed: PHP Notice: Undefined index: key_3 in […]/wp-content/plugins/schema-and-structured-data-for-wp/admin_section/structure_admin.php on line 1287
+* Fixed: Fatal error (php v5.5.38) :Plugin could not be activated because it triggered a fatal error. Parse error: syntax error, unexpected '.', expecting ')'
+* Fixed: Remove special characters from content #987
+* Fixed: Compatibility issue with amp plugins and ampforwp, amp by automatic #996
+* Fixed: Warning: Invalid argument supplied for foreach() in schema-and-structured-data-for-wp/output/function.php on line 1858 #993
+* Enhancement: Change email endpoint to Sendy API #960
 
 = 1.9.36 (12 May 2020) =
 
