@@ -120,6 +120,10 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
 
+= 1.9.37.1 (19 May 2020) =
+
+* Fixed: Too few arguments to function saswp_yoast_homepage_meta_desc() #1017
+
 = 1.9.37 (19 May 2020) =
 
 * New  : Stars Rating field in WordPress default comment form #844

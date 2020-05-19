@@ -11,3 +11,19 @@ function saswp_post_exists($id){
     return $post_exists;
     
 }
+
+function saswp_get_post_ids($type){
+    
+    global $wpdb;
+
+    $response = array();
+
+    $post_data = $wpdb->get_results("SELECT id FROM $wpdb->posts WHERE post_type = '".$type."'", 'ARRAY_A');    
+
+    if(is_array($post_data) && $post_data){
+
+        $response = array_column($post_data, 'id');
+    }    
+    return $response;
+    
+}
