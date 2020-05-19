@@ -122,7 +122,7 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 = 1.9.37 (19 May 2020) =
 
-* New  : Stars Rating in WordPress default comment form #844
+* New  : Stars Rating field in WordPress default comment form #844
 * Added: PsychologicalTreatment Schema Type
 * Added: additionaType property to Product and LocalBusiness schema type
 * Fixed: Deprecated: WPSEO_Frontend::metadesc is deprecated since version WPSEO 14.0 with no alternative available #1004
