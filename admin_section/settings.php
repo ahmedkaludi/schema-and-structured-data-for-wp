@@ -1824,7 +1824,20 @@ function saswp_compatibility_page_callback(){
                                 'id'   => 'saswp-ampbyautomatic',
                                 'name' => 'sd_data[saswp-ampbyautomatic]',                             
                         )
-		);
+                );
+        $schemaforfaqs = array(
+                'label'  => 'FAQ Schema Markup',
+                'id'     => 'saswp-schemaforfaqs-checkbox',                        
+                'name'   => 'saswp-schemaforfaqs-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('schemaforfaqs'),
+                'hidden' => array(
+                        'id'   => 'saswp-schemaforfaqs',
+                        'name' => 'sd_data[saswp-schemaforfaqs]',                             
+                )
+        );
+                        
         $total_recipe_generator = array(
 			'label'  => 'Total Recipe Generator',
 			'id'     => 'saswp-total-recipe-generator-checkbox',                        
@@ -2684,6 +2697,7 @@ function saswp_compatibility_page_callback(){
                 $strong_testimonials,
                 $wordpress_news,
                 $WordLift,
+                $schemaforfaqs,
                 $flex_lmx
                 
 	);  

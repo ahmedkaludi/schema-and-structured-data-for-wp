@@ -45,9 +45,7 @@ function saswp_schema_markup_hook_on_init() {
             remove_action( 'amp_post_template_footer', 'amp_post_template_add_schemaorg_metadata',99,1);  
             remove_action( 'wp_footer', 'orbital_markup_site'); 
             add_filter( 'amp_schemaorg_metadata', '__return_empty_array' );
-            add_filter( 'hunch_schema_markup', '__return_false');              
-
-            saswp_remove_anonymous_object_filter_or_action('wp_head', 'Schema_Faqs', 'schema_faqs_head', 'action');
+            add_filter( 'hunch_schema_markup', '__return_false');                          
                         
             if(class_exists('BSF_AIOSRS_Pro_Markup')){
                 
@@ -149,7 +147,8 @@ function saswp_get_all_schema_markup_output() {
         $item_list                = array();
         $collection_page          = array(); 
         $blog_page                = array();          
-                
+        
+        $schema_for_faqs          = saswp_schema_for_faqs_schema(); 
         $gutenberg_how_to         = saswp_gutenberg_how_to_schema(); 
         $gutenberg_faq            = saswp_gutenberg_faq_schema();
         $elementor_faq            = saswp_elementor_faq_schema();
@@ -249,6 +248,12 @@ function saswp_get_all_schema_markup_output() {
                         if(!empty($gutenberg_faq)){
                         
                             $output .= saswp_json_print_format($gutenberg_faq);   
+                            $output .= ",";
+                            $output .= "\n\n";
+                        }
+                        if(!empty($schema_for_faqs)){
+                        
+                            $output .= saswp_json_print_format($schema_for_faqs);   
                             $output .= ",";
                             $output .= "\n\n";
                         }

@@ -184,6 +184,9 @@ class saswp_output_compatibility{
     public function saswp_event_on_override(){ 
         
     }
+    public function saswp_schemaforfaqs_override(){ 
+        saswp_remove_anonymous_object_filter_or_action('wp_head', 'Schema_Faqs', 'schema_faqs_head', 'action');
+    }
     public function saswp_wordpress_news_override(){                                                        
     }
     public function saswp_total_recipe_generator_override(){                                                        

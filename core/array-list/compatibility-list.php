@@ -4,6 +4,12 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 return array(    
     'plugins' =>    array(        
+        'schemaforfaqs'  =>  array(            
+            'name'       => 'FAQ Schema Markup',
+            'free'       => 'faq-schema-markup-faq-structured-data/schema-for-faqs.php',                    
+            'opt_name'   => 'saswp-schemaforfaqs',
+            'part_in'    => 'free',
+        ),
         'yet_another_stars_rating'  =>  array(            
             'name'       => 'Yet Another Stars Rating',
             'free'       => 'yet-another-stars-rating/yet-another-stars-rating.php',                    
