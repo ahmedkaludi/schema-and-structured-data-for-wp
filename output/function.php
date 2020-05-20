@@ -46,6 +46,8 @@ function saswp_schema_markup_hook_on_init() {
             remove_action( 'wp_footer', 'orbital_markup_site'); 
             add_filter( 'amp_schemaorg_metadata', '__return_empty_array' );
             add_filter( 'hunch_schema_markup', '__return_false');              
+
+            saswp_remove_anonymous_object_filter_or_action('wp_head', 'Schema_Faqs', 'schema_faqs_head', 'action');
                         
             if(class_exists('BSF_AIOSRS_Pro_Markup')){
                 

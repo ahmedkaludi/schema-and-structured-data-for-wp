@@ -3704,32 +3704,38 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         array(
                                 'label'      => 'Headline',
                                 'id'         => 'saswp_faq_headline_'.$schema_id,
-                                'type'       => 'text'                             
+                                'type'       => 'text',
+                                'default'    => get_the_title()                             
                         ),
                         array(
                                 'label'      => 'Tags',
                                 'id'         => 'saswp_faq_keywords_'.$schema_id,
-                                'type'       => 'text'                            
+                                'type'       => 'text',
+                                'default'    => saswp_get_the_tags()                            
                         ),
                         array(
                                 'label'      => 'Author',
                                 'id'         => 'saswp_faq_author_'.$schema_id,
-                                'type'       => 'text'                            
+                                'type'       => 'text',
+                                'default' => is_object($current_user) ? $current_user->display_name : ''                            
                         ),    
                         array(
                                 'label'      => 'DateCreated',
                                 'id'         => 'saswp_faq_date_created_'.$schema_id,
-                                'type'       => 'text'                            
+                                'type'       => 'text',
+                                'default'    => get_the_date("Y-m-d")                            
                         ),
                         array(
                                 'label'      => 'DatePublished',
                                 'id'         => 'saswp_faq_date_published_'.$schema_id,
-                                'type'       => 'text'                            
+                                'type'       => 'text',
+                                'default'    => get_the_date("Y-m-d")                            
                         ),
                         array(
                                 'label'      => 'DateModified',
                                 'id'         => 'saswp_faq_date_modified_'.$schema_id,
-                                'type'       => 'text'                            
+                                'type'       => 'text',
+                                'default'    => get_the_modified_date("Y-m-d")                            
                         )                                                    
                        );                                                                 
                        

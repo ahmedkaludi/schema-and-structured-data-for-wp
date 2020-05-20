@@ -467,6 +467,11 @@ if ( ! defined('ABSPATH') ) exit;
     }
     
     function saswp_import_schema_for_faqs_plugin_data(){
+
+      global $wpdb;
+                                   
+      $wpdb->query('START TRANSACTION');
+      $errorDesc = array(); 
         
       $post_ids = saswp_get_post_ids('post');
 
@@ -504,14 +509,26 @@ if ( ! defined('ABSPATH') ) exit;
                         update_post_meta($id, 'faq_question_'.$schema_id, $saswp_faq);
                         update_post_meta($id, 'saswp_modify_this_schema_'.$schema_id, 1); 
     
+                    }else{
+                        $schema_enable = array();
+                        $schema_enable[$schema_id] = 0;                                   
+                        update_post_meta($id, 'saswp_enable_disable_schema', $schema_enable);  
                     }
                 }
     
             }
-            
+
         }        
 
       }                      
+      
+      if ( count($errorDesc) ){
+        echo implode("\n<br/>", $errorDesc);           
+        $wpdb->query('ROLLBACK');             
+      }else{
+        $wpdb->query('COMMIT'); 
+        return true;
+      }
                      
     } 
     function saswp_import_wp_custom_rv_plugin_data(){
