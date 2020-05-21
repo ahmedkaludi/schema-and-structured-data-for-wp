@@ -401,7 +401,22 @@ $saswp_add_data_type_config = array(
                     'post_type'   => 'saswp',                                                            
                 );
                 
-                $post_id = wp_insert_post($schema_post);                                  
+				$post_id = wp_insert_post($schema_post);  
+
+				if($post_id){
+					//Insert default placement.
+					$post_data_array = array();                                       
+      				$post_data_array['group-0'] =array(
+                                      'data_array' => array(
+                                                  array(
+                                                  'key_1' => 'post_type',
+                                                  'key_2' => 'equal',
+                                                  'key_3' => 'post',
+                                        )
+                                      )               
+									 );
+			        update_post_meta( $post_id, 'data_group_array', $post_data_array);					
+				}                                
 
                 set_transient('saswp_last_post_id', json_encode(array('post_id'=>$post_id))); 
                 
