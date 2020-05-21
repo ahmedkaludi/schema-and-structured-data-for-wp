@@ -269,7 +269,8 @@ return array(
         ),
         'smart_crawl' => array(            
                     'name'       => 'SmartCrawl Seo',
-                    'free'       => 'smartcrawl-seo/wpmu-dev-seo.php',               
+                    'free'       => 'smartcrawl-seo/wpmu-dev-seo.php',
+                    'pro'        => 'wpmu-dev-seo/wpmu-dev-seo.php',               
                     'opt_name'   => 'saswp-smart-crawl', 
                     'part_in'    => 'free',
         ),
