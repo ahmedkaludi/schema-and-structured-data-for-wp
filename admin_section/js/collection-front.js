@@ -122,7 +122,7 @@ function saswpCollectionSlider(){
 		$slider.find(".saswp-sd").find(".saswp-dot").on('click', function(e){
 			
 			var dotIndex = jQuery(this).index(),
-			totalOffset = $itemscontainer.find(".saswp-slider-item").eq(dotIndex).offset().left - $itemscontainer.offset().left;
+			totalOffset = $itemscontainer.find(".saswp-si").eq(dotIndex).offset().left - $itemscontainer.offset().left;
 					
 			$itemscontainer.find(".saswp-si.saswp-active").removeClass("saswp-active");
 			$itemscontainer.find(".saswp-si").eq(dotIndex).addClass("saswp-active");
