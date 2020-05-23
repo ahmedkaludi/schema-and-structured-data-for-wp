@@ -296,7 +296,7 @@ Class saswp_output_service{
 
                     if($custom_logo_id){
 
-                        $custom_logo    = wp_get_attachment_image_src( $custom_logo_id, $sizes);
+                        $custom_logo    = @wp_get_attachment_image_src( $custom_logo_id, $sizes);
 
                     }
 
@@ -308,7 +308,7 @@ Class saswp_output_service{
                          $response['height'] = array_key_exists(1, $custom_logo)? $custom_logo[1]:'';
                                               
                     }
-                                    
+                break;                    
                 default:
                     if(function_exists('get_field_object')){
                      
