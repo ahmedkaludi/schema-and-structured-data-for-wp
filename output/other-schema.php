@@ -56,3 +56,19 @@ function saswp_schema_for_faqs_schema(){
 
     return $input1;
 }
+
+function saswp_taqyeem_review_rich_snippet(){
+
+    global $post, $sd_data;
+
+    $input1    = array();    
+
+    if(isset($sd_data['saswp-taqyeem']) && $sd_data['saswp-taqyeem'] == 1 && function_exists('taqyeem_review_get_rich_snippet')){
+
+        $input1 = taqyeem_review_get_rich_snippet();
+
+    }
+
+    return apply_filters('saswp_modify_taqeem_default_schema', $input1);    
+
+}

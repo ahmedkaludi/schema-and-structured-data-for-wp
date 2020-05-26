@@ -148,6 +148,7 @@ function saswp_get_all_schema_markup_output() {
         $collection_page          = array(); 
         $blog_page                = array();          
         
+        $taqeem_schema            = saswp_taqyeem_review_rich_snippet(); 
         $schema_for_faqs          = saswp_schema_for_faqs_schema(); 
         $gutenberg_how_to         = saswp_gutenberg_how_to_schema(); 
         $gutenberg_faq            = saswp_gutenberg_faq_schema();
@@ -254,6 +255,12 @@ function saswp_get_all_schema_markup_output() {
                         if(!empty($schema_for_faqs)){
                         
                             $output .= saswp_json_print_format($schema_for_faqs);   
+                            $output .= ",";
+                            $output .= "\n\n";
+                        }
+                        if(!empty($taqeem_schema)){
+                        
+                            $output .= saswp_json_print_format($taqeem_schema);   
                             $output .= ",";
                             $output .= "\n\n";
                         }
