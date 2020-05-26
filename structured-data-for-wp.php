@@ -52,21 +52,16 @@ if ( ! function_exists('saswp_non_amp') ){
       
     $non_amp = true;
     
-    if(function_exists('ampforwp_is_amp_endpoint')) {
-        
-     if(ampforwp_is_amp_endpoint()){
-        $non_amp = false;   
-     }   
-                           
+    if( function_exists('ampforwp_is_amp_endpoint') && @ampforwp_is_amp_endpoint() ) {                
+        $non_amp = false;                       
     }     
-    if(function_exists('is_amp_endpoint') && !function_exists('ampforwp_is_amp_endpoint') ){
-      $non_amp = false;           
-    }
-    if(function_exists('is_better_amp')){
-       
+    if(function_exists('is_amp_endpoint') && @is_amp_endpoint() ){
         $non_amp = false;           
     }
-    if(function_exists('is_amp_wp') && is_amp_wp()){       
+    if(function_exists('is_better_amp') && @is_better_amp()){       
+        $non_amp = false;           
+    }
+    if(function_exists('is_amp_wp') && @is_amp_wp()){       
         $non_amp = false;           
     }
     
