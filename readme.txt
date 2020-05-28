@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.4
-Stable tag: 1.9.37
+Stable tag: 1.9.38
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -119,6 +119,20 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.9.38 (28 May 2020) =
+
+* Fixed: Warning is showing - The organizer field is recommended in event schema #1006
+* Fixed: Fetch all the review count for the local business schema irrespective of pagination #1013
+* Fixed: In Review collection presentation, Design type gallery with slider of carousel is not working when amp by automatic plugin is activated #1023
+* Fixed: If the Presentatation layout "Gallery" and "slider" is selected then the CSS of the review box is breaking #1008
+* Fixed: When logo is set by modifying webpage then "Logo field is required" error is showing #1020
+* Fixed: Two article schema is showing when the Smart Crawl pro schema markup is enabled. #1014
+* Fixed: When user stops add schema wizard in the middle of setting up than add placement to post as default #1009
+* Fixed: Data missing such as dateCreated, answers, answer count in the strutured data testing tool, #1011
+* Added: Import for "FAQ" markup of the "FAQ Schema Markup – FAQ Structured Data" plugin ( https://wordpress.org/plugins/faq-schema-markup-faq-structured-data ) #981
+* Added: Compatibility with "FAQ" markup of the "FAQ Schema Markup – FAQ Structured Data" plugin ( https://wordpress.org/plugins/faq-schema-markup-faq-structured-data ) #984
+* Enhancement: Taqyeem schema should appear in AMP. #982
 
 = 1.9.37.1 (19 May 2020) =
 
