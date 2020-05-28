@@ -37,7 +37,8 @@ return array( 'schema_type_element' => array(
                                'faq-question' => 'faq_question',                                                
                         ),
                         'Event' => array(
-                               'performer'     => 'performer',                                                
+							   'performer'     => 'performer', 
+							   'organizer'     => 'organizer',                                                
 						),
 						'qanda' => array(
 							'accepted_answer'  => 'accepted_answer',
@@ -201,7 +202,31 @@ return array( 'schema_type_element' => array(
 			'name'      => 'saswp_event_performer_url',
 			'type'      => 'text',                        
 		    )                                                            
-                    ),
+					),
+					
+					'organizer' => array(                    						
+							array(
+								'label'     => 'Organizer Name',
+								'name'      => 'saswp_event_organizer_name',
+								'type'      => 'text',                        
+							),
+							array(
+								'label'     => 'Organizer URL',
+								'name'      => 'saswp_event_organizer_url',
+								'type'      => 'text',                        
+							),
+							array(
+								'label'     => 'Organizer Phone',
+								'name'      => 'saswp_event_organizer_phone',
+								'type'      => 'text',                        
+							),
+							array(
+								'label'     => 'Organizer Email',
+								'name'      => 'saswp_event_organizer_email',
+								'type'      => 'text',                        
+							),							                                                            
+						),
+
                     'howto_supply' => array(                    
 						array(
 							'label'     => 'Supply Name',

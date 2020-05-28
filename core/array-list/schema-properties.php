@@ -1079,11 +1079,31 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'label' => 'URL',
                                 'id' => 'saswp_event_schema_url_'.$schema_id,
                                 'type' => 'text',                                
+                        ),                        
+                        array(
+                                'label' => 'Organizer Name',
+                                'id'    => 'saswp_event_schema_organizer_name_'.$schema_id,
+                                'type'  => 'text',                                
+                        ),
+                        array(
+                                'label' => 'Organizer URL',
+                                'id'    => 'saswp_event_schema_organizer_url_'.$schema_id,
+                                'type'  => 'text',                                
+                        ),
+                        array(
+                                'label' => 'Organizer Phone',
+                                'id'    => 'saswp_event_schema_organizer_phone_'.$schema_id,
+                                'type'  => 'text',                                
+                        ),
+                        array(
+                                'label' => 'Organizer Email',
+                                'id'    => 'saswp_event_schema_organizer_email_'.$schema_id,
+                                'type'  => 'text',                                
                         ),
                         array(
                                 'label' => 'Performer Name',
-                                'id' => 'saswp_event_schema_performer_name_'.$schema_id,
-                                'type' => 'text',                                
+                                'id'    => 'saswp_event_schema_performer_name_'.$schema_id,
+                                'type'  => 'text',                                
                         ),
                     );
                     break;

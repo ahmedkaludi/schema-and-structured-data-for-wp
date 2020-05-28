@@ -1545,7 +1545,6 @@ function saswp_feeback_remindme(){
 
 add_action('wp_ajax_saswp_feeback_remindme', 'saswp_feeback_remindme');
 
-
 /**
  * Licensing code starts here
  */

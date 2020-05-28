@@ -445,10 +445,17 @@ function saswp_event_schema_markup($schema_id, $schema_post_id, $all_post_meta){
                     
                 }
 
-
+                    //Performer starts here
                     $performer  = get_post_meta($schema_post_id, 'performer_'.$schema_id, true);
 
                     $performer_arr = array();
+
+                    if(isset($all_post_meta['saswp_event_schema_performer_name_'.$schema_id][0])){
+                        $performer_arr[] = array(
+                            '@type' => 'Person',
+                            'name'  => $all_post_meta['saswp_event_schema_performer_name_'.$schema_id][0]
+                        );
+                    }
 
                     if(!empty($performer)){
 
@@ -460,11 +467,48 @@ function saswp_event_schema_markup($schema_id, $schema_post_id, $all_post_meta){
                             $supply_data['url']          = $val['saswp_event_performer_url'];
 
                             $performer_arr[] =  $supply_data;
-                        }
-
-                       $input1['performer'] = $performer_arr;
+                        }                       
 
                     }
+                    if($performer_arr){
+                        $input1['performer'] = $performer_arr;    
+                    }                    
+                    //Performer ends here
+
+                    //Organizer starts here
+                    $organizer  = get_post_meta($schema_post_id, 'organizer_'.$schema_id, true);
+
+                    $organizer_arr = array();
+
+                    if(isset($all_post_meta['saswp_event_schema_organizer_name_'.$schema_id][0])){
+                        $organizer_arr[] = array(
+                            '@type'      => 'Organization',
+                            'name'       => $all_post_meta['saswp_event_schema_organizer_name_'.$schema_id][0],
+                            'url'        => $all_post_meta['saswp_event_schema_organizer_url_'.$schema_id][0],
+                            'email'      => $all_post_meta['saswp_event_schema_organizer_email_'.$schema_id][0],
+                            'telephone'  => $all_post_meta['saswp_event_schema_organizer_phone_'.$schema_id][0]
+                        );
+                    }
+
+                    if(!empty($organizer)){
+
+                        foreach($organizer as $val){
+
+                            $supply_data = array();
+                            $supply_data['@type']        = 'Organization';
+                            $supply_data['name']         = $val['saswp_event_organizer_name'];                                    
+                            $supply_data['url']          = $val['saswp_event_organizer_url'];
+                            $supply_data['email']        = $val['saswp_event_organizer_email'];
+                            $supply_data['telephone']    = $val['saswp_event_organizer_phone'];
+
+                            $organizer_arr[] =  $supply_data;
+                        }                       
+
+                    }
+                    if($organizer_arr){
+                        $input1['organizer'] = $organizer_arr;
+                    }
+                    //Organizer ends here
     
     
     return $input1;
