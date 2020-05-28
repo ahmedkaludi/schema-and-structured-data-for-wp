@@ -238,7 +238,7 @@ function saswp_get_all_schema_markup_output() {
                             $output .= ",";
                             $output .= "\n\n";
                         }
-                        if(!empty($gutenberg_how_to)){
+                        if(!empty($gutenberg_how_to) && is_singular()){
                         
                             $output .= saswp_json_print_format($gutenberg_how_to);   
                             $output .= ",";
