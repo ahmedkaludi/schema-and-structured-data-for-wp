@@ -148,16 +148,30 @@ function saswp_get_all_schema_markup_output() {
         $collection_page          = array(); 
         $blog_page                = array();          
         
+        $gutenberg_how_to         = array();
+        $gutenberg_faq            = array();
+        $elementor_faq            = array();
+        $elementor_howto          = array();
+        $divi_builder_faq         = array();
+        $gutenberg_event          = array();
+        $gutenberg_job            = array();
+        $gutenberg_course         = array();
+        
+        if(is_singular()){
+
+            $gutenberg_how_to         = saswp_gutenberg_how_to_schema(); 
+            $gutenberg_faq            = saswp_gutenberg_faq_schema();        
+            $elementor_faq            = saswp_elementor_faq_schema();
+            $elementor_howto          = saswp_elementor_howto_schema();
+            $divi_builder_faq         = saswp_divi_builder_faq_schema();
+            $gutenberg_event          = saswp_gutenberg_event_schema();  
+            $gutenberg_job            = saswp_gutenberg_job_schema();
+            $gutenberg_course         = saswp_gutenberg_course_schema();
+
+        }
+
         $taqeem_schema            = saswp_taqyeem_review_rich_snippet(); 
-        $schema_for_faqs          = saswp_schema_for_faqs_schema(); 
-        $gutenberg_how_to         = saswp_gutenberg_how_to_schema(); 
-        $gutenberg_faq            = saswp_gutenberg_faq_schema();
-        $elementor_faq            = saswp_elementor_faq_schema();
-        $elementor_howto          = saswp_elementor_howto_schema();
-        $divi_builder_faq         = saswp_divi_builder_faq_schema();
-        $gutenberg_event          = saswp_gutenberg_event_schema();  
-        $gutenberg_job            = saswp_gutenberg_job_schema();
-        $gutenberg_course         = saswp_gutenberg_course_schema();
+        $schema_for_faqs          = saswp_schema_for_faqs_schema();         
         $woo_cat_schema           = saswp_woocommerce_category_schema();  
         $woo_shop_page            = saswp_woocommerce_shop_page();  
         $site_navigation          = saswp_site_navigation_output();     
