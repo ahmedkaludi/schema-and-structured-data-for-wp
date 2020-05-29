@@ -120,7 +120,7 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
 
-= 1.9.38 (28 May 2020) =
+= 1.9.38 (29 May 2020) =
 
 * Fixed: Warning is showing - The organizer field is recommended in event schema #1006
 * Fixed: Fetch all the review count for the local business schema irrespective of pagination #1013
@@ -132,6 +132,7 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Fixed: Data missing such as dateCreated, answers, answer count in the strutured data testing tool, #1011
 * Added: Import for "FAQ" markup of the "FAQ Schema Markup – FAQ Structured Data" plugin ( https://wordpress.org/plugins/faq-schema-markup-faq-structured-data ) #981
 * Added: Compatibility with "FAQ" markup of the "FAQ Schema Markup – FAQ Structured Data" plugin ( https://wordpress.org/plugins/faq-schema-markup-faq-structured-data ) #984
+* Enhancement: Some Improvement has been done with WordLift compatibility #1015
 * Enhancement: Taqyeem schema should appear in AMP. #982
 
 = 1.9.37.1 (19 May 2020) =
