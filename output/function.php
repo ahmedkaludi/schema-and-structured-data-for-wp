@@ -1209,6 +1209,28 @@ function saswp_remove_microdata($content){
             }
             
         }
+
+        if( isset($sd_data['saswp-wordlift']) && $sd_data['saswp-wordlift'] == 1 ) {
+
+            $regex = '/<script type=\"application\/ld\+json" id=\"wl\-jsonld"\>(.*?)<\/script>/';
+
+            preg_match( $regex, $content, $match);
+            
+            if($match[1] && is_string($match[1])){
+                
+                $data_decode = json_decode($match[1], true);
+
+                if($data_decode && is_array($data_decode)){
+
+                    if(isset($data_decode[0]['@type']) && $data_decode[0]['@type'] == 'Article'){
+                        $content = preg_replace($regex, '', $content);
+                    }
+
+                }                                
+    
+            }
+            
+        }
         
     }             
     

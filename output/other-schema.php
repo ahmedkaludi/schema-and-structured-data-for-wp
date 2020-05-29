@@ -72,3 +72,24 @@ function saswp_taqyeem_review_rich_snippet(){
     return apply_filters('saswp_modify_taqeem_default_schema', $input1);    
 
 }
+
+add_action( 'amp_post_template_footer', 'saswp_wordlift_amp_schema' );
+
+function saswp_wordlift_amp_schema( $amp_template ) {
+
+    global $sd_data;
+
+    $metadata = $amp_template->get( 'metadata' );
+    
+    if ( empty( $metadata ) ) {
+       return;
+    }
+
+    if(isset($sd_data['saswp-wordlift']) && $sd_data['saswp-wordlift'] == 1 && class_exists('Wordlift\Jsonld\Jsonld_Adapter')){
+
+        ?>
+        <script type="application/ld+json" id="wl-jsonld"><?php echo wp_json_encode( $metadata,JSON_UNESCAPED_UNICODE); ?></script>
+        <?php
+
+    } 
+}
