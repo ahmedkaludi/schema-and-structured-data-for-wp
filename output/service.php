@@ -1279,21 +1279,21 @@ Class saswp_output_service{
                      $input1['offers']['url'] =    $custom_fields['saswp_event_schema_url'];
                     }
 
-                    if(isset($custom_fields['saswp_event_organizer_name']) || isset($custom_fields['saswp_event_organizer_url']) || isset($custom_fields['saswp_event_organizer_email']) || isset($custom_fields['saswp_event_organizer_phone'])){
+                    if(isset($custom_fields['saswp_event_schema_organizer_name']) || isset($custom_fields['saswp_event_schema_organizer_url']) || isset($custom_fields['saswp_event_schema_organizer_email']) || isset($custom_fields['saswp_event_schema_organizer_phone'])){
                         
                         $input1['organizer']['@type'] =    'Organization';
 
-                        if(isset($custom_fields['saswp_event_organizer_name'])){
-                            $input1['organizer']['name']  =    $custom_fields['saswp_event_organizer_name'];
+                        if(isset($custom_fields['saswp_event_schema_organizer_name'])){
+                            $input1['organizer']['name']  =    $custom_fields['saswp_event_schema_organizer_name'];
                         }
-                        if(isset($custom_fields['saswp_event_organizer_url'])){
-                            $input1['organizer']['url']  =    $custom_fields['saswp_event_organizer_url'];
+                        if(isset($custom_fields['saswp_event_schema_organizer_url'])){
+                            $input1['organizer']['url']  =    $custom_fields['saswp_event_schema_organizer_url'];
                         }
-                        if(isset($custom_fields['saswp_event_organizer_email'])){
-                            $input1['organizer']['email']  =    $custom_fields['saswp_event_organizer_email'];
+                        if(isset($custom_fields['saswp_event_schema_organizer_email'])){
+                            $input1['organizer']['email']  =    $custom_fields['saswp_event_schema_organizer_email'];
                         }
-                        if(isset($custom_fields['saswp_event_organizer_phone'])){
-                            $input1['organizer']['telephone']  =    $custom_fields['saswp_event_organizer_phone'];
+                        if(isset($custom_fields['saswp_event_schema_organizer_phone'])){
+                            $input1['organizer']['telephone']  =    $custom_fields['saswp_event_schema_organizer_phone'];
                         }                        
                     }
                                         
@@ -2567,6 +2567,15 @@ Class saswp_output_service{
                     }
                     if(isset($custom_fields['saswp_jobposting_schema_bs_unittext'])){
                      $input1['baseSalary']['value']['unitText'] =    $custom_fields['saswp_jobposting_schema_bs_unittext'];
+                    }                    
+                    if(isset($custom_fields['saswp_jobposting_schema_es_currency'])){
+                    $input1['estimatedSalary']['currency'] =    $custom_fields['saswp_jobposting_schema_es_currency'];
+                    }
+                    if(isset($custom_fields['saswp_jobposting_schema_es_value'])){
+                    $input1['estimatedSalary']['value']['value'] =    $custom_fields['saswp_jobposting_schema_es_value'];
+                    }
+                    if(isset($custom_fields['saswp_jobposting_schema_es_unittext'])){
+                    $input1['estimatedSalary']['value']['unitText'] =    $custom_fields['saswp_jobposting_schema_es_unittext'];
                     }                    
                     if(isset($custom_fields['saswp_jobposting_schema_validthrough']) && date('Y-m-d',strtotime($custom_fields['saswp_jobposting_schema_validthrough'])) < date('Y-m-d') ){
                         $input1 = array();    

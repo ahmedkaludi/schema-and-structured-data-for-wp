@@ -3680,7 +3680,31 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'attributes' => array(
                                 'placeholder' => 'Hour'
                             )
-                    ),    
+                    ), 
+                        array(
+                        'label'      => 'Estimated Salary Currency',
+                        'id'         => 'saswp_jobposting_schema_es_currency_'.$schema_id,
+                        'type'       => 'text', 
+                        'attributes' => array(
+                            'placeholder' => 'USD'
+                        )
+                        ),
+                        array(
+                                'label'      => 'Estimated Salary Value',
+                                'id'         => 'saswp_jobposting_schema_es_value_'.$schema_id,
+                                'type'       => 'text', 
+                                'attributes' => array(
+                                'placeholder' => '40.00'
+                                )
+                        ),
+                        array(
+                                'label'      => 'Estimated Salary Unit Text',
+                                'id'         => 'saswp_jobposting_schema_es_unittext_'.$schema_id,
+                                'type'       => 'text', 
+                                'attributes' => array(
+                                'placeholder' => 'Hour'
+                                )
+                        )   
                    
                                               
                    );
