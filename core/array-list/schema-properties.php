@@ -16,6 +16,10 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
             
             $business_type = $current_user = $author_desc = $author_url = $post_id = '';
             $author_details     = array();
+
+            if($schema_id !=null ){
+                $schema_id = intval($schema_id);
+            }
             
             if($review_type){
                 $schema_type = $review_type;

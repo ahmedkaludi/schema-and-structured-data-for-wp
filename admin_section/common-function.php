@@ -477,7 +477,8 @@ if ( ! defined('ABSPATH') ) exit;
 
       if($post_ids){
 
-        $schema_id = saswp_insert_schema_type('schema for faqs');
+        $result    = saswp_insert_schema_type('schema for faqs');
+        $schema_id = intval($result);
 
         if($schema_id){
             
@@ -498,14 +499,14 @@ if ( ! defined('ABSPATH') ) exit;
                             if(isset($value['question'])){
     
                                 $saswp_faq[] =  array(
-                                    'saswp_faq_question_name'   => $value['question'],
-                                    'saswp_faq_question_answer' => $value['answer'],
+                                    'saswp_faq_question_name'   => sanitize_text_field($value['question']),
+                                    'saswp_faq_question_answer' => sanitize_textarea_field($value['answer']),
         
                                 );
     
                             }                        
                         }
-    
+                        //array is sanitize above
                         update_post_meta($id, 'faq_question_'.$schema_id, $saswp_faq);
                         update_post_meta($id, 'saswp_modify_this_schema_'.$schema_id, 1); 
     
