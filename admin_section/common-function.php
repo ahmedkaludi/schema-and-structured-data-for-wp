@@ -466,6 +466,72 @@ if ( ! defined('ABSPATH') ) exit;
                              
     }
     
+    function saswp_import_schema_for_faqs_plugin_data(){
+
+      global $wpdb;
+                                   
+      $wpdb->query('START TRANSACTION');
+      $errorDesc = array(); 
+        
+      $post_ids = saswp_get_post_ids('post');
+
+      if($post_ids){
+
+        $result    = saswp_insert_schema_type('schema for faqs');
+        $schema_id = intval($result);
+
+        if($schema_id){
+            
+            foreach ($post_ids as $id) {
+            
+                $schema_for_faqs = get_post_meta($id, 'schema_faqs_ques_ans_data', true);
+    
+                if($schema_for_faqs){
+    
+                    $data_arr = json_decode($schema_for_faqs, true);
+    
+                    if($data_arr && is_array($data_arr)){
+    
+                        $saswp_faq = array();
+    
+                        foreach ($data_arr as $value) {
+    
+                            if(isset($value['question'])){
+    
+                                $saswp_faq[] =  array(
+                                    'saswp_faq_question_name'   => sanitize_text_field($value['question']),
+                                    'saswp_faq_question_answer' => sanitize_textarea_field($value['answer']),
+        
+                                );
+    
+                            }                        
+                        }
+                        //array is sanitize above
+                        update_post_meta($id, 'faq_question_'.$schema_id, $saswp_faq);
+                        update_post_meta($id, 'saswp_modify_this_schema_'.$schema_id, 1); 
+    
+                    }else{
+                        $schema_enable = array();
+                        $schema_enable[$schema_id] = 0;                                   
+                        update_post_meta($id, 'saswp_enable_disable_schema', $schema_enable);  
+                    }
+                }
+    
+            }
+
+        }        
+
+      }                      
+      
+      if ( count($errorDesc) ){
+        echo implode("\n<br/>", $errorDesc);           
+        $wpdb->query('ROLLBACK');             
+      }else{
+        $wpdb->query('COMMIT'); 
+        return true;
+      }
+                     
+    } 
     function saswp_import_wp_custom_rv_plugin_data(){
         
            global $wpdb;
@@ -2791,6 +2857,7 @@ function saswp_get_field_note($pname){
             'wordlift'                    => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wordlift/">WordLift</a>',
             'ampforwp'                    => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/accelerated-mobile-pages/">AMP for WP</a>',
             'ampbyautomatic'              => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/amp/">AMP</a>',
+            'schemaforfaqs'               => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/faq-schema-markup-faq-structured-data/">FAQ Schema Markup</a>',
             'betteramp'                   => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/kk-star-ratings/">Better AMP</a>',
             'wpamp'                       => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://codecanyon.net/item/wp-amp-accelerated-mobile-pages-for-wordpress-and-woocommerce/16278608">WP AMP</a>',
             'ampwp'                       => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/amp-wp/">AMP WP</a>',
@@ -3180,9 +3247,9 @@ function saswp_update_global_post(){
 
 }
 
-add_filter('wpseo_metadesc', 'saswp_yoast_homepage_meta_desc', 2,2);
+add_filter('wpseo_metadesc', 'saswp_yoast_homepage_meta_desc', 10,2);
 
-function saswp_yoast_homepage_meta_desc($description, $peresentation){
+function saswp_yoast_homepage_meta_desc($description, $peresentation = false){
 
     global $saswp_yoast_home_meta;
 
@@ -3190,3 +3257,46 @@ function saswp_yoast_homepage_meta_desc($description, $peresentation){
 
     return $description;
 }	
+
+function saswp_insert_schema_type($title){
+
+  $postarr = array(
+        'post_type'   =>'saswp',
+        'post_title'  =>$title,
+        'post_status' =>'publish',
+  );
+
+  $insertedPageId = wp_insert_post(  $postarr );
+
+  if($insertedPageId){
+    
+      $post_data_array = array();                                       
+      $post_data_array['group-0'] =array(
+                                      'data_array' => array(
+                                                  array(
+                                                  'key_1' => 'post_type',
+                                                  'key_2' => 'equal',
+                                                  'key_3' => 'post',
+                                        )
+                                      )               
+                                     );
+      $post_data_array['group-1'] =array(
+      'data_array' => array(
+                array(
+                'key_1' => 'post_type',
+                'key_2' => 'equal',
+                'key_3' => 'page',
+        )
+     )               
+    );                               
+   
+  $schema_options_array = array('isAccessibleForFree'=>False,'notAccessibleForFree'=>0,'paywall_class_name'=>'');
+  update_post_meta( $insertedPageId, 'data_group_array', $post_data_array);
+  update_post_meta( $insertedPageId, 'schema_type', 'FAQ');
+  update_post_meta( $insertedPageId, 'schema_options', $schema_options_array);
+
+  }
+
+  return $insertedPageId;
+
+}

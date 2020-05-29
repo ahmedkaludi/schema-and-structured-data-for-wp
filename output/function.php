@@ -45,7 +45,7 @@ function saswp_schema_markup_hook_on_init() {
             remove_action( 'amp_post_template_footer', 'amp_post_template_add_schemaorg_metadata',99,1);  
             remove_action( 'wp_footer', 'orbital_markup_site'); 
             add_filter( 'amp_schemaorg_metadata', '__return_empty_array' );
-            add_filter( 'hunch_schema_markup', '__return_false');              
+            add_filter( 'hunch_schema_markup', '__return_false');                          
                         
             if(class_exists('BSF_AIOSRS_Pro_Markup')){
                 
@@ -147,15 +147,31 @@ function saswp_get_all_schema_markup_output() {
         $item_list                = array();
         $collection_page          = array(); 
         $blog_page                = array();          
-                
-        $gutenberg_how_to         = saswp_gutenberg_how_to_schema(); 
-        $gutenberg_faq            = saswp_gutenberg_faq_schema();
-        $elementor_faq            = saswp_elementor_faq_schema();
-        $elementor_howto          = saswp_elementor_howto_schema();
-        $divi_builder_faq         = saswp_divi_builder_faq_schema();
-        $gutenberg_event          = saswp_gutenberg_event_schema();  
-        $gutenberg_job            = saswp_gutenberg_job_schema();
-        $gutenberg_course         = saswp_gutenberg_course_schema();
+        
+        $gutenberg_how_to         = array();
+        $gutenberg_faq            = array();
+        $elementor_faq            = array();
+        $elementor_howto          = array();
+        $divi_builder_faq         = array();
+        $gutenberg_event          = array();
+        $gutenberg_job            = array();
+        $gutenberg_course         = array();
+        
+        if(is_singular()){
+
+            $gutenberg_how_to         = saswp_gutenberg_how_to_schema(); 
+            $gutenberg_faq            = saswp_gutenberg_faq_schema();        
+            $elementor_faq            = saswp_elementor_faq_schema();
+            $elementor_howto          = saswp_elementor_howto_schema();
+            $divi_builder_faq         = saswp_divi_builder_faq_schema();
+            $gutenberg_event          = saswp_gutenberg_event_schema();  
+            $gutenberg_job            = saswp_gutenberg_job_schema();
+            $gutenberg_course         = saswp_gutenberg_course_schema();
+
+        }
+
+        $taqeem_schema            = saswp_taqyeem_review_rich_snippet(); 
+        $schema_for_faqs          = saswp_schema_for_faqs_schema();         
         $woo_cat_schema           = saswp_woocommerce_category_schema();  
         $woo_shop_page            = saswp_woocommerce_shop_page();  
         $site_navigation          = saswp_site_navigation_output();     
@@ -247,6 +263,18 @@ function saswp_get_all_schema_markup_output() {
                         if(!empty($gutenberg_faq)){
                         
                             $output .= saswp_json_print_format($gutenberg_faq);   
+                            $output .= ",";
+                            $output .= "\n\n";
+                        }
+                        if(!empty($schema_for_faqs)){
+                        
+                            $output .= saswp_json_print_format($schema_for_faqs);   
+                            $output .= ",";
+                            $output .= "\n\n";
+                        }
+                        if(!empty($taqeem_schema)){
+                        
+                            $output .= saswp_json_print_format($taqeem_schema);   
                             $output .= ",";
                             $output .= "\n\n";
                         }
@@ -1178,6 +1206,28 @@ function saswp_remove_microdata($content){
                     
                 }
                 
+            }
+            
+        }
+
+        if( isset($sd_data['saswp-wordlift']) && $sd_data['saswp-wordlift'] == 1 ) {
+
+            $regex = '/<script type=\"application\/ld\+json" id=\"wl\-jsonld"\>(.*?)<\/script>/';
+
+            preg_match( $regex, $content, $match);
+            
+            if($match[1] && is_string($match[1])){
+                
+                $data_decode = json_decode($match[1], true);
+
+                if($data_decode && is_array($data_decode)){
+
+                    if(isset($data_decode[0]['@type']) && $data_decode[0]['@type'] == 'Article'){
+                        $content = preg_replace($regex, '', $content);
+                    }
+
+                }                                
+    
             }
             
         }

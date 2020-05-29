@@ -1203,6 +1203,8 @@ function saswp_schema_output() {
                         
                             case 'qanda':
 
+                                $post_type = get_post_type();
+
                                 $input1 = array(
                                     '@context'			=> saswp_context_url(),
                                     '@type'				=> 'QAPage' ,
@@ -1212,13 +1214,13 @@ function saswp_schema_output() {
                                     ) ,
                                 );
                                                         
-                                if(isset($sd_data['saswp-dw-question-answer']) && $sd_data['saswp-dw-question-answer'] ==1){
+                                if(isset($sd_data['saswp-dw-question-answer']) && $sd_data['saswp-dw-question-answer'] ==1 && ($post_type == 'dwqa-question' || $post_type == 'dwqa-answer')){
                                     
                                     $input1  = $service_object->saswp_dw_question_answers_details(get_the_ID()); 
 
                                 }
 
-                                if(isset($sd_data['saswp-bbpress']) && $sd_data['saswp-bbpress'] ==1){
+                                if(isset($sd_data['saswp-bbpress']) && $sd_data['saswp-bbpress'] ==1 && $post_type == 'topic'){
                                     
                                     $input1  = $service_object->saswp_bb_press_topic_details(get_the_ID()); 
 

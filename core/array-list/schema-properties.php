@@ -16,6 +16,10 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
             
             $business_type = $current_user = $author_desc = $author_url = $post_id = '';
             $author_details     = array();
+
+            if($schema_id !=null ){
+                $schema_id = intval($schema_id);
+            }
             
             if($review_type){
                 $schema_type = $review_type;
@@ -1079,11 +1083,31 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'label' => 'URL',
                                 'id' => 'saswp_event_schema_url_'.$schema_id,
                                 'type' => 'text',                                
+                        ),                        
+                        array(
+                                'label' => 'Organizer Name',
+                                'id'    => 'saswp_event_schema_organizer_name_'.$schema_id,
+                                'type'  => 'text',                                
+                        ),
+                        array(
+                                'label' => 'Organizer URL',
+                                'id'    => 'saswp_event_schema_organizer_url_'.$schema_id,
+                                'type'  => 'text',                                
+                        ),
+                        array(
+                                'label' => 'Organizer Phone',
+                                'id'    => 'saswp_event_schema_organizer_phone_'.$schema_id,
+                                'type'  => 'text',                                
+                        ),
+                        array(
+                                'label' => 'Organizer Email',
+                                'id'    => 'saswp_event_schema_organizer_email_'.$schema_id,
+                                'type'  => 'text',                                
                         ),
                         array(
                                 'label' => 'Performer Name',
-                                'id' => 'saswp_event_schema_performer_name_'.$schema_id,
-                                'type' => 'text',                                
+                                'id'    => 'saswp_event_schema_performer_name_'.$schema_id,
+                                'type'  => 'text',                                
                         ),
                     );
                     break;
@@ -3704,32 +3728,38 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         array(
                                 'label'      => 'Headline',
                                 'id'         => 'saswp_faq_headline_'.$schema_id,
-                                'type'       => 'text'                             
+                                'type'       => 'text',
+                                'default'    => get_the_title()                             
                         ),
                         array(
                                 'label'      => 'Tags',
                                 'id'         => 'saswp_faq_keywords_'.$schema_id,
-                                'type'       => 'text'                            
+                                'type'       => 'text',
+                                'default'    => saswp_get_the_tags()                            
                         ),
                         array(
                                 'label'      => 'Author',
                                 'id'         => 'saswp_faq_author_'.$schema_id,
-                                'type'       => 'text'                            
+                                'type'       => 'text',
+                                'default' => is_object($current_user) ? $current_user->display_name : ''                            
                         ),    
                         array(
                                 'label'      => 'DateCreated',
                                 'id'         => 'saswp_faq_date_created_'.$schema_id,
-                                'type'       => 'text'                            
+                                'type'       => 'text',
+                                'default'    => get_the_date("Y-m-d")                            
                         ),
                         array(
                                 'label'      => 'DatePublished',
                                 'id'         => 'saswp_faq_date_published_'.$schema_id,
-                                'type'       => 'text'                            
+                                'type'       => 'text',
+                                'default'    => get_the_date("Y-m-d")                            
                         ),
                         array(
                                 'label'      => 'DateModified',
                                 'id'         => 'saswp_faq_date_modified_'.$schema_id,
-                                'type'       => 'text'                            
+                                'type'       => 'text',
+                                'default'    => get_the_modified_date("Y-m-d")                            
                         )                                                    
                        );                                                                 
                        

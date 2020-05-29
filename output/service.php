@@ -296,7 +296,7 @@ Class saswp_output_service{
 
                     if($custom_logo_id){
 
-                        $custom_logo    = wp_get_attachment_image_src( $custom_logo_id, $sizes);
+                        $custom_logo    = @wp_get_attachment_image_src( $custom_logo_id, $sizes);
 
                     }
 
@@ -308,7 +308,7 @@ Class saswp_output_service{
                          $response['height'] = array_key_exists(1, $custom_logo)? $custom_logo[1]:'';
                                               
                     }
-                                    
+                break;                    
                 default:
                     if(function_exists('get_field_object')){
                      
@@ -1278,7 +1278,25 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_event_schema_url'])){
                      $input1['offers']['url'] =    $custom_fields['saswp_event_schema_url'];
                     }
-                    
+
+                    if(isset($custom_fields['saswp_event_organizer_name']) || isset($custom_fields['saswp_event_organizer_url']) || isset($custom_fields['saswp_event_organizer_email']) || isset($custom_fields['saswp_event_organizer_phone'])){
+                        
+                        $input1['organizer']['@type'] =    'Organization';
+
+                        if(isset($custom_fields['saswp_event_organizer_name'])){
+                            $input1['organizer']['name']  =    $custom_fields['saswp_event_organizer_name'];
+                        }
+                        if(isset($custom_fields['saswp_event_organizer_url'])){
+                            $input1['organizer']['url']  =    $custom_fields['saswp_event_organizer_url'];
+                        }
+                        if(isset($custom_fields['saswp_event_organizer_email'])){
+                            $input1['organizer']['email']  =    $custom_fields['saswp_event_organizer_email'];
+                        }
+                        if(isset($custom_fields['saswp_event_organizer_phone'])){
+                            $input1['organizer']['telephone']  =    $custom_fields['saswp_event_organizer_phone'];
+                        }                        
+                    }
+                                        
                     break;    
                     
                 case 'TechArticle':      

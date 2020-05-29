@@ -839,6 +839,15 @@ span.saswp-mines{
   cursor: pointer;
   margin: 0 12px;
 }
+.saswp-cs .saswp-sd .saswp-dot {
+  width: 10px;
+  height: 10px;
+  background: #ccc;
+  transition: 0.15s ease-in-out;
+  border-radius: 8px;
+  cursor: pointer;
+  margin: 0 12px;
+}
 .saswp-cs .saswp-sd .saswp-dot.saswp-active {
   background: #0071a1;
 }

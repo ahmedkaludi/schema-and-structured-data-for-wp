@@ -1461,8 +1461,13 @@ function saswp_import_plugin_data(){
                 if ( is_plugin_active('wp-customer-reviews/wp-customer-reviews-3.php')) {
                     $result = saswp_import_wp_custom_rv_plugin_data();      
                 }                
-                break;   
+                break; 
                 
+                case 'schema_for_faqs':                
+                  if ( is_plugin_active('faq-schema-markup-faq-structured-data/schema-for-faqs.php')) {
+                      $result = saswp_import_schema_for_faqs_plugin_data();      
+                  }                
+                break;                 
 
             default:
                 break;
@@ -1539,7 +1544,6 @@ function saswp_feeback_remindme(){
 }
 
 add_action('wp_ajax_saswp_feeback_remindme', 'saswp_feeback_remindme');
-
 
 /**
  * Licensing code starts here

@@ -1345,7 +1345,26 @@ class saswp_reviews_service {
         return $html;
         
     }
-        	                      
+            
+    public  function saswp_get_collection_average_rating($post_ids){
+    
+        $response = null;
+
+        if($post_ids){
+
+            $avg = 0;
+
+            foreach ($post_ids as $value) {
+                $avg += get_post_meta($value, 'saswp_review_rating', true);
+                
+            }
+            if($avg > 0){
+                $response = $avg/ count($post_ids);
+            }            
+        }
+        return $response;
+
+    }
 }
 
 $saswp_service_obj = new saswp_reviews_service();

@@ -1237,19 +1237,16 @@ function saswp_import_callback(){
 		    );
             
         }       
-                
-        ?>
-       
-        <?php
-                                
-        $message               = 'This plugin\'s data already has been imported. Do you want to import again?. click on button above button.';
-        $schema_message        = '';
-        $schema_pro_message    = '';
-        $wp_seo_schema_message = '';
-        $seo_pressor_message   = '';
-        $wpsso_core_message    = '';
-        $aiors_message         = '';
-        $wp_custom_rv_message  = '';
+                                                        
+        $message                 = 'This plugin\'s data already has been imported. Do you want to import again?. click on button above button.';
+        $schema_message          = '';
+        $schema_pro_message      = '';
+        $wp_seo_schema_message   = '';
+        $seo_pressor_message     = '';
+        $wpsso_core_message      = '';
+        $aiors_message           = '';
+        $wp_custom_rv_message    = '';
+        $schema_for_faqs_message = '';
         $schema_plugin         = saswp_check_data_imported_from('schema'); 
         $schema_pro_plugin     = saswp_check_data_imported_from('schema_pro');
         $wp_seo_schema_plugin  = saswp_check_data_imported_from('wp_seo_schema');
@@ -1257,7 +1254,13 @@ function saswp_import_callback(){
         $wpsso_core            = saswp_check_data_imported_from('wpsso_core');
         $aiors                 = saswp_check_data_imported_from('aiors');
         $wp_custom_rv          = saswp_check_data_imported_from('wp_custom_rv');
+        $schema_for_faqs       = saswp_check_data_imported_from('schema_for_faqs');
         
+        if($schema_for_faqs->post_count !=0 ){
+            
+          $schema_for_faqs_message = $message;
+               
+        }
         if($wp_custom_rv->post_count !=0 ){
             
           $wp_custom_rv_message = $message;
@@ -1339,6 +1342,12 @@ function saswp_import_callback(){
                 <li><div class="saswp-tools-field-title"><div class="saswp-tooltip"><span class="saswp-tooltiptext"><?php echo esc_html__('All the settings and data you can import from this plugin when you click start importing','schema-and-structured-data-for-wp') ?></span><strong><?php echo esc_html__('WP Customer Reviews','schema-and-structured-data-for-wp'); ?></strong></div><button data-id="wp_custom_rv" class="button saswp-import-plugins"><?php echo esc_html__('Import','schema-and-structured-data-for-wp'); ?></button>
                         <p class="saswp-imported-message"></p>
                         <?php echo '<p>'.esc_html__($wp_custom_rv_message, 'schema-and-structured-data-for-wp').'</p>'; ?>                          
+                    </div>
+                </li>
+
+                <li><div class="saswp-tools-field-title"><div class="saswp-tooltip"><span class="saswp-tooltiptext"><?php echo esc_html__('All the settings and data you can import from this plugin when you click start importing','schema-and-structured-data-for-wp') ?></span><strong><?php echo esc_html__('FAQ Schema Markup – FAQ Structured Data','schema-and-structured-data-for-wp'); ?></strong></div><button data-id="schema_for_faqs" class="button saswp-import-plugins"><?php echo esc_html__('Import','schema-and-structured-data-for-wp'); ?></button>
+                        <p class="saswp-imported-message"></p>
+                        <?php echo '<p>'.esc_html__($schema_for_faqs_message, 'schema-and-structured-data-for-wp').'</p>'; ?>                          
                     </div>
                 </li>
                 
@@ -1815,7 +1824,20 @@ function saswp_compatibility_page_callback(){
                                 'id'   => 'saswp-ampbyautomatic',
                                 'name' => 'sd_data[saswp-ampbyautomatic]',                             
                         )
-		);
+                );
+        $schemaforfaqs = array(
+                'label'  => 'FAQ Schema Markup',
+                'id'     => 'saswp-schemaforfaqs-checkbox',                        
+                'name'   => 'saswp-schemaforfaqs-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('schemaforfaqs'),
+                'hidden' => array(
+                        'id'   => 'saswp-schemaforfaqs',
+                        'name' => 'sd_data[saswp-schemaforfaqs]',                             
+                )
+        );
+                        
         $total_recipe_generator = array(
 			'label'  => 'Total Recipe Generator',
 			'id'     => 'saswp-total-recipe-generator-checkbox',                        
@@ -2675,6 +2697,7 @@ function saswp_compatibility_page_callback(){
                 $strong_testimonials,
                 $wordpress_news,
                 $WordLift,
+                $schemaforfaqs,
                 $flex_lmx
                 
 	);  

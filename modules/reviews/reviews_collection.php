@@ -244,7 +244,7 @@ class SASWP_Reviews_Collection {
                             
         public function saswp_reviews_collection_shortcode_render($attr){
              
-            global $saswp_post_reviews;
+            global $saswp_post_reviews, $collection_aggregate;
             
             $html = $htmlp = '';
             
@@ -252,13 +252,13 @@ class SASWP_Reviews_Collection {
                 
                 if(isset($attr['id'])){
                 
-                $total_reviews       = array(); 
-                $total_reviews_count = 0;
-                $collection          = array();                  
-                $platform_id         = array();
-                $pagination          = null;
-                $perpage             = null;
-                $data_id             = null;
+                $total_reviews        = array();                 
+                $total_reviews_count  = 0;
+                $collection           = array();                  
+                $platform_id          = array();
+                $pagination           = null;
+                $perpage              = null;
+                $data_id              = null;
                 $dots = $f_interval = $f_visibility = $arrow = 1;
                 $g_type = $design = $cols = $sorting = '';
                 
@@ -343,7 +343,19 @@ class SASWP_Reviews_Collection {
                             $total_reviews = $array_chunk[($data_id-1)]; 
 
                         }
-                                                
+                        
+                        if(!$collection_aggregate){
+
+                            $col_average = $this->_service->saswp_get_collection_average_rating(unserialize($collection_data['saswp_total_reviews'][0]));
+
+                            if($col_average){
+                                $collection_aggregate['count'] = $total_reviews_count;
+                                $collection_aggregate['average']  = $col_average;
+                            }
+                            
+                        }
+                        
+                        
                     }
                                      
                     $collection = $this->_service->saswp_get_reviews_list_by_design($design, $platform_id, $total_reviews, $sorting);                    
