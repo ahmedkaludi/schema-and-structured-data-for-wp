@@ -108,34 +108,8 @@ class saswp_output_compatibility{
        
        // Theme ends here
                                    
-    }
-    
-    public function saswp_wordlift_override(){
-        
-         saswp_remove_anonymous_object_filter_or_action(
-            'wp_head',
-            'Wordlift_Term_JsonLd_Adapter',
-            'wp_head',
-            'action'    
-        );
-         
-         saswp_remove_anonymous_object_filter_or_action(
-            'wp_head',
-            'Wordlift_Jsonld_Service',
-            'wp_head',
-            'action'    
-        );
-                
-    }
-    
-    public function saswp_reviews_override(){
+    }        
             
-        
-       
-   }
-    public function saswp_myhome_override(){                    
-   
-    }
     public function saswp_soledad_override(){
             
          saswp_remove_anonymous_object_filter_or_action(
