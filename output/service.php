@@ -2834,15 +2834,15 @@ Class saswp_output_service{
              
              if($product->get_short_description() && $product->get_description()){
                  
-                 $product_desc = $product->get_short_description().' '.wp_strip_all_tags(strip_shortcodes($product->get_description()));
+                 $product_desc = $product->get_short_description().' '.$product->get_description();
                  
              }else if($product->get_description()){
                  
-                 $product_desc = wp_strip_all_tags(strip_shortcodes($product->get_description()));
+                 $product_desc = $product->get_description();
                  
              }else{
                  
-                 $product_desc = wp_strip_all_tags(strip_shortcodes(get_the_excerpt()));
+                 $product_desc = get_the_excerpt();
                  
              }
              
@@ -2850,7 +2850,7 @@ Class saswp_output_service{
                  $product_desc = saswp_get_the_excerpt();                 
              }
              
-             $product_details['product_description'] = $product_desc;
+             $product_details['product_description'] = wp_strip_all_tags(strip_shortcodes($product_desc));
              
              if($product->get_attributes()){
                  
