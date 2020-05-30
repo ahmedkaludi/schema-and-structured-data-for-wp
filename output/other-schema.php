@@ -16,7 +16,7 @@ function saswp_schema_for_faqs_schema(){
     $input1    = array();
     $saswp_faq = array();
 
-    if(isset($sd_data['saswp-schemaforfaqs']) && $sd_data['saswp-schemaforfaqs'] == 1 && class_exists('Schema_Faqs')){
+    if(isset($sd_data['saswp-schemaforfaqs']) && $sd_data['saswp-schemaforfaqs'] == 1 && class_exists('Schema_Faqs') && !saswp_non_amp()){
 
         $post_meta = get_post_meta($post->ID, 'schema_faqs_ques_ans_data', true);
         $post_meta = str_replace("\'","'",$post_meta);
