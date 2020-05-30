@@ -2807,8 +2807,10 @@ function saswp_remove_anonymous_object_filter_or_action( $tag, $class, $method, 
             return;
         }
        
-        foreach ( $filters as $priority => $filter )
-        {
+        if(is_array($filters)){
+            
+            foreach ( $filters as $priority => $filter )
+            {
              
             foreach ( $filter as $identifier => $function )
             {
@@ -2839,6 +2841,7 @@ function saswp_remove_anonymous_object_filter_or_action( $tag, $class, $method, 
                 }
             }
         }
+        }        
     }
     
 function saswp_get_field_note($pname){
