@@ -51,6 +51,7 @@ $without_aggregate = array(
         'LandmarksOrHistoricalBuildings',
         'PsychologicalTreatment',
         'HinduTemple',
+        'BuddhistTemple',
         'Church',
         'Mosque',
         'Person',

@@ -2116,6 +2116,49 @@ Class saswp_output_service{
                     }
                     
                 break;
+
+                case 'BuddhistTemple':      
+                      
+                    if(isset($custom_fields['saswp_buddhisttemple_schema_name'])){
+                     $input1['name'] =    $custom_fields['saswp_buddhisttemple_schema_name'];
+                    }
+                    if(isset($custom_fields['saswp_buddhisttemple_schema_description'])){
+                     $input1['description'] =   wp_strip_all_tags(strip_shortcodes( $custom_fields['saswp_buddhisttemple_schema_description'] ));
+                    }
+                    if(isset($custom_fields['saswp_buddhisttemple_schema_image'])){
+                     $input1['image'] =    $custom_fields['saswp_buddhisttemple_schema_image'];
+                    }
+                    if(isset($custom_fields['saswp_buddhisttemple_schema_url'])){
+                     $input1['url'] =    $custom_fields['saswp_buddhisttemple_schema_url'];
+                    }
+                    if(isset($custom_fields['saswp_buddhisttemple_schema_hasmap'])){
+                     $input1['hasMap'] =    $custom_fields['saswp_buddhisttemple_schema_hasmap'];
+                    }
+                    if(isset($custom_fields['saswp_buddhisttemple_schema_is_accesible_free'])){
+                     $input1['isAccessibleForFree'] =    $custom_fields['saswp_buddhisttemple_schema_is_accesible_free'];
+                    }
+                    if(isset($custom_fields['saswp_buddhisttemple_schema_maximum_a_capacity'])){
+                     $input1['maximumAttendeeCapacity'] =    $custom_fields['saswp_buddhisttemple_schema_maximum_a_capacity'];
+                    }
+                    if(isset($custom_fields['saswp_buddhisttemple_schema_locality'])){
+                     $input1['address']['addressLocality'] =    $custom_fields['saswp_buddhisttemple_schema_locality'];
+                    }
+                    if(isset($custom_fields['saswp_buddhisttemple_schema_region'])){
+                     $input1['address']['addressRegion'] =    $custom_fields['saswp_buddhisttemple_schema_region'];
+                    }
+                    if(isset($custom_fields['saswp_buddhisttemple_schema_country'])){
+                     $input1['address']['addressCountry'] =    $custom_fields['saswp_buddhisttemple_schema_country'];
+                    }
+                    if(isset($custom_fields['saswp_buddhisttemple_schema_postal_code'])){
+                     $input1['address']['PostalCode'] =    $custom_fields['saswp_buddhisttemple_schema_postal_code'];
+                    }
+                    if(isset($custom_fields['saswp_buddhisttemple_schema_latitude']) && isset($custom_fields['saswp_buddhisttemple_schema_longitude'])){                        
+                     $input1['geo']['@type']     =    'GeoCoordinates';   
+                     $input1['geo']['latitude']  =    $custom_fields['saswp_buddhisttemple_schema_latitude'];
+                     $input1['geo']['longitude'] =    $custom_fields['saswp_buddhisttemple_schema_longitude'];                     
+                    }
+                    
+                break;
                 
                 case 'Church':      
                       

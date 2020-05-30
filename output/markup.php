@@ -1811,6 +1811,42 @@ function saswp_church_schema_markup($schema_id, $schema_post_id, $all_post_meta)
     
 }
 
+function saswp_buddhist_temple_schema_markup($schema_id, $schema_post_id, $all_post_meta){
+    
+    $input1 = array();
+    
+    $howto_image = get_post_meta( get_the_ID(), 'saswp_buddhisttemple_schema_image_'.$schema_id.'_detail',true); 
+
+    $input1['@context']              = saswp_context_url();
+    $input1['@type']                 = 'BuddhistTemple';
+    $input1['@id']                   = trailingslashit(get_permalink()).'#BuddhistTemple';
+    $input1['url']                   = saswp_remove_warnings($all_post_meta, 'saswp_buddhisttemple_schema_url_'.$schema_id, 'saswp_array');                            
+    $input1['name']                  = saswp_remove_warnings($all_post_meta, 'saswp_buddhisttemple_schema_name_'.$schema_id, 'saswp_array');                            
+    $input1['description']           = saswp_remove_warnings($all_post_meta, 'saswp_buddhisttemple_schema_description_'.$schema_id, 'saswp_array');
+
+    if(!(empty($howto_image))){
+
+    $input1['image']['@type']        = 'ImageObject';
+    $input1['image']['url']          = isset($howto_image['thumbnail']) ? esc_url($howto_image['thumbnail']):'';
+    $input1['image']['height']       = isset($howto_image['width'])     ? esc_attr($howto_image['width'])   :'';
+    $input1['image']['width']        = isset($howto_image['height'])    ? esc_attr($howto_image['height'])  :'';
+
+    }  
+
+    $input1['isAccessibleForFree']        = saswp_remove_warnings($all_post_meta, 'saswp_buddhisttemple_schema_is_accesible_free_'.$schema_id, 'saswp_array');                           
+    $input1['maximumAttendeeCapacity']    = saswp_remove_warnings($all_post_meta, 'saswp_buddhisttemple_schema_maximum_a_capacity_'.$schema_id, 'saswp_array');
+    $input1['hasMap']                     = saswp_remove_warnings($all_post_meta, 'saswp_buddhisttemple_schema_hasmap_'.$schema_id, 'saswp_array');
+
+    $input1['address']['@type']             = 'PostalAddress';
+    $input1['address']['addressCountry']    = saswp_remove_warnings($all_post_meta, 'saswp_buddhisttemple_schema_country_'.$schema_id, 'saswp_array');
+    $input1['address']['addressLocality']   = saswp_remove_warnings($all_post_meta, 'saswp_buddhisttemple_schema_locality_'.$schema_id, 'saswp_array');
+    $input1['address']['addressRegion']     = saswp_remove_warnings($all_post_meta, 'saswp_buddhisttemple_schema_region_'.$schema_id, 'saswp_array');
+    $input1['address']['PostalCode']        = saswp_remove_warnings($all_post_meta, 'saswp_buddhisttemple_schema_postal_code_'.$schema_id, 'saswp_array');
+    
+    return $input1;
+    
+}
+
 function saswp_hindu_temple_schema_markup($schema_id, $schema_post_id, $all_post_meta){
     
     $input1 = array();
