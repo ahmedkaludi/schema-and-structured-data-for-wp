@@ -189,10 +189,8 @@ class saswp_output_compatibility{
             }
                 
     }
-    public function saswp_simple_author_box_override(){                                                    
-    }
-    public function saswp_taqyeem_override(){ 
-        print_r('dd');die;
+    
+    public function saswp_taqyeem_override(){         
         remove_filter('tie_taqyeem_after_review_box', 'taqyeem_review_rich_snippet');
     }
 
