@@ -3405,6 +3405,89 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                               
                    );
                     break;
+
+                    case 'BuddhistTemple':
+                    
+                        $meta_field = array(
+                        array(
+                                'label'      => 'Name',
+                                'id'         => 'saswp_buddhisttemple_schema_name_'.$schema_id,
+                                'type'       => 'text',
+                                'attributes' => array(
+                                    'placeholder' => 'Name'
+                                ), 
+                        ),
+                        array(
+                                'label'      => 'Description',
+                                'id'         => 'saswp_buddhisttemple_schema_description_'.$schema_id,
+                                'type'       => 'textarea',
+                                'attributes' => array(
+                                    'placeholder' => 'Description'
+                                ), 
+                        ),
+                        array(
+                                'label'      => 'Image',
+                                'id'         => 'saswp_buddhisttemple_schema_image_'.$schema_id,
+                                'type'       => 'media',                            
+                        ),    
+                        array(
+                                'label'      => 'URL',
+                                'id'         => 'saswp_buddhisttemple_schema_url_'.$schema_id,
+                                'type'       => 'text',
+                                'default'    => get_permalink()
+                        ),  
+                        array(
+                                'label'      => 'Has Map',
+                                'id'         => 'saswp_buddhisttemple_schema_hasmap_'.$schema_id,
+                                'type'       => 'text',                            
+                        ),                      
+                        array(
+                                'label'      => 'Is Accessible For Free',
+                                'id'         => 'saswp_buddhisttemple_schema_is_accesible_free_'.$schema_id,
+                                'type'       => 'select',
+                                'options'    => array(
+                                        'true'   => 'True',
+                                        'false'  => 'False',
+                                )
+                        ),
+                        array(
+                                'label'      => 'Maximum Attendee Capacity',
+                                'id'         => 'saswp_buddhisttemple_schema_maximum_a_capacity_'.$schema_id,
+                                'type'       => 'text',                            
+                        ),    
+                        array(
+                                'label'      => 'Address Locality',
+                                'id'         => 'saswp_buddhisttemple_schema_locality_'.$schema_id,
+                                'type'       => 'text',                            
+                        ),
+                        array(
+                                'label'      => 'Address Region',
+                                'id'         => 'saswp_buddhisttemple_schema_region_'.$schema_id,
+                                'type'       => 'text',                            
+                        ),    
+                        array(
+                                'label'      => 'Address Country',
+                                'id'         => 'saswp_buddhisttemple_schema_country_'.$schema_id,
+                                'type'       => 'text',                            
+                        ),
+                        array(
+                                'label'      => 'Address PostalCode',
+                                'id'         => 'saswp_buddhisttemple_schema_postal_code_'.$schema_id,
+                                'type'       => 'text',                            
+                        ), 
+                        array(
+                                'label'      => 'Latitude',
+                                'id'         => 'saswp_buddhisttemple_schema_latitude_'.$schema_id,
+                                'type'       => 'text',                            
+                        ),
+                        array(
+                                'label'      => 'Longitude',
+                                'id'         => 'saswp_buddhisttemple_schema_longitude_'.$schema_id,
+                                'type'       => 'text',                            
+                        ),    
+                                                  
+                       );
+                        break;    
                 
                 case 'Church':
                     
@@ -3680,7 +3763,31 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'attributes' => array(
                                 'placeholder' => 'Hour'
                             )
-                    ),    
+                    ), 
+                        array(
+                        'label'      => 'Estimated Salary Currency',
+                        'id'         => 'saswp_jobposting_schema_es_currency_'.$schema_id,
+                        'type'       => 'text', 
+                        'attributes' => array(
+                            'placeholder' => 'USD'
+                        )
+                        ),
+                        array(
+                                'label'      => 'Estimated Salary Value',
+                                'id'         => 'saswp_jobposting_schema_es_value_'.$schema_id,
+                                'type'       => 'text', 
+                                'attributes' => array(
+                                'placeholder' => '40.00'
+                                )
+                        ),
+                        array(
+                                'label'      => 'Estimated Salary Unit Text',
+                                'id'         => 'saswp_jobposting_schema_es_unittext_'.$schema_id,
+                                'type'       => 'text', 
+                                'attributes' => array(
+                                'placeholder' => 'Hour'
+                                )
+                        )   
                    
                                               
                    );

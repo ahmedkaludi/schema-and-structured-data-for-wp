@@ -311,18 +311,12 @@ function saswp_comparison_logic_checker($input){
               
                   $current_post_type = '';
               
-                  if( (is_singular() || is_admin() || is_front_page()) && is_object($post) ){
+                  if( (is_singular() || is_admin()) && is_object($post) && !is_front_page()){
                       
                      $current_post_type  = get_post_type($post->ID);   
                      
                   } 
-                  
-                  if(function_exists('ampforwp_is_front_page') && ampforwp_is_front_page()){
-
-                    $current_post_type = 'page';
-                    
-                  }
-                  
+                                                      
                   if ( $comparison == 'equal' ) {
                       
                   if ( $current_post_type == $data ) {

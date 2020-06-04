@@ -16,7 +16,7 @@ function saswp_schema_for_faqs_schema(){
     $input1    = array();
     $saswp_faq = array();
 
-    if(isset($sd_data['saswp-schemaforfaqs']) && $sd_data['saswp-schemaforfaqs'] == 1 && class_exists('Schema_Faqs')){
+    if(isset($sd_data['saswp-schemaforfaqs']) && $sd_data['saswp-schemaforfaqs'] == 1 && class_exists('Schema_Faqs') && !saswp_non_amp()){
 
         $post_meta = get_post_meta($post->ID, 'schema_faqs_ques_ans_data', true);
         $post_meta = str_replace("\'","'",$post_meta);
@@ -65,8 +65,12 @@ function saswp_taqyeem_review_rich_snippet(){
 
     if(isset($sd_data['saswp-taqyeem']) && $sd_data['saswp-taqyeem'] == 1 && function_exists('taqyeem_review_get_rich_snippet')){
 
-        $input1 = taqyeem_review_get_rich_snippet();
-
+        $get_meta = get_post_custom( $post->ID );
+        
+        if( !empty( $get_meta['taq_review_position'][0] ) ){
+            $input1 = taqyeem_review_get_rich_snippet();
+        }
+        
     }
 
     return apply_filters('saswp_modify_taqeem_default_schema', $input1);    

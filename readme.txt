@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.4
-Stable tag: 1.9.38
+Stable tag: 1.9.39
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -119,6 +119,20 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.9.39 (04 June 2020) =
+
+* Fixed: Placement: Post type equal to page should not apply to custom front page #1038
+* Fixed: Uncaught Error: [ ] operator not supported for strings in admin_section/settings.php line 23 #1037
+* Fixed: fix an issue with Image block of Gutenberg #1035
+* Fixed: WP Recipe card is not visible in Structured data test for the amp post - Proper parent conditioning #1034
+* Fixed: Review schema is added in the markup when it is not enabled on the post - Taqyeem compatibility. #1036
+* Fixed: Description includes HTML in the itemlist-webpage schema. #1024
+* Added: Image resizer option in gutenberg how-to(SASWP) Block #1018
+* Added: Buddhist schema type #985
+* Added: Estimated salary property in Jobposting schema type. #989
+* Enhancement: Rating form rating value should be 5 by default. #1033
+
 
 = 1.9.38 (29 May 2020) =
 

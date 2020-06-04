@@ -163,3 +163,10 @@ and open the template in the editor.
 /* 
     Course Block css ends here
 */
+.saswp-how-to-dimension{
+    display: flex;
+    justify-content: space-between;    
+}
+.saswp-how-to-image-dimension{
+    margin: 3px;
+}

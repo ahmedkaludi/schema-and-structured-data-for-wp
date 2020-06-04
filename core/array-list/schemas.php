@@ -67,8 +67,9 @@ return array(
             'LandmarksOrHistoricalBuildings'  => 'LandmarksOrHistoricalBuildings',
         ),
         'PlaceOfWorship' => array(
-            'HinduTemple'         => 'HinduTemple',
+            'BuddhistTemple'      => 'BuddhistTemple',
             'Church'              => 'Church',
+            'HinduTemple'         => 'HinduTemple',            
             'Mosque'              => 'Mosque',
         ),
         'Thing' => array(

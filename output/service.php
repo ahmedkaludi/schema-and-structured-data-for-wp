@@ -1279,21 +1279,21 @@ Class saswp_output_service{
                      $input1['offers']['url'] =    $custom_fields['saswp_event_schema_url'];
                     }
 
-                    if(isset($custom_fields['saswp_event_organizer_name']) || isset($custom_fields['saswp_event_organizer_url']) || isset($custom_fields['saswp_event_organizer_email']) || isset($custom_fields['saswp_event_organizer_phone'])){
+                    if(isset($custom_fields['saswp_event_schema_organizer_name']) || isset($custom_fields['saswp_event_schema_organizer_url']) || isset($custom_fields['saswp_event_schema_organizer_email']) || isset($custom_fields['saswp_event_schema_organizer_phone'])){
                         
                         $input1['organizer']['@type'] =    'Organization';
 
-                        if(isset($custom_fields['saswp_event_organizer_name'])){
-                            $input1['organizer']['name']  =    $custom_fields['saswp_event_organizer_name'];
+                        if(isset($custom_fields['saswp_event_schema_organizer_name'])){
+                            $input1['organizer']['name']  =    $custom_fields['saswp_event_schema_organizer_name'];
                         }
-                        if(isset($custom_fields['saswp_event_organizer_url'])){
-                            $input1['organizer']['url']  =    $custom_fields['saswp_event_organizer_url'];
+                        if(isset($custom_fields['saswp_event_schema_organizer_url'])){
+                            $input1['organizer']['url']  =    $custom_fields['saswp_event_schema_organizer_url'];
                         }
-                        if(isset($custom_fields['saswp_event_organizer_email'])){
-                            $input1['organizer']['email']  =    $custom_fields['saswp_event_organizer_email'];
+                        if(isset($custom_fields['saswp_event_schema_organizer_email'])){
+                            $input1['organizer']['email']  =    $custom_fields['saswp_event_schema_organizer_email'];
                         }
-                        if(isset($custom_fields['saswp_event_organizer_phone'])){
-                            $input1['organizer']['telephone']  =    $custom_fields['saswp_event_organizer_phone'];
+                        if(isset($custom_fields['saswp_event_schema_organizer_phone'])){
+                            $input1['organizer']['telephone']  =    $custom_fields['saswp_event_schema_organizer_phone'];
                         }                        
                     }
                                         
@@ -2116,6 +2116,49 @@ Class saswp_output_service{
                     }
                     
                 break;
+
+                case 'BuddhistTemple':      
+                      
+                    if(isset($custom_fields['saswp_buddhisttemple_schema_name'])){
+                     $input1['name'] =    $custom_fields['saswp_buddhisttemple_schema_name'];
+                    }
+                    if(isset($custom_fields['saswp_buddhisttemple_schema_description'])){
+                     $input1['description'] =   wp_strip_all_tags(strip_shortcodes( $custom_fields['saswp_buddhisttemple_schema_description'] ));
+                    }
+                    if(isset($custom_fields['saswp_buddhisttemple_schema_image'])){
+                     $input1['image'] =    $custom_fields['saswp_buddhisttemple_schema_image'];
+                    }
+                    if(isset($custom_fields['saswp_buddhisttemple_schema_url'])){
+                     $input1['url'] =    $custom_fields['saswp_buddhisttemple_schema_url'];
+                    }
+                    if(isset($custom_fields['saswp_buddhisttemple_schema_hasmap'])){
+                     $input1['hasMap'] =    $custom_fields['saswp_buddhisttemple_schema_hasmap'];
+                    }
+                    if(isset($custom_fields['saswp_buddhisttemple_schema_is_accesible_free'])){
+                     $input1['isAccessibleForFree'] =    $custom_fields['saswp_buddhisttemple_schema_is_accesible_free'];
+                    }
+                    if(isset($custom_fields['saswp_buddhisttemple_schema_maximum_a_capacity'])){
+                     $input1['maximumAttendeeCapacity'] =    $custom_fields['saswp_buddhisttemple_schema_maximum_a_capacity'];
+                    }
+                    if(isset($custom_fields['saswp_buddhisttemple_schema_locality'])){
+                     $input1['address']['addressLocality'] =    $custom_fields['saswp_buddhisttemple_schema_locality'];
+                    }
+                    if(isset($custom_fields['saswp_buddhisttemple_schema_region'])){
+                     $input1['address']['addressRegion'] =    $custom_fields['saswp_buddhisttemple_schema_region'];
+                    }
+                    if(isset($custom_fields['saswp_buddhisttemple_schema_country'])){
+                     $input1['address']['addressCountry'] =    $custom_fields['saswp_buddhisttemple_schema_country'];
+                    }
+                    if(isset($custom_fields['saswp_buddhisttemple_schema_postal_code'])){
+                     $input1['address']['PostalCode'] =    $custom_fields['saswp_buddhisttemple_schema_postal_code'];
+                    }
+                    if(isset($custom_fields['saswp_buddhisttemple_schema_latitude']) && isset($custom_fields['saswp_buddhisttemple_schema_longitude'])){                        
+                     $input1['geo']['@type']     =    'GeoCoordinates';   
+                     $input1['geo']['latitude']  =    $custom_fields['saswp_buddhisttemple_schema_latitude'];
+                     $input1['geo']['longitude'] =    $custom_fields['saswp_buddhisttemple_schema_longitude'];                     
+                    }
+                    
+                break;
                 
                 case 'Church':      
                       
@@ -2568,6 +2611,15 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_jobposting_schema_bs_unittext'])){
                      $input1['baseSalary']['value']['unitText'] =    $custom_fields['saswp_jobposting_schema_bs_unittext'];
                     }                    
+                    if(isset($custom_fields['saswp_jobposting_schema_es_currency'])){
+                    $input1['estimatedSalary']['currency'] =    $custom_fields['saswp_jobposting_schema_es_currency'];
+                    }
+                    if(isset($custom_fields['saswp_jobposting_schema_es_value'])){
+                    $input1['estimatedSalary']['value']['value'] =    $custom_fields['saswp_jobposting_schema_es_value'];
+                    }
+                    if(isset($custom_fields['saswp_jobposting_schema_es_unittext'])){
+                    $input1['estimatedSalary']['value']['unitText'] =    $custom_fields['saswp_jobposting_schema_es_unittext'];
+                    }                    
                     if(isset($custom_fields['saswp_jobposting_schema_validthrough']) && date('Y-m-d',strtotime($custom_fields['saswp_jobposting_schema_validthrough'])) < date('Y-m-d') ){
                         $input1 = array();    
                     }
@@ -2782,15 +2834,15 @@ Class saswp_output_service{
              
              if($product->get_short_description() && $product->get_description()){
                  
-                 $product_desc = $product->get_short_description().' '.wp_strip_all_tags(strip_shortcodes($product->get_description()));
+                 $product_desc = $product->get_short_description().' '.$product->get_description();
                  
              }else if($product->get_description()){
                  
-                 $product_desc = wp_strip_all_tags(strip_shortcodes($product->get_description()));
+                 $product_desc = $product->get_description();
                  
              }else{
                  
-                 $product_desc = wp_strip_all_tags(strip_shortcodes(get_the_excerpt()));
+                 $product_desc = get_the_excerpt();
                  
              }
              
@@ -2798,7 +2850,7 @@ Class saswp_output_service{
                  $product_desc = saswp_get_the_excerpt();                 
              }
              
-             $product_details['product_description'] = $product_desc;
+             $product_details['product_description'] = wp_strip_all_tags(strip_shortcodes($product_desc));
              
              if($product->get_attributes()){
                  

@@ -1,7 +1,7 @@
 jQuery(document).ready(function($){  
 
     jQuery(".saswp-rating-front-div").rateYo({              
-              rating : 1,  
+              rating : 5,  
               fullStar: true,                           
               onSet: function (rating, rateYoInstance) {
                 $(this).next().val(rating);               
