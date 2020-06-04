@@ -40,24 +40,34 @@ function saswp_schema_markup_hook_on_init() {
             }               
             
             add_action('cooked_amp_head', 'saswp_schema_markup_output');
+            
+            if(saswp_global_option()){
+
+                remove_action( 'amp_post_template_head', 'amp_post_template_add_schemaorg_metadata',99,1);
+                remove_action( 'amp_post_template_footer', 'amp_post_template_add_schemaorg_metadata',99,1);  
+                remove_action( 'wp_footer', 'orbital_markup_site'); 
+                add_filter( 'amp_schemaorg_metadata', '__return_empty_array' );
+                add_filter( 'hunch_schema_markup', '__return_false');                          
+                
+            }
                                     
-            remove_action( 'amp_post_template_head', 'amp_post_template_add_schemaorg_metadata',99,1);
-            remove_action( 'amp_post_template_footer', 'amp_post_template_add_schemaorg_metadata',99,1);  
-            remove_action( 'wp_footer', 'orbital_markup_site'); 
-            add_filter( 'amp_schemaorg_metadata', '__return_empty_array' );
-            add_filter( 'hunch_schema_markup', '__return_false');                          
-                        
             if(class_exists('BSF_AIOSRS_Pro_Markup')){
                 
-                remove_action( 'wp_head', array( BSF_AIOSRS_Pro_Markup::get_instance(), 'schema_markup' ),10);
-                remove_action( 'wp_head', array( BSF_AIOSRS_Pro_Markup::get_instance(), 'global_schemas_markup' ),10);
-                remove_action( 'wp_footer', array( BSF_AIOSRS_Pro_Markup::get_instance(), 'schema_markup' ),10);
-                remove_action( 'wp_footer', array( BSF_AIOSRS_Pro_Markup::get_instance(), 'global_schemas_markup' ),10);
+                if(saswp_global_option()){
+
+                    remove_action( 'wp_head', array( BSF_AIOSRS_Pro_Markup::get_instance(), 'schema_markup' ),10);
+                    remove_action( 'wp_head', array( BSF_AIOSRS_Pro_Markup::get_instance(), 'global_schemas_markup' ),10);
+                    remove_action( 'wp_footer', array( BSF_AIOSRS_Pro_Markup::get_instance(), 'schema_markup' ),10);
+                    remove_action( 'wp_footer', array( BSF_AIOSRS_Pro_Markup::get_instance(), 'global_schemas_markup' ),10);
+
+                }                
                 
             }
             
             if(isset($sd_data['saswp-wp-recipe-maker']) && $sd_data['saswp-wp-recipe-maker'] == 1){
-                add_filter( 'wprm_recipe_metadata', '__return_false' );            
+                if(saswp_global_option()){
+                    add_filter( 'wprm_recipe_metadata', '__return_false' );            
+                }                
             }
                                     
             if(isset($sd_data['saswp-microdata-cleanup']) && $sd_data['saswp-microdata-cleanup'] == 1){                
