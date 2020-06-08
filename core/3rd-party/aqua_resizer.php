@@ -308,15 +308,27 @@ if(!function_exists('saswp_aq_resize')) {
         } 
         /* Jetpack Compatible*/
         elseif( class_exists( 'Jetpack' ) && Jetpack::is_module_active( 'photon' ) ) {
-            $args = array(
-                'resize' => "$width,$height"
-            );
-             $image = array (
-                        0 => jetpack_photon_url( $url, $args ),
-                        1 => $width,
-                        2 => $height
-                    );
-            return $image;
+            
+        $uploads_dir = wp_upload_dir();
+        $baseurl     = $uploads_dir['baseurl'];
+		
+		if($url && strpos($url, 'uploads')!== false){
+			
+				$divideurl   = explode('uploads', $url);
+				$url         = $baseurl.$divideurl[1];		
+				
+				if(strpos($url, '?')!== false){
+				
+					$url         = explode('?', $url);
+				    $url         = $url[0];
+					
+				}	
+											
+				$aq_resize = Aq_Resize::getInstance();
+				return $aq_resize->process( $url, $width, $height, $crop, $single, $upscale );
+		
+		}
+
         }
         elseif( function_exists('fifu_activate') || is_plugin_active('fifu-premium/fifu-premium.php') ){
             return fifu_amp_url($url, $width, $height); 
