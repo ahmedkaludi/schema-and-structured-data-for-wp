@@ -2143,7 +2143,7 @@ function saswp_woocommerce_shop_page(){
  */
 function saswp_archive_output(){
     
-	global $query_string, $sd_data;   
+	global $query_string, $sd_data, $wp_query;   
                 
     $output = array();
     $category_posts   = array();
@@ -2221,9 +2221,21 @@ function saswp_archive_output(){
 
         if( $homepage ){
             
+            $home_query_string = array(
+                'posts_per_page' => 10
+            );
+            
+            if($wp_query->query_vars['posts_per_page']){
+                $home_query_string = array(
+                    'posts_per_page' => $wp_query->query_vars['posts_per_page']
+                );  
+            }
+            
+            $homepage_loop = new WP_Query( $home_query_string );                
+
             $i = 1;
-            if ( have_posts() ):
-                while( have_posts() ): the_post();
+            if ( $homepage_loop->have_posts() ):
+                while( $homepage_loop->have_posts() ): $homepage_loop->the_post();
                                                    
                                     $result            = saswp_get_loop_markup($i);
                                     $category_posts[]  =  $result['schema_properties'];                                                                                                                                                                                                        
@@ -2231,7 +2243,7 @@ function saswp_archive_output(){
                                     
                     $i++;
                 endwhile;
-            endif;				
+            endif;					
             wp_reset_postdata(); 
 
                 if($category_posts){

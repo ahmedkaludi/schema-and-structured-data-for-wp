@@ -2670,7 +2670,35 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'id'         => 'saswp_mc_schema_diagnosis_name_'.$schema_id,
                             'type'       => 'text', 
                             
-                    )                     
+                     ),
+                     array(
+                        'label'      => 'Drug',
+                        'id'         => 'saswp_mc_schema_drug_'.$schema_id,
+                        'type'       => 'text', 
+                        
+                     ),
+                     array(
+                        'label'      => 'Primary Prevention Name',
+                        'id'         => 'saswp_mc_schema_primary_prevention_name_'.$schema_id,
+                        'type'       => 'text', 
+                        
+                     ),
+                     array(
+                        'label'      => 'Primary Prevention Performed',
+                        'id'         => 'saswp_mc_schema_primary_prevention_performed_'.$schema_id,
+                        'type'       => 'textarea',                         
+                     ),
+                     array(
+                        'label'      => 'Possible Treatment Name',
+                        'id'         => 'saswp_mc_schema_possible_treatment_name_'.$schema_id,
+                        'type'       => 'text', 
+                        
+                     ),
+                     array(
+                        'label'      => 'Possible Treatment Performed',
+                        'id'         => 'saswp_mc_schema_possible_treatment_performed_'.$schema_id,
+                        'type'       => 'textarea',                         
+                     )                                          
                    );
                     break;
                 

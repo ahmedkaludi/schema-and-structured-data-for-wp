@@ -2256,6 +2256,22 @@ function saswp_medical_condition_schema_markup($schema_id, $schema_post_id, $all
 
     }
 
+    if( isset($all_post_meta['saswp_mc_schema_drug_'.$schema_id][0]) ){
+        $input1['drug']              = $all_post_meta['saswp_mc_schema_drug_'.$schema_id][0];
+    }
+
+    if( isset($all_post_meta['saswp_mc_schema_primary_prevention_name_'.$schema_id][0]) || isset($all_post_meta['saswp_mc_schema_primary_prevention_performed_'.$schema_id][0]) ){
+        $input1['primaryPrevention']['@type']                    = 'MedicalTherapy';
+        $input1['primaryPrevention']['name']         = $all_post_meta['saswp_mc_schema_primary_prevention_name_'.$schema_id][0];
+        $input1['primaryPrevention']['howPerformed'] = $all_post_meta['saswp_mc_schema_primary_prevention_performed_'.$schema_id][0];
+    }
+
+    if( isset($all_post_meta['saswp_mc_schema_possible_treatment_name_'.$schema_id][0]) || isset($all_post_meta['saswp_mc_schema_possible_treatment_performed_'.$schema_id][0]) ){
+        $input1['possibleTreatment']['@type']                    = 'MedicalTherapy';
+        $input1['possibleTreatment']['name']         = $all_post_meta['saswp_mc_schema_possible_treatment_name_'.$schema_id][0];
+        $input1['possibleTreatment']['howPerformed'] = $all_post_meta['saswp_mc_schema_possible_treatment_performed_'.$schema_id][0];
+    }
+    
     $input1['associatedAnatomy']['@type']   = 'AnatomicalStructure';
     $input1['associatedAnatomy']['name']    = saswp_remove_warnings($all_post_meta, 'saswp_mc_schema_anatomy_name_'.$schema_id, 'saswp_array');                            
 

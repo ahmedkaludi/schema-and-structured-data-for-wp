@@ -2665,6 +2665,17 @@ Class saswp_output_service{
                     }
                     if(isset($custom_fields['saswp_mc_schema_coding_system'])){
                      $input1['code']['codingSystem'] =    $custom_fields['saswp_mc_schema_coding_system'];
+                    }
+                    if(isset($custom_fields['saswp_mc_schema_drug'])){
+                        $input1['drug'] =    $custom_fields['saswp_mc_schema_drug'];
+                    }
+                    if( isset($custom_fields['saswp_mc_schema_possible_treatment_name']) || isset($custom_fields['saswp_mc_schema_possible_treatment_performed']) ){
+                        $input1['possibleTreatment']['name']         =    $custom_fields['saswp_mc_schema_possible_treatment_name'];
+                        $input1['possibleTreatment']['howPerformed'] =    $custom_fields['saswp_mc_schema_possible_treatment_performed'];
+                    }
+                    if( isset($custom_fields['saswp_mc_schema_primary_prevention_name']) || isset($custom_fields['saswp_mc_schema_primary_prevention_performed']) ){
+                        $input1['primaryPrevention']['name']         =    $custom_fields['saswp_mc_schema_primary_prevention_name'];
+                        $input1['primaryPrevention']['howPerformed'] =    $custom_fields['saswp_mc_schema_primary_prevention_performed'];
                     }                    
                     
                 break;
