@@ -813,19 +813,22 @@ function saswp_general_page_callback(){
                 </label>
         </div>
         <div>
-        <div class="saswp-about-contact-page">
-              
+        <div class="saswp-about-contact-page">  
+
                     <label for="sd_about_page-select">
-	<?php        
-        echo wp_dropdown_pages( array( 
-			'name'              => 'sd_data[sd_about_page]', 
-                        'id'                => 'sd_about_page',
-			'echo'              => 0, 
-			'show_option_none'  => esc_html__( 'Select a Page', 'schema-and-structured-data-for-wp' ), 
-			'option_none_value' => '', 
-			'selected'          =>  isset($settings['sd_about_page']) ? esc_attr($settings['sd_about_page']) : '',
-		)); ?>
-	      </label>  
+                        <select data-type="page" class="saswp-select2" name="sd_data[sd_about_page]" id="sd_about_page">
+                         <?php 
+                         
+                         if(isset($settings['sd_about_page']) && $settings['sd_about_page'] != ''){                                
+                                echo '<option value="'.esc_attr($settings['sd_about_page']).'">'.get_the_title($settings['sd_about_page']).'</option>';
+                         }else{
+                                echo '<option value="">'.esc_html__('Select a page','schema-and-structured-data-for-wp').'</option>';
+                         }
+
+                         ?>                               
+                        </select>
+	            </label>  
+
         </div>
        </div>
     </li>
@@ -836,19 +839,24 @@ function saswp_general_page_callback(){
             </label>
         </div>
         <div>
-            <div class="saswp-about-contact-page">          
-           <label for="sd_contact_page-select">
-	  <?php echo wp_dropdown_pages( array( 
-			'name'              => 'sd_data[sd_contact_page]', 
-                        'id'                => 'sd_contact_page-select',
-			'echo'              => 0, 
-			'show_option_none'  => esc_html( 'Select a Page', 'schema-and-structured-data-for-wp' ), 
-			'option_none_value' => '', 
-			'selected'          =>  isset($settings['sd_contact_page']) ? esc_attr($settings['sd_contact_page']) : '',
-		)); ?>
+                 <div class="saswp-about-contact-page">          
+
+                         <label for="sd_contact_page-select">
+                         <select data-type="page" class="saswp-select2" name="sd_data[sd_contact_page]" id="sd_contact_page">
+                         <?php 
+                         
+                         if(isset($settings['sd_contact_page']) && $settings['sd_contact_page'] != ''){                                
+                                echo '<option value="'.esc_attr($settings['sd_contact_page']).'">'.get_the_title($settings['sd_contact_page']).'</option>';
+                         }else{
+                                echo '<option value="">'.esc_html__('Select a page','schema-and-structured-data-for-wp').'</option>';
+                         }
+
+                         ?>                               
+                        </select>
 	     		 </label>       
+
        	 		</div>
-        	 </div>
+        	        </div>
    			 </li>
 			</ul>
 		</div> 
@@ -2965,6 +2973,9 @@ function saswp_enqueue_style_js( $hook ) {
         
         wp_enqueue_script('thickbox');
         wp_enqueue_style('thickbox');
+
+        wp_enqueue_style('saswp-select2-style', SASWP_PLUGIN_URL. 'admin_section/css/select2.min.css' , false, SASWP_VERSION);
+        wp_enqueue_script('saswp-select2-script', SASWP_PLUGIN_URL. 'admin_section/js/select2.min.js', false, SASWP_VERSION);
         	
         wp_enqueue_script( 'saswp-timepicker-js', SASWP_PLUGIN_URL . 'admin_section/js/jquery.timepicker.js', false, SASWP_VERSION);        
         wp_enqueue_style( 'saswp-timepicker-css', SASWP_PLUGIN_URL . 'admin_section/css/jquery.timepicker.css', false , SASWP_VERSION );

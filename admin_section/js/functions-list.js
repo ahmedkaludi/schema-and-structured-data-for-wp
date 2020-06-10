@@ -1288,3 +1288,31 @@ function saswpIsEmail(email) {
         var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
         return regex.test(email);
 }
+
+function saswp_select2(){
+
+    jQuery('.saswp-select2').select2({        
+        ajax: {
+            type: "POST",    
+            url: ajaxurl, // AJAX URL is predefined in WordPress admin
+            dataType: 'json',
+            delay: 250, // delay in ms while typing when to perform a AJAX search
+            data: function (params) {                
+                return {
+                  saswp_security_nonce: saswp_localize_data.saswp_security_nonce,
+                  q: params.term, // search query
+                  type: jQuery(this).attr('data-type'),
+                  action: 'saswp_get_select2_data' // AJAX action for admin-ajax.php
+                };
+            },
+            processResults: function( data ) {
+          return {
+            results: data
+          };
+        },
+        cache: true
+      },
+      minimumInputLength: 0 // the minimum of symbols to input before perform a search
+    });
+    
+}

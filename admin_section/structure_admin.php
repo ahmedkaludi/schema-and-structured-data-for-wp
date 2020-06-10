@@ -1828,3 +1828,24 @@ function saswp_save_nav_menu_in_transient($menu_id){
     set_transient('saswp_nav_menu', $menuItems);                
                      
 }
+
+add_action( 'wp_ajax_saswp_get_select2_data', 'saswp_get_select2_data'); 
+
+function saswp_get_select2_data(){
+            
+        if ( ! isset( $_POST['saswp_security_nonce'] ) ){
+          return; 
+        }
+        if ( !wp_verify_nonce( $_POST['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
+          return;  
+        }        
+
+        $search        = isset( $_POST['q'] ) ? sanitize_text_field( $_POST['q'] ) : '';                                    
+        $type          = isset( $_POST['type'] ) ? sanitize_text_field( $_POST['type'] ) : '';                                    
+
+        $result = saswp_get_condition_list($type, $search);
+                     
+        wp_send_json( $result );            
+        
+        wp_die();
+}
