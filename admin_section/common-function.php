@@ -1660,7 +1660,8 @@ if ( ! defined('ABSPATH') ) exit;
                         'id'       => array(),
                         'name'     => array(),
                         'value'    => array(),
-                        'type'     => array(),                    
+                        'type'     => array(), 
+                        'data-type'=> array(),                    
                 );
                 // checkbox
                 $my_allowed['checkbox'] = array(
@@ -1676,6 +1677,7 @@ if ( ! defined('ABSPATH') ) exit;
                         'selected' => array(),
                         'value'    => array(),
                         'disabled' => array(),
+                        'id'       => array(),
                 );                       
                 // style
                 $my_allowed['style'] = array(
@@ -3344,7 +3346,8 @@ function saswp_get_posts_by_arg($arg){
 
 function saswp_get_condition_list($condition, $search = ''){
 
-    $choices = array();    
+    $choices      = array();  
+    $array_search = false;  
 
     switch($condition){
     
@@ -3356,7 +3359,7 @@ function saswp_get_condition_list($condition, $search = ''){
           if(!empty($search) && $search != null){                
             $args['name'] = $search; 
           }              
-          $choices = get_post_types( $args, 'names', 'and' );    
+          $choices = get_post_types( $args, 'names');    
           unset($choices['attachment'], $choices['amp_acf'], $choices['quads-ads']);
 
           if($choices){
@@ -3370,8 +3373,8 @@ function saswp_get_condition_list($condition, $search = ''){
         break;                         
 
       case "page_template" :
-
-        $choices[] = array('id' => 'Default Template', 'text' => 'default');
+        $array_search = true;
+        $choices[] = array('id' => 'default', 'text' => 'Default Template');
 
         $templates = get_page_templates();
         
@@ -3457,16 +3460,11 @@ function saswp_get_condition_list($condition, $search = ''){
         break;
 
       case "user_type" :
-      case "post_format" :
-      case "taxonomy" :  
-      case "general":    
-              
-          $general_arr = array();
-        if($condition == 'post_format'){
-          $choices = get_post_format_strings();
-        }else if($condition == 'user_type'){
-          global $wp_roles;
-          
+
+        global $wp_roles;
+
+          $array_search = true;                 
+          $general_arr = array();  
           $choices = $wp_roles->get_names();            
 
           if( is_multisite() ){
@@ -3474,77 +3472,147 @@ function saswp_get_condition_list($condition, $search = ''){
             $choices['super_admin'] = esc_html__('Super Admin','schema-and-structured-data-for-wp');
             
           }
-        }else if($condition == 'taxonomy'){
+          
+          if($choices){
+            foreach($choices as $key =>$value){
+              $general_arr[] = array('text' => $value, 'id' => $key);
+            }
+          }        
+          $choices = $general_arr; 
+
+      break;
+      case "post_format" :
+          $array_search = true;                 
+          $general_arr = array();
+          $choices = get_post_format_strings();
+
+          if($choices){
+            foreach($choices as $key =>$value){
+              $general_arr[] = array('text' => $value, 'id' => $key);
+            }
+          }        
+          $choices = $general_arr; 
+
+      break;
+
+      case "ef_taxonomy" :
+
+        $choices[]    = array('id' => 'all' , 'text' => 'All');
+
+        $args['public'] = true;
+
+        if(!empty($search) && $search != null){                
+            $args['name'] = $search; 
+        }        
+
+        $taxonomies = get_taxonomies( $args, 'objects');
+        
+        if($taxonomies){
+            
+            if($taxonomies){
+        
+                foreach($taxonomies as $taxonomy) {                                      
+                  $choices[] = array('id' => $taxonomy->name, 'text' => $taxonomy->labels->name);                  
+                }
+                  
+              }
+
+        }
+                                     
+        break;
+
+      case "taxonomy" :     
+
+          $array_search = true;                 
+          $general_arr = array();
 
           $choices    = array('all' => esc_html__('All','schema-and-structured-data-for-wp'));
           $taxonomies = $this->quads_post_taxonomy_generator();        
-          $choices    = array_merge($choices, $taxonomies);
-
-        }else{
-            $choices = array(
-              'homepage'      => 'HomePage',
-              'show_globally' => 'Show Globally',                                
-            ); 
-        }                          
-
-        if(!empty($search) && $search != null){
-
-            $search_user = array();
-
-            foreach($choices as $key => $val){
-              if((strpos($key, $search) !== false) || strpos($key, $val) !== false){
-                $search_user[$key] = $val; 
-              }
-            }
-
-            $choices = $search_user;
-        }            
+          $choices    = array_merge($choices, $taxonomies);                          
 
         if($choices){
           foreach($choices as $key =>$value){
-            $general_arr[] = array('label' => $value, 'value' => $key);
+            $general_arr[] = array('text' => $value, 'id' => $key);
           }
-        }
+        }        
+        $choices = $general_arr;   
 
-        $choices = $general_arr;
-        
         break;
 
-      case "tags" :
+        case "homepage":
+            $array_search = true; 
+            $choices = array(
+                array('id'  => 'true', 'text' => 'True'),
+                array('id'  => 'false', 'text' => 'False'),          
+            ); 
+             
+        break;      
 
+        case "all":
+
+            $args = array( 
+                'hide_empty' => false,
+                'number'     => 10, 
+            );
+
+            if(!empty($search)){
+                $args['name__like'] = $search;
+            }
+
+            $taxonomies =  get_terms( $args );               
+            
+            if($taxonomies){
+
+                foreach($taxonomies as $tax){
+                    $choices[] = array('id' => $tax->slug, 'text' => $tax->name);
+                }
+                
+            }                        
+             
+        break;
+
+        default:
+        
         $args = array( 
-          'hide_empty' => false,
-          'number'     => 10, 
+            'hide_empty' => false,
+            'number'     => 10, 
         );
 
         if(!empty($search)){
-          $args['name__like'] = $search;
-        }         
-
-        $taxonomies = $this->quads_post_taxonomy_generator();
-
-        foreach($taxonomies as $key => $val){
-
-          if(strpos($key, 'tag') !== false){
-            
-            $terms = get_terms( $key, $args);
-
-            if( !empty($terms) ) {
-
-              foreach( $terms as $term ) {
-                
-               $choices[] = array('id' => $term->slug, 'text' => $term->name);                    
-                
-              }
-
-            }
-
-          }
-
+            $args['name__like'] = $search;
         }
-                    
-        break;  
+
+        $taxonomies =  get_terms($condition, $args);        
+        
+        if($taxonomies){
+
+            foreach($taxonomies as $tax){
+                $choices[] = array('id' => $tax->slug, 'text' => $tax->name);
+            }
+            
+        }
+
     }        
 
- return $choices;
+    if(!empty($search) && $search != null){
+        
+        if($array_search){
+
+            $search_data = array();
+
+            foreach($choices as $val){
+              if((strpos($val['id'], $search) !== false) || (strpos($val['text'], $search) !== false)){
+                $search_data[] = $val; 
+              }
+            }
+
+            $choices = $search_data;           
+
+        }
+        
+        return array('results' => $choices);
+    }else{
+        return $choices;
+    }    
+ 
 }

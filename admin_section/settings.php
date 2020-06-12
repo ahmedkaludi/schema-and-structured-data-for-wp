@@ -819,12 +819,24 @@ function saswp_general_page_callback(){
                         <select data-type="page" class="saswp-select2" name="sd_data[sd_about_page]" id="sd_about_page">
                          <?php 
                          
-                         if(isset($settings['sd_about_page']) && $settings['sd_about_page'] != ''){                                
-                                echo '<option value="'.esc_attr($settings['sd_about_page']).'">'.get_the_title($settings['sd_about_page']).'</option>';
-                         }else{
-                                echo '<option value="">'.esc_html__('Select a page','schema-and-structured-data-for-wp').'</option>';
-                         }
+                         $choices  = saswp_get_condition_list('page');               
+                         $selected = '';
+                         $html_str = '';       
+                         foreach ($choices as $value) { 
+              
+                                if ( isset($settings['sd_about_page']) &&  $settings['sd_about_page'] ==  $value['id'] ) {
+                                    
+                                    $selected = 'selected';
+                                    
+                                }else{
+                                        $selected = '';     
+                                } 
+                    
+                              $html_str .= '<option value="'.esc_attr($value['id']).'" '.esc_attr($selected).'>'.esc_html($value['text']).'</option>';
 
+                           }
+
+                           echo $html_str;
                          ?>                               
                         </select>
 	            </label>  
@@ -845,11 +857,24 @@ function saswp_general_page_callback(){
                          <select data-type="page" class="saswp-select2" name="sd_data[sd_contact_page]" id="sd_contact_page">
                          <?php 
                          
-                         if(isset($settings['sd_contact_page']) && $settings['sd_contact_page'] != ''){                                
-                                echo '<option value="'.esc_attr($settings['sd_contact_page']).'">'.get_the_title($settings['sd_contact_page']).'</option>';
-                         }else{
-                                echo '<option value="">'.esc_html__('Select a page','schema-and-structured-data-for-wp').'</option>';
-                         }
+                         $choices  = saswp_get_condition_list('page');
+                         $html_str = '';
+                         $selected = '';
+
+                         foreach ($choices as $value) { 
+              
+                                if ( isset($settings['sd_contact_page']) && $settings['sd_contact_page'] ==  $value['id'] ) {
+                                    
+                                    $selected = 'selected';
+                                    
+                                } else{
+                                        $selected = '';
+                                }
+                    
+                                $html_str .= '<option value="'.esc_attr($value['id']).'" '.esc_attr($selected).'>'.esc_html($value['text']).'</option>';
+
+                           }
+                           echo $html_str;
 
                          ?>                               
                         </select>
@@ -2995,6 +3020,8 @@ function saswp_enqueue_style_js( $hook ) {
         wp_enqueue_style( 'saswp-main-css', SASWP_PLUGIN_URL . 'admin_section/css/'.(SASWP_ENVIRONMENT == 'production' ? 'main-style.min.css' : 'main-style.css'), false , SASWP_VERSION );
                         
         wp_style_add_data( 'saswp-main-css', 'rtl', 'replace' );
+
+        wp_enqueue_script('saswp-select2-extended-script', SASWP_PLUGIN_URL. 'admin_section/js/select2-extended.min.js', false, SASWP_VERSION);
 
         }                
         

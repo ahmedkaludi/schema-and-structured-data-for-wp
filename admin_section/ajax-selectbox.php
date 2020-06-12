@@ -56,241 +56,33 @@ function saswp_ajax_select_creator($data = '', $saved_data= '', $current_number 
         {
           $options['param'] = "page";
         }
-    
-        switch($options['param'])
-        {
-          case "post_type":
 
-            $choices = saswp_post_type_generator();
-            
-            $choices = apply_filters('saswp_modify_select_post_type', $choices );   
-            
-            unset($choices['saswp']);
-            
-            break;
+      $choices = saswp_get_condition_list($response);                        
         
-         case "homepage":
-
-            $choices = array(
-                'true'  => 'True',
-                'false' => 'False',                                
-            ); 
-             
-            break;
-
-          case "page":
-
-            $post_type = 'page';
-              
-            $posts = get_posts(array(
-              'posts_per_page'          =>  -1,
-              'post_type'               => $post_type,
-              'orderby'                 => 'menu_order title',
-              'order'                   => 'ASC',
-              'post_status'             => 'any',
-              'suppress_filters'        => false,
-              'update_post_meta_cache'  => false,
-            ));
-
-            if( $posts )
-            {
-              // sort into hierachial order!
-              if( is_post_type_hierarchical( $post_type ) )
-              {
-                $posts = get_page_children( 0, $posts );
-              }
-
-              foreach( $posts as $page )
-              {
-                $title = '';
-                $ancestors = get_ancestors($page->ID, 'page');
-                if($ancestors)
-                {
-                  foreach($ancestors as $a)
-                  {
-                    $title .= '- ';
-                  }
-                }
-
-                $title .= apply_filters( 'the_title', $page->post_title, $page->ID );                        
-                // status
-                if($page->post_status != "publish")
-                {
-                  $title .= " ($page->post_status)";
-                }
-
-                $choices[ $page->ID ] = $title;
-
-              }
-              // foreach($pages as $page)
-
-            }
-
-            break;
-
-          case "page_template" :
-
-            $choices = array(
-              'default' =>  esc_html__('Default Template','schema-and-structured-data-for-wp'),
-            );
-
-            $templates = get_page_templates();
-            
-            if($templates){
-                
-                foreach($templates as $k => $v){
-            
-                     $choices[$v] = $k;
-              
-                }
-                
-            }
-            
-
-            break;
-
-          case "post" :
-
-            $post_types = get_post_types();
-
-            unset( $post_types['page'], $post_types['attachment'], $post_types['revision'] , $post_types['nav_menu_item'], $post_types['acf'] , $post_types['amp_acf'],$post_types['saswp']  );
-
-            if( $post_types )
-            {
-              foreach( $post_types as $post_type ){
-              
-                $posts = get_posts(array(
-                    
-                    'numberposts'      => '-1',
-                    'post_type'        => $post_type,
-                    'post_status'      => array('publish', 'private', 'draft', 'inherit', 'future'),
-                    'suppress_filters' => false,
-                    
-                ));
-
-                if( $posts){
-                
-                  $choices[$post_type] = array();
-
-                  foreach($posts as $post){
-                  
-                    $title = apply_filters( 'the_title', $post->post_title, $post->ID );
-                    // status
-                    if($post->post_status != "publish"){
-                    
-                      $title .= " ($post->post_status)";
-                    }
-
-                    $choices[$post_type][$post->ID] = $title;
-
-                  }
-                  // foreach($posts as $post)
-                }
-                // if( $posts )
-              }
-              // foreach( $post_types as $post_type )
-            }
-            // if( $post_types )
-
-
-            break;
-
-          case "post_category" :
-
-            $terms = get_terms( 'category', array( 'hide_empty' => false ) );
-
-            if( !empty($terms) ) {
-
-              foreach( $terms as $term ) {
-
-                $choices[ $term->term_id ] = $term->name;
-
-              }
-
-            }
-
-            break;
-
-          case "post_format" :
-
-            $choices = get_post_format_strings();
-
-            break;
-
-          case "user_type" :
-              
-            global $wp_roles;
-              
-            $choices = $wp_roles->get_names();
-
-            if( is_multisite() ){
-            
-              $choices['super_admin'] = esc_html__('Super Admin','schema-and-structured-data-for-wp');
-              
-            }
-
-            break;
-
-          case "ef_taxonomy" :
-
-            $choices    = array('all' => esc_html__('All','schema-and-structured-data-for-wp'));
-            $taxonomies = saswp_post_taxonomy_generator();        
-            $choices    = array_merge($choices, $taxonomies);                      
-            
-            break;
-
-        }        
-    // allow custom location rules
-    $choices = $choices; 
-
     // Add None if no elements found in the current selected items
-    if ( empty( $choices) ) {
-      $choices = array('none' => esc_html__('No Items', 'schema-and-structured-data-for-wp') );
-    }
+      if ( empty( $choices) ) {
+        $choices = array('none' => esc_html__('No Items', 'schema-and-structured-data-for-wp') );
+      }
          
 
-      $output = '<select  class="widefat ajax-output" name="data_group_array[group-'.esc_attr($current_group_number).'][data_array]['. esc_attr($current_number) .'][key_3]">'; 
-
-        // Generate Options for Posts
-        if ( $options['param'] == 'post' ) {
-            
-          foreach ($choices as $choice_post_type) {
+          $output = '<select data-type="'.esc_attr($response).'"  class="widefat ajax-output saswp-select2" name="data_group_array[group-'.esc_attr($current_group_number).'][data_array]['. esc_attr($current_number) .'][key_3]">'; 
+          
+          foreach ($choices as $value) { 
               
-            foreach ($choice_post_type as $key => $value) { 
+            if ( $saved_data ==  $value['id'] ) {
                 
-                if ( $saved_data ==  $key ) {
-                    
-                    $selected = 'selected="selected"';
-                    
-                } else {
-                    
-                  $selected = '';
-                  
-                }
-
-                $output .= '<option '. esc_attr($selected) .' value="' .  esc_attr($key) .'"> ' .  esc_html__($value, 'schema-and-structured-data-for-wp') .'  </option>';            
-            }
-          }
-         // Options for Other then posts
-        } else {
-            
-          foreach ($choices as $key => $value) { 
+                $selected = 'selected=selected';
+                
+            } else {
               
-                if ( $saved_data ==  $key ) {
-                    
-                    $selected = 'selected="selected"';
-                    
-                } else {
-                    
-                  $selected = '';
-                  
-                }
+              $selected = '';
 
-            $output .= '<option '. esc_attr($selected) .' value="' . esc_attr($key) .'"> ' .  esc_html__($value, 'schema-and-structured-data-for-wp') .'  </option>';            
-          } 
-        }
+            }
+
+          $output .= '<option '. esc_attr($selected) .' value="' . esc_attr($value['id']) .'"> ' .  esc_html__($value['text'], 'schema-and-structured-data-for-wp') .'</option>';                     
+       } 
         
-    $output .= ' </select> '; 
+    $output .= ' </select> ';    
     $allowed_html = saswp_expanded_allowed_tags();
     echo wp_kses($output, $allowed_html); 
     
@@ -377,45 +169,30 @@ function saswp_create_ajax_select_taxonomy($selectedParentValue = '',$selectedVa
             
         }       
     }
-    $taxonomies = array(); 
-    
-    if($selectedParentValue == 'all'){
-        
-    $taxonomies =  get_terms( array(
-                        'hide_empty' => true,
-                    ) );   
-    
-    }else{
-        
-    $taxonomies =  get_terms($selectedParentValue, array(
-                        'hide_empty' => true,
-                    ) );    
-    }     
-    
+
+    $taxonomies = saswp_get_condition_list($selectedParentValue);       
+                 
     $choices = '<option value="all">'.esc_html__('All','schema-and-structured-data-for-wp').'</option>';
     
     if(!empty($taxonomies)){
         
         foreach($taxonomies as $taxonomy) {
         
-        $sel="";
-      
-         if(is_object($taxonomy)){
-
-            if($selectedValue == $taxonomy->slug){
+            $sel="";
+               
+            if($selectedValue == $taxonomy['id']){
             
               $sel = "selected";
             
             }
-            $choices .= '<option value="'.esc_attr($taxonomy->slug).'" '.esc_attr($sel).'>'.esc_html__($taxonomy->name,'schema-and-structured-data-for-wp').'</option>';
-            
-         }         
-      
+
+            $choices .= '<option value="'.esc_attr($taxonomy['id']).'" '.esc_attr($sel).'>'.esc_html__($taxonomy['text'],'schema-and-structured-data-for-wp').'</option>';
+                                    
     }
     
     $allowed_html = saswp_expanded_allowed_tags();  
     
-    echo '<select  class="widefat ajax-output-child" name="data_group_array[group-'. esc_attr($current_group_number) .'][data_array]['.esc_attr($current_number).'][key_4]">'. wp_kses($choices, $allowed_html).'</select>';
+    echo '<select data-type="'.esc_attr($selectedParentValue).'" class="widefat ajax-output-child saswp-select2" name="data_group_array[group-'. esc_attr($current_group_number) .'][data_array]['.esc_attr($current_number).'][key_4]">'. wp_kses($choices, $allowed_html).'</select>';
         
     }    
     
