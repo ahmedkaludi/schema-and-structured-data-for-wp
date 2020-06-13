@@ -2578,7 +2578,7 @@ function saswp_get_permalink(){
         
     }
     
-    return $url;
+    return saswp_validate_url($url);
 }
 function saswp_get_taxonomy_term_list(){
     
@@ -2652,7 +2652,15 @@ function saswp_migrate_old_social_profile(){
         }
     
 }
-
+function saswp_validate_url($url){
+    
+    if(wp_http_validate_url($url)){
+        return $url;
+    }else{
+        return '';
+    }
+    
+}
 function saswp_validate_date($date, $format = 'Y-m-d H:i:s'){
         $d = DateTime::createFromFormat($format, $date);
         return $d && $d->format($format) == $date;
