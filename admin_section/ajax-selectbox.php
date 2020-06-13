@@ -48,39 +48,33 @@ function saswp_ajax_select_creator($data = '', $saved_data= '', $current_number 
     }          
         // send the response back to the front end
        // vars
-    $choices = array();    
-    
-    $options['param'] = $response;
-    // some case's have the same outcome
+        $choices       = array();    
+        $saved_choices = array();
+
+        $options['param'] = $response;
+      
         if($options['param'] == "page_parent")
         {
           $options['param'] = "page";
         }
 
-      $choices = saswp_get_condition_list($response);                        
-        
-    // Add None if no elements found in the current selected items
-      if ( empty( $choices) ) {
-        $choices = array('none' => esc_html__('No Items', 'schema-and-structured-data-for-wp') );
-      }
-         
-
+          $choices = saswp_get_condition_list($response);
+          
+          if($saved_data){            
+            $saved_choices = saswp_get_condition_list($response, '', $saved_data);                        
+          }
+                               
           $output = '<select data-type="'.esc_attr($response).'"  class="widefat ajax-output saswp-select2" name="data_group_array[group-'.esc_attr($current_group_number).'][data_array]['. esc_attr($current_number) .'][key_3]">'; 
           
-          foreach ($choices as $value) { 
-              
-            if ( $saved_data ==  $value['id'] ) {
-                
-                $selected = 'selected=selected';
-                
-            } else {
-              
-              $selected = '';
-
+          foreach ($choices as $value) {              
+           $output .= '<option '. esc_attr($selected) .' value="' . esc_attr($value['id']) .'"> ' .  esc_html__($value['text'], 'schema-and-structured-data-for-wp') .'</option>';                     
+          }
+          
+          if($saved_choices){
+            foreach($saved_choices as $value){
+              $output .= '<option value="' . esc_attr($value['id']) .'" selected> ' .  esc_html__($value['text'], 'schema-and-structured-data-for-wp') .'</option>';                     
             }
-
-          $output .= '<option '. esc_attr($selected) .' value="' . esc_attr($value['id']) .'"> ' .  esc_html__($value['text'], 'schema-and-structured-data-for-wp') .'</option>';                     
-       } 
+          } 
         
     $output .= ' </select> ';    
     $allowed_html = saswp_expanded_allowed_tags();
@@ -169,27 +163,29 @@ function saswp_create_ajax_select_taxonomy($selectedParentValue = '',$selectedVa
             
         }       
     }
+    $taxonomies    = array();
+    $saved_choices = array();
 
     $taxonomies = saswp_get_condition_list($selectedParentValue);       
+
+    if($selectedValue){            
+      $saved_choices = saswp_get_condition_list($selectedParentValue, '', $selectedValue);                              
+    }
                  
     $choices = '<option value="all">'.esc_html__('All','schema-and-structured-data-for-wp').'</option>';
     
     if(!empty($taxonomies)){
         
-        foreach($taxonomies as $taxonomy) {
-        
-            $sel="";
-               
-            if($selectedValue == $taxonomy['id']){
-            
-              $sel = "selected";
-            
-            }
-
-            $choices .= '<option value="'.esc_attr($taxonomy['id']).'" '.esc_attr($sel).'>'.esc_html__($taxonomy['text'],'schema-and-structured-data-for-wp').'</option>';
-                                    
-    }
+        foreach($taxonomies as $taxonomy) {                    
+            $choices .= '<option value="'.esc_attr($taxonomy['id']).'">'.esc_html__($taxonomy['text'],'schema-and-structured-data-for-wp').'</option>';                                    
+        }
     
+        if($saved_choices){
+          foreach($saved_choices as $value){
+            $choices .= '<option value="' . esc_attr($value['id']) .'" selected> ' .  esc_html__($value['text'], 'schema-and-structured-data-for-wp') .'</option>';                     
+          }
+        }   
+
     $allowed_html = saswp_expanded_allowed_tags();  
     
     echo '<select data-type="'.esc_attr($selectedParentValue).'" class="widefat ajax-output-child saswp-select2" name="data_group_array[group-'. esc_attr($current_group_number) .'][data_array]['.esc_attr($current_number).'][key_4]">'. wp_kses($choices, $allowed_html).'</select>';

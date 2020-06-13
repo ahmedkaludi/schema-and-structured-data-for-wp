@@ -818,25 +818,24 @@ function saswp_general_page_callback(){
                     <label for="sd_about_page-select">
                         <select data-type="page" class="saswp-select2" name="sd_data[sd_about_page]" id="sd_about_page">
                          <?php 
-                         
+                         $saved_choices = array();
                          $choices  = saswp_get_condition_list('page');               
-                         $selected = '';
+                         
+                         if ( isset($settings['sd_about_page']) && $settings['sd_about_page'] !=  '' ) {
+                                $saved_choices = saswp_get_condition_list('page', '', $settings['sd_about_page']);                        
+                         }
+
                          $html_str = '';       
-                         foreach ($choices as $value) { 
-              
-                                if ( isset($settings['sd_about_page']) &&  $settings['sd_about_page'] ==  $value['id'] ) {
-                                    
-                                    $selected = 'selected';
-                                    
-                                }else{
-                                        $selected = '';     
-                                } 
-                    
-                              $html_str .= '<option value="'.esc_attr($value['id']).'" '.esc_attr($selected).'>'.esc_html($value['text']).'</option>';
+                         foreach ($choices as $value) {                                                                    
+                              $html_str .= '<option value="'.esc_attr($value['id']).'">'.esc_html($value['text']).'</option>';
+                         }
+                         if($saved_choices){
+                                foreach($saved_choices as $value){
+                                        $html_str .= '<option value="' . esc_attr($value['id']) .'" selected> ' .  esc_html__($value['text'], 'schema-and-structured-data-for-wp') .'</option>';                     
+                                }
+                        } 
 
-                           }
-
-                           echo $html_str;
+                        echo $html_str;
                          ?>                               
                         </select>
 	            </label>  
@@ -856,26 +855,24 @@ function saswp_general_page_callback(){
                          <label for="sd_contact_page-select">
                          <select data-type="page" class="saswp-select2" name="sd_data[sd_contact_page]" id="sd_contact_page">
                          <?php 
+                         $saved_choices = array();
+                         $choices  = saswp_get_condition_list('page');               
                          
-                         $choices  = saswp_get_condition_list('page');
-                         $html_str = '';
-                         $selected = '';
+                         if ( isset($settings['sd_contact_page']) && $settings['sd_contact_page'] !=  '' ) {
+                                $saved_choices = saswp_get_condition_list('page', '', $settings['sd_contact_page']);                        
+                         }
 
-                         foreach ($choices as $value) { 
-              
-                                if ( isset($settings['sd_contact_page']) && $settings['sd_contact_page'] ==  $value['id'] ) {
-                                    
-                                    $selected = 'selected';
-                                    
-                                } else{
-                                        $selected = '';
+                         $html_str = '';       
+                         foreach ($choices as $value) {                                                                    
+                              $html_str .= '<option value="'.esc_attr($value['id']).'">'.esc_html($value['text']).'</option>';
+                         }
+                         if($saved_choices){
+                                foreach($saved_choices as $value){
+                                        $html_str .= '<option value="' . esc_attr($value['id']) .'" selected> ' .  esc_html__($value['text'], 'schema-and-structured-data-for-wp') .'</option>';                     
                                 }
-                    
-                                $html_str .= '<option value="'.esc_attr($value['id']).'" '.esc_attr($selected).'>'.esc_html($value['text']).'</option>';
+                        } 
 
-                           }
-                           echo $html_str;
-
+                        echo $html_str;
                          ?>                               
                         </select>
 	     		 </label>       

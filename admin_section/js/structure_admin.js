@@ -103,6 +103,7 @@ jQuery(document).ready(function($){
       			parent.append(data);
 				  taxonomyDataCall();
 				  saswp_select2();
+				  parent.find(".ajax-output").change();
         },
         error: function(data){
           console.log("Failed Ajax Request");
@@ -165,8 +166,7 @@ function taxonomyDataCall(){
 					parentSelector.find(".select2-container").next().remove();
 	      			parentSelector.children(".spinner").removeClass("show");
 	      			parentSelector.find(".spinner").attr("style","visibility:hidden").hide();
-	      			parentSelector.append(data);
-					taxonomyDataCall();
+	      			parentSelector.append(data);					
 					saswp_select2();
 	        },
 	        error: function(data){
