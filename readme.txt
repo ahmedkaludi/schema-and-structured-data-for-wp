@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.4
-Stable tag: 1.9.40
+Stable tag: 1.9.41
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -93,11 +93,11 @@ Bug reports for Schema & Structured Data for WP & AMP are [welcomed on GitHub](h
 
 ### Credits
 
+* Select2 used https://github.com/select2/select2 - License URI: https://github.com/select2/select2/blob/develop/LICENSE.md,
 * Merlin WP used https://github.com/richtabor/MerlinWP - License URI: https://github.com/richtabor/MerlinWP/blob/master/LICENSE,
 * jquery-timepicker used https://github.com/jonthornton/jquery-timepicker
 * Rate Yo! used https://github.com/prrashi/rateYo - License URI: https://github.com/prrashi/rateYo/commit/f3812fe96c38b08627d209795176053550fb1427
 * Aqua Resizer used http://aquagraphite.com - License URI: WTFPL - http://sam.zoy.org/wtfpl/
-
 
 
 == Frequently Asked Questions ==
@@ -119,6 +119,17 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.9.41 (15 June 2020) =
+
+* Fixed: Notice Error: Notice: Trying to get property 'post_content' of non-object #1055
+* Fixed: The property comment is not recognized by Google for an object of type Organization. #1061
+* Fixed: Site links are not displaying even after the option is enabled. #1043
+* Fixed: url validation should be there for all url schema property #1048
+* Enhancement: Option to search for pages/post while applying schema markup on a certain page #742
+* Enhancement: Use select 2 in schema type dropdown #464
+* Added: select2 js in a specific use case dropdown #1027
+
 
 = 1.9.40 (09 June 2020) =
 
