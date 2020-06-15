@@ -3429,7 +3429,7 @@ function saswp_get_condition_list($condition, $search = '', $saved_data = ''){
           foreach( $post_types as $post_type ){
           
             $arg['post_type']      = $post_type;
-            $arg['posts_per_page'] = 5;  
+            $arg['posts_per_page'] = 50;  
             $arg['post_status']    = 'any'; 
 
             if(!empty($search)){
@@ -3463,7 +3463,7 @@ function saswp_get_condition_list($condition, $search = '', $saved_data = ''){
         $terms = array();
         $args = array( 
                     'hide_empty' => false,
-                    'number'     => 5, 
+                    'number'     => 50, 
                   );
 
         if(!empty($search)){
@@ -3595,7 +3595,7 @@ function saswp_get_condition_list($condition, $search = '', $saved_data = ''){
 
             $args = array( 
                 'hide_empty' => false,
-                'number'     => 5, 
+                'number'     => 50, 
             );
 
             if(!empty($search)){
@@ -3618,7 +3618,7 @@ function saswp_get_condition_list($condition, $search = '', $saved_data = ''){
         
         $args = array( 
             'hide_empty' => false,
-            'number'     => 5, 
+            'number'     => 50, 
         );
 
         if(!empty($search)){

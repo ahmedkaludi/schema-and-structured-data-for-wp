@@ -95,38 +95,44 @@ $saswp_add_data_type_config = array(
 		$title = $saswp_add_data_type_config['steps'][$step]['title'];
 		$saswp_add_data_type_config['current_step']['step_id'] = $step;
 						                
-                wp_enqueue_media ();
+        wp_enqueue_media ();
                                 
                 // Enqueue styles.
 		wp_enqueue_style( 'saswp-timepicker-js', SASWP_PLUGIN_URL. $saswp_add_data_type_config['installer_dir']. '/css/jquery.timepicker.css' , array( 'wp-admin' ), SASWP_VERSION);
 		// Enqueue javascript.
 		wp_enqueue_script( 'saswp-timepicker-css', SASWP_PLUGIN_URL. $saswp_add_data_type_config['installer_dir']. '/js/jquery.timepicker.js' , array( 'jquery', 'jquery-core', 'jquery-ui-core' ), SASWP_VERSION );
-                
-                
-		// Enqueue styles.
-		wp_enqueue_style( 'saswp_add_new', SASWP_PLUGIN_URL. $saswp_add_data_type_config['installer_dir']. '/css/saswp-add-new.min.css' , array( 'wp-admin' ), SASWP_VERSION);
-		// Enqueue javascript.
-		wp_enqueue_script( 'saswp_add_new', SASWP_PLUGIN_URL. $saswp_add_data_type_config['installer_dir']. '/js/saswp-add-new.min.js' , array( 'jquery', 'jquery-core', 'jquery-ui-core' ), SASWP_VERSION );		
-                
-                //Enque datepicker
-                wp_enqueue_script( 'jquery-ui-datepicker' );
-                wp_register_style( 'jquery-ui', SASWP_PLUGIN_URL. 'admin_section/css/jquery-ui.css' );
-                wp_enqueue_style( 'jquery-ui' );
-                
-                
-                wp_enqueue_script( 'structure_admin', SASWP_PLUGIN_URL. $saswp_add_data_type_config['installer_dir']. '/js/structure_admin.min.js' , array( 'jquery', 'jquery-ui-core' ), SASWP_VERSION );
 		
-                wp_localize_script( 'structure_admin', 'saswp_app_object', array(
-			'ajax_url'      		=> admin_url( 'admin-ajax.php' ),						
-		) );
+		        
+		// Enqueue styles.
+		wp_enqueue_style( 'saswp_add_new', SASWP_PLUGIN_URL. $saswp_add_data_type_config['installer_dir']. '/css/'.(SASWP_ENVIRONMENT == 'production' ? 'saswp-add-new.min.css' : 'saswp-add-new.css') , array( 'wp-admin' ), SASWP_VERSION);
+		// Enqueue javascript.
+		wp_enqueue_script( 'saswp_add_new', SASWP_PLUGIN_URL. $saswp_add_data_type_config['installer_dir']. '/js/'.(SASWP_ENVIRONMENT == 'production' ? 'saswp-add-new.min.js' : 'saswp-add-new.js') , array( 'jquery', 'jquery-core', 'jquery-ui-core' ), SASWP_VERSION );		
                 
-                
+		//Enque datepicker
+		wp_enqueue_script( 'jquery-ui-datepicker' );
+		wp_register_style( 'jquery-ui', SASWP_PLUGIN_URL. 'admin_section/css/jquery-ui.css' );
+		wp_enqueue_style( 'jquery-ui' );                                                            
+				                
 		wp_localize_script( 'saswp_add_new', 'saswp_add_new_params', array(
 			'ajaxurl'      		=> admin_url( 'admin-ajax.php' ),
 			'wpnonce'      		=> wp_create_nonce( 'saswp_add_new_nonce' ),
 			'pluginurl'		=> SASWP_DIR_URI,
 		) );
 		
+		wp_enqueue_style('saswp-select2-style', SASWP_PLUGIN_URL.$saswp_add_data_type_config['installer_dir']. '/css/select2.min.css' , false, SASWP_VERSION);
+		wp_enqueue_script('saswp-select2-script', SASWP_PLUGIN_URL. $saswp_add_data_type_config['installer_dir']. '/js/select2.min.js', array( 'jquery', 'jquery-core', 'jquery-ui-core' ), SASWP_VERSION);        
+		wp_enqueue_script('saswp-select2-extended-script', SASWP_PLUGIN_URL. $saswp_add_data_type_config['installer_dir'] . '/js/select2-extended.min.js', false, SASWP_VERSION);
+
+		wp_enqueue_script( 'structure_admin', SASWP_PLUGIN_URL. $saswp_add_data_type_config['installer_dir']. '/js/'. (SASWP_ENVIRONMENT == 'production' ? 'structure_admin.min.js' : 'structure_admin.js') , array( 'jquery', 'jquery-ui-core' ), SASWP_VERSION );
+		
+		$data = array(     
+			'ajax_url'      		       => admin_url( 'admin-ajax.php' ),
+			'saswp_security_nonce'         => wp_create_nonce('saswp_ajax_check_nonce'),  
+		);								
+
+		$data = apply_filters('saswp_localize_filter',$data,'saswp_localize_data');
+
+		wp_localize_script( 'structure_admin', 'saswp_localize_data', $data );
 
 		ob_start();
 		saswp_add_new_header(); ?>

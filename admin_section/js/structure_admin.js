@@ -1,3 +1,43 @@
+function saswp_select2(){
+
+    var $select2 = jQuery('.saswp-select2');
+    
+    if($select2.length > 0){
+
+         jQuery($select2).each(function(i, obj) {
+         var currentP = jQuery(this);  
+         var $defaultResults = jQuery('option[value]:not([selected])', currentP);   
+         var defaultResults = [];
+
+        $defaultResults.each(function () {
+            var $option = jQuery(this);
+            defaultResults.push({
+                id: $option.attr('value'),
+                text: $option.text()
+            });
+        });
+
+        var type = currentP.attr('data-type');
+        var ajaxnewurl = ajaxurl + '?action=saswp_get_select2_data&saswp_security_nonce='+saswp_localize_data.saswp_security_nonce+'&type='+type;
+
+   currentP.select2({           
+        ajax: {             
+            url: ajaxnewurl,
+            delay: 250, 
+            cache: false
+        },            
+       minimumInputLength: 2, 
+       minimumResultsForSearch : 2,
+       dataAdapter: jQuery.fn.select2.amd.require('select2/data/extended-ajax'),
+       defaultResults: defaultResults      
+     });
+ 
+    });
+
+    }                    
+    
+}
+
 var clone = function(){
 		jQuery(".structured-clone").off("click").click(function(){
                         var group_index = jQuery(this).closest(".saswp-placement-group").attr('data-id');                                                
@@ -26,6 +66,7 @@ var clone = function(){
 			
 		});
 	}
+
 jQuery(document).ready(function($){            
                 
         $('#saswp-dayofweek-opens-time').timepicker({ 'timeFormat': 'H:i:s'});
@@ -79,7 +120,7 @@ jQuery(document).ready(function($){
 		parent.find(".ajax-output-child").remove();
 		parent.find(".spinner").attr("style","visibility:visible");
 		parent.children(".spinner").addClass("show");
-		var ajaxURL = saswp_app_object.ajax_url;
+		var ajaxURL = saswp_localize_data.ajax_url;
                 var group_index = jQuery(this).closest(".saswp-placement-group").attr('data-id'); 
 		//ajax call
         $.ajax({
@@ -145,7 +186,7 @@ function taxonomyDataCall(){
 			parentSelector.find(".spinner").attr("style","visibility:visible");
 			parentSelector.children(".spinner").addClass("show");
 			
-			var ajaxURL = saswp_app_object.ajax_url;
+			var ajaxURL = saswp_localize_data.ajax_url;
                          var group_index = jQuery(this).closest(".saswp-placement-group").attr('data-id'); 
 			//ajax call
 			jQuery.ajax({
