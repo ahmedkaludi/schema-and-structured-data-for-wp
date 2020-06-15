@@ -273,7 +273,8 @@ jQuery(document).ready(function($) {
              
            saswp_enable_rating_review(); 
         }).change(); 
-        
+        $(".saswp-local-sub-type-2").select2();
+        $("#saswp_business_type").select2();
         $("#saswp_business_type").change(function(){
             var businesstype = $  (this).val(); 
             var schematype = $(".saswp-schame-type-select").val();

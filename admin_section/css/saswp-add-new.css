@@ -2408,6 +2408,9 @@ body .amp_install_center {text-align: center}
 .option-table-class select{
 	width: 100%;	
 }
+.option-table-class .select2-container{
+	width: 100% !important;	
+}
 .saswp-placement-groups select{
 	min-height: 30px;
 }
