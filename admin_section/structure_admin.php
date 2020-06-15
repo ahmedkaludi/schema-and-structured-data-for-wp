@@ -540,15 +540,21 @@ function saswp_comparison_logic_checker($input){
         case 'ef_taxonomy':
         // Get all the post registered taxonomies        
         // Get the list of all the taxonomies associated with current post
-        $taxonomy_names = get_post_taxonomies( $post->ID );        
+        $taxonomy_names = '';
 
+        if(is_object($post)){
+          $taxonomy_names = get_post_taxonomies( $post->ID );        
+        }
+        
         $checker    = '';
         $post_terms = '';
 
           if ( $data != 'all') {
 
-            $post_terms = wp_get_post_terms($post->ID, $data);           
-                                
+            if(is_object($post)){
+              $post_terms = wp_get_post_terms($post->ID, $data);           
+            }
+                                            
             if(isset( $input['key_4'] ) && $input['key_4'] !='all'){
              
               $term_data       = $input['key_4'];

@@ -44,7 +44,7 @@ class SASWP_Reviews_Form {
 
                 global $post;                
                         
-                if(function_exists('ampforwp_is_amp_endpoint')){
+                if( function_exists('ampforwp_is_amp_endpoint') && is_object($post) ){
 
                     if(preg_match( '/\[saswp\-reviews\-form\]/', $post->post_content, $match ) || preg_match( '/\[saswp\-reviews\-form onbutton\=\"1\"\]/', $post->post_content, $match )){
 
