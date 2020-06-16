@@ -540,15 +540,21 @@ function saswp_comparison_logic_checker($input){
         case 'ef_taxonomy':
         // Get all the post registered taxonomies        
         // Get the list of all the taxonomies associated with current post
-        $taxonomy_names = get_post_taxonomies( $post->ID );        
+        $taxonomy_names = '';
 
+        if(is_object($post)){
+          $taxonomy_names = get_post_taxonomies( $post->ID );        
+        }
+        
         $checker    = '';
         $post_terms = '';
 
           if ( $data != 'all') {
 
-            $post_terms = wp_get_post_terms($post->ID, $data);           
-                                
+            if(is_object($post)){
+              $post_terms = wp_get_post_terms($post->ID, $data);           
+            }
+                                            
             if(isset( $input['key_4'] ) && $input['key_4'] !='all'){
              
               $term_data       = $input['key_4'];
@@ -769,12 +775,13 @@ if(is_admin()){
               <select class="widefat select-post-type <?php echo esc_attr( $i );?>" name="data_group_array[group-<?php echo esc_attr( $j) ?>][data_array][<?php echo esc_attr( $i) ?>][key_1]">    
                 <?php 
                 foreach ($choices as $choice_key => $choice_value) { ?>         
-                  <option disabled class="pt-heading" value="<?php echo esc_attr($choice_key);?>"> <?php echo esc_html__($choice_key,'schema-and-structured-data-for-wp');?> </option>
+                  <optgroup label="<?php echo esc_attr($choice_key);?>">
                   <?php
                   foreach ($choice_value as $sub_key => $sub_value) { ?> 
                     <option class="pt-child" value="<?php echo esc_attr( $sub_key );?>" <?php selected( $selected_val_key_1, $sub_key );?> > <?php echo esc_html__($sub_value,'schema-and-structured-data-for-wp');?> </option>
                     <?php
                   }
+                  ?> </optgroup > <?php
                 } ?>
               </select>
             </td>
@@ -883,6 +890,7 @@ function saswp_dequeue_script() {
                     
         wp_enqueue_style('saswp-select2-style', SASWP_PLUGIN_URL. 'admin_section/css/select2.min.css' , false, SASWP_VERSION);
         wp_enqueue_script('saswp-select2-script', SASWP_PLUGIN_URL. 'admin_section/js/select2.min.js', false, SASWP_VERSION);
+        wp_enqueue_script('saswp-select2-extended-script', SASWP_PLUGIN_URL. 'admin_section/js/select2-extended.min.js', false, SASWP_VERSION);
         
         }
       //Enque select 2 script ends here                    
@@ -1827,4 +1835,27 @@ function saswp_save_nav_menu_in_transient($menu_id){
     $menuItems = wp_get_nav_menu_items($menu_id);                
     set_transient('saswp_nav_menu', $menuItems);                
                      
+}
+
+add_action( 'wp_ajax_saswp_get_select2_data', 'saswp_get_select2_data'); 
+
+function saswp_get_select2_data(){
+            
+        if ( ! isset( $_GET['saswp_security_nonce'] ) ){
+          return; 
+        }
+        if ( (wp_verify_nonce( $_GET['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ) ||  (wp_verify_nonce( $_GET['saswp_security_nonce'], 'saswp_add_new_nonce' ) )){
+
+          $search        = isset( $_GET['q'] ) ? sanitize_text_field( $_GET['q'] ) : '';                                    
+          $type          = isset( $_GET['type'] ) ? sanitize_text_field( $_GET['type'] ) : '';                                    
+
+          $result = saswp_get_condition_list($type, $search);
+                      
+          wp_send_json( $result );            
+
+        }else{
+          return;  
+        }                
+        
+        wp_die();
 }

@@ -26,7 +26,7 @@ var Merlin = (function($){
             var content = new ContentManager();
             content.init(btn);
         }
-    };
+    };    
 
     function window_loaded(){
 
@@ -209,8 +209,8 @@ var Merlin = (function($){
 
 Merlin.init();
 
-
 jQuery(document).ready(function($) {
+
    $(".social-fields input[type=checkbox]").change(function(){
         socialFields($(this));
    })
@@ -241,7 +241,7 @@ jQuery(document).ready(function($) {
         $(this).find('select#schema_type').val('').hide();
     });
     
-    
+     $(".saswp-schame-type-select").select2();
      $(".saswp-schame-type-select").change(function(){
             var schematype = $  (this).val(); 
             
@@ -273,7 +273,8 @@ jQuery(document).ready(function($) {
              
            saswp_enable_rating_review(); 
         }).change(); 
-        
+        $(".saswp-local-sub-type-2").select2();
+        $("#saswp_business_type").select2();
         $("#saswp_business_type").change(function(){
             var businesstype = $  (this).val(); 
             var schematype = $(".saswp-schame-type-select").val();
@@ -326,6 +327,5 @@ jQuery(document).ready(function($) {
                
      }      
      saswp_enable_rating_review();
-    
-    
+        
 });

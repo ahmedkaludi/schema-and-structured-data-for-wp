@@ -2389,7 +2389,7 @@ body .amp_install_center {text-align: center}
 	display: inline-block;
 }
 .saswp_fields select{
-	width: 50%;
+	width: 50%;	
 }
 .saswp-placement-or-group{
     text-decoration: none;
@@ -2406,7 +2406,13 @@ body .amp_install_center {text-align: center}
     border-style: outset;
 }
 .option-table-class select{
-    width: 100%;
+	width: 100%;	
+}
+.option-table-class .select2-container{
+	width: 100% !important;	
+}
+.saswp-placement-groups select{
+	min-height: 30px;
 }
 .option-table-class input[type=text]{
     width: 100%;

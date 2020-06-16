@@ -2,6 +2,8 @@ var saswp_attached_rv  = [];
 var saswp_attached_col = [];  
 jQuery(document).ready(function($){
   
+  saswp_select2();
+
   $(".saswp-upgrade-to-pro").parent().attr({'href': 'https://structured-data-for-wp.com/pricing/', 'target': '_blank'});  
   
     
@@ -444,7 +446,7 @@ jQuery(document).ready(function($){
         window.history.pushState("", "", href);
         return false;
 });     
-
+    $(".saswp-schame-type-select").select2();
     $(".saswp-schame-type-select").change(function(e){
         
         e.preventDefault();                        
@@ -552,7 +554,8 @@ jQuery(document).ready(function($){
             }
                   
     }); 
-
+    $("#saswp_business_type").select2();
+    $(".saswp-local-sub-type-2").select2();
     $("#saswp_business_type").change(function(){
             var businesstype = $  (this).val(); 
             var schematype = $(".saswp-schame-type-select").val();

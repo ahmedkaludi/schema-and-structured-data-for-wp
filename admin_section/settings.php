@@ -813,19 +813,33 @@ function saswp_general_page_callback(){
                 </label>
         </div>
         <div>
-        <div class="saswp-about-contact-page">
-              
+        <div class="saswp-about-contact-page">  
+
                     <label for="sd_about_page-select">
-	<?php        
-        echo wp_dropdown_pages( array( 
-			'name'              => 'sd_data[sd_about_page]', 
-                        'id'                => 'sd_about_page',
-			'echo'              => 0, 
-			'show_option_none'  => esc_html__( 'Select a Page', 'schema-and-structured-data-for-wp' ), 
-			'option_none_value' => '', 
-			'selected'          =>  isset($settings['sd_about_page']) ? esc_attr($settings['sd_about_page']) : '',
-		)); ?>
-	      </label>  
+                        <select data-type="page" class="saswp-select2" name="sd_data[sd_about_page]" id="sd_about_page">
+                         <?php 
+                         $saved_choices = array();
+                         $choices  = saswp_get_condition_list('page');               
+                         
+                         if ( isset($settings['sd_about_page']) && $settings['sd_about_page'] !=  '' ) {
+                                $saved_choices = saswp_get_condition_list('page', '', $settings['sd_about_page']);                        
+                         }
+
+                         $html_str = '';       
+                         foreach ($choices as $value) {                                                                    
+                              $html_str .= '<option value="'.esc_attr($value['id']).'">'.esc_html($value['text']).'</option>';
+                         }
+                         if($saved_choices){
+                                foreach($saved_choices as $value){
+                                        $html_str .= '<option value="' . esc_attr($value['id']) .'" selected> ' .  esc_html__($value['text'], 'schema-and-structured-data-for-wp') .'</option>';                     
+                                }
+                        } 
+
+                        echo $html_str;
+                         ?>                               
+                        </select>
+	            </label>  
+
         </div>
        </div>
     </li>
@@ -836,19 +850,35 @@ function saswp_general_page_callback(){
             </label>
         </div>
         <div>
-            <div class="saswp-about-contact-page">          
-           <label for="sd_contact_page-select">
-	  <?php echo wp_dropdown_pages( array( 
-			'name'              => 'sd_data[sd_contact_page]', 
-                        'id'                => 'sd_contact_page-select',
-			'echo'              => 0, 
-			'show_option_none'  => esc_html( 'Select a Page', 'schema-and-structured-data-for-wp' ), 
-			'option_none_value' => '', 
-			'selected'          =>  isset($settings['sd_contact_page']) ? esc_attr($settings['sd_contact_page']) : '',
-		)); ?>
+                 <div class="saswp-about-contact-page">          
+
+                         <label for="sd_contact_page-select">
+                         <select data-type="page" class="saswp-select2" name="sd_data[sd_contact_page]" id="sd_contact_page">
+                         <?php 
+                         $saved_choices = array();
+                         $choices  = saswp_get_condition_list('page');               
+                         
+                         if ( isset($settings['sd_contact_page']) && $settings['sd_contact_page'] !=  '' ) {
+                                $saved_choices = saswp_get_condition_list('page', '', $settings['sd_contact_page']);                        
+                         }
+
+                         $html_str = '';       
+                         foreach ($choices as $value) {                                                                    
+                              $html_str .= '<option value="'.esc_attr($value['id']).'">'.esc_html($value['text']).'</option>';
+                         }
+                         if($saved_choices){
+                                foreach($saved_choices as $value){
+                                        $html_str .= '<option value="' . esc_attr($value['id']) .'" selected> ' .  esc_html__($value['text'], 'schema-and-structured-data-for-wp') .'</option>';                     
+                                }
+                        } 
+
+                        echo $html_str;
+                         ?>                               
+                        </select>
 	     		 </label>       
+
        	 		</div>
-        	 </div>
+        	        </div>
    			 </li>
 			</ul>
 		</div> 
@@ -2965,8 +2995,13 @@ function saswp_enqueue_style_js( $hook ) {
         
         wp_enqueue_script('thickbox');
         wp_enqueue_style('thickbox');
+
+        
+        wp_enqueue_style('saswp-select2-style', SASWP_PLUGIN_URL. 'admin_section/css/select2.min.css' , false, SASWP_VERSION);
+        wp_enqueue_script('saswp-select2-script', SASWP_PLUGIN_URL. 'admin_section/js/select2.min.js', array( 'jquery', 'jquery-core', 'jquery-ui-core' ), SASWP_VERSION);
+        wp_enqueue_script('saswp-select2-extended-script', SASWP_PLUGIN_URL. 'admin_section/js/select2-extended.min.js', false, SASWP_VERSION);
         	
-        wp_enqueue_script( 'saswp-timepicker-js', SASWP_PLUGIN_URL . 'admin_section/js/jquery.timepicker.js', false, SASWP_VERSION);        
+        wp_enqueue_script( 'saswp-timepicker-js', SASWP_PLUGIN_URL . 'admin_section/js/jquery.timepicker.js', array( 'jquery', 'jquery-core', 'jquery-ui-core' ), SASWP_VERSION);        
         wp_enqueue_style( 'saswp-timepicker-css', SASWP_PLUGIN_URL . 'admin_section/css/jquery.timepicker.css', false , SASWP_VERSION );
 
         wp_enqueue_script( 'jquery-ui-datepicker' );
@@ -2984,6 +3019,7 @@ function saswp_enqueue_style_js( $hook ) {
         wp_enqueue_style( 'saswp-main-css', SASWP_PLUGIN_URL . 'admin_section/css/'.(SASWP_ENVIRONMENT == 'production' ? 'main-style.min.css' : 'main-style.css'), false , SASWP_VERSION );
                         
         wp_style_add_data( 'saswp-main-css', 'rtl', 'replace' );
+        
 
         }                
         

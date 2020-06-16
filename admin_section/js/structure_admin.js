@@ -1,3 +1,43 @@
+function saswp_select2(){
+
+    var $select2 = jQuery('.saswp-select2');
+    
+    if($select2.length > 0){
+
+         jQuery($select2).each(function(i, obj) {
+         var currentP = jQuery(this);  
+         var $defaultResults = jQuery('option[value]:not([selected])', currentP);   
+         var defaultResults = [];
+
+        $defaultResults.each(function () {
+            var $option = jQuery(this);
+            defaultResults.push({
+                id: $option.attr('value'),
+                text: $option.text()
+            });
+        });
+
+        var type = currentP.attr('data-type');
+        var ajaxnewurl = ajaxurl + '?action=saswp_get_select2_data&saswp_security_nonce='+saswp_localize_data.saswp_security_nonce+'&type='+type;
+
+   currentP.select2({           
+        ajax: {             
+            url: ajaxnewurl,
+            delay: 250, 
+            cache: false
+        },            
+       minimumInputLength: 2, 
+       minimumResultsForSearch : 50,
+       dataAdapter: jQuery.fn.select2.amd.require('select2/data/extended-ajax'),
+       defaultResults: defaultResults      
+     });
+ 
+    });
+
+    }                    
+    
+}
+
 var clone = function(){
 		jQuery(".structured-clone").off("click").click(function(){
                         var group_index = jQuery(this).closest(".saswp-placement-group").attr('data-id');                                                
@@ -5,7 +45,7 @@ var clone = function(){
 			nextId = jQuery(this).parents("tbody").find("tr").length;			
                         selectrow = selectrow.replace(/\[0\]/g, "["+nextId+"]"); 
                         selectrow = selectrow.replace(/\[group-0\]/g, "[group-"+group_index+"]"); 			
-			jQuery(this).parents("tr").after(selectrow);removeHtml();clone();
+			jQuery(this).parents("tr").after(selectrow);removeHtml();clone();saswp_select2();
 		});
 	}
 	var removeHtml = function(){
@@ -26,6 +66,7 @@ var clone = function(){
 			
 		});
 	}
+
 jQuery(document).ready(function($){            
                 
         $('#saswp-dayofweek-opens-time').timepicker({ 'timeFormat': 'H:i:s'});
@@ -51,13 +92,15 @@ jQuery(document).ready(function($){
            $(".saswp-placement-group[data-id="+(group_index-1)+"]").after(html); 
            group_index++;
            clone();
-           removeHtml();
+		   removeHtml();
+		   saswp_select2();
         });
     
 	var selectrow = $("#saswp_amp_select").find("table.widefat tr").html();
 	$("body").append("<script type='template/html' id='call_html_template_sdwp'><tr class='toclone cloneya'>"+selectrow+"</tr>");
-	clone();
+	clone();	
 	removeHtml();
+	saswp_select2();
 	$(document).on("change", ".select-post-type", function(){
                 var current_change = $(this);
 		var parent = $(this).parents('tr').find(".insert-ajax-select");
@@ -73,10 +116,11 @@ jQuery(document).ready(function($){
                 var saswp_call_nonce = jQuery("#saswp_select_name_nonce").val();
 		
 		parent.find(".ajax-output").remove();
+		parent.find(".select2-container").remove();
 		parent.find(".ajax-output-child").remove();
 		parent.find(".spinner").attr("style","visibility:visible");
 		parent.children(".spinner").addClass("show");
-		var ajaxURL = saswp_app_object.ajax_url;
+		var ajaxURL = saswp_localize_data.ajax_url;
                 var group_index = jQuery(this).closest(".saswp-placement-group").attr('data-id'); 
 		//ajax call
         $.ajax({
@@ -93,11 +137,14 @@ jQuery(document).ready(function($){
         },
         success: function(data){ 
         	// This code is added twice " withThis.find('.ajax-output').remove(); "
-      			parent.find(".ajax-output").remove();
+				parent.find(".ajax-output").remove();
+				parent.find(".select2-container").remove();
       			parent.children(".spinner").removeClass("show");
       			parent.find(".spinner").attr("style","visibility:hidden").hide();
       			parent.append(data);
-      			taxonomyDataCall();
+				  taxonomyDataCall();
+				  saswp_select2();
+				  parent.find(".ajax-output").change();
         },
         error: function(data){
           console.log("Failed Ajax Request");
@@ -139,7 +186,7 @@ function taxonomyDataCall(){
 			parentSelector.find(".spinner").attr("style","visibility:visible");
 			parentSelector.children(".spinner").addClass("show");
 			
-			var ajaxURL = saswp_app_object.ajax_url;
+			var ajaxURL = saswp_localize_data.ajax_url;
                          var group_index = jQuery(this).closest(".saswp-placement-group").attr('data-id'); 
 			//ajax call
 			jQuery.ajax({
@@ -156,11 +203,12 @@ function taxonomyDataCall(){
 	        },
 	        success: function(data){ 
 	        	// This code is added twice " withThis.find('.ajax-output').remove(); "
-	      			parentSelector.find(".ajax-output-child").remove();
+					parentSelector.find(".ajax-output-child").remove();
+					parentSelector.find(".select2-container").next().remove();
 	      			parentSelector.children(".spinner").removeClass("show");
 	      			parentSelector.find(".spinner").attr("style","visibility:hidden").hide();
-	      			parentSelector.append(data);
-	      			taxonomyDataCall();
+	      			parentSelector.append(data);					
+					saswp_select2();
 	        },
 	        error: function(data){
 	          console.log("Failed Ajax Request");

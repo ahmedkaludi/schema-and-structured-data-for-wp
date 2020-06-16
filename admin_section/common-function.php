@@ -1660,7 +1660,8 @@ if ( ! defined('ABSPATH') ) exit;
                         'id'       => array(),
                         'name'     => array(),
                         'value'    => array(),
-                        'type'     => array(),                    
+                        'type'     => array(), 
+                        'data-type'=> array(),                    
                 );
                 // checkbox
                 $my_allowed['checkbox'] = array(
@@ -1676,6 +1677,7 @@ if ( ! defined('ABSPATH') ) exit;
                         'selected' => array(),
                         'value'    => array(),
                         'disabled' => array(),
+                        'id'       => array(),
                 );                       
                 // style
                 $my_allowed['style'] = array(
@@ -2576,7 +2578,7 @@ function saswp_get_permalink(){
         
     }
     
-    return $url;
+    return saswp_validate_url($url);
 }
 function saswp_get_taxonomy_term_list(){
     
@@ -2650,7 +2652,15 @@ function saswp_migrate_old_social_profile(){
         }
     
 }
-
+function saswp_validate_url($url){
+    
+    if(wp_http_validate_url($url)){
+        return $url;
+    }else{
+        return '';
+    }
+    
+}
 function saswp_validate_date($date, $format = 'Y-m-d H:i:s'){
         $d = DateTime::createFromFormat($format, $date);
         return $d && $d->format($format) == $date;
@@ -3302,4 +3312,353 @@ function saswp_insert_schema_type($title){
 
   return $insertedPageId;
 
+}
+
+function saswp_get_posts_by_arg($arg){
+      
+    $response = array();
+
+    $meta_query = new WP_Query($arg);        
+            
+      if($meta_query->have_posts()) {
+           
+          $data = array();  
+          $post_meta = array();        
+          while($meta_query->have_posts()) {
+              $meta_query->the_post();
+              $data['post_id']       =  get_the_ID();
+              $data['post_title']    =  get_the_title();
+              $data['post_status']   =  get_post_status();
+              $data['post_modified'] =  get_the_date('M, d Y');
+              $post_meta             = get_post_meta(get_the_ID(), '', true);
+              if($post_meta){
+                  foreach($post_meta as $key => $val ){
+                      $post_meta[$key] = $val[0];
+                  }
+              }
+              
+              $posts_data[] = array(
+              'post'        => (array) $data,
+              'post_meta'   => $post_meta                
+              ); 
+
+          }
+          wp_reset_postdata(); 
+          $response['posts_data']  = $posts_data;
+          $response['posts_found'] = $meta_query->found_posts;
+      }
+
+      return $response;
+
+  }
+
+function saswp_get_condition_list($condition, $search = '', $saved_data = ''){
+
+    $choices      = array();  
+    $array_search = false;  
+
+    switch($condition){
+    
+      case "post_type":
+        
+          $post_type = array();
+          $args['public'] = true;
+            
+          if(!empty($search) && $search != null){                
+            $args['name'] = $search; 
+          }                     
+          if($saved_data){
+            $args['name'] = $saved_data; 
+          }
+          $choices = get_post_types( $args, 'names');    
+          unset($choices['attachment'], $choices['amp_acf'], $choices['quads-ads']);                    
+          
+          if($choices){
+            foreach($choices as $key =>$value){
+              $post_type[] = array('id' => $value, 'text' => $key);
+            }
+          }          
+            
+          $choices = $post_type;
+        break;                         
+
+      case "page_template" :
+        $array_search = true;
+        $choices[] = array('id' => 'default', 'text' => 'Default Template');
+
+        $templates = get_page_templates();
+        
+        if($saved_data){
+            $new_arr = array();
+            foreach ($templates as $key => $value) {
+                if($key == $saved_data){
+                  $new_arr[$key] = $value;
+                }
+            }
+            $templates = $new_arr;            
+        }
+
+        if($templates){
+            
+            foreach($templates as $k => $v){
+                             
+                 $choices[] = array('id' => $k, 'text' => $v);
+          
+            }
+            
+        }
+        
+        break;
+
+      case "post" :
+      case "page" :
+        
+        if($condition == 'page'){
+
+          $post_types['page'] = 'page';
+
+        }else{
+
+          $post_types = get_post_types();                        
+          unset( $post_types['page'], $post_types['attachment'], $post_types['revision'] , $post_types['nav_menu_item'], $post_types['acf'] , $post_types['amp_acf'],$post_types['saswp']  );
+
+        }
+
+        if( $post_types )
+        {
+          foreach( $post_types as $post_type ){
+          
+            $arg['post_type']      = $post_type;
+            $arg['posts_per_page'] = 50;  
+            $arg['post_status']    = 'any'; 
+
+            if(!empty($search)){
+              $arg['s']              = $search;
+            }
+
+            if($saved_data){
+                $arg['p'] = $saved_data;  
+            }
+                
+            $posts = saswp_get_posts_by_arg($arg);             
+            
+            if(isset($posts['posts_data'])){
+                            
+              foreach($posts['posts_data'] as $post){                                                          
+                
+                $choices[] = array('id' => $post['post']['post_id'], 'text' => $post['post']['post_title']);
+
+              }
+              
+            }
+            
+          }
+          
+        }
+        
+        break;
+
+      case "post_category" :
+
+        $terms = array();
+        $args = array( 
+                    'hide_empty' => false,
+                    'number'     => 50, 
+                  );
+
+        if(!empty($search)){
+          $args['name__like'] = $search;
+        }      
+        if($saved_data){             
+            $new_obj  = get_term($saved_data);
+            $terms[0] = $new_obj;            
+        }else{
+            $terms = get_terms( 'category', $args);
+        }   
+        
+        if( !empty($terms) ) {
+
+          foreach( $terms as $term ) {
+
+            $choices[] = array('id' => $term->term_id, 'text' => $term->name);                
+
+          }
+
+        }
+
+        break;
+
+      case "user_type" :
+
+        global $wp_roles;
+
+          $array_search = true;                 
+          $general_arr = array();  
+          $choices = $wp_roles->get_names();            
+
+          if( is_multisite() ){
+          
+            $choices['super_admin'] = esc_html__('Super Admin','schema-and-structured-data-for-wp');
+            
+          }
+
+          if($saved_data){
+            $new_arr = array();
+            foreach ($choices as $key => $value) {
+                if($key == $saved_data){
+                  $new_arr[$key] = $value;
+                }
+            }
+             $choices = $new_arr;            
+          }
+          
+          if($choices){
+            foreach($choices as $key =>$value){
+              $general_arr[] = array('text' => $value, 'id' => $key);
+            }
+          }        
+          $choices = $general_arr; 
+
+      break;
+      case "post_format" :
+          $array_search = true;                 
+          $general_arr = array();
+          $choices = get_post_format_strings();
+
+          if($saved_data){
+            $new_arr = array();
+            foreach ($choices as $key => $value) {
+                if($key == $saved_data){
+                  $new_arr[$key] = $value;
+                }
+            }
+          $choices = $new_arr;            
+         }
+
+          if($choices){
+            foreach($choices as $key =>$value){
+              $general_arr[] = array('text' => $value, 'id' => $key);
+            }
+          }        
+          $choices = $general_arr; 
+
+      break;
+
+      case "ef_taxonomy" :
+        
+        $args['public'] = true;
+
+        if(!empty($search) && $search != null){                
+            $args['name'] = $search; 
+        }  
+        if($saved_data){
+            $args['name'] = $saved_data; 
+        }      
+
+        $taxonomies = get_taxonomies( $args, 'objects');
+        
+        if($taxonomies){
+            
+            if($taxonomies){
+        
+                foreach($taxonomies as $taxonomy) {                                      
+                  $choices[] = array('id' => $taxonomy->name, 'text' => $taxonomy->labels->name);                  
+                }
+                  
+              }
+
+        }
+                                     
+        break;      
+
+        case "homepage":
+            $array_search = true; 
+            $choices = array(
+                array('id'  => 'true', 'text' => 'True'),
+                array('id'  => 'false', 'text' => 'False')                                         
+            );     
+            
+            if($saved_data == 'false'){
+                $choices = array(                    
+                    array('id'  => 'false', 'text' => 'False')                                         
+                );     
+            }
+            if($saved_data == 'true'){
+                $choices = array(
+                    array('id'  => 'true', 'text' => 'True'),                    
+                );     
+            }
+             
+        break;      
+
+        case "all":
+
+            $args = array( 
+                'hide_empty' => false,
+                'number'     => 50, 
+            );
+
+            if(!empty($search)){
+                $args['name__like'] = $search;
+            }
+
+            $taxonomies =  get_terms( $args );               
+            
+            if($taxonomies){
+
+                foreach($taxonomies as $tax){
+                    $choices[] = array('id' => $tax->slug, 'text' => $tax->name);
+                }
+                
+            }                        
+             
+        break;
+
+        default:
+        
+        $args = array( 
+            'hide_empty' => false,
+            'number'     => 50, 
+        );
+
+        if(!empty($search)){
+            $args['name__like'] = $search;
+        }
+
+        if($saved_data){                         
+            $args['slug'] = $saved_data;
+        }   
+        $taxonomies    =  get_terms($condition, $args);  
+                      
+        if($taxonomies){
+
+            foreach($taxonomies as $tax){
+                $choices[] = array('id' => $tax->slug, 'text' => $tax->name);
+            }
+            
+        }
+
+    }        
+
+    if(!empty($search) && $search != null){
+        
+        if($array_search){
+
+            $search_data = array();
+
+            foreach($choices as $val){
+              if((strpos($val['id'], $search) !== false) || (strpos($val['text'], $search) !== false)){
+                $search_data[] = $val; 
+              }
+            }
+
+            $choices = $search_data;           
+
+        }
+        
+        return array('results' => $choices);
+    }else{
+        return $choices;
+    }    
+ 
 }
