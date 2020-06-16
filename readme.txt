@@ -120,7 +120,7 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
 
-= 1.9.41 (15 June 2020) =
+= 1.9.41 (16 June 2020) =
 
 * Fixed: Notice Error: Notice: Trying to get property 'post_content' of non-object #1055
 * Fixed: The property comment is not recognized by Google for an object of type Organization. #1061

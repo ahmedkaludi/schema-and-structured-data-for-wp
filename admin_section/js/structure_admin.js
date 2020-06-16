@@ -27,7 +27,7 @@ function saswp_select2(){
             cache: false
         },            
        minimumInputLength: 2, 
-       minimumResultsForSearch : 2,
+       minimumResultsForSearch : 50,
        dataAdapter: jQuery.fn.select2.amd.require('select2/data/extended-ajax'),
        defaultResults: defaultResults      
      });
