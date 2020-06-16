@@ -1355,8 +1355,13 @@ class saswp_reviews_service {
             $avg = 0;
 
             foreach ($post_ids as $value) {
-                $avg += get_post_meta($value, 'saswp_review_rating', true);
-                
+
+                $rating = get_post_meta($value, 'saswp_review_rating', true);
+
+                if(is_numeric($rating)){
+                    $avg += get_post_meta($value, 'saswp_review_rating', true);
+                }
+                                
             }
             if($avg > 0){
                 $response = $avg/ count($post_ids);
