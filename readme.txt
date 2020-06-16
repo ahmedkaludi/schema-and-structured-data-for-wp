@@ -120,6 +120,10 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
 
+= 1.9.41.1 (16 June 2020) =
+
+* Fixed: Js Error: function saswp_select2 is not defined #1067
+
 = 1.9.41 (16 June 2020) =
 
 * Fixed: Notice Error: Notice: Trying to get property 'post_content' of non-object #1055

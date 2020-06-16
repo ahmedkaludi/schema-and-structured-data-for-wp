@@ -1288,3 +1288,42 @@ function saswpIsEmail(email) {
         var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
         return regex.test(email);
 }
+function saswp_select2(){
+
+    var $select2 = jQuery('.saswp-select2');
+    
+    if($select2.length > 0){
+
+         jQuery($select2).each(function(i, obj) {
+         var currentP = jQuery(this);  
+         var $defaultResults = jQuery('option[value]:not([selected])', currentP);   
+         var defaultResults = [];
+
+        $defaultResults.each(function () {
+            var $option = jQuery(this);
+            defaultResults.push({
+                id: $option.attr('value'),
+                text: $option.text()
+            });
+        });
+
+        var type = currentP.attr('data-type');
+        var ajaxnewurl = ajaxurl + '?action=saswp_get_select2_data&saswp_security_nonce='+saswp_localize_data.saswp_security_nonce+'&type='+type;
+
+   currentP.select2({           
+        ajax: {             
+            url: ajaxnewurl,
+            delay: 250, 
+            cache: false
+        },            
+       minimumInputLength: 2, 
+       minimumResultsForSearch : 50,
+       dataAdapter: jQuery.fn.select2.amd.require('select2/data/extended-ajax'),
+       defaultResults: defaultResults      
+     });
+ 
+    });
+
+    }                    
+    
+}
