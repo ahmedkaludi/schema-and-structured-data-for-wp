@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.4
-Stable tag: 1.9.41
+Stable tag: 1.9.41.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -119,6 +119,12 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.9.41.2 (17 June 2020) =
+
+* Fixed: Notice message : Undefined variable: selected in C #1069
+* Fixed: JS bug after 1.9.41 #1067
+* Fixed: Warning: A non-numeric value encountered in modules/reviews/reviews_service.php on line 1358 #1065
 
 = 1.9.41.1 (16 June 2020) =
 
