@@ -1168,8 +1168,13 @@ function saswp_schema_output() {
                                     foreach($recipe_ids as $recipe){
 
                                         if(class_exists('WPRM_Recipe_Manager')){
+
                                             $recipe_arr    = WPRM_Recipe_Manager::get_recipe( $recipe );
-                                            $recipe_json[] = saswp_wp_recipe_schema_json($recipe_arr);                                            
+
+                                            if($recipe_arr){
+                                                $recipe_json[] = saswp_wp_recipe_schema_json($recipe_arr);                                            
+                                            }
+                                            
                                         }
 
                                     }  
