@@ -2044,7 +2044,8 @@ function saswp_append_fetched_reviews($input1, $schema_post_id = null){
                     
                     if(isset($input1['review'])){
 
-                    $input1['review'] = array_merge($input1['review'], $rv_markup['review']);
+                    $input1['review']          = $rv_markup['review'];
+                    $input1['aggregateRating'] = $rv_markup['aggregateRating'];
 
                     }else{
                        $input1 = array_merge($input1, $rv_markup);
