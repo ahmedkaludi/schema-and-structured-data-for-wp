@@ -1604,6 +1604,10 @@ Class saswp_output_service{
                      $input1['offers']['priceCurrency'] =    $custom_fields['saswp_product_schema_currency'];
                      $input1['offers']['url'] =    $custom_fields['saswp_product_schema_url'];
                     }
+                    if(isset($custom_fields['saswp_product_schema_vat'])){
+                        $input1['offers']['priceSpecification']['@type']                 =    'priceSpecification';
+                        $input1['offers']['priceSpecification']['valueAddedTaxIncluded'] =    $custom_fields['saswp_product_schema_vat'];
+                    }
                     if(isset($custom_fields['saswp_product_schema_priceValidUntil'])){
                      $input1['offers']['priceValidUntil'] =    $custom_fields['saswp_product_schema_priceValidUntil'];
                      

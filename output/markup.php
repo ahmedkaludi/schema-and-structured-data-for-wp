@@ -808,6 +808,12 @@ function saswp_product_schema_markup($schema_id, $schema_post_id, $all_post_meta
                     $input1['offers']['seller']['@type']   = 'Organization';
                     $input1['offers']['seller']['name']    = esc_attr($all_post_meta['saswp_product_schema_seller_'.$schema_id][0]);  
                 }
+
+                if(isset($all_post_meta['saswp_product_schema_vat_'.$schema_id])){
+                    $input1['offers']['priceSpecification']['@type']                    = 'priceSpecification';
+                    $input1['offers']['priceSpecification']['valueAddedTaxIncluded']    = esc_attr($all_post_meta['saswp_product_schema_vat_'.$schema_id][0]);  
+                }
+
             }
                                                     
             if(isset($all_post_meta['saswp_product_schema_gtin8_'.$schema_id])){

@@ -1832,7 +1832,13 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'id'      => 'saswp_product_schema_currency_'.$schema_id,
                             'type'    => 'text', 
                             'default' => saswp_remove_warnings($product_details, 'product_currency', 'saswp_string')    
-                      ),
+                       ),
+                       array(
+                        'label'   => 'VAT',
+                        'id'      => 'saswp_product_schema_vat_'.$schema_id,
+                        'type'    => 'text', 
+                        'default' => saswp_remove_warnings($product_details, 'product_vat', 'saswp_string')    
+                   ),
                         array(
                             'label'   => 'Availability',
                             'id'      => 'saswp_product_schema_availability_'.$schema_id,
