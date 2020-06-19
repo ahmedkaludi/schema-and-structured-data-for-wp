@@ -674,21 +674,15 @@ function saswp_schema_output() {
                         
                             case 'Course':
                                 
-                                $description = saswp_get_the_excerpt();
-
-                                if(!$description){
-                                    $description = get_bloginfo('description');
-                                }
-
                                 $input1 = array(
                                 '@context'			=> saswp_context_url(),
                                 '@type'				=> $schema_type ,
                                 '@id'				=> trailingslashit(saswp_get_permalink()).'#course',    
-                                'name'			        => saswp_get_the_title(),
-                                'description'                   => $description,			
+                                'name'			    => saswp_get_the_title(),
+                                'description'       => saswp_get_the_excerpt(),			
                                 'url'				=> trailingslashit(saswp_get_permalink()),
-                                'datePublished'                 => esc_html($date),
-                                'dateModified'                  => esc_html($modified_date),
+                                'datePublished'     => esc_html($date),
+                                'dateModified'      => esc_html($modified_date),
                                 'author'			=> saswp_get_author_details(),    
                                 'provider'			=> array(
                                                                     '@type' 	        => 'Organization',
