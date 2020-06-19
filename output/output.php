@@ -153,8 +153,7 @@ function saswp_schema_output() {
         }
         $service_object     = new saswp_output_service();
 
-        $all_schema_output  = array();
-        $recipe_json        = array();
+        $all_schema_output  = array();        
         
         $site_name          = get_bloginfo();         
         $image_id 	        = get_post_thumbnail_id();									
@@ -1152,44 +1151,19 @@ function saswp_schema_output() {
                             break;
                         
                             case 'Recipe':
-                                
-                            if(isset($sd_data['saswp-wp-recipe-maker']) && $sd_data['saswp-wp-recipe-maker'] == 1){
-                                                              
-                                $recipe_ids = saswp_get_ids_from_content_by_type('wp_recipe_maker');
-                                                                
-                                if($recipe_ids){
-
-                                    foreach($recipe_ids as $recipe){
-
-                                        if(class_exists('WPRM_Recipe_Manager')){
-
-                                            $recipe_arr    = WPRM_Recipe_Manager::get_recipe( $recipe );
-
-                                            if($recipe_arr){
-                                                $recipe_json[] = saswp_wp_recipe_schema_json($recipe_arr);                                            
-                                            }
-                                            
-                                        }
-
-                                    }  
-                                    
-                                 }
-                                
-                                 
-                            }else{
-                                                                                               
-				$input1 = array(
+                                                                                                                                                           
+				                $input1 = array(
                                     '@context'			=> saswp_context_url(),
                                     '@type'				=> $schema_type ,
                                     '@id'				=> trailingslashit(saswp_get_permalink()).'#recipe',    
                                     'url'				=> trailingslashit(saswp_get_permalink()),
-                                    'name'			        => saswp_get_the_title(),
-                                    'datePublished'                 => esc_html($date),
-                                    'dateModified'                  => esc_html($modified_date),
-                                    'description'                   => saswp_get_the_excerpt(),
-                                    'keywords'                      => saswp_get_the_tags(), 
+                                    'name'			    => saswp_get_the_title(),
+                                    'datePublished'     => esc_html($date),
+                                    'dateModified'      => esc_html($modified_date),
+                                    'description'       => saswp_get_the_excerpt(),
+                                    'keywords'          => saswp_get_the_tags(), 
                                     'author'			=> saswp_get_author_details(),        								
-				);
+				                );
                                                                                                
                                 if(isset($sd_data['saswp_comments_schema']) && $sd_data['saswp_comments_schema'] ==1){
                                     $input1['comment'] = saswp_get_comments(get_the_ID());
@@ -1201,12 +1175,10 @@ function saswp_schema_output() {
                                    $input1 = array_merge($input1, $extra_theme_review);
                                 }
                                 
-                                $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
-                                                                                                
-                            }
-                            				                                
+                               $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
+                                                                                                                                                        				                                
                                $input1 = apply_filters('saswp_modify_recipe_schema_output', $input1 );
-                               
+                                                         
                                $input1 = saswp_get_modified_markup($input1, $schema_type, $schema_post_id, $schema_options);
                                
                                if($modified_schema == 1){
@@ -1907,12 +1879,7 @@ function saswp_schema_output() {
                 }      
                 
         }   
-                
-        if($recipe_json){
-            foreach($recipe_json as $json){
-                array_push($all_schema_output, $json);
-            }
-        }        
+                                
         return apply_filters('saswp_modify_schema_output', $all_schema_output);
 }
 /**
