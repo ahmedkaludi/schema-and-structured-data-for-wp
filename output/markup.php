@@ -1140,7 +1140,7 @@ function saswp_local_business_schema_markup($schema_id, $schema_post_id, $all_po
                   $input1['hasMap'] = esc_url($all_post_meta['local_hasmap_'.$schema_id][0]);   
                 }
 
-                if(isset($all_post_meta['local_latitude_'.$schema_id][0]) && isset($all_post_meta['local_longitude_'.$schema_id][0])){
+                if( (isset($all_post_meta['local_latitude_'.$schema_id][0]) && $all_post_meta['local_latitude_'.$schema_id][0] != '') && (isset($all_post_meta['local_longitude_'.$schema_id][0])  && $all_post_meta['local_longitude_'.$schema_id][0] !='' )  ){
 
                     $input1['geo']['@type']     = 'GeoCoordinates';
                     $input1['geo']['latitude']  = $all_post_meta['local_latitude_'.$schema_id][0];
