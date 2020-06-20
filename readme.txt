@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.4
-Stable tag: 1.9.41.2
+Stable tag: 1.9.41.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -119,6 +119,16 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.9.41.3 (20 June 2020) =
+
+* Enhancement: Make stars color yellow as default. #1062
+* Fixed: Recipe schema is generating twice in website #1073
+* Fixed: Shortcode is being displayed in the description. #1074
+* Fixed: JS bug after 1.9.41 improvement #1067
+* Fixed: If the "Product Default Review" option is enabled then the collection review count is not showing #1066
+* Added: VAT Schema Property in product #873
+* Added: Veterinary Care schema type in MedicalBusiness inside LocalBusiness
 
 = 1.9.41.2 (17 June 2020) =
 
