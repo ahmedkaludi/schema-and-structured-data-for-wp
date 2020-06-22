@@ -915,18 +915,18 @@ function saswp_rent_action_schema_markup($schema_id, $schema_post_id, $all_post_
         );
 
         if(isset($all_post_meta['saswp_rent_action_agent_name_'.$schema_id][0])){
-                $input1['@type'] =    'Person';
-                $input1['name'] =    $all_post_meta['saswp_rent_action_agent_name_'.$schema_id][0];
+            $input1['agent']['@type'] =    'Person';
+            $input1['agent']['name']  =    $all_post_meta['saswp_rent_action_agent_name_'.$schema_id][0];
         }
 
         if(isset($all_post_meta['saswp_rent_action_land_lord_name_'.$schema_id][0])){
-            $input1['@type'] =    'Person';
-            $input1['name'] =    $all_post_meta['saswp_rent_action_land_lord_name_'.$schema_id][0];
+            $input1['landlord']['@type'] =    'Person';
+            $input1['landlord']['name']  =    $all_post_meta['saswp_rent_action_land_lord_name_'.$schema_id][0];
         }
 
         if(isset($all_post_meta['saswp_rent_action_object_name_'.$schema_id][0])){
-            $input1['@type'] =    'Residence';
-            $input1['name'] =    $all_post_meta['saswp_rent_action_object_name_'.$schema_id][0];
+            $input1['object']['@type'] =    'Residence';
+            $input1['object']['name']  =    $all_post_meta['saswp_rent_action_object_name_'.$schema_id][0];
         }
 
         return $input1;

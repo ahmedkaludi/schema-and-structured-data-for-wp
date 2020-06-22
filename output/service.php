@@ -1634,16 +1634,16 @@ Class saswp_output_service{
                     case 'RentAction':                                                                                                  
 
                         if(isset($custom_fields['saswp_rent_action_agent_name'])){
-                            $input1['@type'] =    'Person';
-                            $input1['name'] =    $custom_fields['saswp_rent_action_agent_name'];
+                            $input1['agent']['@type'] =    'Person';
+                            $input1['agent']['name']  =    $custom_fields['saswp_rent_action_agent_name'];
                         }
                         if(isset($custom_fields['saswp_rent_action_land_lord_name'])){
-                            $input1['@type'] =    'Person';
-                            $input1['name'] =    $custom_fields['saswp_rent_action_land_lord_name'];
+                            $input1['landlord']['@type'] =    'Person';
+                            $input1['landlord']['name']  =    $custom_fields['saswp_rent_action_land_lord_name'];
                         }
                         if(isset($custom_fields['saswp_rent_action_object_name'])){
-                            $input1['@type'] =    'Residence';
-                            $input1['name']  =    $custom_fields['saswp_rent_action_object_name'];
+                            $input1['object']['@type'] =    'Residence';
+                            $input1['object']['name']  =    $custom_fields['saswp_rent_action_object_name'];
                         }
 
                     break;
