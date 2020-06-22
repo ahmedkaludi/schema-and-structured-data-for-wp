@@ -50,6 +50,7 @@ $without_aggregate = array(
         'TouristDestination',
         'LandmarksOrHistoricalBuildings',
         'PsychologicalTreatment',
+        'RentAction',
         'HinduTemple',
         'BuddhistTemple',
         'Church',

@@ -75,6 +75,7 @@ return array(
         'Thing' => array(
             'Person'                 => 'Person',
             'Organization'           => 'Organization', 
-            'PsychologicalTreatment' => 'PsychologicalTreatment'                                                                               
+            'PsychologicalTreatment' => 'PsychologicalTreatment',
+            'RentAction'             => 'RentAction'                                                                                 
         )
      );

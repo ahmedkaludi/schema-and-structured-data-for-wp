@@ -1631,6 +1631,23 @@ Class saswp_output_service{
                                                             
                     break;
 
+                    case 'RentAction':                                                                                                  
+
+                        if(isset($custom_fields['saswp_rent_action_agent_name'])){
+                            $input1['@type'] =    'Person';
+                            $input1['name'] =    $custom_fields['saswp_rent_action_agent_name'];
+                        }
+                        if(isset($custom_fields['saswp_rent_action_land_lord_name'])){
+                            $input1['@type'] =    'Person';
+                            $input1['name'] =    $custom_fields['saswp_rent_action_land_lord_name'];
+                        }
+                        if(isset($custom_fields['saswp_rent_action_object_name'])){
+                            $input1['@type'] =    'Residence';
+                            $input1['name']  =    $custom_fields['saswp_rent_action_object_name'];
+                        }
+
+                    break;
+
                     case 'RealEstateListing':                                                                                                  
                         if(isset($custom_fields['saswp_real_estate_listing_date_posted'])){
                             $input1['datePosted'] =    $custom_fields['saswp_real_estate_listing_date_posted'];

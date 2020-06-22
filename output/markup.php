@@ -905,6 +905,33 @@ function saswp_product_schema_markup($schema_id, $schema_post_id, $all_post_meta
     
 }
 
+function saswp_rent_action_schema_markup($schema_id, $schema_post_id, $all_post_meta){
+
+       $input1 = array(
+        '@context'			=> saswp_context_url(),
+        '@type'				=> 'RentAction',
+        '@id'               => trailingslashit(get_permalink()).'#RentAction',    
+        'url'				=> trailingslashit(get_permalink()),        
+        );
+
+        if(isset($all_post_meta['saswp_rent_action_agent_name_'.$schema_id][0])){
+                $input1['@type'] =    'Person';
+                $input1['name'] =    $all_post_meta['saswp_rent_action_agent_name_'.$schema_id][0];
+        }
+
+        if(isset($all_post_meta['saswp_rent_action_land_lord_name_'.$schema_id][0])){
+            $input1['@type'] =    'Person';
+            $input1['name'] =    $all_post_meta['saswp_rent_action_land_lord_name_'.$schema_id][0];
+        }
+
+        if(isset($all_post_meta['saswp_rent_action_object_name_'.$schema_id][0])){
+            $input1['@type'] =    'Residence';
+            $input1['name'] =    $all_post_meta['saswp_rent_action_object_name_'.$schema_id][0];
+        }
+
+        return $input1;
+}
+
 function saswp_real_estate_listing_schema_markup($schema_id, $schema_post_id, $all_post_meta){
     
     $product_image = get_post_meta( get_the_ID(), 'saswp_real_estate_listing_image_'.$schema_id.'_detail',true);

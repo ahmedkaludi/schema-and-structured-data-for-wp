@@ -1772,6 +1772,29 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         );
                         
                         break;
+                        
+                        case 'RentAction':                                                                                                            
+                        
+                                $meta_field = array(
+                                        array(
+                                                'label'   => 'Agent Name',
+                                                'id'      => 'saswp_rent_action_agent_name_'.$schema_id,
+                                                'type'    => 'text'                                                                
+                                        ),
+                                        array(
+                                                'label'   => 'Land Lord Name',
+                                                'id'      => 'saswp_rent_action_land_lord_name_'.$schema_id,
+                                                'type'    => 'text'                                                                
+                                        ),
+                                        array(
+                                                'label'   => 'Object Name',
+                                                'id'      => 'saswp_rent_action_object_name_'.$schema_id,
+                                                'type'    => 'text'                                                                
+                                        )    
+                                                                    
+                                );
+                                
+                                break;        
 
                 case 'Product':                
                     
