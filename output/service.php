@@ -556,6 +556,92 @@ Class saswp_output_service{
                     }
                                                               
                     break; 
+                
+                    case 'Project':      
+                    
+                        if(isset($custom_fields['saswp_project_name'])){
+                         $input1['name'] =    $custom_fields['saswp_project_name'];
+                        }
+                        if(isset($custom_fields['saswp_project_description'])){
+                         $input1['description'] =    $custom_fields['saswp_project_description'];
+                        }
+                        if(isset($custom_fields['saswp_project_url'])){
+                         $input1['url'] =    saswp_validate_url($custom_fields['saswp_project_url']);
+                        }                                        
+                        if(isset($custom_fields['saswp_project_street_address'])){
+                         $input1['address']['streetAddress'] =    $custom_fields['saswp_project_street_address'];
+                        }                    
+                        if(isset($custom_fields['saswp_project_city'])){
+                         $input1['address']['addressLocality'] =    $custom_fields['saswp_project_city'];
+                        }
+                        if(isset($custom_fields['saswp_project_state'])){
+                         $input1['address']['addressRegion'] =    $custom_fields['saswp_project_state'];
+                        }
+                        if(isset($custom_fields['saswp_project_country'])){
+                         $input1['address']['addressCountry'] =    $custom_fields['saswp_project_country'];
+                        }
+                        if(isset($custom_fields['saswp_project_postal_code'])){
+                         $input1['address']['postalCode'] =    $custom_fields['saswp_project_postal_code'];
+                        }
+                        if(isset($custom_fields['saswp_project_telephone'])){
+                         $input1['address']['telephone'] =    $custom_fields['saswp_project_telephone'];
+                        }
+                        if(isset($custom_fields['saswp_project_email'])){
+                         $input1['address']['email'] =    $custom_fields['saswp_project_email'];
+                        }
+                        if(isset($custom_fields['saswp_project_logo'])){
+                         $input1['logo'] =    $custom_fields['saswp_project_logo'];
+                        }
+                        if(isset($custom_fields['saswp_project_image'])){
+                         $input1['image'] =    $custom_fields['saswp_project_image'];
+                        }
+                        if(isset($custom_fields['saswp_project_duns'])){
+                            $input1['duns'] =    $custom_fields['saswp_project_duns'];
+                        }
+                        if(isset($custom_fields['saswp_project_founder'])){
+                            $input1['founder'] =    $custom_fields['saswp_project_founder'];
+                        }
+                        if(isset($custom_fields['saswp_project_founding_date'])){
+                            $input1['foundingDate'] =    $custom_fields['saswp_project_founding_date'];
+                        }
+                        if(isset($custom_fields['saswp_project_qualifications'])){
+                            $input1['hasCredential'] =    $custom_fields['saswp_project_qualifications'];
+                        }
+                        if(isset($custom_fields['saswp_project_knows_about'])){
+                            $input1['knowsAbout'] =    $custom_fields['saswp_project_knows_about'];
+                        }
+                        if(isset($custom_fields['saswp_project_member_of'])){
+                            $input1['memberOf'] =    $custom_fields['saswp_project_member_of'];
+                        }
+                        if(isset($custom_fields['saswp_project_parent_project'])){
+                            $input1['parentproject'] =    $custom_fields['saswp_project_parent_project'];
+                        }
+    
+                        $sameas = array();
+                        if(isset($custom_fields['saswp_project_website'])){
+                            $sameas[] =    $custom_fields['saswp_project_website'];
+                        }
+                        if(isset($custom_fields['saswp_project_facebook'])){
+                            $sameas[] =    $custom_fields['saswp_project_facebook'];
+                        }
+                        if(isset($custom_fields['saswp_project_twitter'])){
+                            $sameas[] =    $custom_fields['saswp_project_twitter'];
+                        }
+                        if(isset($custom_fields['saswp_project_linkedin'])){
+                            $sameas[] =    $custom_fields['saswp_project_linkedin'];
+                        }
+                        if($sameas){
+                            $input1['sameAs'] = $sameas;
+                        }
+    
+                        if(isset($custom_fields['saswp_project_rating_value']) && isset($custom_fields['saswp_project_rating_count'])){
+                            $input1['aggregateRating']['@type']       =   'AggregateRating';                                                
+                            $input1['aggregateRating']['ratingValue'] =    $custom_fields['saswp_project_rating_value'];
+                            $input1['aggregateRating']['ratingCount'] =    $custom_fields['saswp_project_rating_count'];
+                        }
+                                                                                      
+                        break;         
+
                 case 'Organization':      
                     
                     if(isset($custom_fields['saswp_organization_name'])){

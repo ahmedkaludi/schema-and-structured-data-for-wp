@@ -4654,6 +4654,143 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                    );
                     break;
                 
+                    case 'Project':
+                    
+                        $meta_field = array(                        
+                        array(
+                                'label'      => 'Name',
+                                'id'         => 'saswp_project_name_'.$schema_id,
+                                'type'       => 'text',                           
+                            ),
+                        array(
+                                'label'      => 'Description',
+                                'id'         => 'saswp_project_description_'.$schema_id,
+                                'type'       => 'textarea',                           
+                            ),    
+                        array(
+                                'label'      => 'URL',
+                                'id'         => 'saswp_project_url_'.$schema_id,
+                                'type'       => 'text',                           
+                            ), 
+                        array(
+                               'label'      => 'Image',
+                               'id'         => 'saswp_project_image_'.$schema_id,
+                               'type'       => 'media',                           
+                            ),
+                        array(
+                                'label'      => 'Logo',
+                                'id'         => 'saswp_project_logo_'.$schema_id,
+                                'type'       => 'media',                           
+                            ), 
+                        array(
+                                'label'      => 'Street Address',
+                                'id'         => 'saswp_project_street_address_'.$schema_id,
+                                'type'       => 'text',                           
+                            ),
+                            array(
+                                'label'      => 'City',
+                                'id'         => 'saswp_project_city_'.$schema_id,
+                                'type'       => 'text',                           
+                            ),
+                            array(
+                                'label'      => 'State',
+                                'id'         => 'saswp_project_state_'.$schema_id,
+                                'type'       => 'text',                           
+                            ),
+                            array(
+                                'label'      => 'Country',
+                                'id'         => 'saswp_project_country_'.$schema_id,
+                                'type'       => 'text',                           
+                            ),
+                            array(
+                                'label'      => 'Postal Code',
+                                'id'         => 'saswp_project_postal_code_'.$schema_id,
+                                'type'       => 'text',                           
+                            ),
+                            array(
+                                    'label'      => 'Email',
+                                    'id'         => 'saswp_project_email_'.$schema_id,
+                                    'type'       => 'text',                           
+                                ),
+                            array(
+                                'label'      => 'Telephone',
+                                'id'         => 'saswp_project_telephone_'.$schema_id,
+                                'type'       => 'text',                           
+                            ),
+                            array(
+                                    'label'      => 'Website',
+                                    'id'         => 'saswp_project_website_'.$schema_id,
+                                    'type'       => 'text',                           
+                                ),
+                                array(
+                                    'label'      => 'Facebook',
+                                    'id'         => 'saswp_project_facebook_'.$schema_id,
+                                    'type'       => 'text',                           
+                                ),
+                                array(
+                                    'label'      => 'Twitter',
+                                    'id'         => 'saswp_project_twitter_'.$schema_id,
+                                    'type'       => 'text',                           
+                               ),
+                               array(
+                                    'label'      => 'LinkedIn',
+                                    'id'         => 'saswp_project_linkedin_'.$schema_id,
+                                    'type'       => 'text',                           
+                                ),
+                                array(
+                                    'label'      => 'Founder',
+                                    'id'         => 'saswp_project_founder_'.$schema_id,
+                                    'type'       => 'text',                           
+                                ),
+                                array(
+                                    'label'      => 'Founding Date',
+                                    'id'         => 'saswp_project_founding_date_'.$schema_id,
+                                    'type'       => 'text',                           
+                                ),
+                                array(
+                                    'label'      => 'Dun & Bradstreet DUNS',
+                                    'id'         => 'saswp_project_duns_'.$schema_id,
+                                    'type'       => 'text',                           
+                                ),
+                                array(
+                                    'label'      => 'Qualifications ( Credential Awarded)',
+                                    'id'         => 'saswp_project_qualifications_'.$schema_id,
+                                    'type'       => 'text',                           
+                                ),
+                                array(
+                                    'label'      => 'Knows About',
+                                    'id'         => 'saswp_project_knows_about_'.$schema_id,
+                                    'type'       => 'text',                           
+                                ),
+                                array(
+                                    'label'      => 'Member Of',
+                                    'id'         => 'saswp_project_member_of_'.$schema_id,
+                                    'type'       => 'text',                           
+                                ),
+                                array(
+                                    'label'      => 'Parent project',
+                                    'id'         => 'saswp_project_parent_project_'.$schema_id,
+                                    'type'       => 'text',                           
+                                ),
+                            array(
+                                'label'      => 'Aggregate Rating',
+                                'id'         => 'saswp_project_enable_rating_'.$schema_id,
+                                'type'       => 'checkbox',                            
+                            ),
+                            array(
+                                'label'      => 'Rating',
+                                'id'         => 'saswp_project_rating_value_'.$schema_id,
+                                'type'       => 'text',                           
+                            ),
+                            array(
+                                'label'      => 'Rating Count',
+                                'id'         => 'saswp_project_rating_count_'.$schema_id,
+                                'type'       => 'text',                            
+                            ),    
+                                                                                            
+                       );
+                        break;
+                
                 case 'Movie':
                     
                     $meta_field = array(                        

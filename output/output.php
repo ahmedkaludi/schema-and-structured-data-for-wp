@@ -871,6 +871,31 @@ function saswp_schema_output() {
                                     
                                 break;
 
+                                case 'Project':                                
+                                    
+                                    $input1 = array(
+                                    '@context'			=> saswp_context_url(),
+                                    '@type'				=> 'Project',
+                                    '@id'				=> trailingslashit(saswp_get_permalink()).'#Project',    
+                                    'url'				=> trailingslashit(saswp_get_permalink()),                                                                                    
+                                    'description'       => saswp_get_the_excerpt(),                                                                        
+                                    'name'				=> saswp_get_the_title()			                                                                                                            
+                                    );                                                                                                                                                                                        
+                                                                        
+                                    $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
+
+                                    $input1 = apply_filters('saswp_modify_project_schema_output', $input1 ); 
+
+                                    $input1 = saswp_get_modified_markup($input1, $schema_type, $schema_post_id, $schema_options);
+                                    
+                                    if($modified_schema == 1){
+                                
+                                        $input1 = saswp_project_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
+
+                                    }
+                                                                
+                                break;    
+
                                 case 'Organization':                                
                                     
                                     $input1 = array(

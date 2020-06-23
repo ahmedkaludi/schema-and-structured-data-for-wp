@@ -1248,6 +1248,67 @@ function saswp_organization_schema_markup($schema_id, $schema_post_id, $all_post
         return $input1;
 }
 
+function saswp_project_schema_markup($schema_id, $schema_post_id, $all_post_meta){
+    
+            $input1 = array();
+        
+            $input1['@context']                     = saswp_context_url();
+            $input1['@type']                        = 'Project';
+            $input1['@id']                          = trailingslashit(get_permalink()).'#Project'; 
+            $input1['name']                         = saswp_remove_warnings($all_post_meta, 'saswp_project_name_'.$schema_id, 'saswp_array');
+            $input1['url']                          = saswp_remove_warnings($all_post_meta, 'saswp_project_url_'.$schema_id, 'saswp_array');                            
+            $input1['description']                  = saswp_remove_warnings($all_post_meta, 'saswp_project_description_'.$schema_id, 'saswp_array');
+        
+            $howto_image = get_post_meta( get_the_ID(), 'saswp_project_logo_'.$schema_id.'_detail',true); 
+            
+        if(!(empty($howto_image))){
+
+            $input1['logo']['@type']        = 'ImageObject';
+            $input1['logo']['url']          = isset($howto_image['thumbnail']) ? esc_url($howto_image['thumbnail']):'';
+            $input1['logo']['height']       = isset($howto_image['width'])     ? esc_attr($howto_image['width'])   :'';
+            $input1['logo']['width']        = isset($howto_image['height'])    ? esc_attr($howto_image['height'])  :'';
+
+        }
+        
+        $input1['address']['@type']             = 'PostalAddress';
+        $input1['address']['streetAddress']     = saswp_remove_warnings($all_post_meta, 'saswp_project_street_address_'.$schema_id, 'saswp_array');
+        $input1['address']['addressCountry']    = saswp_remove_warnings($all_post_meta, 'saswp_project_country_'.$schema_id, 'saswp_array');
+        $input1['address']['addressLocality']   = saswp_remove_warnings($all_post_meta, 'saswp_project_city_'.$schema_id, 'saswp_array');
+        $input1['address']['addressRegion']     = saswp_remove_warnings($all_post_meta, 'saswp_project_state_'.$schema_id, 'saswp_array');
+        $input1['address']['PostalCode']        = saswp_remove_warnings($all_post_meta, 'saswp_project_postal_code_'.$schema_id, 'saswp_array');
+        $input1['address']['telephone']         = saswp_remove_warnings($all_post_meta, 'saswp_project_telephone_'.$schema_id, 'saswp_array');                                                        
+        $input1['address']['email']             = saswp_remove_warnings($all_post_meta, 'saswp_project_email_'.$schema_id, 'saswp_array');                                                        
+        
+        if( isset($all_post_meta['saswp_project_duns_'.$schema_id][0]) ){
+            $input1['duns']         = $all_post_meta['saswp_project_duns_'.$schema_id][0];            
+        }
+        if( isset($all_post_meta['saswp_project_founder_'.$schema_id][0]) ){
+            $input1['founder']         = $all_post_meta['saswp_project_founder_'.$schema_id][0];            
+        }
+        if( isset($all_post_meta['saswp_project_founding_date_'.$schema_id][0]) ){
+            $input1['foundingDate']         = saswp_format_date_time($all_post_meta['saswp_project_founding_date_'.$schema_id][0]);            
+        }
+        if( isset($all_post_meta['saswp_project_qualifications_'.$schema_id][0]) ){
+            $input1['hasCredential']         = $all_post_meta['saswp_project_qualifications_'.$schema_id][0];            
+        }
+        if( isset($all_post_meta['saswp_project_knows_about_'.$schema_id][0]) ){
+            $input1['knowsAbout']         = $all_post_meta['saswp_project_knows_about_'.$schema_id][0];            
+        }
+        if( isset($all_post_meta['saswp_project_member_of_'.$schema_id][0]) ){
+            $input1['memberOf']         = $all_post_meta['saswp_project_member_of_'.$schema_id][0];            
+        }
+        if( isset($all_post_meta['saswp_project_parent_project_'.$schema_id][0]) ){
+            $input1['parentProject']         = $all_post_meta['saswp_project_parent_project_'.$schema_id][0];            
+        }          
+        if(isset($all_post_meta['saswp_project_enable_rating_'.$schema_id]) && isset($all_post_meta['saswp_project_rating_value_'.$schema_id]) && isset($all_post_meta['saswp_project_rating_count_'.$schema_id])){
+                $input1['aggregateRating']['@type']         = 'aggregateRating';
+                $input1['aggregateRating']['ratingValue']   = $all_post_meta['saswp_project_rating_value_'.$schema_id][0];
+                $input1['aggregateRating']['ratingCount']   = $all_post_meta['saswp_project_rating_count_'.$schema_id][0];                                
+        }          
+                            
+        return $input1;
+}
+
 function saswp_video_game_schema_markup($schema_id, $schema_post_id, $all_post_meta){
     
             $input1 = array();

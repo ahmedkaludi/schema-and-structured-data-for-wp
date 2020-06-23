@@ -24,7 +24,8 @@ $with_aggregate = array(
         'AudioObject',              
         'VideoObject',              
         'local_business',
-        'Organization',           
+        'Organization', 
+        'project'          
         'Product'              
 );
 $without_aggregate = array(
