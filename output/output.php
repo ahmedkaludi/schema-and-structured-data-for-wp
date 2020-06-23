@@ -1247,6 +1247,28 @@ function saswp_schema_output() {
 			
                             break;
 
+                            case 'ApartmentComplex':
+
+                                $input1 = array(
+                                    '@context'			=> saswp_context_url(),
+                                    '@type'				=> 'ApartmentComplex',
+                                    '@id'               => trailingslashit(saswp_get_permalink()).'#ApartmentComplex',        
+                                    'url'				=> trailingslashit(saswp_get_permalink()),
+                                    'name'			    => saswp_get_the_title(),                                    
+                                    'description'       => saswp_get_the_excerpt()                                    
+                                );
+                                	                                                                                                                                                                                                                                                                                                  
+                                $input1 = apply_filters('saswp_modify_apartment_complex_schema_output', $input1 );
+                                
+                                $input1 = saswp_get_modified_markup($input1, $schema_type, $schema_post_id, $schema_options);
+                                
+                                if($modified_schema == 1){
+                                    
+                                    $input1 = saswp_apartment_complex_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
+                                }
+			
+                            break;
+
                             case 'RentAction':
 
                                 $input1 = array(

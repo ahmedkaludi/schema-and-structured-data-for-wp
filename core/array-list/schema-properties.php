@@ -1794,7 +1794,75 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                                                     
                                 );
                                 
-                                break;        
+                                break;  
+                                
+                        case 'ApartmentComplex':                                                                                                            
+                
+                                $meta_field = array(
+
+                                        array(
+                                                'label'   => 'Name',
+                                                'id'      => 'saswp_apartment_complex_name_'.$schema_id,
+                                                'type'    => 'text'                                                                
+                                        ),
+                                        array(
+                                                'label'   => 'Description',
+                                                'id'      => 'saswp_apartment_complex_description_'.$schema_id,
+                                                'type'    => 'textarea'                                                                
+                                        ),
+                                        array(
+                                                'label'   => 'URL',
+                                                'id'      => 'saswp_apartment_complex_url_'.$schema_id,
+                                                'type'    => 'text'                                                                
+                                        ),
+                                        array(
+                                                'label'   => 'Image',
+                                                'id'      => 'saswp_apartment_complex_image_'.$schema_id,
+                                                'type'    => 'media'                                                                
+                                        ),
+                                        array(
+                                                'label'   => 'Number Of Bedrooms',
+                                                'id'      => 'saswp_apartment_complex_no_of_bedrooms_'.$schema_id,
+                                                'type'    => 'number'                                                                
+                                        ),
+                                        array(
+                                                'label'   => 'Pets Allowed',
+                                                'id'      => 'saswp_apartment_complex_pets_allowed_'.$schema_id,
+                                                'type'    => 'text'                                                                
+                                        ),                                        
+                                        array(
+                                                'label' => 'Location Street Address',
+                                                'id' => 'saswp_apartment_complex_streetaddress_'.$schema_id,
+                                                'type' => 'text',                                
+                                        ),
+                                        array(
+                                                'label' => 'Location Locality',
+                                                'id' => 'saswp_apartment_complex_locality_'.$schema_id,
+                                                'type' => 'text',                                
+                                        ),
+                                        array(
+                                                'label' => 'Location Region',
+                                                'id' => 'saswp_apartment_complex_region_'.$schema_id,
+                                                'type' => 'text',                                
+                                        ),
+                                        array(
+                                                'label' => 'Location PostalCode',
+                                                'id' => 'saswp_apartment_complex_postalcode_'.$schema_id,
+                                                'type' => 'text',                                
+                                        ),
+                                        array(
+                                                'label' => 'Location Country',
+                                                'id'    => 'saswp_apartment_complex_country_'.$schema_id,
+                                                'type'  => 'text',                                
+                                        ),
+                                        array(
+                                                'label' => 'Location Phone',
+                                                'id'    => 'saswp_apartment_complex_phone_'.$schema_id,
+                                                'type'  => 'text',                                
+                                        )                                                                                                                   
+                                );
+                                
+                        break;          
 
                 case 'Product':                
                     

@@ -1700,6 +1700,44 @@ Class saswp_output_service{
 
                         break;    
 
+                        case 'ApartmentComplex':
+                            
+                            if(isset($custom_fields['saswp_apartment_complex_name'])){
+                             $input1['name']        =    $custom_fields['saswp_apartment_complex_name'];
+                            }
+                            if(isset($custom_fields['saswp_apartment_complex_url'])){
+                             $input1['url']         =    saswp_validate_url($custom_fields['saswp_apartment_complex_url']);
+                            }                                                
+                            if(isset($custom_fields['saswp_apartment_complex_description'])){
+                             $input1['description']  =    $custom_fields['saswp_apartment_complex_description'];
+                            }
+                            if(isset($custom_fields['saswp_apartment_complex_pets_allowed'])){
+                             $input1['petsAllowed']  =    $custom_fields['saswp_apartment_complex_pets_allowed'];
+                            }
+                            if(isset($custom_fields['saswp_apartment_complex_image'])){
+                             $input1['image']        =    $custom_fields['saswp_apartment_complex_image'];
+                            }                                                                                                                                              
+                            
+                            $location = array();
+                            
+                            if(isset($custom_fields['saswp_apartment_complex_streetaddress'])){
+                                                                                                                                           
+                                $location   = array(
+                                                '@type' => 'PostalAddress',
+                                                'streetAddress'   => $custom_fields['saswp_apartment_complex_streetaddress'],
+                                                'addressLocality' => $custom_fields['saswp_apartment_complex_locality'],
+                                                'addressRegion'   => $custom_fields['saswp_apartment_complex_region'],
+                                                'addressCountry'  => $custom_fields['saswp_apartment_complex_country'],
+                                                'postalCode'      => $custom_fields['saswp_apartment_complex_postalcode'],  
+                                                'telephone'       => $custom_fields['saswp_apartment_complex_phone'],                                
+                                    );
+                                
+    
+                                $input1['address'] = $location;
+                            }
+    
+                            break;    
+
                         case 'PsychologicalTreatment':                                                                                                  
 
                             if(isset($custom_fields['saswp_psychological_treatment_name'])){
@@ -2807,7 +2845,7 @@ Class saswp_output_service{
              global $woocommerce;
              global $sd_data;
                  
-	     $product = wc_get_product($post_id); 
+	         $product = wc_get_product($post_id); 
              
              if(is_object($product)){   
                                                

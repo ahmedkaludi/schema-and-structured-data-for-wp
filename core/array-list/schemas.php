@@ -3,7 +3,6 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 return array(
-
         'Accommodation' => array(
                 'Apartment'                => 'Apartment',
                 'House'                    => 'House',
@@ -73,6 +72,7 @@ return array(
             'Mosque'              => 'Mosque',
         ),
         'Thing' => array(
+            'ApartmentComplex'       => 'ApartmentComplex',
             'Person'                 => 'Person',
             'Organization'           => 'Organization', 
             'PsychologicalTreatment' => 'PsychologicalTreatment',

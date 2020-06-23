@@ -2123,6 +2123,43 @@ function saswp_apartment_schema_markup($schema_id, $schema_post_id, $all_post_me
     
 }
 
+function saswp_apartment_complex_schema_markup($schema_id, $schema_post_id, $all_post_meta){
+    
+    $input1 = array();
+    
+    $howto_image = get_post_meta( get_the_ID(), 'saswp_apartment_complex_image_'.$schema_id.'_detail',true); 
+
+    $input1['@context']              = saswp_context_url();
+    $input1['@type']                 = 'ApartmentComplex';
+    $input1['@id']                   = trailingslashit(get_permalink()).'#ApartmentComplex';
+    $input1['url']                   = saswp_remove_warnings($all_post_meta, 'saswp_apartment_complex_url_'.$schema_id, 'saswp_array');                            
+    $input1['name']                  = saswp_remove_warnings($all_post_meta, 'saswp_apartment_complex_name_'.$schema_id, 'saswp_array');                            
+    $input1['description']           = saswp_remove_warnings($all_post_meta, 'saswp_apartment_complex_description_'.$schema_id, 'saswp_array');    
+
+    if(!(empty($howto_image))){
+
+    $input1['image']['@type']        = 'ImageObject';
+    $input1['image']['url']          = isset($howto_image['thumbnail']) ? esc_url($howto_image['thumbnail']):'';
+    $input1['image']['height']       = isset($howto_image['width'])     ? esc_attr($howto_image['width'])   :'';
+    $input1['image']['width']        = isset($howto_image['height'])    ? esc_attr($howto_image['height'])  :'';
+
+    }  
+
+    $input1['numberOfBedrooms']             = saswp_remove_warnings($all_post_meta, 'saswp_apartment_complex_no_of_bedrooms_'.$schema_id, 'saswp_array');
+    $input1['petsAllowed']                  = saswp_remove_warnings($all_post_meta, 'saswp_apartment_complex_pets_allowed_'.$schema_id, 'saswp_array');
+
+    $input1['address']['@type']             = 'PostalAddress';
+    $input1['address']['streetAddress']     = saswp_remove_warnings($all_post_meta, 'saswp_apartment_complex_streetaddress_'.$schema_id, 'saswp_array');
+    $input1['address']['addressCountry']    = saswp_remove_warnings($all_post_meta, 'saswp_apartment_complex_country_'.$schema_id, 'saswp_array');
+    $input1['address']['addressLocality']   = saswp_remove_warnings($all_post_meta, 'saswp_apartment_complex_locality_'.$schema_id, 'saswp_array');
+    $input1['address']['addressRegion']     = saswp_remove_warnings($all_post_meta, 'saswp_apartment_complex_region_'.$schema_id, 'saswp_array');
+    $input1['address']['PostalCode']        = saswp_remove_warnings($all_post_meta, 'saswp_apartment_complex_postalcode_'.$schema_id, 'saswp_array');
+    $input1['address']['telephone']         = saswp_remove_warnings($all_post_meta, 'saswp_apartment_complex_phone_'.$schema_id, 'saswp_array');    
+        
+    return $input1;
+    
+}
+
 function saswp_house_schema_makrup($schema_id, $schema_post_id, $all_post_meta){
     
     $input1 = array();
