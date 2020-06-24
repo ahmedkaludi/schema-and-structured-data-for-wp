@@ -557,6 +557,50 @@ Class saswp_output_service{
                                                               
                     break; 
                 
+                    case 'EducationalOccupationalCredential':      
+                    
+                        if(isset($custom_fields['saswp_eoc_additional_type'])){
+                            $input1['additionalType'] =    $custom_fields['saswp_eoc_additional_type'];
+                        }
+                        if(isset($custom_fields['saswp_eoc_name'])){
+                            $input1['name'] =    $custom_fields['saswp_eoc_name'];
+                        }
+                        if(isset($custom_fields['saswp_eoc_alt_name'])){
+                            $input1['alternateName'] =    $custom_fields['saswp_eoc_alt_name'];
+                        }
+                        if(isset($custom_fields['saswp_eoc_description'])){
+                            $input1['description'] =    $custom_fields['saswp_eoc_description'];
+                        }
+
+                        if(isset($custom_fields['saswp_eoc_e_lavel_name'])){
+
+                            $input1['educationalLevel']['@type']             = 'DefinedTerm'; 
+                            $input1['educationalLevel']['name']              =    $custom_fields['saswp_eoc_e_lavel_name'];
+                            $input1['educationalLevel']['inDefinedTermSet']  =    $custom_fields['saswp_eoc_e_lavel_definedtermset'];
+
+                        }
+
+                        if(isset($custom_fields['saswp_eoc_c_category_name'])){
+
+                            $input1['credentialCategory']['@type']             = 'DefinedTerm'; 
+                            $input1['credentialCategory']['name']              =    $custom_fields['saswp_eoc_c_category_name'];
+                            $input1['credentialCategory']['inDefinedTermSet']  =    $custom_fields['saswp_eoc_c_category_definedtermset'];
+                            $input1['credentialCategory']['termCode']          =    $custom_fields['saswp_eoc_c_category_term_code'];
+                            
+                        }
+
+                        if(isset($custom_fields['saswp_eoc_c_required_name'])){
+
+                            $input1['competencyRequired']['@type']             = 'DefinedTerm'; 
+                            $input1['competencyRequired']['name']              =    $custom_fields['saswp_eoc_c_required_name'];
+                            $input1['competencyRequired']['inDefinedTermSet']  =    $custom_fields['saswp_eoc_c_required_definedtermset'];
+                            $input1['competencyRequired']['termCode']          =    $custom_fields['saswp_eoc_c_required_term_code'];
+                            $input1['competencyRequired']['url']               =    $custom_fields['saswp_eoc_c_required_url'];
+                            
+                        }
+
+                    break;
+
                     case 'Project':      
                     
                         if(isset($custom_fields['saswp_project_name'])){

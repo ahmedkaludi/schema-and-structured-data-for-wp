@@ -25,11 +25,12 @@ $with_aggregate = array(
         'VideoObject',              
         'local_business',
         'Organization', 
-        'project'          
+        'project',                  
         'Product'              
 );
 $without_aggregate = array(
         'Apartment',
+        'EducationalOccupationalCredential',
         'ApartmentComplex',
         'RealEstateListing',
         'House',

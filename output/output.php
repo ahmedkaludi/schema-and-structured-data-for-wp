@@ -871,6 +871,29 @@ function saswp_schema_output() {
                                     
                                 break;
 
+                                case 'EducationalOccupationalCredential':                                
+                                    
+                                    $input1 = array(
+                                    '@context'			=> saswp_context_url(),
+                                    '@type'				=> 'EducationalOccupationalCredential',
+                                    '@id'				=> trailingslashit(saswp_get_permalink()).'#EducationalOccupationalCredential',    
+                                    'url'				=> trailingslashit(saswp_get_permalink()),                                                                                    
+                                    'description'       => saswp_get_the_excerpt(),                                                                        
+                                    'name'				=> saswp_get_the_title()			                                                                                                            
+                                    );                                                                                                                                                                                        
+                                                                                                            
+                                    $input1 = apply_filters('saswp_modify_educational_occupational_credential_schema_output', $input1 ); 
+
+                                    $input1 = saswp_get_modified_markup($input1, $schema_type, $schema_post_id, $schema_options);
+                                    
+                                    if($modified_schema == 1){
+                                
+                                        $input1 = saswp_educational_occupational_credential_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
+
+                                    }
+                                                                
+                                break;   
+
                                 case 'Project':                                
                                     
                                     $input1 = array(

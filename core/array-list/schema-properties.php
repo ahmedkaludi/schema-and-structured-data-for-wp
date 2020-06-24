@@ -1795,6 +1795,82 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 );
                                 
                                 break;  
+
+                        case 'EducationalOccupationalCredential':                                                                                                            
+                        
+                                $meta_field = array(
+                                        array(
+                                                'label'   => 'Additional Type',
+                                                'id'      => 'saswp_eoc_additional_type_'.$schema_id,
+                                                'type'    => 'text'                                                                
+                                        ),
+                                        array(
+                                                'label'   => 'Name',
+                                                'id'      => 'saswp_eoc_name_'.$schema_id,
+                                                'type'    => 'text'                                                                
+                                        ),
+                                        array(
+                                                'label'   => 'Alternative Name',
+                                                'id'      => 'saswp_eoc_alt_name_'.$schema_id,
+                                                'type'    => 'text'                                                                
+                                        ),
+                                        array(
+                                                'label'   => 'Description',
+                                                'id'      => 'saswp_eoc_description_'.$schema_id,
+                                                'type'    => 'textarea'                                                                
+                                        ),                                        
+                                        
+                                        array(
+                                                'label'   => 'Educational Level Name',
+                                                'id'      => 'saswp_eoc_e_lavel_name_'.$schema_id,
+                                                'type'    => 'text'                                                                
+                                        ),
+                                        array(
+                                                'label'   => 'Educational Level DefinedTermSet',
+                                                'id'      => 'saswp_eoc_e_lavel_definedtermset_'.$schema_id,
+                                                'type'    => 'text'                                                                
+                                        ),
+
+                                        array(
+                                                'label'   => 'Credential Category Name',
+                                                'id'      => 'saswp_eoc_c_category_name_'.$schema_id,
+                                                'type'    => 'text'                                                                
+                                        ),
+                                        array(
+                                                'label'   => 'Credential Category Term Code',
+                                                'id'      => 'saswp_eoc_c_category_term_code_'.$schema_id,
+                                                'type'    => 'text'                                                                
+                                        ),
+                                        array(
+                                                'label'   => 'Credential Category DefinedTermSet',
+                                                'id'      => 'saswp_eoc_c_category_definedtermset_'.$schema_id,
+                                                'type'    => 'text'                                                                
+                                        ),
+
+                                        array(
+                                                'label'   => 'Competency Required Name',
+                                                'id'      => 'saswp_eoc_c_required_name_'.$schema_id,
+                                                'type'    => 'text'                                                                
+                                        ),
+                                        array(
+                                                'label'   => 'Competency Required Term Code',
+                                                'id'      => 'saswp_eoc_c_required_term_code_'.$schema_id,
+                                                'type'    => 'text'                                                                
+                                        ),
+                                        array(
+                                                'label'   => 'Competency Required DefinedTermSet',
+                                                'id'      => 'saswp_eoc_c_required_definedtermset_'.$schema_id,
+                                                'type'    => 'text'                                                                
+                                        ),
+                                        array(
+                                                'label'   => 'Competency Required URL',
+                                                'id'      => 'saswp_eoc_c_required_url_'.$schema_id,
+                                                'type'    => 'text'                                                                
+                                        )                                        
+
+                                );
+                                
+                        break;          
                                 
                         case 'ApartmentComplex':                                                                                                            
                 

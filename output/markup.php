@@ -1309,6 +1309,51 @@ function saswp_project_schema_markup($schema_id, $schema_post_id, $all_post_meta
         return $input1;
 }
 
+function saswp_educational_occupational_credential_schema_markup($schema_id, $schema_post_id, $all_post_meta){
+    
+            $input1 = array();
+
+            $input1['@context']                     = saswp_context_url();
+            $input1['@type']                        = 'EducationalOccupationalCredential';
+            $input1['@id']                          = trailingslashit(get_permalink()).'#EducationalOccupationalCredential';             
+            
+            if( isset($all_post_meta['saswp_eoc_additional_type_'.$schema_id][0]) ){
+                $input1['additionalType']         = $all_post_meta['saswp_eoc_additional_type_'.$schema_id][0];            
+            }
+            if( isset($all_post_meta['saswp_eoc_name_'.$schema_id][0]) ){
+                $input1['name']         = $all_post_meta['saswp_eoc_name_'.$schema_id][0];            
+            }
+            if( isset($all_post_meta['saswp_eoc_alt_name_'.$schema_id][0]) ){
+                $input1['alternateName']         = $all_post_meta['saswp_eoc_alt_name_'.$schema_id][0];            
+            }
+            if( isset($all_post_meta['saswp_eoc_description_'.$schema_id][0]) ){
+                $input1['description']         = $all_post_meta['saswp_eoc_description_'.$schema_id][0];            
+            }
+
+            if( isset($all_post_meta['saswp_eoc_e_lavel_name_'.$schema_id][0]) ){
+                $input1['educationalLevel']['@type']                     = 'DefinedTerm';
+                $input1['educationalLevel']['name']                      = $all_post_meta['saswp_eoc_e_lavel_name_'.$schema_id][0];            
+                $input1['educationalLevel']['inDefinedTermSet']          = $all_post_meta['saswp_eoc_e_lavel_definedtermset_'.$schema_id][0];            
+            }
+
+            if( isset($all_post_meta['saswp_eoc_c_category_name_'.$schema_id][0]) ){
+                $input1['credentialCategory']['@type']                  = 'DefinedTerm';
+                $input1['credentialCategory']['name']                   = $all_post_meta['saswp_eoc_c_category_name_'.$schema_id][0];            
+                $input1['credentialCategory']['inDefinedTermSet']       = $all_post_meta['saswp_eoc_c_category_definedtermset_'.$schema_id][0];            
+                $input1['credentialCategory']['termCode']               = $all_post_meta['saswp_eoc_c_category_term_code_'.$schema_id][0];            
+            }
+
+            if( isset($all_post_meta['saswp_eoc_c_required_name_'.$schema_id][0]) ){
+                $input1['competencyRequired']['@type']                  = 'DefinedTerm';
+                $input1['competencyRequired']['name']                   = $all_post_meta['saswp_eoc_c_required_name_'.$schema_id][0];            
+                $input1['competencyRequired']['inDefinedTermSet']       = $all_post_meta['saswp_eoc_c_required_definedtermset_'.$schema_id][0];            
+                $input1['competencyRequired']['termCode']               = $all_post_meta['saswp_eoc_c_required_term_code_'.$schema_id][0];            
+                $input1['competencyRequired']['url']                    = $all_post_meta['saswp_eoc_c_required_url_'.$schema_id][0];            
+            }
+                            
+        return $input1;
+}
+
 function saswp_video_game_schema_markup($schema_id, $schema_post_id, $all_post_meta){
     
             $input1 = array();

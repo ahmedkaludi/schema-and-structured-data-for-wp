@@ -72,11 +72,12 @@ return array(
             'Mosque'              => 'Mosque',
         ),
         'Thing' => array(
-            'ApartmentComplex'       => 'ApartmentComplex',
-            'Person'                 => 'Person',
-            'Organization'           => 'Organization',
-            'Project'                => 'Project', 
-            'PsychologicalTreatment' => 'PsychologicalTreatment',
-            'RentAction'             => 'RentAction'                                                                                 
+            'ApartmentComplex'                  => 'ApartmentComplex',
+            'EducationalOccupationalCredential' => 'EducationalOccupationalCredential',
+            'Person'                            => 'Person',
+            'Organization'                      => 'Organization',
+            'Project'                           => 'Project', 
+            'PsychologicalTreatment'            => 'PsychologicalTreatment',
+            'RentAction'                        => 'RentAction'                                                                                 
         )
      );
