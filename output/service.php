@@ -557,6 +557,149 @@ Class saswp_output_service{
                                                               
                     break; 
                 
+                    case 'PodcastEpisode':      
+                    
+                        if(isset($custom_fields['saswp_podcast_episode_name'])){
+                            $input1['name'] =    $custom_fields['saswp_podcast_episode_name'];
+                        }
+                        if(isset($custom_fields['saswp_podcast_episode_description'])){
+                            $input1['description'] =    $custom_fields['saswp_podcast_episode_description'];
+                        }
+                        if(isset($custom_fields['saswp_podcast_episode_url'])){
+                            $input1['url'] =    $custom_fields['saswp_podcast_episode_url'];
+                        }
+                        if(isset($custom_fields['saswp_podcast_episode_image'])){
+                            $input1['image'] =    $custom_fields['saswp_podcast_episode_image'];
+                        }
+
+                        if(isset($custom_fields['saswp_podcast_episode_date_published'])){
+                            $input1['datePublished'] =    $custom_fields['saswp_podcast_episode_date_published'];
+                        }
+                        if(isset($custom_fields['saswp_podcast_episode_date_modified'])){
+                            $input1['dateModified'] =    $custom_fields['saswp_podcast_episode_date_modified'];
+                        }
+                        if(isset($custom_fields['saswp_podcast_episode_content_url'])){
+
+                            $input1['associatedMedia']['@type']      = 'MediaObject';
+                            $input1['associatedMedia']['contentUrl'] =    $custom_fields['saswp_podcast_episode_content_url'];
+
+                        }
+
+                        if(isset($custom_fields['saswp_podcast_episode_series_name'])){
+                            $input1['partOfSeries']['@type'] = 'PodcastSeries';
+                            $input1['partOfSeries']['name']  =    $custom_fields['saswp_podcast_episode_series_name'];
+                        }
+
+                        if(isset($custom_fields['saswp_podcast_episode_series_url'])){
+                            $input1['partOfSeries']['@type'] = 'PodcastSeries';
+                            $input1['partOfSeries']['url']  =    $custom_fields['saswp_podcast_episode_series_url'];
+                        }
+
+                        if(isset($custom_fields['saswp_podcast_episode_timeRequired'])){
+                            $input1['timeRequired'] =    $custom_fields['saswp_podcast_episode_timeRequired'];
+                        }
+
+                    break;
+
+                    case 'PodcastSeason':      
+                    
+                        if(isset($custom_fields['saswp_podcast_season_name'])){
+                            $input1['name'] =    $custom_fields['saswp_podcast_season_name'];
+                        }
+                        if(isset($custom_fields['saswp_podcast_season_description'])){
+                            $input1['description'] =    $custom_fields['saswp_podcast_season_description'];
+                        }
+                        if(isset($custom_fields['saswp_podcast_season_url'])){
+                            $input1['url'] =    $custom_fields['saswp_podcast_season_url'];
+                        }
+                        if(isset($custom_fields['saswp_podcast_season_image'])){
+                            $input1['image'] =    $custom_fields['saswp_podcast_season_image'];
+                        }
+                        if(isset($custom_fields['saswp_podcast_season_date_published'])){
+                            $input1['datePublished'] =    $custom_fields['saswp_podcast_season_date_published'];
+                        }
+                        if(isset($custom_fields['saswp_podcast_season_date_modified'])){
+                            $input1['dateModified'] =    $custom_fields['saswp_podcast_season_date_modified'];
+                        }
+
+                        if(isset($custom_fields['saswp_podcast_season_number'])){
+                            $input1['seasonNumber'] =    $custom_fields['saswp_podcast_season_number'];
+                        }
+                        if(isset($custom_fields['saswp_podcast_season_number_of_seasons'])){
+                            $input1['numberOfEpisodes'] =    $custom_fields['saswp_podcast_season_number_of_seasons'];
+                        }
+                                                                        
+                        if(isset($custom_fields['saswp_podcast_season_series_name'])){
+                            $input1['partOfSeries']['@type'] = 'PodcastSeries';
+                            $input1['partOfSeries']['name']  =    $custom_fields['saswp_podcast_season_series_name'];
+                        }
+
+                        if(isset($custom_fields['saswp_podcast_season_series_url'])){
+                            $input1['partOfSeries']['@type'] = 'PodcastSeries';
+                            $input1['partOfSeries']['url']  =    $custom_fields['saswp_podcast_season_series_url'];
+                        }                        
+
+                    break;
+
+                    case 'Audiobook':      
+                    
+                        if(isset($custom_fields['saswp_audiobook_name'])){
+                            $input1['name'] =    $custom_fields['saswp_audiobook_name'];
+                        }
+                        if(isset($custom_fields['saswp_audiobook_description'])){
+                            $input1['description'] =    $custom_fields['saswp_audiobook_description'];
+                        }
+                        if(isset($custom_fields['saswp_audiobook_url'])){
+                            $input1['url'] =    saswp_validate_url($custom_fields['saswp_audiobook_url']);
+                        }
+                        if(isset($custom_fields['saswp_audiobook_date_published'])){
+                            $input1['datePublished'] =    $custom_fields['saswp_audiobook_date_published'];
+                        }
+                        if(isset($custom_fields['saswp_audiobook_date_modified'])){
+                            $input1['dateModified'] =    $custom_fields['saswp_audiobook_date_modified'];
+                        }
+                        if(isset($custom_fields['saswp_audiobook_image'])){
+                            $input1['image'] =    $custom_fields['saswp_audiobook_image'];
+                        }
+                        if(isset($custom_fields['saswp_audiobook_author_name'])){
+                            $input1['author']['name'] =    $custom_fields['saswp_audiobook_author_name'];
+                        }
+                        if(isset($custom_fields['saswp_audiobook_author_url'])){
+                            $input1['author']['url'] =    saswp_validate_url($custom_fields['saswp_audiobook_author_url']);
+                        }
+                        if(isset($custom_fields['saswp_audiobook_author_description'])){
+                            $input1['author']['description'] =    $custom_fields['saswp_audiobook_author_description'];
+                        }
+                        if(isset($custom_fields['saswp_audiobook_author_image'])){
+                            $input1['author']['image'] =    $custom_fields['saswp_audiobook_author_image'];
+                        }
+                        if(isset($custom_fields['saswp_audiobook_publisher'])){
+                            $input1['publisher'] =    $custom_fields['saswp_audiobook_publisher'];
+                        }
+                        if(isset($custom_fields['saswp_audiobook_provider'])){
+                            $input1['provider'] =    $custom_fields['saswp_audiobook_provider'];
+                        }
+                        if(isset($custom_fields['saswp_audiobook_readby'])){
+                            $input1['readBy'] =    $custom_fields['saswp_audiobook_readby'];
+                        }
+                        if(isset($custom_fields['saswp_audiobook_content_url'])){
+                            $input1['contentUrl'] =    $custom_fields['saswp_audiobook_content_url'];
+                        }
+                        if(isset($custom_fields['saswp_audiobook_duration'])){
+                            $input1['duration'] =    $custom_fields['saswp_audiobook_duration'];
+                        }
+                        if(isset($custom_fields['saswp_audiobook_encoding_format'])){
+                            $input1['encodingFormat'] =    $custom_fields['saswp_audiobook_encoding_format'];
+                        }
+                        if(isset($custom_fields['saswp_audiobook_player_type'])){
+                            $input1['playerType'] =    $custom_fields['saswp_audiobook_player_type'];
+                        }
+                        if(isset($custom_fields['saswp_audiobook_main_entity_of_page'])){
+                            $input1['mainEntityOfPage'] =    $custom_fields['saswp_audiobook_main_entity_of_page'];
+                        }
+
+                    break;
+
                     case 'EducationalOccupationalCredential':      
                     
                         if(isset($custom_fields['saswp_eoc_additional_type'])){

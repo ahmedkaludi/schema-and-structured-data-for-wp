@@ -30,6 +30,9 @@ $with_aggregate = array(
 );
 $without_aggregate = array(
         'Apartment',
+        'Audiobook',
+        'PodcastEpisode',
+        'PodcastSeason', 
         'EducationalOccupationalCredential',
         'ApartmentComplex',
         'RealEstateListing',

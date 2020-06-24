@@ -3213,6 +3213,160 @@ function saswp_news_article_schema_markup($schema_id, $schema_post_id, $all_post
     
 }
 
+function saswp_audiobook_schema_markup($schema_id, $schema_post_id, $all_post_meta){
+    
+                $input1 = array();
+    
+                $author_image       = get_post_meta( get_the_ID(), 'saswp_audiobook_author_image_'.$schema_id.'_detail',true);
+                $image              = get_post_meta( get_the_ID(), 'saswp_audiobook_image_'.$schema_id.'_detail',true);
+                            
+                $input1 = array(
+                '@context'			=> saswp_context_url(),
+                '@type'				=> 'Audiobook' ,
+                '@id'               => trailingslashit(get_permalink()).'#Audiobook',    
+                'inLanguage'        => get_bloginfo('language'),       
+                'mainEntityOfPage'  => saswp_remove_warnings($all_post_meta, 'saswp_audiobook_main_entity_of_page_'.$schema_id, 'saswp_array'),
+                'url'				=> saswp_remove_warnings($all_post_meta, 'saswp_audiobook_url_'.$schema_id, 'saswp_array'),                    
+                'name'		    	=> saswp_remove_warnings($all_post_meta, 'saswp_audiobook_name_'.$schema_id, 'saswp_array'),
+                'datePublished'     => isset($all_post_meta['saswp_audiobook_date_published_'.$schema_id])? saswp_format_date_time($all_post_meta['saswp_audiobook_date_published_'.$schema_id][0], get_post_time('h:i:s')) :'',
+                'dateModified'      => isset($all_post_meta['saswp_audiobook_date_modified_'.$schema_id])? saswp_format_date_time($all_post_meta['saswp_audiobook_date_modified_'.$schema_id][0], get_the_modified_time('h:i:s')) :'',
+                'description'       => saswp_remove_warnings($all_post_meta, 'saswp_audiobook_description_'.$schema_id, 'saswp_array'),                                         					
+                'contentUrl'        => saswp_remove_warnings($all_post_meta, 'saswp_audiobook_content_url_'.$schema_id, 'saswp_array'),         
+                
+                'publisher'         => saswp_remove_warnings($all_post_meta, 'saswp_audiobook_publisher_'.$schema_id, 'saswp_array'),         
+                'provider'          => saswp_remove_warnings($all_post_meta, 'saswp_audiobook_provider_'.$schema_id, 'saswp_array'),         
+                'duration'          => saswp_remove_warnings($all_post_meta, 'saswp_audiobook_duration_'.$schema_id, 'saswp_array'),         
+                'encodingFormat'    => saswp_remove_warnings($all_post_meta, 'saswp_audiobook_encoding_format_'.$schema_id, 'saswp_array'),         
+                'playerType'        => saswp_remove_warnings($all_post_meta, 'saswp_audiobook_player_type_'.$schema_id, 'saswp_array'),         
+                'readBy'            => saswp_remove_warnings($all_post_meta, 'saswp_audiobook_readby_'.$schema_id, 'saswp_array'),         
+                
+                'author'			=> array(
+                        '@type' 			=> 'Person',
+                        'name'				=> saswp_remove_warnings($all_post_meta, 'saswp_audiobook_author_name_'.$schema_id, 'saswp_array'),
+                        'description'		=> saswp_remove_warnings($all_post_meta, 'saswp_audiobook_author_description_'.$schema_id, 'saswp_array'),
+                        'url'    			=> saswp_remove_warnings($all_post_meta, 'saswp_audiobook_author_url_'.$schema_id, 'saswp_array'),
+                        'Image'				=> array(
+                                                            '@type'				=> 'ImageObject',
+                                                            'url'				=> saswp_remove_warnings($all_post_meta, 'saswp_audiobook_author_image_'.$schema_id, 'saswp_array'),
+                                                            'height'			=> saswp_remove_warnings($author_image, 'height', 'saswp_string'),
+                                                            'width'				=> saswp_remove_warnings($author_image, 'width', 'saswp_string')
+                                    ),
+                        )					
+                );
+
+                if(!(empty($image))){
+
+                    $input1['image']['@type']        = 'ImageObject';
+                    $input1['image']['url']          = isset($image['thumbnail']) ? esc_url($image['thumbnail']):'';
+                    $input1['image']['height']       = isset($image['width'])     ? esc_attr($image['width'])   :'';
+                    $input1['image']['width']        = isset($image['height'])    ? esc_attr($image['height'])  :'';
+        
+                }
+                                                                     
+    return $input1;
+    
+}
+
+function saswp_podcast_episode_schema_markup($schema_id, $schema_post_id, $all_post_meta){
+    
+    $input1 = array();
+    
+    $image              = get_post_meta( get_the_ID(), 'saswp_podcast_episode_image_'.$schema_id.'_detail',true);
+                
+    $input1 = array(
+        '@context'			=> saswp_context_url(),
+        '@type'				=> 'PodcastEpisode' ,
+        '@id'               => trailingslashit(get_permalink()).'#PodcastEpisode',    
+        'inLanguage'        => get_bloginfo('language'),           
+        'url'				=> saswp_remove_warnings($all_post_meta, 'saswp_podcast_episode_url_'.$schema_id, 'saswp_array'),                    
+        'name'		    	=> saswp_remove_warnings($all_post_meta, 'saswp_podcast_episode_name_'.$schema_id, 'saswp_array'),
+        'datePublished'     => isset($all_post_meta['saswp_podcast_episode_date_published_'.$schema_id])? saswp_format_date_time($all_post_meta['saswp_podcast_episode_date_published_'.$schema_id][0], get_post_time('h:i:s')) :'',
+        'dateModified'      => isset($all_post_meta['saswp_podcast_episode_date_modified_'.$schema_id])? saswp_format_date_time($all_post_meta['saswp_podcast_episode_date_modified_'.$schema_id][0], get_the_modified_time('h:i:s')) :'',
+        'description'       => saswp_remove_warnings($all_post_meta, 'saswp_podcast_episode_description_'.$schema_id, 'saswp_array'),                                         					            
+    );
+
+    if(isset($all_post_meta['saswp_podcast_episode_content_url_'.$schema_id][0])){
+
+        $input1['associatedMedia']['@type']      = 'MediaObject';
+        $input1['associatedMedia']['contentUrl'] =   $all_post_meta['saswp_podcast_episode_content_url_'.$schema_id][0];
+    }
+
+    if(isset($all_post_meta['saswp_podcast_episode_series_name_'.$schema_id][0])){
+        $input1['partOfSeries']['@type'] = 'PodcastSeries';
+        $input1['partOfSeries']['name']  =   $all_post_meta['saswp_podcast_episode_series_name_'.$schema_id][0];
+    }
+
+    if(isset($all_post_meta['saswp_podcast_episode_series_url_'.$schema_id][0])){
+        $input1['partOfSeries']['@type'] = 'PodcastSeries';
+        $input1['partOfSeries']['url']   =    $all_post_meta['saswp_podcast_episode_series_url_'.$schema_id][0];
+    }
+
+    if(!(empty($image))){
+
+        $input1['image']['@type']        = 'ImageObject';
+        $input1['image']['url']          = isset($image['thumbnail']) ? esc_url($image['thumbnail']):'';
+        $input1['image']['height']       = isset($image['width'])     ? esc_attr($image['width'])   :'';
+        $input1['image']['width']        = isset($image['height'])    ? esc_attr($image['height'])  :'';
+
+    }
+                                                         
+    return $input1;
+
+}
+
+
+function saswp_podcast_season_schema_markup($schema_id, $schema_post_id, $all_post_meta){
+    
+    $input1 = array();
+    
+    $image              = get_post_meta( get_the_ID(), 'saswp_podcast_season_image_'.$schema_id.'_detail',true);
+                
+    $input1 = array(
+        '@context'			=> saswp_context_url(),
+        '@type'				=> 'PodcastSeason' ,
+        '@id'               => trailingslashit(get_permalink()).'#PodcastSeason',    
+        'inLanguage'        => get_bloginfo('language'),           
+        'url'				=> saswp_remove_warnings($all_post_meta, 'saswp_podcast_season_url_'.$schema_id, 'saswp_array'),                    
+        'name'		    	=> saswp_remove_warnings($all_post_meta, 'saswp_podcast_season_name_'.$schema_id, 'saswp_array'),
+        'datePublished'     => isset($all_post_meta['saswp_podcast_season_date_published_'.$schema_id])? saswp_format_date_time($all_post_meta['saswp_podcast_season_date_published_'.$schema_id][0], get_post_time('h:i:s')) :'',
+        'dateModified'      => isset($all_post_meta['saswp_podcast_season_date_modified_'.$schema_id])? saswp_format_date_time($all_post_meta['saswp_podcast_season_date_modified_'.$schema_id][0], get_the_modified_time('h:i:s')) :'',
+        'description'       => saswp_remove_warnings($all_post_meta, 'saswp_podcast_season_description_'.$schema_id, 'saswp_array'),                                         					            
+    );
+
+    if(isset($all_post_meta['saswp_podcast_season_number_'.$schema_id][0])){
+    
+        $input1['seasonNumber'] =   $all_post_meta['saswp_podcast_season_number_'.$schema_id][0];
+    }
+
+    if(isset($all_post_meta['saswp_podcast_season_number_of_seasons_'.$schema_id][0])){
+    
+        $input1['numberOfEpisodes'] =   $all_post_meta['saswp_podcast_season_number_of_seasons_'.$schema_id][0];
+    }
+
+    if(isset($all_post_meta['saswp_podcast_season_series_name_'.$schema_id][0])){
+        $input1['partOfSeries']['@type'] = 'PodcastSeries';
+        $input1['partOfSeries']['name']  =   $all_post_meta['saswp_podcast_season_series_name_'.$schema_id][0];
+    }
+
+    if(isset($all_post_meta['saswp_podcast_season_series_url_'.$schema_id][0])){
+        $input1['partOfSeries']['@type'] = 'PodcastSeries';
+        $input1['partOfSeries']['url']   =    $all_post_meta['saswp_podcast_season_series_url_'.$schema_id][0];
+    }
+
+    if(!(empty($image))){
+
+        $input1['image']['@type']        = 'ImageObject';
+        $input1['image']['url']          = isset($image['thumbnail']) ? esc_url($image['thumbnail']):'';
+        $input1['image']['height']       = isset($image['width'])     ? esc_attr($image['width'])   :'';
+        $input1['image']['width']        = isset($image['height'])    ? esc_attr($image['height'])  :'';
+
+    }
+                                                         
+    return $input1;
+
+}
+
+
 function saswp_video_object_schema_markup($schema_id, $schema_post_id, $all_post_meta){
     
         $input1 = array();

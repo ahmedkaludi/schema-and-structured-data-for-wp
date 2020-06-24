@@ -1796,6 +1796,230 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 
                                 break;  
 
+                        case 'Audiobook':                                                                                                            
+                        
+                                $meta_field = array(
+                                        array(
+                                                'label'   => 'Name',
+                                                'id'      => 'saswp_audiobook_name_'.$schema_id,
+                                                'type'    => 'text',
+                                                'default' => get_the_title()                                                                
+                                        ),
+                                        array(
+                                                'label'   => 'Description',
+                                                'id'      => 'saswp_audiobook_description_'.$schema_id,
+                                                'type'    => 'textarea',
+                                                'default' => get_the_excerpt()                                                                  
+                                        ),
+                                        array(
+                                                'label'   => 'URL',
+                                                'id'      => 'saswp_audiobook_url_'.$schema_id,
+                                                'type'    => 'text', 
+                                                'default' => get_permalink()                                                               
+                                        ),
+                                        array(
+                                                'label'   => 'Image',
+                                                'id'      => 'saswp_audiobook_image_'.$schema_id,
+                                                'type'    => 'media'                                                                
+                                        ),
+                                        array(
+                                                'label'      => 'DatePublished',
+                                                'id'         => 'saswp_audiobook_date_published_'.$schema_id,
+                                                'type'       => 'text',
+                                                'default'    => get_the_date("Y-m-d")                            
+                                        ),
+                                        array(
+                                                'label'      => 'DateModified',
+                                                'id'         => 'saswp_audiobook_date_modified_'.$schema_id,
+                                                'type'       => 'text',
+                                                'default'    => get_the_modified_date("Y-m-d")                            
+                                        ),
+                                        array(
+                                                'label'   => 'Author Name',
+                                                'id'      => 'saswp_audiobook_author_name_'.$schema_id,
+                                                'type'    => 'text',
+                                                'default' => is_object($current_user) ? $current_user->display_name : ''    
+                                        ),
+                                        array(
+                                                'label'   => 'Author Description',
+                                                'id'      => 'saswp_audiobook_author_description_'.$schema_id,
+                                                'type'    => 'textarea',
+                                                'default' => $author_desc
+                                        ), 
+                                        array(
+                                                'label'   => 'Author URL',
+                                                'id'      => 'saswp_audiobook_author_url_'.$schema_id,
+                                                'type'    => 'text',
+                                                'default' => $author_url
+                                        ),    
+                                        array(
+                                                'label'   => 'Author Image',
+                                                'id'      => 'saswp_audiobook_author_image_'.$schema_id,
+                                                'type'    => 'media',
+                                                'default' => isset($author_details['url']) ? $author_details['url'] : ''   
+                                        ),                                   
+                                        array(
+                                                'label'      => 'Publisher',
+                                                'id'         => 'saswp_audiobook_publisher_'.$schema_id,
+                                                'type'       => 'text',                           
+                                        ),
+                                        array(
+                                                'label'      => 'Provider',
+                                                'id'         => 'saswp_audiobook_provider_'.$schema_id,
+                                                'type'       => 'text',                           
+                                        ),
+                                        array(
+                                                'label'      => 'Read By',
+                                                'id'         => 'saswp_audiobook_readby_'.$schema_id,
+                                                'type'       => 'text',                           
+                                        ),                                                                                
+                                        array(
+                                                'label'      => 'Content URL',
+                                                'id'         => 'saswp_audiobook_content_url_'.$schema_id,
+                                                'type'       => 'text',                           
+                                        ),
+                                        array(
+                                                'label'      => 'Duration',
+                                                'id'         => 'saswp_audiobook_duration_'.$schema_id,
+                                                'type'       => 'text',                           
+                                        ),
+                                        array(
+                                                'label'      => 'Encoding Format',
+                                                'id'         => 'saswp_audiobook_encoding_format_'.$schema_id,
+                                                'type'       => 'text',                           
+                                        ),
+                                        array(
+                                                'label'      => 'Player Type',
+                                                'id'         => 'saswp_audiobook_player_type_'.$schema_id,
+                                                'type'       => 'text',                           
+                                        ),
+                                        array(
+                                                'label'      => 'Main Entity Of Page',
+                                                'id'         => 'saswp_audiobook_main_entity_of_page_'.$schema_id,
+                                                'type'       => 'text',                           
+                                        )
+                                );
+                                        
+                        break;  
+
+                        case 'PodcastEpisode':                                                                                                            
+                
+                                $meta_field = array(
+                                        array(
+                                                'label'   => 'Name',
+                                                'id'      => 'saswp_podcast_episode_name_'.$schema_id,
+                                                'type'    => 'text'                                                                
+                                        ),
+                                        array(
+                                                'label'   => 'Description',
+                                                'id'      => 'saswp_podcast_episode_description_'.$schema_id,
+                                                'type'    => 'textarea'                                                                
+                                        ),
+                                        array(
+                                                'label'   => 'URL',
+                                                'id'      => 'saswp_podcast_episode_url_'.$schema_id,
+                                                'type'    => 'text'                                                                
+                                        ),
+                                        array(
+                                                'label'   => 'Image',
+                                                'id'      => 'saswp_podcast_episode_image_'.$schema_id,
+                                                'type'    => 'media'                                                                
+                                        ),
+                                        array(
+                                                'label'      => 'DatePublished',
+                                                'id'         => 'saswp_podcast_episode_date_published_'.$schema_id,
+                                                'type'       => 'text',
+                                                'default'    => get_the_date("Y-m-d")                            
+                                        ),
+                                        array(
+                                                'label'      => 'DateModified',
+                                                'id'         => 'saswp_podcast_episode_date_modified_'.$schema_id,
+                                                'type'       => 'text',
+                                                'default'    => get_the_modified_date("Y-m-d")                            
+                                        ),
+                                        array(
+                                                'label'      => 'Time Required',
+                                                'id'         => 'saswp_podcast_episode_timeRequired_'.$schema_id,
+                                                'type'       => 'text'                                                         
+                                        ),
+                                        array(
+                                                'label'      => 'Content URL',
+                                                'id'         => 'saswp_podcast_episode_content_url_'.$schema_id,
+                                                'type'       => 'text'                                                         
+                                        ),
+                                        array(
+                                                'label'      => 'PodcastSeries Name',
+                                                'id'         => 'saswp_podcast_episode_series_name_'.$schema_id,
+                                                'type'       => 'text'                                                         
+                                        ),
+                                        array(
+                                                'label'      => 'PodcastSeries URL',
+                                                'id'         => 'saswp_podcast_episode_series_url_'.$schema_id,
+                                                'type'       => 'text'                                                         
+                                        )                                                                                             
+                                );
+                                
+                        break;                  
+
+                        case 'PodcastSeason':                                                                                                            
+                
+                                $meta_field = array(
+                                        array(
+                                                'label'   => 'Name',
+                                                'id'      => 'saswp_podcast_season_name_'.$schema_id,
+                                                'type'    => 'text'                                                                
+                                        ),
+                                        array(
+                                                'label'   => 'Description',
+                                                'id'      => 'saswp_podcast_season_description_'.$schema_id,
+                                                'type'    => 'textarea'                                                                
+                                        ),
+                                        array(
+                                                'label'   => 'URL',
+                                                'id'      => 'saswp_podcast_season_url_'.$schema_id,
+                                                'type'    => 'text'                                                                
+                                        ),
+                                        array(
+                                                'label'   => 'Image',
+                                                'id'      => 'saswp_podcast_season_image_'.$schema_id,
+                                                'type'    => 'media'                                                                
+                                        ),
+                                        array(
+                                                'label'      => 'DatePublished',
+                                                'id'         => 'saswp_podcast_season_date_published_'.$schema_id,
+                                                'type'       => 'text',
+                                                'default'    => get_the_date("Y-m-d")                            
+                                        ),
+                                        array(
+                                                'label'      => 'DateModified',
+                                                'id'         => 'saswp_podcast_season_date_modified_'.$schema_id,
+                                                'type'       => 'text',
+                                                'default'    => get_the_modified_date("Y-m-d")                            
+                                        ),
+                                        array(
+                                                'label'      => 'Season Number',
+                                                'id'         => 'saswp_podcast_season_number_'.$schema_id,
+                                                'type'       => 'text'                                                         
+                                        ),
+                                        array(
+                                                'label'      => 'Number of seasons',
+                                                'id'         => 'saswp_podcast_season_number_of_seasons_'.$schema_id,
+                                                'type'       => 'text'                                                         
+                                        ),                                        
+                                        array(
+                                                'label'      => 'PodcastSeries Name',
+                                                'id'         => 'saswp_podcast_season_series_name_'.$schema_id,
+                                                'type'       => 'text'                                                         
+                                        ),
+                                        array(
+                                                'label'      => 'PodcastSeries URL',
+                                                'id'         => 'saswp_podcast_season_series_url_'.$schema_id,
+                                                'type'       => 'text'                                                         
+                                        )                                                                                             
+                                );
+                                
+                        break;                  
+
                         case 'EducationalOccupationalCredential':                                                                                                            
                         
                                 $meta_field = array(

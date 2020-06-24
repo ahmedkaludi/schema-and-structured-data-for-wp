@@ -892,7 +892,83 @@ function saswp_schema_output() {
 
                                     }
                                                                 
-                                break;   
+                                break; 
+                                
+                                case 'Audiobook':                                
+                                    
+                                    $input1 = array(
+                                    '@context'			=> saswp_context_url(),
+                                    '@type'				=> 'Audiobook',
+                                    '@id'				=> trailingslashit(saswp_get_permalink()).'#Audiobook',    
+                                    'url'				=> trailingslashit(saswp_get_permalink()),                                                                                    
+                                    'description'       => saswp_get_the_excerpt(),                                                                        
+                                    'name'				=> saswp_get_the_title(),
+                                    'datePublished'     => esc_html($date),
+                                    'dateModified'      => esc_html($modified_date),
+                                    'author'			=> saswp_get_author_details()						                                                                                                            
+                                    );                                                                                                                                                                                        
+                                                                                                            
+                                    $input1 = apply_filters('saswp_modify_audiobook_schema_output', $input1 ); 
+
+                                    $input1 = saswp_get_modified_markup($input1, $schema_type, $schema_post_id, $schema_options);
+                                    
+                                    if($modified_schema == 1){
+                                
+                                        $input1 = saswp_audiobook_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
+
+                                    }
+                                                                
+                                break; 
+
+                                case 'PodcastEpisode':                                
+                                    
+                                    $input1 = array(
+                                    '@context'			=> saswp_context_url(),
+                                    '@type'				=> 'PodcastEpisode',
+                                    '@id'				=> trailingslashit(saswp_get_permalink()).'#PodcastEpisode',    
+                                    'url'				=> trailingslashit(saswp_get_permalink()),                                                                                    
+                                    'description'       => saswp_get_the_excerpt(),                                                                        
+                                    'name'				=> saswp_get_the_title(),
+                                    'datePublished'     => esc_html($date),
+                                    'dateModified'      => esc_html($modified_date),                                    
+                                    );                                                                                                                                                                                        
+                                                                                                            
+                                    $input1 = apply_filters('saswp_modify_podcast_episode_schema_output', $input1 ); 
+
+                                    $input1 = saswp_get_modified_markup($input1, $schema_type, $schema_post_id, $schema_options);
+                                    
+                                    if($modified_schema == 1){
+                                
+                                        $input1 = saswp_podcast_episode_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
+
+                                    }
+                                                                
+                                break; 
+
+                                case 'PodcastSeason':                                
+                                    
+                                    $input1 = array(
+                                    '@context'			=> saswp_context_url(),
+                                    '@type'				=> 'PodcastSeason',
+                                    '@id'				=> trailingslashit(saswp_get_permalink()).'#PodcastSeason',    
+                                    'url'				=> trailingslashit(saswp_get_permalink()),                                                                                    
+                                    'description'       => saswp_get_the_excerpt(),                                                                        
+                                    'name'				=> saswp_get_the_title(),
+                                    'datePublished'     => esc_html($date),
+                                    'dateModified'      => esc_html($modified_date),                                    
+                                    );                                                                                                                                                                                        
+                                                                                                            
+                                    $input1 = apply_filters('saswp_modify_podcast_season_schema_output', $input1 ); 
+
+                                    $input1 = saswp_get_modified_markup($input1, $schema_type, $schema_post_id, $schema_options);
+                                    
+                                    if($modified_schema == 1){
+                                
+                                        $input1 = saswp_podcast_season_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
+
+                                    }
+                                                                
+                                break; 
 
                                 case 'Project':                                
                                     

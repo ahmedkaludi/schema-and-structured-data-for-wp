@@ -10,6 +10,7 @@ return array(
         ),
          'CreativeWork' => array(
                 'Article'                  => 'Article', 
+                'Audiobook'                => 'Audiobook',                
                 'BlogPosting'              => 'BlogPosting',
                 'Book'                     => 'Book',
                 'Course'                   => 'Course',
@@ -23,7 +24,9 @@ return array(
                 'MusicAlbum'               => 'MusicAlbum',
                 'MusicComposition'         => 'MusicComposition',
                 'Movie'                    => 'Movie',
-                'NewsArticle'              => 'NewsArticle',                                            
+                'NewsArticle'              => 'NewsArticle',
+                'PodcastEpisode'           => 'PodcastEpisode',
+                'PodcastSeason'            => 'PodcastSeason',                                             
                 'qanda'                    => 'Q&A',   
                 'Review'                   => 'Review',
                 'Recipe'                   => 'Recipe',
