@@ -1309,6 +1309,84 @@ function saswp_project_schema_markup($schema_id, $schema_post_id, $all_post_meta
         return $input1;
 }
 
+function saswp_hotel_room_schema_markup($schema_id, $schema_post_id, $all_post_meta){
+    
+                $input1 = array();
+    
+                $input1['@context']                     = saswp_context_url();
+                $input1['@type']                        = 'Hotel';
+                $input1['@id']                          = trailingslashit(get_permalink()).'#Hotel'; 
+                
+                if(isset($all_post_meta['saswp_hotelroom_hotel_name_'.$schema_id][0])){
+                    $input1['name'] =    $all_post_meta['saswp_hotelroom_hotel_name_'.$schema_id][0];
+                }
+                if(isset($all_post_meta['saswp_hotelroom_hotel_image_'.$schema_id][0])){
+                    $input1['image'] =    $all_post_meta['saswp_hotelroom_hotel_image_'.$schema_id][0];
+                }
+                if(isset($all_post_meta['saswp_hotelroom_hotel_description_'.$schema_id][0])){
+                    $input1['description'] =    $all_post_meta['saswp_hotelroom_hotel_description_'.$schema_id][0];
+                }
+                if(isset($all_post_meta['saswp_hotelroom_hotel_price_range_'.$schema_id][0])){
+                    $input1['priceRange'] =    $all_post_meta['saswp_hotelroom_hotel_price_range_'.$schema_id][0];
+                }
+                if(isset($all_post_meta['saswp_hotelroom_hotel_telephone_'.$schema_id][0])){
+                    $input1['telephone'] =    $all_post_meta['saswp_hotelroom_hotel_telephone_'.$schema_id][0];
+                }
+
+                if(isset($all_post_meta['saswp_hotelroom_hotel_streetaddress_'.$schema_id][0])){
+                    $input1['address']['streetAddress'] =    $all_post_meta['saswp_hotelroom_hotel_streetaddress_'.$schema_id][0];
+                }                    
+                if(isset($all_post_meta['saswp_hotelroom_hotel_locality_'.$schema_id][0])){
+                    $input1['address']['addressLocality'] =    $all_post_meta['saswp_hotelroom_hotel_locality_'.$schema_id][0];
+                }
+                if(isset($all_post_meta['saswp_hotelroom_hotel_region_'.$schema_id][0])){
+                    $input1['address']['addressRegion'] =    $all_post_meta['saswp_hotelroom_hotel_region_'.$schema_id][0];
+                }
+                if(isset($all_post_meta['saswp_hotelroom_hotel_country_'.$schema_id][0])){
+                    $input1['address']['addressCountry'] =    $all_post_meta['saswp_hotelroom_hotel_country_'.$schema_id][0];
+                }
+                if(isset($all_post_meta['saswp_hotelroom_hotel_postalcode_'.$schema_id][0])){
+                    $input1['address']['postalCode'] =    $all_post_meta['saswp_hotelroom_hotel_postalcode_'.$schema_id][0];
+                }
+
+                if(isset($all_post_meta['saswp_hotelroom_name_'.$schema_id][0])){
+                    $input1['containsPlace']['@type'] = 'HotelRoom'; 
+                    $input1['containsPlace']['name'] =    $all_post_meta['saswp_hotelroom_name_'.$schema_id][0];
+                }
+                if(isset($all_post_meta['saswp_hotelroom_description_'.$schema_id][0])){
+                    $input1['containsPlace']['@type'] = 'HotelRoom'; 
+                    $input1['containsPlace']['description'] =    $all_post_meta['saswp_hotelroom_description_'.$schema_id][0];
+                }
+                if(isset($all_post_meta['saswp_hotelroom_image_'.$schema_id][0])){
+                    $input1['containsPlace']['@type'] = 'HotelRoom'; 
+                    $input1['containsPlace']['image'] =    $all_post_meta['saswp_hotelroom_image_'.$schema_id][0];
+                }
+
+                if(isset($all_post_meta['saswp_hotelroom_offer_name_'.$schema_id][0])){
+                    $input1['makesOffer']['@type'] = 'offer'; 
+                    $input1['makesOffer']['name'] =    $all_post_meta['saswp_hotelroom_offer_name_'.$schema_id][0];
+                }
+
+                if(isset($all_post_meta['saswp_hotelroom_offer_description_'.$schema_id][0])){
+                    $input1['makesOffer']['@type'] = 'offer'; 
+                    $input1['makesOffer']['description'] =    $all_post_meta['saswp_hotelroom_offer_description_'.$schema_id][0];
+                }
+
+                if(isset($all_post_meta['saswp_hotelroom_offer_price_'.$schema_id][0]) && isset($all_post_meta['saswp_hotelroom_offer_price_currency_'.$schema_id][0])){
+
+                    $input1['makesOffer']['@type']                       = 'offer';
+                    $input1['makesOffer']['priceSpecification']['@type'] = 'UnitPriceSpecification'; 
+
+                    $input1['makesOffer']['priceSpecification']['priceCurrency']  = $all_post_meta['saswp_hotelroom_offer_price_currency_'.$schema_id][0]; 
+                    $input1['makesOffer']['priceSpecification']['price']          = $all_post_meta['saswp_hotelroom_offer_price_'.$schema_id][0]; 
+                    $input1['makesOffer']['priceSpecification']['unitCode']       = $all_post_meta['saswp_hotelroom_offer_unitcode_'.$schema_id][0]; 
+                    $input1['makesOffer']['priceSpecification']['validThrough']   = $all_post_meta['saswp_hotelroom_offer_validthrough_'.$schema_id][0]; 
+                                                
+                }
+                                                
+                return $input1;
+}
+
 function saswp_educational_occupational_credential_schema_markup($schema_id, $schema_post_id, $all_post_meta){
     
             $input1 = array();

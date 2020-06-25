@@ -6,6 +6,7 @@ return array(
         'Accommodation' => array(
                 'Apartment'                => 'Apartment',
                 'House'                    => 'House',
+                'HotelRoom'                => 'HotelRoom',
                 'SingleFamilyResidence'    => 'SingleFamilyResidence',
         ),
          'CreativeWork' => array(

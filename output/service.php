@@ -641,6 +641,78 @@ Class saswp_output_service{
 
                     break;
 
+                    case 'HotelRoom':      
+                    
+                        if(isset($custom_fields['saswp_hotelroom_hotel_name'])){
+                            $input1['name'] =    $custom_fields['saswp_hotelroom_hotel_name'];
+                        }
+                        if(isset($custom_fields['saswp_hotelroom_hotel_image'])){
+                            $input1['image'] =    $custom_fields['saswp_hotelroom_hotel_image'];
+                        }
+                        if(isset($custom_fields['saswp_hotelroom_hotel_description'])){
+                            $input1['description'] =    $custom_fields['saswp_hotelroom_hotel_description'];
+                        }
+                        if(isset($custom_fields['saswp_hotelroom_hotel_price_range'])){
+                            $input1['priceRange'] =    $custom_fields['saswp_hotelroom_hotel_price_range'];
+                        }
+                        if(isset($custom_fields['saswp_hotelroom_hotel_telephone'])){
+                            $input1['telephone'] =    $custom_fields['saswp_hotelroom_hotel_telephone'];
+                        }
+
+                        if(isset($custom_fields['saswp_hotelroom_hotel_streetaddress'])){
+                            $input1['address']['streetAddress'] =    $custom_fields['saswp_hotelroom_hotel_streetaddress'];
+                        }                    
+                        if(isset($custom_fields['saswp_hotelroom_hotel_locality'])){
+                            $input1['address']['addressLocality'] =    $custom_fields['saswp_hotelroom_hotel_locality'];
+                        }
+                        if(isset($custom_fields['saswp_hotelroom_hotel_region'])){
+                            $input1['address']['addressRegion'] =    $custom_fields['saswp_hotelroom_hotel_region'];
+                        }
+                        if(isset($custom_fields['saswp_hotelroom_hotel_country'])){
+                            $input1['address']['addressCountry'] =    $custom_fields['saswp_hotelroom_hotel_country'];
+                        }
+                        if(isset($custom_fields['saswp_hotelroom_hotel_postalcode'])){
+                            $input1['address']['postalCode'] =    $custom_fields['saswp_hotelroom_hotel_postalcode'];
+                        }
+
+                        if(isset($custom_fields['saswp_hotelroom_name'])){
+                            $input1['containsPlace']['@type'] = 'HotelRoom'; 
+                            $input1['containsPlace']['name'] =    $custom_fields['saswp_hotelroom_name'];
+                        }
+                        if(isset($custom_fields['saswp_hotelroom_description'])){
+                            $input1['containsPlace']['@type'] = 'HotelRoom'; 
+                            $input1['containsPlace']['description'] =    $custom_fields['saswp_hotelroom_description'];
+                        }
+                        if(isset($custom_fields['saswp_hotelroom_image'])){
+                            $input1['containsPlace']['@type'] = 'HotelRoom'; 
+                            $input1['containsPlace']['image'] =    $custom_fields['saswp_hotelroom_image'];
+                        }
+
+                        if(isset($custom_fields['saswp_hotelroom_offer_name'])){
+                            $input1['makesOffer']['@type'] = 'offer'; 
+                            $input1['makesOffer']['name'] =    $custom_fields['saswp_hotelroom_offer_name'];
+                        }
+
+                        if(isset($custom_fields['saswp_hotelroom_offer_description'])){
+                            $input1['makesOffer']['@type'] = 'offer'; 
+                            $input1['makesOffer']['description'] =    $custom_fields['saswp_hotelroom_offer_description'];
+                        }
+
+                        if(isset($custom_fields['saswp_hotelroom_offer_price']) && isset($custom_fields['saswp_hotelroom_offer_price_currency'])){
+
+                            $input1['makesOffer']['@type']                       = 'offer';
+                            $input1['makesOffer']['priceSpecification']['@type'] = 'UnitPriceSpecification'; 
+
+                            $input1['makesOffer']['priceSpecification']['priceCurrency']  = $custom_fields['saswp_hotelroom_offer_price_currency']; 
+                            $input1['makesOffer']['priceSpecification']['price']          = $custom_fields['saswp_hotelroom_offer_price']; 
+                            $input1['makesOffer']['priceSpecification']['unitCode']       = $custom_fields['saswp_hotelroom_offer_unitcode']; 
+                            $input1['makesOffer']['priceSpecification']['validThrough']   = $custom_fields['saswp_hotelroom_offer_validthrough']; 
+                                                        
+                        }
+
+
+                    break;
+
                     case 'Audiobook':      
                     
                         if(isset($custom_fields['saswp_audiobook_name'])){

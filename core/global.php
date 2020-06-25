@@ -30,6 +30,7 @@ $with_aggregate = array(
 );
 $without_aggregate = array(
         'Apartment',
+        'HotelRoom',
         'Audiobook',
         'PodcastEpisode',
         'PodcastSeason', 

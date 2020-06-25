@@ -1902,6 +1902,107 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                         
                         break;  
 
+                        case 'HotelRoom':                                                                                                            
+                
+                                $meta_field = array(
+                                        array(
+                                                'label'   => 'Hotel Name',
+                                                'id'      => 'saswp_hotelroom_hotel_name_'.$schema_id,
+                                                'type'    => 'text'                                                                
+                                        ),
+                                        array(
+                                                'label'   => 'Hotel Image',
+                                                'id'      => 'saswp_hotelroom_hotel_image_'.$schema_id,
+                                                'type'    => 'media'                                                                
+                                        ),
+                                        array(
+                                                'label'   => 'Hotel Description',
+                                                'id'      => 'saswp_hotelroom_hotel_description_'.$schema_id,
+                                                'type'    => 'textarea'                                                                
+                                        ),
+                                        array(
+                                                'label'   => 'Hotel Price Range',
+                                                'id'      => 'saswp_hotelroom_hotel_price_range_'.$schema_id,
+                                                'type'    => 'text'                                                                
+                                        ),
+                                        array(
+                                                'label'   => 'Hotel Telephone',
+                                                'id'      => 'saswp_hotelroom_hotel_telephone_'.$schema_id,
+                                                'type'    => 'text'                                                                
+                                        ),
+                                        array(
+                                                'label' => 'Hotel Street Address',
+                                                'id' => 'saswp_hotelroom_hotel_streetaddress_'.$schema_id,
+                                                'type' => 'text',                                
+                                        ),
+                                        array(
+                                                'label' => 'Hotel Locality',
+                                                'id'    => 'saswp_hotelroom_hotel_locality_'.$schema_id,
+                                                'type'  => 'text',                                
+                                        ),
+                                        array(
+                                                'label' => 'Hotel Region',
+                                                'id'    => 'saswp_hotelroom_hotel_region_'.$schema_id,
+                                                'type'  => 'text',                                
+                                        ),
+                                        array(
+                                                'label' => 'Hotel PostalCode',
+                                                'id'    => 'saswp_hotelroom_hotel_postalcode_'.$schema_id,
+                                                'type'  => 'text',                                
+                                        ),
+                                        array(
+                                                'label' => 'Hotel Country',
+                                                'id'    => 'saswp_hotelroom_hotel_country_'.$schema_id,
+                                                'type'  => 'text',                                
+                                        ),
+                                        array(
+                                                'label' => 'Hotel Room Name',
+                                                'id'    => 'saswp_hotelroom_name_'.$schema_id,
+                                                'type'  => 'text',                                
+                                        ),
+                                        array(
+                                                'label' => 'Hotel Room Description',
+                                                'id'    => 'saswp_hotelroom_description_'.$schema_id,
+                                                'type'  => 'textarea',                                
+                                        ),
+                                        array(
+                                                'label' => 'Hotel Room Image',
+                                                'id'    => 'saswp_hotelroom_image_'.$schema_id,
+                                                'type'  => 'media',                                
+                                        ),
+                                        array(
+                                                'label' => 'Hotel Room Offer name',
+                                                'id'    => 'saswp_hotelroom_offer_name_'.$schema_id,
+                                                'type'  => 'text',                                
+                                        ),
+                                        array(
+                                                'label' => 'Hotel Room Offer Terms & Condition',
+                                                'id'    => 'saswp_hotelroom_offer_description_'.$schema_id,
+                                                'type'  => 'textarea',                                
+                                        ),
+                                        array(
+                                                'label' => 'Hotel Room Offer Price',
+                                                'id'    => 'saswp_hotelroom_offer_price_'.$schema_id,
+                                                'type'  => 'text',                                
+                                        ),
+                                        array(
+                                                'label' => 'Hotel Room Offer Price Currency',
+                                                'id'    => 'saswp_hotelroom_offer_price_currency_'.$schema_id,
+                                                'type'  => 'text',                                
+                                        ),
+                                        array(
+                                                'label' => 'Hotel Room Offer Price UnitCode',
+                                                'id'    => 'saswp_hotelroom_offer_unitcode_'.$schema_id,
+                                                'type'  => 'text',                                
+                                        ),
+                                        array(
+                                                'label' => 'Hotel Room Offer Price Valid Through',
+                                                'id'    => 'saswp_hotelroom_offer_validthrough_'.$schema_id,
+                                                'type'  => 'text',                                
+                                        ),
+                                );
+                        break;
+
                         case 'PodcastEpisode':                                                                                                            
                 
                                 $meta_field = array(
