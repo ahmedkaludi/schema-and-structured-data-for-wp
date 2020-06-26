@@ -46,8 +46,11 @@ function saswp_schema_markup_hook_on_init() {
                 remove_action( 'amp_post_template_head', 'amp_post_template_add_schemaorg_metadata',99,1);
                 remove_action( 'amp_post_template_footer', 'amp_post_template_add_schemaorg_metadata',99,1);  
                 remove_action( 'wp_footer', 'orbital_markup_site'); 
+                
                 add_filter( 'amp_schemaorg_metadata', '__return_empty_array' );
-                add_filter( 'hunch_schema_markup', '__return_false');                          
+                add_filter( 'hunch_schema_markup', '__return_false');                 
+                add_filter('electro_structured_data', '__return_false');
+                add_filter('electro_woocommerce_structured_data', '__return_false');
                 
             }
                                     
