@@ -1656,8 +1656,8 @@ function saswp_schema_output() {
                                 
                                 if(isset($video_links[0])){
                                     
-                                    $input1['contentUrl'] = $video_links[0];
-                                    $input1['embedUrl']   = $video_links[0];
+                                    $input1['contentUrl'] = saswp_validate_url($video_links[0]);
+                                    $input1['embedUrl']   = saswp_validate_url($video_links[0]);
                                     
                                 }
                                 
