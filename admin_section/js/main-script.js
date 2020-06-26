@@ -2413,16 +2413,17 @@ jQuery(document).ready(function($){
         
         //star rating stars here
             if(typeof(saswp_reviews_data) !== 'undefined'){
-            
+            console.log(saswp_reviews_data.rating_val);
              $(".saswp-rating-div").rateYo({
-                
-              rating: saswp_reviews_data.rating_val,
-              halfStar: true,              
+              spacing: "5px",  
+              rating: saswp_reviews_data.rating_val,                           
               readOnly: saswp_reviews_data.readonly,
               onSet: function (rating, rateYoInstance) {
-                    $(this).next().val(rating);                
-                }
-                              
+                    $(this).next().next().val(rating);                
+                }                              
+            }).on("rateyo.change", function (e, data){
+              var rating = data.rating;              
+                $(this).next().text(rating);
             });
                 
             }                                                        
