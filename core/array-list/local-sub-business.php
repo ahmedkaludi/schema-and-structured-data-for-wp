@@ -189,5 +189,6 @@ return array(
                               'primarycare'     => 'Primary Care',
                               'psychiatric'     => 'Psychiatric',
                               'publichealth'    => 'Public Health',
+                              'veterinarycare'  => 'VeterinaryCare',
                 )
  );                             

@@ -2008,10 +2008,12 @@ if ( ! defined('ABSPATH') ) exit;
 
         if(empty($excerpt)){
 
-            $excerpt_length = apply_filters( 'excerpt_length', 55 );
+            $post_content = wp_strip_all_tags(strip_shortcodes($post->post_content)); 
+            $post_content = preg_replace('/\[.*?\]/','', $post_content);
 
+            $excerpt_length = apply_filters( 'excerpt_length', 55 );                        
             $excerpt_more = '';
-            $excerpt      = wp_trim_words( $post->post_content, $excerpt_length, $excerpt_more );
+            $excerpt      = wp_trim_words( $post_content, $excerpt_length, $excerpt_more );
         }
 
         if(strpos($excerpt, "<p>")!==false){
@@ -2107,6 +2109,16 @@ if ( ! defined('ABSPATH') ) exit;
                     $excerpt = $c_excerpt;
                 }       
                                       
+        }
+
+        if(saswp_remove_warnings($sd_data, 'saswp-rankmath', 'saswp_string') == 1 && class_exists('RankMath\Post')){
+                        
+            $c_excerpt = RankMath\Post::get_meta( 'description', $post->ID );
+        
+            if($c_excerpt){
+                $excerpt = $c_excerpt;
+            }
+        
         }
             
         }
@@ -2286,6 +2298,22 @@ if ( ! defined('ABSPATH') ) exit;
 
             }
 
+        }
+
+        if(saswp_remove_warnings($sd_data, 'saswp-rankmath', 'saswp_string') == 1 && class_exists('RankMath\Post')){
+                        
+            $c_title = RankMath\Post::get_meta( 'title', $post->ID );
+        
+            if(empty($c_title)){
+                $c_title = RankMath\Paper\Paper::get()->get_title();
+            }
+
+            if($c_title){
+
+                $title = $c_title;
+
+            }
+        
         }
         
         if (strlen($title) > 110){
@@ -3223,7 +3251,7 @@ function saswp_get_video_links(){
            $attributes = saswp_get_gutenberg_block_data('core-embed/youtube');            
            
            if(isset($attributes['attrs']['url'])){
-                $response[] = $attributes['attrs']['url']; 
+                $response[0] = $attributes['attrs']['url']; 
            }
            
     }    

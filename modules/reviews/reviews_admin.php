@@ -230,8 +230,8 @@ class saswp_reviews_admin {
                                 case 'star':
                                                                               
                                      $input = sprintf(
-						'<div class="saswp-rating-div"></div>'
-                                              . '<input id="%s" name="%s" type="hidden" value="%s">',                                                						
+						'<div class="saswp-rating-container"><div class="saswp-rating-div"></div><div class="saswp-rateyo-counter"></div>'
+                                              . '<input id="%s" name="%s" type="hidden" value="%s"></div>',                                                						
 						esc_attr($meta_field['id']),
                                                 esc_attr($meta_field['id']),
 						esc_attr($meta_value),

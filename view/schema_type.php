@@ -1198,6 +1198,8 @@ function saswp_schema_type_add_meta_box_save( $post_id ) {
                 }
                 if(isset($_POST['saswp_enable_speakable_schema'])){
                     update_post_meta( $post_id, 'saswp_enable_speakable_schema', intval($_POST['saswp_enable_speakable_schema']) );                                                                       
+                }else{
+                    update_post_meta( $post_id, 'saswp_enable_speakable_schema', '0' );                                                                       
                 }
 
                 if(isset($_POST['saswp_enable_append_reviews'])){
@@ -1208,6 +1210,8 @@ function saswp_schema_type_add_meta_box_save( $post_id ) {
 
                 if(isset($_POST['saswp_enable_itemlist_schema'])){
                     update_post_meta( $post_id, 'saswp_enable_itemlist_schema', intval($_POST['saswp_enable_itemlist_schema']) );                                                                       
+                }else{
+                    update_post_meta( $post_id, 'saswp_enable_itemlist_schema', '0' );                                                                       
                 }
                 
                 update_post_meta( $post_id, 'saswp_item_list_tags', sanitize_text_field($_POST['saswp_item_list_tags']) );                                                                       

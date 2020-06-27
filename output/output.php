@@ -153,8 +153,7 @@ function saswp_schema_output() {
         }
         $service_object     = new saswp_output_service();
 
-        $all_schema_output  = array();
-        $recipe_json        = array();
+        $all_schema_output  = array();        
         
         $site_name          = get_bloginfo();         
         $image_id 	        = get_post_thumbnail_id();									
@@ -674,21 +673,15 @@ function saswp_schema_output() {
                         
                             case 'Course':
                                 
-                                $description = saswp_get_the_excerpt();
-
-                                if(!$description){
-                                    $description = get_bloginfo('description');
-                                }
-
                                 $input1 = array(
                                 '@context'			=> saswp_context_url(),
                                 '@type'				=> $schema_type ,
                                 '@id'				=> trailingslashit(saswp_get_permalink()).'#course',    
-                                'name'			        => saswp_get_the_title(),
-                                'description'                   => $description,			
+                                'name'			    => saswp_get_the_title(),
+                                'description'       => saswp_get_the_excerpt(),			
                                 'url'				=> trailingslashit(saswp_get_permalink()),
-                                'datePublished'                 => esc_html($date),
-                                'dateModified'                  => esc_html($modified_date),
+                                'datePublished'     => esc_html($date),
+                                'dateModified'      => esc_html($modified_date),
                                 'author'			=> saswp_get_author_details(),    
                                 'provider'			=> array(
                                                                     '@type' 	        => 'Organization',
@@ -877,6 +870,153 @@ function saswp_schema_output() {
                             
                                     
                                 break;
+
+                                case 'EducationalOccupationalCredential':                                
+                                    
+                                    $input1 = array(
+                                    '@context'			=> saswp_context_url(),
+                                    '@type'				=> 'EducationalOccupationalCredential',
+                                    '@id'				=> trailingslashit(saswp_get_permalink()).'#EducationalOccupationalCredential',    
+                                    'url'				=> trailingslashit(saswp_get_permalink()),                                                                                    
+                                    'description'       => saswp_get_the_excerpt(),                                                                        
+                                    'name'				=> saswp_get_the_title()			                                                                                                            
+                                    );                                                                                                                                                                                        
+                                                                                                            
+                                    $input1 = apply_filters('saswp_modify_educational_occupational_credential_schema_output', $input1 ); 
+
+                                    $input1 = saswp_get_modified_markup($input1, $schema_type, $schema_post_id, $schema_options);
+                                    
+                                    if($modified_schema == 1){
+                                
+                                        $input1 = saswp_educational_occupational_credential_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
+
+                                    }
+                                                                
+                                break; 
+                                
+                                case 'Audiobook':                                
+                                    
+                                    $input1 = array(
+                                    '@context'			=> saswp_context_url(),
+                                    '@type'				=> 'Audiobook',
+                                    '@id'				=> trailingslashit(saswp_get_permalink()).'#Audiobook',    
+                                    'url'				=> trailingslashit(saswp_get_permalink()),                                                                                    
+                                    'description'       => saswp_get_the_excerpt(),                                                                        
+                                    'name'				=> saswp_get_the_title(),
+                                    'datePublished'     => esc_html($date),
+                                    'dateModified'      => esc_html($modified_date),
+                                    'author'			=> saswp_get_author_details()						                                                                                                            
+                                    );                                                                                                                                                                                        
+                                                                                                            
+                                    $input1 = apply_filters('saswp_modify_audiobook_schema_output', $input1 ); 
+
+                                    $input1 = saswp_get_modified_markup($input1, $schema_type, $schema_post_id, $schema_options);
+                                    
+                                    if($modified_schema == 1){
+                                
+                                        $input1 = saswp_audiobook_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
+
+                                    }
+                                                                
+                                break; 
+
+                                case 'PodcastEpisode':                                
+                                    
+                                    $input1 = array(
+                                    '@context'			=> saswp_context_url(),
+                                    '@type'				=> 'PodcastEpisode',
+                                    '@id'				=> trailingslashit(saswp_get_permalink()).'#PodcastEpisode',    
+                                    'url'				=> trailingslashit(saswp_get_permalink()),                                                                                    
+                                    'description'       => saswp_get_the_excerpt(),                                                                        
+                                    'name'				=> saswp_get_the_title(),
+                                    'datePublished'     => esc_html($date),
+                                    'dateModified'      => esc_html($modified_date),                                    
+                                    );                                                                                                                                                                                        
+                                                                                                            
+                                    $input1 = apply_filters('saswp_modify_podcast_episode_schema_output', $input1 ); 
+
+                                    $input1 = saswp_get_modified_markup($input1, $schema_type, $schema_post_id, $schema_options);
+                                    
+                                    if($modified_schema == 1){
+                                
+                                        $input1 = saswp_podcast_episode_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
+
+                                    }
+                                                                
+                                break; 
+
+                                case 'HotelRoom':                                
+                                    
+                                    $input1 = array(
+                                    '@context'			=> saswp_context_url(),
+                                    '@type'				=> 'Hotel',
+                                    '@id'				=> trailingslashit(saswp_get_permalink()).'#Hotel',    
+                                    'url'				=> trailingslashit(saswp_get_permalink()),                                                                                    
+                                    'description'       => saswp_get_the_excerpt(),                                                                        
+                                    'name'				=> saswp_get_the_title()                                    
+                                    );                                                                                                                                                                                        
+                                                                                                            
+                                    $input1 = apply_filters('saswp_modify_hotel_room_schema_output', $input1 ); 
+
+                                    $input1 = saswp_get_modified_markup($input1, $schema_type, $schema_post_id, $schema_options);
+                                    
+                                    if($modified_schema == 1){
+                                
+                                        $input1 = saswp_hotel_room_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
+
+                                    }
+                                                                
+                                break; 
+
+                                case 'PodcastSeason':                                
+                                    
+                                    $input1 = array(
+                                    '@context'			=> saswp_context_url(),
+                                    '@type'				=> 'PodcastSeason',
+                                    '@id'				=> trailingslashit(saswp_get_permalink()).'#PodcastSeason',    
+                                    'url'				=> trailingslashit(saswp_get_permalink()),                                                                                    
+                                    'description'       => saswp_get_the_excerpt(),                                                                        
+                                    'name'				=> saswp_get_the_title(),
+                                    'datePublished'     => esc_html($date),
+                                    'dateModified'      => esc_html($modified_date),                                    
+                                    );                                                                                                                                                                                        
+                                                                                                            
+                                    $input1 = apply_filters('saswp_modify_podcast_season_schema_output', $input1 ); 
+
+                                    $input1 = saswp_get_modified_markup($input1, $schema_type, $schema_post_id, $schema_options);
+                                    
+                                    if($modified_schema == 1){
+                                
+                                        $input1 = saswp_podcast_season_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
+
+                                    }
+                                                                
+                                break; 
+
+                                case 'Project':                                
+                                    
+                                    $input1 = array(
+                                    '@context'			=> saswp_context_url(),
+                                    '@type'				=> 'Project',
+                                    '@id'				=> trailingslashit(saswp_get_permalink()).'#Project',    
+                                    'url'				=> trailingslashit(saswp_get_permalink()),                                                                                    
+                                    'description'       => saswp_get_the_excerpt(),                                                                        
+                                    'name'				=> saswp_get_the_title()			                                                                                                            
+                                    );                                                                                                                                                                                        
+                                                                        
+                                    $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
+
+                                    $input1 = apply_filters('saswp_modify_project_schema_output', $input1 ); 
+
+                                    $input1 = saswp_get_modified_markup($input1, $schema_type, $schema_post_id, $schema_options);
+                                    
+                                    if($modified_schema == 1){
+                                
+                                        $input1 = saswp_project_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
+
+                                    }
+                                                                
+                                break;    
 
                                 case 'Organization':                                
                                     
@@ -1158,39 +1298,19 @@ function saswp_schema_output() {
                             break;
                         
                             case 'Recipe':
-                                
-                            if(isset($sd_data['saswp-wp-recipe-maker']) && $sd_data['saswp-wp-recipe-maker'] == 1){
-                                                              
-                                $recipe_ids = saswp_get_ids_from_content_by_type('wp_recipe_maker');
-                                                                
-                                if($recipe_ids){
-
-                                    foreach($recipe_ids as $recipe){
-
-                                        if(class_exists('WPRM_Recipe_Manager')){
-                                            $recipe_arr    = WPRM_Recipe_Manager::get_recipe( $recipe );
-                                            $recipe_json[] = saswp_wp_recipe_schema_json($recipe_arr);                                            
-                                        }
-
-                                    }  
-                                    
-                                 }
-                                
-                                 
-                            }else{
-                                                                                               
-				$input1 = array(
+                                                                                                                                                           
+				                $input1 = array(
                                     '@context'			=> saswp_context_url(),
                                     '@type'				=> $schema_type ,
                                     '@id'				=> trailingslashit(saswp_get_permalink()).'#recipe',    
                                     'url'				=> trailingslashit(saswp_get_permalink()),
-                                    'name'			        => saswp_get_the_title(),
-                                    'datePublished'                 => esc_html($date),
-                                    'dateModified'                  => esc_html($modified_date),
-                                    'description'                   => saswp_get_the_excerpt(),
-                                    'keywords'                      => saswp_get_the_tags(), 
+                                    'name'			    => saswp_get_the_title(),
+                                    'datePublished'     => esc_html($date),
+                                    'dateModified'      => esc_html($modified_date),
+                                    'description'       => saswp_get_the_excerpt(),
+                                    'keywords'          => saswp_get_the_tags(), 
                                     'author'			=> saswp_get_author_details(),        								
-				);
+				                );
                                                                                                
                                 if(isset($sd_data['saswp_comments_schema']) && $sd_data['saswp_comments_schema'] ==1){
                                     $input1['comment'] = saswp_get_comments(get_the_ID());
@@ -1202,12 +1322,10 @@ function saswp_schema_output() {
                                    $input1 = array_merge($input1, $extra_theme_review);
                                 }
                                 
-                                $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
-                                                                                                
-                            }
-                            				                                
+                               $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
+                                                                                                                                                        				                                
                                $input1 = apply_filters('saswp_modify_recipe_schema_output', $input1 );
-                               
+                                                         
                                $input1 = saswp_get_modified_markup($input1, $schema_type, $schema_post_id, $schema_options);
                                
                                if($modified_schema == 1){
@@ -1272,6 +1390,48 @@ function saswp_schema_output() {
                                 if($modified_schema == 1){
                                     
                                     $input1 = saswp_real_estate_listing_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
+                                }
+			
+                            break;
+
+                            case 'ApartmentComplex':
+
+                                $input1 = array(
+                                    '@context'			=> saswp_context_url(),
+                                    '@type'				=> 'ApartmentComplex',
+                                    '@id'               => trailingslashit(saswp_get_permalink()).'#ApartmentComplex',        
+                                    'url'				=> trailingslashit(saswp_get_permalink()),
+                                    'name'			    => saswp_get_the_title(),                                    
+                                    'description'       => saswp_get_the_excerpt()                                    
+                                );
+                                	                                                                                                                                                                                                                                                                                                  
+                                $input1 = apply_filters('saswp_modify_apartment_complex_schema_output', $input1 );
+                                
+                                $input1 = saswp_get_modified_markup($input1, $schema_type, $schema_post_id, $schema_options);
+                                
+                                if($modified_schema == 1){
+                                    
+                                    $input1 = saswp_apartment_complex_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
+                                }
+			
+                            break;
+
+                            case 'RentAction':
+
+                                $input1 = array(
+                                    '@context'			=> saswp_context_url(),
+                                    '@type'				=> 'RentAction',
+                                    '@id'               => trailingslashit(saswp_get_permalink()).'#RentAction',        
+                                    'url'				=> trailingslashit(saswp_get_permalink())                                                                                                            
+                                    );
+                                	                                                                                                                                                                                                                                                                                                  
+                                $input1 = apply_filters('saswp_modify_rent_action_schema_output', $input1 );
+                                
+                                $input1 = saswp_get_modified_markup($input1, $schema_type, $schema_post_id, $schema_options);
+                                
+                                if($modified_schema == 1){
+                                    
+                                    $input1 = saswp_rent_action_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
                                 }
 			
                             break;
@@ -1496,8 +1656,8 @@ function saswp_schema_output() {
                                 
                                 if(isset($video_links[0])){
                                     
-                                    $input1['contentUrl'] = $video_links[0];
-                                    $input1['embedUrl']   = $video_links[0];
+                                    $input1['contentUrl'] = saswp_validate_url($video_links[0]);
+                                    $input1['embedUrl']   = saswp_validate_url($video_links[0]);
                                     
                                 }
                                 
@@ -1908,12 +2068,7 @@ function saswp_schema_output() {
                 }      
                 
         }   
-                
-        if($recipe_json){
-            foreach($recipe_json as $json){
-                array_push($all_schema_output, $json);
-            }
-        }        
+                                
         return apply_filters('saswp_modify_schema_output', $all_schema_output);
 }
 /**

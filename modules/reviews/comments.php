@@ -75,8 +75,11 @@ function saswp_comment_rating_rating_field () {
 
 		?>
 		<p class="comment-form-comment">
+		<div class="saswp-rating-container">
 		<div id="saswp-comment-rating-div"></div>
+		<div class="saswp-rateyo-counter"></div>
 		<input type="hidden" name="review_rating" value="5" />
+		</div>
 		</p>		
 		<?php
 
@@ -89,7 +92,7 @@ function saswp_comment_rating_save_comment_rating( $comment_id ) {
 		
 		if ( ( isset( $_POST['review_rating'] ) ) && ( '' !== $_POST['review_rating'] ) ){
 
-			$rating = intval( $_POST['review_rating'] );
+			$rating = floatval( $_POST['review_rating'] );
 			add_comment_meta( $comment_id, 'review_rating', $rating );
 			
 		}	

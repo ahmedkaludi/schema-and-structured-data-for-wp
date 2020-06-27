@@ -120,8 +120,8 @@ $saswp_add_data_type_config = array(
 		) );
 		
 		wp_enqueue_style('saswp-select2-style', SASWP_PLUGIN_URL.$saswp_add_data_type_config['installer_dir']. '/css/select2.min.css' , false, SASWP_VERSION);
-		wp_enqueue_script('saswp-select2-script', SASWP_PLUGIN_URL. $saswp_add_data_type_config['installer_dir']. '/js/select2.min.js', array( 'jquery', 'jquery-core', 'jquery-ui-core' ), SASWP_VERSION);        
-		wp_enqueue_script('saswp-select2-extended-script', SASWP_PLUGIN_URL. $saswp_add_data_type_config['installer_dir'] . '/js/select2-extended.min.js', false, SASWP_VERSION);
+		wp_enqueue_script('saswp-select2-script', SASWP_PLUGIN_URL. $saswp_add_data_type_config['installer_dir']. '/js/select2.min.js', array( 'jquery', 'jquery-core', 'jquery-ui-core' ), SASWP_VERSION, true);        
+		wp_enqueue_script('saswp-select2-extended-script', SASWP_PLUGIN_URL. $saswp_add_data_type_config['installer_dir'] . '/js/select2-extended.min.js', array( 'jquery', 'jquery-core', 'jquery-ui-core' ), SASWP_VERSION, true);
 
 		wp_enqueue_script( 'structure_admin', SASWP_PLUGIN_URL. $saswp_add_data_type_config['installer_dir']. '/js/'. (SASWP_ENVIRONMENT == 'production' ? 'structure_admin.min.js' : 'structure_admin.js') , array( 'jquery', 'jquery-ui-core' ), SASWP_VERSION );
 		

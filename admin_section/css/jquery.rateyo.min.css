@@ -37,3 +37,37 @@
   overflow: hidden;
 }
 /*# sourceMappingURL=min/jquery.rateyo.min.css.map */
+
+.saswp-rateyo-counter::before{
+  content: "";
+    width: 0;
+    height: 0;
+    top: 50%;
+    margin-top: -5px;
+    display: block;
+    border-color: transparent rgba(0, 0, 0, 0.8) transparent transparent;
+    border-width: 5px 5px 5px 0px;
+    left: -10px;
+    border-style: solid;
+    position: relative;
+}
+.saswp-rateyo-counter{
+    display: none;
+    position: absolute;
+    min-width: 20px;
+    padding: 5px;
+    font-size: 15px;
+    line-height: 8px;
+    height: 25px;
+    background-color: rgba(0, 0, 0, 0.8);
+    top: 50%;
+    left: 200px;
+    margin-top: -14px;
+    color: white;
+}
+.saswp-rating-container{
+  position: relative;
+}
+.saswp-rating-container:hover div.saswp-rateyo-counter{
+ display: block; 
+}

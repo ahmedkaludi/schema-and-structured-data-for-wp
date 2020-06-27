@@ -566,7 +566,7 @@ class SASWP_Reviews_Collection {
                                         
                                         <div class="saswp-fomo-options saswp_hide saswp-coll-options"> 
                                             <div class="saswp-dp-dsg saswp-dp-dtm">
-                                            <span><?php echo esc_html__('Delay Time','schema-and-structured-data-for-wp'); ?>
+                                            <span><?php echo esc_html__('Delay Time In Sec','schema-and-structured-data-for-wp'); ?>
                                             </span>
                                             <input type="number" id="saswp_fomo_interval" name="saswp_fomo_interval" class="saswp-number-change" min="1" value="<?php echo (isset($post_meta['saswp_fomo_interval'][0]) ? $post_meta['saswp_fomo_interval'][0] : '3' ); ?>"> 
                                             </div>                                                                           

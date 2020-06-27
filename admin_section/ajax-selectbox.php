@@ -67,7 +67,7 @@ function saswp_ajax_select_creator($data = '', $saved_data= '', $current_number 
           $output = '<select data-type="'.esc_attr($response).'"  class="widefat ajax-output saswp-select2" name="data_group_array[group-'.esc_attr($current_group_number).'][data_array]['. esc_attr($current_number) .'][key_3]">'; 
           
           foreach ($choices as $value) {              
-           $output .= '<option '. esc_attr($selected) .' value="' . esc_attr($value['id']) .'"> ' .  esc_html__($value['text'], 'schema-and-structured-data-for-wp') .'</option>';                     
+           $output .= '<option value="' . esc_attr($value['id']) .'"> ' .  esc_html__($value['text'], 'schema-and-structured-data-for-wp') .'</option>';                     
           }
           
           if($saved_choices){

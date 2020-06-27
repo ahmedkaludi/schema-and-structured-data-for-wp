@@ -123,7 +123,7 @@ class saswp_reviews_service {
                 
                 $rv_text     = sanitize_textarea_field($form_data['saswp_review_text']);
                 $rv_name     = sanitize_text_field($form_data['saswp_reviewer_name']);
-                $rv_rating   = intval($form_data['saswp_review_rating']);  
+                $rv_rating   = floatval($form_data['saswp_review_rating']);  
                 $rv_place_id = intval($form_data['saswp_place_id']);  
                 $rv_link     = sanitize_text_field($form_data['saswp_review_link']);
                 $rv_date     = date('Y-m-d');
@@ -1355,8 +1355,13 @@ class saswp_reviews_service {
             $avg = 0;
 
             foreach ($post_ids as $value) {
-                $avg += get_post_meta($value, 'saswp_review_rating', true);
-                
+
+                $rating = get_post_meta($value, 'saswp_review_rating', true);
+
+                if(is_numeric($rating)){
+                    $avg += get_post_meta($value, 'saswp_review_rating', true);
+                }
+                                
             }
             if($avg > 0){
                 $response = $avg/ count($post_ids);

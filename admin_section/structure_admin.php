@@ -887,11 +887,7 @@ function saswp_dequeue_script() {
            
         wp_localize_script( 'structure_admin', 'saswp_app_object', $data_array );
         wp_enqueue_script( 'structure_admin' );
-                    
-        wp_enqueue_style('saswp-select2-style', SASWP_PLUGIN_URL. 'admin_section/css/select2.min.css' , false, SASWP_VERSION);
-        wp_enqueue_script('saswp-select2-script', SASWP_PLUGIN_URL. 'admin_section/js/select2.min.js', false, SASWP_VERSION);
-        wp_enqueue_script('saswp-select2-extended-script', SASWP_PLUGIN_URL. 'admin_section/js/select2-extended.min.js', false, SASWP_VERSION);
-        
+                                    
         }
       //Enque select 2 script ends here                    
     }
@@ -1158,20 +1154,25 @@ function saswp_custom_breadcrumbs() {
                           
         } else if ( is_category() ) {
             
-                $category = get_the_category();
-             
-                if(!empty($category)) {
-                    
-                  $category_values = array_values( $category );
-                  
-                  foreach ($category_values as $category_value) {
-                      
-                      $category_name        = get_category($category_value);
-                      $cat_name             = $category_name->name;
-                      $variables1_titles[]  = $cat_name;
-                      $variables2_links[]   = get_category_link( $category_value );
-                      $breadcrumb_url       = get_category_link( $category_value );
+                $current_url   = saswp_get_current_url();
+                $exploded_cat  = explode('/', $current_url);
+                                
+                if(!empty($exploded_cat) && is_array($exploded_cat)) {
+                                                      
+                  foreach ($exploded_cat as $value) {
 
+                      $category_value = get_category_by_slug($value);
+                      
+                      if($category_value && is_object($category_value)){
+
+                        $category_name        = get_category($category_value);
+                        $cat_name             = $category_name->name;
+                        $variables1_titles[]  = $cat_name;
+                        $variables2_links[]   = get_category_link( $category_value );
+                        $breadcrumb_url       = get_category_link( $category_value );
+
+                      }
+                      
                   }
               }                          
         } else if ( is_page() ) {

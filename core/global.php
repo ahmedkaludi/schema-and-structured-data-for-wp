@@ -24,11 +24,18 @@ $with_aggregate = array(
         'AudioObject',              
         'VideoObject',              
         'local_business',
-        'Organization',           
+        'Organization', 
+        'project',                  
         'Product'              
 );
 $without_aggregate = array(
         'Apartment',
+        'HotelRoom',
+        'Audiobook',
+        'PodcastEpisode',
+        'PodcastSeason', 
+        'EducationalOccupationalCredential',
+        'ApartmentComplex',
         'RealEstateListing',
         'House',
         'SingleFamilyResidence',
@@ -50,6 +57,7 @@ $without_aggregate = array(
         'TouristDestination',
         'LandmarksOrHistoricalBuildings',
         'PsychologicalTreatment',
+        'RentAction',
         'HinduTemple',
         'BuddhistTemple',
         'Church',

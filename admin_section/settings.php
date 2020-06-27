@@ -2995,12 +2995,7 @@ function saswp_enqueue_style_js( $hook ) {
         
         wp_enqueue_script('thickbox');
         wp_enqueue_style('thickbox');
-
-        
-        wp_enqueue_style('saswp-select2-style', SASWP_PLUGIN_URL. 'admin_section/css/select2.min.css' , false, SASWP_VERSION);
-        wp_enqueue_script('saswp-select2-script', SASWP_PLUGIN_URL. 'admin_section/js/select2.min.js', array( 'jquery', 'jquery-core', 'jquery-ui-core' ), SASWP_VERSION);
-        wp_enqueue_script('saswp-select2-extended-script', SASWP_PLUGIN_URL. 'admin_section/js/select2-extended.min.js', false, SASWP_VERSION);
-        	
+                       	
         wp_enqueue_script( 'saswp-timepicker-js', SASWP_PLUGIN_URL . 'admin_section/js/jquery.timepicker.js', array( 'jquery', 'jquery-core', 'jquery-ui-core' ), SASWP_VERSION);        
         wp_enqueue_style( 'saswp-timepicker-css', SASWP_PLUGIN_URL . 'admin_section/css/jquery.timepicker.css', false , SASWP_VERSION );
 
@@ -3024,8 +3019,36 @@ function saswp_enqueue_style_js( $hook ) {
         }                
         
 }
-add_action( 'admin_enqueue_scripts', 'saswp_enqueue_style_js' );
 
+function saswp_enqueue_saswp_select2_js( $hook ) { 
+        
+        global $saswp_metaboxes;
+        
+        $post_type = '';
+        
+        $current_screen = get_current_screen(); 
+       
+        if(isset($current_screen->post_type)){                  
+            $post_type = $current_screen->post_type;                
+        }    
+        
+        if($saswp_metaboxes || $post_type == 'saswp' || $post_type == 'saswp-collections' || $post_type == 'saswp_reviews' || $hook == 'saswp_page_structured_data_options' || $hook == 'saswp_page_collection' ){
+
+        //DIGINEX theme compatibility starts         
+        wp_dequeue_script( 'select2-js' );        
+        //DIGINEX theme compatibility ends                                         
+
+        wp_enqueue_style('saswp-select2-style', SASWP_PLUGIN_URL. 'admin_section/css/select2.min.css' , false, SASWP_VERSION);
+        wp_enqueue_script('saswp-select2-script', SASWP_PLUGIN_URL. 'admin_section/js/select2.min.js', array( 'jquery', 'jquery-core', 'jquery-ui-core' ), SASWP_VERSION, true);
+        wp_enqueue_script('saswp-select2-extended-script', SASWP_PLUGIN_URL. 'admin_section/js/select2-extended.min.js', array( 'jquery', 'jquery-core', 'jquery-ui-core' ), SASWP_VERSION, true);
+        	                                        
+        }                
+        
+}
+
+add_action( 'admin_enqueue_scripts', 'saswp_enqueue_saswp_select2_js',9999 );
+
+add_action( 'admin_enqueue_scripts', 'saswp_enqueue_style_js' );
 
 function saswp_option_page_capability( $capability ) {         
     return saswp_current_user_can();         

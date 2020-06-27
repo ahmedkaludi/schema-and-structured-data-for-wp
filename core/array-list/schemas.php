@@ -3,14 +3,15 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 return array(
-
         'Accommodation' => array(
                 'Apartment'                => 'Apartment',
                 'House'                    => 'House',
+                'HotelRoom'                => 'HotelRoom',
                 'SingleFamilyResidence'    => 'SingleFamilyResidence',
         ),
          'CreativeWork' => array(
                 'Article'                  => 'Article', 
+                'Audiobook'                => 'Audiobook',                
                 'BlogPosting'              => 'BlogPosting',
                 'Book'                     => 'Book',
                 'Course'                   => 'Course',
@@ -24,7 +25,9 @@ return array(
                 'MusicAlbum'               => 'MusicAlbum',
                 'MusicComposition'         => 'MusicComposition',
                 'Movie'                    => 'Movie',
-                'NewsArticle'              => 'NewsArticle',                                            
+                'NewsArticle'              => 'NewsArticle',
+                'PodcastEpisode'           => 'PodcastEpisode',
+                'PodcastSeason'            => 'PodcastSeason',                                             
                 'qanda'                    => 'Q&A',   
                 'Review'                   => 'Review',
                 'Recipe'                   => 'Recipe',
@@ -73,8 +76,12 @@ return array(
             'Mosque'              => 'Mosque',
         ),
         'Thing' => array(
-            'Person'                 => 'Person',
-            'Organization'           => 'Organization', 
-            'PsychologicalTreatment' => 'PsychologicalTreatment'                                                                               
+            'ApartmentComplex'                  => 'ApartmentComplex',
+            'EducationalOccupationalCredential' => 'EducationalOccupationalCredential',
+            'Person'                            => 'Person',
+            'Organization'                      => 'Organization',
+            'Project'                           => 'Project', 
+            'PsychologicalTreatment'            => 'PsychologicalTreatment',
+            'RentAction'                        => 'RentAction'                                                                                 
         )
      );
