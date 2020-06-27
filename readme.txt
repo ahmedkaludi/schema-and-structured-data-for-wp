@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.4
-Stable tag: 1.9.41.3
+Stable tag: 1.9.42
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -119,6 +119,20 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.9.42 (27 June 2020) =
+
+* Added: Project Schema #486
+* Added: ApartmentComplex Schema #787
+* Added: RentAction Schema #788
+* Added: HotelRoom Schema #788
+* Added: Certifications/education ( EducationalOccupationalCredential ) scheme type #859
+* Added: Podcast ( Audiobook, PodcastEpisode & PodcastSeasons ) Schema
+* Enhancement: Rating selection in decimal number like 3.1, 3.5 etc. #782
+* Fixed: Breadcrumb is not correct on category page #1056
+* Fixed: Uncaught Error: Option 'ajax' is not allowed for Select2 when attached to a <select> element #1082
+* Fixed: Product schema adding through the "Electro" theme on the product category pages causing error #1081
+* Fixed: The text inside tag 'script type=application/ld+json' contains 'html comments' in videoObject schema #1078
 
 = 1.9.41.3 (20 June 2020) =
 
