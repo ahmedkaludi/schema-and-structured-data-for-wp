@@ -4064,11 +4064,33 @@ Class saswp_output_service{
                                             }
                                             
                                             if($multiple_size){
-                                                $width  = array(1200, 1200, 1200);
-                                                $height = array($targetHeight, 900, 675);
+
+                                                if($targetHeight < 675){
+
+                                                    $width  = array(1200, 1200, 1200);
+                                                    $height = array(900, 720, 675);
+
+                                                }else{
+
+                                                    $width  = array(1200, 1200, 1200);
+                                                    $height = array($targetHeight, 900, 675);
+
+                                                }
+                                                
                                             }else{
-                                                $width  = array(1200);
-                                                $height = array($targetHeight);
+
+                                                if($targetHeight < 675){
+
+                                                    $width  = array(1200);
+                                                    $height = array(720);
+
+                                                }else{
+
+                                                    $width  = array(1200);
+                                                    $height = array($targetHeight);
+                                                    
+                                                }
+                                                
                                             }                                                                                        
                                             
                                             for($i = 0; $i < count($width); $i++){
