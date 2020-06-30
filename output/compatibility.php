@@ -406,6 +406,9 @@ class saswp_output_compatibility{
     public function wp_recipe_maker_on_activation(){
          $this->saswp_update_option_on_compatibility_activation('saswp-wp-recipe-maker');
     }
+    public function recipress_on_activation(){
+        $this->saswp_update_option_on_compatibility_activation('saswp-recipress');
+    }
     public function wp_ultimate_recipe_on_activation(){
          $this->saswp_update_option_on_compatibility_activation('saswp-wp-ultimate-recipe');
     }

@@ -1301,7 +1301,7 @@ function saswp_schema_output() {
                                                                                                                                                            
 				                $input1 = array(
                                     '@context'			=> saswp_context_url(),
-                                    '@type'				=> $schema_type ,
+                                    '@type'				=> 'Recipe',
                                     '@id'				=> trailingslashit(saswp_get_permalink()).'#recipe',    
                                     'url'				=> trailingslashit(saswp_get_permalink()),
                                     'name'			    => saswp_get_the_title(),

@@ -137,3 +137,66 @@ function saswp_wp_recipe_maker_json_ld($input1){
     return $input1;
 
 }
+
+add_filter('saswp_modify_recipe_schema_output', 'saswp_recipress_json_ld',10,1);
+
+function saswp_recipress_json_ld($input1){
+
+    global $sd_data, $post;
+
+    if( (isset($sd_data['saswp-recipress']) && $sd_data['saswp-recipress'] == 1) && function_exists('has_recipress_recipe') && has_recipress_recipe() && function_exists('recipress_recipe')){
+
+        if(recipress_recipe('title')){
+            $input1['name']          = recipress_recipe('title');
+        }
+        if(recipress_recipe('summary')){
+            $input1['description']   = recipress_recipe('summary');    
+        }                        
+        if(recipress_recipe('cook_time','iso')){
+            $input1['cookTime'] = recipress_recipe('cook_time','iso');
+        }        
+        if(recipress_recipe('prep_time', 'iso')){
+            $input1['prepTime'] = recipress_recipe('prep_time', 'iso');
+        }        
+        if(recipress_recipe('ready_time','iso')){
+            $input1['totalTime'] = recipress_recipe('ready_time','iso');
+        }
+
+        $cuisines = strip_tags( get_the_term_list( $post->ID, 'cuisine', '', ', ') );
+
+        if($cuisines){
+              $input1['recipeCuisine'] = $cuisines;
+        }
+        if(recipress_recipe('yield')){
+            $input1['recipeYield'] = recipress_recipe('yield');
+        }        
+        $ingredients     = recipress_recipe('ingredients');
+        $ingredients_arr = array();
+
+        if($ingredients){
+            foreach($ingredients as $ing){
+                $ingredients_arr[] = $ing['ingredient'];
+            }
+            $input1['recipeIngredient'] = $ingredients_arr;
+        }
+
+        $instructions     = recipress_recipe('instructions');
+        
+        $instructions_arr = array();
+
+        if($instructions){
+            foreach($instructions as $ing){
+                $instructions_arr[] = $ing['description'];
+            }
+            $input1['recipeInstructions'] = $instructions_arr;
+        }
+        
+        if(saswp_get_the_categories()){
+            $input1['recipeCategory'] = saswp_get_the_categories();    
+        }                
+        
+    }
+   
+    return $input1;
+}
+

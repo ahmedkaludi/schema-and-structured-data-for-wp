@@ -1172,6 +1172,7 @@ function saswp_remove_microdata($content){
         $content = preg_replace("/itemscope\='(.*?)\'/", "", $content);
         $content = preg_replace('/itemscope/', "", $content);
         $content = preg_replace('/hreview-aggregate/', "", $content);
+        $content = preg_replace('/hrecipe/', "", $content);
         
         //Clean json markup
         if(isset($sd_data['saswp-aiosp']) && $sd_data['saswp-aiosp'] == 1 ){
@@ -1307,6 +1308,33 @@ function saswp_get_the_tags(){
         
     }    
     return $tag_str;
+    
+}
+
+function saswp_get_the_categories(){
+
+    global $post;
+
+    $category_str = '';
+    
+    if(is_object($post)){
+        
+      $categories = get_the_category($post->ID);
+      
+      if($categories){
+          
+          foreach($categories as $category){
+              
+            $category_str .= $category->name.', '; 
+              
+          }
+          
+      }
+        
+        
+    }    
+    
+    return $category_str;
     
 }
 

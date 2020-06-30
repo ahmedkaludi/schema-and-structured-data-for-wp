@@ -690,6 +690,15 @@ jQuery(document).ready(function($){
                               $("#saswp-wp-recipe-maker").val(0);                                          
                             }
                       break;
+
+                      case 'saswp-recipress-checkbox':
+                          saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-recipress").val(1);                                
+                            }else{
+                              $("#saswp-recipress").val(0);                                          
+                            }
+                      break;
                       
                       case 'saswp-wp-ultimate-recipe-checkbox':
                           saswp_compatibliy_notes(current, id); 
