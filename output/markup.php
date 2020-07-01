@@ -714,11 +714,7 @@ function saswp_recipe_schema_markup($schema_id, $schema_post_id, $all_post_meta)
             'keywords'                       => saswp_remove_warnings($all_post_meta, 'saswp_recipe_keywords_'.$schema_id, 'saswp_array'),  
             'recipeYield'                    => saswp_remove_warnings($all_post_meta, 'saswp_recipe_recipeyield_'.$schema_id, 'saswp_array'),  
             'recipeCategory'                 => saswp_remove_warnings($all_post_meta, 'saswp_recipe_category_'.$schema_id, 'saswp_array'),
-            'recipeCuisine'                  => saswp_remove_warnings($all_post_meta, 'saswp_recipe_cuisine_'.$schema_id, 'saswp_array'),  
-            'nutrition'                      => array(
-                                                '@type'  => "NutritionInformation",
-                                                'calories'  => saswp_remove_warnings($all_post_meta, 'saswp_recipe_nutrition_'.$schema_id, 'saswp_array'),                                                                 
-                                             ), 
+            'recipeCuisine'                  => saswp_remove_warnings($all_post_meta, 'saswp_recipe_cuisine_'.$schema_id, 'saswp_array'),              
             'recipeIngredient'               => $ingredient, 
             'recipeInstructions'             => $instruction,                                                                                                                                                                                 
             'datePublished'                 => isset($all_post_meta['saswp_recipe_date_published_'.$schema_id])?date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_recipe_date_published_'.$schema_id][0])):'',
@@ -741,6 +737,35 @@ function saswp_recipe_schema_markup($schema_id, $schema_post_id, $all_post_meta)
 
 
             );
+
+            if($all_post_meta['saswp_recipe_nutrition_'.$schema_id][0]){                
+                 $input1['nutrition']['@type']    = 'NutritionInformation';
+                 $input1['nutrition']['calories'] = $all_post_meta['saswp_recipe_nutrition_'.$schema_id][0];
+            }
+            if($all_post_meta['saswp_recipe_protein_'.$schema_id][0]){                
+                $input1['nutrition']['@type']    = 'NutritionInformation';
+                $input1['nutrition']['proteinContent'] = $all_post_meta['saswp_recipe_protein_'.$schema_id][0];
+               }
+            if($all_post_meta['saswp_recipe_fat_'.$schema_id][0]){                
+                $input1['nutrition']['@type']    = 'NutritionInformation';
+                $input1['nutrition']['fatContent'] = $all_post_meta['saswp_recipe_fat_'.$schema_id][0];
+            }
+            if($all_post_meta['saswp_recipe_fiber_'.$schema_id][0]){                
+                $input1['nutrition']['@type']    = 'NutritionInformation';
+                $input1['nutrition']['fiberContent'] = $all_post_meta['saswp_recipe_fiber_'.$schema_id][0];
+            }
+            if($all_post_meta['saswp_recipe_sodium_'.$schema_id][0]){                
+                $input1['nutrition']['@type']    = 'NutritionInformation';
+                $input1['nutrition']['sodiumContent'] = $all_post_meta['saswp_recipe_sodium_'.$schema_id][0];
+            }
+            if($all_post_meta['saswp_recipe_sugar_'.$schema_id][0]){                
+                $input1['nutrition']['@type']    = 'NutritionInformation';
+                $input1['nutrition']['sugarContent'] = $all_post_meta['saswp_recipe_sugar_'.$schema_id][0];
+            }
+            if($all_post_meta['saswp_recipe_carbohydrate_'.$schema_id][0]){                
+                $input1['nutrition']['@type']    = 'NutritionInformation';
+                $input1['nutrition']['carbohydrateContent'] = $all_post_meta['saswp_recipe_carbohydrate_'.$schema_id][0];
+            }
 
             if(saswp_remove_warnings($all_post_meta, 'saswp_recipe_video_name_'.$schema_id, 'saswp_array') !='' && saswp_remove_warnings($all_post_meta, 'saswp_recipe_video_thumbnailurl_'.$schema_id, 'saswp_array') !='' && saswp_remove_warnings($all_post_meta, 'saswp_recipe_video_description_'.$schema_id, 'saswp_array') !=''){
 

@@ -1849,9 +1849,33 @@ Class saswp_output_service{
                      $input1['recipeCuisine'] =    $custom_fields['saswp_recipe_cuisine'];
                     }
                     if(isset($custom_fields['saswp_recipe_nutrition'])){
-                     $input1['nutrition']['calories'] =    $custom_fields['saswp_recipe_nutrition'];
+                        $input1['nutrition']['@type']    = 'NutritionInformation';   
+                        $input1['nutrition']['calories'] =    $custom_fields['saswp_recipe_nutrition'];
                     }
-                    
+                    if(isset($custom_fields['saswp_recipe_protein'])){
+                        $input1['nutrition']['@type']    = 'NutritionInformation';   
+                        $input1['nutrition']['proteinContent'] =    $custom_fields['saswp_recipe_protein'];
+                    }
+                    if(isset($custom_fields['saswp_recipe_fat'])){
+                        $input1['nutrition']['@type']    = 'NutritionInformation';   
+                        $input1['nutrition']['fatContent'] =    $custom_fields['saswp_recipe_fat'];
+                    }
+                    if(isset($custom_fields['saswp_recipe_fiber'])){
+                        $input1['nutrition']['@type']    = 'NutritionInformation';   
+                        $input1['nutrition']['fiberContent'] =    $custom_fields['saswp_recipe_fiber'];
+                    }
+                    if(isset($custom_fields['saswp_recipe_sodium'])){
+                        $input1['nutrition']['@type']    = 'NutritionInformation';   
+                        $input1['nutrition']['sodiumContent'] =    $custom_fields['saswp_recipe_sodium'];
+                    }
+                    if(isset($custom_fields['saswp_recipe_sugar'])){
+                        $input1['nutrition']['@type']        = 'NutritionInformation';   
+                        $input1['nutrition']['sugarContent'] =    $custom_fields['saswp_recipe_sugar'];
+                    }
+                    if(isset($custom_fields['saswp_recipe_carbohydrate'])){
+                        $input1['nutrition']['@type']               = 'NutritionInformation';   
+                        $input1['nutrition']['carbohydrateContent'] =    $custom_fields['saswp_recipe_carbohydrate'];
+                    }                    
                     if(isset($custom_fields['saswp_recipe_ingredient'])){  
                         
                       if(is_array($custom_fields['saswp_recipe_ingredient'])){                          

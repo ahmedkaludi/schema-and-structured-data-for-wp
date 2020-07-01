@@ -1504,12 +1504,60 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             ),
                     ),    
                     array(
-                            'label' => 'Nutrition',
+                            'label' => 'Calories',
                             'id' => 'saswp_recipe_nutrition_'.$schema_id,
                             'type' => 'text',
                             'attributes' => array(
                                 'placeholder' => '270 calories'
                             ),
+                    ),                    
+                    array(
+                        'label'         => 'Protein',
+                        'id'            => 'saswp_recipe_protein_'.$schema_id,
+                        'type'          => 'text',
+                        'attributes' => array(
+                            'placeholder' => '270 grams'
+                        ),
+                    ),
+                    array(
+                        'label'         => 'Fat',
+                        'id'            => 'saswp_recipe_fat_'.$schema_id,
+                        'type'          => 'text',
+                        'attributes'    => array(
+                            'placeholder' => '270 grams'
+                        ),
+                    ),
+                    array(
+                        'label'   => 'Fiber',
+                        'id'      => 'saswp_recipe_fiber_'.$schema_id,
+                        'type'    => 'text',
+                        'attributes' => array(
+                            'placeholder' => '270 grams'
+                        ),
+                    ),
+                    array(
+                        'label'         => 'Sodium',
+                        'id'            => 'saswp_recipe_sodium_'.$schema_id,
+                        'type'          => 'text',
+                        'attributes' => array(
+                            'placeholder' => '270 grams'
+                        ),
+                    ),
+                    array(
+                        'label'   => 'Sugar',
+                        'id'      => 'saswp_recipe_sugar_'.$schema_id,
+                        'type'    => 'text',
+                        'attributes' => array(
+                            'placeholder' => '270 grams'
+                        ),
+                    ),
+                    array(
+                        'label' => 'Carbohydrate',
+                        'id'    => 'saswp_recipe_carbohydrate_'.$schema_id,
+                        'type'  => 'text',
+                        'attributes' => array(
+                            'placeholder' => '270 grams'
+                        ),
                     ),
                     array(
                             'label' => 'Recipe Ingredient',
