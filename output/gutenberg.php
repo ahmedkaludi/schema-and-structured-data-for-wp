@@ -483,6 +483,78 @@ function saswp_gutenberg_event_schema(){
         
 }
 
+function saswp_gutenberg_qanda_schema(){
+    
+    $input1 = array();
+     
+    $attributes = saswp_get_gutenberg_block_data('saswp/qanda-block');
+    
+    if(isset($attributes['attrs'])){
+        
+        $data                           = $attributes['attrs'];
+        $accepted_answer                = $data['accepted_answers'];
+        $suggested_answer               = $data['suggested_answers'];
+                
+        $answer_count   = 0;
+        $accepted_json  = array();
+        $suggested_json = array();
+
+        if($accepted_answer){
+            foreach($accepted_answer as $answer){
+                $accepted_json[] = array(
+                    '@type'         => 'Answer',
+                    'text'          => $answer['text'],
+                    'dateCreated'   => $answer['date_created_iso'],
+                    'upvoteCount'   => $answer['vote'],
+                    'url'           => $answer['url'],
+                    'author'        => array(
+                                    '@type' => 'Person',
+                                    'name'  => $answer['author']
+                    ),                    
+                );
+            }
+
+            $answer_count += count($accepted_answer);
+        }
+
+        if($suggested_answer){
+            foreach($suggested_answer as $answer){
+                $suggested_json[] = array(
+                    '@type'         => 'Answer',
+                    'text'          => $answer['text'],
+                    'dateCreated'   => $answer['date_created_iso'],
+                    'upvoteCount'   => $answer['vote'],
+                    'url'           => $answer['url'],
+                    'author'        => array(
+                                    '@type' => 'Person',
+                                    'name'  => $answer['author']
+                    ),                    
+                );
+            }
+            $answer_count += count($suggested_json);
+        }
+                
+        $input1['@context']              = saswp_context_url();
+        $input1['@type']                 = 'QAPage';
+        $input1['@id']                   = trailingslashit(saswp_get_permalink()).'#QAPage';  
+
+        $input1['mainEntity']['@type']                        = 'Question';
+        $input1['mainEntity']['name']                         = $data['question_name'];
+        $input1['mainEntity']['text']                         = $data['question_text'];
+        $input1['mainEntity']['answerCount']                  = $answer_count;
+        $input1['mainEntity']['upvoteCount']                  = $data['question_up_vote'];
+        $input1['mainEntity']['dateCreated']                  = $data['question_date_created_iso'];
+        $input1['mainEntity']['author']['@type']              = 'Person';
+        $input1['mainEntity']['author']['name']               = $data['question_author'];
+        $input1['mainEntity']['acceptedAnswer']               = $accepted_json;
+        $input1['mainEntity']['suggestedAnswer']              = $suggested_json;
+
+    }    
+                
+    return $input1;
+        
+}
+
 function saswp_gutenberg_job_schema(){
     
     $input1 = array();

@@ -178,6 +178,7 @@ function saswp_get_all_schema_markup_output() {
             $elementor_howto          = saswp_elementor_howto_schema();
             $divi_builder_faq         = saswp_divi_builder_faq_schema();
             $gutenberg_event          = saswp_gutenberg_event_schema();  
+            $gutenberg_qanda          = saswp_gutenberg_qanda_schema();  
             $gutenberg_job            = saswp_gutenberg_job_schema();
             $gutenberg_course         = saswp_gutenberg_course_schema();
 
@@ -318,6 +319,12 @@ function saswp_get_all_schema_markup_output() {
                         if(!empty($gutenberg_event)){
                         
                             $output .= saswp_json_print_format($gutenberg_event);   
+                            $output .= ",";
+                            $output .= "\n\n";
+                        }
+                        if(!empty($gutenberg_qanda)){
+                        
+                            $output .= saswp_json_print_format($gutenberg_qanda);   
                             $output .= ",";
                             $output .= "\n\n";
                         }
