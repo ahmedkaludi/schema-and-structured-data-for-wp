@@ -13,3 +13,16 @@ and open the template in the editor.
 .saswp-qanda-date-fieldset select{
     max-width: 100%;
 }
+.saswp-qand-date{
+    font-size: 15px;
+}
+.saswp-qanda-block-question{
+    margin-bottom: 25px;
+}
+.saswp-qanda-block-answer{
+    list-style-type: none;
+    margin-bottom: 10px;
+}
+.saswp-qanda-block-answer li{
+    margin-top: 15px;
+}
