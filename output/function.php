@@ -170,7 +170,7 @@ function saswp_get_all_schema_markup_output() {
         $gutenberg_job            = array();
         $gutenberg_course         = array();
         
-        if(is_singular()){
+        if(is_singular() || is_front_page() || (function_exists('ampforwp_is_front_page') && ampforwp_is_front_page()) ){
 
             $gutenberg_how_to         = saswp_gutenberg_how_to_schema(); 
             $gutenberg_faq            = saswp_gutenberg_faq_schema();        
