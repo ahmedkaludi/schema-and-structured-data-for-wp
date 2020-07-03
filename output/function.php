@@ -207,9 +207,9 @@ function saswp_get_all_schema_markup_output() {
         }
                      
         $schema_breadcrumb_output = saswp_schema_breadcrumb_output();                      
-        $kb_website_output        = saswp_kb_website_output();           
-        
+                         
         if((is_home() || is_front_page() || ( function_exists('ampforwp_is_home') && ampforwp_is_home())) || isset($sd_data['saswp-defragment']) && $sd_data['saswp-defragment'] == 1 ){
+               $kb_website_output        = saswp_kb_website_output();  
                $kb_schema_output         = saswp_kb_schema_output();
         }
                  
