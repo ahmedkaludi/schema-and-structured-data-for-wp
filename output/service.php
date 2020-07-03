@@ -3209,7 +3209,9 @@ Class saswp_output_service{
              $product_details = array(); 
              $varible_prices = array();
              
-             if (class_exists('WC_Product')) {
+             $post_type = get_post_type($post_id);
+
+             if ( class_exists('WC_Product') && function_exists('wc_get_product') && $post_type == 'product' ) {
                  
              global $woocommerce;
              global $sd_data;
