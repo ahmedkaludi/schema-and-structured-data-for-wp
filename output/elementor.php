@@ -10,6 +10,83 @@
 if (! defined('ABSPATH') ) exit;
 
 /**
+ * Function to generate schema markup for elementor Q&A block
+ * @global type $post
+ * @global type $saswp_elementor_qanda
+ * @return type array
+ */
+function saswp_elementor_qanda_schema(){
+              
+    $input1 = array();
+    
+    global $post, $saswp_elementor_qanda;
+    
+    if($saswp_elementor_qanda){
+
+        $data                           = $saswp_elementor_qanda;
+        $accepted_answer                = $data['accepted_answers'];
+        $suggested_answer               = $data['suggested_answers'];
+                
+        $answer_count   = 0;
+        $accepted_json  = array();
+        $suggested_json = array();
+
+        if($accepted_answer){
+            foreach($accepted_answer as $answer){
+                $accepted_json[] = array(
+                    '@type'         => 'Answer',
+                    'text'          => $answer['text'],
+                    'dateCreated'   => $answer['date'],
+                    'upvoteCount'   => $answer['vote'],
+                    'url'           => $answer['url'],
+                    'author'        => array(
+                                    '@type' => 'Person',
+                                    'name'  => $answer['author']
+                    ),                    
+                );
+            }
+
+            $answer_count += count($accepted_answer);
+        }
+
+        if($suggested_answer){
+            foreach($suggested_answer as $answer){
+                $suggested_json[] = array(
+                    '@type'         => 'Answer',
+                    'text'          => $answer['text'],
+                    'dateCreated'   => $answer['date'],
+                    'upvoteCount'   => $answer['vote'],
+                    'url'           => $answer['url'],
+                    'author'        => array(
+                                    '@type' => 'Person',
+                                    'name'  => $answer['author']
+                    ),                    
+                );
+            }
+            $answer_count += count($suggested_json);
+        }
+                
+        $input1['@context']              = saswp_context_url();
+        $input1['@type']                 = 'QAPage';
+        $input1['@id']                   = trailingslashit(saswp_get_permalink()).'#QAPage';  
+
+        $input1['mainEntity']['@type']                        = 'Question';
+        $input1['mainEntity']['name']                         = $data['question_name'];
+        $input1['mainEntity']['text']                         = $data['question_text'];
+        $input1['mainEntity']['answerCount']                  = $answer_count;
+        $input1['mainEntity']['upvoteCount']                  = $data['question_vote'];
+        $input1['mainEntity']['dateCreated']                  = $data['question_date'];
+        $input1['mainEntity']['author']['@type']              = 'Person';
+        $input1['mainEntity']['author']['name']               = $data['question_author'];
+        $input1['mainEntity']['acceptedAnswer']               = $accepted_json;
+        $input1['mainEntity']['suggestedAnswer']              = $suggested_json;
+                   
+   }
+
+    return $input1;    
+}
+
+/**
  * Function to generate schema markup for elementor Faq block
  * @global type $post
  * @global type $saswp_elementor_faq
@@ -45,7 +122,6 @@ function saswp_elementor_faq_schema(){
 
             return $input1;    
 }
-
 
 /**
  * Function to generate schema markup for elementor HowTo block

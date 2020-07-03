@@ -88,14 +88,14 @@ function saswp_wp_hook_operation(){
 
 function saswp_schema_markup_output_in_buffer($content){
     
-    global $saswp_post_reviews, $saswp_elementor_faq, $saswp_divi_faq, $saswp_elementor_howto, $saswp_evo_json_ld;
+    global $saswp_post_reviews, $saswp_elementor_qanda, $saswp_elementor_faq, $saswp_divi_faq, $saswp_elementor_howto, $saswp_evo_json_ld;
      
     if(!$saswp_divi_faq){
         $regex = "<script type='text/javascript' src='".SASWP_PLUGIN_URL."modules/divi-builder/scripts/frontend-bundle.min.js?ver=1.0.0'></script>";
         $content = str_replace($regex, '', $content);
     }
      
-     if($saswp_post_reviews || $saswp_elementor_faq || $saswp_divi_faq || $saswp_elementor_howto || $saswp_evo_json_ld){
+     if($saswp_post_reviews || $saswp_elementor_qanda || $saswp_elementor_faq || $saswp_divi_faq || $saswp_elementor_howto || $saswp_evo_json_ld){
      
             $saswp_json_ld =  saswp_get_all_schema_markup_output();  
      
@@ -175,6 +175,7 @@ function saswp_get_all_schema_markup_output() {
             $gutenberg_how_to         = saswp_gutenberg_how_to_schema(); 
             $gutenberg_faq            = saswp_gutenberg_faq_schema();        
             $elementor_faq            = saswp_elementor_faq_schema();
+            $elementor_qanda          = saswp_elementor_qanda_schema();
             $elementor_howto          = saswp_elementor_howto_schema();
             $divi_builder_faq         = saswp_divi_builder_faq_schema();
             $gutenberg_event          = saswp_gutenberg_event_schema();  
@@ -295,6 +296,12 @@ function saswp_get_all_schema_markup_output() {
                         if(!empty($elementor_faq)){
                         
                             $output .= saswp_json_print_format($elementor_faq);   
+                            $output .= ",";
+                            $output .= "\n\n";
+                        }
+                        if(!empty($elementor_qanda)){
+                        
+                            $output .= saswp_json_print_format($elementor_qanda);   
                             $output .= ",";
                             $output .= "\n\n";
                         }

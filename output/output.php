@@ -15,7 +15,7 @@ if (! defined('ABSPATH') ) exit;
  */
 function saswp_kb_schema_output() {
     
-	global $sd_data;   
+	    global $sd_data;   
         $input     = array();    
         $site_url  = get_home_url();
 	

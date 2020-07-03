@@ -3954,7 +3954,7 @@ Class saswp_output_service{
                         if((isset($sd_data['saswp-woocommerce']) && $sd_data['saswp-woocommerce'] == 1) && !empty($product_details)){
 
                             $input1 = array(
-                            '@context'			        => saswp_context_url(),
+                            '@context'			=> saswp_context_url(),
                             '@type'				=> $schema_type,
                             '@id'				=> trailingslashit(saswp_get_permalink()).'#'.$schema_type,     
                             'url'				=> trailingslashit(saswp_get_permalink()),

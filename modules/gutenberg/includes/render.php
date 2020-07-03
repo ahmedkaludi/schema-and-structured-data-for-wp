@@ -12,9 +12,9 @@ class SASWP_Gutenberg_Render {
 
          $question  = '<div class="saswp-qanda-block-question">
                 <h3>'.esc_html($attributes['question_name']).'</h3>
-                <span class="saswp-qand-date">'.esc_html($attributes['question_date_created']).' '.esc_html($attributes['question_time_created']).' by '.esc_html($attributes['question_author']).'</span>                
+                <span class="saswp-qand-date">'.esc_html($attributes['question_date_created']).' '.esc_html($attributes['question_time_created']).' '.__( 'by', 'schema-and-structured-data-for-wp' ).' '.esc_html($attributes['question_author']).'</span>                
                 <p>'.esc_html($attributes['question_text']).'</p>
-                Vote <span class="dashicons dashicons-thumbs-up"></span> ('.esc_html($attributes['question_up_vote']).')
+                '. __( 'Vote', 'schema-and-structured-data-for-wp' ).' <span class="dashicons dashicons-thumbs-up"></span> ('.esc_html($attributes['question_up_vote']).')
                 </div>';
                 
                 if(isset($attributes['accepted_answers']) && !empty($attributes['accepted_answers'])){
@@ -26,7 +26,7 @@ class SASWP_Gutenberg_Render {
                         <p>'.esc_html($answer['text']).'</p>                        
                         </a>
                         <span class="saswp-qand-date">'.esc_html($answer['date_created']).' '.esc_html($answer['time_created']).' by <strong>'.esc_html($answer['author']).'</strong></span>                        
-                        <br> Vote <span class="dashicons dashicons-thumbs-up"></span> ('.esc_html($answer['vote']).')
+                        <br> '. __( 'Vote', 'schema-and-structured-data-for-wp' ).' <span class="dashicons dashicons-thumbs-up"></span> ('.esc_html($answer['vote']).')
                         
                         </li>';
                        
@@ -43,7 +43,7 @@ class SASWP_Gutenberg_Render {
                         <p>'.esc_html($answer['text']).'</p>                        
                         </a>
                         <span class="saswp-qand-date">'.esc_html($answer['date_created']).' '.esc_html($answer['time_created']).' by <strong>'.esc_html($answer['author']).'</strong></span>                        
-                        <br> Vote <span class="dashicons dashicons-thumbs-up"></span> ('.esc_html($answer['vote']).')                        
+                        <br> '. __( 'Vote', 'schema-and-structured-data-for-wp' ).' <span class="dashicons dashicons-thumbs-up"></span> ('.esc_html($answer['vote']).')                        
                         </li>';                       
                     }
 
@@ -51,8 +51,8 @@ class SASWP_Gutenberg_Render {
               //Escaping has been done above for all below html  
         $response = '<div class="saswp-qanda-block-html">
         '.$question.'
-        <div class="saswp-qanda-block-answer"><h3>Accepted Answer</h3>'.$accepted_answers.'</div>
-        <div class="saswp-qanda-block-answer"><h3>Suggested Answer</h3>'.$suggested_answers.'</div>
+        <div class="saswp-qanda-block-answer"><h3>'. __( 'Accepted Answers', 'schema-and-structured-data-for-wp' ).'</h3>'.$accepted_answers.'</div>
+        <div class="saswp-qanda-block-answer"><h3>'. __( 'Suggested Answers', 'schema-and-structured-data-for-wp' ) .'</h3>'.$suggested_answers.'</div>
         </div>';
                 
         return $response;
