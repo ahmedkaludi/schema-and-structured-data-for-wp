@@ -162,6 +162,9 @@ function saswp_get_all_schema_markup_output() {
         $blog_page                = array();          
         
         $gutenberg_how_to         = array();
+        $gutenberg_recipe         = array();
+        $gutenberg_qanda          = array();
+        $elementor_qanda          = array();
         $gutenberg_faq            = array();
         $elementor_faq            = array();
         $elementor_howto          = array();
@@ -172,16 +175,20 @@ function saswp_get_all_schema_markup_output() {
         
         if(is_singular() || is_front_page() || (function_exists('ampforwp_is_front_page') && ampforwp_is_front_page()) ){
 
-            $gutenberg_how_to         = saswp_gutenberg_how_to_schema(); 
-            $gutenberg_faq            = saswp_gutenberg_faq_schema();        
+            
             $elementor_faq            = saswp_elementor_faq_schema();
             $elementor_qanda          = saswp_elementor_qanda_schema();
             $elementor_howto          = saswp_elementor_howto_schema();
+
             $divi_builder_faq         = saswp_divi_builder_faq_schema();
+
             $gutenberg_event          = saswp_gutenberg_event_schema();  
             $gutenberg_qanda          = saswp_gutenberg_qanda_schema();  
             $gutenberg_job            = saswp_gutenberg_job_schema();
             $gutenberg_course         = saswp_gutenberg_course_schema();
+            $gutenberg_how_to         = saswp_gutenberg_how_to_schema();
+            $gutenberg_recipe         = saswp_gutenberg_recipe_schema(); 
+            $gutenberg_faq            = saswp_gutenberg_faq_schema();        
 
         }
 
@@ -269,9 +276,15 @@ function saswp_get_all_schema_markup_output() {
                             $output .= ",";
                             $output .= "\n\n";
                         }
-                        if(!empty($gutenberg_how_to) && is_singular()){
+                        if(!empty($gutenberg_how_to)){
                         
                             $output .= saswp_json_print_format($gutenberg_how_to);   
+                            $output .= ",";
+                            $output .= "\n\n";
+                        }
+                        if(!empty($gutenberg_recipe)){
+                        
+                            $output .= saswp_json_print_format($gutenberg_recipe);   
                             $output .= ",";
                             $output .= "\n\n";
                         }
@@ -1188,6 +1201,13 @@ function saswp_remove_microdata($content){
         $content = preg_replace('/hreview-aggregate/', "", $content);
         $content = preg_replace('/hrecipe/', "", $content);
         
+        //Clean json markup
+        if(isset($sd_data['saswp-wpzoom']) && $sd_data['saswp-wpzoom'] == 1 ){
+
+            $regex = '/<script type=\"application\/ld\+json\">(.*?)<\/script><div class=\"wp-block-wpzoom-recipe-card-block-recipe-card/s';
+
+            $content = preg_replace($regex, '<div class="wp-block-wpzoom-recipe-card-block-recipe-card', $content);        
+        }
         //Clean json markup
         if(isset($sd_data['saswp-aiosp']) && $sd_data['saswp-aiosp'] == 1 ){
             $content = preg_replace('/<script type=\"application\/ld\+json" class=\"aioseop-schema"\>(.*?)<\/script>/', "", $content);

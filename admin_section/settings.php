@@ -2282,6 +2282,20 @@ function saswp_compatibility_page_callback(){
                                 'name' => 'sd_data[saswp-wp-recipe-maker]',                             
                         )
                 );
+
+        $wpzoom = array(
+                'label'  => 'Recipe Card Blocks by WPZOOM',
+                'id'     => 'saswp-wpzoom-checkbox',                        
+                'name'   => 'saswp-wpzoom-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('wpzoom'),
+                'hidden' => array(
+                        'id'   => 'saswp-wpzoom',
+                        'name' => 'sd_data[saswp-wpzoom]',                             
+                )
+        );
+
         $recipress = array(
                 'label'  => 'ReciPress',
                 'id'     => 'saswp-recipress-checkbox',                        
@@ -2711,6 +2725,7 @@ function saswp_compatibility_page_callback(){
                 $squirrly_seo,                
                 $recipe_maker,
                 $recipress,
+                $wpzoom,
                 $wp_ultimate_recipe,
                 $zip_recipes,
                 $total_recipe_generator,

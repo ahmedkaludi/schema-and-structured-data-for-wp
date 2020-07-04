@@ -691,6 +691,15 @@ jQuery(document).ready(function($){
                             }
                       break;
 
+                      case 'saswp-wpzoom-checkbox':
+                          saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-wpzoom").val(1);                                
+                            }else{
+                              $("#saswp-wpzoom").val(0);                                          
+                            }
+                      break;
+
                       case 'saswp-recipress-checkbox':
                           saswp_compatibliy_notes(current, id); 
                             if ($(this).is(':checked')) {              

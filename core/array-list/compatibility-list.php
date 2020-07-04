@@ -304,6 +304,12 @@ return array(
                     'opt_name'   => 'saswp-wp-recipe-maker',
                     'part_in'    => 'free',
         ),
+        'wpzoom' => array(            
+            'name'       => 'Recipe Card Blocks by WPZOOM',
+            'free'       => 'recipe-card-blocks-by-wpzoom/wpzoom-recipe-card.php',               
+            'opt_name'   => 'saswp-wpzoom',
+            'part_in'    => 'free',
+        ),
         'recipress' => array(            
             'name'       => 'ReciPress',
             'free'       => 'recipress/recipress.php',               
