@@ -1893,26 +1893,37 @@ Class saswp_output_service{
                         }                     
                     }
                     if(isset($custom_fields['saswp_recipe_video_name'])){
-                     $input1['video']['name'] =    $custom_fields['saswp_recipe_video_name'];
+                        $input1['video']['@type']   = 'VideoObject';
+                        $input1['video']['name'] =    $custom_fields['saswp_recipe_video_name'];
                     }
                     
                     if(isset($custom_fields['saswp_recipe_video_description'])){
-                     $input1['video']['description'] =    $custom_fields['saswp_recipe_video_description'];
+                        $input1['video']['@type']   = 'VideoObject';
+                        $input1['video']['description'] =    $custom_fields['saswp_recipe_video_description'];
                     }
                     if(isset($custom_fields['saswp_recipe_video_thumbnailurl'])){
-                     $input1['video']['thumbnailUrl'] =    $custom_fields['saswp_recipe_video_thumbnailurl'];
+                        $input1['video']['@type']   = 'VideoObject';   
+                        $input1['video']['thumbnailUrl'] =    $custom_fields['saswp_recipe_video_thumbnailurl'];
                     }
                     if(isset($custom_fields['saswp_recipe_video_contenturl'])){
-                     $input1['video']['contentUrl'] =    $custom_fields['saswp_recipe_video_contenturl'];
+                        $input1['video']['@type']   = 'VideoObject';
+                        $input1['video']['contentUrl'] =    $custom_fields['saswp_recipe_video_contenturl'];
                     }                    
                     if(isset($custom_fields['saswp_recipe_video_embedurl'])){
-                     $input1['video']['embedUrl'] =    $custom_fields['saswp_recipe_video_embedurl'];
+                        $input1['video']['@type']   = 'VideoObject';
+                        $input1['video']['embedUrl'] =    $custom_fields['saswp_recipe_video_embedurl'];
                     }
                     if(isset($custom_fields['saswp_recipe_video_upload_date'])){
-                     $input1['video']['uploadDate'] =    $custom_fields['saswp_recipe_video_upload_date'];
+                        $input1['video']['@type']   = 'VideoObject';
+                        $input1['video']['uploadDate'] =    $custom_fields['saswp_recipe_video_upload_date'];
                     }
                     if(isset($custom_fields['saswp_recipe_video_duration'])){
-                     $input1['video']['duration'] =    $custom_fields['saswp_recipe_video_duration'];
+                        $input1['video']['@type']   = 'VideoObject';
+                        $input1['video']['duration'] =    $custom_fields['saswp_recipe_video_duration'];
+                    }
+
+                    if(isset($custom_fields['saswp_recipe_video_url'])){                        
+                        $input1['video']['url'] =    $custom_fields['saswp_recipe_video_url'];
                     } 
                     
                     if(isset($custom_fields['saswp_recipe_rating_value']) && isset($custom_fields['saswp_recipe_rating_count'])){

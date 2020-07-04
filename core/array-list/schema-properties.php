@@ -1586,6 +1586,11 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             ),
                     ),
                     array(
+                        'label' => 'Video URL',
+                        'id'    => 'saswp_recipe_video_url_'.$schema_id,
+                        'type'  => 'text',                         
+                        ),
+                    array(
                             'label' => 'Video Description',
                             'id' => 'saswp_recipe_video_description_'.$schema_id,
                             'type' => 'text', 
