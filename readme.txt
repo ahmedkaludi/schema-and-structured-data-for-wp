@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.4
-Stable tag: 1.9.42
+Stable tag: 1.9.43
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -119,6 +119,22 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.9.43 (04 July 2020) =
+
+* Fixed: Course post is getting blank when product schema is addedd to the ip_couse post type #1101
+* Fixed: Website and searchbox schema should only show on the homepage #1098
+* Fixed: FAQ schema is not being displayed in homepage(AMP) when using a custom front page #1096
+* Fixed: PHP Notice: Trying to get property 'data' of non-object in /output/service.php on line 3700 because of anonymous users #1094
+* Fixed: NewsArticle is not a known valid target type for the itemReviewed property #1093
+* Fixed: Image size is smaller than recommended #1092
+* Fixed: When ACF Video URL is mapped in modified field its not working #1084
+* Added: Compatibility with Recipe Card Block By WPZOOM ( https://wordpress.org/plugins/recipe-card-blocks-by-wpzoom )
+* Added: Compatibility with ReciPress ( https://wordpress.org/plugins/recipress )
+* Added: More nutrition information properties to recipe schema
+* Added: Schema type blocks (Q&A) has been added in Gutenberg editor #842
+* Added: Schema type blocks (Q&A) has been added in Elementor widget #820
+
 
 = 1.9.42 (27 June 2020) =
 
